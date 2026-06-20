@@ -1,0 +1,9 @@
+﻿@layer kui.base {
+  :where([data-kui-theme='light']) {
+    color-scheme: light;
+  }
+
+  :where([data-kui-theme='dark']) {
+    color-scheme: dark;
+  }
+}

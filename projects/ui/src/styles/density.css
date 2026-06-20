@@ -1,0 +1,22 @@
+﻿@layer kui.components {
+  [data-kui-density='compact'] {
+    --kui-btn-height: var(--kui-btn-height-compact, 24px);
+    --kui-btn-px: var(--kui-btn-px-compact, 8px);
+    --kui-input-height: var(--kui-btn-height-compact, 24px);
+    --kui-input-px: var(--kui-btn-px-compact, 8px);
+  }
+
+  [data-kui-density='regular'] {
+    --kui-btn-height: var(--kui-btn-height-regular, 32px);
+    --kui-btn-px: var(--kui-btn-px-regular, 12px);
+    --kui-input-height: var(--kui-btn-height-regular, 32px);
+    --kui-input-px: var(--kui-btn-px-regular, 12px);
+  }
+
+  [data-kui-density='comfortable'] {
+    --kui-btn-height: var(--kui-btn-height-comfortable, 40px);
+    --kui-btn-px: var(--kui-btn-px-comfortable, 16px);
+    --kui-input-height: var(--kui-btn-height-comfortable, 40px);
+    --kui-input-px: var(--kui-btn-px-comfortable, 16px);
+  }
+}

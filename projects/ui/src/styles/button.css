@@ -1,0 +1,134 @@
+﻿@layer kui.components {
+  .kui-button {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--kui-btn-gap, 6px);
+    min-block-size: var(--kui-btn-height, 40px);
+    border: 1px solid transparent;
+    border-radius: var(--kui-btn-radius, 8px);
+    background-color: var(--kui-btn-bg);
+    color: var(--kui-btn-color, Canvas);
+    cursor: pointer;
+    font: inherit;
+    font-size: var(--kui-btn-font-size, 13px);
+    font-weight: var(--kui-btn-font-weight, 500);
+    line-height: 1;
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    overflow: hidden;
+    padding-inline: var(--kui-btn-padding-inline, 16px);
+    text-align: center;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    transition:
+      background-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      border-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      transform var(--kui-duration-fast, 100ms) var(--kui-ease, ease);
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  .kui-button[data-kui-wrap] {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .kui-button:hover {
+    background-color: var(--kui-btn-bg-hover, var(--kui-btn-bg));
+  }
+
+  .kui-button:active {
+    background-color: var(--kui-btn-bg-active, var(--kui-btn-bg));
+    transform: scale(0.97);
+  }
+
+  .kui-button:focus-visible {
+    outline: var(--kui-btn-focus-ring-w, 3px) solid var(--kui-btn-focus-ring-color, Highlight);
+    outline-offset: var(--kui-btn-focus-ring-off, 2px);
+  }
+
+  .kui-button:focus:not(:focus-visible) {
+    outline: 0;
+  }
+
+  .kui-button[data-kui-size='xs'] {
+    min-block-size: var(--kui-control-height-xs, 28px);
+    padding-inline: var(--kui-space-2, 8px);
+  }
+
+  .kui-button[data-kui-size='sm'] {
+    min-block-size: var(--kui-control-height-sm, 32px);
+    padding-inline: var(--kui-space-3, 12px);
+  }
+
+  .kui-button[data-kui-size='lg'] {
+    min-block-size: var(--kui-control-height-lg, 44px);
+    padding-inline: var(--kui-space-5, 20px);
+  }
+
+  .kui-button[data-kui-appearance='soft'] {
+    background-color: var(--kui-btn-soft-bg);
+    color: var(--kui-btn-soft-fg);
+  }
+
+  .kui-button[data-kui-appearance='soft']:hover,
+  .kui-button[data-kui-appearance='soft']:active {
+    background-color: var(--kui-btn-soft-bg-hov, var(--kui-btn-soft-bg));
+  }
+
+  .kui-button[data-kui-appearance='soft']:active {
+    background-color: var(--kui-btn-soft-bg-act, var(--kui-btn-soft-bg-hov));
+  }
+
+  .kui-button[data-kui-appearance='outline'] {
+    border-color: var(--kui-btn-outline-border);
+    background-color: transparent;
+    color: var(--kui-btn-outline-fg);
+  }
+
+  .kui-button[data-kui-appearance='outline']:hover,
+  .kui-button[data-kui-appearance='outline']:active {
+    background-color: var(--kui-btn-outline-bg-hov, transparent);
+  }
+
+  .kui-button[data-kui-appearance='outline']:active {
+    background-color: var(--kui-btn-outline-bg-act, var(--kui-btn-outline-bg-hov));
+  }
+
+  .kui-button[data-kui-appearance='ghost'] {
+    background-color: transparent;
+    color: var(--kui-btn-ghost-fg);
+  }
+
+  .kui-button[data-kui-appearance='ghost']:hover,
+  .kui-button[data-kui-appearance='ghost']:active {
+    background-color: var(--kui-btn-ghost-bg-hov, transparent);
+  }
+
+  .kui-button[data-kui-appearance='ghost']:active {
+    background-color: var(--kui-btn-ghost-bg-act, var(--kui-btn-ghost-bg-hov));
+  }
+
+  .kui-button[data-kui-appearance='danger'] {
+    background-color: var(--kui-btn-danger-bg);
+    color: var(--kui-btn-danger-fg, Canvas);
+  }
+
+  .kui-button[data-kui-appearance='danger']:hover {
+    background-color: var(--kui-btn-danger-bg-hov, var(--kui-btn-danger-bg));
+  }
+
+  .kui-button[data-kui-appearance='danger']:active {
+    background-color: var(--kui-btn-danger-bg-act, var(--kui-btn-danger-bg));
+  }
+
+  .kui-button:is(:disabled, [disabled], [aria-disabled='true']) {
+    cursor: not-allowed;
+    opacity: var(--kui-btn-disabled-opacity, 0.5);
+    pointer-events: none;
+  }
+}

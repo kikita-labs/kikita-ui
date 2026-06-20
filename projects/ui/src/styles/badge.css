@@ -1,0 +1,70 @@
+﻿@layer kui.components {
+  .kui-badge {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--kui-badge-gap, 4px);
+    min-block-size: var(--kui-badge-height, 22px);
+    max-inline-size: 100%;
+    border: 1px solid var(--kui-badge-border, var(--kui-badge-neutral-border));
+    border-radius: var(--kui-badge-radius, 9999px);
+    background-color: var(--kui-badge-bg, var(--kui-badge-neutral-bg));
+    color: var(--kui-badge-fg, var(--kui-badge-neutral-fg));
+    font: inherit;
+    font-size: var(--kui-badge-font-size, 11px);
+    font-weight: var(--kui-badge-font-weight, 600);
+    line-height: 1;
+    padding-inline: var(--kui-badge-px, 8px);
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  .kui-badge[data-kui-appearance='primary'] {
+    --kui-badge-bg: var(--kui-badge-primary-bg);
+    --kui-badge-fg: var(--kui-badge-primary-fg);
+    --kui-badge-border: var(--kui-badge-primary-border);
+  }
+
+  .kui-badge[data-kui-appearance='success'] {
+    --kui-badge-bg: var(--kui-badge-success-bg);
+    --kui-badge-fg: var(--kui-badge-success-fg);
+    --kui-badge-border: var(--kui-badge-success-border);
+  }
+
+  .kui-badge[data-kui-appearance='warning'] {
+    --kui-badge-bg: var(--kui-badge-warning-bg);
+    --kui-badge-fg: var(--kui-badge-warning-fg);
+    --kui-badge-border: var(--kui-badge-warning-border);
+  }
+
+  .kui-badge[data-kui-appearance='danger'] {
+    --kui-badge-bg: var(--kui-badge-danger-bg);
+    --kui-badge-fg: var(--kui-badge-danger-fg);
+    --kui-badge-border: var(--kui-badge-danger-border);
+  }
+
+  .kui-badge[data-kui-appearance='info'] {
+    --kui-badge-bg: var(--kui-badge-info-bg);
+    --kui-badge-fg: var(--kui-badge-info-fg);
+    --kui-badge-border: var(--kui-badge-info-border);
+  }
+
+  .kui-badge[data-kui-size='xs'] {
+    --kui-badge-height: 18px;
+    --kui-badge-px: var(--kui-space-1);
+    --kui-badge-font-size: 10px;
+  }
+
+  .kui-badge[data-kui-size='sm'] {
+    --kui-badge-height: 20px;
+    --kui-badge-px: var(--kui-space-2);
+  }
+
+  .kui-badge[data-kui-size='lg'] {
+    --kui-badge-height: 26px;
+    --kui-badge-px: var(--kui-space-3);
+    --kui-badge-font-size: var(--kui-text-sm-size);
+  }
+}

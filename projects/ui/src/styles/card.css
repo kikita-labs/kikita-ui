@@ -1,0 +1,50 @@
+﻿@layer kui.components {
+  .kui-card {
+    box-sizing: border-box;
+    display: block;
+    border: 1px solid var(--kui-card-border, var(--kui-color-border));
+    border-radius: var(--kui-card-radius, 8px);
+    background-color: var(--kui-card-bg, var(--kui-color-surface));
+    color: var(--kui-color-text);
+    padding: var(--kui-card-padding, 16px);
+    box-shadow: var(--kui-card-shadow, none);
+    transition:
+      background-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      border-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      box-shadow var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      transform var(--kui-duration-fast, 100ms) var(--kui-ease, ease);
+  }
+
+  .kui-card[data-kui-appearance='elevated'] {
+    border-color: var(--kui-card-border-elevated, var(--kui-card-border));
+    background-color: var(--kui-card-bg-elevated, var(--kui-color-surface-elevated));
+    box-shadow: var(--kui-card-shadow-elevated, var(--kui-card-shadow));
+  }
+
+  .kui-card[data-kui-appearance='sunken'] {
+    border-color: var(--kui-card-border-sunken, var(--kui-card-border));
+    background-color: var(--kui-card-bg-sunken, var(--kui-color-surface-sunken));
+    box-shadow: var(--kui-card-shadow-sunken, var(--kui-card-shadow));
+  }
+
+  .kui-card[data-kui-interactive] {
+    cursor: pointer;
+  }
+
+  .kui-card[data-kui-interactive]:hover {
+    border-color: var(--kui-card-border-hover, var(--kui-color-border-strong));
+    box-shadow: var(--kui-card-shadow-hover, none);
+  }
+
+  .kui-card[data-kui-interactive]:focus-visible {
+    outline: var(--kui-btn-focus-ring-w, 3px) solid
+      var(--kui-btn-focus-ring-color, var(--kui-color-primary-focus-ring));
+    outline-offset: var(--kui-btn-focus-ring-off, 2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-card {
+      transition: none;
+    }
+  }
+}

@@ -1,0 +1,71 @@
+﻿@layer kui.components {
+  .kui-group {
+    display: inline-flex;
+    align-items: stretch;
+    gap: var(--kui-group-gap, 8px);
+    vertical-align: middle;
+  }
+
+  .kui-group[data-kui-orientation='vertical'] {
+    flex-direction: column;
+  }
+
+  .kui-group[data-kui-size='xs'] {
+    --kui-btn-height: var(--kui-control-height-xs, 28px);
+    --kui-input-height: var(--kui-control-height-xs, 28px);
+  }
+
+  .kui-group[data-kui-size='sm'] {
+    --kui-btn-height: var(--kui-control-height-sm, 32px);
+    --kui-input-height: var(--kui-control-height-sm, 32px);
+  }
+
+  .kui-group[data-kui-size='lg'] {
+    --kui-btn-height: var(--kui-control-height-lg, 44px);
+    --kui-input-height: var(--kui-control-height-lg, 44px);
+  }
+
+  .kui-group[data-kui-collapsed] {
+    gap: 0;
+  }
+
+  .kui-group[data-kui-collapsed] > :where(.kui-button, .kui-icon-button, .kui-input) {
+    border-radius: 0;
+  }
+
+  .kui-group[data-kui-collapsed][data-kui-orientation='horizontal']
+    > :where(.kui-button, .kui-icon-button, .kui-input)
+    + :where(.kui-button, .kui-icon-button, .kui-input) {
+    margin-inline-start: var(--kui-group-collapsed-gap, -1px);
+  }
+
+  .kui-group[data-kui-collapsed][data-kui-orientation='vertical']
+    > :where(.kui-button, .kui-icon-button, .kui-input)
+    + :where(.kui-button, .kui-icon-button, .kui-input) {
+    margin-block-start: var(--kui-group-collapsed-gap, -1px);
+  }
+
+  .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='horizontal']
+    > :where(.kui-button, .kui-icon-button, .kui-input):first-child {
+    border-start-start-radius: var(--kui-btn-radius, 8px);
+    border-end-start-radius: var(--kui-btn-radius, 8px);
+  }
+
+  .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='horizontal']
+    > :where(.kui-button, .kui-icon-button, .kui-input):last-child {
+    border-start-end-radius: var(--kui-btn-radius, 8px);
+    border-end-end-radius: var(--kui-btn-radius, 8px);
+  }
+
+  .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='vertical']
+    > :where(.kui-button, .kui-icon-button, .kui-input):first-child {
+    border-start-start-radius: var(--kui-btn-radius, 8px);
+    border-start-end-radius: var(--kui-btn-radius, 8px);
+  }
+
+  .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='vertical']
+    > :where(.kui-button, .kui-icon-button, .kui-input):last-child {
+    border-end-start-radius: var(--kui-btn-radius, 8px);
+    border-end-end-radius: var(--kui-btn-radius, 8px);
+  }
+}

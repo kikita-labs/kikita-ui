@@ -1,0 +1,85 @@
+﻿@layer kui.components {
+  .kui-input {
+    appearance: none;
+    box-sizing: border-box;
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: var(--kui-input-height, 40px);
+    border: var(--kui-input-border-width, 1px) solid var(--kui-input-border, ButtonBorder);
+    border-radius: var(--kui-input-radius, 8px);
+    background-color: var(--kui-input-bg, Field);
+    color: var(--kui-input-color, FieldText);
+    font: inherit;
+    font-size: var(--kui-text-sm-size, 13px);
+    line-height: 1.3;
+    margin: 0;
+    padding-block: 0;
+    padding-inline: var(--kui-input-padding-inline, 12px);
+    transition:
+      background-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      border-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      box-shadow var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      color var(--kui-duration-base, 160ms) var(--kui-ease, ease);
+  }
+
+  input.kui-input {
+    block-size: var(--kui-input-height, 40px);
+    min-block-size: 0;
+  }
+
+  textarea.kui-input {
+    min-block-size: calc(var(--kui-input-height, 40px) * 2);
+    padding-block: var(--kui-space-3, 12px);
+    resize: vertical;
+  }
+
+  .kui-input::placeholder {
+    color: var(--kui-input-placeholder-color, GrayText);
+  }
+
+  .kui-input:hover {
+    border-color: var(--kui-input-border-hover, ButtonBorder);
+  }
+
+  .kui-input:focus {
+    border-color: var(--kui-input-border-focus, Highlight);
+    outline: 0;
+    box-shadow: var(--kui-input-focus-ring, 0 0 0 3px Highlight);
+  }
+
+  .kui-input[data-kui-size='xs'] {
+    min-block-size: var(--kui-control-height-xs, 28px);
+  }
+
+  input.kui-input[data-kui-size='xs'] {
+    block-size: var(--kui-control-height-xs, 28px);
+  }
+
+  .kui-input[data-kui-size='sm'] {
+    min-block-size: var(--kui-control-height-sm, 32px);
+  }
+
+  input.kui-input[data-kui-size='sm'] {
+    block-size: var(--kui-control-height-sm, 32px);
+  }
+
+  .kui-input[data-kui-size='lg'] {
+    min-block-size: var(--kui-control-height-lg, 44px);
+  }
+
+  input.kui-input[data-kui-size='lg'] {
+    block-size: var(--kui-control-height-lg, 44px);
+  }
+
+  .kui-input[data-kui-invalid],
+  .kui-field[data-kui-invalid] .kui-input {
+    border-color: var(--kui-input-border-error, var(--kui-input-border-invalid, Mark));
+  }
+
+  .kui-input:is(:disabled, [readonly]) {
+    background-color: var(--kui-input-bg-disabled, var(--kui-input-bg, Field));
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+}
