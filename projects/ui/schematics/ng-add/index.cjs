@@ -96,7 +96,7 @@ function addProvider(tree, project, context) {
   let updated = original;
 
   if (!updated.includes(PROVIDER_IMPORT)) {
-    updated = `${PROVIDER_IMPORT}\n${updated}`;
+    updated = addImport(updated);
   }
 
   if (updated.includes('provideKikitaUi()')) {
@@ -118,7 +118,26 @@ function addProviderToProvidersArray(source) {
   }
 
   const insertAt = providersMatch.index + providersMatch[0].length;
+  const closeAt = source.indexOf(']', insertAt);
+  const existingProviders = source.slice(insertAt, closeAt).trim();
+
+  if (!existingProviders) {
+    return `${source.slice(0, insertAt)}provideKikitaUi()${source.slice(insertAt)}`;
+  }
+
   return `${source.slice(0, insertAt)}provideKikitaUi(), ${source.slice(insertAt)}`;
+}
+
+function addImport(source) {
+  const imports = [...source.matchAll(/^import .+;$/gm)];
+  const lastImport = imports.at(-1);
+
+  if (!lastImport) {
+    return `${PROVIDER_IMPORT}\n${source}`;
+  }
+
+  const insertAt = lastImport.index + lastImport[0].length;
+  return `${source.slice(0, insertAt)}\n${PROVIDER_IMPORT}${source.slice(insertAt)}`;
 }
 
 function normalizePath(path) {
