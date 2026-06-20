@@ -1,0 +1,35 @@
+<main class="shell">
+  <header class="header">
+    <div>
+      <p>Kikita UI В· Playground</p>
+      <h1>Development board</h1>
+    </div>
+
+    <div class="mode-switch" aria-label="Theme mode">
+      @for (item of modes; track item) {
+        <button
+          type="button"
+          [class.is-active]="mode() === item"
+          [attr.aria-pressed]="mode() === item"
+          (click)="setMode(item)"
+        >
+          {{ item }}
+        </button>
+      }
+    </div>
+  </header>
+
+  <nav class="playground-nav" aria-label="Playground sections">
+    @for (item of navItems; track item.path) {
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        {{ item.label }}
+      </a>
+    }
+  </nav>
+
+  <router-outlet />
+</main>

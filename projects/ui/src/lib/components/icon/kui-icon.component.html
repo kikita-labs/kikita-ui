@@ -1,0 +1,5 @@
+@if (trustedSvgSource(); as svg) {
+  <span class="kui-icon__svg" [innerHTML]="svg"></span>
+} @else if (imageSource(); as image) {
+  <img class="kui-icon__image" [src]="image" alt="" />
+}

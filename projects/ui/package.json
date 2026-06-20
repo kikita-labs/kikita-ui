@@ -1,0 +1,47 @@
+{
+  "name": "@kikita-labs/ui",
+  "version": "0.0.1",
+  "description": "Angular 22+ UI library and design system.",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kikita-labs/kikita-ui.git",
+    "directory": "projects/ui"
+  },
+  "bugs": {
+    "url": "https://github.com/kikita-labs/kikita-ui/issues"
+  },
+  "keywords": [
+    "angular",
+    "ui",
+    "design-system",
+    "signals"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "peerDependencies": {
+    "@angular/common": "^22.0.0",
+    "@angular/core": "^22.0.0",
+    "@angular/forms": "^22.0.0",
+    "@angular/platform-browser": "^22.0.0",
+    "rxjs": "^7.8.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "exports": {
+    "./styles": {
+      "style": "./styles/kikita-ui.css",
+      "default": "./styles/kikita-ui.css"
+    },
+    "./styles/kikita-ui.css": {
+      "style": "./styles/kikita-ui.css",
+      "default": "./styles/kikita-ui.css"
+    }
+  },
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ]
+}

@@ -1,0 +1,27 @@
+:host {
+  display: inline-grid;
+  inline-size: var(--kui-icon-size, 1em);
+  block-size: var(--kui-icon-size, 1em);
+  place-items: center;
+  color: inherit;
+  line-height: 0;
+  vertical-align: -0.125em;
+}
+
+.kui-icon__svg,
+.kui-icon__image {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.kui-icon__svg {
+  color: inherit;
+}
+
+.kui-icon__svg :where(svg),
+.kui-icon__image {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}

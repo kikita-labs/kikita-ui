@@ -1,0 +1,18 @@
+@if (label(); as fieldLabel) {
+  <label class="kui-field__label" [attr.for]="controlId">
+    <span>{{ fieldLabel }}</span>
+    @if (required()) {
+      <span class="kui-field__required" aria-hidden="true">*</span>
+    }
+  </label>
+}
+
+<ng-content />
+
+@if (hint(); as hintText) {
+  <p class="kui-field__hint" [id]="hintId">{{ hintText }}</p>
+}
+
+@if (error(); as errorText) {
+  <p class="kui-field__error" [id]="errorId" role="alert">{{ errorText }}</p>
+}

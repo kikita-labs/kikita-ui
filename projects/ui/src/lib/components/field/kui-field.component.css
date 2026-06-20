@@ -1,0 +1,40 @@
+:host {
+  display: grid;
+  gap: var(--kui-field-gap, 4px);
+  grid-template-rows:
+    var(--kui-field-label-row, auto)
+    var(--kui-field-control-row, auto)
+    var(--kui-field-message-row, auto);
+}
+
+.kui-field__label {
+  display: inline-flex;
+  gap: var(--kui-space-1, 4px);
+  color: var(--kui-field-label-color, var(--kui-color-text));
+  font-size: var(--kui-field-label-size, var(--kui-text-sm-size, 13px));
+  font-weight: var(--kui-field-label-weight, 600);
+  line-height: 1.3;
+}
+
+.kui-field__error {
+  color: var(--kui-field-error-color, var(--kui-color-danger-fill));
+}
+
+.kui-field__required {
+  color: var(
+    --kui-field-required-color,
+    var(--kui-field-error-color, var(--kui-color-danger-fill))
+  );
+}
+
+.kui-field__hint,
+.kui-field__error {
+  min-block-size: var(--kui-field-message-min-height, 0);
+  margin: 0;
+  font-size: var(--kui-field-hint-size, var(--kui-text-xs-size, 11px));
+  line-height: 1.4;
+}
+
+.kui-field__hint {
+  color: var(--kui-field-hint-color, var(--kui-color-text-secondary));
+}

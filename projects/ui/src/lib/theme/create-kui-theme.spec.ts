@@ -1,0 +1,72 @@
+import { DEFAULT_KUI_THEME } from './default-kui-theme.const';
+import {
+  createKuiTheme,
+  createKuiThemeStyleSheet,
+  createKuiThemeVariableMap,
+} from './create-kui-theme';
+
+describe('createKuiTheme', () => {
+  it('generates seed, palette, semantic, and component variables from the default theme', () => {
+    const theme = createKuiTheme(DEFAULT_KUI_THEME);
+
+    expect(theme.seeds['--kui-seed-primary']).toBe('oklch(0.52 0.25 285)');
+    expect(theme.palettes.primary).toHaveLength(12);
+    expect(theme.palettes.primary[5]).toBe('oklch(0.52 0.25 285)');
+    expect(theme.paletteVariables['--kui-primary-6']).toBe('oklch(0.52 0.25 285)');
+    expect(theme.light['--kui-color-primary-fill']).toBe('var(--kui-primary-6)');
+    expect(theme.dark['--kui-color-primary-fill']).toBe('var(--kui-primary-5)');
+    expect(theme.dark['--kui-color-primary-fill-active']).toBe('var(--kui-primary-6)');
+    expect(theme.dark['--kui-color-primary-soft-bg-active']).toBe('var(--kui-primary-9)');
+    expect(theme.light['--kui-color-danger-fill-hover']).toBe('var(--kui-danger-7)');
+    expect(theme.dark['--kui-color-danger-fill-active']).toBe('var(--kui-danger-6)');
+    expect(theme.component['--kui-btn-solid-bg']).toBe('var(--kui-color-primary-fill)');
+    expect(theme.component['--kui-btn-danger-bg-hov']).toBe('var(--kui-color-danger-fill-hover)');
+    expect(theme.component['--kui-btn-ghost-bg-hov']).toBe('var(--kui-color-surface-sunken)');
+    expect(theme.component['--kui-btn-bg']).toBe('var(--kui-btn-solid-bg)');
+  });
+
+  it('emits a mode-specific flat CSS variable map', () => {
+    const theme = createKuiTheme(DEFAULT_KUI_THEME);
+
+    const lightVariables = createKuiThemeVariableMap(theme, 'light');
+    const darkVariables = createKuiThemeVariableMap(theme, 'dark');
+
+    expect(lightVariables['--kui-color-bg']).toBe('var(--kui-neutral-1)');
+    expect(darkVariables['--kui-color-bg']).toBe('var(--kui-neutral-12)');
+    expect(lightVariables['--kui-input-focus-ring']).toBe(
+      '0 0 0 3px var(--kui-color-primary-focus-ring)',
+    );
+  });
+
+  it('serializes light and dark theme selectors into one stylesheet', () => {
+    const theme = createKuiTheme(DEFAULT_KUI_THEME);
+
+    const stylesheet = createKuiThemeStyleSheet(theme);
+
+    expect(stylesheet).toContain(':root, [data-kui-theme="light"]');
+    expect(stylesheet).toContain('[data-kui-theme="dark"]');
+    expect(stylesheet).toContain('--kui-seed-info: oklch(0.58 0.16 215);');
+    expect(stylesheet).toContain('--kui-btn-height: var(--kui-btn-height-comfortable);');
+  });
+
+  it('accepts hex seed colors for custom themes', () => {
+    const theme = createKuiTheme({
+      seeds: {
+        color: {
+          primary: '#5865f2',
+          neutral: '#737782',
+          success: '#22c55e',
+          warning: '#f59e0b',
+          danger: '#ef4444',
+        },
+        radius: 10,
+        density: 'compact',
+      },
+    });
+
+    expect(theme.palettes.primary).toHaveLength(12);
+    expect(theme.palettes.primary[5]).toMatch(/^oklch\(/);
+    expect(theme.component['--kui-radius-md']).toBe('10px');
+    expect(theme.seeds['--kui-seed-info']).toBe('oklch(0.58 0.16 215)');
+  });
+});
