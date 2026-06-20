@@ -25,7 +25,9 @@
     font-size: var(--kui-btn-font-size, 13px);
     font-weight: var(--kui-btn-font-weight, 500);
     line-height: 1;
+    min-inline-size: 0;
     padding-inline: var(--kui-btn-padding-inline, 16px);
+    text-align: center;
     text-decoration: none;
     transition:
       background-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
@@ -34,7 +36,8 @@
       transform var(--kui-duration-fast, 100ms) var(--kui-ease, ease);
     user-select: none;
     vertical-align: middle;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .kui-button:hover {
@@ -286,6 +289,7 @@
     box-sizing: border-box;
     display: block;
     inline-size: 100%;
+    min-inline-size: 0;
     min-block-size: var(--kui-input-height, 40px);
     border: var(--kui-input-border-width, 1px) solid var(--kui-input-border, ButtonBorder);
     border-radius: var(--kui-input-radius, 8px);
