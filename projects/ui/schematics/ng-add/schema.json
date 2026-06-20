@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "KikitaUiNgAdd",
+  "title": "Kikita UI ng-add options",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Angular application project to configure."
+    },
+    "skipProvider": {
+      "type": "boolean",
+      "description": "Skip adding provideKikitaUi() to app.config.ts.",
+      "default": false
+    },
+    "skipStyles": {
+      "type": "boolean",
+      "description": "Skip adding @kikita-labs/ui/styles to angular.json.",
+      "default": false
+    }
+  }
+}

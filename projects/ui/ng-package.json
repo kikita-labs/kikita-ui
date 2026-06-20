@@ -6,9 +6,15 @@
       "glob": "**/*",
       "input": "src/styles",
       "output": "styles"
+    },
+    {
+      "glob": "**/*",
+      "input": "schematics",
+      "output": "schematics"
     }
   ],
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["@angular-devkit/schematics"]
 }

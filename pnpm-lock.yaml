@@ -59,6 +59,9 @@ importers:
 
   projects/ui:
     dependencies:
+      '@angular-devkit/schematics':
+        specifier: ^22.0.0
+        version: 22.0.2(chokidar@5.0.0)
       '@angular/common':
         specifier: ^22.0.0
         version: 22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2)

@@ -61,6 +61,8 @@ Add Angular schematic support before real consumer migration:
 - optionally scaffold a basic theme config
 - verify on a fresh Angular app
 
+Initial install documentation lives in `docs/install.md`.
+
 ## Consumer Migration Gate
 
 Do not integrate Kikita UI into an existing Taiga UI surface immediately after Phase 1.

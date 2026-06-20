@@ -20,6 +20,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
+  "schematics": "./schematics/collection.json",
   "peerDependencies": {
     "@angular/common": "^22.0.0",
     "@angular/core": "^22.0.0",
@@ -28,6 +29,7 @@
     "rxjs": "^7.8.0"
   },
   "dependencies": {
+    "@angular-devkit/schematics": "^22.0.0",
     "tslib": "^2.3.0"
   },
   "exports": {
