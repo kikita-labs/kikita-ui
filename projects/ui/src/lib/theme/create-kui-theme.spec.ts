@@ -17,12 +17,16 @@ describe('createKuiTheme', () => {
     expect(theme.dark['--kui-color-primary-fill']).toBe('var(--kui-primary-5)');
     expect(theme.dark['--kui-color-primary-fill-active']).toBe('var(--kui-primary-6)');
     expect(theme.dark['--kui-color-primary-soft-bg-active']).toBe('var(--kui-primary-9)');
+    expect(theme.dark['--kui-color-success-soft-bg']).toBe('var(--kui-success-11)');
+    expect(theme.dark['--kui-color-info-soft-bg']).toBe('var(--kui-info-11)');
     expect(theme.light['--kui-color-danger-fill-hover']).toBe('var(--kui-danger-7)');
     expect(theme.dark['--kui-color-danger-fill-active']).toBe('var(--kui-danger-6)');
     expect(theme.component['--kui-btn-solid-bg']).toBe('var(--kui-color-primary-fill)');
     expect(theme.component['--kui-btn-danger-bg-hov']).toBe('var(--kui-color-danger-fill-hover)');
     expect(theme.component['--kui-btn-ghost-bg-hov']).toBe('var(--kui-color-surface-sunken)');
     expect(theme.component['--kui-btn-bg']).toBe('var(--kui-btn-solid-bg)');
+    expect(theme.component['--kui-badge-info-bg']).toBe('var(--kui-color-info-soft-bg)');
+    expect(theme.component['--kui-card-shadow-elevated']).toBe('0 10px 28px oklch(0 0 0 / 0.18)');
   });
 
   it('emits a mode-specific flat CSS variable map', () => {

@@ -735,11 +735,15 @@
   }
 
   .kui-card[data-kui-appearance='elevated'] {
+    border-color: var(--kui-card-border-elevated, var(--kui-card-border));
     background-color: var(--kui-card-bg-elevated, var(--kui-color-surface-elevated));
+    box-shadow: var(--kui-card-shadow-elevated, var(--kui-card-shadow));
   }
 
   .kui-card[data-kui-appearance='sunken'] {
+    border-color: var(--kui-card-border-sunken, var(--kui-card-border));
     background-color: var(--kui-card-bg-sunken, var(--kui-color-surface-sunken));
+    box-shadow: var(--kui-card-shadow-sunken, var(--kui-card-shadow));
   }
 
   .kui-card[data-kui-interactive] {
