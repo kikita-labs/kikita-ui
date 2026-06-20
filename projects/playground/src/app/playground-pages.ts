@@ -137,7 +137,7 @@ export class TokensPage {
   selector: 'app-theme-page',
   imports: [KuiButtonDirective, KuiFieldComponent, KuiInputDirective],
   template: `
-    <section class="panel split">
+    <section class="panel forms-panel">
       <div>
         <div class="panel__title">
           <span>01</span>
@@ -767,48 +767,50 @@ export class IconsPage {}
         </div>
       </div>
 
-      <form class="form-preview" [formRoot]="profileForm">
-        <kui-field
-          label="Email"
-          hint="Required email field from Angular Signal Forms."
-          [required]="profileForm.email().required()"
-          [error]="fieldError(profileForm.email)"
-        >
-          <input
-            kuiInput
-            type="email"
-            placeholder="nikita@kikita.dev"
-            [formField]="profileForm.email"
-          />
-        </kui-field>
+      <div class="forms-panel__body">
+        <form class="form-preview" [formRoot]="profileForm">
+          <kui-field
+            label="Email"
+            hint="Required email field from Angular Signal Forms."
+            [required]="profileForm.email().required()"
+            [error]="fieldError(profileForm.email)"
+          >
+            <input
+              kuiInput
+              type="email"
+              placeholder="nikita@kikita.dev"
+              [formField]="profileForm.email"
+            />
+          </kui-field>
 
-        <kui-field
-          label="Project"
-          hint="Minimum 3 characters."
-          [required]="profileForm.project().required()"
-          [error]="fieldError(profileForm.project)"
-        >
-          <input kuiInput placeholder="Kikita UI" [formField]="profileForm.project" />
-        </kui-field>
+          <kui-field
+            label="Project"
+            hint="Minimum 3 characters."
+            [required]="profileForm.project().required()"
+            [error]="fieldError(profileForm.project)"
+          >
+            <input kuiInput placeholder="Kikita UI" [formField]="profileForm.project" />
+          </kui-field>
 
-        <button kuiButton type="submit" [disabled]="profileForm().invalid()">Save</button>
-      </form>
+          <button kuiButton type="submit" [disabled]="profileForm().invalid()">Save</button>
+        </form>
 
-      <div class="form-debug">
-        <h3>Live model</h3>
-        <pre><code>{{ formValue() }}</code></pre>
-        <div class="var-table">
-          <div>
-            <code>email.valid()</code>
-            <span>{{ profileForm.email().valid() }}</span>
-          </div>
-          <div>
-            <code>project.valid()</code>
-            <span>{{ profileForm.project().valid() }}</span>
-          </div>
-          <div>
-            <code>form.valid()</code>
-            <span>{{ profileForm().valid() }}</span>
+        <div class="form-debug">
+          <h3>Live model</h3>
+          <pre><code>{{ formValue() }}</code></pre>
+          <div class="var-table">
+            <div>
+              <code>email.valid()</code>
+              <span>{{ profileForm.email().valid() }}</span>
+            </div>
+            <div>
+              <code>project.valid()</code>
+              <span>{{ profileForm.project().valid() }}</span>
+            </div>
+            <div>
+              <code>form.valid()</code>
+              <span>{{ profileForm().valid() }}</span>
+            </div>
           </div>
         </div>
       </div>

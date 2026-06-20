@@ -284,6 +284,22 @@ code {
   max-inline-size: 520px;
 }
 
+.forms-panel {
+  align-items: start;
+}
+
+.forms-panel__body {
+  display: grid;
+  grid-template-columns: minmax(280px, 520px) minmax(320px, 620px);
+  gap: 24px;
+  align-items: start;
+}
+
+.form-debug {
+  display: grid;
+  gap: 8px;
+}
+
 .icon-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
