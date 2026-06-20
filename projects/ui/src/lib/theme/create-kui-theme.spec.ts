@@ -29,6 +29,8 @@ describe('createKuiTheme', () => {
     expect(theme.component['--kui-btn-solid-bg']).toBe('var(--kui-color-primary-fill)');
     expect(theme.component['--kui-btn-danger-bg-hov']).toBe('var(--kui-color-danger-fill-hover)');
     expect(theme.component['--kui-btn-ghost-bg-hov']).toBe('var(--kui-color-surface-sunken)');
+    expect(theme.component['--kui-btn-height']).toBe('var(--kui-btn-height-regular)');
+    expect(theme.component['--kui-input-height']).toBe('var(--kui-btn-height)');
     expect(theme.component['--kui-btn-bg']).toBe('var(--kui-btn-solid-bg)');
     expect(theme.component['--kui-badge-info-bg']).toBe('var(--kui-color-info-soft-bg)');
     expect(theme.component['--kui-card-shadow-elevated']).toBe('0 10px 28px oklch(0 0 0 / 0.18)');
@@ -56,7 +58,7 @@ describe('createKuiTheme', () => {
     expect(stylesheet).toContain(':root, [data-kui-theme="light"]');
     expect(stylesheet).toContain('[data-kui-theme="dark"]');
     expect(stylesheet).toContain('--kui-seed-info: oklch(0.58 0.16 215);');
-    expect(stylesheet).toContain('--kui-btn-height: var(--kui-btn-height-comfortable);');
+    expect(stylesheet).toContain('--kui-btn-height: var(--kui-btn-height-regular);');
   });
 
   it('accepts hex seed colors for custom themes', () => {
@@ -77,6 +79,7 @@ describe('createKuiTheme', () => {
     expect(theme.palettes.primary).toHaveLength(12);
     expect(theme.palettes.primary[5]).toMatch(/^oklch\(/);
     expect(theme.component['--kui-radius-md']).toBe('10px');
+    expect(theme.component['--kui-btn-height']).toBe('var(--kui-btn-height-compact)');
     expect(theme.seeds['--kui-seed-info']).toBe('oklch(0.58 0.16 215)');
   });
 });

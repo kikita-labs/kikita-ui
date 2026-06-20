@@ -32,8 +32,12 @@ Use real semantic elements: `article`, `section`, `aside`, `button`, or `a` depe
 - `--kui-card-bg-elevated`
 - `--kui-card-bg-sunken`
 - `--kui-card-border`
+- `--kui-card-border-elevated`
+- `--kui-card-border-sunken`
 - `--kui-card-border-hover`
 - `--kui-card-radius`
 - `--kui-card-padding`
 - `--kui-card-shadow`
+- `--kui-card-shadow-elevated`
+- `--kui-card-shadow-sunken`
 - `--kui-card-shadow-hover`

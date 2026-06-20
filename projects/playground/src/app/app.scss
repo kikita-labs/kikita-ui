@@ -358,6 +358,33 @@ code {
   gap: 16px;
 }
 
+.density-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.density-card,
+.mobile-check {
+  display: grid;
+  gap: 16px;
+  min-inline-size: 0;
+  border: 1px solid var(--kui-color-border);
+  border-radius: 8px;
+  background: var(--kui-color-surface-elevated);
+  padding: 16px;
+}
+
+.density-card__controls {
+  display: grid;
+  gap: 12px;
+}
+
+.mobile-check {
+  inline-size: min(360px, 100%);
+}
+
 .state-matrix {
   display: grid;
   grid-template-columns: minmax(150px, 0.8fr) repeat(5, minmax(120px, 1fr));
@@ -573,6 +600,7 @@ pre {
   .state-board,
   .input-state-grid,
   .component-board__fields,
+  .density-grid,
   .icon-grid,
   .pipeline__steps,
   .seed-table article,

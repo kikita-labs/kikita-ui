@@ -210,6 +210,7 @@ function createDarkSemanticVariables(
 
 function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
   const radius = `${options.seeds.radius}px`;
+  const density = options.seeds.density;
 
   return {
     '--kui-radius-none': '0',
@@ -246,8 +247,8 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-btn-px-compact': '8px',
     '--kui-btn-px-regular': '12px',
     '--kui-btn-px-comfortable': '16px',
-    '--kui-btn-height': 'var(--kui-btn-height-comfortable)',
-    '--kui-btn-px': 'var(--kui-btn-px-comfortable)',
+    '--kui-btn-height': `var(--kui-btn-height-${density})`,
+    '--kui-btn-px': `var(--kui-btn-px-${density})`,
     '--kui-btn-padding-inline': 'var(--kui-btn-px)',
     '--kui-btn-radius': 'var(--kui-radius-md)',
     '--kui-btn-gap': '6px',
@@ -301,8 +302,8 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-field-hint-color': 'var(--kui-color-text-secondary)',
     '--kui-field-error-color': 'var(--kui-color-danger-fill)',
     '--kui-field-required-color': 'var(--kui-color-danger-fill)',
-    '--kui-input-height': 'var(--kui-control-height-md)',
-    '--kui-input-px': 'var(--kui-btn-px-regular)',
+    '--kui-input-height': 'var(--kui-btn-height)',
+    '--kui-input-px': 'var(--kui-btn-px)',
     '--kui-input-padding-inline': 'var(--kui-input-px)',
     '--kui-input-radius': 'var(--kui-radius-md)',
     '--kui-input-bg': 'var(--kui-color-surface)',

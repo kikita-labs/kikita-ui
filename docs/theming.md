@@ -67,7 +67,7 @@ provideKikitaUi({
         info: 'oklch(0.58 0.16 215)',
       },
       radius: 8,
-      density: 'comfortable',
+      density: 'regular',
     },
   },
 });

@@ -187,6 +187,85 @@ export class ThemePage {
 }
 
 @Component({
+  selector: 'app-density-page',
+  imports: [
+    KuiButtonDirective,
+    KuiCheckboxDirective,
+    KuiFieldComponent,
+    KuiInputDirective,
+    KuiSwitchDirective,
+  ],
+  template: `
+    <section class="panel">
+      <div class="panel__title">
+        <span>01</span>
+        <div>
+          <h2>Density</h2>
+          <p>
+            Local <code>data-kui-density</code> scopes rebind control height and x-padding tokens.
+          </p>
+        </div>
+      </div>
+
+      <div class="density-grid">
+        @for (density of densities; track density.name) {
+          <article class="density-card" [attr.data-kui-density]="density.name">
+            <div>
+              <h3>{{ density.label }}</h3>
+              <code>data-kui-density="{{ density.name }}"</code>
+            </div>
+
+            <div class="density-card__controls">
+              <button kuiButton type="button">Button</button>
+              <button kuiButton appearance="soft" type="button">Soft</button>
+              <kui-field label="Input" [hint]="density.hint">
+                <input kuiInput placeholder="kikita.dev" />
+              </kui-field>
+              <label class="check-row">
+                <input kuiCheckbox type="checkbox" checked />
+                <span>Checkbox</span>
+              </label>
+              <label class="check-row">
+                <input kuiSwitch type="checkbox" checked />
+                <span>Switch</span>
+              </label>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>Mobile check</h2>
+          <p>Same controls in a constrained column for narrow viewport inspection.</p>
+        </div>
+      </div>
+
+      <div class="mobile-check" data-kui-density="comfortable">
+        <button kuiButton type="button">Comfortable touch action</button>
+        <kui-field label="Project" hint="Should not overflow at mobile widths.">
+          <input kuiInput placeholder="Kikita UI" />
+        </kui-field>
+        <label class="check-row">
+          <input kuiSwitch type="checkbox" checked />
+          <span>Comfortable mobile switch</span>
+        </label>
+      </div>
+    </section>
+  `,
+})
+export class DensityPage {
+  protected readonly densities = [
+    { name: 'compact', label: 'Compact', hint: '24px controls for dense tooling.' },
+    { name: 'regular', label: 'Regular', hint: '32px default from the Ember spec.' },
+    { name: 'comfortable', label: 'Comfortable', hint: '40px controls for touch-heavy UI.' },
+  ] as const;
+}
+
+@Component({
   selector: 'app-button-page',
   imports: [KuiButtonDirective, KuiGroupDirective, KuiIconButtonDirective, KuiIconComponent],
   template: `
