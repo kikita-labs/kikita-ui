@@ -454,6 +454,25 @@ code {
   font-size: 13px;
 }
 
+.kui-card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.kui-card p,
+.card-action span:last-child {
+  color: var(--kui-color-text-secondary);
+  line-height: 1.5;
+}
+
+.card-action {
+  inline-size: min(420px, 100%);
+  border: 1px solid var(--kui-card-border);
+  font: inherit;
+  text-align: start;
+}
+
 .state-board__row.is-active-preview .kui-icon-button {
   transform: scale(0.97);
 }

@@ -3,13 +3,16 @@ import { FormField, FormRoot, email, form, minLength, required } from '@angular/
 
 import {
   KUI_THEME,
+  KuiBadgeDirective,
   KuiButtonDirective,
+  KuiCardDirective,
   KuiCheckboxDirective,
   KuiFieldComponent,
   KuiGroupDirective,
   KuiIconButtonDirective,
   KuiIconComponent,
   KuiInputDirective,
+  KuiLoaderDirective,
   KuiRadioDirective,
   KuiSwitchDirective,
   KuiTextareaDirective,
@@ -544,6 +547,127 @@ export class SwitchPage {}
   `,
 })
 export class RadioPage {}
+
+@Component({
+  selector: 'app-badge-page',
+  imports: [KuiBadgeDirective],
+  template: `
+    <section class="panel">
+      <div class="panel__title">
+        <span>01</span>
+        <div>
+          <h2>Badge</h2>
+          <p>Inline status and metadata primitive using Kikita status tokens.</p>
+        </div>
+      </div>
+
+      <div class="component-board">
+        <div class="state-board__row">
+          <span kuiBadge>Neutral</span>
+          <span kuiBadge appearance="primary">Primary</span>
+          <span kuiBadge appearance="success">Success</span>
+          <span kuiBadge appearance="warning">Warning</span>
+          <span kuiBadge appearance="danger">Danger</span>
+          <span kuiBadge appearance="info">Info</span>
+        </div>
+
+        <div class="state-board__row">
+          <span kuiBadge size="xs" appearance="primary">xs</span>
+          <span kuiBadge size="sm" appearance="primary">sm</span>
+          <span kuiBadge appearance="primary">md</span>
+          <span kuiBadge size="lg" appearance="primary">lg</span>
+        </div>
+
+        <div class="state-board__row">
+          <a kuiBadge appearance="info" href="/">Linked badge</a>
+          <strong kuiBadge appearance="success">Strong badge</strong>
+          <code kuiBadge appearance="neutral">--kui-badge-*</code>
+        </div>
+      </div>
+    </section>
+  `,
+})
+export class BadgePage {}
+
+@Component({
+  selector: 'app-loader-page',
+  imports: [KuiButtonDirective, KuiLoaderDirective],
+  template: `
+    <section class="panel">
+      <div class="panel__title">
+        <span>01</span>
+        <div>
+          <h2>Loader</h2>
+          <p>CSS-only loading indicator using Kikita motion and color tokens.</p>
+        </div>
+      </div>
+
+      <div class="component-board">
+        <div class="state-board__row">
+          <span kuiLoader size="xs" label="Loading small"></span>
+          <span kuiLoader size="sm" label="Loading small"></span>
+          <span kuiLoader label="Loading"></span>
+          <span kuiLoader size="lg" label="Loading large"></span>
+        </div>
+
+        <div class="state-board__row">
+          <button kuiButton type="button" disabled>
+            <span kuiLoader size="sm" label="Saving"></span>
+            Saving
+          </button>
+          <button kuiButton appearance="soft" type="button">
+            <span kuiLoader size="sm" label="Syncing"></span>
+            Syncing
+          </button>
+        </div>
+      </div>
+    </section>
+  `,
+})
+export class LoaderPage {}
+
+@Component({
+  selector: 'app-card-page',
+  imports: [KuiBadgeDirective, KuiCardDirective],
+  template: `
+    <section class="panel">
+      <div class="panel__title">
+        <span>01</span>
+        <div>
+          <h2>Card</h2>
+          <p>Semantic surface primitive using Kikita surface, border, radius, and shadow tokens.</p>
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <article kuiCard>
+          <span kuiBadge>Surface</span>
+          <h3>Default surface</h3>
+          <p>Use for grouped content that needs a real boundary.</p>
+        </article>
+
+        <article kuiCard appearance="elevated">
+          <span kuiBadge appearance="primary">Elevated</span>
+          <h3>Elevated surface</h3>
+          <p>Use for popover-like or high-priority content blocks.</p>
+        </article>
+
+        <article kuiCard appearance="sunken">
+          <span kuiBadge appearance="info">Sunken</span>
+          <h3>Sunken surface</h3>
+          <p>Use for inset previews, logs, or low-emphasis content.</p>
+        </article>
+      </div>
+
+      <button kuiCard interactive type="button" class="card-action">
+        <span kuiBadge appearance="success">Interactive</span>
+        <strong>Button-backed card</strong>
+        <span>Focusable and clickable without losing native button semantics.</span>
+      </button>
+    </section>
+  `,
+})
+export class CardPage {}
 
 @Component({
   selector: 'app-group-page',

@@ -18,10 +18,10 @@
 - Checkbox (done as `input[type=checkbox][kuiCheckbox]`)
 - Switch (done as `input[type=checkbox][kuiSwitch]`)
 - Radio (done as `input[type=radio][kuiRadio]`)
-- Badge
-- Loader
+- Badge (done as `[kuiBadge]`)
+- Loader (done as `[kuiLoader]`)
 - Tooltip
-- Card
+- Card (done as `[kuiCard]`)
 - Tabs
 - Segmented
 

@@ -1,13 +1,16 @@
 import { Routes } from '@angular/router';
 
 import {
+  BadgePage,
   ButtonPage,
+  CardPage,
   CheckboxPage,
   FieldPage,
   FormsPage,
   GroupPage,
   IconsPage,
   InputPage,
+  LoaderPage,
   RadioPage,
   SwitchPage,
   TextareaPage,
@@ -26,6 +29,9 @@ export const routes: Routes = [
   { path: 'checkbox', component: CheckboxPage },
   { path: 'switch', component: SwitchPage },
   { path: 'radio', component: RadioPage },
+  { path: 'badge', component: BadgePage },
+  { path: 'loader', component: LoaderPage },
+  { path: 'card', component: CardPage },
   { path: 'group', component: GroupPage },
   { path: 'icons', component: IconsPage },
   { path: 'forms', component: FormsPage },
