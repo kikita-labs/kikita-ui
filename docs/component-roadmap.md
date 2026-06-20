@@ -74,4 +74,6 @@ Before migrating `discord-bot` screens, Kikita UI should reach a coherent MVP:
 - Playground covers tokens, theme, states, forms, density, light/dark, and mobile checks.
 - Public docs and JSDoc exist for exported primitives.
 
+Current primitive state coverage is tracked in `docs/state-coverage.md`.
+
 After that, migrate one isolated low-risk screen first. Avoid mixed Taiga/Kikita surfaces unless the screen is explicitly a migration sandbox.
