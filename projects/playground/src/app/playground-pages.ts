@@ -1,13 +1,18 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { FormField, FormRoot, email, form, minLength, required } from '@angular/forms/signals';
 
 import {
   KUI_THEME,
   KuiButtonDirective,
+  KuiCheckboxDirective,
   KuiFieldComponent,
   KuiGroupDirective,
   KuiIconButtonDirective,
   KuiIconComponent,
   KuiInputDirective,
+  KuiRadioDirective,
+  KuiSwitchDirective,
+  KuiTextareaDirective,
 } from '@kikita-labs/ui';
 
 import {
@@ -259,7 +264,7 @@ export class ButtonPage {
 
 @Component({
   selector: 'app-field-page',
-  imports: [KuiFieldComponent, KuiInputDirective],
+  imports: [KuiFieldComponent, KuiInputDirective, KuiTextareaDirective],
   template: `
     <section class="panel">
       <div class="panel__title">
@@ -280,7 +285,7 @@ export class ButtonPage {
         </kui-field>
 
         <kui-field label="Notes" hint="Textarea keeps native behavior">
-          <textarea kuiInput placeholder="Token decisions, component notes"></textarea>
+          <textarea kuiTextarea placeholder="Token decisions, component notes"></textarea>
         </kui-field>
       </div>
     </section>
@@ -322,6 +327,223 @@ export class FieldPage {}
   `,
 })
 export class InputPage {}
+
+@Component({
+  selector: 'app-textarea-page',
+  imports: [KuiFieldComponent, KuiTextareaDirective],
+  template: `
+    <section class="panel">
+      <div class="panel__title">
+        <span>01</span>
+        <div>
+          <h2>Textarea</h2>
+          <p>Real <code>kuiTextarea</code> directive on native textarea elements.</p>
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <kui-field label="Default" hint="Native resize is allowed by default.">
+          <textarea kuiTextarea rows="4" placeholder="Write a note"></textarea>
+        </kui-field>
+
+        <kui-field label="Error" error="Description is required" required>
+          <textarea kuiTextarea invalid rows="4">Missing project context</textarea>
+        </kui-field>
+
+        <kui-field label="Disabled" hint="Disabled keeps readable multiline content.">
+          <textarea kuiTextarea rows="4" disabled>Readonly generated output</textarea>
+        </kui-field>
+      </div>
+    </section>
+  `,
+})
+export class TextareaPage {}
+
+@Component({
+  selector: 'app-checkbox-page',
+  imports: [KuiCheckboxDirective, KuiFieldComponent],
+  template: `
+    <section class="panel">
+      <div class="panel__title">
+        <span>01</span>
+        <div>
+          <h2>Checkbox</h2>
+          <p>Real <code>kuiCheckbox</code> directive on native checkbox inputs.</p>
+        </div>
+      </div>
+
+      <div class="component-board">
+        <div class="state-board__row">
+          <label class="check-row">
+            <input kuiCheckbox type="checkbox" />
+            Default
+          </label>
+          <label class="check-row">
+            <input kuiCheckbox type="checkbox" checked />
+            Checked
+          </label>
+          <label class="check-row">
+            <input kuiCheckbox type="checkbox" invalid />
+            Invalid
+          </label>
+          <label class="check-row">
+            <input kuiCheckbox type="checkbox" disabled />
+            Disabled
+          </label>
+        </div>
+
+        <div class="state-board__row">
+          <label class="check-row">
+            <input kuiCheckbox type="checkbox" size="xs" checked />
+            xs
+          </label>
+          <label class="check-row">
+            <input kuiCheckbox type="checkbox" size="sm" checked />
+            sm
+          </label>
+          <label class="check-row">
+            <input kuiCheckbox type="checkbox" checked />
+            md
+          </label>
+          <label class="check-row">
+            <input kuiCheckbox type="checkbox" size="lg" checked />
+            lg
+          </label>
+        </div>
+
+        <kui-field label="Field wiring" hint="Label, hint, and error connect through kui-field.">
+          <input kuiCheckbox type="checkbox" />
+        </kui-field>
+      </div>
+    </section>
+  `,
+})
+export class CheckboxPage {}
+
+@Component({
+  selector: 'app-switch-page',
+  imports: [KuiFieldComponent, KuiSwitchDirective],
+  template: `
+    <section class="panel">
+      <div class="panel__title">
+        <span>01</span>
+        <div>
+          <h2>Switch</h2>
+          <p>
+            Real <code>kuiSwitch</code> directive on native checkbox inputs with
+            <code>role="switch"</code>.
+          </p>
+        </div>
+      </div>
+
+      <div class="component-board">
+        <div class="state-board__row">
+          <label class="check-row">
+            <input kuiSwitch type="checkbox" />
+            Off
+          </label>
+          <label class="check-row">
+            <input kuiSwitch type="checkbox" checked />
+            On
+          </label>
+          <label class="check-row">
+            <input kuiSwitch type="checkbox" invalid />
+            Invalid
+          </label>
+          <label class="check-row">
+            <input kuiSwitch type="checkbox" disabled />
+            Disabled
+          </label>
+        </div>
+
+        <div class="state-board__row">
+          <label class="check-row">
+            <input kuiSwitch type="checkbox" size="xs" checked />
+            xs
+          </label>
+          <label class="check-row">
+            <input kuiSwitch type="checkbox" size="sm" checked />
+            sm
+          </label>
+          <label class="check-row">
+            <input kuiSwitch type="checkbox" checked />
+            md
+          </label>
+          <label class="check-row">
+            <input kuiSwitch type="checkbox" size="lg" checked />
+            lg
+          </label>
+        </div>
+
+        <kui-field label="Field wiring" hint="Switch can still use kui-field description wiring.">
+          <input kuiSwitch type="checkbox" />
+        </kui-field>
+      </div>
+    </section>
+  `,
+})
+export class SwitchPage {}
+
+@Component({
+  selector: 'app-radio-page',
+  imports: [KuiFieldComponent, KuiRadioDirective],
+  template: `
+    <section class="panel">
+      <div class="panel__title">
+        <span>01</span>
+        <div>
+          <h2>Radio</h2>
+          <p>Real <code>kuiRadio</code> directive on native radio inputs.</p>
+        </div>
+      </div>
+
+      <div class="component-board">
+        <div class="state-board__row" role="radiogroup" aria-label="Plan">
+          <label class="check-row">
+            <input kuiRadio type="radio" name="plan-demo" value="starter" />
+            Starter
+          </label>
+          <label class="check-row">
+            <input kuiRadio type="radio" name="plan-demo" value="pro" checked />
+            Pro
+          </label>
+          <label class="check-row">
+            <input kuiRadio type="radio" name="plan-demo" value="team" />
+            Team
+          </label>
+          <label class="check-row">
+            <input kuiRadio type="radio" name="plan-demo-disabled" disabled />
+            Disabled
+          </label>
+        </div>
+
+        <div class="state-board__row">
+          <label class="check-row">
+            <input kuiRadio type="radio" name="radio-size" size="xs" checked />
+            xs
+          </label>
+          <label class="check-row">
+            <input kuiRadio type="radio" name="radio-size" size="sm" />
+            sm
+          </label>
+          <label class="check-row">
+            <input kuiRadio type="radio" name="radio-size" />
+            md
+          </label>
+          <label class="check-row">
+            <input kuiRadio type="radio" name="radio-size" size="lg" />
+            lg
+          </label>
+        </div>
+
+        <kui-field label="Field wiring" error="Choose one option" required>
+          <input kuiRadio type="radio" name="field-radio-demo" invalid />
+        </kui-field>
+      </div>
+    </section>
+  `,
+})
+export class RadioPage {}
 
 @Component({
   selector: 'app-group-page',
@@ -408,31 +630,89 @@ export class IconsPage {}
 
 @Component({
   selector: 'app-forms-page',
-  imports: [KuiButtonDirective, KuiFieldComponent, KuiInputDirective],
+  imports: [FormField, FormRoot, KuiButtonDirective, KuiFieldComponent, KuiInputDirective],
   template: `
-    <section class="panel">
+    <section class="panel split">
       <div class="panel__title">
         <span>01</span>
         <div>
-          <h2>Forms route</h2>
+          <h2>Signal Forms spike</h2>
           <p>
-            Signal Forms integration is planned; this route currently verifies native field wiring.
+            Native Angular Signal Forms field binding on the same input as <code>kuiInput</code>.
           </p>
         </div>
       </div>
 
-      <form class="form-preview">
-        <kui-field label="Email" hint="Native input now; Signal Forms binding comes later.">
-          <input kuiInput type="email" placeholder="nikita@kikita.dev" />
+      <form class="form-preview" [formRoot]="profileForm">
+        <kui-field
+          label="Email"
+          hint="Required email field from Angular Signal Forms."
+          [required]="profileForm.email().required()"
+          [error]="fieldError(profileForm.email)"
+        >
+          <input
+            kuiInput
+            type="email"
+            placeholder="nikita@kikita.dev"
+            [formField]="profileForm.email"
+          />
         </kui-field>
 
-        <kui-field label="Project" error="Required for error-state verification" required>
-          <input kuiInput invalid value="" />
+        <kui-field
+          label="Project"
+          hint="Minimum 3 characters."
+          [required]="profileForm.project().required()"
+          [error]="fieldError(profileForm.project)"
+        >
+          <input kuiInput placeholder="Kikita UI" [formField]="profileForm.project" />
         </kui-field>
 
-        <button kuiButton type="button">Save</button>
+        <button kuiButton type="submit" [disabled]="profileForm().invalid()">Save</button>
       </form>
+
+      <div class="form-debug">
+        <h3>Live model</h3>
+        <pre><code>{{ formValue() }}</code></pre>
+        <div class="var-table">
+          <div>
+            <code>email.valid()</code>
+            <span>{{ profileForm.email().valid() }}</span>
+          </div>
+          <div>
+            <code>project.valid()</code>
+            <span>{{ profileForm.project().valid() }}</span>
+          </div>
+          <div>
+            <code>form.valid()</code>
+            <span>{{ profileForm().valid() }}</span>
+          </div>
+        </div>
+      </div>
     </section>
   `,
 })
-export class FormsPage {}
+export class FormsPage {
+  protected readonly model = signal({
+    email: '',
+    project: '',
+  });
+
+  protected readonly profileForm = form(this.model, (path) => {
+    required(path.email, { message: 'Email is required' });
+    email(path.email, { message: 'Enter a valid email' });
+    required(path.project, { message: 'Project is required' });
+    minLength(path.project, 3, { message: 'Use at least 3 characters' });
+  });
+
+  protected readonly formValue = computed(() => JSON.stringify(this.model(), null, 2));
+
+  protected fieldError(field: typeof this.profileForm.email): string | undefined {
+    const state = field();
+
+    if (!state.touched() && !state.dirty()) {
+      return undefined;
+    }
+
+    return state.errors()[0]?.message;
+  }
+}

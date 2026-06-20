@@ -21,3 +21,20 @@ import { KuiFieldComponent, KuiInputDirective } from '@kikita-labs/ui';
 ```
 
 When `kuiInput` is projected inside `kui-field`, it receives the field id, `aria-describedby`, and invalid state automatically.
+
+## Signal Forms
+
+Bind validation state from Angular Signal Forms into `kui-field`:
+
+```html
+<kui-field
+  label="Project"
+  [required]="profileForm.project().required()"
+  [error]="profileForm.project().errors()[0]?.message"
+>
+  <input kuiInput [formField]="profileForm.project" />
+</kui-field>
+```
+
+`kui-field` owns label, hint, error text, required marker, and ARIA description wiring. Angular
+Signal Forms owns the form state.

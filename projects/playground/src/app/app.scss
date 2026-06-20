@@ -454,6 +454,15 @@ code {
   align-items: center;
 }
 
+.check-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 32px;
+  color: var(--pg-text);
+  font-size: 13px;
+}
+
 .state-board__row.is-active-preview .kui-icon-button {
   transform: scale(0.97);
 }
