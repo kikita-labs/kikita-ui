@@ -756,7 +756,7 @@ export class IconsPage {}
   selector: 'app-forms-page',
   imports: [FormField, FormRoot, KuiButtonDirective, KuiFieldComponent, KuiInputDirective],
   template: `
-    <section class="panel split">
+    <section class="panel forms-panel">
       <div class="panel__title">
         <span>01</span>
         <div>

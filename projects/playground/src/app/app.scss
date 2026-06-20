@@ -290,14 +290,19 @@ code {
 
 .forms-panel__body {
   display: grid;
-  grid-template-columns: minmax(280px, 520px) minmax(320px, 620px);
+  grid-template-columns: minmax(0, 520px) minmax(0, 1fr);
   gap: 24px;
   align-items: start;
+}
+
+.forms-panel__body > * {
+  min-inline-size: 0;
 }
 
 .form-debug {
   display: grid;
   gap: 8px;
+  min-inline-size: 0;
 }
 
 .icon-grid {
@@ -564,6 +569,7 @@ pre {
   .header,
   .split,
   .field-grid,
+  .forms-panel__body,
   .state-board,
   .input-state-grid,
   .component-board__fields,
@@ -577,6 +583,11 @@ pre {
 
   .header {
     flex-direction: column;
+  }
+
+  .form-preview {
+    inline-size: 100%;
+    max-inline-size: none;
   }
 }
 
