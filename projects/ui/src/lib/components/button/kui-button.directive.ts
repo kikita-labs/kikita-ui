@@ -10,6 +10,7 @@ import { KuiButtonAppearance } from './kui-button-appearance.type';
     class: 'kui-button',
     '[attr.data-kui-appearance]': 'normalizedAppearance()',
     '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-wrap]': 'wrap() ? "" : null',
     '[attr.aria-disabled]': 'disabled() ? "true" : null',
     '[attr.disabled]': 'nativeDisabledAttribute()',
     '[attr.tabindex]': 'disabled() ? "-1" : null',
@@ -22,6 +23,9 @@ export class KuiButtonDirective {
 
   /** Button size mapped to Kikita UI control height tokens. */
   readonly size = input<KuiSize>('md');
+
+  /** Allows button text to wrap instead of truncating when the container is narrow. */
+  readonly wrap = input(false, { transform: booleanAttribute });
 
   /** Disables the button host and removes anchor buttons from tab order. */
   readonly disabled = input(false, { transform: booleanAttribute });

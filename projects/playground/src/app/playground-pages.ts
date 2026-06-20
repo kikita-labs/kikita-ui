@@ -245,7 +245,7 @@ export class ThemePage {
       </div>
 
       <div class="mobile-check" data-kui-density="comfortable">
-        <button kuiButton type="button">Comfortable touch action</button>
+        <button kuiButton wrap type="button">Comfortable touch action</button>
         <kui-field label="Project" hint="Should not overflow at mobile widths.">
           <input kuiInput placeholder="Kikita UI" />
         </kui-field>

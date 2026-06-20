@@ -5,7 +5,7 @@ import { KuiButtonDirective } from './kui-button.directive';
 
 @Component({
   imports: [KuiButtonDirective],
-  template: '<button kuiButton appearance="soft" size="sm">Save</button>',
+  template: '<button kuiButton appearance="soft" size="sm" wrap>Save</button>',
 })
 class ButtonHost {}
 
@@ -24,6 +24,7 @@ describe('KuiButtonDirective', () => {
     expect(button.classList.contains('kui-button')).toBe(true);
     expect(button.getAttribute('data-kui-appearance')).toBe('soft');
     expect(button.getAttribute('data-kui-size')).toBe('sm');
+    expect(button.hasAttribute('data-kui-wrap')).toBe(true);
   });
 
   it('marks disabled anchors as aria-disabled and prevents click navigation', () => {

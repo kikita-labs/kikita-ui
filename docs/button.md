@@ -15,6 +15,7 @@ import { KuiButtonDirective } from '@kikita-labs/ui';
 <button kuiButton appearance="soft">Cancel</button>
 <button kuiButton appearance="outline" size="sm">Details</button>
 <button kuiButton appearance="danger">Delete</button>
+<button kuiButton wrap>Long responsive label</button>
 
 <a kuiButton href="/settings">Settings</a>
 ```
@@ -32,6 +33,7 @@ Use `kui-icon` explicitly for icon content:
 
 - `appearance`: `solid | soft | outline | ghost | danger`
 - `size`: `xs | sm | md | lg`
+- `wrap`: allows long button text to wrap instead of truncating in narrow containers.
 - `disabled`: disables button behavior. Anchor buttons receive `aria-disabled="true"` and are removed from tab order.
 
 `primary` and `secondary` are accepted as temporary aliases for `solid` and `soft`.

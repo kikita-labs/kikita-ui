@@ -25,9 +25,12 @@
     font-size: var(--kui-btn-font-size, 13px);
     font-weight: var(--kui-btn-font-weight, 500);
     line-height: 1;
+    max-inline-size: 100%;
     min-inline-size: 0;
+    overflow: hidden;
     padding-inline: var(--kui-btn-padding-inline, 16px);
     text-align: center;
+    text-overflow: ellipsis;
     text-decoration: none;
     transition:
       background-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
@@ -36,6 +39,10 @@
       transform var(--kui-duration-fast, 100ms) var(--kui-ease, ease);
     user-select: none;
     vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  .kui-button[data-kui-wrap] {
     white-space: normal;
     overflow-wrap: anywhere;
   }
