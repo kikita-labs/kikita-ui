@@ -1,5 +1,6 @@
 :host {
   display: grid;
+  align-content: start;
   gap: var(--kui-field-gap, 4px);
   grid-template-rows:
     var(--kui-field-label-row, auto)
