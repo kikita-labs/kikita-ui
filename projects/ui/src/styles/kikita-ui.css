@@ -304,7 +304,6 @@
 
   .kui-input:focus {
     border-color: var(--kui-input-border-focus, Highlight);
-    border-width: var(--kui-input-border-width-focus, 2px);
     outline: 0;
     box-shadow: var(--kui-input-focus-ring, 0 0 0 3px Highlight);
   }

@@ -291,7 +291,7 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-input-border-error': 'var(--kui-color-danger-fill)',
     '--kui-input-border-invalid': 'var(--kui-color-danger-fill)',
     '--kui-input-border-width': '1px',
-    '--kui-input-border-width-focus': '2px',
+    '--kui-input-border-width-focus': '1px',
     '--kui-input-placeholder': 'var(--kui-color-text-disabled)',
     '--kui-input-placeholder-color': 'var(--kui-input-placeholder)',
     '--kui-input-focus-ring': '0 0 0 3px var(--kui-color-primary-focus-ring)',

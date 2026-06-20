@@ -1,17 +1,8 @@
 app-root {
-  --pg-bg: oklch(0.1 0.01 80);
-  --pg-surface: oklch(0.14 0.01 80);
-  --pg-elevated: oklch(0.18 0.01 80);
-  --pg-border: oklch(0.22 0.01 80);
-  --pg-muted: oklch(0.6 0.01 80);
-  --pg-text: oklch(0.93 0.01 80);
-  --pg-primary: oklch(0.52 0.25 285);
-  --pg-primary-soft: oklch(0.78 0.15 285);
-
   display: block;
   min-block-size: 100vh;
-  background: var(--pg-bg);
-  color: var(--pg-text);
+  background: var(--kui-color-bg);
+  color: var(--kui-color-text);
   font-family: system-ui, sans-serif;
 }
 
@@ -27,9 +18,9 @@ app-root {
 
 .header,
 .panel {
-  border: 1px solid var(--pg-border);
+  border: 1px solid var(--kui-color-border);
   border-radius: 8px;
-  background: var(--pg-surface);
+  background: var(--kui-color-surface);
 }
 
 .header {
@@ -43,7 +34,7 @@ app-root {
 .header p,
 .panel__title p {
   margin: 0;
-  color: var(--pg-muted);
+  color: var(--kui-color-text-secondary);
   font-size: 13px;
   line-height: 1.5;
 }
@@ -82,7 +73,7 @@ textarea {
 .mode-switch {
   display: flex;
   gap: 4px;
-  border: 1px solid var(--pg-border);
+  border: 1px solid var(--kui-color-border);
   border-radius: 8px;
   padding: 4px;
 }
@@ -92,14 +83,14 @@ textarea {
   border: 0;
   border-radius: 6px;
   background: transparent;
-  color: var(--pg-muted);
+  color: var(--kui-color-text-secondary);
   cursor: pointer;
   padding-inline: 12px;
 }
 
 .mode-switch button.is-active {
-  background: var(--pg-primary);
-  color: oklch(1 0 0);
+  background: var(--kui-color-primary-fill);
+  color: var(--kui-btn-solid-fg);
 }
 
 .playground-nav {
@@ -107,9 +98,9 @@ textarea {
   flex-wrap: wrap;
   gap: 8px;
   margin-block-start: 16px;
-  border: 1px solid var(--pg-border);
+  border: 1px solid var(--kui-color-border);
   border-radius: 8px;
-  background: var(--pg-surface);
+  background: var(--kui-color-surface);
   padding: 8px;
 }
 
@@ -119,20 +110,20 @@ textarea {
   min-block-size: 32px;
   border: 1px solid transparent;
   border-radius: 6px;
-  color: var(--pg-muted);
+  color: var(--kui-color-text-secondary);
   font-size: 13px;
   padding-inline: 12px;
   text-decoration: none;
 }
 
 .playground-nav a:hover {
-  border-color: var(--pg-border);
-  color: var(--pg-text);
+  border-color: var(--kui-color-border-strong);
+  color: var(--kui-color-text);
 }
 
 .playground-nav a.is-active {
-  background: oklch(0.12 0.06 285);
-  color: var(--pg-primary-soft);
+  background: var(--kui-color-primary-soft-bg);
+  color: var(--kui-color-primary-soft-text);
 }
 
 .panel {
@@ -151,8 +142,8 @@ textarea {
 .panel__title > span {
   min-inline-size: 36px;
   border-radius: 4px;
-  background: oklch(0.12 0.06 285);
-  color: var(--pg-primary-soft);
+  background: var(--kui-color-primary-soft-bg);
+  color: var(--kui-color-primary-soft-text);
   font-family: 'Geist Mono', Consolas, monospace;
   font-size: 11px;
   font-weight: 700;
@@ -161,7 +152,7 @@ textarea {
 }
 
 code {
-  color: var(--pg-primary-soft);
+  color: var(--kui-color-primary-soft-text);
   font-family: 'Geist Mono', Consolas, monospace;
   font-size: 12px;
 }
@@ -176,9 +167,9 @@ code {
 .pipeline__steps article,
 .seed-table article,
 .runtime-preview {
-  border: 1px solid var(--pg-border);
+  border: 1px solid var(--kui-color-border);
   border-radius: 8px;
-  background: var(--pg-elevated);
+  background: var(--kui-color-surface-elevated);
 }
 
 .pipeline__steps article {
@@ -204,13 +195,13 @@ code {
 .seed-table i {
   inline-size: 36px;
   block-size: 36px;
-  border: 1px solid oklch(1 0 0 / 0.16);
+  border: 1px solid var(--kui-color-border);
   border-radius: 6px;
 }
 
 .seed-table small,
 .var-table span {
-  color: var(--pg-muted);
+  color: var(--kui-color-text-secondary);
   font-size: 12px;
 }
 
@@ -239,8 +230,8 @@ code {
 
 .ramp .is-seed {
   box-shadow:
-    inset 0 0 0 2px var(--pg-text),
-    inset 0 0 0 4px var(--pg-bg);
+    inset 0 0 0 2px var(--kui-color-text),
+    inset 0 0 0 4px var(--kui-color-bg);
 }
 
 .split {
@@ -249,7 +240,7 @@ code {
 
 .var-table {
   overflow: hidden;
-  border: 1px solid var(--pg-border);
+  border: 1px solid var(--kui-color-border);
   border-radius: 8px;
 }
 
@@ -258,7 +249,7 @@ code {
   grid-template-columns: minmax(180px, 1fr) minmax(0, 1.2fr);
   gap: 12px;
   padding: 10px 12px;
-  border-block-start: 1px solid var(--pg-border);
+  border-block-start: 1px solid var(--kui-color-border);
 }
 
 .var-table div:first-child {
@@ -316,10 +307,10 @@ code {
   display: flex;
   align-items: center;
   gap: 12px;
-  border: 1px solid var(--pg-border);
+  border: 1px solid var(--kui-color-border);
   border-radius: 8px;
-  background: var(--pg-elevated);
-  color: var(--pg-primary-soft);
+  background: var(--kui-color-surface-elevated);
+  color: var(--kui-color-primary-soft-text);
   padding: 16px;
 }
 
@@ -350,20 +341,20 @@ code {
   grid-template-columns: minmax(150px, 0.8fr) repeat(5, minmax(120px, 1fr));
   gap: 1px;
   overflow: auto;
-  border: 1px solid var(--pg-border);
+  border: 1px solid var(--kui-color-border);
   border-radius: 8px;
-  background: var(--pg-border);
+  background: var(--kui-color-border);
 }
 
 .state-matrix__header,
 .state-matrix__label,
 .state-matrix__cell {
-  background: var(--pg-elevated);
+  background: var(--kui-color-surface-elevated);
   padding: 12px;
 }
 
 .state-matrix__header {
-  color: var(--pg-muted);
+  color: var(--kui-color-text-secondary);
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -441,9 +432,9 @@ code {
 .state-board article {
   display: grid;
   gap: 14px;
-  border: 1px solid var(--pg-border);
+  border: 1px solid var(--kui-color-border);
   border-radius: 8px;
-  background: var(--pg-elevated);
+  background: var(--kui-color-surface-elevated);
   padding: 16px;
 }
 
@@ -459,7 +450,7 @@ code {
   align-items: center;
   gap: 8px;
   min-block-size: 32px;
-  color: var(--pg-text);
+  color: var(--kui-color-text);
   font-size: 13px;
 }
 
@@ -517,7 +508,6 @@ code {
 
 .is-focus-preview .kui-input {
   border-color: var(--kui-input-border-focus);
-  border-width: var(--kui-input-border-width-focus);
   box-shadow: var(--kui-input-focus-ring);
 }
 
@@ -525,10 +515,10 @@ pre {
   overflow: auto;
   max-block-size: 520px;
   margin: 0;
-  border: 1px solid var(--pg-border);
+  border: 1px solid var(--kui-color-border);
   border-radius: 8px;
-  background: oklch(0.08 0.01 80);
-  color: var(--pg-text);
+  background: var(--kui-color-surface-sunken);
+  color: var(--kui-color-text);
   font-size: 12px;
   line-height: 1.7;
   padding: 16px;
