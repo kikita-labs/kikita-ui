@@ -361,8 +361,7 @@
     transition:
       background-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
       border-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
-      box-shadow var(--kui-duration-base, 160ms) var(--kui-ease, ease),
-      transform var(--kui-duration-fast, 100ms) var(--kui-ease, ease);
+      box-shadow var(--kui-duration-base, 160ms) var(--kui-ease, ease);
     vertical-align: middle;
   }
 
@@ -753,7 +752,6 @@
   .kui-card[data-kui-interactive]:hover {
     border-color: var(--kui-card-border-hover, var(--kui-color-border-strong));
     box-shadow: var(--kui-card-shadow-hover, none);
-    transform: translateY(-1px);
   }
 
   .kui-card[data-kui-interactive]:focus-visible {
@@ -765,10 +763,6 @@
   @media (prefers-reduced-motion: reduce) {
     .kui-card {
       transition: none;
-    }
-
-    .kui-card[data-kui-interactive]:hover {
-      transform: none;
     }
   }
 

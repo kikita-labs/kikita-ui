@@ -13,7 +13,12 @@ describe('createKuiTheme', () => {
     expect(theme.palettes.primary).toHaveLength(12);
     expect(theme.palettes.primary[5]).toBe('oklch(0.52 0.25 285)');
     expect(theme.paletteVariables['--kui-primary-6']).toBe('oklch(0.52 0.25 285)');
+    expect(theme.light['--kui-color-bg']).toBe('oklch(0.97 0.01 80)');
+    expect(theme.light['--kui-color-surface-sunken']).toBe('oklch(0.95 0.01 80)');
     expect(theme.light['--kui-color-primary-fill']).toBe('var(--kui-primary-6)');
+    expect(theme.dark['--kui-color-surface']).toBe('oklch(0.14 0.01 80)');
+    expect(theme.dark['--kui-color-surface-elevated']).toBe('oklch(0.18 0.01 80)');
+    expect(theme.dark['--kui-color-surface-sunken']).toBe('oklch(0.08 0.01 80)');
     expect(theme.dark['--kui-color-primary-fill']).toBe('var(--kui-primary-5)');
     expect(theme.dark['--kui-color-primary-fill-active']).toBe('var(--kui-primary-6)');
     expect(theme.dark['--kui-color-primary-soft-bg-active']).toBe('var(--kui-primary-9)');
@@ -27,6 +32,7 @@ describe('createKuiTheme', () => {
     expect(theme.component['--kui-btn-bg']).toBe('var(--kui-btn-solid-bg)');
     expect(theme.component['--kui-badge-info-bg']).toBe('var(--kui-color-info-soft-bg)');
     expect(theme.component['--kui-card-shadow-elevated']).toBe('0 10px 28px oklch(0 0 0 / 0.18)');
+    expect(theme.component['--kui-card-shadow-sunken']).toBe('none');
   });
 
   it('emits a mode-specific flat CSS variable map', () => {
@@ -35,8 +41,8 @@ describe('createKuiTheme', () => {
     const lightVariables = createKuiThemeVariableMap(theme, 'light');
     const darkVariables = createKuiThemeVariableMap(theme, 'dark');
 
-    expect(lightVariables['--kui-color-bg']).toBe('var(--kui-neutral-1)');
-    expect(darkVariables['--kui-color-bg']).toBe('var(--kui-neutral-12)');
+    expect(lightVariables['--kui-color-bg']).toBe('oklch(0.97 0.01 80)');
+    expect(darkVariables['--kui-color-bg']).toBe('oklch(0.10 0.01 80)');
     expect(lightVariables['--kui-input-focus-ring']).toBe(
       '0 0 0 3px var(--kui-color-primary-focus-ring)',
     );
