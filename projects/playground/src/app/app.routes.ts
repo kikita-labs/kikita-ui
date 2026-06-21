@@ -17,6 +17,7 @@ import {
   TextareaPage,
   ThemePage,
   TokensPage,
+  TooltipPage,
 } from './playground-pages';
 
 export const routes: Routes = [
@@ -37,5 +38,6 @@ export const routes: Routes = [
   { path: 'group', component: GroupPage },
   { path: 'icons', component: IconsPage },
   { path: 'forms', component: FormsPage },
+  { path: 'tooltip', component: TooltipPage },
   { path: '**', redirectTo: 'tokens' },
 ];

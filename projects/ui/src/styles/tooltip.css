@@ -1,0 +1,44 @@
+@layer kui.components {
+  .kui-tooltip {
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 9000;
+    max-inline-size: 280px;
+    padding-block: var(--kui-tooltip-py, 5px);
+    padding-inline: var(--kui-tooltip-px, 9px);
+    border-radius: var(--kui-tooltip-radius, var(--kui-radius-sm));
+    background-color: var(--kui-tooltip-bg, var(--kui-color-text));
+    color: var(--kui-tooltip-fg, var(--kui-color-bg));
+    box-shadow: var(--kui-tooltip-shadow, var(--kui-shadow-lg));
+    font: inherit;
+    font-size: var(--kui-text-sm-size, 13px);
+    line-height: 1.4;
+    pointer-events: none;
+    white-space: normal;
+    word-break: break-word;
+    animation: kui-tooltip-in var(--kui-duration-fast, 100ms) var(--kui-ease, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  }
+
+  @keyframes kui-tooltip-in {
+    from {
+      opacity: 0;
+      scale: 0.96;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .kui-tooltip {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-tooltip {
+      animation: none;
+    }
+  }
+}

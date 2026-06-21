@@ -406,6 +406,13 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-card-shadow-elevated': '0 10px 28px oklch(0 0 0 / 0.18)',
     '--kui-card-shadow-sunken': 'none',
     '--kui-card-shadow-hover': '0 10px 30px oklch(0 0 0 / 0.14)',
+    '--kui-shadow-lg': '0 8px 24px oklch(0 0 0 / 0.18), 0 2px 8px oklch(0 0 0 / 0.10)',
+    '--kui-tooltip-bg': 'var(--kui-color-text)',
+    '--kui-tooltip-fg': 'var(--kui-color-bg)',
+    '--kui-tooltip-px': '9px',
+    '--kui-tooltip-py': '5px',
+    '--kui-tooltip-radius': 'var(--kui-radius-sm)',
+    '--kui-tooltip-shadow': 'var(--kui-shadow-lg)',
   };
 }
 
