@@ -208,3 +208,24 @@ export const BADGE_APPEARANCE_ROWS: readonly BadgeAppearanceRow[] = [
   { value: 'danger', label: 'Danger' },
   { value: 'info', label: 'Info' },
 ];
+
+export interface SizeColDef {
+  readonly label: string;
+  readonly checked: boolean;
+  readonly state: string;
+  readonly disabled: boolean;
+}
+
+export const SELECTION_SIZE_COL_DEFS: readonly SizeColDef[] = [
+  { label: 'Unchecked', checked: false, state: '', disabled: false },
+  { label: 'Checked', checked: true, state: '', disabled: false },
+  { label: 'Focus', checked: false, state: 'focus', disabled: false },
+  { label: 'Disabled', checked: false, state: '', disabled: true },
+];
+
+export const SWITCH_SIZE_COL_DEFS: readonly SizeColDef[] = [
+  { label: 'Off', checked: false, state: '', disabled: false },
+  { label: 'On', checked: true, state: '', disabled: false },
+  { label: 'Focus', checked: false, state: 'focus', disabled: false },
+  { label: 'Disabled', checked: false, state: '', disabled: true },
+];

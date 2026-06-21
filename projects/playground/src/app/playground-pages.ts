@@ -28,9 +28,11 @@ import {
   BADGE_APPEARANCE_ROWS,
   BUTTON_VARIANTS,
   CHECK_STATE_ROWS,
+  SELECTION_SIZE_COL_DEFS,
   SELECTION_STATE_COLUMNS,
   SIZE_ROWS,
   STATE_COLUMNS,
+  SWITCH_SIZE_COL_DEFS,
   SWITCH_STATE_ROWS,
   createCssText,
   createPaletteRows,
@@ -591,6 +593,45 @@ export class TextareaPage {}
       <div class="panel__title">
         <span>02</span>
         <div>
+          <h2>Size matrix</h2>
+          <p>xs / sm / md / lg × unchecked / checked / focus / disabled.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix state-matrix--4" aria-label="Checkbox size matrix">
+        <div class="state-matrix__header"></div>
+        @for (col of sizeColDefs; track col.label) {
+          <div class="state-matrix__header">{{ col.label }}</div>
+        }
+
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <div class="state-matrix__label">
+            <strong>{{ sizeRow.label }}</strong>
+            <code>size="{{ sizeRow.value }}"</code>
+          </div>
+
+          @for (col of sizeColDefs; track col.label) {
+            <div class="state-matrix__cell" [attr.data-state]="col.state || null">
+              <label class="check-row">
+                <input
+                  kuiCheckbox
+                  type="checkbox"
+                  [size]="sizeRow.value"
+                  [checked]="col.checked"
+                  [disabled]="col.disabled"
+                />
+                {{ col.label }}
+              </label>
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>03</span>
+        <div>
           <h2>State matrix</h2>
           <p>Unchecked / checked × default / hover / focus / invalid / disabled.</p>
         </div>
@@ -629,6 +670,8 @@ export class TextareaPage {}
 export class CheckboxPage {
   protected readonly checkStateRows = CHECK_STATE_ROWS;
   protected readonly selectionStateCols = SELECTION_STATE_COLUMNS;
+  protected readonly sizeRows = SIZE_ROWS;
+  protected readonly sizeColDefs = SELECTION_SIZE_COL_DEFS;
 }
 
 @Component({
@@ -696,6 +739,45 @@ export class CheckboxPage {
       <div class="panel__title">
         <span>02</span>
         <div>
+          <h2>Size matrix</h2>
+          <p>xs / sm / md / lg × off / on / focus / disabled.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix state-matrix--4" aria-label="Switch size matrix">
+        <div class="state-matrix__header"></div>
+        @for (col of switchSizeColDefs; track col.label) {
+          <div class="state-matrix__header">{{ col.label }}</div>
+        }
+
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <div class="state-matrix__label">
+            <strong>{{ sizeRow.label }}</strong>
+            <code>size="{{ sizeRow.value }}"</code>
+          </div>
+
+          @for (col of switchSizeColDefs; track col.label) {
+            <div class="state-matrix__cell" [attr.data-state]="col.state || null">
+              <label class="check-row">
+                <input
+                  kuiSwitch
+                  type="checkbox"
+                  [size]="sizeRow.value"
+                  [checked]="col.checked"
+                  [disabled]="col.disabled"
+                />
+                {{ col.label }}
+              </label>
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>03</span>
+        <div>
           <h2>State matrix</h2>
           <p>Off / on × default / hover / focus / invalid / disabled.</p>
         </div>
@@ -734,6 +816,8 @@ export class CheckboxPage {
 export class SwitchPage {
   protected readonly switchStateRows = SWITCH_STATE_ROWS;
   protected readonly selectionStateCols = SELECTION_STATE_COLUMNS;
+  protected readonly sizeRows = SIZE_ROWS;
+  protected readonly switchSizeColDefs = SWITCH_SIZE_COL_DEFS;
 }
 
 @Component({
@@ -798,6 +882,46 @@ export class SwitchPage {
       <div class="panel__title">
         <span>02</span>
         <div>
+          <h2>Size matrix</h2>
+          <p>xs / sm / md / lg × unchecked / checked / focus / disabled.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix state-matrix--4" aria-label="Radio size matrix">
+        <div class="state-matrix__header"></div>
+        @for (col of sizeColDefs; track col.label) {
+          <div class="state-matrix__header">{{ col.label }}</div>
+        }
+
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <div class="state-matrix__label">
+            <strong>{{ sizeRow.label }}</strong>
+            <code>size="{{ sizeRow.value }}"</code>
+          </div>
+
+          @for (col of sizeColDefs; track col.label) {
+            <div class="state-matrix__cell" [attr.data-state]="col.state || null">
+              <label class="check-row">
+                <input
+                  kuiRadio
+                  type="radio"
+                  [name]="'radio-size-matrix-' + sizeRow.value + '-' + col.label"
+                  [size]="sizeRow.value"
+                  [checked]="col.checked"
+                  [disabled]="col.disabled"
+                />
+                {{ col.label }}
+              </label>
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>03</span>
+        <div>
           <h2>State matrix</h2>
           <p>Unchecked / checked × default / hover / focus / invalid / disabled.</p>
         </div>
@@ -837,6 +961,8 @@ export class SwitchPage {
 export class RadioPage {
   protected readonly checkStateRows = CHECK_STATE_ROWS;
   protected readonly selectionStateCols = SELECTION_STATE_COLUMNS;
+  protected readonly sizeRows = SIZE_ROWS;
+  protected readonly sizeColDefs = SELECTION_SIZE_COL_DEFS;
 }
 
 @Component({
@@ -947,9 +1073,39 @@ export class BadgePage {
         </div>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>Size matrix</h2>
+          <p>xs / sm / md / lg standalone and inside button.</p>
+        </div>
+      </div>
+
+      <div class="loader-size-grid">
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <div class="loader-size-card">
+            <span kuiLoader [size]="sizeRow.value" label="Loading"></span>
+            <code>{{ sizeRow.label }}</code>
+          </div>
+        }
+      </div>
+
+      <div class="state-board__row">
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <button kuiButton [size]="sizeRow.value" type="button" disabled>
+            <span kuiLoader size="sm" label="Loading"></span>
+            {{ sizeRow.label }}
+          </button>
+        }
+      </div>
+    </section>
   `,
 })
-export class LoaderPage {}
+export class LoaderPage {
+  protected readonly sizeRows = SIZE_ROWS;
+}
 
 @Component({
   selector: 'app-card-page',

@@ -818,3 +818,31 @@ pre {
   align-items: center;
   justify-content: center;
 }
+
+/* ─── 4-column state matrix variant ─────────────────────────────────────── */
+
+.state-matrix--4 {
+  grid-template-columns: minmax(150px, 0.8fr) repeat(4, minmax(120px, 1fr));
+}
+
+/* ─── Loader size grid ───────────────────────────────────────────────────── */
+
+.loader-size-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--kui-color-border);
+  border-radius: 8px;
+  background: var(--kui-color-border);
+  overflow: auto;
+}
+
+.loader-size-card {
+  background: var(--kui-color-surface-elevated);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
