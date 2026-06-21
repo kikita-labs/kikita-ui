@@ -42,9 +42,8 @@
   }
 
   .kui-segment[data-kui-selected] {
-    background-color: var(--kui-seg-item-bg-active, var(--kui-color-surface));
-    box-shadow: var(--kui-seg-item-shadow-active, 0 1px 3px oklch(0 0 0 / 0.12));
-    color: var(--kui-seg-fg-active, var(--kui-color-text));
+    background-color: var(--kui-seg-item-bg-active, var(--kui-color-primary-fill));
+    color: var(--kui-seg-fg-active, var(--kui-btn-solid-fg, oklch(1 0 0)));
     font-weight: var(--kui-seg-font-weight-active, 600);
     cursor: default;
   }
