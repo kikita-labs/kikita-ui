@@ -25,8 +25,13 @@ import {
 } from '@kikita-labs/ui';
 
 import {
+  BADGE_APPEARANCE_ROWS,
   BUTTON_VARIANTS,
+  CHECK_STATE_ROWS,
+  SELECTION_STATE_COLUMNS,
+  SIZE_ROWS,
   STATE_COLUMNS,
+  SWITCH_STATE_ROWS,
   createCssText,
   createPaletteRows,
   createPreviewStyle,
@@ -311,12 +316,12 @@ export class DensityPage {
       <div class="panel__title">
         <span>02</span>
         <div>
-          <h2>Button state matrix</h2>
-          <p>Default, hover, active, focus, and disabled states.</p>
+          <h2>Appearance matrix</h2>
+          <p>All <code>appearance</code> values × default / hover / active / focus / disabled.</p>
         </div>
       </div>
 
-      <div class="state-matrix" aria-label="Button state matrix">
+      <div class="state-matrix" aria-label="Button appearance matrix">
         <div class="state-matrix__header"></div>
         @for (state of stateColumns; track state.value) {
           <div class="state-matrix__header">{{ state.label }}</div>
@@ -343,11 +348,49 @@ export class DensityPage {
         }
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>03</span>
+        <div>
+          <h2>Size matrix</h2>
+          <p>xs / sm / md / lg × all states. Solid appearance.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix" aria-label="Button size matrix">
+        <div class="state-matrix__header"></div>
+        @for (state of stateColumns; track state.value) {
+          <div class="state-matrix__header">{{ state.label }}</div>
+        }
+
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <div class="state-matrix__label">
+            <strong>{{ sizeRow.label }}</strong>
+            <code>size="{{ sizeRow.value }}"</code>
+          </div>
+
+          @for (state of stateColumns; track state.value) {
+            <div class="state-matrix__cell" [attr.data-state]="state.value">
+              <button
+                kuiButton
+                [size]="sizeRow.value"
+                type="button"
+                [disabled]="state.value === 'disabled'"
+              >
+                Button
+              </button>
+            </div>
+          }
+        }
+      </div>
+    </section>
   `,
 })
 export class ButtonPage {
   protected readonly buttonVariants = BUTTON_VARIANTS;
   protected readonly stateColumns = STATE_COLUMNS;
+  protected readonly sizeRows = SIZE_ROWS;
 }
 
 @Component({
@@ -412,9 +455,48 @@ export class FieldPage {}
         </kui-field>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>Size matrix</h2>
+          <p>xs / sm / md / lg × default / hover / focus / invalid / disabled.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix" aria-label="Input size matrix">
+        <div class="state-matrix__header"></div>
+        @for (state of inputStateCols; track state.value) {
+          <div class="state-matrix__header">{{ state.label }}</div>
+        }
+
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <div class="state-matrix__label">
+            <strong>{{ sizeRow.label }}</strong>
+            <code>size="{{ sizeRow.value }}"</code>
+          </div>
+
+          @for (state of inputStateCols; track state.value) {
+            <div class="state-matrix__cell" [attr.data-state]="state.value">
+              <input
+                kuiInput
+                [size]="sizeRow.value"
+                [invalid]="state.value === 'invalid'"
+                [disabled]="state.value === 'disabled'"
+                [placeholder]="sizeRow.value"
+              />
+            </div>
+          }
+        }
+      </div>
+    </section>
   `,
 })
-export class InputPage {}
+export class InputPage {
+  protected readonly inputStateCols = SELECTION_STATE_COLUMNS;
+  protected readonly sizeRows = SIZE_ROWS;
+}
 
 @Component({
   selector: 'app-textarea-page',
@@ -504,9 +586,50 @@ export class TextareaPage {}
         </kui-field>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>State matrix</h2>
+          <p>Unchecked / checked × default / hover / focus / invalid / disabled.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix" aria-label="Checkbox state matrix">
+        <div class="state-matrix__header"></div>
+        @for (state of selectionStateCols; track state.value) {
+          <div class="state-matrix__header">{{ state.label }}</div>
+        }
+
+        @for (checkRow of checkStateRows; track checkRow.label) {
+          <div class="state-matrix__label">
+            <strong>{{ checkRow.label }}</strong>
+          </div>
+
+          @for (state of selectionStateCols; track state.value) {
+            <div class="state-matrix__cell" [attr.data-state]="state.value">
+              <label class="check-row">
+                <input
+                  kuiCheckbox
+                  type="checkbox"
+                  [checked]="checkRow.checked"
+                  [invalid]="state.value === 'invalid'"
+                  [disabled]="state.value === 'disabled'"
+                />
+                {{ checkRow.label }}
+              </label>
+            </div>
+          }
+        }
+      </div>
+    </section>
   `,
 })
-export class CheckboxPage {}
+export class CheckboxPage {
+  protected readonly checkStateRows = CHECK_STATE_ROWS;
+  protected readonly selectionStateCols = SELECTION_STATE_COLUMNS;
+}
 
 @Component({
   selector: 'app-switch-page',
@@ -568,9 +691,50 @@ export class CheckboxPage {}
         </kui-field>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>State matrix</h2>
+          <p>Off / on × default / hover / focus / invalid / disabled.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix" aria-label="Switch state matrix">
+        <div class="state-matrix__header"></div>
+        @for (state of selectionStateCols; track state.value) {
+          <div class="state-matrix__header">{{ state.label }}</div>
+        }
+
+        @for (switchRow of switchStateRows; track switchRow.label) {
+          <div class="state-matrix__label">
+            <strong>{{ switchRow.label }}</strong>
+          </div>
+
+          @for (state of selectionStateCols; track state.value) {
+            <div class="state-matrix__cell" [attr.data-state]="state.value">
+              <label class="check-row">
+                <input
+                  kuiSwitch
+                  type="checkbox"
+                  [checked]="switchRow.checked"
+                  [invalid]="state.value === 'invalid'"
+                  [disabled]="state.value === 'disabled'"
+                />
+                {{ switchRow.label }}
+              </label>
+            </div>
+          }
+        }
+      </div>
+    </section>
   `,
 })
-export class SwitchPage {}
+export class SwitchPage {
+  protected readonly switchStateRows = SWITCH_STATE_ROWS;
+  protected readonly selectionStateCols = SELECTION_STATE_COLUMNS;
+}
 
 @Component({
   selector: 'app-radio-page',
@@ -629,9 +793,51 @@ export class SwitchPage {}
         </kui-field>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>State matrix</h2>
+          <p>Unchecked / checked × default / hover / focus / invalid / disabled.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix" aria-label="Radio state matrix">
+        <div class="state-matrix__header"></div>
+        @for (state of selectionStateCols; track state.value) {
+          <div class="state-matrix__header">{{ state.label }}</div>
+        }
+
+        @for (checkRow of checkStateRows; track checkRow.label) {
+          <div class="state-matrix__label">
+            <strong>{{ checkRow.label }}</strong>
+          </div>
+
+          @for (state of selectionStateCols; track state.value) {
+            <div class="state-matrix__cell" [attr.data-state]="state.value">
+              <label class="check-row">
+                <input
+                  kuiRadio
+                  type="radio"
+                  [name]="'radio-matrix-' + checkRow.label + '-' + state.value"
+                  [checked]="checkRow.checked"
+                  [invalid]="state.value === 'invalid'"
+                  [disabled]="state.value === 'disabled'"
+                />
+                {{ checkRow.label }}
+              </label>
+            </div>
+          }
+        }
+      </div>
+    </section>
   `,
 })
-export class RadioPage {}
+export class RadioPage {
+  protected readonly checkStateRows = CHECK_STATE_ROWS;
+  protected readonly selectionStateCols = SELECTION_STATE_COLUMNS;
+}
 
 @Component({
   selector: 'app-badge-page',
@@ -670,9 +876,43 @@ export class RadioPage {}
         </div>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>Appearance × size</h2>
+          <p>All 6 appearances across xs / sm / md / lg.</p>
+        </div>
+      </div>
+
+      <div class="badge-matrix">
+        <div class="badge-matrix__header"></div>
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <div class="badge-matrix__header">{{ sizeRow.label }}</div>
+        }
+
+        @for (appearance of badgeAppearances; track appearance.value) {
+          <div class="badge-matrix__label">
+            <strong>{{ appearance.label }}</strong>
+          </div>
+
+          @for (sizeRow of sizeRows; track sizeRow.value) {
+            <div class="badge-matrix__cell">
+              <span kuiBadge [appearance]="appearance.value" [size]="sizeRow.value">
+                {{ appearance.label }}
+              </span>
+            </div>
+          }
+        }
+      </div>
+    </section>
   `,
 })
-export class BadgePage {}
+export class BadgePage {
+  protected readonly badgeAppearances = BADGE_APPEARANCE_ROWS;
+  protected readonly sizeRows = SIZE_ROWS;
+}
 
 @Component({
   selector: 'app-loader-page',
@@ -749,6 +989,36 @@ export class LoaderPage {}
         <strong>Button-backed card</strong>
         <span>Focusable and clickable without losing native button semantics.</span>
       </button>
+    </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>Interactive states</h2>
+          <p>Hover and focus on <code>interactive</code> cards. CSS-simulated.</p>
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <button kuiCard interactive type="button" class="card-action">
+          <span kuiBadge>Default</span>
+          <strong>Interactive default</strong>
+          <span>Base resting state.</span>
+        </button>
+
+        <button kuiCard interactive type="button" class="card-action is-card-hover">
+          <span kuiBadge appearance="primary">Hover</span>
+          <strong>Interactive hover</strong>
+          <span>Border strengthens on cursor hover.</span>
+        </button>
+
+        <button kuiCard interactive type="button" class="card-action is-card-focus">
+          <span kuiBadge appearance="info">Focus</span>
+          <strong>Interactive focus</strong>
+          <span>Primary focus ring on keyboard focus.</span>
+        </button>
+      </div>
     </section>
   `,
 })
@@ -833,9 +1103,89 @@ export class GroupPage {}
         </button>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>Icon button appearance matrix</h2>
+          <p>All <code>appearance</code> values × default / hover / active / focus / disabled.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix" aria-label="Icon button appearance matrix">
+        <div class="state-matrix__header"></div>
+        @for (state of stateColumns; track state.value) {
+          <div class="state-matrix__header">{{ state.label }}</div>
+        }
+
+        @for (variant of buttonVariants; track variant.value) {
+          <div class="state-matrix__label">
+            <strong>{{ variant.label }}</strong>
+            <code>appearance="{{ variant.value }}"</code>
+          </div>
+
+          @for (state of stateColumns; track state.value) {
+            <div class="state-matrix__cell" [attr.data-state]="state.value">
+              <button
+                kuiIconButton
+                [appearance]="variant.value"
+                type="button"
+                [disabled]="state.value === 'disabled'"
+                [attr.aria-label]="variant.label"
+              >
+                <kui-icon name="spark" />
+              </button>
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>03</span>
+        <div>
+          <h2>Icon button size matrix</h2>
+          <p>xs / sm / md / lg × all states. Ghost appearance.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix" aria-label="Icon button size matrix">
+        <div class="state-matrix__header"></div>
+        @for (state of stateColumns; track state.value) {
+          <div class="state-matrix__header">{{ state.label }}</div>
+        }
+
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <div class="state-matrix__label">
+            <strong>{{ sizeRow.label }}</strong>
+            <code>size="{{ sizeRow.value }}"</code>
+          </div>
+
+          @for (state of stateColumns; track state.value) {
+            <div class="state-matrix__cell" [attr.data-state]="state.value">
+              <button
+                kuiIconButton
+                [size]="sizeRow.value"
+                type="button"
+                [disabled]="state.value === 'disabled'"
+                aria-label="Action"
+              >
+                <kui-icon name="spark" />
+              </button>
+            </div>
+          }
+        }
+      </div>
+    </section>
   `,
 })
-export class IconsPage {}
+export class IconsPage {
+  protected readonly buttonVariants = BUTTON_VARIANTS;
+  protected readonly stateColumns = STATE_COLUMNS;
+  protected readonly sizeRows = SIZE_ROWS;
+}
 
 @Component({
   selector: 'app-forms-page',
@@ -978,6 +1328,28 @@ export class FormsPage {
         </div>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>State preview</h2>
+          <p>All segment states in one control. Hover and focus are CSS-simulated.</p>
+        </div>
+      </div>
+
+      <div class="component-board">
+        <div class="state-board__row">
+          <kui-segmented [selected]="'seg-selected'" aria-label="Segment states">
+            <button kuiSegment value="seg-default">Default</button>
+            <button kuiSegment value="seg-hover" class="kui-seg-demo-hover">Hover</button>
+            <button kuiSegment value="seg-focus" class="kui-seg-demo-focus">Focus</button>
+            <button kuiSegment value="seg-selected">Selected</button>
+            <button kuiSegment value="seg-disabled" disabled>Disabled</button>
+          </kui-segmented>
+        </div>
+      </div>
+    </section>
   `,
 })
 export class SegmentedPage {
@@ -1109,6 +1481,50 @@ export class SegmentedPage {
             </div>
           }
         </kui-tabs>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>05</span>
+        <div>
+          <h2>State preview</h2>
+          <p>All tab states per variant. Hover and focus are CSS-simulated.</p>
+        </div>
+      </div>
+
+      <div class="component-board">
+        <div>
+          <p class="tab-state-label">Line variant</p>
+          <kui-tabs selected="tab-selected-line">
+            <button kuiTab value="tab-default-line">Default</button>
+            <button kuiTab value="tab-hover-line" class="kui-tab-demo-hover">Hover</button>
+            <button kuiTab value="tab-focus-line" class="kui-tab-demo-focus">Focus</button>
+            <button kuiTab value="tab-selected-line">Selected</button>
+            <button kuiTab value="tab-disabled-line" disabled>Disabled</button>
+            <div kuiTabPanel value="tab-default-line"></div>
+            <div kuiTabPanel value="tab-hover-line"></div>
+            <div kuiTabPanel value="tab-focus-line"></div>
+            <div kuiTabPanel value="tab-selected-line"><p>Selected tab panel.</p></div>
+            <div kuiTabPanel value="tab-disabled-line"></div>
+          </kui-tabs>
+        </div>
+
+        <div>
+          <p class="tab-state-label">Pill variant</p>
+          <kui-tabs variant="pill" selected="tab-selected-pill">
+            <button kuiTab value="tab-default-pill">Default</button>
+            <button kuiTab value="tab-hover-pill" class="kui-tab-demo-hover">Hover</button>
+            <button kuiTab value="tab-focus-pill" class="kui-tab-demo-focus">Focus</button>
+            <button kuiTab value="tab-selected-pill">Selected</button>
+            <button kuiTab value="tab-disabled-pill" disabled>Disabled</button>
+            <div kuiTabPanel value="tab-default-pill"></div>
+            <div kuiTabPanel value="tab-hover-pill"></div>
+            <div kuiTabPanel value="tab-focus-pill"></div>
+            <div kuiTabPanel value="tab-selected-pill"><p>Selected tab panel.</p></div>
+            <div kuiTabPanel value="tab-disabled-pill"></div>
+          </kui-tabs>
+        </div>
       </div>
     </section>
   `,

@@ -154,3 +154,57 @@ export function createCssText(theme: KuiGeneratedTheme, mode: KuiThemeMode): str
 
   return createKuiThemeCssText(theme, selector, mode);
 }
+
+export interface SizeRow {
+  readonly value: 'xs' | 'sm' | 'md' | 'lg';
+  readonly label: string;
+}
+
+export const SIZE_ROWS: readonly SizeRow[] = [
+  { value: 'xs', label: 'xs' },
+  { value: 'sm', label: 'sm' },
+  { value: 'md', label: 'md (default)' },
+  { value: 'lg', label: 'lg' },
+];
+
+export interface CheckRow {
+  readonly checked: boolean;
+  readonly label: string;
+}
+
+export const CHECK_STATE_ROWS: readonly CheckRow[] = [
+  { checked: false, label: 'Unchecked' },
+  { checked: true, label: 'Checked' },
+];
+
+export const SWITCH_STATE_ROWS: readonly CheckRow[] = [
+  { checked: false, label: 'Off' },
+  { checked: true, label: 'On' },
+];
+
+export interface SelectionStateColumn {
+  readonly value: 'default' | 'hover' | 'focus' | 'invalid' | 'disabled';
+  readonly label: string;
+}
+
+export const SELECTION_STATE_COLUMNS: readonly SelectionStateColumn[] = [
+  { value: 'default', label: 'Default' },
+  { value: 'hover', label: 'Hover' },
+  { value: 'focus', label: 'Focus' },
+  { value: 'invalid', label: 'Invalid' },
+  { value: 'disabled', label: 'Disabled' },
+];
+
+export interface BadgeAppearanceRow {
+  readonly value: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+  readonly label: string;
+}
+
+export const BADGE_APPEARANCE_ROWS: readonly BadgeAppearanceRow[] = [
+  { value: 'neutral', label: 'Neutral' },
+  { value: 'primary', label: 'Primary' },
+  { value: 'success', label: 'Success' },
+  { value: 'warning', label: 'Warning' },
+  { value: 'danger', label: 'Danger' },
+  { value: 'info', label: 'Info' },
+];

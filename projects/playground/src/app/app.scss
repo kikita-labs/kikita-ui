@@ -646,3 +646,175 @@ pre {
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }
+
+/* ─── Icon button state simulation ──────────────────────────────────────── */
+
+.state-matrix__cell[data-state='hover'] .kui-icon-button {
+  background-color: var(--kui-btn-ghost-bg-hov);
+}
+
+.state-matrix__cell[data-state='active'] .kui-icon-button {
+  background-color: var(--kui-btn-ghost-bg-act, var(--kui-btn-ghost-bg-hov));
+  transform: scale(0.97);
+}
+
+.state-matrix__cell[data-state='focus'] .kui-icon-button {
+  outline: var(--kui-btn-focus-ring-w, 3px) solid var(--kui-btn-focus-ring-color, var(--kui-color-primary-focus-ring));
+  outline-offset: var(--kui-btn-focus-ring-off, 2px);
+}
+
+.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-appearance='solid'] {
+  background-color: var(--kui-btn-bg-hover);
+}
+
+.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-appearance='solid'] {
+  background-color: var(--kui-btn-bg-active);
+}
+
+.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-appearance='soft'] {
+  background-color: var(--kui-btn-soft-bg-hov, var(--kui-btn-soft-bg));
+}
+
+.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-appearance='soft'] {
+  background-color: var(--kui-btn-soft-bg-act, var(--kui-btn-soft-bg-hov));
+}
+
+.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-appearance='outline'] {
+  background-color: var(--kui-btn-outline-bg-hov, transparent);
+}
+
+.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-appearance='outline'] {
+  background-color: var(--kui-btn-outline-bg-act, var(--kui-btn-outline-bg-hov));
+}
+
+.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-appearance='danger'] {
+  background-color: var(--kui-btn-danger-bg-hov, var(--kui-btn-danger-bg));
+}
+
+.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-appearance='danger'] {
+  background-color: var(--kui-btn-danger-bg-act, var(--kui-btn-danger-bg));
+}
+
+/* ─── Input state simulation ─────────────────────────────────────────────── */
+
+.state-matrix__cell[data-state='hover'] .kui-input {
+  border-color: var(--kui-input-border-hover, var(--kui-color-border-strong));
+}
+
+.state-matrix__cell[data-state='focus'] .kui-input {
+  border-color: var(--kui-input-border-focus, var(--kui-color-primary-fill));
+  box-shadow: var(--kui-input-focus-ring, 0 0 0 3px var(--kui-color-primary-focus-ring));
+  outline: 0;
+}
+
+/* ─── Checkbox state simulation ──────────────────────────────────────────── */
+
+.state-matrix__cell[data-state='hover'] .kui-checkbox:not(:checked) {
+  border-color: var(--kui-checkbox-border-hover, var(--kui-color-border-strong));
+}
+
+.state-matrix__cell[data-state='focus'] .kui-checkbox {
+  outline: var(--kui-checkbox-focus-ring-w, 3px) solid var(--kui-checkbox-focus-ring-color, var(--kui-color-primary-focus-ring));
+  outline-offset: var(--kui-checkbox-focus-ring-off, 2px);
+}
+
+/* ─── Switch state simulation ────────────────────────────────────────────── */
+
+.state-matrix__cell[data-state='hover'] .kui-switch:not(:checked) {
+  border-color: var(--kui-switch-border-hover, var(--kui-color-border-strong));
+}
+
+.state-matrix__cell[data-state='focus'] .kui-switch {
+  outline: var(--kui-switch-focus-ring-w, 3px) solid var(--kui-switch-focus-ring-color, var(--kui-color-primary-focus-ring));
+  outline-offset: var(--kui-switch-focus-ring-off, 2px);
+}
+
+/* ─── Radio state simulation ─────────────────────────────────────────────── */
+
+.state-matrix__cell[data-state='hover'] .kui-radio:not(:checked) {
+  border-color: var(--kui-radio-border-hover, var(--kui-color-border-strong));
+}
+
+.state-matrix__cell[data-state='focus'] .kui-radio {
+  outline: var(--kui-radio-focus-ring-w, 3px) solid var(--kui-radio-focus-ring-color, var(--kui-color-primary-focus-ring));
+  outline-offset: var(--kui-radio-focus-ring-off, 2px);
+}
+
+/* ─── Segmented state demo classes ──────────────────────────────────────── */
+
+.kui-seg-demo-hover {
+  color: var(--kui-seg-fg-hover, var(--kui-color-text));
+  background-color: oklch(from var(--kui-color-surface) l c h / 0.5);
+}
+
+.kui-seg-demo-focus {
+  outline: 3px solid var(--kui-color-primary-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ─── Tabs state demo classes ────────────────────────────────────────────── */
+
+.kui-tab-demo-hover {
+  color: var(--kui-tab-fg-hover, var(--kui-color-text));
+  background-color: var(--kui-tab-bg-hover, var(--kui-color-primary-soft-bg));
+}
+
+.kui-tab-demo-focus {
+  outline: var(--kui-btn-focus-ring-w, 3px) solid var(--kui-color-primary-focus-ring);
+  outline-offset: var(--kui-btn-focus-ring-off, 2px);
+  border-radius: var(--kui-tab-radius, 6px);
+}
+
+.tab-state-label {
+  margin: 0 0 8px;
+  color: var(--kui-color-text-secondary);
+  font-size: 12px;
+}
+
+/* ─── Card interactive state demo classes ────────────────────────────────── */
+
+.is-card-hover.kui-card[data-kui-interactive] {
+  border-color: var(--kui-card-border-hover, var(--kui-color-border-strong));
+}
+
+.is-card-focus.kui-card[data-kui-interactive] {
+  outline: var(--kui-btn-focus-ring-w, 3px) solid var(--kui-btn-focus-ring-color, var(--kui-color-primary-focus-ring));
+  outline-offset: var(--kui-btn-focus-ring-off, 2px);
+}
+
+/* ─── Badge appearance × size matrix ────────────────────────────────────── */
+
+.badge-matrix {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.6fr) repeat(4, minmax(100px, 1fr));
+  gap: 1px;
+  overflow: auto;
+  border: 1px solid var(--kui-color-border);
+  border-radius: 8px;
+  background: var(--kui-color-border);
+}
+
+.badge-matrix__header {
+  background: var(--kui-color-surface-elevated);
+  padding: 10px 12px;
+  color: var(--kui-color-text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge-matrix__label {
+  background: var(--kui-color-surface-elevated);
+  padding: 10px 12px;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+}
+
+.badge-matrix__cell {
+  background: var(--kui-color-surface-elevated);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
