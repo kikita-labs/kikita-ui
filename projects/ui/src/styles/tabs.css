@@ -3,16 +3,20 @@
     display: flex;
     flex-direction: column;
     gap: var(--kui-tabs-panel-gap, var(--kui-space-4));
+    /* allow shrinking in flex/grid parents so the scroll inside can activate */
+    min-width: 0;
   }
 
-  /* Scroll container — handles horizontal overflow without clipping the outline */
-  /* padding-bottom creates room inside the scroll clip for the focus outline;
-     margin-bottom compensates so the gap to the panel stays visually correct */
+  /* Scroll container — handles horizontal overflow without clipping the outline.
+     padding-bottom gives the focus outline room inside the scroll clip boundary;
+     margin-bottom compensates so the gap to the panel stays visually correct.
+     min-width: 0 is required so the flex/grid parent allows this to shrink. */
   .kui-tabs__scroll {
     overflow-x: auto;
     scrollbar-width: none;
     padding-bottom: 6px;
     margin-bottom: -6px;
+    min-width: 0;
   }
 
   .kui-tabs__scroll::-webkit-scrollbar {
