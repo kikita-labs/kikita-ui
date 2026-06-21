@@ -14,6 +14,7 @@ import {
   LoaderPage,
   RadioPage,
   SwitchPage,
+  TabsPage,
   TextareaPage,
   ThemePage,
   TokensPage,
@@ -38,6 +39,7 @@ export const routes: Routes = [
   { path: 'group', component: GroupPage },
   { path: 'icons', component: IconsPage },
   { path: 'forms', component: FormsPage },
+  { path: 'tabs', component: TabsPage },
   { path: 'tooltip', component: TooltipPage },
   { path: '**', redirectTo: 'tokens' },
 ];

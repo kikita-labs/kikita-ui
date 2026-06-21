@@ -413,6 +413,21 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-tooltip-py': '5px',
     '--kui-tooltip-radius': 'var(--kui-radius-sm)',
     '--kui-tooltip-shadow': 'var(--kui-shadow-lg)',
+    '--kui-tabs-border': 'var(--kui-color-border)',
+    '--kui-tabs-gap': '2px',
+    '--kui-tabs-panel-gap': 'var(--kui-space-4)',
+    '--kui-tab-height': 'var(--kui-btn-height)',
+    '--kui-tab-px': 'var(--kui-btn-px)',
+    '--kui-tab-gap': 'var(--kui-space-1)',
+    '--kui-tab-radius': 'var(--kui-radius-sm)',
+    '--kui-tab-font-size': 'var(--kui-btn-font-size)',
+    '--kui-tab-font-weight': '500',
+    '--kui-tab-font-weight-active': '600',
+    '--kui-tab-fg': 'var(--kui-color-text-secondary)',
+    '--kui-tab-fg-hover': 'var(--kui-color-text)',
+    '--kui-tab-fg-active': 'var(--kui-color-text)',
+    '--kui-tab-bg-hover': 'var(--kui-color-surface-sunken)',
+    '--kui-tab-indicator': 'var(--kui-color-primary-fill)',
   };
 }
 

@@ -15,6 +15,9 @@ import {
   KuiLoaderDirective,
   KuiRadioDirective,
   KuiSwitchDirective,
+  KuiTabDirective,
+  KuiTabPanelDirective,
+  KuiTabsComponent,
   KuiTextareaDirective,
   KuiTooltipDirective,
 } from '@kikita-labs/ui';
@@ -921,6 +924,103 @@ export class FormsPage {
 
     return state.errors()[0]?.message;
   }
+}
+
+@Component({
+  selector: 'app-tabs-page',
+  imports: [KuiBadgeDirective, KuiTabDirective, KuiTabPanelDirective, KuiTabsComponent],
+  template: `
+    <section class="panel">
+      <div class="panel__title">
+        <span>01</span>
+        <div>
+          <h2>Tabs</h2>
+          <p>
+            Compound component: <code>kui-tabs</code>, <code>[kuiTab]</code>,
+            <code>[kuiTabPanel]</code>. Keyboard: ←→ Home End.
+          </p>
+        </div>
+      </div>
+
+      <div class="component-board">
+        <kui-tabs selected="general">
+          <button kuiTab value="general">General</button>
+          <button kuiTab value="advanced">Advanced</button>
+          <button kuiTab value="billing">Billing</button>
+          <div kuiTabPanel value="general">
+            <p>General settings panel. Token: <code>--kui-tab-indicator</code>.</p>
+          </div>
+          <div kuiTabPanel value="advanced">
+            <p>Advanced settings panel. Keyboard navigation works across all tabs.</p>
+          </div>
+          <div kuiTabPanel value="billing">
+            <p>Billing panel. Focus ring follows <code>--kui-color-primary-focus-ring</code>.</p>
+          </div>
+        </kui-tabs>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>With badge</h2>
+          <p>Tab labels can include badge or icon children.</p>
+        </div>
+      </div>
+
+      <div class="component-board">
+        <kui-tabs selected="open">
+          <button kuiTab value="open">
+            Open
+            <span kuiBadge appearance="primary">12</span>
+          </button>
+          <button kuiTab value="closed">
+            Closed
+            <span kuiBadge>4</span>
+          </button>
+          <button kuiTab value="archived">Archived</button>
+          <div kuiTabPanel value="open">
+            <p>12 open items.</p>
+          </div>
+          <div kuiTabPanel value="closed">
+            <p>4 closed items.</p>
+          </div>
+          <div kuiTabPanel value="archived">
+            <p>No archived items.</p>
+          </div>
+        </kui-tabs>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>03</span>
+        <div>
+          <h2>Overflow scroll</h2>
+          <p>Many tabs scroll horizontally. At &lt;480px scroll-snap applies.</p>
+        </div>
+      </div>
+
+      <div class="component-board">
+        <kui-tabs selected="tab1">
+          @for (tab of manyTabs; track tab) {
+            <button kuiTab [value]="tab">{{ tab }}</button>
+          }
+          @for (tab of manyTabs; track tab) {
+            <div kuiTabPanel [value]="tab">
+              <p>Content for {{ tab }}.</p>
+            </div>
+          }
+        </kui-tabs>
+      </div>
+    </section>
+  `,
+})
+export class TabsPage {
+  protected readonly manyTabs = [
+    'tab1', 'tab2', 'tab3', 'tab4', 'tab5', 'tab6', 'tab7', 'tab8',
+  ];
 }
 
 @Component({

@@ -26,6 +26,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/group', label: 'Group' },
   { path: '/icons', label: 'Icons' },
   { path: '/forms', label: 'Forms' },
+  { path: '/tabs', label: 'Tabs' },
   { path: '/tooltip', label: 'Tooltip' },
 ];
 
