@@ -1,0 +1,39 @@
+import { Component } from '@angular/core';
+
+import {
+  KuiBadgeDirective,
+  KuiTabDirective,
+  KuiTabPanelDirective,
+  KuiTabsComponent,
+} from '@kikita-labs/ui';
+
+@Component({
+  selector: 'app-tabs-page',
+  imports: [KuiBadgeDirective, KuiTabDirective, KuiTabPanelDirective, KuiTabsComponent],
+  templateUrl: './tabs.page.html',
+})
+export class TabsPage {
+  protected readonly manyTabs = [
+    'tab1', 'tab2', 'tab3', 'tab4', 'tab5', 'tab6', 'tab7', 'tab8',
+  ];
+
+  protected readonly sizeRows = [
+    { value: 'xs' as const, label: 'xs' },
+    { value: 'sm' as const, label: 'sm' },
+    { value: 'md' as const, label: 'md (default)' },
+    { value: 'lg' as const, label: 'lg' },
+  ];
+
+  protected readonly tabVariants = [
+    { label: 'Line', value: 'line' as const },
+    { label: 'Pill', value: 'pill' as const },
+  ];
+
+  protected readonly tabStateCols = [
+    { label: 'Default', value: 'default' },
+    { label: 'Hover', value: 'hover' },
+    { label: 'Focus', value: 'focus' },
+    { label: 'Selected', value: 'selected' },
+    { label: 'Disabled', value: 'disabled' },
+  ];
+}

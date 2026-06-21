@@ -1,0 +1,92 @@
+<section class="panel pipeline">
+  <div class="panel__title">
+    <span>01</span>
+    <div>
+      <h2>Theme pipeline</h2>
+      <p>Library source: <code>createKuiTheme(DEFAULT_KUI_THEME)</code></p>
+    </div>
+  </div>
+
+  <div class="pipeline__steps">
+    <article>
+      <strong>Seed</strong>
+      <code>--kui-seed-primary</code>
+    </article>
+    <article>
+      <strong>Palette</strong>
+      <code>--kui-primary-1..12</code>
+    </article>
+    <article>
+      <strong>Semantic</strong>
+      <code>--kui-color-primary-fill</code>
+    </article>
+    <article>
+      <strong>Component vars</strong>
+      <code>--kui-btn-solid-bg</code>
+    </article>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>02</span>
+    <div>
+      <h2>Seed tokens</h2>
+      <p>Ember seeds are the current experimental defaults.</p>
+    </div>
+  </div>
+
+  <div class="seed-table">
+    @for (seed of seedRows; track seed.token) {
+      <article>
+        <i [style.background]="seed.value"></i>
+        <strong>{{ seed.name }}</strong>
+        <code>{{ seed.token }}</code>
+        <small>{{ seed.purpose }}</small>
+        <code>{{ seed.value }}</code>
+      </article>
+    }
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>03</span>
+    <div>
+      <h2>Generated OKLCH palettes</h2>
+      <p>Step 6 is the seed. Ramps below come from the library generator.</p>
+    </div>
+  </div>
+
+  <div class="ramps">
+    @for (ramp of paletteRows; track ramp.token) {
+      <article>
+        <div>
+          <strong>{{ ramp.name }}</strong>
+          <code>{{ ramp.token }}</code>
+        </div>
+        <div class="ramp">
+          @for (stop of ramp.stops; track $index) {
+            <span
+              [class.is-seed]="$index === 5"
+              [style.background]="stop"
+              [attr.aria-label]="ramp.name + ' step ' + ($index + 1)"
+            ></span>
+          }
+        </div>
+      </article>
+    }
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>04</span>
+    <div>
+      <h2>CSS variable output</h2>
+      <p>This is the public runtime theming contract.</p>
+    </div>
+  </div>
+
+  <pre><code>{{ cssText() }}</code></pre>
+</section>

@@ -1,0 +1,35 @@
+<section class="panel">
+  <div class="panel__title">
+    <span>01</span>
+    <div>
+      <h2>Tooltip</h2>
+      <p>Text tooltip on hover and keyboard focus. Not shown on touch.</p>
+    </div>
+  </div>
+
+  <div class="component-board">
+    <div class="state-board__row">
+      <button kuiButton type="button" [kuiTooltip]="'Save changes'">Top (default)</button>
+      <button kuiButton appearance="soft" type="button" [kuiTooltip]="'View details'" placement="bottom">Bottom</button>
+      <button kuiButton appearance="outline" type="button" [kuiTooltip]="'Go back'" placement="left">Left</button>
+      <button kuiButton appearance="ghost" type="button" [kuiTooltip]="'Next step'" placement="right">Right</button>
+    </div>
+
+    <div class="state-board__row">
+      <button kuiIconButton aria-label="Confirm" type="button" [kuiTooltip]="'Confirm action'">
+        <kui-icon name="check" />
+      </button>
+      <button kuiIconButton appearance="soft" aria-label="Spark" type="button" [kuiTooltip]="'Generate with AI'" placement="bottom">
+        <kui-icon name="spark" />
+      </button>
+      <button kuiIconButton appearance="danger" aria-label="Warning" type="button" [kuiTooltip]="'Destructive action'" placement="right">
+        <kui-icon name="warning" />
+      </button>
+    </div>
+
+    <div class="state-board__row">
+      <button kuiButton appearance="ghost" type="button" [kuiTooltip]="''">No tooltip (empty)</button>
+      <button kuiButton appearance="outline" type="button" [kuiTooltip]="'Longer tooltip text that wraps across multiple lines when the content exceeds the max width of 280px'" placement="bottom">Long text</button>
+    </div>
+  </div>
+</section>

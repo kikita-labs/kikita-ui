@@ -1,0 +1,26 @@
+import { Component, signal } from '@angular/core';
+
+import {
+  KuiBadgeDirective,
+  KuiIconComponent,
+  KuiSegmentDirective,
+  KuiSegmentedComponent,
+} from '@kikita-labs/ui';
+
+@Component({
+  selector: 'app-segmented-page',
+  imports: [KuiBadgeDirective, KuiIconComponent, KuiSegmentDirective, KuiSegmentedComponent],
+  templateUrl: './segmented.page.html',
+})
+export class SegmentedPage {
+  protected readonly view = signal('list');
+  protected readonly period = signal('week');
+  protected readonly align = signal('left');
+
+  protected readonly sizeRows = [
+    { value: 'xs' as const, label: 'xs' },
+    { value: 'sm' as const, label: 'sm' },
+    { value: 'md' as const, label: 'md (default)' },
+    { value: 'lg' as const, label: 'lg' },
+  ];
+}

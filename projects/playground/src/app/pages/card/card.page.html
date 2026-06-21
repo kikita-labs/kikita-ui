@@ -1,0 +1,97 @@
+<section class="panel">
+  <div class="panel__title">
+    <span>01</span>
+    <div>
+      <h2>Card</h2>
+      <p>Semantic surface primitive using Kikita surface, border, radius, and shadow tokens.</p>
+    </div>
+  </div>
+
+  <div class="field-grid">
+    <article kuiCard>
+      <span kuiBadge>Surface</span>
+      <h3>Default surface</h3>
+      <p>Use for grouped content that needs a real boundary.</p>
+    </article>
+
+    <article kuiCard appearance="elevated">
+      <span kuiBadge appearance="primary">Elevated</span>
+      <h3>Elevated surface</h3>
+      <p>Use for popover-like or high-priority content blocks.</p>
+    </article>
+
+    <article kuiCard appearance="sunken">
+      <span kuiBadge appearance="info">Sunken</span>
+      <h3>Sunken surface</h3>
+      <p>Use for inset previews, logs, or low-emphasis content.</p>
+    </article>
+  </div>
+
+  <button kuiCard interactive type="button" class="card-action">
+    <span kuiBadge appearance="success">Interactive</span>
+    <strong>Button-backed card</strong>
+    <span>Focusable and clickable without losing native button semantics.</span>
+  </button>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>02</span>
+    <div>
+      <h2>Interactive states</h2>
+      <p>Hover and focus on <code>interactive</code> cards. CSS-simulated.</p>
+    </div>
+  </div>
+
+  <div class="field-grid">
+    <button kuiCard interactive type="button" class="card-action">
+      <span kuiBadge>Default</span>
+      <strong>Interactive default</strong>
+      <span>Base resting state.</span>
+    </button>
+
+    <button kuiCard interactive type="button" class="card-action is-card-hover">
+      <span kuiBadge appearance="primary">Hover</span>
+      <strong>Interactive hover</strong>
+      <span>Border strengthens on cursor hover.</span>
+    </button>
+
+    <button kuiCard interactive type="button" class="card-action is-card-focus">
+      <span kuiBadge appearance="info">Focus</span>
+      <strong>Interactive focus</strong>
+      <span>Primary focus ring on keyboard focus.</span>
+    </button>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>03</span>
+    <div>
+      <h2>Size matrix</h2>
+      <p>xs / sm / md / lg × surface / elevated / sunken — controls internal padding.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix" style="grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(180px, 1fr));" aria-label="Card size matrix">
+    <div class="state-matrix__header"></div>
+    <div class="state-matrix__header">Surface</div>
+    <div class="state-matrix__header">Elevated</div>
+    <div class="state-matrix__header">Sunken</div>
+
+    @for (sizeRow of sizeRows; track sizeRow.value) {
+      <div class="state-matrix__label">
+        <strong>{{ sizeRow.label }}</strong>
+        <code>size="{{ sizeRow.value }}"</code>
+      </div>
+      @for (appearance of cardAppearances; track appearance) {
+        <div class="state-matrix__cell" style="align-items: stretch; padding: 12px;">
+          <article kuiCard [size]="sizeRow.value" [appearance]="appearance" style="inline-size: 100%;">
+            <strong>Card</strong>
+            <p>{{ appearance }}</p>
+          </article>
+        </div>
+      }
+    }
+  </div>
+</section>

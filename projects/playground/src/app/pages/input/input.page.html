@@ -1,0 +1,63 @@
+<section class="panel">
+  <div class="panel__title">
+    <span>01</span>
+    <div>
+      <h2>Input state matrix</h2>
+      <p>Real <code>kuiInput</code> directive inside <code>kui-field</code>.</p>
+    </div>
+  </div>
+
+  <div class="input-state-grid input-state-grid--wide">
+    <kui-field label="Default">
+      <input kuiInput placeholder="Placeholder" />
+    </kui-field>
+    <kui-field label="Hover" class="is-hover-preview">
+      <input kuiInput value="Hovered" />
+    </kui-field>
+    <kui-field label="Focus" class="is-focus-preview">
+      <input kuiInput value="Focused" />
+    </kui-field>
+    <kui-field label="Error" error="Error text">
+      <input kuiInput invalid value="Invalid" />
+    </kui-field>
+    <kui-field label="Disabled">
+      <input kuiInput disabled value="Disabled" />
+    </kui-field>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>02</span>
+    <div>
+      <h2>Size matrix</h2>
+      <p>xs / sm / md / lg × default / hover / focus / invalid / disabled.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix" aria-label="Input size matrix">
+    <div class="state-matrix__header"></div>
+    @for (state of inputStateCols; track state.value) {
+      <div class="state-matrix__header">{{ state.label }}</div>
+    }
+
+    @for (sizeRow of sizeRows; track sizeRow.value) {
+      <div class="state-matrix__label">
+        <strong>{{ sizeRow.label }}</strong>
+        <code>size="{{ sizeRow.value }}"</code>
+      </div>
+
+      @for (state of inputStateCols; track state.value) {
+        <div class="state-matrix__cell" [attr.data-state]="state.value">
+          <input
+            kuiInput
+            [size]="sizeRow.value"
+            [invalid]="state.value === 'invalid'"
+            [disabled]="state.value === 'disabled'"
+            [placeholder]="sizeRow.value"
+          />
+        </div>
+      }
+    }
+  </div>
+</section>

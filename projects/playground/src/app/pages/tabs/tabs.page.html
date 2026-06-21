@@ -1,0 +1,210 @@
+<section class="panel">
+  <div class="panel__title">
+    <span>01</span>
+    <div>
+      <h2>Tabs</h2>
+      <p>
+        Compound component: <code>kui-tabs</code>, <code>[kuiTab]</code>,
+        <code>[kuiTabPanel]</code>. Keyboard: ←→ Home End.
+      </p>
+    </div>
+  </div>
+
+  <div class="component-board">
+    <kui-tabs selected="general">
+      <button kuiTab value="general">General</button>
+      <button kuiTab value="advanced">Advanced</button>
+      <button kuiTab value="billing">Billing</button>
+      <div kuiTabPanel value="general">
+        <p>General settings panel. Token: <code>--kui-tab-indicator</code>.</p>
+      </div>
+      <div kuiTabPanel value="advanced">
+        <p>Advanced settings panel. Keyboard navigation works across all tabs.</p>
+      </div>
+      <div kuiTabPanel value="billing">
+        <p>Billing panel. Focus ring follows <code>--kui-color-primary-focus-ring</code>.</p>
+      </div>
+    </kui-tabs>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>02</span>
+    <div>
+      <h2>With badge</h2>
+      <p>Tab labels can include badge or icon children.</p>
+    </div>
+  </div>
+
+  <div class="component-board">
+    <kui-tabs selected="open">
+      <button kuiTab value="open">
+        Open
+        <span kuiBadge appearance="primary">12</span>
+      </button>
+      <button kuiTab value="closed">
+        Closed
+        <span kuiBadge>4</span>
+      </button>
+      <button kuiTab value="archived">Archived</button>
+      <div kuiTabPanel value="open">
+        <p>12 open items.</p>
+      </div>
+      <div kuiTabPanel value="closed">
+        <p>4 closed items.</p>
+      </div>
+      <div kuiTabPanel value="archived">
+        <p>No archived items.</p>
+      </div>
+    </kui-tabs>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>03</span>
+    <div>
+      <h2>Pill variant</h2>
+      <p>
+        <code>variant="pill"</code> — активный таб получает фон
+        <code>primary-soft-bg</code>, нет индикатора снизу.
+      </p>
+    </div>
+  </div>
+
+  <div class="component-board">
+    <kui-tabs variant="pill" selected="general">
+      <button kuiTab value="general">General</button>
+      <button kuiTab value="advanced">Advanced</button>
+      <button kuiTab value="billing">Billing</button>
+      <div kuiTabPanel value="general"><p>General settings panel.</p></div>
+      <div kuiTabPanel value="advanced"><p>Advanced settings panel.</p></div>
+      <div kuiTabPanel value="billing"><p>Billing panel.</p></div>
+    </kui-tabs>
+
+    <kui-tabs variant="pill" selected="open">
+      <button kuiTab value="open">
+        Open
+        <span kuiBadge appearance="primary">12</span>
+      </button>
+      <button kuiTab value="closed">Closed <span kuiBadge>4</span></button>
+      <button kuiTab value="archived">Archived</button>
+      <div kuiTabPanel value="open"><p>12 open items.</p></div>
+      <div kuiTabPanel value="closed"><p>4 closed items.</p></div>
+      <div kuiTabPanel value="archived"><p>No archived items.</p></div>
+    </kui-tabs>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>04</span>
+    <div>
+      <h2>Overflow scroll</h2>
+      <p>Many tabs scroll horizontally. At &lt;480px scroll-snap applies.</p>
+    </div>
+  </div>
+
+  <div class="component-board">
+    <kui-tabs selected="tab1">
+      @for (tab of manyTabs; track tab) {
+        <button kuiTab [value]="tab">{{ tab }}</button>
+      }
+      @for (tab of manyTabs; track tab) {
+        <div kuiTabPanel [value]="tab">
+          <p>Content for {{ tab }}.</p>
+        </div>
+      }
+    </kui-tabs>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>05</span>
+    <div>
+      <h2>Variant × state matrix</h2>
+      <p>Line / Pill × default / hover / focus / selected / disabled. Hover and focus CSS-simulated.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix" style="grid-template-columns: minmax(150px, 0.8fr) repeat(5, minmax(180px, 1fr));" aria-label="Tabs variant state matrix">
+    <div class="state-matrix__header"></div>
+    @for (col of tabStateCols; track col.value) {
+      <div class="state-matrix__header">{{ col.label }}</div>
+    }
+
+    @for (variant of tabVariants; track variant.value) {
+      <div class="state-matrix__label">
+        <strong>{{ variant.label }}</strong>
+        <code>variant="{{ variant.value }}"</code>
+      </div>
+
+      @for (col of tabStateCols; track col.value) {
+        <div class="state-matrix__cell" style="align-items: flex-start; padding-block: 16px;">
+          <kui-tabs
+            [variant]="variant.value"
+            [selected]="col.value === 'selected' ? 'ta-' + variant.value + '-' + col.value : 'tb-' + variant.value + '-' + col.value"
+          >
+            <button
+              kuiTab
+              value="ta-{{ variant.value }}-{{ col.value }}"
+              [class.kui-tab-demo-hover]="col.value === 'hover'"
+              [class.kui-tab-demo-focus]="col.value === 'focus'"
+              [disabled]="col.value === 'disabled'"
+            >Tab</button>
+            <button kuiTab value="tb-{{ variant.value }}-{{ col.value }}">Other</button>
+            <div kuiTabPanel value="ta-{{ variant.value }}-{{ col.value }}"></div>
+            <div kuiTabPanel value="tb-{{ variant.value }}-{{ col.value }}"></div>
+          </kui-tabs>
+        </div>
+      }
+    }
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>06</span>
+    <div>
+      <h2>Size matrix</h2>
+      <p>xs / sm / md / lg × line / pill.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix state-matrix--2" aria-label="Tabs size matrix">
+    <div class="state-matrix__header"></div>
+    <div class="state-matrix__header">Line</div>
+    <div class="state-matrix__header">Pill</div>
+
+    @for (sizeRow of sizeRows; track sizeRow.value) {
+      <div class="state-matrix__label">
+        <strong>{{ sizeRow.label }}</strong>
+        <code>size="{{ sizeRow.value }}"</code>
+      </div>
+
+      <div class="state-matrix__cell" style="align-items: flex-start; padding-block: 16px;">
+        <kui-tabs [size]="sizeRow.value" selected="tab-line-b-{{ sizeRow.value }}">
+          <button kuiTab value="tab-line-a-{{ sizeRow.value }}">Overview</button>
+          <button kuiTab value="tab-line-b-{{ sizeRow.value }}">Activity</button>
+          <button kuiTab value="tab-line-c-{{ sizeRow.value }}">Settings</button>
+          <div kuiTabPanel value="tab-line-a-{{ sizeRow.value }}"></div>
+          <div kuiTabPanel value="tab-line-b-{{ sizeRow.value }}"></div>
+          <div kuiTabPanel value="tab-line-c-{{ sizeRow.value }}"></div>
+        </kui-tabs>
+      </div>
+
+      <div class="state-matrix__cell" style="align-items: flex-start; padding-block: 16px;">
+        <kui-tabs variant="pill" [size]="sizeRow.value" selected="tab-pill-b-{{ sizeRow.value }}">
+          <button kuiTab value="tab-pill-a-{{ sizeRow.value }}">Overview</button>
+          <button kuiTab value="tab-pill-b-{{ sizeRow.value }}">Activity</button>
+          <button kuiTab value="tab-pill-c-{{ sizeRow.value }}">Settings</button>
+          <div kuiTabPanel value="tab-pill-a-{{ sizeRow.value }}"></div>
+          <div kuiTabPanel value="tab-pill-b-{{ sizeRow.value }}"></div>
+          <div kuiTabPanel value="tab-pill-c-{{ sizeRow.value }}"></div>
+        </kui-tabs>
+      </div>
+    }
+  </div>
+</section>

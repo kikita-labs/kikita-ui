@@ -1,0 +1,105 @@
+<section class="panel">
+  <div class="panel__title">
+    <span>01</span>
+    <div>
+      <h2>Button directive</h2>
+      <p>Real <code>kuiButton</code> directive on native button and anchor elements.</p>
+    </div>
+  </div>
+
+  <div class="button-grid">
+    <button kuiButton type="button">
+      <kui-icon name="check" />
+      Primary
+    </button>
+    <button kuiButton appearance="soft" type="button">Soft</button>
+    <button kuiButton appearance="outline" size="sm" type="button">Outline small</button>
+    <button kuiButton appearance="ghost" type="button">Ghost</button>
+    <button kuiButton appearance="danger" type="button">
+      <kui-icon name="warning" />
+      Danger
+    </button>
+    <a kuiButton appearance="outline" href="/">Anchor</a>
+    <div kuiGroup collapsed size="sm">
+      <button kuiButton appearance="outline" type="button">One</button>
+      <button kuiButton appearance="outline" type="button">Two</button>
+      <button kuiIconButton appearance="outline" aria-label="More" type="button">
+        <kui-icon name="spark" />
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>02</span>
+    <div>
+      <h2>Appearance matrix</h2>
+      <p>All <code>appearance</code> values × default / hover / active / focus / disabled.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix" aria-label="Button appearance matrix">
+    <div class="state-matrix__header"></div>
+    @for (state of stateColumns; track state.value) {
+      <div class="state-matrix__header">{{ state.label }}</div>
+    }
+
+    @for (variant of buttonVariants; track variant.value) {
+      <div class="state-matrix__label">
+        <strong>{{ variant.label }}</strong>
+        <code>appearance="{{ variant.value }}"</code>
+      </div>
+
+      @for (state of stateColumns; track state.value) {
+        <div class="state-matrix__cell" [attr.data-state]="state.value">
+          <button
+            kuiButton
+            [appearance]="variant.value"
+            type="button"
+            [disabled]="state.value === 'disabled'"
+          >
+            Button
+          </button>
+        </div>
+      }
+    }
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>03</span>
+    <div>
+      <h2>Size matrix</h2>
+      <p>xs / sm / md / lg × all states. Solid appearance.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix" aria-label="Button size matrix">
+    <div class="state-matrix__header"></div>
+    @for (state of stateColumns; track state.value) {
+      <div class="state-matrix__header">{{ state.label }}</div>
+    }
+
+    @for (sizeRow of sizeRows; track sizeRow.value) {
+      <div class="state-matrix__label">
+        <strong>{{ sizeRow.label }}</strong>
+        <code>size="{{ sizeRow.value }}"</code>
+      </div>
+
+      @for (state of stateColumns; track state.value) {
+        <div class="state-matrix__cell" [attr.data-state]="state.value">
+          <button
+            kuiButton
+            [size]="sizeRow.value"
+            type="button"
+            [disabled]="state.value === 'disabled'"
+          >
+            Button
+          </button>
+        </div>
+      }
+    }
+  </div>
+</section>

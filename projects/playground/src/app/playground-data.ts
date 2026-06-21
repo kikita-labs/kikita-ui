@@ -25,16 +25,6 @@ export interface VariableRow {
   readonly value: string;
 }
 
-export interface ButtonVariantRow {
-  readonly value: 'solid' | 'soft' | 'outline' | 'ghost' | 'danger';
-  readonly label: string;
-}
-
-export interface StateColumn {
-  readonly value: 'default' | 'hover' | 'active' | 'focus' | 'disabled';
-  readonly label: string;
-}
-
 export const COLOR_ORDER: readonly KuiColorScaleName[] = [
   'primary',
   'neutral',
@@ -96,22 +86,6 @@ export const SEMANTIC_KEYS: readonly `--kui-${string}`[] = [
   '--kui-input-focus-ring',
 ];
 
-export const BUTTON_VARIANTS: readonly ButtonVariantRow[] = [
-  { value: 'solid', label: 'Solid' },
-  { value: 'soft', label: 'Soft' },
-  { value: 'outline', label: 'Outline' },
-  { value: 'ghost', label: 'Ghost' },
-  { value: 'danger', label: 'Danger' },
-];
-
-export const STATE_COLUMNS: readonly StateColumn[] = [
-  { value: 'default', label: 'Default' },
-  { value: 'hover', label: 'Hover' },
-  { value: 'active', label: 'Active' },
-  { value: 'focus', label: 'Focus' },
-  { value: 'disabled', label: 'Disabled' },
-];
-
 export function createSeedRows(): readonly SeedRow[] {
   return COLOR_ORDER.map((name) => ({
     name: COLOR_LABELS[name],
@@ -154,78 +128,3 @@ export function createCssText(theme: KuiGeneratedTheme, mode: KuiThemeMode): str
 
   return createKuiThemeCssText(theme, selector, mode);
 }
-
-export interface SizeRow {
-  readonly value: 'xs' | 'sm' | 'md' | 'lg';
-  readonly label: string;
-}
-
-export const SIZE_ROWS: readonly SizeRow[] = [
-  { value: 'xs', label: 'xs' },
-  { value: 'sm', label: 'sm' },
-  { value: 'md', label: 'md (default)' },
-  { value: 'lg', label: 'lg' },
-];
-
-export interface CheckRow {
-  readonly checked: boolean;
-  readonly label: string;
-}
-
-export const CHECK_STATE_ROWS: readonly CheckRow[] = [
-  { checked: false, label: 'Unchecked' },
-  { checked: true, label: 'Checked' },
-];
-
-export const SWITCH_STATE_ROWS: readonly CheckRow[] = [
-  { checked: false, label: 'Off' },
-  { checked: true, label: 'On' },
-];
-
-export interface SelectionStateColumn {
-  readonly value: 'default' | 'hover' | 'focus' | 'invalid' | 'disabled';
-  readonly label: string;
-}
-
-export const SELECTION_STATE_COLUMNS: readonly SelectionStateColumn[] = [
-  { value: 'default', label: 'Default' },
-  { value: 'hover', label: 'Hover' },
-  { value: 'focus', label: 'Focus' },
-  { value: 'invalid', label: 'Invalid' },
-  { value: 'disabled', label: 'Disabled' },
-];
-
-export interface BadgeAppearanceRow {
-  readonly value: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  readonly label: string;
-}
-
-export const BADGE_APPEARANCE_ROWS: readonly BadgeAppearanceRow[] = [
-  { value: 'neutral', label: 'Neutral' },
-  { value: 'primary', label: 'Primary' },
-  { value: 'success', label: 'Success' },
-  { value: 'warning', label: 'Warning' },
-  { value: 'danger', label: 'Danger' },
-  { value: 'info', label: 'Info' },
-];
-
-export interface SizeColDef {
-  readonly label: string;
-  readonly checked: boolean;
-  readonly state: string;
-  readonly disabled: boolean;
-}
-
-export const SELECTION_SIZE_COL_DEFS: readonly SizeColDef[] = [
-  { label: 'Unchecked', checked: false, state: '', disabled: false },
-  { label: 'Checked', checked: true, state: '', disabled: false },
-  { label: 'Focus', checked: false, state: 'focus', disabled: false },
-  { label: 'Disabled', checked: false, state: '', disabled: true },
-];
-
-export const SWITCH_SIZE_COL_DEFS: readonly SizeColDef[] = [
-  { label: 'Off', checked: false, state: '', disabled: false },
-  { label: 'On', checked: true, state: '', disabled: false },
-  { label: 'Focus', checked: false, state: 'focus', disabled: false },
-  { label: 'Disabled', checked: false, state: '', disabled: true },
-];

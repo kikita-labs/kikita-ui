@@ -1,0 +1,112 @@
+<section class="panel">
+  <div class="panel__title">
+    <span>01</span>
+    <div>
+      <h2>Icon abstraction</h2>
+      <p>Registry-backed <code>kui-icon</code> and icon-only actions.</p>
+    </div>
+  </div>
+
+  <div class="icon-grid">
+    <article>
+      <kui-icon name="check" label="Success icon" size="24px" />
+      <code>name="check"</code>
+    </article>
+    <article>
+      <kui-icon name="spark" label="Spark icon" size="24px" />
+      <code>name="spark"</code>
+    </article>
+    <article>
+      <kui-icon name="warning" label="Warning icon" size="24px" />
+      <code>name="warning"</code>
+    </article>
+  </div>
+
+  <div class="state-board__row">
+    <button kuiIconButton aria-label="Confirm" type="button">
+      <kui-icon name="check" />
+    </button>
+    <button kuiIconButton appearance="soft" aria-label="Spark" type="button">
+      <kui-icon name="spark" />
+    </button>
+    <button kuiIconButton appearance="danger" aria-label="Warning" type="button">
+      <kui-icon name="warning" />
+    </button>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>02</span>
+    <div>
+      <h2>Icon button appearance matrix</h2>
+      <p>All <code>appearance</code> values × default / hover / active / focus / disabled.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix" aria-label="Icon button appearance matrix">
+    <div class="state-matrix__header"></div>
+    @for (state of stateColumns; track state.value) {
+      <div class="state-matrix__header">{{ state.label }}</div>
+    }
+
+    @for (variant of buttonVariants; track variant.value) {
+      <div class="state-matrix__label">
+        <strong>{{ variant.label }}</strong>
+        <code>appearance="{{ variant.value }}"</code>
+      </div>
+
+      @for (state of stateColumns; track state.value) {
+        <div class="state-matrix__cell" [attr.data-state]="state.value">
+          <button
+            kuiIconButton
+            [appearance]="variant.value"
+            type="button"
+            [disabled]="state.value === 'disabled'"
+            [attr.aria-label]="variant.label"
+          >
+            <kui-icon name="spark" />
+          </button>
+        </div>
+      }
+    }
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>03</span>
+    <div>
+      <h2>Icon button size matrix</h2>
+      <p>xs / sm / md / lg × all states. Ghost appearance.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix" aria-label="Icon button size matrix">
+    <div class="state-matrix__header"></div>
+    @for (state of stateColumns; track state.value) {
+      <div class="state-matrix__header">{{ state.label }}</div>
+    }
+
+    @for (sizeRow of sizeRows; track sizeRow.value) {
+      <div class="state-matrix__label">
+        <strong>{{ sizeRow.label }}</strong>
+        <code>size="{{ sizeRow.value }}"</code>
+      </div>
+
+      @for (state of stateColumns; track state.value) {
+        <div class="state-matrix__cell" [attr.data-state]="state.value">
+          <button
+            kuiIconButton
+            [size]="sizeRow.value"
+            type="button"
+            [disabled]="state.value === 'disabled'"
+            aria-label="Action"
+          >
+            <kui-icon name="spark" />
+          </button>
+        </div>
+      }
+    }
+  </div>
+</section>

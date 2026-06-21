@@ -1,0 +1,57 @@
+<section class="panel">
+  <div class="panel__title">
+    <span>01</span>
+    <div>
+      <h2>Loader</h2>
+      <p>CSS-only loading indicator using Kikita motion and color tokens.</p>
+    </div>
+  </div>
+
+  <div class="component-board">
+    <div class="state-board__row">
+      <span kuiLoader size="xs" label="Loading small"></span>
+      <span kuiLoader size="sm" label="Loading small"></span>
+      <span kuiLoader label="Loading"></span>
+      <span kuiLoader size="lg" label="Loading large"></span>
+    </div>
+
+    <div class="state-board__row">
+      <button kuiButton type="button" disabled>
+        <span kuiLoader size="sm" label="Saving"></span>
+        Saving
+      </button>
+      <button kuiButton appearance="soft" type="button">
+        <span kuiLoader size="sm" label="Syncing"></span>
+        Syncing
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>02</span>
+    <div>
+      <h2>Size matrix</h2>
+      <p>xs / sm / md / lg standalone and inside button.</p>
+    </div>
+  </div>
+
+  <div class="loader-size-grid">
+    @for (sizeRow of sizeRows; track sizeRow.value) {
+      <div class="loader-size-card">
+        <span kuiLoader [size]="sizeRow.value" label="Loading"></span>
+        <code>{{ sizeRow.label }}</code>
+      </div>
+    }
+  </div>
+
+  <div class="state-board__row">
+    @for (sizeRow of sizeRows; track sizeRow.value) {
+      <button kuiButton [size]="sizeRow.value" type="button" disabled>
+        <span kuiLoader size="sm" label="Loading"></span>
+        {{ sizeRow.label }}
+      </button>
+    }
+  </div>
+</section>

@@ -1,0 +1,130 @@
+<section class="panel">
+  <div class="panel__title">
+    <span>01</span>
+    <div>
+      <h2>Checkbox</h2>
+      <p>Real <code>kuiCheckbox</code> directive on native checkbox inputs.</p>
+    </div>
+  </div>
+
+  <div class="component-board">
+    <div class="state-board__row">
+      <label class="check-row">
+        <input kuiCheckbox type="checkbox" />
+        Default
+      </label>
+      <label class="check-row">
+        <input kuiCheckbox type="checkbox" checked />
+        Checked
+      </label>
+      <label class="check-row">
+        <input kuiCheckbox type="checkbox" invalid />
+        Invalid
+      </label>
+      <label class="check-row">
+        <input kuiCheckbox type="checkbox" disabled />
+        Disabled
+      </label>
+    </div>
+
+    <div class="state-board__row">
+      <label class="check-row">
+        <input kuiCheckbox type="checkbox" size="xs" checked />
+        xs
+      </label>
+      <label class="check-row">
+        <input kuiCheckbox type="checkbox" size="sm" checked />
+        sm
+      </label>
+      <label class="check-row">
+        <input kuiCheckbox type="checkbox" checked />
+        md
+      </label>
+      <label class="check-row">
+        <input kuiCheckbox type="checkbox" size="lg" checked />
+        lg
+      </label>
+    </div>
+
+    <kui-field label="Field wiring" hint="Label, hint, and error connect through kui-field.">
+      <input kuiCheckbox type="checkbox" />
+    </kui-field>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>02</span>
+    <div>
+      <h2>Size matrix</h2>
+      <p>xs / sm / md / lg × unchecked / checked / focus / disabled.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix state-matrix--4" aria-label="Checkbox size matrix">
+    <div class="state-matrix__header"></div>
+    @for (col of sizeColDefs; track col.label) {
+      <div class="state-matrix__header">{{ col.label }}</div>
+    }
+
+    @for (sizeRow of sizeRows; track sizeRow.value) {
+      <div class="state-matrix__label">
+        <strong>{{ sizeRow.label }}</strong>
+        <code>size="{{ sizeRow.value }}"</code>
+      </div>
+
+      @for (col of sizeColDefs; track col.label) {
+        <div class="state-matrix__cell" [attr.data-state]="col.state || null">
+          <label class="check-row">
+            <input
+              kuiCheckbox
+              type="checkbox"
+              [size]="sizeRow.value"
+              [checked]="col.checked"
+              [disabled]="col.disabled"
+            />
+            {{ col.label }}
+          </label>
+        </div>
+      }
+    }
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>03</span>
+    <div>
+      <h2>State matrix</h2>
+      <p>Unchecked / checked × default / hover / focus / invalid / disabled.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix" aria-label="Checkbox state matrix">
+    <div class="state-matrix__header"></div>
+    @for (state of selectionStateCols; track state.value) {
+      <div class="state-matrix__header">{{ state.label }}</div>
+    }
+
+    @for (checkRow of checkStateRows; track checkRow.label) {
+      <div class="state-matrix__label">
+        <strong>{{ checkRow.label }}</strong>
+      </div>
+
+      @for (state of selectionStateCols; track state.value) {
+        <div class="state-matrix__cell" [attr.data-state]="state.value">
+          <label class="check-row">
+            <input
+              kuiCheckbox
+              type="checkbox"
+              [checked]="checkRow.checked"
+              [invalid]="state.value === 'invalid'"
+              [disabled]="state.value === 'disabled'"
+            />
+            {{ checkRow.label }}
+          </label>
+        </div>
+      }
+    }
+  </div>
+</section>

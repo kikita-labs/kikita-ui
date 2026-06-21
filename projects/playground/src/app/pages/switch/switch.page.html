@@ -1,0 +1,133 @@
+<section class="panel">
+  <div class="panel__title">
+    <span>01</span>
+    <div>
+      <h2>Switch</h2>
+      <p>
+        Real <code>kuiSwitch</code> directive on native checkbox inputs with
+        <code>role="switch"</code>.
+      </p>
+    </div>
+  </div>
+
+  <div class="component-board">
+    <div class="state-board__row">
+      <label class="check-row">
+        <input kuiSwitch type="checkbox" />
+        Off
+      </label>
+      <label class="check-row">
+        <input kuiSwitch type="checkbox" checked />
+        On
+      </label>
+      <label class="check-row">
+        <input kuiSwitch type="checkbox" invalid />
+        Invalid
+      </label>
+      <label class="check-row">
+        <input kuiSwitch type="checkbox" disabled />
+        Disabled
+      </label>
+    </div>
+
+    <div class="state-board__row">
+      <label class="check-row">
+        <input kuiSwitch type="checkbox" size="xs" checked />
+        xs
+      </label>
+      <label class="check-row">
+        <input kuiSwitch type="checkbox" size="sm" checked />
+        sm
+      </label>
+      <label class="check-row">
+        <input kuiSwitch type="checkbox" checked />
+        md
+      </label>
+      <label class="check-row">
+        <input kuiSwitch type="checkbox" size="lg" checked />
+        lg
+      </label>
+    </div>
+
+    <kui-field label="Field wiring" hint="Switch can still use kui-field description wiring.">
+      <input kuiSwitch type="checkbox" />
+    </kui-field>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>02</span>
+    <div>
+      <h2>Size matrix</h2>
+      <p>xs / sm / md / lg × off / on / focus / disabled.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix state-matrix--4" aria-label="Switch size matrix">
+    <div class="state-matrix__header"></div>
+    @for (col of switchSizeColDefs; track col.label) {
+      <div class="state-matrix__header">{{ col.label }}</div>
+    }
+
+    @for (sizeRow of sizeRows; track sizeRow.value) {
+      <div class="state-matrix__label">
+        <strong>{{ sizeRow.label }}</strong>
+        <code>size="{{ sizeRow.value }}"</code>
+      </div>
+
+      @for (col of switchSizeColDefs; track col.label) {
+        <div class="state-matrix__cell" [attr.data-state]="col.state || null">
+          <label class="check-row">
+            <input
+              kuiSwitch
+              type="checkbox"
+              [size]="sizeRow.value"
+              [checked]="col.checked"
+              [disabled]="col.disabled"
+            />
+            {{ col.label }}
+          </label>
+        </div>
+      }
+    }
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>03</span>
+    <div>
+      <h2>State matrix</h2>
+      <p>Off / on × default / hover / focus / invalid / disabled.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix" aria-label="Switch state matrix">
+    <div class="state-matrix__header"></div>
+    @for (state of selectionStateCols; track state.value) {
+      <div class="state-matrix__header">{{ state.label }}</div>
+    }
+
+    @for (switchRow of switchStateRows; track switchRow.label) {
+      <div class="state-matrix__label">
+        <strong>{{ switchRow.label }}</strong>
+      </div>
+
+      @for (state of selectionStateCols; track state.value) {
+        <div class="state-matrix__cell" [attr.data-state]="state.value">
+          <label class="check-row">
+            <input
+              kuiSwitch
+              type="checkbox"
+              [checked]="switchRow.checked"
+              [invalid]="state.value === 'invalid'"
+              [disabled]="state.value === 'disabled'"
+            />
+            {{ switchRow.label }}
+          </label>
+        </div>
+      }
+    }
+  </div>
+</section>

@@ -1,0 +1,65 @@
+<section class="panel">
+  <div class="panel__title">
+    <span>01</span>
+    <div>
+      <h2>Field</h2>
+      <p>Label, hint, error, required marker, and ARIA description wiring.</p>
+    </div>
+  </div>
+
+  <div class="field-grid">
+    <kui-field label="Project name" hint="Default md size">
+      <input kuiInput value="Kikita UI" />
+    </kui-field>
+
+    <kui-field label="Owner email" error="Email is required" required>
+      <input kuiInput type="email" placeholder="nikita@kikita.dev" />
+    </kui-field>
+
+    <kui-field label="Notes" hint="Textarea keeps native behavior">
+      <textarea kuiTextarea placeholder="Token decisions, component notes"></textarea>
+    </kui-field>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>02</span>
+    <div>
+      <h2>Size matrix</h2>
+      <p>xs / sm / md / lg × default / error / disabled.</p>
+    </div>
+  </div>
+
+  <div class="state-matrix" style="grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(180px, 1fr));" aria-label="Field size matrix">
+    <div class="state-matrix__header"></div>
+    <div class="state-matrix__header">Default</div>
+    <div class="state-matrix__header">Error</div>
+    <div class="state-matrix__header">Disabled</div>
+
+    @for (sizeRow of sizeRows; track sizeRow.value) {
+      <div class="state-matrix__label">
+        <strong>{{ sizeRow.label }}</strong>
+        <code>size="{{ sizeRow.value }}"</code>
+      </div>
+
+      <div class="state-matrix__cell" style="align-items: stretch; padding: 12px;">
+        <kui-field [size]="sizeRow.value" label="Label" hint="Hint text" style="inline-size: 100%;">
+          <input kuiInput [size]="sizeRow.value" placeholder="Value" />
+        </kui-field>
+      </div>
+
+      <div class="state-matrix__cell" style="align-items: stretch; padding: 12px;">
+        <kui-field [size]="sizeRow.value" label="Label" [error]="'Required'" style="inline-size: 100%;">
+          <input kuiInput [size]="sizeRow.value" placeholder="Value" />
+        </kui-field>
+      </div>
+
+      <div class="state-matrix__cell" style="align-items: stretch; padding: 12px;">
+        <kui-field [size]="sizeRow.value" label="Label" hint="Hint text" style="inline-size: 100%;">
+          <input kuiInput [size]="sizeRow.value" placeholder="Value" disabled />
+        </kui-field>
+      </div>
+    }
+  </div>
+</section>

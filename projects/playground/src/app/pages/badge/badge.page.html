@@ -1,0 +1,64 @@
+<section class="panel">
+  <div class="panel__title">
+    <span>01</span>
+    <div>
+      <h2>Badge</h2>
+      <p>Inline status and metadata primitive using Kikita status tokens.</p>
+    </div>
+  </div>
+
+  <div class="component-board">
+    <div class="state-board__row">
+      <span kuiBadge>Neutral</span>
+      <span kuiBadge appearance="primary">Primary</span>
+      <span kuiBadge appearance="success">Success</span>
+      <span kuiBadge appearance="warning">Warning</span>
+      <span kuiBadge appearance="danger">Danger</span>
+      <span kuiBadge appearance="info">Info</span>
+    </div>
+
+    <div class="state-board__row">
+      <span kuiBadge size="xs" appearance="primary">xs</span>
+      <span kuiBadge size="sm" appearance="primary">sm</span>
+      <span kuiBadge appearance="primary">md</span>
+      <span kuiBadge size="lg" appearance="primary">lg</span>
+    </div>
+
+    <div class="state-board__row">
+      <a kuiBadge appearance="info" href="/">Linked badge</a>
+      <strong kuiBadge appearance="success">Strong badge</strong>
+      <code kuiBadge appearance="neutral">--kui-badge-*</code>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel__title">
+    <span>02</span>
+    <div>
+      <h2>Appearance × size</h2>
+      <p>All 6 appearances across xs / sm / md / lg.</p>
+    </div>
+  </div>
+
+  <div class="badge-matrix">
+    <div class="badge-matrix__header"></div>
+    @for (sizeRow of sizeRows; track sizeRow.value) {
+      <div class="badge-matrix__header">{{ sizeRow.label }}</div>
+    }
+
+    @for (appearance of badgeAppearances; track appearance.value) {
+      <div class="badge-matrix__label">
+        <strong>{{ appearance.label }}</strong>
+      </div>
+
+      @for (sizeRow of sizeRows; track sizeRow.value) {
+        <div class="badge-matrix__cell">
+          <span kuiBadge [appearance]="appearance.value" [size]="sizeRow.value">
+            {{ appearance.label }}
+          </span>
+        </div>
+      }
+    }
+  </div>
+</section>
