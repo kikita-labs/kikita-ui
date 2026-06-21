@@ -1057,6 +1057,42 @@ export class SegmentedPage {
       <div class="panel__title">
         <span>03</span>
         <div>
+          <h2>Pill variant</h2>
+          <p>
+            <code>variant="pill"</code> — активный таб получает фон
+            <code>primary-soft-bg</code>, нет индикатора снизу.
+          </p>
+        </div>
+      </div>
+
+      <div class="component-board">
+        <kui-tabs variant="pill" selected="general">
+          <button kuiTab value="general">General</button>
+          <button kuiTab value="advanced">Advanced</button>
+          <button kuiTab value="billing">Billing</button>
+          <div kuiTabPanel value="general"><p>General settings panel.</p></div>
+          <div kuiTabPanel value="advanced"><p>Advanced settings panel.</p></div>
+          <div kuiTabPanel value="billing"><p>Billing panel.</p></div>
+        </kui-tabs>
+
+        <kui-tabs variant="pill" selected="open">
+          <button kuiTab value="open">
+            Open
+            <span kuiBadge appearance="primary">12</span>
+          </button>
+          <button kuiTab value="closed">Closed <span kuiBadge>4</span></button>
+          <button kuiTab value="archived">Archived</button>
+          <div kuiTabPanel value="open"><p>12 open items.</p></div>
+          <div kuiTabPanel value="closed"><p>4 closed items.</p></div>
+          <div kuiTabPanel value="archived"><p>No archived items.</p></div>
+        </kui-tabs>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>04</span>
+        <div>
           <h2>Overflow scroll</h2>
           <p>Many tabs scroll horizontally. At &lt;480px scroll-snap applies.</p>
         </div>
