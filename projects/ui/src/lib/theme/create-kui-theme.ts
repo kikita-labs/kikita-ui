@@ -446,6 +446,15 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-seg-fg-active': 'var(--kui-btn-solid-fg)',
     '--kui-seg-item-bg-active': 'var(--kui-color-primary-fill)',
     '--kui-seg-item-shadow-active': 'none',
+    '--kui-table-border': 'var(--kui-color-border)',
+    '--kui-table-bg': 'var(--kui-color-surface)',
+    '--kui-table-th-bg': 'var(--kui-color-surface-sunken)',
+    '--kui-table-th-fg': 'var(--kui-color-text-secondary)',
+    '--kui-table-row-border': 'var(--kui-color-border-subtle, var(--kui-color-border))',
+    '--kui-table-row-hover-bg': 'var(--kui-color-primary-soft-bg)',
+    '--kui-table-row-selected-bg': 'var(--kui-color-primary-soft-bg)',
+    '--kui-table-row-selected-accent': 'var(--kui-color-primary-fill)',
+    '--kui-table-sort-active-color': 'var(--kui-color-primary-fill)',
   };
 }
 

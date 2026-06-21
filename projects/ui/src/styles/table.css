@@ -1,0 +1,225 @@
+@layer kui.components {
+  .kui-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--kui-table-font-size, var(--kui-text-sm-size, 13px));
+    color: var(--kui-color-text);
+  }
+
+  /* ── Header ────────────────────────────────────── */
+
+  .kui-th {
+    padding: var(--kui-table-th-py, 10px) var(--kui-table-cell-px, 14px);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--kui-table-th-fg, var(--kui-color-text-secondary));
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    background: var(--kui-table-th-bg, var(--kui-color-surface-sunken));
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--kui-table-border, var(--kui-color-border));
+  }
+
+  /* Sticky header row — applies sticky to all th children */
+  .kui-th-group--sticky .kui-th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  /* Sticky individual column (left) */
+  .kui-th--sticky {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--kui-table-th-bg, var(--kui-color-surface-sunken));
+  }
+
+  /* Sortable header */
+  .kui-th--sortable {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .kui-th--sortable:hover {
+    color: var(--kui-color-text);
+  }
+
+  .kui-th--sortable::after {
+    content: ' \2195'; /* ↕ */
+    font-size: 9px;
+    opacity: 0.35;
+    margin-left: 3px;
+  }
+
+  .kui-th--sort-asc::after {
+    content: ' \2191'; /* ↑ */
+    color: var(--kui-table-sort-active-color, var(--kui-color-primary-fill));
+    opacity: 1;
+  }
+
+  .kui-th--sort-desc::after {
+    content: ' \2193'; /* ↓ */
+    color: var(--kui-table-sort-active-color, var(--kui-color-primary-fill));
+    opacity: 1;
+  }
+
+  .kui-th--sort-asc,
+  .kui-th--sort-desc {
+    color: var(--kui-table-sort-active-color, var(--kui-color-primary-fill));
+    position: relative;
+  }
+
+  /* Active sort column underline */
+  .kui-th--sort-asc::before,
+  .kui-th--sort-desc::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--kui-table-sort-active-color, var(--kui-color-primary-fill));
+    border-radius: 1px;
+  }
+
+  /* ── Rows ──────────────────────────────────────── */
+
+  .kui-row {
+    border-bottom: 1px solid var(--kui-table-row-border, var(--kui-color-border-subtle, var(--kui-color-border)));
+    transition: background var(--kui-duration-fast, 100ms) var(--kui-ease);
+  }
+
+  .kui-row:last-child {
+    border-bottom: none;
+  }
+
+  .kui-row:hover {
+    background: var(--kui-table-row-hover-bg, var(--kui-color-primary-soft-bg));
+  }
+
+  .kui-row--selected {
+    background: var(--kui-table-row-selected-bg, var(--kui-color-primary-soft-bg));
+    box-shadow: inset 2px 0 0 var(--kui-table-row-selected-accent, var(--kui-color-primary-fill));
+  }
+
+  /* ── Cells ─────────────────────────────────────── */
+
+  .kui-cell {
+    padding: var(--kui-table-row-py, 11px) var(--kui-table-cell-px, 14px);
+    vertical-align: middle;
+  }
+
+  /* Sticky body cell (left column) */
+  .kui-cell--sticky {
+    position: sticky;
+    left: 0;
+    background: var(--kui-table-bg, var(--kui-color-surface));
+    z-index: 1;
+  }
+
+  .kui-row:hover .kui-cell--sticky {
+    background: var(--kui-table-row-hover-bg, var(--kui-color-primary-soft-bg));
+  }
+
+  .kui-row--selected .kui-cell--sticky {
+    background: var(--kui-table-row-selected-bg, var(--kui-color-primary-soft-bg));
+  }
+
+  /* ── Select column ─────────────────────────────── */
+
+  .kui-table__select-cell {
+    padding: var(--kui-table-row-py, 11px) var(--kui-table-cell-px, 14px);
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .kui-table__cb {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    border: 1.5px solid var(--kui-color-border-strong, var(--kui-color-border));
+    background: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    transition:
+      background var(--kui-duration-fast, 100ms),
+      border-color var(--kui-duration-fast, 100ms);
+  }
+
+  .kui-table__cb:hover {
+    border-color: var(--kui-color-primary-fill);
+  }
+
+  .kui-table__cb:checked,
+  .kui-table__cb:indeterminate {
+    background: var(--kui-color-primary-fill);
+    border-color: var(--kui-color-primary-fill);
+  }
+
+  .kui-table__cb:checked::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 3px;
+    width: 5px;
+    height: 8px;
+    border: 1.5px solid white;
+    border-top: none;
+    border-left: none;
+    transform: rotate(42deg);
+  }
+
+  .kui-table__cb:indeterminate::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 2px;
+    width: 7px;
+    height: 1.5px;
+    background: white;
+    border-radius: 1px;
+  }
+
+  .kui-table__cb:focus-visible {
+    outline: var(--kui-btn-focus-ring-w, 3px) solid var(--kui-color-primary-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* ── Size variants ─────────────────────────────── */
+
+  .kui-table[data-kui-size='xs'] {
+    --kui-table-cell-px: 8px;
+    --kui-table-row-py: 4px;
+    --kui-table-th-py: 5px;
+    --kui-table-font-size: var(--kui-text-xs-size, 11px);
+  }
+
+  .kui-table[data-kui-size='sm'] {
+    --kui-table-cell-px: 10px;
+    --kui-table-row-py: 7px;
+    --kui-table-th-py: 7px;
+    --kui-table-font-size: var(--kui-text-xs-size, 11px);
+  }
+
+  .kui-table[data-kui-size='lg'] {
+    --kui-table-cell-px: 18px;
+    --kui-table-row-py: 16px;
+    --kui-table-th-py: 13px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-row {
+      transition: none;
+    }
+    .kui-table__cb {
+      transition: none;
+    }
+  }
+}

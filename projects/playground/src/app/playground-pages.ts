@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormField, FormRoot, email, form, minLength, required } from '@angular/forms/signals';
 
 import {
@@ -6,6 +7,7 @@ import {
   KuiBadgeDirective,
   KuiButtonDirective,
   KuiCardDirective,
+  KuiCellDirective,
   KuiCheckboxDirective,
   KuiFieldComponent,
   KuiGroupDirective,
@@ -14,13 +16,19 @@ import {
   KuiInputDirective,
   KuiLoaderDirective,
   KuiRadioDirective,
+  KuiRowDirective,
   KuiSegmentDirective,
   KuiSegmentedComponent,
+  KuiSelectCellComponent,
+  KuiSelectThComponent,
   KuiSwitchDirective,
   KuiTabDirective,
   KuiTabPanelDirective,
+  KuiTableDirective,
   KuiTabsComponent,
   KuiTextareaDirective,
+  KuiThDirective,
+  KuiThGroupDirective,
   KuiTooltipDirective,
 } from '@kikita-labs/ui';
 
@@ -1923,3 +1931,309 @@ export class TabsPage {
   `,
 })
 export class TooltipPage {}
+
+interface TableUser {
+  name: string;
+  role: string;
+  status: 'active' | 'inactive' | 'pending';
+  joined: Date;
+  score: number;
+}
+
+const TABLE_USERS: TableUser[] = [
+  { name: 'Alice Martin', role: 'Engineer', status: 'active', joined: new Date('2022-03-14'), score: 98 },
+  { name: 'Bob Chen', role: 'Designer', status: 'active', joined: new Date('2021-07-01'), score: 85 },
+  { name: 'Carol Wang', role: 'PM', status: 'inactive', joined: new Date('2023-01-20'), score: 72 },
+  { name: 'Dan Patel', role: 'Engineer', status: 'pending', joined: new Date('2024-05-10'), score: 61 },
+  { name: 'Eva Ruiz', role: 'QA', status: 'active', joined: new Date('2020-11-03'), score: 90 },
+];
+
+@Component({
+  selector: 'app-table-page',
+  imports: [
+    DatePipe,
+    KuiTableDirective,
+    KuiThGroupDirective,
+    KuiThDirective,
+    KuiRowDirective,
+    KuiCellDirective,
+    KuiSelectThComponent,
+    KuiSelectCellComponent,
+  ],
+  template: `
+    <!-- 01 Basic -->
+    <section class="panel">
+      <div class="panel__title">
+        <span>01</span>
+        <div>
+          <h2>Basic (read-only)</h2>
+          <p>No sort, no selection. Pure display table.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table kuiTable [data]="users">
+          <thead>
+            <tr kuiThGroup>
+              <th kuiTh>Name</th>
+              <th kuiTh>Role</th>
+              <th kuiTh>Status</th>
+              <th kuiTh>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of users; track u.name) {
+              <tr kuiRow [value]="u">
+                <td kuiCell>{{ u.name }}</td>
+                <td kuiCell>{{ u.role }}</td>
+                <td kuiCell>{{ u.status }}</td>
+                <td kuiCell>{{ u.score }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 02 Client-side sort -->
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>Sortable (client-side)</h2>
+          <p>Click headers to sort. Date column uses custom comparator.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table kuiTable #sortTable="kuiTable" [data]="users">
+          <thead>
+            <tr kuiThGroup>
+              <th kuiTh sortKey="name">Name</th>
+              <th kuiTh sortKey="role">Role</th>
+              <th kuiTh sortKey="status">Status</th>
+              <th kuiTh sortKey="joined" [comparator]="dateCompare">Joined</th>
+              <th kuiTh sortKey="score">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of sortTable.sortedData(); track u.name) {
+              <tr kuiRow [value]="u">
+                <td kuiCell>{{ u.name }}</td>
+                <td kuiCell>{{ u.role }}</td>
+                <td kuiCell>{{ u.status }}</td>
+                <td kuiCell>{{ u.joined | date: 'yyyy-MM-dd' }}</td>
+                <td kuiCell>{{ u.score }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 03 Selectable -->
+    <section class="panel">
+      <div class="panel__title">
+        <span>03</span>
+        <div>
+          <h2>Selectable</h2>
+          <p>Checkboxes appear automatically when <code>(selectionChange)</code> is bound. Selected: {{ selectedNames() }}</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table kuiTable [data]="users" (selectionChange)="onSelect($event)">
+          <thead>
+            <tr kuiThGroup>
+              <th kuiSelectTh></th>
+              <th kuiTh>Name</th>
+              <th kuiTh>Role</th>
+              <th kuiTh>Status</th>
+              <th kuiTh>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of users; track u.name) {
+              <tr kuiRow [value]="u">
+                <td kuiSelectCell></td>
+                <td kuiCell>{{ u.name }}</td>
+                <td kuiCell>{{ u.role }}</td>
+                <td kuiCell>{{ u.status }}</td>
+                <td kuiCell>{{ u.score }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 04 Sortable + Selectable -->
+    <section class="panel">
+      <div class="panel__title">
+        <span>04</span>
+        <div>
+          <h2>Sortable + Selectable</h2>
+          <p>Combined: client-side sort with row selection.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table kuiTable #comboTable="kuiTable" [data]="users" (selectionChange)="onSelect($event)">
+          <thead>
+            <tr kuiThGroup>
+              <th kuiSelectTh></th>
+              <th kuiTh sortKey="name">Name</th>
+              <th kuiTh sortKey="role">Role</th>
+              <th kuiTh sortKey="status">Status</th>
+              <th kuiTh sortKey="score">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of comboTable.sortedData(); track u.name) {
+              <tr kuiRow [value]="u">
+                <td kuiSelectCell></td>
+                <td kuiCell>{{ u.name }}</td>
+                <td kuiCell>{{ u.role }}</td>
+                <td kuiCell>{{ u.status }}</td>
+                <td kuiCell>{{ u.score }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 05 Sticky header -->
+    <section class="panel">
+      <div class="panel__title">
+        <span>05</span>
+        <div>
+          <h2>Sticky header</h2>
+          <p>Header stays visible while scrolling. Wrapped in a fixed-height container.</p>
+        </div>
+      </div>
+      <div class="table-wrap table-wrap--scroll">
+        <table kuiTable [data]="manyUsers">
+          <thead>
+            <tr kuiThGroup [sticky]="true">
+              <th kuiTh>Name</th>
+              <th kuiTh>Role</th>
+              <th kuiTh>Status</th>
+              <th kuiTh>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of manyUsers; track u.name) {
+              <tr kuiRow [value]="u">
+                <td kuiCell>{{ u.name }}</td>
+                <td kuiCell>{{ u.role }}</td>
+                <td kuiCell>{{ u.status }}</td>
+                <td kuiCell>{{ u.score }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 06 Size matrix -->
+    <section class="panel">
+      <div class="panel__title">
+        <span>06</span>
+        <div>
+          <h2>Sizes</h2>
+          <p>xs / sm / md (default) / lg</p>
+        </div>
+      </div>
+      <div class="state-matrix" style="grid-template-columns: repeat(4, 1fr)">
+        @for (sz of sizes; track sz) {
+          <div class="state-matrix__cell">
+            <div class="state-matrix__label">{{ sz }}</div>
+            <div class="table-wrap">
+              <table kuiTable [size]="sz" [data]="users.slice(0, 3)">
+                <thead>
+                  <tr kuiThGroup>
+                    <th kuiTh>Name</th>
+                    <th kuiTh>Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (u of users.slice(0, 3); track u.name) {
+                    <tr kuiRow [value]="u">
+                      <td kuiCell>{{ u.name }}</td>
+                      <td kuiCell>{{ u.score }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- 07 Server-side sort -->
+    <section class="panel">
+      <div class="panel__title">
+        <span>07</span>
+        <div>
+          <h2>Server-side sort</h2>
+          <p>Parent subscribes to <code>(sortChange)</code> — table emits event instead of sorting locally. Last event: <code>{{ serverSortLabel() }}</code></p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table kuiTable [data]="serverData()" (sortChange)="onServerSort($event)">
+          <thead>
+            <tr kuiThGroup>
+              <th kuiTh sortKey="name">Name</th>
+              <th kuiTh sortKey="role">Role</th>
+              <th kuiTh sortKey="score">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of serverData(); track u.name) {
+              <tr kuiRow [value]="u">
+                <td kuiCell>{{ u.name }}</td>
+                <td kuiCell>{{ u.role }}</td>
+                <td kuiCell>{{ u.score }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  `,
+})
+export class TablePage {
+  protected readonly users = TABLE_USERS;
+  protected readonly manyUsers = [...TABLE_USERS, ...TABLE_USERS, ...TABLE_USERS, ...TABLE_USERS];
+  protected readonly sizes = ['xs', 'sm', 'md', 'lg'] as const;
+
+  private readonly _selected = signal<TableUser[]>([]);
+  protected readonly selectedNames = computed(() => {
+    const sel = this._selected();
+    return sel.length === 0 ? 'none' : sel.map((u) => u.name).join(', ');
+  });
+
+  protected readonly dateCompare = (a: unknown, b: unknown) =>
+    (a as TableUser).joined.getTime() - (b as TableUser).joined.getTime();
+
+  protected onSelect(items: TableUser[]): void {
+    this._selected.set(items);
+  }
+
+  private readonly _serverSort = signal<{ key: string; direction: string } | null>(null);
+  protected readonly serverSortLabel = computed(() => {
+    const s = this._serverSort();
+    return s ? `${s.key} ${s.direction}` : 'none';
+  });
+  protected readonly serverData = computed(() => {
+    const s = this._serverSort();
+    if (!s) return TABLE_USERS;
+    return [...TABLE_USERS].sort((a, b) => {
+      const av = (a as unknown as Record<string, unknown>)[s.key];
+      const bv = (b as unknown as Record<string, unknown>)[s.key];
+      const cmp = String(av).localeCompare(String(bv));
+      return s.direction === 'asc' ? cmp : -cmp;
+    });
+  });
+  protected onServerSort(evt: { key: string; direction: 'asc' | 'desc' }): void {
+    this._serverSort.set(evt);
+  }
+}

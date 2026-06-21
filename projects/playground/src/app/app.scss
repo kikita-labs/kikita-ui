@@ -850,3 +850,15 @@ pre {
   justify-content: center;
   gap: 12px;
 }
+
+/* ─── Table wrap ─────────────────────────────────────────────────────────── */
+
+.table-wrap {
+  overflow: auto;
+  border: 1px solid var(--kui-color-border);
+  border-radius: 8px;
+}
+
+.table-wrap--scroll {
+  max-block-size: 240px;
+}

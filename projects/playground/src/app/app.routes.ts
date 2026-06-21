@@ -15,6 +15,7 @@ import {
   RadioPage,
   SegmentedPage,
   SwitchPage,
+  TablePage,
   TabsPage,
   TextareaPage,
   ThemePage,
@@ -43,5 +44,6 @@ export const routes: Routes = [
   { path: 'tabs', component: TabsPage },
   { path: 'tooltip', component: TooltipPage },
   { path: 'segmented', component: SegmentedPage },
+  { path: 'table', component: TablePage },
   { path: '**', redirectTo: 'tokens' },
 ];
