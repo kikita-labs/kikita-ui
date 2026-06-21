@@ -28,7 +28,7 @@ export class KuiSegmentDirective {
   readonly value = input<string>('');
 
   private readonly context = inject(KUI_SEGMENTED_CONTEXT);
-  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   protected readonly isSelected = computed(() => this.context.selected() === this.value());
 
@@ -39,6 +39,6 @@ export class KuiSegmentDirective {
 
   /** @internal */
   focusSegment(): void {
-    this.el.nativeElement.focus();
+    this.elementRef.nativeElement.focus();
   }
 }

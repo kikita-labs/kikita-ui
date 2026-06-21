@@ -69,8 +69,18 @@ export class KuiTooltipDirective implements OnDestroy {
   /** @internal */
   hide(): void {
     if (!this.tooltipEl) return;
-    this.renderer.removeChild(this.document.body, this.tooltipEl);
+    const el = this.tooltipEl;
     this.tooltipEl = null;
+    this.renderer.addClass(el, 'is-hiding');
+    let removed = false;
+    const remove = () => {
+      if (!removed && el.parentNode) {
+        removed = true;
+        this.renderer.removeChild(this.document.body, el);
+      }
+    };
+    el.addEventListener('animationend', remove, { once: true });
+    setTimeout(remove, 200);
   }
 
   ngOnDestroy(): void {

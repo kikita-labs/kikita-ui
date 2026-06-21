@@ -1,5 +1,16 @@
-import { Component, ViewEncapsulation, contentChildren, inject, model } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  ViewEncapsulation,
+  afterEveryRender,
+  contentChildren,
+  inject,
+  input,
+  model,
+} from '@angular/core';
 
+import { KuiSize } from '../../types';
 import { KuiSegmentDirective } from './kui-segment.directive';
 import { KUI_SEGMENTED_CONTEXT, KuiSegmentedContext } from './kui-segmented-context.token';
 
@@ -17,10 +28,11 @@ import { KUI_SEGMENTED_CONTEXT, KuiSegmentedContext } from './kui-segmented-cont
  */
 @Component({
   selector: 'kui-segmented',
-  template: `<ng-content select="[kuiSegment]" />`,
+  template: `<span class="kui-segmented__thumb" #thumb></span><ng-content select="[kuiSegment]" />`,
   host: {
     class: 'kui-segmented',
     role: 'radiogroup',
+    '[attr.data-kui-size]': 'size()',
     '(keydown)': 'onKeydown($event)',
   },
   providers: [
@@ -35,10 +47,51 @@ export class KuiSegmentedComponent implements KuiSegmentedContext {
   /** Currently selected segment value. */
   readonly selected = model<string>('');
 
+  /** Control size. Defaults to md. */
+  readonly size = input<KuiSize>('md');
+
+  @ViewChild('thumb', { static: true })
+  private thumbRef!: ElementRef<HTMLSpanElement>;
+
   private readonly segmentItems = contentChildren(KuiSegmentDirective);
+  private firstRender = true;
+
+  constructor() {
+    afterEveryRender(() => this.positionThumb());
+  }
 
   select(value: string): void {
     this.selected.set(value);
+  }
+
+  private positionThumb(): void {
+    const thumb = this.thumbRef?.nativeElement;
+    if (!thumb) return;
+
+    const items = this.segmentItems();
+    const item = items.find((s) => s.value() === this.selected());
+
+    if (!item) {
+      thumb.style.opacity = '0';
+      return;
+    }
+
+    const el = item.elementRef.nativeElement;
+
+    if (this.firstRender) {
+      this.firstRender = false;
+      thumb.style.transition = 'none';
+      thumb.style.width = `${el.offsetWidth}px`;
+      thumb.style.transform = `translateX(${el.offsetLeft}px)`;
+      thumb.style.opacity = '1';
+      requestAnimationFrame(() => {
+        thumb.style.transition = '';
+      });
+    } else {
+      thumb.style.width = `${el.offsetWidth}px`;
+      thumb.style.transform = `translateX(${el.offsetLeft}px)`;
+      thumb.style.opacity = '1';
+    }
   }
 
   /** @internal */

@@ -422,9 +422,53 @@ export class ButtonPage {
         </kui-field>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>02</span>
+        <div>
+          <h2>Size matrix</h2>
+          <p>xs / sm / md / lg × default / error / disabled.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix" style="grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(180px, 1fr));" aria-label="Field size matrix">
+        <div class="state-matrix__header"></div>
+        <div class="state-matrix__header">Default</div>
+        <div class="state-matrix__header">Error</div>
+        <div class="state-matrix__header">Disabled</div>
+
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <div class="state-matrix__label">
+            <strong>{{ sizeRow.label }}</strong>
+            <code>size="{{ sizeRow.value }}"</code>
+          </div>
+
+          <div class="state-matrix__cell" style="align-items: stretch; padding: 12px;">
+            <kui-field [size]="sizeRow.value" label="Label" hint="Hint text" style="inline-size: 100%;">
+              <input kuiInput [size]="sizeRow.value" placeholder="Value" />
+            </kui-field>
+          </div>
+
+          <div class="state-matrix__cell" style="align-items: stretch; padding: 12px;">
+            <kui-field [size]="sizeRow.value" label="Label" [error]="'Required'" style="inline-size: 100%;">
+              <input kuiInput [size]="sizeRow.value" placeholder="Value" />
+            </kui-field>
+          </div>
+
+          <div class="state-matrix__cell" style="align-items: stretch; padding: 12px;">
+            <kui-field [size]="sizeRow.value" label="Label" hint="Hint text" style="inline-size: 100%;">
+              <input kuiInput [size]="sizeRow.value" placeholder="Value" disabled />
+            </kui-field>
+          </div>
+        }
+      </div>
+    </section>
   `,
 })
-export class FieldPage {}
+export class FieldPage {
+  protected readonly sizeRows = SIZE_ROWS;
+}
 
 @Component({
   selector: 'app-input-page',
@@ -1176,9 +1220,44 @@ export class LoaderPage {
         </button>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>03</span>
+        <div>
+          <h2>Size matrix</h2>
+          <p>xs / sm / md / lg × surface / elevated / sunken — controls internal padding.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix" style="grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(180px, 1fr));" aria-label="Card size matrix">
+        <div class="state-matrix__header"></div>
+        <div class="state-matrix__header">Surface</div>
+        <div class="state-matrix__header">Elevated</div>
+        <div class="state-matrix__header">Sunken</div>
+
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <div class="state-matrix__label">
+            <strong>{{ sizeRow.label }}</strong>
+            <code>size="{{ sizeRow.value }}"</code>
+          </div>
+          @for (appearance of cardAppearances; track appearance) {
+            <div class="state-matrix__cell" style="align-items: stretch; padding: 12px;">
+              <article kuiCard [size]="sizeRow.value" [appearance]="appearance" style="inline-size: 100%;">
+                <strong>Card</strong>
+                <p>{{ appearance }}</p>
+              </article>
+            </div>
+          }
+        }
+      </div>
+    </section>
   `,
 })
-export class CardPage {}
+export class CardPage {
+  protected readonly sizeRows = SIZE_ROWS;
+  protected readonly cardAppearances = ['surface', 'elevated', 'sunken'] as const;
+}
 
 @Component({
   selector: 'app-group-page',
@@ -1489,6 +1568,59 @@ export class FormsPage {
       <div class="panel__title">
         <span>02</span>
         <div>
+          <h2>Size matrix</h2>
+          <p>xs / sm / md / lg × default / selected / focus / disabled.</p>
+        </div>
+      </div>
+
+      <div class="state-matrix state-matrix--4" aria-label="Segmented size matrix">
+        <div class="state-matrix__header"></div>
+        <div class="state-matrix__header">Default</div>
+        <div class="state-matrix__header">Selected</div>
+        <div class="state-matrix__header">Focus</div>
+        <div class="state-matrix__header">Disabled</div>
+
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <div class="state-matrix__label">
+            <strong>{{ sizeRow.label }}</strong>
+            <code>size="{{ sizeRow.value }}"</code>
+          </div>
+
+          <div class="state-matrix__cell">
+            <kui-segmented [size]="sizeRow.value" selected="seg-b-{{ sizeRow.value }}">
+              <button kuiSegment value="seg-a-{{ sizeRow.value }}">A</button>
+              <button kuiSegment value="seg-b-{{ sizeRow.value }}">B</button>
+            </kui-segmented>
+          </div>
+
+          <div class="state-matrix__cell">
+            <kui-segmented [size]="sizeRow.value" selected="seg-sel-a-{{ sizeRow.value }}">
+              <button kuiSegment value="seg-sel-a-{{ sizeRow.value }}">A</button>
+              <button kuiSegment value="seg-sel-b-{{ sizeRow.value }}">B</button>
+            </kui-segmented>
+          </div>
+
+          <div class="state-matrix__cell">
+            <kui-segmented [size]="sizeRow.value" selected="seg-foc-b-{{ sizeRow.value }}">
+              <button kuiSegment value="seg-foc-a-{{ sizeRow.value }}" class="kui-seg-demo-focus">A</button>
+              <button kuiSegment value="seg-foc-b-{{ sizeRow.value }}">B</button>
+            </kui-segmented>
+          </div>
+
+          <div class="state-matrix__cell">
+            <kui-segmented [size]="sizeRow.value" selected="seg-dis-b-{{ sizeRow.value }}">
+              <button kuiSegment value="seg-dis-a-{{ sizeRow.value }}" disabled>A</button>
+              <button kuiSegment value="seg-dis-b-{{ sizeRow.value }}">B</button>
+            </kui-segmented>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>03</span>
+        <div>
           <h2>State preview</h2>
           <p>All segment states in one control. Hover and focus are CSS-simulated.</p>
         </div>
@@ -1512,6 +1644,7 @@ export class SegmentedPage {
   protected readonly view = signal('list');
   protected readonly period = signal('week');
   protected readonly align = signal('left');
+  protected readonly sizeRows = SIZE_ROWS;
 }
 
 @Component({
@@ -1644,43 +1777,88 @@ export class SegmentedPage {
       <div class="panel__title">
         <span>05</span>
         <div>
-          <h2>State preview</h2>
-          <p>All tab states per variant. Hover and focus are CSS-simulated.</p>
+          <h2>Variant × state matrix</h2>
+          <p>Line / Pill × default / hover / focus / selected / disabled. Hover and focus CSS-simulated.</p>
         </div>
       </div>
 
-      <div class="component-board">
-        <div>
-          <p class="tab-state-label">Line variant</p>
-          <kui-tabs selected="tab-selected-line">
-            <button kuiTab value="tab-default-line">Default</button>
-            <button kuiTab value="tab-hover-line" class="kui-tab-demo-hover">Hover</button>
-            <button kuiTab value="tab-focus-line" class="kui-tab-demo-focus">Focus</button>
-            <button kuiTab value="tab-selected-line">Selected</button>
-            <button kuiTab value="tab-disabled-line" disabled>Disabled</button>
-            <div kuiTabPanel value="tab-default-line"></div>
-            <div kuiTabPanel value="tab-hover-line"></div>
-            <div kuiTabPanel value="tab-focus-line"></div>
-            <div kuiTabPanel value="tab-selected-line"><p>Selected tab panel.</p></div>
-            <div kuiTabPanel value="tab-disabled-line"></div>
-          </kui-tabs>
-        </div>
+      <div class="state-matrix" style="grid-template-columns: minmax(150px, 0.8fr) repeat(5, minmax(180px, 1fr));" aria-label="Tabs variant state matrix">
+        <div class="state-matrix__header"></div>
+        @for (col of tabStateCols; track col.value) {
+          <div class="state-matrix__header">{{ col.label }}</div>
+        }
 
+        @for (variant of tabVariants; track variant.value) {
+          <div class="state-matrix__label">
+            <strong>{{ variant.label }}</strong>
+            <code>variant="{{ variant.value }}"</code>
+          </div>
+
+          @for (col of tabStateCols; track col.value) {
+            <div class="state-matrix__cell" style="align-items: flex-start; padding-block: 16px;">
+              <kui-tabs
+                [variant]="variant.value"
+                [selected]="col.value === 'selected' ? 'ta-' + variant.value + '-' + col.value : 'tb-' + variant.value + '-' + col.value"
+              >
+                <button
+                  kuiTab
+                  value="ta-{{ variant.value }}-{{ col.value }}"
+                  [class.kui-tab-demo-hover]="col.value === 'hover'"
+                  [class.kui-tab-demo-focus]="col.value === 'focus'"
+                  [disabled]="col.value === 'disabled'"
+                >Tab</button>
+                <button kuiTab value="tb-{{ variant.value }}-{{ col.value }}">Other</button>
+                <div kuiTabPanel value="ta-{{ variant.value }}-{{ col.value }}"></div>
+                <div kuiTabPanel value="tb-{{ variant.value }}-{{ col.value }}"></div>
+              </kui-tabs>
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__title">
+        <span>06</span>
         <div>
-          <p class="tab-state-label">Pill variant</p>
-          <kui-tabs variant="pill" selected="tab-selected-pill">
-            <button kuiTab value="tab-default-pill">Default</button>
-            <button kuiTab value="tab-hover-pill" class="kui-tab-demo-hover">Hover</button>
-            <button kuiTab value="tab-focus-pill" class="kui-tab-demo-focus">Focus</button>
-            <button kuiTab value="tab-selected-pill">Selected</button>
-            <button kuiTab value="tab-disabled-pill" disabled>Disabled</button>
-            <div kuiTabPanel value="tab-default-pill"></div>
-            <div kuiTabPanel value="tab-hover-pill"></div>
-            <div kuiTabPanel value="tab-focus-pill"></div>
-            <div kuiTabPanel value="tab-selected-pill"><p>Selected tab panel.</p></div>
-            <div kuiTabPanel value="tab-disabled-pill"></div>
-          </kui-tabs>
+          <h2>Size matrix</h2>
+          <p>xs / sm / md / lg × line / pill.</p>
         </div>
+      </div>
+
+      <div class="state-matrix state-matrix--2" aria-label="Tabs size matrix">
+        <div class="state-matrix__header"></div>
+        <div class="state-matrix__header">Line</div>
+        <div class="state-matrix__header">Pill</div>
+
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <div class="state-matrix__label">
+            <strong>{{ sizeRow.label }}</strong>
+            <code>size="{{ sizeRow.value }}"</code>
+          </div>
+
+          <div class="state-matrix__cell" style="align-items: flex-start; padding-block: 16px;">
+            <kui-tabs [size]="sizeRow.value" selected="tab-line-b-{{ sizeRow.value }}">
+              <button kuiTab value="tab-line-a-{{ sizeRow.value }}">Overview</button>
+              <button kuiTab value="tab-line-b-{{ sizeRow.value }}">Activity</button>
+              <button kuiTab value="tab-line-c-{{ sizeRow.value }}">Settings</button>
+              <div kuiTabPanel value="tab-line-a-{{ sizeRow.value }}"></div>
+              <div kuiTabPanel value="tab-line-b-{{ sizeRow.value }}"></div>
+              <div kuiTabPanel value="tab-line-c-{{ sizeRow.value }}"></div>
+            </kui-tabs>
+          </div>
+
+          <div class="state-matrix__cell" style="align-items: flex-start; padding-block: 16px;">
+            <kui-tabs variant="pill" [size]="sizeRow.value" selected="tab-pill-b-{{ sizeRow.value }}">
+              <button kuiTab value="tab-pill-a-{{ sizeRow.value }}">Overview</button>
+              <button kuiTab value="tab-pill-b-{{ sizeRow.value }}">Activity</button>
+              <button kuiTab value="tab-pill-c-{{ sizeRow.value }}">Settings</button>
+              <div kuiTabPanel value="tab-pill-a-{{ sizeRow.value }}"></div>
+              <div kuiTabPanel value="tab-pill-b-{{ sizeRow.value }}"></div>
+              <div kuiTabPanel value="tab-pill-c-{{ sizeRow.value }}"></div>
+            </kui-tabs>
+          </div>
+        }
       </div>
     </section>
   `,
@@ -1688,6 +1866,18 @@ export class SegmentedPage {
 export class TabsPage {
   protected readonly manyTabs = [
     'tab1', 'tab2', 'tab3', 'tab4', 'tab5', 'tab6', 'tab7', 'tab8',
+  ];
+  protected readonly sizeRows = SIZE_ROWS;
+  protected readonly tabVariants = [
+    { label: 'Line', value: 'line' as const },
+    { label: 'Pill', value: 'pill' as const },
+  ];
+  protected readonly tabStateCols = [
+    { label: 'Default', value: 'default' },
+    { label: 'Hover', value: 'hover' },
+    { label: 'Focus', value: 'focus' },
+    { label: 'Selected', value: 'selected' },
+    { label: 'Disabled', value: 'disabled' },
   ];
 }
 

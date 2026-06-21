@@ -6,6 +6,8 @@ import {
   input,
 } from '@angular/core';
 
+import { KuiSize } from '../../types';
+
 let nextFieldId = 0;
 
 /** Wraps a form control with Kikita UI label, hint, error, and required state semantics. */
@@ -16,10 +18,14 @@ let nextFieldId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'kui-field',
+    '[attr.data-kui-size]': 'size()',
     '[attr.data-kui-invalid]': 'invalid() ? "" : null',
   },
 })
 export class KuiFieldComponent {
+  /** Field size — adjusts control slot height and spacing. Defaults to md. */
+  readonly size = input<KuiSize>('md');
+
   /** Visible field label. */
   readonly label = input<string | undefined>();
 

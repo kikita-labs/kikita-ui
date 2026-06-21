@@ -7,6 +7,7 @@ import {
   model,
 } from '@angular/core';
 
+import { KuiSize } from '../../types';
 import { KuiTabDirective } from './kui-tab.directive';
 import { KUI_TABS_CONTEXT, KuiTabsContext } from './kui-tabs-context.token';
 
@@ -39,6 +40,7 @@ export type KuiTabsVariant = 'line' | 'pill';
   host: {
     class: 'kui-tabs',
     '[attr.data-kui-variant]': 'variant()',
+    '[attr.data-kui-size]': 'size()',
   },
   providers: [
     {
@@ -51,6 +53,8 @@ export type KuiTabsVariant = 'line' | 'pill';
 export class KuiTabsComponent implements KuiTabsContext {
   /** Tab visual style: underline indicator (line) or pill background (pill). */
   readonly variant = input<KuiTabsVariant>('line');
+  /** Tab size. Defaults to md. */
+  readonly size = input<KuiSize>('md');
   /** Currently selected tab value. */
   readonly selected = model<string>('');
 

@@ -3,7 +3,7 @@ app-root {
   min-block-size: 100vh;
   background: var(--kui-color-bg);
   color: var(--kui-color-text);
-  font-family: system-ui, sans-serif;
+  font-family: 'Roboto', system-ui, sans-serif;
 }
 
 * {
@@ -823,6 +823,10 @@ pre {
 
 .state-matrix--4 {
   grid-template-columns: minmax(150px, 0.8fr) repeat(4, minmax(120px, 1fr));
+}
+
+.state-matrix--2 {
+  grid-template-columns: minmax(150px, 0.8fr) repeat(2, minmax(240px, 1fr));
 }
 
 /* ─── Loader size grid ───────────────────────────────────────────────────── */

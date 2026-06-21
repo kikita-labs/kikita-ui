@@ -59,3 +59,6 @@ Thumbs.db
 # Local dev logs
 dev-server.log
 dev-server.err.log
+
+# MCP config (local only)
+.mcp.json

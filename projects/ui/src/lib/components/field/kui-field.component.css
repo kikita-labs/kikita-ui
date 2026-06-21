@@ -39,3 +39,20 @@
 .kui-field__hint {
   color: var(--kui-field-hint-color, var(--kui-color-text-secondary));
 }
+
+:host([data-kui-size='xs']) {
+  gap: var(--kui-field-gap-xs, 2px);
+  --kui-field-control-row: var(--kui-control-height-xs, 28px);
+  --kui-field-label-size: var(--kui-text-xs-size, 11px);
+  --kui-field-hint-size: var(--kui-text-xs-size, 11px);
+}
+
+:host([data-kui-size='sm']) {
+  gap: var(--kui-field-gap-sm, 3px);
+  --kui-field-control-row: var(--kui-control-height-sm, 32px);
+}
+
+:host([data-kui-size='lg']) {
+  gap: var(--kui-field-gap-lg, 6px);
+  --kui-field-control-row: var(--kui-control-height-lg, 44px);
+}

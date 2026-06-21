@@ -42,6 +42,10 @@
     outline-offset: var(--kui-btn-focus-ring-off, 2px);
   }
 
+  .kui-card[data-kui-size='xs'] { --kui-card-padding: 8px; }
+  .kui-card[data-kui-size='sm'] { --kui-card-padding: 12px; }
+  .kui-card[data-kui-size='lg'] { --kui-card-padding: 24px; }
+
   @media (prefers-reduced-motion: reduce) {
     .kui-card {
       transition: none;
