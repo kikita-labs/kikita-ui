@@ -28,6 +28,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/forms', label: 'Forms' },
   { path: '/tabs', label: 'Tabs' },
   { path: '/tooltip', label: 'Tooltip' },
+  { path: '/segmented', label: 'Segmented' },
 ];
 
 @Component({

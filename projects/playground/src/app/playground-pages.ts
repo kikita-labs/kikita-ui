@@ -14,6 +14,8 @@ import {
   KuiInputDirective,
   KuiLoaderDirective,
   KuiRadioDirective,
+  KuiSegmentDirective,
+  KuiSegmentedComponent,
   KuiSwitchDirective,
   KuiTabDirective,
   KuiTabPanelDirective,
@@ -924,6 +926,64 @@ export class FormsPage {
 
     return state.errors()[0]?.message;
   }
+}
+
+@Component({
+  selector: 'app-segmented-page',
+  imports: [KuiBadgeDirective, KuiIconComponent, KuiSegmentDirective, KuiSegmentedComponent],
+  template: `
+    <section class="panel">
+      <div class="panel__title">
+        <span>01</span>
+        <div>
+          <h2>Segmented</h2>
+          <p>
+            Compact single-select control. <code>kui-segmented</code> +
+            <code>[kuiSegment]</code>. Keyboard: ←→ ↑↓ Home End.
+          </p>
+        </div>
+      </div>
+
+      <div class="component-board">
+        <div class="state-board__row">
+          <kui-segmented [selected]="view()" (selectedChange)="view.set($event)" aria-label="View mode">
+            <button kuiSegment value="list">List</button>
+            <button kuiSegment value="grid">Grid</button>
+            <button kuiSegment value="table">Table</button>
+          </kui-segmented>
+          <span kuiBadge appearance="primary">{{ view() }}</span>
+        </div>
+
+        <div class="state-board__row">
+          <kui-segmented [selected]="period()" (selectedChange)="period.set($event)" aria-label="Time period">
+            <button kuiSegment value="day">Day</button>
+            <button kuiSegment value="week">Week</button>
+            <button kuiSegment value="month">Month</button>
+            <button kuiSegment value="year">Year</button>
+          </kui-segmented>
+        </div>
+
+        <div class="state-board__row">
+          <kui-segmented [selected]="align()" (selectedChange)="align.set($event)" aria-label="Text alignment">
+            <button kuiSegment value="left">
+              <kui-icon name="check" size="14px" label="Left" />
+            </button>
+            <button kuiSegment value="center">
+              <kui-icon name="spark" size="14px" label="Center" />
+            </button>
+            <button kuiSegment value="right">
+              <kui-icon name="warning" size="14px" label="Right" />
+            </button>
+          </kui-segmented>
+        </div>
+      </div>
+    </section>
+  `,
+})
+export class SegmentedPage {
+  protected readonly view = signal('list');
+  protected readonly period = signal('week');
+  protected readonly align = signal('left');
 }
 
 @Component({

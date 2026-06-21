@@ -13,6 +13,7 @@ import {
   InputPage,
   LoaderPage,
   RadioPage,
+  SegmentedPage,
   SwitchPage,
   TabsPage,
   TextareaPage,
@@ -41,5 +42,6 @@ export const routes: Routes = [
   { path: 'forms', component: FormsPage },
   { path: 'tabs', component: TabsPage },
   { path: 'tooltip', component: TooltipPage },
+  { path: 'segmented', component: SegmentedPage },
   { path: '**', redirectTo: 'tokens' },
 ];

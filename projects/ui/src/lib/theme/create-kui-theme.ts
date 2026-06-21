@@ -429,6 +429,23 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-tab-fg-active': 'var(--kui-color-text)',
     '--kui-tab-bg-hover': 'var(--kui-color-surface-sunken)',
     '--kui-tab-indicator': 'var(--kui-color-primary-fill)',
+    '--kui-seg-bg': 'var(--kui-color-surface-sunken)',
+    '--kui-seg-border': 'var(--kui-color-border)',
+    '--kui-seg-radius': 'var(--kui-radius-md)',
+    '--kui-seg-padding': '2px',
+    '--kui-seg-gap': '2px',
+    '--kui-seg-height': 'var(--kui-btn-height)',
+    '--kui-seg-px': 'var(--kui-btn-px)',
+    '--kui-seg-item-gap': 'var(--kui-space-1)',
+    '--kui-seg-item-radius': 'var(--kui-radius-sm)',
+    '--kui-seg-font-size': 'var(--kui-btn-font-size)',
+    '--kui-seg-font-weight': '500',
+    '--kui-seg-font-weight-active': '600',
+    '--kui-seg-fg': 'var(--kui-color-text-secondary)',
+    '--kui-seg-fg-hover': 'var(--kui-color-text)',
+    '--kui-seg-fg-active': 'var(--kui-color-text)',
+    '--kui-seg-item-bg-active': 'var(--kui-color-surface)',
+    '--kui-seg-item-shadow-active': '0 1px 3px oklch(0 0 0 / 0.12)',
   };
 }
 

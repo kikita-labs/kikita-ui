@@ -8,5 +8,6 @@
 @import './loader.css';
 @import './card.css';
 @import './group.css';
+@import './segmented.css';
 @import './tabs.css';
 @import './tooltip.css';
