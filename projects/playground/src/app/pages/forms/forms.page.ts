@@ -1,12 +1,16 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, ViewEncapsulation, computed, signal } from '@angular/core';
 import { FormField, FormRoot, email, form, minLength, required } from '@angular/forms/signals';
 
 import { KuiButtonDirective, KuiFieldComponent, KuiInputDirective } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-forms-page',
-  imports: [FormField, FormRoot, KuiButtonDirective, KuiFieldComponent, KuiInputDirective],
+  imports: [FormField, FormRoot, KuiButtonDirective, KuiFieldComponent, KuiInputDirective, PlaygroundPanelComponent],
   templateUrl: './forms.page.html',
+  styleUrl: './forms.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class FormsPage {
   protected readonly model = signal({

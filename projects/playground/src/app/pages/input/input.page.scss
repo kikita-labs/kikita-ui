@@ -1,0 +1,50 @@
+.input-state-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 0 14px;
+}
+
+.input-state-grid kui-field {
+  --kui-field-label-row: 18px;
+  --kui-field-control-row: 48px;
+  --kui-field-message-row: 18px;
+  --kui-field-message-min-height: 18px;
+
+  min-block-size: 84px;
+}
+
+.input-state-grid .kui-input {
+  align-self: center;
+}
+
+.input-state-grid--wide {
+  max-inline-size: 760px;
+}
+
+.is-hover-preview .kui-input {
+  border-color: var(--kui-input-border-hover);
+}
+
+.is-focus-preview .kui-input {
+  border-color: var(--kui-input-border-focus);
+  box-shadow: var(--kui-input-focus-ring);
+}
+
+/* ─── Input state simulation ─────────────────────────────────────────────── */
+
+.state-matrix__cell[data-state='hover'] .kui-input {
+  border-color: var(--kui-input-border-hover, var(--kui-color-border-strong));
+}
+
+.state-matrix__cell[data-state='focus'] .kui-input {
+  border-color: var(--kui-input-border-focus, var(--kui-color-primary-fill));
+  box-shadow: var(--kui-input-focus-ring, 0 0 0 3px var(--kui-color-primary-focus-ring));
+  outline: 0;
+}
+
+@media (max-width: 900px) {
+  .input-state-grid {
+    grid-template-columns: 1fr;
+  }
+}

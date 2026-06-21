@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiButtonDirective,
@@ -7,10 +7,14 @@ import {
   KuiIconComponent,
 } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-button-page',
-  imports: [KuiButtonDirective, KuiGroupDirective, KuiIconButtonDirective, KuiIconComponent],
+  imports: [KuiButtonDirective, KuiGroupDirective, KuiIconButtonDirective, KuiIconComponent, PlaygroundPanelComponent],
   templateUrl: './button.page.html',
+  styleUrl: './button.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class ButtonPage {
   protected readonly buttonVariants = [

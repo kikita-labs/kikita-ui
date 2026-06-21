@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { KuiFieldComponent, KuiInputDirective } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-input-page',
-  imports: [KuiFieldComponent, KuiInputDirective],
+  imports: [KuiFieldComponent, KuiInputDirective, PlaygroundPanelComponent],
   templateUrl: './input.page.html',
+  styleUrl: './input.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class InputPage {
   protected readonly inputStateCols = [

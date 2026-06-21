@@ -1,13 +1,5 @@
-<section class="panel forms-panel">
-  <div>
-    <div class="panel__title">
-      <span>01</span>
-      <div>
-        <h2>Semantic variables</h2>
-        <p>Light and dark maps from the current generated theme.</p>
-      </div>
-    </div>
-
+<app-panel num="01" title="Semantic variables" description="Light and dark maps from the current generated theme.">
+  <div class="split">
     <div class="var-table">
       @for (row of semanticRows(); track row.token) {
         <div>
@@ -16,25 +8,25 @@
         </div>
       }
     </div>
-  </div>
 
-  <div class="theme-stack">
-    <article class="runtime-preview" [attr.style]="lightStyle()">
-      <h3>Light</h3>
-      <p>Surface, text, primary action, and input tokens.</p>
-      <button kuiButton type="button">Primary action</button>
-      <kui-field label="Email" hint="Generated field and input tokens.">
-        <input kuiInput type="email" placeholder="nikita@kikita.dev" />
-      </kui-field>
-    </article>
+    <div class="theme-stack">
+      <article class="runtime-preview" [attr.style]="lightStyle()">
+        <h3>Light</h3>
+        <p>Surface, text, primary action, and input tokens.</p>
+        <button kuiButton type="button">Primary action</button>
+        <kui-field label="Email" hint="Generated field and input tokens.">
+          <input kuiInput type="email" placeholder="nikita@kikita.dev" />
+        </kui-field>
+      </article>
 
-    <article class="runtime-preview" [attr.style]="darkStyle()">
-      <h3>Dark</h3>
-      <p>Same component styles, semantic values rebound.</p>
-      <button kuiButton type="button">Primary action</button>
-      <kui-field label="Email" hint="Generated field and input tokens.">
-        <input kuiInput type="email" placeholder="nikita@kikita.dev" />
-      </kui-field>
-    </article>
+      <article class="runtime-preview" [attr.style]="darkStyle()">
+        <h3>Dark</h3>
+        <p>Same component styles, semantic values rebound.</p>
+        <button kuiButton type="button">Primary action</button>
+        <kui-field label="Email" hint="Generated field and input tokens.">
+          <input kuiInput type="email" placeholder="nikita@kikita.dev" />
+        </kui-field>
+      </article>
+    </div>
   </div>
-</section>
+</app-panel>

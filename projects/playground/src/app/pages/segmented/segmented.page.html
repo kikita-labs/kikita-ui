@@ -1,15 +1,4 @@
-<section class="panel">
-  <div class="panel__title">
-    <span>01</span>
-    <div>
-      <h2>Segmented</h2>
-      <p>
-        Compact single-select control. <code>kui-segmented</code> +
-        <code>[kuiSegment]</code>. Keyboard: ←→ ↑↓ Home End.
-      </p>
-    </div>
-  </div>
-
+<app-panel num="01" title="Segmented" description="Compact single-select control. <code>kui-segmented</code> + <code>[kuiSegment]</code>. Keyboard: ←→ ↑↓ Home End.">
   <div class="component-board">
     <div class="state-board__row">
       <kui-segmented [selected]="view()" (selectedChange)="view.set($event)" aria-label="View mode">
@@ -43,17 +32,9 @@
       </kui-segmented>
     </div>
   </div>
-</section>
+</app-panel>
 
-<section class="panel">
-  <div class="panel__title">
-    <span>02</span>
-    <div>
-      <h2>Size matrix</h2>
-      <p>xs / sm / md / lg × default / selected / focus / disabled.</p>
-    </div>
-  </div>
-
+<app-panel num="02" title="Size matrix" description="xs / sm / md / lg × default / selected / focus / disabled.">
   <div class="state-matrix state-matrix--4" aria-label="Segmented size matrix">
     <div class="state-matrix__header"></div>
     <div class="state-matrix__header">Default</div>
@@ -96,17 +77,9 @@
       </div>
     }
   </div>
-</section>
+</app-panel>
 
-<section class="panel">
-  <div class="panel__title">
-    <span>03</span>
-    <div>
-      <h2>State preview</h2>
-      <p>All segment states in one control. Hover and focus are CSS-simulated.</p>
-    </div>
-  </div>
-
+<app-panel num="03" title="State preview" description="All segment states in one control. Hover and focus are CSS-simulated.">
   <div class="component-board">
     <div class="state-board__row">
       <kui-segmented [selected]="'seg-selected'" aria-label="Segment states">
@@ -118,4 +91,4 @@
       </kui-segmented>
     </div>
   </div>
-</section>
+</app-panel>

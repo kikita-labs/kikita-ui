@@ -1,0 +1,9 @@
+.kui-seg-demo-hover {
+  color: var(--kui-seg-fg-hover, var(--kui-color-text));
+  background-color: oklch(from var(--kui-color-surface) l c h / 0.5);
+}
+
+.kui-seg-demo-focus {
+  outline: 3px solid var(--kui-color-primary-focus-ring);
+  outline-offset: 2px;
+}

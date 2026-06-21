@@ -1,0 +1,12 @@
+<section class="panel">
+  <div class="panel__title">
+    <span>{{ num() }}</span>
+    <div>
+      <h2>{{ title() }}</h2>
+      @if (description()) {
+        <p [innerHTML]="description()"></p>
+      }
+    </div>
+  </div>
+  <ng-content />
+</section>

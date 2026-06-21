@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { KuiBadgeDirective } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-badge-page',
-  imports: [KuiBadgeDirective],
+  imports: [KuiBadgeDirective, PlaygroundPanelComponent],
   templateUrl: './badge.page.html',
+  styleUrl: './badge.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class BadgePage {
   protected readonly badgeAppearances = [

@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { KuiFieldComponent, KuiSwitchDirective } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-switch-page',
-  imports: [KuiFieldComponent, KuiSwitchDirective],
+  imports: [KuiFieldComponent, KuiSwitchDirective, PlaygroundPanelComponent],
   templateUrl: './switch.page.html',
+  styleUrl: './switch.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class SwitchPage {
   protected readonly switchStateRows = [

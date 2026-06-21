@@ -1,14 +1,4 @@
-<section class="panel">
-  <div class="panel__title">
-    <span>01</span>
-    <div>
-      <h2>Density</h2>
-      <p>
-        Local <code>data-kui-density</code> scopes rebind control height and x-padding tokens.
-      </p>
-    </div>
-  </div>
-
+<app-panel num="01" title="Density" description="Local <code>data-kui-density</code> scopes rebind control height and x-padding tokens.">
   <div class="density-grid">
     @for (density of densities; track density.name) {
       <article class="density-card" [attr.data-kui-density]="density.name">
@@ -35,17 +25,9 @@
       </article>
     }
   </div>
-</section>
+</app-panel>
 
-<section class="panel">
-  <div class="panel__title">
-    <span>02</span>
-    <div>
-      <h2>Mobile check</h2>
-      <p>Same controls in a constrained column for narrow viewport inspection.</p>
-    </div>
-  </div>
-
+<app-panel num="02" title="Mobile check" description="Same controls in a constrained column for narrow viewport inspection.">
   <div class="mobile-check" data-kui-density="comfortable">
     <button kuiButton wrap type="button">Comfortable touch action</button>
     <kui-field label="Project" hint="Should not overflow at mobile widths.">
@@ -56,4 +38,4 @@
       <span>Comfortable mobile switch</span>
     </label>
   </div>
-</section>
+</app-panel>

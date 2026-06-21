@@ -1,12 +1,4 @@
-<section class="panel">
-  <div class="panel__title">
-    <span>01</span>
-    <div>
-      <h2>Field</h2>
-      <p>Label, hint, error, required marker, and ARIA description wiring.</p>
-    </div>
-  </div>
-
+<app-panel num="01" title="Field" description="Label, hint, error, required marker, and ARIA description wiring.">
   <div class="field-grid">
     <kui-field label="Project name" hint="Default md size">
       <input kuiInput value="Kikita UI" />
@@ -20,17 +12,9 @@
       <textarea kuiTextarea placeholder="Token decisions, component notes"></textarea>
     </kui-field>
   </div>
-</section>
+</app-panel>
 
-<section class="panel">
-  <div class="panel__title">
-    <span>02</span>
-    <div>
-      <h2>Size matrix</h2>
-      <p>xs / sm / md / lg × default / error / disabled.</p>
-    </div>
-  </div>
-
+<app-panel num="02" title="Size matrix" description="xs / sm / md / lg × default / error / disabled.">
   <div class="state-matrix" style="grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(180px, 1fr));" aria-label="Field size matrix">
     <div class="state-matrix__header"></div>
     <div class="state-matrix__header">Default</div>
@@ -62,4 +46,4 @@
       </div>
     }
   </div>
-</section>
+</app-panel>

@@ -1,0 +1,44 @@
+.density-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.density-card {
+  display: grid;
+  gap: 16px;
+  min-inline-size: 0;
+  border: 1px solid var(--kui-color-border);
+  border-radius: 8px;
+  background: var(--kui-color-surface-elevated);
+  padding: 16px;
+}
+
+.density-card__controls {
+  display: grid;
+  gap: 12px;
+  min-inline-size: 0;
+}
+
+.mobile-check {
+  display: grid;
+  gap: 16px;
+  min-inline-size: 0;
+  border: 1px solid var(--kui-color-border);
+  border-radius: 8px;
+  background: var(--kui-color-surface-elevated);
+  padding: 16px;
+  inline-size: min(360px, 100%);
+}
+
+.mobile-check .kui-button,
+.mobile-check .kui-input {
+  inline-size: 100%;
+}
+
+@media (max-width: 900px) {
+  .density-grid {
+    grid-template-columns: 1fr;
+  }
+}

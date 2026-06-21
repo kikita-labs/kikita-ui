@@ -1,13 +1,16 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, ViewEncapsulation, computed, inject } from '@angular/core';
 
 import { KUI_THEME, KuiButtonDirective, KuiFieldComponent, KuiInputDirective } from '@kikita-labs/ui';
 
 import { createPreviewStyle, createSemanticRows } from '../../playground-data';
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-theme-page',
-  imports: [KuiButtonDirective, KuiFieldComponent, KuiInputDirective],
+  imports: [KuiButtonDirective, KuiFieldComponent, KuiInputDirective, PlaygroundPanelComponent],
   templateUrl: './theme.page.html',
+  styleUrl: './theme.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class ThemePage {
   private readonly theme = inject(KUI_THEME);

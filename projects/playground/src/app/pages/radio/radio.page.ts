@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { KuiFieldComponent, KuiRadioDirective } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-radio-page',
-  imports: [KuiFieldComponent, KuiRadioDirective],
+  imports: [KuiFieldComponent, KuiRadioDirective, PlaygroundPanelComponent],
   templateUrl: './radio.page.html',
+  styleUrl: './radio.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class RadioPage {
   protected readonly checkStateRows = [

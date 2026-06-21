@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, ViewEncapsulation, computed, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import {
@@ -10,6 +10,8 @@ import {
   KuiThDirective,
   KuiThGroupDirective,
 } from '@kikita-labs/ui';
+
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 export interface TableUser {
   name: string;
@@ -38,8 +40,11 @@ const TABLE_USERS: TableUser[] = [
     KuiCellDirective,
     KuiSelectThComponent,
     KuiSelectCellComponent,
+    PlaygroundPanelComponent,
   ],
   templateUrl: './table.page.html',
+  styleUrl: './table.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class TablePage {
   protected readonly users = TABLE_USERS;

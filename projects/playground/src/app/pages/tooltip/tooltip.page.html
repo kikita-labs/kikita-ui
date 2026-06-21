@@ -1,12 +1,4 @@
-<section class="panel">
-  <div class="panel__title">
-    <span>01</span>
-    <div>
-      <h2>Tooltip</h2>
-      <p>Text tooltip on hover and keyboard focus. Not shown on touch.</p>
-    </div>
-  </div>
-
+<app-panel num="01" title="Tooltip" description="Text tooltip on hover and keyboard focus. Not shown on touch.">
   <div class="component-board">
     <div class="state-board__row">
       <button kuiButton type="button" [kuiTooltip]="'Save changes'">Top (default)</button>
@@ -32,4 +24,4 @@
       <button kuiButton appearance="outline" type="button" [kuiTooltip]="'Longer tooltip text that wraps across multiple lines when the content exceeds the max width of 280px'" placement="bottom">Long text</button>
     </div>
   </div>
-</section>
+</app-panel>

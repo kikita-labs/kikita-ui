@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { KuiBadgeDirective, KuiCardDirective } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-card-page',
-  imports: [KuiBadgeDirective, KuiCardDirective],
+  imports: [KuiBadgeDirective, KuiCardDirective, PlaygroundPanelComponent],
   templateUrl: './card.page.html',
+  styleUrl: './card.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class CardPage {
   protected readonly sizeRows = [

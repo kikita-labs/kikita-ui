@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiButtonDirective,
@@ -7,9 +7,13 @@ import {
   KuiIconComponent,
 } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-group-page',
-  imports: [KuiButtonDirective, KuiGroupDirective, KuiIconButtonDirective, KuiIconComponent],
+  imports: [KuiButtonDirective, KuiGroupDirective, KuiIconButtonDirective, KuiIconComponent, PlaygroundPanelComponent],
   templateUrl: './group.page.html',
+  styleUrl: './group.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class GroupPage {}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiBadgeDirective,
@@ -7,10 +7,14 @@ import {
   KuiTabsComponent,
 } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-tabs-page',
-  imports: [KuiBadgeDirective, KuiTabDirective, KuiTabPanelDirective, KuiTabsComponent],
+  imports: [KuiBadgeDirective, KuiTabDirective, KuiTabPanelDirective, KuiTabsComponent, PlaygroundPanelComponent],
   templateUrl: './tabs.page.html',
+  styleUrl: './tabs.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class TabsPage {
   protected readonly manyTabs = [

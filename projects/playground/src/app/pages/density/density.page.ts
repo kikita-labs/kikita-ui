@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiButtonDirective,
@@ -8,6 +8,8 @@ import {
   KuiSwitchDirective,
 } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-density-page',
   imports: [
@@ -16,8 +18,11 @@ import {
     KuiFieldComponent,
     KuiInputDirective,
     KuiSwitchDirective,
+    PlaygroundPanelComponent,
   ],
   templateUrl: './density.page.html',
+  styleUrl: './density.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class DensityPage {
   protected readonly densities = [

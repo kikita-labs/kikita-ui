@@ -1,12 +1,4 @@
-<section class="panel">
-  <div class="panel__title">
-    <span>01</span>
-    <div>
-      <h2>Card</h2>
-      <p>Semantic surface primitive using Kikita surface, border, radius, and shadow tokens.</p>
-    </div>
-  </div>
-
+<app-panel num="01" title="Card" description="Semantic surface primitive using Kikita surface, border, radius, and shadow tokens.">
   <div class="field-grid">
     <article kuiCard>
       <span kuiBadge>Surface</span>
@@ -32,17 +24,9 @@
     <strong>Button-backed card</strong>
     <span>Focusable and clickable without losing native button semantics.</span>
   </button>
-</section>
+</app-panel>
 
-<section class="panel">
-  <div class="panel__title">
-    <span>02</span>
-    <div>
-      <h2>Interactive states</h2>
-      <p>Hover and focus on <code>interactive</code> cards. CSS-simulated.</p>
-    </div>
-  </div>
-
+<app-panel num="02" title="Interactive states" description="Hover and focus on <code>interactive</code> cards. CSS-simulated.">
   <div class="field-grid">
     <button kuiCard interactive type="button" class="card-action">
       <span kuiBadge>Default</span>
@@ -62,17 +46,9 @@
       <span>Primary focus ring on keyboard focus.</span>
     </button>
   </div>
-</section>
+</app-panel>
 
-<section class="panel">
-  <div class="panel__title">
-    <span>03</span>
-    <div>
-      <h2>Size matrix</h2>
-      <p>xs / sm / md / lg × surface / elevated / sunken — controls internal padding.</p>
-    </div>
-  </div>
-
+<app-panel num="03" title="Size matrix" description="xs / sm / md / lg × surface / elevated / sunken — controls internal padding.">
   <div class="state-matrix" style="grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(180px, 1fr));" aria-label="Card size matrix">
     <div class="state-matrix__header"></div>
     <div class="state-matrix__header">Surface</div>
@@ -94,4 +70,4 @@
       }
     }
   </div>
-</section>
+</app-panel>

@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { KuiCheckboxDirective, KuiFieldComponent } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-checkbox-page',
-  imports: [KuiCheckboxDirective, KuiFieldComponent],
+  imports: [KuiCheckboxDirective, KuiFieldComponent, PlaygroundPanelComponent],
   templateUrl: './checkbox.page.html',
+  styleUrl: './checkbox.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class CheckboxPage {
   protected readonly checkStateRows = [

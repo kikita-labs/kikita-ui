@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { KuiIconButtonDirective, KuiIconComponent } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-icons-page',
-  imports: [KuiIconButtonDirective, KuiIconComponent],
+  imports: [KuiIconButtonDirective, KuiIconComponent, PlaygroundPanelComponent],
   templateUrl: './icons.page.html',
+  styleUrl: './icons.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class IconsPage {
   protected readonly buttonVariants = [

@@ -1,13 +1,16 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, ViewEncapsulation, computed, inject } from '@angular/core';
 
 import { KUI_THEME } from '@kikita-labs/ui';
 
 import { createCssText, createPaletteRows, createSeedRows } from '../../playground-data';
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-tokens-page',
-  imports: [],
+  imports: [PlaygroundPanelComponent],
   templateUrl: './tokens.page.html',
+  styleUrl: './tokens.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class TokensPage {
   private readonly theme = inject(KUI_THEME);

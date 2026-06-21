@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, ViewEncapsulation, signal } from '@angular/core';
 
 import {
   KuiBadgeDirective,
@@ -7,10 +7,14 @@ import {
   KuiSegmentedComponent,
 } from '@kikita-labs/ui';
 
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
 @Component({
   selector: 'app-segmented-page',
-  imports: [KuiBadgeDirective, KuiIconComponent, KuiSegmentDirective, KuiSegmentedComponent],
+  imports: [KuiBadgeDirective, KuiIconComponent, KuiSegmentDirective, KuiSegmentedComponent, PlaygroundPanelComponent],
   templateUrl: './segmented.page.html',
+  styleUrl: './segmented.page.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class SegmentedPage {
   protected readonly view = signal('list');
