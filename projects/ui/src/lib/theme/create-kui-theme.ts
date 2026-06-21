@@ -213,6 +213,7 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
   const density = options.seeds.density;
 
   return {
+    '--kui-font-sans': 'system-ui, -apple-system, sans-serif',
     '--kui-radius-none': '0',
     '--kui-radius-xs': `${Math.max(2, options.seeds.radius - 4)}px`,
     '--kui-radius-sm': `${Math.max(4, options.seeds.radius - 2)}px`,

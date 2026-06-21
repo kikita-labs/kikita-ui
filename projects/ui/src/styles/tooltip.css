@@ -10,7 +10,7 @@
     background-color: var(--kui-tooltip-bg, var(--kui-color-text));
     color: var(--kui-tooltip-fg, var(--kui-color-bg));
     box-shadow: var(--kui-tooltip-shadow, var(--kui-shadow-lg));
-    font: inherit;
+    font-family: var(--kui-font-sans, system-ui, -apple-system, sans-serif);
     font-size: var(--kui-text-sm-size, 13px);
     line-height: 1.4;
     pointer-events: none;
