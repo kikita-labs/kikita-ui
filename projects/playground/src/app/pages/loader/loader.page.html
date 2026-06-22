@@ -1,4 +1,8 @@
-<app-panel num="01" title="Loader" description="CSS-only loading indicator using Kikita motion and color tokens.">
+<app-panel
+  num="01"
+  title="Loader"
+  description="CSS-only loading indicator using Kikita motion and color tokens."
+>
   <div class="component-board">
     <div class="state-board__row">
       <span kuiLoader size="xs" label="Loading small"></span>
@@ -20,7 +24,11 @@
   </div>
 </app-panel>
 
-<app-panel num="02" title="Size matrix" description="xs / sm / md / lg standalone and inside button.">
+<app-panel
+  num="02"
+  title="Size matrix"
+  description="xs / sm / md / lg standalone and inside button."
+>
   <div class="loader-size-grid">
     @for (sizeRow of sizeRows; track sizeRow.value) {
       <div class="loader-size-card">

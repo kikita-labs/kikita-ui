@@ -11,7 +11,13 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-segmented-page',
-  imports: [KuiBadgeDirective, KuiIconComponent, KuiSegmentDirective, KuiSegmentedComponent, PlaygroundPanelComponent],
+  imports: [
+    KuiBadgeDirective,
+    KuiIconComponent,
+    KuiSegmentDirective,
+    KuiSegmentedComponent,
+    PlaygroundPanelComponent,
+  ],
   templateUrl: './segmented.page.html',
   styleUrl: './segmented.page.scss',
   encapsulation: ViewEncapsulation.None,

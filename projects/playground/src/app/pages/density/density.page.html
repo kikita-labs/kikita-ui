@@ -1,4 +1,8 @@
-<app-panel num="01" title="Density" description="Local <code>data-kui-density</code> scopes rebind control height and x-padding tokens.">
+<app-panel
+  num="01"
+  title="Density"
+  description="Local <code>data-kui-density</code> scopes rebind control height and x-padding tokens."
+>
   <div class="density-grid">
     @for (density of densities; track density.name) {
       <article class="density-card" [attr.data-kui-density]="density.name">
@@ -27,7 +31,11 @@
   </div>
 </app-panel>
 
-<app-panel num="02" title="Mobile check" description="Same controls in a constrained column for narrow viewport inspection.">
+<app-panel
+  num="02"
+  title="Mobile check"
+  description="Same controls in a constrained column for narrow viewport inspection."
+>
   <div class="mobile-check" data-kui-density="comfortable">
     <button kuiButton wrap type="button">Comfortable touch action</button>
     <kui-field label="Project" hint="Should not overflow at mobile widths.">

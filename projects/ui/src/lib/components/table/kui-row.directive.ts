@@ -6,7 +6,7 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
   selector: 'tr[kuiRow]',
   exportAs: 'kuiRow',
   host: {
-    'class': 'kui-row',
+    class: 'kui-row',
     '[class.kui-row--selected]': 'selected()',
   },
 })

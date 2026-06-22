@@ -1,4 +1,8 @@
-<app-panel num="01" title="Segmented" description="Compact single-select control. <code>kui-segmented</code> + <code>[kuiSegment]</code>. Keyboard: ←→ ↑↓ Home End.">
+<app-panel
+  num="01"
+  title="Segmented"
+  description="Compact single-select control. <code>kui-segmented</code> + <code>[kuiSegment]</code>. Keyboard: ←→ ↑↓ Home End."
+>
   <div class="component-board">
     <div class="state-board__row">
       <kui-segmented [selected]="view()" (selectedChange)="view.set($event)" aria-label="View mode">
@@ -10,7 +14,11 @@
     </div>
 
     <div class="state-board__row">
-      <kui-segmented [selected]="period()" (selectedChange)="period.set($event)" aria-label="Time period">
+      <kui-segmented
+        [selected]="period()"
+        (selectedChange)="period.set($event)"
+        aria-label="Time period"
+      >
         <button kuiSegment value="day">Day</button>
         <button kuiSegment value="week">Week</button>
         <button kuiSegment value="month">Month</button>
@@ -19,7 +27,11 @@
     </div>
 
     <div class="state-board__row">
-      <kui-segmented [selected]="align()" (selectedChange)="align.set($event)" aria-label="Text alignment">
+      <kui-segmented
+        [selected]="align()"
+        (selectedChange)="align.set($event)"
+        aria-label="Text alignment"
+      >
         <button kuiSegment value="left">
           <kui-icon name="check" size="14px" label="Left" />
         </button>
@@ -34,7 +46,11 @@
   </div>
 </app-panel>
 
-<app-panel num="02" title="Size matrix" description="xs / sm / md / lg × default / selected / focus / disabled.">
+<app-panel
+  num="02"
+  title="Size matrix"
+  description="xs / sm / md / lg × default / selected / focus / disabled."
+>
   <div class="state-matrix state-matrix--4" aria-label="Segmented size matrix">
     <div class="state-matrix__header"></div>
     <div class="state-matrix__header">Default</div>
@@ -64,7 +80,9 @@
 
       <div class="state-matrix__cell">
         <kui-segmented [size]="sizeRow.value" selected="seg-foc-b-{{ sizeRow.value }}">
-          <button kuiSegment value="seg-foc-a-{{ sizeRow.value }}" class="kui-seg-demo-focus">A</button>
+          <button kuiSegment value="seg-foc-a-{{ sizeRow.value }}" class="kui-seg-demo-focus">
+            A
+          </button>
           <button kuiSegment value="seg-foc-b-{{ sizeRow.value }}">B</button>
         </kui-segmented>
       </div>
@@ -79,7 +97,11 @@
   </div>
 </app-panel>
 
-<app-panel num="03" title="State preview" description="All segment states in one control. Hover and focus are CSS-simulated.">
+<app-panel
+  num="03"
+  title="State preview"
+  description="All segment states in one control. Hover and focus are CSS-simulated."
+>
   <div class="component-board">
     <div class="state-board__row">
       <kui-segmented [selected]="'seg-selected'" aria-label="Segment states">

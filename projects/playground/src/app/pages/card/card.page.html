@@ -1,4 +1,8 @@
-<app-panel num="01" title="Card" description="Semantic surface primitive using Kikita surface, border, radius, and shadow tokens.">
+<app-panel
+  num="01"
+  title="Card"
+  description="Semantic surface primitive using Kikita surface, border, radius, and shadow tokens."
+>
   <div class="field-grid">
     <article kuiCard>
       <span kuiBadge>Surface</span>
@@ -26,7 +30,11 @@
   </button>
 </app-panel>
 
-<app-panel num="02" title="Interactive states" description="Hover and focus on <code>interactive</code> cards. CSS-simulated.">
+<app-panel
+  num="02"
+  title="Interactive states"
+  description="Hover and focus on <code>interactive</code> cards. CSS-simulated."
+>
   <div class="field-grid">
     <button kuiCard interactive type="button" class="card-action">
       <span kuiBadge>Default</span>
@@ -48,8 +56,16 @@
   </div>
 </app-panel>
 
-<app-panel num="03" title="Size matrix" description="xs / sm / md / lg × surface / elevated / sunken — controls internal padding.">
-  <div class="state-matrix" style="grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(180px, 1fr));" aria-label="Card size matrix">
+<app-panel
+  num="03"
+  title="Size matrix"
+  description="xs / sm / md / lg × surface / elevated / sunken — controls internal padding."
+>
+  <div
+    class="state-matrix"
+    style="grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(180px, 1fr))"
+    aria-label="Card size matrix"
+  >
     <div class="state-matrix__header"></div>
     <div class="state-matrix__header">Surface</div>
     <div class="state-matrix__header">Elevated</div>
@@ -61,8 +77,13 @@
         <code>size="{{ sizeRow.value }}"</code>
       </div>
       @for (appearance of cardAppearances; track appearance) {
-        <div class="state-matrix__cell" style="align-items: stretch; padding: 12px;">
-          <article kuiCard [size]="sizeRow.value" [appearance]="appearance" style="inline-size: 100%;">
+        <div class="state-matrix__cell" style="align-items: stretch; padding: 12px">
+          <article
+            kuiCard
+            [size]="sizeRow.value"
+            [appearance]="appearance"
+            style="inline-size: 100%"
+          >
             <strong>Card</strong>
             <p>{{ appearance }}</p>
           </article>

@@ -19,7 +19,7 @@ function defaultCompare(a: unknown, b: unknown): number {
   selector: 'table[kuiTable]',
   exportAs: 'kuiTable',
   host: {
-    'class': 'kui-table',
+    class: 'kui-table',
     '[attr.data-kui-size]': 'size()',
   },
   providers: [{ provide: KUI_TABLE_CTX, useExisting: KuiTableDirective }],

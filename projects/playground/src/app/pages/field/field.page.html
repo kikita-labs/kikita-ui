@@ -1,4 +1,8 @@
-<app-panel num="01" title="Field" description="Label, hint, error, required marker, and ARIA description wiring.">
+<app-panel
+  num="01"
+  title="Field"
+  description="Label, hint, error, required marker, and ARIA description wiring."
+>
   <div class="field-grid">
     <kui-field label="Project name" hint="Default md size">
       <input kuiInput value="Kikita UI" />
@@ -14,8 +18,16 @@
   </div>
 </app-panel>
 
-<app-panel num="02" title="Size matrix" description="xs / sm / md / lg × default / error / disabled.">
-  <div class="state-matrix" style="grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(180px, 1fr));" aria-label="Field size matrix">
+<app-panel
+  num="02"
+  title="Size matrix"
+  description="xs / sm / md / lg × default / error / disabled."
+>
+  <div
+    class="state-matrix"
+    style="grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(180px, 1fr))"
+    aria-label="Field size matrix"
+  >
     <div class="state-matrix__header"></div>
     <div class="state-matrix__header">Default</div>
     <div class="state-matrix__header">Error</div>
@@ -27,20 +39,25 @@
         <code>size="{{ sizeRow.value }}"</code>
       </div>
 
-      <div class="state-matrix__cell" style="align-items: stretch; padding: 12px;">
-        <kui-field [size]="sizeRow.value" label="Label" hint="Hint text" style="inline-size: 100%;">
+      <div class="state-matrix__cell" style="align-items: stretch; padding: 12px">
+        <kui-field [size]="sizeRow.value" label="Label" hint="Hint text" style="inline-size: 100%">
           <input kuiInput [size]="sizeRow.value" placeholder="Value" />
         </kui-field>
       </div>
 
-      <div class="state-matrix__cell" style="align-items: stretch; padding: 12px;">
-        <kui-field [size]="sizeRow.value" label="Label" [error]="'Required'" style="inline-size: 100%;">
+      <div class="state-matrix__cell" style="align-items: stretch; padding: 12px">
+        <kui-field
+          [size]="sizeRow.value"
+          label="Label"
+          [error]="'Required'"
+          style="inline-size: 100%"
+        >
           <input kuiInput [size]="sizeRow.value" placeholder="Value" />
         </kui-field>
       </div>
 
-      <div class="state-matrix__cell" style="align-items: stretch; padding: 12px;">
-        <kui-field [size]="sizeRow.value" label="Label" hint="Hint text" style="inline-size: 100%;">
+      <div class="state-matrix__cell" style="align-items: stretch; padding: 12px">
+        <kui-field [size]="sizeRow.value" label="Label" hint="Hint text" style="inline-size: 100%">
           <input kuiInput [size]="sizeRow.value" placeholder="Value" disabled />
         </kui-field>
       </div>

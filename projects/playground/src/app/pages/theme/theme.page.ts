@@ -1,6 +1,11 @@
 import { Component, ViewEncapsulation, computed, inject } from '@angular/core';
 
-import { KUI_THEME, KuiButtonDirective, KuiFieldComponent, KuiInputDirective } from '@kikita-labs/ui';
+import {
+  KUI_THEME,
+  KuiButtonDirective,
+  KuiFieldComponent,
+  KuiInputDirective,
+} from '@kikita-labs/ui';
 
 import { createPreviewStyle, createSemanticRows } from '../../playground-data';
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';

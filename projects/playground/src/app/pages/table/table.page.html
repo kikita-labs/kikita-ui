@@ -1,5 +1,9 @@
 <!-- 01 Basic -->
-<app-panel num="01" title="Basic (read-only)" description="No sort, no selection. Pure display table.">
+<app-panel
+  num="01"
+  title="Basic (read-only)"
+  description="No sort, no selection. Pure display table."
+>
   <div class="table-wrap">
     <table kuiTable [data]="users">
       <thead>
@@ -25,7 +29,11 @@
 </app-panel>
 
 <!-- 02 Client-side sort -->
-<app-panel num="02" title="Sortable (client-side)" description="Click headers to sort. Date column uses custom comparator.">
+<app-panel
+  num="02"
+  title="Sortable (client-side)"
+  description="Click headers to sort. Date column uses custom comparator."
+>
   <div class="table-wrap">
     <table kuiTable #sortTable="kuiTable" [data]="users">
       <thead>
@@ -53,7 +61,13 @@
 </app-panel>
 
 <!-- 03 Selectable -->
-<app-panel num="03" title="Selectable" description="Checkboxes appear automatically when <code>(selectionChange)</code> is bound. Selected: {{ selectedNames() }}">
+<app-panel
+  num="03"
+  title="Selectable"
+  description="Checkboxes appear automatically when <code>(selectionChange)</code> is bound. Selected: {{
+    selectedNames()
+  }}"
+>
   <div class="table-wrap">
     <table kuiTable [data]="users" (selectionChange)="onSelect($event)">
       <thead>
@@ -81,7 +95,11 @@
 </app-panel>
 
 <!-- 04 Sortable + Selectable -->
-<app-panel num="04" title="Sortable + Selectable" description="Combined: client-side sort with row selection.">
+<app-panel
+  num="04"
+  title="Sortable + Selectable"
+  description="Combined: client-side sort with row selection."
+>
   <div class="table-wrap">
     <table kuiTable #comboTable="kuiTable" [data]="users" (selectionChange)="onSelect($event)">
       <thead>
@@ -109,7 +127,11 @@
 </app-panel>
 
 <!-- 05 Sticky header -->
-<app-panel num="05" title="Sticky header" description="Header stays visible while scrolling. Wrapped in a fixed-height container.">
+<app-panel
+  num="05"
+  title="Sticky header"
+  description="Header stays visible while scrolling. Wrapped in a fixed-height container."
+>
   <div class="table-wrap table-wrap--scroll">
     <table kuiTable [data]="manyUsers">
       <thead>
@@ -164,7 +186,13 @@
 </app-panel>
 
 <!-- 07 Server-side sort -->
-<app-panel num="07" title="Server-side sort" description="Parent subscribes to <code>(sortChange)</code> — table emits event instead of sorting locally. Last event: {{ serverSortLabel() }}">
+<app-panel
+  num="07"
+  title="Server-side sort"
+  description="Parent subscribes to <code>(sortChange)</code> — table emits event instead of sorting locally. Last event: {{
+    serverSortLabel()
+  }}"
+>
   <div class="table-wrap">
     <table kuiTable [data]="serverData()" (sortChange)="onServerSort($event)">
       <thead>

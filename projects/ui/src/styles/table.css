@@ -87,7 +87,8 @@
   /* ── Rows ──────────────────────────────────────── */
 
   .kui-row {
-    border-bottom: 1px solid var(--kui-table-row-border, var(--kui-color-border-subtle, var(--kui-color-border)));
+    border-bottom: 1px solid
+      var(--kui-table-row-border, var(--kui-color-border-subtle, var(--kui-color-border)));
     transition: background var(--kui-duration-fast, 100ms) var(--kui-ease);
   }
 

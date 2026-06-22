@@ -11,7 +11,13 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-tooltip-page',
-  imports: [KuiButtonDirective, KuiIconButtonDirective, KuiIconComponent, KuiTooltipDirective, PlaygroundPanelComponent],
+  imports: [
+    KuiButtonDirective,
+    KuiIconButtonDirective,
+    KuiIconComponent,
+    KuiTooltipDirective,
+    PlaygroundPanelComponent,
+  ],
   templateUrl: './tooltip.page.html',
   styleUrl: './tooltip.page.scss',
   encapsulation: ViewEncapsulation.None,

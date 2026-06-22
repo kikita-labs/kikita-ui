@@ -7,7 +7,14 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-forms-page',
-  imports: [FormField, FormRoot, KuiButtonDirective, KuiFieldComponent, KuiInputDirective, PlaygroundPanelComponent],
+  imports: [
+    FormField,
+    FormRoot,
+    KuiButtonDirective,
+    KuiFieldComponent,
+    KuiInputDirective,
+    PlaygroundPanelComponent,
+  ],
   templateUrl: './forms.page.html',
   styleUrl: './forms.page.scss',
   encapsulation: ViewEncapsulation.None,

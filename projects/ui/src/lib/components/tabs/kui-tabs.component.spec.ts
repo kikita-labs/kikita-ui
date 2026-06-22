@@ -47,7 +47,9 @@ describe('KuiTabsComponent', () => {
 
   it('hides inactive panels', () => {
     const fixture = createFixture();
-    const panels = fixture.nativeElement.querySelectorAll('[role="tabpanel"]') as NodeListOf<HTMLElement>;
+    const panels = fixture.nativeElement.querySelectorAll(
+      '[role="tabpanel"]',
+    ) as NodeListOf<HTMLElement>;
 
     expect(panels[0].hidden).toBe(false);
     expect(panels[1].hidden).toBe(true);

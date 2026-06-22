@@ -5,7 +5,7 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
 @Directive({
   selector: 'th[kuiTh]',
   host: {
-    'class': 'kui-th',
+    class: 'kui-th',
     '[class.kui-th--sticky]': 'sticky()',
     '[class.kui-th--sortable]': '!!sortKey()',
     '[class.kui-th--sort-asc]': 'sortDir() === "asc"',

@@ -1,11 +1,4 @@
-import {
-  Component,
-  ViewEncapsulation,
-  contentChildren,
-  inject,
-  input,
-  model,
-} from '@angular/core';
+import { Component, ViewEncapsulation, contentChildren, inject, input, model } from '@angular/core';
 
 import { KuiSize } from '../../types';
 import { KuiTabDirective } from './kui-tab.directive';

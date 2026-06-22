@@ -1,0 +1,62 @@
+.select-state-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 0 14px;
+  max-inline-size: 760px;
+}
+
+.select-state-grid kui-field {
+  --kui-field-label-row: 18px;
+  --kui-field-control-row: 48px;
+  --kui-field-message-row: 18px;
+  --kui-field-message-min-height: 18px;
+
+  min-block-size: 84px;
+}
+
+.select-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 0 14px;
+  max-inline-size: 560px;
+}
+
+.is-hover-preview .kui-select {
+  border-color: var(--kui-select-border-hover, var(--kui-input-border-hover, ButtonBorder));
+}
+
+.is-focus-preview .kui-select {
+  border-color: var(--kui-select-border-focus, var(--kui-input-border-focus, Highlight));
+  box-shadow: var(--kui-select-focus-ring, var(--kui-input-focus-ring, 0 0 0 3px Highlight));
+  outline: 0;
+}
+
+/* ─── State matrix simulation ────────────────────────────────────────────── */
+
+.state-matrix__cell[data-state='hover'] .kui-select {
+  border-color: var(
+    --kui-select-border-hover,
+    var(--kui-input-border-hover, var(--kui-color-border-strong))
+  );
+}
+
+.state-matrix__cell[data-state='focus'] .kui-select {
+  border-color: var(
+    --kui-select-border-focus,
+    var(--kui-input-border-focus, var(--kui-color-primary-fill))
+  );
+  box-shadow: var(
+    --kui-select-focus-ring,
+    var(--kui-input-focus-ring, 0 0 0 3px var(--kui-color-primary-focus-ring))
+  );
+  outline: 0;
+}
+
+@media (max-width: 900px) {
+  .select-state-grid,
+  .select-field-grid {
+    grid-template-columns: 1fr;
+  }
+}

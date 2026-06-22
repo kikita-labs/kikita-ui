@@ -36,12 +36,12 @@ import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
 
 ## Keyboard
 
-| Key | Action |
-| --- | --- |
-| `←` / `→` | Move focus between segments |
-| `Home` | Focus first segment |
-| `End` | Focus last segment |
-| `Enter` / `Space` | Select focused segment |
+| Key               | Action                      |
+| ----------------- | --------------------------- |
+| `←` / `→`         | Move focus between segments |
+| `Home`            | Focus first segment         |
+| `End`             | Focus last segment          |
+| `Enter` / `Space` | Select focused segment      |
 
 ## Accessibility
 

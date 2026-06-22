@@ -1,4 +1,8 @@
-<app-panel num="01" title="Switch" description="Real <code>kuiSwitch</code> directive on native checkbox inputs with <code>role=&quot;switch&quot;</code>.">
+<app-panel
+  num="01"
+  title="Switch"
+  description='Real <code>kuiSwitch</code> directive on native checkbox inputs with <code>role="switch"</code>.'
+>
   <div class="component-board">
     <div class="state-board__row">
       <label class="check-row">
@@ -44,7 +48,11 @@
   </div>
 </app-panel>
 
-<app-panel num="02" title="Size matrix" description="xs / sm / md / lg × off / on / focus / disabled.">
+<app-panel
+  num="02"
+  title="Size matrix"
+  description="xs / sm / md / lg × off / on / focus / disabled."
+>
   <div class="state-matrix state-matrix--4" aria-label="Switch size matrix">
     <div class="state-matrix__header"></div>
     @for (col of switchSizeColDefs; track col.label) {
@@ -75,7 +83,11 @@
   </div>
 </app-panel>
 
-<app-panel num="03" title="State matrix" description="Off / on × default / hover / focus / invalid / disabled.">
+<app-panel
+  num="03"
+  title="State matrix"
+  description="Off / on × default / hover / focus / invalid / disabled."
+>
   <div class="state-matrix" aria-label="Switch state matrix">
     <div class="state-matrix__header"></div>
     @for (state of selectionStateCols; track state.value) {

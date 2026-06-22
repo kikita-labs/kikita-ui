@@ -11,7 +11,13 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-button-page',
-  imports: [KuiButtonDirective, KuiGroupDirective, KuiIconButtonDirective, KuiIconComponent, PlaygroundPanelComponent],
+  imports: [
+    KuiButtonDirective,
+    KuiGroupDirective,
+    KuiIconButtonDirective,
+    KuiIconComponent,
+    PlaygroundPanelComponent,
+  ],
   templateUrl: './button.page.html',
   styleUrl: './button.page.scss',
   encapsulation: ViewEncapsulation.None,

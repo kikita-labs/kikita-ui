@@ -1,4 +1,8 @@
-<app-panel num="01" title="Icon abstraction" description="Registry-backed <code>kui-icon</code> and icon-only actions.">
+<app-panel
+  num="01"
+  title="Icon abstraction"
+  description="Registry-backed <code>kui-icon</code> and icon-only actions."
+>
   <div class="icon-grid">
     <article>
       <kui-icon name="check" label="Success icon" size="24px" />
@@ -27,7 +31,11 @@
   </div>
 </app-panel>
 
-<app-panel num="02" title="Icon button appearance matrix" description="All <code>appearance</code> values × default / hover / active / focus / disabled.">
+<app-panel
+  num="02"
+  title="Icon button appearance matrix"
+  description="All <code>appearance</code> values × default / hover / active / focus / disabled."
+>
   <div class="state-matrix" aria-label="Icon button appearance matrix">
     <div class="state-matrix__header"></div>
     @for (state of stateColumns; track state.value) {
@@ -57,7 +65,11 @@
   </div>
 </app-panel>
 
-<app-panel num="03" title="Icon button size matrix" description="xs / sm / md / lg × all states. Ghost appearance.">
+<app-panel
+  num="03"
+  title="Icon button size matrix"
+  description="xs / sm / md / lg × all states. Ghost appearance."
+>
   <div class="state-matrix" aria-label="Icon button size matrix">
     <div class="state-matrix__header"></div>
     @for (state of stateColumns; track state.value) {

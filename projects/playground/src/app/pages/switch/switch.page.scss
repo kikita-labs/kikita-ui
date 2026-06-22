@@ -20,6 +20,7 @@
 }
 
 .state-matrix__cell[data-state='focus'] .kui-switch {
-  outline: var(--kui-switch-focus-ring-w, 3px) solid var(--kui-switch-focus-ring-color, var(--kui-color-primary-focus-ring));
+  outline: var(--kui-switch-focus-ring-w, 3px) solid
+    var(--kui-switch-focus-ring-color, var(--kui-color-primary-focus-ring));
   outline-offset: var(--kui-switch-focus-ring-off, 2px);
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { afterEach, vi } from 'vitest';
 
 import { KuiTooltipDirective } from './kui-tooltip.directive';
 
@@ -16,56 +17,55 @@ class TooltipHost {}
 class EmptyTooltipHost {}
 
 describe('KuiTooltipDirective', () => {
+  afterEach(() => vi.useRealTimers());
+
   it('sets aria-describedby on the host element', () => {
     const fixture = createFixture(TooltipHost);
-
     const btn = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
-
     expect(btn.getAttribute('aria-describedby')).toMatch(/^kui-tooltip-\d+$/);
   });
 
-  it('appends tooltip element to body on show and removes on hide', () => {
+  it('appends tooltip element to body on mouseenter and removes on mouseleave', () => {
+    vi.useFakeTimers();
     const fixture = createFixture(TooltipHost);
-
     const btn = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
-    const directive = fixture.debugElement.children[0].injector.get(KuiTooltipDirective);
     const describedById = btn.getAttribute('aria-describedby')!;
 
     expect(document.getElementById(describedById)).toBeNull();
 
-    directive.show();
+    btn.dispatchEvent(new MouseEvent('mouseenter'));
     const tip = document.getElementById(describedById);
     expect(tip).not.toBeNull();
     expect(tip?.getAttribute('role')).toBe('tooltip');
     expect(tip?.classList.contains('kui-tooltip')).toBe(true);
     expect(tip?.getAttribute('data-kui-placement')).toBe('bottom');
 
-    directive.hide();
+    btn.dispatchEvent(new MouseEvent('mouseleave'));
+    vi.advanceTimersByTime(200);
     expect(document.getElementById(describedById)).toBeNull();
   });
 
   it('does not append tooltip when text is empty', () => {
     const fixture = createFixture(EmptyTooltipHost);
-
-    const directive = fixture.debugElement.children[0].injector.get(KuiTooltipDirective);
     const btn = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
     const describedById = btn.getAttribute('aria-describedby')!;
 
-    directive.show();
+    btn.dispatchEvent(new MouseEvent('mouseenter'));
     expect(document.getElementById(describedById)).toBeNull();
   });
 
-  it('does not create duplicate tooltips on repeated show calls', () => {
+  it('does not create duplicate tooltips on repeated mouseenter', () => {
+    vi.useFakeTimers();
     const fixture = createFixture(TooltipHost);
+    const btn = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
 
-    const directive = fixture.debugElement.children[0].injector.get(KuiTooltipDirective);
-
-    directive.show();
-    directive.show();
+    btn.dispatchEvent(new MouseEvent('mouseenter'));
+    btn.dispatchEvent(new MouseEvent('mouseenter'));
 
     expect(document.querySelectorAll('.kui-tooltip').length).toBe(1);
 
-    directive.hide();
+    btn.dispatchEvent(new MouseEvent('mouseleave'));
+    vi.advanceTimersByTime(200);
   });
 });
 

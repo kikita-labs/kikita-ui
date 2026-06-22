@@ -11,15 +11,19 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-tabs-page',
-  imports: [KuiBadgeDirective, KuiTabDirective, KuiTabPanelDirective, KuiTabsComponent, PlaygroundPanelComponent],
+  imports: [
+    KuiBadgeDirective,
+    KuiTabDirective,
+    KuiTabPanelDirective,
+    KuiTabsComponent,
+    PlaygroundPanelComponent,
+  ],
   templateUrl: './tabs.page.html',
   styleUrl: './tabs.page.scss',
   encapsulation: ViewEncapsulation.None,
 })
 export class TabsPage {
-  protected readonly manyTabs = [
-    'tab1', 'tab2', 'tab3', 'tab4', 'tab5', 'tab6', 'tab7', 'tab8',
-  ];
+  protected readonly manyTabs = ['tab1', 'tab2', 'tab3', 'tab4', 'tab5', 'tab6', 'tab7', 'tab8'];
 
   protected readonly sizeRows = [
     { value: 'xs' as const, label: 'xs' },

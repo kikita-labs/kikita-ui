@@ -6,6 +6,4 @@ export interface KuiSegmentedContext {
   select(value: string): void;
 }
 
-export const KUI_SEGMENTED_CONTEXT = new InjectionToken<KuiSegmentedContext>(
-  'KuiSegmentedContext',
-);
+export const KUI_SEGMENTED_CONTEXT = new InjectionToken<KuiSegmentedContext>('KuiSegmentedContext');

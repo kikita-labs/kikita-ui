@@ -1,4 +1,8 @@
-<app-panel num="01" title="Theme pipeline" description="Library source: <code>createKuiTheme(DEFAULT_KUI_THEME)</code>">
+<app-panel
+  num="01"
+  title="Theme pipeline"
+  description="Library source: <code>createKuiTheme(DEFAULT_KUI_THEME)</code>"
+>
   <div class="pipeline__steps">
     <article>
       <strong>Seed</strong>
@@ -19,7 +23,11 @@
   </div>
 </app-panel>
 
-<app-panel num="02" title="Seed tokens" description="Ember seeds are the current experimental defaults.">
+<app-panel
+  num="02"
+  title="Seed tokens"
+  description="Ember seeds are the current experimental defaults."
+>
   <div class="seed-table">
     @for (seed of seedRows; track seed.token) {
       <article>
@@ -33,7 +41,11 @@
   </div>
 </app-panel>
 
-<app-panel num="03" title="Generated OKLCH palettes" description="Step 6 is the seed. Ramps below come from the library generator.">
+<app-panel
+  num="03"
+  title="Generated OKLCH palettes"
+  description="Step 6 is the seed. Ramps below come from the library generator."
+>
   <div class="ramps">
     @for (ramp of paletteRows; track ramp.token) {
       <article>
@@ -55,6 +67,10 @@
   </div>
 </app-panel>
 
-<app-panel num="04" title="CSS variable output" description="This is the public runtime theming contract.">
+<app-panel
+  num="04"
+  title="CSS variable output"
+  description="This is the public runtime theming contract."
+>
   <pre><code>{{ cssText() }}</code></pre>
 </app-panel>

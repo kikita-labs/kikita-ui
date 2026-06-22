@@ -1,4 +1,8 @@
-<app-panel num="01" title="Badge" description="Inline status and metadata primitive using Kikita status tokens.">
+<app-panel
+  num="01"
+  title="Badge"
+  description="Inline status and metadata primitive using Kikita status tokens."
+>
   <div class="component-board">
     <div class="state-board__row">
       <span kuiBadge>Neutral</span>
@@ -24,7 +28,11 @@
   </div>
 </app-panel>
 
-<app-panel num="02" title="Appearance × size" description="All 6 appearances across xs / sm / md / lg.">
+<app-panel
+  num="02"
+  title="Appearance × size"
+  description="All 6 appearances across xs / sm / md / lg."
+>
   <div class="badge-matrix">
     <div class="badge-matrix__header"></div>
     @for (sizeRow of sizeRows; track sizeRow.value) {

@@ -22,10 +22,28 @@ export interface TableUser {
 }
 
 const TABLE_USERS: TableUser[] = [
-  { name: 'Alice Martin', role: 'Engineer', status: 'active', joined: new Date('2022-03-14'), score: 98 },
-  { name: 'Bob Chen', role: 'Designer', status: 'active', joined: new Date('2021-07-01'), score: 85 },
+  {
+    name: 'Alice Martin',
+    role: 'Engineer',
+    status: 'active',
+    joined: new Date('2022-03-14'),
+    score: 98,
+  },
+  {
+    name: 'Bob Chen',
+    role: 'Designer',
+    status: 'active',
+    joined: new Date('2021-07-01'),
+    score: 85,
+  },
   { name: 'Carol Wang', role: 'PM', status: 'inactive', joined: new Date('2023-01-20'), score: 72 },
-  { name: 'Dan Patel', role: 'Engineer', status: 'pending', joined: new Date('2024-05-10'), score: 61 },
+  {
+    name: 'Dan Patel',
+    role: 'Engineer',
+    status: 'pending',
+    joined: new Date('2024-05-10'),
+    score: 61,
+  },
   { name: 'Eva Ruiz', role: 'QA', status: 'active', joined: new Date('2020-11-03'), score: 90 },
 ];
 

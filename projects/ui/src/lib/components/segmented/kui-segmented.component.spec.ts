@@ -36,7 +36,9 @@ describe('KuiSegmentedComponent', () => {
 
   it('sets aria-checked on the selected segment', () => {
     const fixture = createFixture();
-    const items = fixture.nativeElement.querySelectorAll('[role="radio"]') as NodeListOf<HTMLElement>;
+    const items = fixture.nativeElement.querySelectorAll(
+      '[role="radio"]',
+    ) as NodeListOf<HTMLElement>;
 
     expect(items[0].getAttribute('aria-checked')).toBe('true');
     expect(items[1].getAttribute('aria-checked')).toBe('false');
@@ -45,7 +47,9 @@ describe('KuiSegmentedComponent', () => {
 
   it('switches selected segment on click', () => {
     const fixture = createFixture();
-    const items = fixture.nativeElement.querySelectorAll('[role="radio"]') as NodeListOf<HTMLElement>;
+    const items = fixture.nativeElement.querySelectorAll(
+      '[role="radio"]',
+    ) as NodeListOf<HTMLElement>;
 
     items[1].click();
     fixture.detectChanges();
@@ -56,7 +60,9 @@ describe('KuiSegmentedComponent', () => {
 
   it('roving tabindex: selected has 0, others -1', () => {
     const fixture = createFixture();
-    const items = fixture.nativeElement.querySelectorAll('[role="radio"]') as NodeListOf<HTMLElement>;
+    const items = fixture.nativeElement.querySelectorAll(
+      '[role="radio"]',
+    ) as NodeListOf<HTMLElement>;
 
     expect(items[0].getAttribute('tabindex')).toBe('0');
     expect(items[1].getAttribute('tabindex')).toBe('-1');

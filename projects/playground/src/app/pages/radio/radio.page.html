@@ -1,4 +1,8 @@
-<app-panel num="01" title="Radio" description="Real <code>kuiRadio</code> directive on native radio inputs.">
+<app-panel
+  num="01"
+  title="Radio"
+  description="Real <code>kuiRadio</code> directive on native radio inputs."
+>
   <div class="component-board">
     <div class="state-board__row" role="radiogroup" aria-label="Plan">
       <label class="check-row">
@@ -44,7 +48,11 @@
   </div>
 </app-panel>
 
-<app-panel num="02" title="Size matrix" description="xs / sm / md / lg × unchecked / checked / focus / disabled.">
+<app-panel
+  num="02"
+  title="Size matrix"
+  description="xs / sm / md / lg × unchecked / checked / focus / disabled."
+>
   <div class="state-matrix state-matrix--4" aria-label="Radio size matrix">
     <div class="state-matrix__header"></div>
     @for (col of sizeColDefs; track col.label) {
@@ -76,7 +84,11 @@
   </div>
 </app-panel>
 
-<app-panel num="03" title="State matrix" description="Unchecked / checked × default / hover / focus / invalid / disabled.">
+<app-panel
+  num="03"
+  title="State matrix"
+  description="Unchecked / checked × default / hover / focus / invalid / disabled."
+>
   <div class="state-matrix" aria-label="Radio state matrix">
     <div class="state-matrix__header"></div>
     @for (state of selectionStateCols; track state.value) {

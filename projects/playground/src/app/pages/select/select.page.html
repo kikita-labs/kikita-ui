@@ -1,0 +1,103 @@
+<app-panel
+  num="01"
+  title="Select states"
+  description="Native <code>select[kuiSelect]</code> inside <code>kui-field</code>."
+>
+  <div class="select-state-grid">
+    <kui-field label="Default">
+      <select kuiSelect>
+        <option value="">Choose…</option>
+        <option value="a">Option A</option>
+        <option value="b">Option B</option>
+      </select>
+    </kui-field>
+
+    <kui-field label="Hover" class="is-hover-preview">
+      <select kuiSelect>
+        <option value="a" selected>Option A</option>
+        <option value="b">Option B</option>
+      </select>
+    </kui-field>
+
+    <kui-field label="Focus" class="is-focus-preview">
+      <select kuiSelect>
+        <option value="b" selected>Option B</option>
+        <option value="a">Option A</option>
+      </select>
+    </kui-field>
+
+    <kui-field label="Error" error="Selection required">
+      <select kuiSelect invalid>
+        <option value="">Choose…</option>
+        <option value="a">Option A</option>
+      </select>
+    </kui-field>
+
+    <kui-field label="Disabled">
+      <select kuiSelect disabled>
+        <option value="a" selected>Option A</option>
+      </select>
+    </kui-field>
+  </div>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Field wiring"
+  description="Label, hint, and error message wired through <code>kui-field</code>."
+>
+  <div class="select-field-grid">
+    <kui-field label="Country" hint="Select your country of residence">
+      <select kuiSelect>
+        <option value="">Choose a country…</option>
+        <option value="us">United States</option>
+        <option value="gb">United Kingdom</option>
+        <option value="de">Germany</option>
+      </select>
+    </kui-field>
+
+    <kui-field label="Role" error="You must select a role" required>
+      <select kuiSelect invalid>
+        <option value="">Select role…</option>
+        <option value="admin">Admin</option>
+        <option value="editor">Editor</option>
+        <option value="viewer">Viewer</option>
+      </select>
+    </kui-field>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Size matrix"
+  description="xs / sm / md / lg × default / hover / focus / invalid / disabled."
+>
+  <div class="state-matrix" aria-label="Select size matrix">
+    <div class="state-matrix__header"></div>
+    @for (col of stateCols; track col.value) {
+      <div class="state-matrix__header">{{ col.label }}</div>
+    }
+
+    @for (row of sizeRows; track row.value) {
+      <div class="state-matrix__label">
+        <strong>{{ row.label }}</strong>
+        <code>size="{{ row.value }}"</code>
+      </div>
+
+      @for (col of stateCols; track col.value) {
+        <div class="state-matrix__cell" [attr.data-state]="col.value">
+          <select
+            kuiSelect
+            [size]="row.value"
+            [invalid]="col.value === 'invalid'"
+            [disabled]="col.value === 'disabled'"
+          >
+            <option value="">Choose…</option>
+            <option value="a">Option A</option>
+            <option value="b">Option B</option>
+          </select>
+        </div>
+      }
+    }
+  </div>
+</app-panel>

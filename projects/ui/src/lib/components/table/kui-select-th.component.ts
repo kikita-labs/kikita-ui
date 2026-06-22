@@ -5,7 +5,7 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
 @Component({
   selector: 'th[kuiSelectTh]',
   encapsulation: ViewEncapsulation.None,
-  host: { 'class': 'kui-table__select-cell' },
+  host: { class: 'kui-table__select-cell' },
   template: `
     @if (visible()) {
       <input

@@ -6,7 +6,7 @@ import { KuiRowDirective } from './kui-row.directive';
 @Component({
   selector: 'td[kuiSelectCell]',
   encapsulation: ViewEncapsulation.None,
-  host: { 'class': 'kui-table__select-cell' },
+  host: { class: 'kui-table__select-cell' },
   template: `
     @if (visible()) {
       <input

@@ -1,4 +1,8 @@
-<app-panel num="01" title="Button directive" description="Real <code>kuiButton</code> directive on native button and anchor elements.">
+<app-panel
+  num="01"
+  title="Button directive"
+  description="Real <code>kuiButton</code> directive on native button and anchor elements."
+>
   <div class="button-grid">
     <button kuiButton type="button">
       <kui-icon name="check" />
@@ -22,7 +26,11 @@
   </div>
 </app-panel>
 
-<app-panel num="02" title="Appearance matrix" description="All <code>appearance</code> values × default / hover / active / focus / disabled.">
+<app-panel
+  num="02"
+  title="Appearance matrix"
+  description="All <code>appearance</code> values × default / hover / active / focus / disabled."
+>
   <div class="state-matrix" aria-label="Button appearance matrix">
     <div class="state-matrix__header"></div>
     @for (state of stateColumns; track state.value) {
@@ -51,7 +59,11 @@
   </div>
 </app-panel>
 
-<app-panel num="03" title="Size matrix" description="xs / sm / md / lg × all states. Solid appearance.">
+<app-panel
+  num="03"
+  title="Size matrix"
+  description="xs / sm / md / lg × all states. Solid appearance."
+>
   <div class="state-matrix" aria-label="Button size matrix">
     <div class="state-matrix__header"></div>
     @for (state of stateColumns; track state.value) {

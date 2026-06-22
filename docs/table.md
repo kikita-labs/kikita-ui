@@ -30,12 +30,12 @@ import {
   </thead>
   <tbody>
     @for (row of table.sortedData(); track row.id) {
-      <tr kuiRow [value]="row">
-        <td kuiSelectCell></td>
-        <td kuiCell>{{ row.name }}</td>
-        <td kuiCell>{{ row.status }}</td>
-        <td kuiCell>…</td>
-      </tr>
+    <tr kuiRow [value]="row">
+      <td kuiSelectCell></td>
+      <td kuiCell>{{ row.name }}</td>
+      <td kuiCell>{{ row.status }}</td>
+      <td kuiCell>…</td>
+    </tr>
     }
   </tbody>
 </table>
@@ -44,7 +44,7 @@ import {
 Access the directive instance via a template reference to read computed state:
 
 ```html
-<table kuiTable [data]="rows" #table="kuiTable">
+<table kuiTable [data]="rows" #table="kuiTable"></table>
 ```
 
 ## Inputs — `table[kuiTable]`

@@ -1,0 +1,69 @@
+@layer kui.components {
+  .kui-select {
+    appearance: none;
+    box-sizing: border-box;
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    block-size: var(--kui-select-height, var(--kui-control-height-md, 40px));
+    border: var(--kui-select-border-width, 1px) solid
+      var(--kui-select-border, var(--kui-input-border, ButtonBorder));
+    border-radius: var(--kui-select-radius, var(--kui-input-radius, 8px));
+    background-color: var(--kui-select-bg, var(--kui-input-bg, Field));
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%234a4540' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--kui-select-chevron-inset, 10px) center;
+    background-size: var(--kui-select-chevron-size, 16px) var(--kui-select-chevron-size, 16px);
+    color: var(--kui-select-fg, var(--kui-color-text, FieldText));
+    font: inherit;
+    font-size: var(--kui-select-font-size, var(--kui-text-sm-size, 13px));
+    margin: 0;
+    padding-block: 0;
+    padding-inline-start: var(--kui-select-px, var(--kui-input-padding-inline, 12px));
+    padding-inline-end: var(--kui-select-chevron-gap, 34px);
+    cursor: pointer;
+    transition:
+      background-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      border-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      box-shadow var(--kui-duration-base, 160ms) var(--kui-ease, ease);
+  }
+
+  [data-kui-theme='light'] .kui-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%238b8480' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .kui-select:hover {
+    border-color: var(--kui-select-border-hover, var(--kui-input-border-hover, ButtonBorder));
+  }
+
+  .kui-select:focus {
+    border-color: var(--kui-select-border-focus, var(--kui-input-border-focus, Highlight));
+    outline: 0;
+    box-shadow: var(--kui-select-focus-ring, var(--kui-input-focus-ring, 0 0 0 3px Highlight));
+  }
+
+  .kui-select[data-kui-invalid],
+  .kui-field[data-kui-invalid] .kui-select {
+    border-color: var(
+      --kui-select-border-error,
+      var(--kui-input-border-error, var(--kui-color-danger-fill, Mark))
+    );
+  }
+
+  .kui-select:is(:disabled, [readonly]) {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+
+  .kui-select[data-kui-size='xs'] {
+    block-size: var(--kui-select-height-xs, var(--kui-control-height-xs, 28px));
+  }
+
+  .kui-select[data-kui-size='sm'] {
+    block-size: var(--kui-select-height-sm, var(--kui-control-height-sm, 32px));
+  }
+
+  .kui-select[data-kui-size='lg'] {
+    block-size: var(--kui-select-height-lg, var(--kui-control-height-lg, 44px));
+  }
+}

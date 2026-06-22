@@ -40,7 +40,8 @@
     padding-inline: var(--kui-tab-px, var(--kui-btn-px));
     border: none;
     border-bottom: 2px solid transparent;
-    border-radius: var(--kui-tab-radius, var(--kui-radius-sm)) var(--kui-tab-radius, var(--kui-radius-sm)) 0 0;
+    border-radius: var(--kui-tab-radius, var(--kui-radius-sm))
+      var(--kui-tab-radius, var(--kui-radius-sm)) 0 0;
     background: transparent;
     color: var(--kui-tab-fg, var(--kui-color-text-secondary));
     font: inherit;

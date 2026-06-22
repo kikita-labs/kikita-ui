@@ -28,7 +28,7 @@
 
 ## Phase 3
 
-- Select
+- Select (done as `select[kuiSelect]`)
 - Dropdown
 - Popover
 - Dialog

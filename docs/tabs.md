@@ -25,9 +25,7 @@ import { KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective } from '@kikita
 ### Pill variant
 
 ```html
-<kui-tabs variant="pill" [(selected)]="activeTab">
-  ...
-</kui-tabs>
+<kui-tabs variant="pill" [(selected)]="activeTab"> ... </kui-tabs>
 ```
 
 ## Inputs — `kui-tabs`
@@ -47,11 +45,11 @@ import { KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective } from '@kikita
 
 ## Keyboard
 
-| Key | Action |
-| --- | --- |
+| Key       | Action                  |
+| --------- | ----------------------- |
 | `←` / `→` | Move focus between tabs |
-| `Home` | Focus first tab |
-| `End` | Focus last tab |
+| `Home`    | Focus first tab         |
+| `End`     | Focus last tab          |
 
 ## Accessibility
 

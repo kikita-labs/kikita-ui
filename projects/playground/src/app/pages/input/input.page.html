@@ -1,4 +1,8 @@
-<app-panel num="01" title="Input state matrix" description="Real <code>kuiInput</code> directive inside <code>kui-field</code>.">
+<app-panel
+  num="01"
+  title="Input state matrix"
+  description="Real <code>kuiInput</code> directive inside <code>kui-field</code>."
+>
   <div class="input-state-grid input-state-grid--wide">
     <kui-field label="Default">
       <input kuiInput placeholder="Placeholder" />
@@ -18,7 +22,11 @@
   </div>
 </app-panel>
 
-<app-panel num="02" title="Size matrix" description="xs / sm / md / lg × default / hover / focus / invalid / disabled.">
+<app-panel
+  num="02"
+  title="Size matrix"
+  description="xs / sm / md / lg × default / hover / focus / invalid / disabled."
+>
   <div class="state-matrix" aria-label="Input size matrix">
     <div class="state-matrix__header"></div>
     @for (state of inputStateCols; track state.value) {

@@ -14,4 +14,5 @@ export * from './textarea';
 export * from './segmented';
 export * from './tabs';
 export * from './tooltip';
+export * from './select';
 export * from './table';
