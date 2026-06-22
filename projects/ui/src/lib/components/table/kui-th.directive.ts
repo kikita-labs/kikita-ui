@@ -21,22 +21,25 @@ export class KuiThDirective {
   readonly comparator = input<((a: unknown, b: unknown) => number) | undefined>(undefined);
   readonly sticky = input<boolean>(false);
 
-  readonly sortDir = computed(() => {
+  protected readonly sortDir = computed(() => {
     const state = this.table?.sortState();
     if (!state || state.key !== this.sortKey()) return null;
     return state.direction;
   });
 
-  readonly ariaSort = computed(() => {
+  protected readonly ariaSort = computed(() => {
     const dir = this.sortDir();
+
     if (dir === 'asc') return 'ascending';
     if (dir === 'desc') return 'descending';
+
     return this.sortKey() ? 'none' : null;
   });
 
-  onClick(): void {
+  protected onClick(): void {
     const key = this.sortKey();
     if (!key || !this.table) return;
+
     const comp = this.comparator();
     if (comp) this.table.registerComparator(key, comp as never);
     this.table.updateSort(key);

@@ -21,5 +21,6 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
 })
 export class KuiSelectThComponent {
   protected readonly table = inject(KUI_TABLE_CTX);
+
   protected readonly visible = computed(() => this.table.selectionObserved);
 }

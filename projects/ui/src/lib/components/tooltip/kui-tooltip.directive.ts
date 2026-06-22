@@ -50,7 +50,7 @@ export class KuiTooltipDirective implements OnDestroy {
   private tooltipEl: HTMLElement | null = null;
 
   /** @internal */
-  show(): void {
+  protected show(): void {
     const text = this.kuiTooltip();
     if (!text || !isPlatformBrowser(this.platformId) || this.tooltipEl) return;
 
@@ -67,7 +67,7 @@ export class KuiTooltipDirective implements OnDestroy {
   }
 
   /** @internal */
-  hide(): void {
+  protected hide(): void {
     if (!this.tooltipEl) return;
     const el = this.tooltipEl;
     this.tooltipEl = null;

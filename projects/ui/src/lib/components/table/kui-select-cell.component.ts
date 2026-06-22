@@ -22,5 +22,6 @@ import { KuiRowDirective } from './kui-row.directive';
 export class KuiSelectCellComponent {
   protected readonly table = inject(KUI_TABLE_CTX);
   protected readonly row = inject(KuiRowDirective);
+
   protected readonly visible = computed(() => this.table.selectionObserved);
 }
