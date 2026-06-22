@@ -29,7 +29,6 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/tabs', label: 'Tabs' },
   { path: '/tooltip', label: 'Tooltip' },
   { path: '/segmented', label: 'Segmented' },
-  { path: '/select', label: 'Select' },
   { path: '/table', label: 'Table' },
 ];
 

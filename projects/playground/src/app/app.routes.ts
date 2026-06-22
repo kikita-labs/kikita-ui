@@ -73,10 +73,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/segmented/segmented.page').then((m) => m.SegmentedPage),
   },
   {
-    path: 'select',
-    loadComponent: () => import('./pages/select/select.page').then((m) => m.SelectPage),
-  },
-  {
     path: 'table',
     loadComponent: () => import('./pages/table/table.page').then((m) => m.TablePage),
   },

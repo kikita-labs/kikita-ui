@@ -82,6 +82,14 @@ Design AI tools may generate directions and mockups, but source of truth is:
 - docs examples
 - tests/visual checks
 
+## Design Escalation
+
+Before implementing any new component, check `.local-notes/Ember Spec.dc.html` for visual design and token details.
+
+If the Ember Spec does not have enough information for a component (states, variants, tokens, layout, or visual behavior are unclear or missing), **stop and tell the user**. Do not invent a design. The user will commission Claude Design to produce the missing component spec.
+
+Designed components are added to `.local-notes/` and the Ember Spec is updated before implementation begins.
+
 ## Figma And Design Tool Workflow
 
 Figma MCP is available for this project and can be used for design-to-code and code-to-design work.

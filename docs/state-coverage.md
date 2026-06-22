@@ -23,7 +23,6 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Tooltip    | `/tooltip`       | hover/focus trigger, top/right/bottom/left placement, empty text guard     |
 | Segmented  | `/segmented`     | selected, focus, disabled, sizes, keyboard navigation preview              |
 | Table      | `/table`         | sizes, sortable headers, selection cells, sticky header/column composition |
-| Select     | `/select`        | default, hover, focus, error, disabled, sizes, field wiring                |
 | Density    | `/density`       | compact, regular, comfortable scopes, constrained mobile preview           |
 
 ## Current Gaps
