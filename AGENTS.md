@@ -7,6 +7,7 @@ This repository contains Kikita UI, an Angular 22+ UI library and design system.
 - Angular 22+ only.
 - Use signals and Signal Forms-first APIs.
 - Use Angular 22 @Service for new service classes. Use @Injectable only when Angular docs or a specific DI pattern require it.
+- Angular 22 enables OnPush change detection by default. Do not add `changeDetection: ChangeDetectionStrategy.OnPush` to new components. Use `ChangeDetectionStrategy.Eager` only when intentionally opting out of the default.
 - Do not add Angular legacy compatibility unless explicitly requested.
 - CSS variables are the public theming contract.
 - SCSS is allowed as an authoring/convenience layer, not as the runtime theme API.
@@ -17,6 +18,40 @@ This repository contains Kikita UI, an Angular 22+ UI library and design system.
 - Components must support light/dark theming, responsive layout, disabled/focus/hover/active states, and SSR-safe implementation.
 - Do not build components without a real roadmap need.
 - Do not copy Taiga UI, Angular Material, Ant Design, PrimeNG, shadcn, Bootstrap, or Tailwind UI visuals/API.
+
+## Component Architecture
+
+- Prefer directive-based primitives on native elements when native semantics already exist, for example `button[kuiButton]`, `input[kuiInput]`, `table[kuiTable]`.
+- Use components for composite primitives that need projected children, context, roving keyboard state, or coordinated visual state, for example tabs and segmented controls.
+- Use signal inputs/models/queries for public APIs and internal state.
+- Template-facing internal members should be `protected`; implementation-only members should be `private`.
+- Public primitives must be exported from `projects/ui/src/lib/components/index.ts` and their local component barrel.
+- When adding a public primitive, update all of these in the same change unless explicitly deferred:
+  - component/directive implementation
+  - public barrel exports
+  - `projects/ui/src/styles/<primitive>.css`
+  - `projects/ui/src/styles/kikita-ui.css`
+  - docs page
+  - playground page
+  - `docs/state-coverage.md`
+  - focused unit tests for public behavior
+
+## Style Architecture
+
+- Keep `projects/ui/src/styles/kikita-ui.css` as the single public style entrypoint for `@kikita-labs/ui/styles`.
+- Author real styles in per-layer/per-primitive files under `projects/ui/src/styles/`.
+- Import every public primitive style file from `kikita-ui.css`; do not hide required component CSS in playground styles.
+- Use CSS `@layer` for Kikita-owned CSS. Current layers are `kui.base` and `kui.components`.
+- Component CSS must consume Kikita CSS variables. Do not introduce hardcoded design colors when a `--kui-*` token exists or should exist.
+- Playground SCSS may arrange demos, grids, and state simulations, but it must not become the source of component styling.
+
+## Playground Architecture
+
+- Playground routes are lazy standalone page components under `projects/playground/src/app/pages/<name>/`.
+- Each playground page should keep its template and SCSS next to the page component: `<name>.page.ts`, `<name>.page.html`, `<name>.page.scss`.
+- Keep `projects/playground/src/app/app.scss` for shell/global playground layout only.
+- Use `projects/playground/src/app/shared/panel` for repeated board panels.
+- Playground is a development/spec board, not the public docs site, but it should still expose real component states and catch obvious responsive/theming defects.
 
 ## Package
 

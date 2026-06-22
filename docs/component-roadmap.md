@@ -20,10 +20,11 @@
 - Radio (done as `input[type=radio][kuiRadio]`)
 - Badge (done as `[kuiBadge]`)
 - Loader (done as `[kuiLoader]`)
-- Tooltip
+- Tooltip (done as `[kuiTooltip]`)
 - Card (done as `[kuiCard]`)
-- Tabs
-- Segmented
+- Tabs (done as `kui-tabs`)
+- Segmented (done as `kui-segmented`)
+- Table primitives (done as `table[kuiTable]`; deeper accessibility review still pending)
 
 ## Phase 3
 
@@ -43,7 +44,6 @@
 - Avatar
 - Menu
 - Drawer
-- Table primitives
 - Combobox
 - Command palette
 - Skeleton
@@ -79,3 +79,5 @@ Before migrating `discord-bot` screens, Kikita UI should reach a coherent MVP:
 Current primitive state coverage is tracked in `docs/state-coverage.md`.
 
 After that, migrate one isolated low-risk screen first. Avoid mixed Taiga/Kikita surfaces unless the screen is explicitly a migration sandbox.
+
+Docs pages exist for all Phase 2 primitives. Accessibility review for Table, Tooltip, Tabs, and Segmented is still pending.
