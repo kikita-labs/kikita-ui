@@ -28,8 +28,8 @@
 
 ## Phase 3
 
-- Select
-- Dropdown
+- Select (done as `kui-select`; self-contained positioning, will refactor to use Dropdown primitive)
+- Dropdown (design pending — see `.local-notes/Dropdown Design Brief.md` and `docs/dropdown.md`)
 - Popover
 - Dialog
 - Confirm

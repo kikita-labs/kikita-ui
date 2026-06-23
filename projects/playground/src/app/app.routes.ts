@@ -76,5 +76,9 @@ export const routes: Routes = [
     path: 'table',
     loadComponent: () => import('./pages/table/table.page').then((m) => m.TablePage),
   },
+  {
+    path: 'select',
+    loadComponent: () => import('./pages/select/select.page').then((m) => m.SelectPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];
