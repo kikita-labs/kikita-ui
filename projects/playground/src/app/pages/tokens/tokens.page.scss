@@ -7,38 +7,24 @@
 .pipeline__steps article {
   display: grid;
   gap: 8px;
-  padding: 16px;
+}
+
+.table-wrap {
+  overflow: auto;
   border: 1px solid var(--kui-color-border);
   border-radius: 8px;
-  background: var(--kui-color-surface-elevated);
 }
 
-.seed-table {
-  display: grid;
-  gap: 8px;
-}
-
-.seed-table article {
-  display: grid;
-  grid-template-columns: 40px 110px minmax(150px, 1fr) minmax(130px, 0.8fr) minmax(190px, 1fr);
-  gap: 12px;
-  align-items: center;
-  padding: 12px;
-  border: 1px solid var(--kui-color-border);
-  border-radius: 8px;
-  background: var(--kui-color-surface-elevated);
-}
-
-.seed-table i {
-  inline-size: 36px;
-  block-size: 36px;
+.token-swatch {
+  display: block;
+  inline-size: 32px;
+  block-size: 32px;
   border: 1px solid var(--kui-color-border);
   border-radius: 6px;
 }
 
-.seed-table small {
+.token-purpose {
   color: var(--kui-color-text-secondary);
-  font-size: 12px;
 }
 
 .ramps {
@@ -97,7 +83,6 @@
 
 @media (max-width: 900px) {
   .pipeline__steps,
-  .seed-table article,
   .ramps article {
     grid-template-columns: 1fr;
   }

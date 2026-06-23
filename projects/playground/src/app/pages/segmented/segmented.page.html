@@ -51,49 +51,54 @@
   title="Size matrix"
   description="xs / sm / md / lg × default / selected / focus / disabled."
 >
-  <div class="state-matrix state-matrix--4" aria-label="Segmented size matrix">
-    <div class="state-matrix__header"></div>
-    <div class="state-matrix__header">Default</div>
-    <div class="state-matrix__header">Selected</div>
-    <div class="state-matrix__header">Focus</div>
-    <div class="state-matrix__header">Disabled</div>
-
-    @for (sizeRow of sizeRows; track sizeRow.value) {
-      <div class="state-matrix__label">
-        <strong>{{ sizeRow.label }}</strong>
-        <code>size="{{ sizeRow.value }}"</code>
-      </div>
-
-      <div class="state-matrix__cell">
-        <kui-segmented [size]="sizeRow.value" selected="seg-b-{{ sizeRow.value }}">
-          <button kuiSegment value="seg-a-{{ sizeRow.value }}">A</button>
-          <button kuiSegment value="seg-b-{{ sizeRow.value }}">B</button>
-        </kui-segmented>
-      </div>
-
-      <div class="state-matrix__cell">
-        <kui-segmented [size]="sizeRow.value" selected="seg-sel-a-{{ sizeRow.value }}">
-          <button kuiSegment value="seg-sel-a-{{ sizeRow.value }}">A</button>
-          <button kuiSegment value="seg-sel-b-{{ sizeRow.value }}">B</button>
-        </kui-segmented>
-      </div>
-
-      <div class="state-matrix__cell">
-        <kui-segmented [size]="sizeRow.value" selected="seg-foc-b-{{ sizeRow.value }}">
-          <button kuiSegment value="seg-foc-a-{{ sizeRow.value }}" class="kui-seg-demo-focus">
-            A
-          </button>
-          <button kuiSegment value="seg-foc-b-{{ sizeRow.value }}">B</button>
-        </kui-segmented>
-      </div>
-
-      <div class="state-matrix__cell">
-        <kui-segmented [size]="sizeRow.value" selected="seg-dis-b-{{ sizeRow.value }}">
-          <button kuiSegment value="seg-dis-a-{{ sizeRow.value }}" disabled>A</button>
-          <button kuiSegment value="seg-dis-b-{{ sizeRow.value }}">B</button>
-        </kui-segmented>
-      </div>
-    }
+  <div class="table-wrap">
+    <table kuiTable aria-label="Segmented size matrix">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          <th kuiTh>Default</th>
+          <th kuiTh>Selected</th>
+          <th kuiTh>Focus</th>
+          <th kuiTh>Disabled</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <tr>
+            <td kuiCell class="matrix-label">
+              <strong>{{ sizeRow.label }}</strong>
+              <code>size="{{ sizeRow.value }}"</code>
+            </td>
+            <td kuiCell class="matrix-cell">
+              <kui-segmented [size]="sizeRow.value" selected="seg-b-{{ sizeRow.value }}">
+                <button kuiSegment value="seg-a-{{ sizeRow.value }}">A</button>
+                <button kuiSegment value="seg-b-{{ sizeRow.value }}">B</button>
+              </kui-segmented>
+            </td>
+            <td kuiCell class="matrix-cell">
+              <kui-segmented [size]="sizeRow.value" selected="seg-sel-a-{{ sizeRow.value }}">
+                <button kuiSegment value="seg-sel-a-{{ sizeRow.value }}">A</button>
+                <button kuiSegment value="seg-sel-b-{{ sizeRow.value }}">B</button>
+              </kui-segmented>
+            </td>
+            <td kuiCell class="matrix-cell">
+              <kui-segmented [size]="sizeRow.value" selected="seg-foc-b-{{ sizeRow.value }}">
+                <button kuiSegment value="seg-foc-a-{{ sizeRow.value }}" class="kui-seg-demo-focus">
+                  A
+                </button>
+                <button kuiSegment value="seg-foc-b-{{ sizeRow.value }}">B</button>
+              </kui-segmented>
+            </td>
+            <td kuiCell class="matrix-cell">
+              <kui-segmented [size]="sizeRow.value" selected="seg-dis-b-{{ sizeRow.value }}">
+                <button kuiSegment value="seg-dis-a-{{ sizeRow.value }}" disabled>A</button>
+                <button kuiSegment value="seg-dis-b-{{ sizeRow.value }}">B</button>
+              </kui-segmented>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </app-panel>
 

@@ -1,4 +1,16 @@
-import { Component, ViewEncapsulation, contentChildren, inject, input, model } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  ViewEncapsulation,
+  afterNextRender,
+  contentChildren,
+  inject,
+  input,
+  model,
+  signal,
+  viewChild,
+} from '@angular/core';
 
 import { KuiSize } from '../../types';
 import { KuiTabDirective } from './kui-tab.directive';
@@ -23,10 +35,36 @@ export type KuiTabsVariant = 'line' | 'pill';
 @Component({
   selector: 'kui-tabs',
   template: `
-    <div class="kui-tabs__scroll">
-      <div class="kui-tabs__list" role="tablist" (keydown)="onKeydown($event)">
-        <ng-content select="[kuiTab]" />
+    <div class="kui-tabs__scroll-wrap">
+      @if (canScrollLeft()) {
+        <button
+          class="kui-tabs__scroll-btn kui-tabs__scroll-btn--left"
+          (click)="scrollBy(-200)"
+          aria-hidden="true"
+          tabindex="-1"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      }
+      <div class="kui-tabs__scroll" #scrollEl (scroll)="updateScrollState()">
+        <div class="kui-tabs__list" role="tablist" (keydown)="onKeydown($event)">
+          <ng-content select="[kuiTab]" />
+        </div>
       </div>
+      @if (canScrollRight()) {
+        <button
+          class="kui-tabs__scroll-btn kui-tabs__scroll-btn--right"
+          (click)="scrollBy(200)"
+          aria-hidden="true"
+          tabindex="-1"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      }
     </div>
     <ng-content select="[kuiTabPanel]" />
   `,
@@ -52,9 +90,36 @@ export class KuiTabsComponent implements KuiTabsContext {
   readonly selected = model<string>('');
 
   private readonly tabItems = contentChildren(KuiTabDirective);
+  private readonly scrollElRef = viewChild<ElementRef<HTMLElement>>('scrollEl');
+  private readonly destroyRef = inject(DestroyRef);
+
+  protected readonly canScrollLeft = signal(false);
+  protected readonly canScrollRight = signal(false);
+
+  constructor() {
+    afterNextRender(() => {
+      const el = this.scrollElRef()?.nativeElement;
+      if (!el) return;
+      this.updateScrollState();
+      const ro = new ResizeObserver(() => this.updateScrollState());
+      ro.observe(el);
+      this.destroyRef.onDestroy(() => ro.disconnect());
+    });
+  }
 
   select(value: string): void {
     this.selected.set(value);
+  }
+
+  protected updateScrollState(): void {
+    const el = this.scrollElRef()?.nativeElement;
+    if (!el) return;
+    this.canScrollLeft.set(el.scrollLeft > 0);
+    this.canScrollRight.set(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }
+
+  protected scrollBy(delta: number): void {
+    this.scrollElRef()?.nativeElement.scrollBy({ left: delta, behavior: 'smooth' });
   }
 
   /** @internal */

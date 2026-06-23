@@ -1,35 +1,27 @@
 <main class="shell">
-  <header class="header">
+  <header kuiCard class="header">
     <div>
       <p>Kikita UI &middot; Playground</p>
       <h1>Development board</h1>
     </div>
 
-    <div class="mode-switch" aria-label="Theme mode">
-      @for (item of modes; track item) {
-        <button
-          type="button"
-          [class.is-active]="mode() === item"
-          [attr.aria-pressed]="mode() === item"
-          (click)="setMode(item)"
-        >
-          {{ item }}
-        </button>
-      }
-    </div>
+    <kui-segmented [selected]="mode()" (selectedChange)="setMode($any($event))" size="sm">
+      <button kuiSegment value="light">light</button>
+      <button kuiSegment value="dark">dark</button>
+    </kui-segmented>
   </header>
 
-  <nav class="playground-nav" aria-label="Playground sections">
+  <kui-tabs
+    class="playground-nav"
+    [selected]="currentPath()"
+    (selectedChange)="navigate($event)"
+    size="sm"
+    aria-label="Playground sections"
+  >
     @for (item of navItems; track item.path) {
-      <a
-        [routerLink]="item.path"
-        routerLinkActive="is-active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        {{ item.label }}
-      </a>
+      <button kuiTab [value]="item.path">{{ item.label }}</button>
     }
-  </nav>
+  </kui-tabs>
 
   <router-outlet />
 </main>

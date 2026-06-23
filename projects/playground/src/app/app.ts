@@ -1,8 +1,17 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, ViewEncapsulation, effect, inject, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter, map, startWith } from 'rxjs';
 
-import { KuiThemeMode } from '@kikita-labs/ui';
+import {
+  KuiCardDirective,
+  KuiSegmentDirective,
+  KuiSegmentedComponent,
+  KuiTabDirective,
+  KuiTabsComponent,
+  KuiThemeMode,
+} from '@kikita-labs/ui';
 
 interface NavItem {
   readonly path: string;
@@ -34,16 +43,25 @@ const NAV_ITEMS: readonly NavItem[] = [
 
 @Component({
   selector: 'app-root',
-  imports: [RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [RouterOutlet, KuiCardDirective, KuiSegmentedComponent, KuiSegmentDirective, KuiTabsComponent, KuiTabDirective],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   encapsulation: ViewEncapsulation.None,
 })
 export class App {
   private readonly document = inject(DOCUMENT);
+  private readonly router = inject(Router);
+
   protected readonly mode = signal<KuiThemeMode>('dark');
-  protected readonly modes: readonly KuiThemeMode[] = ['light', 'dark'];
   protected readonly navItems = NAV_ITEMS;
+  protected readonly currentPath = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map((e) => e.urlAfterRedirects),
+      startWith(this.router.url),
+    ),
+    { initialValue: this.router.url },
+  );
 
   constructor() {
     effect(() => {
@@ -53,5 +71,9 @@ export class App {
 
   protected setMode(mode: KuiThemeMode): void {
     this.mode.set(mode);
+  }
+
+  protected navigate(path: string): void {
+    this.router.navigate([path]);
   }
 }

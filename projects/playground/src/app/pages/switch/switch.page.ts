@@ -1,12 +1,27 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { KuiFieldComponent, KuiSwitchDirective } from '@kikita-labs/ui';
+import {
+  KuiCellDirective,
+  KuiFieldComponent,
+  KuiSwitchDirective,
+  KuiTableDirective,
+  KuiThDirective,
+  KuiThGroupDirective,
+} from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-switch-page',
-  imports: [KuiFieldComponent, KuiSwitchDirective, PlaygroundPanelComponent],
+  imports: [
+    KuiCellDirective,
+    KuiFieldComponent,
+    KuiSwitchDirective,
+    KuiTableDirective,
+    KuiThDirective,
+    KuiThGroupDirective,
+    PlaygroundPanelComponent,
+  ],
   templateUrl: './switch.page.html',
   styleUrl: './switch.page.scss',
   encapsulation: ViewEncapsulation.None,

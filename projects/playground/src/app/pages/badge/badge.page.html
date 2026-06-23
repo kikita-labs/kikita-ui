@@ -33,24 +33,32 @@
   title="Appearance × size"
   description="All 6 appearances across xs / sm / md / lg."
 >
-  <div class="badge-matrix">
-    <div class="badge-matrix__header"></div>
-    @for (sizeRow of sizeRows; track sizeRow.value) {
-      <div class="badge-matrix__header">{{ sizeRow.label }}</div>
-    }
-
-    @for (appearance of badgeAppearances; track appearance.value) {
-      <div class="badge-matrix__label">
-        <strong>{{ appearance.label }}</strong>
-      </div>
-
-      @for (sizeRow of sizeRows; track sizeRow.value) {
-        <div class="badge-matrix__cell">
-          <span kuiBadge [appearance]="appearance.value" [size]="sizeRow.value">
-            {{ appearance.label }}
-          </span>
-        </div>
-      }
-    }
+  <div class="table-wrap">
+    <table kuiTable aria-label="Badge appearance × size matrix">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          @for (sizeRow of sizeRows; track sizeRow.value) {
+            <th kuiTh>{{ sizeRow.label }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (appearance of badgeAppearances; track appearance.value) {
+          <tr>
+            <td kuiCell class="matrix-label">
+              <strong>{{ appearance.label }}</strong>
+            </td>
+            @for (sizeRow of sizeRows; track sizeRow.value) {
+              <td kuiCell class="matrix-cell">
+                <span kuiBadge [appearance]="appearance.value" [size]="sizeRow.value">
+                  {{ appearance.label }}
+                </span>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </app-panel>

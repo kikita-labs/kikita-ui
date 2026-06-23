@@ -1,12 +1,27 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { KuiBadgeDirective, KuiCardDirective } from '@kikita-labs/ui';
+import {
+  KuiBadgeDirective,
+  KuiCardDirective,
+  KuiCellDirective,
+  KuiTableDirective,
+  KuiThDirective,
+  KuiThGroupDirective,
+} from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-card-page',
-  imports: [KuiBadgeDirective, KuiCardDirective, PlaygroundPanelComponent],
+  imports: [
+    KuiBadgeDirective,
+    KuiCardDirective,
+    KuiCellDirective,
+    KuiTableDirective,
+    KuiThDirective,
+    KuiThGroupDirective,
+    PlaygroundPanelComponent,
+  ],
   templateUrl: './card.page.html',
   styleUrl: './card.page.scss',
   encapsulation: ViewEncapsulation.None,

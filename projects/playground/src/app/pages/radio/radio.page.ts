@@ -1,12 +1,27 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { KuiFieldComponent, KuiRadioDirective } from '@kikita-labs/ui';
+import {
+  KuiCellDirective,
+  KuiFieldComponent,
+  KuiRadioDirective,
+  KuiTableDirective,
+  KuiThDirective,
+  KuiThGroupDirective,
+} from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-radio-page',
-  imports: [KuiFieldComponent, KuiRadioDirective, PlaygroundPanelComponent],
+  imports: [
+    KuiCellDirective,
+    KuiFieldComponent,
+    KuiRadioDirective,
+    KuiTableDirective,
+    KuiThDirective,
+    KuiThGroupDirective,
+    PlaygroundPanelComponent,
+  ],
   templateUrl: './radio.page.html',
   styleUrl: './radio.page.scss',
   encapsulation: ViewEncapsulation.None,

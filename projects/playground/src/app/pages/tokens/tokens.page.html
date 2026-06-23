@@ -4,19 +4,19 @@
   description="Library source: <code>createKuiTheme(DEFAULT_KUI_THEME)</code>"
 >
   <div class="pipeline__steps">
-    <article>
+    <article kuiCard appearance="elevated" size="sm">
       <strong>Seed</strong>
       <code>--kui-seed-primary</code>
     </article>
-    <article>
+    <article kuiCard appearance="elevated" size="sm">
       <strong>Palette</strong>
       <code>--kui-primary-1..12</code>
     </article>
-    <article>
+    <article kuiCard appearance="elevated" size="sm">
       <strong>Semantic</strong>
       <code>--kui-color-primary-fill</code>
     </article>
-    <article>
+    <article kuiCard appearance="elevated" size="sm">
       <strong>Component vars</strong>
       <code>--kui-btn-solid-bg</code>
     </article>
@@ -28,16 +28,29 @@
   title="Seed tokens"
   description="Ember seeds are the current experimental defaults."
 >
-  <div class="seed-table">
-    @for (seed of seedRows; track seed.token) {
-      <article>
-        <i [style.background]="seed.value"></i>
-        <strong>{{ seed.name }}</strong>
-        <code>{{ seed.token }}</code>
-        <small>{{ seed.purpose }}</small>
-        <code>{{ seed.value }}</code>
-      </article>
-    }
+  <div class="table-wrap">
+    <table kuiTable size="sm">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          <th kuiTh>Name</th>
+          <th kuiTh>Token</th>
+          <th kuiTh>Purpose</th>
+          <th kuiTh>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (seed of seedRows; track seed.token) {
+          <tr>
+            <td kuiCell><i class="token-swatch" [style.background]="seed.value"></i></td>
+            <td kuiCell><strong>{{ seed.name }}</strong></td>
+            <td kuiCell><code>{{ seed.token }}</code></td>
+            <td kuiCell class="token-purpose">{{ seed.purpose }}</td>
+            <td kuiCell><code>{{ seed.value }}</code></td>
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </app-panel>
 

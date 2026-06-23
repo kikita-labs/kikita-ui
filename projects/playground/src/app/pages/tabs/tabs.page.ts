@@ -2,9 +2,13 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiBadgeDirective,
+  KuiCellDirective,
   KuiTabDirective,
   KuiTabPanelDirective,
   KuiTabsComponent,
+  KuiTableDirective,
+  KuiThDirective,
+  KuiThGroupDirective,
 } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
@@ -13,9 +17,13 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   selector: 'app-tabs-page',
   imports: [
     KuiBadgeDirective,
+    KuiCellDirective,
     KuiTabDirective,
     KuiTabPanelDirective,
     KuiTabsComponent,
+    KuiTableDirective,
+    KuiThDirective,
+    KuiThGroupDirective,
     PlaygroundPanelComponent,
   ],
   templateUrl: './tabs.page.html',

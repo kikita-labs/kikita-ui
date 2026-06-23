@@ -2,9 +2,13 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiButtonDirective,
+  KuiCellDirective,
   KuiGroupDirective,
   KuiIconButtonDirective,
   KuiIconComponent,
+  KuiTableDirective,
+  KuiThDirective,
+  KuiThGroupDirective,
 } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
@@ -13,9 +17,13 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   selector: 'app-button-page',
   imports: [
     KuiButtonDirective,
+    KuiCellDirective,
     KuiGroupDirective,
     KuiIconButtonDirective,
     KuiIconComponent,
+    KuiTableDirective,
+    KuiThDirective,
+    KuiThGroupDirective,
     PlaygroundPanelComponent,
   ],
   templateUrl: './button.page.html',

@@ -1,12 +1,27 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { KuiIconButtonDirective, KuiIconComponent } from '@kikita-labs/ui';
+import {
+  KuiCellDirective,
+  KuiIconButtonDirective,
+  KuiIconComponent,
+  KuiTableDirective,
+  KuiThDirective,
+  KuiThGroupDirective,
+} from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-icons-page',
-  imports: [KuiIconButtonDirective, KuiIconComponent, PlaygroundPanelComponent],
+  imports: [
+    KuiCellDirective,
+    KuiIconButtonDirective,
+    KuiIconComponent,
+    KuiTableDirective,
+    KuiThDirective,
+    KuiThGroupDirective,
+    PlaygroundPanelComponent,
+  ],
   templateUrl: './icons.page.html',
   styleUrl: './icons.page.scss',
   encapsulation: ViewEncapsulation.None,

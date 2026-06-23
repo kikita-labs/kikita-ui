@@ -2,9 +2,13 @@ import { Component, ViewEncapsulation, signal } from '@angular/core';
 
 import {
   KuiBadgeDirective,
+  KuiCellDirective,
   KuiIconComponent,
   KuiSegmentDirective,
   KuiSegmentedComponent,
+  KuiTableDirective,
+  KuiThDirective,
+  KuiThGroupDirective,
 } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
@@ -13,9 +17,13 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   selector: 'app-segmented-page',
   imports: [
     KuiBadgeDirective,
+    KuiCellDirective,
     KuiIconComponent,
     KuiSegmentDirective,
     KuiSegmentedComponent,
+    KuiTableDirective,
+    KuiThDirective,
+    KuiThGroupDirective,
     PlaygroundPanelComponent,
   ],
   templateUrl: './segmented.page.html',

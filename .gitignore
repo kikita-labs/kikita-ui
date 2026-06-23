@@ -44,6 +44,7 @@ testem.log
 __screenshots__/
 output/
 .playwright-cli/
+.playwright-mcp/
 .env
 .env.*
 !.env.example

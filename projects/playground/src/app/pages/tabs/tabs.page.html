@@ -99,84 +99,95 @@
   title="Variant × state matrix"
   description="Line / Pill × default / hover / focus / selected / disabled. Hover and focus CSS-simulated."
 >
-  <div
-    class="state-matrix"
-    style="grid-template-columns: minmax(150px, 0.8fr) repeat(5, minmax(180px, 1fr))"
-    aria-label="Tabs variant state matrix"
-  >
-    <div class="state-matrix__header"></div>
-    @for (col of tabStateCols; track col.value) {
-      <div class="state-matrix__header">{{ col.label }}</div>
-    }
-
-    @for (variant of tabVariants; track variant.value) {
-      <div class="state-matrix__label">
-        <strong>{{ variant.label }}</strong>
-        <code>variant="{{ variant.value }}"</code>
-      </div>
-
-      @for (col of tabStateCols; track col.value) {
-        <div class="state-matrix__cell" style="align-items: flex-start; padding-block: 16px">
-          <kui-tabs
-            [variant]="variant.value"
-            [selected]="
-              col.value === 'selected'
-                ? 'ta-' + variant.value + '-' + col.value
-                : 'tb-' + variant.value + '-' + col.value
-            "
-          >
-            <button
-              kuiTab
-              value="ta-{{ variant.value }}-{{ col.value }}"
-              [class.kui-tab-demo-hover]="col.value === 'hover'"
-              [class.kui-tab-demo-focus]="col.value === 'focus'"
-              [disabled]="col.value === 'disabled'"
-            >
-              Tab
-            </button>
-            <button kuiTab value="tb-{{ variant.value }}-{{ col.value }}">Other</button>
-            <div kuiTabPanel value="ta-{{ variant.value }}-{{ col.value }}"></div>
-            <div kuiTabPanel value="tb-{{ variant.value }}-{{ col.value }}"></div>
-          </kui-tabs>
-        </div>
-      }
-    }
+  <div class="table-wrap">
+    <table kuiTable aria-label="Tabs variant state matrix">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          @for (col of tabStateCols; track col.value) {
+            <th kuiTh>{{ col.label }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (variant of tabVariants; track variant.value) {
+          <tr>
+            <td kuiCell class="matrix-label">
+              <strong>{{ variant.label }}</strong>
+              <code>variant="{{ variant.value }}"</code>
+            </td>
+            @for (col of tabStateCols; track col.value) {
+              <td kuiCell style="padding: 16px; vertical-align: top">
+                <kui-tabs
+                  [variant]="variant.value"
+                  [selected]="
+                    col.value === 'selected'
+                      ? 'ta-' + variant.value + '-' + col.value
+                      : 'tb-' + variant.value + '-' + col.value
+                  "
+                >
+                  <button
+                    kuiTab
+                    value="ta-{{ variant.value }}-{{ col.value }}"
+                    [class.kui-tab-demo-hover]="col.value === 'hover'"
+                    [class.kui-tab-demo-focus]="col.value === 'focus'"
+                    [disabled]="col.value === 'disabled'"
+                  >
+                    Tab
+                  </button>
+                  <button kuiTab value="tb-{{ variant.value }}-{{ col.value }}">Other</button>
+                  <div kuiTabPanel value="ta-{{ variant.value }}-{{ col.value }}"></div>
+                  <div kuiTabPanel value="tb-{{ variant.value }}-{{ col.value }}"></div>
+                </kui-tabs>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </app-panel>
 
 <app-panel num="06" title="Size matrix" description="xs / sm / md / lg × line / pill.">
-  <div class="state-matrix state-matrix--2" aria-label="Tabs size matrix">
-    <div class="state-matrix__header"></div>
-    <div class="state-matrix__header">Line</div>
-    <div class="state-matrix__header">Pill</div>
-
-    @for (sizeRow of sizeRows; track sizeRow.value) {
-      <div class="state-matrix__label">
-        <strong>{{ sizeRow.label }}</strong>
-        <code>size="{{ sizeRow.value }}"</code>
-      </div>
-
-      <div class="state-matrix__cell" style="align-items: flex-start; padding-block: 16px">
-        <kui-tabs [size]="sizeRow.value" selected="tab-line-b-{{ sizeRow.value }}">
-          <button kuiTab value="tab-line-a-{{ sizeRow.value }}">Overview</button>
-          <button kuiTab value="tab-line-b-{{ sizeRow.value }}">Activity</button>
-          <button kuiTab value="tab-line-c-{{ sizeRow.value }}">Settings</button>
-          <div kuiTabPanel value="tab-line-a-{{ sizeRow.value }}"></div>
-          <div kuiTabPanel value="tab-line-b-{{ sizeRow.value }}"></div>
-          <div kuiTabPanel value="tab-line-c-{{ sizeRow.value }}"></div>
-        </kui-tabs>
-      </div>
-
-      <div class="state-matrix__cell" style="align-items: flex-start; padding-block: 16px">
-        <kui-tabs variant="pill" [size]="sizeRow.value" selected="tab-pill-b-{{ sizeRow.value }}">
-          <button kuiTab value="tab-pill-a-{{ sizeRow.value }}">Overview</button>
-          <button kuiTab value="tab-pill-b-{{ sizeRow.value }}">Activity</button>
-          <button kuiTab value="tab-pill-c-{{ sizeRow.value }}">Settings</button>
-          <div kuiTabPanel value="tab-pill-a-{{ sizeRow.value }}"></div>
-          <div kuiTabPanel value="tab-pill-b-{{ sizeRow.value }}"></div>
-          <div kuiTabPanel value="tab-pill-c-{{ sizeRow.value }}"></div>
-        </kui-tabs>
-      </div>
-    }
+  <div class="table-wrap">
+    <table kuiTable aria-label="Tabs size matrix">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          <th kuiTh>Line</th>
+          <th kuiTh>Pill</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <tr>
+            <td kuiCell class="matrix-label">
+              <strong>{{ sizeRow.label }}</strong>
+              <code>size="{{ sizeRow.value }}"</code>
+            </td>
+            <td kuiCell style="padding: 16px; vertical-align: top">
+              <kui-tabs [size]="sizeRow.value" selected="tab-line-b-{{ sizeRow.value }}">
+                <button kuiTab value="tab-line-a-{{ sizeRow.value }}">Overview</button>
+                <button kuiTab value="tab-line-b-{{ sizeRow.value }}">Activity</button>
+                <button kuiTab value="tab-line-c-{{ sizeRow.value }}">Settings</button>
+                <div kuiTabPanel value="tab-line-a-{{ sizeRow.value }}"></div>
+                <div kuiTabPanel value="tab-line-b-{{ sizeRow.value }}"></div>
+                <div kuiTabPanel value="tab-line-c-{{ sizeRow.value }}"></div>
+              </kui-tabs>
+            </td>
+            <td kuiCell style="padding: 16px; vertical-align: top">
+              <kui-tabs variant="pill" [size]="sizeRow.value" selected="tab-pill-b-{{ sizeRow.value }}">
+                <button kuiTab value="tab-pill-a-{{ sizeRow.value }}">Overview</button>
+                <button kuiTab value="tab-pill-b-{{ sizeRow.value }}">Activity</button>
+                <button kuiTab value="tab-pill-c-{{ sizeRow.value }}">Settings</button>
+                <div kuiTabPanel value="tab-pill-a-{{ sizeRow.value }}"></div>
+                <div kuiTabPanel value="tab-pill-b-{{ sizeRow.value }}"></div>
+                <div kuiTabPanel value="tab-pill-c-{{ sizeRow.value }}"></div>
+              </kui-tabs>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </app-panel>

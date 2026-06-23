@@ -1,12 +1,27 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { KuiCheckboxDirective, KuiFieldComponent } from '@kikita-labs/ui';
+import {
+  KuiCellDirective,
+  KuiCheckboxDirective,
+  KuiFieldComponent,
+  KuiTableDirective,
+  KuiThDirective,
+  KuiThGroupDirective,
+} from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-checkbox-page',
-  imports: [KuiCheckboxDirective, KuiFieldComponent, PlaygroundPanelComponent],
+  imports: [
+    KuiCellDirective,
+    KuiCheckboxDirective,
+    KuiFieldComponent,
+    KuiTableDirective,
+    KuiThDirective,
+    KuiThGroupDirective,
+    PlaygroundPanelComponent,
+  ],
   templateUrl: './checkbox.page.html',
   styleUrl: './checkbox.page.scss',
   encapsulation: ViewEncapsulation.None,

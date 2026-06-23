@@ -61,34 +61,34 @@
   title="Size matrix"
   description="xs / sm / md / lg × surface / elevated / sunken — controls internal padding."
 >
-  <div
-    class="state-matrix"
-    style="grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(180px, 1fr))"
-    aria-label="Card size matrix"
-  >
-    <div class="state-matrix__header"></div>
-    <div class="state-matrix__header">Surface</div>
-    <div class="state-matrix__header">Elevated</div>
-    <div class="state-matrix__header">Sunken</div>
-
-    @for (sizeRow of sizeRows; track sizeRow.value) {
-      <div class="state-matrix__label">
-        <strong>{{ sizeRow.label }}</strong>
-        <code>size="{{ sizeRow.value }}"</code>
-      </div>
-      @for (appearance of cardAppearances; track appearance) {
-        <div class="state-matrix__cell" style="align-items: stretch; padding: 12px">
-          <article
-            kuiCard
-            [size]="sizeRow.value"
-            [appearance]="appearance"
-            style="inline-size: 100%"
-          >
-            <strong>Card</strong>
-            <p>{{ appearance }}</p>
-          </article>
-        </div>
-      }
-    }
+  <div class="table-wrap">
+    <table kuiTable aria-label="Card size matrix">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          <th kuiTh>Surface</th>
+          <th kuiTh>Elevated</th>
+          <th kuiTh>Sunken</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <tr>
+            <td kuiCell class="matrix-label">
+              <strong>{{ sizeRow.label }}</strong>
+              <code>size="{{ sizeRow.value }}"</code>
+            </td>
+            @for (appearance of cardAppearances; track appearance) {
+              <td kuiCell style="padding: 12px; vertical-align: top">
+                <article kuiCard [size]="sizeRow.value" [appearance]="appearance" style="inline-size: 100%">
+                  <strong>Card</strong>
+                  <p>{{ appearance }}</p>
+                </article>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </app-panel>

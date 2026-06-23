@@ -36,32 +36,40 @@
   title="Icon button appearance matrix"
   description="All <code>appearance</code> values × default / hover / active / focus / disabled."
 >
-  <div class="state-matrix" aria-label="Icon button appearance matrix">
-    <div class="state-matrix__header"></div>
-    @for (state of stateColumns; track state.value) {
-      <div class="state-matrix__header">{{ state.label }}</div>
-    }
-
-    @for (variant of buttonVariants; track variant.value) {
-      <div class="state-matrix__label">
-        <strong>{{ variant.label }}</strong>
-        <code>appearance="{{ variant.value }}"</code>
-      </div>
-
-      @for (state of stateColumns; track state.value) {
-        <div class="state-matrix__cell" [attr.data-state]="state.value">
-          <button
-            kuiIconButton
-            [appearance]="variant.value"
-            type="button"
-            [disabled]="state.value === 'disabled'"
-            [attr.aria-label]="variant.label"
-          >
-            <kui-icon name="spark" />
-          </button>
-        </div>
-      }
-    }
+  <div class="table-wrap">
+    <table kuiTable aria-label="Icon button appearance matrix">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          @for (state of stateColumns; track state.value) {
+            <th kuiTh>{{ state.label }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (variant of buttonVariants; track variant.value) {
+          <tr>
+            <td kuiCell class="matrix-label">
+              <strong>{{ variant.label }}</strong>
+              <code>appearance="{{ variant.value }}"</code>
+            </td>
+            @for (state of stateColumns; track state.value) {
+              <td kuiCell class="matrix-cell" [attr.data-state]="state.value">
+                <button
+                  kuiIconButton
+                  [appearance]="variant.value"
+                  type="button"
+                  [disabled]="state.value === 'disabled'"
+                  [attr.aria-label]="variant.label"
+                >
+                  <kui-icon name="spark" />
+                </button>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </app-panel>
 
@@ -70,31 +78,39 @@
   title="Icon button size matrix"
   description="xs / sm / md / lg × all states. Ghost appearance."
 >
-  <div class="state-matrix" aria-label="Icon button size matrix">
-    <div class="state-matrix__header"></div>
-    @for (state of stateColumns; track state.value) {
-      <div class="state-matrix__header">{{ state.label }}</div>
-    }
-
-    @for (sizeRow of sizeRows; track sizeRow.value) {
-      <div class="state-matrix__label">
-        <strong>{{ sizeRow.label }}</strong>
-        <code>size="{{ sizeRow.value }}"</code>
-      </div>
-
-      @for (state of stateColumns; track state.value) {
-        <div class="state-matrix__cell" [attr.data-state]="state.value">
-          <button
-            kuiIconButton
-            [size]="sizeRow.value"
-            type="button"
-            [disabled]="state.value === 'disabled'"
-            aria-label="Action"
-          >
-            <kui-icon name="spark" />
-          </button>
-        </div>
-      }
-    }
+  <div class="table-wrap">
+    <table kuiTable aria-label="Icon button size matrix">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          @for (state of stateColumns; track state.value) {
+            <th kuiTh>{{ state.label }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <tr>
+            <td kuiCell class="matrix-label">
+              <strong>{{ sizeRow.label }}</strong>
+              <code>size="{{ sizeRow.value }}"</code>
+            </td>
+            @for (state of stateColumns; track state.value) {
+              <td kuiCell class="matrix-cell" [attr.data-state]="state.value">
+                <button
+                  kuiIconButton
+                  [size]="sizeRow.value"
+                  type="button"
+                  [disabled]="state.value === 'disabled'"
+                  aria-label="Action"
+                >
+                  <kui-icon name="spark" />
+                </button>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </app-panel>

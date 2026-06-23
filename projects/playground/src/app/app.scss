@@ -17,12 +17,6 @@ app-root {
 }
 
 .header {
-  border: 1px solid var(--kui-color-border);
-  border-radius: 8px;
-  background: var(--kui-color-surface);
-}
-
-.header {
   display: flex;
   justify-content: space-between;
   gap: 16px;
@@ -74,60 +68,9 @@ code {
   font-size: 12px;
 }
 
-.mode-switch {
-  display: flex;
-  gap: 4px;
-  border: 1px solid var(--kui-color-border);
-  border-radius: 8px;
-  padding: 4px;
-}
-
-.mode-switch button {
-  min-block-size: 32px;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
-  color: var(--kui-color-text-secondary);
-  cursor: pointer;
-  padding-inline: 12px;
-}
-
-.mode-switch button.is-active {
-  background: var(--kui-color-primary-fill);
-  color: var(--kui-btn-solid-fg);
-}
 
 .playground-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
   margin-block-start: 16px;
-  border: 1px solid var(--kui-color-border);
-  border-radius: 8px;
-  background: var(--kui-color-surface);
-  padding: 8px;
-}
-
-.playground-nav a {
-  display: inline-flex;
-  align-items: center;
-  min-block-size: 32px;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  color: var(--kui-color-text-secondary);
-  font-size: 13px;
-  padding-inline: 12px;
-  text-decoration: none;
-}
-
-.playground-nav a:hover {
-  border-color: var(--kui-color-border-strong);
-  color: var(--kui-color-text);
-}
-
-.playground-nav a.is-active {
-  background: var(--kui-color-primary-soft-bg);
-  color: var(--kui-color-primary-soft-text);
 }
 
 .component-board {
@@ -170,53 +113,21 @@ code {
   align-items: center;
 }
 
-.state-matrix {
-  display: grid;
-  grid-template-columns: minmax(150px, 0.8fr) repeat(5, minmax(120px, 1fr));
-  gap: 1px;
+.table-wrap {
   overflow: auto;
   border: 1px solid var(--kui-color-border);
   border-radius: 8px;
-  background: var(--kui-color-border);
 }
 
-.state-matrix__header,
-.state-matrix__label,
-.state-matrix__cell {
-  background: var(--kui-color-surface-elevated);
-  padding: 12px;
-}
-
-.state-matrix__header {
-  color: var(--kui-color-text-secondary);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.state-matrix__label {
+.matrix-label {
   display: grid;
-  align-content: center;
   gap: 4px;
+  min-inline-size: 140px;
 }
 
-.state-matrix__cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.matrix-cell {
+  text-align: center;
   min-inline-size: 120px;
-}
-
-.state-matrix__cell .kui-button {
-  inline-size: 100%;
-}
-
-.state-matrix--4 {
-  grid-template-columns: minmax(150px, 0.8fr) repeat(4, minmax(120px, 1fr));
-}
-
-.state-matrix--2 {
-  grid-template-columns: minmax(150px, 0.8fr) repeat(2, minmax(240px, 1fr));
 }
 
 pre {

@@ -27,29 +27,37 @@
   title="Size matrix"
   description="xs / sm / md / lg × default / hover / focus / invalid / disabled."
 >
-  <div class="state-matrix" aria-label="Input size matrix">
-    <div class="state-matrix__header"></div>
-    @for (state of inputStateCols; track state.value) {
-      <div class="state-matrix__header">{{ state.label }}</div>
-    }
-
-    @for (sizeRow of sizeRows; track sizeRow.value) {
-      <div class="state-matrix__label">
-        <strong>{{ sizeRow.label }}</strong>
-        <code>size="{{ sizeRow.value }}"</code>
-      </div>
-
-      @for (state of inputStateCols; track state.value) {
-        <div class="state-matrix__cell" [attr.data-state]="state.value">
-          <input
-            kuiInput
-            [size]="sizeRow.value"
-            [invalid]="state.value === 'invalid'"
-            [disabled]="state.value === 'disabled'"
-            [placeholder]="sizeRow.value"
-          />
-        </div>
-      }
-    }
+  <div class="table-wrap">
+    <table kuiTable aria-label="Input size matrix">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          @for (state of inputStateCols; track state.value) {
+            <th kuiTh>{{ state.label }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <tr>
+            <td kuiCell class="matrix-label">
+              <strong>{{ sizeRow.label }}</strong>
+              <code>size="{{ sizeRow.value }}"</code>
+            </td>
+            @for (state of inputStateCols; track state.value) {
+              <td kuiCell class="matrix-cell" [attr.data-state]="state.value">
+                <input
+                  kuiInput
+                  [size]="sizeRow.value"
+                  [invalid]="state.value === 'invalid'"
+                  [disabled]="state.value === 'disabled'"
+                  [placeholder]="sizeRow.value"
+                />
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </app-panel>

@@ -23,44 +23,41 @@
   title="Size matrix"
   description="xs / sm / md / lg × default / error / disabled."
 >
-  <div
-    class="state-matrix"
-    style="grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(180px, 1fr))"
-    aria-label="Field size matrix"
-  >
-    <div class="state-matrix__header"></div>
-    <div class="state-matrix__header">Default</div>
-    <div class="state-matrix__header">Error</div>
-    <div class="state-matrix__header">Disabled</div>
-
-    @for (sizeRow of sizeRows; track sizeRow.value) {
-      <div class="state-matrix__label">
-        <strong>{{ sizeRow.label }}</strong>
-        <code>size="{{ sizeRow.value }}"</code>
-      </div>
-
-      <div class="state-matrix__cell" style="align-items: stretch; padding: 12px">
-        <kui-field [size]="sizeRow.value" label="Label" hint="Hint text" style="inline-size: 100%">
-          <input kuiInput [size]="sizeRow.value" placeholder="Value" />
-        </kui-field>
-      </div>
-
-      <div class="state-matrix__cell" style="align-items: stretch; padding: 12px">
-        <kui-field
-          [size]="sizeRow.value"
-          label="Label"
-          [error]="'Required'"
-          style="inline-size: 100%"
-        >
-          <input kuiInput [size]="sizeRow.value" placeholder="Value" />
-        </kui-field>
-      </div>
-
-      <div class="state-matrix__cell" style="align-items: stretch; padding: 12px">
-        <kui-field [size]="sizeRow.value" label="Label" hint="Hint text" style="inline-size: 100%">
-          <input kuiInput [size]="sizeRow.value" placeholder="Value" disabled />
-        </kui-field>
-      </div>
-    }
+  <div class="table-wrap">
+    <table kuiTable aria-label="Field size matrix">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          <th kuiTh>Default</th>
+          <th kuiTh>Error</th>
+          <th kuiTh>Disabled</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <tr>
+            <td kuiCell class="matrix-label">
+              <strong>{{ sizeRow.label }}</strong>
+              <code>size="{{ sizeRow.value }}"</code>
+            </td>
+            <td kuiCell style="padding: 12px; vertical-align: top">
+              <kui-field [size]="sizeRow.value" label="Label" hint="Hint text" style="inline-size: 100%">
+                <input kuiInput [size]="sizeRow.value" placeholder="Value" />
+              </kui-field>
+            </td>
+            <td kuiCell style="padding: 12px; vertical-align: top">
+              <kui-field [size]="sizeRow.value" label="Label" [error]="'Required'" style="inline-size: 100%">
+                <input kuiInput [size]="sizeRow.value" placeholder="Value" />
+              </kui-field>
+            </td>
+            <td kuiCell style="padding: 12px; vertical-align: top">
+              <kui-field [size]="sizeRow.value" label="Label" hint="Hint text" style="inline-size: 100%">
+                <input kuiInput [size]="sizeRow.value" placeholder="Value" disabled />
+              </kui-field>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </app-panel>

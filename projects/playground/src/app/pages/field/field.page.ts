@@ -1,12 +1,29 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { KuiFieldComponent, KuiInputDirective, KuiTextareaDirective } from '@kikita-labs/ui';
+import {
+  KuiCellDirective,
+  KuiFieldComponent,
+  KuiInputDirective,
+  KuiTableDirective,
+  KuiTextareaDirective,
+  KuiThDirective,
+  KuiThGroupDirective,
+} from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-field-page',
-  imports: [KuiFieldComponent, KuiInputDirective, KuiTextareaDirective, PlaygroundPanelComponent],
+  imports: [
+    KuiCellDirective,
+    KuiFieldComponent,
+    KuiInputDirective,
+    KuiTableDirective,
+    KuiTextareaDirective,
+    KuiThDirective,
+    KuiThGroupDirective,
+    PlaygroundPanelComponent,
+  ],
   templateUrl: './field.page.html',
   styleUrl: './field.page.scss',
   encapsulation: ViewEncapsulation.None,

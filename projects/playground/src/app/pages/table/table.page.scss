@@ -7,3 +7,16 @@
 .table-wrap--scroll {
   max-block-size: 240px;
 }
+
+.sizes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.size-label {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  margin: 0 0 8px;
+}

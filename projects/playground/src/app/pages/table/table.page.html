@@ -158,10 +158,10 @@
 
 <!-- 06 Size matrix -->
 <app-panel num="06" title="Sizes" description="xs / sm / md (default) / lg">
-  <div class="state-matrix" style="grid-template-columns: repeat(4, 1fr)">
+  <div class="sizes-grid">
     @for (sz of sizes; track sz) {
-      <div class="state-matrix__cell">
-        <div class="state-matrix__label">{{ sz }}</div>
+      <div>
+        <p class="size-label"><strong>{{ sz }}</strong><code>size="{{ sz }}"</code></p>
         <div class="table-wrap">
           <table kuiTable [size]="sz" [data]="users.slice(0, 3)">
             <thead>

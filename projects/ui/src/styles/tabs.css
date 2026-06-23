@@ -7,6 +7,12 @@
     min-width: 0;
   }
 
+  /* Wraps the scroll area and positions the fade+arrow overlay buttons. */
+  .kui-tabs__scroll-wrap {
+    position: relative;
+    min-width: 0;
+  }
+
   /* Scroll container — handles horizontal overflow without clipping the outline.
      padding-bottom gives the focus outline room inside the scroll clip boundary;
      margin-bottom compensates so the gap to the panel stays visually correct.
@@ -21,6 +27,37 @@
 
   .kui-tabs__scroll::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Scroll arrow buttons — only shown when overflow exists on that side. */
+  .kui-tabs__scroll-btn {
+    position: absolute;
+    top: 0;
+    bottom: 6px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    padding-inline: 6px;
+    border: none;
+    color: var(--kui-color-text-secondary);
+    cursor: pointer;
+    transition: color var(--kui-duration-fast, 100ms) var(--kui-ease);
+  }
+
+  .kui-tabs__scroll-btn:hover {
+    color: var(--kui-color-text);
+  }
+
+  .kui-tabs__scroll-btn--left {
+    left: 0;
+    background: linear-gradient(to right, var(--kui-color-bg, #000) 50%, transparent);
+    padding-inline-end: 16px;
+  }
+
+  .kui-tabs__scroll-btn--right {
+    right: 0;
+    background: linear-gradient(to left, var(--kui-color-bg, #000) 50%, transparent);
+    padding-inline-start: 16px;
   }
 
   .kui-tabs__list {
