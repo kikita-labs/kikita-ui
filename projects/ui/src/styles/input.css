@@ -77,9 +77,14 @@
     border-color: var(--kui-input-border-error, var(--kui-input-border-invalid, Mark));
   }
 
-  .kui-input:is(:disabled, [readonly]) {
+  .kui-input:disabled {
     background-color: var(--kui-input-bg-disabled, var(--kui-input-bg, Field));
     cursor: not-allowed;
     opacity: 0.65;
+  }
+
+  .kui-input[readonly]:not(:disabled) {
+    cursor: default;
+    caret-color: transparent;
   }
 }
