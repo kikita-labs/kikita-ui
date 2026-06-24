@@ -80,6 +80,10 @@ export class KuiDropdownComponent {
     this._anchorEl.set(el);
   }
 
+  getPanel(): HTMLElement | null {
+    return this.panelEl()?.nativeElement ?? null;
+  }
+
   toggle(): void {
     this.isOpen() ? this.close() : this.open();
   }

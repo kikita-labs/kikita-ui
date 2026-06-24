@@ -1,19 +1,15 @@
 import { Component, ViewEncapsulation, signal } from '@angular/core';
 
 import {
-  KuiCellDirective,
-  KuiSelectComponent,
-  KuiSelectGroupTpl,
-  KuiSelectItemTpl,
-  KuiOption,
-  KuiTableDirective,
-  KuiThDirective,
-  KuiThGroupDirective,
+  KuiDropdownComponent,
+  KuiFieldComponent,
+  KuiOptionDirective,
+  KuiSelectDirective,
 } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
-const ROLES: KuiOption<string>[] = [
+const ROLES = [
   { value: 'engineer', label: 'Software Engineer' },
   { value: 'product', label: 'Product Manager' },
   { value: 'designer', label: 'Designer' },
@@ -21,57 +17,37 @@ const ROLES: KuiOption<string>[] = [
   { value: 'devops', label: 'DevOps Engineer' },
 ];
 
-const TOOLS: KuiOption<string>[] = [
-  {
-    value: 'design',
-    label: 'Design',
-    children: [
-      { value: 'figma', label: 'Figma' },
-      { value: 'sketch', label: 'Sketch' },
-    ],
-  },
-  {
-    value: 'engineering',
-    label: 'Engineering',
-    children: [
-      { value: 'vscode', label: 'VS Code' },
-      { value: 'webstorm', label: 'WebStorm' },
-    ],
-  },
-  {
-    value: 'other',
-    label: 'Other',
-    children: [{ value: 'notion', label: 'Notion' }],
-  },
-];
+interface User {
+  id: number;
+  name: string;
+  active: boolean;
+}
 
-const SIZES = [
-  { value: 'xs' as const, label: 'XSmall', code: 'size="xs"' },
-  { value: 'sm' as const, label: 'Small', code: 'size="sm"' },
-  { value: 'md' as const, label: 'Medium', code: 'size="md"' },
-  { value: 'lg' as const, label: 'Large', code: 'size="lg"' },
+const USERS: User[] = [
+  { id: 1, name: 'Alice Kim', active: true },
+  { id: 2, name: 'Bob Chen', active: true },
+  { id: 3, name: 'Carol Okonkwo', active: false },
+  { id: 4, name: 'David Müller', active: true },
 ];
 
 @Component({
   selector: 'app-select-page',
   imports: [
     PlaygroundPanelComponent,
-    KuiSelectComponent,
-    KuiSelectGroupTpl,
-    KuiSelectItemTpl,
-    KuiTableDirective,
-    KuiThGroupDirective,
-    KuiThDirective,
-    KuiCellDirective,
+    KuiSelectDirective,
+    KuiDropdownComponent,
+    KuiOptionDirective,
+    KuiFieldComponent,
   ],
   templateUrl: './select.page.html',
   encapsulation: ViewEncapsulation.None,
 })
 export class SelectPage {
   protected readonly roles = ROLES;
-  protected readonly tools = TOOLS;
-  protected readonly sizes = SIZES;
+  protected readonly users = USERS;
 
-  protected readonly role = signal<string | undefined>(undefined);
-  protected readonly tool = signal<string | undefined>('figma');
+  protected readonly selectedRole = signal<string | null>(null);
+  protected readonly selectedUser = signal<User | null>(null);
+
+  protected readonly userLabelFn = (u: User): string => u.name;
 }

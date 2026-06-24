@@ -4,5 +4,6 @@
 
 export * from './lib/providers';
 export * from './lib/components';
+export * from './lib/tokens';
 export * from './lib/theme';
 export * from './lib/types';

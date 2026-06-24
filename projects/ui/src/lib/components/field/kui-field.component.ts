@@ -2,14 +2,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Signal,
   booleanAttribute,
   computed,
   contentChild,
   effect,
   inject,
   input,
+  signal,
 } from '@angular/core';
 
+import { KUI_OPTION_CONTEXT, KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KuiSize } from '../../types';
 
@@ -21,6 +24,7 @@ let nextFieldId = 0;
   templateUrl: './kui-field.component.html',
   styleUrl: './kui-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: KUI_OPTION_CONTEXT, useExisting: KuiFieldComponent }],
   host: {
     class: 'kui-field',
     '[attr.data-kui-size]': 'size()',
@@ -29,7 +33,7 @@ let nextFieldId = 0;
     '(click)': 'handleClick()',
   },
 })
-export class KuiFieldComponent {
+export class KuiFieldComponent implements KuiOptionContext {
   /** Field size — adjusts control slot height and spacing. Defaults to md. */
   readonly size = input<KuiSize>('md');
 
@@ -76,6 +80,8 @@ export class KuiFieldComponent {
   protected readonly dropdownOpen = computed(() => this.dropdown()?.isOpen() ?? false);
 
   private readonly hostEl = inject(ElementRef<HTMLElement>);
+  private readonly _selectCtx = signal<KuiOptionContext | null>(null);
+  private readonly _selectDisabled = signal(false);
 
   constructor() {
     effect(() => {
@@ -86,7 +92,26 @@ export class KuiFieldComponent {
     });
   }
 
+  // KuiOptionContext — delegates to registered select directive
+  readonly isSelected = (value: unknown): Signal<boolean> | boolean =>
+    this._selectCtx()?.isSelected(value) ?? false;
+
+  readonly select = (value: unknown): void => this._selectCtx()?.select(value);
+
+  registerSelectContext(ctx: KuiOptionContext | null): void {
+    this._selectCtx.set(ctx);
+  }
+
+  setSelectDisabled(disabled: boolean): void {
+    this._selectDisabled.set(disabled);
+  }
+
+  getDropdown(): KuiDropdownComponent | undefined {
+    return this.dropdown();
+  }
+
   protected handleClick(): void {
+    if (this._selectDisabled()) return;
     this.dropdown()?.toggle();
   }
 }

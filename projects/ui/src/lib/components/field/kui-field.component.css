@@ -40,6 +40,10 @@
   color: var(--kui-field-hint-color, var(--kui-color-text-secondary));
 }
 
+.kui-field__control {
+  position: relative;
+}
+
 :host([data-kui-size='xs']) {
   gap: var(--kui-field-gap-xs, 2px);
   --kui-field-control-row: var(--kui-control-height-xs, 28px);

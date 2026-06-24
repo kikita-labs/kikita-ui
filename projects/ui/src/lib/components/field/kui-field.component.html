@@ -7,7 +7,9 @@
   </label>
 }
 
-<ng-content />
+<div class="kui-field__control">
+  <ng-content />
+</div>
 
 @if (hint(); as hintText) {
   <p class="kui-field__hint" [id]="hintId">{{ hintText }}</p>

@@ -1,158 +1,68 @@
 <app-panel
   num="01"
-  title="Select"
-  description="Custom compound component. <code>kui-select</code> with floating dropdown, keyboard nav, and grouped options."
+  title="input[kuiSelect] — строки"
+  description="Базовый паттерн: <code>input[kuiSelect]</code> с кастомным <code>kui-dropdown</code> внутри field. Строки — без <code>kuiLabelFn</code>."
 >
-  <div class="component-board">
-    <div class="state-board__row">
-      <kui-select
-        [(value)]="role"
-        [options]="roles"
-        placeholder="Select a role…"
-        style="width: 240px"
-      />
-      <code>value: {{ role() ?? 'undefined' }}</code>
-    </div>
-
-    <div class="state-board__row">
-      <kui-select
-        [(value)]="tool"
-        [options]="tools"
-        placeholder="Select a tool…"
-        style="width: 240px"
-      />
-      <code>value: {{ tool() ?? 'undefined' }}</code>
-    </div>
+  <div class="state-board__row">
+    <kui-field label="Role" style="width: 240px">
+      <input kuiSelect [(kuiValue)]="selectedRole" placeholder="Select a role…" />
+      <kui-dropdown>
+        @for (opt of roles; track opt.value) {
+          <div [kuiOption]="opt.value">{{ opt.label }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
+    <code>value: {{ selectedRole() ?? 'null' }}</code>
   </div>
 </app-panel>
 
 <app-panel
   num="02"
-  title="State matrix"
-  description="Default / Open / Error / Disabled trigger states."
+  title="input[kuiSelect] — объекты + clearable"
+  description="<code>kuiLabelFn</code> для кастомных объектов. <code>[clearable]=&quot;true&quot;</code> добавляет кнопку сброса. Неактивные пользователи задизейблены."
 >
-  <div class="table-wrap">
-    <table kuiTable aria-label="Select state matrix">
-      <thead>
-        <tr kuiThGroup>
-          <th kuiTh>Default</th>
-          <th kuiTh>Open</th>
-          <th kuiTh>Error</th>
-          <th kuiTh>Disabled</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td kuiCell class="matrix-cell" style="padding: 12px; vertical-align: top">
-            <kui-select [options]="roles" placeholder="Select…" />
-          </td>
-          <td kuiCell class="matrix-cell" style="padding: 12px; vertical-align: top">
-            <kui-select [options]="roles" [value]="'product'" placeholder="Select…" />
-          </td>
-          <td kuiCell class="matrix-cell" style="padding: 12px; vertical-align: top">
-            <kui-select [options]="roles" placeholder="Select…" [invalid]="true" />
-          </td>
-          <td kuiCell class="matrix-cell" style="padding: 12px; vertical-align: top">
-            <kui-select [options]="roles" placeholder="Select…" [disabled]="true" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="state-board__row">
+    <kui-field label="User" style="width: 280px">
+      <input
+        kuiSelect
+        [(kuiValue)]="selectedUser"
+        [kuiLabelFn]="userLabelFn"
+        [clearable]="true"
+        placeholder="Select a user…"
+      />
+      <kui-dropdown>
+        @for (user of users; track user.id) {
+          <div [kuiOption]="user" [disabled]="!user.active">
+            {{ user.name }}
+            @if (!user.active) {
+              <span style="margin-left: auto; opacity: 0.45; font-size: 11px">inactive</span>
+            }
+          </div>
+        }
+      </kui-dropdown>
+    </kui-field>
+    <code>value: {{ selectedUser()?.name ?? 'null' }}</code>
   </div>
 </app-panel>
 
 <app-panel
   num="03"
-  title="Size matrix"
-  description="xs / sm / md / lg × default / with value."
+  title="input[kuiSelect] — disabled"
+  description="Disabled состояние: поле задизейблено, дропдаун не открывается даже по клику на label."
 >
-  <div class="table-wrap">
-    <table kuiTable aria-label="Select size matrix">
-      <thead>
-        <tr kuiThGroup>
-          <th kuiTh></th>
-          <th kuiTh>Empty</th>
-          <th kuiTh>With value</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (sz of sizes; track sz.value) {
-          <tr>
-            <td kuiCell class="matrix-label">
-              <strong>{{ sz.label }}</strong>
-              <code>{{ sz.code }}</code>
-            </td>
-            <td kuiCell style="padding: 12px; vertical-align: middle">
-              <kui-select [options]="roles" placeholder="Select…" [size]="sz.value" style="min-width: 200px" />
-            </td>
-            <td kuiCell style="padding: 12px; vertical-align: middle">
-              <kui-select [options]="roles" value="engineer" [size]="sz.value" style="min-width: 200px" />
-            </td>
-          </tr>
+  <div class="state-board__row">
+    <kui-field label="Locked field" style="width: 240px">
+      <input
+        kuiSelect
+        [kuiValue]="selectedRole()"
+        [disabled]="true"
+        placeholder="Disabled…"
+      />
+      <kui-dropdown>
+        @for (opt of roles; track opt.value) {
+          <div [kuiOption]="opt.value">{{ opt.label }}</div>
         }
-      </tbody>
-    </table>
-  </div>
-</app-panel>
-
-<app-panel
-  num="04"
-  title="Grouped options"
-  description="Options grouped via <code>children</code> key. Group is auto-detected — no extra flag needed."
->
-  <div class="state-board__row">
-    <kui-select
-      [(value)]="tool"
-      [options]="tools"
-      placeholder="Select a tool…"
-      style="width: 240px"
-    />
-    <code>value: {{ tool() ?? 'undefined' }}</code>
-  </div>
-</app-panel>
-
-<app-panel
-  num="05"
-  title="Custom group header"
-  description="Override group label via <code>kuiSelectGroup</code> template directive."
->
-  <div class="state-board__row">
-    <kui-select
-      [(value)]="tool"
-      [options]="tools"
-      placeholder="Select a tool…"
-      style="width: 240px"
-    >
-      <ng-template kuiSelectGroup let-group>
-        <svg viewBox="0 0 12 12" width="12" height="12" fill="none" style="opacity:.6" aria-hidden="true">
-          <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.5"/>
-        </svg>
-        {{ group.label }}
-      </ng-template>
-    </kui-select>
-    <code>value: {{ tool() ?? 'undefined' }}</code>
-  </div>
-</app-panel>
-
-<app-panel
-  num="06"
-  title="Custom option item"
-  description="Override option rendering via <code>kuiSelectItem</code> template directive."
->
-  <div class="state-board__row">
-    <kui-select
-      [(value)]="role"
-      [options]="roles"
-      placeholder="Select a role…"
-      style="width: 280px"
-    >
-      <ng-template kuiSelectItem let-opt>
-        <span
-          style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--kui-color-primary-soft-bg);color:var(--kui-color-primary-soft-text);font-size:10px;font-weight:600;flex-shrink:0"
-        >{{ opt.label[0] }}</span>
-        {{ opt.label }}
-      </ng-template>
-    </kui-select>
-    <code>value: {{ role() ?? 'undefined' }}</code>
+      </kui-dropdown>
+    </kui-field>
   </div>
 </app-panel>
