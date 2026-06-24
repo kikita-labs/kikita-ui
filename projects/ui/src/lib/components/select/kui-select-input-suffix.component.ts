@@ -46,6 +46,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
+/** @internal Chevron + optional clear button rendered as absolute suffix inside `.kui-field__control`. */
 export class KuiSelectInputSuffixComponent {
   readonly clearable = input(false);
   readonly hasValue = input(false);

@@ -35,22 +35,58 @@ import { KuiSelectInputSuffixComponent } from './kui-select-input-suffix.compone
     '(keydown)': 'handleKeydown($event)',
   },
 })
+/**
+ * Converts a native `<input>` into a Kikita UI select control.
+ *
+ * Implements {@link FormValueControl} for Signal Forms integration via `[formField]`.
+ * For standalone use, bind `[(value)]` directly.
+ *
+ * Must be placed inside `<kui-field>` with a sibling `<kui-dropdown>` to function.
+ *
+ * @example
+ * ```html
+ * <!-- Signal Forms -->
+ * <kui-field label="Role">
+ *   <input kuiSelect [formField]="myForm.role" [kuiLabelFn]="roleLabel" />
+ *   <kui-dropdown>
+ *     <div kuiOption value="engineer">Software Engineer</div>
+ *   </kui-dropdown>
+ * </kui-field>
+ *
+ * <!-- Standalone -->
+ * <kui-field label="Role">
+ *   <input kuiSelect [(value)]="role" />
+ *   <kui-dropdown>
+ *     <div kuiOption value="engineer">Software Engineer</div>
+ *   </kui-dropdown>
+ * </kui-field>
+ * ```
+ */
 export class KuiSelectDirective<T = unknown> implements OnDestroy, KuiOptionContext, FormValueControl<T | null> {
-  // Signal Forms integration — FormField binds to this
+  /** Current selected value. Bound by `[formField]` or `[(value)]`. */
   readonly value = model<T | null>(null);
 
-  // State signals populated by FormField directive (also usable as direct inputs)
+  /** Whether the control is disabled. Set by `[formField]` or `[disabled]` directly. */
   readonly disabled = input(false);
+  /** Whether the control is readonly. Set by `[formField]` or `[readonly]` directly. */
   readonly readonly = input(false);
+  /** Whether the control has validation errors. Set by `[formField]`. */
   readonly invalid = input(false);
+  /** Current validation errors. Set by `[formField]`. */
   readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
+  /** Whether the control has been touched. Set by `[formField]`. */
   readonly touched = input(false);
-  /** Emitted when the dropdown closes — signals "touched" to the form system. */
+  /** Emitted when the dropdown closes — marks the control as touched in the form system. */
   readonly touch = output<void>();
 
-  // Kui-specific inputs
+  /** Maps a selected value to its display string. Required when `T` is not a primitive. */
   readonly kuiLabelFn = input<((item: T) => string) | undefined>();
+  /** Placeholder text shown when no value is selected. */
   readonly placeholder = input('');
+  /**
+   * Shows a clear button when a value is selected.
+   * Falls back to {@link KUI_SELECT_OPTIONS} then {@link KUI_FIELD_OPTIONS} when undefined.
+   */
   readonly clearable = input<boolean | undefined>();
 
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);

@@ -25,9 +25,12 @@ import { KuiDropdownComponent } from './kui-dropdown.component';
   },
 })
 export class KuiOptionDirective {
+  /** The value emitted and passed to the selection context when this option is chosen. */
   readonly value = input.required<unknown>();
+  /** Prevents selection and applies disabled styling. */
   readonly disabled = input(false);
 
+  /** Emitted when the option is selected. Useful for standalone usage without a select context. */
   readonly kuiOptionSelect = output<unknown>();
 
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
