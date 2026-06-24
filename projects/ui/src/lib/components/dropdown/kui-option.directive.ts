@@ -25,7 +25,7 @@ import { KuiDropdownComponent } from './kui-dropdown.component';
   },
 })
 export class KuiOptionDirective {
-  readonly kuiOption = input.required<unknown>();
+  readonly value = input.required<unknown>();
   readonly disabled = input(false);
 
   readonly kuiOptionSelect = output<unknown>();
@@ -36,14 +36,14 @@ export class KuiOptionDirective {
 
   protected readonly selected = computed(() => {
     if (!this.ctx) return false;
-    const result = this.ctx.isSelected(this.kuiOption());
+    const result = this.ctx.isSelected(this.value());
     return typeof result === 'boolean' ? result : result();
   });
 
   protected handleClick(): void {
     if (this.disabled()) return;
-    this.ctx?.select(this.kuiOption());
-    this.kuiOptionSelect.emit(this.kuiOption());
+    this.ctx?.select(this.value());
+    this.kuiOptionSelect.emit(this.value());
   }
 
   protected handleKeydown(e: KeyboardEvent): void {

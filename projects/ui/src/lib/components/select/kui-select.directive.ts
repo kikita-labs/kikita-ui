@@ -1,5 +1,4 @@
 import {
-  booleanAttribute,
   ComponentRef,
   computed,
   Directive,
@@ -9,8 +8,10 @@ import {
   input,
   model,
   OnDestroy,
+  output,
   ViewContainerRef,
 } from '@angular/core';
+import { FormValueControl, ValidationError, WithOptionalFieldTree } from '@angular/forms/signals';
 
 import { KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KuiFieldComponent } from '../field/kui-field.component';
@@ -34,12 +35,23 @@ import { KuiSelectInputSuffixComponent } from './kui-select-input-suffix.compone
     '(keydown)': 'handleKeydown($event)',
   },
 })
-export class KuiSelectDirective<T = unknown> implements OnDestroy, KuiOptionContext {
-  readonly kuiValue = model<T | null>(null);
+export class KuiSelectDirective<T = unknown> implements OnDestroy, KuiOptionContext, FormValueControl<T | null> {
+  // Signal Forms integration — FormField binds to this
+  readonly value = model<T | null>(null);
+
+  // State signals populated by FormField directive (also usable as direct inputs)
+  readonly disabled = input(false);
+  readonly readonly = input(false);
+  readonly invalid = input(false);
+  readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
+  readonly touched = input(false);
+  /** Emitted when the dropdown closes — signals "touched" to the form system. */
+  readonly touch = output<void>();
+
+  // Kui-specific inputs
   readonly kuiLabelFn = input<((item: T) => string) | undefined>();
   readonly placeholder = input('');
   readonly clearable = input<boolean | undefined>();
-  readonly disabled = input(false, { transform: booleanAttribute });
 
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly vcr = inject(ViewContainerRef);
@@ -60,13 +72,11 @@ export class KuiSelectDirective<T = unknown> implements OnDestroy, KuiOptionCont
   });
 
   protected readonly showClear = computed(
-    () => this.effectiveClearable() && this.kuiValue() !== null && !this.disabled(),
+    () => this.effectiveClearable() && this.value() !== null && !this.disabled(),
   );
 
-  readonly isSelected = (value: unknown): boolean => value === this.kuiValue();
-  readonly select = (value: unknown): void => {
-    this.kuiValue.set(value as T);
-  };
+  readonly isSelected = (v: unknown): boolean => v === this.value();
+  readonly select = (v: unknown): void => { this.value.set(v as T); };
 
   private _keyboardOpened = false;
   private readonly suffixRef: ComponentRef<KuiSelectInputSuffixComponent>;
@@ -78,43 +88,41 @@ export class KuiSelectDirective<T = unknown> implements OnDestroy, KuiOptionCont
 
     effect(() => {
       this.suffixRef.setInput('clearable', this.effectiveClearable());
-      this.suffixRef.setInput('hasValue', this.kuiValue() !== null);
+      this.suffixRef.setInput('hasValue', this.value() !== null);
       this.suffixRef.setInput('isOpen', this.dropdownOpen());
     });
 
     effect(() => {
-      const v = this.kuiValue();
+      const v = this.value();
       const labelFn = this.kuiLabelFn();
       this.el.nativeElement.value = v != null ? (labelFn ? labelFn(v) : String(v)) : '';
     });
 
-    effect(() => {
-      this.field?.setSelectDisabled(this.disabled());
-    });
+    effect(() => { this.field?.setSelectDisabled(this.disabled()); });
 
-    // Refocus input when dropdown closes after keyboard-open
     effect(() => {
       const dropdown = this.field?.getDropdown();
       if (!dropdown) return;
-      if (!dropdown.isOpen() && this._keyboardOpened) {
-        this._keyboardOpened = false;
-        this.el.nativeElement.focus();
+      if (!dropdown.isOpen()) {
+        this.touch.emit();
+        if (this._keyboardOpened) {
+          this._keyboardOpened = false;
+          this.el.nativeElement.focus();
+        }
       }
     });
 
-    this.suffixRef.instance.cleared.subscribe(() => {
-      this.kuiValue.set(null);
-    });
+    this.suffixRef.instance.cleared.subscribe(() => { this.value.set(null); });
   }
 
   protected handleClick(e: MouseEvent): void {
-    if (this.disabled()) {
+    if (this.disabled() || this.readonly()) {
       e.stopPropagation();
     }
   }
 
   protected handleKeydown(e: KeyboardEvent): void {
-    if (this.disabled()) return;
+    if (this.disabled() || this.readonly()) return;
     const dropdown = this.field?.getDropdown();
     if (!dropdown) return;
 

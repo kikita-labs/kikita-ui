@@ -5,10 +5,10 @@
 >
   <div class="state-board__row">
     <kui-field label="Role" style="width: 240px">
-      <input kuiSelect [(kuiValue)]="selectedRole" placeholder="Select a role…" />
+      <input kuiSelect [(value)]="selectedRole" placeholder="Select a role…" />
       <kui-dropdown>
         @for (opt of roles; track opt.value) {
-          <div [kuiOption]="opt.value">{{ opt.label }}</div>
+          <div kuiOption [value]="opt.value">{{ opt.label }}</div>
         }
       </kui-dropdown>
     </kui-field>
@@ -25,14 +25,14 @@
     <kui-field label="User" style="width: 280px">
       <input
         kuiSelect
-        [(kuiValue)]="selectedUser"
+        [(value)]="selectedUser"
         [kuiLabelFn]="userLabelFn"
         [clearable]="true"
         placeholder="Select a user…"
       />
       <kui-dropdown>
         @for (user of users; track user.id) {
-          <div [kuiOption]="user" [disabled]="!user.active">
+          <div kuiOption [value]="user" [disabled]="!user.active">
             {{ user.name }}
             @if (!user.active) {
               <span style="margin-left: auto; opacity: 0.45; font-size: 11px">inactive</span>
@@ -54,13 +54,13 @@
     <kui-field label="Locked field" style="width: 240px">
       <input
         kuiSelect
-        [kuiValue]="selectedRole()"
+        [value]="selectedRole()"
         [disabled]="true"
         placeholder="Disabled…"
       />
       <kui-dropdown>
         @for (opt of roles; track opt.value) {
-          <div [kuiOption]="opt.value">{{ opt.label }}</div>
+          <div kuiOption [value]="opt.value">{{ opt.label }}</div>
         }
       </kui-dropdown>
     </kui-field>

@@ -17,7 +17,7 @@
           <input kuiInput [value]="selectedFruit() ?? ''" placeholder="Pick a fruit…" readonly />
           <kui-dropdown>
             @for (fruit of fruits; track fruit) {
-              <div [kuiOption]="fruit" (kuiOptionSelect)="selectedFruit.set($any($event))">
+              <div kuiOption [value]="fruit" (kuiOptionSelect)="selectedFruit.set($any($event))">
                 {{ fruit }}
               </div>
             }
@@ -42,7 +42,7 @@
         <kui-dropdown #actionsMenu [maxHeight]="null">
           @for (action of actions; track action.value) {
             <div
-              [kuiOption]="action.value"
+              kuiOption [value]="action.value"
               [disabled]="action.disabled ?? false"
               (kuiOptionSelect)="lastAction.set($any($event))"
             >
@@ -75,7 +75,7 @@
           <input kuiInput placeholder="Select…" readonly />
           <kui-dropdown>
             @for (fruit of fruits; track fruit) {
-              <div [kuiOption]="fruit">{{ fruit }}</div>
+              <div kuiOption [value]="fruit">{{ fruit }}</div>
             }
           </kui-dropdown>
         </kui-field>
