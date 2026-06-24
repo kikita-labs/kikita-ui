@@ -16,3 +16,4 @@ export * from './tabs';
 export * from './tooltip';
 export * from './table';
 export * from './select';
+export * from './dropdown';

@@ -1,0 +1,53 @@
+@keyframes kui-dropdown-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes kui-dropdown-in-flip {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes kui-dropdown-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@layer kui.components {
+  .kui-dropdown-host {
+    display: contents;
+  }
+
+  .kui-dropdown {
+    --kui-dropdown-bg: var(--kui-color-surface-elevated);
+    --kui-dropdown-border: var(--kui-color-border);
+    --kui-dropdown-radius: var(--kui-radius-md);
+    --kui-dropdown-shadow: var(--kui-shadow-lg);
+
+    box-sizing: border-box;
+    background: var(--kui-dropdown-bg);
+    border: 1px solid var(--kui-dropdown-border);
+    border-radius: var(--kui-dropdown-radius);
+    box-shadow: var(--kui-dropdown-shadow);
+    padding: var(--kui-space-1);
+    z-index: 1000;
+    animation: kui-dropdown-in var(--kui-duration-base) var(--kui-ease) both;
+  }
+
+  .kui-dropdown[data-placement='top'] {
+    animation-name: kui-dropdown-in-flip;
+  }
+
+  .kui-dropdown--closing {
+    animation: kui-dropdown-out 120ms linear both;
+  }
+
+  .kui-dropdown--scroll {
+    overflow-y: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-dropdown,
+    .kui-dropdown--closing {
+      animation: none;
+    }
+  }
+}

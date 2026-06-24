@@ -1,0 +1,85 @@
+<div class="pg-page">
+  <h1 class="pg-title">Dropdown</h1>
+  <p class="pg-desc">
+    Primitive floating panel. Auto-wires inside <code>kui-field</code>, or via
+    <code>[kuiDropdownFor]</code> on any trigger.
+  </p>
+
+  <!-- Panel 01: kui-field auto-wiring -->
+  <app-panel
+    num="01"
+    title="Field auto-wiring"
+    description="Drop <code>kui-dropdown</code> inside <code>kui-field</code> — field handles anchor and open/close automatically."
+  >
+    <div class="component-board">
+      <div class="state-board__row">
+        <kui-field label="Favourite fruit" style="width: 280px">
+          <input kuiInput [value]="selectedFruit() ?? ''" placeholder="Pick a fruit…" readonly />
+          <kui-dropdown>
+            @for (fruit of fruits; track fruit) {
+              <div [kuiOption]="fruit" (kuiOptionSelect)="selectedFruit.set($any($event))">
+                {{ fruit }}
+              </div>
+            }
+          </kui-dropdown>
+        </kui-field>
+        <code>value: {{ selectedFruit() ?? 'null' }}</code>
+      </div>
+    </div>
+  </app-panel>
+
+  <!-- Panel 02: kuiDropdownFor trigger -->
+  <app-panel
+    num="02"
+    title="kuiDropdownFor trigger"
+    description="Wire any element as a trigger via <code>[kuiDropdownFor]</code> — no field wrapper needed."
+  >
+    <div class="component-board">
+      <div class="state-board__row">
+        <button class="kui-btn kui-btn--solid kui-btn--sm" [kuiDropdownFor]="actionsMenu">
+          Actions ▾
+        </button>
+        <kui-dropdown #actionsMenu [maxHeight]="null">
+          @for (action of actions; track action.value) {
+            <div
+              [kuiOption]="action.value"
+              [disabled]="action.disabled ?? false"
+              (kuiOptionSelect)="lastAction.set($any($event))"
+            >
+              {{ action.label }}
+            </div>
+          }
+        </kui-dropdown>
+        <code>last: {{ lastAction() ?? 'none' }}</code>
+      </div>
+    </div>
+  </app-panel>
+
+  <!-- Panel 03: scroll repositioning -->
+  <app-panel
+    num="03"
+    title="Scroll repositioning"
+    description="Dropdown follows its anchor on scroll — no close-on-scroll."
+  >
+    <div class="component-board">
+      <div
+        style="
+          height: 200px;
+          overflow-y: auto;
+          border: 1px solid var(--kui-color-border);
+          border-radius: var(--kui-radius-md);
+          padding: 80px 16px;
+        "
+      >
+        <kui-field label="Pick inside scrollable" style="width: 260px">
+          <input kuiInput placeholder="Select…" readonly />
+          <kui-dropdown>
+            @for (fruit of fruits; track fruit) {
+              <div [kuiOption]="fruit">{{ fruit }}</div>
+            }
+          </kui-dropdown>
+        </kui-field>
+      </div>
+    </div>
+  </app-panel>
+</div>

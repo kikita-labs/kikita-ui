@@ -80,5 +80,9 @@ export const routes: Routes = [
     path: 'select',
     loadComponent: () => import('./pages/select/select.page').then((m) => m.SelectPage),
   },
+  {
+    path: 'dropdown',
+    loadComponent: () => import('./pages/dropdown/dropdown.page').then((m) => m.DropdownPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

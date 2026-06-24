@@ -1,11 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   booleanAttribute,
   computed,
+  contentChild,
+  effect,
+  inject,
   input,
 } from '@angular/core';
 
+import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KuiSize } from '../../types';
 
 let nextFieldId = 0;
@@ -20,6 +25,8 @@ let nextFieldId = 0;
     class: 'kui-field',
     '[attr.data-kui-size]': 'size()',
     '[attr.data-kui-invalid]': 'invalid() ? "" : null',
+    '[attr.data-dropdown-open]': 'dropdownOpen() ? "" : null',
+    '(click)': 'handleClick()',
   },
 })
 export class KuiFieldComponent {
@@ -64,4 +71,22 @@ export class KuiFieldComponent {
 
     return ids.length > 0 ? ids.join(' ') : null;
   });
+
+  protected readonly dropdown = contentChild(KuiDropdownComponent);
+  protected readonly dropdownOpen = computed(() => this.dropdown()?.isOpen() ?? false);
+
+  private readonly hostEl = inject(ElementRef<HTMLElement>);
+
+  constructor() {
+    effect(() => {
+      const dropdown = this.dropdown();
+      if (dropdown) {
+        dropdown.setAnchor(this.hostEl.nativeElement);
+      }
+    });
+  }
+
+  protected handleClick(): void {
+    this.dropdown()?.toggle();
+  }
 }

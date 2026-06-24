@@ -1,0 +1,86 @@
+@layer kui.components {
+  .kui-listbox {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .kui-listbox-option {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-2);
+    padding: var(--kui-space-2) var(--kui-space-3);
+    border-radius: var(--kui-radius-sm);
+    cursor: pointer;
+    user-select: none;
+    font-size: var(--kui-text-sm-size);
+    color: var(--kui-color-text);
+    transition: background var(--kui-duration-fast);
+  }
+
+  .kui-listbox-option:hover {
+    background: var(--kui-color-surface-elevated);
+  }
+
+  .kui-listbox-option--active {
+    background: var(--kui-color-surface-elevated);
+    outline: 2px solid var(--kui-color-primary-focus-ring);
+    outline-offset: -2px;
+  }
+
+  .kui-listbox-option--selected {
+    background: var(--kui-color-primary-soft-bg);
+    color: var(--kui-color-primary-soft-text);
+    font-weight: 500;
+  }
+
+  .kui-listbox-option--selected:hover {
+    background: var(--kui-color-primary-soft-bg-hover);
+  }
+
+  .kui-listbox-option--disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .kui-listbox-option-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .kui-listbox-check {
+    margin-left: auto;
+    opacity: 0;
+    flex-shrink: 0;
+  }
+
+  .kui-listbox-option--selected .kui-listbox-check {
+    opacity: 1;
+  }
+
+  .kui-listbox-group-label {
+    font-size: var(--kui-text-xs-size);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--kui-color-text-secondary);
+    padding: var(--kui-space-2) var(--kui-space-3) var(--kui-space-1);
+  }
+
+  .kui-listbox-separator {
+    height: 1px;
+    background: var(--kui-color-border);
+    margin: var(--kui-space-1) 0;
+  }
+
+  .kui-listbox-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--kui-space-4) var(--kui-space-3);
+    font-size: var(--kui-text-sm-size);
+    color: var(--kui-color-text-secondary);
+  }
+}

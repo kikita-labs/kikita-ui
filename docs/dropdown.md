@@ -1,124 +1,139 @@
 # Dropdown
 
-> **Status: planned.** Design spec pending. Select is temporarily self-contained and will be refactored to use this primitive once Dropdown is shipped.
+Primitive floating panel. Handles positioning (`position: fixed`, scroll-follow), open/close animation, click-outside, and Escape key. Does not know about values or selection — those belong to Select, Combobox, Menu, etc.
 
-## Concept
+---
 
-`Dropdown` is a positioning primitive — it anchors a floating panel to a trigger element and handles:
+## Components & Directives
 
-- Fixed-position overlay (renders above page content)
-- Scroll tracking (panel follows trigger on scroll)
-- Viewport-aware placement (flips when near edge)
-- Click-outside and Escape to close
-- Accessible ARIA (`aria-expanded`, `aria-haspopup`, focus trap optional)
+| Symbol | Selector | Role |
+|---|---|---|
+| `KuiDropdownComponent` | `kui-dropdown` | Floating panel |
+| `KuiDropdownForDirective` | `[kuiDropdownFor]` | Wires any element as a trigger |
+| `KuiOptionDirective` | `[kuiOption]` | Styled option row; closes dropdown on click |
+| `KUI_OPTION_CONTEXT` | — | DI token for Select/Combobox to control selection state |
 
-It has zero opinion about what's inside the panel. Select, Combobox, Menu, DatePicker, and custom panels all use the same primitive.
-
-## Architecture
-
-```
-[kuiDropdown]          ← positioning engine + portal logic
-[kuiFieldDropdown]     ← wires dropdown to kui-field (chevron, active border, trigger click)
-```
-
-### `[kuiDropdown]`
-
-Directive placed on a trigger element. Accepts a `TemplateRef` for panel content.
-
-```ts
-@Directive({ selector: '[kuiDropdown]' })
-export class KuiDropdownDirective {
-  kuiDropdown    = input<TemplateRef<unknown> | null>(null);   // panel content
-  placement      = input<KuiPlacement>('bottom-start');        // bottom-start | bottom-end | top-start | top-end
-  offset         = input(4);                                   // px gap between trigger and panel
-  disabled       = input(false);
-  isOpen         = model(false);                               // two-way bindable
-}
-```
-
-### `[kuiFieldDropdown]`
-
-Convenience directive that combines `kuiDropdown` + `kui-field` wiring: adds chevron icon to field suffix, activates field focus ring when open, forwards click on field to open/close.
-
-```ts
-@Directive({ selector: 'kui-field[kuiFieldDropdown]' })
-export class KuiFieldDropdownDirective {
-  kuiFieldDropdown = input<TemplateRef<unknown> | null>(null);
-  placement        = input<KuiPlacement>('bottom-start');
-  isOpen           = model(false);
-}
-```
+---
 
 ## Usage
 
-### Basic (trigger + panel)
+### Mode 1 — inside `kui-field` (auto, no state management)
+
+Field detects a nested `kui-dropdown` via `contentChild`, sets itself as anchor, and toggles open/close on click.
 
 ```html
-<button [kuiDropdown]="panel" type="button">Open</button>
-
-<ng-template #panel>
-  <div class="kui-dropdown-panel">
-    Any content here
-  </div>
-</ng-template>
-```
-
-### Wired to kui-field (Select / Combobox pattern)
-
-```html
-<kui-field [kuiFieldDropdown]="listbox">
-  <input kuiInput readonly [value]="selectedLabel()" placeholder="Select…" />
-</kui-field>
-
-<ng-template #listbox>
-  <div class="kui-listbox" role="listbox">
-    @for (opt of options(); track opt.value) {
-      <div class="kui-listbox-option" role="option" (click)="select(opt)">
-        {{ opt.label }}
+<kui-field label="Fruit">
+  <input kuiInput [value]="selected() ?? ''" placeholder="Pick…" readonly />
+  <kui-dropdown>
+    @for (opt of options; track opt) {
+      <div [kuiOption]="opt" (kuiOptionSelect)="selected.set($any($event))">
+        {{ opt }}
       </div>
     }
-  </div>
-</ng-template>
+  </kui-dropdown>
+</kui-field>
 ```
 
-### Fully custom (user-side)
+### Mode 2 — `[kuiDropdownFor]` trigger
+
+Attach to any element. The directive wires click → `toggle()` and sets `aria-expanded`.
 
 ```html
-<kui-field [kuiFieldDropdown]="colorPicker">
-  <input kuiInput readonly [value]="color()" />
-</kui-field>
-
-<ng-template #colorPicker>
-  <my-color-wheel [(color)]="color" />
-</ng-template>
+<button [kuiDropdownFor]="menu">Actions</button>
+<kui-dropdown #menu [maxHeight]="null">
+  <div kuiOption="edit">Edit</div>
+  <div kuiOption="delete" [disabled]="true">Delete</div>
+</kui-dropdown>
 ```
 
-## Select refactor plan
+### Mode 3 — manual (explicit anchor + imperative open/close)
 
-When Dropdown ships:
-
-1. `KuiSelectComponent` keeps its public API unchanged (`[options]`, `[(value)]`, `[placeholder]`, etc.)
-2. Internals swap: `position: fixed` + manual scroll handler → `[kuiFieldDropdown]`
-3. `KuiSelectGroupTpl` and `KuiSelectItemTpl` directives stay — they live in Select, not Dropdown
-
-## CSS tokens
-
-Panel appearance is defined by Dropdown tokens (shared across Select, Menu, Popover):
-
-```css
---kui-dropdown-bg
---kui-dropdown-border
---kui-dropdown-radius
---kui-dropdown-shadow
---kui-dropdown-z-index
+```html
+<button #triggerEl (click)="dropdown.toggle()">Open</button>
+<kui-dropdown #dropdown [anchor]="triggerEl">
+  ...
+</kui-dropdown>
 ```
 
-## Placement enum
+---
 
-```ts
-type KuiPlacement =
-  | 'bottom-start' | 'bottom-end' | 'bottom'
-  | 'top-start'    | 'top-end'    | 'top';
+## `KuiDropdownComponent` API
+
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `anchor` | `HTMLElement \| ElementRef \| null` | `null` | Explicit anchor element (overridden by `setAnchor()`) |
+| `maxHeight` | `string \| null` | `'240px'` | Max height of panel; `null` = no cap |
+| `offset` | `number` | `4` | Gap between anchor bottom and panel top (px) |
+
+| Signal | Type | Description |
+|---|---|---|
+| `isOpen` | `Signal<boolean>` | Current open state (public readable signal) |
+
+| Method | Description |
+|---|---|
+| `open()` | Show panel, attach scroll/click-outside/Escape listeners |
+| `close()` | Start close animation; detach listeners |
+| `toggle()` | `open()` if closed, `close()` if open |
+| `setAnchor(el)` | Set anchor imperatively (called by field and kuiDropdownFor) |
+
+---
+
+## `KuiOptionDirective` API
+
+| Input | Type | Description |
+|---|---|---|
+| `kuiOption` | `unknown` | The value this option represents |
+| `disabled` | `boolean` | Disables click and dims the row |
+
+| Output | Description |
+|---|---|
+| `kuiOptionSelect` | Emits the `kuiOption` value on click |
+
+Applied CSS classes: `.kui-listbox-option`, `.kui-listbox-option--selected` (via `KUI_OPTION_CONTEXT`), `.kui-listbox-option--disabled`.
+
+---
+
+## CSS Tokens
+
+Scoped to `.kui-dropdown` (component-local defaults):
+
+| Token | Default value |
+|---|---|
+| `--kui-dropdown-bg` | `var(--kui-color-surface-elevated)` |
+| `--kui-dropdown-border` | `var(--kui-color-border)` |
+| `--kui-dropdown-radius` | `var(--kui-radius-md)` |
+| `--kui-dropdown-shadow` | `var(--kui-shadow-lg)` |
+
+---
+
+## Internals
+
+- **`position: fixed`** — panel escapes any `overflow: hidden` ancestor.
+- **Scroll repositioning** — `document.addEventListener('scroll', …, { capture: true, passive: true })` updates `top / left / min-width` on every scroll frame.
+- **Close animation** — `isClosing` signal keeps the element alive during the 120ms `kui-dropdown-out` keyframe; `@if (isOpen() || isClosing())` controls visibility. Element removed on `animationend`.
+- **Click-outside** — listener added via `setTimeout(0)` after open to skip the opening click. Uses `viewChild` panel ref for hit-test so multiple dropdowns work independently.
+
+---
+
+## Integration with Select / Combobox
+
+Provide `KUI_OPTION_CONTEXT` from the parent component to give options knowledge of the selected value:
+
+```typescript
+providers: [{
+  provide: KUI_OPTION_CONTEXT,
+  useFactory: () => {
+    const host = inject(MySelectComponent);
+    return {
+      isSelected: (v) => computed(() => host.value() === v),
+      select: (v) => host.value.set(v as string),
+    } satisfies KuiOptionContext;
+  },
+}],
 ```
 
-Viewport collision detection: if chosen placement clips panel, flip to opposite side.
+---
+
+## Select refactor plan (future)
+
+`KuiSelectComponent` keeps its public API unchanged. Internals swap from its own `position:fixed` logic to `<kui-dropdown>` + `[kuiOption]`. `KuiSelectGroupTpl` and `KuiSelectItemTpl` stay as-is in Select.
