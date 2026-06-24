@@ -18,14 +18,14 @@ import {
 
 import { KuiSize } from '../../types';
 
-export interface KuiSelectOption<T = unknown> {
+export interface KuiOption<T = unknown> {
   readonly value: T;
   readonly label: string;
   readonly disabled?: boolean;
-  readonly children?: ReadonlyArray<Omit<KuiSelectOption<T>, 'children'>>;
+  readonly children?: ReadonlyArray<Omit<KuiOption<T>, 'children'>>;
 }
 
-type FlatOption<T> = Omit<KuiSelectOption<T>, 'children'>;
+type FlatOption<T> = Omit<KuiOption<T>, 'children'>;
 
 interface OptionGroup<T> {
   readonly label: string | null;
@@ -130,7 +130,7 @@ export class KuiSelectItemTpl {
 })
 export class KuiSelectComponent<T = unknown> {
   readonly value = model<T | undefined>(undefined);
-  readonly options = input<readonly KuiSelectOption<T>[]>([]);
+  readonly options = input<readonly KuiOption<T>[]>([]);
   readonly placeholder = input('Select…');
   readonly size = input<KuiSize>('md');
   readonly disabled = input(false);

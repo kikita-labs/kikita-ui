@@ -5,7 +5,7 @@ import {
   KuiSelectComponent,
   KuiSelectGroupTpl,
   KuiSelectItemTpl,
-  KuiSelectOption,
+  KuiOption,
   KuiTableDirective,
   KuiThDirective,
   KuiThGroupDirective,
@@ -13,7 +13,7 @@ import {
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
-const ROLES: KuiSelectOption<string>[] = [
+const ROLES: KuiOption<string>[] = [
   { value: 'engineer', label: 'Software Engineer' },
   { value: 'product', label: 'Product Manager' },
   { value: 'designer', label: 'Designer' },
@@ -21,7 +21,7 @@ const ROLES: KuiSelectOption<string>[] = [
   { value: 'devops', label: 'DevOps Engineer' },
 ];
 
-const TOOLS: KuiSelectOption<string>[] = [
+const TOOLS: KuiOption<string>[] = [
   {
     value: 'design',
     label: 'Design',
