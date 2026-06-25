@@ -71,6 +71,7 @@ export class KuiDropdownComponent implements OnDestroy {
   private readonly zone = inject(NgZone);
 
   private _anchorEl: HTMLElement | null = null;
+  private _outsideClickIgnoreEl: HTMLElement | null = null;
   private overlayRef: OverlayRef | null = null;
   private openSubs: { unsubscribe: () => void }[] = [];
   private outsideTimeoutId: ReturnType<typeof setTimeout> | null = null;
@@ -79,9 +80,15 @@ export class KuiDropdownComponent implements OnDestroy {
     this.destroyRef.onDestroy(() => this._cleanup());
   }
 
-  /** Called by KuiFieldComponent to wire up the anchor element. */
-  setAnchor(el: HTMLElement): void {
-    this._anchorEl = el;
+  /**
+   * Called by KuiFieldComponent to wire up the anchor element.
+   * @param positionEl element used for overlay positioning and minWidth (e.g. the control slot)
+   * @param outsideClickIgnoreEl element whose subtree should NOT trigger close on outside-click
+   *   (e.g. the full kui-field host, so clicking the label doesn't close-then-reopen)
+   */
+  setAnchor(positionEl: HTMLElement, outsideClickIgnoreEl?: HTMLElement): void {
+    this._anchorEl = positionEl;
+    this._outsideClickIgnoreEl = outsideClickIgnoreEl ?? positionEl;
   }
 
   /** Returns the rendered panel element for keyboard navigation queries. */
@@ -140,9 +147,10 @@ export class KuiDropdownComponent implements OnDestroy {
     // CDK 22 outsidePointerEvents() is unreliable with popover/top-layer; use document directly.
     this.outsideTimeoutId = this.zone.runOutsideAngular(() =>
       setTimeout(() => {
+        const ignoreEl = this._outsideClickIgnoreEl ?? anchor;
         const onPointerDown = (e: PointerEvent) => {
           const overlayEl = this.overlayRef?.overlayElement;
-          if (!anchor.contains(e.target as Node) && !overlayEl?.contains(e.target as Node)) {
+          if (!ignoreEl.contains(e.target as Node) && !overlayEl?.contains(e.target as Node)) {
             this.zone.run(() => this.close());
           }
         };

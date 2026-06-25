@@ -10,6 +10,7 @@ import {
   inject,
   input,
   signal,
+  viewChild,
 } from '@angular/core';
 
 import { KUI_OPTION_CONTEXT, KuiOptionContext } from '../dropdown/kui-option-context.token';
@@ -80,14 +81,16 @@ export class KuiFieldComponent implements KuiOptionContext {
   protected readonly dropdownOpen = computed(() => this.dropdown()?.isOpen() ?? false);
 
   private readonly hostEl = inject(ElementRef<HTMLElement>);
+  private readonly controlSlot = viewChild<ElementRef<HTMLElement>>('controlSlot');
   private readonly _selectCtx = signal<KuiOptionContext | null>(null);
   private readonly _selectDisabled = signal(false);
 
   constructor() {
     effect(() => {
       const dropdown = this.dropdown();
-      if (dropdown) {
-        dropdown.setAnchor(this.hostEl.nativeElement);
+      const control = this.controlSlot();
+      if (dropdown && control) {
+        dropdown.setAnchor(control.nativeElement, this.hostEl.nativeElement);
       }
     });
   }
