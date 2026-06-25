@@ -104,10 +104,12 @@ Scoped to `.kui-dropdown` (component-local defaults):
 
 ## Internals
 
-- **`position: fixed`** — panel escapes any `overflow: hidden` ancestor.
-- **Scroll repositioning** — `document.addEventListener('scroll', …, { capture: true, passive: true })` updates `top / left / min-width` on every scroll frame.
-- **Close animation** — `isClosing` signal keeps the element alive during the 120ms `kui-dropdown-out` keyframe; `@if (isOpen() || isClosing())` controls visibility. Element removed on `animationend`.
-- **Click-outside** — listener added via `setTimeout(0)` after open to skip the opening click. Uses `viewChild` panel ref for hit-test so multiple dropdowns work independently.
+- **Angular CDK Overlay** — panel rendered via `OverlayRef` + `TemplatePortal` inside `.cdk-overlay-container` in body. Escapes any `overflow:hidden` or CSS `transform` ancestor.
+- **Position strategy** — `FlexibleConnectedPositionStrategy`: prefers below anchor, flips above when not enough space. `withPush(false)` — no viewport nudge. `data-placement` attribute (`top`/`bottom`) set via `positionChanges` for CSS animation direction.
+- **Scroll repositioning** — `scrollStrategies.reposition()` repositions panel on scroll without closing it.
+- **Close animation** — `isClosing` signal applies `.kui-dropdown--closing` class → 120ms `kui-dropdown-out` keyframe → `animationend` → `overlayRef.detach()`. Panel stays in DOM during animation.
+- **Click-outside** — `document.addEventListener('click', handler, { capture: true })` fires before any element handler, including CDK top-layer popover. Checks `!overlayEl.contains(e.target)`.
+- **Escape** — `overlayRef.keydownEvents()` observable.
 
 ---
 
@@ -130,6 +132,3 @@ providers: [{
 
 ---
 
-## Select refactor plan (future)
-
-`KuiSelectComponent` keeps its public API unchanged. Internals swap from its own `position:fixed` logic to `<kui-dropdown>` + `[kuiOption]`. `KuiSelectGroupTpl` and `KuiSelectItemTpl` stay as-is in Select.
