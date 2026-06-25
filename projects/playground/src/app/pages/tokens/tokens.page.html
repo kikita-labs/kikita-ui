@@ -43,10 +43,16 @@
         @for (seed of seedRows; track seed.token) {
           <tr>
             <td kuiCell><i class="token-swatch" [style.background]="seed.value"></i></td>
-            <td kuiCell><strong>{{ seed.name }}</strong></td>
-            <td kuiCell><code>{{ seed.token }}</code></td>
+            <td kuiCell>
+              <strong>{{ seed.name }}</strong>
+            </td>
+            <td kuiCell>
+              <code>{{ seed.token }}</code>
+            </td>
             <td kuiCell class="token-purpose">{{ seed.purpose }}</td>
-            <td kuiCell><code>{{ seed.value }}</code></td>
+            <td kuiCell>
+              <code>{{ seed.value }}</code>
+            </td>
           </tr>
         }
       </tbody>

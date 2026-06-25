@@ -1,4 +1,4 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import {
   Directive,
   ElementRef,
@@ -8,12 +8,85 @@ import {
   inject,
   input,
 } from '@angular/core';
+import {
+  ConnectedPosition,
+  FlexibleConnectedPositionStrategy,
+  Overlay,
+  OverlayRef,
+} from '@angular/cdk/overlay';
 
 import { KuiTooltipPlacement } from './kui-tooltip-placement.type';
 
 const TOOLTIP_GAP = 6;
 
 let tooltipCounter = 0;
+
+const PLACEMENT_POSITIONS: Record<KuiTooltipPlacement, ConnectedPosition[]> = {
+  top: [
+    {
+      originX: 'center',
+      originY: 'top',
+      overlayX: 'center',
+      overlayY: 'bottom',
+      offsetY: -TOOLTIP_GAP,
+    },
+    {
+      originX: 'center',
+      originY: 'bottom',
+      overlayX: 'center',
+      overlayY: 'top',
+      offsetY: TOOLTIP_GAP,
+    },
+  ],
+  bottom: [
+    {
+      originX: 'center',
+      originY: 'bottom',
+      overlayX: 'center',
+      overlayY: 'top',
+      offsetY: TOOLTIP_GAP,
+    },
+    {
+      originX: 'center',
+      originY: 'top',
+      overlayX: 'center',
+      overlayY: 'bottom',
+      offsetY: -TOOLTIP_GAP,
+    },
+  ],
+  left: [
+    {
+      originX: 'start',
+      originY: 'center',
+      overlayX: 'end',
+      overlayY: 'center',
+      offsetX: -TOOLTIP_GAP,
+    },
+    {
+      originX: 'end',
+      originY: 'center',
+      overlayX: 'start',
+      overlayY: 'center',
+      offsetX: TOOLTIP_GAP,
+    },
+  ],
+  right: [
+    {
+      originX: 'end',
+      originY: 'center',
+      overlayX: 'start',
+      overlayY: 'center',
+      offsetX: TOOLTIP_GAP,
+    },
+    {
+      originX: 'start',
+      originY: 'center',
+      overlayX: 'end',
+      overlayY: 'center',
+      offsetX: -TOOLTIP_GAP,
+    },
+  ],
+};
 
 /**
  * Shows a text tooltip on hover and keyboard focus.
@@ -43,16 +116,36 @@ export class KuiTooltipDirective implements OnDestroy {
 
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
-  private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly overlay = inject(Overlay);
 
   protected readonly tooltipId = `kui-tooltip-${++tooltipCounter}`;
+  private overlayRef: OverlayRef | null = null;
   private tooltipEl: HTMLElement | null = null;
+  private hideTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   /** @internal */
   protected show(): void {
     const text = this.kuiTooltip();
-    if (!text || !isPlatformBrowser(this.platformId) || this.tooltipEl) return;
+    if (!text || !isPlatformBrowser(this.platformId) || this.overlayRef) return;
+
+    if (this.hideTimeoutId !== null) {
+      clearTimeout(this.hideTimeoutId);
+      this.hideTimeoutId = null;
+    }
+
+    const positionStrategy: FlexibleConnectedPositionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo(this.el)
+      .withPositions(PLACEMENT_POSITIONS[this.placement()])
+      .withPush(true);
+
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+      hasBackdrop: false,
+      panelClass: [],
+    });
 
     const el: HTMLElement = this.renderer.createElement('div');
     this.renderer.setAttribute(el, 'id', this.tooltipId);
@@ -60,62 +153,43 @@ export class KuiTooltipDirective implements OnDestroy {
     this.renderer.addClass(el, 'kui-tooltip');
     this.renderer.setAttribute(el, 'data-kui-placement', this.placement());
     this.renderer.setProperty(el, 'textContent', text);
-    this.renderer.appendChild(this.document.body, el);
     this.tooltipEl = el;
 
-    this.position();
+    this.overlayRef.overlayElement.appendChild(el);
   }
 
   /** @internal */
   protected hide(): void {
-    if (!this.tooltipEl) return;
+    if (!this.overlayRef) return;
     const el = this.tooltipEl;
     this.tooltipEl = null;
-    this.renderer.addClass(el, 'is-hiding');
-    let removed = false;
-    const remove = () => {
-      if (!removed && el.parentNode) {
-        removed = true;
-        this.renderer.removeChild(this.document.body, el);
-      }
-    };
-    el.addEventListener('animationend', remove, { once: true });
-    setTimeout(remove, 200);
+
+    if (el) {
+      this.renderer.addClass(el, 'is-hiding');
+      let removed = false;
+      const remove = () => {
+        if (!removed) {
+          removed = true;
+          this._detach();
+        }
+      };
+      el.addEventListener('animationend', remove, { once: true });
+      this.hideTimeoutId = setTimeout(remove, 200);
+    } else {
+      this._detach();
+    }
+  }
+
+  private _detach(): void {
+    this.overlayRef?.detach();
+    this.overlayRef?.dispose();
+    this.overlayRef = null;
   }
 
   ngOnDestroy(): void {
-    this.hide();
-  }
-
-  private position(): void {
-    const tip = this.tooltipEl;
-    if (!tip) return;
-
-    const trigger = this.el.nativeElement.getBoundingClientRect();
-    const { width: tipW, height: tipH } = tip.getBoundingClientRect();
-
-    let top: number;
-    let left: number;
-
-    switch (this.placement()) {
-      case 'bottom':
-        top = trigger.bottom + TOOLTIP_GAP;
-        left = trigger.left + trigger.width / 2 - tipW / 2;
-        break;
-      case 'left':
-        top = trigger.top + trigger.height / 2 - tipH / 2;
-        left = trigger.left - tipW - TOOLTIP_GAP;
-        break;
-      case 'right':
-        top = trigger.top + trigger.height / 2 - tipH / 2;
-        left = trigger.right + TOOLTIP_GAP;
-        break;
-      default:
-        top = trigger.top - tipH - TOOLTIP_GAP;
-        left = trigger.left + trigger.width / 2 - tipW / 2;
+    if (this.hideTimeoutId !== null) {
+      clearTimeout(this.hideTimeoutId);
     }
-
-    this.renderer.setStyle(tip, 'top', `${Math.round(top)}px`);
-    this.renderer.setStyle(tip, 'left', `${Math.round(left)}px`);
+    this._detach();
   }
 }

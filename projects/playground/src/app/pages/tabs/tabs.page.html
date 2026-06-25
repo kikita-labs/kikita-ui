@@ -176,7 +176,11 @@
               </kui-tabs>
             </td>
             <td kuiCell style="padding: 16px; vertical-align: top">
-              <kui-tabs variant="pill" [size]="sizeRow.value" selected="tab-pill-b-{{ sizeRow.value }}">
+              <kui-tabs
+                variant="pill"
+                [size]="sizeRow.value"
+                selected="tab-pill-b-{{ sizeRow.value }}"
+              >
                 <button kuiTab value="tab-pill-a-{{ sizeRow.value }}">Overview</button>
                 <button kuiTab value="tab-pill-b-{{ sizeRow.value }}">Activity</button>
                 <button kuiTab value="tab-pill-c-{{ sizeRow.value }}">Settings</button>

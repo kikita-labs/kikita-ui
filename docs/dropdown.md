@@ -6,12 +6,12 @@ Primitive floating panel. Handles positioning (`position: fixed`, scroll-follow)
 
 ## Components & Directives
 
-| Symbol | Selector | Role |
-|---|---|---|
-| `KuiDropdownComponent` | `kui-dropdown` | Floating panel |
-| `KuiDropdownForDirective` | `[kuiDropdownFor]` | Wires any element as a trigger |
-| `KuiOptionDirective` | `[kuiOption]` | Styled option row; closes dropdown on click |
-| `KUI_OPTION_CONTEXT` | — | DI token for Select/Combobox to control selection state |
+| Symbol                    | Selector           | Role                                                    |
+| ------------------------- | ------------------ | ------------------------------------------------------- |
+| `KuiDropdownComponent`    | `kui-dropdown`     | Floating panel                                          |
+| `KuiDropdownForDirective` | `[kuiDropdownFor]` | Wires any element as a trigger                          |
+| `KuiOptionDirective`      | `[kuiOption]`      | Styled option row; closes dropdown on click             |
+| `KUI_OPTION_CONTEXT`      | —                  | DI token for Select/Combobox to control selection state |
 
 ---
 
@@ -26,9 +26,7 @@ Field detects a nested `kui-dropdown` via `contentChild`, sets itself as anchor,
   <input kuiInput [value]="selected() ?? ''" placeholder="Pick…" readonly />
   <kui-dropdown>
     @for (opt of options; track opt) {
-      <div [kuiOption]="opt" (kuiOptionSelect)="selected.set($any($event))">
-        {{ opt }}
-      </div>
+    <div [kuiOption]="opt" (kuiOptionSelect)="selected.set($any($event))">{{ opt }}</div>
     }
   </kui-dropdown>
 </kui-field>
@@ -50,43 +48,41 @@ Attach to any element. The directive wires click → `toggle()` and sets `aria-e
 
 ```html
 <button #triggerEl (click)="dropdown.toggle()">Open</button>
-<kui-dropdown #dropdown [anchor]="triggerEl">
-  ...
-</kui-dropdown>
+<kui-dropdown #dropdown [anchor]="triggerEl"> ... </kui-dropdown>
 ```
 
 ---
 
 ## `KuiDropdownComponent` API
 
-| Input | Type | Default | Description |
-|---|---|---|---|
-| `anchor` | `HTMLElement \| ElementRef \| null` | `null` | Explicit anchor element (overridden by `setAnchor()`) |
-| `maxHeight` | `string \| null` | `'240px'` | Max height of panel; `null` = no cap |
-| `offset` | `number` | `4` | Gap between anchor bottom and panel top (px) |
+| Input       | Type                                | Default   | Description                                           |
+| ----------- | ----------------------------------- | --------- | ----------------------------------------------------- |
+| `anchor`    | `HTMLElement \| ElementRef \| null` | `null`    | Explicit anchor element (overridden by `setAnchor()`) |
+| `maxHeight` | `string \| null`                    | `'240px'` | Max height of panel; `null` = no cap                  |
+| `offset`    | `number`                            | `4`       | Gap between anchor bottom and panel top (px)          |
 
-| Signal | Type | Description |
-|---|---|---|
+| Signal   | Type              | Description                                 |
+| -------- | ----------------- | ------------------------------------------- |
 | `isOpen` | `Signal<boolean>` | Current open state (public readable signal) |
 
-| Method | Description |
-|---|---|
-| `open()` | Show panel, attach scroll/click-outside/Escape listeners |
-| `close()` | Start close animation; detach listeners |
-| `toggle()` | `open()` if closed, `close()` if open |
+| Method          | Description                                                  |
+| --------------- | ------------------------------------------------------------ |
+| `open()`        | Show panel, attach scroll/click-outside/Escape listeners     |
+| `close()`       | Start close animation; detach listeners                      |
+| `toggle()`      | `open()` if closed, `close()` if open                        |
 | `setAnchor(el)` | Set anchor imperatively (called by field and kuiDropdownFor) |
 
 ---
 
 ## `KuiOptionDirective` API
 
-| Input | Type | Description |
-|---|---|---|
+| Input       | Type      | Description                      |
+| ----------- | --------- | -------------------------------- |
 | `kuiOption` | `unknown` | The value this option represents |
-| `disabled` | `boolean` | Disables click and dims the row |
+| `disabled`  | `boolean` | Disables click and dims the row  |
 
-| Output | Description |
-|---|---|
+| Output            | Description                          |
+| ----------------- | ------------------------------------ |
 | `kuiOptionSelect` | Emits the `kuiOption` value on click |
 
 Applied CSS classes: `.kui-listbox-option`, `.kui-listbox-option--selected` (via `KUI_OPTION_CONTEXT`), `.kui-listbox-option--disabled`.
@@ -97,12 +93,12 @@ Applied CSS classes: `.kui-listbox-option`, `.kui-listbox-option--selected` (via
 
 Scoped to `.kui-dropdown` (component-local defaults):
 
-| Token | Default value |
-|---|---|
-| `--kui-dropdown-bg` | `var(--kui-color-surface-elevated)` |
-| `--kui-dropdown-border` | `var(--kui-color-border)` |
-| `--kui-dropdown-radius` | `var(--kui-radius-md)` |
-| `--kui-dropdown-shadow` | `var(--kui-shadow-lg)` |
+| Token                   | Default value                       |
+| ----------------------- | ----------------------------------- |
+| `--kui-dropdown-bg`     | `var(--kui-color-surface-elevated)` |
+| `--kui-dropdown-border` | `var(--kui-color-border)`           |
+| `--kui-dropdown-radius` | `var(--kui-radius-md)`              |
+| `--kui-dropdown-shadow` | `var(--kui-shadow-lg)`              |
 
 ---
 

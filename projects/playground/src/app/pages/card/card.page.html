@@ -80,7 +80,12 @@
             </td>
             @for (appearance of cardAppearances; track appearance) {
               <td kuiCell style="padding: 12px; vertical-align: top">
-                <article kuiCard [size]="sizeRow.value" [appearance]="appearance" style="inline-size: 100%">
+                <article
+                  kuiCard
+                  [size]="sizeRow.value"
+                  [appearance]="appearance"
+                  style="inline-size: 100%"
+                >
                   <strong>Card</strong>
                   <p>{{ appearance }}</p>
                 </article>

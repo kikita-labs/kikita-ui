@@ -24,7 +24,10 @@ class BasicHost {
   val = signal<string | null>(null);
 }
 
-interface User { id: number; name: string; }
+interface User {
+  id: number;
+  name: string;
+}
 
 @Component({
   imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
@@ -174,7 +177,9 @@ describe('KuiSelectDirective', () => {
       fixture.componentInstance.val.set('a');
       fixture.detectChanges();
 
-      const clearBtn = fixture.nativeElement.querySelector('.kui-select-clear') as HTMLButtonElement;
+      const clearBtn = fixture.nativeElement.querySelector(
+        '.kui-select-clear',
+      ) as HTMLButtonElement;
       clearBtn.click();
       fixture.detectChanges();
 
@@ -193,7 +198,7 @@ describe('KuiSelectDirective', () => {
       getField(fixture).click();
       fixture.detectChanges();
 
-      expect(fixture.nativeElement.querySelector('.kui-dropdown')).toBeNull();
+      expect(document.querySelector('.kui-dropdown')).toBeNull();
     });
   });
 
@@ -204,7 +209,7 @@ describe('KuiSelectDirective', () => {
       getField(fixture).click();
       fixture.detectChanges();
 
-      const options = fixture.nativeElement.querySelectorAll('.kui-listbox-option');
+      const options = document.querySelectorAll('.kui-listbox-option');
       (options[0] as HTMLElement).click();
       fixture.detectChanges();
 
@@ -217,7 +222,7 @@ describe('KuiSelectDirective', () => {
       getField(fixture).click();
       fixture.detectChanges();
 
-      const options = fixture.nativeElement.querySelectorAll('.kui-listbox-option');
+      const options = document.querySelectorAll('.kui-listbox-option');
       (options[1] as HTMLElement).click();
       fixture.detectChanges();
 

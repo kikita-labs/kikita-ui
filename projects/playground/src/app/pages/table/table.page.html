@@ -161,7 +161,10 @@
   <div class="sizes-grid">
     @for (sz of sizes; track sz) {
       <div>
-        <p class="size-label"><strong>{{ sz }}</strong><code>size="{{ sz }}"</code></p>
+        <p class="size-label">
+          <strong>{{ sz }}</strong
+          ><code>size="{{ sz }}"</code>
+        </p>
         <div class="table-wrap">
           <table kuiTable [size]="sz" [data]="users.slice(0, 3)">
             <thead>

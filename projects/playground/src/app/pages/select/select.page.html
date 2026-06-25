@@ -19,7 +19,7 @@
 <app-panel
   num="02"
   title="input[kuiSelect] — объекты + clearable"
-  description="<code>kuiLabelFn</code> для кастомных объектов. <code>[clearable]=&quot;true&quot;</code> добавляет кнопку сброса. Неактивные пользователи задизейблены."
+  description='<code>kuiLabelFn</code> для кастомных объектов. <code>[clearable]="true"</code> добавляет кнопку сброса. Неактивные пользователи задизейблены.'
 >
   <div class="state-board__row">
     <kui-field label="User" style="width: 280px">
@@ -52,12 +52,7 @@
 >
   <div class="state-board__row">
     <kui-field label="Locked field" style="width: 240px">
-      <input
-        kuiSelect
-        [value]="selectedRole()"
-        [disabled]="true"
-        placeholder="Disabled…"
-      />
+      <input kuiSelect [value]="selectedRole()" [disabled]="true" placeholder="Disabled…" />
       <kui-dropdown>
         @for (opt of roles; track opt.value) {
           <div kuiOption [value]="opt.value">{{ opt.label }}</div>

@@ -1,11 +1,4 @@
-import {
-  computed,
-  Directive,
-  ElementRef,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { computed, Directive, ElementRef, inject, input, output } from '@angular/core';
 
 import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
 import { KuiDropdownComponent } from './kui-dropdown.component';

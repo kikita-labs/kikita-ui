@@ -7,11 +7,7 @@
 ## Import
 
 ```ts
-import {
-  KuiSelectComponent,
-  KuiSelectGroupTpl,
-  KuiSelectItemTpl,
-} from '@kikita-labs/ui';
+import { KuiSelectComponent, KuiSelectGroupTpl, KuiSelectItemTpl } from '@kikita-labs/ui';
 import type { KuiSelectOption } from '@kikita-labs/ui';
 ```
 
@@ -32,14 +28,14 @@ role = signal<string | undefined>(undefined);
 
 ## Inputs
 
-| Input         | Type                            | Default      | Description                        |
-|---------------|---------------------------------|--------------|------------------------------------|
-| `value`       | `T \| undefined`               | `undefined`  | Selected value (two-way bindable)  |
-| `options`     | `readonly KuiSelectOption<T>[]` | `[]`         | Flat or grouped options array      |
-| `placeholder` | `string`                        | `'Select…'`  | Shown when no value is selected    |
-| `size`        | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'`       | Control size                       |
-| `disabled`    | `boolean`                       | `false`      | Disables the trigger               |
-| `invalid`     | `boolean`                       | `false`      | Shows error border                 |
+| Input         | Type                            | Default     | Description                       |
+| ------------- | ------------------------------- | ----------- | --------------------------------- |
+| `value`       | `T \| undefined`                | `undefined` | Selected value (two-way bindable) |
+| `options`     | `readonly KuiSelectOption<T>[]` | `[]`        | Flat or grouped options array     |
+| `placeholder` | `string`                        | `'Select…'` | Shown when no value is selected   |
+| `size`        | `'xs' \| 'sm' \| 'md' \| 'lg'`  | `'md'`      | Control size                      |
+| `disabled`    | `boolean`                       | `false`     | Disables the trigger              |
+| `invalid`     | `boolean`                       | `false`     | Shows error border                |
 
 ## Option interface
 
@@ -69,9 +65,7 @@ const tools: KuiSelectOption<string>[] = [
   {
     value: 'engineering',
     label: 'Engineering',
-    children: [
-      { value: 'vscode', label: 'VS Code' },
-    ],
+    children: [{ value: 'vscode', label: 'VS Code' }],
   },
 ];
 ```
@@ -109,26 +103,26 @@ Use `kuiSelectItem` template directive. `$implicit` is the option object.
 ```html
 <kui-select size="xs" ... />
 <kui-select size="sm" ... />
-<kui-select size="md" ... />  <!-- default -->
+<kui-select size="md" ... />
+<!-- default -->
 <kui-select size="lg" ... />
 ```
 
 ## States
 
 ```html
-<kui-select [invalid]="true" ... />
-<kui-select [disabled]="true" ... />
+<kui-select [invalid]="true" ... /> <kui-select [disabled]="true" ... />
 ```
 
 ## Keyboard navigation
 
-| Key               | Action                              |
-|-------------------|-------------------------------------|
-| `Enter` / `Space` | Open dropdown / select active item  |
-| `ArrowDown`       | Move focus to next option           |
-| `ArrowUp`         | Move focus to previous option       |
-| `Escape`          | Close dropdown, return focus        |
-| `Tab`             | Close dropdown                      |
+| Key               | Action                             |
+| ----------------- | ---------------------------------- |
+| `Enter` / `Space` | Open dropdown / select active item |
+| `ArrowDown`       | Move focus to next option          |
+| `ArrowUp`         | Move focus to previous option      |
+| `Escape`          | Close dropdown, return focus       |
+| `Tab`             | Close dropdown                     |
 
 ## Generic typing
 

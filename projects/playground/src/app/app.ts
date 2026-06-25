@@ -45,7 +45,14 @@ const NAV_ITEMS: readonly NavItem[] = [
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, KuiCardDirective, KuiSegmentedComponent, KuiSegmentDirective, KuiTabsComponent, KuiTabDirective],
+  imports: [
+    RouterOutlet,
+    KuiCardDirective,
+    KuiSegmentedComponent,
+    KuiSegmentDirective,
+    KuiTabsComponent,
+    KuiTabDirective,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   encapsulation: ViewEncapsulation.None,

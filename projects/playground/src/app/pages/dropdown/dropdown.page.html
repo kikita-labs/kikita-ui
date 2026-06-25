@@ -42,7 +42,8 @@
         <kui-dropdown #actionsMenu [maxHeight]="null">
           @for (action of actions; track action.value) {
             <div
-              kuiOption [value]="action.value"
+              kuiOption
+              [value]="action.value"
               [disabled]="action.disabled ?? false"
               (kuiOptionSelect)="lastAction.set($any($event))"
             >

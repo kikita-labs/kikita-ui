@@ -11,7 +11,9 @@ class MockOptionContext implements KuiOptionContext {
   selections: unknown[] = [];
 
   isSelected = (_v: unknown): Signal<boolean> | boolean => this.selected();
-  select = (v: unknown): void => { this.selections.push(v); };
+  select = (v: unknown): void => {
+    this.selections.push(v);
+  };
 }
 
 // ── host fixtures ─────────────────────────────────────────────────────────────

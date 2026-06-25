@@ -1,34 +1,45 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   DestroyRef,
-  ElementRef,
   inject,
   input,
+  NgZone,
+  OnDestroy,
   signal,
-  viewChild,
+  TemplateRef,
+  ViewContainerRef,
   ViewEncapsulation,
+  viewChild,
 } from '@angular/core';
+import { FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { Subscription } from 'rxjs';
 
-interface DropdownPos {
-  top: number;
-  left: number;
-  minWidth: number;
-}
-
+/**
+ * Floating listbox panel rendered in an Angular CDK overlay.
+ *
+ * Place inside `<kui-field>` alongside `input[kuiSelect]`, or use standalone
+ * with the `[anchor]` input.
+ *
+ * @example
+ * ```html
+ * <kui-field label="Role">
+ *   <input kuiSelect [(value)]="role" />
+ *   <kui-dropdown>
+ *     <div kuiOption value="admin">Admin</div>
+ *   </kui-dropdown>
+ * </kui-field>
+ * ```
+ */
 @Component({
   selector: 'kui-dropdown',
   template: `
-    @if (visible()) {
+    <ng-template #dropdownTpl>
       <div
-        #panelEl
         class="kui-dropdown"
         [class.kui-dropdown--closing]="isClosing()"
         [class.kui-dropdown--scroll]="maxHeight() != null"
-        [style.top.px]="pos()?.top"
-        [style.left.px]="pos()?.left"
-        [style.min-width.px]="pos()?.minWidth"
         [style.max-height]="maxHeight()"
         role="listbox"
         (click)="handlePanelClick($event)"
@@ -36,52 +47,51 @@ interface DropdownPos {
       >
         <ng-content />
       </div>
-    }
+    </ng-template>
   `,
   styles: `
-    :host { display: contents; }
-    .kui-dropdown { position: fixed; }
+    :host {
+      display: contents;
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KuiDropdownComponent {
-  readonly anchor = input<HTMLElement | ElementRef<HTMLElement> | null>(null);
+export class KuiDropdownComponent implements OnDestroy {
+  /** Maximum height of the panel before scrolling activates. */
   readonly maxHeight = input<string | null>('240px');
+
+  /** Gap in px between the anchor and the panel edge. */
   readonly offset = input(4);
 
+  /** Whether the panel is currently open. */
   readonly isOpen = signal(false);
 
   protected readonly isClosing = signal(false);
-  protected readonly pos = signal<DropdownPos | null>(null);
-  protected readonly visible = computed(() => this.isOpen() || this.isClosing());
 
-  private readonly _anchorEl = signal<HTMLElement | null>(null);
-  private readonly panelEl = viewChild<ElementRef<HTMLElement>>('panelEl');
+  private readonly tplRef = viewChild.required<TemplateRef<void>>('dropdownTpl');
+  private readonly overlay = inject(Overlay);
+  private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
-  private cleanup: (() => void) | null = null;
+  private readonly zone = inject(NgZone);
 
-  private resolveAnchor(): HTMLElement | null {
-    const internal = this._anchorEl();
-    if (internal) return internal;
-    const a = this.anchor();
-    if (!a) return null;
-    return a instanceof ElementRef ? a.nativeElement : a;
+  private _anchorEl: HTMLElement | null = null;
+  private overlayRef: OverlayRef | null = null;
+  private openSubs: Subscription[] = [];
+  private outsideTimeoutId: ReturnType<typeof setTimeout> | null = null;
+
+  constructor() {
+    this.destroyRef.onDestroy(() => this._cleanup());
   }
 
-  private updatePosition(): void {
-    const el = this.resolveAnchor();
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    this.pos.set({ top: rect.bottom + this.offset(), left: rect.left, minWidth: rect.width });
-  }
-
+  /** Called by KuiFieldComponent to wire up the anchor element. */
   setAnchor(el: HTMLElement): void {
-    this._anchorEl.set(el);
+    this._anchorEl = el;
   }
 
+  /** Returns the rendered panel element for keyboard navigation queries. */
   getPanel(): HTMLElement | null {
-    return this.panelEl()?.nativeElement ?? null;
+    return this.overlayRef?.overlayElement.querySelector<HTMLElement>('.kui-dropdown') ?? null;
   }
 
   toggle(): void {
@@ -89,51 +99,83 @@ export class KuiDropdownComponent {
   }
 
   open(): void {
-    this.updatePosition();
-    this.isOpen.set(true);
-    this.isClosing.set(false);
+    const anchor = this._anchorEl;
+    if (!anchor || this.isOpen()) return;
 
-    const onScroll = () => this.updatePosition();
-    document.addEventListener('scroll', onScroll, { capture: true, passive: true });
+    const positionStrategy: FlexibleConnectedPositionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo(anchor)
+      .withPositions([
+        { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
+        { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom' },
+      ])
+      .withPush(false)
+      .withDefaultOffsetY(this.offset());
 
-    const onKeydown = (e: KeyboardEvent) => {
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+      minWidth: anchor.offsetWidth,
+      hasBackdrop: false,
+    });
+
+    this.overlayRef.attach(new TemplatePortal(this.tplRef(), this.vcr));
+
+    const overlayEl = this.overlayRef.overlayElement;
+
+    const posSub = positionStrategy.positionChanges.subscribe((change) => {
+      const isFlipped =
+        change.connectionPair.originY === 'top' && change.connectionPair.overlayY === 'bottom';
+      const div = overlayEl.querySelector<HTMLElement>('.kui-dropdown');
+      if (div) {
+        div.setAttribute('data-placement', isFlipped ? 'top' : 'bottom');
+      }
+    });
+
+    const escapeSub = this.overlayRef.keydownEvents().subscribe((e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.stopPropagation();
-        this.close();
+        this.zone.run(() => this.close());
       }
-    };
-    document.addEventListener('keydown', onKeydown, { capture: true });
+    });
 
-    let clickListener: ((e: MouseEvent) => void) | null = null;
-    const timeoutId = setTimeout(() => {
-      clickListener = (e: MouseEvent) => {
-        const anchor = this.resolveAnchor();
-        const panel = this.panelEl()?.nativeElement;
-        const target = e.target as Node;
-        if (!anchor?.contains(target) && !panel?.contains(target)) {
-          this.close();
-        }
-      };
-      document.addEventListener('click', clickListener, { capture: true });
-    }, 0);
+    this.openSubs = [posSub, escapeSub];
 
-    const stop = () => {
-      clearTimeout(timeoutId);
-      document.removeEventListener('scroll', onScroll, { capture: true });
-      document.removeEventListener('keydown', onKeydown, { capture: true });
-      if (clickListener) {
-        document.removeEventListener('click', clickListener, { capture: true });
-      }
-    };
+    // Defer outside-click listener one tick so the triggering click doesn't close immediately.
+    this.outsideTimeoutId = this.zone.runOutsideAngular(() =>
+      setTimeout(() => {
+        const outsideSub = this.overlayRef!.outsidePointerEvents().subscribe((e: MouseEvent) => {
+          if (!anchor.contains(e.target as Node)) {
+            this.zone.run(() => this.close());
+          }
+        });
+        this.openSubs.push(outsideSub);
+      }, 0),
+    );
 
-    this.cleanup = stop;
-    this.destroyRef.onDestroy(stop);
+    this.isOpen.set(true);
+    this.isClosing.set(false);
   }
 
   close(): void {
-    this.cleanup?.();
-    this.cleanup = null;
+    if (!this.isOpen() && !this.isClosing()) return;
+    this._cleanup();
     this.isClosing.set(true);
+  }
+
+  private _cleanup(): void {
+    if (this.outsideTimeoutId !== null) {
+      clearTimeout(this.outsideTimeoutId);
+      this.outsideTimeoutId = null;
+    }
+    this.openSubs.forEach((s) => s.unsubscribe());
+    this.openSubs = [];
+  }
+
+  private _detachOverlay(): void {
+    this.overlayRef?.detach();
+    this.overlayRef?.dispose();
+    this.overlayRef = null;
   }
 
   protected handlePanelClick(e: MouseEvent): void {
@@ -147,6 +189,12 @@ export class KuiDropdownComponent {
     if (this.isClosing() && event.animationName === 'kui-dropdown-out') {
       this.isOpen.set(false);
       this.isClosing.set(false);
+      this._detachOverlay();
     }
+  }
+
+  ngOnDestroy(): void {
+    this._cleanup();
+    this._detachOverlay();
   }
 }

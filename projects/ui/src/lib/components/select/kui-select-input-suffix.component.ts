@@ -10,12 +10,7 @@ import {
   selector: 'kui-select-input-suffix',
   template: `
     @if (clearable() && hasValue()) {
-      <button
-        type="button"
-        class="kui-select-clear"
-        aria-label="Clear"
-        (click)="onClear($event)"
-      >
+      <button type="button" class="kui-select-clear" aria-label="Clear" (click)="onClear($event)">
         <svg viewBox="0 0 14 14" width="12" height="12" fill="none" aria-hidden="true">
           <path
             d="M2 2l10 10M12 2L2 12"

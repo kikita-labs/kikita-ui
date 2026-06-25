@@ -62,7 +62,9 @@ import { KuiSelectInputSuffixComponent } from './kui-select-input-suffix.compone
  * </kui-field>
  * ```
  */
-export class KuiSelectDirective<T = unknown> implements OnDestroy, KuiOptionContext, FormValueControl<T | null> {
+export class KuiSelectDirective<T = unknown>
+  implements OnDestroy, KuiOptionContext, FormValueControl<T | null>
+{
   /** Current selected value. Bound by `[formField]` or `[(value)]`. */
   readonly value = model<T | null>(null);
 
@@ -95,9 +97,7 @@ export class KuiSelectDirective<T = unknown> implements OnDestroy, KuiOptionCont
   private readonly fieldOpts = inject(KUI_FIELD_OPTIONS, { optional: true });
   private readonly selectOpts = inject(KUI_SELECT_OPTIONS, { optional: true });
 
-  protected readonly dropdownOpen = computed(
-    () => this.field?.getDropdown()?.isOpen() ?? false,
-  );
+  protected readonly dropdownOpen = computed(() => this.field?.getDropdown()?.isOpen() ?? false);
 
   protected readonly effectiveClearable = computed(() => {
     const own = this.clearable();
@@ -112,7 +112,9 @@ export class KuiSelectDirective<T = unknown> implements OnDestroy, KuiOptionCont
   );
 
   readonly isSelected = (v: unknown): boolean => v === this.value();
-  readonly select = (v: unknown): void => { this.value.set(v as T); };
+  readonly select = (v: unknown): void => {
+    this.value.set(v as T);
+  };
 
   private _keyboardOpened = false;
   private readonly suffixRef: ComponentRef<KuiSelectInputSuffixComponent>;
@@ -134,7 +136,9 @@ export class KuiSelectDirective<T = unknown> implements OnDestroy, KuiOptionCont
       this.el.nativeElement.value = v != null ? (labelFn ? labelFn(v) : String(v)) : '';
     });
 
-    effect(() => { this.field?.setSelectDisabled(this.disabled()); });
+    effect(() => {
+      this.field?.setSelectDisabled(this.disabled());
+    });
 
     effect(() => {
       const dropdown = this.field?.getDropdown();
@@ -148,7 +152,9 @@ export class KuiSelectDirective<T = unknown> implements OnDestroy, KuiOptionCont
       }
     });
 
-    this.suffixRef.instance.cleared.subscribe(() => { this.value.set(null); });
+    this.suffixRef.instance.cleared.subscribe(() => {
+      this.value.set(null);
+    });
   }
 
   protected handleClick(e: MouseEvent): void {
