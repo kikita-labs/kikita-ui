@@ -98,6 +98,8 @@ export class KuiFieldComponent implements KuiOptionContext {
 
   readonly select = (value: unknown): void => this._selectCtx()?.select(value);
 
+  readonly close = (): void => this.dropdown()?.close();
+
   registerSelectContext(ctx: KuiOptionContext | null): void {
     this._selectCtx.set(ctx);
   }

@@ -1,7 +1,6 @@
 import { computed, Directive, ElementRef, inject, input, output } from '@angular/core';
 
 import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
-import { KuiDropdownComponent } from './kui-dropdown.component';
 
 @Directive({
   selector: '[kuiOption]',
@@ -28,7 +27,6 @@ export class KuiOptionDirective {
 
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly ctx = inject(KUI_OPTION_CONTEXT, { optional: true });
-  private readonly dropdown = inject(KuiDropdownComponent, { optional: true });
 
   protected readonly selected = computed(() => {
     if (!this.ctx) return false;
@@ -65,10 +63,10 @@ export class KuiOptionDirective {
       case ' ':
         e.preventDefault();
         this.handleClick();
-        this.dropdown?.close();
+        this.ctx?.close?.();
         break;
       case 'Tab':
-        this.dropdown?.close();
+        this.ctx?.close?.();
         break;
     }
   }

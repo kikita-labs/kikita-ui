@@ -14,7 +14,6 @@ import {
 } from '@angular/core';
 import { FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { Subscription } from 'rxjs';
 
 /**
  * Floating listbox panel rendered in an Angular CDK overlay.
@@ -73,7 +72,7 @@ export class KuiDropdownComponent implements OnDestroy {
 
   private _anchorEl: HTMLElement | null = null;
   private overlayRef: OverlayRef | null = null;
-  private openSubs: Subscription[] = [];
+  private openSubs: { unsubscribe: () => void }[] = [];
   private outsideTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
@@ -137,15 +136,18 @@ export class KuiDropdownComponent implements OnDestroy {
 
     this.openSubs = [posSub, escapeSub];
 
-    // Defer outside-click listener one tick so the triggering click doesn't close immediately.
+    // Defer outside-pointerdown listener one tick so the triggering event doesn't close immediately.
+    // CDK 22 outsidePointerEvents() is unreliable with popover/top-layer; use document directly.
     this.outsideTimeoutId = this.zone.runOutsideAngular(() =>
       setTimeout(() => {
-        const outsideSub = this.overlayRef!.outsidePointerEvents().subscribe((e: MouseEvent) => {
-          if (!anchor.contains(e.target as Node)) {
+        const onPointerDown = (e: PointerEvent) => {
+          const overlayEl = this.overlayRef?.overlayElement;
+          if (!anchor.contains(e.target as Node) && !overlayEl?.contains(e.target as Node)) {
             this.zone.run(() => this.close());
           }
-        });
-        this.openSubs.push(outsideSub);
+        };
+        document.addEventListener('pointerdown', onPointerDown, { capture: true });
+        this.openSubs.push({ unsubscribe: () => document.removeEventListener('pointerdown', onPointerDown, { capture: true }) });
       }, 0),
     );
 
