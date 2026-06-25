@@ -1,6 +1,7 @@
 @layer kui.components {
   .kui-tooltip {
     box-sizing: border-box;
+    position: fixed;
     z-index: 9000;
     max-inline-size: 280px;
     padding-block: var(--kui-tooltip-py, 5px);

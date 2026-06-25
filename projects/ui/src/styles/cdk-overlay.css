@@ -1,4 +1,4 @@
-/* Minimal CDK overlay container styles required for @angular/cdk/overlay to function. */
+/* CDK overlay base styles — supports both legacy (position:fixed) and CDK 22 popover API. */
 
 .cdk-overlay-container {
   position: fixed;
@@ -14,8 +14,37 @@
   display: none;
 }
 
+/* CDK 22: popover-based bounding box */
+.cdk-overlay-connected-position-bounding-box {
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 1px;
+  min-height: 1px;
+  pointer-events: none;
+}
+
+/* popover="manual" resets some UA styles — restore positioning */
+.cdk-overlay-popover {
+  overflow: visible;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  inset: unset;
+}
+
 .cdk-overlay-pane {
   position: absolute;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+/* CDK 22 sets position:static via inline style when using popover bounding-box */
+.cdk-overlay-connected-position-bounding-box .cdk-overlay-pane {
+  position: static;
   pointer-events: auto;
   box-sizing: border-box;
 }

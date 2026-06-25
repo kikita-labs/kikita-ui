@@ -39,6 +39,9 @@
     --kui-dropdown-shadow: var(--kui-shadow-lg);
 
     box-sizing: border-box;
+    width: 100%;
+    font-family: var(--kui-font-sans, system-ui, -apple-system, sans-serif);
+    font-size: var(--kui-text-sm-size, 13px);
     background: var(--kui-dropdown-bg);
     border: 1px solid var(--kui-dropdown-border);
     border-radius: var(--kui-dropdown-radius);

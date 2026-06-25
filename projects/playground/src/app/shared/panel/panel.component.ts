@@ -8,6 +8,7 @@ import { KuiCardDirective } from '@kikita-labs/ui';
   templateUrl: './panel.component.html',
   styleUrl: './panel.component.scss',
   encapsulation: ViewEncapsulation.None,
+  host: { '[attr.title]': 'null' },
 })
 export class PlaygroundPanelComponent {
   readonly num = input.required<string>();
