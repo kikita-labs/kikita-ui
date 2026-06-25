@@ -104,15 +104,15 @@ export class KuiDropdownComponent implements OnDestroy {
     const anchor = this._anchorEl;
     if (!anchor || this.isOpen()) return;
 
+    const gap = this.offset();
     const positionStrategy: FlexibleConnectedPositionStrategy = this.overlay
       .position()
       .flexibleConnectedTo(anchor)
       .withPositions([
-        { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
-        { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom' },
+        { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: gap },
+        { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -gap },
       ])
-      .withPush(false)
-      .withDefaultOffsetY(this.offset());
+      .withPush(false);
 
     this.overlayRef = this.overlay.create({
       positionStrategy,
