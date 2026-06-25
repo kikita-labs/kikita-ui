@@ -32,6 +32,10 @@
     display: contents;
   }
 
+  kui-dropdown {
+    display: contents;
+  }
+
   .kui-dropdown {
     --kui-dropdown-bg: var(--kui-color-surface-elevated);
     --kui-dropdown-border: var(--kui-color-border);

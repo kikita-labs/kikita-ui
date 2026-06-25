@@ -49,11 +49,7 @@ import { Subscription } from 'rxjs';
       </div>
     </ng-template>
   `,
-  styles: `
-    :host {
-      display: contents;
-    }
-  `,
+  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
