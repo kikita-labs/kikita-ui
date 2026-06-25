@@ -59,7 +59,7 @@
     animation-name: kui-dropdown-in-flip;
   }
 
-  .kui-dropdown--closing {
+  .kui-dropdown.kui-dropdown--closing {
     animation: kui-dropdown-out 120ms linear both;
   }
 
@@ -70,7 +70,7 @@
   @media (prefers-reduced-motion: reduce) {
     .kui-dropdown,
     .kui-dropdown--closing {
-      animation: none;
+      animation-duration: 0.01ms !important;
     }
   }
 }

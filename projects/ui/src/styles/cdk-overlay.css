@@ -47,6 +47,10 @@
   position: static;
   pointer-events: auto;
   box-sizing: border-box;
+  /* CDK resets bounding-box to full-viewport during repositioning; default
+     align-items:stretch would make pane 100vh → CDK measures wrong height → wrong
+     position scoring. flex-start sizes pane by content. */
+  align-self: flex-start;
 }
 
 .cdk-overlay-backdrop {
@@ -62,3 +66,4 @@
 .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
   opacity: 1;
 }
+

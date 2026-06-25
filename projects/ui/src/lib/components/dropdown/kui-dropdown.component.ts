@@ -71,10 +71,8 @@ export class KuiDropdownComponent implements OnDestroy {
   private readonly zone = inject(NgZone);
 
   private _anchorEl: HTMLElement | null = null;
-  private _outsideClickIgnoreEl: HTMLElement | null = null;
   private overlayRef: OverlayRef | null = null;
   private openSubs: { unsubscribe: () => void }[] = [];
-  private outsideTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
     this.destroyRef.onDestroy(() => this._cleanup());
@@ -83,12 +81,10 @@ export class KuiDropdownComponent implements OnDestroy {
   /**
    * Called by KuiFieldComponent to wire up the anchor element.
    * @param positionEl element used for overlay positioning and minWidth (e.g. the control slot)
-   * @param outsideClickIgnoreEl element whose subtree should NOT trigger close on outside-click
-   *   (e.g. the full kui-field host, so clicking the label doesn't close-then-reopen)
+   * @param _outsideClickIgnoreEl reserved — not used with backdrop strategy (kept for API compat)
    */
-  setAnchor(positionEl: HTMLElement, outsideClickIgnoreEl?: HTMLElement): void {
+  setAnchor(positionEl: HTMLElement, _outsideClickIgnoreEl?: HTMLElement): void {
     this._anchorEl = positionEl;
-    this._outsideClickIgnoreEl = outsideClickIgnoreEl ?? positionEl;
   }
 
   /** Returns the rendered panel element for keyboard navigation queries. */
@@ -118,7 +114,6 @@ export class KuiDropdownComponent implements OnDestroy {
       positionStrategy,
       scrollStrategy: this.overlay.scrollStrategies.reposition(),
       minWidth: anchor.offsetWidth,
-      hasBackdrop: false,
     });
 
     this.overlayRef.attach(new TemplatePortal(this.tplRef(), this.vcr));
@@ -141,24 +136,22 @@ export class KuiDropdownComponent implements OnDestroy {
       }
     });
 
-    this.openSubs = [posSub, escapeSub];
-
-    // Defer outside-pointerdown listener one tick so the triggering event doesn't close immediately.
-    // CDK 22 outsidePointerEvents() is unreliable with popover/top-layer; use document directly.
-    this.outsideTimeoutId = this.zone.runOutsideAngular(() =>
-      setTimeout(() => {
-        const ignoreEl = this._outsideClickIgnoreEl ?? anchor;
-        const onPointerDown = (e: PointerEvent) => {
-          const overlayEl = this.overlayRef?.overlayElement;
-          if (!ignoreEl.contains(e.target as Node) && !overlayEl?.contains(e.target as Node)) {
-            this.zone.run(() => this.close());
-          }
-        };
-        document.addEventListener('pointerdown', onPointerDown, { capture: true });
-        this.openSubs.push({ unsubscribe: () => document.removeEventListener('pointerdown', onPointerDown, { capture: true }) });
-      }, 0),
+    // CDK 22 popover: backdrop fires only within bounding-box area (not full viewport).
+    // For above-positioned panels the click target below anchor misses the backdrop.
+    // document capture fires before any element handler regardless of top-layer.
+    const outsideHandler = (e: MouseEvent) => {
+      if (!overlayEl.contains(e.target as Element)) {
+        this.zone.run(() => this.close());
+      }
+    };
+    this.zone.runOutsideAngular(() =>
+      document.addEventListener('click', outsideHandler, { capture: true }),
     );
+    const outsideSub = {
+      unsubscribe: () => document.removeEventListener('click', outsideHandler, { capture: true }),
+    };
 
+    this.openSubs = [posSub, escapeSub, outsideSub];
     this.isOpen.set(true);
     this.isClosing.set(false);
   }
@@ -170,10 +163,6 @@ export class KuiDropdownComponent implements OnDestroy {
   }
 
   private _cleanup(): void {
-    if (this.outsideTimeoutId !== null) {
-      clearTimeout(this.outsideTimeoutId);
-      this.outsideTimeoutId = null;
-    }
     this.openSubs.forEach((s) => s.unsubscribe());
     this.openSubs = [];
   }
