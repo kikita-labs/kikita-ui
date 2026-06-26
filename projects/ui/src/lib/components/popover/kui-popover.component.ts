@@ -7,6 +7,7 @@ import {
   TemplateRef,
   ViewContainerRef,
   ViewEncapsulation,
+  computed,
   inject,
   input,
   model,
@@ -35,21 +36,25 @@ import type { KuiPopoverAlign, KuiPopoverPlacement, KuiPopoverTriggerType } from
   selector: 'kui-popover',
   template: `
     <ng-template #tpl>
-      <div
-        class="kui-popover"
-        [class.kui-popover--in]="!_closing()"
-        [class.kui-popover--out]="_closing()"
-        [attr.data-side]="_side()"
-        [attr.data-align]="_align()"
-        role="dialog"
-        (animationend)="onAnimationEnd($event)"
-        (mouseenter)="onPanelMouseEnter()"
-        (mouseleave)="onPanelMouseLeave()"
-      >
-        @if (arrow()) {
-          <div class="kui-popover-arrow"></div>
-        }
-        <ng-content />
+      <!-- Wrapper carries the alignment transform; kept separate from the animated element
+           so CDK-applied transforms on the overlay pane don't cancel the gap offset. -->
+      <div [style.transform]="_alignTransform()">
+        <div
+          class="kui-popover"
+          [class.kui-popover--in]="!_closing()"
+          [class.kui-popover--out]="_closing()"
+          [attr.data-side]="_side()"
+          [attr.data-align]="_align()"
+          role="dialog"
+          (animationend)="onAnimationEnd($event)"
+          (mouseenter)="onPanelMouseEnter()"
+          (mouseleave)="onPanelMouseLeave()"
+        >
+          @if (arrow()) {
+            <div class="kui-popover-arrow"></div>
+          }
+          <ng-content />
+        </div>
       </div>
     </ng-template>
   `,
@@ -84,6 +89,19 @@ export class KuiPopoverComponent implements OnDestroy {
   protected readonly _side = signal<KuiPopoverPlacement>('bottom');
   protected readonly _align = signal<KuiPopoverAlign>('center');
   protected readonly _closing = signal(false);
+
+  protected readonly _alignTransform = computed(() => {
+    const side = this._side();
+    const aln = this._align();
+    const horiz = side === 'top' || side === 'bottom';
+    const tx = horiz
+      ? aln === 'center' ? 'translateX(-50%)' : aln === 'end' ? 'translateX(-100%)' : ''
+      : side === 'left' ? 'translateX(-100%)' : '';
+    const ty = !horiz
+      ? aln === 'center' ? 'translateY(-50%)' : aln === 'end' ? 'translateY(-100%)' : ''
+      : '';
+    return [tx, ty].filter(Boolean).join(' ') || null;
+  });
 
   private readonly tplRef = viewChild.required<TemplateRef<void>>('tpl');
   private readonly overlay = inject(Overlay);
@@ -182,10 +200,6 @@ export class KuiPopoverComponent implements OnDestroy {
     this.open.set(true);
     this._closing.set(false);
 
-    // Apply alignment transform immediately (CDK 22: never use overlayX/Y 'center'/'end'
-    // because pane width/height = 0 before paint → wrong position. Transform compensates.)
-    this._applyAlignTransform(pref, aln);
-
     const overlayEl = this._overlayRef.overlayElement;
 
     const posSub = posStrategy.positionChanges.subscribe((change) => {
@@ -193,7 +207,6 @@ export class KuiPopoverComponent implements OnDestroy {
       const align = this._alignFromPair(change.connectionPair, side);
       this._side.set(side);
       this._align.set(align);
-      this._applyAlignTransform(side, align);
     });
 
     const escapeSub = this._overlayRef.keydownEvents().subscribe((e: KeyboardEvent) => {
@@ -252,27 +265,13 @@ export class KuiPopoverComponent implements OnDestroy {
     const h = aln === 'start' ? 'start' : aln === 'end' ? 'end' : 'center'; // originX for top/bottom
     const v = aln === 'start' ? 'top' : aln === 'end' ? 'bottom' : 'center'; // originY for left/right
 
-    // CDK 22: never use overlayX 'center'/'end' or overlayY 'center'/'end' — pane size is 0
-    // at positioning time → wrong position. Always use overlayX/Y 'start'; compensate via
-    // CSS transform on the overlay pane element (_applyAlignTransform).
-    // Use offsetX/Y sign to identify side in _sideFromPair.
+    // CDK 22: never use overlayX/Y 'center'/'end' — pane size=0 before paint → wrong pos.
+    // Always 'start'; alignment compensated by _alignTransform on inner wrapper div.
+    // offsetX/Y sign used to identify side in _sideFromPair (unambiguous).
     if (side === 'bottom') return { originX: h, originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: gap };
     if (side === 'top')    return { originX: h, originY: 'top',    overlayX: 'start', overlayY: 'bottom', offsetY: -gap };
     if (side === 'right')  return { originX: 'end',   originY: v, overlayX: 'start', overlayY: 'top', offsetX: gap };
     /* left */             return { originX: 'start', originY: v, overlayX: 'start', overlayY: 'top', offsetX: -gap };
-  }
-
-  private _applyAlignTransform(side: KuiPopoverPlacement, aln: KuiPopoverAlign): void {
-    const pane = this._overlayRef?.overlayElement;
-    if (!pane) return;
-    const horiz = side === 'top' || side === 'bottom';
-    const tx = horiz
-      ? aln === 'center' ? 'translateX(-50%)' : aln === 'end' ? 'translateX(-100%)' : ''
-      : side === 'left' ? 'translateX(-100%)' : '';
-    const ty = !horiz
-      ? aln === 'center' ? 'translateY(-50%)' : aln === 'end' ? 'translateY(-100%)' : ''
-      : '';
-    pane.style.transform = [tx, ty].filter(Boolean).join(' ');
   }
 
   private _sideFromPair(pair: ConnectedPosition): KuiPopoverPlacement {
