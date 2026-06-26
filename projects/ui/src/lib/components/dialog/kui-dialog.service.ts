@@ -28,6 +28,7 @@ export class KuiDialogService {
   ): Observable<TResult | undefined> {
     const ref = new KuiDialogRef<TResult>();
     const size = config.size ?? 'md';
+    const appearance = config.appearance ?? 'default';
     const dismissable = config.dismissable ?? true;
     const closable = config.closable ?? true;
 
@@ -46,6 +47,7 @@ export class KuiDialogService {
     const context: KuiDialogContext<TResult, TData> = {
       data: (config.data ?? undefined) as TData,
       closable,
+      appearance,
       close: (result?: TResult) => container?.close(result),
     };
 
@@ -59,6 +61,7 @@ export class KuiDialogService {
     );
     container = containerRef.instance;
     container._size = size;
+    container._appearance = appearance;
     container._dismissable = dismissable;
 
     container.closed.subscribe((result) => {

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
-import type { KuiDialogSize } from './kui-dialog.types';
+import type { KuiDialogAppearance, KuiDialogSize } from './kui-dialog.types';
 
 /**
  * @internal
@@ -33,6 +33,7 @@ import type { KuiDialogSize } from './kui-dialog.types';
         [class.kui-dialog--lg]="_size === 'lg'"
         [class.kui-dialog--auto]="_size === 'auto'"
         [class.kui-dialog--closing]="isClosing()"
+        [attr.data-kui-appearance]="_appearance !== 'default' ? _appearance : null"
         role="dialog"
         aria-modal="true"
         cdkTrapFocus
@@ -54,6 +55,8 @@ export class KuiDialogContainerComponent {
 
   /** @internal Set by the service after the component is created. */
   _size: KuiDialogSize = 'md';
+  /** @internal Set by the service after the component is created. */
+  _appearance: KuiDialogAppearance = 'default';
   /** @internal Set by the service after the component is created. */
   _dismissable = true;
 

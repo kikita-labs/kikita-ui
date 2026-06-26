@@ -76,4 +76,20 @@
       <code>result: {{ resultNoDismiss() }}</code>
     </div>
   </app-panel>
+
+  <!-- Panel 06: Confirm -->
+  <app-panel
+    num="06"
+    title="Confirm"
+    description="Pre-built confirmation dialog. kuiConfirm() returns Observable&lt;boolean&gt;. Always dismissable: false — user must choose."
+  >
+    <div class="component-board">
+      <div class="state-board__row" style="gap:8px;flex-wrap:wrap">
+        <button kuiButton appearance="outline" type="button" (click)="showConfirmDefault()">Default</button>
+        <button kuiButton appearance="outline" type="button" (click)="showConfirmDanger()">Danger</button>
+        <button kuiButton appearance="outline" type="button" (click)="showConfirmWarning()">Warning</button>
+      </div>
+      <code>result: {{ resultConfirm() }}</code>
+    </div>
+  </app-panel>
 </div>

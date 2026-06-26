@@ -10,6 +10,7 @@ import {
   KuiTextareaDirective,
   KuiFieldComponent,
   kuiDialog,
+  kuiConfirm,
 } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
@@ -60,6 +61,11 @@ export class EditDialog implements KuiDialogHost<EditResult, EditData> {
   selector: 'app-delete-dialog',
   template: `
     <div class="kui-dialog-header">
+      <svg class="kui-dialog-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M10 3L2.5 16.5h15L10 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <line x1="10" y1="9" x2="10" y2="12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="10" cy="14.5" r="0.75" fill="currentColor"/>
+      </svg>
       <h2 class="kui-dialog-title">Удалить аккаунт?</h2>
       @if (ctx.closable) {
         <button class="kui-dialog-close" type="button" aria-label="Закрыть" (click)="ctx.close(false)">
@@ -196,7 +202,7 @@ function injectEditDialogLg() {
   return kuiDialog(EditDialog, { size: 'lg' });
 }
 function injectDeleteDialog() {
-  return kuiDialog(DeleteDialog, { size: 'sm' });
+  return kuiDialog(DeleteDialog, { size: 'sm', appearance: 'danger' });
 }
 function injectLongBodyDialog() {
   return kuiDialog(LongBodyDialog, { size: 'md' });
@@ -227,11 +233,13 @@ export class DialogPage {
   private readonly openLongBody = injectLongBodyDialog();
   private readonly openNoDismiss = injectNoDismissDialog();
   private readonly openEditNoClose = injectEditDialogNoClose();
+  private readonly confirm = kuiConfirm();
 
   protected readonly resultSizes = signal<string>('—');
   protected readonly resultDelete = signal<string>('—');
   protected readonly resultNoDismiss = signal<string>('—');
   protected readonly resultNoClose = signal<string>('—');
+  protected readonly resultConfirm = signal<string>('—');
 
   protected showEditAuto(): void {
     this.openEditAuto(undefined)
@@ -279,5 +287,33 @@ export class DialogPage {
     this.openEditNoClose({ name: 'Алексей Смирнов' })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((r) => this.resultNoClose.set(r ?? 'undefined'));
+  }
+
+  protected showConfirmDefault(): void {
+    this.confirm({ title: 'Подтвердить действие?', message: 'Это действие выполнится немедленно.' })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((r) => this.resultConfirm.set(String(r)));
+  }
+
+  protected showConfirmDanger(): void {
+    this.confirm({
+      title: 'Удалить запись?',
+      message: 'Это действие нельзя отменить.',
+      appearance: 'danger',
+      confirmLabel: 'Удалить',
+    })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((r) => this.resultConfirm.set(String(r)));
+  }
+
+  protected showConfirmWarning(): void {
+    this.confirm({
+      title: 'Сбросить настройки?',
+      message: 'Все пользовательские настройки вернутся к значениям по умолчанию.',
+      appearance: 'warning',
+      confirmLabel: 'Сбросить',
+    })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((r) => this.resultConfirm.set(String(r)));
   }
 }

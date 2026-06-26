@@ -53,6 +53,18 @@
   .kui-dialog--lg  { --kui-dialog-width: 720px; }
   .kui-dialog--auto { width: auto; min-width: 320px; }
 
+  /* Appearance — colors .kui-dialog-icon */
+  .kui-dialog[data-kui-appearance='danger']  { --kui-dialog-icon-color: var(--kui-color-danger-fill); }
+  .kui-dialog[data-kui-appearance='warning'] { --kui-dialog-icon-color: var(--kui-color-warning-fill); }
+
+  /* Icon slot — place inside .kui-dialog-header before the title */
+  .kui-dialog-icon {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    color: var(--kui-dialog-icon-color, currentColor);
+  }
+
   .kui-dialog-header {
     display: flex;
     align-items: center;

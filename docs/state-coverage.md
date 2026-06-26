@@ -26,7 +26,8 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Density    | `/density`       | compact, regular, comfortable scopes, constrained mobile preview           |
 | Dropdown   | `/dropdown`      | open/close animation, flip (above/below), Escape, click-outside, CDK overlay |
 | Select     | `/select`        | string options, object options + labelFn, clearable, disabled, Signal Forms   |
-| Dialog     | `/dialog`        | sm/md/lg sizes, destructive variant, body scroll, dismissable: false          |
+| Dialog     | `/dialog`        | auto/sm/md/lg sizes, appearance (default/danger/warning), dialog-icon, destructive variant, body scroll, closable: false, dismissable: false |
+| Confirm    | `/dialog` p.06   | default, danger (icon + danger button), warning (icon + solid button)         |
 
 ## Current Gaps
 

@@ -1,4 +1,5 @@
 import { InjectionToken } from '@angular/core';
+import type { KuiDialogAppearance } from './kui-dialog.types';
 
 /**
  * Injected into every dialog component opened via {@link kuiDialog}.
@@ -9,6 +10,8 @@ export interface KuiDialogContext<TResult = void, TData = unknown> {
   readonly data: TData;
   /** Whether the × close button is shown (mirrors {@link KuiDialogConfig.closable}). */
   readonly closable: boolean;
+  /** Visual intent (mirrors {@link KuiDialogConfig.appearance}). Use to conditionally render `.kui-dialog-icon`. */
+  readonly appearance: KuiDialogAppearance;
   /** Close the dialog, optionally resolving with a result value. */
   close(result?: TResult): void;
 }
