@@ -88,5 +88,9 @@ export const routes: Routes = [
     path: 'dialog',
     loadComponent: () => import('./pages/dialog/dialog.page').then((m) => m.DialogPage),
   },
+  {
+    path: 'toast',
+    loadComponent: () => import('./pages/toast/toast.page').then((m) => m.ToastPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

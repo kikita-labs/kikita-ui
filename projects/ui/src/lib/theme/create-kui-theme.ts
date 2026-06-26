@@ -473,6 +473,19 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-dialog-padding-x': 'var(--kui-space-6)',
     '--kui-dialog-padding-y': 'var(--kui-space-4)',
     '--kui-dialog-title-size': 'var(--kui-text-lg-size)',
+    '--kui-toast-bg': 'var(--kui-color-surface-elevated)',
+    '--kui-toast-border': 'var(--kui-color-border)',
+    '--kui-toast-radius': 'var(--kui-radius-md)',
+    '--kui-toast-shadow': 'var(--kui-shadow-lg)',
+    '--kui-toast-padding-x': 'var(--kui-space-4)',
+    '--kui-toast-padding-y': 'var(--kui-space-3)',
+    '--kui-toast-gap': 'var(--kui-space-3)',
+    '--kui-toast-stack-gap': 'var(--kui-space-2)',
+    '--kui-toast-title-size': 'var(--kui-text-sm-size)',
+    '--kui-toast-message-size': 'var(--kui-text-sm-size)',
+    '--kui-toast-region-offset': 'var(--kui-space-4)',
+    '--kui-toast-min-width': '280px',
+    '--kui-toast-max-width': '400px',
   };
 }
 

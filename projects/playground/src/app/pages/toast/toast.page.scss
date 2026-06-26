@@ -1,0 +1,43 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+.toast-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.toast-position-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast-position-label {
+  font-size: var(--kui-text-xs-size);
+  font-weight: 600;
+  color: var(--kui-color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.toast-note {
+  margin-top: 12px;
+  font-size: var(--kui-text-xs-size);
+  color: var(--kui-color-text-secondary);
+  line-height: 1.6;
+
+  code {
+    font-family: monospace;
+    font-size: var(--kui-text-xs-size);
+    background: var(--kui-color-surface-elevated);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+}

@@ -1,0 +1,40 @@
+<div class="page">
+
+  <!-- p.01 Appearances -->
+  <app-panel num="01" title="Appearances">
+    <div class="toast-btn-row">
+      <button kuiButton (click)="openSuccess()">Success</button>
+      <button kuiButton appearance="danger" (click)="openDanger()">Danger (persistent)</button>
+      <button kuiButton appearance="outline" (click)="openWarning()">Warning (persistent)</button>
+      <button kuiButton appearance="ghost" (click)="openInfo()">Info</button>
+      <button kuiButton appearance="soft" (click)="openNeutral()">Neutral + Action</button>
+    </div>
+  </app-panel>
+
+  <!-- p.02 Variants -->
+  <app-panel num="02" title="Structure variants">
+    <div class="toast-btn-row">
+      <button kuiButton appearance="outline" (click)="openTitleOnly()">Title only</button>
+      <button kuiButton appearance="outline" (click)="openWithProgress()">Progress bar</button>
+    </div>
+  </app-panel>
+
+  <!-- p.03 Position -->
+  <app-panel num="03" title="Position">
+    <div class="toast-position-row">
+      <span class="toast-position-label">Позиция региона:</span>
+      @for (p of positions; track p) {
+        <button
+          kuiButton
+          [appearance]="position() === p ? 'solid' : 'outline'"
+          (click)="setPosition(p)"
+        >{{ p }}</button>
+      }
+    </div>
+    <p class="toast-note">
+      По умолчанию <code>bottom-center</code>. Переключение обновляет существующий регион.
+      Кнопки выше показывают тосты в текущей позиции.
+    </p>
+  </app-panel>
+
+</div>

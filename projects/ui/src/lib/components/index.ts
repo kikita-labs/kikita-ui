@@ -18,3 +18,4 @@ export * from './table';
 export * from './select';
 export * from './dropdown';
 export * from './dialog';
+export * from './toast';

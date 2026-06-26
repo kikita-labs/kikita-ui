@@ -28,6 +28,7 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Select     | `/select`        | string options, object options + labelFn, clearable, disabled, Signal Forms   |
 | Dialog     | `/dialog`        | auto/sm/md/lg sizes, appearance (default/danger/warning), dialog-icon, destructive variant, body scroll, closable: false, dismissable: false |
 | Confirm    | `/dialog` p.06   | default, danger (icon + danger button), warning (icon + solid button)         |
+| Toast      | `/toast`         | all 5 appearances, title-only, title+message, title+action, progress bar, all 6 positions, eviction at max 3 |
 
 ## Current Gaps
 

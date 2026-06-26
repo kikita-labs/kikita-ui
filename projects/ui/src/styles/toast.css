@@ -1,0 +1,234 @@
+@layer kui.components {
+  @keyframes kui-toast-in-b {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes kui-toast-in-t {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes kui-toast-out-b {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(6px); }
+  }
+  @keyframes kui-toast-out-t {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-6px); }
+  }
+  @keyframes kui-toast-prog {
+    from { width: 100%; }
+    to   { width: 0%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    @keyframes kui-toast-in-b  { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes kui-toast-in-t  { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes kui-toast-out-b { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes kui-toast-out-t { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes kui-toast-prog  { from { width: 100%; } to { width: 0%; } }
+  }
+
+  /* ── Region ─────────────────────────────────────────────────────────────── */
+
+  .kui-toast-region {
+    position: fixed;
+    z-index: var(--kui-z-toast, 600);
+    display: flex;
+    gap: var(--kui-toast-stack-gap, var(--kui-space-2));
+    pointer-events: none;
+  }
+
+  .kui-toast-region > * {
+    pointer-events: auto;
+  }
+
+  .kui-toast-region[data-position='top-start'] {
+    top: var(--kui-toast-region-offset, var(--kui-space-4));
+    left: var(--kui-toast-region-offset, var(--kui-space-4));
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .kui-toast-region[data-position='top-center'] {
+    top: var(--kui-toast-region-offset, var(--kui-space-4));
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kui-toast-region[data-position='top-end'] {
+    top: var(--kui-toast-region-offset, var(--kui-space-4));
+    right: var(--kui-toast-region-offset, var(--kui-space-4));
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .kui-toast-region[data-position='bottom-start'] {
+    bottom: var(--kui-toast-region-offset, var(--kui-space-4));
+    left: var(--kui-toast-region-offset, var(--kui-space-4));
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  .kui-toast-region[data-position='bottom-center'] {
+    bottom: var(--kui-toast-region-offset, var(--kui-space-4));
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .kui-toast-region[data-position='bottom-end'] {
+    bottom: var(--kui-toast-region-offset, var(--kui-space-4));
+    right: var(--kui-toast-region-offset, var(--kui-space-4));
+    flex-direction: column-reverse;
+    align-items: flex-end;
+  }
+
+  @media (max-width: 480px) {
+    .kui-toast-region {
+      left: 16px !important;
+      right: 16px !important;
+      transform: none !important;
+      align-items: stretch !important;
+    }
+  }
+
+  /* ── Card ────────────────────────────────────────────────────────────────── */
+
+  .kui-toast {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--kui-toast-gap, var(--kui-space-3));
+    padding:
+      var(--kui-toast-padding-y, var(--kui-space-3))
+      var(--kui-toast-padding-x, var(--kui-space-4));
+    background: var(--kui-toast-bg, var(--kui-color-surface-elevated));
+    border: 1px solid var(--kui-toast-border, var(--kui-color-border));
+    border-left: 3px solid var(--kui-toast-accent-color, var(--kui-color-border-strong));
+    border-radius: var(--kui-toast-radius, var(--kui-radius-md));
+    box-shadow: var(--kui-toast-shadow, var(--kui-shadow-lg));
+    min-width: var(--kui-toast-min-width, 280px);
+    max-width: var(--kui-toast-max-width, 400px);
+    color: var(--kui-color-text);
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (max-width: 480px) {
+    .kui-toast {
+      min-width: 0;
+      max-width: none;
+      width: 100%;
+    }
+  }
+
+  /* Appearance: accent bar + icon colour */
+  .kui-toast[data-kui-appearance='neutral'] {
+    --kui-toast-accent-color: var(--kui-color-border-strong);
+    --kui-toast-icon-color: var(--kui-color-text-secondary);
+  }
+
+  .kui-toast[data-kui-appearance='success'] {
+    --kui-toast-accent-color: var(--kui-color-success-fill);
+    --kui-toast-icon-color: var(--kui-color-success-fill);
+  }
+
+  .kui-toast[data-kui-appearance='warning'] {
+    --kui-toast-accent-color: var(--kui-color-warning-fill);
+    --kui-toast-icon-color: var(--kui-color-warning-fill);
+  }
+
+  .kui-toast[data-kui-appearance='danger'] {
+    --kui-toast-accent-color: var(--kui-color-danger-fill);
+    --kui-toast-icon-color: var(--kui-color-danger-fill);
+  }
+
+  .kui-toast[data-kui-appearance='info'] {
+    --kui-toast-accent-color: var(--kui-color-info-fill);
+    --kui-toast-icon-color: var(--kui-color-info-fill);
+  }
+
+  /* ── Card slots ─────────────────────────────────────────────────────────── */
+
+  .kui-toast-icon {
+    flex: 0 0 auto;
+    color: var(--kui-toast-icon-color, var(--kui-color-text-secondary));
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+  }
+
+  .kui-toast-body {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .kui-toast-title {
+    font-size: var(--kui-toast-title-size, var(--kui-text-sm-size));
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--kui-color-text);
+  }
+
+  .kui-toast-message {
+    font-size: var(--kui-toast-message-size, var(--kui-text-sm-size));
+    color: var(--kui-color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .kui-toast-action {
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+    font-size: var(--kui-text-sm-size);
+    font-weight: 600;
+    color: var(--kui-toast-accent-color, var(--kui-color-primary-fill));
+    cursor: pointer;
+    margin-top: var(--kui-space-1);
+    line-height: 1;
+    transition: opacity var(--kui-duration-fast) var(--kui-ease);
+  }
+
+  .kui-toast-action:hover {
+    opacity: 0.7;
+  }
+
+  .kui-toast-close {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: transparent;
+    border-radius: var(--kui-radius-xs);
+    color: var(--kui-color-text-secondary);
+    cursor: pointer;
+    margin-top: -1px;
+    transition:
+      background var(--kui-duration-fast) var(--kui-ease),
+      color var(--kui-duration-fast) var(--kui-ease);
+  }
+
+  .kui-toast-close:hover {
+    background: var(--kui-color-surface-sunken);
+    color: var(--kui-color-text);
+  }
+
+  .kui-toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--kui-toast-accent-color, var(--kui-color-primary-fill));
+  }
+}
