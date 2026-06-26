@@ -92,5 +92,9 @@ export const routes: Routes = [
     path: 'toast',
     loadComponent: () => import('./pages/toast/toast.page').then((m) => m.ToastPage),
   },
+  {
+    path: 'popover',
+    loadComponent: () => import('./pages/popover/popover.page').then((m) => m.PopoverPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

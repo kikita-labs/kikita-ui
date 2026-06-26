@@ -1,0 +1,138 @@
+<div class="page">
+
+  <!-- p.01 Placement & align -->
+  <app-panel num="01" title="Placement & Alignment">
+    <div class="pop-placement-grid">
+
+      <div class="pop-cell pop-cell--top">
+        <button kuiButton appearance="outline" [kuiPopoverFor]="popTop">top-center</button>
+        <kui-popover #popTop placement="top" align="center" [arrow]="true">
+          <div class="kui-popover-title">top-center</div>
+          <div class="kui-popover-desc">Панель выше anchor, стрелка снизу.</div>
+        </kui-popover>
+      </div>
+
+      <div class="pop-cell pop-cell--bottom">
+        <button kuiButton appearance="outline" [kuiPopoverFor]="popBottom">bottom-center</button>
+        <kui-popover #popBottom placement="bottom" align="center" [arrow]="true">
+          <div class="kui-popover-title">bottom-center</div>
+          <div class="kui-popover-desc">Панель ниже anchor, стрелка сверху.</div>
+        </kui-popover>
+      </div>
+
+      <div class="pop-cell pop-cell--right">
+        <button kuiButton appearance="outline" [kuiPopoverFor]="popRight">right-center</button>
+        <kui-popover #popRight placement="right" align="center" [arrow]="true">
+          <div class="kui-popover-title">right-center</div>
+          <div class="kui-popover-desc">Панель справа.</div>
+        </kui-popover>
+      </div>
+
+      <div class="pop-cell pop-cell--left">
+        <button kuiButton appearance="outline" [kuiPopoverFor]="popLeft">left-center</button>
+        <kui-popover #popLeft placement="left" align="center" [arrow]="true">
+          <div class="kui-popover-title">left-center</div>
+          <div class="kui-popover-desc">Панель слева.</div>
+        </kui-popover>
+      </div>
+
+      <div class="pop-cell pop-cell--bottom-start">
+        <button kuiButton appearance="outline" [kuiPopoverFor]="popBs">bottom-start</button>
+        <kui-popover #popBs placement="bottom" align="start" [arrow]="true">
+          <div class="kui-popover-title">bottom-start</div>
+          <div class="kui-popover-desc">Выровнен по левому краю.</div>
+        </kui-popover>
+      </div>
+
+      <div class="pop-cell pop-cell--bottom-end">
+        <button kuiButton appearance="outline" [kuiPopoverFor]="popBe">bottom-end</button>
+        <kui-popover #popBe placement="bottom" align="end" [arrow]="true">
+          <div class="kui-popover-title">bottom-end</div>
+          <div class="kui-popover-desc">Выровнен по правому краю.</div>
+        </kui-popover>
+      </div>
+
+    </div>
+  </app-panel>
+
+  <!-- p.02 Arrow -->
+  <app-panel num="02" title="Arrow prop">
+    <div class="pop-row">
+      <div>
+        <p class="pop-label">arrow: false (default)</p>
+        <button kuiButton appearance="outline" [kuiPopoverFor]="popNoArrow">Open popover</button>
+        <kui-popover #popNoArrow placement="bottom">
+          <div class="kui-popover-title">Без стрелки</div>
+          <div class="kui-popover-desc">Панель без caret — как Dropdown.</div>
+        </kui-popover>
+      </div>
+
+      <div>
+        <p class="pop-label">arrow: true</p>
+        <button kuiButton appearance="outline" [kuiPopoverFor]="popWithArrow">Open popover</button>
+        <kui-popover #popWithArrow placement="bottom" [arrow]="true">
+          <div class="kui-popover-title">Со стрелкой</div>
+          <div class="kui-popover-desc">Caret указывает на trigger.</div>
+        </kui-popover>
+      </div>
+    </div>
+  </app-panel>
+
+  <!-- p.03 Content examples -->
+  <app-panel num="03" title="Content examples">
+    <div class="pop-row">
+
+      <div>
+        <p class="pop-label">A — Информационный</p>
+        <button kuiButton appearance="ghost" [kuiPopoverFor]="popInfo">Что такое 2FA?</button>
+        <kui-popover #popInfo placement="bottom" align="start" [arrow]="true">
+          <div class="kui-popover-title">Двухфакторная аутентификация</div>
+          <div class="kui-popover-desc">Добавляет второй уровень защиты. Даже если пароль скомпрометирован — аккаунт защищён.</div>
+        </kui-popover>
+      </div>
+
+      <div>
+        <p class="pop-label">B — Подтверждение</p>
+        <button kuiButton appearance="danger" [kuiPopoverFor]="popConfirm">Удалить</button>
+        <kui-popover #popConfirm placement="bottom" align="start" [arrow]="true">
+          <div class="kui-popover-title">Удалить запись?</div>
+          <div class="kui-popover-desc" style="margin-bottom: 12px">Это действие нельзя отменить.</div>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <button kuiButton appearance="outline" size="sm" (click)="popConfirm.close()">Отмена</button>
+            <button kuiButton appearance="danger" size="sm" (click)="popConfirm.close()">Удалить</button>
+          </div>
+        </kui-popover>
+      </div>
+
+      <div>
+        <p class="pop-label">C — Форма</p>
+        <button kuiButton appearance="outline" [kuiPopoverFor]="popForm">Напоминание</button>
+        <kui-popover #popForm placement="bottom" align="start" [arrow]="true" [trapFocus]="true">
+          <div class="kui-popover-title" style="margin-bottom: 12px">Напоминание</div>
+          <kui-field label="Время" style="margin-bottom: 12px">
+            <input kuiInput type="text" value="10 минут" size="sm" />
+          </kui-field>
+          <div style="display:flex;justify-content:flex-end">
+            <button kuiButton size="sm" (click)="popForm.close()">Сохранить</button>
+          </div>
+        </kui-popover>
+      </div>
+
+    </div>
+  </app-panel>
+
+  <!-- p.04 Hover trigger -->
+  <app-panel num="04" title="Hover trigger">
+    <div class="pop-row">
+      <div>
+        <p class="pop-label">triggerType: hover — наведи курсор</p>
+        <button kuiButton appearance="soft" [kuiPopoverFor]="popHover">Наведи</button>
+        <kui-popover #popHover placement="top" triggerType="hover" [arrow]="true">
+          <div class="kui-popover-title">Hover popover</div>
+          <div class="kui-popover-desc">Открывается на hover. Закрывается через 100 мс после mouseleave. Мышь успевает перейти в панель.</div>
+        </kui-popover>
+      </div>
+    </div>
+  </app-panel>
+
+</div>

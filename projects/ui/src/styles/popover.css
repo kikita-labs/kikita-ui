@@ -1,0 +1,131 @@
+@layer kui.components {
+  @keyframes kui-pop-in-b  { from { opacity: 0; transform: translateY(-5px) } to { opacity: 1; transform: translateY(0) } }
+  @keyframes kui-pop-in-t  { from { opacity: 0; transform: translateY(5px)  } to { opacity: 1; transform: translateY(0) } }
+  @keyframes kui-pop-in-r  { from { opacity: 0; transform: translateX(-5px) } to { opacity: 1; transform: translateX(0) } }
+  @keyframes kui-pop-in-l  { from { opacity: 0; transform: translateX(5px)  } to { opacity: 1; transform: translateX(0) } }
+  @keyframes kui-pop-out-b { from { opacity: 1; transform: translateY(0) } to { opacity: 0; transform: translateY(-4px) } }
+  @keyframes kui-pop-out-t { from { opacity: 1; transform: translateY(0) } to { opacity: 0; transform: translateY(4px)  } }
+  @keyframes kui-pop-out-r { from { opacity: 1; transform: translateX(0) } to { opacity: 0; transform: translateX(-4px) } }
+  @keyframes kui-pop-out-l { from { opacity: 1; transform: translateX(0) } to { opacity: 0; transform: translateX(4px)  } }
+
+  @media (prefers-reduced-motion: reduce) {
+    @keyframes kui-pop-in-b  { from { opacity: 0 } to { opacity: 1 } }
+    @keyframes kui-pop-in-t  { from { opacity: 0 } to { opacity: 1 } }
+    @keyframes kui-pop-in-r  { from { opacity: 0 } to { opacity: 1 } }
+    @keyframes kui-pop-in-l  { from { opacity: 0 } to { opacity: 1 } }
+    @keyframes kui-pop-out-b { from { opacity: 1 } to { opacity: 0 } }
+    @keyframes kui-pop-out-t { from { opacity: 1 } to { opacity: 0 } }
+    @keyframes kui-pop-out-r { from { opacity: 1 } to { opacity: 0 } }
+    @keyframes kui-pop-out-l { from { opacity: 1 } to { opacity: 0 } }
+  }
+
+  /* ── Panel ────────────────────────────────────────────────────────────────── */
+
+  .kui-popover {
+    background: var(--kui-popover-bg, var(--kui-color-surface-elevated));
+    border: 1px solid var(--kui-popover-border, var(--kui-color-border));
+    border-radius: var(--kui-popover-radius, var(--kui-radius-lg));
+    box-shadow: var(--kui-popover-shadow, var(--kui-shadow-lg));
+    padding: var(--kui-popover-padding-y, var(--kui-space-4)) var(--kui-popover-padding-x, var(--kui-space-4));
+    min-width: var(--kui-popover-min-width, 160px);
+    max-width: var(--kui-popover-max-width, 320px);
+    color: var(--kui-color-text);
+    position: relative;
+  }
+
+  /* ── Entry animations ─────────────────────────────────────────────────────── */
+
+  .kui-popover--in                       { animation: kui-pop-in-b  160ms ease-out both }
+  .kui-popover--in[data-side='top']      { animation-name: kui-pop-in-t }
+  .kui-popover--in[data-side='right']    { animation-name: kui-pop-in-r }
+  .kui-popover--in[data-side='left']     { animation-name: kui-pop-in-l }
+
+  /* ── Exit animations ──────────────────────────────────────────────────────── */
+
+  .kui-popover--out                      { animation: kui-pop-out-b 120ms ease-in both }
+  .kui-popover--out[data-side='top']     { animation-name: kui-pop-out-t }
+  .kui-popover--out[data-side='right']   { animation-name: kui-pop-out-r }
+  .kui-popover--out[data-side='left']    { animation-name: kui-pop-out-l }
+
+  /* ── Arrow ────────────────────────────────────────────────────────────────── */
+
+  .kui-popover-arrow {
+    position: absolute;
+    width: var(--kui-popover-arrow-size, 10px);
+    height: var(--kui-popover-arrow-size, 10px);
+    background: var(--kui-popover-bg, var(--kui-color-surface-elevated));
+    z-index: -1;
+  }
+
+  .kui-popover[data-side='bottom'] .kui-popover-arrow {
+    border-top: 1px solid var(--kui-popover-border, var(--kui-color-border));
+    border-left: 1px solid var(--kui-popover-border, var(--kui-color-border));
+    top: calc(var(--kui-popover-arrow-size, 10px) / -2);
+    transform: rotate(45deg);
+  }
+  .kui-popover[data-side='top'] .kui-popover-arrow {
+    border-bottom: 1px solid var(--kui-popover-border, var(--kui-color-border));
+    border-right: 1px solid var(--kui-popover-border, var(--kui-color-border));
+    bottom: calc(var(--kui-popover-arrow-size, 10px) / -2);
+    transform: rotate(45deg);
+  }
+  .kui-popover[data-side='right'] .kui-popover-arrow {
+    border-left: 1px solid var(--kui-popover-border, var(--kui-color-border));
+    border-bottom: 1px solid var(--kui-popover-border, var(--kui-color-border));
+    left: calc(var(--kui-popover-arrow-size, 10px) / -2);
+    transform: rotate(45deg);
+  }
+  .kui-popover[data-side='left'] .kui-popover-arrow {
+    border-top: 1px solid var(--kui-popover-border, var(--kui-color-border));
+    border-right: 1px solid var(--kui-popover-border, var(--kui-color-border));
+    right: calc(var(--kui-popover-arrow-size, 10px) / -2);
+    transform: rotate(45deg);
+  }
+
+  /* Arrow alignment — top/bottom sides (horizontal axis) */
+  .kui-popover[data-side='bottom'][data-align='center'] .kui-popover-arrow,
+  .kui-popover[data-side='top'][data-align='center'] .kui-popover-arrow {
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+  }
+  .kui-popover[data-side='bottom'][data-align='start'] .kui-popover-arrow,
+  .kui-popover[data-side='top'][data-align='start'] .kui-popover-arrow {
+    left: var(--kui-space-3);
+  }
+  .kui-popover[data-side='bottom'][data-align='end'] .kui-popover-arrow,
+  .kui-popover[data-side='top'][data-align='end'] .kui-popover-arrow {
+    right: var(--kui-space-3);
+    left: auto;
+  }
+
+  /* Arrow alignment — left/right sides (vertical axis) */
+  .kui-popover[data-side='left'][data-align='center'] .kui-popover-arrow,
+  .kui-popover[data-side='right'][data-align='center'] .kui-popover-arrow {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .kui-popover[data-side='left'][data-align='start'] .kui-popover-arrow,
+  .kui-popover[data-side='right'][data-align='start'] .kui-popover-arrow {
+    top: var(--kui-space-3);
+  }
+  .kui-popover[data-side='left'][data-align='end'] .kui-popover-arrow,
+  .kui-popover[data-side='right'][data-align='end'] .kui-popover-arrow {
+    bottom: var(--kui-space-3);
+    top: auto;
+  }
+
+  /* ── Content helpers (opt-in class names) ───────────────────────────────── */
+
+  .kui-popover-title {
+    font-size: var(--kui-text-sm-size);
+    font-weight: 600;
+    margin-bottom: var(--kui-space-2);
+    color: var(--kui-color-text);
+  }
+
+  .kui-popover-desc {
+    font-size: var(--kui-text-sm-size);
+    color: var(--kui-color-text-secondary);
+    line-height: 1.55;
+  }
+}
