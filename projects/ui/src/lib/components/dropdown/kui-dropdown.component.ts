@@ -113,7 +113,7 @@ export class KuiDropdownComponent implements OnDestroy {
     this.overlayRef = this.overlay.create({
       positionStrategy,
       scrollStrategy: this.overlay.scrollStrategies.noop(),
-      minWidth: anchor.offsetWidth,
+      width: anchor.offsetWidth,
     });
 
     this.overlayRef.attach(new TemplatePortal(this.tplRef(), this.vcr));
