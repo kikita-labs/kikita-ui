@@ -112,7 +112,7 @@ export class KuiDropdownComponent implements OnDestroy {
 
     this.overlayRef = this.overlay.create({
       positionStrategy,
-      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+      scrollStrategy: this.overlay.scrollStrategies.noop(),
       minWidth: anchor.offsetWidth,
     });
 
@@ -144,14 +144,23 @@ export class KuiDropdownComponent implements OnDestroy {
         this.zone.run(() => this.close());
       }
     };
-    this.zone.runOutsideAngular(() =>
-      document.addEventListener('click', outsideHandler, { capture: true }),
-    );
+
+    // CDK reposition() only tracks CdkScrollable-registered containers.
+    // Capture scroll on document covers all scrollable ancestors including unregistered ones.
+    const scrollHandler = () => positionStrategy.apply();
+
+    this.zone.runOutsideAngular(() => {
+      document.addEventListener('click', outsideHandler, { capture: true });
+      document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
+    });
     const outsideSub = {
       unsubscribe: () => document.removeEventListener('click', outsideHandler, { capture: true }),
     };
+    const scrollSub = {
+      unsubscribe: () => document.removeEventListener('scroll', scrollHandler, { capture: true }),
+    };
 
-    this.openSubs = [posSub, escapeSub, outsideSub];
+    this.openSubs = [posSub, escapeSub, outsideSub, scrollSub];
     this.isOpen.set(true);
     this.isClosing.set(false);
   }

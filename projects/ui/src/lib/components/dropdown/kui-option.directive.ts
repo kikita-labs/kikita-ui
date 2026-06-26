@@ -1,4 +1,4 @@
-import { computed, Directive, ElementRef, inject, input, output } from '@angular/core';
+import { computed, Directive, ElementRef, inject, input, output, Renderer2 } from '@angular/core';
 
 import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
 
@@ -27,6 +27,15 @@ export class KuiOptionDirective {
 
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly ctx = inject(KUI_OPTION_CONTEXT, { optional: true });
+
+  constructor() {
+    const renderer = inject(Renderer2);
+    const check = renderer.createElement('span');
+    renderer.addClass(check, 'kui-listbox-check');
+    renderer.setAttribute(check, 'aria-hidden', 'true');
+    renderer.appendChild(check, renderer.createText('✓'));
+    renderer.appendChild(this.el.nativeElement, check);
+  }
 
   protected readonly selected = computed(() => {
     if (!this.ctx) return false;
