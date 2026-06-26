@@ -10,7 +10,17 @@ import {
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
-const FRUITS = ['Apple', 'Banana', 'Blueberry', 'Cherry', 'Grape', 'Mango', 'Orange', 'Peach'];
+const FRUITS = [
+  'Apple',
+  'Banana',
+  'Blueberry',
+  'Cherry',
+  'Grape',
+  'Mango',
+  'Orange',
+  'Peach',
+  'Surinam Cherry (Pitanga) — tropical red berry',
+];
 
 const ACTIONS = [
   { value: 'edit', label: 'Edit' },

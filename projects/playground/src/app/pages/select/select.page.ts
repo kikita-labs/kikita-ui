@@ -15,6 +15,7 @@ const ROLES = [
   { value: 'designer', label: 'Designer' },
   { value: 'data', label: 'Data Scientist' },
   { value: 'devops', label: 'DevOps Engineer' },
+  { value: 'long', label: 'Senior Principal Staff Software Engineer (Infrastructure Platform)' },
 ];
 
 interface User {

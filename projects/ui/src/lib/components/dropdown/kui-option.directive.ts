@@ -1,4 +1,13 @@
-import { computed, Directive, ElementRef, inject, input, output, Renderer2 } from '@angular/core';
+import {
+  afterNextRender,
+  computed,
+  Directive,
+  ElementRef,
+  inject,
+  input,
+  output,
+  Renderer2,
+} from '@angular/core';
 
 import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
 
@@ -30,11 +39,22 @@ export class KuiOptionDirective {
 
   constructor() {
     const renderer = inject(Renderer2);
-    const check = renderer.createElement('span');
-    renderer.addClass(check, 'kui-listbox-check');
-    renderer.setAttribute(check, 'aria-hidden', 'true');
-    renderer.appendChild(check, renderer.createText('✓'));
-    renderer.appendChild(this.el.nativeElement, check);
+    const host = this.el.nativeElement;
+
+    // afterNextRender: Angular has rendered projected content into host by this point.
+    // Wrap existing children in .kui-listbox-option-text (flex:1, ellipsis),
+    // then append .kui-listbox-check (flex-shrink:0, SVG via CSS mask).
+    afterNextRender(() => {
+      const textSpan = renderer.createElement('span');
+      renderer.addClass(textSpan, 'kui-listbox-option-text');
+      Array.from(host.childNodes).forEach((node) => renderer.appendChild(textSpan, node));
+      renderer.appendChild(host, textSpan);
+
+      const check = renderer.createElement('span');
+      renderer.addClass(check, 'kui-listbox-check');
+      renderer.setAttribute(check, 'aria-hidden', 'true');
+      renderer.appendChild(host, check);
+    });
   }
 
   protected readonly selected = computed(() => {
