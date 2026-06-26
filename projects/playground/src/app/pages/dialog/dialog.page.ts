@@ -1,0 +1,283 @@
+import { Component, DestroyRef, inject, signal, ViewEncapsulation } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import {
+  KUI_DIALOG_CONTEXT,
+  KuiButtonDirective,
+  KuiDialogContext,
+  KuiDialogHost,
+  KuiInputDirective,
+  KuiTextareaDirective,
+  KuiFieldComponent,
+  kuiDialog,
+} from '@kikita-labs/ui';
+
+import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
+
+// ── Demo dialog: basic form ────────────────────────────────────────────────
+
+interface EditData { name: string }
+type EditResult = 'saved' | null;
+
+@Component({
+  selector: 'app-edit-dialog',
+  template: `
+    <div class="kui-dialog-header">
+      <h2 class="kui-dialog-title">Редактировать профиль</h2>
+      @if (ctx.closable) {
+        <button class="kui-dialog-close" type="button" aria-label="Закрыть" (click)="ctx.close(null)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+      }
+    </div>
+    <div class="kui-dialog-body" style="display:flex;flex-direction:column;gap:16px">
+      <kui-field label="Имя">
+        <input kuiInput type="text" [value]="ctx.data.name" placeholder="Введите имя" />
+      </kui-field>
+      <kui-field label="Email">
+        <input kuiInput type="email" placeholder="name@company.com" />
+      </kui-field>
+    </div>
+    <div class="kui-dialog-footer">
+      <button kuiButton appearance="outline" type="button" (click)="ctx.close(null)">Отмена</button>
+      <button kuiButton type="button" (click)="ctx.close('saved')">Сохранить</button>
+    </div>
+  `,
+  imports: [KuiButtonDirective, KuiInputDirective, KuiFieldComponent],
+  encapsulation: ViewEncapsulation.None,
+})
+export class EditDialog implements KuiDialogHost<EditResult, EditData> {
+  public readonly dialogContext =
+    inject<KuiDialogContext<EditResult, EditData>>(KUI_DIALOG_CONTEXT);
+  protected readonly ctx = this.dialogContext;
+}
+
+// ── Demo dialog: destructive ───────────────────────────────────────────────
+
+@Component({
+  selector: 'app-delete-dialog',
+  template: `
+    <div class="kui-dialog-header">
+      <h2 class="kui-dialog-title">Удалить аккаунт?</h2>
+      @if (ctx.closable) {
+        <button class="kui-dialog-close" type="button" aria-label="Закрыть" (click)="ctx.close(false)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+      }
+    </div>
+    <div class="kui-dialog-body">
+      Это действие необратимо. Все данные аккаунта будут уничтожены навсегда.
+    </div>
+    <div class="kui-dialog-footer">
+      <button kuiButton appearance="outline" type="button" (click)="ctx.close(false)">Отмена</button>
+      <button kuiButton appearance="danger" type="button" (click)="ctx.close(true)">Удалить</button>
+    </div>
+  `,
+  imports: [KuiButtonDirective],
+  encapsulation: ViewEncapsulation.None,
+})
+export class DeleteDialog implements KuiDialogHost<boolean, void> {
+  public readonly dialogContext = inject<KuiDialogContext<boolean, void>>(KUI_DIALOG_CONTEXT);
+  protected readonly ctx = this.dialogContext;
+}
+
+// ── Demo dialog: long body ─────────────────────────────────────────────────
+
+@Component({
+  selector: 'app-long-body-dialog',
+  template: `
+    <div class="kui-dialog-header">
+      <h2 class="kui-dialog-title">Условия использования</h2>
+      <button class="kui-dialog-close" type="button" aria-label="Закрыть" (click)="ctx.close()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="kui-dialog-body">
+      @for (i of items; track i) {
+        <p style="margin-bottom:12px">
+          Пункт {{ i }}: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+      }
+    </div>
+    <div class="kui-dialog-footer">
+      <button kuiButton appearance="outline" type="button" (click)="ctx.close()">Закрыть</button>
+    </div>
+  `,
+  imports: [KuiButtonDirective],
+  encapsulation: ViewEncapsulation.None,
+})
+export class LongBodyDialog implements KuiDialogHost<void, void> {
+  public readonly dialogContext = inject<KuiDialogContext<void, void>>(KUI_DIALOG_CONTEXT);
+  protected readonly ctx = this.dialogContext;
+  protected readonly items = Array.from({ length: 20 }, (_, i) => i + 1);
+}
+
+// ── Demo dialog: auto size (textarea resize demo) ─────────────────────────
+
+@Component({
+  selector: 'app-auto-dialog',
+  template: `
+    <div class="kui-dialog-header">
+      <h2 class="kui-dialog-title">auto — по контенту</h2>
+      @if (ctx.closable) {
+        <button class="kui-dialog-close" type="button" aria-label="Закрыть" (click)="ctx.close(null)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+      }
+    </div>
+    <div class="kui-dialog-body" style="display:flex;flex-direction:column;gap:16px">
+      <kui-field label="Тема">
+        <input kuiInput type="text" placeholder="Введите тему сообщения" />
+      </kui-field>
+      <kui-field label="Сообщение" hint="Потяните за угол — диалог растянется вместе с textarea">
+        <textarea kuiTextarea rows="4" placeholder="Текст сообщения…" style="resize:both"></textarea>
+      </kui-field>
+    </div>
+    <div class="kui-dialog-footer">
+      <button kuiButton appearance="outline" type="button" (click)="ctx.close(null)">Отмена</button>
+      <button kuiButton type="button" (click)="ctx.close('sent')">Отправить</button>
+    </div>
+  `,
+  imports: [KuiButtonDirective, KuiInputDirective, KuiTextareaDirective, KuiFieldComponent],
+  encapsulation: ViewEncapsulation.None,
+})
+export class AutoDialog implements KuiDialogHost<'sent' | null, void> {
+  public readonly dialogContext = inject<KuiDialogContext<'sent' | null, void>>(KUI_DIALOG_CONTEXT);
+  protected readonly ctx = this.dialogContext;
+}
+
+// ── Demo dialog: no dismiss ────────────────────────────────────────────────
+
+@Component({
+  selector: 'app-nodismiss-dialog',
+  template: `
+    <div class="kui-dialog-header">
+      <h2 class="kui-dialog-title">Обязательное действие</h2>
+    </div>
+    <div class="kui-dialog-body">
+      Этот диалог нельзя закрыть кликом по backdrop или клавишей Escape.
+      Необходимо выбрать один из вариантов.
+    </div>
+    <div class="kui-dialog-footer">
+      <button kuiButton appearance="outline" type="button" (click)="ctx.close('cancel')">Позже</button>
+      <button kuiButton type="button" (click)="ctx.close('confirm')">Подтвердить</button>
+    </div>
+  `,
+  imports: [KuiButtonDirective],
+  encapsulation: ViewEncapsulation.None,
+})
+export class NoDismissDialog implements KuiDialogHost<'confirm' | 'cancel', void> {
+  public readonly dialogContext =
+    inject<KuiDialogContext<'confirm' | 'cancel', void>>(KUI_DIALOG_CONTEXT);
+  protected readonly ctx = this.dialogContext;
+}
+
+// ── Helper inject functions ────────────────────────────────────────────────
+
+function injectEditDialog() {
+  return kuiDialog(EditDialog, { size: 'md' });
+}
+function injectAutoDialog() {
+  return kuiDialog(AutoDialog, { size: 'auto' });
+}
+function injectEditDialogSm() {
+  return kuiDialog(EditDialog, { size: 'sm' });
+}
+function injectEditDialogLg() {
+  return kuiDialog(EditDialog, { size: 'lg' });
+}
+function injectDeleteDialog() {
+  return kuiDialog(DeleteDialog, { size: 'sm' });
+}
+function injectLongBodyDialog() {
+  return kuiDialog(LongBodyDialog, { size: 'md' });
+}
+function injectNoDismissDialog() {
+  return kuiDialog(NoDismissDialog, { size: 'sm', dismissable: false, closable: false });
+}
+function injectEditDialogNoClose() {
+  return kuiDialog(EditDialog, { size: 'md', closable: false });
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────
+
+@Component({
+  selector: 'app-dialog-page',
+  templateUrl: './dialog.page.html',
+  styleUrl: './dialog.page.scss',
+  imports: [PlaygroundPanelComponent, KuiButtonDirective],
+  encapsulation: ViewEncapsulation.None,
+})
+export class DialogPage {
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly openEditAuto = injectAutoDialog();
+  private readonly openEditSm = injectEditDialogSm();
+  private readonly openEditMd = injectEditDialog();
+  private readonly openEditLg = injectEditDialogLg();
+  private readonly openDelete = injectDeleteDialog();
+  private readonly openLongBody = injectLongBodyDialog();
+  private readonly openNoDismiss = injectNoDismissDialog();
+  private readonly openEditNoClose = injectEditDialogNoClose();
+
+  protected readonly resultSizes = signal<string>('—');
+  protected readonly resultDelete = signal<string>('—');
+  protected readonly resultNoDismiss = signal<string>('—');
+  protected readonly resultNoClose = signal<string>('—');
+
+  protected showEditAuto(): void {
+    this.openEditAuto(undefined)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((r) => this.resultSizes.set(r ?? 'undefined'));
+  }
+
+  protected showEditSm(): void {
+    this.openEditSm({ name: 'Алексей Смирнов' })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((r) => this.resultSizes.set(r ?? 'undefined'));
+  }
+
+  protected showEditMd(): void {
+    this.openEditMd({ name: 'Алексей Смирнов' })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((r) => this.resultSizes.set(r ?? 'undefined'));
+  }
+
+  protected showEditLg(): void {
+    this.openEditLg({ name: 'Алексей Смирнов' })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((r) => this.resultSizes.set(r ?? 'undefined'));
+  }
+
+  protected showDelete(): void {
+    this.openDelete(undefined)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((r) => this.resultDelete.set(String(r)));
+  }
+
+  protected showLongBody(): void {
+    this.openLongBody(undefined)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {});
+  }
+
+  protected showNoDismiss(): void {
+    this.openNoDismiss(undefined)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((r) => this.resultNoDismiss.set(r ?? 'undefined'));
+  }
+
+  protected showNoClose(): void {
+    this.openEditNoClose({ name: 'Алексей Смирнов' })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((r) => this.resultNoClose.set(r ?? 'undefined'));
+  }
+}

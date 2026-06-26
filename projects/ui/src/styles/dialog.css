@@ -1,0 +1,117 @@
+@layer kui.components {
+  @keyframes kui-dialog-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes kui-dialog-out {
+    from { opacity: 1; transform: scale(1); }
+    to   { opacity: 0; transform: scale(0.95); }
+  }
+  @keyframes kui-bd-in  { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes kui-bd-out { from { opacity: 1; } to { opacity: 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    @keyframes kui-dialog-in  { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes kui-dialog-out { from { opacity: 1; } to { opacity: 0; } }
+  }
+
+  .kui-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--kui-dialog-backdrop, oklch(0 0 0 / 0.5));
+    animation: kui-bd-in 200ms var(--kui-ease) both;
+  }
+
+  .kui-dialog-backdrop--closing {
+    animation: kui-bd-out 150ms ease-in both;
+  }
+
+  .kui-dialog {
+    background: var(--kui-dialog-bg, var(--kui-color-surface-elevated));
+    border: 1px solid var(--kui-dialog-border, var(--kui-color-border));
+    border-radius: var(--kui-dialog-radius, var(--kui-radius-lg));
+    box-shadow: var(--kui-dialog-shadow, var(--kui-shadow-lg));
+    display: flex;
+    flex-direction: column;
+    width: var(--kui-dialog-width, 560px);
+    max-width: calc(100vw - 32px);
+    max-height: 85vh;
+    color: var(--kui-color-text);
+    animation: kui-dialog-in 200ms var(--kui-ease) both;
+  }
+
+  .kui-dialog--closing {
+    animation: kui-dialog-out 150ms ease-in both;
+  }
+
+  .kui-dialog--sm  { --kui-dialog-width: 400px; }
+  .kui-dialog--md  { --kui-dialog-width: 560px; }
+  .kui-dialog--lg  { --kui-dialog-width: 720px; }
+  .kui-dialog--auto { width: auto; min-width: 320px; }
+
+  .kui-dialog-header {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-3);
+    padding: var(--kui-dialog-padding-y, var(--kui-space-4))
+             var(--kui-dialog-padding-x, var(--kui-space-6));
+    border-bottom: 1px solid var(--kui-color-border);
+    flex: 0 0 auto;
+  }
+
+  .kui-dialog-title {
+    font-size: var(--kui-dialog-title-size, var(--kui-text-lg-size));
+    font-weight: 600;
+    flex: 1;
+    min-width: 0;
+    color: var(--kui-color-text);
+    line-height: 1.3;
+  }
+
+  .kui-dialog-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: var(--kui-radius-sm);
+    color: var(--kui-color-text-secondary);
+    cursor: pointer;
+    flex: 0 0 auto;
+    transition:
+      background var(--kui-duration-fast) var(--kui-ease),
+      color var(--kui-duration-fast) var(--kui-ease);
+  }
+
+  .kui-dialog-close:hover {
+    background: var(--kui-color-surface-sunken);
+    color: var(--kui-color-text);
+  }
+
+  .kui-dialog-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding: var(--kui-dialog-padding-x, var(--kui-space-6));
+    font-size: var(--kui-text-sm-size);
+    line-height: 1.65;
+    color: var(--kui-color-text-secondary);
+  }
+
+  .kui-dialog-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--kui-space-2);
+    padding: var(--kui-dialog-padding-y, var(--kui-space-4))
+             var(--kui-dialog-padding-x, var(--kui-space-6));
+    border-top: 1px solid var(--kui-color-border);
+    flex: 0 0 auto;
+  }
+}

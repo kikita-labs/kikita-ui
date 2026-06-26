@@ -465,6 +465,14 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-select-option-hover-bg': 'var(--kui-color-surface-sunken)',
     '--kui-select-option-selected-bg': 'var(--kui-color-primary-soft-bg)',
     '--kui-select-option-selected-fg': 'var(--kui-color-primary-soft-text)',
+    '--kui-dialog-bg': 'var(--kui-color-surface-elevated)',
+    '--kui-dialog-border': 'var(--kui-color-border)',
+    '--kui-dialog-radius': 'var(--kui-radius-lg)',
+    '--kui-dialog-shadow': 'var(--kui-shadow-lg)',
+    '--kui-dialog-backdrop': 'oklch(0 0 0 / 0.5)',
+    '--kui-dialog-padding-x': 'var(--kui-space-6)',
+    '--kui-dialog-padding-y': 'var(--kui-space-4)',
+    '--kui-dialog-title-size': 'var(--kui-text-lg-size)',
   };
 }
 

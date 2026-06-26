@@ -84,5 +84,9 @@ export const routes: Routes = [
     path: 'dropdown',
     loadComponent: () => import('./pages/dropdown/dropdown.page').then((m) => m.DropdownPage),
   },
+  {
+    path: 'dialog',
+    loadComponent: () => import('./pages/dialog/dialog.page').then((m) => m.DialogPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

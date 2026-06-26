@@ -1,0 +1,79 @@
+<div class="pg-page">
+  <h1 class="pg-title">Dialog</h1>
+  <p class="pg-desc">
+    Modal overlay with backdrop and header / body / footer structure.
+    Opened imperatively via <code>kuiDialog()</code>. Supports typed data and result.
+  </p>
+
+  <!-- Panel 01: sizes -->
+  <app-panel
+    num="01"
+    title="Sizes"
+    description="sm (400px), md (560px, default), lg (720px). All share the same dialog structure."
+  >
+    <div class="component-board">
+      <div class="state-board__row" style="gap:8px;flex-wrap:wrap">
+        <button kuiButton appearance="outline" type="button" (click)="showEditAuto()">Open auto</button>
+        <button kuiButton appearance="outline" type="button" (click)="showEditSm()">Open sm</button>
+        <button kuiButton appearance="outline" type="button" (click)="showEditMd()">Open md</button>
+        <button kuiButton appearance="outline" type="button" (click)="showEditLg()">Open lg</button>
+      </div>
+      <code>result: {{ resultSizes() }}</code>
+    </div>
+  </app-panel>
+
+  <!-- Panel 02: destructive -->
+  <app-panel
+    num="02"
+    title="Destructive variant"
+    description="Danger appearance on the confirm button. sm size for compact confirmations."
+  >
+    <div class="component-board">
+      <div class="state-board__row">
+        <button kuiButton appearance="danger" type="button" (click)="showDelete()">Delete account</button>
+      </div>
+      <code>result: {{ resultDelete() }}</code>
+    </div>
+  </app-panel>
+
+  <!-- Panel 03: long body scroll -->
+  <app-panel
+    num="03"
+    title="Long body — internal scroll"
+    description="Body scrolls independently; header and footer remain fixed."
+  >
+    <div class="component-board">
+      <div class="state-board__row">
+        <button kuiButton appearance="outline" type="button" (click)="showLongBody()">Open long body</button>
+      </div>
+    </div>
+  </app-panel>
+
+  <!-- Panel 04: closable: false -->
+  <app-panel
+    num="04"
+    title="closable: false"
+    description="No × button. Backdrop click and Escape still close (dismissable defaults to true)."
+  >
+    <div class="component-board">
+      <div class="state-board__row">
+        <button kuiButton appearance="outline" type="button" (click)="showNoClose()">Open no-close button</button>
+      </div>
+      <code>result: {{ resultNoClose() }}</code>
+    </div>
+  </app-panel>
+
+  <!-- Panel 05: dismissable: false -->
+  <app-panel
+    num="05"
+    title="dismissable: false"
+    description="Backdrop click and Escape key are disabled. User must pick an action."
+  >
+    <div class="component-board">
+      <div class="state-board__row">
+        <button kuiButton appearance="outline" type="button" (click)="showNoDismiss()">Open locked</button>
+      </div>
+      <code>result: {{ resultNoDismiss() }}</code>
+    </div>
+  </app-panel>
+</div>

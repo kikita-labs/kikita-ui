@@ -41,6 +41,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/table', label: 'Table' },
   { path: '/select', label: 'Select' },
   { path: '/dropdown', label: 'Dropdown' },
+  { path: '/dialog', label: 'Dialog' },
 ];
 
 @Component({
