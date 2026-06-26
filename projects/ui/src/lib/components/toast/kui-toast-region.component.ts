@@ -84,9 +84,14 @@ interface InternalToastItem {
               <div class="kui-toast-message">{{ toast.config.message }}</div>
             }
             @if (toast.config.actionLabel) {
-              <button class="kui-toast-action" type="button" (click)="onAction(toast)">
-                {{ toast.config.actionLabel }}
-              </button>
+              <button
+                class="kui-button"
+                data-kui-appearance="ghost"
+                data-kui-size="xs"
+                type="button"
+                style="align-self:flex-start;margin-top:var(--kui-space-1);--kui-btn-ghost-fg:var(--kui-toast-accent-color)"
+                (click)="onAction(toast)"
+              >{{ toast.config.actionLabel }}</button>
             }
           </div>
 
