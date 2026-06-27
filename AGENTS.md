@@ -84,11 +84,11 @@ Design AI tools may generate directions and mockups, but source of truth is:
 
 ## Design Escalation
 
-Before implementing any new component, check `.local-notes/Ember Spec.dc.html` for visual design and token details.
+Before implementing any new component, check `.local-notes/claude-design/design system/` for the matching component spec file (e.g. `02 Button.dc.html`, `19 Popover.dc (1).html`).
 
-If the Ember Spec does not have enough information for a component (states, variants, tokens, layout, or visual behavior are unclear or missing), **stop and tell the user**. Do not invent a design. The user will commission Claude Design to produce the missing component spec.
+If a component spec does not exist in `.local-notes/claude-design/design system/` (states, variants, tokens, layout, or visual behavior are unclear or missing), **stop and tell the user**. Do not invent a design. The user will commission Claude Design to produce the missing component spec.
 
-Designed components are added to `.local-notes/` and the Ember Spec is updated before implementation begins.
+Designed components are added to `.local-notes/claude-design/design system/` before implementation begins.
 
 ## Figma And Design Tool Workflow
 

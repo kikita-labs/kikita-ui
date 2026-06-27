@@ -1,8 +1,8 @@
 # Kikita UI Ember Design System Spec
 
-This document converts the local Claude Design export `Ember Spec.dc.html` into a repository-owned specification.
+This document is derived from the Claude Design exports in `.local-notes/claude-design/design system/`.
 
-The repository remains the source of truth. The HTML export is reference material only.
+The repository remains the source of truth. The HTML exports are reference material only.
 
 ## Direction
 
