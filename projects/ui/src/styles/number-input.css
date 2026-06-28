@@ -1,0 +1,181 @@
+@layer kui.components {
+  .kui-number-input {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    border: 1px solid var(--kui-number-input-border, var(--kui-color-border));
+    border-radius: var(--kui-radius-md);
+    background: var(--kui-color-surface);
+    overflow: hidden;
+    transition:
+      border-color var(--kui-duration-base) var(--kui-ease),
+      box-shadow var(--kui-duration-base) var(--kui-ease);
+
+    --_h: var(--kui-control-height-md);
+    --_fs: var(--kui-text-md-size);
+    --_icon: 12px;
+  }
+
+  .kui-number-input[data-kui-size='sm'] {
+    --_h: var(--kui-control-height-sm);
+    --_fs: var(--kui-text-sm-size);
+    --_icon: 10px;
+  }
+
+  .kui-number-input[data-kui-size='lg'] {
+    --_h: var(--kui-control-height-lg);
+    --_fs: var(--kui-text-md-size);
+    --_icon: 14px;
+  }
+
+  .kui-number-input:hover:not([data-kui-disabled]):not([data-kui-readonly]) {
+    border-color: var(--kui-color-border-strong);
+  }
+
+  .kui-number-input:focus-within:not([data-kui-disabled]) {
+    border-color: var(--kui-color-primary-fill);
+    box-shadow: 0 0 0 3px var(--kui-color-primary-focus-ring);
+  }
+
+  .kui-number-input__btn--dec {
+    border-right: 1px solid var(--kui-number-input-divider, var(--kui-color-border));
+  }
+
+  .kui-number-input__btn--inc {
+    border-left: 1px solid var(--kui-number-input-divider, var(--kui-color-border));
+  }
+
+  .kui-number-input__btn {
+    flex: 0 0 var(--_h);
+    width: var(--_h);
+    height: var(--_h);
+    font-size: var(--_icon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--kui-number-input-btn-bg, transparent);
+    border: none;
+    color: var(--kui-number-input-btn-text, var(--kui-color-text-secondary));
+    cursor: pointer;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    transition:
+      background var(--kui-duration-fast) var(--kui-ease),
+      color var(--kui-duration-fast) var(--kui-ease);
+  }
+
+  .kui-number-input__btn:hover:not([aria-disabled='true']):not([disabled]) {
+    background: var(--kui-number-input-btn-bg-hover, var(--kui-color-surface-elevated));
+    color: var(--kui-color-text);
+  }
+
+  .kui-number-input__btn:active:not([aria-disabled='true']):not([disabled]) {
+    background: var(--kui-color-border);
+    color: var(--kui-color-text);
+  }
+
+  .kui-number-input__btn[aria-disabled='true'] {
+    color: var(--kui-color-text-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .kui-number-input__input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    color: var(--kui-color-text);
+    font: inherit;
+    font-size: var(--_fs);
+    height: var(--_h);
+    padding: 0 var(--kui-space-3);
+    text-align: center;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    font-variant-numeric: tabular-nums;
+    outline: none;
+  }
+
+  .kui-number-input__input::-webkit-inner-spin-button,
+  .kui-number-input__input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .kui-number-input__input::placeholder {
+    color: var(--kui-color-text-disabled);
+  }
+
+  .kui-number-input--a .kui-number-input__input {
+    text-align: left;
+    padding: 0 var(--kui-space-3);
+  }
+
+  .kui-number-input--a .kui-number-input__arrows {
+    flex: 0 0 var(--_h);
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--kui-number-input-divider, var(--kui-color-border));
+  }
+
+  .kui-number-input--a .kui-number-input__arrow {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--kui-number-input-btn-text, var(--kui-color-text-secondary));
+    cursor: pointer;
+    padding: 0;
+    font-size: calc(var(--_icon) * 0.7);
+    user-select: none;
+    -webkit-user-select: none;
+    transition:
+      background var(--kui-duration-fast) var(--kui-ease),
+      color var(--kui-duration-fast) var(--kui-ease);
+  }
+
+  .kui-number-input--a .kui-number-input__arrow:hover:not([aria-disabled='true']):not([disabled]) {
+    background: var(--kui-number-input-btn-bg-hover, var(--kui-color-surface-elevated));
+    color: var(--kui-color-text);
+  }
+
+  .kui-number-input--a .kui-number-input__arrow:active:not([aria-disabled='true']):not([disabled]) {
+    background: var(--kui-color-border);
+    color: var(--kui-color-text);
+  }
+
+  .kui-number-input--a .kui-number-input__arrow[aria-disabled='true'] {
+    color: var(--kui-color-text-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .kui-number-input--a .kui-number-input__arrow--inc {
+    border-bottom: 1px solid var(--kui-number-input-divider, var(--kui-color-border));
+  }
+
+  .kui-number-input[data-kui-disabled] {
+    background: var(--kui-color-surface-sunken);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .kui-number-input[data-kui-readonly] {
+    background: var(--kui-color-surface-sunken);
+  }
+
+  .kui-number-input[data-kui-readonly] .kui-number-input__btn,
+  .kui-number-input[data-kui-readonly] .kui-number-input__arrow {
+    color: var(--kui-color-text-disabled);
+    pointer-events: none;
+  }
+
+  .kui-number-input[data-kui-invalid],
+  .kui-field[data-kui-invalid] .kui-number-input {
+    border-color: var(--kui-color-danger-fill);
+  }
+}

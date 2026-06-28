@@ -1,0 +1,277 @@
+<div class="page">
+  <app-panel num="01" title="Variants" description="md, default, value 42">
+    <div class="ni-grid-2">
+      <div>
+        <div class="ni-label">variant b, recommended, minus/plus on sides</div>
+        <div class="ni-input-box">
+          <input type="number" kuiNumberInput value="42" min="0" max="99" aria-label="Variant B" />
+        </div>
+      </div>
+      <div>
+        <div class="ni-label">variant a, stacked arrows on right</div>
+        <div class="ni-input-box">
+          <input
+            type="number"
+            kuiNumberInput
+            variant="a"
+            value="42"
+            min="0"
+            max="99"
+            aria-label="Variant A"
+          />
+        </div>
+      </div>
+    </div>
+  </app-panel>
+
+  <app-panel num="02" title="States" description="variant b, md, value 5, min 0, max 10">
+    <div class="ni-grid-states">
+      <div>
+        <div class="ni-col-label">default</div>
+        <input type="number" kuiNumberInput value="5" min="0" max="10" aria-label="default" />
+        <div class="ni-note">Neutral</div>
+      </div>
+      <div>
+        <div class="ni-col-label">at min</div>
+        <input type="number" kuiNumberInput value="0" min="0" max="10" aria-label="at min" />
+        <div class="ni-note">Decrease disabled</div>
+      </div>
+      <div>
+        <div class="ni-col-label">at max</div>
+        <input type="number" kuiNumberInput value="10" min="0" max="10" aria-label="at max" />
+        <div class="ni-note">Increase disabled</div>
+      </div>
+      <div>
+        <div class="ni-col-label">disabled</div>
+        <input
+          type="number"
+          kuiNumberInput
+          value="5"
+          min="0"
+          max="10"
+          disabled
+          aria-label="disabled"
+        />
+        <div class="ni-note">Native disabled</div>
+      </div>
+      <div>
+        <div class="ni-col-label">readonly</div>
+        <input
+          type="number"
+          kuiNumberInput
+          value="5"
+          min="0"
+          max="10"
+          readonly
+          aria-label="readonly"
+        />
+        <div class="ni-note">Buttons inert</div>
+      </div>
+      <div>
+        <div class="ni-col-label">invalid</div>
+        <input
+          type="number"
+          kuiNumberInput
+          value="99"
+          min="0"
+          max="10"
+          invalid
+          aria-label="invalid"
+        />
+        <div class="ni-note">Error border</div>
+      </div>
+    </div>
+  </app-panel>
+
+  <app-panel num="03" title="Sizes" description="variant b, default, value 42">
+    <div class="ni-sizes">
+      <div>
+        <div class="ni-field-label">sm, 32px</div>
+        <input type="number" kuiNumberInput size="sm" value="42" aria-label="sm" />
+      </div>
+      <div>
+        <div class="ni-field-label">md, 40px, default</div>
+        <input type="number" kuiNumberInput value="42" aria-label="md" />
+      </div>
+      <div>
+        <div class="ni-field-label">lg, 44px</div>
+        <input type="number" kuiNumberInput size="lg" value="42" aria-label="lg" />
+      </div>
+    </div>
+  </app-panel>
+
+  <app-panel num="04" title="In KuiField" description="md, variant b">
+    <div class="ni-field-grid">
+      <kui-field label="Count" hint="Enter a value from 1 to 100" [required]="true">
+        <input type="number" kuiNumberInput min="1" max="100" value="5" />
+      </kui-field>
+
+      <kui-field label="Count" [error]="fieldError()" [required]="true">
+        <input
+          type="number"
+          kuiNumberInput
+          min="1"
+          max="100"
+          [value]="fieldErrorValue()"
+          (input)="fieldErrorValue.set(+$any($event.target).value)"
+        />
+      </kui-field>
+
+      <kui-field label="Request limit" hint="Not available on current plan">
+        <input type="number" kuiNumberInput value="1000" disabled />
+      </kui-field>
+
+      <kui-field label="Entity ID" hint="Read-only, assigned by the system">
+        <input type="number" kuiNumberInput value="4821" readonly />
+      </kui-field>
+    </div>
+  </app-panel>
+
+  <app-panel num="05" title="Dark and Light Themes" description="md, variant b">
+    <div class="ni-theme-row">
+      @for (theme of ['dark', 'light']; track theme) {
+        <div class="ni-theme-box" [attr.data-kui-theme]="theme">
+          <div class="ni-theme-label">{{ theme }}</div>
+          <div class="ni-theme-inner">
+            <div>
+              <div class="ni-col-label">default</div>
+              <input
+                type="number"
+                kuiNumberInput
+                value="42"
+                min="0"
+                max="99"
+                [attr.aria-label]="theme + ' default'"
+              />
+            </div>
+            <div>
+              <div class="ni-col-label">invalid</div>
+              <input
+                type="number"
+                kuiNumberInput
+                value="999"
+                min="0"
+                max="99"
+                invalid
+                [attr.aria-label]="theme + ' invalid'"
+              />
+            </div>
+            <div>
+              <div class="ni-col-label">at min</div>
+              <input
+                type="number"
+                kuiNumberInput
+                value="0"
+                min="0"
+                max="99"
+                [attr.aria-label]="theme + ' at min'"
+              />
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </app-panel>
+
+  <app-panel num="06" title="Mobile" description="size lg, variant b, 44px touch target">
+    <div class="ni-mobile-frame">
+      <div class="ni-mobile-header">Settings</div>
+      <div class="ni-mobile-body">
+        <kui-field label="Item count" hint="Min 1, max 99">
+          <input
+            type="number"
+            kuiNumberInput
+            size="lg"
+            min="1"
+            max="99"
+            [value]="liveLg()"
+            (input)="liveLg.set(+$any($event.target).value)"
+          />
+        </kui-field>
+
+        <kui-field label="Repeats">
+          <input type="number" kuiNumberInput size="lg" value="5" />
+        </kui-field>
+
+        <kui-field label="Discount (%)" hint="Premium only">
+          <input type="number" kuiNumberInput size="lg" value="10" disabled />
+        </kui-field>
+      </div>
+    </div>
+    <p class="ni-note ni-note--block">
+      size <code>lg</code>, 44x44px buttons, meets WCAG minimum touch target.
+    </p>
+  </app-panel>
+
+  <app-panel
+    num="07"
+    title="Live Demo"
+    description="ngModel two-way binding, native ArrowUp / ArrowDown / Home / End keyboard control"
+  >
+    <div class="ni-live-box">
+      <div class="ni-live-header">
+        <span class="ni-live-label">Value</span>
+        <span class="ni-live-value">{{ liveValue }}</span>
+      </div>
+
+      <div class="ni-live-row">
+        <span class="ni-mono">variant b, md</span>
+        <div class="ni-live-input">
+          <input
+            type="number"
+            kuiNumberInput
+            min="0"
+            max="100"
+            [(ngModel)]="liveValue"
+            aria-label="live b md"
+          />
+        </div>
+      </div>
+
+      <div class="ni-live-row">
+        <span class="ni-mono">variant a, md</span>
+        <div class="ni-live-input">
+          <input
+            type="number"
+            kuiNumberInput
+            variant="a"
+            min="0"
+            max="100"
+            [(ngModel)]="liveValue"
+            aria-label="live a md"
+          />
+        </div>
+      </div>
+
+      <div class="ni-live-row">
+        <span class="ni-mono">variant b, sm</span>
+        <div class="ni-live-input ni-live-input--sm">
+          <input
+            type="number"
+            kuiNumberInput
+            size="sm"
+            min="0"
+            max="100"
+            [(ngModel)]="liveValue"
+            aria-label="live b sm"
+          />
+        </div>
+      </div>
+
+      <div class="ni-live-row">
+        <span class="ni-mono">variant b, lg</span>
+        <div class="ni-live-input">
+          <input
+            type="number"
+            kuiNumberInput
+            size="lg"
+            min="0"
+            max="100"
+            [(ngModel)]="liveValue"
+            aria-label="live b lg"
+          />
+        </div>
+      </div>
+    </div>
+  </app-panel>
+</div>

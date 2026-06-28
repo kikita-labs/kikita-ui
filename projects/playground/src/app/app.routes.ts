@@ -108,5 +108,10 @@ export const routes: Routes = [
     path: 'slider',
     loadComponent: () => import('./pages/slider/slider.page').then((m) => m.SliderPage),
   },
+  {
+    path: 'number-input',
+    loadComponent: () =>
+      import('./pages/number-input/number-input.page').then((m) => m.NumberInputPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

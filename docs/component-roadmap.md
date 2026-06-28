@@ -37,7 +37,7 @@
 - Accordion (done as `kui-accordion`)
 - Progress (done as `kui-progress`)
 - Slider (done as `input[type=range][kuiSlider]`)
-- Number input
+- Number input (done as `input[type=number][kuiNumberInput]`)
 
 ## Later
 

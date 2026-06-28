@@ -32,7 +32,8 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Popover    | `/popover`       | four placements, three alignments, arrow on/off, info/confirm/form content, hover trigger                                                                               |
 | Accordion  | `/accordion`     | default/bordered/ghost appearances, sizes, exclusive mode, multi mode, disabled item, dark/light themes                                                                 |
 | Progress   | `/progress`      | linear and circular variants, sizes, colors, indeterminate states, labels, live slider composition, dark/light themes                                                   |
-| Slider     | `/slider`        | states, sm/md/lg sizes, primary/success/danger/neutral colors, value tooltip, static tooltip override, min/max labels, field composition, live demo, dark/light, mobile |
+| Slider       | `/slider`        | states, sm/md/lg sizes, primary/success/danger/neutral colors, value tooltip, static tooltip override, min/max labels, field composition, live demo, dark/light, mobile |
+| NumberInput  | `/number-input`  | variant a/b, default/at-min/at-max/disabled/readonly/invalid states, sm/md/lg sizes, field composition (label/hint/error/disabled/readonly), dark/light themes, mobile lg, ngModel live demo |
 
 ## Current Gaps
 
