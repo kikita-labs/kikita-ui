@@ -43,12 +43,12 @@
     <div class="pr-live-box">
       <div class="pr-slider-row">
         <input
-          type="range"
-          min="0"
-          max="100"
+          type="range" kuiSlider
+          min="0" max="100"
+          style="flex:1"
           [value]="liveValue()"
-          (input)="onSlider($event)"
-          class="pr-range"
+          (input)="liveValue.set(+$any($event.target).value)"
+          aria-label="Progress value"
         />
         <span class="pr-pct">{{ liveValue() }}%</span>
       </div>

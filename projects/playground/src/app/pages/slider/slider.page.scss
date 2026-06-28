@@ -1,0 +1,205 @@
+.page {
+  display: block;
+}
+
+/* States grid */
+.sl-states {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+}
+
+.sl-state-label {
+  font-size: var(--kui-text-xs-size);
+  font-weight: 600;
+  font-family: monospace;
+  color: var(--kui-color-text-secondary);
+  margin-bottom: 20px;
+}
+
+.sl-note {
+  font-size: var(--kui-text-xs-size);
+  color: var(--kui-color-text-secondary);
+  margin-top: 8px;
+}
+
+/* Sizes stack */
+.sl-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 480px;
+}
+
+/* Color matrix */
+.sl-color-grid {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 10px 24px;
+  align-items: center;
+  max-width: 480px;
+}
+
+.sl-mono {
+  font-size: var(--kui-text-xs-size);
+  color: var(--kui-color-text-secondary);
+  font-family: monospace;
+}
+
+/* Field label */
+.sl-field-label {
+  font-size: var(--kui-text-xs-size);
+  color: var(--kui-color-text-secondary);
+  margin-bottom: 8px;
+}
+
+/* Inline value row */
+.sl-inline-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.sl-inline-label-text {
+  font-size: var(--kui-text-sm-size);
+  font-weight: 600;
+  color: var(--kui-color-text);
+}
+
+.sl-inline-label-value {
+  font-size: var(--kui-text-sm-size);
+  color: var(--kui-color-primary-soft-text);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.sl-hint {
+  font-size: var(--kui-text-xs-size);
+  color: var(--kui-color-text-secondary);
+  margin-top: 4px;
+}
+
+/* Live demo box */
+.sl-live-box {
+  background: var(--kui-color-surface);
+  border: 1px solid var(--kui-color-border);
+  border-radius: var(--kui-radius-md);
+  padding: 24px;
+  max-width: 480px;
+}
+
+.sl-live-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sl-live-label {
+  font-size: var(--kui-text-sm-size);
+  font-weight: 600;
+  color: var(--kui-color-text);
+}
+
+.sl-live-value {
+  font-size: var(--kui-text-2xl-size);
+  font-weight: 700;
+  color: var(--kui-color-primary-soft-text);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+}
+
+.sl-live-tip {
+  font-size: var(--kui-text-xs-size);
+  color: var(--kui-color-text-secondary);
+  margin-top: 16px;
+}
+
+/* Theme boxes */
+.sl-theme-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.sl-theme-box {
+  flex: 1;
+  min-width: 260px;
+  border: 1px solid var(--kui-color-border);
+  border-radius: var(--kui-radius-md);
+  padding: 24px;
+  background: var(--kui-color-bg);
+}
+
+.sl-theme-label {
+  font-size: var(--kui-text-xs-size);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--kui-color-text-secondary);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.sl-theme-inner {
+  background: var(--kui-color-surface);
+  border-radius: var(--kui-radius-sm);
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sl-theme-row-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Mobile mockup */
+.sl-mobile {
+  max-width: 375px;
+  border: 1px solid var(--kui-color-border);
+  border-radius: var(--kui-radius-lg);
+  overflow: hidden;
+  background: var(--kui-color-bg);
+}
+
+.sl-mobile-header {
+  height: 44px;
+  background: var(--kui-color-surface);
+  border-bottom: 1px solid var(--kui-color-border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-size: var(--kui-text-base-size);
+  font-weight: 600;
+  color: var(--kui-color-text);
+}
+
+.sl-mobile-body {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sl-mobile-item-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: var(--kui-text-base-size);
+}
+
+.sl-mobile-item-label-text {
+  color: var(--kui-color-text);
+}
+
+.sl-mobile-item-label-value {
+  font-weight: 600;
+  color: var(--kui-color-primary-soft-text);
+}
+
+.sl-mobile-item-label-disabled {
+  color: var(--kui-color-text-disabled);
+}

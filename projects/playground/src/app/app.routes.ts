@@ -104,5 +104,9 @@ export const routes: Routes = [
     path: 'progress',
     loadComponent: () => import('./pages/progress/progress.page').then((m) => m.ProgressPage),
   },
+  {
+    path: 'slider',
+    loadComponent: () => import('./pages/slider/slider.page').then((m) => m.SliderPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

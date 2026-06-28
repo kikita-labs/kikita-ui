@@ -46,6 +46,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/popover', label: 'Popover' },
   { path: '/accordion', label: 'Accordion' },
   { path: '/progress', label: 'Progress' },
+  { path: '/slider', label: 'Slider' },
 ];
 
 @Component({
