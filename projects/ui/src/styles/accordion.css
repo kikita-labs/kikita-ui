@@ -1,0 +1,161 @@
+@layer kui.components {
+  @media (prefers-reduced-motion: reduce) {
+    .kui-accordion-body-wrap,
+    .kui-accordion-chevron {
+      transition: none !important;
+    }
+  }
+
+  /* ── Host elements ─────────────────────────────────────────────────────── */
+
+  kui-accordion,
+  kui-accordion-item {
+    display: block;
+  }
+
+  /* ── Container ─────────────────────────────────────────────────────────── */
+
+  .kui-accordion {
+    width: 100%;
+  }
+
+  /* ── Trigger ────────────────────────────────────────────────────────────── */
+
+  .kui-accordion-trigger {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 var(--kui-accordion-padding-x, var(--kui-space-4));
+    gap: var(--kui-space-2);
+    font: inherit;
+    font-size: var(--kui-text-base-size);
+    font-weight: 500;
+    color: var(--kui-accordion-trigger-text, var(--kui-color-text));
+    text-align: left;
+    min-height: var(--kui-accordion-trigger-height, 44px);
+    outline: none;
+    transition: background-color var(--kui-accordion-duration, var(--kui-duration-base)) var(--kui-ease);
+  }
+
+  .kui-accordion-trigger:hover {
+    background: var(--kui-accordion-trigger-bg-hover, var(--kui-color-surface));
+  }
+
+  .kui-accordion-trigger:focus-visible {
+    outline: 2px solid var(--kui-color-primary-fill);
+    outline-offset: -2px;
+    border-radius: var(--kui-radius-xs);
+    z-index: 1;
+  }
+
+  .kui-accordion-trigger[aria-disabled='true'] {
+    color: var(--kui-accordion-trigger-text-disabled, var(--kui-color-text-disabled));
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .kui-accordion-trigger[aria-disabled='true'] .kui-accordion-chevron {
+    color: var(--kui-accordion-trigger-text-disabled, var(--kui-color-text-disabled));
+  }
+
+  .kui-accordion-trigger-text {
+    flex: 1;
+  }
+
+  .kui-accordion-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    color: var(--kui-color-text-secondary);
+  }
+
+  .kui-accordion-chevron {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    color: var(--kui-color-text-secondary);
+    transition: transform var(--kui-accordion-duration, var(--kui-duration-base)) var(--kui-ease);
+  }
+
+  .kui-accordion-trigger[aria-expanded='true'] .kui-accordion-chevron {
+    transform: rotate(90deg);
+  }
+
+  /* ── Body ───────────────────────────────────────────────────────────────── */
+
+  .kui-accordion-body-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--kui-accordion-duration, var(--kui-duration-base)) var(--kui-ease);
+  }
+
+  .kui-accordion-body-wrap.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  .kui-accordion-body-inner {
+    overflow: hidden;
+  }
+
+  .kui-accordion-body-content {
+    padding: var(--kui-space-1) var(--kui-accordion-padding-x, var(--kui-space-4)) var(--kui-space-4);
+    font-size: var(--kui-text-sm-size);
+    color: var(--kui-accordion-body-text, var(--kui-color-text-secondary));
+    line-height: 1.65;
+  }
+
+  /* ── Appearances ────────────────────────────────────────────────────────── */
+
+  /* default: horizontal dividers */
+  .kui-accordion[data-kui-appearance='default'] .kui-accordion-item {
+    border-bottom: 1px solid var(--kui-accordion-border, var(--kui-color-border));
+  }
+
+  .kui-accordion[data-kui-appearance='default'] .kui-accordion-item:first-child {
+    border-top: 1px solid var(--kui-accordion-border, var(--kui-color-border));
+  }
+
+  /* bordered: individual cards */
+  .kui-accordion[data-kui-appearance='bordered'] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kui-accordion-gap, var(--kui-space-2));
+  }
+
+  .kui-accordion[data-kui-appearance='bordered'] .kui-accordion-item {
+    border: 1px solid var(--kui-accordion-border, var(--kui-color-border));
+    border-radius: var(--kui-accordion-radius, var(--kui-radius-md));
+    overflow: hidden;
+  }
+
+  .kui-accordion[data-kui-appearance='bordered'] .kui-accordion-trigger:hover {
+    background: var(--kui-accordion-trigger-bg-hover, var(--kui-color-surface-elevated));
+  }
+
+  /* ghost: no borders */
+  /* (base trigger styles already apply; nothing extra needed) */
+
+  /* ── Sizes ──────────────────────────────────────────────────────────────── */
+
+  .kui-accordion[data-kui-size='sm'] .kui-accordion-trigger {
+    min-height: 36px;
+    font-size: var(--kui-text-sm-size);
+  }
+
+  .kui-accordion[data-kui-size='lg'] .kui-accordion-trigger {
+    min-height: 52px;
+    font-size: var(--kui-text-md-size);
+  }
+
+  .kui-accordion[data-kui-size='sm'] .kui-accordion-body-content {
+    padding-bottom: var(--kui-space-3);
+  }
+
+  .kui-accordion[data-kui-size='lg'] .kui-accordion-body-content {
+    padding-top: var(--kui-space-3);
+    padding-bottom: var(--kui-space-5);
+  }
+}

@@ -96,5 +96,9 @@ export const routes: Routes = [
     path: 'popover',
     loadComponent: () => import('./pages/popover/popover.page').then((m) => m.PopoverPage),
   },
+  {
+    path: 'accordion',
+    loadComponent: () => import('./pages/accordion/accordion.page').then((m) => m.AccordionPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

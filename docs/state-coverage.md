@@ -30,6 +30,7 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Confirm    | `/dialog` p.06   | default, danger (icon + danger button), warning (icon + solid button)         |
 | Toast      | `/toast`         | all 5 appearances, title-only, title+message, title+action, progress bar, all 6 positions, eviction at max 3 |
 | Popover    | `/popover`       | all 4 placements, 3 align variants, arrow on/off, content examples (info/confirm/form), hover trigger |
+| Accordion  | `/accordion`     | 3 appearances (default/bordered/ghost), 3 sizes, exclusive mode, multi mode, disabled item, dark/light themes, content examples (text/actions/form) |
 
 ## Current Gaps
 
