@@ -1,5 +1,6 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
+  computed,
   Directive,
   ElementRef,
   OnDestroy,
@@ -27,7 +28,7 @@ let tooltipCounter = 0;
 @Directive({
   selector: '[kuiTooltip]',
   host: {
-    '[attr.aria-describedby]': 'tooltipId',
+    '[attr.aria-describedby]': 'describedBy()',
     '(mouseenter)': 'show()',
     '(mouseleave)': 'hide()',
     '(focusin)': 'show()',
@@ -47,6 +48,9 @@ export class KuiTooltipDirective implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
 
   protected readonly tooltipId = `kui-tooltip-${++tooltipCounter}`;
+  protected readonly describedBy = computed(() =>
+    this.kuiTooltip().trim() ? this.tooltipId : null,
+  );
   private tooltipEl: HTMLElement | null = null;
 
   /** @internal */

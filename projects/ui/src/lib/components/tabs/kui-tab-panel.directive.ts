@@ -16,6 +16,8 @@ import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
   host: {
     class: 'kui-tab-panel',
     role: 'tabpanel',
+    '[attr.id]': 'panelId()',
+    '[attr.aria-labelledby]': 'tabId()',
     '[hidden]': '!isActive()',
     '[attr.data-kui-active]': 'isActive() ? "" : null',
   },
@@ -27,4 +29,6 @@ export class KuiTabPanelDirective {
   private readonly context = inject(KUI_TABS_CONTEXT);
 
   protected readonly isActive = computed(() => this.context.selected() === this.value());
+  protected readonly tabId = computed(() => this.context.tabId(this.value()));
+  protected readonly panelId = computed(() => this.context.panelId(this.value()));
 }

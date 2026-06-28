@@ -68,7 +68,7 @@ export class KuiSegmentedComponent implements KuiSegmentedContext {
     const thumb = this.thumbRef?.nativeElement;
     if (!thumb) return;
 
-    const items = this.segmentItems();
+    const items = this.segmentItems().filter((item) => !item.isDisabled());
     const item = items.find((s) => s.value() === this.selected());
 
     if (!item) {

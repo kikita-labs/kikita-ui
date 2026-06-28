@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, input, output, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'kui-select-input-suffix',
@@ -38,7 +32,6 @@ import {
     </svg>
   `,
   host: { class: 'kui-select-input-suffix' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 /** @internal Chevron + optional clear button rendered as absolute suffix inside `.kui-field__control`. */

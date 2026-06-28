@@ -4,6 +4,8 @@ import { InjectionToken, Signal } from '@angular/core';
 export interface KuiTabsContext {
   readonly selected: Signal<string>;
   select(value: string): void;
+  tabId(value: string): string;
+  panelId(value: string): string;
 }
 
 export const KUI_TABS_CONTEXT = new InjectionToken<KuiTabsContext>('KuiTabsContext');

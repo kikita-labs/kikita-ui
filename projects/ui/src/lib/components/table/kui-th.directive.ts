@@ -11,7 +11,9 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
     '[class.kui-th--sort-asc]': 'sortDir() === "asc"',
     '[class.kui-th--sort-desc]': 'sortDir() === "desc"',
     '[attr.aria-sort]': 'ariaSort()',
+    '[attr.tabindex]': 'sortKey() ? 0 : null',
     '(click)': 'onClick()',
+    '(keydown)': 'onKeydown($event)',
   },
 })
 export class KuiThDirective {
@@ -43,5 +45,13 @@ export class KuiThDirective {
     const comp = this.comparator();
     if (comp) this.table.registerComparator(key, comp as never);
     this.table.updateSort(key);
+  }
+
+  protected onKeydown(event: KeyboardEvent): void {
+    if (!this.sortKey()) return;
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+
+    event.preventDefault();
+    this.onClick();
   }
 }

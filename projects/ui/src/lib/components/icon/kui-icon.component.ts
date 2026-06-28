@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { KUI_ICONS } from './kui-icon-registry.token';
@@ -9,7 +9,6 @@ import { KuiIconName, KuiIconSource } from './kui-icon-source.type';
   selector: 'kui-icon',
   templateUrl: './kui-icon.component.html',
   styleUrl: './kui-icon.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'kui-icon',
     '[attr.role]': 'label() ? "img" : null',

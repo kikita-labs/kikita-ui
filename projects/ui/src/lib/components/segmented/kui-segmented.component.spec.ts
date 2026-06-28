@@ -7,10 +7,10 @@ import { KuiSegmentedComponent } from './kui-segmented.component';
 @Component({
   imports: [KuiSegmentedComponent, KuiSegmentDirective],
   template: `
-    <kui-segmented [selected]="selected()" aria-label="View mode">
+    <kui-segmented [(selected)]="selected" aria-label="View mode">
       <button kuiSegment value="list">List</button>
       <button kuiSegment value="grid">Grid</button>
-      <button kuiSegment value="table">Table</button>
+      <button kuiSegment value="table" disabled>Table</button>
     </kui-segmented>
   `,
 })
@@ -67,5 +67,19 @@ describe('KuiSegmentedComponent', () => {
     expect(items[0].getAttribute('tabindex')).toBe('0');
     expect(items[1].getAttribute('tabindex')).toBe('-1');
     expect(items[2].getAttribute('tabindex')).toBe('-1');
+  });
+
+  it('does not select disabled segments', () => {
+    const fixture = createFixture();
+    const items = fixture.nativeElement.querySelectorAll(
+      '[role="radio"]',
+    ) as NodeListOf<HTMLElement>;
+
+    items[2].click();
+    fixture.detectChanges();
+
+    expect(items[0].getAttribute('aria-checked')).toBe('true');
+    expect(items[2].getAttribute('aria-checked')).toBe('false');
+    expect(items[2].hasAttribute('disabled')).toBe(true);
   });
 });

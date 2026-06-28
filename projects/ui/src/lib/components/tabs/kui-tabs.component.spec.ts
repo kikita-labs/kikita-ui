@@ -45,6 +45,19 @@ describe('KuiTabsComponent', () => {
     expect(tabs[1].getAttribute('aria-selected')).toBe('false');
   });
 
+  it('links tabs and panels with aria-controls and aria-labelledby', () => {
+    const fixture = createFixture();
+    const tabs = fixture.nativeElement.querySelectorAll('[role="tab"]') as NodeListOf<HTMLElement>;
+    const panels = fixture.nativeElement.querySelectorAll(
+      '[role="tabpanel"]',
+    ) as NodeListOf<HTMLElement>;
+
+    expect(tabs[0].getAttribute('aria-controls')).toBe(panels[0].id);
+    expect(panels[0].getAttribute('aria-labelledby')).toBe(tabs[0].id);
+    expect(tabs[1].getAttribute('aria-controls')).toBe(panels[1].id);
+    expect(panels[1].getAttribute('aria-labelledby')).toBe(tabs[1].id);
+  });
+
   it('hides inactive panels', () => {
     const fixture = createFixture();
     const panels = fixture.nativeElement.querySelectorAll(

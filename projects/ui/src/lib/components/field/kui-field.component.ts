@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Signal,
@@ -24,7 +23,6 @@ let nextFieldId = 0;
   selector: 'kui-field',
   templateUrl: './kui-field.component.html',
   styleUrl: './kui-field.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: KUI_OPTION_CONTEXT, useExisting: KuiFieldComponent }],
   host: {
     class: 'kui-field',

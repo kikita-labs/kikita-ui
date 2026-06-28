@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   OnDestroy,
   PLATFORM_ID,
@@ -164,7 +163,6 @@ interface InternalToastItem {
       }
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiToastRegionComponent implements OnDestroy {

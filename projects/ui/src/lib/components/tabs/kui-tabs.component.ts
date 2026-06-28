@@ -18,6 +18,8 @@ import { KUI_TABS_CONTEXT, KuiTabsContext } from './kui-tabs-context.token';
 
 export type KuiTabsVariant = 'line' | 'pill';
 
+let nextTabsId = 0;
+
 /**
  * Tabs container. Manages selected state and keyboard navigation.
  * Projects `[kuiTab]` into the tablist and `[kuiTabPanel]` below it.
@@ -104,6 +106,7 @@ export class KuiTabsComponent implements KuiTabsContext {
   private readonly tabItems = contentChildren(KuiTabDirective);
   private readonly scrollElRef = viewChild<ElementRef<HTMLElement>>('scrollEl');
   private readonly destroyRef = inject(DestroyRef);
+  private readonly idBase = `kui-tabs-${nextTabsId++}`;
 
   protected readonly canScrollLeft = signal(false);
   protected readonly canScrollRight = signal(false);
@@ -123,6 +126,14 @@ export class KuiTabsComponent implements KuiTabsContext {
     this.selected.set(value);
   }
 
+  tabId(value: string): string {
+    return `${this.idBase}-tab-${this.safeIdPart(value)}`;
+  }
+
+  panelId(value: string): string {
+    return `${this.idBase}-panel-${this.safeIdPart(value)}`;
+  }
+
   protected updateScrollState(): void {
     const el = this.scrollElRef()?.nativeElement;
     if (!el) return;
@@ -132,6 +143,10 @@ export class KuiTabsComponent implements KuiTabsContext {
 
   protected scrollBy(delta: number): void {
     this.scrollElRef()?.nativeElement.scrollBy({ left: delta, behavior: 'smooth' });
+  }
+
+  private safeIdPart(value: string): string {
+    return value.trim().replace(/[^a-zA-Z0-9_-]+/g, '-') || 'empty';
   }
 
   /** @internal */

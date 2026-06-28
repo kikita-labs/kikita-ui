@@ -71,6 +71,7 @@ describe('KuiProgressComponent', () => {
     fixture.detectChanges();
     const fill = el().querySelector('.kui-progress-linear-fill') as HTMLElement;
     expect(fill.style.width).toBe('100%');
+    expect(el().getAttribute('aria-valuenow')).toBe('100');
   });
 
   it('data-kui-color and data-kui-size applied to host', () => {

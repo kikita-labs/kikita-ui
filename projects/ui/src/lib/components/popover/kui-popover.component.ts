@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   NgZone,
@@ -28,6 +27,8 @@ import type {
   KuiPopoverTriggerType,
 } from './kui-popover.types';
 
+let nextPopoverId = 0;
+
 /**
  * Floating content panel anchored to a trigger element.
  *
@@ -49,6 +50,7 @@ import type {
            so CDK-applied transforms on the overlay pane don't cancel the gap offset. -->
       <div [style.transform]="_alignTransform()">
         <div
+          [id]="panelId"
           class="kui-popover"
           [class.kui-popover--in]="!_closing()"
           [class.kui-popover--out]="_closing()"
@@ -67,7 +69,6 @@ import type {
       </div>
     </ng-template>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiPopoverComponent implements OnDestroy {
@@ -94,6 +95,9 @@ export class KuiPopoverComponent implements OnDestroy {
 
   /** Two-way binding for controlled open state. */
   readonly open = model(false);
+
+  /** Stable id used by trigger controls for `aria-controls`. */
+  readonly panelId = `kui-popover-${nextPopoverId++}`;
 
   protected readonly _side = signal<KuiPopoverPlacement>('bottom');
   protected readonly _align = signal<KuiPopoverAlign>('center');

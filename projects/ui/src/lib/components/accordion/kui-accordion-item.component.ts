@@ -64,6 +64,8 @@ let _nextId = 0;
       [id]="bodyId()"
       role="region"
       [attr.aria-labelledby]="triggerId()"
+      [attr.aria-hidden]="isOpen() ? null : 'true'"
+      [attr.inert]="isOpen() ? null : ''"
     >
       <div class="kui-accordion-body-inner">
         <div class="kui-accordion-body-content">

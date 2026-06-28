@@ -28,6 +28,8 @@ import { KuiSelectInputSuffixComponent } from './kui-select-input-suffix.compone
     'aria-haspopup': 'listbox',
     'aria-autocomplete': 'none',
     '[attr.aria-expanded]': 'dropdownOpen()',
+    '[attr.aria-controls]': 'dropdownPanelId()',
+    '[attr.aria-invalid]': 'invalid() ? "true" : null',
     '[attr.placeholder]': 'placeholder()',
     '[attr.disabled]': 'disabled() ? "" : null',
     '[attr.data-has-clear]': 'showClear() ? "" : null',
@@ -98,6 +100,9 @@ export class KuiSelectDirective<T = unknown>
   private readonly selectOpts = inject(KUI_SELECT_OPTIONS, { optional: true });
 
   protected readonly dropdownOpen = computed(() => this.field?.getDropdown()?.isOpen() ?? false);
+  protected readonly dropdownPanelId = computed(
+    () => this.field?.getDropdown()?.getPanelId() ?? null,
+  );
 
   protected readonly effectiveClearable = computed(() => {
     const own = this.clearable();

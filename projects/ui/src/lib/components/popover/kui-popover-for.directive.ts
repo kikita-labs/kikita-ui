@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, inject, input, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, input } from '@angular/core';
 
 import { KuiPopoverComponent } from './kui-popover.component';
 
@@ -16,6 +16,7 @@ import { KuiPopoverComponent } from './kui-popover.component';
   host: {
     '[attr.aria-expanded]': 'kuiPopoverFor().open()',
     '[attr.aria-haspopup]': '"dialog"',
+    '[attr.aria-controls]': 'kuiPopoverFor().panelId',
   },
 })
 export class KuiPopoverForDirective {
@@ -30,14 +31,37 @@ export class KuiPopoverForDirective {
     p.open() ? p.close() : p.openFor(this.el.nativeElement);
   }
 
+  @HostListener('keydown', ['$event'])
+  protected onKeydown(event: KeyboardEvent): void {
+    if (this.kuiPopoverFor().triggerType() !== 'click') return;
+    if (this.el.nativeElement.tagName === 'BUTTON') return;
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+
+    event.preventDefault();
+    this.onClick();
+  }
+
   @HostListener('mouseenter')
   protected onMouseEnter(): void {
     if (this.kuiPopoverFor().triggerType() !== 'hover') return;
     this.kuiPopoverFor().openFor(this.el.nativeElement);
   }
 
+  @HostListener('focusin')
+  protected onFocusIn(): void {
+    if (this.kuiPopoverFor().triggerType() !== 'hover') return;
+    this.kuiPopoverFor().openFor(this.el.nativeElement);
+  }
+
   @HostListener('mouseleave')
   protected onMouseLeave(): void {
+    if (this.kuiPopoverFor().triggerType() !== 'hover') return;
+    const p = this.kuiPopoverFor();
+    p.scheduleClose(p.hoverDelay());
+  }
+
+  @HostListener('focusout')
+  protected onFocusOut(): void {
     if (this.kuiPopoverFor().triggerType() !== 'hover') return;
     const p = this.kuiPopoverFor();
     p.scheduleClose(p.hoverDelay());

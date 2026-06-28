@@ -11,11 +11,14 @@ import {
 
 import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
 
+let nextOptionId = 0;
+
 @Directive({
   selector: '[kuiOption]',
   host: {
     class: 'kui-listbox-option',
     role: 'option',
+    '[attr.id]': 'optionId',
     '[attr.aria-selected]': 'selected()',
     '[attr.aria-disabled]': 'disabled() || null',
     '[attr.tabindex]': 'disabled() ? null : "-1"',
@@ -36,6 +39,7 @@ export class KuiOptionDirective {
 
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly ctx = inject(KUI_OPTION_CONTEXT, { optional: true });
+  protected readonly optionId = `kui-option-${nextOptionId++}`;
 
   constructor() {
     const renderer = inject(Renderer2);

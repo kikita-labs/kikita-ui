@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   inject,
@@ -14,6 +13,8 @@ import {
 } from '@angular/core';
 import { FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+
+let nextDropdownId = 0;
 
 /**
  * Floating listbox panel rendered in an Angular CDK overlay.
@@ -36,6 +37,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
   template: `
     <ng-template #dropdownTpl>
       <div
+        [id]="panelId"
         class="kui-dropdown"
         [class.kui-dropdown--closing]="isClosing()"
         [class.kui-dropdown--scroll]="maxHeight() != null"
@@ -49,7 +51,6 @@ import { TemplatePortal } from '@angular/cdk/portal';
     </ng-template>
   `,
   styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiDropdownComponent implements OnDestroy {
@@ -61,6 +62,9 @@ export class KuiDropdownComponent implements OnDestroy {
 
   /** Whether the panel is currently open. */
   readonly isOpen = signal(false);
+
+  /** Stable id used by trigger controls for `aria-controls`. */
+  readonly panelId = `kui-dropdown-${nextDropdownId++}`;
 
   protected readonly isClosing = signal(false);
 
@@ -90,6 +94,11 @@ export class KuiDropdownComponent implements OnDestroy {
   /** Returns the rendered panel element for keyboard navigation queries. */
   getPanel(): HTMLElement | null {
     return this.overlayRef?.overlayElement.querySelector<HTMLElement>('.kui-dropdown') ?? null;
+  }
+
+  /** Returns the rendered panel id for trigger ARIA wiring. */
+  getPanelId(): string {
+    return this.panelId;
   }
 
   toggle(): void {

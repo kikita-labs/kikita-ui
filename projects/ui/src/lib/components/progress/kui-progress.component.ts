@@ -64,7 +64,7 @@ const CIRCULAR_CONFIGS: Record<string, CircularConfig> = {
     '[attr.data-kui-color]': 'color()',
     '[attr.data-kui-indeterminate]': 'isIndeterminate() ? "true" : null',
     role: 'progressbar',
-    '[attr.aria-valuenow]': 'isIndeterminate() ? null : value()',
+    '[attr.aria-valuenow]': 'isIndeterminate() ? null : clampedValue()',
     'aria-valuemin': '0',
     'aria-valuemax': '100',
   },
@@ -76,10 +76,11 @@ export class KuiProgressComponent {
   readonly size = input<KuiProgressSize>('md');
 
   protected readonly isIndeterminate = computed(() => this.value() === null);
+  protected readonly clampedValue = computed(() => Math.max(0, Math.min(100, this.value() ?? 0)));
 
   protected readonly fillWidth = computed(() => {
     if (this.isIndeterminate()) return null;
-    return `${Math.max(0, Math.min(100, this.value()!))}%`;
+    return `${this.clampedValue()}%`;
   });
 
   protected readonly circCfg = computed(
@@ -89,6 +90,6 @@ export class KuiProgressComponent {
   protected readonly dashOffset = computed(() => {
     const { circumference } = this.circCfg();
     if (this.isIndeterminate()) return circumference * 0.25;
-    return circumference * (1 - Math.max(0, Math.min(100, this.value()!)) / 100);
+    return circumference * (1 - this.clampedValue() / 100);
   });
 }

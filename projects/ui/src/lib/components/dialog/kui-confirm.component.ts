@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, computed, inject, ViewEncapsulation } from '@angular/core';
 
 import { KuiButtonDirective } from '../button/kui-button.directive';
 import { KUI_DIALOG_CONTEXT } from './kui-dialog-context.token';
@@ -55,7 +49,6 @@ import type { KuiConfirmConfig } from './kui-confirm.types';
     </div>
   `,
   imports: [KuiButtonDirective],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiConfirmComponent implements KuiDialogHost<boolean, KuiConfirmConfig> {

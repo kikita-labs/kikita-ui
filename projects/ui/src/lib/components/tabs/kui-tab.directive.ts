@@ -12,11 +12,13 @@ import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
  * ```
  */
 @Directive({
-  selector: '[kuiTab]',
+  selector: 'button[kuiTab]',
   host: {
     class: 'kui-tab',
     role: 'tab',
     type: 'button',
+    '[attr.id]': 'tabId()',
+    '[attr.aria-controls]': 'panelId()',
     '[attr.aria-selected]': 'isSelected()',
     '[attr.tabindex]': 'isSelected() ? 0 : -1',
     '[attr.data-kui-selected]': 'isSelected() ? "" : null',
@@ -31,6 +33,8 @@ export class KuiTabDirective {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
 
   protected readonly isSelected = computed(() => this.context.selected() === this.value());
+  protected readonly tabId = computed(() => this.context.tabId(this.value()));
+  protected readonly panelId = computed(() => this.context.panelId(this.value()));
 
   /** @internal */
   select(): void {

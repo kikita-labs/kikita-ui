@@ -1,7 +1,7 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   ComponentRef,
+  ElementRef,
   EventEmitter,
   signal,
   ViewEncapsulation,
@@ -10,6 +10,8 @@ import {
 import { CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
 import type { KuiDialogAppearance, KuiDialogSize } from './kui-dialog.types';
+
+let nextDialogTitleId = 0;
 
 /**
  * @internal
@@ -27,6 +29,7 @@ import type { KuiDialogAppearance, KuiDialogSize } from './kui-dialog.types';
       (animationend)="onAnimationEnd($event)"
     >
       <div
+        #dialogPanel
         class="kui-dialog"
         [class.kui-dialog--sm]="_size === 'sm'"
         [class.kui-dialog--md]="_size === 'md'"
@@ -45,11 +48,11 @@ import type { KuiDialogAppearance, KuiDialogSize } from './kui-dialog.types';
     </div>
   `,
   imports: [CdkPortalOutlet, CdkTrapFocus],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiDialogContainerComponent {
   private readonly portalOutlet = viewChild.required(CdkPortalOutlet);
+  private readonly dialogPanel = viewChild.required<ElementRef<HTMLElement>>('dialogPanel');
 
   protected readonly isClosing = signal(false);
 
@@ -72,6 +75,7 @@ export class KuiDialogContainerComponent {
     // display:contents removes it from layout so header/body/footer become
     // direct flex children and max-height + overflow-y:auto work correctly.
     (ref.location.nativeElement as HTMLElement).style.display = 'contents';
+    this.bindAccessibleName();
     return ref;
   }
 
@@ -90,5 +94,18 @@ export class KuiDialogContainerComponent {
     if (this.isClosing() && event.animationName === 'kui-bd-out') {
       this.closed.emit(this._closeResult);
     }
+  }
+
+  private bindAccessibleName(): void {
+    const panel = this.dialogPanel().nativeElement;
+    const title = panel.querySelector<HTMLElement>('.kui-dialog-title');
+
+    if (!title) return;
+
+    if (!title.id) {
+      title.id = `kui-dialog-title-${nextDialogTitleId++}`;
+    }
+
+    panel.setAttribute('aria-labelledby', title.id);
   }
 }
