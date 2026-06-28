@@ -23,7 +23,7 @@
       width: 50% !important;
     }
 
-    .kui-progress-circular[data-kui-indeterminate] svg {
+    .kui-progress-circular[data-kui-indeterminate] > svg {
       animation: none !important;
     }
   }
@@ -99,7 +99,7 @@
     --kui-pc: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
   }
 
-  .kui-progress-circular svg {
+  .kui-progress-circular > svg {
     display: block;
     transform: rotate(-90deg);
   }
@@ -142,7 +142,7 @@
   }
 
   /* indeterminate circular */
-  .kui-progress-circular[data-kui-indeterminate] svg {
+  .kui-progress-circular[data-kui-indeterminate] > svg {
     animation: kui-progress-spin var(--kui-progress-duration, 1s) linear infinite;
   }
 }
