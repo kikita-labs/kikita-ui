@@ -11,7 +11,7 @@
       <div>
         <div class="sl-state-label">hover</div>
         <input type="range" kuiSlider value="60" color="primary" size="md" aria-label="hover demo" />
-        <div class="sl-note">Soft ring вокруг thumb</div>
+        <div class="sl-note">Soft ring + tooltip значения</div>
       </div>
       <div>
         <div class="sl-state-label">focus</div>
@@ -67,19 +67,19 @@
   </app-panel>
 
   <!-- p.04 Tooltip -->
-  <app-panel num="04" title="Tooltip" description="showTooltip — появляется при hover и drag">
+  <app-panel num="04" title="Tooltip" description="По умолчанию tooltip со значением; kuiTooltip='текст' — переопределяет на статичный текст">
     <div class="sl-stack">
       <div>
-        <div class="sl-field-label">md · primary · showTooltip — наведи или потяни</div>
-        <input type="range" kuiSlider value="60" size="md" color="primary" showTooltip aria-label="с tooltip" />
+        <div class="sl-field-label">md · primary — наведи, tooltip со значением появится над thumb</div>
+        <input type="range" kuiSlider value="60" size="md" color="primary" aria-label="default tooltip" />
       </div>
       <div>
-        <div class="sl-field-label">lg · success · showTooltip</div>
-        <input type="range" kuiSlider value="35" size="lg" color="success" showTooltip aria-label="success с tooltip" />
+        <div class="sl-field-label">lg · success</div>
+        <input type="range" kuiSlider value="35" size="lg" color="success" aria-label="success tooltip" />
       </div>
       <div>
-        <div class="sl-field-label">sm · danger · showTooltip</div>
-        <input type="range" kuiSlider value="80" size="sm" color="danger" showTooltip aria-label="danger с tooltip" />
+        <div class="sl-field-label">kuiTooltip="Скорость воспроизведения" — статичный текст вместо значения</div>
+        <input type="range" kuiSlider [kuiTooltip]="'Скорость воспроизведения'" value="50" size="md" color="neutral" aria-label="static tooltip" />
       </div>
     </div>
   </app-panel>
@@ -94,10 +94,6 @@
       <div>
         <div class="sl-field-label">Текстовые метки</div>
         <input type="range" kuiSlider value="35" size="md" color="primary" minLabel="Медленно" maxLabel="Быстро" aria-label="скорость" />
-      </div>
-      <div>
-        <div class="sl-field-label">С tooltip + метки</div>
-        <input type="range" kuiSlider value="50" size="md" color="success" showTooltip minLabel="Min" maxLabel="Max" aria-label="с tooltip и метками" />
       </div>
     </div>
   </app-panel>
@@ -171,7 +167,6 @@
         [value]="liveValue()"
         (input)="liveValue.set(+$any($event.target).value)"
         size="md" color="primary"
-        showTooltip
         aria-label="live demo"
         style="margin-bottom:24px"
       />

@@ -44,11 +44,13 @@
     height: 4px;
     background: var(--kui-slider-track-bg, var(--kui-color-border));
     border-radius: var(--kui-slider-track-radius, 9999px);
+    /* Horizontal margin = thumb radius so thumb never overflows container */
+    margin: 0 9px;
   }
 
-  .kui-slider[data-kui-size='sm'] .kui-slider-track { height: 2px; }
-  .kui-slider[data-kui-size='md'] .kui-slider-track { height: 4px; }
-  .kui-slider[data-kui-size='lg'] .kui-slider-track { height: 6px; }
+  .kui-slider[data-kui-size='sm'] .kui-slider-track { height: 2px; margin: 0 7px; }
+  .kui-slider[data-kui-size='md'] .kui-slider-track { height: 4px; margin: 0 9px; }
+  .kui-slider[data-kui-size='lg'] .kui-slider-track { height: 6px; margin: 0 11px; }
 
   /* ── Fill ───────────────────────────────────────────────────────────────── */
 

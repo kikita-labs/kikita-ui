@@ -53,7 +53,16 @@ export class KuiTooltipDirective implements OnDestroy {
   protected show(): void {
     const text = this.kuiTooltip();
     if (!text || !isPlatformBrowser(this.platformId) || this.tooltipEl) return;
+    this.showWithText(text);
+  }
 
+  /** Show tooltip with dynamic text (used by kuiSlider for value display). */
+  showWithText(text: string): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (this.tooltipEl) {
+      this.renderer.setProperty(this.tooltipEl, 'textContent', text);
+      return;
+    }
     const el: HTMLElement = this.renderer.createElement('div');
     this.renderer.setAttribute(el, 'id', this.tooltipId);
     this.renderer.setAttribute(el, 'role', 'tooltip');
@@ -62,8 +71,14 @@ export class KuiTooltipDirective implements OnDestroy {
     this.renderer.setProperty(el, 'textContent', text);
     this.renderer.appendChild(this.document.body, el);
     this.tooltipEl = el;
-
     this.position();
+  }
+
+  /** Update text of an already-visible tooltip. */
+  updateText(text: string): void {
+    if (this.tooltipEl) {
+      this.renderer.setProperty(this.tooltipEl, 'textContent', text);
+    }
   }
 
   /** @internal */

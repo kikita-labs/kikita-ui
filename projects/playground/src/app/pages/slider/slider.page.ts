@@ -1,13 +1,13 @@
 import { Component, ViewEncapsulation, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { KuiFieldComponent, KuiSliderDirective } from '@kikita-labs/ui';
+import { KuiFieldComponent, KuiSliderDirective, KuiTooltipDirective } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-slider-page',
-  imports: [KuiSliderDirective, KuiFieldComponent, PlaygroundPanelComponent, FormsModule],
+  imports: [KuiSliderDirective, KuiTooltipDirective, KuiFieldComponent, PlaygroundPanelComponent, FormsModule],
   templateUrl: './slider.page.html',
   styleUrl: './slider.page.scss',
   encapsulation: ViewEncapsulation.None,

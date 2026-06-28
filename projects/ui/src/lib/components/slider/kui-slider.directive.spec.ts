@@ -18,7 +18,6 @@ import { KuiSliderDirective } from './kui-slider.directive';
       [disabled]="disabled || null"
       [minLabel]="minLabel"
       [maxLabel]="maxLabel"
-      [showTooltip]="showTooltip"
     />
   `,
   imports: [KuiSliderDirective],
@@ -32,7 +31,6 @@ class TestHostComponent {
   disabled = false;
   minLabel = '';
   maxLabel = '';
-  showTooltip = false;
 }
 
 describe('KuiSliderDirective', () => {
