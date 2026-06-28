@@ -16,6 +16,27 @@
   .kui-slider[data-kui-size='md'] { padding: 9px 0; }
   .kui-slider[data-kui-size='lg'] { padding: 11px 0; }
 
+  /* ── Native input — full container overlay ──────────────────────────────── */
+  /*   Lives as direct child of .kui-slider (not inside track) so it covers   */
+  /*   the full height including padding, making thumb fully clickable.        */
+
+  .kui-slider-native {
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    margin: 0;
+    z-index: 1;
+  }
+
+  .kui-slider-native:disabled {
+    cursor: not-allowed;
+  }
+
   /* ── Track ──────────────────────────────────────────────────────────────── */
 
   .kui-slider-track {
@@ -39,7 +60,6 @@
     border-radius: inherit;
     pointer-events: none;
     background: var(--kui-color-primary-fill);
-    transition: width 0ms;
   }
 
   .kui-slider[data-kui-color='primary'] .kui-slider-fill { background: var(--kui-color-primary-fill); }
@@ -74,42 +94,23 @@
   .kui-slider[data-kui-color='danger']  .kui-slider-thumb { background: var(--kui-color-danger-fill);  }
   .kui-slider[data-kui-color='neutral'] .kui-slider-thumb { background: var(--kui-color-text-secondary); }
 
-  /* ── Native input (invisible overlay for interaction) ───────────────────── */
+  /* ── States — native is sibling of track, so we target track's children ── */
 
-  .kui-slider-native {
-    -webkit-appearance: none;
-    appearance: none;
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    margin: 0;
-    z-index: 1;
-  }
-
-  .kui-slider-native:disabled {
-    cursor: not-allowed;
-  }
-
-  /* ── States via native sibling selectors ────────────────────────────────── */
-
-  .kui-slider-native:hover ~ .kui-slider-thumb {
+  .kui-slider-native:hover ~ .kui-slider-track .kui-slider-thumb {
     box-shadow: 0 0 0 5px oklch(0.67 0.2125 285 / 0.22), 0 1px 3px oklch(0 0 0 / 0.3);
   }
 
-  .kui-slider-native:focus-visible ~ .kui-slider-thumb {
+  .kui-slider-native:focus-visible ~ .kui-slider-track .kui-slider-thumb {
     box-shadow: var(--kui-slider-thumb-shadow-focus, 0 0 0 3px var(--kui-color-primary-focus-ring), 0 1px 2px oklch(0 0 0 / 0.3));
   }
 
-  .kui-slider-native:active ~ .kui-slider-thumb {
+  .kui-slider-native:active ~ .kui-slider-track .kui-slider-thumb {
     box-shadow: 0 2px 8px oklch(0 0 0 / 0.5), 0 0 0 4px oklch(0.67 0.2125 285 / 0.15);
   }
 
-  .kui-slider[data-kui-size='sm'] .kui-slider-native:active ~ .kui-slider-thumb { width: 18px; height: 18px; }
-  .kui-slider[data-kui-size='md'] .kui-slider-native:active ~ .kui-slider-thumb { width: 22px; height: 22px; }
-  .kui-slider[data-kui-size='lg'] .kui-slider-native:active ~ .kui-slider-thumb { width: 26px; height: 26px; }
+  .kui-slider[data-kui-size='sm'] .kui-slider-native:active ~ .kui-slider-track .kui-slider-thumb { width: 18px; height: 18px; }
+  .kui-slider[data-kui-size='md'] .kui-slider-native:active ~ .kui-slider-track .kui-slider-thumb { width: 22px; height: 22px; }
+  .kui-slider[data-kui-size='lg'] .kui-slider-native:active ~ .kui-slider-track .kui-slider-thumb { width: 26px; height: 26px; }
 
   /* ── Disabled ────────────────────────────────────────────────────────────── */
 
@@ -143,6 +144,7 @@
     align-items: center;
     pointer-events: none;
     white-space: nowrap;
+    z-index: 2;
   }
 
   .kui-slider-tooltip-text {
