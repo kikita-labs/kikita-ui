@@ -118,19 +118,19 @@
       <div class="pr-circ-demo">
         <div class="pr-field-label">md · 36px · 72%</div>
         <kui-progress type="circular" size="md" color="primary" [value]="72" aria-label="72%">
-          <span style="font-size:10px">72%</span>
+          <span style="font-size:var(--kui-text-2xs-size)">72%</span>
         </kui-progress>
       </div>
       <div class="pr-circ-demo">
         <div class="pr-field-label">lg · 48px · 72%</div>
         <kui-progress type="circular" size="lg" color="primary" [value]="72" aria-label="72%">
-          <span style="font-size:11px">72%</span>
+          <span style="font-size:var(--kui-text-xs-size)">72%</span>
         </kui-progress>
       </div>
       <div class="pr-circ-demo">
         <div class="pr-field-label">xl · success · 100% + icon</div>
         <kui-progress type="circular" size="xl" color="success" [value]="100" aria-label="Готово">
-          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;font-size:var(--kui-text-xs-size)">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0">
               <path d="M3 8L7 12L13 4" stroke="var(--kui-color-success-fill)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -141,13 +141,13 @@
       <div class="pr-circ-demo">
         <div class="pr-field-label">xl · warning · 45%</div>
         <kui-progress type="circular" size="xl" color="warning" [value]="45" aria-label="45%">
-          <span style="font-size:14px">45%</span>
+          <span style="font-size:var(--kui-text-base-size)">45%</span>
         </kui-progress>
       </div>
       <div class="pr-circ-demo">
         <div class="pr-field-label">lg · live · {{ liveValue() }}%</div>
         <kui-progress type="circular" size="lg" color="primary" [value]="liveValue()" [attr.aria-label]="liveValue() + '%'">
-          <span style="font-size:11px">{{ liveValue() }}%</span>
+          <span style="font-size:var(--kui-text-xs-size)">{{ liveValue() }}%</span>
         </kui-progress>
       </div>
     </div>

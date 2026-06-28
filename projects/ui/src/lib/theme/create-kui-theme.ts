@@ -230,6 +230,7 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-space-8': '32px',
     '--kui-space-12': '48px',
     '--kui-space-16': '64px',
+    '--kui-text-2xs-size': '9px',
     '--kui-text-xs-size': '11px',
     '--kui-text-sm-size': '13px',
     '--kui-text-base-size': '14px',
