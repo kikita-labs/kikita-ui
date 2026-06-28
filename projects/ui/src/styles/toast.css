@@ -1,31 +1,94 @@
 @layer kui.components {
   @keyframes kui-toast-in-b {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   @keyframes kui-toast-in-t {
-    from { opacity: 0; transform: translateY(-10px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   @keyframes kui-toast-out-b {
-    from { opacity: 1; transform: translateY(0); }
-    to   { opacity: 0; transform: translateY(6px); }
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(6px);
+    }
   }
   @keyframes kui-toast-out-t {
-    from { opacity: 1; transform: translateY(0); }
-    to   { opacity: 0; transform: translateY(-6px); }
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
   }
   @keyframes kui-toast-prog {
-    from { width: 100%; }
-    to   { width: 0%; }
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0%;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    @keyframes kui-toast-in-b  { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes kui-toast-in-t  { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes kui-toast-out-b { from { opacity: 1; } to { opacity: 0; } }
-    @keyframes kui-toast-out-t { from { opacity: 1; } to { opacity: 0; } }
-    @keyframes kui-toast-prog  { from { width: 100%; } to { width: 0%; } }
+    @keyframes kui-toast-in-b {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes kui-toast-in-t {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes kui-toast-out-b {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+    @keyframes kui-toast-out-t {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+    @keyframes kui-toast-prog {
+      from {
+        width: 100%;
+      }
+      to {
+        width: 0%;
+      }
+    }
   }
 
   /* ── Region ─────────────────────────────────────────────────────────────── */
@@ -101,8 +164,7 @@
     display: flex;
     align-items: flex-start;
     gap: var(--kui-toast-gap, var(--kui-space-3));
-    padding:
-      var(--kui-toast-padding-y, var(--kui-space-3))
+    padding: var(--kui-toast-padding-y, var(--kui-space-3))
       var(--kui-toast-padding-x, var(--kui-space-4));
     background: var(--kui-toast-bg, var(--kui-color-surface-elevated));
     border: 1px solid var(--kui-toast-border, var(--kui-color-border));

@@ -1,5 +1,4 @@
 <div class="page">
-
   <!-- p.01 Appearances -->
   <app-panel num="01" title="Appearances">
     <div class="toast-btn-row">
@@ -22,19 +21,20 @@
   <!-- p.03 Position -->
   <app-panel num="03" title="Position">
     <div class="toast-position-row">
-      <span class="toast-position-label">Позиция региона:</span>
+      <span class="toast-position-label">Region position:</span>
       @for (p of positions; track p) {
         <button
           kuiButton
           [appearance]="position() === p ? 'solid' : 'outline'"
           (click)="setPosition(p)"
-        >{{ p }}</button>
+        >
+          {{ p }}
+        </button>
       }
     </div>
     <p class="toast-note">
-      По умолчанию <code>bottom-center</code>. Переключение обновляет существующий регион.
-      Кнопки выше показывают тосты в текущей позиции.
+      Default is <code>bottom-center</code>. Switching updates the existing region. Buttons above
+      show toasts in the current position.
     </p>
   </app-panel>
-
 </div>

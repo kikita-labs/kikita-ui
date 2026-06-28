@@ -37,7 +37,8 @@
     text-align: left;
     min-height: var(--kui-accordion-trigger-height, 44px);
     outline: none;
-    transition: background-color var(--kui-accordion-duration, var(--kui-duration-base)) var(--kui-ease);
+    transition: background-color var(--kui-accordion-duration, var(--kui-duration-base))
+      var(--kui-ease);
   }
 
   .kui-accordion-trigger:hover {
@@ -89,7 +90,8 @@
   .kui-accordion-body-wrap {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows var(--kui-accordion-duration, var(--kui-duration-base)) var(--kui-ease);
+    transition: grid-template-rows var(--kui-accordion-duration, var(--kui-duration-base))
+      var(--kui-ease);
   }
 
   .kui-accordion-body-wrap.is-open {
@@ -101,7 +103,8 @@
   }
 
   .kui-accordion-body-content {
-    padding: var(--kui-space-1) var(--kui-accordion-padding-x, var(--kui-space-4)) var(--kui-space-4);
+    padding: var(--kui-space-1) var(--kui-accordion-padding-x, var(--kui-space-4))
+      var(--kui-space-4);
     font-size: var(--kui-text-sm-size);
     color: var(--kui-accordion-body-text, var(--kui-color-text-secondary));
     line-height: 1.65;

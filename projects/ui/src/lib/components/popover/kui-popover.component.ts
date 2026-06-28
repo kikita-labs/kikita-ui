@@ -14,10 +14,19 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { ConnectedPosition, FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
+import {
+  ConnectedPosition,
+  FlexibleConnectedPositionStrategy,
+  Overlay,
+  OverlayRef,
+} from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 
-import type { KuiPopoverAlign, KuiPopoverPlacement, KuiPopoverTriggerType } from './kui-popover.types';
+import type {
+  KuiPopoverAlign,
+  KuiPopoverPlacement,
+  KuiPopoverTriggerType,
+} from './kui-popover.types';
 
 /**
  * Floating content panel anchored to a trigger element.
@@ -95,10 +104,20 @@ export class KuiPopoverComponent implements OnDestroy {
     const aln = this._align();
     const horiz = side === 'top' || side === 'bottom';
     const tx = horiz
-      ? aln === 'center' ? 'translateX(-50%)' : aln === 'end' ? 'translateX(-100%)' : ''
-      : side === 'left' ? 'translateX(-100%)' : '';
+      ? aln === 'center'
+        ? 'translateX(-50%)'
+        : aln === 'end'
+          ? 'translateX(-100%)'
+          : ''
+      : side === 'left'
+        ? 'translateX(-100%)'
+        : '';
     const ty = !horiz
-      ? aln === 'center' ? 'translateY(-50%)' : aln === 'end' ? 'translateY(-100%)' : ''
+      ? aln === 'center'
+        ? 'translateY(-50%)'
+        : aln === 'end'
+          ? 'translateY(-100%)'
+          : ''
       : '';
     return [tx, ty].filter(Boolean).join(' ') || null;
   });
@@ -233,8 +252,13 @@ export class KuiPopoverComponent implements OnDestroy {
     this._openSubs = [
       posSub,
       escapeSub,
-      { unsubscribe: () => document.removeEventListener('mousedown', outsideHandler, { capture: true }) },
-      { unsubscribe: () => document.removeEventListener('scroll', scrollHandler, { capture: true }) },
+      {
+        unsubscribe: () =>
+          document.removeEventListener('mousedown', outsideHandler, { capture: true }),
+      },
+      {
+        unsubscribe: () => document.removeEventListener('scroll', scrollHandler, { capture: true }),
+      },
     ];
 
     if (this.trapFocus()) {
@@ -261,17 +285,30 @@ export class KuiPopoverComponent implements OnDestroy {
     return [this._makePosition(pref, aln, gap), this._makePosition(flip[pref], aln, gap)];
   }
 
-  private _makePosition(side: KuiPopoverPlacement, aln: KuiPopoverAlign, gap: number): ConnectedPosition {
+  private _makePosition(
+    side: KuiPopoverPlacement,
+    aln: KuiPopoverAlign,
+    gap: number,
+  ): ConnectedPosition {
     const h = aln === 'start' ? 'start' : aln === 'end' ? 'end' : 'center'; // originX for top/bottom
     const v = aln === 'start' ? 'top' : aln === 'end' ? 'bottom' : 'center'; // originY for left/right
 
     // CDK 22: never use overlayX/Y 'center'/'end' — pane size=0 before paint → wrong pos.
     // Always 'start'; alignment compensated by _alignTransform on inner wrapper div.
     // offsetX/Y sign used to identify side in _sideFromPair (unambiguous).
-    if (side === 'bottom') return { originX: h, originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: gap };
-    if (side === 'top')    return { originX: h, originY: 'top',    overlayX: 'start', overlayY: 'bottom', offsetY: -gap };
-    if (side === 'right')  return { originX: 'end',   originY: v, overlayX: 'start', overlayY: 'top', offsetX: gap };
-    /* left */             return { originX: 'start', originY: v, overlayX: 'start', overlayY: 'top', offsetX: -gap };
+    if (side === 'bottom')
+      return { originX: h, originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: gap };
+    if (side === 'top')
+      return { originX: h, originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -gap };
+    if (side === 'right')
+      return { originX: 'end', originY: v, overlayX: 'start', overlayY: 'top', offsetX: gap };
+    /* left */ return {
+      originX: 'start',
+      originY: v,
+      overlayX: 'start',
+      overlayY: 'top',
+      offsetX: -gap,
+    };
   }
 
   private _sideFromPair(pair: ConnectedPosition): KuiPopoverPlacement {

@@ -1,8 +1,8 @@
 <div class="pg-page">
   <h1 class="pg-title">Dialog</h1>
   <p class="pg-desc">
-    Modal overlay with backdrop and header / body / footer structure.
-    Opened imperatively via <code>kuiDialog()</code>. Supports typed data and result.
+    Modal overlay with backdrop and header / body / footer structure. Opened imperatively via
+    <code>kuiDialog()</code>. Supports typed data and result.
   </p>
 
   <!-- Panel 01: sizes -->
@@ -12,8 +12,10 @@
     description="sm (400px), md (560px, default), lg (720px). All share the same dialog structure."
   >
     <div class="component-board">
-      <div class="state-board__row" style="gap:8px;flex-wrap:wrap">
-        <button kuiButton appearance="outline" type="button" (click)="showEditAuto()">Open auto</button>
+      <div class="state-board__row" style="gap: 8px; flex-wrap: wrap">
+        <button kuiButton appearance="outline" type="button" (click)="showEditAuto()">
+          Open auto
+        </button>
         <button kuiButton appearance="outline" type="button" (click)="showEditSm()">Open sm</button>
         <button kuiButton appearance="outline" type="button" (click)="showEditMd()">Open md</button>
         <button kuiButton appearance="outline" type="button" (click)="showEditLg()">Open lg</button>
@@ -30,7 +32,9 @@
   >
     <div class="component-board">
       <div class="state-board__row">
-        <button kuiButton appearance="danger" type="button" (click)="showDelete()">Delete account</button>
+        <button kuiButton appearance="danger" type="button" (click)="showDelete()">
+          Delete account
+        </button>
       </div>
       <code>result: {{ resultDelete() }}</code>
     </div>
@@ -44,7 +48,9 @@
   >
     <div class="component-board">
       <div class="state-board__row">
-        <button kuiButton appearance="outline" type="button" (click)="showLongBody()">Open long body</button>
+        <button kuiButton appearance="outline" type="button" (click)="showLongBody()">
+          Open long body
+        </button>
       </div>
     </div>
   </app-panel>
@@ -57,7 +63,9 @@
   >
     <div class="component-board">
       <div class="state-board__row">
-        <button kuiButton appearance="outline" type="button" (click)="showNoClose()">Open no-close button</button>
+        <button kuiButton appearance="outline" type="button" (click)="showNoClose()">
+          Open no-close button
+        </button>
       </div>
       <code>result: {{ resultNoClose() }}</code>
     </div>
@@ -71,7 +79,9 @@
   >
     <div class="component-board">
       <div class="state-board__row">
-        <button kuiButton appearance="outline" type="button" (click)="showNoDismiss()">Open locked</button>
+        <button kuiButton appearance="outline" type="button" (click)="showNoDismiss()">
+          Open locked
+        </button>
       </div>
       <code>result: {{ resultNoDismiss() }}</code>
     </div>
@@ -84,10 +94,16 @@
     description="Pre-built confirmation dialog. kuiConfirm() returns Observable&lt;boolean&gt;. Always dismissable: false — user must choose."
   >
     <div class="component-board">
-      <div class="state-board__row" style="gap:8px;flex-wrap:wrap">
-        <button kuiButton appearance="outline" type="button" (click)="showConfirmDefault()">Default</button>
-        <button kuiButton appearance="outline" type="button" (click)="showConfirmDanger()">Danger</button>
-        <button kuiButton appearance="outline" type="button" (click)="showConfirmWarning()">Warning</button>
+      <div class="state-board__row" style="gap: 8px; flex-wrap: wrap">
+        <button kuiButton appearance="outline" type="button" (click)="showConfirmDefault()">
+          Default
+        </button>
+        <button kuiButton appearance="outline" type="button" (click)="showConfirmDanger()">
+          Danger
+        </button>
+        <button kuiButton appearance="outline" type="button" (click)="showConfirmWarning()">
+          Warning
+        </button>
       </div>
       <code>result: {{ resultConfirm() }}</code>
     </div>

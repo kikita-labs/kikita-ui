@@ -18,6 +18,8 @@ This repository contains Kikita UI, an Angular 22+ UI library and design system.
 - Components must support light/dark theming, responsive layout, disabled/focus/hover/active states, and SSR-safe implementation.
 - Do not build components without a real roadmap need.
 - Do not copy Taiga UI, Angular Material, Ant Design, PrimeNG, shadcn, Bootstrap, or Tailwind UI visuals/API.
+- All git-tracked repository content must be written in English: code comments, docs, examples, ARIA labels, playground text, test names, commit-facing notes, and default UI strings.
+- Do not add Cyrillic text or mojibake/garbled encoding to tracked files. Local untracked notes may use any language.
 
 ## Component Architecture
 
@@ -26,15 +28,34 @@ This repository contains Kikita UI, an Angular 22+ UI library and design system.
 - Use signal inputs/models/queries for public APIs and internal state.
 - Template-facing internal members should be `protected`; implementation-only members should be `private`.
 - Public primitives must be exported from `projects/ui/src/lib/components/index.ts` and their local component barrel.
-- When adding a public primitive, update all of these in the same change unless explicitly deferred:
+- When adding or changing a public primitive, update all of these in the same change unless explicitly deferred:
   - component/directive implementation
   - public barrel exports
   - `projects/ui/src/styles/<primitive>.css`
   - `projects/ui/src/styles/kikita-ui.css`
-  - docs page
+  - docs page in `docs/<primitive>.md`
   - playground page
   - `docs/state-coverage.md`
+  - `docs/component-roadmap.md`
   - focused unit tests for public behavior
+- Do not mark a roadmap/state-coverage item as done unless the public implementation, style entrypoint, docs page, playground route, and tests all exist.
+- If a primitive is intentionally documented inside another page, make that explicit in `docs/state-coverage.md` and `docs/component-roadmap.md` (for example, `Confirm` is documented in `docs/dialog.md`).
+
+## Component Delivery Checklist
+
+Before finishing a new public component/directive/service/provider, verify this checklist:
+
+- The matching Claude Design spec exists under `.local-notes/claude-design/design system/`; if it does not exist, stop and ask for the spec.
+- Public API has JSDoc on exported components, directives, providers, services, types, and tokens.
+- The primitive is exported from its local `index.ts`, `projects/ui/src/lib/components/index.ts`, and `projects/ui/src/public-api.ts` when applicable.
+- Runtime styles live in `projects/ui/src/styles/<primitive>.css`, use `@layer kui.components`, and consume only `--kui-*` tokens for design values.
+- `projects/ui/src/styles/kikita-ui.css` imports the primitive style file.
+- A docs page exists at `docs/<primitive>.md` with import, usage, inputs/outputs, accessibility notes, and style import notes.
+- The playground route exists under `projects/playground/src/app/pages/<primitive>/` and demonstrates real states, sizes, themes, disabled/focus/hover/active behavior where relevant.
+- `docs/state-coverage.md` lists the route and covered states.
+- `docs/component-roadmap.md` reflects the true status and any known gaps.
+- Unit tests cover public behavior and important accessibility/state wiring.
+- `pnpm build`, `pnpm build:playground`, and relevant tests pass, or the failure is documented with the exact reason.
 
 ## Style Architecture
 

@@ -10,6 +10,6 @@ export interface KuiConfirmConfig {
   appearance?: KuiDialogAppearance;
   /** Label for the confirm button. Defaults to `'OK'`. */
   confirmLabel?: string;
-  /** Label for the cancel button. Defaults to `'Отмена'`. */
+  /** Label for the cancel button. Defaults to `'Cancel'`. */
   cancelLabel?: string;
 }

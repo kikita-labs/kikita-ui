@@ -4,36 +4,37 @@ This is the current local playground coverage for public Kikita UI primitives.
 
 ## Covered
 
-| Primitive  | Playground route | Covered states or variants                                                 |
-| ---------- | ---------------- | -------------------------------------------------------------------------- |
-| Button     | `/button`        | default, hover, active, focus, disabled, appearances, sizes                |
-| IconButton | `/button`        | default, hover, active, focus, disabled, appearances, sizes                |
-| Icon       | `/icons`         | registry icon, direct source, image URL fallback, icon button composition  |
-| Field      | `/field`         | label, hint, error, required marker, ARIA description wiring, sizes        |
-| Input      | `/input`         | default, hover, focus, error, disabled, sizes                              |
-| Textarea   | `/textarea`      | default, error, disabled, native multiline resize behavior                 |
-| Checkbox   | `/checkbox`      | unchecked, checked, hover, focus, invalid, disabled, sizes, field wiring   |
-| Switch     | `/switch`        | off, on, hover, focus, invalid, disabled, sizes, field wiring              |
-| Radio      | `/radio`         | unchecked, checked, hover, focus, invalid, disabled, sizes, field wiring   |
-| Badge      | `/badge`         | neutral, primary, success, warning, danger, info, sizes, host elements     |
-| Loader     | `/loader`        | sizes, standalone status, button composition                               |
-| Card       | `/card`          | surface, elevated, sunken, interactive button-backed card, sizes           |
-| Group      | `/group`         | horizontal, vertical, collapsed, icon composition                          |
-| Tabs       | `/tabs`          | line, pill, selected, hover, focus, disabled, sizes, overflow scroll       |
-| Tooltip    | `/tooltip`       | hover/focus trigger, top/right/bottom/left placement, empty text guard     |
-| Segmented  | `/segmented`     | selected, focus, disabled, sizes, keyboard navigation preview              |
-| Table      | `/table`         | sizes, sortable headers, selection cells, sticky header/column composition |
-| Density    | `/density`       | compact, regular, comfortable scopes, constrained mobile preview           |
-| Dropdown   | `/dropdown`      | open/close animation, flip (above/below), Escape, click-outside, CDK overlay |
-| Select     | `/select`        | string options, object options + labelFn, clearable, disabled, Signal Forms   |
-| Dialog     | `/dialog`        | auto/sm/md/lg sizes, appearance (default/danger/warning), dialog-icon, destructive variant, body scroll, closable: false, dismissable: false |
-| Confirm    | `/dialog` p.06   | default, danger (icon + danger button), warning (icon + solid button)         |
-| Toast      | `/toast`         | all 5 appearances, title-only, title+message, title+action, progress bar, all 6 positions, eviction at max 3 |
-| Popover    | `/popover`       | all 4 placements, 3 align variants, arrow on/off, content examples (info/confirm/form), hover trigger |
-| Accordion  | `/accordion`     | 3 appearances (default/bordered/ghost), 3 sizes, exclusive mode, multi mode, disabled item, dark/light themes, content examples (text/actions/form) |
-| Progress   | `/progress`      | linear: 4 sizes × 5 colors, indeterminate, live slider, label compositions; circular: 4 sizes × 5 colors, center label slot, indeterminate spin, dark/light themes |
+| Primitive  | Playground route | Covered states or variants                                                                                                                                              |
+| ---------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Button     | `/button`        | default, hover, active, focus, disabled, appearances, sizes                                                                                                             |
+| IconButton | `/button`        | default, hover, active, focus, disabled, appearances, sizes                                                                                                             |
+| Icon       | `/icons`         | registry icon, direct source, image URL fallback, icon button composition                                                                                               |
+| Field      | `/field`         | label, hint, error, required marker, ARIA description wiring, sizes                                                                                                     |
+| Input      | `/input`         | default, hover, focus, error, disabled, sizes                                                                                                                           |
+| Textarea   | `/textarea`      | default, error, disabled, native multiline resize behavior                                                                                                              |
+| Checkbox   | `/checkbox`      | unchecked, checked, hover, focus, invalid, disabled, sizes, field wiring                                                                                                |
+| Switch     | `/switch`        | off, on, hover, focus, invalid, disabled, sizes, field wiring                                                                                                           |
+| Radio      | `/radio`         | unchecked, checked, hover, focus, invalid, disabled, sizes, field wiring                                                                                                |
+| Badge      | `/badge`         | neutral, primary, success, warning, danger, info, sizes, host elements                                                                                                  |
+| Loader     | `/loader`        | sizes, standalone status, button composition                                                                                                                            |
+| Card       | `/card`          | surface, elevated, sunken, interactive button-backed card, sizes                                                                                                        |
+| Group      | `/group`         | horizontal, vertical, collapsed, icon composition                                                                                                                       |
+| Tabs       | `/tabs`          | line, pill, selected, hover, focus, disabled, sizes, overflow scroll                                                                                                    |
+| Tooltip    | `/tooltip`       | hover/focus trigger, top/right/bottom/left placement, empty text guard                                                                                                  |
+| Segmented  | `/segmented`     | selected, focus, disabled, sizes, keyboard navigation preview                                                                                                           |
+| Table      | `/table`         | sizes, sortable headers, selection cells, sticky header/column composition                                                                                              |
+| Density    | `/density`       | compact, regular, comfortable scopes, constrained mobile preview                                                                                                        |
+| Dropdown   | `/dropdown`      | open/close animation, flip above/below, Escape, click-outside, CDK overlay                                                                                              |
+| Select     | `/select`        | string options, object options with labelFn, clearable, disabled, Signal Forms                                                                                          |
+| Dialog     | `/dialog`        | auto/sm/md/lg sizes, default/danger/warning appearances, icon, body scroll, closable false, dismissable false                                                           |
+| Confirm    | `/dialog` p.06   | default, danger, warning                                                                                                                                                |
+| Toast      | `/toast`         | five appearances, title-only, title/message, action, progress bar, six positions, max-three eviction                                                                    |
+| Popover    | `/popover`       | four placements, three alignments, arrow on/off, info/confirm/form content, hover trigger                                                                               |
+| Accordion  | `/accordion`     | default/bordered/ghost appearances, sizes, exclusive mode, multi mode, disabled item, dark/light themes                                                                 |
+| Progress   | `/progress`      | linear and circular variants, sizes, colors, indeterminate states, labels, live slider composition, dark/light themes                                                   |
+| Slider     | `/slider`        | states, sm/md/lg sizes, primary/success/danger/neutral colors, value tooltip, static tooltip override, min/max labels, field composition, live demo, dark/light, mobile |
 
 ## Current Gaps
 
 - Browser screenshot baselines are still local-only, not committed visual regression tests.
-- Full accessibility review is still needed for newer composite primitives, especially Table, Tooltip, Tabs, and Segmented.
+- Full accessibility review is still needed for newer composite and overlay primitives, especially Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider.

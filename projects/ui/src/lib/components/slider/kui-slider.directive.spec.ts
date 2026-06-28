@@ -1,6 +1,5 @@
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { describe, it, expect, beforeEach } from 'vitest';
 
 import { KuiSliderDirective } from './kui-slider.directive';
@@ -10,27 +9,27 @@ import { KuiSliderDirective } from './kui-slider.directive';
     <input
       type="range"
       kuiSlider
-      [attr.min]="min"
-      [attr.max]="max"
-      [attr.value]="value"
-      [color]="color"
-      [size]="size"
-      [disabled]="disabled || null"
-      [minLabel]="minLabel"
-      [maxLabel]="maxLabel"
+      [attr.min]="min()"
+      [attr.max]="max()"
+      [value]="value()"
+      [color]="color()"
+      [size]="size()"
+      [disabled]="disabled() || null"
+      [minLabel]="minLabel()"
+      [maxLabel]="maxLabel()"
     />
   `,
   imports: [KuiSliderDirective],
 })
 class TestHostComponent {
-  value = 50;
-  min = 0;
-  max = 100;
-  color: 'primary' | 'success' | 'danger' | 'neutral' = 'primary';
-  size: 'sm' | 'md' | 'lg' = 'md';
-  disabled = false;
-  minLabel = '';
-  maxLabel = '';
+  readonly value = signal(50);
+  readonly min = signal(0);
+  readonly max = signal(100);
+  readonly color = signal<'primary' | 'success' | 'danger' | 'neutral'>('primary');
+  readonly size = signal<'sm' | 'md' | 'lg'>('md');
+  readonly disabled = signal(false);
+  readonly minLabel = signal('');
+  readonly maxLabel = signal('');
 }
 
 describe('KuiSliderDirective', () => {
@@ -38,23 +37,19 @@ describe('KuiSliderDirective', () => {
   let host: TestHostComponent;
 
   function native() {
-    return fixture.debugElement.query(By.css('.kui-slider-native'))
-      ?.nativeElement as HTMLInputElement;
+    return fixture.nativeElement.querySelector('.kui-slider-native') as HTMLInputElement;
   }
 
   function container() {
-    return fixture.debugElement.query(By.css('.kui-slider'))
-      ?.nativeElement as HTMLElement;
+    return fixture.nativeElement.querySelector('.kui-slider') as HTMLElement;
   }
 
   function fill() {
-    return fixture.debugElement.query(By.css('.kui-slider-fill'))
-      ?.nativeElement as HTMLElement;
+    return fixture.nativeElement.querySelector('.kui-slider-fill') as HTMLElement;
   }
 
   function thumb() {
-    return fixture.debugElement.query(By.css('.kui-slider-thumb'))
-      ?.nativeElement as HTMLElement;
+    return fixture.nativeElement.querySelector('.kui-slider-thumb') as HTMLElement;
   }
 
   beforeEach(async () => {
@@ -91,13 +86,13 @@ describe('KuiSliderDirective', () => {
   });
 
   it('fill width is 0% when value equals min', () => {
-    host.value = 0;
+    host.value.set(0);
     fixture.detectChanges();
     expect(fill().style.width).toBe('0%');
   });
 
   it('fill width is 100% when value equals max', () => {
-    host.value = 100;
+    host.value.set(100);
     fixture.detectChanges();
     expect(fill().style.width).toBe('100%');
   });
@@ -107,25 +102,25 @@ describe('KuiSliderDirective', () => {
   });
 
   it('no labels div when labels empty', () => {
-    expect(fixture.debugElement.query(By.css('.kui-slider-labels'))).toBeNull();
+    expect(fixture.nativeElement.querySelector('.kui-slider-labels')).toBeNull();
   });
 
   it('renders labels div when minLabel provided', () => {
-    host.minLabel = '0';
-    host.maxLabel = '100';
+    host.minLabel.set('0');
+    host.maxLabel.set('100');
     fixture.detectChanges();
-    const labels = fixture.debugElement.query(By.css('.kui-slider-labels'));
+    const labels = fixture.nativeElement.querySelector('.kui-slider-labels');
     expect(labels).not.toBeNull();
   });
 
   it('changes color attribute when input changes', () => {
-    host.color = 'success';
+    host.color.set('success');
     fixture.detectChanges();
     expect(container().dataset['kuiColor']).toBe('success');
   });
 
   it('changes size attribute when input changes', () => {
-    host.size = 'lg';
+    host.size.set('lg');
     fixture.detectChanges();
     expect(container().dataset['kuiSize']).toBe('lg');
   });

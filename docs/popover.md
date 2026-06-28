@@ -46,16 +46,16 @@ Floating content panel anchored to a trigger element. Unlike Tooltip (text only,
 
 ## KuiPopoverComponent inputs
 
-| Input | Type | Default | Description |
-|---|---|---|---|
-| `placement` | `KuiPopoverPlacement` | `'bottom'` | Preferred side. Auto-flips to fit in viewport. |
-| `align` | `KuiPopoverAlign` | `'center'` | Alignment along the anchor edge. |
-| `arrow` | `boolean` | `false` | Show the arrow caret pointing to the anchor. |
-| `triggerType` | `KuiPopoverTriggerType` | `'click'` | `click`: toggle on click, close on outside click/ESC. `hover`: open on mouseenter, close on mouseleave. |
-| `hoverDelay` | `number` | `100` | Delay (ms) before closing on mouseleave — lets the mouse travel to the panel. |
-| `offset` | `number` | `8` | Gap in px between anchor and panel. Arrow adds 6 px automatically. |
-| `trapFocus` | `boolean` | `false` | Focus the first focusable element in the panel on open. |
-| `open` | `boolean` (model) | `false` | Two-way binding for controlled open state. |
+| Input         | Type                    | Default    | Description                                                                                             |
+| ------------- | ----------------------- | ---------- | ------------------------------------------------------------------------------------------------------- |
+| `placement`   | `KuiPopoverPlacement`   | `'bottom'` | Preferred side. Auto-flips to fit in viewport.                                                          |
+| `align`       | `KuiPopoverAlign`       | `'center'` | Alignment along the anchor edge.                                                                        |
+| `arrow`       | `boolean`               | `false`    | Show the arrow caret pointing to the anchor.                                                            |
+| `triggerType` | `KuiPopoverTriggerType` | `'click'`  | `click`: toggle on click, close on outside click/ESC. `hover`: open on mouseenter, close on mouseleave. |
+| `hoverDelay`  | `number`                | `100`      | Delay (ms) before closing on mouseleave — lets the mouse travel to the panel.                           |
+| `offset`      | `number`                | `8`        | Gap in px between anchor and panel. Arrow adds 6 px automatically.                                      |
+| `trapFocus`   | `boolean`               | `false`    | Focus the first focusable element in the panel on open.                                                 |
+| `open`        | `boolean` (model)       | `false`    | Two-way binding for controlled open state.                                                              |
 
 ## KuiPopoverForDirective
 
@@ -65,7 +65,7 @@ Add `[kuiPopoverFor]="ref"` to any element to make it a trigger. Sets `aria-expa
 
 ```ts
 type KuiPopoverPlacement = 'top' | 'bottom' | 'left' | 'right';
-type KuiPopoverAlign     = 'start' | 'center' | 'end';
+type KuiPopoverAlign = 'start' | 'center' | 'end';
 type KuiPopoverTriggerType = 'click' | 'hover';
 ```
 
@@ -85,27 +85,27 @@ bottom-start bottom-center bottom-end   ← default
 
 Optional CSS class names for common layouts:
 
-| Class | Description |
-|---|---|
+| Class                | Description                                 |
+| -------------------- | ------------------------------------------- |
 | `.kui-popover-title` | Semi-bold sm text, `margin-bottom: space-2` |
-| `.kui-popover-desc` | Secondary sm text, line-height 1.55 |
+| `.kui-popover-desc`  | Secondary sm text, line-height 1.55         |
 
 All other layout (buttons, forms, images) is developer-provided via `<ng-content>`.
 
 ## CSS custom properties
 
-| Token | Default | Description |
-|---|---|---|
-| `--kui-popover-bg` | `--kui-color-surface-elevated` | Panel background |
-| `--kui-popover-border` | `--kui-color-border` | Border colour |
-| `--kui-popover-radius` | `--kui-radius-lg` | Corner radius |
-| `--kui-popover-shadow` | `--kui-shadow-lg` | Drop shadow |
-| `--kui-popover-padding-x` | `--kui-space-4` | Horizontal padding |
-| `--kui-popover-padding-y` | `--kui-space-4` | Vertical padding |
-| `--kui-popover-min-width` | `160px` | Minimum panel width |
-| `--kui-popover-max-width` | `320px` | Maximum panel width |
-| `--kui-popover-arrow-size` | `10px` | Arrow caret size |
-| `--kui-z-popover` | `400` | z-index (between Dropdown 300 and Dialog 500) |
+| Token                      | Default                        | Description                                   |
+| -------------------------- | ------------------------------ | --------------------------------------------- |
+| `--kui-popover-bg`         | `--kui-color-surface-elevated` | Panel background                              |
+| `--kui-popover-border`     | `--kui-color-border`           | Border colour                                 |
+| `--kui-popover-radius`     | `--kui-radius-lg`              | Corner radius                                 |
+| `--kui-popover-shadow`     | `--kui-shadow-lg`              | Drop shadow                                   |
+| `--kui-popover-padding-x`  | `--kui-space-4`                | Horizontal padding                            |
+| `--kui-popover-padding-y`  | `--kui-space-4`                | Vertical padding                              |
+| `--kui-popover-min-width`  | `160px`                        | Minimum panel width                           |
+| `--kui-popover-max-width`  | `320px`                        | Maximum panel width                           |
+| `--kui-popover-arrow-size` | `10px`                         | Arrow caret size                              |
+| `--kui-z-popover`          | `400`                          | z-index (between Dropdown 300 and Dialog 500) |
 
 ## Behaviour
 

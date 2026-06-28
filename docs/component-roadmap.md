@@ -30,13 +30,13 @@
 
 - Select (done as `kui-select`; self-contained positioning, will refactor to use Dropdown primitive)
 - Dropdown (done as `kui-dropdown` + `[kuiDropdownFor]` + `[kuiOption]`; field auto-wiring via `contentChild`)
-- Popover
-- Dialog
-- Confirm
-- Toast
-- Accordion
-- Progress
-- Slider
+- Popover (done as `kui-popover` + `[kuiPopoverFor]`)
+- Dialog (done as `kui-dialog` + dialog service)
+- Confirm (done as `kuiConfirm()` on top of Dialog)
+- Toast (done as toast provider/service + viewport)
+- Accordion (done as `kui-accordion`)
+- Progress (done as `kui-progress`)
+- Slider (done as `input[type=range][kuiSlider]`)
 - Number input
 
 ## Later
@@ -80,4 +80,4 @@ Current primitive state coverage is tracked in `docs/state-coverage.md`.
 
 After that, migrate one isolated low-risk screen first. Avoid mixed Taiga/Kikita surfaces unless the screen is explicitly a migration sandbox.
 
-Docs pages exist for all Phase 2 primitives. Accessibility review for Table, Tooltip, Tabs, and Segmented is still pending.
+Docs pages exist for all implemented primitives through Slider. Accessibility review for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider is still pending.

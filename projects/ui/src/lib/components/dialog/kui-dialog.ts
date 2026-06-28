@@ -44,9 +44,12 @@ export function kuiDialog<TComponent extends KuiDialogHost<unknown, unknown>>(
   const service = inject(KuiDialogService);
   const injector = inject(Injector);
   return (data: InferDialogData<TComponent>) =>
-    service.open(component as Type<KuiDialogHost<InferDialogResult<TComponent>, InferDialogData<TComponent>>>, {
-      ...config,
-      data,
-      injector,
-    });
+    service.open(
+      component as Type<KuiDialogHost<InferDialogResult<TComponent>, InferDialogData<TComponent>>>,
+      {
+        ...config,
+        data,
+        injector,
+      },
+    );
 }

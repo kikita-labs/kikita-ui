@@ -17,33 +17,40 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 // ── Demo dialog: basic form ────────────────────────────────────────────────
 
-interface EditData { name: string }
+interface EditData {
+  name: string;
+}
 type EditResult = 'saved' | null;
 
 @Component({
   selector: 'app-edit-dialog',
   template: `
     <div class="kui-dialog-header">
-      <h2 class="kui-dialog-title">Редактировать профиль</h2>
+      <h2 class="kui-dialog-title">Edit profile</h2>
       @if (ctx.closable) {
-        <button class="kui-dialog-close" type="button" aria-label="Закрыть" (click)="ctx.close(null)">
+        <button class="kui-dialog-close" type="button" aria-label="Close" (click)="ctx.close(null)">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path
+              d="M4 4l8 8M12 4l-8 8"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            />
           </svg>
         </button>
       }
     </div>
     <div class="kui-dialog-body" style="display:flex;flex-direction:column;gap:16px">
-      <kui-field label="Имя">
-        <input kuiInput type="text" [value]="ctx.data.name" placeholder="Введите имя" />
+      <kui-field label="Name">
+        <input kuiInput type="text" [value]="ctx.data.name" placeholder="Enter name" />
       </kui-field>
       <kui-field label="Email">
         <input kuiInput type="email" placeholder="name@company.com" />
       </kui-field>
     </div>
     <div class="kui-dialog-footer">
-      <button kuiButton appearance="outline" type="button" (click)="ctx.close(null)">Отмена</button>
-      <button kuiButton type="button" (click)="ctx.close('saved')">Сохранить</button>
+      <button kuiButton appearance="outline" type="button" (click)="ctx.close(null)">Cancel</button>
+      <button kuiButton type="button" (click)="ctx.close('saved')">Save</button>
     </div>
   `,
   imports: [KuiButtonDirective, KuiInputDirective, KuiFieldComponent],
@@ -62,25 +69,50 @@ export class EditDialog implements KuiDialogHost<EditResult, EditData> {
   template: `
     <div class="kui-dialog-header">
       <svg class="kui-dialog-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M10 3L2.5 16.5h15L10 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-        <line x1="10" y1="9" x2="10" y2="12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        <circle cx="10" cy="14.5" r="0.75" fill="currentColor"/>
+        <path
+          d="M10 3L2.5 16.5h15L10 3z"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linejoin="round"
+        />
+        <line
+          x1="10"
+          y1="9"
+          x2="10"
+          y2="12.5"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+        />
+        <circle cx="10" cy="14.5" r="0.75" fill="currentColor" />
       </svg>
-      <h2 class="kui-dialog-title">Удалить аккаунт?</h2>
+      <h2 class="kui-dialog-title">Delete account?</h2>
       @if (ctx.closable) {
-        <button class="kui-dialog-close" type="button" aria-label="Закрыть" (click)="ctx.close(false)">
+        <button
+          class="kui-dialog-close"
+          type="button"
+          aria-label="Close"
+          (click)="ctx.close(false)"
+        >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path
+              d="M4 4l8 8M12 4l-8 8"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            />
           </svg>
         </button>
       }
     </div>
     <div class="kui-dialog-body">
-      Это действие необратимо. Все данные аккаунта будут уничтожены навсегда.
+      This action is irreversible. All account data will be permanently removed.
     </div>
     <div class="kui-dialog-footer">
-      <button kuiButton appearance="outline" type="button" (click)="ctx.close(false)">Отмена</button>
-      <button kuiButton appearance="danger" type="button" (click)="ctx.close(true)">Удалить</button>
+      <button kuiButton appearance="outline" type="button" (click)="ctx.close(false)">
+        Cancel
+      </button>
+      <button kuiButton appearance="danger" type="button" (click)="ctx.close(true)">Delete</button>
     </div>
   `,
   imports: [KuiButtonDirective],
@@ -97,23 +129,28 @@ export class DeleteDialog implements KuiDialogHost<boolean, void> {
   selector: 'app-long-body-dialog',
   template: `
     <div class="kui-dialog-header">
-      <h2 class="kui-dialog-title">Условия использования</h2>
-      <button class="kui-dialog-close" type="button" aria-label="Закрыть" (click)="ctx.close()">
+      <h2 class="kui-dialog-title">Terms of service</h2>
+      <button class="kui-dialog-close" type="button" aria-label="Close" (click)="ctx.close()">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <path
+            d="M4 4l8 8M12 4l-8 8"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+          />
         </svg>
       </button>
     </div>
     <div class="kui-dialog-body">
       @for (i of items; track i) {
         <p style="margin-bottom:12px">
-          Пункт {{ i }}: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+          Section {{ i }}: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua.
         </p>
       }
     </div>
     <div class="kui-dialog-footer">
-      <button kuiButton appearance="outline" type="button" (click)="ctx.close()">Закрыть</button>
+      <button kuiButton appearance="outline" type="button" (click)="ctx.close()">Close</button>
     </div>
   `,
   imports: [KuiButtonDirective],
@@ -131,26 +168,31 @@ export class LongBodyDialog implements KuiDialogHost<void, void> {
   selector: 'app-auto-dialog',
   template: `
     <div class="kui-dialog-header">
-      <h2 class="kui-dialog-title">auto — по контенту</h2>
+      <h2 class="kui-dialog-title">auto - content-sized</h2>
       @if (ctx.closable) {
-        <button class="kui-dialog-close" type="button" aria-label="Закрыть" (click)="ctx.close(null)">
+        <button class="kui-dialog-close" type="button" aria-label="Close" (click)="ctx.close(null)">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path
+              d="M4 4l8 8M12 4l-8 8"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            />
           </svg>
         </button>
       }
     </div>
     <div class="kui-dialog-body" style="display:flex;flex-direction:column;gap:16px">
-      <kui-field label="Тема">
-        <input kuiInput type="text" placeholder="Введите тему сообщения" />
+      <kui-field label="Subject">
+        <input kuiInput type="text" placeholder="Enter message subject" />
       </kui-field>
-      <kui-field label="Сообщение" hint="Потяните за угол — диалог растянется вместе с textarea">
-        <textarea kuiTextarea rows="4" placeholder="Текст сообщения…" style="resize:both"></textarea>
+      <kui-field label="Message" hint="Drag the corner - the dialog grows with the textarea">
+        <textarea kuiTextarea rows="4" placeholder="Message text..." style="resize:both"></textarea>
       </kui-field>
     </div>
     <div class="kui-dialog-footer">
-      <button kuiButton appearance="outline" type="button" (click)="ctx.close(null)">Отмена</button>
-      <button kuiButton type="button" (click)="ctx.close('sent')">Отправить</button>
+      <button kuiButton appearance="outline" type="button" (click)="ctx.close(null)">Cancel</button>
+      <button kuiButton type="button" (click)="ctx.close('sent')">Send</button>
     </div>
   `,
   imports: [KuiButtonDirective, KuiInputDirective, KuiTextareaDirective, KuiFieldComponent],
@@ -167,15 +209,17 @@ export class AutoDialog implements KuiDialogHost<'sent' | null, void> {
   selector: 'app-nodismiss-dialog',
   template: `
     <div class="kui-dialog-header">
-      <h2 class="kui-dialog-title">Обязательное действие</h2>
+      <h2 class="kui-dialog-title">Required action</h2>
     </div>
     <div class="kui-dialog-body">
-      Этот диалог нельзя закрыть кликом по backdrop или клавишей Escape.
-      Необходимо выбрать один из вариантов.
+      This dialog cannot be closed by backdrop click or Escape. The user must choose one of the
+      options.
     </div>
     <div class="kui-dialog-footer">
-      <button kuiButton appearance="outline" type="button" (click)="ctx.close('cancel')">Позже</button>
-      <button kuiButton type="button" (click)="ctx.close('confirm')">Подтвердить</button>
+      <button kuiButton appearance="outline" type="button" (click)="ctx.close('cancel')">
+        Later
+      </button>
+      <button kuiButton type="button" (click)="ctx.close('confirm')">Confirm</button>
     </div>
   `,
   imports: [KuiButtonDirective],
@@ -248,19 +292,19 @@ export class DialogPage {
   }
 
   protected showEditSm(): void {
-    this.openEditSm({ name: 'Алексей Смирнов' })
+    this.openEditSm({ name: 'Alex Smith' })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((r) => this.resultSizes.set(r ?? 'undefined'));
   }
 
   protected showEditMd(): void {
-    this.openEditMd({ name: 'Алексей Смирнов' })
+    this.openEditMd({ name: 'Alex Smith' })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((r) => this.resultSizes.set(r ?? 'undefined'));
   }
 
   protected showEditLg(): void {
-    this.openEditLg({ name: 'Алексей Смирнов' })
+    this.openEditLg({ name: 'Alex Smith' })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((r) => this.resultSizes.set(r ?? 'undefined'));
   }
@@ -284,23 +328,23 @@ export class DialogPage {
   }
 
   protected showNoClose(): void {
-    this.openEditNoClose({ name: 'Алексей Смирнов' })
+    this.openEditNoClose({ name: 'Alex Smith' })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((r) => this.resultNoClose.set(r ?? 'undefined'));
   }
 
   protected showConfirmDefault(): void {
-    this.confirm({ title: 'Подтвердить действие?', message: 'Это действие выполнится немедленно.' })
+    this.confirm({ title: 'Confirm action?', message: 'This action runs immediately.' })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((r) => this.resultConfirm.set(String(r)));
   }
 
   protected showConfirmDanger(): void {
     this.confirm({
-      title: 'Удалить запись?',
-      message: 'Это действие нельзя отменить.',
+      title: 'Delete record?',
+      message: 'This action cannot be undone.',
       appearance: 'danger',
-      confirmLabel: 'Удалить',
+      confirmLabel: 'Delete',
     })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((r) => this.resultConfirm.set(String(r)));
@@ -308,10 +352,10 @@ export class DialogPage {
 
   protected showConfirmWarning(): void {
     this.confirm({
-      title: 'Сбросить настройки?',
-      message: 'Все пользовательские настройки вернутся к значениям по умолчанию.',
+      title: 'Reset settings?',
+      message: 'All custom settings will return to their defaults.',
       appearance: 'warning',
-      confirmLabel: 'Сбросить',
+      confirmLabel: 'Reset',
     })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((r) => this.resultConfirm.set(String(r)));

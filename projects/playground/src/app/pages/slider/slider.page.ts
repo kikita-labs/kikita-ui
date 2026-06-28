@@ -7,7 +7,13 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
 @Component({
   selector: 'app-slider-page',
-  imports: [KuiSliderDirective, KuiTooltipDirective, KuiFieldComponent, PlaygroundPanelComponent, FormsModule],
+  imports: [
+    KuiSliderDirective,
+    KuiTooltipDirective,
+    KuiFieldComponent,
+    PlaygroundPanelComponent,
+    FormsModule,
+  ],
   templateUrl: './slider.page.html',
   styleUrl: './slider.page.scss',
   encapsulation: ViewEncapsulation.None,

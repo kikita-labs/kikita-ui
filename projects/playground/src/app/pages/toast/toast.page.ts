@@ -32,18 +32,18 @@ export class ToastPage {
 
   protected openSuccess(): void {
     this.toast.open({
-      title: 'Файл сохранён',
-      message: 'Изменения применены к проекту',
+      title: 'File saved',
+      message: 'Changes were applied to the project',
       appearance: 'success',
-      actionLabel: 'Отменить',
+      actionLabel: 'Undo',
       showProgress: true,
     });
   }
 
   protected openDanger(): void {
     this.toast.open({
-      title: 'Не удалось загрузить файл',
-      message: 'Попробуйте ещё раз.',
+      title: 'Could not upload file',
+      message: 'Try again.',
       appearance: 'danger',
       persistent: true,
     });
@@ -51,8 +51,8 @@ export class ToastPage {
 
   protected openWarning(): void {
     this.toast.open({
-      title: 'Сессия истекает',
-      message: 'Через 2 минуты вы будете выведены',
+      title: 'Session expires soon',
+      message: 'You will be signed out in 2 minutes',
       appearance: 'warning',
       persistent: true,
     });
@@ -60,29 +60,29 @@ export class ToastPage {
 
   protected openInfo(): void {
     this.toast.open({
-      title: 'Доступна новая версия',
-      message: 'Перезайдите для применения обновления',
+      title: 'New version available',
+      message: 'Sign in again to apply the update',
       appearance: 'info',
-      actionLabel: 'Обновить',
+      actionLabel: 'Update',
       duration: 8000,
     });
   }
 
   protected openNeutral(): void {
     this.toast.open({
-      title: 'Письмо удалено',
-      actionLabel: 'Отменить',
+      title: 'Email deleted',
+      actionLabel: 'Undo',
       duration: 6000,
     });
   }
 
   protected openTitleOnly(): void {
-    this.toast.open({ title: 'Настройки сохранены' });
+    this.toast.open({ title: 'Settings saved' });
   }
 
   protected openWithProgress(): void {
     this.toast.open({
-      title: 'Удаление через 5 секунд',
+      title: 'Deleting in 5 seconds',
       appearance: 'danger',
       showProgress: true,
       duration: 5000,

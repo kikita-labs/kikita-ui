@@ -27,8 +27,7 @@ export class KuiToastService {
   private readonly appRef = inject(ApplicationRef);
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly options: KuiToastOptions =
-    inject(KUI_TOAST_OPTIONS, { optional: true }) ?? {};
+  private readonly options: KuiToastOptions = inject(KUI_TOAST_OPTIONS, { optional: true }) ?? {};
 
   private regionRef: ComponentRef<KuiToastRegionComponent> | null = null;
 

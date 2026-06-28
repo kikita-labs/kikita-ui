@@ -11,7 +11,12 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { Subject } from 'rxjs';
 
-import type { KuiToastAppearance, KuiToastConfig, KuiToastPosition, KuiToastRef } from './kui-toast.types';
+import type {
+  KuiToastAppearance,
+  KuiToastConfig,
+  KuiToastPosition,
+  KuiToastRef,
+} from './kui-toast.types';
 
 interface InternalToastItem {
   readonly id: number;
@@ -34,7 +39,7 @@ interface InternalToastItem {
       class="kui-toast-region"
       [attr.data-position]="_position()"
       role="region"
-      aria-label="Уведомления"
+      aria-label="Notifications"
       aria-live="polite"
     >
       @for (toast of _toasts(); track toast.id) {
@@ -50,28 +55,60 @@ interface InternalToastItem {
               @switch (toast.config.appearance) {
                 @case ('success') {
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                    <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5"/>
-                    <path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5" />
+                    <path
+                      d="M5.5 9l2.5 2.5 4.5-4.5"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                   </svg>
                 }
                 @case ('warning') {
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                    <path d="M9 2.5L16 15.5H2L9 2.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                    <line x1="9" y1="8" x2="9" y2="11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    <circle cx="9" cy="13.5" r="0.8" fill="currentColor"/>
+                    <path
+                      d="M9 2.5L16 15.5H2L9 2.5z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linejoin="round"
+                    />
+                    <line
+                      x1="9"
+                      y1="8"
+                      x2="9"
+                      y2="11.5"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                    <circle cx="9" cy="13.5" r="0.8" fill="currentColor" />
                   </svg>
                 }
                 @case ('danger') {
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                    <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5"/>
-                    <path d="M6 6l6 6M12 6l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5" />
+                    <path
+                      d="M6 6l6 6M12 6l-6 6"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
                   </svg>
                 }
                 @case ('info') {
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                    <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5"/>
-                    <line x1="9" y1="8.5" x2="9" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    <circle cx="9" cy="5.5" r="0.9" fill="currentColor"/>
+                    <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5" />
+                    <line
+                      x1="9"
+                      y1="8.5"
+                      x2="9"
+                      y2="13"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                    <circle cx="9" cy="5.5" r="0.9" fill="currentColor" />
                   </svg>
                 }
               }
@@ -91,7 +128,9 @@ interface InternalToastItem {
                 type="button"
                 style="align-self:flex-start;margin-top:var(--kui-space-1);--kui-btn-ghost-fg:var(--kui-toast-accent-color)"
                 (click)="onAction(toast)"
-              >{{ toast.config.actionLabel }}</button>
+              >
+                {{ toast.config.actionLabel }}
+              </button>
             }
           </div>
 
@@ -99,11 +138,16 @@ interface InternalToastItem {
             <button
               class="kui-toast-close"
               type="button"
-              aria-label="Закрыть"
+              aria-label="Close"
               (click)="dismiss(toast.id)"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path
+                  d="M2 2l8 8M10 2l-8 8"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
               </svg>
             </button>
           }
@@ -111,7 +155,9 @@ interface InternalToastItem {
           @if (toast.config.showProgress && !toast.config.persistent) {
             <div
               class="kui-toast-progress"
-              [style.animation]="'kui-toast-prog ' + (toast.config.duration ?? 5000) + 'ms linear both'"
+              [style.animation]="
+                'kui-toast-prog ' + (toast.config.duration ?? 5000) + 'ms linear both'
+              "
             ></div>
           }
         </div>
@@ -133,14 +179,10 @@ export class KuiToastRegionComponent implements OnDestroy {
 
   protected readonly _isTop = computed(() => this._position().startsWith('top'));
   protected readonly _inAnim = computed(() =>
-    this._isTop()
-      ? 'kui-toast-in-t 220ms ease-out both'
-      : 'kui-toast-in-b 220ms ease-out both',
+    this._isTop() ? 'kui-toast-in-t 220ms ease-out both' : 'kui-toast-in-b 220ms ease-out both',
   );
   protected readonly _outAnim = computed(() =>
-    this._isTop()
-      ? 'kui-toast-out-t 160ms ease-in both'
-      : 'kui-toast-out-b 160ms ease-in both',
+    this._isTop() ? 'kui-toast-out-t 160ms ease-in both' : 'kui-toast-out-b 160ms ease-in both',
   );
 
   private nextId = 0;
@@ -213,14 +255,22 @@ export class KuiToastRegionComponent implements OnDestroy {
   }
 
   protected hasIcon(appearance: KuiToastAppearance | undefined): boolean {
-    return appearance === 'success' || appearance === 'warning' || appearance === 'danger' || appearance === 'info';
+    return (
+      appearance === 'success' ||
+      appearance === 'warning' ||
+      appearance === 'danger' ||
+      appearance === 'info'
+    );
   }
 
   private startTimerFor(id: number, duration: number): void {
     if (!isPlatformBrowser(this.platformId)) return;
     this.clearTimer(id);
     this.startedAt.set(id, Date.now());
-    this.timers.set(id, setTimeout(() => this.dismiss(id), duration));
+    this.timers.set(
+      id,
+      setTimeout(() => this.dismiss(id), duration),
+    );
   }
 
   private clearTimer(id: number): void {

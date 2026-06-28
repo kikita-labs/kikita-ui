@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   DOCUMENT,
   Directive,
+  DoCheck,
   ElementRef,
   OnDestroy,
   Renderer2,
@@ -26,11 +27,11 @@ const TOOLTIP_GAP = 6;
     '(mouseleave)': 'onMouseLeave()',
   },
 })
-export class KuiSliderDirective implements AfterViewInit, OnDestroy {
+export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   private readonly el = inject(ElementRef<HTMLInputElement>);
   private readonly renderer = inject(Renderer2);
   private readonly doc = inject(DOCUMENT);
-  // If user adds [kuiTooltip]="'static text'" → we defer to it; empty = value mode
+  // If user adds [kuiTooltip]="'static text'", we defer to it; empty = value mode.
   private readonly kuiTooltip = inject(KuiTooltipDirective, { optional: true, self: true });
 
   readonly color = input<KuiSliderColor>('primary');
@@ -45,6 +46,7 @@ export class KuiSliderDirective implements AfterViewInit, OnDestroy {
   private labelsEl: HTMLElement | null = null;
   private tooltipEl: HTMLElement | null = null;
   private tooltipVisible = false;
+  private lastNativeState = '';
 
   constructor() {
     effect(() => {
@@ -85,12 +87,26 @@ export class KuiSliderDirective implements AfterViewInit, OnDestroy {
     this.updateFill();
   }
 
+  ngDoCheck(): void {
+    if (!this.containerEl) return;
+    const native = this.el.nativeElement;
+    const state = `${native.min}|${native.max}|${native.value}|${native.disabled}`;
+    if (state === this.lastNativeState) return;
+    this.lastNativeState = state;
+    this.updateFill();
+    if (native.disabled) {
+      this.renderer.setAttribute(this.containerEl, 'data-kui-disabled', 'true');
+    } else {
+      this.renderer.removeAttribute(this.containerEl, 'data-kui-disabled');
+    }
+  }
+
   ngOnDestroy(): void {
     this.destroyTooltip();
   }
 
   protected onMouseEnter(): void {
-    // If kuiTooltip has static text — let it handle display, skip value tooltip.
+    // If kuiTooltip has static text, let it handle display and skip value tooltip.
     if (this.kuiTooltip?.kuiTooltip()) return;
     this.tooltipVisible = true;
     this.ensureTooltip();
@@ -196,5 +212,6 @@ export class KuiSliderDirective implements AfterViewInit, OnDestroy {
     if (native.disabled) {
       this.renderer.setAttribute(this.containerEl, 'data-kui-disabled', 'true');
     }
+    this.lastNativeState = `${native.min}|${native.max}|${native.value}|${native.disabled}`;
   }
 }

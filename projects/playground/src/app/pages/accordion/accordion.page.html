@@ -1,9 +1,7 @@
 <div class="page">
-
   <!-- p.01 Appearances -->
   <app-panel num="01" title="Appearances">
     <div class="acc-appearance-row">
-
       <div class="acc-col">
         <div class="acc-label">default</div>
         <kui-accordion appearance="default">
@@ -13,9 +11,7 @@
           <kui-accordion-item header="Notifications">
             Manage push notifications and email subscriptions.
           </kui-accordion-item>
-          <kui-accordion-item header="Security">
-            Account security parameters.
-          </kui-accordion-item>
+          <kui-accordion-item header="Security"> Account security parameters. </kui-accordion-item>
         </kui-accordion>
         <p class="acc-note">Dividers <code>border-bottom</code>, no outer border</p>
       </div>
@@ -29,9 +25,7 @@
           <kui-accordion-item header="Notifications">
             Manage push notifications and email subscriptions.
           </kui-accordion-item>
-          <kui-accordion-item header="Security">
-            Account security parameters.
-          </kui-accordion-item>
+          <kui-accordion-item header="Security"> Account security parameters. </kui-accordion-item>
         </kui-accordion>
         <p class="acc-note">Each section — separate block with border + radius + gap</p>
       </div>
@@ -45,20 +39,16 @@
           <kui-accordion-item header="Notifications">
             Manage push notifications.
           </kui-accordion-item>
-          <kui-accordion-item header="Security">
-            Account security parameters.
-          </kui-accordion-item>
+          <kui-accordion-item header="Security"> Account security parameters. </kui-accordion-item>
         </kui-accordion>
         <p class="acc-note">No dividers or borders, transparent background</p>
       </div>
-
     </div>
   </app-panel>
 
   <!-- p.02 Trigger States -->
   <app-panel num="02" title="Trigger States">
     <div class="acc-states-row">
-
       <div class="acc-state-col">
         <div class="acc-label-sm">Default</div>
         <kui-accordion appearance="bordered">
@@ -69,7 +59,9 @@
       <div class="acc-state-col">
         <div class="acc-label-sm">Open</div>
         <kui-accordion appearance="bordered" [expandedItems]="['s-open']">
-          <kui-accordion-item id="s-open" header="Section title">Body content here.</kui-accordion-item>
+          <kui-accordion-item id="s-open" header="Section title"
+            >Body content here.</kui-accordion-item
+          >
         </kui-accordion>
       </div>
 
@@ -79,23 +71,19 @@
           <kui-accordion-item header="Section title" [disabled]="true" />
         </kui-accordion>
       </div>
-
     </div>
   </app-panel>
 
   <!-- p.03 Sizes -->
   <app-panel num="03" title="Sizes">
     <div class="acc-size-row">
-
       <div class="acc-col">
         <div class="acc-label">sm — 36px · 13px</div>
         <kui-accordion appearance="default" size="sm">
           <kui-accordion-item header="Profile settings">
             Edit name, photo, and profile description.
           </kui-accordion-item>
-          <kui-accordion-item header="Privacy">
-            Control profile visibility.
-          </kui-accordion-item>
+          <kui-accordion-item header="Privacy"> Control profile visibility. </kui-accordion-item>
         </kui-accordion>
       </div>
 
@@ -105,9 +93,7 @@
           <kui-accordion-item header="Profile settings">
             Edit name, photo, and profile description.
           </kui-accordion-item>
-          <kui-accordion-item header="Privacy">
-            Control profile visibility.
-          </kui-accordion-item>
+          <kui-accordion-item header="Privacy"> Control profile visibility. </kui-accordion-item>
         </kui-accordion>
       </div>
 
@@ -117,28 +103,27 @@
           <kui-accordion-item header="Profile settings">
             Edit name, photo, and profile description.
           </kui-accordion-item>
-          <kui-accordion-item header="Privacy">
-            Control profile visibility.
-          </kui-accordion-item>
+          <kui-accordion-item header="Privacy"> Control profile visibility. </kui-accordion-item>
         </kui-accordion>
       </div>
-
     </div>
   </app-panel>
 
   <!-- p.04 Exclusive mode (live) -->
-  <app-panel num="04" title="Exclusive Mode — live" description="Opening one section closes the previous.">
+  <app-panel
+    num="04"
+    title="Exclusive Mode — live"
+    description="Opening one section closes the previous."
+  >
     <div class="acc-live-demo">
-      <kui-accordion
-        mode="exclusive"
-        appearance="default"
-        [(expandedItems)]="exclusiveExpanded"
-      >
+      <kui-accordion mode="exclusive" appearance="default" [(expandedItems)]="exclusiveExpanded">
         <kui-accordion-item id="e0" header="How to start using the component">
-          Install the package via npm, import the module in root <code>AppModule</code> and use the <code>kuiAccordion</code> directive on the container.
+          Install the package via npm, import the module in root <code>AppModule</code> and use the
+          <code>kuiAccordion</code> directive on the container.
         </kui-accordion-item>
         <kui-accordion-item id="e1" header="Is dark theme supported?">
-          Yes. All Kikita UI components adapt via <code>data-kui-theme="dark"</code> or <code>"light"</code> on any ancestor. Switching is instant.
+          Yes. All Kikita UI components adapt via <code>data-kui-theme="dark"</code> or
+          <code>"light"</code> on any ancestor. Switching is instant.
         </kui-accordion-item>
         <kui-accordion-item id="e2" header="Can Accordion be nested inside Accordion?">
           Nesting is planned for Phase 4. In the current version, nested accordion is not supported.
@@ -148,21 +133,24 @@
   </app-panel>
 
   <!-- p.05 Multi mode (live) -->
-  <app-panel num="05" title="Multi Mode — live" description="Multiple sections can be open simultaneously.">
+  <app-panel
+    num="05"
+    title="Multi Mode — live"
+    description="Multiple sections can be open simultaneously."
+  >
     <div class="acc-live-demo">
-      <kui-accordion
-        mode="multi"
-        appearance="bordered"
-        [(expandedItems)]="multiExpanded"
-      >
+      <kui-accordion mode="multi" appearance="bordered" [(expandedItems)]="multiExpanded">
         <kui-accordion-item id="m0" header="Appearance configuration">
-          Three variants: <code>default</code> (dividers), <code>bordered</code> (individual blocks), <code>ghost</code> (no borders). Choose by context.
+          Three variants: <code>default</code> (dividers), <code>bordered</code> (individual
+          blocks), <code>ghost</code> (no borders). Choose by context.
         </kui-accordion-item>
         <kui-accordion-item id="m1" header="Size control">
-          Three sizes: <code>sm</code> 36px, <code>md</code> 44px (default), <code>lg</code> 52px. Set via <code>size</code> input on the container.
+          Three sizes: <code>sm</code> 36px, <code>md</code> 44px (default), <code>lg</code> 52px.
+          Set via <code>size</code> input on the container.
         </kui-accordion-item>
         <kui-accordion-item id="m2" header="Multi vs exclusive">
-          In <code>exclusive</code> mode only one section is open. In <code>multi</code> mode the user can open any number simultaneously.
+          In <code>exclusive</code> mode only one section is open. In <code>multi</code> mode the
+          user can open any number simultaneously.
         </kui-accordion-item>
       </kui-accordion>
     </div>
@@ -171,20 +159,17 @@
   <!-- p.06 Content examples -->
   <app-panel num="06" title="Content Examples">
     <div class="acc-live-demo">
-      <kui-accordion
-        mode="multi"
-        appearance="bordered"
-        [(expandedItems)]="contentExpanded"
-      >
-
+      <kui-accordion mode="multi" appearance="bordered" [(expandedItems)]="contentExpanded">
         <kui-accordion-item id="c0" header="A — Plain text">
-          Accordion works well for FAQs, documentation, and any text-heavy blocks.
-          Content is visible only when the user explicitly expands a section,
-          reducing cognitive load and allowing more information without overwhelming the screen.
+          Accordion works well for FAQs, documentation, and any text-heavy blocks. Content is
+          visible only when the user explicitly expands a section, reducing cognitive load and
+          allowing more information without overwhelming the screen.
         </kui-accordion-item>
 
         <kui-accordion-item id="c1" header="B — Text + actions">
-          <p class="acc-body-p">Delete account and all associated data? This action cannot be undone.</p>
+          <p class="acc-body-p">
+            Delete account and all associated data? This action cannot be undone.
+          </p>
           <div class="acc-body-actions">
             <button kuiButton appearance="outline" size="sm" type="button">Cancel</button>
             <button kuiButton appearance="danger" size="sm" type="button">Delete account</button>
@@ -202,7 +187,6 @@
             <button kuiButton size="sm" type="button">Save changes</button>
           </div>
         </kui-accordion-item>
-
       </kui-accordion>
     </div>
   </app-panel>
@@ -210,12 +194,12 @@
   <!-- p.07 Themes -->
   <app-panel num="07" title="Dark &amp; Light Themes">
     <div class="acc-theme-row">
-
       <div class="acc-theme-box" data-kui-theme="dark">
         <div class="acc-theme-label">Dark</div>
         <kui-accordion appearance="default">
           <kui-accordion-item header="Frequently asked questions">
-            Dark theme is applied via <code>data-kui-theme="dark"</code> on the ancestor. All tokens switch automatically.
+            Dark theme is applied via <code>data-kui-theme="dark"</code> on the ancestor. All tokens
+            switch automatically.
           </kui-accordion-item>
           <kui-accordion-item header="About the license">MIT License.</kui-accordion-item>
           <kui-accordion-item header="Browser support">All modern browsers.</kui-accordion-item>
@@ -226,14 +210,13 @@
         <div class="acc-theme-label">Light</div>
         <kui-accordion appearance="default">
           <kui-accordion-item header="Frequently asked questions">
-            Light theme is applied via <code>data-kui-theme="light"</code>. All tokens rebind automatically.
+            Light theme is applied via <code>data-kui-theme="light"</code>. All tokens rebind
+            automatically.
           </kui-accordion-item>
           <kui-accordion-item header="About the license">MIT License.</kui-accordion-item>
           <kui-accordion-item header="Browser support">All modern browsers.</kui-accordion-item>
         </kui-accordion>
       </div>
-
     </div>
   </app-panel>
-
 </div>

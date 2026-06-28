@@ -14,7 +14,7 @@ import type { KuiConfirmConfig } from './kui-confirm.types';
  * private readonly confirm = kuiConfirm();
  *
  * protected delete(): void {
- *   this.confirm({ title: 'Удалить?', appearance: 'danger', confirmLabel: 'Удалить' })
+ *   this.confirm({ title: 'Delete?', appearance: 'danger', confirmLabel: 'Delete' })
  *     .subscribe(ok => { if (ok) { ... } });
  * }
  * ```

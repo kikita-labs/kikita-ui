@@ -1,56 +1,88 @@
 <div class="page">
-
   <!-- p.01 States -->
-  <app-panel num="01" title="States" description="md · primary · value 60% — hover/focus/active при взаимодействии">
+  <app-panel
+    num="01"
+    title="States"
+    description="md - primary - value 60% - hover/focus/active through interaction"
+  >
     <div class="sl-states">
       <div>
         <div class="sl-state-label">default</div>
         <input type="range" kuiSlider value="60" color="primary" size="md" aria-label="default" />
-        <div class="sl-note">Нейтральный вид</div>
+        <div class="sl-note">Neutral appearance</div>
       </div>
       <div>
         <div class="sl-state-label">hover</div>
-        <input type="range" kuiSlider value="60" color="primary" size="md" aria-label="hover demo" />
-        <div class="sl-note">Soft ring + tooltip значения</div>
+        <input
+          type="range"
+          kuiSlider
+          value="60"
+          color="primary"
+          size="md"
+          aria-label="hover demo"
+        />
+        <div class="sl-note">Soft ring + value tooltip</div>
       </div>
       <div>
         <div class="sl-state-label">focus</div>
-        <input type="range" kuiSlider value="60" color="primary" size="md" aria-label="focus demo" />
+        <input
+          type="range"
+          kuiSlider
+          value="60"
+          color="primary"
+          size="md"
+          aria-label="focus demo"
+        />
         <div class="sl-note">Focus ring (Tab / keyboard)</div>
       </div>
       <div>
         <div class="sl-state-label">active</div>
-        <input type="range" kuiSlider value="60" color="primary" size="md" aria-label="active demo" />
-        <div class="sl-note">Thumb крупнее, сильнее тень</div>
+        <input
+          type="range"
+          kuiSlider
+          value="60"
+          color="primary"
+          size="md"
+          aria-label="active demo"
+        />
+        <div class="sl-note">Larger thumb, stronger shadow</div>
       </div>
       <div>
         <div class="sl-state-label">disabled</div>
-        <input type="range" kuiSlider value="60" color="primary" size="md" disabled aria-label="disabled" />
-        <div class="sl-note">Серый, не интерактивен</div>
+        <input
+          type="range"
+          kuiSlider
+          value="60"
+          color="primary"
+          size="md"
+          disabled
+          aria-label="disabled"
+        />
+        <div class="sl-note">Muted and non-interactive</div>
       </div>
     </div>
   </app-panel>
 
   <!-- p.02 Sizes -->
-  <app-panel num="02" title="Sizes" description="default · primary · value 60%">
+  <app-panel num="02" title="Sizes" description="default - primary - value 60%">
     <div class="sl-stack">
       <div>
-        <div class="sl-field-label">sm — track 2px / thumb 14px</div>
+        <div class="sl-field-label">sm - track 2px / thumb 14px</div>
         <input type="range" kuiSlider value="60" size="sm" color="primary" aria-label="sm" />
       </div>
       <div>
-        <div class="sl-field-label">md — track 4px / thumb 18px · дефолт</div>
+        <div class="sl-field-label">md - track 4px / thumb 18px - default</div>
         <input type="range" kuiSlider value="60" size="md" color="primary" aria-label="md" />
       </div>
       <div>
-        <div class="sl-field-label">lg — track 6px / thumb 22px</div>
+        <div class="sl-field-label">lg - track 6px / thumb 22px</div>
         <input type="range" kuiSlider value="60" size="lg" color="primary" aria-label="lg" />
       </div>
     </div>
   </app-panel>
 
   <!-- p.03 Colors -->
-  <app-panel num="03" title="Colors" description="md · value 60%">
+  <app-panel num="03" title="Colors" description="md - value 60%">
     <div class="sl-color-grid">
       <span class="sl-mono">primary</span>
       <input type="range" kuiSlider value="60" size="md" color="primary" aria-label="primary" />
@@ -67,135 +99,259 @@
   </app-panel>
 
   <!-- p.04 Tooltip -->
-  <app-panel num="04" title="Tooltip" description="По умолчанию tooltip со значением; kuiTooltip='текст' — переопределяет на статичный текст">
+  <app-panel
+    num="04"
+    title="Tooltip"
+    description="By default the tooltip shows the value; kuiTooltip='text' overrides it with static text."
+  >
     <div class="sl-stack">
       <div>
-        <div class="sl-field-label">md · primary — наведи, tooltip со значением появится над thumb</div>
-        <input type="range" kuiSlider value="60" size="md" color="primary" aria-label="default tooltip" />
+        <div class="sl-field-label">
+          md - primary - hover to show the value tooltip above the thumb
+        </div>
+        <input
+          type="range"
+          kuiSlider
+          value="60"
+          size="md"
+          color="primary"
+          aria-label="default tooltip"
+        />
       </div>
       <div>
-        <div class="sl-field-label">lg · success</div>
-        <input type="range" kuiSlider value="35" size="lg" color="success" aria-label="success tooltip" />
+        <div class="sl-field-label">lg - success</div>
+        <input
+          type="range"
+          kuiSlider
+          value="35"
+          size="lg"
+          color="success"
+          aria-label="success tooltip"
+        />
       </div>
       <div>
-        <div class="sl-field-label">kuiTooltip="Скорость воспроизведения" — статичный текст вместо значения</div>
-        <input type="range" kuiSlider [kuiTooltip]="'Скорость воспроизведения'" value="50" size="md" color="neutral" aria-label="static tooltip" />
+        <div class="sl-field-label">kuiTooltip="Playback speed" - static text instead of value</div>
+        <input
+          type="range"
+          kuiSlider
+          [kuiTooltip]="'Playback speed'"
+          value="50"
+          size="md"
+          color="neutral"
+          aria-label="static tooltip"
+        />
       </div>
     </div>
   </app-panel>
 
   <!-- p.05 Min/Max Labels -->
-  <app-panel num="05" title="Min / Max Labels" description="Опциональные подписи под краями трека">
+  <app-panel num="05" title="Min / Max Labels" description="Optional labels below the track edges">
     <div class="sl-stack">
       <div>
-        <div class="sl-field-label">Числовые метки</div>
-        <input type="range" kuiSlider value="60" size="md" color="primary" minLabel="0" maxLabel="100" aria-label="с числовыми метками" />
+        <div class="sl-field-label">Numeric labels</div>
+        <input
+          type="range"
+          kuiSlider
+          value="60"
+          size="md"
+          color="primary"
+          minLabel="0"
+          maxLabel="100"
+          aria-label="with numeric labels"
+        />
       </div>
       <div>
-        <div class="sl-field-label">Текстовые метки</div>
-        <input type="range" kuiSlider value="35" size="md" color="primary" minLabel="Медленно" maxLabel="Быстро" aria-label="скорость" />
+        <div class="sl-field-label">Text labels</div>
+        <input
+          type="range"
+          kuiSlider
+          value="35"
+          size="md"
+          color="primary"
+          minLabel="Slow"
+          maxLabel="Fast"
+          aria-label="speed"
+        />
       </div>
     </div>
   </app-panel>
 
   <!-- p.06 Disabled -->
-  <app-panel num="06" title="Disabled" description="Track и thumb серые, pointer-events отключены">
+  <app-panel
+    num="06"
+    title="Disabled"
+    description="Track and thumb are muted, pointer events are disabled"
+  >
     <div class="sl-stack">
       <div>
         <div class="sl-field-label">value = 0%</div>
-        <input type="range" kuiSlider value="0" size="md" color="primary" disabled aria-label="disabled 0" />
+        <input
+          type="range"
+          kuiSlider
+          value="0"
+          size="md"
+          color="primary"
+          disabled
+          aria-label="disabled 0"
+        />
       </div>
       <div>
         <div class="sl-field-label">value = 60%</div>
-        <input type="range" kuiSlider value="60" size="md" color="primary" disabled aria-label="disabled 60" />
+        <input
+          type="range"
+          kuiSlider
+          value="60"
+          size="md"
+          color="primary"
+          disabled
+          aria-label="disabled 60"
+        />
       </div>
       <div>
         <div class="sl-field-label">value = 100%</div>
-        <input type="range" kuiSlider value="100" size="md" color="primary" disabled aria-label="disabled 100" />
+        <input
+          type="range"
+          kuiSlider
+          value="100"
+          size="md"
+          color="primary"
+          disabled
+          aria-label="disabled 100"
+        />
       </div>
     </div>
   </app-panel>
 
   <!-- p.07 In KuiField -->
-  <app-panel num="07" title="В KuiField — с label и hint">
+  <app-panel num="07" title="In KuiField - with label and hint">
     <div class="sl-stack">
-      <kui-field label="Громкость" hint="Регулирует уровень воспроизведения (0–100)">
+      <kui-field label="Volume" hint="Controls playback level (0-100)">
         <input
-          type="range" kuiSlider
-          min="0" max="100"
+          type="range"
+          kuiSlider
+          min="0"
+          max="100"
           [(ngModel)]="volumeValue"
-          aria-label="Громкость"
+          aria-label="Volume"
         />
       </kui-field>
 
       <div>
         <div class="sl-inline-label">
-          <span class="sl-inline-label-text">Прозрачность</span>
+          <span class="sl-inline-label-text">Opacity</span>
           <span class="sl-inline-label-value">{{ opacityValue }}%</span>
         </div>
         <input
-          type="range" kuiSlider
-          min="0" max="100"
+          type="range"
+          kuiSlider
+          min="0"
+          max="100"
           [(ngModel)]="opacityValue"
           color="neutral"
-          aria-label="Прозрачность"
+          aria-label="Opacity"
         />
       </div>
 
       <div>
         <div class="sl-inline-label">
-          <span class="sl-inline-label-text" style="color:var(--kui-color-text-disabled)">Качество сжатия</span>
-          <span class="sl-inline-label-value" style="color:var(--kui-color-text-disabled)">50%</span>
+          <span class="sl-inline-label-text" style="color: var(--kui-color-text-disabled)"
+            >Compression quality</span
+          >
+          <span class="sl-inline-label-value" style="color: var(--kui-color-text-disabled)"
+            >50%</span
+          >
         </div>
-        <input type="range" kuiSlider value="50" size="md" color="primary" disabled aria-label="Качество сжатия" />
-        <div class="sl-hint" style="color:var(--kui-color-text-disabled)">Недоступно в бесплатном тарифе</div>
+        <input
+          type="range"
+          kuiSlider
+          value="50"
+          size="md"
+          color="primary"
+          disabled
+          aria-label="Compression quality"
+        />
+        <div class="sl-hint" style="color: var(--kui-color-text-disabled)">
+          Unavailable on the free plan
+        </div>
       </div>
     </div>
   </app-panel>
 
   <!-- p.08 Live Demo -->
-  <app-panel num="08" title="Live Demo — все размеры синхронно">
+  <app-panel num="08" title="Live Demo - all sizes in sync">
     <div class="sl-live-box">
       <div class="sl-live-header">
-        <span class="sl-live-label">Значение</span>
+        <span class="sl-live-label">Value</span>
         <span class="sl-live-value">{{ liveValue() }}%</span>
       </div>
 
       <input
-        type="range" kuiSlider
-        min="0" max="100"
+        type="range"
+        kuiSlider
+        min="0"
+        max="100"
         [value]="liveValue()"
         (input)="liveValue.set(+$any($event.target).value)"
-        size="md" color="primary"
+        size="md"
+        color="primary"
         aria-label="live demo"
-        style="margin-bottom:24px"
+        style="margin-bottom: 24px"
       />
 
       <div class="sl-stack">
         <div>
-          <div class="sl-field-label">sm · primary</div>
-          <input type="range" kuiSlider [value]="liveValue()" size="sm" color="primary" aria-label="sm live" />
+          <div class="sl-field-label">sm - primary</div>
+          <input
+            type="range"
+            kuiSlider
+            [value]="liveValue()"
+            size="sm"
+            color="primary"
+            aria-label="sm live"
+          />
         </div>
         <div>
-          <div class="sl-field-label">md · success</div>
-          <input type="range" kuiSlider [value]="liveValue()" size="md" color="success" aria-label="success live" />
+          <div class="sl-field-label">md - success</div>
+          <input
+            type="range"
+            kuiSlider
+            [value]="liveValue()"
+            size="md"
+            color="success"
+            aria-label="success live"
+          />
         </div>
         <div>
-          <div class="sl-field-label">lg · danger</div>
-          <input type="range" kuiSlider [value]="liveValue()" size="lg" color="danger" aria-label="danger live" />
+          <div class="sl-field-label">lg - danger</div>
+          <input
+            type="range"
+            kuiSlider
+            [value]="liveValue()"
+            size="lg"
+            color="danger"
+            aria-label="danger live"
+          />
         </div>
         <div>
-          <div class="sl-field-label">md · disabled (не реагирует)</div>
-          <input type="range" kuiSlider [value]="liveValue()" size="md" color="primary" disabled aria-label="disabled live" />
+          <div class="sl-field-label">md - disabled (does not react)</div>
+          <input
+            type="range"
+            kuiSlider
+            [value]="liveValue()"
+            size="md"
+            color="primary"
+            disabled
+            aria-label="disabled live"
+          />
         </div>
       </div>
 
-      <p class="sl-live-tip">Tab → фокус, ArrowLeft/Right, Home/End — управление клавиатурой</p>
+      <p class="sl-live-tip">Tab -> focus, ArrowLeft/Right, Home/End -> keyboard control</p>
     </div>
   </app-panel>
 
   <!-- p.09 Themes -->
-  <app-panel num="09" title="Dark &amp; Light Themes — все цвета">
+  <app-panel num="09" title="Dark &amp; Light Themes - all colors">
     <div class="sl-theme-row">
       @for (theme of ['dark', 'light']; track theme) {
         <div class="sl-theme-box" [attr.data-kui-theme]="theme">
@@ -203,13 +359,32 @@
           <div class="sl-theme-inner">
             @for (color of ['primary', 'success', 'danger', 'neutral']; track color) {
               <div class="sl-theme-row-item">
-                <span class="sl-mono" style="min-width:52px">{{ color }}</span>
-                <input type="range" kuiSlider value="60" size="md" [color]="$any(color)" style="flex:1" [attr.aria-label]="color" />
+                <span class="sl-mono" style="min-width: 52px">{{ color }}</span>
+                <input
+                  type="range"
+                  kuiSlider
+                  value="60"
+                  size="md"
+                  [color]="$any(color)"
+                  style="flex: 1"
+                  [attr.aria-label]="color"
+                />
               </div>
             }
             <div class="sl-theme-row-item">
-              <span class="sl-mono" style="min-width:52px;color:var(--kui-color-text-disabled)">disabled</span>
-              <input type="range" kuiSlider value="60" size="md" color="primary" disabled style="flex:1" aria-label="disabled" />
+              <span class="sl-mono" style="min-width: 52px; color: var(--kui-color-text-disabled)"
+                >disabled</span
+              >
+              <input
+                type="range"
+                kuiSlider
+                value="60"
+                size="md"
+                color="primary"
+                disabled
+                style="flex: 1"
+                aria-label="disabled"
+              />
             </div>
           </div>
         </div>
@@ -218,33 +393,67 @@
   </app-panel>
 
   <!-- p.10 Mobile -->
-  <app-panel num="10" title="Mobile — lg size для touch" description="Размер lg (track 6px, thumb 22px) для комфортного touch">
+  <app-panel
+    num="10"
+    title="Mobile - lg size for touch"
+    description="lg size (track 6px, thumb 22px) for touch"
+  >
     <div class="sl-mobile">
-      <div class="sl-mobile-header">Настройки звука</div>
+      <div class="sl-mobile-header">Sound settings</div>
       <div class="sl-mobile-body">
         <div>
           <div class="sl-mobile-item-label">
-            <span class="sl-mobile-item-label-text">Громкость</span>
+            <span class="sl-mobile-item-label-text">Volume</span>
             <span class="sl-mobile-item-label-value">{{ volumeValue }}%</span>
           </div>
-          <input type="range" kuiSlider min="0" max="100" [(ngModel)]="volumeValue" size="lg" color="primary" aria-label="Громкость" />
+          <input
+            type="range"
+            kuiSlider
+            min="0"
+            max="100"
+            [(ngModel)]="volumeValue"
+            size="lg"
+            color="primary"
+            aria-label="Volume"
+          />
         </div>
         <div>
           <div class="sl-mobile-item-label">
-            <span class="sl-mobile-item-label-text">Эквалайзер</span>
-            <span class="sl-mobile-item-label-value" style="color:var(--kui-color-primary-soft-text)">{{ opacityValue }}%</span>
+            <span class="sl-mobile-item-label-text">Equalizer</span>
+            <span
+              class="sl-mobile-item-label-value"
+              style="color: var(--kui-color-primary-soft-text)"
+            >
+              {{ opacityValue }}%
+            </span>
           </div>
-          <input type="range" kuiSlider min="0" max="100" [(ngModel)]="opacityValue" size="lg" color="neutral" aria-label="Эквалайзер" />
+          <input
+            type="range"
+            kuiSlider
+            min="0"
+            max="100"
+            [(ngModel)]="opacityValue"
+            size="lg"
+            color="neutral"
+            aria-label="Equalizer"
+          />
         </div>
         <div>
           <div class="sl-mobile-item-label">
-            <span class="sl-mobile-item-label-disabled">Пространство</span>
+            <span class="sl-mobile-item-label-disabled">Space</span>
             <span class="sl-mobile-item-label-disabled">50%</span>
           </div>
-          <input type="range" kuiSlider value="50" size="lg" color="primary" disabled aria-label="Пространство" />
+          <input
+            type="range"
+            kuiSlider
+            value="50"
+            size="lg"
+            color="primary"
+            disabled
+            aria-label="Space"
+          />
         </div>
       </div>
     </div>
   </app-panel>
-
 </div>

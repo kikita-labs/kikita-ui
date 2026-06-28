@@ -1,18 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { KuiProgressComponent } from './kui-progress.component';
+import { KuiProgressColor, KuiProgressComponent, KuiProgressSize } from './kui-progress.component';
 
 @Component({
   imports: [KuiProgressComponent],
-  template: `<kui-progress [type]="type" [value]="value" [color]="color" [size]="size" aria-label="test" />`,
+  template: `<kui-progress
+    [type]="type()"
+    [value]="value()"
+    [color]="color()"
+    [size]="size()"
+    aria-label="test"
+  />`,
 })
 class ProgressHost {
-  type: 'linear' | 'circular' = 'linear';
-  value: number | null = null;
-  color: string = 'primary';
-  size: string = 'md';
+  readonly type = signal<'linear' | 'circular'>('linear');
+  readonly value = signal<number | null>(null);
+  readonly color = signal<KuiProgressColor>('primary');
+  readonly size = signal<KuiProgressSize>('md');
 }
 
 describe('KuiProgressComponent', () => {
@@ -40,61 +46,61 @@ describe('KuiProgressComponent', () => {
   });
 
   it('indeterminate: aria-valuenow absent and data-kui-indeterminate set', () => {
-    host.value = null;
+    host.value.set(null);
     fixture.detectChanges();
     expect(el().hasAttribute('aria-valuenow')).toBe(false);
     expect(el().getAttribute('data-kui-indeterminate')).toBe('true');
   });
 
   it('determinate: aria-valuenow equals value', () => {
-    host.value = 65;
+    host.value.set(65);
     fixture.detectChanges();
     expect(el().getAttribute('aria-valuenow')).toBe('65');
     expect(el().hasAttribute('data-kui-indeterminate')).toBe(false);
   });
 
   it('linear fill width matches value', () => {
-    host.value = 40;
+    host.value.set(40);
     fixture.detectChanges();
     const fill = el().querySelector('.kui-progress-linear-fill') as HTMLElement;
     expect(fill.style.width).toBe('40%');
   });
 
-  it('linear clamps value to 0–100', () => {
-    host.value = 150;
+  it('linear clamps value to 0-100', () => {
+    host.value.set(150);
     fixture.detectChanges();
     const fill = el().querySelector('.kui-progress-linear-fill') as HTMLElement;
     expect(fill.style.width).toBe('100%');
   });
 
   it('data-kui-color and data-kui-size applied to host', () => {
-    host.color = 'success';
-    host.size = 'sm';
+    host.color.set('success');
+    host.size.set('sm');
     fixture.detectChanges();
     expect(el().getAttribute('data-kui-color')).toBe('success');
     expect(el().getAttribute('data-kui-size')).toBe('sm');
   });
 
   it('circular: renders svg and not fill div', () => {
-    host.type = 'circular';
+    host.type.set('circular');
     fixture.detectChanges();
     expect(el().classList.contains('kui-progress-circular')).toBe(true);
     expect(el().querySelector('svg')).toBeTruthy();
     expect(el().querySelector('.kui-progress-linear-fill')).toBeNull();
   });
 
-  it('circular md: svg dimensions are 36×36', () => {
-    host.type = 'circular';
-    host.size = 'md';
+  it('circular md: svg dimensions are 36x36', () => {
+    host.type.set('circular');
+    host.size.set('md');
     fixture.detectChanges();
     const svg = el().querySelector('svg')!;
     expect(svg.getAttribute('width')).toBe('36');
     expect(svg.getAttribute('height')).toBe('36');
   });
 
-  it('circular xl: svg dimensions are 64×64', () => {
-    host.type = 'circular';
-    host.size = 'xl';
+  it('circular xl: svg dimensions are 64x64', () => {
+    host.type.set('circular');
+    host.size.set('xl');
     fixture.detectChanges();
     const svg = el().querySelector('svg')!;
     expect(svg.getAttribute('width')).toBe('64');
@@ -102,9 +108,9 @@ describe('KuiProgressComponent', () => {
   });
 
   it('circular determinate: dashoffset = circumference*(1 - value/100)', () => {
-    host.type = 'circular';
-    host.size = 'md';
-    host.value = 60;
+    host.type.set('circular');
+    host.size.set('md');
+    host.value.set(60);
     fixture.detectChanges();
     const fill = el().querySelector('.kui-progress-circular-fill')!;
     const offset = parseFloat(fill.getAttribute('stroke-dashoffset')!);
@@ -112,9 +118,9 @@ describe('KuiProgressComponent', () => {
   });
 
   it('circular indeterminate: dashoffset = circumference * 0.25', () => {
-    host.type = 'circular';
-    host.size = 'md';
-    host.value = null;
+    host.type.set('circular');
+    host.size.set('md');
+    host.value.set(null);
     fixture.detectChanges();
     const fill = el().querySelector('.kui-progress-circular-fill')!;
     const offset = parseFloat(fill.getAttribute('stroke-dashoffset')!);
