@@ -1,0 +1,197 @@
+.pg-page {
+  padding: 48px 64px;
+  max-width: 960px;
+}
+
+.pg-title {
+  font-size: var(--kui-text-2xl-size);
+  font-weight: 700;
+  margin-bottom: 40px;
+  letter-spacing: -0.5px;
+}
+
+.pg-section {
+  margin-bottom: 48px;
+}
+
+.pg-section-title {
+  font-size: var(--kui-text-xs-size);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--kui-color-text-secondary);
+  margin-bottom: 24px;
+}
+
+.pg-panel {
+  margin-bottom: 32px;
+}
+
+.pg-label {
+  font-size: var(--kui-text-xs-size);
+  font-weight: 600;
+  color: var(--kui-color-text-secondary);
+  margin-bottom: var(--kui-space-4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pg-field-sm {
+  font-size: var(--kui-text-xs-size);
+  color: var(--kui-color-text-secondary);
+  margin-bottom: var(--kui-space-2);
+}
+
+.pg-mono {
+  font-size: var(--kui-text-xs-size);
+  font-weight: 600;
+  color: var(--kui-color-text-secondary);
+  font-family: monospace;
+}
+
+.pg-mono-sm {
+  font-size: var(--kui-text-xs-size);
+  color: var(--kui-color-text-secondary);
+  font-family: monospace;
+  white-space: nowrap;
+}
+
+/* Linear matrix */
+.progress-matrix {
+  display: grid;
+  grid-template-columns: 48px repeat(5, 1fr);
+  gap: 10px 20px;
+  align-items: center;
+  max-width: 680px;
+}
+
+/* Stacked bars */
+.progress-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kui-space-4);
+}
+
+/* Live demo */
+.progress-live-demo {
+  background: var(--kui-color-surface);
+  border: 1px solid var(--kui-color-border);
+  border-radius: var(--kui-radius-md);
+  padding: var(--kui-space-6);
+  max-width: 480px;
+}
+
+.progress-slider-row {
+  display: flex;
+  align-items: center;
+  gap: var(--kui-space-3);
+  margin-bottom: var(--kui-space-4);
+}
+
+.progress-range {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 4px;
+  border-radius: var(--kui-radius-full);
+  background: var(--kui-color-border);
+  outline: none;
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--kui-color-primary-fill);
+    cursor: pointer;
+  }
+}
+
+.progress-pct {
+  font-size: var(--kui-text-sm-size);
+  font-weight: 600;
+  min-width: 36px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Label compositions */
+.progress-label-row {
+  display: flex;
+  align-items: center;
+  gap: var(--kui-space-3);
+}
+
+.progress-label-text {
+  font-size: var(--kui-text-sm-size);
+  color: var(--kui-color-text-secondary);
+  min-width: 32px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-label-below {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--kui-space-2);
+  font-size: var(--kui-text-xs-size);
+  color: var(--kui-color-text-secondary);
+}
+
+/* Circular matrix */
+.circular-matrix {
+  display: grid;
+  grid-template-columns: 56px repeat(5, 72px);
+  gap: 16px 8px;
+  align-items: center;
+}
+
+.circular-cell {
+  display: flex;
+  justify-content: center;
+}
+
+/* Circular label demos */
+.circular-label-row {
+  display: flex;
+  gap: var(--kui-space-8);
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.circular-label-demo {
+  text-align: center;
+}
+
+.circular-row {
+  display: flex;
+  gap: var(--kui-space-4);
+  flex-wrap: wrap;
+}
+
+/* Themes */
+.progress-theme-row {
+  display: flex;
+  gap: var(--kui-space-6);
+  flex-wrap: wrap;
+}
+
+.progress-theme-box {
+  flex: 1;
+  min-width: 260px;
+  border: 1px solid var(--kui-color-border);
+  border-radius: var(--kui-radius-md);
+  padding: var(--kui-space-6);
+  background: var(--kui-color-bg);
+  color: var(--kui-color-text);
+}
+
+.progress-theme-label {
+  font-size: var(--kui-text-xs-size);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--kui-color-text-secondary);
+  font-weight: 600;
+  margin-bottom: var(--kui-space-4);
+}

@@ -1,0 +1,148 @@
+@layer kui.components {
+  @keyframes kui-progress-slide {
+    0% {
+      left: -35%;
+    }
+    100% {
+      left: 110%;
+    }
+  }
+
+  @keyframes kui-progress-spin {
+    from {
+      transform: rotate(-90deg);
+    }
+    to {
+      transform: rotate(270deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-progress-linear[data-kui-indeterminate] .kui-progress-linear-fill {
+      animation: none;
+      width: 50% !important;
+    }
+
+    .kui-progress-circular[data-kui-indeterminate] svg {
+      animation: none !important;
+    }
+  }
+
+  /* ── Host display ───────────────────────────────────────────────────────── */
+
+  .kui-progress-linear {
+    display: block;
+  }
+
+  /* ── Linear ─────────────────────────────────────────────────────────────── */
+
+  .kui-progress-linear {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--kui-progress-radius, var(--kui-radius-full));
+    background: var(--kui-progress-track, var(--kui-color-border));
+    height: 6px;
+  }
+
+  .kui-progress-linear[data-kui-size='xs'] {
+    height: 2px;
+  }
+  .kui-progress-linear[data-kui-size='sm'] {
+    height: 4px;
+  }
+  .kui-progress-linear[data-kui-size='md'] {
+    height: 6px;
+  }
+  .kui-progress-linear[data-kui-size='lg'] {
+    height: 8px;
+  }
+
+  .kui-progress-linear-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
+    transition: width 200ms var(--kui-ease);
+  }
+
+  .kui-progress-linear[data-kui-color='primary'] .kui-progress-linear-fill {
+    background: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
+  }
+  .kui-progress-linear[data-kui-color='success'] .kui-progress-linear-fill {
+    background: var(--kui-progress-fill-success, var(--kui-color-success-fill));
+  }
+  .kui-progress-linear[data-kui-color='warning'] .kui-progress-linear-fill {
+    background: var(--kui-progress-fill-warning, var(--kui-color-warning-fill));
+  }
+  .kui-progress-linear[data-kui-color='danger'] .kui-progress-linear-fill {
+    background: var(--kui-progress-fill-danger, var(--kui-color-danger-fill));
+  }
+  .kui-progress-linear[data-kui-color='neutral'] .kui-progress-linear-fill {
+    background: var(--kui-progress-fill-neutral, var(--kui-color-text-secondary));
+  }
+
+  /* indeterminate linear */
+  .kui-progress-linear[data-kui-indeterminate] .kui-progress-linear-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 35% !important;
+    animation: kui-progress-slide var(--kui-progress-duration, 1.5s) ease-in-out infinite;
+  }
+
+  /* ── Circular ────────────────────────────────────────────────────────────── */
+
+  .kui-progress-circular {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    --kui-pc: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
+  }
+
+  .kui-progress-circular svg {
+    display: block;
+    transform: rotate(-90deg);
+  }
+
+  .kui-progress-circular-track {
+    stroke: var(--kui-progress-track, var(--kui-color-border));
+  }
+
+  .kui-progress-circular-fill {
+    stroke: var(--kui-pc);
+  }
+
+  .kui-progress-circular-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--kui-color-text);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  /* colors */
+  .kui-progress-circular[data-kui-color='primary'] {
+    --kui-pc: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
+  }
+  .kui-progress-circular[data-kui-color='success'] {
+    --kui-pc: var(--kui-progress-fill-success, var(--kui-color-success-fill));
+  }
+  .kui-progress-circular[data-kui-color='warning'] {
+    --kui-pc: var(--kui-progress-fill-warning, var(--kui-color-warning-fill));
+  }
+  .kui-progress-circular[data-kui-color='danger'] {
+    --kui-pc: var(--kui-progress-fill-danger, var(--kui-color-danger-fill));
+  }
+  .kui-progress-circular[data-kui-color='neutral'] {
+    --kui-pc: var(--kui-progress-fill-neutral, var(--kui-color-text-secondary));
+  }
+
+  /* indeterminate circular */
+  .kui-progress-circular[data-kui-indeterminate] svg {
+    animation: kui-progress-spin var(--kui-progress-duration, 1s) linear infinite;
+  }
+}

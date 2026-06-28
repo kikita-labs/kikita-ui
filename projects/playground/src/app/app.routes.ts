@@ -100,5 +100,9 @@ export const routes: Routes = [
     path: 'accordion',
     loadComponent: () => import('./pages/accordion/accordion.page').then((m) => m.AccordionPage),
   },
+  {
+    path: 'progress',
+    loadComponent: () => import('./pages/progress/progress.page').then((m) => m.ProgressPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

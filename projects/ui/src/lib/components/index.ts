@@ -21,3 +21,4 @@ export * from './dialog';
 export * from './toast';
 export * from './popover';
 export * from './accordion';
+export * from './progress';
