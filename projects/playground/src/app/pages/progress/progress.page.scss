@@ -162,7 +162,7 @@
 }
 
 .pr-theme-label {
-  font-size: 11px;
+  font-size: var(--kui-text-xs-size);
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--kui-color-text-secondary);
