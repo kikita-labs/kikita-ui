@@ -1,225 +1,202 @@
-<div class="pg-page">
-  <h1 class="pg-title">Progress</h1>
+<div class="page">
 
-  <!-- ══════════════ LINEAR ══════════════ -->
-  <section class="pg-section">
-    <h2 class="pg-section-title">LINEAR</h2>
+  <!-- p.01 Linear Sizes × Colors -->
+  <app-panel num="01" title="Linear — Sizes × Colors" description="value 50%, все 4 размера × 5 цветов">
+    <div class="pr-matrix">
+      <div></div>
+      <span class="pr-mono">primary</span>
+      <span class="pr-mono">success</span>
+      <span class="pr-mono">warning</span>
+      <span class="pr-mono">danger</span>
+      <span class="pr-mono">neutral</span>
 
-    <!-- Sizes × Colors -->
-    <div class="pg-panel">
-      <div class="pg-label">Размеры × цвета — value 50%</div>
-      <div class="progress-matrix">
-        <div></div>
-        <span class="pg-mono">primary</span>
-        <span class="pg-mono">success</span>
-        <span class="pg-mono">warning</span>
-        <span class="pg-mono">danger</span>
-        <span class="pg-mono">neutral</span>
+      @for (size of ['xs', 'sm', 'md', 'lg']; track size) {
+        <span class="pr-row-label">{{ size }}</span>
+        @for (color of ['primary', 'success', 'warning', 'danger', 'neutral']; track color) {
+          <kui-progress
+            [size]="$any(size)"
+            [color]="$any(color)"
+            [value]="50"
+            [attr.aria-label]="color + ' ' + size"
+          />
+        }
+      }
+    </div>
+  </app-panel>
 
-        @for (size of ['xs', 'sm', 'md', 'lg']; track size) {
-          <span class="pg-mono-sm">{{ size }}</span>
-          @for (color of ['primary', 'success', 'warning', 'danger', 'neutral']; track color) {
+  <!-- p.02 Linear Indeterminate -->
+  <app-panel num="02" title="Linear — Indeterminate" description="Прогресс неизвестен, анимация 1.5s ease-in-out.">
+    <div class="pr-stack pr-stack--narrow">
+      <div class="pr-field-label">md · primary</div>
+      <kui-progress size="md" color="primary" aria-label="Загрузка" />
+
+      <div class="pr-field-label">lg · success</div>
+      <kui-progress size="lg" color="success" aria-label="Загрузка" />
+
+      <div class="pr-field-label">xs · danger</div>
+      <kui-progress size="xs" color="danger" aria-label="Загрузка" />
+    </div>
+  </app-panel>
+
+  <!-- p.03 Linear Live -->
+  <app-panel num="03" title="Linear — Live demo">
+    <div class="pr-live-box">
+      <div class="pr-slider-row">
+        <input
+          type="range"
+          min="0"
+          max="100"
+          [value]="liveValue()"
+          (input)="onSlider($event)"
+          class="pr-range"
+        />
+        <span class="pr-pct">{{ liveValue() }}%</span>
+      </div>
+      <div class="pr-stack">
+        <kui-progress size="xs" color="primary" [value]="liveValue()" aria-label="xs primary" />
+        <kui-progress size="sm" color="success" [value]="liveValue()" aria-label="sm success" />
+        <kui-progress size="md" color="warning" [value]="liveValue()" aria-label="md warning" />
+        <kui-progress size="lg" color="danger"  [value]="liveValue()" aria-label="lg danger"  />
+      </div>
+    </div>
+  </app-panel>
+
+  <!-- p.04 Linear With Label -->
+  <app-panel num="04" title="Linear — С label" description="Label компонуется снаружи — справа или снизу.">
+    <div class="pr-stack pr-stack--narrow">
+      <div class="pr-label-row">
+        <kui-progress size="md" color="primary" [value]="liveValue()" style="flex:1" aria-label="Загрузка файлов" />
+        <span class="pr-label-pct">{{ liveValue() }}%</span>
+      </div>
+      <div>
+        <kui-progress size="sm" color="success" [value]="82" aria-label="Установка" />
+        <div class="pr-label-below">
+          <span>Установка пакетов</span>
+          <span>82%</span>
+        </div>
+      </div>
+      <div>
+        <kui-progress size="md" color="primary" [value]="60" aria-label="Шаг 3 из 5" />
+        <div class="pr-label-below">
+          <span>Шаг 3 из 5</span>
+          <span>60%</span>
+        </div>
+      </div>
+    </div>
+  </app-panel>
+
+  <!-- p.05 Circular Sizes × Colors -->
+  <app-panel num="05" title="Circular — Sizes × Colors" description="value 60%, все 4 размера × 5 цветов">
+    <div class="pr-circ-matrix">
+      <div></div>
+      <span class="pr-mono" style="text-align:center">primary</span>
+      <span class="pr-mono" style="text-align:center">success</span>
+      <span class="pr-mono" style="text-align:center">warning</span>
+      <span class="pr-mono" style="text-align:center">danger</span>
+      <span class="pr-mono" style="text-align:center">neutral</span>
+
+      @for (size of ['sm', 'md', 'lg', 'xl']; track size) {
+        <span class="pr-row-label">{{ size }}</span>
+        @for (color of ['primary', 'success', 'warning', 'danger', 'neutral']; track color) {
+          <div class="pr-circ-cell">
             <kui-progress
+              type="circular"
               [size]="$any(size)"
               [color]="$any(color)"
-              [value]="50"
-              [attr.aria-label]="color + ' ' + size"
+              [value]="60"
+              [attr.aria-label]="color + ' ' + size + ' 60%'"
             />
-          }
-        }
-      </div>
-    </div>
-
-    <!-- Indeterminate -->
-    <div class="pg-panel">
-      <div class="pg-label">Indeterminate</div>
-      <div class="progress-stack" style="max-width: 480px">
-        <div class="pg-field-sm">md · primary</div>
-        <kui-progress size="md" color="primary" aria-label="Загрузка" />
-
-        <div class="pg-field-sm">lg · success</div>
-        <kui-progress size="lg" color="success" aria-label="Загрузка" />
-
-        <div class="pg-field-sm">xs · danger</div>
-        <kui-progress size="xs" color="danger" aria-label="Загрузка" />
-      </div>
-    </div>
-
-    <!-- Live demo -->
-    <div class="pg-panel">
-      <div class="pg-label">Live demo</div>
-      <div class="progress-live-demo">
-        <div class="progress-slider-row">
-          <input
-            type="range"
-            min="0"
-            max="100"
-            [value]="liveValue()"
-            (input)="onSlider($event)"
-            class="progress-range"
-          />
-          <span class="progress-pct">{{ liveValue() }}%</span>
-        </div>
-        <div class="progress-stack">
-          <kui-progress size="xs" color="primary" [value]="liveValue()" aria-label="xs primary" />
-          <kui-progress size="sm" color="success" [value]="liveValue()" aria-label="sm success" />
-          <kui-progress size="md" color="warning" [value]="liveValue()" aria-label="md warning" />
-          <kui-progress size="lg" color="danger" [value]="liveValue()" aria-label="lg danger" />
-        </div>
-      </div>
-    </div>
-
-    <!-- With label -->
-    <div class="pg-panel">
-      <div class="pg-label">С label (composed outside component)</div>
-      <div class="progress-stack" style="max-width: 480px">
-        <div class="progress-label-row">
-          <kui-progress size="md" color="primary" [value]="liveValue()" style="flex:1" aria-label="Загрузка файлов" />
-          <span class="progress-label-text">{{ liveValue() }}%</span>
-        </div>
-        <div>
-          <kui-progress size="sm" color="success" [value]="82" aria-label="Установка" />
-          <div class="progress-label-below">
-            <span>Установка пакетов</span>
-            <span>82%</span>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════ CIRCULAR ══════════════ -->
-  <section class="pg-section">
-    <h2 class="pg-section-title">CIRCULAR</h2>
-
-    <!-- Sizes × Colors -->
-    <div class="pg-panel">
-      <div class="pg-label">Размеры × цвета — value 60%</div>
-      <div class="circular-matrix">
-        <div></div>
-        <span class="pg-mono">primary</span>
-        <span class="pg-mono">success</span>
-        <span class="pg-mono">warning</span>
-        <span class="pg-mono">danger</span>
-        <span class="pg-mono">neutral</span>
-
-        @for (size of ['sm', 'md', 'lg', 'xl']; track size) {
-          <span class="pg-mono-sm">{{ size }}</span>
-          @for (color of ['primary', 'success', 'warning', 'danger', 'neutral']; track color) {
-            <div class="circular-cell">
-              <kui-progress
-                type="circular"
-                [size]="$any(size)"
-                [color]="$any(color)"
-                [value]="60"
-                [attr.aria-label]="color + ' ' + size + ' 60%'"
-              />
-            </div>
-          }
         }
+      }
+    </div>
+  </app-panel>
+
+  <!-- p.06 Circular Center Label -->
+  <app-panel num="06" title="Circular — С текстом в центре">
+    <div class="pr-circ-row">
+      <div class="pr-circ-demo">
+        <div class="pr-field-label">md · 36px · 72%</div>
+        <kui-progress type="circular" size="md" color="primary" [value]="72" aria-label="72%">
+          <span style="font-size:var(--kui-text-2xs-size)">72%</span>
+        </kui-progress>
+      </div>
+      <div class="pr-circ-demo">
+        <div class="pr-field-label">lg · 48px · 72%</div>
+        <kui-progress type="circular" size="lg" color="primary" [value]="72" aria-label="72%">
+          <span style="font-size:var(--kui-text-xs-size)">72%</span>
+        </kui-progress>
+      </div>
+      <div class="pr-circ-demo">
+        <div class="pr-field-label">xl · success · 100% + icon</div>
+        <kui-progress type="circular" size="xl" color="success" [value]="100" aria-label="Готово">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8L7 12L13 4" stroke="var(--kui-color-success-fill)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span style="font-size:var(--kui-text-xs-size);color:var(--kui-color-text-secondary)">Готово</span>
+          </div>
+        </kui-progress>
+      </div>
+      <div class="pr-circ-demo">
+        <div class="pr-field-label">xl · warning · 45%</div>
+        <kui-progress type="circular" size="xl" color="warning" [value]="45" aria-label="45%">
+          <span style="font-size:var(--kui-text-base-size)">45%</span>
+        </kui-progress>
+      </div>
+      <div class="pr-circ-demo">
+        <div class="pr-field-label">lg · live · {{ liveValue() }}%</div>
+        <kui-progress type="circular" size="lg" color="primary" [value]="liveValue()" [attr.aria-label]="liveValue() + '%'">
+          <span style="font-size:var(--kui-text-xs-size)">{{ liveValue() }}%</span>
+        </kui-progress>
       </div>
     </div>
+  </app-panel>
 
-    <!-- Center label -->
-    <div class="pg-panel">
-      <div class="pg-label">С текстом в центре</div>
-      <div class="circular-label-row">
-        <div class="circular-label-demo">
-          <div class="pg-field-sm">md · 36px · 72%</div>
-          <kui-progress type="circular" size="md" color="primary" [value]="72" aria-label="72%">
-            <span style="font-size: var(--kui-text-2xs-size)">72%</span>
-          </kui-progress>
-        </div>
-        <div class="circular-label-demo">
-          <div class="pg-field-sm">lg · 48px · 72%</div>
-          <kui-progress type="circular" size="lg" color="primary" [value]="72" aria-label="72%">
-            <span style="font-size: var(--kui-text-xs-size)">72%</span>
-          </kui-progress>
-        </div>
-        <div class="circular-label-demo">
-          <div class="pg-field-sm">xl · 64px · success 100%</div>
-          <kui-progress type="circular" size="xl" color="success" [value]="100" aria-label="Готово">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M3 8L7 12L13 4" stroke="var(--kui-color-success-fill)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span style="font-size:var(--kui-text-xs-size);color:var(--kui-color-text-secondary)">Готово</span>
-            </div>
-          </kui-progress>
-        </div>
-        <div class="circular-label-demo">
-          <div class="pg-field-sm">xl · 64px · warning 45%</div>
-          <kui-progress type="circular" size="xl" color="warning" [value]="45" aria-label="45%">
-            <span style="font-size:var(--kui-text-base-size)">45%</span>
-          </kui-progress>
-        </div>
-        <div class="circular-label-demo">
-          <div class="pg-field-sm">Live · {{ liveValue() }}%</div>
-          <kui-progress type="circular" size="lg" color="primary" [value]="liveValue()" [attr.aria-label]="liveValue() + '%'">
-            <span style="font-size:var(--kui-text-xs-size)">{{ liveValue() }}%</span>
-          </kui-progress>
-        </div>
+  <!-- p.07 Circular Indeterminate -->
+  <app-panel num="07" title="Circular — Indeterminate" description="Кольцо вращается, 1s linear infinite.">
+    <div class="pr-circ-row">
+      <div class="pr-circ-demo">
+        <div class="pr-field-label">md · primary</div>
+        <kui-progress type="circular" size="md" color="primary" aria-label="Загрузка" />
+      </div>
+      <div class="pr-circ-demo">
+        <div class="pr-field-label">lg · primary</div>
+        <kui-progress type="circular" size="lg" color="primary" aria-label="Загрузка" />
+      </div>
+      <div class="pr-circ-demo">
+        <div class="pr-field-label">xl · danger</div>
+        <kui-progress type="circular" size="xl" color="danger" aria-label="Загрузка" />
+      </div>
+      <div class="pr-circ-demo">
+        <div class="pr-field-label">sm · success</div>
+        <kui-progress type="circular" size="sm" color="success" aria-label="Загрузка" />
       </div>
     </div>
+  </app-panel>
 
-    <!-- Indeterminate -->
-    <div class="pg-panel">
-      <div class="pg-label">Indeterminate — кольцо вращается</div>
-      <div class="circular-label-row">
-        <div class="circular-label-demo">
-          <div class="pg-field-sm">md · primary</div>
-          <kui-progress type="circular" size="md" color="primary" aria-label="Загрузка" />
-        </div>
-        <div class="circular-label-demo">
-          <div class="pg-field-sm">lg · primary</div>
-          <kui-progress type="circular" size="lg" color="primary" aria-label="Загрузка" />
-        </div>
-        <div class="circular-label-demo">
-          <div class="pg-field-sm">xl · danger</div>
-          <kui-progress type="circular" size="xl" color="danger" aria-label="Загрузка" />
-        </div>
-        <div class="circular-label-demo">
-          <div class="pg-field-sm">sm · success</div>
-          <kui-progress type="circular" size="sm" color="success" aria-label="Загрузка" />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════ THEMES ══════════════ -->
-  <section class="pg-section">
-    <h2 class="pg-section-title">Dark &amp; Light themes</h2>
-    <div class="progress-theme-row">
+  <!-- p.08 Themes -->
+  <app-panel num="08" title="Dark &amp; Light Themes">
+    <div class="pr-theme-row">
       @for (theme of ['dark', 'light']; track theme) {
-        <div class="progress-theme-box" [attr.data-kui-theme]="theme">
-          <div class="progress-theme-label">{{ theme }}</div>
-          <div class="progress-stack">
+        <div class="pr-theme-box" [attr.data-kui-theme]="theme">
+          <div class="pr-theme-label">{{ theme }}</div>
+          <div class="pr-stack">
             @for (color of ['primary', 'success', 'warning', 'danger', 'neutral']; track color) {
-              <div class="progress-label-row">
-                <span class="pg-mono-sm" style="min-width:56px">{{ color }}</span>
-                <kui-progress
-                  size="md"
-                  [color]="$any(color)"
-                  [value]="60"
-                  style="flex:1"
-                  [attr.aria-label]="color"
-                />
+              <div class="pr-label-row">
+                <span class="pr-row-label" style="min-width:56px">{{ color }}</span>
+                <kui-progress size="md" [color]="$any(color)" [value]="60" style="flex:1" [attr.aria-label]="color" />
               </div>
             }
           </div>
-          <div class="circular-row" style="margin-top:var(--kui-space-4)">
+          <div class="pr-circ-inline" style="margin-top:16px">
             @for (color of ['primary', 'success', 'warning', 'danger', 'neutral']; track color) {
-              <kui-progress
-                type="circular"
-                size="md"
-                [color]="$any(color)"
-                [value]="60"
-                [attr.aria-label]="color"
-              />
+              <kui-progress type="circular" size="md" [color]="$any(color)" [value]="60" [attr.aria-label]="color" />
             }
           </div>
         </div>
       }
     </div>
-  </section>
+  </app-panel>
+
 </div>
