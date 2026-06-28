@@ -16,6 +16,12 @@ class TooltipHost {}
 })
 class EmptyTooltipHost {}
 
+@Component({
+  imports: [KuiTooltipDirective],
+  template: '<button [kuiTooltip]="\'   \'">Whitespace tooltip</button>',
+})
+class WhitespaceTooltipHost {}
+
 describe('KuiTooltipDirective', () => {
   afterEach(() => vi.useRealTimers());
 
@@ -52,6 +58,16 @@ describe('KuiTooltipDirective', () => {
 
     btn.dispatchEvent(new MouseEvent('mouseenter'));
     expect(document.getElementById(describedById)).toBeNull();
+  });
+
+  it('does not describe or append tooltip when text is whitespace only', () => {
+    const fixture = createFixture(WhitespaceTooltipHost);
+    const btn = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+
+    expect(btn.getAttribute('aria-describedby')).toBeNull();
+
+    btn.dispatchEvent(new MouseEvent('mouseenter'));
+    expect(document.querySelector('.kui-tooltip')).toBeNull();
   });
 
   it('does not create duplicate tooltips on repeated mouseenter', () => {

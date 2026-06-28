@@ -41,9 +41,9 @@ let nextTabsId = 0;
       @if (canScrollLeft()) {
         <button
           class="kui-tabs__scroll-btn kui-tabs__scroll-btn--left"
+          type="button"
           (click)="scrollBy(-200)"
-          aria-hidden="true"
-          tabindex="-1"
+          aria-label="Scroll tabs left"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path
@@ -64,9 +64,9 @@ let nextTabsId = 0;
       @if (canScrollRight()) {
         <button
           class="kui-tabs__scroll-btn kui-tabs__scroll-btn--right"
+          type="button"
           (click)="scrollBy(200)"
-          aria-hidden="true"
-          tabindex="-1"
+          aria-label="Scroll tabs right"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path

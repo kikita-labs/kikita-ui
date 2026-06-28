@@ -21,13 +21,15 @@ import { KuiTextareaDirective } from '@kikita-labs/ui';
 Use Angular Signal Forms `[formField]` on the same native textarea:
 
 ```html
-<kui-field label="Description" [error]="descriptionError()">
+<kui-field label="Description" hint="Short project description">
   <textarea kuiTextarea [formField]="profileForm.description"></textarea>
 </kui-field>
 ```
 
 `kuiTextarea` owns visual styling and ARIA description wiring through `kui-field`. Angular Signal
-Forms owns the value, disabled state, touched/dirty state, and validation pipeline.
+Forms owns the value, disabled state, touched/dirty state, and validation pipeline. When projected
+inside `kui-field`, the field wrapper reads the descendant `[formField]` and infers the required
+marker and first error message from Angular Signal Forms metadata.
 
 ## Inputs
 

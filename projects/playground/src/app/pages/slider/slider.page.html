@@ -224,7 +224,11 @@
 
   <!-- p.07 In KuiField -->
   <app-panel num="07" title="In KuiField - with label and hint">
-    <div class="sl-stack">
+    <form class="sl-stack" [formRoot]="settingsForm">
+      <kui-field label="Signal Forms volume" hint="Native range bound with Angular [formField].">
+        <input type="range" kuiSlider [formField]="settingsForm.volume" />
+      </kui-field>
+
       <kui-field label="Volume" hint="Controls playback level (0-100)">
         <input
           type="range"
@@ -236,11 +240,7 @@
         />
       </kui-field>
 
-      <div>
-        <div class="sl-inline-label">
-          <span class="sl-inline-label-text">Opacity</span>
-          <span class="sl-inline-label-value">{{ opacityValue }}%</span>
-        </div>
+      <kui-field label="Opacity" [hint]="opacityValue + '%'">
         <input
           type="range"
           kuiSlider
@@ -250,17 +250,9 @@
           color="neutral"
           aria-label="Opacity"
         />
-      </div>
+      </kui-field>
 
-      <div>
-        <div class="sl-inline-label">
-          <span class="sl-inline-label-text" style="color: var(--kui-color-text-disabled)"
-            >Compression quality</span
-          >
-          <span class="sl-inline-label-value" style="color: var(--kui-color-text-disabled)"
-            >50%</span
-          >
-        </div>
+      <kui-field label="Compression quality" hint="Unavailable on the free plan">
         <input
           type="range"
           kuiSlider
@@ -270,11 +262,8 @@
           disabled
           aria-label="Compression quality"
         />
-        <div class="sl-hint" style="color: var(--kui-color-text-disabled)">
-          Unavailable on the free plan
-        </div>
-      </div>
-    </div>
+      </kui-field>
+    </form>
   </app-panel>
 
   <!-- p.08 Live Demo -->

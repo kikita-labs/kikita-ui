@@ -1,7 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormField, form, max, min } from '@angular/forms/signals';
 import { describe, it, expect, beforeEach } from 'vitest';
 
+import { KuiFieldComponent } from '../field';
 import { KuiSliderDirective } from './kui-slider.directive';
 
 @Component({
@@ -30,6 +32,22 @@ class TestHostComponent {
   readonly disabled = signal(false);
   readonly minLabel = signal('');
   readonly maxLabel = signal('');
+}
+
+@Component({
+  template: `
+    <kui-field label="Volume">
+      <input type="range" kuiSlider [formField]="settingsForm.volume" />
+    </kui-field>
+  `,
+  imports: [FormField, KuiFieldComponent, KuiSliderDirective],
+})
+class SignalFormsHostComponent {
+  readonly model = signal({ volume: 60 });
+  readonly settingsForm = form(this.model, (path) => {
+    min(path.volume, 0);
+    max(path.volume, 100);
+  });
 }
 
 describe('KuiSliderDirective', () => {
@@ -123,5 +141,28 @@ describe('KuiSliderDirective', () => {
     host.size.set('lg');
     fixture.detectChanges();
     expect(container().dataset['kuiSize']).toBe('lg');
+  });
+});
+
+describe('KuiSliderDirective with Angular Signal Forms', () => {
+  it('keeps native range and generated fill synced with the form value', async () => {
+    await TestBed.configureTestingModule({
+      imports: [SignalFormsHostComponent],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(SignalFormsHostComponent);
+    fixture.detectChanges();
+
+    const native = fixture.nativeElement.querySelector('.kui-slider-native') as HTMLInputElement;
+    const fill = fixture.nativeElement.querySelector('.kui-slider-fill') as HTMLElement;
+
+    expect(native.value).toBe('60');
+    expect(fill.style.width).toBe('60%');
+
+    native.value = '80';
+    native.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.model().volume).toBe(80);
+    expect(fill.style.width).toBe('80%');
   });
 });

@@ -1,20 +1,31 @@
 @if (label(); as fieldLabel) {
   <label class="kui-field__label" [attr.for]="controlId">
     <span>{{ fieldLabel }}</span>
-    @if (required()) {
+    @if (isRequired()) {
       <span class="kui-field__required" aria-hidden="true">*</span>
     }
   </label>
+} @else if (projectedLabel()) {
+  <div class="kui-field__label-row">
+    <ng-content select="[kuiLabel]" />
+    @if (isRequired()) {
+      <span class="kui-field__required" aria-hidden="true">*</span>
+    }
+  </div>
 }
 
 <div class="kui-field__control" #controlSlot>
-  <ng-content />
+  <ng-content select=":not([kuiLabel]):not([kuiHint]):not([kuiError])" />
 </div>
 
 @if (hint(); as hintText) {
   <p class="kui-field__hint" [id]="hintId">{{ hintText }}</p>
 }
 
-@if (error(); as errorText) {
+<ng-content select="[kuiHint]" />
+
+@if (displayedError(); as errorText) {
   <p class="kui-field__error" [id]="errorId" role="alert">{{ errorText }}</p>
 }
+
+<ng-content select="[kuiError]" />

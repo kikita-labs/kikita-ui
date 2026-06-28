@@ -18,7 +18,7 @@ let tooltipCounter = 0;
 
 /**
  * Shows a text tooltip on hover and keyboard focus.
- * Not shown on touch input — use an overlay or tap sheet for mobile.
+ * Not shown on touch input; use an overlay or tap sheet for mobile.
  *
  * @example
  * ```html
@@ -55,7 +55,7 @@ export class KuiTooltipDirective implements OnDestroy {
 
   /** @internal */
   protected show(): void {
-    const text = this.kuiTooltip();
+    const text = this.kuiTooltip().trim();
     if (!text || !isPlatformBrowser(this.platformId) || this.tooltipEl) return;
     this.showWithText(text);
   }

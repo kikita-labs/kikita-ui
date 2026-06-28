@@ -11,24 +11,28 @@ import { KuiCheckboxDirective } from '@kikita-labs/ui';
 ## Usage
 
 ```html
-<label>
-  <input kuiCheckbox type="checkbox" />
-  Receive updates
-</label>
+<kui-field label="Notifications" hint="Control product and release emails">
+  <label>
+    <input kuiCheckbox type="checkbox" />
+    Receive updates
+  </label>
+</kui-field>
 ```
 
 Inside `kui-field`, `kuiCheckbox` receives the field id, `aria-describedby`, and invalid state
-automatically.
+automatically. Keep the native label around the checkbox for the option text itself.
 
 ## Signal Forms
 
 Use Angular Signal Forms `[formField]` on the same native checkbox:
 
 ```html
-<label>
-  <input kuiCheckbox type="checkbox" [formField]="settingsForm.receiveUpdates" />
-  Receive updates
-</label>
+<kui-field label="Notifications" hint="Control product and release emails">
+  <label>
+    <input kuiCheckbox type="checkbox" [formField]="settingsForm.receiveUpdates" />
+    Receive updates
+  </label>
+</kui-field>
 ```
 
 For future custom checkbox-like components, prefer Angular Signal Forms `FormCheckboxControl` over

@@ -54,6 +54,23 @@ are placed directly on the native input and work without extra directive inputs.
 - Readonly native inputs set `data-kui-readonly` on the container and disable both buttons.
 - Native keyboard behavior on the input remains available: ArrowUp, ArrowDown, Home, and End.
 
+## Signal Forms
+
+Use Angular Signal Forms `[formField]` on the same native input:
+
+```html
+<kui-field label="Count" hint="Enter a value from 1 to 100">
+  <input type="number" kuiNumberInput [formField]="profileForm.count" />
+</kui-field>
+```
+
+When projected inside `kui-field`, the field wrapper reads the descendant `[formField]` and infers
+the required marker and first error message from Angular Signal Forms metadata.
+
+Use Angular Signal Forms `min(...)` and `max(...)` validators for range constraints. Do not add
+native `min`/`max` attributes to an element that has `[formField]`; Angular binds those native
+properties from the schema metadata.
+
 ## Accessibility
 
 - The native `input[type=number]` keeps its built-in keyboard and screen-reader semantics.

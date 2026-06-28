@@ -11,12 +11,22 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { FormField } from '@angular/forms/signals';
 
 import { KUI_OPTION_CONTEXT, KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KuiSize } from '../../types';
+import {
+  KuiErrorDirective,
+  KuiHintDirective,
+  KuiLabelDirective,
+} from './kui-field-markers.directive';
 
 let nextFieldId = 0;
+
+function optionalBooleanAttribute(value: unknown): boolean | undefined {
+  return value == null ? undefined : booleanAttribute(value);
+}
 
 /** Wraps a form control with Kikita UI label, hint, error, and required state semantics. */
 @Component({
@@ -33,7 +43,7 @@ let nextFieldId = 0;
   },
 })
 export class KuiFieldComponent implements KuiOptionContext {
-  /** Field size — adjusts control slot height and spacing. Defaults to md. */
+  /** Field size, adjusting control slot height and spacing. Defaults to md. */
   readonly size = input<KuiSize>('md');
 
   /** Visible field label. */
@@ -45,8 +55,13 @@ export class KuiFieldComponent implements KuiOptionContext {
   /** Optional error text rendered below the control and announced through ARIA. */
   readonly error = input<string | undefined>();
 
-  /** Marks the field label as required. */
-  readonly required = input(false, { transform: booleanAttribute });
+  /** Hides automatically rendered Angular Signal Forms error messages. */
+  readonly hideErrors = input(false, { transform: booleanAttribute });
+
+  /** Explicitly controls the required marker. Omit to inherit from a projected Angular Signal Forms field. */
+  readonly required = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   /** Stable id used by descendant controls for label association. */
   readonly controlId = `kui-field-${nextFieldId++}`;
@@ -57,19 +72,52 @@ export class KuiFieldComponent implements KuiOptionContext {
   /** Stable id for error text. */
   readonly errorId = `${this.controlId}-error`;
 
+  /** Error text rendered by shorthand input or inferred from a projected Angular Signal Forms field. */
+  readonly displayedError = computed(() => {
+    const explicitError = this.error();
+    if (explicitError) return explicitError;
+    if (this.hideErrors()) return undefined;
+
+    return this.signalFormField()
+      ?.state()
+      .errors()
+      .find((error) => error.message)?.message;
+  });
+
   /** Whether the field currently has an error. */
-  readonly invalid = computed(() => Boolean(this.error()));
+  readonly invalid = computed(
+    () =>
+      Boolean(this.displayedError()) ||
+      Boolean(this.projectedError()) ||
+      Boolean(this.signalFormField()?.state().invalid()),
+  );
+
+  /** Whether the required marker should be visible. */
+  readonly isRequired = computed(
+    () => this.required() ?? this.signalFormField()?.state().required() ?? false,
+  );
 
   /** Space-separated ids that describe the descendant control. */
   readonly describedBy = computed(() => {
     const ids: string[] = [];
 
+    const projectedHintId = this.projectedHint()?.id;
+    const projectedErrorId = this.projectedError()?.id;
+
     if (this.hint()) {
       ids.push(this.hintId);
     }
 
-    if (this.error()) {
+    if (projectedHintId) {
+      ids.push(projectedHintId);
+    }
+
+    if (this.displayedError()) {
       ids.push(this.errorId);
+    }
+
+    if (projectedErrorId) {
+      ids.push(projectedErrorId);
     }
 
     return ids.length > 0 ? ids.join(' ') : null;
@@ -77,7 +125,11 @@ export class KuiFieldComponent implements KuiOptionContext {
 
   protected readonly dropdown = contentChild(KuiDropdownComponent);
   protected readonly dropdownOpen = computed(() => this.dropdown()?.isOpen() ?? false);
+  protected readonly projectedLabel = contentChild(KuiLabelDirective);
 
+  private readonly signalFormField = contentChild<FormField<unknown>>(FormField);
+  private readonly projectedHint = contentChild(KuiHintDirective);
+  private readonly projectedError = contentChild(KuiErrorDirective);
   private readonly hostEl = inject(ElementRef<HTMLElement>);
   private readonly controlSlot = viewChild<ElementRef<HTMLElement>>('controlSlot');
   private readonly _selectCtx = signal<KuiOptionContext | null>(null);
@@ -91,9 +143,13 @@ export class KuiFieldComponent implements KuiOptionContext {
         dropdown.setAnchor(control.nativeElement, this.hostEl.nativeElement);
       }
     });
+
+    effect(() => {
+      this.projectedLabel()?.setFor(this.controlId);
+    });
   }
 
-  // KuiOptionContext — delegates to registered select directive
+  // KuiOptionContext delegates to the registered select directive.
   readonly isSelected = (value: unknown): Signal<boolean> | boolean =>
     this._selectCtx()?.isSelected(value) ?? false;
 

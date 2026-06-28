@@ -5,12 +5,7 @@
 >
   <div class="forms-panel__body">
     <form class="form-preview" [formRoot]="profileForm">
-      <kui-field
-        label="Email"
-        hint="Required email field from Angular Signal Forms."
-        [required]="profileForm.email().required()"
-        [error]="fieldError(profileForm.email)"
-      >
+      <kui-field label="Email" hint="Required email field from Angular Signal Forms.">
         <input
           kuiInput
           type="email"
@@ -19,12 +14,7 @@
         />
       </kui-field>
 
-      <kui-field
-        label="Project"
-        hint="Minimum 3 characters."
-        [required]="profileForm.project().required()"
-        [error]="fieldError(profileForm.project)"
-      >
+      <kui-field label="Project" hint="Minimum 3 characters.">
         <input kuiInput placeholder="Kikita UI" [formField]="profileForm.project" />
       </kui-field>
 

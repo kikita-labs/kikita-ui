@@ -33,14 +33,4 @@ export class FormsPage {
   });
 
   protected readonly formValue = computed(() => JSON.stringify(this.model(), null, 2));
-
-  protected fieldError(field: typeof this.profileForm.email): string | undefined {
-    const state = field();
-
-    if (!state.touched() && !state.dirty()) {
-      return undefined;
-    }
-
-    return state.errors()[0]?.message;
-  }
 }

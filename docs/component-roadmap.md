@@ -80,4 +80,4 @@ Current primitive state coverage is tracked in `docs/state-coverage.md`.
 
 After that, migrate one isolated low-risk screen first. Avoid mixed Taiga/Kikita surfaces unless the screen is explicitly a migration sandbox.
 
-Docs pages exist for all implemented primitives through Slider. Accessibility review for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider is still pending.
+Docs pages exist for all implemented primitives through Number Input. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider; browser and assistive-technology review is still pending.

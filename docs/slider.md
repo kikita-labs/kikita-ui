@@ -11,18 +11,41 @@ import { KuiSliderDirective } from '@kikita-labs/ui';
 ## Usage
 
 ```html
-<input type="range" kuiSlider min="0" max="100" value="60" aria-label="Volume" />
-
-<input type="range" kuiSlider color="success" size="lg" minLabel="0" maxLabel="100" />
-```
-
-Use native range input semantics first. Keep an accessible name through `aria-label`, `aria-labelledby`, or a wrapping `kui-field`.
-
-```html
 <kui-field label="Volume" hint="Use arrow keys, Home, and End.">
-  <input type="range" kuiSlider min="0" max="100" />
+  <input type="range" kuiSlider min="0" max="100" value="60" />
 </kui-field>
 ```
+
+Use native range input semantics first. For visible labels and helper text, prefer a wrapping
+`kui-field` instead of hand-written labels or description ids.
+
+```html
+<input
+  type="range"
+  kuiSlider
+  color="success"
+  size="lg"
+  minLabel="0"
+  maxLabel="100"
+  aria-label="Progress"
+/>
+```
+
+## Signal Forms
+
+Use Angular Signal Forms `[formField]` on the same native range input. Angular owns the native range
+value, disabled state, and validation state; `kuiSlider` keeps the generated track/thumb visuals in
+sync with the native input.
+
+```html
+<kui-field label="Volume" hint="Signal Forms native range binding">
+  <input type="range" kuiSlider [formField]="settingsForm.volume" />
+</kui-field>
+```
+
+Use Angular Signal Forms `min(...)` and `max(...)` validators for range constraints. Do not add
+native `min`/`max` attributes to an element that has `[formField]`; Angular binds those native
+properties from the schema metadata.
 
 ## Inputs
 

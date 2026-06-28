@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { FormField, FormRoot, form, max, min } from '@angular/forms/signals';
 
 import { KuiFieldComponent, KuiSliderDirective, KuiTooltipDirective } from '@kikita-labs/ui';
 
@@ -13,6 +14,8 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
     KuiFieldComponent,
     PlaygroundPanelComponent,
     FormsModule,
+    FormField,
+    FormRoot,
   ],
   templateUrl: './slider.page.html',
   styleUrl: './slider.page.scss',
@@ -20,6 +23,11 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 })
 export class SliderPage {
   protected readonly liveValue = signal<number>(60);
+  protected readonly settingsModel = signal({ volume: 60 });
+  protected readonly settingsForm = form(this.settingsModel, (path) => {
+    min(path.volume, 0);
+    max(path.volume, 100);
+  });
   protected volumeValue = 65;
   protected opacityValue = 40;
 }

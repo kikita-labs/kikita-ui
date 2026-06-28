@@ -25,6 +25,9 @@ This repository contains Kikita UI, an Angular 22+ UI library and design system.
 
 - Prefer directive-based primitives on native elements when native semantics already exist, for example `button[kuiButton]`, `input[kuiInput]`, `table[kuiTable]`.
 - Use components for composite primitives that need projected children, context, roving keyboard state, or coordinated visual state, for example tabs and segmented controls.
+- Form-associated controls with visible label, hint, error, or required state must be documented and demonstrated inside `kui-field`. Put `[formField]` on the native/control element inside `kui-field`; do not move `[formField]` to `kui-field`.
+- Do not hand-roll field-level label, hint, error, required marker, or `aria-describedby` wiring around inputs in docs or playground pages. Use `kui-field` shorthand inputs (`label`, `hint`, `hideErrors`, `required`) by default, and use projected `kuiLabel`, `kuiHint`, and `kuiError` only for custom templates. Native option labels for checkbox/radio/switch choices are still appropriate inside the field.
+- `kui-field` is responsible for inferring Signal Forms required state and first error message from the projected `[formField]`. Individual input-like directives should stay focused on native control styling/behavior unless they implement an Angular Signal Forms control contract.
 - Use signal inputs/models/queries for public APIs and internal state.
 - Template-facing internal members should be `protected`; implementation-only members should be `private`.
 - Public primitives must be exported from `projects/ui/src/lib/components/index.ts` and their local component barrel.

@@ -45,6 +45,8 @@ interface InternalToastItem {
         <div
           class="kui-toast"
           [attr.data-kui-appearance]="toast.config.appearance ?? 'neutral'"
+          [attr.role]="toast.config.appearance === 'danger' ? 'alert' : 'status'"
+          [attr.aria-live]="toast.config.appearance === 'danger' ? 'assertive' : 'polite'"
           [style.animation]="toast.closing() ? _outAnim() : _inAnim()"
           (mouseenter)="pauseTimer(toast.id)"
           (mouseleave)="resumeTimer(toast.id)"
