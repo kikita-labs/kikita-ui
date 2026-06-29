@@ -8,4 +8,5 @@ export interface KuiTabsContext {
   panelId(value: string): string;
 }
 
+/** Injection token used by tab and panel directives to access their parent tabs state. */
 export const KUI_TABS_CONTEXT = new InjectionToken<KuiTabsContext>('KuiTabsContext');

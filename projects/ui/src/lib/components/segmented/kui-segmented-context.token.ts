@@ -6,4 +6,5 @@ export interface KuiSegmentedContext {
   select(value: string): void;
 }
 
+/** Injection token used by `kuiSegment` to access its parent segmented control. */
 export const KUI_SEGMENTED_CONTEXT = new InjectionToken<KuiSegmentedContext>('KuiSegmentedContext');

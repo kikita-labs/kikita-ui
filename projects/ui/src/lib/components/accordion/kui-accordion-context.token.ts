@@ -6,4 +6,5 @@ export interface KuiAccordionContext {
   toggle(id: string): void;
 }
 
+/** Injection token used by accordion items to access their parent accordion state. */
 export const KUI_ACCORDION_CONTEXT = new InjectionToken<KuiAccordionContext>('KuiAccordionContext');

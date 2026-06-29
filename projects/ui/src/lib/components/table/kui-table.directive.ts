@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { KuiSize } from '../../types';
 import { KuiSortState } from './types';
 
+/** Injection token used by table child directives to access their parent table state. */
 export const KUI_TABLE_CTX = new InjectionToken<KuiTableDirective>('KuiTableContext');
 
 function defaultCompare(a: unknown, b: unknown): number {

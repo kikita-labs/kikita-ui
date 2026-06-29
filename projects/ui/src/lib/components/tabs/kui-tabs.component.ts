@@ -16,6 +16,7 @@ import { KuiSize } from '../../types';
 import { KuiTabDirective } from './kui-tab.directive';
 import { KUI_TABS_CONTEXT, KuiTabsContext } from './kui-tabs-context.token';
 
+/** Visual treatment used by `kui-tabs`. */
 export type KuiTabsVariant = 'line' | 'pill';
 
 let nextTabsId = 0;

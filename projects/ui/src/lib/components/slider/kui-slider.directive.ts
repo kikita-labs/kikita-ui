@@ -14,7 +14,10 @@ import {
 
 import { KuiTooltipDirective } from '../tooltip/kui-tooltip.directive';
 
+/** Semantic color used by `kuiSlider`. */
 export type KuiSliderColor = 'primary' | 'success' | 'danger' | 'neutral';
+
+/** Size token used by `kuiSlider`. */
 export type KuiSliderSize = 'sm' | 'md' | 'lg';
 
 const TOOLTIP_GAP = 6;
@@ -34,10 +37,19 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   // If user adds [kuiTooltip]="'static text'", we defer to it; empty = value mode.
   private readonly kuiTooltip = inject(KuiTooltipDirective, { optional: true, self: true });
 
+  /** Semantic color applied to the generated slider fill and thumb. */
   readonly color = input<KuiSliderColor>('primary');
+
+  /** Visual size of the generated slider control. */
   readonly size = input<KuiSliderSize>('md');
+
+  /** Optional label rendered below the minimum side of the slider. */
   readonly minLabel = input<string>('');
+
+  /** Optional label rendered below the maximum side of the slider. */
   readonly maxLabel = input<string>('');
+
+  /** Mirrors disabled state onto the generated slider container. */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   private containerEl!: HTMLElement;
