@@ -57,6 +57,7 @@ let nextPopoverId = 0;
           [attr.data-side]="_side()"
           [attr.data-align]="_align()"
           role="dialog"
+          [attr.aria-label]="ariaLabel()"
           (animationend)="onAnimationEnd($event)"
           (mouseenter)="onPanelMouseEnter()"
           (mouseleave)="onPanelMouseLeave()"
@@ -81,8 +82,11 @@ export class KuiPopoverComponent implements OnDestroy {
   /** Show the arrow caret pointing to the anchor. */
   readonly arrow = input(false);
 
-  /** `click` — toggle on click, close on outside click / ESC. `hover` — open on mouseenter, close on mouseleave. */
+  /** `click` toggles on click and closes on outside click / ESC. `hover` opens on mouseenter and closes on mouseleave. */
   readonly triggerType = input<KuiPopoverTriggerType>('click');
+
+  /** Accessible name for the popover dialog panel. Override with content-specific text when possible. */
+  readonly ariaLabel = input('Popover');
 
   /** Delay before closing on mouseleave (ms). Allows mouse to travel from trigger to panel. */
   readonly hoverDelay = input(100);
@@ -297,7 +301,7 @@ export class KuiPopoverComponent implements OnDestroy {
     const h = aln === 'start' ? 'start' : aln === 'end' ? 'end' : 'center'; // originX for top/bottom
     const v = aln === 'start' ? 'top' : aln === 'end' ? 'bottom' : 'center'; // originY for left/right
 
-    // CDK 22: never use overlayX/Y 'center'/'end' — pane size=0 before paint → wrong pos.
+    // CDK 22: never use overlayX/Y 'center'/'end'; pane size=0 before paint gives wrong position.
     // Always 'start'; alignment compensated by _alignTransform on inner wrapper div.
     // offsetX/Y sign used to identify side in _sideFromPair (unambiguous).
     if (side === 'bottom')

@@ -6,7 +6,7 @@ import { afterEach, vi } from 'vitest';
 import { KuiPopoverComponent } from './kui-popover.component';
 import { KuiPopoverForDirective } from './kui-popover-for.directive';
 
-// ── host fixtures ─────────────────────────────────────────────────────────────
+// Host fixtures
 
 @Component({
   imports: [KuiPopoverComponent, KuiPopoverForDirective],
@@ -47,7 +47,20 @@ class ArrowHost {
   readonly pop = viewChild.required(KuiPopoverComponent);
 }
 
-// ── helpers ───────────────────────────────────────────────────────────────────
+@Component({
+  imports: [KuiPopoverComponent, KuiPopoverForDirective],
+  template: `
+    <button [kuiPopoverFor]="pop" id="trigger">Open</button>
+    <kui-popover #pop ariaLabel="Account actions">
+      <p>Content</p>
+    </kui-popover>
+  `,
+})
+class LabelHost {
+  readonly pop = viewChild.required(KuiPopoverComponent);
+}
+
+// Helpers
 
 function createFixture<T>(component: new () => T): ComponentFixture<T> {
   TestBed.configureTestingModule({ imports: [component] });
@@ -68,9 +81,9 @@ function cleanOverlay(): void {
   TestBed.inject(OverlayContainer).getContainerElement().innerHTML = '';
 }
 
-// ── tests ─────────────────────────────────────────────────────────────────────
+// Tests
 
-describe('KuiPopoverForDirective — aria attributes', () => {
+describe('KuiPopoverForDirective - aria attributes', () => {
   afterEach(() => {
     vi.useRealTimers();
     cleanOverlay();
@@ -97,7 +110,7 @@ describe('KuiPopoverForDirective — aria attributes', () => {
   });
 });
 
-describe('KuiPopoverComponent — click trigger', () => {
+describe('KuiPopoverComponent - click trigger', () => {
   afterEach(() => {
     vi.useRealTimers();
     cleanOverlay();
@@ -113,6 +126,24 @@ describe('KuiPopoverComponent — click trigger', () => {
     expect(pop.open()).toBe(true);
     expect(getPanel()).not.toBeNull();
     expect(getPanel()?.getAttribute('role')).toBe('dialog');
+  });
+
+  it('sets a default accessible name on the dialog panel', () => {
+    const fixture = createFixture(ClickHost);
+
+    getTrigger(fixture).click();
+    fixture.detectChanges();
+
+    expect(getPanel()?.getAttribute('aria-label')).toBe('Popover');
+  });
+
+  it('supports a custom accessible name for the dialog panel', () => {
+    const fixture = createFixture(LabelHost);
+
+    getTrigger(fixture).click();
+    fixture.detectChanges();
+
+    expect(getPanel()?.getAttribute('aria-label')).toBe('Account actions');
   });
 
   it('click on trigger opens popover', () => {
@@ -157,7 +188,7 @@ describe('KuiPopoverComponent — click trigger', () => {
   });
 });
 
-describe('KuiPopoverComponent — hover trigger', () => {
+describe('KuiPopoverComponent - hover trigger', () => {
   afterEach(() => {
     vi.useRealTimers();
     cleanOverlay();
@@ -209,7 +240,7 @@ describe('KuiPopoverComponent — hover trigger', () => {
   });
 });
 
-describe('KuiPopoverComponent — arrow', () => {
+describe('KuiPopoverComponent - arrow', () => {
   afterEach(() => {
     vi.useRealTimers();
     cleanOverlay();
