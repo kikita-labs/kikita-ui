@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { KUI_OPTION_CONTEXT, KuiOptionContext } from './kui-option-context.token';
 import { KuiOptionDirective } from './kui-option.directive';
 
-// ── mock context ──────────────────────────────────────────────────────────────
+// Mock context
 
 class MockOptionContext implements KuiOptionContext {
   selected = signal(false);
@@ -16,7 +16,7 @@ class MockOptionContext implements KuiOptionContext {
   };
 }
 
-// ── host fixtures ─────────────────────────────────────────────────────────────
+// Host fixtures
 
 @Component({
   imports: [KuiOptionDirective],
@@ -41,7 +41,7 @@ class ObjectOptionHost {
   obj = { id: 1 };
 }
 
-// ── helpers ───────────────────────────────────────────────────────────────────
+// Helpers
 
 function createFixture<T>(component: new () => T): ComponentFixture<T> {
   TestBed.configureTestingModule({ imports: [component] });
@@ -58,7 +58,7 @@ function getContext(fixture: ComponentFixture<unknown>): MockOptionContext {
   return fixture.debugElement.injector.get(KUI_OPTION_CONTEXT) as MockOptionContext;
 }
 
-// ── tests ─────────────────────────────────────────────────────────────────────
+// Tests
 
 describe('KuiOptionDirective', () => {
   describe('host attributes', () => {

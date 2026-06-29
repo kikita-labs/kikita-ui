@@ -1,18 +1,20 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { afterEach } from 'vitest';
 
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KuiOptionDirective } from '../dropdown/kui-option.directive';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import { KuiSelectDirective } from './kui-select.directive';
 
-// ── host fixtures ─────────────────────────────────────────────────────────────
+// Host fixtures
 
 @Component({
   imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
   template: `
     <kui-field>
-      <input kuiSelect [(value)]="val" placeholder="Pick…" />
+      <input kuiSelect [(value)]="val" placeholder="Pick..." (touch)="touches.set(touches() + 1)" />
       <kui-dropdown>
         <div kuiOption value="a">Option A</div>
         <div kuiOption value="b">Option B</div>
@@ -22,6 +24,7 @@ import { KuiSelectDirective } from './kui-select.directive';
 })
 class BasicHost {
   val = signal<string | null>(null);
+  touches = signal(0);
 }
 
 interface User {
@@ -33,7 +36,7 @@ interface User {
   imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
   template: `
     <kui-field>
-      <input kuiSelect [(value)]="val" [kuiLabelFn]="label" placeholder="Pick…" />
+      <input kuiSelect [(value)]="val" [kuiLabelFn]="label" placeholder="Pick..." />
       <kui-dropdown>
         <div kuiOption [value]="users[0]">Alice</div>
       </kui-dropdown>
@@ -76,7 +79,7 @@ class DisabledHost {
   val = signal<string | null>(null);
 }
 
-// ── helpers ───────────────────────────────────────────────────────────────────
+// Helpers
 
 function createFixture<T>(component: new () => T): ComponentFixture<T> {
   TestBed.configureTestingModule({ imports: [component] });
@@ -93,9 +96,17 @@ function getField(fixture: ComponentFixture<unknown>): HTMLElement {
   return fixture.nativeElement.querySelector('kui-field') as HTMLElement;
 }
 
-// ── tests ─────────────────────────────────────────────────────────────────────
+function cleanOverlay(): void {
+  TestBed.inject(OverlayContainer).getContainerElement().innerHTML = '';
+}
+
+// Tests
 
 describe('KuiSelectDirective', () => {
+  afterEach(() => {
+    cleanOverlay();
+  });
+
   describe('ARIA', () => {
     it('sets combobox semantics on the native input', () => {
       const fixture = createFixture(BasicHost);
@@ -147,6 +158,32 @@ describe('KuiSelectDirective', () => {
       fixture.detectChanges();
 
       expect(getInput(fixture).value).toBe('Alice');
+    });
+  });
+
+  describe('touch output', () => {
+    it('does not emit touch during initial render', () => {
+      const fixture = createFixture(BasicHost);
+      expect(fixture.componentInstance.touches()).toBe(0);
+    });
+
+    it('emits touch after an opened dropdown closes', () => {
+      const fixture = createFixture(BasicHost);
+
+      getField(fixture).click();
+      fixture.detectChanges();
+
+      const option = document.querySelector('.kui-listbox-option') as HTMLElement;
+      option.click();
+      fixture.detectChanges();
+
+      const panel = document.querySelector('.kui-dropdown') as HTMLElement;
+      const animationEnd = new Event('animationend') as AnimationEvent;
+      Object.defineProperty(animationEnd, 'animationName', { value: 'kui-dropdown-out' });
+      panel.dispatchEvent(animationEnd);
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.touches()).toBe(1);
     });
   });
 

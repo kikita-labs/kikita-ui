@@ -5,7 +5,7 @@
 >
   <div class="state-board__row">
     <kui-field label="Role" style="width: 240px">
-      <input kuiSelect [(value)]="selectedRole" placeholder="Select a role…" />
+      <input kuiSelect [(value)]="selectedRole" placeholder="Select a role..." />
       <kui-dropdown>
         @for (opt of roles; track opt.value) {
           <div kuiOption [value]="opt.value">{{ opt.label }}</div>
@@ -28,7 +28,7 @@
         [(value)]="selectedUser"
         [kuiLabelFn]="userLabelFn"
         [clearable]="true"
-        placeholder="Select a user…"
+        placeholder="Select a user..."
       />
       <kui-dropdown>
         @for (user of users; track user.id) {
@@ -47,12 +47,12 @@
 
 <app-panel
   num="03"
-  title="input[kuiSelect] — disabled"
+  title="input[kuiSelect] - disabled"
   description="Disabled state: the field is disabled, and the dropdown does not open even when clicking the label."
 >
   <div class="state-board__row">
     <kui-field label="Locked field" style="width: 240px">
-      <input kuiSelect [value]="selectedRole()" [disabled]="true" placeholder="Disabled…" />
+      <input kuiSelect [value]="selectedRole()" [disabled]="true" placeholder="Disabled..." />
       <kui-dropdown>
         @for (opt of roles; track opt.value) {
           <div kuiOption [value]="opt.value">{{ opt.label }}</div>

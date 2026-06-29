@@ -85,7 +85,7 @@ export class KuiDropdownComponent implements OnDestroy {
   /**
    * Called by KuiFieldComponent to wire up the anchor element.
    * @param positionEl element used for overlay positioning and minWidth (e.g. the control slot)
-   * @param _outsideClickIgnoreEl reserved — not used with backdrop strategy (kept for API compat)
+   * @param _outsideClickIgnoreEl reserved; not used with backdrop strategy (kept for API compat)
    */
   setAnchor(positionEl: HTMLElement, _outsideClickIgnoreEl?: HTMLElement): void {
     this._anchorEl = positionEl;

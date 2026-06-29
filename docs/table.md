@@ -1,27 +1,29 @@
 # Table
 
-`kuiTable` is a directive-based compound primitive for data tables. It provides sort state, row selection, and sticky column/header coordination through a shared DI context.
+`kuiTable` is a directive-based compound primitive for native data tables. It
+provides sort state, row selection, and sticky column/header coordination through
+a shared DI context while preserving table semantics.
 
 ## Import
 
 ```ts
 import {
-  KuiTableDirective,
-  KuiThGroupDirective,
-  KuiThDirective,
-  KuiRowDirective,
   KuiCellDirective,
-  KuiSelectThComponent,
+  KuiRowDirective,
   KuiSelectCellComponent,
+  KuiSelectThComponent,
+  KuiTableDirective,
+  KuiThDirective,
+  KuiThGroupDirective,
 } from '@kikita-labs/ui';
 ```
 
 ## Usage
 
 ```html
-<table kuiTable [data]="rows">
+<table kuiTable [data]="rows" #table="kuiTable">
   <thead>
-    <tr>
+    <tr kuiThGroup>
       <th kuiSelectTh></th>
       <th kuiTh sortKey="name">Name</th>
       <th kuiTh sortKey="status">Status</th>
@@ -34,45 +36,71 @@ import {
       <td kuiSelectCell></td>
       <td kuiCell>{{ row.name }}</td>
       <td kuiCell>{{ row.status }}</td>
-      <td kuiCell>…</td>
+      <td kuiCell>...</td>
     </tr>
     }
   </tbody>
 </table>
 ```
 
-Access the directive instance via a template reference to read computed state:
+## Inputs: `table[kuiTable]`
 
-```html
-<table kuiTable [data]="rows" #table="kuiTable"></table>
-```
+| Input  | Type                           | Default | Description                         |
+| ------ | ------------------------------ | ------- | ----------------------------------- |
+| `data` | `T[]`                          | `[]`    | Source rows for sorting/selection.  |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'`  | Table density and typography scale. |
 
-## Inputs — `table[kuiTable]`
+## Inputs: `th[kuiTh]`
 
-- `data`: `T[]` — source rows (default: `[]`)
-- `size`: `xs | sm | md | lg` (default: `md`)
+| Input        | Type                     | Default | Description                                                   |
+| ------------ | ------------------------ | ------- | ------------------------------------------------------------- |
+| `sortKey`    | `string \| undefined`    | -       | Enables sort for this column; usually matches a row property. |
+| `comparator` | `(a: T, b: T) => number` | -       | Custom sort function for the column.                          |
+| `sticky`     | `boolean`                | `false` | Pins this header cell to the left with `position: sticky`.    |
 
-## Inputs — `[kuiTh]`
+Sortable headers render a native `<button type="button">` inside the `<th>`.
+The `<th>` owns `aria-sort`; the button owns the keyboard and click interaction.
 
-- `sortKey`: `string` — enables sort on this column; must match a key of the row type
-- `comparator`: custom sort function `(a: T, b: T) => number`
-- `sticky`: `boolean` — pins column to the left with `position: sticky`
+## Inputs: `tr[kuiRow]`
 
-## Inputs — `[kuiRow]`
-
-- `value` (required): `T` — the data object for this row
+| Input   | Type | Description                   |
+| ------- | ---- | ----------------------------- |
+| `value` | `T`  | The data object for this row. |
 
 ## Sort
 
-Clicking a sortable header cycles through `asc → desc → (clear)`. Active sort state is available on the directive as `sortState: Signal<KuiSortState | null>`. Sorted rows are exposed as `sortedData: Signal<T[]>`.
+Clicking a sortable header cycles through `asc`, `desc`, and clear. Active sort
+state is available on the directive as `sortState: Signal<KuiSortState>`, where
+`null` means no active sort. Sorted rows are exposed as `sortedData:
+Signal<T[]>`.
+
+When `(sortChange)` is not observed, `kuiTable` sorts `data` locally. When
+`(sortChange)` is observed, `kuiTable` emits sort state and leaves row ordering
+to the parent. The clear state emits `null`.
 
 ## Selection
 
-`kuiSelectTh` renders a header checkbox (select all / indeterminate). `kuiSelectCell` renders a per-row checkbox. Selected values are tracked internally; `isSelected(value)` returns `boolean`.
+`th[kuiSelectTh]` renders a native checkbox for select-all / indeterminate
+state. `td[kuiSelectCell]` renders a native checkbox for each row. Selected
+values are tracked internally; `isSelected(value)` returns `boolean`.
+
+The selection column appears only when `(selectionChange)` is observed.
 
 ## Sticky
 
-Add `sticky` to `[kuiTh]` to pin the column. Add `sticky` to `[kuiCell]` on matching body cells.
+Add `sticky` to `th[kuiTh]` to pin the header column. Add `sticky` to `td[kuiCell]`
+on matching body cells.
+
+## Accessibility
+
+- Keep real `<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, and `<td>` markup.
+- Sortable headers keep `aria-sort` on `<th>` and expose the action through a
+  native button.
+- Selection uses native checkboxes with accessible labels.
+- Add a native `<caption>` in product tables when the surrounding page does not
+  already provide a clear table title.
+- Avoid putting complex interactive widgets inside cells unless their focus
+  order and labels are explicitly tested.
 
 ## CSS Variables
 

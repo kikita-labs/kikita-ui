@@ -98,7 +98,7 @@ export class TablePage {
     });
   });
 
-  protected onServerSort(evt: { key: string; direction: 'asc' | 'desc' }): void {
+  protected onServerSort(evt: { key: string; direction: 'asc' | 'desc' } | null): void {
     this._serverSort.set(evt);
   }
 }

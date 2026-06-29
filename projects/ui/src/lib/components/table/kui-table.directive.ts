@@ -3,7 +3,7 @@ import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
 
 import { KuiSize } from '../../types';
-import { KuiSortState } from './types';
+import { KuiActiveSortState, KuiSortState } from './types';
 
 /** Injection token used by table child directives to access their parent table state. */
 export const KUI_TABLE_CTX = new InjectionToken<KuiTableDirective>('KuiTableContext');
@@ -36,10 +36,10 @@ export class KuiTableDirective<T = unknown> {
   readonly sortChange = outputFromObservable(this._sortChange$);
 
   private readonly comparatorMap = new Map<string, (a: T, b: T) => number>();
-  private readonly _sortState = signal<KuiSortState | null>(null);
+  private readonly _sortState = signal<KuiSortState>(null);
   private readonly _selectedItems = signal<Set<T>>(new Set());
 
-  readonly sortState: Signal<KuiSortState | null> = this._sortState.asReadonly();
+  readonly sortState: Signal<KuiSortState> = this._sortState.asReadonly();
 
   readonly sortedData = computed<T[]>(() => {
     const state = this._sortState();
@@ -103,9 +103,14 @@ export class KuiTableDirective<T = unknown> {
 
   updateSort(key: string): void {
     const current = this._sortState();
-    const direction: 'asc' | 'desc' =
-      current?.key === key && current.direction === 'asc' ? 'desc' : 'asc';
-    const next: KuiSortState = { key, direction };
+    const next: KuiSortState =
+      current?.key === key && current.direction === 'desc'
+        ? null
+        : ({
+            key,
+            direction: current?.key === key && current.direction === 'asc' ? 'desc' : 'asc',
+          } satisfies KuiActiveSortState);
+
     this._sortState.set(next);
     if (this._sortChange$.observed) {
       this._sortChange$.next(next);

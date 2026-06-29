@@ -1,4 +1,14 @@
-import { Directive, computed, inject, input } from '@angular/core';
+import {
+  AfterViewInit,
+  computed,
+  Directive,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  OnDestroy,
+  Renderer2,
+} from '@angular/core';
 
 import { KUI_TABLE_CTX } from './kui-table.directive';
 
@@ -11,13 +21,12 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
     '[class.kui-th--sort-asc]': 'sortDir() === "asc"',
     '[class.kui-th--sort-desc]': 'sortDir() === "desc"',
     '[attr.aria-sort]': 'ariaSort()',
-    '[attr.tabindex]': 'sortKey() ? 0 : null',
-    '(click)': 'onClick()',
-    '(keydown)': 'onKeydown($event)',
   },
 })
-export class KuiThDirective {
+export class KuiThDirective implements AfterViewInit, OnDestroy {
   private readonly table = inject(KUI_TABLE_CTX, { optional: true });
+  private readonly el = inject<ElementRef<HTMLTableCellElement>>(ElementRef);
+  private readonly renderer = inject(Renderer2);
 
   readonly sortKey = input<string | undefined>(undefined);
   readonly comparator = input<((a: unknown, b: unknown) => number) | undefined>(undefined);
@@ -38,7 +47,48 @@ export class KuiThDirective {
     return this.sortKey() ? 'none' : null;
   });
 
-  protected onClick(): void {
+  private readonly sortButtonLabel = computed(() => {
+    const dir = this.sortDir();
+    if (dir === 'asc') return 'Sort descending';
+    if (dir === 'desc') return 'Clear sort';
+    return 'Sort ascending';
+  });
+
+  private sortButton: HTMLButtonElement | null = null;
+  private removeSortListener: (() => void) | null = null;
+
+  constructor() {
+    effect(() => {
+      const label = this.sortButtonLabel();
+      if (this.sortButton) {
+        this.renderer.setAttribute(this.sortButton, 'aria-label', label);
+      }
+    });
+  }
+
+  private ensureSortButton(): void {
+    if (this.sortButton) return;
+
+    const host = this.el.nativeElement;
+    const button = this.renderer.createElement('button') as HTMLButtonElement;
+    this.renderer.setAttribute(button, 'type', 'button');
+    this.renderer.addClass(button, 'kui-th__sort-button');
+
+    Array.from(host.childNodes).forEach((node) => this.renderer.appendChild(button, node));
+    this.renderer.appendChild(host, button);
+    this.removeSortListener = this.renderer.listen(button, 'click', () => this.onSort());
+    this.sortButton = button;
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.sortKey()) return;
+    this.ensureSortButton();
+    if (this.sortButton) {
+      this.renderer.setAttribute(this.sortButton, 'aria-label', this.sortButtonLabel());
+    }
+  }
+
+  private onSort(): void {
     const key = this.sortKey();
     if (!key || !this.table) return;
 
@@ -47,11 +97,7 @@ export class KuiThDirective {
     this.table.updateSort(key);
   }
 
-  protected onKeydown(event: KeyboardEvent): void {
-    if (!this.sortKey()) return;
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-
-    event.preventDefault();
-    this.onClick();
+  ngOnDestroy(): void {
+    this.removeSortListener?.();
   }
 }

@@ -24,11 +24,11 @@
 - Card (done as `[kuiCard]`)
 - Tabs (done as `kui-tabs`)
 - Segmented (done as `kui-segmented`)
-- Table primitives (done as `table[kuiTable]`; deeper accessibility review still pending)
+- Table primitives (done as `table[kuiTable]`; deeper static accessibility review completed, browser/AT review pending)
 
 ## Phase 3
 
-- Select (done as `kui-select`; self-contained positioning, will refactor to use Dropdown primitive)
+- Select (done as `input[kuiSelect]` with `kui-dropdown` and `kuiOption`)
 - Dropdown (done as `kui-dropdown` + `[kuiDropdownFor]` + `[kuiOption]`; field auto-wiring via `contentChild`)
 - Popover (done as `kui-popover` + `[kuiPopoverFor]`)
 - Dialog (done as `kui-dialog` + dialog service)
@@ -63,9 +63,13 @@ Add Angular schematic support before real consumer migration:
 
 Initial install documentation lives in `docs/install.md`.
 
+Docs pages exist for all implemented primitives through Number Input. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider; browser and assistive-technology review is still pending.
+
 ## Consumer Migration Gate
 
-Do not integrate Kikita UI into an existing Taiga UI surface immediately after Phase 1.
+Keep this as the final gate of the current plan. Do not integrate Kikita UI into
+an existing Taiga UI surface until the package install flow, browser review, and
+accessibility review are stable.
 
 Before migrating `discord-bot` screens, Kikita UI should reach a coherent MVP:
 
@@ -75,9 +79,10 @@ Before migrating `discord-bot` screens, Kikita UI should reach a coherent MVP:
 - Badge, Loader, and Card exist.
 - Playground covers tokens, theme, states, forms, density, light/dark, and mobile checks.
 - Public docs and JSDoc exist for exported primitives.
+- Install DX is verified against a fresh Angular app.
+- Browser and assistive-technology review is complete for overlay and table primitives.
 
 Current primitive state coverage is tracked in `docs/state-coverage.md`.
 
-After that, migrate one isolated low-risk screen first. Avoid mixed Taiga/Kikita surfaces unless the screen is explicitly a migration sandbox.
-
-Docs pages exist for all implemented primitives through Number Input. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider; browser and assistive-technology review is still pending.
+After that, migrate one isolated low-risk screen first. Avoid mixed Taiga/Kikita
+surfaces unless the screen is explicitly a migration sandbox.

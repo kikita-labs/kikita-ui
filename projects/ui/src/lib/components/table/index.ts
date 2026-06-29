@@ -5,4 +5,4 @@ export { KuiRowDirective } from './kui-row.directive';
 export { KuiCellDirective } from './kui-cell.directive';
 export { KuiSelectThComponent } from './kui-select-th.component';
 export { KuiSelectCellComponent } from './kui-select-cell.component';
-export type { KuiSortState } from './types';
+export type { KuiActiveSortState, KuiSortState } from './types';

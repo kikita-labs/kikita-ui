@@ -80,7 +80,7 @@ export class KuiSelectDirective<T = unknown>
   readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
   /** Whether the control has been touched. Set by `[formField]`. */
   readonly touched = input(false);
-  /** Emitted when the dropdown closes — marks the control as touched in the form system. */
+  /** Emitted when the dropdown closes; marks the control as touched in the form system. */
   readonly touch = output<void>();
 
   /** Maps a selected value to its display string. Required when `T` is not a primitive. */
@@ -122,6 +122,7 @@ export class KuiSelectDirective<T = unknown>
   };
 
   private _keyboardOpened = false;
+  private _wasOpen = false;
   private readonly suffixRef: ComponentRef<KuiSelectInputSuffixComponent>;
 
   constructor() {
@@ -148,13 +149,17 @@ export class KuiSelectDirective<T = unknown>
     effect(() => {
       const dropdown = this.field?.getDropdown();
       if (!dropdown) return;
-      if (!dropdown.isOpen()) {
+      const isOpen = dropdown.isOpen();
+
+      if (this._wasOpen && !isOpen) {
         this.touch.emit();
         if (this._keyboardOpened) {
           this._keyboardOpened = false;
           this.el.nativeElement.focus();
         }
       }
+
+      this._wasOpen = isOpen;
     });
 
     this.suffixRef.instance.cleared.subscribe(() => {
