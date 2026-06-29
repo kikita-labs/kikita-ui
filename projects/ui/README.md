@@ -17,6 +17,15 @@ For private GitHub Packages usage, configure npm authentication for
 npm install @kikita-labs/ui
 ```
 
+Angular CLI setup:
+
+```bash
+ng add @kikita-labs/ui
+```
+
+The schematic adds `@kikita-labs/ui/styles` to the selected application and
+registers `provideKikitaUi()` in `app.config.ts`.
+
 ## Styles
 
 Import the runtime CSS variable/component style entrypoint once in the app:

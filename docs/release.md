@@ -28,7 +28,7 @@ pnpm format:check
 pnpm build
 pnpm build:playground
 pnpm test
-npm pack dist/ui --pack-destination .local-notes
+npm pack ./dist/ui --pack-destination .local-notes
 ```
 
 The local tarball should contain:
@@ -36,8 +36,17 @@ The local tarball should contain:
 - `fesm2022/kikita-labs-ui.mjs`
 - `types/kikita-labs-ui.d.ts`
 - `styles/kikita-ui.css`
+- `schematics/collection.json`
+- `schematics/ng-add/index.cjs`
 - `package.json`
 - `README.md`
+
+Before publishing a package with install changes, verify that `ng add` still:
+
+- preserves existing string and object style entries;
+- adds `@kikita-labs/ui/styles` once;
+- adds `provideKikitaUi()` once;
+- respects `--skip-provider` and `--skip-styles`.
 
 ## Publish
 

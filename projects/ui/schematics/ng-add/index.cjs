@@ -65,7 +65,7 @@ function addStyles(tree, workspace, projectName) {
   const options = (buildTarget.options ??= {});
   const styles = normalizeStyles(options.styles);
 
-  if (!styles.includes(STYLE_ENTRYPOINT)) {
+  if (!hasStyleEntry(styles, STYLE_ENTRYPOINT)) {
     styles.push(STYLE_ENTRYPOINT);
   }
 
@@ -78,8 +78,16 @@ function normalizeStyles(styles) {
     return [];
   }
 
-  return styles.map((style) => {
-    return typeof style === 'string' ? style : style.input;
+  if (!Array.isArray(styles)) {
+    throw new SchematicsException('Build target styles option must be an array.');
+  }
+
+  return styles;
+}
+
+function hasStyleEntry(styles, entrypoint) {
+  return styles.some((style) => {
+    return (typeof style === 'string' ? style : style.input) === entrypoint;
   });
 }
 
