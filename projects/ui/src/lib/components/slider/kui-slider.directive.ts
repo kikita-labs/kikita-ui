@@ -4,6 +4,7 @@ import {
   Directive,
   DoCheck,
   ElementRef,
+  HostListener,
   OnDestroy,
   Renderer2,
   booleanAttribute,
@@ -127,6 +128,20 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   protected onMouseLeave(): void {
     this.tooltipVisible = false;
     this.destroyTooltip();
+  }
+
+  @HostListener('mousemove')
+  protected onMouseMove(): void {
+    if (this.tooltipVisible) {
+      this.positionOverThumb();
+    }
+  }
+
+  @HostListener('window:scroll')
+  protected onWindowScroll(): void {
+    if (this.tooltipVisible) {
+      this.positionOverThumb();
+    }
   }
 
   protected updateFill(): void {

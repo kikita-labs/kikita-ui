@@ -1,5 +1,5 @@
 @layer kui.components {
-  /* ── Host ───────────────────────────────────────────────────────────────── */
+  /* Host */
 
   kui-slider {
     display: block;
@@ -23,7 +23,7 @@
     padding: 11px 0;
   }
 
-  /* ── Native input — full container overlay ──────────────────────────────── */
+  /* Native input: full container overlay */
   /*   Lives as direct child of .kui-slider (not inside track) so it covers   */
   /*   the full height including padding, making thumb fully clickable.        */
 
@@ -44,7 +44,24 @@
     cursor: not-allowed;
   }
 
-  /* ── Track ──────────────────────────────────────────────────────────────── */
+  .kui-slider-native::-webkit-slider-runnable-track,
+  .kui-slider-native::-webkit-slider-thumb {
+    cursor: pointer;
+  }
+
+  .kui-slider-native::-moz-range-track,
+  .kui-slider-native::-moz-range-thumb {
+    cursor: pointer;
+  }
+
+  .kui-slider-native:disabled::-webkit-slider-runnable-track,
+  .kui-slider-native:disabled::-webkit-slider-thumb,
+  .kui-slider-native:disabled::-moz-range-track,
+  .kui-slider-native:disabled::-moz-range-thumb {
+    cursor: not-allowed;
+  }
+
+  /* Track */
 
   .kui-slider-track {
     position: relative;
@@ -68,7 +85,7 @@
     margin: 0 11px;
   }
 
-  /* ── Fill ───────────────────────────────────────────────────────────────── */
+  /* Fill */
 
   .kui-slider-fill {
     position: absolute;
@@ -93,7 +110,7 @@
     background: var(--kui-color-text-secondary);
   }
 
-  /* ── Thumb ──────────────────────────────────────────────────────────────── */
+  /* Thumb */
 
   .kui-slider-thumb {
     position: absolute;
@@ -141,7 +158,7 @@
     background: var(--kui-color-text-secondary);
   }
 
-  /* ── States — native is sibling of track, so we target track's children ── */
+  /* States: native is sibling of track, so we target track children */
 
   .kui-slider-native:hover ~ .kui-slider-track .kui-slider-thumb {
     box-shadow:
@@ -176,7 +193,7 @@
     height: 26px;
   }
 
-  /* ── Disabled ────────────────────────────────────────────────────────────── */
+  /* Disabled */
 
   .kui-slider[data-kui-disabled] {
     cursor: not-allowed;
@@ -196,7 +213,7 @@
     box-shadow: none !important;
   }
 
-  /* ── Tooltip ─────────────────────────────────────────────────────────────── */
+  /* Tooltip */
 
   .kui-slider-tooltip {
     position: absolute;
@@ -229,7 +246,7 @@
     border-top: 4px solid var(--kui-color-text);
   }
 
-  /* ── Labels ──────────────────────────────────────────────────────────────── */
+  /* Labels */
 
   .kui-slider-labels {
     display: flex;
@@ -239,7 +256,7 @@
     color: var(--kui-color-text-secondary);
   }
 
-  /* ── Reduced motion ──────────────────────────────────────────────────────── */
+  /* Reduced motion */
 
   @media (prefers-reduced-motion: reduce) {
     .kui-slider-thumb {
