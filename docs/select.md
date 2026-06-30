@@ -90,8 +90,8 @@ Put `[formField]` on the native input inside `kui-field`.
 </kui-field>
 ```
 
-`kui-field` handles required markers, hint/error wiring, and automatic error
-messages from the projected form field.
+`kui-field` handles required markers, explicit field errors, hint/error wiring,
+and automatic error messages from the projected form field.
 
 ## Keyboard Navigation
 
@@ -109,7 +109,7 @@ messages from the projected form field.
 - The dropdown panel uses `role="listbox"`.
 - Each `kuiOption` uses `role="option"`, `aria-selected`, and `aria-disabled`.
 - The clear button is a native button with `aria-label="Clear"`.
-- Use `kui-field` for label, hint, error, and `aria-describedby` wiring.
+- Use `kui-field` for label, hint, error, `aria-describedby`, and `aria-invalid` wiring.
 
 ## Styling
 

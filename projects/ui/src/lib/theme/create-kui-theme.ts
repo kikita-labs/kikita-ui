@@ -395,6 +395,13 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-loader-fill': 'var(--kui-color-primary-fill)',
     '--kui-loader-border-width': '2px',
     '--kui-loader-duration': '800ms',
+    '--kui-slider-thumb-shadow': '0 1px 3px oklch(0 0 0 / 0.45), 0 0 0 1.5px oklch(0 0 0 / 0.12)',
+    '--kui-slider-thumb-shadow-hover':
+      '0 0 0 5px oklch(0.67 0.2125 285 / 0.22), 0 1px 3px oklch(0 0 0 / 0.30)',
+    '--kui-slider-thumb-shadow-focus':
+      '0 0 0 3px var(--kui-color-primary-focus-ring), 0 1px 2px oklch(0 0 0 / 0.30)',
+    '--kui-slider-thumb-shadow-active':
+      '0 2px 8px oklch(0 0 0 / 0.50), 0 0 0 4px oklch(0.67 0.2125 285 / 0.15)',
     '--kui-card-bg': 'var(--kui-color-surface)',
     '--kui-card-bg-elevated': 'var(--kui-color-surface-elevated)',
     '--kui-card-bg-sunken': 'var(--kui-color-surface-sunken)',

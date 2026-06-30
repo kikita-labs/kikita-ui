@@ -203,3 +203,12 @@ Field and input tokens:
 --kui-input-placeholder
 --kui-input-focus-ring
 ```
+
+Slider tokens:
+
+```css
+--kui-slider-thumb-shadow
+--kui-slider-thumb-shadow-hover
+--kui-slider-thumb-shadow-focus
+--kui-slider-thumb-shadow-active
+```

@@ -79,6 +79,21 @@ class DisabledHost {
   val = signal<string | null>(null);
 }
 
+@Component({
+  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  template: `
+    <kui-field label="Choice" error="Choice is required">
+      <input kuiSelect [(value)]="val" placeholder="Pick..." />
+      <kui-dropdown>
+        <div kuiOption value="a">Option A</div>
+      </kui-dropdown>
+    </kui-field>
+  `,
+})
+class InvalidFieldHost {
+  val = signal<string | null>(null);
+}
+
 // Helpers
 
 function createFixture<T>(component: new () => T): ComponentFixture<T> {
@@ -132,6 +147,14 @@ describe('KuiSelectDirective', () => {
       fixture.detectChanges();
 
       expect(input.getAttribute('aria-expanded')).toBe('true');
+    });
+
+    it('inherits aria-invalid from an invalid kui-field', () => {
+      const fixture = createFixture(InvalidFieldHost);
+      const input = getInput(fixture);
+
+      expect(input.getAttribute('aria-invalid')).toBe('true');
+      expect(input.getAttribute('aria-describedby')).toContain(`${input.id}-error`);
     });
   });
 

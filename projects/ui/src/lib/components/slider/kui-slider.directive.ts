@@ -8,11 +8,13 @@ import {
   OnDestroy,
   Renderer2,
   booleanAttribute,
+  computed,
   effect,
   inject,
   input,
 } from '@angular/core';
 
+import { KuiFieldComponent } from '../field';
 import { KuiTooltipDirective } from '../tooltip/kui-tooltip.directive';
 
 /** Semantic color used by `kuiSlider`. */
@@ -26,6 +28,9 @@ const TOOLTIP_GAP = 6;
 @Directive({
   selector: 'input[type=range][kuiSlider]',
   host: {
+    '[attr.id]': 'hostId()',
+    '[attr.aria-describedby]': 'describedBy()',
+    '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
     '(input)': 'updateFill()',
     '(mouseenter)': 'onMouseEnter()',
     '(mouseleave)': 'onMouseLeave()',
@@ -35,6 +40,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   private readonly el = inject(ElementRef<HTMLInputElement>);
   private readonly renderer = inject(Renderer2);
   private readonly doc = inject(DOCUMENT);
+  private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
   // If user adds [kuiTooltip]="'static text'", we defer to it; empty = value mode.
   private readonly kuiTooltip = inject(KuiTooltipDirective, { optional: true, self: true });
 
@@ -53,6 +59,23 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   /** Mirrors disabled state onto the generated slider container. */
   readonly disabled = input(false, { transform: booleanAttribute });
 
+  /** Marks the slider as invalid outside a `kui-field` error state. */
+  readonly invalidInput = input(false, { alias: 'invalid', transform: booleanAttribute });
+
+  /** Explicit id override. If omitted inside `kui-field`, the field id is used. */
+  readonly id = input<string | undefined>();
+
+  /** @internal */
+  protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
+
+  /** @internal */
+  protected readonly effectiveInvalid = computed(
+    () => this.invalidInput() || Boolean(this.field?.invalid()),
+  );
+
+  /** @internal */
+  protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
+
   private containerEl!: HTMLElement;
   private fillEl!: HTMLElement;
   private thumbEl!: HTMLElement;
@@ -65,9 +88,9 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
     effect(() => {
       const color = this.color();
       const size = this.size();
+      const invalid = this.effectiveInvalid();
       if (!this.containerEl) return;
-      this.renderer.setAttribute(this.containerEl, 'data-kui-color', color);
-      this.renderer.setAttribute(this.containerEl, 'data-kui-size', size);
+      this.syncContainerState(color, size, invalid);
     });
 
     effect(() => {
@@ -234,11 +257,21 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
 
     const color = this.color();
     const size = this.size();
-    this.renderer.setAttribute(this.containerEl, 'data-kui-color', color);
-    this.renderer.setAttribute(this.containerEl, 'data-kui-size', size);
+    this.syncContainerState(color, size, this.effectiveInvalid());
     if (native.disabled) {
       this.renderer.setAttribute(this.containerEl, 'data-kui-disabled', 'true');
     }
     this.lastNativeState = `${native.min}|${native.max}|${native.value}|${native.disabled}`;
+  }
+
+  private syncContainerState(color: KuiSliderColor, size: KuiSliderSize, invalid: boolean): void {
+    this.renderer.setAttribute(this.containerEl, 'data-kui-color', color);
+    this.renderer.setAttribute(this.containerEl, 'data-kui-size', size);
+
+    if (invalid) {
+      this.renderer.setAttribute(this.containerEl, 'data-kui-invalid', '');
+    } else {
+      this.renderer.removeAttribute(this.containerEl, 'data-kui-invalid');
+    }
   }
 }

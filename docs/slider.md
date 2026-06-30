@@ -18,6 +18,8 @@ import { KuiSliderDirective } from '@kikita-labs/ui';
 
 Use native range input semantics first. For visible labels and helper text, prefer a wrapping
 `kui-field` instead of hand-written labels or description ids.
+When projected inside `kui-field`, `kuiSlider` inherits the field id, `aria-describedby`,
+`aria-invalid`, and visual invalid state.
 
 ```html
 <input
@@ -54,6 +56,8 @@ properties from the schema metadata.
 - `minLabel`: optional label rendered below the start of the track.
 - `maxLabel`: optional label rendered below the end of the track.
 - `disabled`: mirrors disabled styling on the generated slider wrapper.
+- `invalid`: applies invalid styling outside a `kui-field`.
+- `id`: explicit native input id. Falls back to the parent `kui-field` control id.
 
 ## Tooltip
 

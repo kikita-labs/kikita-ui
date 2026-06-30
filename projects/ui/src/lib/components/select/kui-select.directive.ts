@@ -31,7 +31,7 @@ import { KuiSelectInputSuffixComponent } from './kui-select-input-suffix.compone
     '[attr.aria-expanded]': 'dropdownOpen()',
     '[attr.aria-controls]': 'dropdownPanelId()',
     '[attr.aria-describedby]': 'describedBy()',
-    '[attr.aria-invalid]': 'invalid() ? "true" : null',
+    '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
     '[attr.placeholder]': 'placeholder()',
     '[attr.disabled]': 'disabled() ? "" : null',
     '[attr.data-has-clear]': 'showClear() ? "" : null',
@@ -109,6 +109,9 @@ export class KuiSelectDirective<T = unknown>
   );
   protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
+  protected readonly effectiveInvalid = computed(
+    () => this.invalid() || Boolean(this.field?.invalid()),
+  );
 
   protected readonly effectiveClearable = computed(() => {
     const own = this.clearable();

@@ -50,6 +50,16 @@ class SignalFormsHostComponent {
   });
 }
 
+@Component({
+  template: `
+    <kui-field label="Volume" hint="Use keyboard arrows" error="Volume is required">
+      <input type="range" kuiSlider />
+    </kui-field>
+  `,
+  imports: [KuiFieldComponent, KuiSliderDirective],
+})
+class FieldWiringHostComponent {}
+
 describe('KuiSliderDirective', () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let host: TestHostComponent;
@@ -164,5 +174,24 @@ describe('KuiSliderDirective with Angular Signal Forms', () => {
 
     expect(fixture.componentInstance.model().volume).toBe(80);
     expect(fill.style.width).toBe('80%');
+  });
+});
+
+describe('KuiSliderDirective inside kui-field', () => {
+  it('inherits field id, description, and invalid state', async () => {
+    await TestBed.configureTestingModule({
+      imports: [FieldWiringHostComponent],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(FieldWiringHostComponent);
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('.kui-slider-native') as HTMLInputElement;
+    const container = fixture.nativeElement.querySelector('.kui-slider') as HTMLElement;
+
+    expect(input.id).toMatch(/^kui-field-\d+$/);
+    expect(input.getAttribute('aria-describedby')).toContain(`${input.id}-hint`);
+    expect(input.getAttribute('aria-describedby')).toContain(`${input.id}-error`);
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+    expect(container.hasAttribute('data-kui-invalid')).toBe(true);
   });
 });

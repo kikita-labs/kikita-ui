@@ -65,20 +65,15 @@ Use the same pattern for multiline and numeric controls:
 <kui-field label="Count" hint="Enter a value from 1 to 100">
   <input type="number" kuiNumberInput [formField]="form.count" />
 </kui-field>
+
+<kui-field label="Volume" hint="Use arrow keys, Home, and End">
+  <input type="range" kuiSlider [formField]="form.volume" />
+</kui-field>
 ```
 
 For Signal Forms controls, put range constraints in the form schema with `min(...)` and `max(...)`.
 Do not add native `min`/`max` attributes to an element that has `[formField]`; Angular binds those
 native properties from the schema metadata.
-
-For controls that are not yet Signal Forms controls, still use `kui-field` for visible label and
-description wiring:
-
-```html
-<kui-field label="Volume" hint="Use arrow keys, Home, and End">
-  <input type="range" kuiSlider min="0" max="100" />
-</kui-field>
-```
 
 ## Custom Field Templates
 

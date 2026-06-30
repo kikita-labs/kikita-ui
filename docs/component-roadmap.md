@@ -36,7 +36,7 @@
 - Toast (done as toast provider/service + viewport)
 - Accordion (done as `kui-accordion`)
 - Progress (done as `kui-progress`)
-- Slider (done as `input[type=range][kuiSlider]`)
+- Slider (done as `input[type=range][kuiSlider]`; `kui-field` id/ARIA/invalid wiring covered)
 - Number input (done as `input[type=number][kuiNumberInput]`)
 
 ## Later
