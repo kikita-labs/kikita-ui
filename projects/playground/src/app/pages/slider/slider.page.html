@@ -236,6 +236,7 @@
           min="0"
           max="100"
           [(ngModel)]="volumeValue"
+          [ngModelOptions]="{ standalone: true }"
           aria-label="Volume"
         />
       </kui-field>
@@ -247,6 +248,7 @@
           min="0"
           max="100"
           [(ngModel)]="opacityValue"
+          [ngModelOptions]="{ standalone: true }"
           color="neutral"
           aria-label="Opacity"
         />
