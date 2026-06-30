@@ -139,7 +139,6 @@
     block-size: var(--kui-avatar-icon-size, 50%);
   }
 
-  .kui-avatar__skeleton,
   .kui-avatar[data-kui-loading] {
     background: linear-gradient(
       90deg,
@@ -148,8 +147,7 @@
       var(--kui-avatar-skeleton-bg) 100%
     );
     background-size: 200% 100%;
-    animation: kui-avatar-shimmer var(--kui-avatar-skeleton-duration, 1400ms) var(--kui-ease, ease)
-      infinite;
+    animation: kui-avatar-shimmer var(--kui-avatar-skeleton-duration, 1400ms) ease-in-out infinite;
   }
 
   .kui-avatar__status {
@@ -272,7 +270,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .kui-avatar__skeleton,
     .kui-avatar[data-kui-loading] {
       animation: none;
     }
