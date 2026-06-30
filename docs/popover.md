@@ -38,12 +38,6 @@ Floating content panel anchored to a trigger element. Unlike Tooltip (text only,
 </kui-popover>
 ```
 
-## Controlled mode
-
-```html
-<kui-popover [(open)]="isOpen" placement="bottom" ariaLabel="Controlled details">...</kui-popover>
-```
-
 ## KuiPopoverComponent inputs
 
 | Input         | Type                    | Default     | Description                                                                                             |
@@ -56,7 +50,7 @@ Floating content panel anchored to a trigger element. Unlike Tooltip (text only,
 | `hoverDelay`  | `number`                | `100`       | Delay (ms) before closing on mouseleave; lets the mouse travel to the panel.                            |
 | `offset`      | `number`                | `8`         | Gap in px between anchor and panel. Arrow adds 6 px automatically.                                      |
 | `trapFocus`   | `boolean`               | `false`     | Focus the first focusable element in the panel on open.                                                 |
-| `open`        | `boolean` (model)       | `false`     | Two-way binding for controlled open state.                                                              |
+| `open`        | `boolean` (model)       | `false`     | Current open state exposed for trigger integrations. Do not use as a standalone controlled API.         |
 
 ## KuiPopoverForDirective
 

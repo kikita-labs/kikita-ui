@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import { inject, Injector, Service, Type } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -8,6 +9,8 @@ import { KUI_DIALOG_CONTEXT, KuiDialogContext, KuiDialogHost } from './kui-dialo
 import { KuiDialogRef } from './kui-dialog-ref';
 import { KuiDialogConfig } from './kui-dialog.types';
 
+type FocusableElement = Element & { focus: () => void };
+
 /**
  * @internal
  * Low-level service that attaches dialog components to a CDK overlay.
@@ -17,6 +20,7 @@ import { KuiDialogConfig } from './kui-dialog.types';
 export class KuiDialogService {
   private readonly overlay = inject(Overlay);
   private readonly injector = inject(Injector);
+  private readonly document = inject(DOCUMENT);
 
   /**
    * Open `component` in a modal dialog overlay.
@@ -31,6 +35,7 @@ export class KuiDialogService {
     const appearance = config.appearance ?? 'default';
     const dismissable = config.dismissable ?? true;
     const closable = config.closable ?? true;
+    const previouslyFocused = getFocusableElement(this.document.activeElement);
 
     const overlayRef = this.overlay.create({
       positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
@@ -61,9 +66,12 @@ export class KuiDialogService {
     container._dismissable = dismissable;
 
     container.closed.subscribe((result) => {
-      ref._complete(result as TResult | undefined);
       overlayRef.detach();
       overlayRef.dispose();
+      if (previouslyFocused?.isConnected) {
+        previouslyFocused.focus();
+      }
+      ref._complete(result as TResult | undefined);
     });
 
     overlayRef.keydownEvents().subscribe((e: KeyboardEvent) => {
@@ -79,4 +87,12 @@ export class KuiDialogService {
 
     return ref.afterClosed();
   }
+}
+
+function getFocusableElement(element: Element | null): FocusableElement | null {
+  if (!element || typeof (element as Partial<FocusableElement>).focus !== 'function') {
+    return null;
+  }
+
+  return element as FocusableElement;
 }

@@ -72,7 +72,7 @@
     <table kuiTable [data]="users" (selectionChange)="onSelect($event)">
       <thead>
         <tr kuiThGroup>
-          <th kuiSelectTh></th>
+          <th kuiSelectTh ariaLabel="Select all users"></th>
           <th kuiTh>Name</th>
           <th kuiTh>Role</th>
           <th kuiTh>Status</th>
@@ -82,7 +82,7 @@
       <tbody>
         @for (u of users; track u.name) {
           <tr kuiRow [value]="u">
-            <td kuiSelectCell></td>
+            <td kuiSelectCell [ariaLabel]="'Select ' + u.name"></td>
             <td kuiCell>{{ u.name }}</td>
             <td kuiCell>{{ u.role }}</td>
             <td kuiCell>{{ u.status }}</td>
@@ -104,7 +104,7 @@
     <table kuiTable #comboTable="kuiTable" [data]="users" (selectionChange)="onSelect($event)">
       <thead>
         <tr kuiThGroup>
-          <th kuiSelectTh></th>
+          <th kuiSelectTh ariaLabel="Select all users"></th>
           <th kuiTh sortKey="name">Name</th>
           <th kuiTh sortKey="role">Role</th>
           <th kuiTh sortKey="status">Status</th>
@@ -114,7 +114,7 @@
       <tbody>
         @for (u of comboTable.sortedData(); track u.name) {
           <tr kuiRow [value]="u">
-            <td kuiSelectCell></td>
+            <td kuiSelectCell [ariaLabel]="'Select ' + u.name"></td>
             <td kuiCell>{{ u.name }}</td>
             <td kuiCell>{{ u.role }}</td>
             <td kuiCell>{{ u.status }}</td>

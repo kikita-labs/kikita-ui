@@ -44,8 +44,9 @@ The local tarball should contain:
 Before publishing a package with install changes, verify that `ng add` still:
 
 - preserves existing string and object style entries;
-- adds `@kikita-labs/ui/styles` once;
+- adds `node_modules/@kikita-labs/ui/styles/kikita-ui.css` once;
 - adds `provideKikitaUi()` once;
+- scaffolds default theme seeds with `--theme`;
 - respects `--skip-provider` and `--skip-styles`.
 
 ## Publish

@@ -24,7 +24,7 @@ import {
 <table kuiTable [data]="rows" #table="kuiTable">
   <thead>
     <tr kuiThGroup>
-      <th kuiSelectTh></th>
+      <th kuiSelectTh ariaLabel="Select all rows"></th>
       <th kuiTh sortKey="name">Name</th>
       <th kuiTh sortKey="status">Status</th>
       <th kuiTh>Actions</th>
@@ -33,7 +33,7 @@ import {
   <tbody>
     @for (row of table.sortedData(); track row.id) {
     <tr kuiRow [value]="row">
-      <td kuiSelectCell></td>
+      <td kuiSelectCell [ariaLabel]="'Select ' + row.name"></td>
       <td kuiCell>{{ row.name }}</td>
       <td kuiCell>{{ row.status }}</td>
       <td kuiCell>...</td>
@@ -85,6 +85,13 @@ state. `td[kuiSelectCell]` renders a native checkbox for each row. Selected
 values are tracked internally; `isSelected(value)` returns `boolean`.
 
 The selection column appears only when `(selectionChange)` is observed.
+
+Use `ariaLabel` on selection cells when the row has a human-readable name:
+
+```html
+<th kuiSelectTh ariaLabel="Select all users"></th>
+<td kuiSelectCell [ariaLabel]="'Select ' + row.name"></td>
+```
 
 ## Sticky
 

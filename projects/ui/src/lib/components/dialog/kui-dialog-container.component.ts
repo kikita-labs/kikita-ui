@@ -39,6 +39,7 @@ let nextDialogTitleId = 0;
         [attr.data-kui-appearance]="_appearance !== 'default' ? _appearance : null"
         role="dialog"
         aria-modal="true"
+        aria-label="Dialog"
         cdkTrapFocus
         [cdkTrapFocusAutoCapture]="true"
         (click)="$event.stopPropagation()"
@@ -106,6 +107,7 @@ export class KuiDialogContainerComponent {
       title.id = `kui-dialog-title-${nextDialogTitleId++}`;
     }
 
+    panel.removeAttribute('aria-label');
     panel.setAttribute('aria-labelledby', title.id);
   }
 }

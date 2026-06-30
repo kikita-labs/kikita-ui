@@ -1,7 +1,24 @@
 const { SchematicsException } = require('@angular-devkit/schematics');
 
-const STYLE_ENTRYPOINT = '@kikita-labs/ui/styles';
+const STYLE_ENTRYPOINT = 'node_modules/@kikita-labs/ui/styles/kikita-ui.css';
 const PROVIDER_IMPORT = "import { provideKikitaUi } from '@kikita-labs/ui';";
+const DEFAULT_PROVIDER_CALL = 'provideKikitaUi()';
+const THEMED_PROVIDER_CALL = `provideKikitaUi({
+      theme: {
+        seeds: {
+          color: {
+            primary: 'oklch(0.52 0.25 285)',
+            neutral: 'oklch(0.5 0.01 80)',
+            success: 'oklch(0.54 0.16 145)',
+            warning: 'oklch(0.74 0.16 75)',
+            danger: 'oklch(0.54 0.22 25)',
+            info: 'oklch(0.58 0.16 215)',
+          },
+          radius: 8,
+          density: 'regular',
+        },
+      },
+    })`;
 
 function ngAdd(options = {}) {
   return (tree, context) => {
@@ -22,7 +39,7 @@ function ngAdd(options = {}) {
     }
 
     if (!options.skipProvider) {
-      addProvider(tree, project, context);
+      addProvider(tree, project, context, options);
     }
 
     return tree;
@@ -91,7 +108,7 @@ function hasStyleEntry(styles, entrypoint) {
   });
 }
 
-function addProvider(tree, project, context) {
+function addProvider(tree, project, context, options) {
   const sourceRoot = project.sourceRoot ?? `${project.root}/src`;
   const appConfigPath = normalizePath(`${sourceRoot}/app/app.config.ts`);
 
@@ -107,16 +124,19 @@ function addProvider(tree, project, context) {
     updated = addImport(updated);
   }
 
-  if (updated.includes('provideKikitaUi()')) {
+  if (/provideKikitaUi\s*\(/.test(updated)) {
     tree.overwrite(appConfigPath, updated);
     return;
   }
 
-  updated = addProviderToProvidersArray(updated);
+  updated = addProviderToProvidersArray(
+    updated,
+    options.theme ? THEMED_PROVIDER_CALL : DEFAULT_PROVIDER_CALL,
+  );
   tree.overwrite(appConfigPath, updated);
 }
 
-function addProviderToProvidersArray(source) {
+function addProviderToProvidersArray(source, providerCall) {
   const providersMatch = /providers\s*:\s*\[/.exec(source);
 
   if (!providersMatch) {
@@ -130,10 +150,10 @@ function addProviderToProvidersArray(source) {
   const existingProviders = source.slice(insertAt, closeAt).trim();
 
   if (!existingProviders) {
-    return `${source.slice(0, insertAt)}provideKikitaUi()${source.slice(insertAt)}`;
+    return `${source.slice(0, insertAt)}${providerCall}${source.slice(insertAt)}`;
   }
 
-  return `${source.slice(0, insertAt)}provideKikitaUi(), ${source.slice(insertAt)}`;
+  return `${source.slice(0, insertAt)}${providerCall}, ${source.slice(insertAt)}`;
 }
 
 function addImport(source) {

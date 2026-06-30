@@ -1,97 +1,98 @@
 # Dropdown
 
-Primitive floating panel. Handles positioning (`position: fixed`, scroll-follow), open/close animation, click-outside, and Escape key. Does not know about values or selection — those belong to Select, Combobox, Menu, etc.
+`kui-dropdown` is a primitive floating panel rendered through Angular CDK Overlay.
+It handles positioning, open/close animation, outside click, scroll-follow, and
+Escape close. It does not own selection or value state; Select, Combobox, Menu,
+or another host component provides that context.
 
----
+## Import
 
-## Components & Directives
-
-| Symbol                    | Selector           | Role                                                    |
-| ------------------------- | ------------------ | ------------------------------------------------------- |
-| `KuiDropdownComponent`    | `kui-dropdown`     | Floating panel                                          |
-| `KuiDropdownForDirective` | `[kuiDropdownFor]` | Wires any element as a trigger                          |
-| `KuiOptionDirective`      | `[kuiOption]`      | Styled option row; closes dropdown on click             |
-| `KUI_OPTION_CONTEXT`      | —                  | DI token for Select/Combobox to control selection state |
-
----
+```ts
+import { KuiDropdownComponent, KuiDropdownForDirective, KuiOptionDirective } from '@kikita-labs/ui';
+```
 
 ## Usage
 
-### Mode 1 — inside `kui-field` (auto, no state management)
+### Inside `kui-field`
 
-Field detects a nested `kui-dropdown` via `contentChild`, sets itself as anchor, and toggles open/close on click.
+`kui-field` detects a nested dropdown, sets itself as the anchor, and toggles the
+panel when the field is clicked. This is the normal pattern for `input[kuiSelect]`.
 
 ```html
 <kui-field label="Fruit">
-  <input kuiInput [value]="selected() ?? ''" placeholder="Pick…" readonly />
+  <input kuiSelect [(value)]="fruit" placeholder="Pick..." />
   <kui-dropdown>
-    @for (opt of options; track opt) {
-    <div [kuiOption]="opt" (kuiOptionSelect)="selected.set($any($event))">{{ opt }}</div>
+    @for (option of options; track option) {
+    <div [kuiOption]="option">{{ option }}</div>
     }
   </kui-dropdown>
 </kui-field>
 ```
 
-### Mode 2 — `[kuiDropdownFor]` trigger
+### Trigger directive
 
-Attach to any element. The directive wires click → `toggle()` and sets `aria-expanded`.
+Use `[kuiDropdownFor]` when the dropdown is anchored to a standalone trigger.
+Prefer a native `<button>` so keyboard behavior and button semantics are already
+correct.
 
 ```html
-<button [kuiDropdownFor]="menu">Actions</button>
+<button type="button" [kuiDropdownFor]="menu">Actions</button>
+
 <kui-dropdown #menu [maxHeight]="null">
   <div kuiOption="edit">Edit</div>
   <div kuiOption="delete" [disabled]="true">Delete</div>
 </kui-dropdown>
 ```
 
-### Mode 3 — manual (explicit anchor + imperative open/close)
-
-```html
-<button #triggerEl (click)="dropdown.toggle()">Open</button>
-<kui-dropdown #dropdown [anchor]="triggerEl"> ... </kui-dropdown>
-```
-
----
+For non-button triggers, the host element must already be focusable and handle
+keyboard activation. The directive only wires click toggling, `aria-expanded`,
+and `aria-haspopup`.
 
 ## `KuiDropdownComponent` API
 
-| Input       | Type                                | Default   | Description                                           |
-| ----------- | ----------------------------------- | --------- | ----------------------------------------------------- |
-| `anchor`    | `HTMLElement \| ElementRef \| null` | `null`    | Explicit anchor element (overridden by `setAnchor()`) |
-| `maxHeight` | `string \| null`                    | `'240px'` | Max height of panel; `null` = no cap                  |
-| `offset`    | `number`                            | `4`       | Gap between anchor bottom and panel top (px)          |
+| Input       | Type             | Default   | Description                                  |
+| ----------- | ---------------- | --------- | -------------------------------------------- |
+| `maxHeight` | `string \| null` | `'240px'` | Max height of panel; `null` removes the cap. |
+| `offset`    | `number`         | `4`       | Gap between anchor and panel edge in px.     |
 
-| Signal   | Type              | Description                                 |
-| -------- | ----------------- | ------------------------------------------- |
-| `isOpen` | `Signal<boolean>` | Current open state (public readable signal) |
+| Signal   | Type              | Description         |
+| -------- | ----------------- | ------------------- |
+| `isOpen` | `Signal<boolean>` | Current open state. |
 
 | Method          | Description                                                  |
 | --------------- | ------------------------------------------------------------ |
-| `open()`        | Show panel, attach scroll/click-outside/Escape listeners     |
-| `close()`       | Start close animation; detach listeners                      |
-| `toggle()`      | `open()` if closed, `close()` if open                        |
-| `setAnchor(el)` | Set anchor imperatively (called by field and kuiDropdownFor) |
-
----
+| `open()`        | Show panel and attach scroll/outside-click/Escape listeners. |
+| `close()`       | Start close animation and detach listeners.                  |
+| `toggle()`      | Open when closed, close when open.                           |
+| `setAnchor(el)` | Set anchor imperatively. Called by field and dropdownFor.    |
+| `getPanel()`    | Return the rendered panel element, if attached.              |
+| `getPanelId()`  | Return the stable panel id for ARIA wiring.                  |
 
 ## `KuiOptionDirective` API
 
-| Input       | Type      | Description                      |
-| ----------- | --------- | -------------------------------- |
-| `kuiOption` | `unknown` | The value this option represents |
-| `disabled`  | `boolean` | Disables click and dims the row  |
+| Input       | Type      | Description                         |
+| ----------- | --------- | ----------------------------------- |
+| `kuiOption` | `unknown` | The value this option represents.   |
+| `disabled`  | `boolean` | Disables click and keyboard select. |
 
 | Output            | Description                          |
 | ----------------- | ------------------------------------ |
-| `kuiOptionSelect` | Emits the `kuiOption` value on click |
+| `kuiOptionSelect` | Emits the option value on selection. |
 
-Applied CSS classes: `.kui-listbox-option`, `.kui-listbox-option--selected` (via `KUI_OPTION_CONTEXT`), `.kui-listbox-option--disabled`.
+`kuiOption` renders `role="option"`, roving focus targets, selected/disabled
+state classes, and Enter/Space selection. Selection state comes from
+`KUI_OPTION_CONTEXT`.
 
----
+## Accessibility
+
+- Keep dropdown triggers native where possible, especially `<button>`.
+- Select-style hosts should expose `role="combobox"`, `aria-expanded`,
+  `aria-controls`, and `aria-describedby` through their own directive.
+- Options use `role="option"` inside the dropdown `role="listbox"` panel.
+- Escape closes the panel. Enter/Space selects an option. Tab closes without
+  stealing focus back from the next tabbable element.
 
 ## CSS Tokens
-
-Scoped to `.kui-dropdown` (component-local defaults):
 
 | Token                   | Default value                       |
 | ----------------------- | ----------------------------------- |
@@ -100,34 +101,13 @@ Scoped to `.kui-dropdown` (component-local defaults):
 | `--kui-dropdown-radius` | `var(--kui-radius-md)`              |
 | `--kui-dropdown-shadow` | `var(--kui-shadow-lg)`              |
 
----
-
 ## Internals
 
-- **Angular CDK Overlay** — panel rendered via `OverlayRef` + `TemplatePortal` inside `.cdk-overlay-container` in body. Escapes any `overflow:hidden` or CSS `transform` ancestor.
-- **Position strategy** — `FlexibleConnectedPositionStrategy`: prefers below anchor, flips above when not enough space. `withPush(false)` — no viewport nudge. `data-placement` attribute (`top`/`bottom`) set via `positionChanges` for CSS animation direction.
-- **Scroll repositioning** — `scrollStrategies.reposition()` repositions panel on scroll without closing it.
-- **Close animation** — `isClosing` signal applies `.kui-dropdown--closing` class → 120ms `kui-dropdown-out` keyframe → `animationend` → `overlayRef.detach()`. Panel stays in DOM during animation.
-- **Click-outside** — `document.addEventListener('click', handler, { capture: true })` fires before any element handler, including CDK top-layer popover. Checks `!overlayEl.contains(e.target)`.
-- **Escape** — `overlayRef.keydownEvents()` observable.
-
----
-
-## Integration with Select / Combobox
-
-Provide `KUI_OPTION_CONTEXT` from the parent component to give options knowledge of the selected value:
-
-```typescript
-providers: [{
-  provide: KUI_OPTION_CONTEXT,
-  useFactory: () => {
-    const host = inject(MySelectComponent);
-    return {
-      isSelected: (v) => computed(() => host.value() === v),
-      select: (v) => host.value.set(v as string),
-    } satisfies KuiOptionContext;
-  },
-}],
-```
-
----
+- Uses Angular CDK `OverlayRef` and `TemplatePortal`.
+- Uses `FlexibleConnectedPositionStrategy` with bottom-first, top fallback, and
+  `withPush(false)`.
+- Uses `scrollStrategies.noop()` plus a document capture scroll listener that
+  reapplies the position strategy. This covers ordinary scroll containers that
+  are not registered as `CdkScrollable`.
+- Uses a document capture click listener for outside click.
+- Detaches the overlay after the `kui-dropdown-out` animation finishes.

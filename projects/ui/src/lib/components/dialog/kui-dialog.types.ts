@@ -14,6 +14,6 @@ export interface KuiDialogConfig<TData = unknown> {
   appearance?: KuiDialogAppearance;
   /** Allow closing via backdrop click or Escape key. Defaults to `true`. */
   dismissable?: boolean;
-  /** Show the × close button in the dialog header. Defaults to `true`. */
+  /** Show the close button in the dialog header. Defaults to `true`. */
   closable?: boolean;
 }

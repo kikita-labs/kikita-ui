@@ -1,8 +1,9 @@
-import { Component, ViewEncapsulation, computed, inject } from '@angular/core';
+import { Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
 
 import { KUI_TABLE_CTX } from './kui-table.directive';
 import { KuiRowDirective } from './kui-row.directive';
 
+/** Renders a native checkbox cell for selectable table rows. */
 @Component({
   selector: 'td[kuiSelectCell]',
   encapsulation: ViewEncapsulation.None,
@@ -14,12 +15,15 @@ import { KuiRowDirective } from './kui-row.directive';
         type="checkbox"
         [checked]="row.selected()"
         (change)="table.toggle(row.value())"
-        aria-label="Select row"
+        [attr.aria-label]="ariaLabel()"
       />
     }
   `,
 })
 export class KuiSelectCellComponent {
+  /** Accessible label for the row selection checkbox. */
+  readonly ariaLabel = input('Select row');
+
   protected readonly table = inject(KUI_TABLE_CTX);
   protected readonly row = inject(KuiRowDirective);
 

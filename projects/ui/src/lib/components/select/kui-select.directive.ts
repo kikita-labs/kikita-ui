@@ -27,8 +27,10 @@ import { KuiSelectInputSuffixComponent } from './kui-select-input-suffix.compone
     role: 'combobox',
     'aria-haspopup': 'listbox',
     'aria-autocomplete': 'none',
+    '[attr.id]': 'hostId()',
     '[attr.aria-expanded]': 'dropdownOpen()',
     '[attr.aria-controls]': 'dropdownPanelId()',
+    '[attr.aria-describedby]': 'describedBy()',
     '[attr.aria-invalid]': 'invalid() ? "true" : null',
     '[attr.placeholder]': 'placeholder()',
     '[attr.disabled]': 'disabled() ? "" : null',
@@ -82,6 +84,8 @@ export class KuiSelectDirective<T = unknown>
   readonly touched = input(false);
   /** Emitted when the dropdown closes; marks the control as touched in the form system. */
   readonly touch = output<void>();
+  /** Explicit id override. If omitted inside `kui-field`, the field id is used. */
+  readonly id = input<string | undefined>();
 
   /** Maps a selected value to its display string. Required when `T` is not a primitive. */
   readonly kuiLabelFn = input<((item: T) => string) | undefined>();
@@ -103,6 +107,8 @@ export class KuiSelectDirective<T = unknown>
   protected readonly dropdownPanelId = computed(
     () => this.field?.getDropdown()?.getPanelId() ?? null,
   );
+  protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
+  protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
 
   protected readonly effectiveClearable = computed(() => {
     const own = this.clearable();
@@ -153,10 +159,11 @@ export class KuiSelectDirective<T = unknown>
 
       if (this._wasOpen && !isOpen) {
         this.touch.emit();
-        if (this._keyboardOpened) {
+        if (this._keyboardOpened && this.shouldRestoreFocus()) {
           this._keyboardOpened = false;
           this.el.nativeElement.focus();
         }
+        this._keyboardOpened = false;
       }
 
       this._wasOpen = isOpen;
@@ -210,6 +217,14 @@ export class KuiSelectDirective<T = unknown>
     };
     if (useTimeout) setTimeout(fn, 0);
     else fn();
+  }
+
+  private shouldRestoreFocus(): boolean {
+    const ownerDocument = this.el.nativeElement.ownerDocument;
+    const panel = this.field?.getDropdown()?.getPanel();
+    const active = ownerDocument.activeElement;
+
+    return !active || active === ownerDocument.body || Boolean(panel?.contains(active));
   }
 
   ngOnDestroy(): void {

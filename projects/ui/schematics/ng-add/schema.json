@@ -15,7 +15,12 @@
     },
     "skipStyles": {
       "type": "boolean",
-      "description": "Skip adding @kikita-labs/ui/styles to angular.json.",
+      "description": "Skip adding the Kikita UI stylesheet path to angular.json.",
+      "default": false
+    },
+    "theme": {
+      "type": "boolean",
+      "description": "Scaffold the default Ember theme seed configuration in provideKikitaUi().",
       "default": false
     }
   }

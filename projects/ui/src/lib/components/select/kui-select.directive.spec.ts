@@ -13,7 +13,7 @@ import { KuiSelectDirective } from './kui-select.directive';
 @Component({
   imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
   template: `
-    <kui-field>
+    <kui-field label="Choice" hint="Pick one">
       <input kuiSelect [(value)]="val" placeholder="Pick..." (touch)="touches.set(touches() + 1)" />
       <kui-dropdown>
         <div kuiOption value="a">Option A</div>
@@ -111,11 +111,14 @@ describe('KuiSelectDirective', () => {
     it('sets combobox semantics on the native input', () => {
       const fixture = createFixture(BasicHost);
       const input = getInput(fixture);
+      const label = fixture.nativeElement.querySelector('label') as HTMLLabelElement;
 
       expect(input.getAttribute('role')).toBe('combobox');
       expect(input.getAttribute('aria-haspopup')).toBe('listbox');
       expect(input.getAttribute('aria-autocomplete')).toBe('none');
       expect(input.hasAttribute('readonly')).toBe(true);
+      expect(input.id).toBe(label.htmlFor);
+      expect(input.getAttribute('aria-describedby')).toBe(`${input.id}-hint`);
     });
 
     it('reflects dropdown open state in aria-expanded', () => {

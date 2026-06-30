@@ -36,7 +36,7 @@ interface Row {
     >
       <thead>
         <tr kuiThGroup>
-          <th kuiSelectTh></th>
+          <th kuiSelectTh ariaLabel="Select all users"></th>
           <th kuiTh sortKey="name">Name</th>
           <th kuiTh sortKey="score">Score</th>
         </tr>
@@ -44,7 +44,7 @@ interface Row {
       <tbody>
         @for (row of table.sortedData(); track row.id) {
           <tr kuiRow [value]="row">
-            <td kuiSelectCell></td>
+            <td kuiSelectCell [ariaLabel]="'Select ' + row.name"></td>
             <td kuiCell>{{ row.name }}</td>
             <td kuiCell>{{ row.score }}</td>
           </tr>
@@ -83,7 +83,7 @@ describe('KuiTableDirective', () => {
     expect(th.hasAttribute('tabindex')).toBe(false);
     expect(button.type).toBe('button');
     expect(button.textContent?.trim()).toContain('Name');
-    expect(button.getAttribute('aria-label')).toBe('Sort ascending');
+    expect(button.getAttribute('aria-label')).toBe('Sort Name ascending');
   });
 
   it('cycles sort state through ascending, descending, and clear', () => {
@@ -94,19 +94,19 @@ describe('KuiTableDirective', () => {
     button.click();
     fixture.detectChanges();
     expect(th.getAttribute('aria-sort')).toBe('ascending');
-    expect(button.getAttribute('aria-label')).toBe('Sort descending');
+    expect(button.getAttribute('aria-label')).toBe('Sort Name descending');
     expect(fixture.componentInstance.lastSort).toEqual({ key: 'name', direction: 'asc' });
 
     button.click();
     fixture.detectChanges();
     expect(th.getAttribute('aria-sort')).toBe('descending');
-    expect(button.getAttribute('aria-label')).toBe('Clear sort');
+    expect(button.getAttribute('aria-label')).toBe('Clear Name sort');
     expect(fixture.componentInstance.lastSort).toEqual({ key: 'name', direction: 'desc' });
 
     button.click();
     fixture.detectChanges();
     expect(th.getAttribute('aria-sort')).toBe('none');
-    expect(button.getAttribute('aria-label')).toBe('Sort ascending');
+    expect(button.getAttribute('aria-label')).toBe('Sort Name ascending');
     expect(fixture.componentInstance.lastSort).toBeNull();
   });
 
@@ -158,8 +158,8 @@ describe('KuiTableDirective', () => {
     ) as NodeListOf<HTMLInputElement>;
 
     expect(checkboxes).toHaveLength(3);
-    expect(checkboxes[0].getAttribute('aria-label')).toBe('Select all rows');
-    expect(checkboxes[1].getAttribute('aria-label')).toBe('Select row');
+    expect(checkboxes[0].getAttribute('aria-label')).toBe('Select all users');
+    expect(checkboxes[1].getAttribute('aria-label')).toBe('Select Beta');
 
     checkboxes[1].click();
     fixture.detectChanges();

@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
 
     expect(workspace.projects.app.architect.build.options.styles).toEqual([
       'src/styles.css',
-      '@kikita-labs/ui/styles',
+      'node_modules/@kikita-labs/ui/styles/kikita-ui.css',
     ]);
     expect(appConfig).toContain("import { provideKikitaUi } from '@kikita-labs/ui';");
     expect(appConfig).toContain('providers: [provideKikitaUi()]');
@@ -44,14 +44,14 @@ export const appConfig: ApplicationConfig = {
 
     expect(workspace.projects.app.architect.build.options.styles).toEqual([
       existingStyle,
-      '@kikita-labs/ui/styles',
+      'node_modules/@kikita-labs/ui/styles/kikita-ui.css',
     ]);
   });
 
   it('does not duplicate styles or provider registration', async () => {
     const runner = new SchematicTestRunner('@kikita-labs/ui', collectionPath);
     const tree = createWorkspaceTree({
-      styles: ['src/styles.css', '@kikita-labs/ui/styles'],
+      styles: ['src/styles.css', 'node_modules/@kikita-labs/ui/styles/kikita-ui.css'],
       appConfig: `import { ApplicationConfig } from '@angular/core';
 import { provideKikitaUi } from '@kikita-labs/ui';
 
@@ -67,7 +67,7 @@ export const appConfig: ApplicationConfig = {
 
     expect(workspace.projects.app.architect.build.options.styles).toEqual([
       'src/styles.css',
-      '@kikita-labs/ui/styles',
+      'node_modules/@kikita-labs/ui/styles/kikita-ui.css',
     ]);
     expect(appConfig.match(/provideKikitaUi/g)).toHaveLength(2);
   });
@@ -88,6 +88,20 @@ export const appConfig: ApplicationConfig = {
 
     expect(workspace.projects.app.architect.build.options.styles).toEqual(['src/styles.css']);
     expect(appConfig).not.toContain('provideKikitaUi');
+  });
+
+  it('can scaffold the default theme seed configuration', async () => {
+    const runner = new SchematicTestRunner('@kikita-labs/ui', collectionPath);
+    const tree = createWorkspaceTree({
+      styles: ['src/styles.css'],
+    });
+
+    const result = await runner.runSchematic('ng-add', { theme: true }, tree);
+    const appConfig = result.readContent('/src/app/app.config.ts');
+
+    expect(appConfig).toContain('provideKikitaUi({');
+    expect(appConfig).toContain("primary: 'oklch(0.52 0.25 285)'");
+    expect(appConfig).toContain("density: 'regular'");
   });
 });
 

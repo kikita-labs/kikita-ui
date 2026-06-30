@@ -8,6 +8,7 @@ import {
   input,
   OnDestroy,
   Renderer2,
+  signal,
 } from '@angular/core';
 
 import { KUI_TABLE_CTX } from './kui-table.directive';
@@ -49,11 +50,13 @@ export class KuiThDirective implements AfterViewInit, OnDestroy {
 
   private readonly sortButtonLabel = computed(() => {
     const dir = this.sortDir();
-    if (dir === 'asc') return 'Sort descending';
-    if (dir === 'desc') return 'Clear sort';
-    return 'Sort ascending';
+    const label = this.sortColumnLabel();
+    if (dir === 'asc') return `Sort ${label} descending`;
+    if (dir === 'desc') return `Clear ${label} sort`;
+    return `Sort ${label} ascending`;
   });
 
+  private readonly sortColumnLabel = signal('column');
   private sortButton: HTMLButtonElement | null = null;
   private removeSortListener: (() => void) | null = null;
 
@@ -75,6 +78,7 @@ export class KuiThDirective implements AfterViewInit, OnDestroy {
     this.renderer.addClass(button, 'kui-th__sort-button');
 
     Array.from(host.childNodes).forEach((node) => this.renderer.appendChild(button, node));
+    this.sortColumnLabel.set(button.textContent?.trim() || this.sortKey() || 'column');
     this.renderer.appendChild(host, button);
     this.removeSortListener = this.renderer.listen(button, 'click', () => this.onSort());
     this.sortButton = button;
