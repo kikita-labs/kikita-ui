@@ -53,13 +53,14 @@ Do not build Datepicker, Calendar, Tree, Charts, or File Upload until a real con
 
 ## Install DX
 
-Add Angular schematic support before real consumer migration:
+Angular schematic support is implemented and verified against a fresh Angular
+consumer app:
 
 - `ng add @kikita-labs/ui`
-- add the styles entrypoint to the consumer app
+- add `node_modules/@kikita-labs/ui/styles/kikita-ui.css` to the consumer app
 - add `provideKikitaUi()` to `app.config.ts`
-- optionally scaffold a basic theme config
-- verify on a fresh Angular app
+- optionally scaffold default Ember theme seeds with `--theme`
+- verified with a local tarball in a fresh Angular 22 app outside this workspace
 
 Initial install documentation lives in `docs/install.md`.
 

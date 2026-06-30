@@ -49,6 +49,10 @@ Before publishing a package with install changes, verify that `ng add` still:
 - scaffolds default theme seeds with `--theme`;
 - respects `--skip-provider` and `--skip-styles`.
 
+The latest fresh-consumer verification used a local tarball installed into a
+temporary Angular 22 app outside this workspace, then ran `ng add --theme`,
+`tsc --noEmit`, and a production build.
+
 ## Publish
 
 Authenticate npm for GitHub Packages first, then:
