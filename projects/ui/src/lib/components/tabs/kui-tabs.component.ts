@@ -4,6 +4,7 @@ import {
   ElementRef,
   ViewEncapsulation,
   afterNextRender,
+  booleanAttribute,
   contentChildren,
   inject,
   input,
@@ -101,6 +102,8 @@ export class KuiTabsComponent implements KuiTabsContext {
   readonly variant = input<KuiTabsVariant>('line');
   /** Tab size. Defaults to md. */
   readonly size = input<KuiSize>('md');
+  /** Whether tabs should expose `aria-controls` links to projected `kuiTabPanel` elements. */
+  readonly controlsPanels = input(true, { transform: booleanAttribute });
   /** Currently selected tab value. */
   readonly selected = model<string>('');
 

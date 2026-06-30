@@ -8,7 +8,7 @@ import { KuiTabsComponent } from './kui-tabs.component';
 @Component({
   imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
   template: `
-    <kui-tabs [selected]="tab()">
+    <kui-tabs [selected]="tab()" [controlsPanels]="controlsPanels()">
       <button kuiTab value="a">A</button>
       <button kuiTab value="b">B</button>
       <div kuiTabPanel value="a">Panel A</div>
@@ -18,6 +18,7 @@ import { KuiTabsComponent } from './kui-tabs.component';
 })
 class TabsHost {
   readonly tab = signal('a');
+  readonly controlsPanels = signal(true);
 }
 
 describe('KuiTabsComponent', () => {
@@ -56,6 +57,17 @@ describe('KuiTabsComponent', () => {
     expect(panels[0].getAttribute('aria-labelledby')).toBe(tabs[0].id);
     expect(tabs[1].getAttribute('aria-controls')).toBe(panels[1].id);
     expect(panels[1].getAttribute('aria-labelledby')).toBe(tabs[1].id);
+  });
+
+  it('can omit aria-controls for router navigation tabs without local panels', () => {
+    const fixture = createFixture();
+    fixture.componentInstance.controlsPanels.set(false);
+    fixture.detectChanges();
+
+    const tabs = fixture.nativeElement.querySelectorAll('[role="tab"]') as NodeListOf<HTMLElement>;
+
+    expect(tabs[0].hasAttribute('aria-controls')).toBe(false);
+    expect(tabs[1].hasAttribute('aria-controls')).toBe(false);
   });
 
   it('hides inactive panels', () => {

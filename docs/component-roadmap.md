@@ -64,7 +64,7 @@ consumer app:
 
 Initial install documentation lives in `docs/install.md`.
 
-Docs pages exist for all implemented primitives through Number Input. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Initial browser snapshot review has been run for Table, Select, Dialog, and Popover; broader browser and assistive-technology review is still pending.
+Docs pages exist for all implemented primitives through Number Input. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, and Number Input; committed visual regression baselines and assistive-technology review are still pending.
 
 ## Consumer Migration Gate
 

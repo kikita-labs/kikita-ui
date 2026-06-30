@@ -17,6 +17,9 @@
   grid-template-columns: 40px repeat(5, 64px);
   gap: 14px 8px;
   align-items: center;
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 2px;
 }
 
 .pr-circ-cell {

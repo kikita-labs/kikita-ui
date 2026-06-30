@@ -16,7 +16,7 @@ import { KuiPopoverComponent } from './kui-popover.component';
   host: {
     '[attr.aria-expanded]': 'popover()?.open() ?? false',
     '[attr.aria-haspopup]': '"dialog"',
-    '[attr.aria-controls]': 'popover()?.panelId ?? null',
+    '[attr.aria-controls]': 'popover()?.open() ? popover()?.panelId : null',
   },
 })
 export class KuiPopoverForDirective {

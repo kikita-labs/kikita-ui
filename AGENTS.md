@@ -44,9 +44,29 @@ This repository contains Kikita UI, an Angular 22+ UI library and design system.
 - Do not mark a roadmap/state-coverage item as done unless the public implementation, style entrypoint, docs page, playground route, and tests all exist.
 - If a primitive is intentionally documented inside another page, make that explicit in `docs/state-coverage.md` and `docs/component-roadmap.md` (for example, `Confirm` is documented in `docs/dialog.md`).
 
+## Required Files To Update
+
+When implementing or changing a public primitive, update every relevant file in the same change. Do not silently skip any item; if something is not applicable or intentionally deferred, document the reason in `docs/component-roadmap.md` and `docs/state-coverage.md`.
+
+- Full delivery gate: `docs/component-checklist.md`
+- Implementation: `projects/ui/src/lib/components/<primitive>/...`
+- Local component barrel: `projects/ui/src/lib/components/<primitive>/index.ts`
+- Component barrel: `projects/ui/src/lib/components/index.ts`
+- Public API: `projects/ui/src/public-api.ts` when the primitive is public outside the package internals
+- Runtime styles: `projects/ui/src/styles/<primitive>.css`
+- Public style entrypoint: `projects/ui/src/styles/kikita-ui.css`
+- Component docs: `docs/<primitive>.md`
+- State tracking: `docs/state-coverage.md`
+- Roadmap/status tracking: `docs/component-roadmap.md`
+- Playground route: `projects/playground/src/app/pages/<primitive>/`
+- Playground navigation/routes: `projects/playground/src/app/app.ts` and related route/nav files when a new page is added
+- Focused tests: colocated `*.spec.ts` files for the primitive and any changed integration point
+- Theme tokens: `projects/ui/src/lib/theme/create-kui-theme.ts` and token interfaces/types when new `--kui-*` variables are introduced
+- Local progress notes: `.local-notes/PROGRESS.md` for current-session progress only; this file is ignored and must not be required for package correctness
+
 ## Component Delivery Checklist
 
-Before finishing a new public component/directive/service/provider, verify this checklist:
+Before finishing a new public component/directive/service/provider, verify `docs/component-checklist.md`. The short checklist below is the minimum summary, not a replacement for the full gate:
 
 - The matching Claude Design spec exists under `.local-notes/claude-design/design system/`; if it does not exist, stop and ask for the spec.
 - Public API has JSDoc on exported components, directives, providers, services, types, and tokens.

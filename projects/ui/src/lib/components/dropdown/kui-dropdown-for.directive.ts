@@ -7,6 +7,7 @@ import { KuiDropdownComponent } from './kui-dropdown.component';
   host: {
     '(click)': 'toggle()',
     '[attr.aria-expanded]': 'dropdown()?.isOpen()',
+    '[attr.aria-controls]': 'dropdown()?.isOpen() ? dropdown()?.getPanelId() : null',
     '[attr.aria-haspopup]': '"listbox"',
   },
 })

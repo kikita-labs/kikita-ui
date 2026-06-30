@@ -16,6 +16,7 @@
     [selected]="currentPath()"
     (selectedChange)="navigate($event)"
     size="sm"
+    [controlsPanels]="false"
     aria-label="Playground sections"
   >
     @for (item of navItems; track item.path) {

@@ -97,9 +97,10 @@ describe('KuiPopoverForDirective - aria attributes', () => {
   it('sets aria-expanded=false initially', () => {
     const fixture = createFixture(ClickHost);
     expect(getTrigger(fixture).getAttribute('aria-expanded')).toBe('false');
+    expect(getTrigger(fixture).getAttribute('aria-controls')).toBeNull();
   });
 
-  it('sets aria-expanded=true after trigger click', () => {
+  it('sets aria-expanded and aria-controls after trigger click', () => {
     const fixture = createFixture(ClickHost);
     const trigger = getTrigger(fixture);
 
@@ -107,6 +108,8 @@ describe('KuiPopoverForDirective - aria attributes', () => {
     fixture.detectChanges();
 
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    expect(trigger.getAttribute('aria-controls')).toBe(fixture.componentInstance.pop().panelId);
+    expect(document.getElementById(trigger.getAttribute('aria-controls')!)).not.toBeNull();
   });
 });
 

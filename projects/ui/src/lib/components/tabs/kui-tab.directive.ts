@@ -34,7 +34,9 @@ export class KuiTabDirective {
 
   protected readonly isSelected = computed(() => this.context.selected() === this.value());
   protected readonly tabId = computed(() => this.context.tabId(this.value()));
-  protected readonly panelId = computed(() => this.context.panelId(this.value()));
+  protected readonly panelId = computed(() =>
+    this.context.controlsPanels() ? this.context.panelId(this.value()) : null,
+  );
 
   /** @internal */
   select(): void {

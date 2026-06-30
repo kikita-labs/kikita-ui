@@ -104,8 +104,8 @@ export class KuiSelectDirective<T = unknown>
   private readonly selectOpts = inject(KUI_SELECT_OPTIONS, { optional: true });
 
   protected readonly dropdownOpen = computed(() => this.field?.getDropdown()?.isOpen() ?? false);
-  protected readonly dropdownPanelId = computed(
-    () => this.field?.getDropdown()?.getPanelId() ?? null,
+  protected readonly dropdownPanelId = computed(() =>
+    this.dropdownOpen() ? (this.field?.getDropdown()?.getPanelId() ?? null) : null,
   );
   protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);

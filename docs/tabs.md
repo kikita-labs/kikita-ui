@@ -22,44 +22,57 @@ import { KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective } from '@kikita
 </kui-tabs>
 ```
 
-### Pill variant
+### Pill Variant
 
 ```html
 <kui-tabs variant="pill" [(selected)]="activeTab"> ... </kui-tabs>
 ```
 
-## Inputs — `kui-tabs`
+### Router Navigation
+
+Use `controlsPanels="false"` when `kui-tabs` is used as navigation and the routed page content is rendered by `router-outlet` instead of local `kuiTabPanel` elements.
+
+```html
+<kui-tabs [(selected)]="currentRoute" [controlsPanels]="false" aria-label="Sections">
+  <button kuiTab value="/overview">Overview</button>
+  <button kuiTab value="/settings">Settings</button>
+</kui-tabs>
+```
+
+## Inputs - `kui-tabs`
 
 - `variant`: `line | pill` (default: `line`)
 - `size`: `xs | sm | md | lg` (default: `md`)
-- `selected`: two-way model — value of the active tab
+- `selected`: two-way model, value of the active tab
+- `controlsPanels`: `boolean` (default: `true`). Set to `false` when tabs do not render local `kuiTabPanel` elements.
 
-## Inputs — `[kuiTab]`
+## Inputs - `[kuiTab]`
 
-- `value`: `string` — identifier for this tab trigger
-- `disabled`: `boolean`
+- `value`: `string`, identifier for this tab trigger
 
-## Inputs — `[kuiTabPanel]`
+## Inputs - `[kuiTabPanel]`
 
-- `value`: `string` — identifier matching a `[kuiTab]`
+- `value`: `string`, identifier matching a `[kuiTab]`
 
 ## Keyboard
 
-| Key       | Action                  |
-| --------- | ----------------------- |
-| `←` / `→` | Move focus between tabs |
-| `Home`    | Focus first tab         |
-| `End`     | Focus last tab          |
+| Key                        | Action                  |
+| -------------------------- | ----------------------- |
+| `ArrowLeft` / `ArrowRight` | Move focus between tabs |
+| `Home`                     | Focus first tab         |
+| `End`                      | Focus last tab          |
 
 ## Accessibility
 
 - `role="tablist"` on the list container
-- `role="tab"` on each trigger, `aria-selected`, roving `tabindex`
+- `role="tab"` on each trigger, with `aria-selected` and roving `tabindex`
 - `role="tabpanel"` on each panel
+- `aria-controls` is emitted by default and should point to a matching `[kuiTabPanel]`
+- Use `[controlsPanels]="false"` only for navigation-style tabs without local panels
 
 ## Overflow
 
-At `< 480px` the tablist scrolls horizontally with scroll-snap.
+At narrow widths, the tablist scrolls horizontally and exposes accessible scroll buttons when needed.
 
 ## CSS Variables
 

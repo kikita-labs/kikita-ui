@@ -25,21 +25,34 @@ class WhitespaceTooltipHost {}
 describe('KuiTooltipDirective', () => {
   afterEach(() => vi.useRealTimers());
 
-  it('sets aria-describedby on the host element', () => {
+  it('sets aria-describedby only while the tooltip element exists', () => {
+    vi.useFakeTimers();
     const fixture = createFixture(TooltipHost);
     const btn = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
-    expect(btn.getAttribute('aria-describedby')).toMatch(/^kui-tooltip-\d+$/);
+
+    expect(btn.getAttribute('aria-describedby')).toBeNull();
+
+    btn.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    const describedById = btn.getAttribute('aria-describedby');
+
+    expect(describedById).toMatch(/^kui-tooltip-\d+$/);
+    expect(document.getElementById(describedById!)).not.toBeNull();
+
+    btn.dispatchEvent(new MouseEvent('mouseleave'));
+    vi.advanceTimersByTime(200);
+    fixture.detectChanges();
+
+    expect(btn.getAttribute('aria-describedby')).toBeNull();
   });
 
   it('appends tooltip element to body on mouseenter and removes on mouseleave', () => {
     vi.useFakeTimers();
     const fixture = createFixture(TooltipHost);
     const btn = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
-    const describedById = btn.getAttribute('aria-describedby')!;
-
-    expect(document.getElementById(describedById)).toBeNull();
-
     btn.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    const describedById = btn.getAttribute('aria-describedby')!;
     const tip = document.getElementById(describedById);
     expect(tip).not.toBeNull();
     expect(tip?.getAttribute('role')).toBe('tooltip');
@@ -54,10 +67,10 @@ describe('KuiTooltipDirective', () => {
   it('does not append tooltip when text is empty', () => {
     const fixture = createFixture(EmptyTooltipHost);
     const btn = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
-    const describedById = btn.getAttribute('aria-describedby')!;
 
     btn.dispatchEvent(new MouseEvent('mouseenter'));
-    expect(document.getElementById(describedById)).toBeNull();
+    expect(btn.getAttribute('aria-describedby')).toBeNull();
+    expect(document.querySelector('.kui-tooltip')).toBeNull();
   });
 
   it('does not describe or append tooltip when text is whitespace only', () => {

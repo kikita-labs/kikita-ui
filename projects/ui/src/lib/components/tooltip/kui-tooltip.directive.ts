@@ -8,6 +8,7 @@ import {
   Renderer2,
   inject,
   input,
+  signal,
 } from '@angular/core';
 
 import { KuiTooltipPlacement } from './kui-tooltip-placement.type';
@@ -48,9 +49,8 @@ export class KuiTooltipDirective implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
 
   protected readonly tooltipId = `kui-tooltip-${++tooltipCounter}`;
-  protected readonly describedBy = computed(() =>
-    this.kuiTooltip().trim() ? this.tooltipId : null,
-  );
+  private readonly visibleTooltipId = signal<string | null>(null);
+  protected readonly describedBy = computed(() => this.visibleTooltipId());
   private tooltipEl: HTMLElement | null = null;
 
   /** @internal */
@@ -75,6 +75,7 @@ export class KuiTooltipDirective implements OnDestroy {
     this.renderer.setProperty(el, 'textContent', text);
     this.renderer.appendChild(this.document.body, el);
     this.tooltipEl = el;
+    this.visibleTooltipId.set(this.tooltipId);
     this.position();
   }
 
@@ -90,6 +91,7 @@ export class KuiTooltipDirective implements OnDestroy {
     if (!this.tooltipEl) return;
     const el = this.tooltipEl;
     this.tooltipEl = null;
+    this.visibleTooltipId.set(null);
     this.renderer.addClass(el, 'is-hiding');
     let removed = false;
     const remove = () => {

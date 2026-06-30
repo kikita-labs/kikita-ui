@@ -142,11 +142,14 @@ describe('KuiSelectDirective', () => {
       const field = getField(fixture);
 
       expect(input.getAttribute('aria-expanded')).toBe('false');
+      expect(input.getAttribute('aria-controls')).toBeNull();
 
       field.click();
       fixture.detectChanges();
 
       expect(input.getAttribute('aria-expanded')).toBe('true');
+      expect(input.getAttribute('aria-controls')).toBeTruthy();
+      expect(document.getElementById(input.getAttribute('aria-controls')!)).not.toBeNull();
     });
 
     it('inherits aria-invalid from an invalid kui-field', () => {
