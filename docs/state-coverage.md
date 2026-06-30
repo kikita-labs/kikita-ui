@@ -39,4 +39,6 @@ This is the current local playground coverage for public Kikita UI primitives.
 
 - Browser screenshot baselines are still local-only, not committed visual regression tests.
 - Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Fixes from that pass include native sortable table header buttons, accessible tab scroll buttons, toast `status`/`alert` live semantics, tooltip whitespace guarding, and Signal Forms native range coverage for Slider.
-- Browser + assistive-technology review is still needed before calling the newer composite and overlay primitives fully audited.
+- Initial browser snapshot review has been run for Table, Select, Dialog, and Popover. Fixes from that pass include Popover trigger initialization guarding for Angular 22 required-input timing.
+- Browser review is still needed for Dropdown, Toast, Accordion, Progress, Slider, and Number Input at desktop and narrow mobile widths.
+- Assistive-technology review is still needed before calling the newer composite and overlay primitives fully audited.

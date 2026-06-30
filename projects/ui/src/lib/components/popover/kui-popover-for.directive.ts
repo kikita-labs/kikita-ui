@@ -14,26 +14,32 @@ import { KuiPopoverComponent } from './kui-popover.component';
 @Directive({
   selector: '[kuiPopoverFor]',
   host: {
-    '[attr.aria-expanded]': 'kuiPopoverFor().open()',
+    '[attr.aria-expanded]': 'popover()?.open() ?? false',
     '[attr.aria-haspopup]': '"dialog"',
-    '[attr.aria-controls]': 'kuiPopoverFor().panelId',
+    '[attr.aria-controls]': 'popover()?.panelId ?? null',
   },
 })
 export class KuiPopoverForDirective {
-  readonly kuiPopoverFor = input.required<KuiPopoverComponent>();
+  /** Popover instance controlled by this trigger. */
+  readonly kuiPopoverFor = input<KuiPopoverComponent | undefined>();
 
   private readonly el = inject(ElementRef<HTMLElement>);
 
+  protected popover(): KuiPopoverComponent | undefined {
+    return this.kuiPopoverFor();
+  }
+
   @HostListener('click')
   protected onClick(): void {
-    if (this.kuiPopoverFor().triggerType() !== 'click') return;
-    const p = this.kuiPopoverFor();
+    const p = this.popover();
+    if (!p || p.triggerType() !== 'click') return;
     p.open() ? p.close() : p.openFor(this.el.nativeElement);
   }
 
   @HostListener('keydown', ['$event'])
   protected onKeydown(event: KeyboardEvent): void {
-    if (this.kuiPopoverFor().triggerType() !== 'click') return;
+    const p = this.popover();
+    if (!p || p.triggerType() !== 'click') return;
     if (this.el.nativeElement.tagName === 'BUTTON') return;
     if (event.key !== 'Enter' && event.key !== ' ') return;
 
@@ -43,27 +49,29 @@ export class KuiPopoverForDirective {
 
   @HostListener('mouseenter')
   protected onMouseEnter(): void {
-    if (this.kuiPopoverFor().triggerType() !== 'hover') return;
-    this.kuiPopoverFor().openFor(this.el.nativeElement);
+    const p = this.popover();
+    if (!p || p.triggerType() !== 'hover') return;
+    p.openFor(this.el.nativeElement);
   }
 
   @HostListener('focusin')
   protected onFocusIn(): void {
-    if (this.kuiPopoverFor().triggerType() !== 'hover') return;
-    this.kuiPopoverFor().openFor(this.el.nativeElement);
+    const p = this.popover();
+    if (!p || p.triggerType() !== 'hover') return;
+    p.openFor(this.el.nativeElement);
   }
 
   @HostListener('mouseleave')
   protected onMouseLeave(): void {
-    if (this.kuiPopoverFor().triggerType() !== 'hover') return;
-    const p = this.kuiPopoverFor();
+    const p = this.popover();
+    if (!p || p.triggerType() !== 'hover') return;
     p.scheduleClose(p.hoverDelay());
   }
 
   @HostListener('focusout')
   protected onFocusOut(): void {
-    if (this.kuiPopoverFor().triggerType() !== 'hover') return;
-    const p = this.kuiPopoverFor();
+    const p = this.popover();
+    if (!p || p.triggerType() !== 'hover') return;
     p.scheduleClose(p.hoverDelay());
   }
 }
