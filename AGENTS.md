@@ -29,6 +29,9 @@ This repository contains Kikita UI, an Angular 22+ UI library and design system.
 - Do not hand-roll field-level label, hint, error, required marker, or `aria-describedby` wiring around inputs in docs or playground pages. Use `kui-field` shorthand inputs (`label`, `hint`, `hideErrors`, `required`) by default, and use projected `kuiLabel`, `kuiHint`, and `kuiError` only for custom templates. Native option labels for checkbox/radio/switch choices are still appropriate inside the field.
 - `kui-field` is responsible for inferring Signal Forms required state and first error message from the projected `[formField]`. Individual input-like directives should stay focused on native control styling/behavior unless they implement an Angular Signal Forms control contract.
 - Use signal inputs/models/queries for public APIs and internal state.
+- Keep marker directives boolean-like. Visual variants must use an explicit
+  `appearance` input, for example `button kuiMenuItem appearance="destructive"`,
+  not `kuiMenuItem="destructive"`.
 - Template-facing internal members should be `protected`; implementation-only members should be `private`.
 - Public primitives must be exported from `projects/ui/src/lib/components/index.ts` and their local component barrel.
 - When adding or changing a public primitive, update all of these in the same change unless explicitly deferred:
@@ -43,6 +46,14 @@ This repository contains Kikita UI, an Angular 22+ UI library and design system.
   - focused unit tests for public behavior
 - Do not mark a roadmap/state-coverage item as done unless the public implementation, style entrypoint, docs page, playground route, and tests all exist.
 - If a primitive is intentionally documented inside another page, make that explicit in `docs/state-coverage.md` and `docs/component-roadmap.md` (for example, `Confirm` is documented in `docs/dialog.md`).
+
+## Overlay Positioning
+
+- Overlay primitives must use Angular CDK or Angular Aria for positioning and interaction behavior.
+- With Angular/CDK 22, do not rely on `overlayX: 'center'` or `overlayX: 'end'` for trigger-aligned overlays whose pane size is unknown before first paint. This can misplace panels horizontally.
+- Prefer a stable CDK connection with `overlayX: 'start'`, then apply alignment compensation on an inner wrapper (`translateX(-50%)` or `translateX(-100%)`) when center/end alignment is required.
+- Test start, center, and end alignment visually in the playground before marking overlay primitives done.
+- Verify overlay trigger ARIA after open/close: `aria-controls` must point to an existing panel only while the panel exists.
 
 ## Required Files To Update
 

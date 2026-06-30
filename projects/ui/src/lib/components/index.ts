@@ -25,3 +25,5 @@ export * from './accordion';
 export * from './progress';
 export * from './slider';
 export * from './number-input';
+export * from './menu';
+export * from './separator';

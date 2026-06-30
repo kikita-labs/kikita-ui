@@ -1,0 +1,36 @@
+.menu-board {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--kui-space-4);
+}
+
+.menu-board__demo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kui-space-3);
+}
+
+.menu-board__static,
+.menu-board__mobile {
+  inline-size: min(100%, 260px);
+}
+
+.menu-state-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--kui-space-3);
+}
+
+.menu-state-grid > div {
+  min-inline-size: 0;
+}
+
+.menu-demo-item--hover {
+  background: var(--kui-menu-item-bg-hover);
+}
+
+.menu-demo-item--active {
+  background: var(--kui-menu-item-bg-active);
+}

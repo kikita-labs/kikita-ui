@@ -35,6 +35,8 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Progress    | `/progress`      | linear and circular variants, sizes, colors, indeterminate states, labels, live slider composition, dark/light themes                                                                                                 |
 | Slider      | `/slider`        | states, sm/md/lg sizes, primary/success/danger/neutral colors, value tooltip, static tooltip override, min/max labels, field id/ARIA/invalid wiring, Signal Forms native range binding, live demo, dark/light, mobile |
 | NumberInput | `/number-input`  | variant a/b, default/at-min/at-max/disabled/readonly/invalid states, sm/md/lg sizes, field composition (label/hint/error/disabled/readonly), dark/light themes, mobile lg, ngModel live demo                          |
+| Menu        | `/menu`          | basic actions, destructive item, disabled item, separator, group header, shortcuts, trigger overlay, start/end alignment, keyboard open/focus, mobile item height                                                     |
+| Separator   | `/separator`     | subtle/default/strong appearances, none/xs/sm/md/lg spacing, horizontal/vertical orientation, toolbar context, card/settings context                                                                                  |
 
 ## Current Gaps
 
@@ -43,3 +45,4 @@ This is the current local playground coverage for public Kikita UI primitives.
 - Initial browser smoke review has been run for Dropdown, Toast, Accordion, Progress, Slider, and Number Input at desktop and narrow mobile widths. Fixes from that pass include local horizontal scrolling for the Progress circular matrix, router-navigation tabs without stale `aria-controls`, dynamic Tooltip `aria-describedby` references only while tooltip DOM exists, and overlay trigger `aria-controls` references only while Dropdown, Select, and Popover panels exist.
 - Browser screenshot baselines are still local-only, not committed visual regression tests.
 - Assistive-technology review is still needed before calling the newer composite and overlay primitives fully audited.
+- Menu submenu, checkbox/radio item, and context-menu helper are deferred per the Claude Design brief.

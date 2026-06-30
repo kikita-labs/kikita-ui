@@ -39,10 +39,11 @@
 - Progress (done as `kui-progress`)
 - Slider (done as `input[type=range][kuiSlider]`; `kui-field` id/ARIA/invalid wiring covered)
 - Number input (done as `input[type=number][kuiNumberInput]`)
+- Menu (done as `kui-menu` + `[kuiMenuFor]` + `button/a[kuiMenuItem]` + `hr[kuiSeparator]`; submenu, checkbox/radio items, and context-menu helper deferred per Claude brief)
+- Separator (done as `hr[kuiSeparator]`; Menu uses the generic separator directly)
 
 ## Later
 
-- Menu
 - Drawer
 - Combobox
 - Command palette
@@ -64,7 +65,7 @@ consumer app:
 
 Initial install documentation lives in `docs/install.md`.
 
-Docs pages exist for all implemented primitives through Avatar. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, and Number Input; committed visual regression baselines and assistive-technology review are still pending.
+Docs pages exist for implemented primitives through Separator. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, and Number Input; committed visual regression baselines and assistive-technology review are still pending.
 
 ## Consumer Migration Gate
 

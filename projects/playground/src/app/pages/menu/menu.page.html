@@ -1,0 +1,145 @@
+<app-panel num="01" title="Basic menu" description="Action menu, not a value picker.">
+  <div class="menu-board">
+    <div class="menu-board__demo">
+      <button kuiButton type="button" [kuiMenuFor]="basicMenu">Actions</button>
+      <kui-menu #basicMenu ariaLabel="Project actions">
+        <div kuiMenuHeader>Project</div>
+        <button type="button" kuiMenuItem (click)="setAction('edit')">
+          <span class="kui-menu-item__label">Edit</span>
+        </button>
+        <button type="button" kuiMenuItem (click)="setAction('copy')">
+          <span class="kui-menu-item__label">Copy</span>
+        </button>
+        <button type="button" kuiMenuItem (click)="setAction('share')">
+          <span class="kui-menu-item__label">Share</span>
+        </button>
+        <hr kuiSeparator spacing="xs" />
+        <button type="button" kuiMenuItem appearance="destructive" (click)="setAction('delete')">
+          <span class="kui-menu-item__label">Delete</span>
+        </button>
+      </kui-menu>
+      <code>last: {{ lastAction() }}</code>
+    </div>
+
+    <div class="kui-menu menu-board__static" role="menu" aria-label="Static project actions">
+      <button class="kui-menu-item" type="button" role="menuitem">
+        <span class="kui-menu-item__label">Edit</span>
+      </button>
+      <button class="kui-menu-item" type="button" role="menuitem">
+        <span class="kui-menu-item__label">Copy</span>
+      </button>
+      <button class="kui-menu-item" type="button" role="menuitem">
+        <span class="kui-menu-item__label">Share</span>
+      </button>
+      <hr kuiSeparator spacing="xs" />
+      <button class="kui-menu-item" type="button" role="menuitem" data-kui-appearance="destructive">
+        <span class="kui-menu-item__label">Delete</span>
+      </button>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Icons and shortcuts"
+  description="Optional leading icon and trailing hint."
+>
+  <div class="kui-menu menu-board__static" role="menu" aria-label="Editor actions">
+    <div class="kui-menu-group-header" role="presentation">Edit</div>
+    <button class="kui-menu-item" type="button" role="menuitem">
+      <span class="kui-menu-item__icon" aria-hidden="true">E</span>
+      <span class="kui-menu-item__label">Rename</span>
+      <span class="kui-menu-item__shortcut">F2</span>
+    </button>
+    <button class="kui-menu-item" type="button" role="menuitem">
+      <span class="kui-menu-item__icon" aria-hidden="true">C</span>
+      <span class="kui-menu-item__label">Copy</span>
+      <span class="kui-menu-item__shortcut">Ctrl C</span>
+    </button>
+    <button class="kui-menu-item" type="button" role="menuitem" aria-disabled="true">
+      <span class="kui-menu-item__icon" aria-hidden="true">X</span>
+      <span class="kui-menu-item__label">Export</span>
+    </button>
+    <hr kuiSeparator spacing="xs" />
+    <button class="kui-menu-item" type="button" role="menuitem" data-kui-appearance="destructive">
+      <span class="kui-menu-item__icon" aria-hidden="true">D</span>
+      <span class="kui-menu-item__label">Delete</span>
+      <span class="kui-menu-item__shortcut">Del</span>
+    </button>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="States"
+  description="Default, hover/focus, active, disabled, destructive."
+>
+  <div class="menu-state-grid">
+    <div>
+      <span class="demo-label">default</span>
+      <button class="kui-menu-item" type="button" role="menuitem">
+        <span class="kui-menu-item__label">Default item</span>
+      </button>
+    </div>
+    <div>
+      <span class="demo-label">hover / focus</span>
+      <button class="kui-menu-item menu-demo-item--hover" type="button" role="menuitem">
+        <span class="kui-menu-item__label">Focused item</span>
+      </button>
+    </div>
+    <div>
+      <span class="demo-label">active</span>
+      <button class="kui-menu-item menu-demo-item--active" type="button" role="menuitem">
+        <span class="kui-menu-item__label">Pressed item</span>
+      </button>
+    </div>
+    <div>
+      <span class="demo-label">disabled</span>
+      <button class="kui-menu-item" type="button" role="menuitem" aria-disabled="true">
+        <span class="kui-menu-item__label">Disabled item</span>
+      </button>
+    </div>
+    <div>
+      <span class="demo-label">destructive</span>
+      <button class="kui-menu-item" type="button" role="menuitem" data-kui-appearance="destructive">
+        <span class="kui-menu-item__label">Delete item</span>
+      </button>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel num="04" title="Trigger alignment" description="Start and end aligned panels.">
+  <div class="menu-board">
+    <button kuiButton type="button" [kuiMenuFor]="startMenu">Start aligned</button>
+    <kui-menu #startMenu ariaLabel="Start aligned actions" menuAlign="start">
+      <button type="button" kuiMenuItem><span class="kui-menu-item__label">Open</span></button>
+      <button type="button" kuiMenuItem><span class="kui-menu-item__label">Duplicate</span></button>
+    </kui-menu>
+
+    <button kuiButton type="button" [kuiMenuFor]="endMenu">End aligned</button>
+    <kui-menu #endMenu ariaLabel="End aligned actions" menuAlign="end">
+      <button type="button" kuiMenuItem><span class="kui-menu-item__label">Archive</span></button>
+      <button type="button" kuiMenuItem appearance="destructive">
+        <span class="kui-menu-item__label">Delete</span>
+      </button>
+    </kui-menu>
+  </div>
+</app-panel>
+
+<app-panel num="05" title="Mobile item height" description="Mobile menus use larger touch targets.">
+  <div class="kui-menu kui-menu--mobile menu-board__mobile" role="menu" aria-label="Mobile actions">
+    <button class="kui-menu-item" type="button" role="menuitem">
+      <span class="kui-menu-item__label">Edit</span>
+    </button>
+    <button class="kui-menu-item" type="button" role="menuitem">
+      <span class="kui-menu-item__label">Duplicate</span>
+    </button>
+    <button class="kui-menu-item" type="button" role="menuitem">
+      <span class="kui-menu-item__label">Share</span>
+    </button>
+    <hr kuiSeparator spacing="xs" />
+    <button class="kui-menu-item" type="button" role="menuitem" data-kui-appearance="destructive">
+      <span class="kui-menu-item__label">Delete</span>
+    </button>
+  </div>
+</app-panel>

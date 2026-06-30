@@ -1,0 +1,56 @@
+<app-panel num="01" title="Appearances" description="Low-emphasis semantic divider variants.">
+  <div class="separator-stack">
+    @for (appearance of appearances; track appearance) {
+      <div class="separator-row">
+        <code>appearance="{{ appearance }}"</code>
+        <hr kuiSeparator [appearance]="appearance" spacing="none" />
+      </div>
+    }
+  </div>
+</app-panel>
+
+<app-panel num="02" title="Spacing" description="Outer spacing around horizontal dividers.">
+  <div class="separator-stack">
+    @for (spacing of spacings; track spacing) {
+      <div class="separator-spacing-demo">
+        <code>spacing="{{ spacing }}"</code>
+        <div class="separator-spacing-demo__box">
+          <span></span>
+          <hr kuiSeparator [spacing]="spacing" />
+          <span></span>
+        </div>
+      </div>
+    }
+  </div>
+</app-panel>
+
+<app-panel num="03" title="Vertical" description="Inline action groups and toolbar contexts.">
+  <div class="separator-toolbar" kuiCard>
+    <button kuiButton appearance="ghost" type="button">Bold</button>
+    <button kuiButton appearance="ghost" type="button">Italic</button>
+    <hr kuiSeparator orientation="vertical" spacing="xs" />
+    <button kuiButton appearance="ghost" type="button">Link</button>
+    <hr kuiSeparator orientation="vertical" appearance="strong" spacing="xs" />
+    <button kuiButton appearance="ghost" type="button">Clear</button>
+  </div>
+</app-panel>
+
+<app-panel num="04" title="Section context" description="Card and settings-like content splits.">
+  <article kuiCard class="separator-card">
+    <header>
+      <strong>Project settings</strong>
+      <span>Visible divider without local ad-hoc borders.</span>
+    </header>
+    <hr kuiSeparator />
+    <div class="separator-card__body">
+      <span>General</span>
+      <span>Notifications</span>
+      <span>Danger zone</span>
+    </div>
+    <hr kuiSeparator appearance="strong" />
+    <footer>
+      <button kuiButton appearance="outline" type="button">Cancel</button>
+      <button kuiButton type="button">Save</button>
+    </footer>
+  </article>
+</app-panel>

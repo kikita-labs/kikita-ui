@@ -117,5 +117,10 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/number-input/number-input.page').then((m) => m.NumberInputPage),
   },
+  { path: 'menu', loadComponent: () => import('./pages/menu/menu.page').then((m) => m.MenuPage) },
+  {
+    path: 'separator',
+    loadComponent: () => import('./pages/separator/separator.page').then((m) => m.SeparatorPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

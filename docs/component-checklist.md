@@ -15,6 +15,8 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 - A component is used only when native/directive semantics are not enough.
 - Public selectors use the `kui` prefix.
 - Public APIs use signals, signal inputs, models, and queries.
+- Marker directives stay boolean-like. Visual variants use an explicit
+  `appearance` input, not a marker directive value.
 - Public classes, directives, components, providers, services, types, and tokens have JSDoc.
 - Public API is exported from the local `index.ts`, `projects/ui/src/lib/components/index.ts`, and `projects/ui/src/public-api.ts` when applicable.
 - New services use Angular 22 `@Service` unless official Angular docs or a specific DI pattern require otherwise.
@@ -61,6 +63,7 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
   - Enter/Space activate non-native triggers when needed.
   - Focus is restored after modal/popover/dialog close when appropriate.
 - Overlay components use Angular CDK or Angular Aria for complex behavior.
+- Overlay positioning is verified for start/center/end alignment. With Angular/CDK 22, do not rely on `overlayX: 'center'` or `overlayX: 'end'` when the pane size is unknown before first paint; use a stable `overlayX: 'start'` connection plus inner transform compensation instead.
 - Dialog-like surfaces have an accessible name and an escape path unless explicitly non-dismissable.
 - Toast/live-region behavior uses polite/assertive semantics according to severity.
 - A DOM accessibility smoke check has no broken ARIA refs, duplicate ids, unnamed visible controls, or console errors.

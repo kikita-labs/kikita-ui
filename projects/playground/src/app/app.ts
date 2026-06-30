@@ -49,6 +49,8 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/progress', label: 'Progress' },
   { path: '/slider', label: 'Slider' },
   { path: '/number-input', label: 'Number Input' },
+  { path: '/menu', label: 'Menu' },
+  { path: '/separator', label: 'Separator' },
 ];
 
 @Component({
