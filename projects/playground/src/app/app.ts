@@ -30,6 +30,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/switch', label: 'Switch' },
   { path: '/radio', label: 'Radio' },
   { path: '/badge', label: 'Badge' },
+  { path: '/avatar', label: 'Avatar' },
   { path: '/loader', label: 'Loader' },
   { path: '/card', label: 'Card' },
   { path: '/group', label: 'Group' },

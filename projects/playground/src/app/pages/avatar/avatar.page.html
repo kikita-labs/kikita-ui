@@ -1,0 +1,173 @@
+<app-panel num="01" title="Content variants" description="Image, initials, and icon fallback.">
+  <div class="avatar-row">
+    <div class="avatar-demo">
+      <span class="demo-label">image</span>
+      <kui-avatar [src]="imageUrl" name="Nikita Repin" />
+      <span class="demo-note">Photo content</span>
+    </div>
+    <div class="avatar-demo">
+      <span class="demo-label">initials</span>
+      <kui-avatar name="Nikita Repin" [paletteIndex]="1" />
+      <span class="demo-note">One or two characters</span>
+    </div>
+    <div class="avatar-demo">
+      <span class="demo-label">icon</span>
+      <kui-avatar />
+      <span class="demo-note">No image or name</span>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel num="02" title="Shape" description="Circle for people, square for entities.">
+  <div class="avatar-row">
+    <div class="avatar-demo">
+      <span class="demo-label">circle · image</span>
+      <kui-avatar [src]="imageUrl" name="Nikita Repin" />
+    </div>
+    <div class="avatar-demo">
+      <span class="demo-label">circle · initials</span>
+      <kui-avatar name="Anya Murashova" />
+    </div>
+    <div class="avatar-demo">
+      <span class="demo-label">square · image</span>
+      <kui-avatar [src]="imageUrl" name="Design Bot" shape="square" />
+    </div>
+    <div class="avatar-demo">
+      <span class="demo-label">square · initials</span>
+      <kui-avatar name="Design Team" initials="DT" shape="square" [paletteIndex]="6" />
+    </div>
+    <div class="avatar-demo">
+      <span class="demo-label">square · icon</span>
+      <kui-avatar shape="square" />
+    </div>
+  </div>
+</app-panel>
+
+<app-panel num="03" title="Sizes" description="Six fixed sizes from dense lists to profiles.">
+  <div class="avatar-size-grid">
+    <div class="demo-label">image</div>
+    @for (size of sizes; track size.value) {
+      <div class="avatar-demo">
+        <kui-avatar [src]="imageUrl" name="Nikita Repin" [size]="size.value" />
+        <span class="demo-note">{{ size.label }}</span>
+      </div>
+    }
+
+    <div class="demo-label">initials</div>
+    @for (size of sizes; track size.value) {
+      <div class="avatar-demo">
+        <kui-avatar name="Anya Murashova" [size]="size.value" />
+        <span class="demo-note">{{ size.label }}</span>
+      </div>
+    }
+  </div>
+</app-panel>
+
+<app-panel num="04" title="Status" description="Presence indicator scales with avatar size.">
+  <div class="avatar-row">
+    @for (status of statuses; track status.value) {
+      <div class="avatar-demo">
+        <span class="demo-label">{{ status.label }}</span>
+        <kui-avatar [src]="imageUrl" name="Nikita Repin" [status]="status.value" size="lg" />
+      </div>
+    }
+  </div>
+</app-panel>
+
+<app-panel num="05" title="Initials palette" description="Seven tokenized palette slots.">
+  <div class="avatar-palette">
+    @for (item of palette; track item.index) {
+      <div class="avatar-demo">
+        <kui-avatar
+          [name]="item.name"
+          [initials]="item.initials"
+          [paletteIndex]="item.index"
+          size="lg"
+        />
+        <span class="demo-note">p{{ item.index }}</span>
+      </div>
+    }
+  </div>
+</app-panel>
+
+<app-panel
+  num="06"
+  title="States"
+  description="Image error fallback, loading skeleton, and button-backed focus."
+>
+  <div class="avatar-row">
+    <div class="avatar-demo">
+      <span class="demo-label">image error</span>
+      <kui-avatar src="/missing-avatar.png" name="Nikita Repin" size="lg" />
+    </div>
+    <div class="avatar-demo">
+      <span class="demo-label">loading</span>
+      <kui-avatar loading name="Nikita Repin" size="lg" />
+    </div>
+    <div class="avatar-demo">
+      <span class="demo-label">button-backed</span>
+      <button class="kui-avatar-action" type="button" aria-label="Open Nikita Repin profile">
+        <kui-avatar [src]="imageUrl" name="Nikita Repin" size="lg" />
+      </button>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel num="07" title="Avatar group" description="Overlapping stack with overflow counter.">
+  <div class="avatar-row avatar-row--groups">
+    <div class="avatar-demo">
+      <span class="demo-label">3 avatars</span>
+      <kui-avatar-group [avatars]="members.slice(0, 3)" [max]="3" label="Three project members" />
+    </div>
+    <div class="avatar-demo">
+      <span class="demo-label">5 avatars</span>
+      <kui-avatar-group [avatars]="members.slice(0, 5)" [max]="5" label="Five project members" />
+    </div>
+    <div class="avatar-demo">
+      <span class="demo-label">overflow</span>
+      <kui-avatar-group [avatars]="members" [max]="3" size="lg" label="Project members" />
+    </div>
+  </div>
+</app-panel>
+
+<app-panel num="08" title="Theme" description="Avatar tokens rebind in light and dark themes.">
+  <div class="avatar-theme-grid">
+    <section class="avatar-theme-block" data-kui-theme="dark">
+      <span class="demo-label">Dark</span>
+      <kui-avatar [src]="imageUrl" name="Nikita Repin" status="online" size="lg" />
+      <kui-avatar name="Anya Murashova" size="lg" />
+      <kui-avatar size="lg" />
+      <kui-avatar-group [avatars]="members" [max]="2" size="lg" label="Dark theme members" />
+    </section>
+    <section class="avatar-theme-block" data-kui-theme="light">
+      <span class="demo-label">Light</span>
+      <kui-avatar [src]="imageUrl" name="Nikita Repin" status="online" size="lg" />
+      <kui-avatar name="Anya Murashova" size="lg" />
+      <kui-avatar size="lg" />
+      <kui-avatar-group [avatars]="members" [max]="2" size="lg" label="Light theme members" />
+    </section>
+  </div>
+</app-panel>
+
+<app-panel num="09" title="In context" description="Comment and participant-list compositions.">
+  <div class="avatar-context-grid">
+    <article class="avatar-comment">
+      <kui-avatar [src]="imageUrl" name="Nikita Repin" status="online" />
+      <div>
+        <div class="avatar-comment__meta">
+          <strong>Nikita Repin</strong>
+          <span>14:32</span>
+        </div>
+        <p>Added token decisions to the shared board. Please review the avatar stack behavior.</p>
+      </div>
+    </article>
+
+    <article class="avatar-project">
+      <div>
+        <strong>Onboarding redesign</strong>
+        <span>Active · due July 15</span>
+      </div>
+      <kui-avatar-group [avatars]="members" [max]="4" size="sm" label="Project participants" />
+    </article>
+  </div>
+</app-panel>

@@ -19,6 +19,7 @@
 - Switch (done as `input[type=checkbox][kuiSwitch]`)
 - Radio (done as `input[type=radio][kuiRadio]`)
 - Badge (done as `[kuiBadge]`)
+- Avatar (done as `kui-avatar` + `kui-avatar-group`)
 - Loader (done as `[kuiLoader]`)
 - Tooltip (done as `[kuiTooltip]`)
 - Card (done as `[kuiCard]`)
@@ -41,7 +42,6 @@
 
 ## Later
 
-- Avatar
 - Menu
 - Drawer
 - Combobox
@@ -64,7 +64,7 @@ consumer app:
 
 Initial install documentation lives in `docs/install.md`.
 
-Docs pages exist for all implemented primitives through Number Input. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, and Number Input; committed visual regression baselines and assistive-technology review are still pending.
+Docs pages exist for all implemented primitives through Avatar. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, and Number Input; committed visual regression baselines and assistive-technology review are still pending.
 
 ## Consumer Migration Gate
 

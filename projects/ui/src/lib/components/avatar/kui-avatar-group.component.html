@@ -1,0 +1,26 @@
+@for (avatar of visibleAvatars(); track avatar.name ?? avatar.src ?? $index) {
+  <kui-avatar
+    [src]="avatar.src"
+    [name]="avatar.name"
+    [initials]="avatar.initials"
+    [alt]="avatar.alt"
+    [status]="avatar.status"
+    [paletteIndex]="avatar.paletteIndex"
+    [size]="size()"
+    [shape]="shape()"
+    [style.z-index]="visibleAvatars().length - $index + (overflowCount() ? 1 : 0)"
+  />
+}
+
+@if (overflowCount() > 0) {
+  <span
+    class="kui-avatar kui-avatar--overflow"
+    [attr.data-kui-size]="size()"
+    [attr.data-kui-shape]="shape()"
+    role="img"
+    [attr.aria-label]="overflowLabel()"
+    style="z-index: 1"
+  >
+    +{{ overflowCount() }}
+  </span>
+}

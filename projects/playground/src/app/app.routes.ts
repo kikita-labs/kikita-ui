@@ -47,6 +47,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/badge/badge.page').then((m) => m.BadgePage),
   },
   {
+    path: 'avatar',
+    loadComponent: () => import('./pages/avatar/avatar.page').then((m) => m.AvatarPage),
+  },
+  {
     path: 'loader',
     loadComponent: () => import('./pages/loader/loader.page').then((m) => m.LoaderPage),
   },

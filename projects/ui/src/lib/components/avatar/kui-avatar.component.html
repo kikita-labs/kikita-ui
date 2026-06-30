@@ -1,0 +1,21 @@
+@if (loading()) {
+  <span class="kui-avatar__skeleton" aria-hidden="true"></span>
+} @else if (imageSrc(); as image) {
+  <img class="kui-avatar__image" [src]="image" [alt]="imageAlt()" (error)="onImageError()" />
+} @else if (displayInitials(); as initialsText) {
+  <span class="kui-avatar__initials" aria-hidden="true">{{ initialsText }}</span>
+} @else {
+  <svg
+    class="kui-avatar__icon"
+    viewBox="0 0 16 16"
+    fill="currentColor"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5 6a5 5 0 0 1 10 0H3Z" />
+  </svg>
+}
+
+@if (status(); as statusValue) {
+  <span class="kui-avatar__status" [attr.data-kui-status]="statusValue" aria-hidden="true"></span>
+}
