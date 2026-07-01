@@ -29,7 +29,7 @@
 
 ## Phase 3
 
-- Select (done as `input[kuiSelect]` with `kui-dropdown` and `kuiOption`)
+- Select (done as `input[kuiSelect]` with `kui-dropdown` and `kuiOption`; multiple array mode exists, chip-in-field and collapsed `+N` rendering pending)
 - Dropdown (done as `kui-dropdown` + `[kuiDropdownFor]` + `[kuiOption]`; field auto-wiring via `contentChild`)
 - Popover (done as `kui-popover` + `[kuiPopoverFor]`)
 - Dialog (done as `kui-dialog` + dialog service)
@@ -41,11 +41,12 @@
 - Number input (done as `input[type=number][kuiNumberInput]`)
 - Menu (done as `kui-menu` + `[kuiMenuFor]` + `button/a[kuiMenuItem]` + `hr[kuiSeparator]`; submenu, checkbox/radio items, and context-menu helper deferred per Claude brief)
 - Separator (done as `hr[kuiSeparator]`; Menu uses the generic separator directly)
+- Drawer (done as `kuiDrawer()` typed CDK overlay with side and size presets)
+- Chip (done as `[kuiChip]` + `button[kuiChipRemove]`; Select multiselect and Combobox use it for selected values)
+- Combobox (initial implementation as `kui-combobox`; CDK overlay positioning hardening pending before final done status)
 
 ## Later
 
-- Drawer
-- Combobox
 - Command palette
 - Skeleton
 - Empty state
@@ -65,7 +66,7 @@ consumer app:
 
 Initial install documentation lives in `docs/install.md`.
 
-Docs pages exist for implemented primitives through Separator. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, and Number Input; committed visual regression baselines and assistive-technology review are still pending.
+Docs pages exist for implemented primitives through Combobox. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, and Number Input; committed visual regression baselines and assistive-technology review are still pending.
 
 ## Consumer Migration Gate
 

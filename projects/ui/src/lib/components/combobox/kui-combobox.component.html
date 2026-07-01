@@ -1,0 +1,125 @@
+<div
+  class="kui-combobox-input"
+  [class.kui-combobox-input--invalid]="effectiveInvalid()"
+  [class.kui-combobox-input--disabled]="disabled()"
+  [class.kui-combobox-input--readonly]="readonly()"
+  (click)="handleControlClick($event)"
+>
+  @if (multiple()) {
+    @for (item of selectedValues(); track item) {
+      <span kuiChip size="sm" (removed)="removeValue(item)">
+        <span class="kui-chip-label">{{ labelFor(item) }}</span>
+        <button kuiChipRemove [attr.aria-label]="'Remove ' + labelFor(item)">
+          <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M4 4l8 8M12 4l-8 8"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </span>
+    }
+  }
+
+  <input
+    #nativeInput
+    class="kui-combobox-native"
+    type="text"
+    role="combobox"
+    autocomplete="off"
+    [id]="inputId()"
+    [value]="inputValue()"
+    [placeholder]="selectedValues().length ? '' : placeholder()"
+    [readonly]="readonly()"
+    [disabled]="disabled()"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="open() ? listId : null"
+    [attr.aria-activedescendant]="activeOptionId()"
+    [attr.aria-autocomplete]="mode() === 'free' ? 'both' : 'list'"
+    [attr.aria-describedby]="describedBy()"
+    [attr.aria-invalid]="effectiveInvalid() ? 'true' : null"
+    (focus)="openPanel()"
+    (click)="openPanel()"
+    (input)="handleInput($event)"
+    (keydown)="handleKeydown($event)"
+  />
+
+  <div class="kui-combobox-suffix">
+    @if (loading()) {
+      <span class="kui-combobox-loader" aria-hidden="true"></span>
+    } @else if (showClear()) {
+      <button
+        class="kui-field-action kui-combobox-clear"
+        type="button"
+        aria-label="Clear"
+        (click)="clear($event)"
+      >
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path
+            d="M4 4l8 8M12 4l-8 8"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+    }
+    <button
+      class="kui-field-action kui-combobox-chevron"
+      type="button"
+      tabindex="-1"
+      [disabled]="disabled() || readonly()"
+      [attr.aria-label]="open() ? 'Close options' : 'Open options'"
+      [attr.aria-expanded]="open()"
+      [attr.aria-controls]="open() ? listId : null"
+      (click)="toggleFromChevron($event)"
+    >
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+        <path
+          d="M4 6l4 4 4-4"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+
+@if (open()) {
+  <div
+    [id]="listId"
+    class="kui-combobox-list"
+    role="listbox"
+    [attr.aria-multiselectable]="multiple()"
+  >
+    @if (loading()) {
+      <div class="kui-combobox-loading-row">
+        <span class="kui-combobox-loader" aria-hidden="true"></span>
+        Loading...
+      </div>
+    } @else if (!displayOptions().length) {
+      <div class="kui-combobox-empty">No results</div>
+    } @else {
+      @for (option of displayOptions(); track option; let i = $index) {
+        <button
+          class="kui-combobox-option"
+          type="button"
+          role="option"
+          [id]="listId + '-option-' + i"
+          [class.kui-combobox-option--focused]="i === activeIndex()"
+          [class.kui-combobox-option--selected]="isSelected(option)"
+          [attr.aria-selected]="isSelected(option)"
+          (mousedown)="$event.preventDefault()"
+          (click)="selectOption(option)"
+        >
+          <span class="kui-combobox-option-label">{{ labelFor(option) }}</span>
+          <span class="kui-combobox-option-check" aria-hidden="true"></span>
+        </button>
+      }
+    }
+  </div>
+}

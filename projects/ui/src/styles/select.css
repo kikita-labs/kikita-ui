@@ -14,40 +14,32 @@
   }
 
   .kui-select-input-suffix {
+    --kui-field-action-size: var(--kui-select-affordance-size);
+
     position: absolute;
     inset-block-start: 50%;
-    inset-inline-end: 10px;
+    inset-inline-end: var(--kui-select-suffix-inline-end);
     transform: translateY(-50%);
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--kui-select-suffix-gap);
     pointer-events: none;
   }
 
   .kui-select-clear {
-    display: flex;
-    align-items: center;
-    padding: 0;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--kui-color-text-secondary);
     pointer-events: all;
-    border-radius: 4px;
-    opacity: 0.6;
-    transition: opacity var(--kui-duration-fast, 100ms) var(--kui-ease);
-  }
-
-  .kui-select-clear:hover {
-    opacity: 1;
   }
 
   .kui-select-input-suffix .kui-select-chevron {
+    color: var(--kui-field-action-color);
     pointer-events: none;
-    transition: transform 160ms var(--kui-ease);
+    transition:
+      color var(--kui-duration-base) var(--kui-ease),
+      transform var(--kui-duration-base) var(--kui-ease);
   }
 
   .kui-select-input-suffix .kui-select-chevron.is-open {
+    color: var(--kui-color-primary-fill);
     transform: rotate(180deg);
   }
 }

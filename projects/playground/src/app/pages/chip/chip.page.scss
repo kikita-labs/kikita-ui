@@ -1,0 +1,31 @@
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kui-space-2);
+}
+
+.chip-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kui-space-3);
+}
+
+.chip-avatar {
+  inline-size: 18px;
+  block-size: 18px;
+  background: var(--kui-avatar-p1-bg);
+  color: var(--kui-avatar-p1-fg);
+  font-size: var(--kui-text-2xs-size);
+}
+
+.chip-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kui-space-2);
+  padding: var(--kui-space-3);
+  border: var(--kui-card-border-width) solid var(--kui-color-border);
+  border-radius: var(--kui-radius-md);
+  background: var(--kui-color-surface);
+}

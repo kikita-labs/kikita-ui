@@ -1,0 +1,102 @@
+<div class="pg-page">
+  <h1 class="pg-title">Chip</h1>
+  <p class="pg-desc">
+    Compact inline primitive for selected values, filters, tags, and entity references.
+  </p>
+
+  <app-panel num="01" title="Appearances" description="Neutral plus semantic soft variants.">
+    <div class="chip-row">
+      <span kuiChip>Neutral</span>
+      <span kuiChip appearance="primary">Primary</span>
+      <span kuiChip appearance="success">Success</span>
+      <span kuiChip appearance="warning">Warning</span>
+      <span kuiChip appearance="danger">Danger</span>
+      <span kuiChip appearance="info">Info</span>
+    </div>
+  </app-panel>
+
+  <app-panel num="02" title="Sizes" description="xs, sm, md, and lg. sm is intended for controls.">
+    <div class="chip-row">
+      <span kuiChip size="xs">xs</span>
+      <span kuiChip size="sm">sm</span>
+      <span kuiChip>md</span>
+      <span kuiChip size="lg">lg</span>
+    </div>
+  </app-panel>
+
+  <app-panel
+    num="03"
+    title="Remove action"
+    description="Remove is a native button inside the chip."
+  >
+    <div class="chip-stack">
+      <div class="chip-row">
+        <span kuiChip size="sm" (removed)="markRemoved('Angular')">
+          <span class="kui-chip-label">Angular</span>
+          <button kuiChipRemove aria-label="Remove Angular">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path
+                d="M4 4l8 8M12 4l-8 8"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </span>
+        <span kuiChip size="sm" appearance="primary" (removed)="markRemoved('Design')">
+          <span class="kui-chip-label">Design</span>
+          <button kuiChipRemove aria-label="Remove Design">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path
+                d="M4 4l8 8M12 4l-8 8"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </span>
+        <span class="kui-chip-counter" data-kui-size="sm">+4</span>
+      </div>
+      <code>removed: {{ lastRemoved() }}</code>
+    </div>
+  </app-panel>
+
+  <app-panel
+    num="04"
+    title="States"
+    description="Interactive, focus, disabled, and invalid states."
+  >
+    <div class="chip-row">
+      <button kuiChip type="button">Interactive</button>
+      <button kuiChip type="button" class="kui-chip--focus">Focus</button>
+      <span kuiChip disabled>
+        Disabled
+        <button kuiChipRemove aria-label="Remove disabled">×</button>
+      </span>
+      <span kuiChip invalid>Invalid</span>
+    </div>
+  </app-panel>
+
+  <app-panel num="05" title="Composition" description="Icon, avatar, and filter-bar examples.">
+    <div class="chip-stack">
+      <div class="chip-row">
+        <span kuiChip>
+          <span class="kui-chip-icon" aria-hidden="true">#</span>
+          <span class="kui-chip-label">Role: Admin</span>
+        </span>
+        <span kuiChip>
+          <span class="kui-chip-avatar chip-avatar" aria-hidden="true">KR</span>
+          <span class="kui-chip-label">Kikita Runtime</span>
+        </span>
+      </div>
+      <div class="chip-filter-bar">
+        <span kuiChip size="sm" appearance="primary">All</span>
+        <button kuiChip size="sm" type="button">Open</button>
+        <button kuiChip size="sm" type="button">Archived</button>
+        <button kuiButton appearance="ghost" size="sm" type="button">Add filter</button>
+      </div>
+    </div>
+  </app-panel>
+</div>

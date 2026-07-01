@@ -4,7 +4,7 @@
   description="Base pattern: <code>input[kuiSelect]</code> with a custom <code>kui-dropdown</code> inside field. Strings do not need <code>kuiLabelFn</code>."
 >
   <div class="state-board__row">
-    <kui-field label="Role" style="width: 240px">
+    <kui-field label="Role" class="select-page__field select-page__field--sm">
       <input kuiSelect [(value)]="selectedRole" placeholder="Select a role..." />
       <kui-dropdown>
         @for (opt of roles; track opt.value) {
@@ -22,7 +22,7 @@
   description='<code>kuiLabelFn</code> for custom objects. <code>[clearable]="true"</code> adds a reset button. Inactive users are disabled.'
 >
   <div class="state-board__row">
-    <kui-field label="User" style="width: 280px">
+    <kui-field label="User" class="select-page__field select-page__field--md">
       <input
         kuiSelect
         [(value)]="selectedUser"
@@ -47,11 +47,52 @@
 
 <app-panel
   num="03"
+  title="input[kuiSelect] - multiple"
+  description="Multiple mode keeps the dropdown open while options toggle. Selected values are represented with real chips."
+>
+  <div class="state-board__row">
+    <kui-field label="Roles" class="select-page__field select-page__field--lg">
+      <input
+        kuiSelect
+        [multiple]="true"
+        [(value)]="selectedRoles"
+        [kuiLabelFn]="roleLabelFn"
+        [clearable]="true"
+        placeholder="Select roles..."
+      />
+      <kui-dropdown>
+        @for (opt of roles; track opt.value) {
+          <div kuiOption [value]="opt.value">{{ opt.label }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
+    <div class="select-page__chips">
+      @for (role of selectedRoles(); track role) {
+        <span kuiChip size="sm" (removed)="removeRole(role)">
+          <span class="kui-chip-label">{{ roleLabelFn(role) }}</span>
+          <button kuiChipRemove [attr.aria-label]="'Remove ' + roleLabelFn(role)">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path
+                d="M4 4l8 8M12 4l-8 8"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </span>
+      }
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
   title="input[kuiSelect] - disabled"
   description="Disabled state: the field is disabled, and the dropdown does not open even when clicking the label."
 >
   <div class="state-board__row">
-    <kui-field label="Locked field" style="width: 240px">
+    <kui-field label="Locked field" class="select-page__field select-page__field--sm">
       <input kuiSelect [value]="selectedRole()" [disabled]="true" placeholder="Disabled..." />
       <kui-dropdown>
         @for (opt of roles; track opt.value) {

@@ -96,7 +96,9 @@ export class KuiOptionDirective {
       case ' ':
         e.preventDefault();
         this.handleClick();
-        this.ctx?.close?.();
+        if (this.ctx?.shouldCloseOnSelect?.() ?? true) {
+          this.ctx?.close?.();
+        }
         break;
       case 'Tab':
         this.ctx?.close?.();

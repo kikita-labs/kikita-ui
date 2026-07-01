@@ -1,0 +1,22 @@
+.select-page__field {
+  inline-size: 100%;
+}
+
+.select-page__field--sm {
+  max-inline-size: 240px;
+}
+
+.select-page__field--md {
+  max-inline-size: 280px;
+}
+
+.select-page__field--lg {
+  max-inline-size: 360px;
+}
+
+.select-page__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kui-space-2);
+  min-inline-size: 0;
+}

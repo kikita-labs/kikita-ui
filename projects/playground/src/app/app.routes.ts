@@ -122,5 +122,17 @@ export const routes: Routes = [
     path: 'separator',
     loadComponent: () => import('./pages/separator/separator.page').then((m) => m.SeparatorPage),
   },
+  {
+    path: 'drawer',
+    loadComponent: () => import('./pages/drawer/drawer.page').then((m) => m.DrawerPage),
+  },
+  {
+    path: 'chip',
+    loadComponent: () => import('./pages/chip/chip.page').then((m) => m.ChipPage),
+  },
+  {
+    path: 'combobox',
+    loadComponent: () => import('./pages/combobox/combobox.page').then((m) => m.ComboboxPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

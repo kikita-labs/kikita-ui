@@ -26,7 +26,7 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Table       | `/table`         | sizes, sortable headers with native buttons, asc/desc/clear sort cycle, selection checkboxes, sticky header/column composition                                                                                        |
 | Density     | `/density`       | compact, regular, comfortable scopes, constrained mobile preview                                                                                                                                                      |
 | Dropdown    | `/dropdown`      | open/close animation, flip above/below, Escape, click-outside, CDK overlay                                                                                                                                            |
-| Select      | `/select`        | string options, object options with labelFn, clearable, disabled, explicit field error ARIA, Signal Forms, dropdown touch-on-close behavior                                                                           |
+| Select      | `/select`        | string options, object options with labelFn, clearable, multiple value arrays with external Chip display, disabled, explicit field error ARIA, Signal Forms, dropdown touch-on-close behavior                         |
 | Dialog      | `/dialog`        | auto/sm/md/lg sizes, default/danger/warning appearances, icon, body scroll, closable false, dismissable false                                                                                                         |
 | Confirm     | `/dialog` p.06   | default, danger, warning                                                                                                                                                                                              |
 | Toast       | `/toast`         | five appearances, title-only, title/message, action, progress bar, six positions, max-three eviction                                                                                                                  |
@@ -37,6 +37,9 @@ This is the current local playground coverage for public Kikita UI primitives.
 | NumberInput | `/number-input`  | variant a/b, default/at-min/at-max/disabled/readonly/invalid states, sm/md/lg sizes, field composition (label/hint/error/disabled/readonly), dark/light themes, mobile lg, ngModel live demo                          |
 | Menu        | `/menu`          | basic actions, destructive item, disabled item, separator, group header, shortcuts, trigger overlay, start/end alignment, keyboard open/focus, mobile item height                                                     |
 | Separator   | `/separator`     | subtle/default/strong appearances, none/xs/sm/md/lg spacing, horizontal/vertical orientation, toolbar context, card/settings context                                                                                  |
+| Drawer      | `/drawer`        | right/left/top/bottom sides, sm/md/lg sizes, backdrop and Escape dismissal, locked drawer, bottom action sheet, pinned header/footer, scrollable body                                                                 |
+| Chip        | `/chip`          | neutral/primary/success/warning/danger/info appearances, xs/sm/md/lg sizes, remove action, counter, interactive button chip, focus, disabled, invalid, icon/avatar composition                                        |
+| Combobox    | `/combobox`      | single filter mode, multiple chip mode, invalid/disabled/readonly/loading/empty states, sm/md/lg sizes, free input mode, keyboard navigation                                                                          |
 
 ## Current Gaps
 
@@ -46,3 +49,5 @@ This is the current local playground coverage for public Kikita UI primitives.
 - Browser screenshot baselines are still local-only, not committed visual regression tests.
 - Assistive-technology review is still needed before calling the newer composite and overlay primitives fully audited.
 - Menu submenu, checkbox/radio item, and context-menu helper are deferred per the Claude Design brief.
+- Select multiple does not yet render selected chips inside the field or collapse overflow into `+N`; current coverage only proves array values and external chip display.
+- Combobox currently uses an inline popup for first implementation. Final done status requires CDK/Angular Aria overlay hardening and browser review for clipping, scroll, and placement behavior.

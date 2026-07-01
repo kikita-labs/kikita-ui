@@ -1,0 +1,77 @@
+<div class="pg-page">
+  <h1 class="pg-title">Combobox</h1>
+  <p class="pg-desc">Searchable text field with list filtering, single and multiple selection.</p>
+
+  <app-panel num="01" title="Single" description="Filter mode selects one value from the list.">
+    <div class="state-board__row">
+      <kui-field label="Assignee" class="combobox-page__field combobox-page__field--md">
+        <kui-combobox
+          [options]="people"
+          [(value)]="selectedPerson"
+          [labelFn]="personLabel"
+          placeholder="Search people..."
+        />
+      </kui-field>
+      <code>value: {{ selectedPerson()?.name ?? 'null' }}</code>
+    </div>
+  </app-panel>
+
+  <app-panel num="02" title="Multiple" description="Selected values render as real Kikita chips.">
+    <kui-field label="Reviewers" class="combobox-page__field combobox-page__field--lg">
+      <kui-combobox
+        multiple
+        [options]="people"
+        [(value)]="selectedPeople"
+        [labelFn]="personLabel"
+        placeholder="Search reviewers..."
+      />
+    </kui-field>
+  </app-panel>
+
+  <app-panel num="03" title="States" description="Invalid, disabled, readonly, loading, and empty.">
+    <div class="component-grid">
+      <kui-field label="Invalid status" error="Pick a valid status">
+        <kui-combobox
+          [options]="statusOptions"
+          [(value)]="status"
+          invalid
+          placeholder="Search status..."
+        />
+      </kui-field>
+      <kui-field label="Disabled">
+        <kui-combobox [options]="statusOptions" value="Open" disabled />
+      </kui-field>
+      <kui-field label="Readonly">
+        <kui-combobox [options]="statusOptions" value="Done" readonly />
+      </kui-field>
+      <kui-field label="Loading">
+        <kui-combobox [options]="[]" loading placeholder="Loading people..." />
+      </kui-field>
+      <kui-field label="Empty">
+        <kui-combobox [options]="[]" placeholder="Nothing matches..." />
+      </kui-field>
+    </div>
+  </app-panel>
+
+  <app-panel num="04" title="Sizes" description="sm, md, and lg control sizes.">
+    <div class="component-grid">
+      <kui-combobox size="sm" [options]="statusOptions" placeholder="sm" />
+      <kui-combobox [options]="statusOptions" placeholder="md" />
+      <kui-combobox size="lg" [options]="statusOptions" placeholder="lg" />
+    </div>
+  </app-panel>
+
+  <app-panel num="05" title="Free input" description="Free mode keeps typed text as the value.">
+    <div class="state-board__row">
+      <kui-field label="Tag" class="combobox-page__field combobox-page__field--md">
+        <kui-combobox
+          mode="free"
+          [options]="statusOptions"
+          [(value)]="freeValue"
+          placeholder="Type or choose..."
+        />
+      </kui-field>
+      <code>value: {{ freeValue() ?? 'null' }}</code>
+    </div>
+  </app-panel>
+</div>

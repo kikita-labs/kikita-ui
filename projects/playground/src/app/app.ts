@@ -51,6 +51,9 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/number-input', label: 'Number Input' },
   { path: '/menu', label: 'Menu' },
   { path: '/separator', label: 'Separator' },
+  { path: '/drawer', label: 'Drawer' },
+  { path: '/chip', label: 'Chip' },
+  { path: '/combobox', label: 'Combobox' },
 ];
 
 @Component({

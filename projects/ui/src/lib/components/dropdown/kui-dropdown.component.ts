@@ -3,6 +3,7 @@ import {
   DestroyRef,
   inject,
   input,
+  model,
   NgZone,
   OnDestroy,
   signal,
@@ -59,6 +60,9 @@ export class KuiDropdownComponent implements OnDestroy {
 
   /** Gap in px between the anchor and the panel edge. */
   readonly offset = input(4);
+
+  /** Close the panel when a selectable option is clicked. */
+  readonly closeOnSelect = model(true);
 
   /** Whether the panel is currently open. */
   readonly isOpen = signal(false);
@@ -193,7 +197,10 @@ export class KuiDropdownComponent implements OnDestroy {
 
   protected handlePanelClick(e: MouseEvent): void {
     const target = e.target as Element;
-    if (target.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')) {
+    if (
+      this.closeOnSelect() &&
+      target.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
+    ) {
       this.close();
     }
   }

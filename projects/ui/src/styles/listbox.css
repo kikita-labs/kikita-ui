@@ -18,11 +18,11 @@
   }
 
   .kui-listbox-option:hover {
-    background: var(--kui-color-surface-elevated);
+    background: var(--kui-select-option-hover-bg);
   }
 
   .kui-listbox-option--active {
-    background: var(--kui-color-surface-elevated);
+    background: var(--kui-select-option-hover-bg);
     outline: 2px solid var(--kui-color-primary-focus-ring);
     outline-offset: -2px;
   }

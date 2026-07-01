@@ -1,0 +1,36 @@
+@layer kui.components {
+  .kui-field-action {
+    appearance: none;
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--kui-field-action-size);
+    block-size: var(--kui-field-action-size);
+    padding: 0;
+    border: 0;
+    border-radius: var(--kui-field-action-radius);
+    background: transparent;
+    color: var(--kui-field-action-color);
+    cursor: pointer;
+    font: inherit;
+    transition:
+      background-color var(--kui-duration-base) var(--kui-ease),
+      color var(--kui-duration-base) var(--kui-ease),
+      opacity var(--kui-duration-base) var(--kui-ease);
+  }
+
+  .kui-field-action:hover,
+  .kui-field-action:focus-visible {
+    outline: 0;
+    background: var(--kui-field-action-bg-hover);
+    color: var(--kui-field-action-color-hover);
+  }
+
+  .kui-field-action:disabled,
+  .kui-field-action[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: var(--kui-field-action-disabled-opacity);
+  }
+}

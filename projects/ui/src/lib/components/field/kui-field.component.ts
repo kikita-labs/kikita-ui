@@ -157,6 +157,8 @@ export class KuiFieldComponent implements KuiOptionContext {
 
   readonly close = (): void => this.dropdown()?.close();
 
+  readonly shouldCloseOnSelect = (): boolean => this._selectCtx()?.shouldCloseOnSelect?.() ?? true;
+
   registerSelectContext(ctx: KuiOptionContext | null): void {
     this._selectCtx.set(ctx);
   }

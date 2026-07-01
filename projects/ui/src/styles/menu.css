@@ -3,6 +3,7 @@
     box-sizing: border-box;
     min-inline-size: var(--kui-menu-min-width);
     padding-block: var(--kui-menu-padding-y);
+    padding-inline: var(--kui-menu-padding-x);
     border: var(--kui-menu-border-width) solid var(--kui-menu-border);
     border-radius: var(--kui-menu-radius);
     background: var(--kui-menu-bg);

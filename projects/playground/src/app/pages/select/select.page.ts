@@ -3,6 +3,8 @@ import { Component, ViewEncapsulation, signal } from '@angular/core';
 import {
   KuiDropdownComponent,
   KuiFieldComponent,
+  KuiChipDirective,
+  KuiChipRemoveDirective,
   KuiOptionDirective,
   KuiSelectDirective,
 } from '@kikita-labs/ui';
@@ -28,7 +30,7 @@ const USERS: User[] = [
   { id: 1, name: 'Alice Kim', active: true },
   { id: 2, name: 'Bob Chen', active: true },
   { id: 3, name: 'Carol Okonkwo', active: false },
-  { id: 4, name: 'David Müller', active: true },
+  { id: 4, name: 'David Mueller', active: true },
 ];
 
 @Component({
@@ -39,8 +41,11 @@ const USERS: User[] = [
     KuiDropdownComponent,
     KuiOptionDirective,
     KuiFieldComponent,
+    KuiChipDirective,
+    KuiChipRemoveDirective,
   ],
   templateUrl: './select.page.html',
+  styleUrl: './select.page.scss',
   encapsulation: ViewEncapsulation.None,
 })
 export class SelectPage {
@@ -49,6 +54,13 @@ export class SelectPage {
 
   protected readonly selectedRole = signal<string | null>(null);
   protected readonly selectedUser = signal<User | null>(null);
+  protected readonly selectedRoles = signal<readonly string[]>(['engineer', 'designer']);
 
   protected readonly userLabelFn = (u: User): string => u.name;
+  protected readonly roleLabelFn = (value: string): string =>
+    this.roles.find((role) => role.value === value)?.label ?? value;
+
+  protected removeRole(value: string): void {
+    this.selectedRoles.update((roles) => roles.filter((role) => role !== value));
+  }
 }

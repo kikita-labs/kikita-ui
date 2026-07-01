@@ -5,6 +5,7 @@ export interface KuiOptionContext {
   readonly isSelected: (value: unknown) => Signal<boolean> | boolean;
   readonly select: (value: unknown) => void;
   readonly close?: () => void;
+  readonly shouldCloseOnSelect?: () => boolean;
 }
 
 /** Injection token used by `kuiOption` to access the active option host. */

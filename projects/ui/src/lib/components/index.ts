@@ -27,3 +27,6 @@ export * from './slider';
 export * from './number-input';
 export * from './menu';
 export * from './separator';
+export * from './drawer';
+export * from './chip';
+export * from './combobox';

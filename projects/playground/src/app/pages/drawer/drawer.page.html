@@ -1,0 +1,55 @@
+<div class="pg-page">
+  <h1 class="pg-title">Drawer</h1>
+  <p class="pg-desc">
+    Modal edge panel with backdrop, focus trap, Escape handling, pinned header/footer, and typed
+    result flow.
+  </p>
+
+  <app-panel num="01" title="Sides" description="Right, left, top, and bottom entry directions.">
+    <div class="component-board">
+      <div class="state-board__row drawer-actions">
+        <button kuiButton type="button" (click)="showRightMd()">Right</button>
+        <button kuiButton appearance="outline" type="button" (click)="showLeftMd()">Left</button>
+        <button kuiButton appearance="outline" type="button" (click)="showTopMd()">Top</button>
+        <button kuiButton appearance="outline" type="button" (click)="showBottomMd()">
+          Bottom
+        </button>
+      </div>
+      <code>result: {{ lastResult() }}</code>
+    </div>
+  </app-panel>
+
+  <app-panel num="02" title="Sizes" description="sm, md, and lg presets match the design spec.">
+    <div class="component-board">
+      <div class="state-board__row drawer-actions">
+        <button kuiButton appearance="outline" type="button" (click)="showRightSm()">
+          Open sm
+        </button>
+        <button kuiButton appearance="outline" type="button" (click)="showRightMd()">
+          Open md
+        </button>
+        <button kuiButton appearance="outline" type="button" (click)="showRightLg()">
+          Open lg
+        </button>
+      </div>
+    </div>
+  </app-panel>
+
+  <app-panel
+    num="03"
+    title="Dismiss controls"
+    description="Backdrop and Escape can be disabled for required actions."
+  >
+    <div class="component-board">
+      <button kuiButton appearance="outline" type="button" (click)="showLocked()">
+        Open locked drawer
+      </button>
+    </div>
+  </app-panel>
+
+  <app-panel num="04" title="Bottom sheet" description="Compact mobile-style action drawer.">
+    <div class="component-board">
+      <button kuiButton type="button" (click)="showActionSheet()">Open actions</button>
+    </div>
+  </app-panel>
+</div>

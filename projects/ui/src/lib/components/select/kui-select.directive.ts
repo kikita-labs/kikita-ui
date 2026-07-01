@@ -1,4 +1,5 @@
 import {
+  Signal,
   ComponentRef,
   computed,
   Directive,
@@ -67,10 +68,10 @@ import { KuiSelectInputSuffixComponent } from './kui-select-input-suffix.compone
  * ```
  */
 export class KuiSelectDirective<T = unknown>
-  implements OnDestroy, KuiOptionContext, FormValueControl<T | null>
+  implements OnDestroy, KuiOptionContext, FormValueControl<T | readonly T[] | null>
 {
-  /** Current selected value. Bound by `[formField]` or `[(value)]`. */
-  readonly value = model<T | null>(null);
+  /** Current selected value. In multiple mode this is an array. Bound by `[formField]` or `[(value)]`. */
+  readonly value = model<T | readonly T[] | null>(null);
 
   /** Whether the control is disabled. Set by `[formField]` or `[disabled]` directly. */
   readonly disabled = input(false);
@@ -86,6 +87,9 @@ export class KuiSelectDirective<T = unknown>
   readonly touch = output<void>();
   /** Explicit id override. If omitted inside `kui-field`, the field id is used. */
   readonly id = input<string | undefined>();
+
+  /** Enables multiple selected values. The control value becomes `readonly T[]`. */
+  readonly multiple = input(false);
 
   /** Maps a selected value to its display string. Required when `T` is not a primitive. */
   readonly kuiLabelFn = input<((item: T) => string) | undefined>();
@@ -125,10 +129,33 @@ export class KuiSelectDirective<T = unknown>
     () => this.effectiveClearable() && this.value() !== null && !this.disabled(),
   );
 
-  readonly isSelected = (v: unknown): boolean => v === this.value();
-  readonly select = (v: unknown): void => {
-    this.value.set(v as T);
+  readonly isSelected = (v: unknown): Signal<boolean> | boolean => {
+    if (!this.multiple()) return v === this.value();
+    return computed(() => {
+      const current = this.value();
+      return Array.isArray(current) ? current.some((item) => item === v) : false;
+    });
   };
+
+  readonly select = (v: unknown): void => {
+    if (!this.multiple()) {
+      this.value.set(v as T);
+      return;
+    }
+
+    const current = this.value();
+    const values = Array.isArray(current) ? [...current] : [];
+    const index = values.findIndex((item) => item === v);
+
+    if (index >= 0) {
+      values.splice(index, 1);
+    } else {
+      values.push(v as T);
+    }
+
+    this.value.set(values);
+  };
+  readonly shouldCloseOnSelect = (): boolean => !this.multiple();
 
   private _keyboardOpened = false;
   private _wasOpen = false;
@@ -148,7 +175,11 @@ export class KuiSelectDirective<T = unknown>
     effect(() => {
       const v = this.value();
       const labelFn = this.kuiLabelFn();
-      this.el.nativeElement.value = v != null ? (labelFn ? labelFn(v) : String(v)) : '';
+      if (Array.isArray(v)) {
+        this.el.nativeElement.value = v.map((item) => this.labelFor(item, labelFn)).join(', ');
+      } else {
+        this.el.nativeElement.value = v != null ? this.labelFor(v as T, labelFn) : '';
+      }
     });
 
     effect(() => {
@@ -158,6 +189,7 @@ export class KuiSelectDirective<T = unknown>
     effect(() => {
       const dropdown = this.field?.getDropdown();
       if (!dropdown) return;
+      dropdown.closeOnSelect.set(!this.multiple());
       const isOpen = dropdown.isOpen();
 
       if (this._wasOpen && !isOpen) {
@@ -173,7 +205,7 @@ export class KuiSelectDirective<T = unknown>
     });
 
     this.suffixRef.instance.cleared.subscribe(() => {
-      this.value.set(null);
+      this.value.set(this.multiple() ? [] : null);
     });
   }
 
@@ -228,6 +260,10 @@ export class KuiSelectDirective<T = unknown>
     const active = ownerDocument.activeElement;
 
     return !active || active === ownerDocument.body || Boolean(panel?.contains(active));
+  }
+
+  private labelFor(value: T, labelFn: ((item: T) => string) | undefined): string {
+    return labelFn ? labelFn(value) : String(value);
   }
 
   ngOnDestroy(): void {
