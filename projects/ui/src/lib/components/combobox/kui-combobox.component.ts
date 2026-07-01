@@ -1,13 +1,13 @@
 import {
   Component,
   computed,
-  DestroyRef,
   ElementRef,
   booleanAttribute,
   effect,
   inject,
   input,
   model,
+  NgZone,
   OnDestroy,
   output,
   signal,
@@ -18,7 +18,7 @@ import {
 } from '@angular/core';
 import { FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { FormValueControl, ValidationError, WithOptionalFieldTree } from '@angular/forms/signals';
 
 import { KUI_COMBOBOX_OPTIONS } from '../../tokens/kui-combobox-options.token';
@@ -126,7 +126,8 @@ export class KuiComboboxComponent<T = unknown>
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly document = inject(DOCUMENT);
+  private readonly zone = inject(NgZone);
   private readonly field = inject(KuiFieldComponent, { optional: true });
   private readonly fieldOpts = inject(KUI_FIELD_OPTIONS, { optional: true });
   private readonly comboboxOpts = inject(KUI_COMBOBOX_OPTIONS, { optional: true });
@@ -249,8 +250,6 @@ export class KuiComboboxComponent<T = unknown>
       });
       this.resizeObserver.observe(input);
     });
-
-    this.destroyRef.onDestroy(() => this.destroyOverlay());
   }
 
   protected labelFor(option: T): string {
@@ -371,7 +370,7 @@ export class KuiComboboxComponent<T = unknown>
     event?.stopPropagation();
     this.value.set(this.multiple() ? [] : null);
     this.query.set('');
-    this.open.set(false);
+    this.detachOverlay();
     this.touch.emit();
   }
 
@@ -440,22 +439,25 @@ export class KuiComboboxComponent<T = unknown>
     const outsideHandler = (event: MouseEvent) => {
       const target = event.target as Element;
       if (this.host.nativeElement.contains(target) || overlayEl.contains(target)) return;
-      this.closePanel();
+      this.zone.run(() => this.closePanel());
     };
 
     const scrollHandler = () => this.positionStrategy?.apply();
 
-    document.addEventListener('mousedown', outsideHandler, { capture: true });
-    document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
+    this.zone.runOutsideAngular(() => {
+      this.document.addEventListener('mousedown', outsideHandler, { capture: true });
+      this.document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
+    });
 
     this.openSubs = [
       escapeSub,
       {
         unsubscribe: () =>
-          document.removeEventListener('mousedown', outsideHandler, { capture: true }),
+          this.document.removeEventListener('mousedown', outsideHandler, { capture: true }),
       },
       {
-        unsubscribe: () => document.removeEventListener('scroll', scrollHandler, { capture: true }),
+        unsubscribe: () =>
+          this.document.removeEventListener('scroll', scrollHandler, { capture: true }),
       },
     ];
 

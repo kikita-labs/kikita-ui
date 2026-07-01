@@ -190,6 +190,35 @@ describe('KuiComboboxComponent', () => {
     expect(fixture.componentInstance.value()).toBeNull();
   });
 
+  it('detaches the overlay when the clear affordance is clicked while open', () => {
+    const input = host.querySelector('input') as HTMLInputElement;
+
+    input.focus();
+    fixture.detectChanges();
+
+    const option = overlayHost.querySelector('.kui-combobox-option') as HTMLButtonElement;
+    option.click();
+    fixture.detectChanges();
+
+    input.click();
+    fixture.detectChanges();
+
+    expect(overlayHost.querySelector('.kui-combobox-list')).toBeTruthy();
+
+    const clear = host.querySelector('.kui-combobox-clear') as HTMLButtonElement;
+    clear.click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.value()).toBeNull();
+    expect(overlayHost.querySelector('.kui-combobox-list')).toBeNull();
+  });
+
+  it('hides decorative chevron icon from assistive technologies', () => {
+    const icon = host.querySelector('.kui-combobox-chevron svg') as SVGElement;
+
+    expect(icon.getAttribute('aria-hidden')).toBe('true');
+  });
+
   it('toggles multiple selected values', () => {
     fixture.componentInstance.multiple.set(true);
     fixture.detectChanges();

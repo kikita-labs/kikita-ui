@@ -10,6 +10,7 @@ import { KuiChipDirective } from './kui-chip.directive';
     type: 'button',
     '[attr.aria-disabled]': 'chip.disabled() ? "true" : null',
     '[attr.tabindex]': 'chip.disabled() ? "-1" : null',
+    '[attr.disabled]': 'chip.disabled() ? "" : null',
   },
 })
 export class KuiChipRemoveDirective {

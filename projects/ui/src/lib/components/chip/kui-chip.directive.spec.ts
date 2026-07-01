@@ -71,6 +71,7 @@ describe('KuiChipDirective', () => {
     expect(host.getAttribute('aria-disabled')).toBe('true');
     expect(remove.getAttribute('aria-disabled')).toBe('true');
     expect(remove.getAttribute('tabindex')).toBe('-1');
+    expect(remove.hasAttribute('disabled')).toBe(true);
 
     remove.click();
     fixture.detectChanges();
