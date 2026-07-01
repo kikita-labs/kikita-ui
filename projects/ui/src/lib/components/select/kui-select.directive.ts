@@ -171,7 +171,6 @@ export class KuiSelectDirective<T = unknown>
     const own = this.maxVisibleChips();
     if (own !== undefined) return own;
     if (this.selectOpts?.maxVisibleChips !== undefined) return this.selectOpts.maxVisibleChips;
-    if (this.fieldOpts?.maxVisibleChips !== undefined) return this.fieldOpts.maxVisibleChips;
     return 3;
   });
 

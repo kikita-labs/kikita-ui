@@ -1,6 +1,7 @@
 :host {
   display: grid;
   align-content: start;
+  min-inline-size: 0;
   gap: var(--kui-field-gap, 4px);
   grid-template-rows:
     var(--kui-field-label-row, auto)
@@ -48,6 +49,7 @@
 
 .kui-field__control {
   position: relative;
+  min-inline-size: 0;
 }
 
 :host([data-kui-size='xs']) {

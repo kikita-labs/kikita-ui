@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormField, form, required } from '@angular/forms/signals';
 import { describe, expect, it } from 'vitest';
 
+import { kuiProvideFieldOptions } from '../../tokens';
 import { KuiInputDirective } from '../input';
 import {
   KuiErrorDirective,
@@ -60,6 +61,21 @@ class ExplicitRequiredFalseHost {
   `,
 })
 class HiddenSignalFormsErrorHost {
+  readonly model = signal({ email: '' });
+  readonly profileForm = form(this.model, (path) => {
+    required(path.email, { message: 'Email is required' });
+  });
+}
+
+@Component({
+  imports: [FormField, KuiFieldComponent, KuiInputDirective],
+  template: `
+    <kui-field label="Email">
+      <input kuiInput [formField]="profileForm.email" />
+    </kui-field>
+  `,
+})
+class ProviderFieldOptionsHost {
   readonly model = signal({ email: '' });
   readonly profileForm = form(this.model, (path) => {
     required(path.email, { message: 'Email is required' });
@@ -133,6 +149,21 @@ describe('KuiFieldComponent', () => {
     expect(fixture.nativeElement.querySelector('.kui-field').hasAttribute('data-kui-invalid')).toBe(
       true,
     );
+  });
+
+  it('uses provider defaults for size and hidden automatic errors', async () => {
+    await TestBed.configureTestingModule({
+      imports: [ProviderFieldOptionsHost],
+      providers: [kuiProvideFieldOptions({ size: 'sm', hideErrors: true })],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(ProviderFieldOptionsHost);
+    fixture.detectChanges();
+
+    const field = fixture.nativeElement.querySelector('kui-field') as HTMLElement;
+
+    expect(field.getAttribute('data-kui-size')).toBe('sm');
+    expect(errorMessage(fixture)).toBeNull();
+    expect(field.hasAttribute('data-kui-invalid')).toBe(true);
   });
 
   it('lets explicit required false override an Angular Signal Forms required validator', async () => {

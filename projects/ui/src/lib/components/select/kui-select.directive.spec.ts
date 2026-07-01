@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { afterEach } from 'vitest';
 
+import { kuiProvideSelectOptions } from '../../tokens';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KuiOptionDirective } from '../dropdown/kui-option.directive';
 import { KuiFieldComponent } from '../field/kui-field.component';
@@ -161,6 +162,23 @@ class MultipleTextHost {
   `,
 })
 class MultipleTemplateHost {
+  val = signal<readonly string[]>(['a', 'b', 'c']);
+}
+
+@Component({
+  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  template: `
+    <kui-field>
+      <input kuiSelect multiple [(value)]="val" />
+      <kui-dropdown>
+        <div kuiOption value="a">Option A</div>
+        <div kuiOption value="b">Option B</div>
+        <div kuiOption value="c">Option C</div>
+      </kui-dropdown>
+    </kui-field>
+  `,
+})
+class SelectOptionsHost {
   val = signal<readonly string[]>(['a', 'b', 'c']);
 }
 
@@ -403,6 +421,25 @@ describe('KuiSelectDirective', () => {
 
       expect(getInput(fixture).value).toBe('prefix-a-postfix | prefix-b-postfix');
       expect(fixture.nativeElement.querySelector('[kuiChip]')).toBeNull();
+    });
+
+    it('uses select provider defaults for clearable and visible chip count', async () => {
+      await TestBed.resetTestingModule()
+        .configureTestingModule({
+          imports: [SelectOptionsHost],
+          providers: [kuiProvideSelectOptions({ clearable: true, maxVisibleChips: 1 })],
+        })
+        .compileComponents();
+
+      const fixture = TestBed.createComponent(SelectOptionsHost);
+      fixture.detectChanges();
+
+      const chips = fixture.nativeElement.querySelectorAll('[kuiChip]');
+
+      expect(fixture.nativeElement.querySelector('.kui-select-clear')).toBeTruthy();
+      expect(chips).toHaveLength(2);
+      expect(chips[0].textContent).toContain('a');
+      expect(chips[1].textContent).toContain('+2');
     });
 
     it('uses a custom selected value template when provided', () => {

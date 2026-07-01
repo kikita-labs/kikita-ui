@@ -3,6 +3,8 @@
     position: relative;
     display: inline-block;
     inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
     font-family: var(--kui-font-sans);
   }
 
@@ -12,6 +14,7 @@
     align-items: center;
     flex-wrap: nowrap;
     gap: var(--kui-space-1);
+    min-inline-size: 0;
     min-block-size: var(--kui-combobox-height-md);
     overflow: hidden;
     padding-block: var(--kui-space-1);
@@ -98,11 +101,13 @@
   }
 
   .kui-combobox-input [kuiChip] {
-    min-inline-size: max-content;
+    min-inline-size: 0;
+    max-inline-size: max-content;
     flex: 0 0 auto;
   }
 
   .kui-combobox-input .kui-chip-label {
+    min-inline-size: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

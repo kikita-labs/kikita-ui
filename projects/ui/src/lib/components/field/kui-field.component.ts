@@ -16,6 +16,7 @@ import { FormField } from '@angular/forms/signals';
 
 import { KUI_OPTION_CONTEXT, KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
+import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
 import { KuiSize } from '../../types';
 import {
   KuiErrorDirective,
@@ -37,7 +38,7 @@ function optionalBooleanAttribute(value: unknown): boolean | undefined {
   providers: [{ provide: KUI_OPTION_CONTEXT, useExisting: KuiFieldComponent }],
   host: {
     class: 'kui-field',
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-invalid]': 'invalid() ? "" : null',
     '[attr.data-dropdown-open]': 'dropdownOpen() ? "" : null',
     '(click)': 'handleClick()',
@@ -45,7 +46,7 @@ function optionalBooleanAttribute(value: unknown): boolean | undefined {
 })
 export class KuiFieldComponent implements KuiOptionContext {
   /** Field size, adjusting control slot height and spacing. Defaults to md. */
-  readonly size = input<KuiSize>('md');
+  readonly size = input<KuiSize | undefined>();
 
   /** Visible field label. */
   readonly label = input<string | undefined>();
@@ -57,7 +58,9 @@ export class KuiFieldComponent implements KuiOptionContext {
   readonly error = input<string | undefined>();
 
   /** Hides automatically rendered Angular Signal Forms error messages. */
-  readonly hideErrors = input(false, { transform: booleanAttribute });
+  readonly hideErrors = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   /** Explicitly controls the required marker. Omit to inherit from a projected Angular Signal Forms field. */
   readonly required = input<boolean | undefined, unknown>(undefined, {
@@ -77,7 +80,7 @@ export class KuiFieldComponent implements KuiOptionContext {
   readonly displayedError = computed(() => {
     const explicitError = this.error();
     if (explicitError) return explicitError;
-    if (this.hideErrors()) return undefined;
+    if (this.effectiveHideErrors()) return undefined;
 
     return this.signalFormField()
       ?.state()
@@ -96,6 +99,14 @@ export class KuiFieldComponent implements KuiOptionContext {
   /** Whether the required marker should be visible. */
   readonly isRequired = computed(
     () => this.required() ?? this.signalFormField()?.state().required() ?? false,
+  );
+
+  /** Effective field size after local input and provider defaults are applied. */
+  readonly effectiveSize = computed(() => this.size() ?? this.fieldOpts?.size ?? 'md');
+
+  /** Effective auto-error visibility after local input and provider defaults are applied. */
+  readonly effectiveHideErrors = computed(
+    () => this.hideErrors() ?? this.fieldOpts?.hideErrors ?? false,
   );
 
   /** Space-separated ids that describe the descendant control. */
@@ -132,6 +143,7 @@ export class KuiFieldComponent implements KuiOptionContext {
   private readonly projectedHint = contentChild(KuiHintDirective);
   private readonly projectedError = contentChild(KuiErrorDirective);
   private readonly hostEl = inject(ElementRef<HTMLElement>);
+  private readonly fieldOpts = inject(KUI_FIELD_OPTIONS, { optional: true });
   private readonly controlSlot = viewChild<ElementRef<HTMLElement>>('controlSlot');
   private readonly _selectCtx = signal<KuiOptionContext | null>(null);
   private readonly _selectDisabled = signal(false);

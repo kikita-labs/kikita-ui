@@ -13,6 +13,7 @@ import {
   KuiComboboxComponent,
   KuiComboboxValueDirective,
   KuiFieldComponent,
+  kuiProvideComboboxOptions,
 } from '@kikita-labs/ui';
 ```
 
@@ -99,23 +100,25 @@ native button. Hidden values still collapse into the default `+N` overflow chip.
 
 ## Inputs
 
-| Input             | Type                                  | Default    | Notes                                                                       |
-| ----------------- | ------------------------------------- | ---------- | --------------------------------------------------------------------------- |
-| `options`         | `readonly T[]`                        | `[]`       | Available options.                                                          |
-| `value`           | `T \| readonly T[] \| string \| null` | `null`     | Selected value. Multiple mode uses arrays. Free mode may use string.        |
-| `query`           | `string`                              | `''`       | Current filter text.                                                        |
-| `labelFn`         | `(item: T) => string`                 | -          | Maps option values to display labels.                                       |
-| `placeholder`     | `string`                              | `''`       | Input placeholder.                                                          |
-| `size`            | `'sm' \| 'md' \| 'lg'`                | `'md'`     | Control size.                                                               |
-| `mode`            | `'filter' \| 'free' \| 'async'`       | `'filter'` | `free` stores arbitrary typed text; `async` does not local-filter options.  |
-| `multiple`        | `boolean`                             | `false`    | Enables chip-backed array values.                                           |
-| `maxVisibleChips` | `number \| undefined`                 | `3`        | Maximum selected chips before collapsed `+N`; narrow fields may show fewer. |
-| `wrapChips`       | `boolean \| undefined`                | `false`    | Allows selected chips to wrap and disables collapsed `+N` overflow.         |
-| `clearable`       | `boolean \| undefined`                | `true`     | Shows the clear affordance. Falls back to `KUI_FIELD_OPTIONS.clearable`.    |
-| `loading`         | `boolean`                             | `false`    | Shows loading affordance and loading row.                                   |
-| `disabled`        | `boolean`                             | `false`    | Disables the control.                                                       |
-| `readonly`        | `boolean`                             | `false`    | Keeps value readable but prevents editing.                                  |
-| `invalid`         | `boolean`                             | `false`    | Applies invalid visual and ARIA state.                                      |
+| Input             | Type                                  | Default      | Notes                                                                       |
+| ----------------- | ------------------------------------- | ------------ | --------------------------------------------------------------------------- |
+| `options`         | `readonly T[]`                        | `[]`         | Available options.                                                          |
+| `value`           | `T \| readonly T[] \| string \| null` | `null`       | Selected value. Multiple mode uses arrays. Free mode may use string.        |
+| `query`           | `string`                              | `''`         | Current filter text.                                                        |
+| `labelFn`         | `(item: T) => string`                 | -            | Maps option values to display labels.                                       |
+| `placeholder`     | `string`                              | `''`         | Input placeholder.                                                          |
+| `size`            | `'sm' \| 'md' \| 'lg'`                | `'md'`       | Control size.                                                               |
+| `mode`            | `'filter' \| 'free' \| 'async'`       | `'filter'`   | `free` stores arbitrary typed text; `async` does not local-filter options.  |
+| `multiple`        | `boolean`                             | `false`      | Enables chip-backed array values.                                           |
+| `maxVisibleChips` | `number \| undefined`                 | `3`          | Maximum selected chips before collapsed `+N`; narrow fields may show fewer. |
+| `wrapChips`       | `boolean \| undefined`                | `false`      | Allows selected chips to wrap and disables collapsed `+N` overflow.         |
+| `clearable`       | `boolean \| undefined`                | `true`       | Shows the clear affordance. Falls back to `KUI_FIELD_OPTIONS.clearable`.    |
+| `loading`         | `boolean`                             | `false`      | Shows loading affordance and loading row.                                   |
+| `loadingText`     | `string \| undefined`                 | `Loading...` | Text rendered in the loading row.                                           |
+| `emptyText`       | `string \| undefined`                 | `No results` | Text rendered when the option list is empty.                                |
+| `disabled`        | `boolean`                             | `false`      | Disables the control.                                                       |
+| `readonly`        | `boolean`                             | `false`      | Keeps value readable but prevents editing.                                  |
+| `invalid`         | `boolean`                             | `false`      | Applies invalid visual and ARIA state.                                      |
 
 ## Accessibility
 
@@ -134,10 +137,33 @@ native button. Hidden values still collapse into the default `+N` overflow chip.
 - Clicking the focused input opens the list again.
 - The chevron affordance is a button that toggles the list while keeping DOM focus on the input.
 - Editing the text in single filter mode clears the selected value until an option is selected again.
-- The clear affordance follows `clearable`, then `KUI_FIELD_OPTIONS.clearable`, then the component default.
-- Chip overflow follows `maxVisibleChips`, then `KUI_FIELD_OPTIONS.maxVisibleChips`, then the component default. Narrow fields may show fewer visible chips so labels do not collapse.
 - `wrapChips` is opt-in. Default multiple combobox controls stay one-line and use `+N`.
 - `maxVisibleChips` is an upper bound. Combobox auto-reduces visible chips at narrow widths.
+
+## Provider Defaults
+
+Use `kuiProvideComboboxOptions` for app-wide combobox defaults:
+
+```ts
+providers: [
+  kuiProvideComboboxOptions({
+    clearable: true,
+    maxVisibleChips: 2,
+    emptyText: 'No matches',
+    loadingText: 'Loading choices',
+  }),
+];
+```
+
+Combobox does not inherit `KUI_SELECT_OPTIONS`. It has its own options token because it has editable
+query, loading, empty, async, and free-text behavior.
+
+```text
+clearable: local input > KUI_COMBOBOX_OPTIONS > KUI_FIELD_OPTIONS > true
+maxVisibleChips: local input > KUI_COMBOBOX_OPTIONS > 3
+emptyText: local input > KUI_COMBOBOX_OPTIONS > "No results"
+loadingText: local input > KUI_COMBOBOX_OPTIONS > "Loading..."
+```
 
 ## Tokens
 

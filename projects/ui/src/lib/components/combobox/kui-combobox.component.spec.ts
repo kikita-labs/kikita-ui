@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { kuiProvideFieldOptions } from '../../tokens/kui-field-options.token';
+import { kuiProvideComboboxOptions, kuiProvideFieldOptions } from '../../tokens';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import { KuiComboboxComponent } from './kui-combobox.component';
 import { KuiComboboxValueDirective } from './kui-combobox-value.directive';
@@ -70,6 +70,18 @@ class TestComboboxTemplateHost {
 class TestComboboxWrapHost {
   readonly options = ['Alpha', 'Beta', 'Gamma'];
   readonly value = signal<readonly string[]>(['Alpha', 'Beta', 'Gamma']);
+}
+
+@Component({
+  template: `
+    <kui-combobox multiple [loading]="loading()" [options]="options" [(value)]="value" />
+  `,
+  imports: [KuiComboboxComponent],
+})
+class TestComboboxOptionsHost {
+  readonly options: readonly string[] = [];
+  readonly value = signal<readonly string[]>(['Alpha', 'Beta', 'Gamma']);
+  readonly loading = signal(true);
 }
 
 describe('KuiComboboxComponent', () => {
@@ -213,6 +225,45 @@ describe('KuiComboboxComponent', () => {
     expect(wrapHost.querySelector('kui-combobox')?.hasAttribute('data-kui-wrap-chips')).toBe(true);
     expect(chips).toHaveLength(3);
     expect(wrapHost.textContent).not.toContain('+2');
+  });
+
+  it('uses combobox provider defaults for clearable, chip count, and loading text', async () => {
+    await TestBed.resetTestingModule()
+      .configureTestingModule({
+        imports: [TestComboboxOptionsHost],
+        providers: [
+          kuiProvideFieldOptions({ clearable: false }),
+          kuiProvideComboboxOptions({
+            clearable: true,
+            maxVisibleChips: 1,
+            emptyText: 'No choices',
+            loadingText: 'Loading choices',
+          }),
+        ],
+      })
+      .compileComponents();
+
+    const optionsFixture = TestBed.createComponent(TestComboboxOptionsHost);
+    optionsFixture.detectChanges();
+
+    const optionsHost = optionsFixture.nativeElement as HTMLElement;
+    const chips = optionsHost.querySelectorAll('[kuiChip]');
+
+    expect(optionsHost.querySelector('.kui-combobox-loader')).toBeTruthy();
+    expect(optionsHost.querySelector('.kui-combobox-clear')).toBeNull();
+    optionsHost.querySelector<HTMLInputElement>('.kui-combobox-native')?.click();
+    optionsFixture.detectChanges();
+
+    expect(optionsHost.textContent).toContain('Loading choices');
+    expect(chips).toHaveLength(2);
+    expect(chips[0].textContent).toContain('Alpha');
+    expect(chips[1].textContent).toContain('+2');
+
+    optionsFixture.componentInstance.loading.set(false);
+    optionsFixture.detectChanges();
+
+    expect(optionsHost.querySelector('.kui-combobox-clear')).toBeTruthy();
+    expect(optionsHost.textContent).toContain('No choices');
   });
 
   it('uses a custom selected value template when provided', async () => {

@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiFieldComponent, KuiInputDirective } from '@kikita-labs/ui';
+import { KuiFieldComponent, KuiInputDirective, kuiProvideFieldOptions } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -78,3 +78,21 @@ is not rendered unless it should be part of the field semantics.
 - `hideErrors`: hides automatically inferred Angular Signal Forms error messages
 - `required`: explicit required marker override
 - `size`: `xs | sm | md | lg`
+
+## Provider Defaults
+
+Use `kuiProvideFieldOptions` for app-wide field defaults:
+
+```ts
+providers: [kuiProvideFieldOptions({ size: 'sm', hideErrors: true })];
+```
+
+Local inputs always win over provider defaults:
+
+```text
+local input > KUI_FIELD_OPTIONS > component default
+```
+
+`KUI_FIELD_OPTIONS` is intentionally static configuration. Do not pass writable signals to it.
+Runtime density/size switching should be implemented as a dedicated runtime API rather than by
+mutating provider option objects.

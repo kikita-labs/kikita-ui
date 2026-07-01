@@ -17,6 +17,7 @@ import {
 import { NgTemplateOutlet } from '@angular/common';
 import { FormValueControl, ValidationError, WithOptionalFieldTree } from '@angular/forms/signals';
 
+import { KUI_COMBOBOX_OPTIONS } from '../../tokens/kui-combobox-options.token';
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
 import { KuiChipDirective } from '../chip/kui-chip.directive';
 import { KuiChipRemoveDirective } from '../chip/kui-chip-remove.directive';
@@ -78,6 +79,10 @@ export class KuiComboboxComponent<T = unknown>
   readonly maxVisibleChips = input<number | undefined, unknown>(undefined, {
     transform: optionalNumberAttribute,
   });
+  /** Text rendered when no options match. */
+  readonly emptyText = input<string | undefined>();
+  /** Text rendered while loading. */
+  readonly loadingText = input<string | undefined>();
   /** Allows selected chips to wrap instead of collapsing into a `+N` overflow chip. */
   readonly wrapChips = input<boolean | undefined, unknown>(undefined, {
     transform: optionalBooleanAttribute,
@@ -116,6 +121,7 @@ export class KuiComboboxComponent<T = unknown>
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly field = inject(KuiFieldComponent, { optional: true });
   private readonly fieldOpts = inject(KUI_FIELD_OPTIONS, { optional: true });
+  private readonly comboboxOpts = inject(KUI_COMBOBOX_OPTIONS, { optional: true });
   private readonly autoVisibleChipCount = signal<number | null>(null);
   private resizeObserver: ResizeObserver | null = null;
   private cancelScheduledMeasurement: (() => void) | null = null;
@@ -134,13 +140,14 @@ export class KuiComboboxComponent<T = unknown>
     const ownSize = this.size();
     if (ownSize) return ownSize;
 
-    const fieldSize = this.field?.size();
+    const fieldSize = this.field?.effectiveSize();
     return fieldSize === 'xs' ? 'sm' : (fieldSize ?? 'md');
   });
 
   protected readonly effectiveClearable = computed(() => {
     const own = this.clearable();
     if (own !== undefined) return own;
+    if (this.comboboxOpts?.clearable !== undefined) return this.comboboxOpts.clearable!;
     if (this.fieldOpts?.clearable !== undefined) return this.fieldOpts.clearable!;
     return true;
   });
@@ -151,7 +158,15 @@ export class KuiComboboxComponent<T = unknown>
   });
 
   protected readonly effectiveMaxVisibleChips = computed(
-    () => this.maxVisibleChips() ?? this.fieldOpts?.maxVisibleChips ?? 3,
+    () => this.maxVisibleChips() ?? this.comboboxOpts?.maxVisibleChips ?? 3,
+  );
+
+  protected readonly effectiveEmptyText = computed(
+    () => this.emptyText() ?? this.comboboxOpts?.emptyText ?? 'No results',
+  );
+
+  protected readonly effectiveLoadingText = computed(
+    () => this.loadingText() ?? this.comboboxOpts?.loadingText ?? 'Loading...',
   );
 
   protected readonly effectiveWrapChips = computed(() => this.wrapChips() ?? false);

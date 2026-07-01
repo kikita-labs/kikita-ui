@@ -15,6 +15,7 @@ import {
   KuiOptionDirective,
   KuiSelectDirective,
   KuiSelectValueDirective,
+  kuiProvideSelectOptions,
 } from '@kikita-labs/ui';
 ```
 
@@ -154,6 +155,22 @@ native button. Hidden values still collapse into the default `+N` overflow chip.
 | Output  | Description                                                       |
 | ------- | ----------------------------------------------------------------- |
 | `touch` | Emitted after an opened dropdown closes for Signal Forms support. |
+
+## Provider Defaults
+
+Use `kuiProvideSelectOptions` for app-wide select defaults:
+
+```ts
+providers: [kuiProvideSelectOptions({ clearable: true, maxVisibleChips: 2 })];
+```
+
+Local inputs win over select provider defaults. Field defaults are used only for shared clearable
+behavior:
+
+```text
+clearable: local input > KUI_SELECT_OPTIONS > KUI_FIELD_OPTIONS > false
+maxVisibleChips: local input > KUI_SELECT_OPTIONS > 3
+```
 
 ## Signal Forms
 
