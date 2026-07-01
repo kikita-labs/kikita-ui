@@ -151,10 +151,8 @@
   }
 
   .kui-combobox-list {
-    position: absolute;
-    inset-block-start: calc(100% + var(--kui-space-1));
-    inset-inline: 0;
-    z-index: var(--kui-z-combobox);
+    box-sizing: border-box;
+    inline-size: 100%;
     max-block-size: var(--kui-combobox-list-max-height);
     overflow-y: auto;
     padding: var(--kui-space-1);

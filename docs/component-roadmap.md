@@ -43,7 +43,7 @@
 - Separator (done as `hr[kuiSeparator]`; Menu uses the generic separator directly)
 - Drawer (done as `kuiDrawer()` typed CDK overlay with side and size presets)
 - Chip (done as `[kuiChip]` + `button[kuiChipRemove]`; Select multiselect and Combobox use it for selected values)
-- Combobox (initial implementation as `kui-combobox`; supports `ng-template[kuiComboboxValue]`; CDK overlay positioning hardening pending before final done status)
+- Combobox (done as `kui-combobox`; supports `ng-template[kuiComboboxValue]`, CDK overlay positioning, multiple chips with collapsed `+N`, and provider defaults)
 
 ## Later
 
@@ -66,7 +66,7 @@ consumer app:
 
 Initial install documentation lives in `docs/install.md`.
 
-Docs pages exist for implemented primitives through Combobox. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, and Number Input; committed visual regression baselines and assistive-technology review are still pending.
+Docs pages exist for implemented primitives through Combobox. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, and Number Input; committed visual regression baselines and assistive-technology review are still pending. Combobox now uses CDK overlay positioning and needs the next browser snapshot review pass.
 
 ## Consumer Migration Gate
 

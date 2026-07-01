@@ -39,7 +39,7 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Separator   | `/separator`     | subtle/default/strong appearances, none/xs/sm/md/lg spacing, horizontal/vertical orientation, toolbar context, card/settings context                                                                                                            |
 | Drawer      | `/drawer`        | right/left/top/bottom sides, sm/md/lg sizes, backdrop and Escape dismissal, locked drawer, bottom action sheet, pinned header/footer, scrollable body                                                                                           |
 | Chip        | `/chip`          | neutral/primary/success/warning/danger/info appearances, xs/sm/md/lg sizes, remove action, counter, interactive button chip, focus, disabled, invalid, icon/avatar composition                                                                  |
-| Combobox    | `/combobox`      | single filter mode, multiple chip mode with collapsed `+N`, custom selected-value template, invalid/disabled/readonly/loading/empty states, sm/md/lg sizes, free input mode, keyboard navigation                                                |
+| Combobox    | `/combobox`      | single filter mode, multiple chip mode with collapsed `+N`, custom selected-value template, invalid/disabled/readonly/loading/empty states, sm/md/lg sizes, free input mode, keyboard navigation, CDK overlay popup positioning                 |
 
 ## Current Gaps
 
@@ -49,4 +49,4 @@ This is the current local playground coverage for public Kikita UI primitives.
 - Browser screenshot baselines are still local-only, not committed visual regression tests.
 - Assistive-technology review is still needed before calling the newer composite and overlay primitives fully audited.
 - Menu submenu, checkbox/radio item, and context-menu helper are deferred per the Claude Design brief.
-- Combobox currently uses an inline popup for first implementation. Final done status requires CDK/Angular Aria overlay hardening and browser review for clipping, scroll, and placement behavior.
+- Combobox now uses CDK overlay positioning. Browser review is still needed for clipping, scroll, and placement behavior before calling it visually audited.

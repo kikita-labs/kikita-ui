@@ -136,6 +136,7 @@ native button. Hidden values still collapse into the default `+N` overflow chip.
 - Selecting a single option closes the list and keeps focus on the input for keyboard continuity.
 - Clicking the focused input opens the list again.
 - The chevron affordance is a button that toggles the list while keeping DOM focus on the input.
+- The option list is rendered in an Angular CDK overlay aligned to the combobox control.
 - Editing the text in single filter mode clears the selected value until an option is selected again.
 - `wrapChips` is opt-in. Default multiple combobox controls stay one-line and use `+N`.
 - `maxVisibleChips` is an upper bound. Combobox auto-reduces visible chips at narrow widths.

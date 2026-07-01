@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  DestroyRef,
   ElementRef,
   booleanAttribute,
   effect,
@@ -11,9 +12,12 @@ import {
   output,
   signal,
   TemplateRef,
+  ViewContainerRef,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormValueControl, ValidationError, WithOptionalFieldTree } from '@angular/forms/signals';
 
@@ -117,12 +121,19 @@ export class KuiComboboxComponent<T = unknown>
   protected readonly activeIndex = signal(0);
   protected readonly nativeInput = viewChild<ElementRef<HTMLInputElement>>('nativeInput');
   protected readonly comboboxInput = viewChild<ElementRef<HTMLElement>>('comboboxInput');
+  protected readonly listTpl = viewChild.required<TemplateRef<void>>('listTpl');
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly overlay = inject(Overlay);
+  private readonly vcr = inject(ViewContainerRef);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly field = inject(KuiFieldComponent, { optional: true });
   private readonly fieldOpts = inject(KUI_FIELD_OPTIONS, { optional: true });
   private readonly comboboxOpts = inject(KUI_COMBOBOX_OPTIONS, { optional: true });
   private readonly autoVisibleChipCount = signal<number | null>(null);
+  private overlayRef: OverlayRef | null = null;
+  private positionStrategy: FlexibleConnectedPositionStrategy | null = null;
+  private openSubs: { unsubscribe: () => void }[] = [];
   private resizeObserver: ResizeObserver | null = null;
   private cancelScheduledMeasurement: (() => void) | null = null;
 
@@ -238,6 +249,8 @@ export class KuiComboboxComponent<T = unknown>
       });
       this.resizeObserver.observe(input);
     });
+
+    this.destroyRef.onDestroy(() => this.destroyOverlay());
   }
 
   protected labelFor(option: T): string {
@@ -364,7 +377,11 @@ export class KuiComboboxComponent<T = unknown>
 
   protected openPanel(): void {
     if (this.disabled() || this.readonly()) return;
-    this.open.set(true);
+
+    if (!this.overlayRef) {
+      this.attachOverlay();
+    }
+
     this.activeIndex.set(
       clamp(this.activeIndex(), 0, Math.max(0, this.displayOptions().length - 1)),
     );
@@ -372,13 +389,14 @@ export class KuiComboboxComponent<T = unknown>
 
   protected closePanel(): void {
     if (!this.open()) return;
-    this.open.set(false);
+    this.detachOverlay();
     this.touch.emit();
   }
 
   protected handleFocusOut(event: FocusEvent): void {
     const next = event.relatedTarget as Node | null;
-    if (!next || !this.host.nativeElement.contains(next)) {
+    const overlayEl = this.overlayRef?.overlayElement;
+    if (!next || (!this.host.nativeElement.contains(next) && !overlayEl?.contains(next))) {
       this.closePanel();
     }
   }
@@ -387,6 +405,82 @@ export class KuiComboboxComponent<T = unknown>
     const max = this.displayOptions().length - 1;
     if (max < 0) return;
     this.activeIndex.set(clamp(this.activeIndex() + delta, 0, max));
+  }
+
+  private attachOverlay(): void {
+    const anchor = this.comboboxInput()?.nativeElement;
+    if (!anchor) return;
+
+    const gap = 4;
+    this.positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo(anchor)
+      .withPositions([
+        { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: gap },
+        { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -gap },
+      ])
+      .withPush(false);
+
+    this.overlayRef = this.overlay.create({
+      positionStrategy: this.positionStrategy,
+      scrollStrategy: this.overlay.scrollStrategies.noop(),
+      width: anchor.offsetWidth,
+    });
+    this.overlayRef.attach(new TemplatePortal(this.listTpl(), this.vcr));
+
+    const overlayEl = this.overlayRef.overlayElement;
+
+    const escapeSub = this.overlayRef.keydownEvents().subscribe((event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.stopPropagation();
+        this.closePanel();
+      }
+    });
+
+    const outsideHandler = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (this.host.nativeElement.contains(target) || overlayEl.contains(target)) return;
+      this.closePanel();
+    };
+
+    const scrollHandler = () => this.positionStrategy?.apply();
+
+    document.addEventListener('mousedown', outsideHandler, { capture: true });
+    document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
+
+    this.openSubs = [
+      escapeSub,
+      {
+        unsubscribe: () =>
+          document.removeEventListener('mousedown', outsideHandler, { capture: true }),
+      },
+      {
+        unsubscribe: () => document.removeEventListener('scroll', scrollHandler, { capture: true }),
+      },
+    ];
+
+    this.open.set(true);
+  }
+
+  private detachOverlay(): void {
+    this.cleanupOverlaySubs();
+    this.overlayRef?.detach();
+    this.overlayRef?.dispose();
+    this.overlayRef = null;
+    this.positionStrategy = null;
+    this.open.set(false);
+  }
+
+  private cleanupOverlaySubs(): void {
+    this.openSubs.forEach((sub) => sub.unsubscribe());
+    this.openSubs = [];
+  }
+
+  private destroyOverlay(): void {
+    this.cleanupOverlaySubs();
+    this.overlayRef?.dispose();
+    this.overlayRef = null;
+    this.positionStrategy = null;
   }
 
   private scheduleChipMeasurement(): void {
@@ -470,6 +564,7 @@ export class KuiComboboxComponent<T = unknown>
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
     this.cancelScheduledMeasurement?.();
+    this.destroyOverlay();
   }
 }
 

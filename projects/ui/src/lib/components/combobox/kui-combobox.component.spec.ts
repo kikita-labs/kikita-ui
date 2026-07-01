@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { kuiProvideComboboxOptions, kuiProvideFieldOptions } from '../../tokens';
 import { KuiFieldComponent } from '../field/kui-field.component';
@@ -87,15 +88,23 @@ class TestComboboxOptionsHost {
 describe('KuiComboboxComponent', () => {
   let fixture: ComponentFixture<TestComboboxHost>;
   let host: HTMLElement;
+  let overlayContainer: OverlayContainer;
+  let overlayHost: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TestComboboxHost],
     }).compileComponents();
 
+    overlayContainer = TestBed.inject(OverlayContainer);
+    overlayHost = overlayContainer.getContainerElement();
     fixture = TestBed.createComponent(TestComboboxHost);
     host = fixture.nativeElement as HTMLElement;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    overlayHost?.replaceChildren();
   });
 
   it('filters options and selects a single value', () => {
@@ -106,7 +115,7 @@ describe('KuiComboboxComponent', () => {
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    const option = host.querySelector('.kui-combobox-option') as HTMLButtonElement;
+    const option = overlayHost.querySelector('.kui-combobox-option') as HTMLButtonElement;
     expect(option.textContent?.trim()).toBe('Beta');
 
     option.click();
@@ -121,16 +130,16 @@ describe('KuiComboboxComponent', () => {
     input.focus();
     fixture.detectChanges();
 
-    const option = host.querySelector('.kui-combobox-option') as HTMLButtonElement;
+    const option = overlayHost.querySelector('.kui-combobox-option') as HTMLButtonElement;
     option.click();
     fixture.detectChanges();
 
-    expect(host.querySelector('.kui-combobox-list')).toBeNull();
+    expect(overlayHost.querySelector('.kui-combobox-list')).toBeNull();
 
     input.click();
     fixture.detectChanges();
 
-    expect(host.querySelector('.kui-combobox-list')).toBeTruthy();
+    expect(overlayHost.querySelector('.kui-combobox-list')).toBeTruthy();
   });
 
   it('focuses the input and opens when clicking the suffix area', () => {
@@ -141,7 +150,7 @@ describe('KuiComboboxComponent', () => {
     fixture.detectChanges();
 
     expect(document.activeElement).toBe(input);
-    expect(host.querySelector('.kui-combobox-list')).toBeTruthy();
+    expect(overlayHost.querySelector('.kui-combobox-list')).toBeTruthy();
   });
 
   it('toggles the list from the chevron affordance', () => {
@@ -153,13 +162,13 @@ describe('KuiComboboxComponent', () => {
 
     expect(document.activeElement).toBe(input);
     expect(chevron.getAttribute('aria-expanded')).toBe('true');
-    expect(host.querySelector('.kui-combobox-list')).toBeTruthy();
+    expect(overlayHost.querySelector('.kui-combobox-list')).toBeTruthy();
 
     chevron.click();
     fixture.detectChanges();
 
     expect(chevron.getAttribute('aria-expanded')).toBe('false');
-    expect(host.querySelector('.kui-combobox-list')).toBeNull();
+    expect(overlayHost.querySelector('.kui-combobox-list')).toBeNull();
   });
 
   it('clears the selected value when the single filter text is edited away', () => {
@@ -168,7 +177,7 @@ describe('KuiComboboxComponent', () => {
     input.focus();
     fixture.detectChanges();
 
-    const option = host.querySelector('.kui-combobox-option') as HTMLButtonElement;
+    const option = overlayHost.querySelector('.kui-combobox-option') as HTMLButtonElement;
     option.click();
     fixture.detectChanges();
 
@@ -189,7 +198,7 @@ describe('KuiComboboxComponent', () => {
     input.focus();
     fixture.detectChanges();
 
-    const options = host.querySelectorAll<HTMLButtonElement>('.kui-combobox-option');
+    const options = overlayHost.querySelectorAll<HTMLButtonElement>('.kui-combobox-option');
     options[0].click();
     options[1].click();
     fixture.detectChanges();
@@ -247,6 +256,7 @@ describe('KuiComboboxComponent', () => {
     optionsFixture.detectChanges();
 
     const optionsHost = optionsFixture.nativeElement as HTMLElement;
+    const optionsOverlayHost = TestBed.inject(OverlayContainer).getContainerElement();
     const chips = optionsHost.querySelectorAll('[kuiChip]');
 
     expect(optionsHost.querySelector('.kui-combobox-loader')).toBeTruthy();
@@ -254,7 +264,7 @@ describe('KuiComboboxComponent', () => {
     optionsHost.querySelector<HTMLInputElement>('.kui-combobox-native')?.click();
     optionsFixture.detectChanges();
 
-    expect(optionsHost.textContent).toContain('Loading choices');
+    expect(optionsOverlayHost.textContent).toContain('Loading choices');
     expect(chips).toHaveLength(2);
     expect(chips[0].textContent).toContain('Alpha');
     expect(chips[1].textContent).toContain('+2');
@@ -263,7 +273,7 @@ describe('KuiComboboxComponent', () => {
     optionsFixture.detectChanges();
 
     expect(optionsHost.querySelector('.kui-combobox-clear')).toBeTruthy();
-    expect(optionsHost.textContent).toContain('No choices');
+    expect(optionsOverlayHost.textContent).toContain('No choices');
   });
 
   it('uses a custom selected value template when provided', async () => {
@@ -321,7 +331,8 @@ describe('KuiComboboxComponent', () => {
 
     input.focus();
     fieldFixture.detectChanges();
-    const option = fieldHost.querySelector('.kui-combobox-option') as HTMLButtonElement;
+    const fieldOverlayHost = TestBed.inject(OverlayContainer).getContainerElement();
+    const option = fieldOverlayHost.querySelector('.kui-combobox-option') as HTMLButtonElement;
     option.click();
     fieldFixture.detectChanges();
 
