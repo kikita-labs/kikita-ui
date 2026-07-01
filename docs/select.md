@@ -14,6 +14,7 @@ import {
   KuiFieldComponent,
   KuiOptionDirective,
   KuiSelectDirective,
+  KuiSelectValueDirective,
 } from '@kikita-labs/ui';
 ```
 
@@ -62,8 +63,9 @@ userLabel = (user: User) => user.name;
 ## Multiple Values
 
 Set `multiple` when the control value is an array. The dropdown stays open while options toggle.
-
-Current implementation renders the selected values as input text. The example below shows external chips for review/debug output. Chip rendering inside the field and collapsed `+N` overflow are still pending.
+Selected values render as chips inside the field. Values after `maxVisibleChips` collapse into a `+N` chip.
+Use `multipleDisplay="text"` when the selected values should render as plain joined input text.
+Use `multipleTextFn` to format that text mode.
 
 ```html
 <kui-field label="Roles">
@@ -73,6 +75,7 @@ Current implementation renders the selected values as input text. The example be
     [(value)]="roles"
     [kuiLabelFn]="roleLabel"
     [clearable]="true"
+    [maxVisibleChips]="3"
     placeholder="Select roles..."
   />
   <kui-dropdown>
@@ -81,13 +84,6 @@ Current implementation renders the selected values as input text. The example be
     }
   </kui-dropdown>
 </kui-field>
-
-@for (role of roles(); track role) {
-<span kuiChip size="sm" (removed)="removeRole(role)">
-  <span class="kui-chip-label">{{ roleLabel(role) }}</span>
-  <button kuiChipRemove [attr.aria-label]="'Remove ' + roleLabel(role)">...</button>
-</span>
-}
 ```
 
 ```ts
@@ -95,20 +91,63 @@ roles = signal<readonly string[]>([]);
 roleLabel = (value: string) => roleOptions.find((role) => role.value === value)?.label ?? value;
 ```
 
+```html
+<input kuiSelect multiple multipleDisplay="text" [multipleTextFn]="formatRoles" [(value)]="roles" />
+```
+
+```ts
+formatRoles = (roles: readonly Role[]) =>
+  roles.map((role) => `prefix - ${role.label} postfix!!!`).join(' CUSTOM_SEPARATOR ');
+```
+
+## Custom Selected Value Template
+
+Default multiple mode renders removable `kuiChip` values inside the field. Use
+`ng-template[kuiSelectValue]` only when the selected value needs custom markup,
+per-item appearance, avatars, or a different remove affordance.
+
+```html
+<kui-field label="Roles">
+  <input kuiSelect multiple [(value)]="roles" [kuiLabelFn]="roleLabel" />
+
+  <ng-template kuiSelectValue let-item let-label="label" let-remove="remove">
+    <span kuiChip [appearance]="roleAppearance(item)" size="sm">
+      <span class="kui-chip-label">{{ label }}</span>
+      <button kuiChipRemove type="button" [attr.aria-label]="'Remove ' + label" (click)="remove()">
+        x
+      </button>
+    </span>
+  </ng-template>
+
+  <kui-dropdown>
+    @for (role of roleOptions; track role.value) {
+    <div kuiOption [value]="role.value">{{ role.label }}</div>
+    }
+  </kui-dropdown>
+</kui-field>
+```
+
+The custom template replaces the default chip for each visible selected item.
+If the template should be removable, call the provided `remove` callback from a
+native button. Hidden values still collapse into the default `+N` overflow chip.
+
 ## Inputs
 
-| Input         | Type                        | Default | Description                                                                    |
-| ------------- | --------------------------- | ------- | ------------------------------------------------------------------------------ |
-| `value`       | `T \| readonly T[] \| null` | `null`  | Selected value. In `multiple` mode this is an array.                           |
-| `disabled`    | `boolean`                   | `false` | Disables the native input and prevents opening the dropdown.                   |
-| `readonly`    | `boolean`                   | `false` | Prevents opening the dropdown while keeping the field visually enabled.        |
-| `invalid`     | `boolean`                   | `false` | Set by `[formField]`; reflects `aria-invalid`.                                 |
-| `errors`      | `ValidationError[]`         | `[]`    | Set by `[formField]`; consumed by `kui-field` for automatic error text.        |
-| `touched`     | `boolean`                   | `false` | Set by `[formField]`.                                                          |
-| `multiple`    | `boolean`                   | `false` | Enables array values and keeps the dropdown open on option selection.          |
-| `kuiLabelFn`  | `(item: T) => string`       | -       | Maps selected object values to display text.                                   |
-| `placeholder` | `string`                    | `''`    | Placeholder on the readonly input.                                             |
-| `clearable`   | `boolean \| undefined`      | -       | Shows a clear button when a value is selected; falls back to provider options. |
+| Input             | Type                              | Default   | Description                                                                    |
+| ----------------- | --------------------------------- | --------- | ------------------------------------------------------------------------------ |
+| `value`           | `T \| readonly T[] \| null`       | `null`    | Selected value. In `multiple` mode this is an array.                           |
+| `disabled`        | `boolean`                         | `false`   | Disables the native input and prevents opening the dropdown.                   |
+| `readonly`        | `boolean`                         | `false`   | Prevents opening the dropdown while keeping the field visually enabled.        |
+| `invalid`         | `boolean`                         | `false`   | Set by `[formField]`; reflects `aria-invalid`.                                 |
+| `errors`          | `ValidationError[]`               | `[]`      | Set by `[formField]`; consumed by `kui-field` for automatic error text.        |
+| `touched`         | `boolean`                         | `false`   | Set by `[formField]`.                                                          |
+| `multiple`        | `boolean`                         | `false`   | Enables array values and keeps the dropdown open on option selection.          |
+| `maxVisibleChips` | `number \| undefined`             | `3`       | Maximum selected chips shown before collapsed `+N` overflow.                   |
+| `multipleDisplay` | `'chips' \| 'text'`               | `'chips'` | Renders multiple selections as field chips or plain joined text.               |
+| `multipleTextFn`  | `(items: readonly T[]) => string` | -         | Formats the native input value when `multipleDisplay="text"`.                  |
+| `kuiLabelFn`      | `(item: T) => string`             | -         | Maps selected object values to display text.                                   |
+| `placeholder`     | `string`                          | `''`      | Placeholder on the readonly input.                                             |
+| `clearable`       | `boolean \| undefined`            | -         | Shows a clear button when a value is selected; falls back to provider options. |
 
 ## Outputs
 
@@ -148,6 +187,9 @@ and automatic error messages from the projected form field.
 - The dropdown panel uses `role="listbox"`.
 - Each `kuiOption` uses `role="option"`, `aria-selected`, and `aria-disabled`.
 - The clear button is a native button with `aria-label="Clear"`.
+- Multiple selected values render removable chip buttons inside the field.
+- Custom selected value templates receive `item`, `label`, and `remove` context values.
+- `maxVisibleChips` is count-based. It does not currently auto-measure field width.
 - Use `kui-field` for label, hint, error, `aria-describedby`, and `aria-invalid` wiring.
 
 ## Styling
@@ -158,4 +200,4 @@ and automatic error messages from the projected form field.
 
 Select consumes `input.css`, `field-actions.css`, `listbox.css`, and `dropdown.css`
 through the public `@kikita-labs/ui/styles` entrypoint. The clear affordance uses
-the shared `--kui-field-action-*` tokens and select-specific suffix tokens.
+the shared `--kui-field-action-*` tokens and select-specific suffix/chip-layer tokens.

@@ -13,6 +13,43 @@
     cursor: not-allowed;
   }
 
+  input.kui-input[kuiSelect][data-kui-has-chips] {
+    color: transparent;
+  }
+
+  .kui-select-control-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .kui-select-chip-layer {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline: var(--kui-select-chip-layer-inline-start) var(--kui-select-chip-layer-inline-end);
+    display: flex;
+    align-items: center;
+    gap: var(--kui-select-chip-layer-gap);
+    min-inline-size: 0;
+    overflow: hidden;
+    transform: translateY(-50%);
+  }
+
+  .kui-select-chip-layer [kuiChip] {
+    min-inline-size: 0;
+    pointer-events: auto;
+  }
+
+  .kui-select-chip-layer .kui-chip-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .kui-select-chip-overflow {
+    flex: 0 0 auto;
+  }
+
   .kui-select-input-suffix {
     --kui-field-action-size: var(--kui-select-affordance-size);
 

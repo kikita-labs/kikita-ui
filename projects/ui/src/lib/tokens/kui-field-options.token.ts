@@ -4,6 +4,8 @@ import { InjectionToken, Provider } from '@angular/core';
 export interface KuiFieldOptions {
   /** When true, all select controls inside the app show a clear button by default. */
   clearable?: boolean;
+  /** Default visible selected chips before field controls render a collapsed `+N` chip. */
+  maxVisibleChips?: number;
 }
 
 /** Injection token for app-wide {@link KuiFieldOptions} defaults. */

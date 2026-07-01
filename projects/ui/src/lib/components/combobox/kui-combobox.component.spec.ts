@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { kuiProvideFieldOptions } from '../../tokens/kui-field-options.token';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import { KuiComboboxComponent } from './kui-combobox.component';
+import { KuiComboboxValueDirective } from './kui-combobox-value.directive';
 
 @Component({
   template: `
@@ -33,6 +34,42 @@ class TestComboboxHost {
 })
 class TestComboboxFieldHost {
   readonly options = ['Alpha', 'Beta'];
+}
+
+@Component({
+  template: `
+    <kui-field label="Reviewers">
+      <kui-combobox
+        multiple
+        [options]="options"
+        [(value)]="value"
+        [maxVisibleChips]="2"
+        placeholder="Search..."
+      />
+      <ng-template kuiComboboxValue let-label="label" let-remove="remove">
+        <span class="custom-combobox-value">
+          custom:{{ label
+          }}<button type="button" class="custom-combobox-remove" (click)="remove()">x</button>
+        </span>
+      </ng-template>
+    </kui-field>
+  `,
+  imports: [KuiFieldComponent, KuiComboboxComponent, KuiComboboxValueDirective],
+})
+class TestComboboxTemplateHost {
+  readonly options = ['Alpha', 'Beta', 'Gamma'];
+  readonly value = signal<readonly string[]>(['Alpha', 'Beta', 'Gamma']);
+}
+
+@Component({
+  template: `
+    <kui-combobox multiple wrapChips [options]="options" [(value)]="value" [maxVisibleChips]="1" />
+  `,
+  imports: [KuiComboboxComponent],
+})
+class TestComboboxWrapHost {
+  readonly options = ['Alpha', 'Beta', 'Gamma'];
+  readonly value = signal<readonly string[]>(['Alpha', 'Beta', 'Gamma']);
 }
 
 describe('KuiComboboxComponent', () => {
@@ -146,6 +183,69 @@ describe('KuiComboboxComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.value()).toEqual(['Alpha', 'Beta']);
+  });
+
+  it('collapses multiple selected chips into an overflow chip', () => {
+    fixture.componentInstance.multiple.set(true);
+    fixture.componentInstance.value.set(['Alpha', 'Beta', 'Gamma', 'Delta']);
+    fixture.detectChanges();
+
+    const chips = host.querySelectorAll('[kuiChip]');
+
+    expect(chips).toHaveLength(4);
+    expect(chips[0].textContent).toContain('Alpha');
+    expect(chips[1].textContent).toContain('Beta');
+    expect(chips[2].textContent).toContain('Gamma');
+    expect(chips[3].textContent).toContain('+1');
+  });
+
+  it('can opt into wrapping all selected chips instead of collapsed overflow', async () => {
+    await TestBed.resetTestingModule()
+      .configureTestingModule({ imports: [TestComboboxWrapHost] })
+      .compileComponents();
+
+    const wrapFixture = TestBed.createComponent(TestComboboxWrapHost);
+    wrapFixture.detectChanges();
+
+    const wrapHost = wrapFixture.nativeElement as HTMLElement;
+    const chips = wrapHost.querySelectorAll('[kuiChip]');
+
+    expect(wrapHost.querySelector('kui-combobox')?.hasAttribute('data-kui-wrap-chips')).toBe(true);
+    expect(chips).toHaveLength(3);
+    expect(wrapHost.textContent).not.toContain('+2');
+  });
+
+  it('uses a custom selected value template when provided', async () => {
+    await TestBed.resetTestingModule()
+      .configureTestingModule({ imports: [TestComboboxTemplateHost] })
+      .compileComponents();
+
+    const templateFixture = TestBed.createComponent(TestComboboxTemplateHost);
+    templateFixture.detectChanges();
+
+    const values = templateFixture.nativeElement.querySelectorAll('.custom-combobox-value');
+
+    expect(values).toHaveLength(2);
+    expect(values[0].textContent).toContain('custom:Alpha');
+    expect(values[1].textContent).toContain('custom:Beta');
+    expect(templateFixture.nativeElement.textContent).toContain('+1');
+  });
+
+  it('exposes a remove callback to the custom combobox value template', async () => {
+    await TestBed.resetTestingModule()
+      .configureTestingModule({ imports: [TestComboboxTemplateHost] })
+      .compileComponents();
+
+    const templateFixture = TestBed.createComponent(TestComboboxTemplateHost);
+    templateFixture.detectChanges();
+
+    const remove = templateFixture.nativeElement.querySelector(
+      '.custom-combobox-remove',
+    ) as HTMLButtonElement;
+    remove.click();
+    templateFixture.detectChanges();
+
+    expect(templateFixture.componentInstance.value()).toEqual(['Beta', 'Gamma']);
   });
 
   it('uses kui-field id, description, invalid state, size, and clearable defaults', async () => {

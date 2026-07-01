@@ -204,6 +204,23 @@ Field and input tokens:
 --kui-input-focus-ring
 ```
 
+Select tokens:
+
+```css
+--kui-select-bg
+--kui-select-border
+--kui-select-border-hover
+--kui-select-border-focus
+--kui-select-border-error
+--kui-select-radius
+--kui-select-affordance-size
+--kui-select-suffix-inline-end
+--kui-select-suffix-gap
+--kui-select-chip-layer-inline-start
+--kui-select-chip-layer-inline-end
+--kui-select-chip-layer-gap
+```
+
 Slider tokens:
 
 ```css

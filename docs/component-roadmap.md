@@ -29,7 +29,7 @@
 
 ## Phase 3
 
-- Select (done as `input[kuiSelect]` with `kui-dropdown` and `kuiOption`; multiple array mode exists, chip-in-field and collapsed `+N` rendering pending)
+- Select (done as `input[kuiSelect]` with `kui-dropdown` and `kuiOption`; multiple mode renders field-internal chips with collapsed `+N` overflow and supports `ng-template[kuiSelectValue]`)
 - Dropdown (done as `kui-dropdown` + `[kuiDropdownFor]` + `[kuiOption]`; field auto-wiring via `contentChild`)
 - Popover (done as `kui-popover` + `[kuiPopoverFor]`)
 - Dialog (done as `kui-dialog` + dialog service)
@@ -43,7 +43,7 @@
 - Separator (done as `hr[kuiSeparator]`; Menu uses the generic separator directly)
 - Drawer (done as `kuiDrawer()` typed CDK overlay with side and size presets)
 - Chip (done as `[kuiChip]` + `button[kuiChipRemove]`; Select multiselect and Combobox use it for selected values)
-- Combobox (initial implementation as `kui-combobox`; CDK overlay positioning hardening pending before final done status)
+- Combobox (initial implementation as `kui-combobox`; supports `ng-template[kuiComboboxValue]`; CDK overlay positioning hardening pending before final done status)
 
 ## Later
 

@@ -3,10 +3,12 @@ import { Component, ViewEncapsulation, signal } from '@angular/core';
 import {
   KuiDropdownComponent,
   KuiFieldComponent,
+  KuiOptionDirective,
   KuiChipDirective,
   KuiChipRemoveDirective,
-  KuiOptionDirective,
   KuiSelectDirective,
+  KuiSelectValueDirective,
+  type KuiChipAppearance,
 } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
@@ -17,8 +19,13 @@ const ROLES = [
   { value: 'designer', label: 'Designer' },
   { value: 'data', label: 'Data Scientist' },
   { value: 'devops', label: 'DevOps Engineer' },
-  { value: 'long', label: 'Senior Principal Staff Software Engineer (Infrastructure Platform)' },
-];
+  {
+    value: 'long',
+    label: 'Senior Principal Staff Software Engineer (Infrastructure Platform)',
+  },
+] as const;
+
+type RoleValue = (typeof ROLES)[number]['value'];
 
 interface User {
   id: number;
@@ -41,6 +48,7 @@ const USERS: User[] = [
     KuiDropdownComponent,
     KuiOptionDirective,
     KuiFieldComponent,
+    KuiSelectValueDirective,
     KuiChipDirective,
     KuiChipRemoveDirective,
   ],
@@ -52,15 +60,24 @@ export class SelectPage {
   protected readonly roles = ROLES;
   protected readonly users = USERS;
 
-  protected readonly selectedRole = signal<string | null>(null);
+  protected readonly selectedRole = signal<RoleValue | null>(null);
   protected readonly selectedUser = signal<User | null>(null);
-  protected readonly selectedRoles = signal<readonly string[]>(['engineer', 'designer']);
+  protected readonly selectedRoles = signal<readonly RoleValue[]>([
+    'engineer',
+    'designer',
+    'devops',
+    'data',
+    'product',
+  ]);
 
   protected readonly userLabelFn = (u: User): string => u.name;
-  protected readonly roleLabelFn = (value: string): string =>
+  protected readonly roleLabelFn = (value: RoleValue): string =>
     this.roles.find((role) => role.value === value)?.label ?? value;
 
-  protected removeRole(value: string): void {
-    this.selectedRoles.update((roles) => roles.filter((role) => role !== value));
-  }
+  protected readonly roleAppearance = (value: RoleValue): KuiChipAppearance => {
+    if (value === 'designer') return 'info';
+    if (value === 'devops') return 'warning';
+    if (value === 'data') return 'success';
+    return 'primary';
+  };
 }

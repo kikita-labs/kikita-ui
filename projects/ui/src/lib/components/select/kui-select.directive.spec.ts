@@ -7,6 +7,7 @@ import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KuiOptionDirective } from '../dropdown/kui-option.directive';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import { KuiSelectDirective } from './kui-select.directive';
+import { KuiSelectValueDirective } from './kui-select-value.directive';
 
 // Host fixtures
 
@@ -92,6 +93,75 @@ class DisabledHost {
 })
 class InvalidFieldHost {
   val = signal<string | null>(null);
+}
+
+@Component({
+  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  template: `
+    <kui-field>
+      <input
+        kuiSelect
+        [multiple]="true"
+        [(value)]="val"
+        [clearable]="true"
+        [maxVisibleChips]="2"
+        placeholder="Pick..."
+      />
+      <kui-dropdown>
+        <div kuiOption value="a">Option A</div>
+        <div kuiOption value="b">Option B</div>
+        <div kuiOption value="c">Option C</div>
+      </kui-dropdown>
+    </kui-field>
+  `,
+})
+class MultipleHost {
+  val = signal<readonly string[]>(['a', 'b', 'c']);
+}
+
+@Component({
+  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  template: `
+    <kui-field>
+      <input kuiSelect multiple multipleDisplay="text" [(value)]="val" [multipleTextFn]="format" />
+      <kui-dropdown>
+        <div kuiOption value="a">Option A</div>
+      </kui-dropdown>
+    </kui-field>
+  `,
+})
+class MultipleTextHost {
+  val = signal<readonly string[]>(['a', 'b']);
+  format = (items: readonly string[]) => items.map((item) => `prefix-${item}-postfix`).join(' | ');
+}
+
+@Component({
+  imports: [
+    KuiFieldComponent,
+    KuiSelectDirective,
+    KuiSelectValueDirective,
+    KuiDropdownComponent,
+    KuiOptionDirective,
+  ],
+  template: `
+    <kui-field>
+      <input kuiSelect multiple [(value)]="val" [maxVisibleChips]="2" />
+      <ng-template kuiSelectValue let-label="label" let-remove="remove">
+        <span class="custom-value">
+          custom:{{ label
+          }}<button type="button" class="custom-remove" (click)="remove()">x</button>
+        </span>
+      </ng-template>
+      <kui-dropdown>
+        <div kuiOption value="a">Option A</div>
+        <div kuiOption value="b">Option B</div>
+        <div kuiOption value="c">Option C</div>
+      </kui-dropdown>
+    </kui-field>
+  `,
+})
+class MultipleTemplateHost {
+  val = signal<readonly string[]>(['a', 'b', 'c']);
 }
 
 // Helpers
@@ -251,6 +321,18 @@ describe('KuiSelectDirective', () => {
 
       expect(fixture.componentInstance.val()).toBeNull();
     });
+
+    it('resets multiple values to an empty array when clear button is clicked', () => {
+      const fixture = createFixture(MultipleHost);
+
+      const clearBtn = fixture.nativeElement.querySelector(
+        '.kui-select-clear',
+      ) as HTMLButtonElement;
+      clearBtn.click();
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.val()).toEqual([]);
+    });
   });
 
   describe('disabled', () => {
@@ -293,6 +375,54 @@ describe('KuiSelectDirective', () => {
       fixture.detectChanges();
 
       expect(fixture.componentInstance.val()).toBe('b');
+    });
+
+    it('renders selected multiple values as chips with collapsed overflow', () => {
+      const fixture = createFixture(MultipleHost);
+      const chips = fixture.nativeElement.querySelectorAll('[kuiChip]');
+
+      expect(getInput(fixture).value).toBe('a, b, c');
+      expect(chips).toHaveLength(3);
+      expect(chips[0].textContent).toContain('a');
+      expect(chips[1].textContent).toContain('b');
+      expect(chips[2].textContent).toContain('+1');
+    });
+
+    it('removes a multiple value from its chip affordance', () => {
+      const fixture = createFixture(MultipleHost);
+      const remove = fixture.nativeElement.querySelector('[kuiChipRemove]') as HTMLButtonElement;
+
+      remove.click();
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.val()).toEqual(['b', 'c']);
+    });
+
+    it('can render multiple selected values as custom text instead of chips', () => {
+      const fixture = createFixture(MultipleTextHost);
+
+      expect(getInput(fixture).value).toBe('prefix-a-postfix | prefix-b-postfix');
+      expect(fixture.nativeElement.querySelector('[kuiChip]')).toBeNull();
+    });
+
+    it('uses a custom selected value template when provided', () => {
+      const fixture = createFixture(MultipleTemplateHost);
+      const values = fixture.nativeElement.querySelectorAll('.custom-value');
+
+      expect(values).toHaveLength(2);
+      expect(values[0].textContent).toContain('custom:a');
+      expect(values[1].textContent).toContain('custom:b');
+      expect(fixture.nativeElement.textContent).toContain('+1');
+    });
+
+    it('exposes a remove callback to the custom selected value template', () => {
+      const fixture = createFixture(MultipleTemplateHost);
+      const remove = fixture.nativeElement.querySelector('.custom-remove') as HTMLButtonElement;
+
+      remove.click();
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.val()).toEqual(['b', 'c']);
     });
   });
 });

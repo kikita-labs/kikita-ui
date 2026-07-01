@@ -10,9 +10,10 @@
     position: relative;
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: var(--kui-space-1);
     min-block-size: var(--kui-combobox-height-md);
+    overflow: hidden;
     padding-block: var(--kui-space-1);
     padding-inline: var(--kui-space-3) var(--kui-combobox-suffix-space-md);
     border: var(--kui-combobox-border-width) solid var(--kui-combobox-border);
@@ -34,6 +35,11 @@
     min-block-size: var(--kui-combobox-height-lg);
     padding-block: var(--kui-space-2);
     padding-inline: var(--kui-space-4) var(--kui-combobox-suffix-space-lg);
+  }
+
+  .kui-combobox[data-kui-wrap-chips] .kui-combobox-input {
+    flex-wrap: wrap;
+    overflow: visible;
   }
 
   .kui-combobox-input:hover {
@@ -89,6 +95,21 @@
 
   .kui-combobox-native::placeholder {
     color: var(--kui-color-text-secondary);
+  }
+
+  .kui-combobox-input [kuiChip] {
+    min-inline-size: max-content;
+    flex: 0 0 auto;
+  }
+
+  .kui-combobox-input .kui-chip-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .kui-combobox-chip-overflow {
+    flex: 0 0 auto;
   }
 
   .kui-combobox-suffix {

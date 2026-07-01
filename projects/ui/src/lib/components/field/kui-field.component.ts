@@ -9,6 +9,7 @@ import {
   inject,
   input,
   signal,
+  TemplateRef,
   viewChild,
 } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
@@ -134,6 +135,14 @@ export class KuiFieldComponent implements KuiOptionContext {
   private readonly controlSlot = viewChild<ElementRef<HTMLElement>>('controlSlot');
   private readonly _selectCtx = signal<KuiOptionContext | null>(null);
   private readonly _selectDisabled = signal(false);
+  private readonly _selectValueTemplate = signal<TemplateRef<unknown> | null>(null);
+  private readonly _comboboxValueTemplate = signal<TemplateRef<unknown> | null>(null);
+
+  /** @internal Custom selected-value template registered by `ng-template[kuiSelectValue]`. */
+  readonly selectValueTemplate = this._selectValueTemplate.asReadonly();
+
+  /** @internal Custom selected-value template registered by `ng-template[kuiComboboxValue]`. */
+  readonly comboboxValueTemplate = this._comboboxValueTemplate.asReadonly();
 
   constructor() {
     effect(() => {
@@ -165,6 +174,16 @@ export class KuiFieldComponent implements KuiOptionContext {
 
   setSelectDisabled(disabled: boolean): void {
     this._selectDisabled.set(disabled);
+  }
+
+  /** @internal Registers a custom selected-value template for `input[kuiSelect]`. */
+  setSelectValueTemplate(template: TemplateRef<unknown> | null): void {
+    this._selectValueTemplate.set(template);
+  }
+
+  /** @internal Registers a custom selected-value template for `kui-combobox`. */
+  setComboboxValueTemplate(template: TemplateRef<unknown> | null): void {
+    this._comboboxValueTemplate.set(template);
   }
 
   getDropdown(): KuiDropdownComponent | undefined {

@@ -48,7 +48,7 @@
 <app-panel
   num="03"
   title="input[kuiSelect] - multiple"
-  description="Multiple mode keeps the dropdown open while options toggle. Selected values are represented with real chips."
+  description="Multiple mode keeps the dropdown open while options toggle. Selected values render as chips inside the field and collapse into +N."
 >
   <div class="state-board__row">
     <kui-field label="Roles" class="select-page__field select-page__field--lg">
@@ -58,6 +58,7 @@
         [(value)]="selectedRoles"
         [kuiLabelFn]="roleLabelFn"
         [clearable]="true"
+        [maxVisibleChips]="3"
         placeholder="Select roles..."
       />
       <kui-dropdown>
@@ -66,11 +67,30 @@
         }
       </kui-dropdown>
     </kui-field>
-    <div class="select-page__chips">
-      @for (role of selectedRoles(); track role) {
-        <span kuiChip size="sm" (removed)="removeRole(role)">
-          <span class="kui-chip-label">{{ roleLabelFn(role) }}</span>
-          <button kuiChipRemove [attr.aria-label]="'Remove ' + roleLabelFn(role)">
+    <code>value: {{ selectedRoles().join(', ') || '[]' }}</code>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="input[kuiSelect] - custom value template"
+  description="Use <code>ng-template[kuiSelectValue]</code> when selected chips need per-item appearance or custom content."
+>
+  <div class="state-board__row">
+    <kui-field label="Grouped roles" class="select-page__field select-page__field--lg">
+      <input
+        kuiSelect
+        multiple
+        [(value)]="selectedRoles"
+        [kuiLabelFn]="roleLabelFn"
+        [clearable]="true"
+        [maxVisibleChips]="3"
+        placeholder="Select roles..."
+      />
+      <ng-template kuiSelectValue let-value let-label="label" let-remove="remove">
+        <span kuiChip size="sm" [appearance]="roleAppearance(value)" (removed)="remove()">
+          <span class="kui-chip-label">{{ label }}</span>
+          <button kuiChipRemove type="button" [attr.aria-label]="'Remove ' + label">
             <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path
                 d="M4 4l8 8M12 4l-8 8"
@@ -81,13 +101,18 @@
             </svg>
           </button>
         </span>
-      }
-    </div>
+      </ng-template>
+      <kui-dropdown>
+        @for (opt of roles; track opt.value) {
+          <div kuiOption [value]="opt.value">{{ opt.label }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
   </div>
 </app-panel>
 
 <app-panel
-  num="04"
+  num="05"
   title="input[kuiSelect] - disabled"
   description="Disabled state: the field is disabled, and the dropdown does not open even when clicking the label."
 >

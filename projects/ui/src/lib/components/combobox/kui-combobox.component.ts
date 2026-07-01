@@ -3,20 +3,25 @@ import {
   computed,
   ElementRef,
   booleanAttribute,
+  effect,
   inject,
   input,
   model,
+  OnDestroy,
   output,
   signal,
+  TemplateRef,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { FormValueControl, ValidationError, WithOptionalFieldTree } from '@angular/forms/signals';
 
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
 import { KuiChipDirective } from '../chip/kui-chip.directive';
 import { KuiChipRemoveDirective } from '../chip/kui-chip-remove.directive';
 import { KuiFieldComponent } from '../field/kui-field.component';
+import { KuiComboboxValueContext } from './kui-combobox-value.directive';
 import { KuiComboboxMode } from './kui-combobox-mode.type';
 import { KuiComboboxSize } from './kui-combobox-size.type';
 
@@ -26,6 +31,12 @@ function optionalBooleanAttribute(value: unknown): boolean | undefined {
   return value == null ? undefined : booleanAttribute(value);
 }
 
+function optionalNumberAttribute(value: unknown): number | undefined {
+  if (value == null || value === '') return undefined;
+  const parsed = Number(value);
+  return Number.isNaN(parsed) ? undefined : parsed;
+}
+
 /**
  * Searchable combobox for selecting one or more values from a list.
  *
@@ -33,19 +44,20 @@ function optionalBooleanAttribute(value: unknown): boolean | undefined {
  */
 @Component({
   selector: 'kui-combobox',
-  imports: [KuiChipDirective, KuiChipRemoveDirective],
+  imports: [NgTemplateOutlet, KuiChipDirective, KuiChipRemoveDirective],
   templateUrl: './kui-combobox.component.html',
   encapsulation: ViewEncapsulation.None,
   host: {
     class: 'kui-combobox',
     '[class.kui-combobox--open]': 'open()',
     '[attr.data-kui-size]': 'effectiveSize()',
+    '[attr.data-kui-wrap-chips]': 'effectiveWrapChips() ? "" : null',
     '(focusout)': 'handleFocusOut($event)',
   },
 })
-export class KuiComboboxComponent<T = unknown> implements FormValueControl<
-  T | readonly T[] | string | null
-> {
+export class KuiComboboxComponent<T = unknown>
+  implements FormValueControl<T | readonly T[] | string | null>, OnDestroy
+{
   /** Available options. */
   readonly options = input<readonly T[]>([]);
   /** Current selected value. In multiple mode this is an array. */
@@ -62,6 +74,14 @@ export class KuiComboboxComponent<T = unknown> implements FormValueControl<
   readonly mode = input<KuiComboboxMode>('filter');
   /** Enables multiple selected values. */
   readonly multiple = input(false, { transform: booleanAttribute });
+  /** Maximum number of selected chips rendered before collapsed `+N` overflow. */
+  readonly maxVisibleChips = input<number | undefined, unknown>(undefined, {
+    transform: optionalNumberAttribute,
+  });
+  /** Allows selected chips to wrap instead of collapsing into a `+N` overflow chip. */
+  readonly wrapChips = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
   /**
    * Shows a clear affordance when the combobox has a value or query.
    * Falls back to {@link KUI_FIELD_OPTIONS} when undefined.
@@ -91,10 +111,14 @@ export class KuiComboboxComponent<T = unknown> implements FormValueControl<
   protected readonly open = signal(false);
   protected readonly activeIndex = signal(0);
   protected readonly nativeInput = viewChild<ElementRef<HTMLInputElement>>('nativeInput');
+  protected readonly comboboxInput = viewChild<ElementRef<HTMLElement>>('comboboxInput');
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly field = inject(KuiFieldComponent, { optional: true });
   private readonly fieldOpts = inject(KUI_FIELD_OPTIONS, { optional: true });
+  private readonly autoVisibleChipCount = signal<number | null>(null);
+  private resizeObserver: ResizeObserver | null = null;
+  private cancelScheduledMeasurement: (() => void) | null = null;
 
   protected readonly inputId = computed(
     () => this.id() ?? this.field?.controlId ?? this.fallbackInputId,
@@ -126,6 +150,31 @@ export class KuiComboboxComponent<T = unknown> implements FormValueControl<
     return Array.isArray(value) ? value : value == null ? [] : [value as T];
   });
 
+  protected readonly effectiveMaxVisibleChips = computed(
+    () => this.maxVisibleChips() ?? this.fieldOpts?.maxVisibleChips ?? 3,
+  );
+
+  protected readonly effectiveWrapChips = computed(() => this.wrapChips() ?? false);
+
+  protected readonly effectiveVisibleChipCount = computed(() => {
+    if (this.effectiveWrapChips()) return this.selectedValues().length;
+    return Math.min(this.effectiveMaxVisibleChips(), this.autoVisibleChipCount() ?? Infinity);
+  });
+
+  protected readonly visibleSelectedValues = computed(() =>
+    this.effectiveWrapChips()
+      ? this.selectedValues()
+      : this.selectedValues().slice(0, Math.max(0, this.effectiveVisibleChipCount())),
+  );
+
+  protected readonly hiddenSelectedCount = computed(() =>
+    Math.max(0, this.selectedValues().length - this.visibleSelectedValues().length),
+  );
+
+  protected readonly valueTemplate = computed(
+    () => this.field?.comboboxValueTemplate() as TemplateRef<KuiComboboxValueContext<T>> | null,
+  );
+
   protected readonly displayOptions = computed(() => {
     const query = this.query().trim().toLocaleLowerCase();
     const options = this.options();
@@ -151,6 +200,30 @@ export class KuiComboboxComponent<T = unknown> implements FormValueControl<
     const value = this.value();
     return value == null ? this.query() : this.labelFor(value as T);
   });
+
+  constructor() {
+    effect(() => {
+      this.comboboxInput();
+      this.selectedValues();
+      this.effectiveMaxVisibleChips();
+      this.effectiveWrapChips();
+      this.labelFn();
+      this.scheduleChipMeasurement();
+    });
+
+    effect(() => {
+      const input = this.comboboxInput()?.nativeElement;
+      this.resizeObserver?.disconnect();
+      this.resizeObserver = null;
+
+      if (!input || typeof ResizeObserver === 'undefined') return;
+
+      this.resizeObserver = new ResizeObserver(() => {
+        this.scheduleChipMeasurement();
+      });
+      this.resizeObserver.observe(input);
+    });
+  }
 
   protected labelFor(option: T): string {
     return this.labelFn()?.(option) ?? String(option);
@@ -192,8 +265,9 @@ export class KuiComboboxComponent<T = unknown> implements FormValueControl<
     event.stopPropagation();
     if (this.disabled() || this.readonly()) return;
 
+    const wasOpen = this.open();
     this.nativeInput()?.nativeElement.focus();
-    if (this.open()) {
+    if (wasOpen) {
       this.closePanel();
       return;
     }
@@ -256,6 +330,15 @@ export class KuiComboboxComponent<T = unknown> implements FormValueControl<
     this.value.set(this.selectedValues().filter((value) => value !== option));
   }
 
+  protected valueContext(option: T): KuiComboboxValueContext<T> {
+    return {
+      $implicit: option,
+      item: option,
+      label: this.labelFor(option),
+      remove: () => this.removeValue(option),
+    };
+  }
+
   protected clear(event?: MouseEvent): void {
     event?.stopPropagation();
     this.value.set(this.multiple() ? [] : null);
@@ -290,8 +373,96 @@ export class KuiComboboxComponent<T = unknown> implements FormValueControl<
     if (max < 0) return;
     this.activeIndex.set(clamp(this.activeIndex() + delta, 0, max));
   }
+
+  private scheduleChipMeasurement(): void {
+    this.cancelScheduledMeasurement?.();
+    this.cancelScheduledMeasurement = null;
+
+    if (typeof requestAnimationFrame === 'function') {
+      const frame = requestAnimationFrame(() => {
+        this.cancelScheduledMeasurement = null;
+        this.measureVisibleChips();
+      });
+      this.cancelScheduledMeasurement = () => cancelAnimationFrame(frame);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      this.cancelScheduledMeasurement = null;
+      this.measureVisibleChips();
+    });
+    this.cancelScheduledMeasurement = () => clearTimeout(timeout);
+  }
+
+  private measureVisibleChips(): void {
+    if (!this.multiple() || this.effectiveWrapChips()) {
+      this.autoVisibleChipCount.set(null);
+      return;
+    }
+
+    const input = this.comboboxInput()?.nativeElement;
+    if (!input) {
+      this.autoVisibleChipCount.set(null);
+      return;
+    }
+
+    const inputWidth = input.clientWidth;
+    if (inputWidth <= 0) {
+      this.autoVisibleChipCount.set(null);
+      return;
+    }
+
+    const styles = getComputedStyle(input);
+    const padding =
+      numberFromCss(styles.paddingInlineStart) + numberFromCss(styles.paddingInlineEnd);
+    const gap = numberFromCss(styles.columnGap || styles.gap);
+    const suffixWidth =
+      input.querySelector<HTMLElement>('.kui-combobox-suffix')?.getBoundingClientRect().width ?? 0;
+    const available = inputWidth - padding - suffixWidth - gap;
+
+    if (available <= 0) {
+      this.autoVisibleChipCount.set(0);
+      return;
+    }
+
+    const selected = this.selectedValues();
+    const maxVisible = Math.min(selected.length, this.effectiveMaxVisibleChips());
+    const overflowWidth = this.estimatedChipWidth(`+${selected.length}`);
+    let used = 0;
+    let visible = 0;
+
+    for (const item of selected.slice(0, maxVisible)) {
+      const chipWidth = this.estimatedChipWidth(this.labelFor(item));
+      const chipGap = visible > 0 ? gap : 0;
+      const remainingAfterThis = selected.length - visible - 1;
+      const reserveOverflow = remainingAfterThis > 0 ? overflowWidth + gap : 0;
+
+      if (used + chipGap + chipWidth + reserveOverflow > available) {
+        break;
+      }
+
+      used += chipGap + chipWidth;
+      visible += 1;
+    }
+
+    this.autoVisibleChipCount.set(visible);
+  }
+
+  private estimatedChipWidth(label: string): number {
+    return clamp(label.length * 6 + 34, 38, 160);
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver?.disconnect();
+    this.cancelScheduledMeasurement?.();
+  }
 }
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
+}
+
+function numberFromCss(value: string): number {
+  const parsed = Number.parseFloat(value);
+  return Number.isNaN(parsed) ? 0 : parsed;
 }

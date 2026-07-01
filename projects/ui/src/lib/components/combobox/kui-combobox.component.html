@@ -1,4 +1,5 @@
 <div
+  #comboboxInput
   class="kui-combobox-input"
   [class.kui-combobox-input--invalid]="effectiveInvalid()"
   [class.kui-combobox-input--disabled]="disabled()"
@@ -6,20 +7,27 @@
   (click)="handleControlClick($event)"
 >
   @if (multiple()) {
-    @for (item of selectedValues(); track item) {
-      <span kuiChip size="sm" (removed)="removeValue(item)">
-        <span class="kui-chip-label">{{ labelFor(item) }}</span>
-        <button kuiChipRemove [attr.aria-label]="'Remove ' + labelFor(item)">
-          <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path
-              d="M4 4l8 8M12 4l-8 8"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
-        </button>
-      </span>
+    @for (item of visibleSelectedValues(); track item) {
+      @if (valueTemplate(); as tpl) {
+        <ng-container *ngTemplateOutlet="tpl; context: valueContext(item)" />
+      } @else {
+        <span kuiChip size="sm" (removed)="removeValue(item)">
+          <span class="kui-chip-label">{{ labelFor(item) }}</span>
+          <button kuiChipRemove [attr.aria-label]="'Remove ' + labelFor(item)">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path
+                d="M4 4l8 8M12 4l-8 8"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </span>
+      }
+    }
+    @if (hiddenSelectedCount() > 0) {
+      <span kuiChip size="sm" class="kui-combobox-chip-overflow">+{{ hiddenSelectedCount() }}</span>
     }
   }
 

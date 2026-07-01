@@ -1,5 +1,6 @@
 import {
   Signal,
+  booleanAttribute,
   ComponentRef,
   computed,
   Directive,
@@ -18,7 +19,19 @@ import { KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
 import { KUI_SELECT_OPTIONS } from '../../tokens/kui-select-options.token';
-import { KuiSelectInputSuffixComponent } from './kui-select-input-suffix.component';
+import {
+  KuiSelectChipItem,
+  KuiSelectInputSuffixComponent,
+} from './kui-select-input-suffix.component';
+
+/** Multiple select value presentation mode. */
+export type KuiSelectMultipleDisplay = 'chips' | 'text';
+
+function optionalNumberAttribute(value: unknown): number | undefined {
+  if (value == null || value === '') return undefined;
+  const parsed = Number(value);
+  return Number.isNaN(parsed) ? undefined : parsed;
+}
 
 @Directive({
   selector: 'input[kuiSelect]',
@@ -33,9 +46,11 @@ import { KuiSelectInputSuffixComponent } from './kui-select-input-suffix.compone
     '[attr.aria-controls]': 'dropdownPanelId()',
     '[attr.aria-describedby]': 'describedBy()',
     '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
-    '[attr.placeholder]': 'placeholder()',
+    '[attr.placeholder]': 'effectivePlaceholder()',
     '[attr.disabled]': 'disabled() ? "" : null',
     '[attr.data-has-clear]': 'showClear() ? "" : null',
+    '[attr.data-kui-multiple]': 'multiple() ? "" : null',
+    '[attr.data-kui-has-chips]': 'showChipLayer() ? "" : null',
     '(click)': 'handleClick($event)',
     '(keydown)': 'handleKeydown($event)',
   },
@@ -89,7 +104,15 @@ export class KuiSelectDirective<T = unknown>
   readonly id = input<string | undefined>();
 
   /** Enables multiple selected values. The control value becomes `readonly T[]`. */
-  readonly multiple = input(false);
+  readonly multiple = input(false, { transform: booleanAttribute });
+  /** Maximum number of selected chips rendered before collapsed `+N` overflow. */
+  readonly maxVisibleChips = input<number | undefined, unknown>(undefined, {
+    transform: optionalNumberAttribute,
+  });
+  /** Presentation used for multiple selected values. */
+  readonly multipleDisplay = input<KuiSelectMultipleDisplay>('chips');
+  /** Formats the full selected value array when `multipleDisplay` is `text`. */
+  readonly multipleTextFn = input<((items: readonly T[]) => string) | undefined>();
 
   /** Maps a selected value to its display string. Required when `T` is not a primitive. */
   readonly kuiLabelFn = input<((item: T) => string) | undefined>();
@@ -125,9 +148,41 @@ export class KuiSelectDirective<T = unknown>
     return false;
   });
 
+  protected readonly selectedValues = computed<readonly T[]>(() => {
+    const current = this.value();
+    return Array.isArray(current) ? current : current == null ? [] : [current as T];
+  });
+
+  protected readonly hasValue = computed(() => this.selectedValues().length > 0);
+
   protected readonly showClear = computed(
-    () => this.effectiveClearable() && this.value() !== null && !this.disabled(),
+    () => this.effectiveClearable() && this.hasValue() && !this.disabled(),
   );
+
+  protected readonly effectivePlaceholder = computed(() =>
+    this.multiple() && this.hasValue() ? '' : this.placeholder(),
+  );
+
+  protected readonly showChipLayer = computed(
+    () => this.multiple() && this.multipleDisplay() === 'chips' && this.hasValue(),
+  );
+
+  protected readonly effectiveMaxVisibleChips = computed(() => {
+    const own = this.maxVisibleChips();
+    if (own !== undefined) return own;
+    if (this.selectOpts?.maxVisibleChips !== undefined) return this.selectOpts.maxVisibleChips;
+    if (this.fieldOpts?.maxVisibleChips !== undefined) return this.fieldOpts.maxVisibleChips;
+    return 3;
+  });
+
+  private readonly selectedChipItems = computed<readonly KuiSelectChipItem[]>(() => {
+    if (!this.showChipLayer()) return [];
+    const labelFn = this.kuiLabelFn();
+    return this.selectedValues().map((item) => ({
+      value: item,
+      label: this.labelFor(item, labelFn),
+    }));
+  });
 
   readonly isSelected = (v: unknown): Signal<boolean> | boolean => {
     if (!this.multiple()) return v === this.value();
@@ -168,15 +223,19 @@ export class KuiSelectDirective<T = unknown>
 
     effect(() => {
       this.suffixRef.setInput('clearable', this.effectiveClearable());
-      this.suffixRef.setInput('hasValue', this.value() !== null);
+      this.suffixRef.setInput('hasValue', this.hasValue());
       this.suffixRef.setInput('isOpen', this.dropdownOpen());
+      this.suffixRef.setInput('selectedItems', this.selectedChipItems());
+      this.suffixRef.setInput('maxVisibleChips', this.effectiveMaxVisibleChips());
+      this.suffixRef.setInput('valueTemplate', this.field?.selectValueTemplate() ?? null);
     });
 
     effect(() => {
       const v = this.value();
       const labelFn = this.kuiLabelFn();
       if (Array.isArray(v)) {
-        this.el.nativeElement.value = v.map((item) => this.labelFor(item, labelFn)).join(', ');
+        this.el.nativeElement.value =
+          this.multipleTextFn()?.(v) ?? v.map((item) => this.labelFor(item, labelFn)).join(', ');
       } else {
         this.el.nativeElement.value = v != null ? this.labelFor(v as T, labelFn) : '';
       }
@@ -206,6 +265,10 @@ export class KuiSelectDirective<T = unknown>
 
     this.suffixRef.instance.cleared.subscribe(() => {
       this.value.set(this.multiple() ? [] : null);
+    });
+
+    this.suffixRef.instance.removed.subscribe((value) => {
+      this.removeValue(value);
     });
   }
 
@@ -252,6 +315,11 @@ export class KuiSelectDirective<T = unknown>
     };
     if (useTimeout) setTimeout(fn, 0);
     else fn();
+  }
+
+  private removeValue(value: unknown): void {
+    if (!this.multiple() || this.disabled() || this.readonly()) return;
+    this.value.set(this.selectedValues().filter((item) => item !== value));
   }
 
   private shouldRestoreFocus(): boolean {

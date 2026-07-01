@@ -28,7 +28,38 @@
     </kui-field>
   </app-panel>
 
-  <app-panel num="03" title="States" description="Invalid, disabled, readonly, loading, and empty.">
+  <app-panel
+    num="03"
+    title="Custom value template"
+    description="Use <code>ng-template[kuiComboboxValue]</code> when selected chips need per-item appearance or custom content."
+  >
+    <kui-field label="Reviewers" class="combobox-page__field combobox-page__field--lg">
+      <kui-combobox
+        multiple
+        [options]="people"
+        [(value)]="selectedPeople"
+        [labelFn]="personLabel"
+        placeholder="Search reviewers..."
+      />
+      <ng-template kuiComboboxValue let-person let-label="label" let-remove="remove">
+        <span kuiChip size="sm" [appearance]="personAppearance(person)" (removed)="remove()">
+          <span class="kui-chip-label">{{ label }}</span>
+          <button kuiChipRemove type="button" [attr.aria-label]="'Remove ' + label">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path
+                d="M4 4l8 8M12 4l-8 8"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </span>
+      </ng-template>
+    </kui-field>
+  </app-panel>
+
+  <app-panel num="04" title="States" description="Invalid, disabled, readonly, loading, and empty.">
     <div class="component-grid">
       <kui-field label="Invalid status" error="Pick a valid status">
         <kui-combobox
@@ -53,7 +84,7 @@
     </div>
   </app-panel>
 
-  <app-panel num="04" title="Sizes" description="sm, md, and lg control sizes.">
+  <app-panel num="05" title="Sizes" description="sm, md, and lg control sizes.">
     <div class="component-grid">
       <kui-combobox size="sm" [options]="statusOptions" placeholder="sm" />
       <kui-combobox [options]="statusOptions" placeholder="md" />
@@ -61,7 +92,7 @@
     </div>
   </app-panel>
 
-  <app-panel num="05" title="Free input" description="Free mode keeps typed text as the value.">
+  <app-panel num="06" title="Free input" description="Free mode keeps typed text as the value.">
     <div class="state-board__row">
       <kui-field label="Tag" class="combobox-page__field combobox-page__field--md">
         <kui-combobox
