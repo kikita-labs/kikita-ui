@@ -11,18 +11,19 @@
     </kui-segmented>
   </header>
 
-  <kui-tabs
-    class="playground-nav"
-    [selected]="currentPath()"
-    (selectedChange)="navigate($event)"
-    size="sm"
-    [controlsPanels]="false"
-    aria-label="Playground sections"
-  >
+  <nav kuiCard class="playground-nav" aria-label="Playground sections">
     @for (item of navItems; track item.path) {
-      <button kuiTab [value]="item.path">{{ item.label }}</button>
+      <a
+        kuiButton
+        size="sm"
+        [appearance]="currentPath() === item.path ? 'soft' : 'ghost'"
+        [routerLink]="item.path"
+        [attr.aria-current]="currentPath() === item.path ? 'page' : null"
+      >
+        {{ item.label }}
+      </a>
     }
-  </kui-tabs>
+  </nav>
 
   <router-outlet />
 </main>

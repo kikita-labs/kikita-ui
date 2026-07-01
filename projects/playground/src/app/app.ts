@@ -1,15 +1,14 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, ViewEncapsulation, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
 
 import {
+  KuiButtonDirective,
   KuiCardDirective,
   KuiSegmentDirective,
   KuiSegmentedComponent,
-  KuiTabDirective,
-  KuiTabsComponent,
   KuiThemeMode,
 } from '@kikita-labs/ui';
 
@@ -60,11 +59,11 @@ const NAV_ITEMS: readonly NavItem[] = [
   selector: 'app-root',
   imports: [
     RouterOutlet,
+    RouterLink,
+    KuiButtonDirective,
     KuiCardDirective,
     KuiSegmentedComponent,
     KuiSegmentDirective,
-    KuiTabsComponent,
-    KuiTabDirective,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
@@ -93,9 +92,5 @@ export class App {
 
   protected setMode(mode: KuiThemeMode): void {
     this.mode.set(mode);
-  }
-
-  protected navigate(path: string): void {
-    this.router.navigate([path]);
   }
 }

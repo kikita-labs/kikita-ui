@@ -69,7 +69,16 @@ code {
 }
 
 .playground-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
   margin-block-start: 16px;
+  padding: 12px;
+}
+
+.playground-nav .kui-button {
+  flex: 0 0 auto;
 }
 
 .component-board {
