@@ -1,10 +1,13 @@
-.table-wrap {
+.table-demo-wrap {
   overflow: auto;
+}
+
+.table-demo-wrap--framed {
   border: 1px solid var(--kui-color-border);
   border-radius: 8px;
 }
 
-.table-wrap--scroll {
+.table-demo-wrap--scroll {
   max-block-size: 240px;
 }
 

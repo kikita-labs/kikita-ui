@@ -4,7 +4,7 @@
   title="Basic (read-only)"
   description="No sort, no selection. Pure display table."
 >
-  <div class="table-wrap">
+  <div class="table-demo-wrap">
     <table kuiTable [data]="users">
       <thead>
         <tr kuiThGroup>
@@ -34,7 +34,7 @@
   title="Sortable (client-side)"
   description="Click headers to sort. Date column uses custom comparator."
 >
-  <div class="table-wrap">
+  <div class="table-demo-wrap">
     <table kuiTable #sortTable="kuiTable" [data]="users">
       <thead>
         <tr kuiThGroup>
@@ -68,7 +68,7 @@
     selectedNames()
   }}"
 >
-  <div class="table-wrap">
+  <div class="table-demo-wrap">
     <table kuiTable [data]="users" (selectionChange)="onSelect($event)">
       <thead>
         <tr kuiThGroup>
@@ -100,7 +100,7 @@
   title="Sortable + Selectable"
   description="Combined: client-side sort with row selection."
 >
-  <div class="table-wrap">
+  <div class="table-demo-wrap">
     <table kuiTable #comboTable="kuiTable" [data]="users" (selectionChange)="onSelect($event)">
       <thead>
         <tr kuiThGroup>
@@ -132,7 +132,7 @@
   title="Sticky header"
   description="Header stays visible while scrolling. Wrapped in a fixed-height container."
 >
-  <div class="table-wrap table-wrap--scroll">
+  <div class="table-demo-wrap table-demo-wrap--framed table-demo-wrap--scroll">
     <table kuiTable [data]="manyUsers">
       <thead>
         <tr kuiThGroup [sticky]="true">
@@ -165,7 +165,7 @@
           <strong>{{ sz }}</strong
           ><code>size="{{ sz }}"</code>
         </p>
-        <div class="table-wrap">
+        <div class="table-demo-wrap">
           <table kuiTable [size]="sz" [data]="users.slice(0, 3)">
             <thead>
               <tr kuiThGroup>
@@ -196,7 +196,7 @@
     serverSortLabel()
   }}"
 >
-  <div class="table-wrap">
+  <div class="table-demo-wrap">
     <table kuiTable [data]="serverData()" (sortChange)="onServerSort($event)">
       <thead>
         <tr kuiThGroup>

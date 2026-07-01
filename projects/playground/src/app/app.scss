@@ -3,7 +3,7 @@ app-root {
   min-block-size: 100vh;
   background: var(--kui-color-bg);
   color: var(--kui-color-text);
-  font-family: 'Roboto', system-ui, sans-serif;
+  font-family: var(--kui-font-sans);
 }
 
 * {
@@ -64,7 +64,7 @@ textarea {
 
 code {
   color: var(--kui-color-primary-soft-text);
-  font-family: 'Geist Mono', Consolas, monospace;
+  font-family: var(--kui-font-mono);
   font-size: 12px;
 }
 

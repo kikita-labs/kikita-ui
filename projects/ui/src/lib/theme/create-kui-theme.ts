@@ -243,7 +243,9 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
   const density = options.seeds.density;
 
   return {
-    '--kui-font-sans': 'system-ui, -apple-system, sans-serif',
+    '--kui-font-sans':
+      'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+    '--kui-font-mono': 'ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace',
     '--kui-radius-none': '0',
     '--kui-radius-xs': `${Math.max(2, options.seeds.radius - 4)}px`,
     '--kui-radius-sm': `${Math.max(4, options.seeds.radius - 2)}px`,
