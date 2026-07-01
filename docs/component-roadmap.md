@@ -66,7 +66,7 @@ consumer app:
 
 Initial install documentation lives in `docs/install.md`.
 
-Docs pages exist for implemented primitives through Combobox. Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, and Number Input. Combobox CDK overlay positioning has had an initial playground smoke review; committed visual regression baselines and assistive-technology review are still pending.
+Docs pages exist for implemented primitives through Combobox. A full static component audit has been run across implemented primitives for docs presence, JSDoc coverage, public style entrypoint coverage, Cyrillic leakage, overlay/CDK usage, and obvious SSR DOM access. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, Number Input, and Combobox. Committed visual regression baselines and assistive-technology review are still pending.
 
 ## Consumer Migration Gate
 

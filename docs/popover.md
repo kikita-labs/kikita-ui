@@ -2,6 +2,18 @@
 
 Floating content panel anchored to a trigger element. Unlike Tooltip (text only, hover), Popover supports interactive content and both click and hover triggers. Unlike Dropdown (listbox structure), Popover is a free-content slot.
 
+## Import
+
+```ts
+import { KuiButtonDirective, KuiPopoverComponent, KuiPopoverForDirective } from '@kikita-labs/ui';
+```
+
+Import runtime styles once:
+
+```ts
+import '@kikita-labs/ui/styles';
+```
+
 ## Usage
 
 ```html

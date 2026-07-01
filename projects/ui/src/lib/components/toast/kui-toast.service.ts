@@ -7,7 +7,7 @@ import {
   createComponent,
   inject,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { EMPTY } from 'rxjs';
 
 import { KuiToastRegionComponent } from './kui-toast-region.component';
@@ -27,6 +27,7 @@ export class KuiToastService {
   private readonly appRef = inject(ApplicationRef);
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
   private readonly options: KuiToastOptions = inject(KUI_TOAST_OPTIONS, { optional: true }) ?? {};
 
   private regionRef: ComponentRef<KuiToastRegionComponent> | null = null;
@@ -71,7 +72,7 @@ export class KuiToastService {
       this.regionRef.instance._position.set(this.options.position ?? 'bottom-center');
       this.regionRef.instance._maxVisible.set(this.options.maxVisible ?? 3);
       this.appRef.attachView(this.regionRef.hostView);
-      document.body.appendChild(this.regionRef.location.nativeElement);
+      this.document.body.appendChild(this.regionRef.location.nativeElement);
     }
 
     return this.regionRef.instance;

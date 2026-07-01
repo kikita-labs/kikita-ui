@@ -3,9 +3,9 @@ import { Directive, booleanAttribute, computed, inject, input } from '@angular/c
 import { KuiSize } from '../../types';
 import { KuiFieldComponent } from '../field';
 
-/** Applies Kikita UI input styling and field ARIA wiring to native input and textarea elements. */
+/** Applies Kikita UI input styling and field ARIA wiring to native input elements. */
 @Directive({
-  selector: 'input[kuiInput], textarea[kuiInput]',
+  selector: 'input[kuiInput]',
   host: {
     class: 'kui-input',
     '[attr.data-kui-size]': 'size()',

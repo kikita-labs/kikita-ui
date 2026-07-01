@@ -20,6 +20,7 @@ import {
   OverlayRef,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { DOCUMENT } from '@angular/common';
 
 import type {
   KuiPopoverAlign,
@@ -63,7 +64,7 @@ let nextPopoverId = 0;
           (mouseleave)="onPanelMouseLeave()"
         >
           @if (arrow()) {
-            <div class="kui-popover-arrow"></div>
+            <div class="kui-popover-arrow" aria-hidden="true"></div>
           }
           <ng-content />
         </div>
@@ -135,6 +136,7 @@ export class KuiPopoverComponent implements OnDestroy {
   private readonly vcr = inject(ViewContainerRef);
   private readonly zone = inject(NgZone);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly document = inject(DOCUMENT);
 
   private _overlayRef: OverlayRef | null = null;
   private _openSubs: { unsubscribe: () => void }[] = [];
@@ -253,8 +255,8 @@ export class KuiPopoverComponent implements OnDestroy {
     const scrollHandler = () => posStrategy.apply();
 
     this.zone.runOutsideAngular(() => {
-      document.addEventListener('mousedown', outsideHandler, { capture: true });
-      document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
+      this.document.addEventListener('mousedown', outsideHandler, { capture: true });
+      this.document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
     });
 
     this._openSubs = [
@@ -262,10 +264,11 @@ export class KuiPopoverComponent implements OnDestroy {
       escapeSub,
       {
         unsubscribe: () =>
-          document.removeEventListener('mousedown', outsideHandler, { capture: true }),
+          this.document.removeEventListener('mousedown', outsideHandler, { capture: true }),
       },
       {
-        unsubscribe: () => document.removeEventListener('scroll', scrollHandler, { capture: true }),
+        unsubscribe: () =>
+          this.document.removeEventListener('scroll', scrollHandler, { capture: true }),
       },
     ];
 

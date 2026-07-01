@@ -16,6 +16,7 @@ import {
 } from '@angular/core';
 import { FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { DOCUMENT } from '@angular/common';
 
 import { KuiMenuAlign } from './kui-menu-align.type';
 import { KuiMenuItemDirective } from './kui-menu-item.directive';
@@ -81,6 +82,7 @@ export class KuiMenuComponent implements OnDestroy {
   private readonly vcr = inject(ViewContainerRef);
   private readonly zone = inject(NgZone);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly document = inject(DOCUMENT);
 
   private overlayRef: OverlayRef | null = null;
   private triggerEl: HTMLElement | null = null;
@@ -208,18 +210,19 @@ export class KuiMenuComponent implements OnDestroy {
     const scrollHandler = () => positionStrategy.apply();
 
     this.zone.runOutsideAngular(() => {
-      document.addEventListener('mousedown', outsideHandler, { capture: true });
-      document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
+      this.document.addEventListener('mousedown', outsideHandler, { capture: true });
+      this.document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
     });
 
     this.openSubs = [
       escapeSub,
       {
         unsubscribe: () =>
-          document.removeEventListener('mousedown', outsideHandler, { capture: true }),
+          this.document.removeEventListener('mousedown', outsideHandler, { capture: true }),
       },
       {
-        unsubscribe: () => document.removeEventListener('scroll', scrollHandler, { capture: true }),
+        unsubscribe: () =>
+          this.document.removeEventListener('scroll', scrollHandler, { capture: true }),
       },
     ];
 
@@ -231,7 +234,7 @@ export class KuiMenuComponent implements OnDestroy {
     const items = this.focusableItems();
     if (!items.length) return;
 
-    const active = document.activeElement;
+    const active = this.document.activeElement;
     const index = items.findIndex((item) => item.getElement() === active);
     const nextIndex = index === -1 ? 0 : (index + delta + items.length) % items.length;
     items[nextIndex]?.focus();

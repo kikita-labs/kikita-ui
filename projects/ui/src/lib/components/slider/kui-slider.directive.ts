@@ -1,11 +1,12 @@
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
-  DOCUMENT,
   Directive,
   DoCheck,
   ElementRef,
   HostListener,
   OnDestroy,
+  PLATFORM_ID,
   Renderer2,
   booleanAttribute,
   computed,
@@ -40,6 +41,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   private readonly el = inject(ElementRef<HTMLInputElement>);
   private readonly renderer = inject(Renderer2);
   private readonly doc = inject(DOCUMENT);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
   // If user adds [kuiTooltip]="'static text'", we defer to it; empty = value mode.
   private readonly kuiTooltip = inject(KuiTooltipDirective, { optional: true, self: true });
@@ -119,6 +121,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
     this.buildDOM();
     this.updateFill();
   }
@@ -143,6 +146,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
 
   protected onMouseEnter(): void {
     // If kuiTooltip has static text, let it handle display and skip value tooltip.
+    if (!this.isBrowser) return;
     if (this.kuiTooltip?.kuiTooltip()) return;
     this.tooltipVisible = true;
     this.ensureTooltip();

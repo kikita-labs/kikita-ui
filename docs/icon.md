@@ -2,6 +2,18 @@
 
 `kui-icon` renders icons from a trusted inline SVG registry, direct trusted SVG source, or an external image URL.
 
+## Import
+
+```ts
+import { KuiIconComponent, provideKuiIcons } from '@kikita-labs/ui';
+```
+
+Import runtime styles once:
+
+```ts
+import '@kikita-labs/ui/styles';
+```
+
 ## Register Icons
 
 ```ts

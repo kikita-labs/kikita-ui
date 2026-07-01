@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import { FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { DOCUMENT } from '@angular/common';
 
 let nextDropdownId = 0;
 
@@ -77,6 +78,7 @@ export class KuiDropdownComponent implements OnDestroy {
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
   private readonly zone = inject(NgZone);
+  private readonly document = inject(DOCUMENT);
 
   private _anchorEl: HTMLElement | null = null;
   private overlayRef: OverlayRef | null = null;
@@ -163,14 +165,16 @@ export class KuiDropdownComponent implements OnDestroy {
     const scrollHandler = () => positionStrategy.apply();
 
     this.zone.runOutsideAngular(() => {
-      document.addEventListener('click', outsideHandler, { capture: true });
-      document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
+      this.document.addEventListener('click', outsideHandler, { capture: true });
+      this.document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
     });
     const outsideSub = {
-      unsubscribe: () => document.removeEventListener('click', outsideHandler, { capture: true }),
+      unsubscribe: () =>
+        this.document.removeEventListener('click', outsideHandler, { capture: true }),
     };
     const scrollSub = {
-      unsubscribe: () => document.removeEventListener('scroll', scrollHandler, { capture: true }),
+      unsubscribe: () =>
+        this.document.removeEventListener('scroll', scrollHandler, { capture: true }),
     };
 
     this.openSubs = [posSub, escapeSub, outsideSub, scrollSub];

@@ -2,6 +2,18 @@
 
 Non-blocking notifications displayed over the interface. Imperatively opened via `kuiToast()`. Auto-dismiss with optional hover-pause and progress bar.
 
+## Import
+
+```ts
+import { kuiToast, provideKuiToastOptions } from '@kikita-labs/ui';
+```
+
+Import runtime styles once:
+
+```ts
+import '@kikita-labs/ui/styles';
+```
+
 ## Usage
 
 ```ts
@@ -51,13 +63,13 @@ export const appConfig: ApplicationConfig = {
 
 | Property       | Type                 | Default     | Description                                                   |
 | -------------- | -------------------- | ----------- | ------------------------------------------------------------- |
-| `title`        | `string`             | —           | **Required.** Headline text.                                  |
-| `message`      | `string`             | —           | Supporting text below the title.                              |
-| `appearance`   | `KuiToastAppearance` | `'neutral'` | Visual intent — controls accent bar and icon colour.          |
-| `actionLabel`  | `string`             | —           | Label for inline action button. Clicking emits `ref.action$`. |
+| `title`        | `string`             | -           | **Required.** Headline text.                                  |
+| `message`      | `string`             | -           | Supporting text below the title.                              |
+| `appearance`   | `KuiToastAppearance` | `'neutral'` | Visual intent, controls accent bar and icon colour.           |
+| `actionLabel`  | `string`             | -           | Label for inline action button. Clicking emits `ref.action$`. |
 | `duration`     | `number`             | `5000`      | Auto-dismiss delay in ms.                                     |
 | `persistent`   | `boolean`            | `false`     | Keep the toast until the user closes it.                      |
-| `closable`     | `boolean`            | `true`      | Show the × close button.                                      |
+| `closable`     | `boolean`            | `true`      | Show the close button.                                        |
 | `showIcon`     | `boolean`            | `true`      | Show the appearance icon (neutral has no icon).               |
 | `showProgress` | `boolean`            | `false`     | Show a progress bar tracking time until auto-dismiss.         |
 
@@ -96,7 +108,7 @@ interface KuiToastRef {
 
 ```
 top-start    top-center    top-end
-bottom-start bottom-center bottom-end   ← default
+bottom-start bottom-center bottom-end   <- default
 ```
 
 `top-*`: stack grows downward. `bottom-*`: stack grows upward (newest toast closest to viewport edge).
@@ -124,8 +136,8 @@ bottom-start bottom-center bottom-end   ← default
 - **Auto-dismiss:** 5 s by default. Hover on the toast pauses the timer; mouseleave resumes with remaining time.
 - **Eviction:** when `maxVisible` is reached, the oldest visible toast is dismissed before the new one appears.
 - **No focus steal:** toast does not capture keyboard focus on appear (unlike Dialog).
-- **`aria-live="polite"`** on the region — screen readers announce new toasts without interrupting current speech.
-- **Mobile:** card stretches to `100vw − 32px`; region ignores position side and aligns to the bottom edge.
+- **`aria-live="polite"`** on the region, screen readers announce new toasts without interrupting current speech.
+- **Mobile:** card stretches to `100vw - 32px`; region ignores position side and aligns to the bottom edge.
 - **`prefers-reduced-motion`:** slide animations replaced with opacity-only fade.
 - **SSR:** `KuiToastService.open()` returns a no-op ref on the server; no DOM access occurs.
 
@@ -134,7 +146,7 @@ bottom-start bottom-center bottom-end   ← default
 `KuiToastService` lazily creates a single `KuiToastRegionComponent` on the first `open()` call and appends it to `document.body`. The region lives for the lifetime of the app and manages the toast stack as an Angular signal list.
 
 ```
-KuiToastService        — @Service(), root-provided
-  └─ KuiToastRegionComponent  — internal, created via createComponent()
-       └─ InternalToastItem[] — signal<>, per-item closing signal for exit animation
+KuiToastService        - @Service(), root-provided
+  -> KuiToastRegionComponent  - internal, created via createComponent()
+       -> InternalToastItem[] - signal<>, per-item closing signal for exit animation
 ```

@@ -2,6 +2,24 @@
 
 Modal overlay opened imperatively via `kuiDialog()`. Built on Angular CDK Overlay.
 
+## Import
+
+```ts
+import {
+  KUI_DIALOG_CONTEXT,
+  KuiButtonDirective,
+  KuiDialogContext,
+  KuiDialogHost,
+  kuiDialog,
+} from '@kikita-labs/ui';
+```
+
+Import runtime styles once:
+
+```ts
+import '@kikita-labs/ui/styles';
+```
+
 ## Usage
 
 ```ts
