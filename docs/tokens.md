@@ -189,6 +189,28 @@ Skeleton tokens:
 --kui-skeleton-gap
 ```
 
+Empty State tokens:
+
+```css
+--kui-empty-padding
+--kui-empty-padding-sm
+--kui-empty-padding-lg
+--kui-empty-gap
+--kui-empty-body-gap
+--kui-empty-actions-gap
+--kui-empty-max-width
+--kui-empty-max-width-lg
+--kui-empty-icon-size-sm
+--kui-empty-icon-size-md
+--kui-empty-icon-size-lg
+--kui-empty-icon-color
+--kui-empty-title-color
+--kui-empty-title-size
+--kui-empty-title-weight
+--kui-empty-description-color
+--kui-empty-description-size
+```
+
 Field and input tokens:
 
 ```css

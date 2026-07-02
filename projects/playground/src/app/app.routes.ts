@@ -58,6 +58,11 @@ export const routes: Routes = [
     path: 'skeleton',
     loadComponent: () => import('./pages/skeleton/skeleton.page').then((m) => m.SkeletonPage),
   },
+  {
+    path: 'empty-state',
+    loadComponent: () =>
+      import('./pages/empty-state/empty-state.page').then((m) => m.EmptyStatePage),
+  },
   { path: 'card', loadComponent: () => import('./pages/card/card.page').then((m) => m.CardPage) },
   {
     path: 'group',

@@ -1,0 +1,158 @@
+<app-panel
+  num="01"
+  title="Default"
+  description="Centered no-data state with projected icon and actions."
+>
+  <kui-empty-state
+    title="No projects yet"
+    description="Create the first project to start working with your team."
+  >
+    <svg kuiEmptyStateIcon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M21 8v13H3V8" />
+      <path d="M1 3h22v5H1z" />
+      <path d="M10 12h4" />
+    </svg>
+    <div kuiEmptyStateActions>
+      <button kuiButton type="button">Create project</button>
+      <button kuiButton appearance="ghost" type="button">Import</button>
+    </div>
+  </kui-empty-state>
+</app-panel>
+
+<app-panel num="02" title="Contexts" description="Context changes icon accent, not layout.">
+  <div class="empty-state-grid">
+    <kui-empty-state
+      context="no-results"
+      title="No results"
+      description="No matching rows for the current filters."
+      role="status"
+    >
+      <svg
+        kuiEmptyStateIcon
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.3-4.3" />
+      </svg>
+      <div kuiEmptyStateActions>
+        <button kuiButton appearance="outline" type="button">Reset filters</button>
+      </div>
+    </kui-empty-state>
+
+    <kui-empty-state
+      context="error"
+      title="Could not load"
+      description="Check the network and try again."
+    >
+      <svg
+        kuiEmptyStateIcon
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 8v4" />
+        <path d="M12 16h.01" />
+      </svg>
+      <div kuiEmptyStateActions>
+        <button kuiButton type="button">Retry</button>
+        <button kuiButton appearance="ghost" type="button">Details</button>
+      </div>
+    </kui-empty-state>
+
+    <kui-empty-state
+      context="no-access"
+      title="No access"
+      description="Request access from an admin."
+    >
+      <svg
+        kuiEmptyStateIcon
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <rect x="3" y="11" width="18" height="11" rx="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+      <div kuiEmptyStateActions>
+        <button kuiButton appearance="outline" type="button">Request access</button>
+      </div>
+    </kui-empty-state>
+
+    <kui-empty-state
+      context="success"
+      title="All caught up"
+      description="There are no pending tasks."
+    >
+      <svg
+        kuiEmptyStateIcon
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="m9 12 2 2 4-4" />
+      </svg>
+      <div kuiEmptyStateActions>
+        <button kuiButton appearance="ghost" type="button">Open archive</button>
+      </div>
+    </kui-empty-state>
+  </div>
+</app-panel>
+
+<app-panel num="03" title="Sizes" description="Small is inline; md and lg are centered states.">
+  <div class="empty-state-size-stack">
+    <section kuiCard aria-label="Small no results">
+      <kui-empty-state
+        size="sm"
+        context="no-results"
+        title="No matches"
+        description="Change the query or reset filters."
+        role="status"
+      >
+        <svg
+          kuiEmptyStateIcon
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
+        </svg>
+        <div kuiEmptyStateActions>
+          <button kuiButton appearance="ghost" size="sm" type="button">Reset</button>
+        </div>
+      </kui-empty-state>
+    </section>
+
+    <section kuiCard aria-label="Large empty projects">
+      <kui-empty-state
+        size="lg"
+        title="No projects yet"
+        description="Create the first project to start working with your team."
+      >
+        <svg
+          kuiEmptyStateIcon
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path d="M21 8v13H3V8" />
+          <path d="M1 3h22v5H1z" />
+          <path d="M10 12h4" />
+        </svg>
+        <div kuiEmptyStateActions>
+          <button kuiButton type="button">Create project</button>
+        </div>
+      </kui-empty-state>
+    </section>
+  </div>
+</app-panel>

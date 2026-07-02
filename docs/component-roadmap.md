@@ -22,6 +22,7 @@
 - Avatar (done as `kui-avatar` + `kui-avatar-group`)
 - Loader (done as `[kuiLoader]`)
 - Skeleton (done as `[kuiSkeleton]`)
+- Empty State (done as `kui-empty-state` + projected icon/actions markers)
 - Tooltip (done as `[kuiTooltip]`)
 - Card (done as `[kuiCard]`)
 - Tabs (done as `kui-tabs`)
@@ -49,7 +50,6 @@
 ## Later
 
 - Command palette
-- Empty state
 
 Do not build Datepicker, Calendar, Tree, Charts, or File Upload until a real consumer needs them.
 
