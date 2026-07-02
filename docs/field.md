@@ -70,6 +70,54 @@ render it with `@if` when you want custom visibility rules.
 Do not use `[hidden]` for custom error visibility. Prefer Angular control flow so the error element
 is not rendered unless it should be part of the field semantics.
 
+## Affixes And Field Actions
+
+Use `.kui-input-group` when a field needs prefix text, suffix text, leading icons, trailing actions,
+clear buttons, spinners, or other field chrome around a native input:
+
+```html
+<kui-field label="Project URL" hint="The prefix and suffix are visual field chrome.">
+  <div class="kui-input-group">
+    <span class="kui-field-affix">https://</span>
+    <input kuiInput aria-label="Project slug" />
+    <span class="kui-field-affix">.dev</span>
+  </div>
+</kui-field>
+```
+
+Use `.kui-field-action` for inline field buttons such as clear, password visibility, dropdown
+chevron, or custom trailing actions:
+
+```html
+<kui-field label="Search">
+  <div class="kui-input-group">
+    <span class="kui-field-affix-icon" aria-hidden="true">...</span>
+    <input kuiInput aria-label="Search query" />
+    <button class="kui-field-action" type="button" aria-label="Clear search">...</button>
+  </div>
+</kui-field>
+```
+
+Decorative icons should use `aria-hidden="true"`. Interactive field actions must be native
+buttons with accessible names.
+
+## Rich Messages
+
+Projected `kuiHint` and `kuiError` can use `.kui-field-message` for icon + text layouts:
+
+```html
+<kui-field>
+  <label kuiLabel>API key</label>
+  <input kuiInput />
+  <p kuiHint class="kui-field-message">
+    <span class="kui-field-message-icon" aria-hidden="true">...</span>
+    <span>Stored encrypted. <a href="/security">Learn more</a>.</span>
+  </p>
+</kui-field>
+```
+
+Error messages are still part of `aria-describedby` when projected with `kuiError`.
+
 ## Inputs
 
 - `label`: shorthand label text
@@ -96,3 +144,13 @@ local input > KUI_FIELD_OPTIONS > component default
 `KUI_FIELD_OPTIONS` is intentionally static configuration. Do not pass writable signals to it.
 Runtime density/size switching should be implemented as a dedicated runtime API rather than by
 mutating provider option objects.
+
+## CSS Classes
+
+- `.kui-input-group`: wraps a native input with field chrome
+- `.kui-field-affix` / `.kui-affix`: prefix or suffix text
+- `.kui-field-affix-icon` / `.kui-affix-icon`: decorative leading or trailing icon
+- `.kui-field-action`: inline field action button
+- `.kui-field-spinner`: inline loading indicator
+- `.kui-field-message`: rich hint/error row
+- `.kui-field-message-icon`: icon inside a rich message

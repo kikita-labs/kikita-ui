@@ -1,4 +1,55 @@
 @layer kui.components {
+  .kui-field-affix,
+  .kui-affix {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    max-inline-size: var(--kui-field-affix-max-inline-size);
+    overflow: hidden;
+    color: var(--kui-field-affix-text-muted);
+    font: inherit;
+    font-size: var(--kui-text-sm-size);
+    line-height: 1;
+    text-overflow: ellipsis;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .kui-field-affix[data-kui-emphasis='strong'],
+  .kui-affix[data-kui-emphasis='strong'] {
+    color: var(--kui-field-affix-text);
+  }
+
+  .kui-field-affix-icon,
+  .kui-affix-icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--kui-field-affix-icon-size);
+    block-size: var(--kui-field-affix-icon-size);
+    color: var(--kui-field-affix-text-muted);
+    pointer-events: none;
+  }
+
+  .kui-field-affix-icon > svg,
+  .kui-affix-icon > svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .kui-field-spinner {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: 0 0 auto;
+    inline-size: var(--kui-field-spinner-size);
+    block-size: var(--kui-field-spinner-size);
+    border: var(--kui-field-spinner-border-width) solid var(--kui-field-spinner-border);
+    border-block-start-color: var(--kui-field-spinner-border-active);
+    border-radius: var(--kui-radius-full);
+    animation: kui-field-spinner var(--kui-field-spinner-duration) linear infinite;
+  }
+
   .kui-field-action {
     appearance: none;
     box-sizing: border-box;
@@ -18,19 +69,78 @@
     transition:
       background-color var(--kui-duration-base) var(--kui-ease),
       color var(--kui-duration-base) var(--kui-ease),
+      box-shadow var(--kui-duration-base) var(--kui-ease),
       opacity var(--kui-duration-base) var(--kui-ease);
   }
 
-  .kui-field-action:hover,
+  .kui-field-action > svg {
+    inline-size: var(--kui-field-action-icon-size);
+    block-size: var(--kui-field-action-icon-size);
+  }
+
+  .kui-field-action:hover {
+    outline: 0;
+    background: var(--kui-field-action-bg-hover);
+    color: var(--kui-field-action-color-hover);
+  }
+
+  .kui-field-action:active {
+    background: var(--kui-field-action-bg-active);
+    color: var(--kui-field-action-color-active);
+  }
+
   .kui-field-action:focus-visible {
     outline: 0;
     background: var(--kui-field-action-bg-hover);
     color: var(--kui-field-action-color-hover);
+    box-shadow: 0 0 0 var(--kui-field-action-focus-ring-width)
+      var(--kui-field-action-focus-ring-color);
   }
 
   .kui-field-action:disabled,
   .kui-field-action[aria-disabled='true'] {
     cursor: not-allowed;
     opacity: var(--kui-field-action-disabled-opacity);
+  }
+
+  .kui-field-message {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: var(--kui-field-message-gap);
+    min-block-size: var(--kui-field-message-min-height, 0);
+    margin: 0;
+    font-size: var(--kui-field-hint-size, var(--kui-text-xs-size));
+    line-height: 1.4;
+  }
+
+  .kui-field-message-icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    inline-size: var(--kui-field-message-icon-size);
+    block-size: var(--kui-field-message-icon-size);
+    margin-block-start: var(--kui-field-message-icon-offset);
+  }
+
+  .kui-field-message-icon > svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .kui-field-message a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  @keyframes kui-field-spinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-field-spinner {
+      animation-duration: var(--kui-field-spinner-duration-reduced);
+    }
   }
 }

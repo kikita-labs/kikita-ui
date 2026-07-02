@@ -87,4 +87,81 @@
     cursor: default;
     caret-color: transparent;
   }
+
+  .kui-input-group {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: var(--kui-input-height, 40px);
+    gap: var(--kui-field-affix-gap, var(--kui-space-2, 8px));
+    padding-block: 0;
+    padding-inline: var(--kui-input-padding-inline, 12px);
+    border: var(--kui-input-border-width, 1px) solid var(--kui-input-border, ButtonBorder);
+    border-radius: var(--kui-input-radius, 8px);
+    background-color: var(--kui-input-bg, Field);
+    color: var(--kui-input-color, FieldText);
+    transition:
+      background-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      border-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      box-shadow var(--kui-duration-base, 160ms) var(--kui-ease, ease),
+      color var(--kui-duration-base, 160ms) var(--kui-ease, ease);
+  }
+
+  .kui-input-group:hover {
+    border-color: var(--kui-input-border-hover, ButtonBorder);
+  }
+
+  .kui-input-group:focus-within {
+    border-color: var(--kui-input-border-focus, Highlight);
+    box-shadow: var(--kui-input-focus-ring, 0 0 0 3px Highlight);
+  }
+
+  .kui-input-group[data-kui-invalid],
+  .kui-field[data-kui-invalid] .kui-input-group {
+    border-color: var(--kui-input-border-error, var(--kui-input-border-invalid, Mark));
+  }
+
+  .kui-input-group[data-kui-disabled] {
+    background-color: var(--kui-input-bg-disabled, var(--kui-input-bg, Field));
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+
+  .kui-input-group[data-kui-readonly] {
+    background-color: var(--kui-input-bg-disabled, var(--kui-input-bg, Field));
+  }
+
+  .kui-input-group > .kui-input {
+    flex: 1 1 48px;
+    min-inline-size: 48px;
+    block-size: auto;
+    min-block-size: 0;
+    padding-inline: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .kui-input-group > .kui-input:hover,
+  .kui-input-group > .kui-input:focus,
+  .kui-input-group > .kui-input[data-kui-invalid],
+  .kui-field[data-kui-invalid] .kui-input-group > .kui-input {
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  .kui-input-group[data-kui-size='xs'] {
+    min-block-size: var(--kui-control-height-xs, 28px);
+  }
+
+  .kui-input-group[data-kui-size='sm'] {
+    min-block-size: var(--kui-control-height-sm, 32px);
+  }
+
+  .kui-input-group[data-kui-size='lg'] {
+    min-block-size: var(--kui-control-height-lg, 44px);
+  }
 }
