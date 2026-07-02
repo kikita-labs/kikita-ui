@@ -54,6 +54,10 @@ export const routes: Routes = [
     path: 'loader',
     loadComponent: () => import('./pages/loader/loader.page').then((m) => m.LoaderPage),
   },
+  {
+    path: 'skeleton',
+    loadComponent: () => import('./pages/skeleton/skeleton.page').then((m) => m.SkeletonPage),
+  },
   { path: 'card', loadComponent: () => import('./pages/card/card.page').then((m) => m.CardPage) },
   {
     path: 'group',

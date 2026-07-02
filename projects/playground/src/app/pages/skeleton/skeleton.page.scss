@@ -1,0 +1,39 @@
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--kui-space-4);
+}
+
+.skeleton-grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.skeleton-demo,
+.skeleton-stack,
+.skeleton-card {
+  display: grid;
+  align-content: start;
+  gap: var(--kui-skeleton-gap);
+  min-inline-size: 0;
+}
+
+.skeleton-demo {
+  justify-items: start;
+}
+
+.skeleton-card {
+  max-inline-size: 520px;
+}
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: var(--kui-space-3);
+  min-inline-size: 0;
+}
+
+@media (max-width: 760px) {
+  .skeleton-grid--three {
+    grid-template-columns: 1fr;
+  }
+}

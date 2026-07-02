@@ -1,0 +1,83 @@
+<app-panel
+  num="01"
+  title="Shapes"
+  description="Directive-based placeholders for known loading layouts."
+>
+  <div class="skeleton-grid">
+    <div class="skeleton-demo">
+      <span kuiSkeleton shape="text" style="inline-size: 140px"></span>
+      <code>text</code>
+    </div>
+    <div class="skeleton-demo">
+      <span kuiSkeleton shape="heading" style="inline-size: 180px"></span>
+      <code>heading</code>
+    </div>
+    <div class="skeleton-demo">
+      <span kuiSkeleton shape="rect" style="inline-size: 140px; block-size: 64px"></span>
+      <code>rect</code>
+    </div>
+    <div class="skeleton-demo">
+      <span kuiSkeleton shape="circle" style="inline-size: 40px"></span>
+      <code>circle</code>
+    </div>
+    <div class="skeleton-demo">
+      <span kuiSkeleton shape="square" style="inline-size: 40px"></span>
+      <code>square</code>
+    </div>
+    <div class="skeleton-demo">
+      <span kuiSkeleton shape="button" style="inline-size: 96px"></span>
+      <code>button</code>
+    </div>
+    <div class="skeleton-demo">
+      <span kuiSkeleton shape="badge" style="inline-size: 64px"></span>
+      <code>badge</code>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel num="02" title="Animation" description="Shimmer by default, pulse or none when needed.">
+  <div class="skeleton-grid skeleton-grid--three">
+    <div class="skeleton-stack">
+      <span kuiSkeleton shape="heading" style="inline-size: 60%"></span>
+      <span kuiSkeleton shape="text" style="inline-size: 100%"></span>
+      <span kuiSkeleton shape="text" style="inline-size: 80%"></span>
+      <code>shimmer</code>
+    </div>
+    <div class="skeleton-stack">
+      <span kuiSkeleton shape="heading" animation="pulse" style="inline-size: 60%"></span>
+      <span kuiSkeleton shape="text" animation="pulse" style="inline-size: 100%"></span>
+      <span kuiSkeleton shape="text" animation="pulse" style="inline-size: 80%"></span>
+      <code>pulse</code>
+    </div>
+    <div class="skeleton-stack">
+      <span kuiSkeleton shape="heading" animation="none" style="inline-size: 60%"></span>
+      <span kuiSkeleton shape="text" animation="none" style="inline-size: 100%"></span>
+      <span kuiSkeleton shape="text" animation="none" style="inline-size: 80%"></span>
+      <code>none</code>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Composed loading region"
+  description="Skeleton blocks are aria-hidden; the parent region owns aria-busy."
+>
+  <article kuiCard class="skeleton-card" aria-busy="true">
+    <div class="skeleton-row">
+      <span kuiSkeleton shape="circle" style="inline-size: 40px"></span>
+      <div class="skeleton-stack">
+        <span kuiSkeleton shape="heading" style="inline-size: 45%"></span>
+        <span kuiSkeleton shape="text" style="inline-size: 70%"></span>
+      </div>
+    </div>
+
+    <div class="skeleton-stack">
+      <span kuiSkeleton shape="text" style="inline-size: 100%"></span>
+      <span kuiSkeleton shape="text" style="inline-size: 88%"></span>
+      <span kuiSkeleton shape="text" style="inline-size: 64%"></span>
+    </div>
+
+    <span kuiSkeleton shape="button" style="inline-size: 100%"></span>
+  </article>
+</app-panel>

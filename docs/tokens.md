@@ -174,6 +174,21 @@ Button tokens:
 --kui-btn-focus-ring-color
 ```
 
+Skeleton tokens:
+
+```css
+--kui-color-skeleton-bg
+--kui-color-skeleton-highlight
+--kui-skeleton-bg
+--kui-skeleton-highlight
+--kui-skeleton-radius
+--kui-skeleton-radius-pill
+--kui-skeleton-duration
+--kui-skeleton-line-height
+--kui-skeleton-heading-height
+--kui-skeleton-gap
+```
+
 Field and input tokens:
 
 ```css

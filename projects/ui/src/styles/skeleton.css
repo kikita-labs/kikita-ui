@@ -1,0 +1,94 @@
+@layer kui.components {
+  .kui-skeleton {
+    position: relative;
+    display: inline-block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    overflow: hidden;
+    border-radius: var(--kui-skeleton-radius, var(--kui-radius-sm));
+    background: var(--kui-skeleton-bg, var(--kui-color-skeleton-bg));
+    color: transparent;
+    pointer-events: none;
+    user-select: none;
+    vertical-align: middle;
+  }
+
+  .kui-skeleton::after {
+    position: absolute;
+    inset: 0;
+    translate: -100% 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--kui-skeleton-highlight, var(--kui-color-skeleton-highlight)),
+      transparent
+    );
+    animation: kui-skeleton-shimmer var(--kui-skeleton-duration, 1600ms) ease-in-out infinite;
+    content: '';
+  }
+
+  .kui-skeleton[data-kui-animation='pulse'] {
+    animation: kui-skeleton-pulse var(--kui-skeleton-duration, 1600ms) ease-in-out infinite;
+  }
+
+  .kui-skeleton[data-kui-animation='pulse']::after,
+  .kui-skeleton[data-kui-animation='none']::after {
+    background: none;
+    animation: none;
+  }
+
+  .kui-skeleton[data-kui-shape='text'] {
+    block-size: var(--kui-skeleton-line-height, 12px);
+    border-radius: var(--kui-radius-xs);
+  }
+
+  .kui-skeleton[data-kui-shape='heading'] {
+    block-size: var(--kui-skeleton-heading-height, 22px);
+    border-radius: var(--kui-radius-xs);
+  }
+
+  .kui-skeleton[data-kui-shape='circle'] {
+    flex-shrink: 0;
+    aspect-ratio: 1;
+    border-radius: var(--kui-skeleton-radius-pill, var(--kui-radius-full));
+  }
+
+  .kui-skeleton[data-kui-shape='square'] {
+    flex-shrink: 0;
+    aspect-ratio: 1;
+  }
+
+  .kui-skeleton[data-kui-shape='button'] {
+    block-size: var(--kui-btn-height, 32px);
+    border-radius: var(--kui-radius-md);
+  }
+
+  .kui-skeleton[data-kui-shape='badge'] {
+    block-size: var(--kui-chip-height-sm, 22px);
+    border-radius: var(--kui-skeleton-radius-pill, var(--kui-radius-full));
+  }
+
+  @keyframes kui-skeleton-shimmer {
+    to {
+      translate: 100% 0;
+    }
+  }
+
+  @keyframes kui-skeleton-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.55;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-skeleton,
+    .kui-skeleton::after {
+      animation: none;
+    }
+  }
+}
