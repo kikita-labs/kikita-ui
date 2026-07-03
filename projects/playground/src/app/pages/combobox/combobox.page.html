@@ -1,106 +1,171 @@
 <div class="pg-page">
   <h1 class="pg-title">Combobox</h1>
-  <p class="pg-desc">Searchable text field with list filtering, single and multiple selection.</p>
+  <p class="pg-desc">Native input directive with searchable listbox dropdown.</p>
 
-  <app-panel num="01" title="Single" description="Filter mode selects one value from the list.">
+  <app-panel
+    num="01"
+    title="input[kuiCombobox] - local search"
+    description="The input emits search text and projected options render inside kui-dropdown."
+  >
     <div class="state-board__row">
       <kui-field label="Assignee" class="combobox-page__field combobox-page__field--md">
-        <kui-combobox
-          [options]="people"
+        <input
+          kuiCombobox
           [(value)]="selectedPerson"
-          [labelFn]="personLabel"
+          [(query)]="assigneeQuery"
+          [kuiLabelFn]="personLabel"
           placeholder="Search people..."
+          (search)="searchPeople($event)"
         />
+        <kui-dropdown>
+          @for (person of filteredPeople(); track person.id) {
+            <button kuiOption [value]="person">
+              <span class="kui-combobox-match-label">
+                @for (
+                  segment of person.name | kuiComboboxHighlight: assigneeQuery();
+                  track $index
+                ) {
+                  @if (segment.match) {
+                    <mark class="kui-combobox-highlight">{{ segment.text }}</mark>
+                  } @else {
+                    <span>{{ segment.text }}</span>
+                  }
+                }
+              </span>
+            </button>
+          } @empty {
+            <div class="kui-combobox-empty">No people found</div>
+          }
+        </kui-dropdown>
       </kui-field>
       <code>value: {{ selectedPerson()?.name ?? 'null' }}</code>
     </div>
   </app-panel>
 
-  <app-panel num="02" title="Multiple" description="Selected values render as real Kikita chips.">
-    <kui-field label="Reviewers" class="combobox-page__field combobox-page__field--lg">
-      <kui-combobox
-        multiple
-        [options]="people"
-        [(value)]="selectedPeople"
-        [labelFn]="personLabel"
-        placeholder="Search reviewers..."
-      />
-    </kui-field>
-  </app-panel>
-
   <app-panel
-    num="03"
-    title="Custom value template"
-    description="Use <code>ng-template[kuiComboboxValue]</code> when selected chips need per-item appearance or custom content."
+    num="02"
+    title="Remote search"
+    description="Use the search output for API requests, then render returned options in the dropdown."
   >
-    <kui-field label="Reviewers" class="combobox-page__field combobox-page__field--lg">
-      <kui-combobox
-        multiple
-        [options]="people"
-        [(value)]="selectedPeople"
-        [labelFn]="personLabel"
-        placeholder="Search reviewers..."
-      />
-      <ng-template kuiComboboxValue let-person let-label="label" let-remove="remove">
-        <span kuiChip size="sm" [appearance]="personAppearance(person)" (removed)="remove()">
-          <span class="kui-chip-label">{{ label }}</span>
-          <button kuiChipRemove type="button" [attr.aria-label]="'Remove ' + label">
-            <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path
-                d="M4 4l8 8M12 4l-8 8"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-          </button>
-        </span>
-      </ng-template>
-    </kui-field>
+    <div class="state-board__row">
+      <kui-field label="Reviewer" class="combobox-page__field combobox-page__field--md">
+        <input
+          kuiCombobox
+          [(query)]="asyncQuery"
+          [loading]="loading()"
+          [kuiLabelFn]="personLabel"
+          placeholder="Type to search..."
+          (search)="searchAsync($event)"
+        />
+        <kui-dropdown>
+          @if (loading()) {
+            <div class="kui-combobox-loading-row">
+              <span class="kui-combobox-loader" aria-hidden="true"></span>
+              Loading people
+            </div>
+          } @else {
+            @for (person of asyncPeople(); track person.id) {
+              <button kuiOption [value]="person">
+                <span class="kui-combobox-match-label">
+                  @for (segment of person.name | kuiComboboxHighlight: asyncQuery(); track $index) {
+                    @if (segment.match) {
+                      <mark class="kui-combobox-highlight">{{ segment.text }}</mark>
+                    } @else {
+                      <span>{{ segment.text }}</span>
+                    }
+                  }
+                </span>
+              </button>
+            } @empty {
+              <div class="kui-combobox-empty">No matches</div>
+            }
+          }
+        </kui-dropdown>
+      </kui-field>
+      <code>query: {{ asyncQuery() || 'empty' }}</code>
+    </div>
   </app-panel>
 
-  <app-panel num="04" title="States" description="Invalid, disabled, readonly, loading, and empty.">
+  <app-panel num="03" title="States" description="Invalid, disabled, readonly, loading, and empty.">
     <div class="component-grid">
       <kui-field label="Invalid status" error="Pick a valid status">
-        <kui-combobox
-          [options]="statusOptions"
-          [(value)]="status"
-          invalid
-          placeholder="Search status..."
-        />
+        <input kuiCombobox [(value)]="status" invalid placeholder="Search status..." />
+        <kui-dropdown>
+          @for (statusOption of statusOptions; track statusOption) {
+            <button kuiOption [value]="statusOption">{{ statusOption }}</button>
+          }
+        </kui-dropdown>
       </kui-field>
+
       <kui-field label="Disabled">
-        <kui-combobox [options]="statusOptions" value="Open" disabled />
+        <input kuiCombobox value="Open" disabled />
+        <kui-dropdown />
       </kui-field>
+
       <kui-field label="Readonly">
-        <kui-combobox [options]="statusOptions" value="Done" readonly />
+        <input kuiCombobox value="Done" readonly />
+        <kui-dropdown />
       </kui-field>
+
       <kui-field label="Loading">
-        <kui-combobox [options]="[]" loading placeholder="Loading people..." />
+        <input kuiCombobox loading placeholder="Loading people..." />
+        <kui-dropdown>
+          <div class="kui-combobox-loading-row">
+            <span class="kui-combobox-loader" aria-hidden="true"></span>
+            Loading people
+          </div>
+        </kui-dropdown>
       </kui-field>
+
       <kui-field label="Empty">
-        <kui-combobox [options]="[]" placeholder="Nothing matches..." />
+        <input kuiCombobox placeholder="Nothing matches..." />
+        <kui-dropdown>
+          <div class="kui-combobox-empty">No results</div>
+        </kui-dropdown>
       </kui-field>
     </div>
   </app-panel>
 
-  <app-panel num="05" title="Sizes" description="sm, md, and lg control sizes.">
+  <app-panel num="04" title="Sizes" description="Combobox inherits size from kui-field.">
     <div class="component-grid">
-      <kui-combobox size="sm" [options]="statusOptions" placeholder="sm" />
-      <kui-combobox [options]="statusOptions" placeholder="md" />
-      <kui-combobox size="lg" [options]="statusOptions" placeholder="lg" />
+      <kui-field label="Small" size="sm">
+        <input kuiCombobox placeholder="sm" />
+        <kui-dropdown>
+          @for (statusOption of statusOptions; track statusOption) {
+            <button kuiOption [value]="statusOption">{{ statusOption }}</button>
+          }
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field label="Medium">
+        <input kuiCombobox placeholder="md" />
+        <kui-dropdown>
+          @for (statusOption of statusOptions; track statusOption) {
+            <button kuiOption [value]="statusOption">{{ statusOption }}</button>
+          }
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field label="Large" size="lg">
+        <input kuiCombobox placeholder="lg" />
+        <kui-dropdown>
+          @for (statusOption of statusOptions; track statusOption) {
+            <button kuiOption [value]="statusOption">{{ statusOption }}</button>
+          }
+        </kui-dropdown>
+      </kui-field>
     </div>
   </app-panel>
 
-  <app-panel num="06" title="Free input" description="Free mode keeps typed text as the value.">
+  <app-panel num="05" title="Free input" description="Free mode keeps typed text as the value.">
     <div class="state-board__row">
       <kui-field label="Tag" class="combobox-page__field combobox-page__field--md">
-        <kui-combobox
-          mode="free"
-          [options]="statusOptions"
-          [(value)]="freeValue"
-          placeholder="Type or choose..."
-        />
+        <input kuiCombobox mode="free" [(value)]="freeValue" placeholder="Type or choose..." />
+        <kui-dropdown>
+          @for (statusOption of statusOptions; track statusOption) {
+            <button kuiOption [value]="statusOption">{{ statusOption }}</button>
+          }
+        </kui-dropdown>
       </kui-field>
       <code>value: {{ freeValue() ?? 'null' }}</code>
     </div>

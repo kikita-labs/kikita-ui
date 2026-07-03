@@ -1,0 +1,56 @@
+<div class="pg-page command-page">
+  <h1 class="pg-title">Command Palette</h1>
+  <p class="pg-desc">Keyboard-first global action overlay with grouped, searchable commands.</p>
+
+  <app-panel
+    num="01"
+    title="Default"
+    description="CDK overlay, focus trap, grouped list, shortcuts, badge, disabled, and danger item."
+  >
+    <div class="command-page__row">
+      <button kuiButton type="button" (click)="openPalette()">Open command palette</button>
+      <code>selected: {{ selected() }}</code>
+    </div>
+
+    <kui-command-palette
+      [(open)]="open"
+      [groups]="groups"
+      (selected)="markSelected($event.label)"
+    />
+  </app-panel>
+
+  <app-panel
+    num="02"
+    title="Filtering"
+    description="Matching query text is highlighted inside item labels."
+  >
+    <div class="command-page__row">
+      <button kuiButton type="button" (click)="openSearchPalette()">Open with query</button>
+      <code>query: {{ searchQuery() }}</code>
+    </div>
+
+    <kui-command-palette
+      [(open)]="searchOpen"
+      [groups]="groups"
+      [(query)]="searchQuery"
+      (selected)="markSelected($event.label)"
+    />
+  </app-panel>
+
+  <app-panel num="03" title="Loading" description="Skeleton rows replace the command list.">
+    <button kuiButton type="button" (click)="loadingOpen.set(true)">Open loading state</button>
+
+    <kui-command-palette [(open)]="loadingOpen" [groups]="groups" [loading]="true" />
+  </app-panel>
+
+  <app-panel num="04" title="Empty" description="Empty state is announced as status.">
+    <button kuiButton type="button" (click)="emptyOpen.set(true)">Open empty state</button>
+
+    <kui-command-palette
+      [(open)]="emptyOpen"
+      [groups]="groups"
+      query="zzzzz"
+      emptyText="No matching commands"
+    />
+  </app-panel>
+</div>

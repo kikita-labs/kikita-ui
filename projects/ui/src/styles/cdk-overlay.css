@@ -1,4 +1,4 @@
-/* CDK overlay base styles — supports both legacy (position:fixed) and CDK 22 popover API. */
+/* CDK overlay base styles: supports both legacy (position:fixed) and CDK 22 popover API. */
 
 .cdk-overlay-container {
   position: fixed;
@@ -25,7 +25,7 @@
   pointer-events: none;
 }
 
-/* popover="manual" resets some UA styles — restore positioning */
+/* popover="manual" resets some UA styles: restore positioning */
 .cdk-overlay-popover {
   overflow: visible;
   background: transparent;
@@ -47,9 +47,9 @@
   position: static;
   pointer-events: auto;
   box-sizing: border-box;
-  /* CDK resets bounding-box to full-viewport during repositioning; default
-     align-items:stretch would make pane 100vh → CDK measures wrong height → wrong
-     position scoring. flex-start sizes pane by content. */
+  /* CDK resets bounding-box to full viewport during repositioning; default
+     align-items:stretch would make pane 100vh, CDK would measure the wrong height,
+     and position scoring would drift. flex-start sizes pane by content. */
   align-self: flex-start;
 }
 

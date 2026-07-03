@@ -32,3 +32,4 @@ export * from './separator';
 export * from './drawer';
 export * from './chip';
 export * from './combobox';
+export * from './command-palette';

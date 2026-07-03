@@ -113,6 +113,41 @@
 
 <app-panel
   num="05"
+  title="input[kuiSelect] - sizes"
+  description="Select inherits control height, text size, and suffix sizing from <code>kui-field</code>."
+>
+  <div class="select-size-grid">
+    <kui-field label="Small" size="sm" class="select-page__field select-page__field--sm">
+      <input kuiSelect [(value)]="selectedSmallRole" placeholder="sm" />
+      <kui-dropdown>
+        @for (opt of roles; track opt.value) {
+          <div kuiOption [value]="opt.value">{{ opt.label }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
+
+    <kui-field label="Medium" class="select-page__field select-page__field--md">
+      <input kuiSelect [(value)]="selectedMediumRole" placeholder="md" />
+      <kui-dropdown>
+        @for (opt of roles; track opt.value) {
+          <div kuiOption [value]="opt.value">{{ opt.label }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
+
+    <kui-field label="Large" size="lg" class="select-page__field select-page__field--lg">
+      <input kuiSelect [(value)]="selectedLargeRole" placeholder="lg" />
+      <kui-dropdown>
+        @for (opt of roles; track opt.value) {
+          <div kuiOption [value]="opt.value">{{ opt.label }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
+  </div>
+</app-panel>
+
+<app-panel
+  num="06"
   title="input[kuiSelect] - disabled"
   description="Disabled state: the field is disabled, and the dropdown does not open even when clicking the label."
 >

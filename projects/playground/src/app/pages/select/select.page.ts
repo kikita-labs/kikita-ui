@@ -62,6 +62,9 @@ export class SelectPage {
 
   protected readonly selectedRole = signal<RoleValue | null>(null);
   protected readonly selectedUser = signal<User | null>(null);
+  protected readonly selectedSmallRole = signal<RoleValue | null>('designer');
+  protected readonly selectedMediumRole = signal<RoleValue | null>('engineer');
+  protected readonly selectedLargeRole = signal<RoleValue | null>('product');
   protected readonly selectedRoles = signal<readonly RoleValue[]>([
     'engineer',
     'designer',

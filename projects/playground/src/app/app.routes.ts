@@ -143,5 +143,10 @@ export const routes: Routes = [
     path: 'combobox',
     loadComponent: () => import('./pages/combobox/combobox.page').then((m) => m.ComboboxPage),
   },
+  {
+    path: 'command-palette',
+    loadComponent: () =>
+      import('./pages/command-palette/command-palette.page').then((m) => m.CommandPalettePage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

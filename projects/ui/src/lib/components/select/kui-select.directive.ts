@@ -51,6 +51,7 @@ function optionalNumberAttribute(value: unknown): number | undefined {
     '[attr.data-has-clear]': 'showClear() ? "" : null',
     '[attr.data-kui-multiple]': 'multiple() ? "" : null',
     '[attr.data-kui-has-chips]': 'showChipLayer() ? "" : null',
+    '(pointerdown)': 'handlePointerdown()',
     '(click)': 'handleClick($event)',
     '(keydown)': 'handleKeydown($event)',
   },
@@ -156,7 +157,7 @@ export class KuiSelectDirective<T = unknown>
   protected readonly hasValue = computed(() => this.selectedValues().length > 0);
 
   protected readonly showClear = computed(
-    () => this.effectiveClearable() && this.hasValue() && !this.disabled(),
+    () => this.effectiveClearable() && this.hasValue() && !this.disabled() && !this.readonly(),
   );
 
   protected readonly effectivePlaceholder = computed(() =>
@@ -213,6 +214,7 @@ export class KuiSelectDirective<T = unknown>
 
   private _keyboardOpened = false;
   private _wasOpen = false;
+  private pointerStartedOnInput = false;
   private readonly suffixRef: ComponentRef<KuiSelectInputSuffixComponent>;
 
   constructor() {
@@ -224,6 +226,8 @@ export class KuiSelectDirective<T = unknown>
       this.suffixRef.setInput('clearable', this.effectiveClearable());
       this.suffixRef.setInput('hasValue', this.hasValue());
       this.suffixRef.setInput('isOpen', this.dropdownOpen());
+      this.suffixRef.setInput('disabled', this.disabled());
+      this.suffixRef.setInput('readonly', this.readonly());
       this.suffixRef.setInput('selectedItems', this.selectedChipItems());
       this.suffixRef.setInput('maxVisibleChips', this.effectiveMaxVisibleChips());
       this.suffixRef.setInput('valueTemplate', this.field?.selectValueTemplate() ?? null);
@@ -241,7 +245,7 @@ export class KuiSelectDirective<T = unknown>
     });
 
     effect(() => {
-      this.field?.setSelectDisabled(this.disabled());
+      this.field?.setSelectDisabled(this.disabled() || this.readonly());
     });
 
     effect(() => {
@@ -263,18 +267,28 @@ export class KuiSelectDirective<T = unknown>
     });
 
     this.suffixRef.instance.cleared.subscribe(() => {
-      this.value.set(this.multiple() ? [] : null);
+      this.clearValue();
     });
 
     this.suffixRef.instance.removed.subscribe((value) => {
       this.removeValue(value);
     });
+
+    this.suffixRef.instance.toggled.subscribe(() => {
+      this.toggleDropdown();
+    });
   }
 
   protected handleClick(e: MouseEvent): void {
-    if (this.disabled() || this.readonly()) {
-      e.stopPropagation();
-    }
+    e.stopPropagation();
+    if (this.disabled() || this.readonly()) return;
+    if (!this.pointerStartedOnInput) return;
+    this.pointerStartedOnInput = false;
+    this.toggleDropdown();
+  }
+
+  protected handlePointerdown(): void {
+    this.pointerStartedOnInput = true;
   }
 
   protected handleKeydown(e: KeyboardEvent): void {
@@ -299,6 +313,9 @@ export class KuiSelectDirective<T = unknown>
           e.preventDefault();
           this.focusOption('last', false);
           break;
+        case 'Tab':
+          dropdown.close();
+          break;
       }
     }
   }
@@ -319,6 +336,21 @@ export class KuiSelectDirective<T = unknown>
   private removeValue(value: unknown): void {
     if (!this.multiple() || this.disabled() || this.readonly()) return;
     this.value.set(this.selectedValues().filter((item) => item !== value));
+  }
+
+  private clearValue(): void {
+    if (this.disabled() || this.readonly()) return;
+    this.value.set(this.multiple() ? [] : null);
+    this.field?.getDropdown()?.close();
+    this.el.nativeElement.focus();
+  }
+
+  private toggleDropdown(): void {
+    if (this.disabled() || this.readonly()) return;
+    const dropdown = this.field?.getDropdown();
+    if (!dropdown) return;
+    this.el.nativeElement.focus();
+    dropdown.toggle();
   }
 
   private shouldRestoreFocus(): boolean {

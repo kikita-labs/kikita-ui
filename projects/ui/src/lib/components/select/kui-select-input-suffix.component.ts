@@ -48,11 +48,12 @@ export interface KuiSelectChipItem {
           type="button"
           class="kui-field-action kui-select-clear"
           aria-label="Clear"
+          [disabled]="disabled() || readonly()"
           (click)="onClear($event)"
         >
-          <svg viewBox="0 0 14 14" width="12" height="12" fill="none" aria-hidden="true">
+          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" aria-hidden="true">
             <path
-              d="M2 2l10 10M12 2L2 12"
+              d="M4 4l8 8M12 4l-8 8"
               stroke="currentColor"
               stroke-width="1.6"
               stroke-linecap="round"
@@ -60,21 +61,24 @@ export interface KuiSelectChipItem {
           </svg>
         </button>
       }
-      <svg
-        class="kui-select-chevron"
-        [class.is-open]="isOpen()"
-        viewBox="0 0 16 16"
-        fill="none"
-        aria-hidden="true"
+      <button
+        type="button"
+        class="kui-field-action kui-select-chevron"
+        [disabled]="disabled() || readonly()"
+        [attr.aria-label]="isOpen() ? 'Close options' : 'Open options'"
+        [attr.aria-expanded]="isOpen()"
+        (click)="onToggle($event)"
       >
-        <path
-          d="M4 6l4 4 4-4"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true">
+          <path
+            d="M4 6l4 4 4-4"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
     </div>
   `,
   host: { class: 'kui-select-control-overlay' },
@@ -85,11 +89,14 @@ export class KuiSelectInputSuffixComponent {
   readonly clearable = input(false);
   readonly hasValue = input(false);
   readonly isOpen = input(false);
+  readonly disabled = input(false);
+  readonly readonly = input(false);
   readonly selectedItems = input<readonly KuiSelectChipItem[]>([]);
   readonly maxVisibleChips = input(3);
   readonly valueTemplate = input<TemplateRef<KuiSelectValueContext> | null>(null);
   readonly cleared = output<void>();
   readonly removed = output<unknown>();
+  readonly toggled = output<void>();
 
   protected readonly visibleItems = computed(() =>
     this.selectedItems().slice(0, Math.max(0, this.maxVisibleChips())),
@@ -101,7 +108,15 @@ export class KuiSelectInputSuffixComponent {
 
   protected onClear(e: MouseEvent): void {
     e.stopPropagation();
+    if (this.disabled() || this.readonly()) return;
     this.cleared.emit();
+  }
+
+  protected onToggle(e: MouseEvent): void {
+    e.preventDefault();
+    e.stopPropagation();
+    if (this.disabled() || this.readonly()) return;
+    this.toggled.emit();
   }
 
   protected valueContext(value: unknown, label: string): KuiSelectValueContext {

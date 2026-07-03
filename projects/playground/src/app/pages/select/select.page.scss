@@ -13,3 +13,16 @@
 .select-page__field--lg {
   max-inline-size: 360px;
 }
+
+.select-size-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--kui-space-6);
+  align-items: start;
+}
+
+@media (width <= 760px) {
+  .select-size-grid {
+    grid-template-columns: 1fr;
+  }
+}

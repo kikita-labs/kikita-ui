@@ -81,6 +81,7 @@ export class KuiDropdownComponent implements OnDestroy {
   private readonly document = inject(DOCUMENT);
 
   private _anchorEl: HTMLElement | null = null;
+  private _outsideClickIgnoreEl: HTMLElement | null = null;
   private overlayRef: OverlayRef | null = null;
   private openSubs: { unsubscribe: () => void }[] = [];
 
@@ -91,10 +92,11 @@ export class KuiDropdownComponent implements OnDestroy {
   /**
    * Called by KuiFieldComponent to wire up the anchor element.
    * @param positionEl element used for overlay positioning and minWidth (e.g. the control slot)
-   * @param _outsideClickIgnoreEl reserved; not used with backdrop strategy (kept for API compat)
+   * @param outsideClickIgnoreEl element that should not close the overlay on document capture click
    */
-  setAnchor(positionEl: HTMLElement, _outsideClickIgnoreEl?: HTMLElement): void {
+  setAnchor(positionEl: HTMLElement, outsideClickIgnoreEl?: HTMLElement): void {
     this._anchorEl = positionEl;
+    this._outsideClickIgnoreEl = outsideClickIgnoreEl ?? null;
   }
 
   /** Returns the rendered panel element for keyboard navigation queries. */
@@ -154,8 +156,19 @@ export class KuiDropdownComponent implements OnDestroy {
     // CDK 22 popover: backdrop fires only within bounding-box area (not full viewport).
     // For above-positioned panels the click target below anchor misses the backdrop.
     // document capture fires before any element handler regardless of top-layer.
+    const isOutside = (target: Element): boolean =>
+      !overlayEl.contains(target) && !this._outsideClickIgnoreEl?.contains(target);
+
     const outsideHandler = (e: MouseEvent) => {
-      if (!overlayEl.contains(e.target as Element)) {
+      const target = e.target as Element;
+      if (isOutside(target)) {
+        this.zone.run(() => this.close());
+      }
+    };
+
+    const focusHandler = (e: FocusEvent) => {
+      const target = e.target as Element | null;
+      if (target && isOutside(target)) {
         this.zone.run(() => this.close());
       }
     };
@@ -166,18 +179,23 @@ export class KuiDropdownComponent implements OnDestroy {
 
     this.zone.runOutsideAngular(() => {
       this.document.addEventListener('click', outsideHandler, { capture: true });
+      this.document.addEventListener('focusin', focusHandler, { capture: true });
       this.document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
     });
     const outsideSub = {
       unsubscribe: () =>
         this.document.removeEventListener('click', outsideHandler, { capture: true }),
     };
+    const focusSub = {
+      unsubscribe: () =>
+        this.document.removeEventListener('focusin', focusHandler, { capture: true }),
+    };
     const scrollSub = {
       unsubscribe: () =>
         this.document.removeEventListener('scroll', scrollHandler, { capture: true }),
     };
 
-    this.openSubs = [posSub, escapeSub, outsideSub, scrollSub];
+    this.openSubs = [posSub, escapeSub, outsideSub, focusSub, scrollSub];
     this.isOpen.set(true);
     this.isClosing.set(false);
   }

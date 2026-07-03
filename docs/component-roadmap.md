@@ -44,12 +44,13 @@
 - Menu (done as `kui-menu` + `[kuiMenuFor]` + `button/a[kuiMenuItem]` + `hr[kuiSeparator]`; submenu, checkbox/radio items, and context-menu helper deferred per Claude brief)
 - Separator (done as `hr[kuiSeparator]`; Menu uses the generic separator directly)
 - Drawer (done as `kuiDrawer()` typed CDK overlay with side and size presets)
-- Chip (done as `[kuiChip]` + `button[kuiChipRemove]`; Select multiselect and Combobox use it for selected values)
-- Combobox (done as `kui-combobox`; supports `ng-template[kuiComboboxValue]`, CDK overlay positioning, multiple chips with collapsed `+N`, and provider defaults)
+- Chip (done as `[kuiChip]` + `button[kuiChipRemove]`; Select multiselect uses it for selected values)
+- Combobox (done as `input[kuiCombobox]` with projected `kui-dropdown`/`kuiOption`, search output, highlight pipe, free mode, and provider defaults)
+- Command Palette (done as `kui-command-palette`; supports grouped commands, filtering with label highlights, loading skeleton rows, empty state, keyboard navigation, and CDK overlay focus trapping)
 
 ## Later
 
-- Command palette
+- Scrollbar styling polish
 
 Do not build Datepicker, Calendar, Tree, Charts, or File Upload until a real consumer needs them.
 

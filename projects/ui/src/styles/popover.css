@@ -227,7 +227,7 @@
     transform: rotate(45deg);
   }
 
-  /* Arrow alignment — top/bottom sides (horizontal axis) */
+  /* Arrow alignment for top/bottom sides (horizontal axis) */
   .kui-popover[data-side='bottom'][data-align='center'] .kui-popover-arrow,
   .kui-popover[data-side='top'][data-align='center'] .kui-popover-arrow {
     left: 50%;
@@ -243,7 +243,7 @@
     left: auto;
   }
 
-  /* Arrow alignment — left/right sides (vertical axis) */
+  /* Arrow alignment for left/right sides (vertical axis) */
   .kui-popover[data-side='left'][data-align='center'] .kui-popover-arrow,
   .kui-popover[data-side='right'][data-align='center'] .kui-popover-arrow {
     top: 50%;

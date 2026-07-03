@@ -41,7 +41,7 @@ function optionalBooleanAttribute(value: unknown): boolean | undefined {
     '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-invalid]': 'invalid() ? "" : null',
     '[attr.data-dropdown-open]': 'dropdownOpen() ? "" : null',
-    '(click)': 'handleClick()',
+    '(click)': 'handleClick($event)',
   },
 })
 export class KuiFieldComponent implements KuiOptionContext {
@@ -148,13 +148,9 @@ export class KuiFieldComponent implements KuiOptionContext {
   private readonly _selectCtx = signal<KuiOptionContext | null>(null);
   private readonly _selectDisabled = signal(false);
   private readonly _selectValueTemplate = signal<TemplateRef<unknown> | null>(null);
-  private readonly _comboboxValueTemplate = signal<TemplateRef<unknown> | null>(null);
 
   /** @internal Custom selected-value template registered by `ng-template[kuiSelectValue]`. */
   readonly selectValueTemplate = this._selectValueTemplate.asReadonly();
-
-  /** @internal Custom selected-value template registered by `ng-template[kuiComboboxValue]`. */
-  readonly comboboxValueTemplate = this._comboboxValueTemplate.asReadonly();
 
   constructor() {
     effect(() => {
@@ -193,17 +189,15 @@ export class KuiFieldComponent implements KuiOptionContext {
     this._selectValueTemplate.set(template);
   }
 
-  /** @internal Registers a custom selected-value template for `kui-combobox`. */
-  setComboboxValueTemplate(template: TemplateRef<unknown> | null): void {
-    this._comboboxValueTemplate.set(template);
-  }
-
   getDropdown(): KuiDropdownComponent | undefined {
     return this.dropdown();
   }
 
-  protected handleClick(): void {
+  protected handleClick(event: MouseEvent): void {
     if (this._selectDisabled()) return;
+    const target = event.target as Node | null;
+    const control = this.controlSlot()?.nativeElement;
+    if (!target || !control?.contains(target)) return;
     this.dropdown()?.toggle();
   }
 }

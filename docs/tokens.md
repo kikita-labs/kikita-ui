@@ -283,6 +283,46 @@ Select tokens:
 --kui-select-chip-layer-gap
 ```
 
+Combobox tokens:
+
+```css
+--kui-combobox-suffix-gap
+--kui-combobox-affordance-size
+--kui-combobox-loader-size
+--kui-combobox-loader-border-width
+--kui-combobox-loader-duration
+--kui-combobox-highlight-radius
+--kui-combobox-highlight-bg
+--kui-combobox-highlight-text
+```
+
+Command Palette tokens:
+
+```css
+--kui-command-bg
+--kui-command-border
+--kui-command-radius
+--kui-command-shadow
+--kui-command-backdrop-bg
+--kui-command-width
+--kui-command-max-height
+--kui-command-offset-block-start
+--kui-command-search-height
+--kui-command-search-gap
+--kui-command-list-max-height
+--kui-command-item-height
+--kui-command-item-gap
+--kui-command-item-bg-hover
+--kui-command-item-bg-active
+--kui-command-item-text
+--kui-command-item-text-muted
+--kui-command-item-text-danger
+--kui-command-shortcut-bg
+--kui-command-shortcut-text
+--kui-command-footer-text
+--kui-z-command-palette
+```
+
 Slider tokens:
 
 ```css

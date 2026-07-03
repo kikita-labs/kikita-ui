@@ -70,6 +70,21 @@ class ClearableHost {
   imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
   template: `
     <kui-field>
+      <input kuiSelect [(value)]="val" [clearable]="true" [readonly]="true" />
+      <kui-dropdown>
+        <div kuiOption value="a">Option A</div>
+      </kui-dropdown>
+    </kui-field>
+  `,
+})
+class ReadonlyClearableHost {
+  val = signal<string | null>('a');
+}
+
+@Component({
+  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  template: `
+    <kui-field>
       <input kuiSelect [(value)]="val" [disabled]="true" />
       <kui-dropdown>
         <div kuiOption value="a">Option A</div>
@@ -199,6 +214,13 @@ function getField(fixture: ComponentFixture<unknown>): HTMLElement {
   return fixture.nativeElement.querySelector('kui-field') as HTMLElement;
 }
 
+function clickSelectInput(fixture: ComponentFixture<unknown>): void {
+  const input = getInput(fixture);
+  input.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+  input.click();
+  fixture.detectChanges();
+}
+
 function cleanOverlay(): void {
   TestBed.inject(OverlayContainer).getContainerElement().innerHTML = '';
 }
@@ -227,17 +249,25 @@ describe('KuiSelectDirective', () => {
     it('reflects dropdown open state in aria-expanded', () => {
       const fixture = createFixture(BasicHost);
       const input = getInput(fixture);
-      const field = getField(fixture);
 
       expect(input.getAttribute('aria-expanded')).toBe('false');
       expect(input.getAttribute('aria-controls')).toBeNull();
 
-      field.click();
-      fixture.detectChanges();
+      clickSelectInput(fixture);
 
       expect(input.getAttribute('aria-expanded')).toBe('true');
       expect(input.getAttribute('aria-controls')).toBeTruthy();
       expect(document.getElementById(input.getAttribute('aria-controls')!)).not.toBeNull();
+    });
+
+    it('does not open the dropdown when the label is clicked', () => {
+      const fixture = createFixture(BasicHost);
+      const label = fixture.nativeElement.querySelector('label') as HTMLLabelElement;
+
+      label.click();
+      fixture.detectChanges();
+
+      expect(document.querySelector('.kui-dropdown')).toBeNull();
     });
 
     it('inherits aria-invalid from an invalid kui-field', () => {
@@ -287,8 +317,7 @@ describe('KuiSelectDirective', () => {
     it('emits touch after an opened dropdown closes', () => {
       const fixture = createFixture(BasicHost);
 
-      getField(fixture).click();
-      fixture.detectChanges();
+      clickSelectInput(fixture);
 
       const option = document.querySelector('.kui-listbox-option') as HTMLElement;
       option.click();
@@ -351,6 +380,12 @@ describe('KuiSelectDirective', () => {
 
       expect(fixture.componentInstance.val()).toEqual([]);
     });
+
+    it('does not render clear button when readonly', () => {
+      const fixture = createFixture(ReadonlyClearableHost);
+
+      expect(fixture.nativeElement.querySelector('.kui-select-clear')).toBeNull();
+    });
   });
 
   describe('disabled', () => {
@@ -361,7 +396,28 @@ describe('KuiSelectDirective', () => {
 
     it('does not open dropdown when disabled field is clicked', () => {
       const fixture = createFixture(DisabledHost);
-      getField(fixture).click();
+      clickSelectInput(fixture);
+
+      expect(document.querySelector('.kui-dropdown')).toBeNull();
+    });
+  });
+
+  describe('suffix actions', () => {
+    it('uses a button chevron that toggles the dropdown', () => {
+      const fixture = createFixture(BasicHost);
+      const chevron = fixture.nativeElement.querySelector(
+        '.kui-select-chevron',
+      ) as HTMLButtonElement;
+
+      expect(chevron.tagName.toLowerCase()).toBe('button');
+
+      chevron.click();
+      fixture.detectChanges();
+
+      expect(document.querySelector('.kui-dropdown')).toBeTruthy();
+      expect(chevron.getAttribute('aria-expanded')).toBe('true');
+
+      chevron.click();
       fixture.detectChanges();
 
       expect(document.querySelector('.kui-dropdown')).toBeNull();
@@ -372,8 +428,7 @@ describe('KuiSelectDirective', () => {
     it('updates value when an option is clicked', () => {
       const fixture = createFixture(BasicHost);
 
-      getField(fixture).click();
-      fixture.detectChanges();
+      clickSelectInput(fixture);
 
       const options = document.querySelectorAll('.kui-listbox-option');
       (options[0] as HTMLElement).click();
@@ -385,8 +440,7 @@ describe('KuiSelectDirective', () => {
     it('updates value to second option when clicked', () => {
       const fixture = createFixture(BasicHost);
 
-      getField(fixture).click();
-      fixture.detectChanges();
+      clickSelectInput(fixture);
 
       const options = document.querySelectorAll('.kui-listbox-option');
       (options[1] as HTMLElement).click();

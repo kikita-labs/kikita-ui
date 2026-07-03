@@ -141,14 +141,10 @@
   }
 
   .kui-avatar[data-kui-loading] {
-    background: linear-gradient(
-      90deg,
-      var(--kui-avatar-skeleton-bg) 0%,
-      var(--kui-avatar-skeleton-shine) 50%,
-      var(--kui-avatar-skeleton-bg) 100%
-    );
-    background-size: 200% 100%;
-    animation: kui-avatar-shimmer var(--kui-avatar-skeleton-duration) ease-in-out infinite;
+    --kui-skeleton-radius: inherit;
+    --kui-skeleton-radius-pill: inherit;
+
+    background: var(--kui-skeleton-bg);
   }
 
   .kui-avatar__status {
@@ -260,21 +256,5 @@
   .kui-avatar-action:focus-visible {
     outline: var(--kui-avatar-focus-ring-w) solid var(--kui-avatar-focus-ring-color);
     outline-offset: var(--kui-avatar-focus-ring-off);
-  }
-
-  @keyframes kui-avatar-shimmer {
-    from {
-      background-position: -200% 0;
-    }
-
-    to {
-      background-position: 200% 0;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .kui-avatar[data-kui-loading] {
-      animation: none;
-    }
   }
 }

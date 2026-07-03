@@ -1,5 +1,5 @@
 @if (loading()) {
-  <span class="kui-avatar__skeleton" aria-hidden="true"></span>
+  <span kuiSkeleton class="kui-avatar__skeleton" [shape]="skeletonShape()"></span>
 } @else if (imageSrc(); as image) {
   <img class="kui-avatar__image" [src]="image" [alt]="imageAlt()" (error)="onImageError()" />
 } @else if (displayInitials(); as initialsText) {

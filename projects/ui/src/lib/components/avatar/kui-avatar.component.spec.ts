@@ -77,7 +77,10 @@ describe('KuiAvatarComponent', () => {
     expect(avatar.hasAttribute('data-kui-loading')).toBe(true);
     expect(avatar.getAttribute('role')).toBeNull();
     expect(avatar.getAttribute('aria-label')).toBeNull();
-    expect(avatar.querySelector('.kui-avatar__skeleton')).not.toBeNull();
+    expect(avatar.querySelector('.kui-avatar__skeleton.kui-skeleton')).not.toBeNull();
+    expect(avatar.querySelector('.kui-avatar__skeleton')?.getAttribute('data-kui-shape')).toBe(
+      'circle',
+    );
   });
 });
 

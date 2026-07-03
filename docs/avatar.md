@@ -91,17 +91,17 @@ preserves native keyboard and accessibility behavior.
 
 ### `kui-avatar`
 
-| Input          | Type                                            | Default     | Description                                      |
-| -------------- | ----------------------------------------------- | ----------- | ------------------------------------------------ |
-| `src`          | `string \| undefined`                           | `undefined` | Image URL. Falls back on load error.             |
-| `name`         | `string \| undefined`                           | `undefined` | Used for initials, palette hashing, and label.   |
-| `initials`     | `string \| undefined`                           | auto        | Explicit one or two character initials.          |
-| `alt`          | `string \| undefined`                           | `name`      | Image alt and accessible label override.         |
-| `size`         | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'`      | Fixed avatar size.                               |
-| `shape`        | `'circle' \| 'square'`                          | `'circle'`  | Avatar shape.                                    |
-| `status`       | `'online' \| 'away' \| 'busy' \| 'offline'`     | `undefined` | Optional presence indicator.                     |
-| `paletteIndex` | `number \| undefined`                           | auto        | Palette slot from 1 to 7. Clamped when explicit. |
-| `loading`      | `boolean`                                       | `false`     | Shows skeleton shimmer and hides avatar content. |
+| Input          | Type                                            | Default     | Description                                               |
+| -------------- | ----------------------------------------------- | ----------- | --------------------------------------------------------- |
+| `src`          | `string \| undefined`                           | `undefined` | Image URL. Falls back on load error.                      |
+| `name`         | `string \| undefined`                           | `undefined` | Used for initials, palette hashing, and label.            |
+| `initials`     | `string \| undefined`                           | auto        | Explicit one or two character initials.                   |
+| `alt`          | `string \| undefined`                           | `name`      | Image alt and accessible label override.                  |
+| `size`         | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'`      | Fixed avatar size.                                        |
+| `shape`        | `'circle' \| 'square'`                          | `'circle'`  | Avatar shape.                                             |
+| `status`       | `'online' \| 'away' \| 'busy' \| 'offline'`     | `undefined` | Optional presence indicator.                              |
+| `paletteIndex` | `number \| undefined`                           | auto        | Palette slot from 1 to 7. Clamped when explicit.          |
+| `loading`      | `boolean`                                       | `false`     | Uses `[kuiSkeleton]` internally and hides avatar content. |
 
 ### `kui-avatar-group`
 
@@ -137,3 +137,6 @@ Avatar styles consume `--kui-*` variables only. Key component tokens:
 - `--kui-avatar-overflow-text`
 - `--kui-avatar-p1-bg` through `--kui-avatar-p7-bg`
 - `--kui-avatar-p1-fg` through `--kui-avatar-p7-fg`
+
+Avatar loading uses the shared Skeleton primitive and `--kui-skeleton-*` tokens instead of
+avatar-specific loading colors.

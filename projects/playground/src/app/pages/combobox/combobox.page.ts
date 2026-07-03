@@ -1,12 +1,11 @@
-import { Component, signal, ViewEncapsulation } from '@angular/core';
+import { Component, computed, signal, ViewEncapsulation } from '@angular/core';
 
 import {
-  KuiChipDirective,
-  KuiChipRemoveDirective,
-  KuiComboboxComponent,
-  KuiComboboxValueDirective,
+  KuiComboboxDirective,
+  KuiComboboxHighlightPipe,
+  KuiDropdownComponent,
   KuiFieldComponent,
-  type KuiChipAppearance,
+  KuiOptionDirective,
 } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
@@ -29,11 +28,11 @@ const PEOPLE: readonly Person[] = [
   styleUrl: './combobox.page.scss',
   imports: [
     PlaygroundPanelComponent,
-    KuiComboboxComponent,
-    KuiComboboxValueDirective,
+    KuiComboboxDirective,
+    KuiComboboxHighlightPipe,
+    KuiDropdownComponent,
     KuiFieldComponent,
-    KuiChipDirective,
-    KuiChipRemoveDirective,
+    KuiOptionDirective,
   ],
   encapsulation: ViewEncapsulation.None,
 })
@@ -41,12 +40,32 @@ export class ComboboxPage {
   protected readonly people = PEOPLE;
   protected readonly statusOptions = ['Open', 'In progress', 'Done', 'Blocked'];
   protected readonly selectedPerson = signal<Person | null>(null);
-  protected readonly selectedPeople = signal<readonly Person[]>(PEOPLE);
   protected readonly status = signal<string | null>(null);
   protected readonly freeValue = signal<string | null>(null);
+  protected readonly assigneeQuery = signal('');
+  protected readonly asyncQuery = signal('');
+  protected readonly loading = signal(false);
 
   protected readonly personLabel = (person: Person): string => person.name;
 
-  protected readonly personAppearance = (person: Person): KuiChipAppearance =>
-    person.id % 2 === 0 ? 'info' : 'success';
+  protected readonly filteredPeople = computed(() => this.filterPeople(this.assigneeQuery()));
+
+  protected readonly asyncPeople = computed(() => this.filterPeople(this.asyncQuery()));
+
+  protected searchPeople(query: string): void {
+    this.assigneeQuery.set(query);
+  }
+
+  protected searchAsync(query: string): void {
+    this.asyncQuery.set(query);
+    this.loading.set(query.length > 0);
+    globalThis.setTimeout(() => this.loading.set(false), 350);
+  }
+
+  private filterPeople(query: string): readonly Person[] {
+    const normalized = query.trim().toLocaleLowerCase();
+    if (!normalized) return PEOPLE;
+
+    return PEOPLE.filter((person) => person.name.toLocaleLowerCase().includes(normalized));
+  }
 }

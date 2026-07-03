@@ -141,7 +141,7 @@ Recommended control sizes:
 | ---------------- | ------: | ------: | ----------: |
 | Button height    |    24px |    32px |        40px |
 | Button x padding |     8px |    12px |        16px |
-| Input height     |    24px |    32px |        40px |
+| Input height     |    28px |    40px |        44px |
 
 Density should be expressible globally through providers and locally through a future density directive/attribute.
 
@@ -149,13 +149,13 @@ Density should be expressible globally through providers and locally through a f
 [data-kui-density='compact'] {
   --kui-btn-height: var(--kui-btn-height-compact);
   --kui-btn-px: var(--kui-btn-px-compact);
-  --kui-input-height: var(--kui-btn-height-compact);
+  --kui-input-height: var(--kui-control-height-xs);
 }
 
 [data-kui-density='comfortable'] {
   --kui-btn-height: var(--kui-btn-height-comfortable);
   --kui-btn-px: var(--kui-btn-px-comfortable);
-  --kui-input-height: var(--kui-btn-height-comfortable);
+  --kui-input-height: var(--kui-control-height-lg);
 }
 ```
 

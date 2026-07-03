@@ -15,11 +15,22 @@
 
   input.kui-input[kuiSelect][data-kui-has-chips] {
     color: transparent;
+    caret-color: transparent;
+    user-select: none;
+    -webkit-text-fill-color: transparent;
+  }
+
+  input.kui-input[kuiSelect][data-kui-has-chips]::selection {
+    color: transparent;
+    background: transparent;
   }
 
   .kui-select-control-overlay {
     position: absolute;
     inset: 0;
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
     pointer-events: none;
   }
 
@@ -63,20 +74,29 @@
     pointer-events: none;
   }
 
-  .kui-select-clear {
+  .kui-select-clear,
+  .kui-select-chevron {
     pointer-events: all;
   }
 
-  .kui-select-input-suffix .kui-select-chevron {
-    color: var(--kui-field-action-color);
-    pointer-events: none;
+  .kui-select-clear > svg {
+    inline-size: 12px;
+    block-size: 12px;
+  }
+
+  .kui-select-chevron > svg {
+    inline-size: var(--kui-field-affix-icon-size);
+    block-size: var(--kui-field-affix-icon-size);
     transition:
       color var(--kui-duration-base) var(--kui-ease),
       transform var(--kui-duration-base) var(--kui-ease);
   }
 
-  .kui-select-input-suffix .kui-select-chevron.is-open {
+  .kui-select-chevron[aria-expanded='true'] {
     color: var(--kui-color-primary-fill);
+  }
+
+  .kui-select-chevron[aria-expanded='true'] > svg {
     transform: rotate(180deg);
   }
 }

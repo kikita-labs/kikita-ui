@@ -5,15 +5,21 @@
   }
 
   .kui-listbox-option {
+    appearance: none;
     display: flex;
     align-items: center;
     gap: var(--kui-space-2);
+    width: 100%;
     padding: var(--kui-space-2) var(--kui-space-3);
+    border: 0;
     border-radius: var(--kui-radius-sm);
+    background: transparent;
     cursor: pointer;
     user-select: none;
     font-size: var(--kui-text-sm-size);
+    font-family: inherit;
     color: var(--kui-color-text);
+    text-align: start;
     transition: background var(--kui-duration-fast);
   }
 

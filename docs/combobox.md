@@ -1,18 +1,20 @@
 # Combobox
 
-`kui-combobox` is a searchable field for selecting one or more values from a list.
+`input[kuiCombobox]` converts a native text input into a searchable Kikita combobox trigger.
 
-Use Select for simple fixed choices. Use Combobox when users need filtering, async loading, free text, or multiple selected chips.
+Use Select for fixed choices without typing. Use Combobox when users need to type a query,
+filter local options, or load options from an API. Multiple chip-backed selection is intentionally
+not part of Combobox; it belongs to a future input-chip or multi-select primitive.
 
 ## Import
 
 ```ts
 import {
-  KuiChipDirective,
-  KuiChipRemoveDirective,
-  KuiComboboxComponent,
-  KuiComboboxValueDirective,
+  KuiComboboxDirective,
+  KuiComboboxHighlightPipe,
+  KuiDropdownComponent,
   KuiFieldComponent,
+  KuiOptionDirective,
   kuiProvideComboboxOptions,
 } from '@kikita-labs/ui';
 ```
@@ -27,119 +29,134 @@ import '@kikita-labs/ui/styles';
 
 ```html
 <kui-field label="Assignee">
-  <kui-combobox
-    [options]="people"
+  <input
+    kuiCombobox
     [(value)]="assignee"
-    [labelFn]="personLabel"
+    [(query)]="query"
+    [kuiLabelFn]="personLabel"
     placeholder="Search people..."
+    (search)="query.set($event)"
   />
+
+  <kui-dropdown>
+    @for (person of filteredPeople(); track person.id) {
+    <button kuiOption [value]="person">
+      <span class="kui-combobox-match-label">
+        @for (segment of person.name | kuiComboboxHighlight: query(); track $index) { @if
+        (segment.match) {
+        <mark class="kui-combobox-highlight">{{ segment.text }}</mark>
+        } @else {
+        <span>{{ segment.text }}</span>
+        } }
+      </span>
+    </button>
+    } @empty {
+    <div class="kui-combobox-empty">No people found</div>
+    }
+  </kui-dropdown>
 </kui-field>
 ```
 
 ```ts
 assignee = signal<Person | null>(null);
+query = signal('');
 personLabel = (person: Person) => person.name;
+filteredPeople = computed(() => {
+  const q = this.query().toLocaleLowerCase();
+  return q
+    ? this.people.filter((person) => person.name.toLocaleLowerCase().includes(q))
+    : this.people;
+});
 ```
 
-Inside `kui-field`, Combobox inherits the field id, `aria-describedby`, invalid state, and field size unless those are explicitly overridden.
+Inside `kui-field`, Combobox inherits field id, label association, `aria-describedby`,
+invalid state, and field size.
 
-## Multiple
+## API Search
+
+Use `(search)` for remote requests. The directive does not own async data; the application updates
+the projected dropdown options when results arrive.
 
 ```html
-<kui-field label="Reviewers">
-  <kui-combobox
-    multiple
-    [options]="people"
-    [(value)]="reviewers"
-    [labelFn]="personLabel"
-    [maxVisibleChips]="3"
-    placeholder="Search reviewers..."
+<kui-field label="Reviewer">
+  <input
+    kuiCombobox
+    [(value)]="reviewer"
+    [(query)]="reviewerQuery"
+    [loading]="loading()"
+    [kuiLabelFn]="personLabel"
+    placeholder="Type to search..."
+    (search)="loadReviewers($event)"
   />
+
+  <kui-dropdown>
+    @if (loading()) {
+    <div class="kui-combobox-loading-row">
+      <span class="kui-combobox-loader" aria-hidden="true"></span>
+      Loading people
+    </div>
+    } @else { @for (person of reviewers(); track person.id) {
+    <button kuiOption [value]="person">{{ person.name }}</button>
+    } @empty {
+    <div class="kui-combobox-empty">No matches</div>
+    } }
+  </kui-dropdown>
 </kui-field>
 ```
 
 ```ts
-reviewers = signal<readonly Person[]>([]);
+loadReviewers(query: string): void {
+  this.loading.set(true);
+  this.api.searchPeople(query).subscribe((people) => {
+    this.reviewers.set(people);
+    this.loading.set(false);
+  });
+}
 ```
 
-Values after `maxVisibleChips` collapse into a `+N` chip inside the field.
-When the field becomes too narrow, Combobox reduces the visible chip count further
-and moves the rest into `+N` instead of shrinking chip labels away.
-Set `wrapChips` only when the combobox should grow vertically instead of using the collapsed overflow chip.
+Use `mode="async"` as documentation of intent when filtering is remote. The mode keeps filtering
+outside the directive.
 
-## Custom Selected Value Template
-
-Default multiple mode renders removable `kuiChip` values inside the field. Use
-`ng-template[kuiComboboxValue]` only when the selected value needs custom markup,
-per-item appearance, avatars, or a different remove affordance.
+## Free Input
 
 ```html
-<kui-field label="Reviewers">
-  <kui-combobox
-    multiple
-    [options]="people"
-    [(value)]="reviewers"
-    [labelFn]="personLabel"
-    [maxVisibleChips]="3"
-  />
-
-  <ng-template kuiComboboxValue let-person let-label="label" let-remove="remove">
-    <span kuiChip [appearance]="person.active ? 'success' : 'neutral'" size="sm">
-      <span class="kui-chip-label">{{ label }}</span>
-      <button kuiChipRemove type="button" [attr.aria-label]="'Remove ' + label" (click)="remove()">
-        x
-      </button>
-    </span>
-  </ng-template>
+<kui-field label="Tag">
+  <input kuiCombobox mode="free" [(value)]="tag" placeholder="Type or choose..." />
+  <kui-dropdown>
+    <button kuiOption value="Bug">Bug</button>
+    <button kuiOption value="Feature">Feature</button>
+  </kui-dropdown>
 </kui-field>
 ```
 
-The custom template replaces the default chip for each visible selected item.
-If the template should be removable, call the provided `remove` callback from a
-native button. Hidden values still collapse into the default `+N` overflow chip.
+`mode="free"` stores typed text as the control value. In the default `filter` mode, editing text
+clears the selected value until the user selects a projected `kuiOption`.
 
-## Inputs
+## Inputs And Outputs
 
-| Input             | Type                                  | Default      | Notes                                                                       |
-| ----------------- | ------------------------------------- | ------------ | --------------------------------------------------------------------------- |
-| `options`         | `readonly T[]`                        | `[]`         | Available options.                                                          |
-| `value`           | `T \| readonly T[] \| string \| null` | `null`       | Selected value. Multiple mode uses arrays. Free mode may use string.        |
-| `query`           | `string`                              | `''`         | Current filter text.                                                        |
-| `labelFn`         | `(item: T) => string`                 | -            | Maps option values to display labels.                                       |
-| `placeholder`     | `string`                              | `''`         | Input placeholder.                                                          |
-| `size`            | `'sm' \| 'md' \| 'lg'`                | `'md'`       | Control size.                                                               |
-| `mode`            | `'filter' \| 'free' \| 'async'`       | `'filter'`   | `free` stores arbitrary typed text; `async` does not local-filter options.  |
-| `multiple`        | `boolean`                             | `false`      | Enables chip-backed array values.                                           |
-| `maxVisibleChips` | `number \| undefined`                 | `3`          | Maximum selected chips before collapsed `+N`; narrow fields may show fewer. |
-| `wrapChips`       | `boolean \| undefined`                | `false`      | Allows selected chips to wrap and disables collapsed `+N` overflow.         |
-| `clearable`       | `boolean \| undefined`                | `true`       | Shows the clear affordance. Falls back to `KUI_FIELD_OPTIONS.clearable`.    |
-| `loading`         | `boolean`                             | `false`      | Shows loading affordance and loading row.                                   |
-| `loadingText`     | `string \| undefined`                 | `Loading...` | Text rendered in the loading row.                                           |
-| `emptyText`       | `string \| undefined`                 | `No results` | Text rendered when the option list is empty.                                |
-| `disabled`        | `boolean`                             | `false`      | Disables the control.                                                       |
-| `readonly`        | `boolean`                             | `false`      | Keeps value readable but prevents editing.                                  |
-| `invalid`         | `boolean`                             | `false`      | Applies invalid visual and ARIA state.                                      |
+| API           | Type                            | Default    | Notes                                                             |
+| ------------- | ------------------------------- | ---------- | ----------------------------------------------------------------- |
+| `value`       | `T \| string \| null`           | `null`     | Selected value. Bound by `[formField]` or `[(value)]`.            |
+| `query`       | `string`                        | `''`       | Current search text.                                              |
+| `search`      | `OutputEmitterRef<string>`      | -          | Emits on every native input edit. Use for local or remote search. |
+| `kuiLabelFn`  | `(item: T) => string`           | `String()` | Maps selected object values to input text.                        |
+| `placeholder` | `string`                        | `''`       | Native input placeholder.                                         |
+| `mode`        | `'filter' \| 'free' \| 'async'` | `'filter'` | `free` stores typed text; `async` documents external filtering.   |
+| `clearable`   | `boolean \| undefined`          | `true`     | Shows clear affordance. Falls back to combobox/field providers.   |
+| `loading`     | `boolean`                       | `false`    | Shows suffix loader; loading row content is projected.            |
+| `disabled`    | `boolean`                       | `false`    | Disables the input.                                               |
+| `readonly`    | `boolean`                       | `false`    | Keeps value readable but prevents editing.                        |
+| `invalid`     | `boolean`                       | `false`    | Applies ARIA invalid state; field also contributes invalid state. |
 
 ## Accessibility
 
-- Native input uses `role="combobox"`.
-- `kui-field` provides label, hint, error, required, `aria-describedby`, and inherited invalid state wiring.
-- Popup list uses `role="listbox"`.
-- Options use native buttons with `role="option"` and `aria-selected`.
-- Active option is exposed through `aria-activedescendant`.
-- Multiple mode marks the list with `aria-multiselectable`.
-- Chips use `[kuiChip]` and `button[kuiChipRemove]` internally.
-- Custom selected value templates receive `item`, `label`, and `remove` context values.
-
-## Behavior Notes
-
-- Selecting a single option closes the list and keeps focus on the input for keyboard continuity.
-- Clicking the focused input opens the list again.
-- The chevron affordance is a button that toggles the list while keeping DOM focus on the input.
-- The option list is rendered in an Angular CDK overlay aligned to the combobox control.
-- Editing the text in single filter mode clears the selected value until an option is selected again.
-- `wrapChips` is opt-in. Default multiple combobox controls stay one-line and use `+N`.
-- `maxVisibleChips` is an upper bound. Combobox auto-reduces visible chips at narrow widths.
+- The host remains a native `<input>`.
+- The input uses `role="combobox"`, `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls`.
+- `kui-field` provides label, hint, error, required marker, `aria-describedby`, and inherited invalid state.
+- `kui-dropdown` renders the popup listbox through Angular CDK overlay.
+- `kuiOption` provides `role="option"`, `aria-selected`, disabled state, click selection, and keyboard navigation.
+- Arrow keys open the dropdown and move focus to the first or last enabled option.
+- Escape closes the dropdown.
 
 ## Provider Defaults
 
@@ -149,26 +166,16 @@ Use `kuiProvideComboboxOptions` for app-wide combobox defaults:
 providers: [
   kuiProvideComboboxOptions({
     clearable: true,
-    maxVisibleChips: 2,
-    emptyText: 'No matches',
-    loadingText: 'Loading choices',
   }),
 ];
 ```
 
-Combobox does not inherit `KUI_SELECT_OPTIONS`. It has its own options token because it has editable
-query, loading, empty, async, and free-text behavior.
-
 ```text
 clearable: local input > KUI_COMBOBOX_OPTIONS > KUI_FIELD_OPTIONS > true
-maxVisibleChips: local input > KUI_COMBOBOX_OPTIONS > 3
-emptyText: local input > KUI_COMBOBOX_OPTIONS > "No results"
-loadingText: local input > KUI_COMBOBOX_OPTIONS > "Loading..."
 ```
 
 ## Tokens
 
-Combobox uses `--kui-combobox-*` variables for control dimensions, borders,
-suffix space, loading affordance, and z-index. Clear and chevron buttons reuse
-the shared `--kui-field-action-*` affordance tokens. Options reuse Kikita
-listbox-like semantic color tokens.
+Combobox uses `--kui-combobox-*` variables for suffix affordances, loader, and highlight treatment.
+Field geometry, border, radius, focus ring, invalid state, label, hint, and error rendering come from
+`kui-field` and `kui-input` tokens.

@@ -13,7 +13,7 @@
     min-width: 0;
   }
 
-  /* Scroll container — handles horizontal overflow without clipping the outline.
+  /* Scroll container: handles horizontal overflow without clipping the outline.
      padding-bottom gives the focus outline room inside the scroll clip boundary;
      margin-bottom compensates so the gap to the panel stays visually correct.
      min-width: 0 is required so the flex/grid parent allows this to shrink. */
@@ -29,7 +29,7 @@
     display: none;
   }
 
-  /* Scroll arrow buttons — only shown when overflow exists on that side. */
+  /* Scroll arrow buttons: only shown when overflow exists on that side. */
   .kui-tabs__scroll-btn {
     position: absolute;
     top: 0;

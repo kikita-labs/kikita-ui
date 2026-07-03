@@ -102,7 +102,7 @@
     min-width: 320px;
   }
 
-  /* Appearance — colors .kui-dialog-icon */
+  /* Appearance colors .kui-dialog-icon */
   .kui-dialog[data-kui-appearance='danger'] {
     --kui-dialog-icon-color: var(--kui-color-danger-fill);
   }
@@ -110,7 +110,7 @@
     --kui-dialog-icon-color: var(--kui-color-warning-fill);
   }
 
-  /* Icon slot — place inside .kui-dialog-header before the title */
+  /* Icon slot: place inside .kui-dialog-header before the title */
   .kui-dialog-icon {
     flex: 0 0 auto;
     width: 20px;

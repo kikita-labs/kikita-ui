@@ -56,9 +56,9 @@ h3 {
   letter-spacing: 0;
 }
 
-button,
-input,
-textarea {
+button:not(.kui-button, .kui-icon-button, .kui-field-action),
+input:not(.kui-input),
+textarea:not(.kui-input) {
   font: inherit;
 }
 

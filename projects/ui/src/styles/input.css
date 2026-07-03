@@ -50,6 +50,7 @@
 
   .kui-input[data-kui-size='xs'] {
     min-block-size: var(--kui-control-height-xs, 28px);
+    font-size: var(--kui-text-xs-size, 11px);
   }
 
   input.kui-input[data-kui-size='xs'] {
@@ -66,6 +67,7 @@
 
   .kui-input[data-kui-size='lg'] {
     min-block-size: var(--kui-control-height-lg, 44px);
+    font-size: var(--kui-text-base-size, 14px);
   }
 
   input.kui-input[data-kui-size='lg'] {
@@ -155,6 +157,7 @@
 
   .kui-input-group[data-kui-size='xs'] {
     min-block-size: var(--kui-control-height-xs, 28px);
+    font-size: var(--kui-text-xs-size, 11px);
   }
 
   .kui-input-group[data-kui-size='sm'] {
@@ -163,5 +166,32 @@
 
   .kui-input-group[data-kui-size='lg'] {
     min-block-size: var(--kui-control-height-lg, 44px);
+    font-size: var(--kui-text-base-size, 14px);
+  }
+
+  .kui-field[data-kui-size='xs'] .kui-input {
+    min-block-size: var(--kui-control-height-xs, 28px);
+    font-size: var(--kui-text-xs-size, 11px);
+  }
+
+  .kui-field[data-kui-size='xs'] input.kui-input {
+    block-size: var(--kui-control-height-xs, 28px);
+  }
+
+  .kui-field[data-kui-size='sm'] .kui-input {
+    min-block-size: var(--kui-control-height-sm, 32px);
+  }
+
+  .kui-field[data-kui-size='sm'] input.kui-input {
+    block-size: var(--kui-control-height-sm, 32px);
+  }
+
+  .kui-field[data-kui-size='lg'] .kui-input {
+    min-block-size: var(--kui-control-height-lg, 44px);
+    font-size: var(--kui-text-base-size, 14px);
+  }
+
+  .kui-field[data-kui-size='lg'] input.kui-input {
+    block-size: var(--kui-control-height-lg, 44px);
   }
 }

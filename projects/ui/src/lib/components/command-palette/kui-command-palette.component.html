@@ -1,0 +1,143 @@
+<ng-template #paletteTpl>
+  <div class="kui-command-backdrop" (mousedown)="close()">
+    <section
+      class="kui-command"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="label()"
+      [attr.aria-busy]="loading() ? 'true' : null"
+      cdkTrapFocus
+      [cdkTrapFocusAutoCapture]="true"
+      (mousedown)="$event.stopPropagation()"
+      (keydown)="handleKeydown($event)"
+    >
+      <div class="kui-command__search">
+        <span class="kui-command__search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+        </span>
+        <input
+          #inputEl
+          class="kui-command__input"
+          type="text"
+          role="combobox"
+          autocomplete="off"
+          [value]="query()"
+          [placeholder]="placeholder()"
+          [attr.aria-label]="label()"
+          [attr.aria-expanded]="true"
+          [attr.aria-controls]="listId"
+          [attr.aria-activedescendant]="activeItemId()"
+          aria-autocomplete="list"
+          (input)="query.set($any($event.target).value)"
+        />
+        @if (query()) {
+          <button
+            class="kui-command__clear"
+            type="button"
+            aria-label="Clear search"
+            (click)="clearQuery()"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        }
+      </div>
+
+      <div [id]="listId" class="kui-command__list" role="listbox">
+        @if (loading()) {
+          @for (row of [1, 2, 3]; track row) {
+            <div class="kui-command__item kui-command__item--skeleton" aria-hidden="true">
+              <span kuiSkeleton shape="square" style="inline-size: 16px"></span>
+              <span kuiSkeleton shape="text" style="inline-size: 60%"></span>
+            </div>
+          }
+        } @else if (!filteredGroups().length) {
+          <kui-empty-state
+            size="sm"
+            context="no-results"
+            [title]="emptyText()"
+            description="Try a different query."
+            role="status"
+          >
+            <svg
+              kuiEmptyStateIcon
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+          </kui-empty-state>
+        } @else {
+          @for (group of filteredGroups(); track group.heading ?? $index) {
+            @if (group.heading) {
+              <div class="kui-command__group-heading" role="presentation">{{ group.heading }}</div>
+            }
+            @for (item of group.items; track item.id) {
+              <button
+                class="kui-command__item"
+                type="button"
+                role="option"
+                [id]="optionId(item)"
+                [class.kui-command__item--active]="isActive(item)"
+                [class.kui-command__item--danger]="item.danger"
+                [class.kui-command__item--disabled]="item.disabled"
+                [disabled]="item.disabled"
+                [attr.aria-disabled]="item.disabled ? 'true' : null"
+                [attr.aria-selected]="isActive(item)"
+                (mousedown)="$event.preventDefault()"
+                (click)="selectItem(item)"
+              >
+                @if (item.icon) {
+                  <span class="kui-command__item-icon" aria-hidden="true">{{ item.icon }}</span>
+                }
+                <span class="kui-command__item-body">
+                  <span class="kui-command__item-label">
+                    @for (segment of highlightedLabelSegments(item.label); track $index) {
+                      @if (segment.match) {
+                        <mark>{{ segment.text }}</mark>
+                      } @else {
+                        {{ segment.text }}
+                      }
+                    }
+                  </span>
+                  @if (item.description) {
+                    <span class="kui-command__item-desc">{{ item.description }}</span>
+                  }
+                </span>
+                @if (item.meta) {
+                  <span class="kui-command__item-meta">{{ item.meta }}</span>
+                }
+                @if (item.badge) {
+                  <span class="kui-command__badge">{{ item.badge }}</span>
+                }
+                @if (item.shortcut?.length) {
+                  <span class="kui-command__shortcut" aria-hidden="true">
+                    @for (key of item.shortcut; track key) {
+                      <span class="kui-kbd">{{ key }}</span>
+                    }
+                  </span>
+                }
+              </button>
+            }
+          }
+        }
+      </div>
+
+      <div class="kui-command__footer">
+        <span class="kui-command__footer-hint">
+          <span class="kui-kbd">Up</span><span class="kui-kbd">Down</span> navigate
+        </span>
+        <span class="kui-command__footer-hint"><span class="kui-kbd">Enter</span> run</span>
+        <span class="kui-command__footer-hint"><span class="kui-kbd">Esc</span> close</span>
+      </div>
+    </section>
+  </div>
+</ng-template>

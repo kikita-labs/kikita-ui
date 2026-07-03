@@ -1,5 +1,6 @@
 import { Component, booleanAttribute, computed, input, signal } from '@angular/core';
 
+import { KuiSkeletonDirective, KuiSkeletonShape } from '../skeleton';
 import { KuiAvatarShape } from './kui-avatar-shape.type';
 import { KuiAvatarSize } from './kui-avatar-size.type';
 import { KuiAvatarStatus } from './kui-avatar-status.type';
@@ -14,6 +15,7 @@ const STATUS_LABELS: Record<KuiAvatarStatus, string> = {
 /** Renders an accessible user or entity avatar with image, initials, or icon fallback. */
 @Component({
   selector: 'kui-avatar',
+  imports: [KuiSkeletonDirective],
   templateUrl: './kui-avatar.component.html',
   host: {
     class: 'kui-avatar',
@@ -93,6 +95,10 @@ export class KuiAvatarComponent {
 
     return String(slot);
   });
+
+  protected readonly skeletonShape = computed<KuiSkeletonShape>(() =>
+    this.shape() === 'circle' ? 'circle' : 'square',
+  );
 
   protected onImageError(): void {
     this.failedImageSrc.set(this.src());

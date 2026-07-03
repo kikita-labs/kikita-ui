@@ -5,7 +5,7 @@
   align-items: center;
 }
 
-/* ─── Button state simulation ────────────────────────────────────────────── */
+/* Button state simulation */
 
 .state-matrix__cell[data-state='hover'] .kui-button {
   background-color: var(--kui-btn-bg-hover, var(--kui-btn-bg));
@@ -53,7 +53,7 @@
   background-color: var(--kui-btn-danger-bg-act, var(--kui-btn-danger-bg));
 }
 
-/* ─── Icon button state simulation ──────────────────────────────────────── */
+/* Icon button state simulation */
 
 .state-board__row.is-active-preview .kui-icon-button {
   transform: scale(0.97);

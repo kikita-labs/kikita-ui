@@ -55,6 +55,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/drawer', label: 'Drawer' },
   { path: '/chip', label: 'Chip' },
   { path: '/combobox', label: 'Combobox' },
+  { path: '/command-palette', label: 'Command Palette' },
 ];
 
 @Component({
