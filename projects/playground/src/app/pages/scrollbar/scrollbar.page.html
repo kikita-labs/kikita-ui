@@ -1,0 +1,137 @@
+<app-panel
+  num="01"
+  title="Utility"
+  description="Apply kui-scroll to the native element that owns overflow."
+>
+  <div class="scrollbar-grid">
+    <section class="scrollbar-demo">
+      <h3>Vertical</h3>
+      <div class="scrollbar-box kui-scroll" tabindex="0">
+        @for (row of rows; track row) {
+          <p>{{ row }}</p>
+        }
+      </div>
+    </section>
+
+    <section class="scrollbar-demo">
+      <h3>Horizontal</h3>
+      <div class="scrollbar-box scrollbar-box--wide kui-scroll" tabindex="0">
+        <div class="scrollbar-wide-row">
+          @for (column of columns; track column) {
+            <span>{{ column }}</span>
+          }
+        </div>
+      </div>
+    </section>
+  </div>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Thumb states"
+  description="Static reference for default, hover, and active thumb colors."
+>
+  <div class="scrollbar-state-grid">
+    <div class="scrollbar-state">
+      <span>default</span>
+      <i class="scrollbar-rail"><b></b></i>
+    </div>
+    <div class="scrollbar-state scrollbar-state--hover">
+      <span>hover</span>
+      <i class="scrollbar-rail"><b></b></i>
+    </div>
+    <div class="scrollbar-state scrollbar-state--active">
+      <span>active</span>
+      <i class="scrollbar-rail"><b></b></i>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Theme contexts"
+  description="Scrollbar thumb tokens rebind with data-kui-theme."
+>
+  <div class="scrollbar-grid">
+    <section class="scrollbar-theme-card" data-kui-theme="light">
+      <h3>Light</h3>
+      <div class="scrollbar-box kui-scroll" tabindex="0">
+        @for (row of rows.slice(0, 12); track row) {
+          <p>{{ row }}</p>
+        }
+      </div>
+    </section>
+
+    <section class="scrollbar-theme-card" data-kui-theme="dark">
+      <h3>Dark</h3>
+      <div class="scrollbar-box kui-scroll" tabindex="0">
+        @for (row of rows.slice(0, 12); track row) {
+          <p>{{ row }}</p>
+        }
+      </div>
+    </section>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="Component contexts"
+  description="Same scrollbar treatment is applied to common internal scroll containers."
+>
+  <div class="scrollbar-grid scrollbar-grid--three">
+    <section class="scrollbar-context">
+      <h3>Dropdown body</h3>
+      <div class="kui-dropdown kui-dropdown--scroll scrollbar-context__body" tabindex="0">
+        @for (row of rows.slice(0, 10); track row) {
+          <button type="button">{{ row }}</button>
+        }
+      </div>
+    </section>
+
+    <section class="scrollbar-context">
+      <h3>Dialog body</h3>
+      <div class="kui-dialog-body scrollbar-context__body" tabindex="0">
+        @for (row of rows.slice(0, 10); track row) {
+          <p>{{ row }} with longer supporting text.</p>
+        }
+      </div>
+    </section>
+
+    <section class="scrollbar-context">
+      <h3>Table wrapper</h3>
+      <div class="scrollbar-box scrollbar-box--table kui-scroll" tabindex="0">
+        <table>
+          <thead>
+            <tr>
+              @for (column of columns; track column) {
+                <th>{{ column }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of rows.slice(0, 6); track row) {
+              <tr>
+                @for (column of columns; track column) {
+                  <td>{{ row }}</td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</app-panel>
+
+<app-panel num="05" title="Tokens" description="Public variables used by the scrollbar utility.">
+  <div class="scrollbar-token-grid">
+    <code>--kui-scrollbar-size</code>
+    <code>--kui-scrollbar-radius</code>
+    <code>--kui-scrollbar-track</code>
+    <code>--kui-scrollbar-thumb-min</code>
+    <code>--kui-scrollbar-thumb-inset</code>
+    <code>--kui-color-scrollbar-thumb</code>
+    <code>--kui-color-scrollbar-thumb-hover</code>
+    <code>--kui-color-scrollbar-thumb-active</code>
+  </div>
+</app-panel>

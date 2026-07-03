@@ -43,6 +43,7 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Chip            | `/chip`            | neutral/primary/success/warning/danger/info appearances, xs/sm/md/lg sizes, remove action, counter, interactive button chip, focus, disabled, invalid, icon/avatar composition                                                                                         |
 | Combobox        | `/combobox`        | `input[kuiCombobox]`, local and remote search, projected `kui-dropdown`/`kuiOption`, highlight pipe, invalid/disabled/readonly/loading/empty states, inherited field sizes, free input mode, keyboard navigation, CDK overlay positioning                              |
 | Command Palette | `/command-palette` | CDK overlay dialog, focus trap, grouped commands, query filtering, highlighted label matches, loading skeleton rows, empty state, disabled and danger items, keyboard navigation, selected output                                                                      |
+| Scrollbar       | `/scrollbar`       | `.kui-scroll` utility, vertical and horizontal native scroll containers, light/dark themed thumb tokens, static default/hover/active state references, dialog/dropdown/table-like contexts                                                                             |
 
 ## Current Gaps
 

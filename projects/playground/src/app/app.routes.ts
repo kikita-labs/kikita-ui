@@ -148,5 +148,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/command-palette/command-palette.page').then((m) => m.CommandPalettePage),
   },
+  {
+    path: 'scrollbar',
+    loadComponent: () => import('./pages/scrollbar/scrollbar.page').then((m) => m.ScrollbarPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

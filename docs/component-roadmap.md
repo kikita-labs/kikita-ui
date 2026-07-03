@@ -47,10 +47,9 @@
 - Chip (done as `[kuiChip]` + `button[kuiChipRemove]`; Select multiselect uses it for selected values)
 - Combobox (done as `input[kuiCombobox]` with projected `kui-dropdown`/`kuiOption`, search output, highlight pipe, free mode, and provider defaults)
 - Command Palette (done as `kui-command-palette`; supports grouped commands, filtering with label highlights, loading skeleton rows, empty state, keyboard navigation, and CDK overlay focus trapping)
+- Scrollbar (done as `.kui-scroll` CSS utility plus internal scroll-container styling for dropdown, dialog, drawer, and command palette)
 
 ## Later
-
-- Scrollbar styling polish
 
 Do not build Datepicker, Calendar, Tree, Charts, or File Upload until a real consumer needs them.
 

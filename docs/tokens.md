@@ -189,6 +189,19 @@ Skeleton tokens:
 --kui-skeleton-gap
 ```
 
+Scrollbar tokens:
+
+```css
+--kui-scrollbar-size
+--kui-scrollbar-radius
+--kui-scrollbar-track
+--kui-scrollbar-thumb-min
+--kui-scrollbar-thumb-inset
+--kui-color-scrollbar-thumb
+--kui-color-scrollbar-thumb-hover
+--kui-color-scrollbar-thumb-active
+```
+
 Empty State tokens:
 
 ```css

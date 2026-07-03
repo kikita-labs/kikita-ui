@@ -1,0 +1,73 @@
+@layer kui.components {
+  .kui-scroll,
+  .kui-dropdown--scroll,
+  .kui-command__list,
+  .kui-dialog-body,
+  .kui-drawer-body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--kui-color-scrollbar-thumb) var(--kui-scrollbar-track);
+  }
+
+  .kui-scroll::-webkit-scrollbar,
+  .kui-dropdown--scroll::-webkit-scrollbar,
+  .kui-command__list::-webkit-scrollbar,
+  .kui-dialog-body::-webkit-scrollbar,
+  .kui-drawer-body::-webkit-scrollbar {
+    inline-size: var(--kui-scrollbar-size);
+    block-size: var(--kui-scrollbar-size);
+  }
+
+  .kui-scroll::-webkit-scrollbar-track,
+  .kui-dropdown--scroll::-webkit-scrollbar-track,
+  .kui-command__list::-webkit-scrollbar-track,
+  .kui-dialog-body::-webkit-scrollbar-track,
+  .kui-drawer-body::-webkit-scrollbar-track {
+    background: var(--kui-scrollbar-track);
+  }
+
+  .kui-scroll::-webkit-scrollbar-corner,
+  .kui-dropdown--scroll::-webkit-scrollbar-corner,
+  .kui-command__list::-webkit-scrollbar-corner,
+  .kui-dialog-body::-webkit-scrollbar-corner,
+  .kui-drawer-body::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  .kui-scroll::-webkit-scrollbar-thumb,
+  .kui-dropdown--scroll::-webkit-scrollbar-thumb,
+  .kui-command__list::-webkit-scrollbar-thumb,
+  .kui-dialog-body::-webkit-scrollbar-thumb,
+  .kui-drawer-body::-webkit-scrollbar-thumb {
+    min-block-size: var(--kui-scrollbar-thumb-min);
+    border: var(--kui-scrollbar-thumb-inset) solid transparent;
+    border-radius: var(--kui-scrollbar-radius);
+    background-color: var(--kui-color-scrollbar-thumb);
+    background-clip: padding-box;
+  }
+
+  .kui-scroll::-webkit-scrollbar-thumb:hover,
+  .kui-dropdown--scroll::-webkit-scrollbar-thumb:hover,
+  .kui-command__list::-webkit-scrollbar-thumb:hover,
+  .kui-dialog-body::-webkit-scrollbar-thumb:hover,
+  .kui-drawer-body::-webkit-scrollbar-thumb:hover {
+    background-color: var(--kui-color-scrollbar-thumb-hover);
+  }
+
+  .kui-scroll::-webkit-scrollbar-thumb:active,
+  .kui-dropdown--scroll::-webkit-scrollbar-thumb:active,
+  .kui-command__list::-webkit-scrollbar-thumb:active,
+  .kui-dialog-body::-webkit-scrollbar-thumb:active,
+  .kui-drawer-body::-webkit-scrollbar-thumb:active {
+    background-color: var(--kui-color-scrollbar-thumb-active);
+  }
+
+  @media (forced-colors: active) {
+    .kui-scroll,
+    .kui-dropdown--scroll,
+    .kui-command__list,
+    .kui-dialog-body,
+    .kui-drawer-body {
+      scrollbar-color: auto;
+    }
+  }
+}
