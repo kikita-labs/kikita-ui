@@ -38,7 +38,8 @@
     block-size: 100%;
   }
 
-  .kui-field-spinner {
+  .kui-field-spinner,
+  .kui-affix-spinner {
     box-sizing: border-box;
     display: inline-flex;
     flex: 0 0 auto;
@@ -103,7 +104,8 @@
     opacity: var(--kui-field-action-disabled-opacity);
   }
 
-  .kui-field-message {
+  .kui-field-message,
+  .kui-field__message {
     display: inline-flex;
     align-items: flex-start;
     gap: var(--kui-field-message-gap);
@@ -113,7 +115,8 @@
     line-height: 1.4;
   }
 
-  .kui-field-message-icon {
+  .kui-field-message-icon,
+  .kui-field__message-icon {
     display: inline-flex;
     flex: 0 0 auto;
     inline-size: var(--kui-field-message-icon-size);
@@ -121,15 +124,27 @@
     margin-block-start: var(--kui-field-message-icon-offset);
   }
 
-  .kui-field-message-icon > svg {
+  .kui-field-message-icon > svg,
+  .kui-field__message-icon > svg {
     inline-size: 100%;
     block-size: 100%;
   }
 
-  .kui-field-message a {
+  .kui-field-message a,
+  .kui-field__message a {
     color: inherit;
     text-decoration: underline;
     text-underline-offset: 2px;
+  }
+
+  .kui-field-message--hint,
+  .kui-field__message--hint {
+    color: var(--kui-field-hint-color, var(--kui-color-text-secondary));
+  }
+
+  .kui-field-message--error,
+  .kui-field__message--error {
+    color: var(--kui-field-error-color, var(--kui-color-danger-fill));
   }
 
   @keyframes kui-field-spinner {
@@ -139,7 +154,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .kui-field-spinner {
+    .kui-field-spinner,
+    .kui-affix-spinner {
       animation-duration: var(--kui-field-spinner-duration-reduced);
     }
   }

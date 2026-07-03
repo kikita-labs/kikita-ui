@@ -54,10 +54,10 @@
       <label kuiLabel>API key</label>
       <div class="kui-input-group">
         <input kuiInput value="kui_live_" aria-label="API key" />
-        <span class="kui-field-spinner" role="status" aria-label="Checking key"></span>
+        <span class="kui-affix-spinner" role="status" aria-label="Checking key"></span>
       </div>
-      <p kuiHint class="kui-field-message">
-        <span class="kui-field-message-icon" aria-hidden="true">
+      <p kuiHint class="kui-field__message kui-field__message--hint">
+        <span class="kui-field__message-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10" />
             <path d="M12 16v-4" />
@@ -74,8 +74,8 @@
         <span class="kui-field-affix">https://</span>
         <input kuiInput value="example" aria-label="Domain" />
       </div>
-      <p kuiError class="kui-field-message">
-        <span class="kui-field-message-icon" aria-hidden="true">
+      <p kuiError class="kui-field__message kui-field__message--error">
+        <span class="kui-field__message-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10" />
             <path d="M12 8v4" />

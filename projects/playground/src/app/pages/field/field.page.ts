@@ -3,6 +3,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import {
   KuiCellDirective,
   KuiFieldComponent,
+  KuiInputGroupDirective,
   KuiInputDirective,
   KuiTableDirective,
   KuiTextareaDirective,
@@ -17,6 +18,7 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   imports: [
     KuiCellDirective,
     KuiFieldComponent,
+    KuiInputGroupDirective,
     KuiInputDirective,
     KuiTableDirective,
     KuiTextareaDirective,

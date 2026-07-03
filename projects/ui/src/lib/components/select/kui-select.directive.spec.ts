@@ -381,10 +381,14 @@ describe('KuiSelectDirective', () => {
       expect(fixture.componentInstance.val()).toEqual([]);
     });
 
-    it('does not render clear button when readonly', () => {
+    it('disables clear button when readonly', () => {
       const fixture = createFixture(ReadonlyClearableHost);
+      const clearBtn = fixture.nativeElement.querySelector(
+        '.kui-select-clear',
+      ) as HTMLButtonElement;
 
-      expect(fixture.nativeElement.querySelector('.kui-select-clear')).toBeNull();
+      expect(clearBtn).toBeTruthy();
+      expect(clearBtn.disabled).toBe(true);
     });
   });
 
@@ -418,6 +422,12 @@ describe('KuiSelectDirective', () => {
       expect(chevron.getAttribute('aria-expanded')).toBe('true');
 
       chevron.click();
+      fixture.detectChanges();
+
+      const panel = document.querySelector('.kui-dropdown') as HTMLElement;
+      const animationEnd = new Event('animationend') as AnimationEvent;
+      Object.defineProperty(animationEnd, 'animationName', { value: 'kui-dropdown-out' });
+      panel.dispatchEvent(animationEnd);
       fixture.detectChanges();
 
       expect(document.querySelector('.kui-dropdown')).toBeNull();

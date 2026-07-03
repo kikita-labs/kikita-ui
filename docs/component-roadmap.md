@@ -6,7 +6,7 @@
 - Icon abstraction
 - Button
 - IconButton
-- Field (affixes, field actions, and rich messages covered from Claude spec 33)
+- Field (affixes, field actions, input-group focus delegation, and rich messages covered from Claude spec 33)
 - Input
 - Group
 - Playground component board

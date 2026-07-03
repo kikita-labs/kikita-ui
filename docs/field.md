@@ -5,7 +5,12 @@
 ## Import
 
 ```ts
-import { KuiFieldComponent, KuiInputDirective, kuiProvideFieldOptions } from '@kikita-labs/ui';
+import {
+  KuiFieldComponent,
+  KuiInputDirective,
+  KuiInputGroupDirective,
+  kuiProvideFieldOptions,
+} from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -85,6 +90,11 @@ clear buttons, spinners, or other field chrome around a native input:
 </kui-field>
 ```
 
+Import `KuiInputGroupDirective` when using `.kui-input-group`. The directive delegates clicks on
+non-interactive field chrome, such as prefix text, suffix text, decorative icons, and empty group
+space, to the first enabled native control inside the group. Interactive descendants such as clear
+buttons, chevrons, visibility toggles, links, and the control itself keep their own behavior.
+
 Use `.kui-field-action` for inline field buttons such as clear, password visibility, dropdown
 chevron, or custom trailing actions:
 
@@ -151,6 +161,8 @@ mutating provider option objects.
 - `.kui-field-affix` / `.kui-affix`: prefix or suffix text
 - `.kui-field-affix-icon` / `.kui-affix-icon`: decorative leading or trailing icon
 - `.kui-field-action`: inline field action button
-- `.kui-field-spinner`: inline loading indicator
-- `.kui-field-message`: rich hint/error row
-- `.kui-field-message-icon`: icon inside a rich message
+- `.kui-field-spinner` / `.kui-affix-spinner`: inline loading indicator
+- `.kui-field-message` / `.kui-field__message`: rich hint/error row
+- `.kui-field-message-icon` / `.kui-field__message-icon`: icon inside a rich message
+- `.kui-field-message--hint` / `.kui-field__message--hint`: hint-colored rich message
+- `.kui-field-message--error` / `.kui-field__message--error`: error-colored rich message
