@@ -24,6 +24,7 @@ is built from `dist/ui`.
 Run before publishing:
 
 ```bash
+pnpm audit:static
 pnpm format:check
 pnpm build
 pnpm build:playground

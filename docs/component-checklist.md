@@ -116,6 +116,7 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 Run these before marking the primitive done:
 
 ```bash
+pnpm audit:static
 pnpm format:check
 pnpm test
 pnpm build

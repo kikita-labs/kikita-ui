@@ -11,6 +11,7 @@
     "build:all": "ng build ui && ng build playground",
     "watch": "ng build ui --watch --configuration development",
     "test": "ng test ui",
+    "audit:static": "node scripts/verify-static-audit.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
