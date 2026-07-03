@@ -1,8 +1,8 @@
 # Scrollbar
 
-`kui-scroll` is a token-driven CSS utility for native scroll containers.
+Kikita provides token-driven native scrollbar styling.
 
-It does not replace native scrolling and does not add JavaScript behavior. Use it when a surface owns local overflow and should match Kikita UI scrollbar colors.
+It does not replace native scrolling and does not add JavaScript behavior.
 
 ## Import
 
@@ -11,6 +11,22 @@ import '@kikita-labs/ui/styles/kikita-ui.css';
 ```
 
 ## Basic Usage
+
+For application-wide scrollbar styling, enable the provider option once:
+
+```ts
+import { provideKikitaUi } from '@kikita-labs/ui';
+
+export const appConfig = {
+  providers: [provideKikitaUi({ scrollbars: 'styled' })],
+};
+```
+
+This sets `data-kui-scrollbars="styled"` on the document root and styles native scrollbars for application-owned scroll containers.
+
+The default is `scrollbars: 'native'` for application-owned scroll containers. Kikita-owned internal scroll areas, such as dropdown, dialog body, drawer body, and command palette list, still use Kikita scrollbar tokens automatically.
+
+Use `kui-scroll` only for local opt-in when you do not want global application scrollbar styling:
 
 ```html
 <div class="kui-scroll" style="max-block-size: 240px; overflow: auto">
@@ -21,8 +37,6 @@ import '@kikita-labs/ui/styles/kikita-ui.css';
 ```
 
 Apply the class to the element that actually scrolls. Do not apply it to a child wrapper that has no overflow.
-
-Kikita also applies the same scrollbar treatment to internal scroll containers used by dropdown, dialog, drawer, and command palette primitives.
 
 ## Accessibility
 

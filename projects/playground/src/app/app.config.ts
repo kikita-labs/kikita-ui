@@ -23,7 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
-    provideKikitaUi(),
+    provideKikitaUi({ scrollbars: 'styled' }),
     provideKuiIcons(PLAYGROUND_ICONS),
   ],
 };
