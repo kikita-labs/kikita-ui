@@ -45,6 +45,8 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Command Palette | `/command-palette` | CDK overlay dialog, focus trap, grouped commands, query filtering, highlighted label matches, loading skeleton rows, empty state, disabled and danger items, keyboard navigation, selected output                                                                      |
 | Scrollbar       | `/scrollbar`       | `.kui-scroll` utility, vertical and horizontal native scroll containers, light/dark themed thumb tokens, static default/hover/active state references, dialog/dropdown/table-like contexts                                                                             |
 
+| Color Input | `/color-input` | compact `input[kuiColorInput]`, hex and OKLCH text values, swatch preview, chevron trigger, Kikita popover picker, 2D lightness/chroma surface, hue slider, L/C/H inputs, presets, copy action, invalid/disabled/readonly states, xs/sm/md/lg sizes, seed-grid composition |
+
 ## Current Gaps
 
 - Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Fixes from that pass include native sortable table header buttons, accessible tab scroll buttons, toast `status`/`alert` live semantics, tooltip whitespace guarding, and Signal Forms native range coverage for Slider.

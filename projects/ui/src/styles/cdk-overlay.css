@@ -53,6 +53,18 @@
   align-self: flex-start;
 }
 
+/* @angular/cdk's prebuilt overlay CSS sets .cdk-overlay-pane { max-height: 100% }
+   unlayered, so it always wins over any @layer rule regardless of specificity.
+   The CDK 22 bounding-box is sized to whatever space is available at the chosen
+   fallback position (not the overlay's real content size); with the pane forced
+   to position:static above, that max-height clamps the pane to it, clipping the
+   popover's own background while its content spills out uncontained. Let this
+   specific popover's pane render at its natural content size instead. */
+.cdk-overlay-pane:has(> .kui-color-input-popover) {
+  flex-shrink: 0;
+  max-height: none;
+}
+
 .cdk-overlay-backdrop {
   position: absolute;
   inset: 0;

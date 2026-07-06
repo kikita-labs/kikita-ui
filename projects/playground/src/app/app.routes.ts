@@ -152,5 +152,10 @@ export const routes: Routes = [
     path: 'scrollbar',
     loadComponent: () => import('./pages/scrollbar/scrollbar.page').then((m) => m.ScrollbarPage),
   },
+  {
+    path: 'color-input',
+    loadComponent: () =>
+      import('./pages/color-input/color-input.page').then((m) => m.ColorInputPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

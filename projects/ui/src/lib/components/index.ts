@@ -33,3 +33,4 @@ export * from './drawer';
 export * from './chip';
 export * from './combobox';
 export * from './command-palette';
+export * from './color-input';

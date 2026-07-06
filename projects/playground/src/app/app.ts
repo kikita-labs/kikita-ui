@@ -57,6 +57,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/combobox', label: 'Combobox' },
   { path: '/command-palette', label: 'Command Palette' },
   { path: '/scrollbar', label: 'Scrollbar' },
+  { path: '/color-input', label: 'Color Input' },
 ];
 
 @Component({

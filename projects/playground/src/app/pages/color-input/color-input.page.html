@@ -1,0 +1,61 @@
+<div class="page color-input-page">
+  <app-panel
+    num="01"
+    title="Compact field"
+    description="Native text input with swatch preview, chevron trigger, and Kikita picker popover."
+  >
+    <div class="color-input-page__grid">
+      <kui-field label="Primary seed" hint="Swatch or chevron opens the picker.">
+        <input kuiColorInput [ngModel]="livePrimary()" (ngModelChange)="livePrimary.set($event)" />
+      </kui-field>
+
+      <kui-field label="Primary OKLCH" hint="Valid seed text for createKuiTheme().">
+        <input kuiColorInput [ngModel]="liveOklch()" (ngModelChange)="liveOklch.set($event)" />
+      </kui-field>
+    </div>
+  </app-panel>
+
+  <app-panel num="02" title="States" description="Default, invalid, disabled, and readonly.">
+    <div class="color-input-page__grid color-input-page__grid--states">
+      <kui-field label="Default">
+        <input kuiColorInput value="#5b4fe0" />
+      </kui-field>
+
+      <kui-field label="Invalid" error="Use #rgb, #rrggbb, or oklch().">
+        <input kuiColorInput value="purple-ish" />
+      </kui-field>
+
+      <kui-field label="Disabled">
+        <input kuiColorInput value="#5b4fe0" disabled />
+      </kui-field>
+
+      <kui-field label="Readonly">
+        <input kuiColorInput value="#5b4fe0" readonly />
+      </kui-field>
+    </div>
+  </app-panel>
+
+  <app-panel num="03" title="Sizes" description="xs, sm, md, and lg field sizes.">
+    <div class="color-input-page__grid color-input-page__grid--sizes">
+      @for (size of ['xs', 'sm', 'md', 'lg']; track size) {
+        <kui-field [label]="size" [size]="$any(size)">
+          <input kuiColorInput [size]="$any(size)" value="#5b4fe0" />
+        </kui-field>
+      }
+    </div>
+  </app-panel>
+
+  <app-panel
+    num="04"
+    title="Theme seed grid"
+    description="The target docs-site use case: edit the six Ember seed colors in a compact sidebar."
+  >
+    <div class="color-input-page__seed-grid">
+      @for (seed of seedRows; track seed.label) {
+        <kui-field [label]="seed.label">
+          <input kuiColorInput [value]="seed.value" />
+        </kui-field>
+      }
+    </div>
+  </app-panel>
+</div>

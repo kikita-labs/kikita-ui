@@ -49,6 +49,10 @@
 - Command Palette (done as `kui-command-palette`; supports grouped commands, filtering with label highlights, loading skeleton rows, empty state, keyboard navigation, and CDK overlay focus trapping)
 - Scrollbar (done as `.kui-scroll` CSS utility plus internal scroll-container styling for dropdown, dialog, drawer, and command palette)
 
+## Phase 4
+
+- Color Input (done as `input[kuiColorInput]` for the kikita-ui-docs theme playground seed editor; supports hex and OKLCH text entry, swatch preview, chevron trigger, Kikita popover picker, 2D lightness/chroma surface, hue slider, L/C/H inputs, seed presets, copy action, `kui-field` composition, sizes, disabled, readonly, invalid state, and last-valid-color behavior while invalid)
+
 ## Later
 
 Do not build Datepicker, Calendar, Tree, Charts, or File Upload until a real consumer needs them.

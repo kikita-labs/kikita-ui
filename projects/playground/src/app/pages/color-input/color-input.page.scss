@@ -1,0 +1,28 @@
+.color-input-page__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: var(--kui-space-5);
+  max-inline-size: 760px;
+}
+
+.color-input-page__grid--states,
+.color-input-page__grid--sizes {
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  max-inline-size: none;
+}
+
+.color-input-page__seed-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: var(--kui-space-4);
+  max-inline-size: 560px;
+}
+
+@media (max-width: 760px) {
+  .color-input-page__grid,
+  .color-input-page__grid--states,
+  .color-input-page__grid--sizes,
+  .color-input-page__seed-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
