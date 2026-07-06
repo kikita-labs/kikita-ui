@@ -189,6 +189,27 @@ describe('KuiPopoverComponent - click trigger', () => {
 
     expect(getPanel()?.getAttribute('data-align')).toBe('center');
   });
+
+  it('does not close when interacting with a nested Kikita overlay surface', () => {
+    const fixture = createFixture(ClickHost);
+    const overlayContainer = TestBed.inject(OverlayContainer).getContainerElement();
+    const nestedPane = document.createElement('div');
+    const nestedSurface = document.createElement('div');
+
+    nestedPane.className = 'cdk-overlay-pane';
+    nestedSurface.className = 'kui-color-input-popover';
+    nestedPane.appendChild(nestedSurface);
+    overlayContainer.appendChild(nestedPane);
+
+    getTrigger(fixture).click();
+    fixture.detectChanges();
+
+    nestedSurface.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.pop().open()).toBe(true);
+    expect(getPanel()?.classList.contains('kui-popover--out')).toBe(false);
+  });
 });
 
 describe('KuiPopoverComponent - hover trigger', () => {

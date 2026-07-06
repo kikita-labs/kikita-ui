@@ -246,9 +246,16 @@ export class KuiPopoverComponent implements OnDestroy {
     });
 
     const outsideHandler = (e: MouseEvent) => {
-      if (!overlayEl.contains(e.target as Element)) {
-        const isTrigger = this._triggerEl?.contains(e.target as Element);
-        if (!isTrigger) this.zone.run(() => this.close());
+      const target = e.target as Element;
+
+      if (!overlayEl.contains(target)) {
+        const isTrigger = this._triggerEl?.contains(target);
+        const isNestedKikitaOverlay =
+          target.closest(
+            '.kui-color-input-popover, .kui-dropdown, .kui-menu, .kui-select, .kui-combobox, .kui-command-palette, .kui-popover',
+          ) != null;
+
+        if (!isTrigger && !isNestedKikitaOverlay) this.zone.run(() => this.close());
       }
     };
 
