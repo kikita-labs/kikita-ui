@@ -1,0 +1,97 @@
+<app-panel
+  num="01"
+  title="Horizontal (default)"
+  description="Compound component: <code>kui-stepper</code>, <code>kui-step</code>. Clicking a completed step's circle goes back to it."
+>
+  <div class="component-board">
+    <kui-stepper [(currentIndex)]="basicStep" aria-label="Progress">
+      <kui-step label="Account" />
+      <kui-step label="Workspace" />
+      <kui-step label="Invite team" />
+    </kui-stepper>
+    <div class="step-actions">
+      <button type="button" kuiButton appearance="ghost" (click)="prev(basicStep)">Back</button>
+      <button type="button" kuiButton (click)="next(basicStep, 2)">Next</button>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Vertical"
+  description="Same state set, stacked top to bottom with the label beside the circle."
+>
+  <div class="component-board" style="max-width: 320px">
+    <kui-stepper orientation="vertical" [(currentIndex)]="verticalStep" aria-label="Progress">
+      <kui-step label="Account details" description="Name, email, password" />
+      <kui-step label="Workspace setup" description="Team name and logo" />
+      <kui-step label="Invite team" description="Colleague emails" />
+    </kui-stepper>
+    <div class="step-actions">
+      <button type="button" kuiButton appearance="ghost" (click)="prev(verticalStep)">Back</button>
+      <button type="button" kuiButton (click)="next(verticalStep, 2)">Next</button>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel num="03" title="Sizes" description="<code>size</code>: sm / md (default) / lg.">
+  <div class="component-board" style="gap: 24px">
+    @for (row of sizeRows; track row.value) {
+      <div>
+        <div class="size-row-label">{{ row.label }}</div>
+        <kui-stepper [size]="row.value" [currentIndex]="1" aria-label="Progress">
+          <kui-step label="Account" />
+          <kui-step label="Workspace" />
+          <kui-step label="Invite team" />
+        </kui-stepper>
+      </div>
+    }
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="Error state"
+  description="A step with <code>[hasError]</code> renders a cross icon in danger colors; every step after it becomes <code>disabled</code>."
+>
+  <div class="component-board">
+    <kui-stepper [currentIndex]="1" aria-label="Progress">
+      <kui-step label="Account" />
+      <kui-step label="Payment" description="Card declined" [hasError]="errorVisible()" />
+      <kui-step label="Confirm" />
+    </kui-stepper>
+    <div class="step-actions">
+      <button type="button" kuiButton (click)="errorVisible.set(!errorVisible())">
+        Toggle error on "Payment"
+      </button>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="05"
+  title="Compact"
+  description="<code>compact</code> renders dots only, no labels or descriptions — for narrow layouts."
+>
+  <div class="component-board">
+    <kui-stepper compact [currentIndex]="1" aria-label="Progress">
+      <kui-step label="Account" />
+      <kui-step label="Workspace" />
+      <kui-step label="Invite team" />
+    </kui-stepper>
+  </div>
+</app-panel>
+
+<app-panel
+  num="06"
+  title="Non-linear"
+  description='<code>[linear]="false"</code> lets upcoming steps be clicked directly to jump forward, in addition to completed steps going back.'
+>
+  <div class="component-board">
+    <kui-stepper [linear]="false" [(currentIndex)]="nonLinearStep" aria-label="Progress">
+      <kui-step label="Account" />
+      <kui-step label="Workspace" />
+      <kui-step label="Invite team" />
+    </kui-stepper>
+  </div>
+</app-panel>

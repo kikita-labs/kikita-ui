@@ -46,6 +46,7 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Scrollbar       | `/scrollbar`       | `.kui-scroll` utility, vertical and horizontal native scroll containers, light/dark themed thumb tokens, static default/hover/active state references, dialog/dropdown/table-like contexts                                                                             |
 
 | Color Input | `/color-input` | compact `input[kuiColorInput]`, hex and OKLCH text values, swatch preview, chevron trigger, Kikita popover picker, 2D lightness/chroma surface, hue slider, L/C/H inputs, presets, copy action, invalid/disabled/readonly states, xs/sm/md/lg sizes, seed-grid composition |
+| Stepper | `/stepper` | horizontal/vertical orientation, sm/md/lg sizes, done/current/upcoming/disabled/error states, description line, compact dots-only mode, clickable done-step back navigation, non-linear forward jump, dark/light themes |
 
 ## Current Gaps
 

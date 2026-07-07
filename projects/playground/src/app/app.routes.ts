@@ -157,5 +157,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/color-input/color-input.page').then((m) => m.ColorInputPage),
   },
+  {
+    path: 'stepper',
+    loadComponent: () => import('./pages/stepper/stepper.page').then((m) => m.StepperPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

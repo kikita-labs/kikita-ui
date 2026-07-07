@@ -803,6 +803,13 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-command-shortcut-text': 'var(--kui-color-text-secondary)',
     '--kui-command-footer-text': 'var(--kui-color-text-secondary)',
     '--kui-z-command-palette': '460',
+    '--kui-stepper-connector-color': 'var(--kui-color-border)',
+    '--kui-stepper-connector-color-done': 'var(--kui-color-primary-fill)',
+    '--kui-stepper-circle-size': '32px',
+    '--kui-stepper-fg-upcoming': 'var(--kui-color-text-secondary)',
+    '--kui-stepper-fg-current': 'var(--kui-color-primary-fill)',
+    '--kui-stepper-fg-done': 'var(--kui-color-primary-fill)',
+    '--kui-stepper-fg-error': 'var(--kui-color-danger-fill)',
   };
 }
 
