@@ -72,6 +72,15 @@
     min-height: 20px;
     margin-block: var(--kui-space-1);
   }
+  /* vertical connects steps with a single line per gap (this step's "after"
+     line only) so the circle stays top-aligned with the label; the "before"
+     line would otherwise duplicate that connector and push the circle down. */
+  .kui-stepper[data-kui-orientation='vertical'] .kui-step-line:first-of-type {
+    display: none;
+  }
+  .kui-stepper[data-kui-orientation='vertical'] .kui-step:last-child .kui-step-line:last-of-type {
+    display: none;
+  }
   .kui-stepper[data-kui-orientation='vertical'] .kui-step-body {
     padding-bottom: var(--kui-space-5);
   }
@@ -100,8 +109,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
     width: var(--kui-stepper-circle-size, 32px);
     height: var(--kui-stepper-circle-size, 32px);
+    padding: 0;
     border-radius: 50%;
     border: 2px solid transparent;
     font-size: var(--kui-text-sm-size);
