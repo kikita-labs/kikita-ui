@@ -5,7 +5,7 @@
     flex-direction: row;
     align-items: center;
     gap: var(--kui-seg-gap, 2px);
-    padding: var(--kui-seg-padding, 4px);
+    padding: var(--kui-seg-padding, 2px);
     background-color: var(--kui-seg-bg, var(--kui-color-surface-sunken));
     border: 1px solid var(--kui-seg-border, var(--kui-color-border));
     border-radius: var(--kui-seg-radius, var(--kui-radius-md));
@@ -13,9 +13,9 @@
 
   .kui-segmented__thumb {
     position: absolute;
-    top: var(--kui-seg-padding, 4px);
+    top: var(--kui-seg-padding, 2px);
     left: 0;
-    height: calc(100% - 2 * var(--kui-seg-padding, 4px));
+    height: calc(100% - 2 * var(--kui-seg-padding, 2px));
     border-radius: var(--kui-seg-item-radius, var(--kui-radius-sm));
     background-color: var(--kui-seg-item-bg-active, var(--kui-color-primary-fill));
     pointer-events: none;
@@ -78,21 +78,21 @@
 
   .kui-segmented[data-kui-size='xs'] {
     --kui-seg-height: calc(
-      var(--kui-control-height-xs, 28px) - 2 * var(--kui-seg-padding, 4px) - 2px
+      var(--kui-control-height-xs, 28px) - 2 * var(--kui-seg-padding, 2px) - 2px
     );
     --kui-seg-px: var(--kui-space-2, 8px);
   }
 
   .kui-segmented[data-kui-size='sm'] {
     --kui-seg-height: calc(
-      var(--kui-control-height-sm, 32px) - 2 * var(--kui-seg-padding, 4px) - 2px
+      var(--kui-control-height-sm, 32px) - 2 * var(--kui-seg-padding, 2px) - 2px
     );
     --kui-seg-px: var(--kui-space-3, 12px);
   }
 
   .kui-segmented[data-kui-size='lg'] {
     --kui-seg-height: calc(
-      var(--kui-control-height-lg, 44px) - 2 * var(--kui-seg-padding, 4px) - 2px
+      var(--kui-control-height-lg, 44px) - 2 * var(--kui-seg-padding, 2px) - 2px
     );
     --kui-seg-px: var(--kui-space-5, 20px);
   }
