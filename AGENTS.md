@@ -122,6 +122,20 @@ change. Create the file if it does not exist. Each entry should say what
 changed, why, and the exact before/after usage so the docs repo can migrate
 without re-deriving context.
 
+## Changelog
+
+`CHANGELOG.md` at the repo root tracks notable changes to `@kikita-labs/ui`,
+following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). History
+before 0.1.0 is not backfilled; tracking starts at 0.1.0.
+
+When a change touches public API, behavior, or fixes a user-visible bug, add
+an entry under `## [Unreleased]` in the same change (`### Added` / `###
+Changed` / `### Fixed` / `### Removed` as appropriate). When cutting a
+release: move the `[Unreleased]` entries under a new `## [x.y.z] - YYYY-MM-DD`
+heading, bump `projects/ui/package.json` version to match, and add the
+comparison link at the bottom of the file. Purely internal changes (test
+refactors, playground-only tweaks, docs wording) do not need an entry.
+
 ## Package
 
 Current package scope is `@kikita-labs/ui`.
