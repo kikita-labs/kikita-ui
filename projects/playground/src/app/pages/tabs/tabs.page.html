@@ -195,3 +195,41 @@
     </table>
   </div>
 </app-panel>
+
+<app-panel
+  num="07"
+  title="Vertical orientation"
+  description='<code>orientation="vertical"</code> stacks the tab list in a column. Keyboard: ↑↓ Home End.'
+>
+  <div class="component-board" style="display: flex; gap: 48px; flex-wrap: wrap">
+    <kui-tabs orientation="vertical" selected="general">
+      <button kuiTab value="general">General</button>
+      <button kuiTab value="advanced">Advanced</button>
+      <button kuiTab value="billing">Billing</button>
+      <div kuiTabPanel value="general">
+        <p>General settings panel.</p>
+      </div>
+      <div kuiTabPanel value="advanced">
+        <p>Advanced settings panel.</p>
+      </div>
+      <div kuiTabPanel value="billing">
+        <p>Billing panel.</p>
+      </div>
+    </kui-tabs>
+
+    <kui-tabs orientation="vertical" variant="pill" selected="general">
+      <button kuiTab value="general">General</button>
+      <button kuiTab value="advanced">Advanced</button>
+      <button kuiTab value="billing">Billing</button>
+      <div kuiTabPanel value="general">
+        <p>General settings panel.</p>
+      </div>
+      <div kuiTabPanel value="advanced">
+        <p>Advanced settings panel.</p>
+      </div>
+      <div kuiTabPanel value="billing">
+        <p>Billing panel.</p>
+      </div>
+    </kui-tabs>
+  </div>
+</app-panel>

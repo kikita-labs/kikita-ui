@@ -3,6 +3,7 @@ import {
   DestroyRef,
   ElementRef,
   ViewEncapsulation,
+  afterEveryRender,
   afterNextRender,
   booleanAttribute,
   contentChildren,
@@ -19,6 +20,8 @@ import { KUI_TABS_CONTEXT, KuiTabsContext } from './kui-tabs-context.token';
 
 /** Visual treatment used by `kui-tabs`. */
 export type KuiTabsVariant = 'line' | 'pill';
+/** Layout direction of the tab list. */
+export type KuiTabsOrientation = 'horizontal' | 'vertical';
 
 let nextTabsId = 0;
 
@@ -59,7 +62,13 @@ let nextTabsId = 0;
         </button>
       }
       <div class="kui-tabs__scroll" #scrollEl (scroll)="updateScrollState()">
-        <div class="kui-tabs__list" role="tablist" (keydown)="onKeydown($event)">
+        <div
+          class="kui-tabs__list"
+          role="tablist"
+          [attr.aria-orientation]="orientation()"
+          (keydown)="onKeydown($event)"
+        >
+          <span class="kui-tab-indicator" #indicator></span>
           <ng-content select="[kuiTab]" />
         </div>
       </div>
@@ -88,6 +97,7 @@ let nextTabsId = 0;
     class: 'kui-tabs',
     '[attr.data-kui-variant]': 'variant()',
     '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-orientation]': "orientation() === 'vertical' ? 'vertical' : null",
   },
   providers: [
     {
@@ -102,6 +112,8 @@ export class KuiTabsComponent implements KuiTabsContext {
   readonly variant = input<KuiTabsVariant>('line');
   /** Tab size. Defaults to md. */
   readonly size = input<KuiSize>('md');
+  /** Layout direction of the tab list. Defaults to horizontal. */
+  readonly orientation = input<KuiTabsOrientation>('horizontal');
   /** Whether tabs should expose `aria-controls` links to projected `kuiTabPanel` elements. */
   readonly controlsPanels = input(true, { transform: booleanAttribute });
   /** Currently selected tab value. */
@@ -109,8 +121,10 @@ export class KuiTabsComponent implements KuiTabsContext {
 
   private readonly tabItems = contentChildren(KuiTabDirective);
   private readonly scrollElRef = viewChild<ElementRef<HTMLElement>>('scrollEl');
+  private readonly indicatorRef = viewChild<ElementRef<HTMLSpanElement>>('indicator');
   private readonly destroyRef = inject(DestroyRef);
   private readonly idBase = `kui-tabs-${nextTabsId++}`;
+  private indicatorFirstRender = true;
 
   protected readonly canScrollLeft = signal(false);
   protected readonly canScrollRight = signal(false);
@@ -124,6 +138,8 @@ export class KuiTabsComponent implements KuiTabsContext {
       ro.observe(el);
       this.destroyRef.onDestroy(() => ro.disconnect());
     });
+
+    afterEveryRender(() => this.positionIndicator());
   }
 
   select(value: string): void {
@@ -149,6 +165,50 @@ export class KuiTabsComponent implements KuiTabsContext {
     this.scrollElRef()?.nativeElement.scrollBy({ left: delta, behavior: 'smooth' });
   }
 
+  private positionIndicator(): void {
+    const indicator = this.indicatorRef()?.nativeElement;
+    if (!indicator) return;
+
+    if (this.variant() !== 'line') {
+      indicator.style.opacity = '0';
+      return;
+    }
+
+    const item = this.tabItems().find((t) => t.value() === this.selected());
+    if (!item) {
+      indicator.style.opacity = '0';
+      return;
+    }
+
+    const el = item.elementRef.nativeElement;
+    const vertical = this.orientation() === 'vertical';
+    const size = vertical ? el.offsetHeight : el.offsetWidth;
+    const offset = vertical ? el.offsetTop : el.offsetLeft;
+
+    const isFirstRender = this.indicatorFirstRender;
+    if (isFirstRender) {
+      this.indicatorFirstRender = false;
+      indicator.style.transition = 'none';
+    }
+
+    if (vertical) {
+      indicator.style.height = `${size}px`;
+      indicator.style.width = '';
+      indicator.style.transform = `translateY(${offset}px)`;
+    } else {
+      indicator.style.width = `${size}px`;
+      indicator.style.height = '';
+      indicator.style.transform = `translateX(${offset}px)`;
+    }
+    indicator.style.opacity = '1';
+
+    if (isFirstRender) {
+      requestAnimationFrame(() => {
+        indicator.style.transition = '';
+      });
+    }
+  }
+
   private safeIdPart(value: string): string {
     return value.trim().replace(/[^a-zA-Z0-9_-]+/g, '-') || 'empty';
   }
@@ -159,14 +219,16 @@ export class KuiTabsComponent implements KuiTabsContext {
     if (!tabs.length) return;
 
     const idx = tabs.findIndex((t) => t.value() === this.selected());
+    const nextKey = this.orientation() === 'vertical' ? 'ArrowDown' : 'ArrowRight';
+    const prevKey = this.orientation() === 'vertical' ? 'ArrowUp' : 'ArrowLeft';
 
     switch (event.key) {
-      case 'ArrowRight':
+      case nextKey:
         event.preventDefault();
         tabs[(idx + 1) % tabs.length].focusTab();
         tabs[(idx + 1) % tabs.length].select();
         break;
-      case 'ArrowLeft':
+      case prevKey:
         event.preventDefault();
         tabs[(idx - 1 + tabs.length) % tabs.length].focusTab();
         tabs[(idx - 1 + tabs.length) % tabs.length].select();

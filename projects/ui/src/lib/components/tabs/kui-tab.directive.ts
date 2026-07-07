@@ -30,7 +30,7 @@ export class KuiTabDirective {
   readonly value = input<string>('');
 
   private readonly context = inject(KUI_TABS_CONTEXT);
-  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   protected readonly isSelected = computed(() => this.context.selected() === this.value());
   protected readonly tabId = computed(() => this.context.tabId(this.value()));
@@ -45,6 +45,6 @@ export class KuiTabDirective {
 
   /** @internal */
   focusTab(): void {
-    this.el.nativeElement.focus();
+    this.elementRef.nativeElement.focus();
   }
 }
