@@ -243,6 +243,9 @@
     border-width: 0;
     font-size: 0;
   }
+  .kui-stepper[data-kui-compact] .kui-step-circle svg {
+    display: none;
+  }
   .kui-stepper[data-kui-compact]:not([data-kui-orientation]) .kui-step-line {
     margin-inline: var(--kui-space-1);
   }
