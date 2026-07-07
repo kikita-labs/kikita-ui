@@ -166,5 +166,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/breadcrumbs/breadcrumbs.page').then((m) => m.BreadcrumbsPage),
   },
+  {
+    path: 'calendar',
+    loadComponent: () => import('./pages/calendar/calendar.page').then((m) => m.CalendarPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

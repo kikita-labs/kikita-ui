@@ -1,0 +1,228 @@
+@layer kui.components {
+  .kui-calendar {
+    display: inline-flex;
+    flex-direction: column;
+    width: 296px;
+    background: var(--kui-color-surface);
+    border: 1px solid var(--kui-color-border);
+    border-radius: var(--kui-radius-lg);
+    padding: var(--kui-space-4);
+    color: var(--kui-color-text);
+  }
+
+  .kui-calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--kui-space-3);
+  }
+
+  /* Prev/next/title header controls reuse .kui-button (ghost) for hover/focus/disabled —
+     this only sets the text styling specific to the month/year title. */
+  .kui-calendar-title {
+    font-size: var(--kui-text-sm-size);
+    font-weight: 600;
+    color: var(--kui-color-text);
+    padding: 4px var(--kui-space-2);
+  }
+  /* The decade-range label (`2020–2031`) has no drill-down and renders as a
+     non-interactive span instead of a `kuiButton`. */
+  span.kui-calendar-title {
+    cursor: default;
+  }
+
+  .kui-calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: var(--kui-space-1);
+  }
+  .kui-calendar-weekday {
+    text-align: center;
+    font-size: var(--kui-text-xs-size);
+    font-weight: 600;
+    color: var(--kui-calendar-weekday-color, var(--kui-color-text-secondary));
+    padding-bottom: var(--kui-space-2);
+  }
+
+  .kui-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+  }
+
+  .kui-calendar-day {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    width: 100%;
+    border: none;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    font-size: var(--kui-text-sm-size);
+    color: var(--kui-color-text);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .kui-calendar-day:focus-visible {
+    outline: none;
+    z-index: 2;
+  }
+
+  /* Inner layer: hover/focus/today/single-selected — inset so it never touches the
+     neighbouring cell. The outer button stays a full edge-to-edge square so range
+     fills can butt up against each other with zero seam. */
+  .kui-calendar-day-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - var(--kui-calendar-day-inset, 3px) * 2);
+    height: calc(100% - var(--kui-calendar-day-inset, 3px) * 2);
+    border-radius: var(--kui-calendar-cell-radius, var(--kui-radius-md));
+    transition: background-color 0.1s ease;
+  }
+  .kui-calendar-day:hover:not(.kui-calendar-day--disabled) .kui-calendar-day-inner {
+    background: var(--kui-color-surface-elevated);
+  }
+  .kui-calendar-day:focus-visible .kui-calendar-day-inner {
+    box-shadow: 0 0 0 2px var(--kui-color-primary-focus-ring);
+  }
+
+  .kui-calendar-day--muted {
+    color: var(--kui-color-text-disabled);
+  }
+  .kui-calendar-day--weekend {
+    color: var(--kui-color-text-secondary);
+  }
+  .kui-calendar-day--today .kui-calendar-day-inner {
+    box-shadow: inset 0 0 0 1.5px var(--kui-calendar-today-marker, var(--kui-color-primary-fill));
+    font-weight: 600;
+  }
+  .kui-calendar-day--selected .kui-calendar-day-inner {
+    background: var(--kui-color-primary-fill);
+    color: oklch(1 0 0);
+    font-weight: 600;
+    box-shadow: none;
+  }
+  .kui-calendar-day--disabled {
+    color: var(--kui-calendar-disabled-color, var(--kui-color-text-disabled));
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Range layer: painted on the OUTER button (edge-to-edge, no gap) so adjacent range
+     cells fuse into one continuous band. Rounded only at the true start/end. */
+  .kui-calendar-day--range-middle {
+    background: var(--kui-calendar-range-bg, var(--kui-color-primary-soft-bg));
+    color: var(--kui-color-primary-soft-text);
+  }
+  .kui-calendar-day--range-start {
+    background: var(--kui-color-primary-fill);
+    color: oklch(1 0 0);
+    border-radius: var(--kui-calendar-cell-radius, var(--kui-radius-md)) 0 0
+      var(--kui-calendar-cell-radius, var(--kui-radius-md));
+  }
+  .kui-calendar-day--range-end {
+    background: var(--kui-color-primary-fill);
+    color: oklch(1 0 0);
+    border-radius: 0 var(--kui-calendar-cell-radius, var(--kui-radius-md))
+      var(--kui-calendar-cell-radius, var(--kui-radius-md)) 0;
+  }
+  .kui-calendar-day--preview {
+    background: var(
+      --kui-calendar-range-preview-bg,
+      color-mix(in oklab, var(--kui-color-primary-fill) 22%, var(--kui-color-surface))
+    );
+  }
+  .kui-calendar-day--preview-start {
+    border-radius: var(--kui-calendar-cell-radius, var(--kui-radius-md)) 0 0
+      var(--kui-calendar-cell-radius, var(--kui-radius-md));
+  }
+  .kui-calendar-day--preview-end {
+    border-radius: 0 var(--kui-calendar-cell-radius, var(--kui-radius-md))
+      var(--kui-calendar-cell-radius, var(--kui-radius-md)) 0;
+  }
+  .kui-calendar-day--range-start:hover .kui-calendar-day-inner,
+  .kui-calendar-day--range-end:hover .kui-calendar-day-inner {
+    background: var(--kui-color-primary-fill-hover);
+  }
+  .kui-calendar-day--range-middle:hover .kui-calendar-day-inner {
+    background: var(--kui-color-primary-soft-bg-hover);
+  }
+  .kui-calendar-day--today.kui-calendar-day--range-start .kui-calendar-day-inner,
+  .kui-calendar-day--today.kui-calendar-day--range-end .kui-calendar-day-inner {
+    box-shadow: inset 0 0 0 1.5px var(--kui-calendar-today-marker-on-fill, oklch(1 0 0 / 0.6));
+  }
+
+  .kui-calendar-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--kui-space-2);
+  }
+  .kui-calendar-value {
+    font-size: var(--kui-text-xs-size);
+    color: var(--kui-color-text-secondary);
+    font-family: monospace;
+  }
+
+  .kui-calendar-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--kui-space-2);
+  }
+  .kui-calendar-picker-cell {
+    padding: var(--kui-space-3) var(--kui-space-2);
+    border: none;
+    background: transparent;
+    border-radius: var(--kui-radius-sm);
+    font-size: var(--kui-text-sm-size);
+    color: var(--kui-color-text);
+    cursor: pointer;
+    text-align: center;
+    font-family: inherit;
+  }
+  .kui-calendar-picker-cell:hover {
+    background: var(--kui-color-surface-elevated);
+  }
+  .kui-calendar-picker-cell:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--kui-color-primary-focus-ring);
+  }
+  .kui-calendar-picker-cell--active {
+    background: var(--kui-color-primary-fill);
+    color: oklch(1 0 0);
+    font-weight: 600;
+  }
+  .kui-calendar-picker-cell--muted {
+    color: var(--kui-color-text-disabled);
+  }
+
+  .kui-calendar[data-kui-size='sm'] {
+    width: 252px;
+    padding: var(--kui-space-3);
+  }
+  .kui-calendar[data-kui-size='sm'] .kui-calendar-day {
+    font-size: var(--kui-text-xs-size);
+  }
+  .kui-calendar[data-kui-size='sm'] .kui-calendar-weekday {
+    font-size: 9px;
+  }
+
+  .kui-calendar .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kui-calendar-day-inner {
+    transition: none;
+  }
+}

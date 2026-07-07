@@ -60,6 +60,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/color-input', label: 'Color Input' },
   { path: '/stepper', label: 'Stepper' },
   { path: '/breadcrumbs', label: 'Breadcrumbs' },
+  { path: '/calendar', label: 'Calendar' },
 ];
 
 @Component({
