@@ -108,6 +108,20 @@ Before finishing a new public component/directive/service/provider, verify `docs
 - Use `projects/playground/src/app/shared/panel` for repeated board panels.
 - Playground is a development/spec board, not the public docs site, but it should still expose real component states and catch obvious responsive/theming defects.
 
+## Breaking Changes For The Docs/Consumer Repo
+
+The docs/consumer app lives in a sibling repo at `../kikita-ui-docs` (relative to
+this repo's parent `kikita` folder). It is not updated automatically when this
+library changes.
+
+Whenever a change here is breaking or otherwise requires action in that repo
+(renamed/removed public API, a bare CSS class replaced by a directive, a
+changed default, a required migration step), write an entry to
+`../kikita-ui-docs/.local-notes/LIBRARY-BREAKING-CHANGES.md` in the same
+change. Create the file if it does not exist. Each entry should say what
+changed, why, and the exact before/after usage so the docs repo can migrate
+without re-deriving context.
+
 ## Package
 
 Current package scope is `@kikita-labs/ui`.

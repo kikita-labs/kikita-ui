@@ -145,6 +145,7 @@
     border-radius: 0;
     background: transparent;
     box-shadow: none;
+    line-height: 1;
   }
 
   .kui-input-group > .kui-input:hover,

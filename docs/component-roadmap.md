@@ -55,9 +55,23 @@
 - Stepper (done as `kui-stepper` + `kui-step`; horizontal/vertical orientation, sm/md/lg sizes, compact dots-only mode, done/current/upcoming/disabled/error states derived from `currentIndex`, clickable done-step back navigation, optional non-linear forward jumps)
 - Breadcrumbs (done as `ol[kuiBreadcrumbs]` + `a|span[kuiBreadcrumbItem]` + `li[kuiBreadcrumbSeparator]`; sm/md/lg sizes, link/plain-text/current crumb variants, leading icon slot, CSS-only truncate/ellipsis/first-last responsive building blocks with overflow-menu wiring left to the consumer)
 
+## Phase 5
+
+- Calendar (done as `kui-calendar`; single/range mode, month/year/decade navigation, keyboard support, `minDate`/`maxDate`/`disabledDates`, `flat` variant, `viewDate`/`showPrevNav`/`showNextNav` for linked-pair layouts, `KUI_LOCALE`-driven month/weekday names via `Intl`; `mode="multiple"` deferred, no concrete use case yet)
+- Date Picker (done as `input[kuiDatePicker]` + `kui-calendar` + `kui-dropdown`; `dd.MM.yyyy` text mask, `minDate`/`maxDate`, `clearable`, Signal Forms control contract; `mode="range"` and a mobile bottom-sheet popover variant are not implemented — single-date only for now)
+
 ## Later
 
-Do not build Datepicker, Calendar, Tree, Charts, or File Upload until a real consumer needs them.
+Do not build Tree, Charts, or File Upload until a real consumer needs them.
+
+## Known Tech Debt
+
+- `kui-dropdown` injects `NgZone` and wraps its document-level event listeners in
+  `runOutsideAngular`/`run`. The playground (and any zoneless consumer) uses
+  `provideZonelessChangeDetection()`, where zone.js isn't loaded and these calls are inert
+  shims — they don't do anything meaningful anymore. Remove `NgZone` usage from `kui-dropdown`
+  and any other component still carrying this pre-zoneless pattern; rely on signal writes to
+  drive change detection instead. Flagged 2026-07-08 during Date Picker work.
 
 ## Install DX
 

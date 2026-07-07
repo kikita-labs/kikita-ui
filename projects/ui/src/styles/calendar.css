@@ -10,6 +10,15 @@
     color: var(--kui-color-text);
   }
 
+  /* Nested inside chrome that already draws a background/border (a dropdown/popover
+     panel in a date picker) — drop the calendar's own box so it isn't doubled up. */
+  .kui-calendar[data-kui-flat] {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
   .kui-calendar-header {
     display: flex;
     align-items: center;
@@ -29,6 +38,13 @@
      non-interactive span instead of a `kuiButton`. */
   span.kui-calendar-title {
     cursor: default;
+  }
+  /* Keeps the title centered when a linked-pair calendar hides one nav button
+     (`showPrevNav`/`showNextNav`) — same footprint as the xs ghost nav button. */
+  .kui-calendar-nav-spacer {
+    display: inline-block;
+    width: var(--kui-control-height-xs, 28px);
+    height: var(--kui-control-height-xs, 28px);
   }
 
   .kui-calendar-weekdays {
@@ -209,6 +225,9 @@
   }
   .kui-calendar[data-kui-size='sm'] .kui-calendar-weekday {
     font-size: 9px;
+  }
+  .kui-calendar[data-kui-size='sm'][data-kui-flat] {
+    padding: 0;
   }
 
   .kui-calendar .sr-only {

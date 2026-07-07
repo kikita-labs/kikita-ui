@@ -41,6 +41,7 @@
     --kui-dropdown-border: var(--kui-color-border);
     --kui-dropdown-radius: var(--kui-radius-md);
     --kui-dropdown-shadow: var(--kui-shadow-lg);
+    --kui-dropdown-viewport-margin: var(--kui-space-6, 32px);
 
     box-sizing: border-box;
     width: 100%;

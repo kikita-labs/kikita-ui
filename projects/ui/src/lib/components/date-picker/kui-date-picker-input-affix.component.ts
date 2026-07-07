@@ -1,20 +1,38 @@
 import { Component, input, output, ViewEncapsulation } from '@angular/core';
 
-import { KuiFieldActionDirective } from '../field';
+import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
 
-/** @internal Visual suffix rendered over `input[kuiCombobox]`. */
+/** @internal Visual leading icon + trailing clear/chevron rendered over `input[kuiDatePicker]`. */
 @Component({
-  selector: 'kui-combobox-input-suffix',
-  imports: [KuiFieldActionDirective],
+  selector: 'kui-date-picker-input-affix',
+  imports: [KuiFieldAffixIconDirective, KuiFieldActionDirective],
   template: `
-    <div class="kui-combobox-input-suffix">
-      @if (loading()) {
-        <span class="kui-combobox-loader" aria-hidden="true"></span>
-      } @else if (clearable() && hasValue() && !disabled() && !readonly()) {
+    <span kuiFieldAffixIcon>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect
+          x="3"
+          y="4"
+          width="18"
+          height="18"
+          rx="2"
+          stroke="currentColor"
+          stroke-width="2"
+        ></rect>
+        <path
+          d="M16 2v4M8 2v4M3 10h18"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        ></path>
+      </svg>
+    </span>
+
+    <div class="kui-date-picker-suffix">
+      @if (clearable() && hasValue() && !disabled() && !readonly()) {
         <button
           kuiFieldAction
           type="button"
-          class="kui-combobox-clear"
+          class="kui-date-picker-clear"
           aria-label="Clear"
           (click)="onClear($event)"
         >
@@ -32,10 +50,10 @@ import { KuiFieldActionDirective } from '../field';
       <button
         kuiFieldAction
         type="button"
-        class="kui-combobox-chevron"
+        class="kui-date-picker-chevron"
         tabindex="-1"
         [disabled]="disabled() || readonly()"
-        [attr.aria-label]="isOpen() ? 'Close options' : 'Open options'"
+        [attr.aria-label]="isOpen() ? 'Close calendar' : 'Open calendar'"
         [attr.aria-expanded]="isOpen()"
         (click)="onToggle($event)"
       >
@@ -51,14 +69,13 @@ import { KuiFieldActionDirective } from '../field';
       </button>
     </div>
   `,
-  host: { class: 'kui-combobox-control-overlay' },
+  host: { class: 'kui-date-picker-control-overlay' },
   encapsulation: ViewEncapsulation.None,
 })
-export class KuiComboboxInputSuffixComponent {
+export class KuiDatePickerInputAffixComponent {
   readonly clearable = input(false);
   readonly hasValue = input(false);
   readonly isOpen = input(false);
-  readonly loading = input(false);
   readonly disabled = input(false);
   readonly readonly = input(false);
   readonly cleared = output<void>();

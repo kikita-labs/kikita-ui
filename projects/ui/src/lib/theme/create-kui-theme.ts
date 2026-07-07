@@ -815,6 +815,8 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-breadcrumb-fg-hover': 'var(--kui-color-text)',
     '--kui-breadcrumb-fg-current': 'var(--kui-color-text)',
     '--kui-breadcrumb-font-weight-current': '600',
+    '--kui-date-picker-suffix-gap': '2px',
+    '--kui-date-picker-affordance-size': '20px',
   };
 }
 

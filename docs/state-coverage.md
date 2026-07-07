@@ -48,6 +48,8 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Color Input | `/color-input` | compact `input[kuiColorInput]`, hex and OKLCH text values, swatch preview, chevron trigger, Kikita popover picker, 2D lightness/chroma surface, hue slider, L/C/H inputs, presets, copy action, invalid/disabled/readonly states, xs/sm/md/lg sizes, seed-grid composition |
 | Stepper | `/stepper` | horizontal/vertical orientation, sm/md/lg sizes, done/current/upcoming/disabled/error states, description line, compact dots-only mode, clickable done-step back navigation, non-linear forward jump, dark/light themes |
 | Breadcrumbs | `/breadcrumbs` | link and plain-text crumbs, current crumb, hover/focus-visible, sm/md/lg sizes, leading icon, truncate-middle-crumb, ellipsis-menu, and first+last-only responsive patterns, dark/light themes |
+| Calendar | `/calendar` | single and range modes, month/year/decade navigation, disabled dates (`minDate`), sm/md sizes, locale override (`en-US`/`ru-RU`), footer on/off, custom footer via content projection, dark/light themes |
+| Date Picker | `/date-picker` | `input[kuiDatePicker]` + `kui-calendar` popover, basic, `kui-field` label/hint/required composition, `minDate` disabled dates, clearable on/off, disabled/readonly, invalid typed input, live month sync via `viewDate` |
 
 ## Current Gaps
 
@@ -60,3 +62,5 @@ This is the current local playground coverage for public Kikita UI primitives.
 - Menu submenu, checkbox/radio item, and context-menu helper are deferred per the Claude Design brief.
 - Combobox and Command Palette now use CDK overlay positioning. Formal screenshot baselines and assistive-technology review are still needed before calling them fully audited.
 - Breadcrumbs ships three CSS-only responsive patterns (truncate, ellipsis, first+last) but does not wire an ellipsis-triggered overflow menu itself; consumers combine `.kui-breadcrumb-ellipsis` with an existing `kui-menu`/`kui-dropdown` per the Claude Design brief's own "explicitly not included" note.
+- Date Picker only implements `mode="single"`. The design brief's `range` mode (one-field and two-field layouts, two linked calendars) and the mobile bottom-sheet popover variant are not built yet — see `docs/date-picker.md` Known Gaps.
+- `kui-dropdown` gained a viewport-clamped `max-height` (always `min(maxHeight, calc(100vh - margin))`) and closes itself when its anchor scrolls out of the viewport. Browser-verified for Date Picker; not yet re-verified with committed screenshots for Select/Combobox/Menu.

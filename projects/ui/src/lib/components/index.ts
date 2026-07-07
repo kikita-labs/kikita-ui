@@ -37,3 +37,4 @@ export * from './color-input';
 export * from './stepper';
 export * from './breadcrumbs';
 export * from './calendar';
+export * from './date-picker';

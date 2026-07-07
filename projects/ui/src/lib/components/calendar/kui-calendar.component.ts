@@ -20,6 +20,7 @@ import {
   decadeStart,
   isSameDay,
   startOfDay,
+  startOfMonth,
   startOfWeek,
   weekdayIndex,
 } from './kui-calendar-date.util';
@@ -72,27 +73,31 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
   template: `
     <ng-content select="[kuiCalendarHeader]">
       <div class="kui-calendar-header">
-        <button
-          kuiButton
-          appearance="ghost"
-          size="xs"
-          type="button"
-          [attr.aria-label]="navLabels().prev"
-          (click)="navPrev()"
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+        @if (showPrevNav()) {
+          <button
+            kuiButton
+            appearance="ghost"
+            size="xs"
+            type="button"
+            [attr.aria-label]="navLabels().prev"
+            (click)="navPrev()"
           >
-            <path d="m15 18-6-6 6-6"></path>
-          </svg>
-        </button>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m15 18-6-6 6-6"></path>
+            </svg>
+          </button>
+        } @else {
+          <span class="kui-calendar-nav-spacer"></span>
+        }
         @if (view() !== 'years') {
           <button
             kuiButton
@@ -106,27 +111,31 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
         } @else {
           <span class="kui-calendar-title">{{ headerLabel() }}</span>
         }
-        <button
-          kuiButton
-          appearance="ghost"
-          size="xs"
-          type="button"
-          [attr.aria-label]="navLabels().next"
-          (click)="navNext()"
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+        @if (showNextNav()) {
+          <button
+            kuiButton
+            appearance="ghost"
+            size="xs"
+            type="button"
+            [attr.aria-label]="navLabels().next"
+            (click)="navNext()"
           >
-            <path d="m9 18 6-6-6-6"></path>
-          </svg>
-        </button>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </button>
+        } @else {
+          <span class="kui-calendar-nav-spacer"></span>
+        }
       </div>
     </ng-content>
 
@@ -197,6 +206,7 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
   host: {
     class: 'kui-calendar',
     '[attr.data-kui-size]': "size() === 'sm' ? 'sm' : null",
+    '[attr.data-kui-flat]': "flat() ? '' : null",
   },
   imports: [KuiButtonDirective, KuiSeparatorDirective],
   encapsulation: ViewEncapsulation.None,
@@ -208,6 +218,12 @@ export class KuiCalendarComponent {
   readonly mode = input<KuiCalendarMode>('single');
   /** Visual density. `sm` is a compact, border/padding-less variant for sidebars. */
   readonly size = input<KuiCalendarSize>('md');
+  /**
+   * Strips the calendar's own background/border/padding. Set this when nesting it inside
+   * chrome that already provides those — e.g. a `kui-dropdown`/`kui-popover` in a date
+   * picker — so the two don't stack into a double frame.
+   */
+  readonly flat = input(false, { transform: booleanAttribute });
   /** Shows Saturday/Sunday in a muted color. Defaults to true. */
   readonly showWeekend = input(true, { transform: booleanAttribute });
   /**
@@ -226,18 +242,41 @@ export class KuiCalendarComponent {
    * (month/weekday names and first day of week).
    */
   readonly locale = input<string | undefined>(undefined);
+  /**
+   * Shows the "previous" nav control in the header. Defaults to true. Set to false when
+   * pairing two linked calendars (e.g. a range popover showing month N and N+1) so only
+   * the leading calendar can navigate backward.
+   */
+  readonly showPrevNav = input(true, { transform: booleanAttribute });
+  /** Shows the "next" nav control in the header. Defaults to true. See {@link showPrevNav}. */
+  readonly showNextNav = input(true, { transform: booleanAttribute });
 
   /** Selected date (`mode="single"`) or range (`mode="range"`). Supports two-way binding. */
   readonly value = model<KuiCalendarValue>(null);
+  /**
+   * First-of-month date the grid currently displays. Supports two-way binding so a
+   * consumer can drive the visible month externally — e.g. keeping two calendars a
+   * month apart in a range popover.
+   */
+  readonly viewDate = model<Date>(startOfMonth(new Date()));
 
   protected readonly view = signal<KuiCalendarView>('days');
-  protected readonly viewYear = signal<number>(new Date().getFullYear());
-  protected readonly viewMonth = signal<number>(new Date().getMonth());
   protected readonly focusedDate = signal<Date>(startOfDay(new Date()));
   protected readonly hoverDate = signal<Date | null>(null);
   protected readonly liveAnnounce = signal('');
 
+  protected readonly viewYear = computed(() => this.viewDate().getFullYear());
+  protected readonly viewMonth = computed(() => this.viewDate().getMonth());
+
   private readonly today = startOfDay(new Date());
+
+  constructor() {
+    const initial = this.value();
+    if (initial) {
+      const start = this.mode() === 'range' ? (initial as KuiDateRange).start : (initial as Date);
+      if (start) this.viewDate.set(startOfMonth(start));
+    }
+  }
 
   protected readonly localeText = computed(() =>
     getKuiCalendarLocaleText(this.locale() ?? this.injectedLocale),
@@ -348,7 +387,7 @@ export class KuiCalendarComponent {
         'kui-calendar-picker-cell' +
         (idx === activeMonth ? ' kui-calendar-picker-cell--active' : ''),
       onClick: () => {
-        this.viewMonth.set(idx);
+        this.viewDate.set(new Date(this.viewYear(), idx, 1));
         this.view.set('days');
         this.liveAnnounce.set(`${this.localeText().monthsLong[idx]} ${this.viewYear()}`);
       },
@@ -365,7 +404,7 @@ export class KuiCalendarComponent {
         (year === activeYear ? ' kui-calendar-picker-cell--active' : '') +
         (year === start || year === start + 11 ? ' kui-calendar-picker-cell--muted' : ''),
       onClick: () => {
-        this.viewYear.set(year);
+        this.viewDate.set(new Date(year, this.viewMonth(), 1));
         this.view.set('months');
       },
     }));
@@ -414,8 +453,7 @@ export class KuiCalendarComponent {
     }
     this.focusedDate.set(startOfDay(date));
     if (date.getMonth() !== this.viewMonth() || date.getFullYear() !== this.viewYear()) {
-      this.viewYear.set(date.getFullYear());
-      this.viewMonth.set(date.getMonth());
+      this.viewDate.set(startOfMonth(date));
     }
   }
 
@@ -441,27 +479,23 @@ export class KuiCalendarComponent {
   private navigate(direction: 1 | -1): void {
     const view = this.view();
     if (view === 'days') {
-      const next = addMonths(new Date(this.viewYear(), this.viewMonth(), 1), direction);
-      this.viewYear.set(next.getFullYear());
-      this.viewMonth.set(next.getMonth());
+      this.viewDate.set(addMonths(this.viewDate(), direction));
     } else if (view === 'months') {
-      this.viewYear.update((y) => y + direction);
+      this.viewDate.set(new Date(this.viewYear() + direction, this.viewMonth(), 1));
     } else {
-      this.viewYear.update((y) => y + direction * 10);
+      this.viewDate.set(new Date(this.viewYear() + direction * 10, this.viewMonth(), 1));
     }
   }
 
   protected goToday(): void {
     this.view.set('days');
-    this.viewYear.set(this.today.getFullYear());
-    this.viewMonth.set(this.today.getMonth());
+    this.viewDate.set(startOfMonth(this.today));
     this.focusedDate.set(this.today);
   }
 
   private moveFocus(date: Date): void {
     if (date.getMonth() !== this.viewMonth() || date.getFullYear() !== this.viewYear()) {
-      this.viewYear.set(date.getFullYear());
-      this.viewMonth.set(date.getMonth());
+      this.viewDate.set(startOfMonth(date));
     }
     this.focusedDate.set(date);
   }

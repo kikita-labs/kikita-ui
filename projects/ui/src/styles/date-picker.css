@@ -1,0 +1,60 @@
+@layer kui.components {
+  input.kui-input[kuiDatePicker] {
+    padding-inline-start: 34px;
+    padding-inline-end: 34px;
+  }
+
+  input.kui-input[kuiDatePicker][data-has-clear] {
+    padding-inline-end: 56px;
+  }
+
+  input.kui-input[kuiDatePicker]:disabled {
+    cursor: not-allowed;
+  }
+
+  .kui-date-picker-control-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: var(--kui-space-3);
+    pointer-events: none;
+  }
+
+  .kui-date-picker-suffix {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-date-picker-suffix-gap, 2px);
+    pointer-events: none;
+  }
+
+  .kui-date-picker-clear,
+  .kui-date-picker-chevron {
+    pointer-events: all;
+  }
+
+  .kui-date-picker-clear,
+  .kui-date-picker-chevron {
+    --kui-field-action-size: var(--kui-date-picker-affordance-size, 20px);
+  }
+
+  .kui-date-picker-clear > svg {
+    inline-size: 12px;
+    block-size: 12px;
+  }
+
+  .kui-date-picker-chevron svg {
+    transition:
+      color var(--kui-duration-base) var(--kui-ease),
+      transform var(--kui-duration-base) var(--kui-ease);
+  }
+
+  .kui-date-picker-chevron[aria-expanded='true'] {
+    color: var(--kui-color-primary-fill);
+  }
+
+  .kui-date-picker-chevron[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+}

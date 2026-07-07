@@ -170,5 +170,10 @@ export const routes: Routes = [
     path: 'calendar',
     loadComponent: () => import('./pages/calendar/calendar.page').then((m) => m.CalendarPage),
   },
+  {
+    path: 'date-picker',
+    loadComponent: () =>
+      import('./pages/date-picker/date-picker.page').then((m) => m.DatePickerPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

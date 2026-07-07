@@ -26,22 +26,22 @@
   <div class="field-grid field-grid--two">
     <kui-field label="Project URL" hint="Prefix and suffix are part of the field chrome.">
       <div class="kui-input-group">
-        <span class="kui-field-affix">https://</span>
+        <span kuiFieldAffix>https://</span>
         <input kuiInput value="kikita" aria-label="Project slug" />
-        <span class="kui-field-affix">.dev</span>
+        <span kuiFieldAffix>.dev</span>
       </div>
     </kui-field>
 
     <kui-field label="Search" hint="Clear action uses the shared field action style.">
       <div class="kui-input-group">
-        <span class="kui-field-affix-icon" aria-hidden="true">
+        <span kuiFieldAffixIcon>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.3-4.3" />
           </svg>
         </span>
         <input kuiInput value="tokens" aria-label="Search query" />
-        <button class="kui-field-action" type="button" aria-label="Clear search">
+        <button kuiFieldAction type="button" aria-label="Clear search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 6 6 18" />
             <path d="m6 6 12 12" />

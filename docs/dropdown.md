@@ -50,10 +50,18 @@ and `aria-haspopup`.
 
 ## `KuiDropdownComponent` API
 
-| Input       | Type             | Default   | Description                                  |
-| ----------- | ---------------- | --------- | -------------------------------------------- |
-| `maxHeight` | `string \| null` | `'240px'` | Max height of panel; `null` removes the cap. |
-| `offset`    | `number`         | `4`       | Gap between anchor and panel edge in px.     |
+| Input        | Type                                      | Default     | Description                                                                                                                                               |
+| ------------ | ----------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `maxHeight`  | `string \| null`                          | `'240px'`   | Preferred max height of panel. Always additionally clamped to the viewport (see below) — `null` only removes the _preferred_ cap, not the viewport clamp. |
+| `offset`     | `number`                                  | `4`         | Gap between anchor and panel edge in px.                                                                                                                  |
+| `panelRole`  | `'listbox' \| 'dialog' \| 'grid' \| null` | `'listbox'` | ARIA role on the panel. Set to `'dialog'` for non-listbox content, e.g. `kui-calendar`.                                                                   |
+| `panelWidth` | `'anchor' \| 'content'`                   | `'anchor'`  | `'anchor'` matches the trigger's width (listboxes); `'content'` sizes to the panel's own content so it isn't clipped by a narrower trigger.               |
+
+### Viewport-Safe By Default
+
+The panel's actual `max-height` is always `min(maxHeight, calc(100vh - var(--kui-dropdown-viewport-margin, 32px)))` — it can never render taller than the viewport with no way to reach the overflow. When content exceeds the available height, the panel scrolls internally instead of clipping or "shrinking" visually. This applies to every `kui-dropdown` consumer with no per-instance opt-in required.
+
+The panel also closes itself if the anchor (trigger) scrolls out of the viewport, instead of following it off-screen or rendering detached from its trigger.
 
 | Signal   | Type              | Description         |
 | -------- | ----------------- | ------------------- |
@@ -94,12 +102,13 @@ state classes, and Enter/Space selection. Selection state comes from
 
 ## CSS Tokens
 
-| Token                   | Default value                       |
-| ----------------------- | ----------------------------------- |
-| `--kui-dropdown-bg`     | `var(--kui-color-surface-elevated)` |
-| `--kui-dropdown-border` | `var(--kui-color-border)`           |
-| `--kui-dropdown-radius` | `var(--kui-radius-md)`              |
-| `--kui-dropdown-shadow` | `var(--kui-shadow-lg)`              |
+| Token                            | Default value                       |
+| -------------------------------- | ----------------------------------- |
+| `--kui-dropdown-bg`              | `var(--kui-color-surface-elevated)` |
+| `--kui-dropdown-border`          | `var(--kui-color-border)`           |
+| `--kui-dropdown-radius`          | `var(--kui-radius-md)`              |
+| `--kui-dropdown-shadow`          | `var(--kui-shadow-lg)`              |
+| `--kui-dropdown-viewport-margin` | `var(--kui-space-6, 32px)`          |
 
 ## Internals
 
@@ -108,6 +117,12 @@ state classes, and Enter/Space selection. Selection state comes from
   `withPush(false)`.
 - Uses `scrollStrategies.noop()` plus a document capture scroll listener that
   reapplies the position strategy. This covers ordinary scroll containers that
-  are not registered as `CdkScrollable`.
+  are not registered as `CdkScrollable`. Scroll events originating from inside
+  the panel itself (e.g. scrolling a tall calendar/listbox) are ignored —
+  repositioning mid-scroll of the panel's own content raced with the browser's
+  scroll commit and reset `scrollTop` back to 0.
+- If the scroll listener finds the anchor has scrolled fully out of the
+  viewport, it closes the panel instead of repositioning — a detached floating
+  panel with no visible trigger is confusing and easy to lose track of.
 - Uses a document capture click listener for outside click.
 - Detaches the overlay after the `kui-dropdown-out` animation finishes.

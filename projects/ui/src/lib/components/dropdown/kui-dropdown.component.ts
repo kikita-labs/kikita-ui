@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   DestroyRef,
   inject,
   input,
@@ -40,11 +41,10 @@ let nextDropdownId = 0;
     <ng-template #dropdownTpl>
       <div
         [id]="panelId"
-        class="kui-dropdown"
+        class="kui-dropdown kui-dropdown--scroll"
         [class.kui-dropdown--closing]="isClosing()"
-        [class.kui-dropdown--scroll]="maxHeight() != null"
-        [style.max-height]="maxHeight()"
-        role="listbox"
+        [style.max-height]="effectiveMaxHeight()"
+        [attr.role]="panelRole()"
         (click)="handlePanelClick($event)"
         (animationend)="onAnimationEnd($event)"
       >
@@ -56,14 +56,40 @@ let nextDropdownId = 0;
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiDropdownComponent implements OnDestroy {
-  /** Maximum height of the panel before scrolling activates. */
+  /**
+   * Preferred maximum height of the panel before scrolling activates. This is always
+   * additionally clamped to the viewport (`calc(100vh - <margin>)`) so the panel can never
+   * render taller than the screen with no way to reach its overflowing content — see
+   * `--kui-dropdown-viewport-margin`.
+   */
   readonly maxHeight = input<string | null>('240px');
+
+  /** @internal Actual max-height applied to the panel: `maxHeight`, clamped to the viewport. */
+  protected readonly effectiveMaxHeight = computed(() => {
+    const viewportCap = 'calc(100vh - var(--kui-dropdown-viewport-margin, 32px))';
+    const intrinsic = this.maxHeight();
+    return intrinsic ? `min(${intrinsic}, ${viewportCap})` : viewportCap;
+  });
 
   /** Gap in px between the anchor and the panel edge. */
   readonly offset = input(4);
 
   /** Close the panel when a selectable option is clicked. */
   readonly closeOnSelect = model(true);
+
+  /**
+   * ARIA role rendered on the panel. Defaults to `listbox` for `kuiSelect`/`kuiCombobox`.
+   * Set to `dialog` (or `null` to omit the role entirely) when projecting non-listbox
+   * content, e.g. `kui-calendar` inside a date picker.
+   */
+  readonly panelRole = input<'listbox' | 'dialog' | 'grid' | null>('listbox');
+
+  /**
+   * Panel width strategy. `anchor` (default) matches `kuiSelect`/`kuiCombobox` listboxes to
+   * the trigger's width. Use `content` for panels with their own intrinsic width — e.g.
+   * `kui-calendar` inside a date picker — so it isn't clipped to a narrower field.
+   */
+  readonly panelWidth = input<'anchor' | 'content'>('anchor');
 
   /** Whether the panel is currently open. */
   readonly isOpen = signal(false);
@@ -130,7 +156,9 @@ export class KuiDropdownComponent implements OnDestroy {
     this.overlayRef = this.overlay.create({
       positionStrategy,
       scrollStrategy: this.overlay.scrollStrategies.noop(),
-      width: anchor.offsetWidth,
+      ...(this.panelWidth() === 'anchor'
+        ? { width: anchor.offsetWidth }
+        : { minWidth: anchor.offsetWidth }),
     });
 
     this.overlayRef.attach(new TemplatePortal(this.tplRef(), this.vcr));
@@ -175,7 +203,29 @@ export class KuiDropdownComponent implements OnDestroy {
 
     // CDK reposition() only tracks CdkScrollable-registered containers.
     // Capture scroll on document covers all scrollable ancestors including unregistered ones.
-    const scrollHandler = () => positionStrategy.apply();
+    // Scroll events don't bubble, but capture-phase listeners on document still receive them
+    // from descendants — including the panel's own internal `.kui-dropdown` scroll. Ignore
+    // those: repositioning mid-scroll of our own content raced with the browser's scroll
+    // commit and reset scrollTop back to 0.
+    const scrollHandler = (event: Event) => {
+      if (overlayEl.contains(event.target as Node)) return;
+
+      const anchorRect = anchor.getBoundingClientRect();
+      const viewportHeight = this.document.documentElement.clientHeight;
+      const viewportWidth = this.document.documentElement.clientWidth;
+      const anchorOffScreen =
+        anchorRect.bottom <= 0 ||
+        anchorRect.top >= viewportHeight ||
+        anchorRect.right <= 0 ||
+        anchorRect.left >= viewportWidth;
+
+      if (anchorOffScreen) {
+        this.zone.run(() => this.close());
+        return;
+      }
+
+      positionStrategy.apply();
+    };
 
     this.zone.runOutsideAngular(() => {
       this.document.addEventListener('click', outsideHandler, { capture: true });

@@ -2,6 +2,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiCellDirective,
+  KuiFieldActionDirective,
+  KuiFieldAffixDirective,
+  KuiFieldAffixIconDirective,
   KuiFieldComponent,
   KuiInputGroupDirective,
   KuiInputDirective,
@@ -17,6 +20,9 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   selector: 'app-field-page',
   imports: [
     KuiCellDirective,
+    KuiFieldActionDirective,
+    KuiFieldAffixDirective,
+    KuiFieldAffixIconDirective,
     KuiFieldComponent,
     KuiInputGroupDirective,
     KuiInputDirective,

@@ -62,6 +62,32 @@ Projected content is compiled against the host template, not `kui-calendar`'s in
 
 `sm` drops the border and padding, for embedding directly inside a sidebar or panel.
 
+### Flat (No Own Chrome)
+
+```html
+<kui-calendar flat [(value)]="selectedDate" />
+```
+
+Strips the calendar's own background/border/padding. Use this when nesting it inside chrome
+that already draws those — a `kui-dropdown`/`kui-popover` panel in a date picker — so the two
+don't stack into a double frame. See [Date Picker](./date-picker.md).
+
+### Controlling The Displayed Month
+
+```html
+<kui-calendar [(value)]="selectedDate" [(viewDate)]="viewDate" />
+```
+
+`viewDate` (a first-of-month `Date`, two-way) drives which month the grid shows. Bind it when
+an external control (e.g. a paired `input[kuiDatePicker]`) needs to move the calendar to a
+specific month — for example, jumping to the typed date's month in real time. Left unbound, it
+defaults to today's month, or the bound `value`'s month at construction time.
+
+`showPrevNav`/`showNextNav` (`boolean`, default `true`) hide the previous/next nav button. This
+is for pairing two linked calendars a month apart (one showing month N with only a "previous"
+button, the other month N+1 with only "next") — not yet wired up as a built-in range popover,
+but available for custom layouts.
+
 ### Locale
 
 `kui-calendar` resolves month names, weekday names, and the first day of the week purely from `Intl` — there is no bundled locale data to keep in sync. By default it uses the app-wide `KUI_LOCALE` token (which itself defaults to `navigator.language`, falling back to `en-US`).
@@ -85,9 +111,12 @@ Or override it for a single instance with the `locale` input, which takes preced
 
 - `mode`: `single | range` (default: `single`)
 - `value`: two-way model, `Date | KuiDateRange | null` depending on `mode` (default: `null`)
+- `viewDate`: two-way model, first-of-month `Date` driving which month is displayed
 - `size`: `md | sm` (default: `md`)
+- `flat`: `boolean` (default: `false`). Strips the calendar's own background/border/padding.
 - `showWeekend`: `boolean` (default: `true`). Renders Saturday/Sunday in a muted color.
 - `showFooter`: `boolean` (default: `false`). Renders the built-in value + "Today" footer.
+- `showPrevNav` / `showNextNav`: `boolean` (default: `true`). Hide a header nav button.
 - `minDate` / `maxDate`: `Date | undefined`. Dates outside the range are disabled.
 - `disabledDates`: `Date[] | ((date: Date) => boolean) | undefined`. Individual exceptions.
 - `locale`: `string | undefined`. BCP 47 locale tag overriding `KUI_LOCALE` for this instance.

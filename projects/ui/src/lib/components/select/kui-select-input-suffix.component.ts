@@ -3,6 +3,7 @@ import { Component, computed, input, output, TemplateRef, ViewEncapsulation } fr
 
 import { KuiChipDirective } from '../chip/kui-chip.directive';
 import { KuiChipRemoveDirective } from '../chip/kui-chip-remove.directive';
+import { KuiFieldActionDirective } from '../field';
 import { KuiSelectValueContext } from './kui-select-value.directive';
 
 /** @internal Selected item rendered inside a multiple select control. */
@@ -13,7 +14,7 @@ export interface KuiSelectChipItem {
 
 @Component({
   selector: 'kui-select-input-suffix',
-  imports: [NgTemplateOutlet, KuiChipDirective, KuiChipRemoveDirective],
+  imports: [NgTemplateOutlet, KuiChipDirective, KuiChipRemoveDirective, KuiFieldActionDirective],
   template: `
     @if (selectedItems().length) {
       <div class="kui-select-chip-layer">
@@ -45,8 +46,9 @@ export interface KuiSelectChipItem {
     <div class="kui-select-input-suffix">
       @if (clearable() && hasValue()) {
         <button
+          kuiFieldAction
           type="button"
-          class="kui-field-action kui-select-clear"
+          class="kui-select-clear"
           aria-label="Clear"
           [disabled]="disabled() || readonly()"
           (click)="onClear($event)"
@@ -62,8 +64,9 @@ export interface KuiSelectChipItem {
         </button>
       }
       <button
+        kuiFieldAction
         type="button"
-        class="kui-field-action kui-select-chevron"
+        class="kui-select-chevron"
         [disabled]="disabled() || readonly()"
         [attr.aria-label]="isOpen() ? 'Close options' : 'Open options'"
         [attr.aria-expanded]="isOpen()"
