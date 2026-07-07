@@ -1,4 +1,13 @@
-import { Directive, ElementRef, computed, inject, input } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  Renderer2,
+  booleanAttribute,
+  computed,
+  effect,
+  inject,
+  input,
+} from '@angular/core';
 
 import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
 
@@ -28,15 +37,33 @@ import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
 export class KuiTabDirective {
   /** Value that identifies this tab. Must match the corresponding kuiTabPanel value. */
   readonly value = input<string>('');
+  /** Shows a small danger dot next to the label without affecting selected state. */
+  readonly hasError = input(false, { transform: booleanAttribute });
+  /** Screen-reader text announced alongside the error dot. */
+  readonly errorLabel = input('has error');
 
   private readonly context = inject(KUI_TABS_CONTEXT);
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly renderer = inject(Renderer2);
+
+  private errorDotEl: HTMLElement | null = null;
+  private errorSrEl: HTMLElement | null = null;
 
   protected readonly isSelected = computed(() => this.context.selected() === this.value());
   protected readonly tabId = computed(() => this.context.tabId(this.value()));
   protected readonly panelId = computed(() =>
     this.context.controlsPanels() ? this.context.panelId(this.value()) : null,
   );
+
+  constructor() {
+    effect(() => {
+      if (this.hasError()) {
+        this.showErrorDot();
+      } else {
+        this.hideErrorDot();
+      }
+    });
+  }
 
   /** @internal */
   select(): void {
@@ -46,5 +73,38 @@ export class KuiTabDirective {
   /** @internal */
   focusTab(): void {
     this.elementRef.nativeElement.focus();
+  }
+
+  private showErrorDot(): void {
+    const button = this.elementRef.nativeElement;
+
+    if (!this.errorDotEl) {
+      this.errorDotEl = this.renderer.createElement('span');
+      this.renderer.addClass(this.errorDotEl, 'kui-tab-error-dot');
+      this.renderer.setAttribute(this.errorDotEl, 'aria-hidden', 'true');
+      this.renderer.appendChild(button, this.errorDotEl);
+    }
+
+    if (!this.errorSrEl) {
+      this.errorSrEl = this.renderer.createElement('span');
+      this.renderer.addClass(this.errorSrEl, 'kui-tab-error-sr');
+      this.renderer.appendChild(button, this.errorSrEl);
+    }
+
+    this.renderer.setProperty(this.errorSrEl, 'textContent', this.errorLabel());
+  }
+
+  private hideErrorDot(): void {
+    const button = this.elementRef.nativeElement;
+
+    if (this.errorDotEl) {
+      this.renderer.removeChild(button, this.errorDotEl);
+      this.errorDotEl = null;
+    }
+
+    if (this.errorSrEl) {
+      this.renderer.removeChild(button, this.errorSrEl);
+      this.errorSrEl = null;
+    }
   }
 }

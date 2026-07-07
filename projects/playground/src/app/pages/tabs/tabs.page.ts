@@ -1,7 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, signal } from '@angular/core';
 
 import {
   KuiBadgeDirective,
+  KuiButtonDirective,
   KuiCellDirective,
   KuiTabDirective,
   KuiTabPanelDirective,
@@ -17,6 +18,7 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   selector: 'app-tabs-page',
   imports: [
     KuiBadgeDirective,
+    KuiButtonDirective,
     KuiCellDirective,
     KuiTabDirective,
     KuiTabPanelDirective,
@@ -32,6 +34,7 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 })
 export class TabsPage {
   protected readonly manyTabs = ['tab1', 'tab2', 'tab3', 'tab4', 'tab5', 'tab6', 'tab7', 'tab8'];
+  protected readonly tabsErrorVisible = signal(true);
 
   protected readonly sizeRows = [
     { value: 'xs' as const, label: 'xs' },

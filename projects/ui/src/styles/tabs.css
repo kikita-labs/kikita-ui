@@ -140,6 +140,26 @@
     pointer-events: none;
   }
 
+  .kui-tab-error-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--kui-tab-error-color, var(--kui-color-danger-fill));
+    flex-shrink: 0;
+  }
+
+  .kui-tab-error-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   .kui-tab-panel {
     outline: none;
   }

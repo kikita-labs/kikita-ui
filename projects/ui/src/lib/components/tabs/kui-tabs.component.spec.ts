@@ -21,6 +21,21 @@ class TabsHost {
   readonly controlsPanels = signal(true);
 }
 
+@Component({
+  imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
+  template: `
+    <kui-tabs selected="a">
+      <button kuiTab value="a">A</button>
+      <button kuiTab value="b" [hasError]="hasError()">B</button>
+      <div kuiTabPanel value="a">Panel A</div>
+      <div kuiTabPanel value="b">Panel B</div>
+    </kui-tabs>
+  `,
+})
+class TabsErrorHost {
+  readonly hasError = signal(false);
+}
+
 describe('KuiTabsComponent', () => {
   function createFixture(): ComponentFixture<TabsHost> {
     TestBed.configureTestingModule({ imports: [TabsHost] });
@@ -89,5 +104,26 @@ describe('KuiTabsComponent', () => {
 
     expect(tabs[0].getAttribute('aria-selected')).toBe('false');
     expect(tabs[1].getAttribute('aria-selected')).toBe('true');
+  });
+
+  it('toggles the error dot without changing selection', () => {
+    TestBed.configureTestingModule({ imports: [TabsErrorHost] });
+    const fixture = TestBed.createComponent(TabsErrorHost);
+    fixture.detectChanges();
+
+    const tabs = fixture.nativeElement.querySelectorAll('[role="tab"]') as NodeListOf<HTMLElement>;
+    expect(tabs[1].querySelector('.kui-tab-error-dot')).toBeNull();
+
+    fixture.componentInstance.hasError.set(true);
+    fixture.detectChanges();
+
+    expect(tabs[1].querySelector('.kui-tab-error-dot')).not.toBeNull();
+    expect(tabs[1].querySelector('.kui-tab-error-sr')?.textContent).toBe('has error');
+    expect(tabs[1].getAttribute('aria-selected')).toBe('false');
+
+    fixture.componentInstance.hasError.set(false);
+    fixture.detectChanges();
+
+    expect(tabs[1].querySelector('.kui-tab-error-dot')).toBeNull();
   });
 });
