@@ -210,6 +210,20 @@ describe('KuiPopoverComponent - click trigger', () => {
     expect(fixture.componentInstance.pop().open()).toBe(true);
     expect(getPanel()?.classList.contains('kui-popover--out')).toBe(false);
   });
+
+  it('closes when interacting with the empty overlay pane outside the panel', () => {
+    const fixture = createFixture(ClickHost);
+
+    getTrigger(fixture).click();
+    fixture.detectChanges();
+
+    document
+      .querySelector('.cdk-overlay-pane')
+      ?.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(getPanel()?.classList.contains('kui-popover--out')).toBe(true);
+  });
 });
 
 describe('KuiPopoverComponent - hover trigger', () => {

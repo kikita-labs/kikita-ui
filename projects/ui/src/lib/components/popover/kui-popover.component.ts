@@ -247,8 +247,10 @@ export class KuiPopoverComponent implements OnDestroy {
 
     const outsideHandler = (e: MouseEvent) => {
       const target = e.target as Element;
+      const panelEl = overlayEl.querySelector<HTMLElement>('.kui-popover');
+      const isOwnPanel = panelEl?.contains(target) ?? false;
 
-      if (!overlayEl.contains(target)) {
+      if (!isOwnPanel) {
         const isTrigger = this._triggerEl?.contains(target);
         const isNestedKikitaOverlay =
           target.closest(
