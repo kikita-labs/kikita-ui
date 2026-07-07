@@ -810,6 +810,11 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-stepper-fg-current': 'var(--kui-color-primary-fill)',
     '--kui-stepper-fg-done': 'var(--kui-color-primary-fill)',
     '--kui-stepper-fg-error': 'var(--kui-color-danger-fill)',
+    '--kui-breadcrumbs-gap': 'var(--kui-space-2)',
+    '--kui-breadcrumb-fg': 'var(--kui-color-text-secondary)',
+    '--kui-breadcrumb-fg-hover': 'var(--kui-color-text)',
+    '--kui-breadcrumb-fg-current': 'var(--kui-color-text)',
+    '--kui-breadcrumb-font-weight-current': '600',
   };
 }
 

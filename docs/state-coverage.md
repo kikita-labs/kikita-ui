@@ -47,6 +47,7 @@ This is the current local playground coverage for public Kikita UI primitives.
 
 | Color Input | `/color-input` | compact `input[kuiColorInput]`, hex and OKLCH text values, swatch preview, chevron trigger, Kikita popover picker, 2D lightness/chroma surface, hue slider, L/C/H inputs, presets, copy action, invalid/disabled/readonly states, xs/sm/md/lg sizes, seed-grid composition |
 | Stepper | `/stepper` | horizontal/vertical orientation, sm/md/lg sizes, done/current/upcoming/disabled/error states, description line, compact dots-only mode, clickable done-step back navigation, non-linear forward jump, dark/light themes |
+| Breadcrumbs | `/breadcrumbs` | link and plain-text crumbs, current crumb, hover/focus-visible, sm/md/lg sizes, leading icon, truncate-middle-crumb, ellipsis-menu, and first+last-only responsive patterns, dark/light themes |
 
 ## Current Gaps
 
@@ -58,3 +59,4 @@ This is the current local playground coverage for public Kikita UI primitives.
 - Assistive-technology review is still needed before calling the newer composite and overlay primitives fully audited.
 - Menu submenu, checkbox/radio item, and context-menu helper are deferred per the Claude Design brief.
 - Combobox and Command Palette now use CDK overlay positioning. Formal screenshot baselines and assistive-technology review are still needed before calling them fully audited.
+- Breadcrumbs ships three CSS-only responsive patterns (truncate, ellipsis, first+last) but does not wire an ellipsis-triggered overflow menu itself; consumers combine `.kui-breadcrumb-ellipsis` with an existing `kui-menu`/`kui-dropdown` per the Claude Design brief's own "explicitly not included" note.

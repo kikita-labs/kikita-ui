@@ -1,0 +1,169 @@
+<app-panel
+  num="01"
+  title="Anatomy"
+  description="Directive-based: <code>[kuiBreadcrumbs]</code> on <code>&amp;lt;ol&amp;gt;</code>, <code>[kuiBreadcrumbItem]</code> on <code>&amp;lt;a&amp;gt;</code>/<code>&amp;lt;span&amp;gt;</code>, <code>[kuiBreadcrumbSeparator]</code> on <code>&amp;lt;li&amp;gt;</code>."
+>
+  <div class="component-board">
+    <nav aria-label="Breadcrumb">
+      <ol kuiBreadcrumbs>
+        <li><a kuiBreadcrumbItem href="#">Components</a></li>
+        <li kuiBreadcrumbSeparator></li>
+        <li><a kuiBreadcrumbItem href="#">Actions</a></li>
+        <li kuiBreadcrumbSeparator></li>
+        <li><span kuiBreadcrumbItem current>Icon Button</span></li>
+      </ol>
+    </nav>
+  </div>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Link vs plain-text crumb"
+  description="An intermediate crumb without its own page uses <code>&amp;lt;span kuiBreadcrumbItem&amp;gt;</code> instead of <code>&amp;lt;a&amp;gt;</code> — same muted color, no hover/focus, no href."
+>
+  <div class="component-board__row" style="align-items: flex-start">
+    <div style="flex: 1; min-width: 260px">
+      <div class="size-row-label">All crumbs link somewhere</div>
+      <nav aria-label="Breadcrumb">
+        <ol kuiBreadcrumbs>
+          <li><a kuiBreadcrumbItem href="#">Projects</a></li>
+          <li kuiBreadcrumbSeparator></li>
+          <li><a kuiBreadcrumbItem href="#">Alpha</a></li>
+          <li kuiBreadcrumbSeparator></li>
+          <li><span kuiBreadcrumbItem current>Tasks</span></li>
+        </ol>
+      </nav>
+    </div>
+    <div style="flex: 1; min-width: 260px">
+      <div class="size-row-label">Middle crumb with no destination</div>
+      <nav aria-label="Breadcrumb">
+        <ol kuiBreadcrumbs>
+          <li><a kuiBreadcrumbItem href="#">Catalog</a></li>
+          <li kuiBreadcrumbSeparator></li>
+          <li><span kuiBreadcrumbItem>Electronics</span></li>
+          <li kuiBreadcrumbSeparator></li>
+          <li><span kuiBreadcrumbItem current>Headphones</span></li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Leading icon"
+  description="At most one optional leading icon, on the first crumb only — no per-crumb icon system."
+>
+  <div class="component-board">
+    <nav aria-label="Breadcrumb">
+      <ol kuiBreadcrumbs>
+        <li>
+          <a kuiBreadcrumbItem href="#">
+            <span class="kui-breadcrumb-icon">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M2 8l6-5 6 5"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M4 7v6h8V7"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </a>
+        </li>
+        <li kuiBreadcrumbSeparator></li>
+        <li><a kuiBreadcrumbItem href="#">Settings</a></li>
+        <li kuiBreadcrumbSeparator></li>
+        <li><span kuiBreadcrumbItem current>Profile</span></li>
+      </ol>
+    </nav>
+  </div>
+</app-panel>
+
+<app-panel num="04" title="Sizes" description="<code>size</code>: sm / md (default) / lg.">
+  <div class="component-board" style="gap: 24px">
+    @for (row of sizeRows; track row.value) {
+      <div>
+        <div class="size-row-label">{{ row.label }}</div>
+        <nav aria-label="Breadcrumb">
+          <ol kuiBreadcrumbs [size]="row.value">
+            <li><a kuiBreadcrumbItem href="#">Components</a></li>
+            <li kuiBreadcrumbSeparator></li>
+            <li><a kuiBreadcrumbItem href="#">Actions</a></li>
+            <li kuiBreadcrumbSeparator></li>
+            <li><span kuiBreadcrumbItem current>Icon Button</span></li>
+          </ol>
+        </nav>
+      </div>
+    }
+  </div>
+</app-panel>
+
+<app-panel
+  num="05"
+  title="Responsive — narrow screen"
+  description="Three equally valid strategies; pick the one that fits the app's hierarchy depth and header width."
+>
+  <div class="component-board__row" style="align-items: flex-start">
+    <div style="flex: 1; min-width: 220px">
+      <div class="size-row-label">Truncate middle crumb</div>
+      <div class="demo-box" style="width: 220px">
+        <nav aria-label="Breadcrumb">
+          <ol kuiBreadcrumbs style="flex-wrap: nowrap">
+            <li><a kuiBreadcrumbItem href="#">Docs</a></li>
+            <li kuiBreadcrumbSeparator></li>
+            <li style="min-width: 0">
+              <a kuiBreadcrumbItem href="#" class="kui-breadcrumb-truncate"
+                >Design System Components</a
+              >
+            </li>
+            <li kuiBreadcrumbSeparator></li>
+            <li><span kuiBreadcrumbItem current>Tabs</span></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div style="flex: 1; min-width: 220px">
+      <div class="size-row-label">Collapse behind ellipsis</div>
+      <div class="demo-box" style="width: 220px">
+        <nav aria-label="Breadcrumb">
+          <ol kuiBreadcrumbs>
+            <li><a kuiBreadcrumbItem href="#">Docs</a></li>
+            <li kuiBreadcrumbSeparator></li>
+            <li>
+              <button class="kui-breadcrumb-ellipsis" type="button" aria-label="Show hidden levels">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <circle cx="3" cy="8" r="1.2" fill="currentColor" />
+                  <circle cx="8" cy="8" r="1.2" fill="currentColor" />
+                  <circle cx="13" cy="8" r="1.2" fill="currentColor" />
+                </svg>
+              </button>
+            </li>
+            <li kuiBreadcrumbSeparator></li>
+            <li><span kuiBreadcrumbItem current>Tabs</span></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div style="flex: 1; min-width: 220px">
+      <div class="size-row-label">First + last only</div>
+      <div class="demo-box" style="width: 220px">
+        <nav aria-label="Breadcrumb">
+          <ol kuiBreadcrumbs>
+            <li><a kuiBreadcrumbItem href="#">Docs</a></li>
+            <li kuiBreadcrumbSeparator></li>
+            <li><span kuiBreadcrumbItem current>Tabs</span></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</app-panel>

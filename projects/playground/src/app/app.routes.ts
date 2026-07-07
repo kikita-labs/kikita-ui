@@ -161,5 +161,10 @@ export const routes: Routes = [
     path: 'stepper',
     loadComponent: () => import('./pages/stepper/stepper.page').then((m) => m.StepperPage),
   },
+  {
+    path: 'breadcrumbs',
+    loadComponent: () =>
+      import('./pages/breadcrumbs/breadcrumbs.page').then((m) => m.BreadcrumbsPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

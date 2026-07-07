@@ -35,3 +35,4 @@ export * from './combobox';
 export * from './command-palette';
 export * from './color-input';
 export * from './stepper';
+export * from './breadcrumbs';
