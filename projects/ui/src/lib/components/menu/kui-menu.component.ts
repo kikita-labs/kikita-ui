@@ -14,7 +14,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { DOCUMENT } from '@angular/common';
 
@@ -26,6 +26,7 @@ import {
 } from '../../utils/kui-floating-panel.util';
 import { KuiMenuAlign } from './kui-menu-align.type';
 import { KuiMenuItemDirective } from './kui-menu-item.directive';
+import { KuiMenuPlacement } from './kui-menu-placement.type';
 
 let nextMenuId = 0;
 
@@ -62,7 +63,17 @@ export class KuiMenuComponent implements OnDestroy {
   /** Accessible name for the menu panel. */
   readonly ariaLabel = input('Actions');
 
-  /** Horizontal alignment relative to the trigger. */
+  /**
+   * Preferred side of the trigger the menu opens on. Auto-flips to the opposite side if there
+   * isn't enough room. Defaults to `bottom`, matching every existing usage.
+   */
+  readonly placement = input<KuiMenuPlacement>('bottom');
+
+  /**
+   * Alignment along the trigger edge. For `top`/`bottom` placement this is horizontal
+   * (`start` = left-aligned, `end` = right-aligned); for `left`/`right` it's vertical
+   * (`start` = top-aligned, `end` = bottom-aligned).
+   */
   readonly menuAlign = input<KuiMenuAlign>('start');
 
   /** Gap in px between the trigger and menu panel. */
@@ -78,9 +89,28 @@ export class KuiMenuComponent implements OnDestroy {
   readonly panelId = `kui-menu-${nextMenuId++}`;
 
   protected readonly isClosing = signal(false);
-  protected readonly alignTransform = computed(() =>
-    this.menuAlign() === 'end' ? 'translateX(-100%)' : null,
-  );
+  /** @internal Actual rendered side, tracked separately from `placement` since it can flip. */
+  protected readonly renderedSide = signal<KuiMenuPlacement>('bottom');
+  /** @internal Actual rendered align, tracked separately from `menuAlign` for the same reason. */
+  protected readonly renderedAlign = signal<KuiMenuAlign>('start');
+
+  // Wrapper carries the alignment transform; kept separate from the animated `.kui-menu` div
+  // so CDK-applied transforms on the overlay pane don't cancel the gap offset -- same reasoning
+  // as kui-popover's identical split (see kui-popover.component.ts).
+  protected readonly alignTransform = computed(() => {
+    const side = this.renderedSide();
+    const align = this.renderedAlign();
+    const horizontal = side === 'top' || side === 'bottom';
+    const tx = horizontal
+      ? align === 'end'
+        ? 'translateX(-100%)'
+        : ''
+      : side === 'left'
+        ? 'translateX(-100%)'
+        : '';
+    const ty = !horizontal ? (align === 'end' ? 'translateY(-100%)' : '') : '';
+    return [tx, ty].filter(Boolean).join(' ') || null;
+  });
 
   private readonly tplRef = viewChild.required<TemplateRef<void>>('menuTpl');
   private readonly items = contentChildren(KuiMenuItemDirective, { descendants: true });
@@ -180,11 +210,16 @@ export class KuiMenuComponent implements OnDestroy {
 
   private doOpen(anchor: HTMLElement): void {
     const gap = this.offset();
-    const originX = this.menuAlign();
-    const positionStrategy = createFloatingPositionStrategy(this.overlay, anchor, [
-      { originX, originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: gap },
-      { originX, originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -gap },
-    ]);
+    const pref = this.placement();
+    const align = this.menuAlign();
+    this.renderedSide.set(pref);
+    this.renderedAlign.set(align);
+
+    const positionStrategy = createFloatingPositionStrategy(
+      this.overlay,
+      anchor,
+      this.buildPositions(pref, align, gap),
+    );
 
     this.overlayRef = this.overlay.create({
       minWidth: this.minWidth() ?? undefined,
@@ -203,7 +238,12 @@ export class KuiMenuComponent implements OnDestroy {
     };
     clampPanel();
 
-    const posSub = positionStrategy.positionChanges.subscribe(() => clampPanel());
+    const posSub = positionStrategy.positionChanges.subscribe((change) => {
+      const side = this.sideFromPair(change.connectionPair);
+      this.renderedSide.set(side);
+      this.renderedAlign.set(this.alignFromPair(change.connectionPair, side));
+      clampPanel();
+    });
 
     const resizeSub = observeViewportResize(this.document, () => {
       positionStrategy.apply();
@@ -230,6 +270,59 @@ export class KuiMenuComponent implements OnDestroy {
 
     this.isOpen.set(true);
     this.isClosing.set(false);
+  }
+
+  /** Preferred position, then its opposite-side fallback -- same shape as `kui-popover`. */
+  private buildPositions(
+    pref: KuiMenuPlacement,
+    align: KuiMenuAlign,
+    gap: number,
+  ): ConnectedPosition[] {
+    const flip: Record<KuiMenuPlacement, KuiMenuPlacement> = {
+      bottom: 'top',
+      top: 'bottom',
+      left: 'right',
+      right: 'left',
+    };
+    return [this.makePosition(pref, align, gap), this.makePosition(flip[pref], align, gap)];
+  }
+
+  private makePosition(
+    side: KuiMenuPlacement,
+    align: KuiMenuAlign,
+    gap: number,
+  ): ConnectedPosition {
+    const h = align === 'end' ? 'end' : 'start'; // originX for top/bottom
+    const v = align === 'end' ? 'bottom' : 'top'; // originY for left/right
+
+    // CDK 22: never use overlayX/Y 'center'/'end'; pane size is 0 before paint, giving the
+    // wrong position. Always 'start'; alignment compensated by alignTransform on the wrapper.
+    if (side === 'bottom')
+      return { originX: h, originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: gap };
+    if (side === 'top')
+      return { originX: h, originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -gap };
+    if (side === 'right')
+      return { originX: 'end', originY: v, overlayX: 'start', overlayY: 'top', offsetX: gap };
+    /* left */ return {
+      originX: 'start',
+      originY: v,
+      overlayX: 'start',
+      overlayY: 'top',
+      offsetX: -gap,
+    };
+  }
+
+  private sideFromPair(pair: ConnectedPosition): KuiMenuPlacement {
+    // Side is encoded in offsetY vs offsetX sign (always set, never both).
+    if (pair.offsetY != null) return pair.offsetY > 0 ? 'bottom' : 'top';
+    return (pair.offsetX ?? 0) > 0 ? 'right' : 'left';
+  }
+
+  private alignFromPair(pair: ConnectedPosition, side: KuiMenuPlacement): KuiMenuAlign {
+    if (side === 'top' || side === 'bottom') {
+      return pair.originX === 'end' ? 'end' : 'start';
+    }
+    return pair.originY === 'bottom' ? 'end' : 'start';
   }
 
   private focusAdjacent(delta: 1 | -1): void {

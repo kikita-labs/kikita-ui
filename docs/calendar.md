@@ -62,6 +62,16 @@ Projected content is compiled against the host template, not `kui-calendar`'s in
 
 `sm` drops the border and padding, for embedding directly inside a sidebar or panel.
 
+### Width
+
+The calendar has a fixed width (`296px`) so its day grid always has enough room, regardless of
+how wide whatever's anchoring it (a field, a dropdown trigger) happens to be. Override it with
+the `--kui-calendar-width` custom property:
+
+```html
+<kui-calendar style="--kui-calendar-width: 340px" [(value)]="selectedDate" />
+```
+
 ### Flat (No Own Chrome)
 
 ```html

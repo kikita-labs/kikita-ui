@@ -2,7 +2,7 @@
   .kui-calendar {
     display: inline-flex;
     flex-direction: column;
-    width: 296px;
+    width: var(--kui-calendar-width, 296px);
     background: var(--kui-color-surface);
     border: 1px solid var(--kui-color-border);
     border-radius: var(--kui-radius-lg);

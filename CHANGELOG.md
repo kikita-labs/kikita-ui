@@ -8,6 +8,24 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Added
+
+- `kui-menu`: `placement` input (`'top' | 'bottom' | 'left' | 'right'`, default `'bottom'`),
+  matching `kui-popover`'s placement model. Previously menus only ever opened below/above the
+  trigger (flipping vertically); `left`/`right` were not possible. `menuAlign` now also applies
+  to `left`/`right` placement (vertical start/end alignment along the trigger edge) in addition
+  to its existing `top`/`bottom` meaning (horizontal alignment).
+- `kui-calendar`: `--kui-calendar-width` CSS custom property (default `296px`). The calendar
+  previously had a hardcoded width with no way to override it — e.g. to make a date picker's
+  popover narrower or wider than the default.
+
+### Fixed
+
+- Docs: clarified that `kui-dropdown`'s `panelWidth` is a plain input consumers already control
+  directly in their own template (e.g. switching a date picker's `kui-dropdown` to
+  `panelWidth="anchor"`), and that doing so alone doesn't shrink `kui-calendar` itself (it has a
+  fixed width) — use the new `--kui-calendar-width` custom property for that.
+
 ## [0.1.1] - 2026-07-10
 
 ### Fixed

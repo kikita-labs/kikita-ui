@@ -30,8 +30,14 @@ import {
 Three things on `kui-dropdown` matter here, all different from its default (listbox) usage:
 
 - `panelRole="dialog"` — the panel holds a calendar grid, not a list of options.
-- `panelWidth="content"` — sizes the panel to the calendar's own width (296px) instead of
-  clipping it to the (usually narrower) field.
+- `panelWidth="content"` — sizes the panel to the calendar's own width (296px by default)
+  instead of clipping it to the (usually narrower) field. This is why the popover is often
+  wider than the input — that's intentional, not a bug: `kui-calendar` has a fixed width
+  (`--kui-calendar-width`, 296px by default) because its day grid needs a minimum amount of
+  room regardless of the trigger. Override `--kui-calendar-width` on `kui-calendar` if you want
+  it narrower or wider — `panelWidth` only controls how the *dropdown panel* relates to the
+  trigger's width, not the calendar's own size, so switching it to `"anchor"` alone would just
+  clip a still-296px-wide calendar into a narrower panel rather than shrink it.
 - `maxHeight="420px"` — the calendar's natural height comfortably fits under this; it's a
   safety cap so the popover never renders unbounded when there isn't enough room in either
   direction, falling back to an internal scroll instead of visually overflowing.

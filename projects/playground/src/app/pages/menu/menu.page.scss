@@ -27,6 +27,18 @@
   min-inline-size: 0;
 }
 
+.menu-placement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--kui-space-6) var(--kui-space-4);
+  padding: var(--kui-space-8) var(--kui-space-4);
+}
+
+.menu-placement-cell {
+  display: flex;
+  justify-content: center;
+}
+
 .menu-demo-item--hover {
   background: var(--kui-menu-item-bg-hover);
 }

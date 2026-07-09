@@ -126,7 +126,86 @@
   </div>
 </app-panel>
 
-<app-panel num="05" title="Mobile item height" description="Mobile menus use larger touch targets.">
+<app-panel
+  num="05"
+  title="Placement"
+  description="placement: top/bottom/left/right, auto-flips to the opposite side to fit in the viewport."
+>
+  <div class="menu-placement-grid">
+    <div class="menu-placement-cell">
+      <button kuiButton appearance="outline" type="button" [kuiMenuFor]="menuTop">Top</button>
+      <kui-menu #menuTop ariaLabel="Top-placed actions" placement="top">
+        <button type="button" kuiMenuItem><span class="kui-menu-item__label">Open</span></button>
+        <button type="button" kuiMenuItem>
+          <span class="kui-menu-item__label">Duplicate</span>
+        </button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-placement-cell">
+      <button kuiButton appearance="outline" type="button" [kuiMenuFor]="menuBottom">
+        Bottom
+      </button>
+      <kui-menu #menuBottom ariaLabel="Bottom-placed actions" placement="bottom">
+        <button type="button" kuiMenuItem><span class="kui-menu-item__label">Open</span></button>
+        <button type="button" kuiMenuItem>
+          <span class="kui-menu-item__label">Duplicate</span>
+        </button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-placement-cell">
+      <button kuiButton appearance="outline" type="button" [kuiMenuFor]="menuLeft">Left</button>
+      <kui-menu #menuLeft ariaLabel="Left-placed actions" placement="left">
+        <button type="button" kuiMenuItem><span class="kui-menu-item__label">Open</span></button>
+        <button type="button" kuiMenuItem>
+          <span class="kui-menu-item__label">Duplicate</span>
+        </button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-placement-cell">
+      <button kuiButton appearance="outline" type="button" [kuiMenuFor]="menuRight">Right</button>
+      <kui-menu #menuRight ariaLabel="Right-placed actions" placement="right">
+        <button type="button" kuiMenuItem><span class="kui-menu-item__label">Open</span></button>
+        <button type="button" kuiMenuItem>
+          <span class="kui-menu-item__label">Duplicate</span>
+        </button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-placement-cell">
+      <button kuiButton appearance="outline" type="button" [kuiMenuFor]="menuLeftEnd">
+        Left, end-aligned
+      </button>
+      <kui-menu #menuLeftEnd ariaLabel="Left end-aligned actions" placement="left" menuAlign="end">
+        <button type="button" kuiMenuItem><span class="kui-menu-item__label">Open</span></button>
+        <button type="button" kuiMenuItem>
+          <span class="kui-menu-item__label">Duplicate</span>
+        </button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-placement-cell">
+      <button kuiButton appearance="outline" type="button" [kuiMenuFor]="menuRightEnd">
+        Right, end-aligned
+      </button>
+      <kui-menu
+        #menuRightEnd
+        ariaLabel="Right end-aligned actions"
+        placement="right"
+        menuAlign="end"
+      >
+        <button type="button" kuiMenuItem><span class="kui-menu-item__label">Open</span></button>
+        <button type="button" kuiMenuItem>
+          <span class="kui-menu-item__label">Duplicate</span>
+        </button>
+      </kui-menu>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel num="06" title="Mobile item height" description="Mobile menus use larger touch targets.">
   <div class="kui-menu kui-menu--mobile menu-board__mobile" role="menu" aria-label="Mobile actions">
     <button class="kui-menu-item" type="button" role="menuitem">
       <span class="kui-menu-item__label">Edit</span>
