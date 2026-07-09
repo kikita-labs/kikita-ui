@@ -22,6 +22,14 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   so any consumer (`kuiSelect`, `kuiCombobox`, a date picker, ...) can make its dropdown a
   specific width regardless of the trigger, not just the fixed `'anchor'`/`'content'`/`'auto'`
   sizing strategies.
+- `input[kuiColorInput]`: now sets `spellcheck="false"`, `autocomplete="off"`,
+  `autocorrect="off"`, and `autocapitalize="off"` on the native input itself, matching how
+  `input[kuiSelect]` already sets its own ARIA attributes — consumers no longer need to add
+  `spellcheck="false"` by hand to stop browsers spellcheck-underlining hex/oklch values.
+- `kui-color-input`'s picker preset swatches are now labeled by the semantic seed role they
+  match (Primary/Neutral/Success/Warning/Danger/Info), via `title` (native tooltip) and a more
+  descriptive `aria-label` — previously they were unlabeled color swatches with no indication
+  of which theme seed each corresponded to.
 
 ### Fixed
 

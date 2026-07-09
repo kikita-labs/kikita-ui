@@ -42,6 +42,10 @@ const MAX_CHROMA = 0.32;
   selector: 'input[kuiColorInput]',
   host: {
     class: 'kui-color-input__control kui-input',
+    spellcheck: 'false',
+    autocomplete: 'off',
+    autocorrect: 'off',
+    autocapitalize: 'off',
     '[attr.id]': 'inputId()',
     '[attr.aria-describedby]': 'describedBy()',
     '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
@@ -431,14 +435,25 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   }
 
   private renderPresets(panel: HTMLElement): void {
-    const presets = ['#5b4fe0', '#74736d', '#168a35', '#eea000', '#de0029', '#1298b8'];
+    // Matches the semantic seed roles createKuiTheme() expects (primary/gray/success/
+    // warning/danger/info) -- named here so the swatches read as theme-seed shortcuts,
+    // not just an arbitrary color palette.
+    const presets: readonly [name: string, hex: string][] = [
+      ['Primary', '#5b4fe0'],
+      ['Neutral', '#74736d'],
+      ['Success', '#168a35'],
+      ['Warning', '#eea000'],
+      ['Danger', '#de0029'],
+      ['Info', '#1298b8'],
+    ];
     const row = this.renderer.createElement('div');
     this.renderer.addClass(row, 'kui-color-input-presets');
-    for (const preset of presets) {
+    for (const [name, preset] of presets) {
       const btn = this.renderer.createElement('button');
       this.renderer.addClass(btn, 'kui-color-input-preset');
       this.renderer.setAttribute(btn, 'type', 'button');
-      this.renderer.setAttribute(btn, 'aria-label', `Use ${preset}`);
+      this.renderer.setAttribute(btn, 'aria-label', `${name} seed: ${preset}`);
+      this.renderer.setAttribute(btn, 'title', `${name} seed`);
       this.renderer.setStyle(btn, 'background', preset);
       this.renderer.appendChild(row, btn);
       this.pickerUnlisten.push(this.renderer.listen(btn, 'click', () => this.commitText(preset)));
