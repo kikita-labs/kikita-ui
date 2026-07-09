@@ -8,6 +8,17 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Fixed
+
+- `kui-field`: control no longer collapses into the label row (leaving a phantom empty
+  control-row track below it) when rendered without a `label`/`[kuiLabel]`. `.kui-field__label`
+  and `.kui-field__control` now have explicit `grid-row` placement instead of relying on
+  DOM-order auto-placement.
+- `kui-command-palette`: `.kui-command__list` no longer force-grows to its `max-height` (320px
+  default) when it has little content (e.g. a single empty-state row), which left a large block
+  of dead space below short result lists. It now hugs its content and only scrolls once content
+  exceeds the max height.
+
 ## [0.1.0] - 2026-07-08
 
 ### Added

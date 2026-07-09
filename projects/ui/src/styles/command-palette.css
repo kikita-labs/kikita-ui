@@ -90,7 +90,7 @@
   }
 
   .kui-command__list {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     max-block-size: var(--kui-command-list-max-height, 320px);
     min-block-size: 0;
     overflow-y: auto;
