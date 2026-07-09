@@ -5,6 +5,7 @@
     z-index: var(--kui-z-command-palette, 460);
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     padding-block-start: var(--kui-command-offset-block-start, 12vh);
     padding-inline: var(--kui-space-4);
     background: var(--kui-command-backdrop-bg);

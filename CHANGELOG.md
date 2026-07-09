@@ -14,10 +14,12 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   control-row track below it) when rendered without a `label`/`[kuiLabel]`. `.kui-field__label`
   and `.kui-field__control` now have explicit `grid-row` placement instead of relying on
   DOM-order auto-placement.
-- `kui-command-palette`: `.kui-command__list` no longer force-grows to its `max-height` (320px
-  default) when it has little content (e.g. a single empty-state row), which left a large block
-  of dead space below short result lists. It now hugs its content and only scrolls once content
-  exceeds the max height.
+- `kui-command-palette`: dialog no longer stretches to fill the full available backdrop height
+  (`.kui-command-backdrop` was missing `align-items`, defaulting to `stretch`), which left a
+  large block of dead space below the footer whenever the result list was shorter than
+  `max-block-size: 78vh`. Backdrop now uses `align-items: flex-start` so the dialog sizes to its
+  own content. `.kui-command__list` was also switched from `flex: 1 1 auto` to `flex: 0 1 auto`
+  so it hugs its content and only scrolls once content exceeds its own max height.
 
 ## [0.1.0] - 2026-07-08
 
