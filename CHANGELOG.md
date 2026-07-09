@@ -20,6 +20,11 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `max-block-size: 78vh`. Backdrop now uses `align-items: flex-start` so the dialog sizes to its
   own content. `.kui-command__list` was also switched from `flex: 1 1 auto` to `flex: 0 1 auto`
   so it hugs its content and only scrolls once content exceeds its own max height.
+- `kui-color-input`: picker popover is now viewport-safe. `.kui-color-input-popover` (a custom
+  CDK overlay, not routed through `kui-dropdown`) previously rendered at full natural height
+  with no way to reach content that ran off the top/bottom of a short viewport. It now clamps to
+  `calc(100vh - var(--kui-dropdown-viewport-margin, 32px))` and scrolls internally, matching
+  `kui-dropdown`'s viewport-safety behavior.
 
 ## [0.1.0] - 2026-07-08
 

@@ -91,6 +91,8 @@
     box-sizing: border-box;
     width: 100%;
     max-inline-size: calc(100vw - var(--kui-space-4));
+    max-block-size: calc(100vh - var(--kui-dropdown-viewport-margin, 32px));
+    overflow-y: auto;
     padding: var(--kui-space-4);
     color: var(--kui-color-text);
     background: var(--kui-popover-bg, var(--kui-color-surface-elevated));
