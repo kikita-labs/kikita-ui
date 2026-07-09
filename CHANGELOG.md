@@ -20,16 +20,29 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `max-block-size: 78vh`. Backdrop now uses `align-items: flex-start` so the dialog sizes to its
   own content. `.kui-command__list` was also switched from `flex: 1 1 auto` to `flex: 0 1 auto`
   so it hugs its content and only scrolls once content exceeds its own max height.
-- `kui-color-input`: picker popover is now viewport-safe. `.kui-color-input-popover` (a custom
-  CDK overlay, not routed through `kui-dropdown`) previously rendered at full natural height
-  with no way to reach content that ran off the top/bottom of a short viewport. A static
-  `calc(100vh - margin)` cap alone wasn't enough when the popover flipped to the side with less
-  room than that (e.g. a shrunk viewport with devtools docked): the panel could still overflow
-  past the screen edge in that direction with no way to reach it. The overlay's position strategy
-  now also uses `withFlexibleDimensions(true)` so CDK constrains the panel to whatever space is
-  actually available in the direction it renders, and `.kui-color-input-popover` gets
-  `min-block-size: 0` so it can shrink to that constraint and scroll internally instead of
-  overflowing it.
+- `kui-color-input`: picker popover is now viewport-safe and no longer a separate,
+  independently-maintained CDK overlay. `input[kuiColorInput]` now opens its picker through a
+  dynamically-created `kui-dropdown` instance (`panelWidth="auto"`, a new mode sized purely by
+  content, ignoring the trigger's width) instead of its own hand-rolled
+  `Overlay`/`FlexibleConnectedPositionStrategy`/`DomPortal` plumbing, so it inherits the same
+  positioning, dismissal, and viewport-safety behavior as every other floating panel in the
+  library rather than reinventing (and separately bugging out) the same logic.
+- `kui-dropdown` / `kui-menu`: both panels could still render taller than the actual room
+  available in the direction they opened, even after being clamped to `calc(100vh - margin)` --
+  that cap is against the *whole* viewport, not the space left between the anchor and the
+  screen edge on the side the panel flipped to. Panels now measure their real rendered position
+  and shrink `max-height` further whenever they'd still overflow. This clamp, and the panel's
+  position, now also re-run on window resize (via a `ResizeObserver` on `document.documentElement`,
+  not a raw `window.resize` listener) and on scroll that only shifts the anchor without changing
+  which side the panel is flipped to (previously only a `positionChanges`-triggered reposition
+  re-ran the clamp, so scrolling open more room without a flip left a panel stuck smaller than it
+  needed to be).
+- `kui-menu` had no viewport-safety at all before this change (no max-height, no scrolling) --
+  a long menu could render off-screen with no way to reach the rest of it. It now behaves like
+  `kui-dropdown` in this regard, via `--kui-menu-viewport-margin`.
+- Extracted the positioning/dismissal/viewport-clamp logic shared by `kui-dropdown` and
+  `kui-menu` into `kui-floating-panel.util.ts` instead of each maintaining its own copy (and
+  independently accumulating the same class of bugs, as above).
 
 ## [0.1.0] - 2026-07-08
 

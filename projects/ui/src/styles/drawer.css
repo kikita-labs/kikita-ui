@@ -248,6 +248,7 @@
     flex: 1 1 auto;
     min-block-size: 0;
     overflow-y: auto;
+    overscroll-behavior: contain;
     padding: var(--kui-drawer-body-padding);
     color: var(--kui-color-text-secondary);
     font-size: var(--kui-text-sm-size);

@@ -2,6 +2,9 @@
   .kui-menu {
     box-sizing: border-box;
     min-inline-size: var(--kui-menu-min-width);
+    max-block-size: calc(100vh - var(--kui-menu-viewport-margin, 32px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
     padding-block: var(--kui-menu-padding-y);
     padding-inline: var(--kui-menu-padding-x);
     border: var(--kui-menu-border-width) solid var(--kui-menu-border);

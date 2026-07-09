@@ -14,10 +14,16 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { DOCUMENT } from '@angular/common';
 
+import {
+  clampPanelToAvailableSpace,
+  createFloatingPositionStrategy,
+  observeViewportResize,
+  wireFloatingPanelDismissal,
+} from '../../utils/kui-floating-panel.util';
 import { KuiMenuAlign } from './kui-menu-align.type';
 import { KuiMenuItemDirective } from './kui-menu-item.directive';
 
@@ -175,14 +181,10 @@ export class KuiMenuComponent implements OnDestroy {
   private doOpen(anchor: HTMLElement): void {
     const gap = this.offset();
     const originX = this.menuAlign();
-    const positionStrategy: FlexibleConnectedPositionStrategy = this.overlay
-      .position()
-      .flexibleConnectedTo(anchor)
-      .withPositions([
-        { originX, originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: gap },
-        { originX, originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -gap },
-      ])
-      .withPush(false);
+    const positionStrategy = createFloatingPositionStrategy(this.overlay, anchor, [
+      { originX, originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: gap },
+      { originX, originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -gap },
+    ]);
 
     this.overlayRef = this.overlay.create({
       minWidth: this.minWidth() ?? undefined,
@@ -193,38 +195,38 @@ export class KuiMenuComponent implements OnDestroy {
     this.overlayRef.attach(new TemplatePortal(this.tplRef(), this.vcr));
 
     const overlayEl = this.overlayRef.overlayElement;
-
-    const escapeSub = this.overlayRef.keydownEvents().subscribe((e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        e.stopPropagation();
-        this.zone.run(() => this.close());
-      }
-    });
-
-    const outsideHandler = (e: MouseEvent) => {
-      if (overlayEl.contains(e.target as Element)) return;
-      if (this.triggerEl?.contains(e.target as Element)) return;
-      this.zone.run(() => this.close(false));
+    const clampPanel = (): void => {
+      const panel = overlayEl.querySelector<HTMLElement>('.kui-menu');
+      if (!panel) return;
+      panel.style.maxHeight = 'calc(100vh - var(--kui-menu-viewport-margin, 32px))';
+      clampPanelToAvailableSpace(panel, this.document.documentElement.clientHeight);
     };
+    clampPanel();
 
-    const scrollHandler = () => positionStrategy.apply();
+    const posSub = positionStrategy.positionChanges.subscribe(() => clampPanel());
 
-    this.zone.runOutsideAngular(() => {
-      this.document.addEventListener('mousedown', outsideHandler, { capture: true });
-      this.document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
+    const resizeSub = observeViewportResize(this.document, () => {
+      positionStrategy.apply();
+      clampPanel();
     });
 
-    this.openSubs = [
-      escapeSub,
+    const dismissSub = wireFloatingPanelDismissal(
+      this.zone,
+      this.document,
+      this.overlayRef,
+      positionStrategy,
+      anchor,
+      this.triggerEl,
       {
-        unsubscribe: () =>
-          this.document.removeEventListener('mousedown', outsideHandler, { capture: true }),
+        outsideEventType: 'mousedown',
+        onEscape: () => this.close(),
+        onOutside: () => this.close(false),
+        onAnchorOffscreen: () => this.close(false),
+        onReposition: clampPanel,
       },
-      {
-        unsubscribe: () =>
-          this.document.removeEventListener('scroll', scrollHandler, { capture: true }),
-      },
-    ];
+    );
+
+    this.openSubs = [posSub, resizeSub, dismissSub];
 
     this.isOpen.set(true);
     this.isClosing.set(false);

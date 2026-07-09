@@ -66,6 +66,7 @@
 
   .kui-dropdown--scroll {
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -58,9 +58,13 @@
    The CDK 22 bounding-box is sized to whatever space is available at the chosen
    fallback position (not the overlay's real content size); with the pane forced
    to position:static above, that max-height clamps the pane to it, clipping the
-   popover's own background while its content spills out uncontained. Let this
-   specific popover's pane render at its natural content size instead. */
-.cdk-overlay-pane:has(> .kui-color-input-popover) {
+   panel's own background while its content spills out uncontained. Let every
+   kui-dropdown-backed panel (select, combobox, date picker, color input, ...)
+   render at its natural content size instead -- .kui-dropdown itself already
+   clamps to the viewport and scrolls internally via --kui-dropdown-viewport-margin,
+   so this doesn't reintroduce the off-screen-with-no-scroll bug it was fixing. */
+.cdk-overlay-pane:has(.kui-dropdown),
+.cdk-overlay-pane:has(.kui-menu) {
   flex-shrink: 0;
   max-height: none;
 }

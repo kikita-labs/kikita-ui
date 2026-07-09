@@ -13,9 +13,16 @@ import {
   ViewEncapsulation,
   viewChild,
 } from '@angular/core';
-import { FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { DOCUMENT } from '@angular/common';
+
+import {
+  clampPanelToAvailableSpace,
+  createFloatingPositionStrategy,
+  observeViewportResize,
+  wireFloatingPanelDismissal,
+} from '../../utils/kui-floating-panel.util';
 
 let nextDropdownId = 0;
 
@@ -43,7 +50,6 @@ let nextDropdownId = 0;
         [id]="panelId"
         class="kui-dropdown kui-dropdown--scroll"
         [class.kui-dropdown--closing]="isClosing()"
-        [style.max-height]="effectiveMaxHeight()"
         [attr.role]="panelRole()"
         (click)="handlePanelClick($event)"
         (animationend)="onAnimationEnd($event)"
@@ -64,7 +70,12 @@ export class KuiDropdownComponent implements OnDestroy {
    */
   readonly maxHeight = input<string | null>('240px');
 
-  /** @internal Actual max-height applied to the panel: `maxHeight`, clamped to the viewport. */
+  /**
+   * @internal Actual max-height applied to the panel: `maxHeight`, clamped to the viewport.
+   * Applied imperatively in `open()` (not as a template binding) because it's a starting point
+   * for `clampPanelToAvailableSpace`, which further shrinks it to whatever room the panel
+   * actually rendered into -- a template binding would fight that direct style write.
+   */
   protected readonly effectiveMaxHeight = computed(() => {
     const viewportCap = 'calc(100vh - var(--kui-dropdown-viewport-margin, 32px))';
     const intrinsic = this.maxHeight();
@@ -85,11 +96,15 @@ export class KuiDropdownComponent implements OnDestroy {
   readonly panelRole = input<'listbox' | 'dialog' | 'grid' | null>('listbox');
 
   /**
-   * Panel width strategy. `anchor` (default) matches `kuiSelect`/`kuiCombobox` listboxes to
-   * the trigger's width. Use `content` for panels with their own intrinsic width — e.g.
-   * `kui-calendar` inside a date picker — so it isn't clipped to a narrower field.
+   * Panel width strategy.
+   * - `anchor` (default): matches `kuiSelect`/`kuiCombobox` listboxes to the trigger's width.
+   * - `content`: at least as wide as the trigger, but can grow with content — e.g. `kui-calendar`
+   *   inside a date picker, so it isn't clipped to a narrower field.
+   * - `auto`: sized purely by content, completely ignoring the trigger's width — for panels
+   *   that are their own small self-contained widget regardless of how wide the trigger is
+   *   (e.g. `kui-color-input`'s picker).
    */
-  readonly panelWidth = input<'anchor' | 'content'>('anchor');
+  readonly panelWidth = input<'anchor' | 'content' | 'auto'>('anchor');
 
   /** Whether the panel is currently open. */
   readonly isOpen = signal(false);
@@ -144,26 +159,32 @@ export class KuiDropdownComponent implements OnDestroy {
     if (!anchor || this.isOpen()) return;
 
     const gap = this.offset();
-    const positionStrategy: FlexibleConnectedPositionStrategy = this.overlay
-      .position()
-      .flexibleConnectedTo(anchor)
-      .withPositions([
-        { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: gap },
-        { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -gap },
-      ])
-      .withPush(false);
+    const positionStrategy = createFloatingPositionStrategy(this.overlay, anchor, [
+      { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: gap },
+      { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -gap },
+    ]);
 
     this.overlayRef = this.overlay.create({
       positionStrategy,
       scrollStrategy: this.overlay.scrollStrategies.noop(),
       ...(this.panelWidth() === 'anchor'
         ? { width: anchor.offsetWidth }
-        : { minWidth: anchor.offsetWidth }),
+        : this.panelWidth() === 'content'
+          ? { minWidth: anchor.offsetWidth }
+          : {}),
     });
 
     this.overlayRef.attach(new TemplatePortal(this.tplRef(), this.vcr));
 
     const overlayEl = this.overlayRef.overlayElement;
+
+    const clampPanel = (): void => {
+      const panel = overlayEl.querySelector<HTMLElement>('.kui-dropdown');
+      if (!panel) return;
+      panel.style.maxHeight = this.effectiveMaxHeight();
+      clampPanelToAvailableSpace(panel, this.document.documentElement.clientHeight);
+    };
+    clampPanel();
 
     const posSub = positionStrategy.positionChanges.subscribe((change) => {
       const isFlipped =
@@ -172,80 +193,31 @@ export class KuiDropdownComponent implements OnDestroy {
       if (div) {
         div.setAttribute('data-placement', isFlipped ? 'top' : 'bottom');
       }
+      clampPanel();
     });
 
-    const escapeSub = this.overlayRef.keydownEvents().subscribe((e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        e.stopPropagation();
-        this.zone.run(() => this.close());
-      }
-    });
-
-    // CDK 22 popover: backdrop fires only within bounding-box area (not full viewport).
-    // For above-positioned panels the click target below anchor misses the backdrop.
-    // document capture fires before any element handler regardless of top-layer.
-    const isOutside = (target: Element): boolean =>
-      !overlayEl.contains(target) && !this._outsideClickIgnoreEl?.contains(target);
-
-    const outsideHandler = (e: MouseEvent) => {
-      const target = e.target as Element;
-      if (isOutside(target)) {
-        this.zone.run(() => this.close());
-      }
-    };
-
-    const focusHandler = (e: FocusEvent) => {
-      const target = e.target as Element | null;
-      if (target && isOutside(target)) {
-        this.zone.run(() => this.close());
-      }
-    };
-
-    // CDK reposition() only tracks CdkScrollable-registered containers.
-    // Capture scroll on document covers all scrollable ancestors including unregistered ones.
-    // Scroll events don't bubble, but capture-phase listeners on document still receive them
-    // from descendants — including the panel's own internal `.kui-dropdown` scroll. Ignore
-    // those: repositioning mid-scroll of our own content raced with the browser's scroll
-    // commit and reset scrollTop back to 0.
-    const scrollHandler = (event: Event) => {
-      if (overlayEl.contains(event.target as Node)) return;
-
-      const anchorRect = anchor.getBoundingClientRect();
-      const viewportHeight = this.document.documentElement.clientHeight;
-      const viewportWidth = this.document.documentElement.clientWidth;
-      const anchorOffScreen =
-        anchorRect.bottom <= 0 ||
-        anchorRect.top >= viewportHeight ||
-        anchorRect.right <= 0 ||
-        anchorRect.left >= viewportWidth;
-
-      if (anchorOffScreen) {
-        this.zone.run(() => this.close());
-        return;
-      }
-
+    const resizeSub = observeViewportResize(this.document, () => {
       positionStrategy.apply();
-    };
-
-    this.zone.runOutsideAngular(() => {
-      this.document.addEventListener('click', outsideHandler, { capture: true });
-      this.document.addEventListener('focusin', focusHandler, { capture: true });
-      this.document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
+      clampPanel();
     });
-    const outsideSub = {
-      unsubscribe: () =>
-        this.document.removeEventListener('click', outsideHandler, { capture: true }),
-    };
-    const focusSub = {
-      unsubscribe: () =>
-        this.document.removeEventListener('focusin', focusHandler, { capture: true }),
-    };
-    const scrollSub = {
-      unsubscribe: () =>
-        this.document.removeEventListener('scroll', scrollHandler, { capture: true }),
-    };
 
-    this.openSubs = [posSub, escapeSub, outsideSub, focusSub, scrollSub];
+    const dismissSub = wireFloatingPanelDismissal(
+      this.zone,
+      this.document,
+      this.overlayRef,
+      positionStrategy,
+      anchor,
+      this._outsideClickIgnoreEl,
+      {
+        watchFocusin: true,
+        onEscape: () => this.close(),
+        onOutside: () => this.close(),
+        onAnchorOffscreen: () => this.close(),
+        onReposition: clampPanel,
+      },
+    );
+
+    this.openSubs = [posSub, resizeSub, dismissSub];
     this.isOpen.set(true);
     this.isClosing.set(false);
   }

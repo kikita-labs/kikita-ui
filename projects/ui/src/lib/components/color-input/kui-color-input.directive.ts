@@ -1,21 +1,23 @@
 import {
   AfterViewInit,
+  ComponentRef,
   Directive,
   DoCheck,
   ElementRef,
+  Injector,
   OnDestroy,
-  NgZone,
   Renderer2,
   booleanAttribute,
   computed,
+  effect,
   inject,
   input,
   signal,
+  ViewContainerRef,
 } from '@angular/core';
-import { FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { DomPortal } from '@angular/cdk/portal';
 
 import { KuiSize } from '../../types';
+import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KuiFieldComponent } from '../field';
 
 const HEX_COLOR_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
@@ -60,8 +62,8 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
 
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
-  private readonly overlay = inject(Overlay);
-  private readonly zone = inject(NgZone);
+  private readonly vcr = inject(ViewContainerRef);
+  private readonly injector = inject(Injector);
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
 
   protected readonly inputId = computed(() => this.id() ?? this.field?.controlId ?? null);
@@ -74,8 +76,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private swatchBtn!: HTMLButtonElement;
   private swatchFill!: HTMLElement;
   private chevronBtn!: HTMLButtonElement;
-  private overlayRef: OverlayRef | null = null;
-  private positionStrategy: FlexibleConnectedPositionStrategy | null = null;
+  private dropdownRef: ComponentRef<KuiDropdownComponent> | null = null;
   private panelEl: HTMLElement | null = null;
   private pickerEl: HTMLElement | null = null;
   private thumbEl: HTMLElement | null = null;
@@ -92,26 +93,8 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private lastValid = hexToOklch('#5b4fe0')!;
   private dragAbort: (() => void) | null = null;
   private lastState = '';
-  private readonly scrollGuard = (): void => {
-    if (!this.containerEl) return;
-    const rect = this.containerEl.getBoundingClientRect();
-    const outOfView =
-      rect.bottom <= 0 ||
-      rect.top >= window.innerHeight ||
-      rect.right <= 0 ||
-      rect.left >= window.innerWidth;
-    if (outOfView) {
-      this.zone.run(() => this.closePicker());
-      return;
-    }
-    // CDK can under-measure the pane height on the scroll tick that flips the
-    // popover to the other side (it briefly clamps to available space instead
-    // of content size). A second pass re-measures against the real content.
-    this.overlayRef?.updatePosition();
-  };
   private readonly unlisten: Array<() => void> = [];
   private readonly pickerUnlisten: Array<() => void> = [];
-  private overlaySubs: Array<{ unsubscribe: () => void }> = [];
 
   ngAfterViewInit(): void {
     this.buildDom();
@@ -144,7 +127,8 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.clearPickerListeners();
     this.dragAbort?.();
     this.dragAbort = null;
-    this.closePicker();
+    this.dropdownRef?.destroy();
+    this.dropdownRef = null;
     this.teardownDom();
   }
 
@@ -232,8 +216,42 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
 
     if (this.panelEl) {
       this.pickerBuilt ? this.updatePickerVisuals() : this.renderPicker();
-      this.overlayRef?.updatePosition();
     }
+  }
+
+  /**
+   * Lazily creates the `kui-dropdown` instance the picker renders into, on first open. The
+   * dropdown owns positioning, viewport-safe sizing/scrolling, outside-click, Escape, and
+   * anchor-offscreen auto-close -- same as every other Kikita UI floating panel -- instead of
+   * this directive re-implementing all of that against a raw CDK overlay.
+   */
+  private ensureDropdown(): ComponentRef<KuiDropdownComponent> {
+    if (this.dropdownRef) return this.dropdownRef;
+
+    this.panelEl = this.renderer.createElement('div') as HTMLElement;
+    this.renderer.addClass(this.panelEl, 'kui-color-input-popover');
+
+    const dropdownRef = this.vcr.createComponent(KuiDropdownComponent, {
+      projectableNodes: [[this.panelEl]],
+    });
+    dropdownRef.setInput('panelRole', 'dialog');
+    dropdownRef.setInput('panelWidth', 'auto');
+    dropdownRef.setInput('maxHeight', null);
+    this.dropdownRef = dropdownRef;
+
+    // The dropdown can also close itself (outside click, Escape, anchor scrolled offscreen).
+    // Mirror that back into our own `open` signal/state when it does.
+    effect(
+      () => {
+        if (!dropdownRef.instance.isOpen() && this.open()) {
+          this.open.set(false);
+          this.syncState();
+        }
+      },
+      { injector: this.injector },
+    );
+
+    return dropdownRef;
   }
 
   private togglePicker(): void {
@@ -242,74 +260,18 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
 
   private openPicker(): void {
     const native = this.el.nativeElement;
-    if (native.disabled || native.readOnly || this.overlayRef) return;
+    if (native.disabled || native.readOnly || this.open()) return;
     this.el.nativeElement.focus();
 
-    this.positionStrategy = this.overlay
-      .position()
-      .flexibleConnectedTo(this.containerEl)
-      .withPositions([
-        { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 4 },
-        { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -4 },
-      ])
-      .withPush(false)
-      .withFlexibleDimensions(true)
-      .withViewportMargin(16);
-
-    this.overlayRef = this.overlay.create({
-      positionStrategy: this.positionStrategy,
-      scrollStrategy: this.overlay.scrollStrategies.reposition(),
-      width: Math.min(260, Math.max(220, window.innerWidth - 16)),
-    });
-
-    this.panelEl = this.renderer.createElement('div') as HTMLElement;
-    this.renderer.addClass(this.panelEl, 'kui-color-input-popover');
-    this.renderer.appendChild(this.containerEl, this.panelEl);
-    this.overlayRef.attach(new DomPortal(this.panelEl));
-
-    this.overlaySubs = [
-      this.overlayRef
-        .outsidePointerEvents()
-        .subscribe(() => this.zone.run(() => this.closePicker())),
-      this.overlayRef.keydownEvents().subscribe((event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-          event.stopPropagation();
-          this.zone.run(() => this.closePicker());
-        }
-      }),
-      this.overlayRef.detachments().subscribe(() => this.zone.run(() => this.closePicker())),
-    ];
-
-    window.addEventListener('scroll', this.scrollGuard, true);
+    const dropdownRef = this.ensureDropdown();
+    dropdownRef.instance.setAnchor(this.containerEl, this.containerEl);
+    dropdownRef.instance.open();
     this.open.set(true);
     this.syncState();
   }
 
   private closePicker(): void {
-    const panel = this.panelEl;
-    window.removeEventListener('scroll', this.scrollGuard, true);
-    this.overlaySubs.forEach((sub) => sub.unsubscribe());
-    this.overlaySubs = [];
-    this.overlayRef?.dispose();
-    if (panel?.parentNode) {
-      this.renderer.removeChild(panel.parentNode, panel);
-    }
-    this.overlayRef = null;
-    this.positionStrategy = null;
-    this.panelEl = null;
-    this.pickerEl = null;
-    this.thumbEl = null;
-    this.hueThumbEl = null;
-    this.hueInputEl = null;
-    this.lInputEl = null;
-    this.cInputEl = null;
-    this.hInputEl = null;
-    this.hexInputEl = null;
-    this.previewFillEl = null;
-    this.pickerBuilt = false;
-    this.clearPickerListeners();
-    this.dragAbort?.();
-    this.dragAbort = null;
+    this.dropdownRef?.instance.close();
     this.open.set(false);
     this.syncState();
   }
