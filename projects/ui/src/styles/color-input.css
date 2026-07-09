@@ -90,6 +90,7 @@
   .kui-color-input-popover {
     box-sizing: border-box;
     width: 100%;
+    min-block-size: 0;
     max-inline-size: calc(100vw - var(--kui-space-4));
     max-block-size: calc(100vh - var(--kui-dropdown-viewport-margin, 32px));
     overflow-y: auto;

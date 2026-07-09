@@ -22,9 +22,14 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   so it hugs its content and only scrolls once content exceeds its own max height.
 - `kui-color-input`: picker popover is now viewport-safe. `.kui-color-input-popover` (a custom
   CDK overlay, not routed through `kui-dropdown`) previously rendered at full natural height
-  with no way to reach content that ran off the top/bottom of a short viewport. It now clamps to
-  `calc(100vh - var(--kui-dropdown-viewport-margin, 32px))` and scrolls internally, matching
-  `kui-dropdown`'s viewport-safety behavior.
+  with no way to reach content that ran off the top/bottom of a short viewport. A static
+  `calc(100vh - margin)` cap alone wasn't enough when the popover flipped to the side with less
+  room than that (e.g. a shrunk viewport with devtools docked): the panel could still overflow
+  past the screen edge in that direction with no way to reach it. The overlay's position strategy
+  now also uses `withFlexibleDimensions(true)` so CDK constrains the panel to whatever space is
+  actually available in the direction it renders, and `.kui-color-input-popover` gets
+  `min-block-size: 0` so it can shrink to that constraint and scroll internally instead of
+  overflowing it.
 
 ## [0.1.0] - 2026-07-08
 

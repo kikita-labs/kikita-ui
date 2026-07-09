@@ -252,7 +252,9 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
         { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 4 },
         { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -4 },
       ])
-      .withPush(false);
+      .withPush(false)
+      .withFlexibleDimensions(true)
+      .withViewportMargin(16);
 
     this.overlayRef = this.overlay.create({
       positionStrategy: this.positionStrategy,
