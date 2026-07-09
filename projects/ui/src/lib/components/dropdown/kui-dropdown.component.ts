@@ -106,6 +106,15 @@ export class KuiDropdownComponent implements OnDestroy {
    */
   readonly panelWidth = input<'anchor' | 'content' | 'auto'>('anchor');
 
+  /**
+   * Explicit panel width (any valid CSS width, e.g. `'320px'`, `'20rem'`). When set, this
+   * overrides `panelWidth` entirely — the panel is exactly this wide regardless of the
+   * trigger's width or the panel's own content. For consumers that want a dropdown wider or
+   * narrower than its trigger (`kuiSelect`/`kuiCombobox` otherwise always match the trigger via
+   * `panelWidth="anchor"`) without having to fight the trigger's own width.
+   */
+  readonly width = input<string | null>(null);
+
   /** Whether the panel is currently open. */
   readonly isOpen = signal(false);
 
@@ -164,14 +173,18 @@ export class KuiDropdownComponent implements OnDestroy {
       { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -gap },
     ]);
 
+    const explicitWidth = this.width();
+
     this.overlayRef = this.overlay.create({
       positionStrategy,
       scrollStrategy: this.overlay.scrollStrategies.noop(),
-      ...(this.panelWidth() === 'anchor'
-        ? { width: anchor.offsetWidth }
-        : this.panelWidth() === 'content'
-          ? { minWidth: anchor.offsetWidth }
-          : {}),
+      ...(explicitWidth
+        ? { width: explicitWidth }
+        : this.panelWidth() === 'anchor'
+          ? { width: anchor.offsetWidth }
+          : this.panelWidth() === 'content'
+            ? { minWidth: anchor.offsetWidth }
+            : {}),
     });
 
     this.overlayRef.attach(new TemplatePortal(this.tplRef(), this.vcr));

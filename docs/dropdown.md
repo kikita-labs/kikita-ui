@@ -56,6 +56,7 @@ and `aria-haspopup`.
 | `offset`     | `number`                                  | `4`         | Gap between anchor and panel edge in px.                                                                                                                  |
 | `panelRole`  | `'listbox' \| 'dialog' \| 'grid' \| null` | `'listbox'` | ARIA role on the panel. Set to `'dialog'` for non-listbox content, e.g. `kui-calendar`.                                                                   |
 | `panelWidth` | `'anchor' \| 'content' \| 'auto'`         | `'anchor'`  | `'anchor'` matches the trigger's width exactly (listboxes). `'content'` grows with the panel's own content but never *below* the trigger's width, so it isn't clipped by a narrower trigger — e.g. `kui-calendar` in a date picker. `'auto'` ignores the trigger's width entirely and sizes purely to content, for panels that are their own small fixed-size widget regardless of how wide the trigger is — e.g. `kui-color-input`'s picker. |
+| `width`      | `string \| null`                          | `null`      | Explicit panel width (any CSS width, e.g. `'320px'`). Overrides `panelWidth` entirely — for a panel that's deliberately wider or narrower than its trigger, with no per-component workaround needed. |
 
 ### Viewport-Safe By Default
 

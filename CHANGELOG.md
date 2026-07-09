@@ -18,6 +18,10 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 - `kui-calendar`: `--kui-calendar-width` CSS custom property (default `296px`). The calendar
   previously had a hardcoded width with no way to override it — e.g. to make a date picker's
   popover narrower or wider than the default.
+- `kui-dropdown`: `width` input (any CSS width, e.g. `'320px'`). Overrides `panelWidth` entirely
+  so any consumer (`kuiSelect`, `kuiCombobox`, a date picker, ...) can make its dropdown a
+  specific width regardless of the trigger, not just the fixed `'anchor'`/`'content'`/`'auto'`
+  sizing strategies.
 
 ### Fixed
 
