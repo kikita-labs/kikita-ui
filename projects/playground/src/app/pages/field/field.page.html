@@ -90,6 +90,63 @@
 
 <app-panel
   num="03"
+  title="Slot presence matrix"
+  description="Every combination of label / hint / error to catch grid-row regressions when a slot is absent."
+>
+  <div class="field-grid field-grid--three">
+    <div class="slot-case">
+      <p class="slot-case__title">All present</p>
+      <kui-field label="Label" hint="Hint text" style="inline-size: 100%">
+        <input kuiInput placeholder="Value" />
+      </kui-field>
+    </div>
+
+    <div class="slot-case">
+      <p class="slot-case__title">No label</p>
+      <kui-field hint="Hint text" style="inline-size: 100%">
+        <input kuiInput placeholder="Value" />
+      </kui-field>
+    </div>
+
+    <div class="slot-case">
+      <p class="slot-case__title">No hint, no error</p>
+      <kui-field label="Label" style="inline-size: 100%">
+        <input kuiInput placeholder="Value" />
+      </kui-field>
+    </div>
+
+    <div class="slot-case">
+      <p class="slot-case__title">Label + hint + error (both messages)</p>
+      <kui-field label="Label" hint="Hint text" error="Error text" style="inline-size: 100%">
+        <input kuiInput placeholder="Value" />
+      </kui-field>
+    </div>
+
+    <div class="slot-case">
+      <p class="slot-case__title">No label, hint + error</p>
+      <kui-field hint="Hint text" error="Error text" style="inline-size: 100%">
+        <input kuiInput placeholder="Value" />
+      </kui-field>
+    </div>
+
+    <div class="slot-case">
+      <p class="slot-case__title">No label, error only</p>
+      <kui-field error="Error text" style="inline-size: 100%">
+        <input kuiInput placeholder="Value" />
+      </kui-field>
+    </div>
+
+    <div class="slot-case">
+      <p class="slot-case__title">Nothing but control</p>
+      <kui-field style="inline-size: 100%">
+        <input kuiInput placeholder="Value" />
+      </kui-field>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
   title="Size matrix"
   description="xs / sm / md / lg x default / error / disabled."
 >

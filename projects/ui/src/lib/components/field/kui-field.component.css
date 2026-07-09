@@ -11,6 +11,7 @@
 
 .kui-field__label {
   display: inline-flex;
+  grid-row: 1;
   gap: var(--kui-space-1, 4px);
   color: var(--kui-field-label-color, var(--kui-color-text));
   font-size: var(--kui-field-label-size, var(--kui-text-sm-size, 13px));
@@ -20,6 +21,7 @@
 
 .kui-field__label-row {
   display: inline-flex;
+  grid-row: 1;
   align-items: baseline;
   gap: var(--kui-space-1, 4px);
 }
@@ -53,6 +55,7 @@
 }
 
 .kui-field__control {
+  grid-row: 2;
   position: relative;
   min-inline-size: 0;
 }

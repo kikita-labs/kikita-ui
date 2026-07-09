@@ -9,6 +9,26 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.field-grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.slot-case {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px dashed var(--kui-color-border);
+  border-radius: var(--kui-radius-md, 8px);
+}
+
+.slot-case__title {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--kui-color-text-secondary);
+}
+
 @media (max-width: 900px) {
   .field-grid {
     grid-template-columns: 1fr;
