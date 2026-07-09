@@ -214,7 +214,11 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
-        this.openDropdown();
+        if (this.dropdownOpen()) {
+          this.focusCalendarGrid();
+        } else {
+          this.openDropdown();
+        }
         break;
       case 'Enter':
         event.preventDefault();
@@ -248,6 +252,20 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
   protected openDropdown(): void {
     if (this.disabled() || this.readonly()) return;
     this.field?.getDropdown()?.open();
+  }
+
+  /**
+   * Moves DOM focus from the text input into the open `kui-calendar`'s day grid (its roving
+   * `tabindex="0"` cell), so a second ArrowDown starts grid navigation instead of doing nothing
+   * -- ArrowLeft/Right already move the text caret while focus stays on the input, which is
+   * correct, but ArrowDown has no caret meaning and should hand off to the calendar.
+   */
+  private focusCalendarGrid(): void {
+    this.field
+      ?.getDropdown()
+      ?.getPanel()
+      ?.querySelector<HTMLButtonElement>('.kui-calendar-day[tabindex="0"]')
+      ?.focus();
   }
 
   private writeNativeValue(value: string): void {

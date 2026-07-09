@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-10
+
 ### Fixed
 
 - `kui-field`: control no longer collapses into the label row (leaving a phantom empty
@@ -43,6 +45,18 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 - Extracted the positioning/dismissal/viewport-clamp logic shared by `kui-dropdown` and
   `kui-menu` into `kui-floating-panel.util.ts` instead of each maintaining its own copy (and
   independently accumulating the same class of bugs, as above).
+- `kuiMenuFor`: opening a menu via keyboard (Enter/Space on the trigger, or ArrowDown/ArrowUp)
+  now moves focus onto the first/last item, matching `input[kuiSelect]`. Previously Enter/Space
+  only toggled the menu open with focus left on the trigger, so arrow keys did nothing until the
+  user tabbed in manually. A mouse click still opens without stealing focus onto an item.
+- `input[kuiDatePicker]`: pressing ArrowDown while the calendar popover is already open now
+  moves focus onto the day grid (its roving `tabindex="0"` cell) instead of doing nothing.
+  ArrowLeft/Right still move the text caret, which is correct and unchanged.
+- `kui-command-palette`: arrow-key navigation now scrolls the newly-active item into view.
+  Unlike `kui-select`/`kui-menu`, the active item here is a CSS class on a roving index (focus
+  stays on the search input the whole time), so there was no native `focus()`-triggered
+  auto-scroll to rely on -- navigating to an item below the visible list left it selected but
+  invisible with no indication where it went.
 
 ## [0.1.0] - 2026-07-08
 

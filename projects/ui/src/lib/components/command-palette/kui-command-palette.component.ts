@@ -173,7 +173,14 @@ export class KuiCommandPaletteComponent implements OnDestroy {
   private moveActive(delta: number): void {
     const max = this.selectableEntries().length - 1;
     if (max < 0) return;
-    this.activeIndex.set(clamp(this.activeIndex() + delta, 0, max));
+    const next = clamp(this.activeIndex() + delta, 0, max);
+    this.activeIndex.set(next);
+    // The active item is a CSS class on a roving index, not real DOM focus (focus stays on
+    // the search input the whole time), so there's no native focus()-triggered auto-scroll to
+    // rely on here -- scroll it into view ourselves.
+    const item = this.selectableEntries()[next]?.item;
+    const el = item ? this.document.getElementById(this.optionId(item)) : null;
+    el?.scrollIntoView?.({ block: 'nearest' });
   }
 
   private matchesQuery(item: KuiCommandItem, query: string): boolean {

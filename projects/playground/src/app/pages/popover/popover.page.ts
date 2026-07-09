@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiButtonDirective,
+  KuiColorInputDirective,
   KuiFieldComponent,
   KuiInputDirective,
   KuiPopoverComponent,
@@ -17,6 +18,7 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   encapsulation: ViewEncapsulation.None,
   imports: [
     KuiButtonDirective,
+    KuiColorInputDirective,
     KuiFieldComponent,
     KuiInputDirective,
     KuiPopoverComponent,

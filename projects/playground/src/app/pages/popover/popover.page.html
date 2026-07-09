@@ -141,4 +141,27 @@
       </div>
     </div>
   </app-panel>
+
+  <!-- p.05 Nested popover -->
+  <app-panel
+    num="05"
+    title="Nested popover"
+    description="A kui-popover containing input[kuiColorInput], which opens its own picker popover. Interacting with the inner picker must not close the outer popover."
+  >
+    <div class="pop-row">
+      <div>
+        <p class="pop-label">Popover-in-popover: color picker inside a popover</p>
+        <button kuiButton appearance="outline" [kuiPopoverFor]="popColor">Choose color</button>
+        <kui-popover #popColor placement="bottom" align="start" [arrow]="true" [trapFocus]="true">
+          <div class="kui-popover-title" style="margin-bottom: 12px">Accent color</div>
+          <kui-field label="Seed" style="margin-bottom: 12px">
+            <input kuiColorInput value="#5b4fe0" />
+          </kui-field>
+          <div style="display: flex; justify-content: flex-end">
+            <button kuiButton size="sm" (click)="popColor.close()">Done</button>
+          </div>
+        </kui-popover>
+      </div>
+    </div>
+  </app-panel>
 </div>
