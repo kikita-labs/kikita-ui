@@ -1,0 +1,107 @@
+<div class="page">
+  <!-- p.01 Display mode -->
+  <app-panel
+    num="01"
+    title="Display Mode — live"
+    description="Click a row to select it. Expand 'components' to trigger a 700ms lazy load."
+  >
+    <div class="tree-demo">
+      <kui-tree
+        ariaLabel="Project explorer"
+        mode="display"
+        [data]="displayNodes"
+        [(selected)]="displaySelected"
+        [(expandedIds)]="displayExpanded"
+        [loadChildren]="loadDisplayChildren"
+      />
+    </div>
+    <p class="tree-note">Selected id: {{ displaySelected() ?? 'none' }}</p>
+  </app-panel>
+
+  <!-- p.02 Checkable mode -->
+  <app-panel
+    num="02"
+    title="Checkable Mode — live"
+    description="Every node has a checkbox. AGENTS.md is disabled and unchecked, so Kikita UI and Projects show as indeterminate."
+  >
+    <div class="tree-demo">
+      <kui-tree
+        ariaLabel="File selection"
+        mode="checkable"
+        [data]="checkableNodes"
+        [(checkedIds)]="checkedIds"
+        [(expandedIds)]="checkableExpanded"
+      />
+    </div>
+    <p class="tree-note">Checked ids: {{ checkedIds().join(', ') || 'none' }}</p>
+  </app-panel>
+
+  <!-- p.03 Sizes -->
+  <app-panel num="03" title="Sizes">
+    <div class="tree-size-row">
+      <div class="tree-col">
+        <div class="tree-label">sm — 28px · 11px</div>
+        <kui-tree
+          ariaLabel="Example sm"
+          size="sm"
+          [data]="sizeNodes"
+          [expandedIds]="['s-projects']"
+        />
+      </div>
+      <div class="tree-col">
+        <div class="tree-label">md — 32px · 13px (default)</div>
+        <kui-tree
+          ariaLabel="Example md"
+          size="md"
+          [data]="sizeNodes"
+          [expandedIds]="['s-projects']"
+        />
+      </div>
+      <div class="tree-col">
+        <div class="tree-label">lg — 40px · 14px</div>
+        <kui-tree
+          ariaLabel="Example lg"
+          size="lg"
+          [data]="sizeNodes"
+          [expandedIds]="['s-projects']"
+        />
+      </div>
+    </div>
+  </app-panel>
+
+  <!-- p.04 Row states -->
+  <app-panel
+    num="04"
+    title="Row States"
+    description="Disabled nodes stay reachable by arrow navigation but ignore click/Enter/Space."
+  >
+    <div class="tree-demo tree-demo--narrow">
+      <kui-tree ariaLabel="Settings" [data]="stateNodes" [(expandedIds)]="stateExpanded" />
+    </div>
+  </app-panel>
+
+  <!-- p.05 Mobile tap target -->
+  <app-panel
+    num="05"
+    title="Mobile — enlarged tap target"
+    description="The `mobile` input grows the toggle button to 44x44px."
+  >
+    <div class="tree-mobile-frame">
+      <kui-tree ariaLabel="Files" mobile [data]="mobileNodes" [(expandedIds)]="mobileExpanded" />
+    </div>
+  </app-panel>
+
+  <!-- p.06 Themes -->
+  <app-panel num="06" title="Dark &amp; Light Themes">
+    <div class="tree-theme-row">
+      <div class="tree-theme-box" data-kui-theme="dark">
+        <div class="tree-theme-label">Dark</div>
+        <kui-tree ariaLabel="Example dark" [data]="stateNodes" [expandedIds]="['x-settings']" />
+      </div>
+      <div class="tree-theme-box" data-kui-theme="light">
+        <div class="tree-theme-label">Light</div>
+        <kui-tree ariaLabel="Example light" [data]="stateNodes" [expandedIds]="['x-settings']" />
+      </div>
+    </div>
+  </app-panel>
+</div>

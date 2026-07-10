@@ -48,6 +48,21 @@
     transform: rotate(-45deg) scale(1);
   }
 
+  .kui-checkbox:indeterminate {
+    border-color: var(--kui-checkbox-checked-border, var(--kui-color-primary-fill));
+    background-color: var(--kui-checkbox-checked-bg, var(--kui-color-primary-fill));
+  }
+
+  .kui-checkbox:indeterminate::before {
+    content: '';
+    opacity: 1;
+    inline-size: 0.6em;
+    block-size: 0;
+    border-block-end: 2px solid var(--kui-checkbox-mark, var(--kui-color-on-fill));
+    border-inline-start: none;
+    transform: none;
+  }
+
   .kui-checkbox:active {
     transform: scale(0.94);
   }

@@ -175,5 +175,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/date-picker/date-picker.page').then((m) => m.DatePickerPage),
   },
+  {
+    path: 'tree',
+    loadComponent: () => import('./pages/tree/tree.page').then((m) => m.TreePage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

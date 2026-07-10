@@ -1,0 +1,71 @@
+.page {
+  display: block;
+}
+
+.tree-demo {
+  max-width: 380px;
+}
+
+.tree-demo--narrow {
+  max-width: 260px;
+}
+
+.tree-note {
+  font-size: 12px;
+  color: var(--kui-color-text-secondary);
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+.tree-size-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.tree-col {
+  flex: 1;
+  min-width: 220px;
+}
+
+.tree-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--kui-color-text);
+  margin-bottom: 12px;
+}
+
+.tree-mobile-frame {
+  max-width: 375px;
+  border: 1px solid var(--kui-color-border);
+  border-radius: var(--kui-radius-lg);
+  overflow: hidden;
+  background: var(--kui-color-bg);
+  padding: 12px;
+}
+
+.tree-theme-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.tree-theme-box {
+  flex: 1;
+  min-width: 260px;
+  border: 1px solid var(--kui-color-border);
+  border-radius: var(--kui-radius-md);
+  padding: 24px;
+  background: var(--kui-color-bg);
+  color: var(--kui-color-text);
+}
+
+.tree-theme-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--kui-color-text-secondary);
+  font-weight: 600;
+  margin-bottom: 16px;
+}

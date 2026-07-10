@@ -50,6 +50,7 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Breadcrumbs | `/breadcrumbs` | link and plain-text crumbs, current crumb, hover/focus-visible, sm/md/lg sizes, leading icon, truncate-middle-crumb, ellipsis-menu, and first+last-only responsive patterns, dark/light themes |
 | Calendar | `/calendar` | single and range modes, month/year/decade navigation, disabled dates (`minDate`), sm/md sizes, locale override (`en-US`/`ru-RU`), footer on/off, custom footer via content projection, dark/light themes |
 | Date Picker | `/date-picker` | `input[kuiDatePicker]` + `kui-calendar` popover, basic, `kui-field` label/hint/required composition, `minDate` disabled dates, clearable on/off, disabled/readonly, invalid typed input, live month sync via `viewDate` |
+| Tree | `/tree` | `display` and `checkable` modes, indeterminate cascade with a disabled descendant, lazy-load spinner, sm/md/lg sizes, disabled node, no-icon node, mobile enlarged tap target, roving tabindex, type-ahead, dark/light themes |
 
 ## Current Gaps
 

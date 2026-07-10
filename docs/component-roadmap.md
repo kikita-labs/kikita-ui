@@ -60,9 +60,16 @@
 - Calendar (done as `kui-calendar`; single/range mode, month/year/decade navigation, keyboard support, `minDate`/`maxDate`/`disabledDates`, `flat` variant, `viewDate`/`showPrevNav`/`showNextNav` for linked-pair layouts, `KUI_LOCALE`-driven month/weekday names via `Intl`; `mode="multiple"` deferred, no concrete use case yet)
 - Date Picker (done as `input[kuiDatePicker]` + `kui-calendar` + `kui-dropdown`; `dd.MM.yyyy` text mask, `minDate`/`maxDate`, `clearable`, Signal Forms control contract; `mode="range"` and a mobile bottom-sheet popover variant are not implemented — single-date only for now)
 
+## Phase 6
+
+- Tree (done as `kui-tree` + recursive internal `kui-tree-node`; `display` and `checkable` modes,
+  indeterminate checkbox cascading, lazy-loaded children via `loadChildren`, roving-tabindex
+  keyboard navigation with type-ahead; per-node `icon` is limited to the built-in `folder`/`file`
+  glyphs — a custom icon `TemplateRef` slot and virtualization are not implemented)
+
 ## Later
 
-Do not build Tree, Charts, or File Upload until a real consumer needs them.
+Do not build Charts or File Upload until a real consumer needs them.
 
 ## Known Tech Debt
 

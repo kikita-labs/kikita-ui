@@ -8,6 +8,17 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Added
+
+- `kui-tree`: hierarchical navigation/selection list with `display` and `checkable` modes,
+  indeterminate checkbox cascading, lazy-loaded children via `loadChildren`, and roving-tabindex
+  keyboard navigation (arrow keys, Home/End, type-ahead).
+
+### Fixed
+
+- `.kui-checkbox` now styles the native `:indeterminate` state (a dash mark), which was previously
+  unstyled and rendered as a plain unchecked box.
+
 ## [0.1.3] - 2026-07-10
 
 ### Fixed

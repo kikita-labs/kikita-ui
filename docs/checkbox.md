@@ -43,3 +43,10 @@ CVA-first design.
 - `size`: `xs | sm | md | lg`
 - `invalid`: marks the checkbox invalid outside a field error state
 - `id`: explicit id override
+
+## Indeterminate
+
+`.kui-checkbox` styles the native `:indeterminate` pseudo-class (a dash mark
+instead of a checkmark). `indeterminate` is a DOM property, not an HTML
+attribute, so set it imperatively on the element (`kui-tree`'s checkable mode
+does this for parent nodes with a partially checked subtree).

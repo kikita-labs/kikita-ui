@@ -822,6 +822,15 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-breadcrumb-font-weight-current': '600',
     '--kui-date-picker-suffix-gap': '2px',
     '--kui-date-picker-affordance-size': '20px',
+    '--kui-tree-indent': '24px',
+    '--kui-tree-guide-color': 'var(--kui-color-border)',
+    '--kui-tree-row-height': '32px',
+    '--kui-tree-row-radius': 'var(--kui-radius-sm)',
+    '--kui-tree-row-bg-hover': 'var(--kui-color-surface)',
+    '--kui-tree-row-bg-selected': 'var(--kui-color-primary-soft-bg)',
+    '--kui-tree-row-text-selected': 'var(--kui-color-primary-soft-text)',
+    '--kui-tree-icon-color': 'var(--kui-color-text-secondary)',
+    '--kui-tree-disabled-color': 'var(--kui-color-text-disabled)',
   };
 }
 
