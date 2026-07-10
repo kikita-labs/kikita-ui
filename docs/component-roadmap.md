@@ -66,12 +66,10 @@ Do not build Tree, Charts, or File Upload until a real consumer needs them.
 
 ## Known Tech Debt
 
-- `kui-dropdown` injects `NgZone` and wraps its document-level event listeners in
-  `runOutsideAngular`/`run`. The playground (and any zoneless consumer) uses
-  `provideZonelessChangeDetection()`, where zone.js isn't loaded and these calls are inert
-  shims — they don't do anything meaningful anymore. Remove `NgZone` usage from `kui-dropdown`
-  and any other component still carrying this pre-zoneless pattern; rely on signal writes to
-  drive change detection instead. Flagged 2026-07-08 during Date Picker work.
+- ~~`kui-dropdown` injects `NgZone`...~~ Done 2026-07-10: removed `NgZone` from `kui-dropdown`,
+  `kui-menu`, `kui-popover`, and the shared `wireFloatingPanelDismissal`/`kui-floating-panel.util`
+  helper. Signal writes drive change detection directly now; no zone wrapping anywhere in the
+  overlay/floating-panel primitives.
 
 ## Install DX
 

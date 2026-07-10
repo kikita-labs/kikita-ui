@@ -2,7 +2,6 @@ import {
   Component,
   DestroyRef,
   ElementRef,
-  NgZone,
   OnDestroy,
   TemplateRef,
   ViewContainerRef,
@@ -116,7 +115,6 @@ export class KuiMenuComponent implements OnDestroy {
   private readonly items = contentChildren(KuiMenuItemDirective, { descendants: true });
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
-  private readonly zone = inject(NgZone);
   private readonly destroyRef = inject(DestroyRef);
   private readonly document = inject(DOCUMENT);
 
@@ -251,7 +249,6 @@ export class KuiMenuComponent implements OnDestroy {
     });
 
     const dismissSub = wireFloatingPanelDismissal(
-      this.zone,
       this.document,
       this.overlayRef,
       positionStrategy,

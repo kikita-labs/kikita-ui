@@ -5,7 +5,6 @@ import {
   inject,
   input,
   model,
-  NgZone,
   OnDestroy,
   signal,
   TemplateRef,
@@ -127,7 +126,6 @@ export class KuiDropdownComponent implements OnDestroy {
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly zone = inject(NgZone);
   private readonly document = inject(DOCUMENT);
 
   private _anchorEl: HTMLElement | null = null;
@@ -215,7 +213,6 @@ export class KuiDropdownComponent implements OnDestroy {
     });
 
     const dismissSub = wireFloatingPanelDismissal(
-      this.zone,
       this.document,
       this.overlayRef,
       positionStrategy,

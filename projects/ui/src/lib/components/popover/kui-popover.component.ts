@@ -1,7 +1,6 @@
 import {
   Component,
   DestroyRef,
-  NgZone,
   OnDestroy,
   TemplateRef,
   ViewContainerRef,
@@ -134,7 +133,6 @@ export class KuiPopoverComponent implements OnDestroy {
   private readonly tplRef = viewChild.required<TemplateRef<void>>('tpl');
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
-  private readonly zone = inject(NgZone);
   private readonly destroyRef = inject(DestroyRef);
   private readonly document = inject(DOCUMENT);
 
@@ -178,7 +176,7 @@ export class KuiPopoverComponent implements OnDestroy {
     this._clearCloseTimer();
     this._closeTimer = setTimeout(() => {
       this._closeTimer = null;
-      this.zone.run(() => this.close());
+      this.close();
     }, delay);
   }
 
@@ -202,7 +200,11 @@ export class KuiPopoverComponent implements OnDestroy {
       const trigger = this._triggerEl;
       this._triggerEl = null;
       this._detach();
-      if (trigger instanceof HTMLElement) trigger.focus();
+      // Only restore focus for click/keyboard-opened popovers. A hover-triggered popover's
+      // trigger listens for `focusin` to reopen on hover -- focusing it here would immediately
+      // reopen the popover that just closed, permanently stuck open until the pointer leaves
+      // and re-enters the trigger.
+      if (trigger instanceof HTMLElement && this.triggerType() !== 'hover') trigger.focus();
     }
   }
 
@@ -241,7 +243,7 @@ export class KuiPopoverComponent implements OnDestroy {
     const escapeSub = this._overlayRef.keydownEvents().subscribe((e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.stopPropagation();
-        this.zone.run(() => this.close());
+        this.close();
       }
     });
 
@@ -257,16 +259,14 @@ export class KuiPopoverComponent implements OnDestroy {
             '.kui-color-input-popover, .kui-dropdown, .kui-menu, .kui-select, .kui-combobox, .kui-command-palette, .kui-popover',
           ) != null;
 
-        if (!isTrigger && !isNestedKikitaOverlay) this.zone.run(() => this.close());
+        if (!isTrigger && !isNestedKikitaOverlay) this.close();
       }
     };
 
     const scrollHandler = () => posStrategy.apply();
 
-    this.zone.runOutsideAngular(() => {
-      this.document.addEventListener('mousedown', outsideHandler, { capture: true });
-      this.document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
-    });
+    this.document.addEventListener('mousedown', outsideHandler, { capture: true });
+    this.document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
 
     this._openSubs = [
       posSub,

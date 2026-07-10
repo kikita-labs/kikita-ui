@@ -1,4 +1,3 @@
-import { NgZone } from '@angular/core';
 import {
   ConnectedPosition,
   FlexibleConnectedPositionStrategy,
@@ -82,22 +81,25 @@ export function clampPanelToAvailableSpace(
 /**
  * Re-applies `positionStrategy` and re-clamps `panel` whenever the viewport itself resizes
  * (e.g. closing devtools) -- neither reacts to that on its own, so a clamp applied at a
- * smaller viewport would otherwise stay stuck even once the viewport grows back. Observes
- * `document.documentElement` (which tracks viewport size) via `ResizeObserver` rather than a
- * raw `window.resize` listener, consistent with how `kui-tabs` watches its own container.
- * Returns an `unsubscribe()` to disconnect the observer.
+ * smaller viewport would otherwise stay stuck even once the viewport grows back. Uses a
+ * `window.resize` listener rather than `ResizeObserver` on `document.documentElement`: the
+ * root element's observed box is its *content* box, which only matches the viewport when
+ * content happens to fill it -- with shorter content (or content that doesn't reflow with
+ * the viewport), shrinking/growing the viewport (e.g. toggling devtools) doesn't change that
+ * content box at all, so the observer silently never fires. `window.resize` fires on every
+ * viewport size change regardless of content. Returns an `unsubscribe()` to remove it.
  */
 export function observeViewportResize(
   document: Document,
   onResize: () => void,
 ): { unsubscribe: () => void } {
-  if (typeof ResizeObserver === 'undefined') {
+  const win = document.defaultView;
+  if (!win) {
     return { unsubscribe: () => {} };
   }
 
-  const ro = new ResizeObserver(onResize);
-  ro.observe(document.documentElement);
-  return { unsubscribe: () => ro.disconnect() };
+  win.addEventListener('resize', onResize);
+  return { unsubscribe: () => win.removeEventListener('resize', onResize) };
 }
 
 /**
@@ -105,7 +107,6 @@ export function observeViewportResize(
  * Returns a single `unsubscribe()` to tear all of it down.
  */
 export function wireFloatingPanelDismissal(
-  zone: NgZone,
   document: Document,
   overlayRef: OverlayRef,
   positionStrategy: FlexibleConnectedPositionStrategy,
@@ -119,7 +120,7 @@ export function wireFloatingPanelDismissal(
   const escapeSub = overlayRef.keydownEvents().subscribe((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       event.stopPropagation();
-      zone.run(() => handlers.onEscape());
+      handlers.onEscape();
     }
   });
 
@@ -128,12 +129,12 @@ export function wireFloatingPanelDismissal(
 
   const outsideHandler = (event: MouseEvent) => {
     const target = event.target as Element;
-    if (isOutside(target)) zone.run(() => handlers.onOutside());
+    if (isOutside(target)) handlers.onOutside();
   };
 
   const focusHandler = (event: FocusEvent) => {
     const target = event.target as Element | null;
-    if (target && isOutside(target)) zone.run(() => handlers.onOutside());
+    if (target && isOutside(target)) handlers.onOutside();
   };
 
   // CDK's own scroll-based reposition only tracks CdkScrollable-registered containers.
@@ -154,7 +155,7 @@ export function wireFloatingPanelDismissal(
       anchorRect.left >= viewportWidth;
 
     if (anchorOffScreen) {
-      zone.run(() => handlers.onAnchorOffscreen());
+      handlers.onAnchorOffscreen();
       return;
     }
 
@@ -162,13 +163,11 @@ export function wireFloatingPanelDismissal(
     handlers.onReposition?.();
   };
 
-  zone.runOutsideAngular(() => {
-    document.addEventListener(outsideEventType, outsideHandler, { capture: true });
-    if (handlers.watchFocusin) {
-      document.addEventListener('focusin', focusHandler, { capture: true });
-    }
-    document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
-  });
+  document.addEventListener(outsideEventType, outsideHandler, { capture: true });
+  if (handlers.watchFocusin) {
+    document.addEventListener('focusin', focusHandler, { capture: true });
+  }
+  document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
 
   return {
     unsubscribe: () => {

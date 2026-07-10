@@ -37,6 +37,20 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   directly in their own template (e.g. switching a date picker's `kui-dropdown` to
   `panelWidth="anchor"`), and that doing so alone doesn't shrink `kui-calendar` itself (it has a
   fixed width) — use the new `--kui-calendar-width` custom property for that.
+- `kui-dropdown`/`kui-menu`: a panel clamped smaller for lack of room (e.g. DevTools docked open)
+  never grew back once more room appeared (e.g. closing DevTools), only re-measuring on scroll.
+  The viewport-resize watch used `ResizeObserver` on `document.documentElement`, which tracks
+  that element's content box, not the viewport — shrinking/growing the viewport doesn't reliably
+  change it when page content doesn't fill the viewport. Switched to a `window.resize` listener.
+- `kui-popover`: a `hover`-triggered popover reopened itself immediately after closing (visually
+  stuck open/focused until the pointer left and re-entered the trigger). Closing any popover
+  focused its trigger for keyboard/click accessibility, but for `hover` triggers that focus call
+  itself fired `focusin` on the trigger, which the hover trigger directive treats as "reopen".
+  Focus restoration on close is now skipped for `triggerType="hover"`.
+- Removed `NgZone`/`runOutsideAngular`/`zone.run` from `kui-dropdown`, `kui-menu`, `kui-popover`,
+  and the shared `kui-floating-panel.util` dismissal helper — dead weight under
+  `provideZonelessChangeDetection()`, where zone.js isn't loaded and these calls were inert
+  shims. Signal writes drive change detection directly now.
 
 ## [0.1.1] - 2026-07-10
 
