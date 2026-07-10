@@ -1,0 +1,319 @@
+@layer kui.components {
+  /* ── Host / layout ─────────────────────────────────────────────────────── */
+
+  .kui-file-upload {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kui-space-4);
+  }
+
+  .kui-file-upload-sr-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ── Dropzone ──────────────────────────────────────────────────────────── */
+
+  .kui-file-upload-dropzone {
+    border: 2px dashed var(--kui-file-upload-dropzone-border, var(--kui-color-border-strong));
+    border-radius: var(--kui-file-upload-dropzone-radius, var(--kui-radius-lg));
+    background: var(--kui-file-upload-dropzone-bg, transparent);
+    padding: var(--kui-space-8) var(--kui-space-6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--kui-space-2);
+    cursor: pointer;
+    outline: none;
+    transition:
+      border-color var(--kui-duration-base) var(--kui-ease),
+      background var(--kui-duration-base) var(--kui-ease);
+  }
+
+  .kui-file-upload-dropzone:hover {
+    background: var(--kui-color-surface);
+  }
+
+  .kui-file-upload-dropzone:focus-visible {
+    outline: 2px solid var(--kui-color-primary-fill);
+    outline-offset: 2px;
+  }
+
+  .kui-file-upload-dropzone[data-kui-drag='over'] {
+    border-color: var(--kui-color-primary-fill);
+    background: var(--kui-color-primary-soft-bg);
+  }
+
+  .kui-file-upload-dropzone[data-kui-drag='invalid'] {
+    border-color: var(--kui-color-danger-fill);
+    background: var(--kui-color-danger-soft-bg);
+  }
+
+  .kui-file-upload-dropzone[data-kui-disabled] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .kui-file-upload-dropzone[data-kui-has-files] {
+    padding: var(--kui-space-4);
+  }
+
+  .kui-file-upload-dropzone-icon {
+    display: flex;
+    color: var(--kui-color-text-secondary);
+  }
+
+  .kui-file-upload-dropzone[data-kui-drag='over'] .kui-file-upload-dropzone-icon {
+    color: var(--kui-color-primary-fill);
+  }
+
+  .kui-file-upload-dropzone[data-kui-drag='invalid'] .kui-file-upload-dropzone-icon {
+    color: var(--kui-color-danger-fill);
+  }
+
+  .kui-file-upload-dropzone-text {
+    font-size: var(--kui-text-sm-size);
+    color: var(--kui-color-text);
+  }
+
+  .kui-file-upload-dropzone-text strong {
+    color: var(--kui-color-primary-soft-text);
+    font-weight: 600;
+  }
+
+  .kui-file-upload-dropzone-hint {
+    font-size: var(--kui-text-xs-size);
+    color: var(--kui-color-text-secondary);
+  }
+
+  /* ── Compact trigger ───────────────────────────────────────────────────── */
+
+  .kui-file-upload-compact-trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-3);
+  }
+
+  .kui-file-upload-compact-hint {
+    font-size: var(--kui-text-xs-size);
+    color: var(--kui-color-text-secondary);
+  }
+
+  /* ── Form-level error ──────────────────────────────────────────────────── */
+
+  .kui-file-upload-form-error {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--kui-text-xs-size);
+    color: var(--kui-color-danger-fill);
+  }
+
+  /* ── File list ─────────────────────────────────────────────────────────── */
+
+  .kui-file-upload-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kui-space-2);
+  }
+
+  .kui-file-upload-item {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-3);
+    min-height: var(--kui-file-upload-item-height, 56px);
+    padding: var(--kui-space-2) var(--kui-space-3);
+    border: 1px solid var(--kui-color-border);
+    border-radius: var(--kui-radius-md);
+    background: var(--kui-color-surface);
+    outline: none;
+  }
+
+  .kui-file-upload-item:focus-visible {
+    outline: 2px solid var(--kui-color-primary-fill);
+    outline-offset: -2px;
+  }
+
+  .kui-file-upload-item[data-kui-status='error'] {
+    border-color: var(--kui-file-upload-error-color, var(--kui-color-danger-fill));
+  }
+
+  .kui-file-upload-item-preview {
+    flex-shrink: 0;
+    width: var(--kui-file-upload-thumbnail-size, 36px);
+    height: var(--kui-file-upload-thumbnail-size, 36px);
+    border-radius: var(--kui-radius-sm);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--kui-color-surface-elevated);
+    color: var(--kui-color-text-secondary);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  .kui-file-upload-item-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .kui-file-upload-item-preview[data-kui-kind='pdf'] {
+    background: var(--kui-color-danger-soft-bg);
+    color: var(--kui-color-danger-soft-text);
+  }
+
+  .kui-file-upload-item-preview[data-kui-kind='doc'] {
+    background: var(--kui-color-info-soft-bg);
+    color: var(--kui-color-info-soft-text);
+  }
+
+  .kui-file-upload-item-preview[data-kui-kind='zip'] {
+    background: var(--kui-color-warning-soft-bg);
+    color: var(--kui-color-warning-soft-text);
+  }
+
+  .kui-file-upload-item-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .kui-file-upload-item-name {
+    font-size: var(--kui-text-sm-size);
+    color: var(--kui-color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .kui-file-upload-item-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-2);
+    font-size: var(--kui-text-xs-size);
+    color: var(--kui-color-text-secondary);
+  }
+
+  .kui-file-upload-item-size {
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .kui-file-upload-item-progress-track {
+    flex: 1;
+    min-width: 40px;
+  }
+
+  .kui-file-upload-item-pct {
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+    min-width: 30px;
+    text-align: right;
+  }
+
+  .kui-file-upload-item-success {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--kui-color-success-fill);
+  }
+
+  .kui-file-upload-item-error {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-2);
+    color: var(--kui-file-upload-error-color, var(--kui-color-danger-fill));
+    min-width: 0;
+  }
+
+  .kui-file-upload-item-error span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .kui-file-upload-item-retry {
+    font-size: var(--kui-text-xs-size);
+    font-weight: 600;
+    color: var(--kui-color-primary-soft-text);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    flex-shrink: 0;
+  }
+
+  .kui-file-upload-item-actions {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  /* ── Sizes ─────────────────────────────────────────────────────────────── */
+
+  .kui-file-upload[data-kui-size='sm'] .kui-file-upload-dropzone {
+    padding: var(--kui-space-5) var(--kui-space-4);
+    gap: var(--kui-space-1);
+  }
+
+  .kui-file-upload[data-kui-size='sm'] .kui-file-upload-dropzone-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .kui-file-upload[data-kui-size='sm'] .kui-file-upload-dropzone-text {
+    font-size: var(--kui-text-xs-size);
+  }
+
+  .kui-file-upload[data-kui-size='sm'] {
+    --kui-file-upload-item-height: 44px;
+    --kui-file-upload-thumbnail-size: 28px;
+  }
+
+  .kui-file-upload[data-kui-size='sm'] .kui-file-upload-item-name {
+    font-size: var(--kui-text-xs-size);
+  }
+
+  .kui-file-upload[data-kui-size='sm'] .kui-file-upload-item-preview {
+    font-size: 8px;
+  }
+
+  .kui-file-upload[data-kui-size='lg'] .kui-file-upload-dropzone {
+    padding: var(--kui-space-12) var(--kui-space-8);
+    gap: var(--kui-space-3);
+  }
+
+  .kui-file-upload[data-kui-size='lg'] .kui-file-upload-dropzone-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .kui-file-upload[data-kui-size='lg'] .kui-file-upload-dropzone-text {
+    font-size: var(--kui-text-md-size);
+  }
+
+  .kui-file-upload[data-kui-size='lg'] {
+    --kui-file-upload-item-height: 64px;
+    --kui-file-upload-thumbnail-size: 44px;
+  }
+
+  .kui-file-upload[data-kui-size='lg'] .kui-file-upload-item-name {
+    font-size: var(--kui-text-md-size);
+  }
+}

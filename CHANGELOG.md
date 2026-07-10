@@ -8,14 +8,26 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-07-11
+
 ### Added
 
+- `kui-file-upload`: file picker with a drag-and-drop `dropzone` variant or a `compact`
+  button-trigger variant, `single`/`multiple` selection mode, client-side `accept`/`maxSize`/
+  `maxCount` validation, image thumbnail previews, and a file list with pending/uploading/success/
+  error rows. Controlled via a two-way `files` model and a `(retry)` output; no upload transport is
+  built in.
 - `kui-tree`: hierarchical navigation/selection list with `display` and `checkable` modes,
   indeterminate checkbox cascading, lazy-loaded children via `loadChildren`, and roving-tabindex
   keyboard navigation (arrow keys, Home/End, type-ahead).
 
 ### Fixed
 
+- `button[kuiButton] appearance="outline"` (and `[kuiIconButton] appearance="outline"`) now uses
+  the neutral `--kui-color-border`/`--kui-color-text` tokens for its border and label, matching
+  the Claude Design Button spec. It previously resolved `--kui-btn-outline-border`/
+  `--kui-btn-outline-fg` to `--kui-color-primary-fill`, rendering outline buttons with a colored
+  brand border/text instead of a neutral one.
 - `.kui-checkbox` now styles the native `:indeterminate` state (a dash mark), which was previously
   unstyled and rendered as a plain unchecked box.
 
@@ -179,6 +191,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.1.4...HEAD
+[0.1.4]: https://github.com/kikita-labs/kikita-ui/releases/tag/v0.1.4
+[0.1.3]: https://github.com/kikita-labs/kikita-ui/releases/tag/v0.1.3
+[0.1.2]: https://github.com/kikita-labs/kikita-ui/releases/tag/v0.1.2
 [0.1.1]: https://github.com/kikita-labs/kikita-ui/releases/tag/v0.1.1
 [0.1.0]: https://github.com/kikita-labs/kikita-ui/releases/tag/v0.1.0

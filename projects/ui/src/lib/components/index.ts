@@ -39,3 +39,4 @@ export * from './breadcrumbs';
 export * from './calendar';
 export * from './date-picker';
 export * from './tree';
+export * from './file-upload';

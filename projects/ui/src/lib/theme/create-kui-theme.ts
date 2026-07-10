@@ -309,8 +309,8 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-btn-soft-bg-hov': 'var(--kui-color-primary-soft-bg-hover)',
     '--kui-btn-soft-bg-act': 'var(--kui-color-primary-soft-bg-active)',
     '--kui-btn-soft-fg': 'var(--kui-color-primary-soft-text)',
-    '--kui-btn-outline-border': 'var(--kui-color-primary-fill)',
-    '--kui-btn-outline-fg': 'var(--kui-color-primary-fill)',
+    '--kui-btn-outline-border': 'var(--kui-color-border)',
+    '--kui-btn-outline-fg': 'var(--kui-color-text)',
     '--kui-btn-outline-bg-hov': 'var(--kui-color-surface-elevated)',
     '--kui-btn-outline-bg-act': 'var(--kui-color-surface-sunken)',
     '--kui-btn-ghost-fg': 'var(--kui-color-text-secondary)',
@@ -831,6 +831,12 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-tree-row-text-selected': 'var(--kui-color-primary-soft-text)',
     '--kui-tree-icon-color': 'var(--kui-color-text-secondary)',
     '--kui-tree-disabled-color': 'var(--kui-color-text-disabled)',
+    '--kui-file-upload-dropzone-border': 'var(--kui-color-border-strong)',
+    '--kui-file-upload-dropzone-bg': 'transparent',
+    '--kui-file-upload-dropzone-radius': 'var(--kui-radius-lg)',
+    '--kui-file-upload-item-height': '56px',
+    '--kui-file-upload-thumbnail-size': '36px',
+    '--kui-file-upload-error-color': 'var(--kui-color-danger-fill)',
   };
 }
 

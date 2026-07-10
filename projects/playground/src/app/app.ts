@@ -63,6 +63,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/calendar', label: 'Calendar' },
   { path: '/date-picker', label: 'Date Picker' },
   { path: '/tree', label: 'Tree' },
+  { path: '/file-upload', label: 'File Upload' },
 ];
 
 @Component({

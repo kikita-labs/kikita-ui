@@ -1,0 +1,172 @@
+<div class="page">
+  <!-- p.01 Dropzone — live -->
+  <app-panel
+    num="01"
+    title="Dropzone — live"
+    description="Drop PNG/JPG (simulated ~2s upload) or another file type (immediate 'Invalid file type' error). Files over 10 MB fail size validation. More than 5 files surfaces the max-count form error."
+  >
+    <div class="fu-demo">
+      <kui-file-upload
+        acceptLabel="PNG, JPG up to 10 MB · max 5 files"
+        [accept]="dropzoneAccept"
+        [maxSize]="dropzoneMaxSize"
+        [maxCount]="5"
+        [(files)]="dropzoneFiles"
+        (retry)="onRetry($event, dropzoneFiles, dropzoneAccept, dropzoneMaxSize)"
+      />
+    </div>
+  </app-panel>
+
+  <!-- p.02 Compact — live -->
+  <app-panel
+    num="02"
+    title="Compact — live"
+    description="Button-only trigger for dense forms and comment composers. Same picker, validation, and file list as dropzone."
+  >
+    <div class="fu-demo">
+      <kui-file-upload
+        variant="compact"
+        acceptLabel="Any file up to 5 MB · max 3"
+        [maxSize]="5 * 1024 * 1024"
+        [maxCount]="3"
+        [(files)]="compactFiles"
+        (retry)="onRetry($event, compactFiles)"
+      />
+    </div>
+  </app-panel>
+
+  <!-- p.03 Single mode — live -->
+  <app-panel
+    num="03"
+    title="Single Mode — live"
+    description="Picking or dropping a new file always replaces the current one; maxCount is ignored."
+  >
+    <div class="fu-demo">
+      <kui-file-upload
+        mode="single"
+        acceptLabel="Any file — replaces the previous one"
+        [(files)]="singleFiles"
+      />
+    </div>
+  </app-panel>
+
+  <!-- p.04 Sizes -->
+  <app-panel num="04" title="Sizes">
+    <div class="fu-size-row">
+      <div class="fu-col">
+        <div class="fu-label">sm — item 44px · thumbnail 28px</div>
+        <kui-file-upload size="sm" [files]="sizeSmFiles" />
+      </div>
+      <div class="fu-col">
+        <div class="fu-label">md — item 56px · thumbnail 36px (default)</div>
+        <kui-file-upload size="md" [files]="sizeMdFiles" />
+      </div>
+      <div class="fu-col">
+        <div class="fu-label">lg — item 64px · thumbnail 44px</div>
+        <kui-file-upload size="lg" [files]="sizeLgFiles" />
+      </div>
+    </div>
+  </app-panel>
+
+  <!-- p.05 Dropzone states -->
+  <app-panel
+    num="05"
+    title="Dropzone States"
+    description="Buttons dispatch real DragEvents at the dropzone to exercise its actual drag-over/invalid handling."
+  >
+    <div class="fu-demo" #dzStatesHost>
+      <kui-file-upload
+        acceptLabel="PNG, JPG only"
+        [accept]="['image/png', 'image/jpeg']"
+        [(files)]="statesFiles"
+      />
+    </div>
+    <div class="fu-btn-row">
+      <button
+        kuiButton
+        appearance="outline"
+        size="sm"
+        type="button"
+        (click)="simulateDrag('valid')"
+      >
+        Simulate valid drag
+      </button>
+      <button
+        kuiButton
+        appearance="outline"
+        size="sm"
+        type="button"
+        (click)="simulateDrag('invalid')"
+      >
+        Simulate invalid drag
+      </button>
+      <button
+        kuiButton
+        appearance="outline"
+        size="sm"
+        type="button"
+        (click)="simulateDrag('leave')"
+      >
+        Reset
+      </button>
+    </div>
+    <div class="fu-demo fu-demo--disabled">
+      <div class="fu-label">Disabled</div>
+      <kui-file-upload disabled acceptLabel="Not available right now" />
+    </div>
+  </app-panel>
+
+  <!-- p.06 Item states -->
+  <app-panel
+    num="06"
+    title="File List — Item States"
+    description="Top to bottom: uploading (image thumbnail + kui-progress), success (PDF badge), error (invalid type, with Retry), pending (ZIP, queued)."
+  >
+    <div class="fu-demo fu-demo--narrow">
+      <kui-file-upload variant="compact" [files]="itemStateFiles" />
+    </div>
+  </app-panel>
+
+  <!-- p.07 In kui-field -->
+  <app-panel num="07" title="In kui-field — label, hint, required, error">
+    <div class="fu-field-row">
+      <kui-field label="Profile avatar" required hint="JPG or PNG, minimum 200x200px">
+        <kui-file-upload
+          variant="compact"
+          acceptLabel="JPG or PNG"
+          [accept]="['image/jpeg', 'image/png']"
+          [(files)]="avatarFiles"
+        />
+      </kui-field>
+      <kui-field label="Verification document" required error="A file is required to continue">
+        <kui-file-upload
+          acceptLabel="PDF up to 10 MB"
+          [accept]="['application/pdf']"
+          [maxSize]="10 * 1024 * 1024"
+          [(files)]="docFiles"
+        />
+      </kui-field>
+    </div>
+  </app-panel>
+
+  <!-- p.08 Themes -->
+  <app-panel num="08" title="Dark &amp; Light Themes">
+    <div class="fu-theme-row">
+      <div class="fu-theme-box" data-kui-theme="dark">
+        <div class="fu-theme-label">Dark</div>
+        <kui-file-upload variant="compact" [files]="themeFiles" />
+      </div>
+      <div class="fu-theme-box" data-kui-theme="light">
+        <div class="fu-theme-label">Light</div>
+        <kui-file-upload variant="compact" [files]="themeFiles" />
+      </div>
+    </div>
+  </app-panel>
+
+  <!-- p.09 Mobile -->
+  <app-panel num="09" title="Mobile — full-width dropzone, stacked list">
+    <div class="fu-mobile-frame">
+      <kui-file-upload acceptLabel="Tap to choose a file" [files]="mobileFiles" />
+    </div>
+  </app-panel>
+</div>

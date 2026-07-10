@@ -67,9 +67,18 @@
   keyboard navigation with type-ahead; per-node `icon` is limited to the built-in `folder`/`file`
   glyphs — a custom icon `TemplateRef` slot and virtualization are not implemented)
 
+## Phase 7
+
+- File Upload (done as `kui-file-upload`; `dropzone` and `compact` variants, `single`/`multiple`
+  mode, client-side `accept`/`maxSize`/`maxCount` validation, drag-and-drop, image thumbnail
+  previews, and a file list with pending/uploading/success/error rows. It is a controlled
+  component — no upload transport is built in; the consumer drives `status`/`progress` on the
+  two-way `files` model and responds to `(retry)`. Built ahead of the original "wait for a real
+  consumer" gate because a real consumer need now exists.)
+
 ## Later
 
-Do not build Charts or File Upload until a real consumer needs them.
+Do not build Charts until a real consumer needs it.
 
 ## Known Tech Debt
 

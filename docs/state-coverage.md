@@ -51,8 +51,14 @@ This is the current local playground coverage for public Kikita UI primitives.
 | Calendar | `/calendar` | single and range modes, month/year/decade navigation, disabled dates (`minDate`), sm/md sizes, locale override (`en-US`/`ru-RU`), footer on/off, custom footer via content projection, dark/light themes |
 | Date Picker | `/date-picker` | `input[kuiDatePicker]` + `kui-calendar` popover, basic, `kui-field` label/hint/required composition, `minDate` disabled dates, clearable on/off, disabled/readonly, invalid typed input, live month sync via `viewDate` |
 | Tree | `/tree` | `display` and `checkable` modes, indeterminate cascade with a disabled descendant, lazy-load spinner, sm/md/lg sizes, disabled node, no-icon node, mobile enlarged tap target, roving tabindex, type-ahead, dark/light themes |
+| File Upload | `/file-upload` | `dropzone` and `compact` variants, `single`/`multiple` mode, drag-over valid/invalid states, accept/maxSize/maxCount validation errors, pending/uploading/success/error item rows, image thumbnail preview, retry action, sm/md/lg sizes, disabled, `kui-field` composition, dark/light themes, mobile |
 
 ## Current Gaps
+
+- File Upload does not implement an Angular Signal Forms control contract; `files` is a plain
+  two-way `model()`. It has no built-in upload transport — the consumer owns `status`/`progress`
+  on the model past the initial `pending`/`error` produced by picking. DOM accessibility smoke has
+  run for `kui-file-upload`, but real assistive-technology review is still pending.
 
 - Initial static accessibility review has been run for Table, Tooltip, Tabs, Segmented, Popover, Dialog, Toast, Accordion, Progress, and Slider. Fixes from that pass include native sortable table header buttons, accessible tab scroll buttons, toast `status`/`alert` live semantics, tooltip whitespace guarding, and Signal Forms native range coverage for Slider.
 - Initial browser snapshot review has been run for Table, Select, Dialog, and Popover. Fixes from that pass include Popover trigger initialization guarding for Angular 22 required-input timing.

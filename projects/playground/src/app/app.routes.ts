@@ -179,5 +179,10 @@ export const routes: Routes = [
     path: 'tree',
     loadComponent: () => import('./pages/tree/tree.page').then((m) => m.TreePage),
   },
+  {
+    path: 'file-upload',
+    loadComponent: () =>
+      import('./pages/file-upload/file-upload.page').then((m) => m.FileUploadPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];
