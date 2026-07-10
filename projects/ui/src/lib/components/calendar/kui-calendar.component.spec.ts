@@ -176,6 +176,10 @@ describe('KuiCalendarComponent', () => {
     const ruFixture = TestBed.createComponent(CalendarHost);
     ruFixture.detectChanges();
     const title = (ruFixture.nativeElement as HTMLElement).querySelector('.kui-calendar-title');
-    expect(title?.textContent).toMatch(/[А-Яа-яЁё]/);
+    // Cyrillic range as \uXXXX escapes, not literal characters -- tracked source is
+    // English-only (see scripts/verify-static-audit.mjs's checkNoCyrillic).
+    // Cyrillic range as \uXXXX escapes, not literal characters -- tracked source is
+    // English-only (see scripts/verify-static-audit.mjs's checkNoCyrillic).
+    expect(title?.textContent).toMatch(/[\u0410-\u042f\u0430-\u044f\u0401\u0451]/);
   });
 });

@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-10
+
 ### Added
 
 - `kui-menu`: `placement` input (`'top' | 'bottom' | 'left' | 'right'`, default `'bottom'`),
@@ -31,31 +33,24 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   descriptive `aria-label` — previously they were unlabeled color swatches with no indication
   of which theme seed each corresponded to.
 
+### Changed
+
+- Removed `NgZone`/`runOutsideAngular`/`zone.run` from `kui-dropdown`, `kui-menu`, `kui-popover`,
+  and the shared `kui-floating-panel.util` dismissal helper — dead weight under
+  `provideZonelessChangeDetection()`, where zone.js isn't loaded and these calls were inert
+  shims. Signal writes drive change detection directly now.
+
 ### Fixed
 
 - Docs: clarified that `kui-dropdown`'s `panelWidth` is a plain input consumers already control
   directly in their own template (e.g. switching a date picker's `kui-dropdown` to
   `panelWidth="anchor"`), and that doing so alone doesn't shrink `kui-calendar` itself (it has a
   fixed width) — use the new `--kui-calendar-width` custom property for that.
-- `kui-dropdown`/`kui-menu`: a panel clamped smaller for lack of room (e.g. DevTools docked open)
-  never grew back once more room appeared (e.g. closing DevTools), only re-measuring on scroll.
-  The viewport-resize watch used `ResizeObserver` on `document.documentElement`, which tracks
-  that element's content box, not the viewport — shrinking/growing the viewport doesn't reliably
-  change it when page content doesn't fill the viewport. Switched to a `window.resize` listener.
 - `kui-popover`: a `hover`-triggered popover reopened itself immediately after closing (visually
   stuck open/focused until the pointer left and re-entered the trigger). Closing any popover
   focused its trigger for keyboard/click accessibility, but for `hover` triggers that focus call
   itself fired `focusin` on the trigger, which the hover trigger directive treats as "reopen".
   Focus restoration on close is now skipped for `triggerType="hover"`.
-- Removed `NgZone`/`runOutsideAngular`/`zone.run` from `kui-dropdown`, `kui-menu`, `kui-popover`,
-  and the shared `kui-floating-panel.util` dismissal helper — dead weight under
-  `provideZonelessChangeDetection()`, where zone.js isn't loaded and these calls were inert
-  shims. Signal writes drive change detection directly now.
-
-## [0.1.1] - 2026-07-10
-
-### Fixed
-
 - `kui-field`: control no longer collapses into the label row (leaving a phantom empty
   control-row track below it) when rendered without a `label`/`[kuiLabel]`. `.kui-field__label`
   and `.kui-field__control` now have explicit `grid-row` placement instead of relying on
@@ -75,14 +70,15 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   library rather than reinventing (and separately bugging out) the same logic.
 - `kui-dropdown` / `kui-menu`: both panels could still render taller than the actual room
   available in the direction they opened, even after being clamped to `calc(100vh - margin)` --
-  that cap is against the *whole* viewport, not the space left between the anchor and the
+  that cap is against the _whole_ viewport, not the space left between the anchor and the
   screen edge on the side the panel flipped to. Panels now measure their real rendered position
   and shrink `max-height` further whenever they'd still overflow. This clamp, and the panel's
-  position, now also re-run on window resize (via a `ResizeObserver` on `document.documentElement`,
-  not a raw `window.resize` listener) and on scroll that only shifts the anchor without changing
-  which side the panel is flipped to (previously only a `positionChanges`-triggered reposition
-  re-ran the clamp, so scrolling open more room without a flip left a panel stuck smaller than it
-  needed to be).
+  position, now also re-run on window resize (via a `window.resize` listener — a `ResizeObserver`
+  on `document.documentElement` was tried first, but that only tracks the element's content box,
+  not the viewport, so it silently never fires when page content is shorter than the viewport)
+  and on scroll that only shifts the anchor without changing which side the panel is flipped to
+  (previously only a `positionChanges`-triggered reposition re-ran the clamp, so scrolling open
+  more room without a flip left a panel stuck smaller than it needed to be).
 - `kui-menu` had no viewport-safety at all before this change (no max-height, no scrolling) --
   a long menu could render off-screen with no way to reach the rest of it. It now behaves like
   `kui-dropdown` in this regard, via `--kui-menu-viewport-margin`.
@@ -145,5 +141,6 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/kikita-labs/kikita-ui/releases/tag/v0.1.1
 [0.1.0]: https://github.com/kikita-labs/kikita-ui/releases/tag/v0.1.0
