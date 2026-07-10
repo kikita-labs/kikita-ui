@@ -32,6 +32,7 @@ describe('createKuiTheme', () => {
     expect(theme.component['--kui-btn-height']).toBe('var(--kui-btn-height-regular)');
     expect(theme.component['--kui-input-height']).toBe('var(--kui-control-height-md)');
     expect(theme.component['--kui-btn-bg']).toBe('var(--kui-btn-solid-bg)');
+    expect(theme.component['--kui-seg-padding']).toBe('2px');
     expect(theme.component['--kui-badge-info-bg']).toBe('var(--kui-color-info-soft-bg)');
     expect(theme.component['--kui-card-shadow-elevated']).toBe('0 10px 28px oklch(0 0 0 / 0.18)');
     expect(theme.component['--kui-card-shadow-sunken']).toBe('none');

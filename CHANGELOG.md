@@ -16,6 +16,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `outline`, `ghost`) and semantic `appearance` (`primary`, `danger`, `success`, `warning`)
   inputs. Existing `appearance="soft|outline|ghost"` usages must move those values to `shape`.
   Every shape can now be combined with every semantic appearance.
+- Segmented control padding now defaults to `2px` instead of `4px`.
 
 ## [0.1.4] - 2026-07-11
 

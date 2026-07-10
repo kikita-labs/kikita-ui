@@ -580,7 +580,7 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-seg-bg': 'var(--kui-color-surface-sunken)',
     '--kui-seg-border': 'var(--kui-color-border)',
     '--kui-seg-radius': 'var(--kui-radius-md)',
-    '--kui-seg-padding': '4px',
+    '--kui-seg-padding': '2px',
     '--kui-seg-gap': '2px',
     '--kui-seg-height': 'calc(var(--kui-btn-height) - 2 * var(--kui-seg-padding) - 2px)',
     '--kui-seg-px': 'var(--kui-btn-px)',

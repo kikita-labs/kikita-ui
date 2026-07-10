@@ -1,6 +1,7 @@
 # Segmented
 
-`kui-segmented` is a compound component for exclusive option selection, rendered as a segmented control with an animated sliding thumb.
+`kui-segmented` is a compound component for exclusive option selection, rendered as a segmented
+control with an animated sliding thumb.
 
 ## Import
 
@@ -24,24 +25,24 @@ import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
 <kui-segmented size="sm" [(selected)]="view">...</kui-segmented>
 ```
 
-## Inputs — `kui-segmented`
+## Inputs - `kui-segmented`
 
-- `selected`: two-way model — value of the active segment
+- `selected`: two-way model - value of the active segment
 - `size`: `xs | sm | md | lg` (default: `md`)
 
-## Inputs — `[kuiSegment]`
+## Inputs - `[kuiSegment]`
 
-- `value`: `string` — identifier for this segment
+- `value`: `string` - identifier for this segment
 - `disabled`: `boolean`
 
 ## Keyboard
 
-| Key               | Action                      |
-| ----------------- | --------------------------- |
-| `←` / `→`         | Move focus between segments |
-| `Home`            | Focus first segment         |
-| `End`             | Focus last segment          |
-| `Enter` / `Space` | Select focused segment      |
+| Key                        | Action                      |
+| -------------------------- | --------------------------- |
+| `ArrowLeft` / `ArrowRight` | Move focus between segments |
+| `Home`                     | Focus first segment         |
+| `End`                      | Focus last segment          |
+| `Enter` / `Space`          | Select focused segment      |
 
 ## Accessibility
 
@@ -51,14 +52,15 @@ import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
 
 ## Animation
 
-Sliding thumb repositions via `afterEveryRender` using `offsetLeft` / `offsetWidth`. Transition: `transform` and `width` 220ms. No animation on first render.
+Sliding thumb repositions via `afterEveryRender` using `offsetLeft` / `offsetWidth`. Transition:
+`transform` and `width` 220ms. No animation runs on first render.
 
 ## CSS Variables
 
 - `--kui-seg-bg`
 - `--kui-seg-border`
 - `--kui-seg-radius`
-- `--kui-seg-padding`
+- `--kui-seg-padding` (default: `2px`)
 - `--kui-seg-gap`
 - `--kui-seg-height`
 - `--kui-seg-px`
