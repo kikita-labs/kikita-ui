@@ -74,6 +74,13 @@ git tag -a vX.Y.Z -m "vX.Y.Z"
 git push origin vX.Y.Z
 ```
 
+Then create a GitHub Release from that tag, with the matching `CHANGELOG.md` section
+as the notes body (requires `gh auth login` once):
+
+```bash
+gh release create vX.Y.Z --title vX.Y.Z --notes-file path/to/section.md --latest
+```
+
 ## Versioning
 
 - `0.0.x`: private experimental package, breaking changes allowed.
