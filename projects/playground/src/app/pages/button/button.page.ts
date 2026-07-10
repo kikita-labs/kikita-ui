@@ -1,11 +1,13 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 import {
+  KuiButtonAppearance,
   KuiButtonDirective,
+  KuiButtonShape,
   KuiCellDirective,
-  KuiGroupDirective,
   KuiIconButtonDirective,
   KuiIconComponent,
+  KuiSize,
   KuiTableDirective,
   KuiThDirective,
   KuiThGroupDirective,
@@ -18,7 +20,6 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   imports: [
     KuiButtonDirective,
     KuiCellDirective,
-    KuiGroupDirective,
     KuiIconButtonDirective,
     KuiIconComponent,
     KuiTableDirective,
@@ -31,15 +32,24 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class ButtonPage {
-  protected readonly buttonVariants = [
-    { value: 'solid' as const, label: 'Solid' },
-    { value: 'soft' as const, label: 'Soft' },
-    { value: 'outline' as const, label: 'Outline' },
-    { value: 'ghost' as const, label: 'Ghost' },
-    { value: 'danger' as const, label: 'Danger' },
+  protected readonly shapes: ReadonlyArray<{ value: KuiButtonShape; label: string }> = [
+    { value: 'solid', label: 'Solid' },
+    { value: 'soft', label: 'Soft' },
+    { value: 'outline', label: 'Outline' },
+    { value: 'ghost', label: 'Ghost' },
   ];
 
-  protected readonly stateColumns = [
+  protected readonly appearances: ReadonlyArray<{
+    value: KuiButtonAppearance;
+    label: string;
+  }> = [
+    { value: 'primary', label: 'Primary' },
+    { value: 'danger', label: 'Danger' },
+    { value: 'success', label: 'Success' },
+    { value: 'warning', label: 'Warning' },
+  ];
+
+  protected readonly states = [
     { value: 'default' as const, label: 'Default' },
     { value: 'hover' as const, label: 'Hover' },
     { value: 'active' as const, label: 'Active' },
@@ -47,10 +57,10 @@ export class ButtonPage {
     { value: 'disabled' as const, label: 'Disabled' },
   ];
 
-  protected readonly sizeRows = [
-    { value: 'xs' as const, label: 'xs' },
-    { value: 'sm' as const, label: 'sm' },
-    { value: 'md' as const, label: 'md (default)' },
-    { value: 'lg' as const, label: 'lg' },
+  protected readonly sizes: ReadonlyArray<{ value: KuiSize; label: string }> = [
+    { value: 'xs', label: 'xs' },
+    { value: 'sm', label: 'sm' },
+    { value: 'md', label: 'md (default)' },
+    { value: 'lg', label: 'lg' },
   ];
 }

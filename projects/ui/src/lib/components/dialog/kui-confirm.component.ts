@@ -40,7 +40,7 @@ import type { KuiConfirmConfig } from './kui-confirm.types';
       <div class="kui-dialog-body">{{ ctx.data.message }}</div>
     }
     <div class="kui-dialog-footer">
-      <button kuiButton appearance="outline" type="button" (click)="ctx.close(false)">
+      <button kuiButton shape="outline" type="button" (click)="ctx.close(false)">
         {{ ctx.data.cancelLabel ?? 'Cancel' }}
       </button>
       <button kuiButton [appearance]="confirmAppearance()" type="button" (click)="ctx.close(true)">
@@ -57,6 +57,6 @@ export class KuiConfirmComponent implements KuiDialogHost<boolean, KuiConfirmCon
   protected readonly ctx = this.dialogContext;
 
   protected readonly confirmAppearance = computed(() =>
-    this.ctx.appearance === 'danger' ? 'danger' : 'solid',
+    this.ctx.appearance === 'danger' ? 'danger' : null,
   );
 }

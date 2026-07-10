@@ -5,7 +5,7 @@ import { KuiButtonDirective } from './kui-button.directive';
 
 @Component({
   imports: [KuiButtonDirective],
-  template: '<button kuiButton appearance="soft" size="sm" wrap>Save</button>',
+  template: '<button kuiButton shape="soft" appearance="success" size="sm" wrap>Save</button>',
 })
 class ButtonHost {}
 
@@ -22,7 +22,8 @@ describe('KuiButtonDirective', () => {
     const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
 
     expect(button.classList.contains('kui-button')).toBe(true);
-    expect(button.getAttribute('data-kui-appearance')).toBe('soft');
+    expect(button.getAttribute('data-kui-shape')).toBe('soft');
+    expect(button.getAttribute('data-kui-appearance')).toBe('success');
     expect(button.getAttribute('data-kui-size')).toBe('sm');
     expect(button.hasAttribute('data-kui-wrap')).toBe(true);
   });

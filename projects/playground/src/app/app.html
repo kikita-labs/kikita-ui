@@ -16,7 +16,7 @@
       <a
         kuiButton
         size="sm"
-        [appearance]="currentPath() === item.path ? 'soft' : 'ghost'"
+        [shape]="currentPath() === item.path ? 'soft' : 'ghost'"
         [routerLink]="item.path"
         [attr.aria-current]="currentPath() === item.path ? 'page' : null"
       >

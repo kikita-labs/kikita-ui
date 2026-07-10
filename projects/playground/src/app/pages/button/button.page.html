@@ -1,58 +1,104 @@
 <app-panel
   num="01"
-  title="Button directive"
-  description="Real <code>kuiButton</code> directive on native button and anchor elements."
+  title="Button variants"
+  description="One matrix per appearance. Rows are sizes; columns are shapes."
 >
-  <div class="button-grid">
-    <button kuiButton type="button">
-      <kui-icon name="check" />
-      Primary
-    </button>
-    <button kuiButton appearance="soft" type="button">Soft</button>
-    <button kuiButton appearance="outline" size="sm" type="button">Outline small</button>
-    <button kuiButton appearance="ghost" type="button">Ghost</button>
-    <button kuiButton appearance="danger" type="button">
-      <kui-icon name="warning" />
-      Danger
-    </button>
-    <a kuiButton appearance="outline" href="/">Anchor</a>
-    <div kuiGroup collapsed size="sm">
-      <button kuiButton appearance="outline" type="button">One</button>
-      <button kuiButton appearance="outline" type="button">Two</button>
-      <button kuiIconButton appearance="outline" aria-label="More" type="button">
-        <kui-icon name="spark" />
-      </button>
-    </div>
+  <div class="appearance-stack">
+    @for (appearance of appearances; track appearance.value) {
+      <section class="appearance-section">
+        <div class="appearance-section__heading">
+          <h3>{{ appearance.label }}</h3>
+          <code>appearance="{{ appearance.value }}"</code>
+        </div>
+
+        <div class="table-wrap">
+          <table kuiTable [attr.aria-label]="appearance.label + ' button variants'">
+            <thead>
+              <tr kuiThGroup>
+                <th kuiTh>Size</th>
+                @for (shape of shapes; track shape.value) {
+                  <th kuiTh>
+                    {{ shape.label }}
+                    <code>shape="{{ shape.value }}"</code>
+                  </th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (size of sizes; track size.value) {
+                <tr>
+                  <td kuiCell class="matrix-label">
+                    <strong>{{ size.label }}</strong>
+                    <code>size="{{ size.value }}"</code>
+                  </td>
+                  @for (shape of shapes; track shape.value) {
+                    <td kuiCell class="matrix-cell">
+                      <button
+                        kuiButton
+                        [shape]="shape.value"
+                        [appearance]="appearance.value"
+                        [size]="size.value"
+                        type="button"
+                      >
+                        Button
+                      </button>
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
   </div>
 </app-panel>
 
 <app-panel
   num="02"
-  title="Appearance matrix"
-  description="All <code>appearance</code> values × default / hover / active / focus / disabled."
+  title="Defaults and composition"
+  description="Omitting appearance keeps solid/soft primary and outline/ghost neutral."
+>
+  <div class="button-grid">
+    <button kuiButton type="button">Default solid primary</button>
+    <button kuiButton shape="soft" type="button">Default soft primary</button>
+    <button kuiButton shape="outline" type="button">Default neutral outline</button>
+    <button kuiButton shape="ghost" type="button">Default neutral ghost</button>
+    <button kuiButton appearance="success" type="button">
+      <kui-icon name="check" />
+      With icon
+    </button>
+    <a kuiButton shape="outline" href="/">Anchor button</a>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Solid states"
+  description="Every semantic appearance across default, hover, active, focus, and disabled states."
 >
   <div class="table-wrap">
-    <table kuiTable aria-label="Button appearance matrix">
+    <table kuiTable aria-label="Button state matrix">
       <thead>
         <tr kuiThGroup>
-          <th kuiTh></th>
-          @for (state of stateColumns; track state.value) {
+          <th kuiTh>Appearance</th>
+          @for (state of states; track state.value) {
             <th kuiTh>{{ state.label }}</th>
           }
         </tr>
       </thead>
       <tbody>
-        @for (variant of buttonVariants; track variant.value) {
+        @for (appearance of appearances; track appearance.value) {
           <tr>
             <td kuiCell class="matrix-label">
-              <strong>{{ variant.label }}</strong>
-              <code>appearance="{{ variant.value }}"</code>
+              <strong>{{ appearance.label }}</strong>
+              <code>appearance="{{ appearance.value }}"</code>
             </td>
-            @for (state of stateColumns; track state.value) {
+            @for (state of states; track state.value) {
               <td kuiCell class="matrix-cell" [attr.data-state]="state.value">
                 <button
                   kuiButton
-                  [appearance]="variant.value"
+                  [appearance]="appearance.value"
                   type="button"
                   [disabled]="state.value === 'disabled'"
                 >
@@ -68,42 +114,55 @@
 </app-panel>
 
 <app-panel
-  num="03"
-  title="Size matrix"
-  description="xs / sm / md / lg × all states. Solid appearance."
+  num="04"
+  title="IconButton variants"
+  description="IconButton supports the same appearance, size, and shape combinations."
 >
-  <div class="table-wrap">
-    <table kuiTable aria-label="Button size matrix">
-      <thead>
-        <tr kuiThGroup>
-          <th kuiTh></th>
-          @for (state of stateColumns; track state.value) {
-            <th kuiTh>{{ state.label }}</th>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (sizeRow of sizeRows; track sizeRow.value) {
-          <tr>
-            <td kuiCell class="matrix-label">
-              <strong>{{ sizeRow.label }}</strong>
-              <code>size="{{ sizeRow.value }}"</code>
-            </td>
-            @for (state of stateColumns; track state.value) {
-              <td kuiCell class="matrix-cell" [attr.data-state]="state.value">
-                <button
-                  kuiButton
-                  [size]="sizeRow.value"
-                  type="button"
-                  [disabled]="state.value === 'disabled'"
-                >
-                  Button
-                </button>
-              </td>
-            }
-          </tr>
-        }
-      </tbody>
-    </table>
+  <div class="appearance-stack">
+    @for (appearance of appearances; track appearance.value) {
+      <section class="appearance-section">
+        <div class="appearance-section__heading">
+          <h3>{{ appearance.label }}</h3>
+          <code>appearance="{{ appearance.value }}"</code>
+        </div>
+
+        <div class="table-wrap">
+          <table kuiTable [attr.aria-label]="appearance.label + ' icon button variants'">
+            <thead>
+              <tr kuiThGroup>
+                <th kuiTh>Size</th>
+                @for (shape of shapes; track shape.value) {
+                  <th kuiTh>{{ shape.label }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (size of sizes; track size.value) {
+                <tr>
+                  <td kuiCell class="matrix-label">
+                    <strong>{{ size.label }}</strong>
+                    <code>size="{{ size.value }}"</code>
+                  </td>
+                  @for (shape of shapes; track shape.value) {
+                    <td kuiCell class="matrix-cell">
+                      <button
+                        kuiIconButton
+                        [shape]="shape.value"
+                        [appearance]="appearance.value"
+                        [size]="size.value"
+                        type="button"
+                        [attr.aria-label]="appearance.label + ' ' + shape.label + ' ' + size.label"
+                      >
+                        <kui-icon name="spark" />
+                      </button>
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
   </div>
 </app-panel>

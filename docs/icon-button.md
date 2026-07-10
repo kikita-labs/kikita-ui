@@ -1,6 +1,7 @@
 # IconButton
 
-`kuiIconButton` applies square icon-button styling to native `button` and `a` elements.
+`kuiIconButton` applies square icon-button styling to native `button` and `a` elements. It uses
+the same independent `shape` and `appearance` axes as `kuiButton`.
 
 ## Import
 
@@ -15,17 +16,44 @@ import { KuiIconButtonDirective } from '@kikita-labs/ui';
   <kui-icon name="x" />
 </button>
 
-<a kuiIconButton href="/settings" aria-label="Settings">
+<button kuiIconButton shape="soft" appearance="success" aria-label="Approve">
+  <kui-icon name="check" />
+</button>
+
+<a kuiIconButton shape="outline" appearance="primary" href="/settings" aria-label="Settings">
   <kui-icon name="settings" />
 </a>
 ```
 
 ## Inputs
 
-- `appearance`: `solid | soft | outline | ghost | danger`
-- `size`: `xs | sm | md | lg`
-- `disabled`: disables icon button behavior. Anchor icon buttons receive `aria-disabled="true"` and are removed from tab order.
+- `shape`: `solid | soft | outline | ghost`; defaults to `ghost`.
+- `appearance`: `primary | danger | success | warning`; optional.
+- `size`: `xs | sm | md | lg`; defaults to `md`.
+- `disabled`: disables icon button behavior. Anchor icon buttons receive `aria-disabled="true"`
+  and are removed from tab order.
 
-Icon-only controls must have an accessible label.
+## Migration from 0.1.4
 
-`primary` and `secondary` are accepted as temporary aliases for `solid` and `soft`.
+Move `solid`, `soft`, `outline`, and `ghost` values from `appearance` to `shape`. Keep semantic
+values such as `danger` in `appearance`.
+
+```html
+<!-- Before -->
+<button kuiIconButton appearance="outline" aria-label="Settings">...</button>
+
+<!-- After -->
+<button kuiIconButton shape="outline" aria-label="Settings">...</button>
+```
+
+## Accessibility
+
+Icon-only controls must have an accessible label, normally through `aria-label`. Use native
+`button` for actions and `a` for navigation.
+
+Native button and anchor keyboard behavior is preserved. The directive adds no custom key
+bindings.
+
+## Styles
+
+Import `@kikita-labs/ui/styles` once in the consumer application.

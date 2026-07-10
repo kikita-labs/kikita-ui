@@ -4,17 +4,17 @@
     <div class="toast-btn-row">
       <button kuiButton (click)="openSuccess()">Success</button>
       <button kuiButton appearance="danger" (click)="openDanger()">Danger (persistent)</button>
-      <button kuiButton appearance="outline" (click)="openWarning()">Warning (persistent)</button>
-      <button kuiButton appearance="ghost" (click)="openInfo()">Info</button>
-      <button kuiButton appearance="soft" (click)="openNeutral()">Neutral + Action</button>
+      <button kuiButton shape="outline" (click)="openWarning()">Warning (persistent)</button>
+      <button kuiButton shape="ghost" (click)="openInfo()">Info</button>
+      <button kuiButton shape="soft" (click)="openNeutral()">Neutral + Action</button>
     </div>
   </app-panel>
 
   <!-- p.02 Variants -->
   <app-panel num="02" title="Structure variants">
     <div class="toast-btn-row">
-      <button kuiButton appearance="outline" (click)="openTitleOnly()">Title only</button>
-      <button kuiButton appearance="outline" (click)="openWithProgress()">Progress bar</button>
+      <button kuiButton shape="outline" (click)="openTitleOnly()">Title only</button>
+      <button kuiButton shape="outline" (click)="openWithProgress()">Progress bar</button>
     </div>
   </app-panel>
 
@@ -23,11 +23,7 @@
     <div class="toast-position-row">
       <span class="toast-position-label">Region position:</span>
       @for (p of positions; track p) {
-        <button
-          kuiButton
-          [appearance]="position() === p ? 'solid' : 'outline'"
-          (click)="setPosition(p)"
-        >
+        <button kuiButton [shape]="position() === p ? 'solid' : 'outline'" (click)="setPosition(p)">
           {{ p }}
         </button>
       }

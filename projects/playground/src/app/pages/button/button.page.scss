@@ -5,123 +5,48 @@
   align-items: center;
 }
 
-/* Button state simulation */
-
-.state-matrix__cell[data-state='hover'] .kui-button {
-  background-color: var(--kui-btn-bg-hover, var(--kui-btn-bg));
+.appearance-stack {
+  display: grid;
+  gap: 28px;
 }
 
-.state-matrix__cell[data-state='active'] .kui-button {
-  background-color: var(--kui-btn-bg-active, var(--kui-btn-bg));
+.appearance-section {
+  min-inline-size: 0;
+}
+
+.appearance-section__heading {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.appearance-section__heading h3 {
+  margin: 0;
+  font-size: var(--kui-text-base-size);
+}
+
+.matrix-cell {
+  text-align: center;
+}
+
+.matrix-label code,
+th code {
+  display: block;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+.matrix-cell[data-state='hover'] .kui-button {
+  background-color: var(--_kui-btn-fill-hover, var(--kui-btn-bg-hover));
+}
+
+.matrix-cell[data-state='active'] .kui-button {
+  background-color: var(--_kui-btn-fill-active, var(--kui-btn-bg-active));
   transform: scale(0.97);
 }
 
-.state-matrix__cell[data-state='focus'] .kui-button {
+.matrix-cell[data-state='focus'] .kui-button {
   outline: var(--kui-btn-focus-ring-w, 3px) solid var(--kui-btn-focus-ring-color);
   outline-offset: var(--kui-btn-focus-ring-off, 2px);
-}
-
-.state-matrix__cell[data-state='hover'] .kui-button[data-kui-appearance='soft'] {
-  background-color: var(--kui-btn-soft-bg-hov, var(--kui-btn-soft-bg));
-}
-
-.state-matrix__cell[data-state='active'] .kui-button[data-kui-appearance='soft'] {
-  background-color: var(--kui-btn-soft-bg-act, var(--kui-btn-soft-bg-hov));
-}
-
-.state-matrix__cell[data-state='hover'] .kui-button[data-kui-appearance='outline'] {
-  background-color: var(--kui-btn-outline-bg-hov, transparent);
-}
-
-.state-matrix__cell[data-state='active'] .kui-button[data-kui-appearance='outline'] {
-  background-color: var(--kui-btn-outline-bg-act, var(--kui-btn-outline-bg-hov));
-}
-
-.state-matrix__cell[data-state='hover'] .kui-button[data-kui-appearance='ghost'] {
-  background-color: var(--kui-btn-ghost-bg-hov, transparent);
-}
-
-.state-matrix__cell[data-state='active'] .kui-button[data-kui-appearance='ghost'] {
-  background-color: var(--kui-btn-ghost-bg-act, var(--kui-btn-ghost-bg-hov));
-}
-
-.state-matrix__cell[data-state='hover'] .kui-button[data-kui-appearance='danger'] {
-  background-color: var(--kui-btn-danger-bg-hov, var(--kui-btn-danger-bg));
-}
-
-.state-matrix__cell[data-state='active'] .kui-button[data-kui-appearance='danger'] {
-  background-color: var(--kui-btn-danger-bg-act, var(--kui-btn-danger-bg));
-}
-
-/* Icon button state simulation */
-
-.state-board__row.is-active-preview .kui-icon-button {
-  transform: scale(0.97);
-}
-
-.state-board__row.is-active-preview .kui-icon-button[data-kui-appearance='solid'] {
-  background-color: var(--kui-btn-bg-active);
-}
-
-.state-board__row.is-active-preview .kui-icon-button[data-kui-appearance='soft'] {
-  background-color: var(--kui-btn-soft-bg-act);
-}
-
-.state-board__row.is-active-preview .kui-icon-button[data-kui-appearance='outline'] {
-  background-color: var(--kui-btn-outline-bg-act);
-}
-
-.state-board__row.is-active-preview .kui-icon-button[data-kui-appearance='ghost'] {
-  background-color: var(--kui-btn-ghost-bg-act);
-}
-
-.state-board__row.is-active-preview .kui-icon-button[data-kui-appearance='danger'] {
-  background-color: var(--kui-btn-danger-bg-act);
-}
-
-.state-matrix__cell[data-state='hover'] .kui-icon-button {
-  background-color: var(--kui-btn-ghost-bg-hov);
-}
-
-.state-matrix__cell[data-state='active'] .kui-icon-button {
-  background-color: var(--kui-btn-ghost-bg-act, var(--kui-btn-ghost-bg-hov));
-  transform: scale(0.97);
-}
-
-.state-matrix__cell[data-state='focus'] .kui-icon-button {
-  outline: var(--kui-btn-focus-ring-w, 3px) solid
-    var(--kui-btn-focus-ring-color, var(--kui-color-primary-focus-ring));
-  outline-offset: var(--kui-btn-focus-ring-off, 2px);
-}
-
-.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-appearance='solid'] {
-  background-color: var(--kui-btn-bg-hover);
-}
-
-.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-appearance='solid'] {
-  background-color: var(--kui-btn-bg-active);
-}
-
-.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-appearance='soft'] {
-  background-color: var(--kui-btn-soft-bg-hov, var(--kui-btn-soft-bg));
-}
-
-.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-appearance='soft'] {
-  background-color: var(--kui-btn-soft-bg-act, var(--kui-btn-soft-bg-hov));
-}
-
-.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-appearance='outline'] {
-  background-color: var(--kui-btn-outline-bg-hov, transparent);
-}
-
-.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-appearance='outline'] {
-  background-color: var(--kui-btn-outline-bg-act, var(--kui-btn-outline-bg-hov));
-}
-
-.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-appearance='danger'] {
-  background-color: var(--kui-btn-danger-bg-hov, var(--kui-btn-danger-bg));
-}
-
-.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-appearance='danger'] {
-  background-color: var(--kui-btn-danger-bg-act, var(--kui-btn-danger-bg));
 }

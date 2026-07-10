@@ -27,12 +27,11 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class IconsPage {
-  protected readonly buttonVariants = [
+  protected readonly buttonShapes = [
     { value: 'solid' as const, label: 'Solid' },
     { value: 'soft' as const, label: 'Soft' },
     { value: 'outline' as const, label: 'Outline' },
     { value: 'ghost' as const, label: 'Ghost' },
-    { value: 'danger' as const, label: 'Danger' },
   ];
 
   protected readonly stateColumns = [

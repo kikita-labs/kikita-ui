@@ -9,7 +9,7 @@
     border: var(--kui-border-width-hairline) solid transparent;
     border-radius: var(--kui-btn-radius, 8px);
     background-color: transparent;
-    color: var(--kui-color-text);
+    color: var(--kui-btn-ghost-fg, var(--kui-color-text));
     cursor: pointer;
     font: inherit;
     line-height: 0;
@@ -25,11 +25,11 @@
   }
 
   .kui-icon-button:hover {
-    background-color: var(--kui-btn-ghost-bg-hov);
+    background-color: var(--_kui-btn-soft-bg, var(--kui-btn-ghost-bg-hov));
   }
 
   .kui-icon-button:active {
-    background-color: var(--kui-btn-ghost-bg-act, var(--kui-btn-ghost-bg-hov));
+    background-color: var(--_kui-btn-soft-bg-active, var(--kui-btn-ghost-bg-act));
     transform: scale(0.97);
   }
 
@@ -57,56 +57,56 @@
     block-size: var(--kui-control-height-lg, 44px);
   }
 
-  .kui-icon-button[data-kui-appearance='solid'] {
-    background-color: var(--kui-btn-bg);
+  .kui-icon-button[data-kui-shape='solid'] {
+    background-color: var(--_kui-btn-fill, var(--kui-btn-bg));
     color: var(--kui-btn-color, Canvas);
   }
 
-  .kui-icon-button[data-kui-appearance='solid']:hover {
-    background-color: var(--kui-btn-bg-hover);
+  .kui-icon-button[data-kui-shape='solid']:hover {
+    background-color: var(--_kui-btn-fill-hover, var(--kui-btn-bg-hover));
   }
 
-  .kui-icon-button[data-kui-appearance='solid']:active {
-    background-color: var(--kui-btn-bg-active);
+  .kui-icon-button[data-kui-shape='solid']:active {
+    background-color: var(--_kui-btn-fill-active, var(--kui-btn-bg-active));
   }
 
-  .kui-icon-button[data-kui-appearance='soft'] {
-    background-color: var(--kui-btn-soft-bg);
-    color: var(--kui-btn-soft-fg);
+  .kui-icon-button[data-kui-shape='soft'] {
+    background-color: var(--_kui-btn-soft-bg, var(--kui-btn-soft-bg));
+    color: var(--_kui-btn-soft-fg, var(--kui-btn-soft-fg));
   }
 
-  .kui-icon-button[data-kui-appearance='soft']:hover {
-    background-color: var(--kui-btn-soft-bg-hov, var(--kui-btn-soft-bg));
+  .kui-icon-button[data-kui-shape='soft']:hover {
+    background-color: var(--_kui-btn-soft-bg-hover, var(--kui-btn-soft-bg-hov));
   }
 
-  .kui-icon-button[data-kui-appearance='soft']:active {
-    background-color: var(--kui-btn-soft-bg-act, var(--kui-btn-soft-bg-hov));
+  .kui-icon-button[data-kui-shape='soft']:active {
+    background-color: var(--_kui-btn-soft-bg-active, var(--kui-btn-soft-bg-act));
   }
 
-  .kui-icon-button[data-kui-appearance='outline'] {
-    border-color: var(--kui-btn-outline-border);
+  .kui-icon-button[data-kui-shape='outline'] {
+    border-color: var(--_kui-btn-outline-border, var(--kui-btn-outline-border));
     background-color: transparent;
+    color: var(--_kui-btn-outline-fg, var(--kui-btn-outline-fg));
   }
 
-  .kui-icon-button[data-kui-appearance='outline']:hover {
-    background-color: var(--kui-btn-outline-bg-hov, transparent);
+  .kui-icon-button[data-kui-shape='outline']:hover {
+    background-color: var(--_kui-btn-soft-bg, var(--kui-btn-outline-bg-hov));
   }
 
-  .kui-icon-button[data-kui-appearance='outline']:active {
-    background-color: var(--kui-btn-outline-bg-act, var(--kui-btn-outline-bg-hov));
+  .kui-icon-button[data-kui-shape='outline']:active {
+    background-color: var(--_kui-btn-soft-bg-active, var(--kui-btn-outline-bg-act));
   }
 
-  .kui-icon-button[data-kui-appearance='danger'] {
-    background-color: var(--kui-btn-danger-bg);
-    color: var(--kui-btn-danger-fg, Canvas);
+  .kui-icon-button[data-kui-shape='ghost'] {
+    color: var(--_kui-btn-ghost-fg, var(--kui-btn-ghost-fg));
   }
 
-  .kui-icon-button[data-kui-appearance='danger']:hover {
-    background-color: var(--kui-btn-danger-bg-hov, var(--kui-btn-danger-bg));
+  .kui-icon-button[data-kui-shape='ghost']:hover {
+    background-color: var(--_kui-btn-soft-bg, var(--kui-btn-ghost-bg-hov));
   }
 
-  .kui-icon-button[data-kui-appearance='danger']:active {
-    background-color: var(--kui-btn-danger-bg-act, var(--kui-btn-danger-bg));
+  .kui-icon-button[data-kui-shape='ghost']:active {
+    background-color: var(--_kui-btn-soft-bg-active, var(--kui-btn-ghost-bg-act));
   }
 
   @media (prefers-reduced-motion: reduce) {

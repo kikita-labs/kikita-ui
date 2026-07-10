@@ -6,31 +6,13 @@
   <div class="component-board">
     <div class="state-board__row">
       <button kuiButton type="button" [kuiTooltip]="'Save changes'">Top (default)</button>
-      <button
-        kuiButton
-        appearance="soft"
-        type="button"
-        [kuiTooltip]="'View details'"
-        placement="bottom"
-      >
+      <button kuiButton shape="soft" type="button" [kuiTooltip]="'View details'" placement="bottom">
         Bottom
       </button>
-      <button
-        kuiButton
-        appearance="outline"
-        type="button"
-        [kuiTooltip]="'Go back'"
-        placement="left"
-      >
+      <button kuiButton shape="outline" type="button" [kuiTooltip]="'Go back'" placement="left">
         Left
       </button>
-      <button
-        kuiButton
-        appearance="ghost"
-        type="button"
-        [kuiTooltip]="'Next step'"
-        placement="right"
-      >
+      <button kuiButton shape="ghost" type="button" [kuiTooltip]="'Next step'" placement="right">
         Right
       </button>
     </div>
@@ -41,7 +23,7 @@
       </button>
       <button
         kuiIconButton
-        appearance="soft"
+        shape="soft"
         aria-label="Spark"
         type="button"
         [kuiTooltip]="'Generate with AI'"
@@ -62,12 +44,10 @@
     </div>
 
     <div class="state-board__row">
-      <button kuiButton appearance="ghost" type="button" [kuiTooltip]="''">
-        No tooltip (empty)
-      </button>
+      <button kuiButton shape="ghost" type="button" [kuiTooltip]="''">No tooltip (empty)</button>
       <button
         kuiButton
-        appearance="outline"
+        shape="outline"
         type="button"
         [kuiTooltip]="'Longer tooltip text that wraps across multiple lines when the content exceeds the max width of 280px'"
         placement="bottom"

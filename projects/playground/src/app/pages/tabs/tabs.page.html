@@ -237,14 +237,12 @@
 <app-panel
   num="08"
   title="Error indicator"
-  description='<code>[hasError]</code> on <code>[kuiTab]</code> adds a small danger dot next to the label. Does not change selected state or tab color — consumer decides when to show it (e.g. after a failed form submit).'
+  description="<code>[hasError]</code> on <code>[kuiTab]</code> adds a small danger dot next to the label. Does not change selected state or tab color — consumer decides when to show it (e.g. after a failed form submit)."
 >
   <div class="component-board">
     <kui-tabs selected="general">
       <button kuiTab value="general">General</button>
-      <button kuiTab value="advanced" [hasError]="tabsErrorVisible()">
-        Advanced
-      </button>
+      <button kuiTab value="advanced" [hasError]="tabsErrorVisible()">Advanced</button>
       <button kuiTab value="billing">Billing</button>
       <div kuiTabPanel value="general">
         <p>General settings panel.</p>

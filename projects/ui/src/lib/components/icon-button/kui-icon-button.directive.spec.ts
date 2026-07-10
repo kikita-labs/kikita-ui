@@ -5,7 +5,8 @@ import { KuiIconButtonDirective } from './kui-icon-button.directive';
 
 @Component({
   imports: [KuiIconButtonDirective],
-  template: '<button kuiIconButton appearance="soft" size="xs" aria-label="Settings"></button>',
+  template:
+    '<button kuiIconButton shape="soft" appearance="warning" size="xs" aria-label="Settings"></button>',
 })
 class IconButtonHost {}
 
@@ -22,7 +23,8 @@ describe('KuiIconButtonDirective', () => {
     const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
 
     expect(button.classList.contains('kui-icon-button')).toBe(true);
-    expect(button.getAttribute('data-kui-appearance')).toBe('soft');
+    expect(button.getAttribute('data-kui-shape')).toBe('soft');
+    expect(button.getAttribute('data-kui-appearance')).toBe('warning');
     expect(button.getAttribute('data-kui-size')).toBe('xs');
     expect(button.getAttribute('aria-label')).toBe('Settings');
   });

@@ -15,7 +15,7 @@
   padding: 16px;
 }
 
-/* ─── Icon button state simulation ──────────────────────────────────────── */
+/* Icon button state simulation */
 
 .state-matrix__cell[data-state='hover'] .kui-icon-button {
   background-color: var(--kui-btn-ghost-bg-hov);
@@ -32,36 +32,28 @@
   outline-offset: var(--kui-btn-focus-ring-off, 2px);
 }
 
-.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-appearance='solid'] {
+.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-shape='solid'] {
   background-color: var(--kui-btn-bg-hover);
 }
 
-.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-appearance='solid'] {
+.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-shape='solid'] {
   background-color: var(--kui-btn-bg-active);
 }
 
-.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-appearance='soft'] {
+.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-shape='soft'] {
   background-color: var(--kui-btn-soft-bg-hov, var(--kui-btn-soft-bg));
 }
 
-.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-appearance='soft'] {
+.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-shape='soft'] {
   background-color: var(--kui-btn-soft-bg-act, var(--kui-btn-soft-bg-hov));
 }
 
-.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-appearance='outline'] {
+.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-shape='outline'] {
   background-color: var(--kui-btn-outline-bg-hov, transparent);
 }
 
-.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-appearance='outline'] {
+.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-shape='outline'] {
   background-color: var(--kui-btn-outline-bg-act, var(--kui-btn-outline-bg-hov));
-}
-
-.state-matrix__cell[data-state='hover'] .kui-icon-button[data-kui-appearance='danger'] {
-  background-color: var(--kui-btn-danger-bg-hov, var(--kui-btn-danger-bg));
-}
-
-.state-matrix__cell[data-state='active'] .kui-icon-button[data-kui-appearance='danger'] {
-  background-color: var(--kui-btn-danger-bg-act, var(--kui-btn-danger-bg));
 }
 
 @media (max-width: 900px) {

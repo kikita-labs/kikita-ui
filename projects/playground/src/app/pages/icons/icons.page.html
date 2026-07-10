@@ -22,7 +22,7 @@
     <button kuiIconButton aria-label="Confirm" type="button">
       <kui-icon name="check" />
     </button>
-    <button kuiIconButton appearance="soft" aria-label="Spark" type="button">
+    <button kuiIconButton shape="soft" aria-label="Spark" type="button">
       <kui-icon name="spark" />
     </button>
     <button kuiIconButton appearance="danger" aria-label="Warning" type="button">
@@ -33,11 +33,11 @@
 
 <app-panel
   num="02"
-  title="Icon button appearance matrix"
-  description="All <code>appearance</code> values × default / hover / active / focus / disabled."
+  title="Icon button shape matrix"
+  description="All <code>shape</code> values across default, hover, active, focus, and disabled."
 >
   <div class="table-wrap">
-    <table kuiTable aria-label="Icon button appearance matrix">
+    <table kuiTable aria-label="Icon button shape matrix">
       <thead>
         <tr kuiThGroup>
           <th kuiTh></th>
@@ -47,17 +47,17 @@
         </tr>
       </thead>
       <tbody>
-        @for (variant of buttonVariants; track variant.value) {
+        @for (variant of buttonShapes; track variant.value) {
           <tr>
             <td kuiCell class="matrix-label">
               <strong>{{ variant.label }}</strong>
-              <code>appearance="{{ variant.value }}"</code>
+              <code>shape="{{ variant.value }}"</code>
             </td>
             @for (state of stateColumns; track state.value) {
               <td kuiCell class="matrix-cell" [attr.data-state]="state.value">
                 <button
                   kuiIconButton
-                  [appearance]="variant.value"
+                  [shape]="variant.value"
                   type="button"
                   [disabled]="state.value === 'disabled'"
                   [attr.aria-label]="variant.label"
@@ -76,7 +76,7 @@
 <app-panel
   num="03"
   title="Icon button size matrix"
-  description="xs / sm / md / lg × all states. Ghost appearance."
+  description="xs / sm / md / lg across all states. Ghost shape."
 >
   <div class="table-wrap">
     <table kuiTable aria-label="Icon button size matrix">

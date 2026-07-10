@@ -2,13 +2,15 @@ import { Directive, ElementRef, booleanAttribute, computed, inject, input } from
 
 import { KuiSize } from '../../types';
 import { KuiButtonAppearance } from './kui-button-appearance.type';
+import { KuiButtonShape } from './kui-button-shape.type';
 
 /** Applies Kikita UI button styling to native button and anchor elements. */
 @Directive({
   selector: 'button[kuiButton], a[kuiButton]',
   host: {
     class: 'kui-button',
-    '[attr.data-kui-appearance]': 'normalizedAppearance()',
+    '[attr.data-kui-shape]': 'shape()',
+    '[attr.data-kui-appearance]': 'appearance()',
     '[attr.data-kui-size]': 'size()',
     '[attr.data-kui-wrap]': 'wrap() ? "" : null',
     '[attr.aria-disabled]': 'disabled() ? "true" : null',
@@ -18,8 +20,11 @@ import { KuiButtonAppearance } from './kui-button-appearance.type';
   },
 })
 export class KuiButtonDirective {
-  /** Visual button treatment. */
-  readonly appearance = input<KuiButtonAppearance>('solid');
+  /** Visual button surface shape. */
+  readonly shape = input<KuiButtonShape>('solid');
+
+  /** Optional semantic color intent; each shape provides its own default when omitted. */
+  readonly appearance = input<KuiButtonAppearance | null>(null);
 
   /** Button size mapped to Kikita UI control height tokens. */
   readonly size = input<KuiSize>('md');
@@ -31,20 +36,6 @@ export class KuiButtonDirective {
   readonly disabled = input(false, { transform: booleanAttribute });
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-
-  protected readonly normalizedAppearance = computed(() => {
-    const appearance = this.appearance();
-
-    if (appearance === 'primary') {
-      return 'solid';
-    }
-
-    if (appearance === 'secondary') {
-      return 'soft';
-    }
-
-    return appearance;
-  });
 
   protected readonly nativeDisabledAttribute = computed(() =>
     this.disabled() && this.host.tagName.toLowerCase() === 'button' ? '' : null,

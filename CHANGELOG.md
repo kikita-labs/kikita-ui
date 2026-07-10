@@ -8,6 +8,15 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-07-11
+
+### Changed
+
+- **Breaking:** `kuiButton` and `kuiIconButton` now expose independent `shape` (`solid`, `soft`,
+  `outline`, `ghost`) and semantic `appearance` (`primary`, `danger`, `success`, `warning`)
+  inputs. Existing `appearance="soft|outline|ghost"` usages must move those values to `shape`.
+  Every shape can now be combined with every semantic appearance.
+
 ## [0.1.4] - 2026-07-11
 
 ### Added
@@ -191,7 +200,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.1.4...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.1.5...HEAD
+[0.1.5]: https://github.com/kikita-labs/kikita-ui/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/kikita-labs/kikita-ui/releases/tag/v0.1.4
 [0.1.3]: https://github.com/kikita-labs/kikita-ui/releases/tag/v0.1.3
 [0.1.2]: https://github.com/kikita-labs/kikita-ui/releases/tag/v0.1.2

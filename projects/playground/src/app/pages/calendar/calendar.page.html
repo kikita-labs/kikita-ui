@@ -36,7 +36,7 @@
   description="<code>minDate</code> disables everything before today. Toggle to compare."
 >
   <div class="component-board">
-    <button type="button" kuiButton appearance="outline" size="sm" (click)="toggleRestrict()">
+    <button type="button" kuiButton shape="outline" size="sm" (click)="toggleRestrict()">
       Future only: {{ restrictPast() ? 'on' : 'off' }}
     </button>
     <kui-calendar [(value)]="restrictedValue" [minDate]="minDate()" />
@@ -83,13 +83,7 @@
   <div class="component-board">
     <kui-calendar [(value)]="footerValue">
       <div kuiCalendarFooter class="custom-footer">
-        <button
-          type="button"
-          kuiButton
-          appearance="ghost"
-          size="xs"
-          (click)="footerValue.set(null)"
-        >
+        <button type="button" kuiButton shape="ghost" size="xs" (click)="footerValue.set(null)">
           Clear
         </button>
       </div>

@@ -124,7 +124,7 @@ interface InternalToastItem {
             @if (toast.config.actionLabel) {
               <button
                 class="kui-button"
-                data-kui-appearance="ghost"
+                data-kui-shape="ghost"
                 data-kui-size="xs"
                 type="button"
                 style="align-self:flex-start;margin-top:var(--kui-space-1);--kui-btn-ghost-fg:var(--kui-toast-accent-color)"

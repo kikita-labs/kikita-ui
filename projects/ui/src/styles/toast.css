@@ -243,7 +243,7 @@
     line-height: 1.5;
   }
 
-  /* Action button: .kui-button[data-kui-appearance='ghost'][data-kui-size='xs']
+  /* Action button: .kui-button[data-kui-shape='ghost'][data-kui-size='xs']
      with --kui-btn-ghost-fg overridden to --kui-toast-accent-color inline */
 
   .kui-toast-close {

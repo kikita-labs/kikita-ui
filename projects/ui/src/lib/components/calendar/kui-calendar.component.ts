@@ -76,7 +76,7 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
         @if (showPrevNav()) {
           <button
             kuiButton
-            appearance="ghost"
+            shape="ghost"
             size="xs"
             type="button"
             [attr.aria-label]="navLabels().prev"
@@ -101,7 +101,7 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
         @if (view() !== 'years') {
           <button
             kuiButton
-            appearance="ghost"
+            shape="ghost"
             class="kui-calendar-title"
             type="button"
             (click)="drillUp()"
@@ -114,7 +114,7 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
         @if (showNextNav()) {
           <button
             kuiButton
-            appearance="ghost"
+            shape="ghost"
             size="xs"
             type="button"
             [attr.aria-label]="navLabels().next"
@@ -196,9 +196,7 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
         <hr kuiSeparator />
         <div class="kui-calendar-footer">
           <span class="kui-calendar-value">{{ valueLabel() }}</span>
-          <button kuiButton appearance="ghost" size="xs" type="button" (click)="goToday()">
-            Today
-          </button>
+          <button kuiButton shape="ghost" size="xs" type="button" (click)="goToday()">Today</button>
         </div>
       }
     </ng-content>

@@ -61,7 +61,7 @@ type SettingsDrawerResult = 'saved' | 'cancelled';
       }
     </div>
     <div class="kui-drawer-footer">
-      <button kuiButton appearance="outline" type="button" (click)="ctx.close('cancelled')">
+      <button kuiButton shape="outline" type="button" (click)="ctx.close('cancelled')">
         Cancel
       </button>
       <button kuiButton type="button" (click)="ctx.close('saved')">Save</button>
@@ -85,13 +85,9 @@ export class SettingsDrawer implements KuiDrawerHost<SettingsDrawerResult, Setti
       <h2 class="kui-drawer-title">Actions</h2>
     </div>
     <div class="kui-drawer-body drawer-sheet-body">
-      <button kuiButton appearance="ghost" type="button" (click)="ctx.close('copy')">Copy</button>
-      <button kuiButton appearance="ghost" type="button" (click)="ctx.close('archive')">
-        Archive
-      </button>
-      <button kuiButton appearance="ghost" type="button" (click)="ctx.close('delete')">
-        Delete
-      </button>
+      <button kuiButton shape="ghost" type="button" (click)="ctx.close('copy')">Copy</button>
+      <button kuiButton shape="ghost" type="button" (click)="ctx.close('archive')">Archive</button>
+      <button kuiButton shape="ghost" type="button" (click)="ctx.close('delete')">Delete</button>
     </div>
   `,
   imports: [KuiButtonDirective],

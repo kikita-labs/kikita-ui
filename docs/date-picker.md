@@ -35,7 +35,7 @@ Three things on `kui-dropdown` matter here, all different from its default (list
   wider than the input — that's intentional, not a bug: `kui-calendar` has a fixed width
   (`--kui-calendar-width`, 296px by default) because its day grid needs a minimum amount of
   room regardless of the trigger. Override `--kui-calendar-width` on `kui-calendar` if you want
-  it narrower or wider — `panelWidth` only controls how the *dropdown panel* relates to the
+  it narrower or wider — `panelWidth` only controls how the _dropdown panel_ relates to the
   trigger's width, not the calendar's own size, so switching it to `"anchor"` alone would just
   clip a still-296px-wide calendar into a narrower panel rather than shrink it.
 - `maxHeight="420px"` — the calendar's natural height comfortably fits under this; it's a

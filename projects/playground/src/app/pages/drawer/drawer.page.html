@@ -9,11 +9,9 @@
     <div class="component-board">
       <div class="state-board__row drawer-actions">
         <button kuiButton type="button" (click)="showRightMd()">Right</button>
-        <button kuiButton appearance="outline" type="button" (click)="showLeftMd()">Left</button>
-        <button kuiButton appearance="outline" type="button" (click)="showTopMd()">Top</button>
-        <button kuiButton appearance="outline" type="button" (click)="showBottomMd()">
-          Bottom
-        </button>
+        <button kuiButton shape="outline" type="button" (click)="showLeftMd()">Left</button>
+        <button kuiButton shape="outline" type="button" (click)="showTopMd()">Top</button>
+        <button kuiButton shape="outline" type="button" (click)="showBottomMd()">Bottom</button>
       </div>
       <code>result: {{ lastResult() }}</code>
     </div>
@@ -22,15 +20,9 @@
   <app-panel num="02" title="Sizes" description="sm, md, and lg presets match the design spec.">
     <div class="component-board">
       <div class="state-board__row drawer-actions">
-        <button kuiButton appearance="outline" type="button" (click)="showRightSm()">
-          Open sm
-        </button>
-        <button kuiButton appearance="outline" type="button" (click)="showRightMd()">
-          Open md
-        </button>
-        <button kuiButton appearance="outline" type="button" (click)="showRightLg()">
-          Open lg
-        </button>
+        <button kuiButton shape="outline" type="button" (click)="showRightSm()">Open sm</button>
+        <button kuiButton shape="outline" type="button" (click)="showRightMd()">Open md</button>
+        <button kuiButton shape="outline" type="button" (click)="showRightLg()">Open lg</button>
       </div>
     </div>
   </app-panel>
@@ -41,7 +33,7 @@
     description="Backdrop and Escape can be disabled for required actions."
   >
     <div class="component-board">
-      <button kuiButton appearance="outline" type="button" (click)="showLocked()">
+      <button kuiButton shape="outline" type="button" (click)="showLocked()">
         Open locked drawer
       </button>
     </div>

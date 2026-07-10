@@ -49,7 +49,7 @@ type EditResult = 'saved' | null;
       </kui-field>
     </div>
     <div class="kui-dialog-footer">
-      <button kuiButton appearance="outline" type="button" (click)="ctx.close(null)">Cancel</button>
+      <button kuiButton shape="outline" type="button" (click)="ctx.close(null)">Cancel</button>
       <button kuiButton type="button" (click)="ctx.close('saved')">Save</button>
     </div>
   `,
@@ -109,9 +109,7 @@ export class EditDialog implements KuiDialogHost<EditResult, EditData> {
       This action is irreversible. All account data will be permanently removed.
     </div>
     <div class="kui-dialog-footer">
-      <button kuiButton appearance="outline" type="button" (click)="ctx.close(false)">
-        Cancel
-      </button>
+      <button kuiButton shape="outline" type="button" (click)="ctx.close(false)">Cancel</button>
       <button kuiButton appearance="danger" type="button" (click)="ctx.close(true)">Delete</button>
     </div>
   `,
@@ -150,7 +148,7 @@ export class DeleteDialog implements KuiDialogHost<boolean, void> {
       }
     </div>
     <div class="kui-dialog-footer">
-      <button kuiButton appearance="outline" type="button" (click)="ctx.close()">Close</button>
+      <button kuiButton shape="outline" type="button" (click)="ctx.close()">Close</button>
     </div>
   `,
   imports: [KuiButtonDirective],
@@ -191,7 +189,7 @@ export class LongBodyDialog implements KuiDialogHost<void, void> {
       </kui-field>
     </div>
     <div class="kui-dialog-footer">
-      <button kuiButton appearance="outline" type="button" (click)="ctx.close(null)">Cancel</button>
+      <button kuiButton shape="outline" type="button" (click)="ctx.close(null)">Cancel</button>
       <button kuiButton type="button" (click)="ctx.close('sent')">Send</button>
     </div>
   `,
@@ -216,9 +214,7 @@ export class AutoDialog implements KuiDialogHost<'sent' | null, void> {
       options.
     </div>
     <div class="kui-dialog-footer">
-      <button kuiButton appearance="outline" type="button" (click)="ctx.close('cancel')">
-        Later
-      </button>
+      <button kuiButton shape="outline" type="button" (click)="ctx.close('cancel')">Later</button>
       <button kuiButton type="button" (click)="ctx.close('confirm')">Confirm</button>
     </div>
   `,

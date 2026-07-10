@@ -3,7 +3,7 @@
   <app-panel num="01" title="Placement & Alignment">
     <div class="pop-placement-grid">
       <div class="pop-cell pop-cell--top">
-        <button kuiButton appearance="outline" [kuiPopoverFor]="popTop">top-center</button>
+        <button kuiButton shape="outline" [kuiPopoverFor]="popTop">top-center</button>
         <kui-popover #popTop placement="top" align="center" [arrow]="true">
           <div class="kui-popover-title">top-center</div>
           <div class="kui-popover-desc">Panel above the anchor, arrow below.</div>
@@ -11,7 +11,7 @@
       </div>
 
       <div class="pop-cell pop-cell--bottom">
-        <button kuiButton appearance="outline" [kuiPopoverFor]="popBottom">bottom-center</button>
+        <button kuiButton shape="outline" [kuiPopoverFor]="popBottom">bottom-center</button>
         <kui-popover #popBottom placement="bottom" align="center" [arrow]="true">
           <div class="kui-popover-title">bottom-center</div>
           <div class="kui-popover-desc">Panel below the anchor, arrow above.</div>
@@ -19,7 +19,7 @@
       </div>
 
       <div class="pop-cell pop-cell--right">
-        <button kuiButton appearance="outline" [kuiPopoverFor]="popRight">right-center</button>
+        <button kuiButton shape="outline" [kuiPopoverFor]="popRight">right-center</button>
         <kui-popover #popRight placement="right" align="center" [arrow]="true">
           <div class="kui-popover-title">right-center</div>
           <div class="kui-popover-desc">Panel on the right.</div>
@@ -27,7 +27,7 @@
       </div>
 
       <div class="pop-cell pop-cell--left">
-        <button kuiButton appearance="outline" [kuiPopoverFor]="popLeft">left-center</button>
+        <button kuiButton shape="outline" [kuiPopoverFor]="popLeft">left-center</button>
         <kui-popover #popLeft placement="left" align="center" [arrow]="true">
           <div class="kui-popover-title">left-center</div>
           <div class="kui-popover-desc">Panel on the left.</div>
@@ -35,7 +35,7 @@
       </div>
 
       <div class="pop-cell pop-cell--bottom-start">
-        <button kuiButton appearance="outline" [kuiPopoverFor]="popBs">bottom-start</button>
+        <button kuiButton shape="outline" [kuiPopoverFor]="popBs">bottom-start</button>
         <kui-popover #popBs placement="bottom" align="start" [arrow]="true">
           <div class="kui-popover-title">bottom-start</div>
           <div class="kui-popover-desc">Aligned to the left edge.</div>
@@ -43,7 +43,7 @@
       </div>
 
       <div class="pop-cell pop-cell--bottom-end">
-        <button kuiButton appearance="outline" [kuiPopoverFor]="popBe">bottom-end</button>
+        <button kuiButton shape="outline" [kuiPopoverFor]="popBe">bottom-end</button>
         <kui-popover #popBe placement="bottom" align="end" [arrow]="true">
           <div class="kui-popover-title">bottom-end</div>
           <div class="kui-popover-desc">Aligned to the right edge.</div>
@@ -57,7 +57,7 @@
     <div class="pop-row">
       <div>
         <p class="pop-label">arrow: false (default)</p>
-        <button kuiButton appearance="outline" [kuiPopoverFor]="popNoArrow">Open popover</button>
+        <button kuiButton shape="outline" [kuiPopoverFor]="popNoArrow">Open popover</button>
         <kui-popover #popNoArrow placement="bottom">
           <div class="kui-popover-title">Without arrow</div>
           <div class="kui-popover-desc">Panel without caret - like Dropdown.</div>
@@ -66,7 +66,7 @@
 
       <div>
         <p class="pop-label">arrow: true</p>
-        <button kuiButton appearance="outline" [kuiPopoverFor]="popWithArrow">Open popover</button>
+        <button kuiButton shape="outline" [kuiPopoverFor]="popWithArrow">Open popover</button>
         <kui-popover #popWithArrow placement="bottom" [arrow]="true">
           <div class="kui-popover-title">With arrow</div>
           <div class="kui-popover-desc">Caret points at the trigger.</div>
@@ -80,7 +80,7 @@
     <div class="pop-row">
       <div>
         <p class="pop-label">A - Informational</p>
-        <button kuiButton appearance="ghost" [kuiPopoverFor]="popInfo">What is 2FA?</button>
+        <button kuiButton shape="ghost" [kuiPopoverFor]="popInfo">What is 2FA?</button>
         <kui-popover #popInfo placement="bottom" align="start" [arrow]="true">
           <div class="kui-popover-title">Two-factor authentication</div>
           <div class="kui-popover-desc">
@@ -99,9 +99,7 @@
             This action cannot be undone.
           </div>
           <div style="display: flex; gap: 8px; justify-content: flex-end">
-            <button kuiButton appearance="outline" size="sm" (click)="popConfirm.close()">
-              Cancel
-            </button>
+            <button kuiButton shape="outline" size="sm" (click)="popConfirm.close()">Cancel</button>
             <button kuiButton appearance="danger" size="sm" (click)="popConfirm.close()">
               Delete
             </button>
@@ -111,7 +109,7 @@
 
       <div>
         <p class="pop-label">C - Form</p>
-        <button kuiButton appearance="outline" [kuiPopoverFor]="popForm">Reminder</button>
+        <button kuiButton shape="outline" [kuiPopoverFor]="popForm">Reminder</button>
         <kui-popover #popForm placement="bottom" align="start" [arrow]="true" [trapFocus]="true">
           <div class="kui-popover-title" style="margin-bottom: 12px">Reminder</div>
           <kui-field label="Time" style="margin-bottom: 12px">
@@ -130,7 +128,7 @@
     <div class="pop-row">
       <div>
         <p class="pop-label">triggerType: hover - move the pointer over the button</p>
-        <button kuiButton appearance="soft" [kuiPopoverFor]="popHover">Hover</button>
+        <button kuiButton shape="soft" [kuiPopoverFor]="popHover">Hover</button>
         <kui-popover #popHover placement="top" triggerType="hover" [arrow]="true">
           <div class="kui-popover-title">Hover popover</div>
           <div class="kui-popover-desc">
@@ -151,7 +149,7 @@
     <div class="pop-row">
       <div>
         <p class="pop-label">Popover-in-popover: color picker inside a popover</p>
-        <button kuiButton appearance="outline" [kuiPopoverFor]="popColor">Choose color</button>
+        <button kuiButton shape="outline" [kuiPopoverFor]="popColor">Choose color</button>
         <kui-popover #popColor placement="bottom" align="start" [arrow]="true" [trapFocus]="true">
           <div class="kui-popover-title" style="margin-bottom: 12px">Accent color</div>
           <kui-field label="Seed" style="margin-bottom: 12px">
