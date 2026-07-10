@@ -34,7 +34,6 @@ export function createKuiTooltipOverlay(
     positionStrategy: overlay
       .position()
       .flexibleConnectedTo(anchor)
-      .withFlexibleDimensions(false)
       .withPush(false)
       .withPositions(getTooltipPositions(placement)),
     scrollStrategy: overlay.scrollStrategies.reposition(),

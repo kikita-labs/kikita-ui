@@ -47,10 +47,6 @@
   position: static;
   pointer-events: auto;
   box-sizing: border-box;
-  /* CDK resets bounding-box to full viewport during repositioning; default
-     align-items:stretch would make pane 100vh, CDK would measure the wrong height,
-     and position scoring would drift. flex-start sizes pane by content. */
-  align-self: flex-start;
 }
 
 /* @angular/cdk's prebuilt overlay CSS sets .cdk-overlay-pane { max-height: 100% }
@@ -67,6 +63,12 @@
 .cdk-overlay-pane:has(.kui-menu) {
   flex-shrink: 0;
   max-height: none;
+  /* CDK resets bounding-box to full viewport during repositioning; default
+     align-items:stretch would make pane 100vh, CDK would measure the wrong height,
+     and position scoring would drift. flex-start sizes pane by content. Scoped to
+     dropdown/menu only -- panes CDK aligns with center/flex-end (tooltip, popover)
+     need to keep the box's own align-items to stay centered on their anchor. */
+  align-self: flex-start;
 }
 
 .cdk-overlay-backdrop {
