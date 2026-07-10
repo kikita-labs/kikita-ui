@@ -40,6 +40,34 @@ describe('KuiColorInputDirective', () => {
     expect(wrapper.getAttribute('data-kui-size')).toBe('sm');
     expect(input.classList.contains('kui-color-input__control')).toBe(true);
     expect(swatch.getAttribute('aria-label')).toContain('#5b4fe0');
+    expect(swatch.hasAttribute('title')).toBe(false);
+  });
+
+  it('uses Kikita tooltips for generated picker controls', () => {
+    const fixture = createFixture(ColorInputHost);
+    const swatch = fixture.nativeElement.querySelector(
+      '.kui-color-input__swatch',
+    ) as HTMLButtonElement;
+
+    swatch.dispatchEvent(new Event('mouseenter'));
+
+    const swatchTooltip = document.querySelector('.kui-tooltip') as HTMLElement;
+
+    expect(swatchTooltip?.textContent).toBe('#5b4fe0');
+    expect(swatch.getAttribute('aria-describedby')).toBe(swatchTooltip.id);
+
+    swatch.dispatchEvent(new Event('mouseleave'));
+    swatch.click();
+    fixture.detectChanges();
+
+    const preset = document.querySelector('.kui-color-input-preset') as HTMLButtonElement;
+    preset.dispatchEvent(new Event('mouseenter'));
+
+    const tooltips = document.querySelectorAll('.kui-tooltip');
+    const presetTooltip = tooltips[tooltips.length - 1] as HTMLElement;
+
+    expect(presetTooltip?.textContent).toContain('Primary seed');
+    expect(preset.hasAttribute('title')).toBe(false);
   });
 
   it('uses parent field ids and descriptions', () => {

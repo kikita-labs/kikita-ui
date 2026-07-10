@@ -33,7 +33,7 @@ export class KuiPopoverForDirective {
   protected onClick(): void {
     const p = this.popover();
     if (!p || p.triggerType() !== 'click') return;
-    p.open() ? p.close() : p.openFor(this.el.nativeElement);
+    p.toggleFor(this.el.nativeElement);
   }
 
   @HostListener('keydown', ['$event'])

@@ -1,3 +1,4 @@
+import { Overlay } from '@angular/cdk/overlay';
 import {
   AfterViewInit,
   ComponentRef,
@@ -17,6 +18,10 @@ import {
 } from '@angular/core';
 
 import { KuiSize } from '../../types';
+import {
+  createKuiTooltipOverlay,
+  KuiTooltipOverlayHandle,
+} from '../../utils/kui-tooltip-overlay.util';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KuiFieldComponent } from '../field';
 
@@ -24,6 +29,8 @@ const HEX_COLOR_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
 const OKLCH_COLOR_RE =
   /^oklch\(\s*(?:0|1|0?\.\d+|\d+(?:\.\d+)?%)\s+\d*(?:\.\d+)?\s+\d+(?:\.\d+)?(?:\s*\/\s*(?:0|1|0?\.\d+|\d+(?:\.\d+)?%))?\s*\)$/i;
 const MAX_CHROMA = 0.32;
+
+let nextColorInputTooltipId = 0;
 
 /**
  * Applies Kikita UI color-input styling to a native text input.
@@ -66,6 +73,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
 
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
+  private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly injector = inject(Injector);
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
@@ -97,6 +105,9 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private lastValid = hexToOklch('#5b4fe0')!;
   private dragAbort: (() => void) | null = null;
   private lastState = '';
+  private swatchTooltipText = '';
+  private tooltipOverlay: KuiTooltipOverlayHandle | null = null;
+  private tooltipAnchor: HTMLElement | null = null;
   private readonly unlisten: Array<() => void> = [];
   private readonly pickerUnlisten: Array<() => void> = [];
 
@@ -129,6 +140,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.unlisten.forEach((fn) => fn());
     this.unlisten.length = 0;
     this.clearPickerListeners();
+    this.hideTooltip();
     this.dragAbort?.();
     this.dragAbort = null;
     this.dropdownRef?.destroy();
@@ -171,6 +183,22 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       this.renderer.listen(native, 'change', () => this.syncState()),
       this.renderer.listen(this.swatchBtn, 'click', () => this.togglePicker()),
       this.renderer.listen(this.chevronBtn, 'click', () => this.togglePicker()),
+      this.renderer.listen(this.swatchBtn, 'mouseenter', () =>
+        this.showTooltip(this.swatchBtn, this.swatchTooltipText),
+      ),
+      this.renderer.listen(this.swatchBtn, 'mouseleave', () => this.hideTooltip()),
+      this.renderer.listen(this.swatchBtn, 'focusin', () =>
+        this.showTooltip(this.swatchBtn, this.swatchTooltipText),
+      ),
+      this.renderer.listen(this.swatchBtn, 'focusout', () => this.hideTooltip()),
+      this.renderer.listen(this.chevronBtn, 'mouseenter', () =>
+        this.showTooltip(this.chevronBtn, 'Open color picker'),
+      ),
+      this.renderer.listen(this.chevronBtn, 'mouseleave', () => this.hideTooltip()),
+      this.renderer.listen(this.chevronBtn, 'focusin', () =>
+        this.showTooltip(this.chevronBtn, 'Open color picker'),
+      ),
+      this.renderer.listen(this.chevronBtn, 'focusout', () => this.hideTooltip()),
     );
   }
 
@@ -204,11 +232,15 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.swatchBtn.disabled = native.disabled || native.readOnly;
     this.chevronBtn.disabled = native.disabled || native.readOnly;
     this.chevronBtn.hidden = native.readOnly;
+    this.swatchTooltipText = this.lastValid.hex;
     this.swatchBtn.setAttribute(
       'aria-label',
       value ? `${this.swatchLabel()}: ${this.lastValid.hex}` : this.swatchLabel(),
     );
-    this.swatchBtn.title = this.lastValid.hex;
+    if (this.tooltipAnchor === this.swatchBtn) {
+      this.updateTooltipText(this.swatchTooltipText);
+      this.tooltipOverlay?.updatePosition();
+    }
     this.chevronBtn.setAttribute('aria-expanded', this.open() ? 'true' : 'false');
     this.chevronBtn.setAttribute('aria-hidden', native.readOnly ? 'true' : 'false');
 
@@ -275,6 +307,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   }
 
   private closePicker(): void {
+    this.hideTooltip();
     this.dropdownRef?.instance.close();
     this.open.set(false);
     this.syncState();
@@ -453,10 +486,19 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       this.renderer.addClass(btn, 'kui-color-input-preset');
       this.renderer.setAttribute(btn, 'type', 'button');
       this.renderer.setAttribute(btn, 'aria-label', `${name} seed: ${preset}`);
-      this.renderer.setAttribute(btn, 'title', `${name} seed`);
       this.renderer.setStyle(btn, 'background', preset);
       this.renderer.appendChild(row, btn);
-      this.pickerUnlisten.push(this.renderer.listen(btn, 'click', () => this.commitText(preset)));
+      this.pickerUnlisten.push(
+        this.renderer.listen(btn, 'click', () => this.commitText(preset)),
+        this.renderer.listen(btn, 'mouseenter', () =>
+          this.showTooltip(btn, `${name} seed: ${preset}`),
+        ),
+        this.renderer.listen(btn, 'mouseleave', () => this.hideTooltip()),
+        this.renderer.listen(btn, 'focusin', () =>
+          this.showTooltip(btn, `${name} seed: ${preset}`),
+        ),
+        this.renderer.listen(btn, 'focusout', () => this.hideTooltip()),
+      );
     }
     this.renderer.appendChild(panel, row);
   }
@@ -475,6 +517,10 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       this.renderer.listen(btn, 'click', () => {
         void navigator.clipboard?.writeText(this.lastValid.hex).catch(() => undefined);
       }),
+      this.renderer.listen(btn, 'mouseenter', () => this.showTooltip(btn, 'Copy value')),
+      this.renderer.listen(btn, 'mouseleave', () => this.hideTooltip()),
+      this.renderer.listen(btn, 'focusin', () => this.showTooltip(btn, 'Copy value')),
+      this.renderer.listen(btn, 'focusout', () => this.hideTooltip()),
     );
   }
 
@@ -482,18 +528,21 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     event.preventDefault();
     this.pickerEl?.setPointerCapture?.(event.pointerId);
     this.updateFromSurface(event.clientX, event.clientY);
+    const view = this.el.nativeElement.ownerDocument.defaultView;
+    if (!view) return;
+
     const move = (moveEvent: PointerEvent) =>
       this.updateFromSurface(moveEvent.clientX, moveEvent.clientY);
     const up = () => {
       this.renderer.removeClass(this.thumbEl, 'kui-color-input-thumb--drag');
       this.pickerEl?.releasePointerCapture?.(event.pointerId);
-      window.removeEventListener('pointermove', move);
-      window.removeEventListener('pointerup', up);
+      view.removeEventListener('pointermove', move);
+      view.removeEventListener('pointerup', up);
       this.dragAbort = null;
     };
     this.renderer.addClass(this.thumbEl, 'kui-color-input-thumb--drag');
-    window.addEventListener('pointermove', move);
-    window.addEventListener('pointerup', up);
+    view.addEventListener('pointermove', move);
+    view.addEventListener('pointerup', up);
     this.dragAbort = up;
   }
 
@@ -558,8 +607,56 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   }
 
   private clearPickerListeners(): void {
+    this.hideTooltip();
     this.pickerUnlisten.forEach((fn) => fn());
     this.pickerUnlisten.length = 0;
+  }
+
+  private showTooltip(anchor: HTMLElement, text: string): void {
+    const value = text.trim();
+    if (!value || !anchor.ownerDocument.defaultView || anchor.matches(':disabled')) return;
+
+    if (this.tooltipOverlay && this.tooltipAnchor === anchor) {
+      this.updateTooltipText(value);
+      this.tooltipOverlay.updatePosition();
+      return;
+    }
+
+    this.hideTooltip();
+    const tooltipId = `kui-color-input-tooltip-${++nextColorInputTooltipId}`;
+    this.tooltipOverlay = createKuiTooltipOverlay({
+      anchor,
+      id: tooltipId,
+      overlay: this.overlay,
+      placement: 'top',
+      text: value,
+    });
+    this.renderer.setAttribute(anchor, 'aria-describedby', tooltipId);
+    this.tooltipAnchor = anchor;
+  }
+
+  private updateTooltipText(text: string): void {
+    this.tooltipOverlay?.updateText(text);
+  }
+
+  private hideTooltip(): void {
+    const tooltipOverlay = this.tooltipOverlay;
+    if (!tooltipOverlay) return;
+
+    const anchor = this.tooltipAnchor;
+    this.tooltipOverlay = null;
+    this.tooltipAnchor = null;
+    anchor?.removeAttribute('aria-describedby');
+    this.renderer.addClass(tooltipOverlay.tooltipEl, 'is-hiding');
+    let removed = false;
+    const remove = () => {
+      if (!removed) {
+        removed = true;
+        tooltipOverlay.overlayRef.dispose();
+      }
+    };
+    tooltipOverlay.tooltipEl.addEventListener('animationend', remove, { once: true });
+    setTimeout(remove, 200);
   }
 
   private setBooleanAttr(el: HTMLElement, name: string, active: boolean): void {

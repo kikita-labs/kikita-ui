@@ -60,6 +60,19 @@ class LabelHost {
   readonly pop = viewChild.required(KuiPopoverComponent);
 }
 
+@Component({
+  imports: [KuiPopoverComponent, KuiPopoverForDirective],
+  template: `
+    <button [kuiPopoverFor]="pop" id="trigger">Open</button>
+    <kui-popover #pop [trapFocus]="true">
+      <button type="button" id="inside">Inside</button>
+    </kui-popover>
+  `,
+})
+class TrapFocusHost {
+  readonly pop = viewChild.required(KuiPopoverComponent);
+}
+
 // Helpers
 
 function createFixture<T>(component: new () => T): ComponentFixture<T> {
@@ -172,6 +185,24 @@ describe('KuiPopoverComponent - click trigger', () => {
     expect(getPanel()?.classList.contains('kui-popover--out')).toBe(true);
   });
 
+  it('reopens when clicked again while the close animation is running', () => {
+    const fixture = createFixture(ClickHost);
+    const trigger = getTrigger(fixture);
+
+    trigger.click();
+    fixture.detectChanges();
+
+    trigger.click();
+    fixture.detectChanges();
+    expect(getPanel()?.classList.contains('kui-popover--out')).toBe(true);
+
+    trigger.click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.pop().open()).toBe(true);
+    expect(getPanel()?.classList.contains('kui-popover--out')).toBe(false);
+  });
+
   it('sets data-side from placement input', () => {
     const fixture = createFixture(ClickHost);
 
@@ -224,6 +255,17 @@ describe('KuiPopoverComponent - click trigger', () => {
 
     expect(getPanel()?.classList.contains('kui-popover--out')).toBe(true);
   });
+
+  it('uses CDK focus trap auto-capture when trapFocus is enabled', async () => {
+    const fixture = createFixture(TrapFocusHost);
+
+    getTrigger(fixture).click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(document.activeElement).toBe(document.querySelector('#inside'));
+  });
 });
 
 describe('KuiPopoverComponent - hover trigger', () => {
@@ -258,6 +300,26 @@ describe('KuiPopoverComponent - hover trigger', () => {
     vi.advanceTimersByTime(10);
     fixture.detectChanges();
     expect(getPanel()?.classList.contains('kui-popover--out')).toBe(true);
+  });
+
+  it('reopens on mouseenter while the close animation is running', () => {
+    vi.useFakeTimers();
+    const fixture = createFixture(HoverHost);
+    const trigger = getTrigger(fixture);
+
+    trigger.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+
+    trigger.dispatchEvent(new MouseEvent('mouseleave'));
+    vi.advanceTimersByTime(60);
+    fixture.detectChanges();
+    expect(getPanel()?.classList.contains('kui-popover--out')).toBe(true);
+
+    trigger.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.pop().open()).toBe(true);
+    expect(getPanel()?.classList.contains('kui-popover--out')).toBe(false);
   });
 
   it('cancelClose() aborts a scheduled close', () => {

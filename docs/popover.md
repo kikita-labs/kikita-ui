@@ -61,7 +61,7 @@ import '@kikita-labs/ui/styles';
 | `ariaLabel`   | `string`                | `'Popover'` | Accessible name for the `role="dialog"` panel. Prefer content-specific text.                            |
 | `hoverDelay`  | `number`                | `100`       | Delay (ms) before closing on mouseleave; lets the mouse travel to the panel.                            |
 | `offset`      | `number`                | `8`         | Gap in px between anchor and panel. Arrow adds 6 px automatically.                                      |
-| `trapFocus`   | `boolean`               | `false`     | Focus the first focusable element in the panel on open.                                                 |
+| `trapFocus`   | `boolean`               | `false`     | Trap focus inside the panel and auto-focus the first focusable element on open.                         |
 | `open`        | `boolean` (model)       | `false`     | Current open state exposed for trigger integrations. Do not use as a standalone controlled API.         |
 
 ## KuiPopoverForDirective
@@ -120,7 +120,7 @@ All other layout (buttons, forms, images) is developer-provided via `<ng-content
 - **Hover mode:** `mouseenter` on trigger opens. `mouseleave` starts a `hoverDelay` timer. Mouse entering the panel cancels the timer. `mouseleave` on the panel closes.
 - **Flip:** CDK `FlexibleConnectedPositionStrategy` prefers stated `placement` and flips to the opposite side if needed. `align` is preserved after flip.
 - **No backdrop:** click anywhere outside the panel closes it via document `mousedown` listener.
-- **Scroll tracking:** `document scroll` capture reapplies position strategy to keep panel aligned during scroll.
+- **Scroll tracking:** shared floating-panel dismissal reapplies position on scroll/viewport resize and closes if the anchor scrolls fully off-screen.
 - **Animations:** entry 160 ms ease-out (slide 5 px + fade), exit 120 ms ease-in (slide 4 px + fade). Direction matches `data-side` attribute. `prefers-reduced-motion`: opacity only.
 - **Accessibility:** `role="dialog"` and `aria-label` on panel, `aria-expanded` on trigger, ESC returns focus to trigger. Override `ariaLabel` with content-specific text when possible.
 

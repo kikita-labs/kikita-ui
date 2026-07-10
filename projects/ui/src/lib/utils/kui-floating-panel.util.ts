@@ -4,6 +4,7 @@ import {
   Overlay,
   OverlayRef,
 } from '@angular/cdk/overlay';
+import { ViewportRuler } from '@angular/cdk/scrolling';
 
 /**
  * Shared dismissal wiring for anchored floating panels (`kui-dropdown`, `kui-menu`, and any
@@ -32,6 +33,13 @@ export interface KuiFloatingPanelHandlers {
    */
   outsideEventType?: 'click' | 'mousedown';
   /**
+   * Optional selector for the real interactive surface inside the overlay pane. By default the
+   * whole overlay pane is treated as inside; use this when empty pane space should close.
+   */
+  panelSelector?: string;
+  /** Optional escape hatch for nested overlay surfaces that should not close the current panel. */
+  shouldIgnoreOutside?: (target: Element) => boolean;
+  /**
    * Called after every scroll-triggered `positionStrategy.apply()` (the anchor moved but is
    * still on-screen). Scrolling can change how much room is available without ever changing
    * *which* position pair is used (still "below", just shifted) -- `positionChanges` doesn't
@@ -45,7 +53,7 @@ export interface KuiFloatingPanelHandlers {
 /** Builds the shared `FlexibleConnectedPositionStrategy` all anchored panels position with. */
 export function createFloatingPositionStrategy(
   overlay: Overlay,
-  anchor: HTMLElement,
+  anchor: Element,
   positions: ConnectedPosition[],
 ): FlexibleConnectedPositionStrategy {
   return overlay.position().flexibleConnectedTo(anchor).withPositions(positions).withPush(false);
@@ -79,27 +87,15 @@ export function clampPanelToAvailableSpace(
 }
 
 /**
- * Re-applies `positionStrategy` and re-clamps `panel` whenever the viewport itself resizes
- * (e.g. closing devtools) -- neither reacts to that on its own, so a clamp applied at a
- * smaller viewport would otherwise stay stuck even once the viewport grows back. Uses a
- * `window.resize` listener rather than `ResizeObserver` on `document.documentElement`: the
- * root element's observed box is its *content* box, which only matches the viewport when
- * content happens to fill it -- with shorter content (or content that doesn't reflow with
- * the viewport), shrinking/growing the viewport (e.g. toggling devtools) doesn't change that
- * content box at all, so the observer silently never fires. `window.resize` fires on every
- * viewport size change regardless of content. Returns an `unsubscribe()` to remove it.
+ * Re-applies `positionStrategy` and re-clamps `panel` whenever the viewport itself resizes.
+ * Delegates viewport observation to Angular CDK so anchored panels stay SSR-friendly and avoid
+ * direct browser-global listeners in library code.
  */
 export function observeViewportResize(
-  document: Document,
+  viewportRuler: ViewportRuler,
   onResize: () => void,
 ): { unsubscribe: () => void } {
-  const win = document.defaultView;
-  if (!win) {
-    return { unsubscribe: () => {} };
-  }
-
-  win.addEventListener('resize', onResize);
-  return { unsubscribe: () => win.removeEventListener('resize', onResize) };
+  return viewportRuler.change().subscribe(onResize);
 }
 
 /**
@@ -110,8 +106,8 @@ export function wireFloatingPanelDismissal(
   document: Document,
   overlayRef: OverlayRef,
   positionStrategy: FlexibleConnectedPositionStrategy,
-  anchor: HTMLElement,
-  outsideClickIgnoreEl: HTMLElement | null,
+  anchor: Element,
+  outsideClickIgnoreEl: Element | null,
   handlers: KuiFloatingPanelHandlers,
 ): { unsubscribe: () => void } {
   const overlayEl = overlayRef.overlayElement;
@@ -124,17 +120,23 @@ export function wireFloatingPanelDismissal(
     }
   });
 
-  const isOutside = (target: Element): boolean =>
-    !overlayEl.contains(target) && !outsideClickIgnoreEl?.contains(target);
+  const isOutside = (target: Element): boolean => {
+    const panelEl = handlers.panelSelector
+      ? overlayEl.querySelector<HTMLElement>(handlers.panelSelector)
+      : overlayEl;
+    return !panelEl?.contains(target) && !outsideClickIgnoreEl?.contains(target);
+  };
 
   const outsideHandler = (event: MouseEvent) => {
     const target = event.target as Element;
-    if (isOutside(target)) handlers.onOutside();
+    if (isOutside(target) && !handlers.shouldIgnoreOutside?.(target)) handlers.onOutside();
   };
 
   const focusHandler = (event: FocusEvent) => {
     const target = event.target as Element | null;
-    if (target && isOutside(target)) handlers.onOutside();
+    if (target && isOutside(target) && !handlers.shouldIgnoreOutside?.(target)) {
+      handlers.onOutside();
+    }
   };
 
   // CDK's own scroll-based reposition only tracks CdkScrollable-registered containers.

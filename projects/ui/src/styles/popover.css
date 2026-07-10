@@ -146,8 +146,7 @@
       }
     }
   }
-
-  /* ── Panel ────────────────────────────────────────────────────────────────── */
+  /* Panel */
 
   .kui-popover {
     background: var(--kui-popover-bg, var(--kui-color-surface-elevated));
@@ -161,8 +160,7 @@
     color: var(--kui-color-text);
     position: relative;
   }
-
-  /* ── Entry animations ─────────────────────────────────────────────────────── */
+  /* Entry animations */
 
   .kui-popover--in {
     animation: kui-pop-in-b 160ms ease-out both;
@@ -176,8 +174,7 @@
   .kui-popover--in[data-side='left'] {
     animation-name: kui-pop-in-l;
   }
-
-  /* ── Exit animations ──────────────────────────────────────────────────────── */
+  /* Exit animations */
 
   .kui-popover--out {
     animation: kui-pop-out-b 120ms ease-in both;
@@ -191,8 +188,7 @@
   .kui-popover--out[data-side='left'] {
     animation-name: kui-pop-out-l;
   }
-
-  /* ── Arrow ────────────────────────────────────────────────────────────────── */
+  /* Arrow */
 
   .kui-popover-arrow {
     position: absolute;
@@ -258,8 +254,7 @@
     bottom: var(--kui-space-3);
     top: auto;
   }
-
-  /* ── Content helpers (opt-in class names) ───────────────────────────────── */
+  /* Content helpers (opt-in class names) */
 
   .kui-popover-title {
     font-size: var(--kui-text-sm-size);

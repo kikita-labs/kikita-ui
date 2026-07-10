@@ -26,6 +26,7 @@ import { KuiSeparatorDirective } from '../separator';
       <hr kuiSeparator spacing="xs" />
       <button type="button" kuiMenuItem appearance="destructive">Delete</button>
     </kui-menu>
+    <button type="button" id="after">After</button>
   `,
 })
 class MenuHost {
@@ -87,6 +88,54 @@ describe('KuiMenuComponent', () => {
     const firstItem = getPanel()?.querySelector('.kui-menu-item') as HTMLElement;
     expect(document.activeElement).toBe(firstItem);
   });
+
+  it('ArrowDown focuses the first enabled item after pointer opening', () => {
+    const fixture = createFixture();
+    const trigger = getTrigger(fixture);
+
+    trigger.focus();
+    trigger.dispatchEvent(new MouseEvent('click', { detail: 1, bubbles: true }));
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(trigger);
+
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    fixture.detectChanges();
+
+    const firstItem = getPanel()?.querySelector('.kui-menu-item') as HTMLElement;
+    expect(document.activeElement).toBe(firstItem);
+  });
+
+  it('does not restore focus to the trigger when Tab closes the menu', () => {
+    const fixture = createFixture();
+    const trigger = getTrigger(fixture);
+    const after = fixture.nativeElement.querySelector('#after') as HTMLButtonElement;
+
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    fixture.detectChanges();
+
+    const panel = getPanel()!;
+    panel.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
+    after.focus();
+    panel.dispatchEvent(animationEndEvent());
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(after);
+  });
+
+  it('restores focus to the trigger when Escape closes the menu', () => {
+    const fixture = createFixture();
+    const trigger = getTrigger(fixture);
+
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    fixture.detectChanges();
+
+    const panel = getPanel()!;
+    panel.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    panel.dispatchEvent(animationEndEvent());
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(trigger);
+  });
 });
 
 function createFixture(): ComponentFixture<MenuHost> {
@@ -105,4 +154,10 @@ function getTrigger(fixture: ComponentFixture<MenuHost>): HTMLButtonElement {
 
 function getPanel(): HTMLElement | null {
   return document.querySelector('.kui-menu');
+}
+
+function animationEndEvent(): Event {
+  const event = new Event('animationend', { bubbles: true });
+  Object.defineProperty(event, 'animationName', { value: 'kui-menu-out' });
+  return event;
 }

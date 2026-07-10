@@ -12,15 +12,17 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import {
-  ConnectedPosition,
-  FlexibleConnectedPositionStrategy,
-  Overlay,
-  OverlayRef,
-} from '@angular/cdk/overlay';
+import { CdkTrapFocus } from '@angular/cdk/a11y';
+import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { ViewportRuler } from '@angular/cdk/scrolling';
 import { DOCUMENT } from '@angular/common';
 
+import {
+  createFloatingPositionStrategy,
+  observeViewportResize,
+  wireFloatingPanelDismissal,
+} from '../../utils/kui-floating-panel.util';
 import type {
   KuiPopoverAlign,
   KuiPopoverPlacement,
@@ -44,6 +46,7 @@ let nextPopoverId = 0;
  */
 @Component({
   selector: 'kui-popover',
+  imports: [CdkTrapFocus],
   template: `
     <ng-template #tpl>
       <!-- Wrapper carries the alignment transform; kept separate from the animated element
@@ -58,6 +61,7 @@ let nextPopoverId = 0;
           [attr.data-align]="_align()"
           role="dialog"
           [attr.aria-label]="ariaLabel()"
+          [cdkTrapFocus]="trapFocus()"
           (animationend)="onAnimationEnd($event)"
           (mouseenter)="onPanelMouseEnter()"
           (mouseleave)="onPanelMouseLeave()"
@@ -94,7 +98,7 @@ export class KuiPopoverComponent implements OnDestroy {
   /** Gap in px between anchor and panel (arrow adds extra offset automatically). */
   readonly offset = input(8);
 
-  /** Move focus to the first focusable element in the panel on open. */
+  /** Trap focus inside the panel and auto-focus the first focusable element on open. */
   readonly trapFocus = input(false);
 
   /** Two-way binding for controlled open state. */
@@ -135,6 +139,7 @@ export class KuiPopoverComponent implements OnDestroy {
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
   private readonly document = inject(DOCUMENT);
+  private readonly viewportRuler = inject(ViewportRuler);
 
   private _overlayRef: OverlayRef | null = null;
   private _openSubs: { unsubscribe: () => void }[] = [];
@@ -153,7 +158,7 @@ export class KuiPopoverComponent implements OnDestroy {
   openFor(anchor: Element): void {
     this._clearCloseTimer();
     if (this.open()) {
-      if (this._triggerEl === anchor) return;
+      if (this._triggerEl === anchor && !this._closing()) return;
       this._cleanup();
       this._detach();
       this._closing.set(false);
@@ -161,6 +166,11 @@ export class KuiPopoverComponent implements OnDestroy {
     }
     this._triggerEl = anchor;
     this._doOpen(anchor);
+  }
+
+  /** Toggle the popover for a trigger, reopening immediately if an exit animation is running. */
+  toggleFor(anchor: Element): void {
+    this.open() && !this._closing() ? this.close() : this.openFor(anchor);
   }
 
   /** Close the popover with exit animation. */
@@ -213,11 +223,11 @@ export class KuiPopoverComponent implements OnDestroy {
     const aln = this.align();
     const gap = this.offset() + (this.arrow() ? 6 : 0);
 
-    const posStrategy: FlexibleConnectedPositionStrategy = this.overlay
-      .position()
-      .flexibleConnectedTo(anchor)
-      .withPositions(this._buildPositions(pref, aln, gap))
-      .withPush(false);
+    const posStrategy = createFloatingPositionStrategy(
+      this.overlay,
+      anchor,
+      this._buildPositions(pref, aln, gap),
+    );
 
     this._overlayRef = this.overlay.create({
       positionStrategy: posStrategy,
@@ -240,54 +250,36 @@ export class KuiPopoverComponent implements OnDestroy {
       this._align.set(align);
     });
 
-    const escapeSub = this._overlayRef.keydownEvents().subscribe((e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        e.stopPropagation();
-        this.close();
-      }
-    });
-
-    const outsideHandler = (e: MouseEvent) => {
-      const target = e.target as Element;
-      const panelEl = overlayEl.querySelector<HTMLElement>('.kui-popover');
-      const isOwnPanel = panelEl?.contains(target) ?? false;
-
-      if (!isOwnPanel) {
-        const isTrigger = this._triggerEl?.contains(target);
-        const isNestedKikitaOverlay =
+    const resizeSub = observeViewportResize(this.viewportRuler, () => posStrategy.apply());
+    const dismissSub = wireFloatingPanelDismissal(
+      this.document,
+      this._overlayRef,
+      posStrategy,
+      anchor,
+      this._triggerEl,
+      {
+        outsideEventType: 'mousedown',
+        panelSelector: '.kui-popover',
+        onEscape: () => this.close(),
+        onOutside: () => this.close(),
+        onAnchorOffscreen: () => this.close(),
+        shouldIgnoreOutside: (target) =>
           target.closest(
             '.kui-color-input-popover, .kui-dropdown, .kui-menu, .kui-select, .kui-combobox, .kui-command-palette, .kui-popover',
-          ) != null;
-
-        if (!isTrigger && !isNestedKikitaOverlay) this.close();
-      }
-    };
-
-    const scrollHandler = () => posStrategy.apply();
-
-    this.document.addEventListener('mousedown', outsideHandler, { capture: true });
-    this.document.addEventListener('scroll', scrollHandler, { capture: true, passive: true });
-
-    this._openSubs = [
-      posSub,
-      escapeSub,
-      {
-        unsubscribe: () =>
-          this.document.removeEventListener('mousedown', outsideHandler, { capture: true }),
+          ) != null,
       },
-      {
-        unsubscribe: () =>
-          this.document.removeEventListener('scroll', scrollHandler, { capture: true }),
-      },
-    ];
+    );
+
+    this._openSubs = [posSub, resizeSub, dismissSub];
 
     if (this.trapFocus()) {
       setTimeout(() => {
-        const first = overlayEl.querySelector<HTMLElement>(
+        const panel = overlayEl.querySelector<HTMLElement>('.kui-popover');
+        const first = panel?.querySelector<HTMLElement>(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
         );
         first?.focus();
-      }, 50);
+      }, 0);
     }
   }
 

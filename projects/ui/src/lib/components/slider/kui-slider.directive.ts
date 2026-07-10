@@ -1,3 +1,4 @@
+import { Overlay } from '@angular/cdk/overlay';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
@@ -17,14 +18,16 @@ import {
 
 import { KuiFieldComponent } from '../field';
 import { KuiTooltipDirective } from '../tooltip/kui-tooltip.directive';
+import {
+  createKuiTooltipOverlay,
+  KuiTooltipOverlayHandle,
+} from '../../utils/kui-tooltip-overlay.util';
 
 /** Semantic color used by `kuiSlider`. */
 export type KuiSliderColor = 'primary' | 'success' | 'danger' | 'neutral';
 
 /** Size token used by `kuiSlider`. */
 export type KuiSliderSize = 'sm' | 'md' | 'lg';
-
-const TOOLTIP_GAP = 6;
 
 @Directive({
   selector: 'input[type=range][kuiSlider]',
@@ -40,6 +43,7 @@ const TOOLTIP_GAP = 6;
 export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   private readonly el = inject(ElementRef<HTMLInputElement>);
   private readonly renderer = inject(Renderer2);
+  private readonly overlay = inject(Overlay);
   private readonly doc = inject(DOCUMENT);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
@@ -82,9 +86,10 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   private fillEl!: HTMLElement;
   private thumbEl!: HTMLElement;
   private labelsEl: HTMLElement | null = null;
-  private tooltipEl: HTMLElement | null = null;
+  private tooltipOverlay: KuiTooltipOverlayHandle | null = null;
   private tooltipVisible = false;
   private lastNativeState = '';
+  private scrollUnlisten: (() => void) | null = null;
 
   constructor() {
     effect(() => {
@@ -141,6 +146,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.stopScrollTracking();
     this.destroyTooltip();
   }
 
@@ -149,25 +155,20 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
     if (!this.isBrowser) return;
     if (this.kuiTooltip?.kuiTooltip()) return;
     this.tooltipVisible = true;
+    this.startScrollTracking();
     this.ensureTooltip();
   }
 
   protected onMouseLeave(): void {
     this.tooltipVisible = false;
+    this.stopScrollTracking();
     this.destroyTooltip();
   }
 
   @HostListener('mousemove')
   protected onMouseMove(): void {
     if (this.tooltipVisible) {
-      this.positionOverThumb();
-    }
-  }
-
-  @HostListener('window:scroll')
-  protected onWindowScroll(): void {
-    if (this.tooltipVisible) {
-      this.positionOverThumb();
+      this.tooltipOverlay?.updatePosition();
     }
   }
 
@@ -182,56 +183,61 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
     this.renderer.setStyle(this.thumbEl, 'left', pct);
 
     if (this.tooltipVisible) {
+      const hadTooltip = Boolean(this.tooltipOverlay);
       this.ensureTooltip();
-      if (this.tooltipEl) {
-        this.renderer.setProperty(this.tooltipEl, 'textContent', String(Math.round(val)));
-        this.positionOverThumb();
+      this.tooltipOverlay?.updateText(String(Math.round(val)));
+      if (hadTooltip) {
+        this.tooltipOverlay?.updatePosition();
       }
     }
   }
 
   private ensureTooltip(): void {
-    if (this.tooltipEl) {
-      this.positionOverThumb();
+    if (this.tooltipOverlay) {
+      this.tooltipOverlay.updatePosition();
       return;
     }
     const val = Math.round(Number(this.el.nativeElement.value) || 0);
-    const el: HTMLElement = this.renderer.createElement('div');
-    this.renderer.setAttribute(el, 'role', 'tooltip');
-    this.renderer.addClass(el, 'kui-tooltip');
-    this.renderer.setAttribute(el, 'data-kui-placement', 'top');
-    this.renderer.setProperty(el, 'textContent', String(val));
-    this.renderer.appendChild(this.doc.body, el);
-    this.tooltipEl = el;
-    // Position after a microtask so the element has rendered dimensions.
-    Promise.resolve().then(() => this.positionOverThumb());
-  }
-
-  private positionOverThumb(): void {
-    const tip = this.tooltipEl;
-    if (!tip || !this.thumbEl) return;
-    const thumbRect = this.thumbEl.getBoundingClientRect();
-    const { width: tipW, height: tipH } = tip.getBoundingClientRect();
-    const top = thumbRect.top - tipH - TOOLTIP_GAP;
-    const left = thumbRect.left + thumbRect.width / 2 - tipW / 2;
-    this.renderer.setStyle(tip, 'top', `${Math.round(top)}px`);
-    this.renderer.setStyle(tip, 'left', `${Math.round(left)}px`);
+    this.tooltipOverlay = createKuiTooltipOverlay({
+      anchor: this.thumbEl,
+      overlay: this.overlay,
+      placement: 'top',
+      text: String(val),
+    });
   }
 
   private destroyTooltip(): void {
-    if (!this.tooltipEl) return;
-    const el = this.tooltipEl;
-    this.tooltipEl = null;
-    this.renderer.addClass(el, 'is-hiding');
+    if (!this.tooltipOverlay) return;
+    const { overlayRef, tooltipEl } = this.tooltipOverlay;
+    this.tooltipOverlay = null;
+    this.renderer.addClass(tooltipEl, 'is-hiding');
     let removed = false;
     const remove = () => {
-      if (!removed && el.parentNode) {
+      if (!removed) {
         removed = true;
-        this.renderer.removeChild(this.doc.body, el);
+        overlayRef.dispose();
       }
     };
-    el.addEventListener('animationend', remove, { once: true });
+    tooltipEl.addEventListener('animationend', remove, { once: true });
     setTimeout(remove, 200);
+  }
+
+  private startScrollTracking(): void {
+    if (this.scrollUnlisten) return;
+    const handler = (): void => {
+      if (this.tooltipVisible) {
+        this.tooltipOverlay?.updatePosition();
+      }
+    };
+    this.doc.addEventListener('scroll', handler, { capture: true, passive: true });
+    this.scrollUnlisten = () => {
+      this.doc.removeEventListener('scroll', handler, { capture: true });
+      this.scrollUnlisten = null;
+    };
+  }
+
+  private stopScrollTracking(): void {
+    this.scrollUnlisten?.();
   }
 
   private buildDOM(): void {

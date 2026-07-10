@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { ViewportRuler } from '@angular/cdk/scrolling';
 import { DOCUMENT } from '@angular/common';
 
 import {
@@ -117,10 +118,12 @@ export class KuiMenuComponent implements OnDestroy {
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
   private readonly document = inject(DOCUMENT);
+  private readonly viewportRuler = inject(ViewportRuler);
 
   private overlayRef: OverlayRef | null = null;
   private triggerEl: HTMLElement | null = null;
   private openSubs: { unsubscribe: () => void }[] = [];
+  private restoreFocusOnClose = true;
 
   constructor() {
     this.destroyRef.onDestroy(() => this.cleanup());
@@ -128,7 +131,11 @@ export class KuiMenuComponent implements OnDestroy {
 
   /** Opens the menu for a trigger element. */
   openFor(anchor: HTMLElement, focus: 'first' | 'last' | 'none' = 'none'): void {
-    if (this.isOpen() && this.triggerEl === anchor) return;
+    if (this.isOpen() && this.triggerEl === anchor) {
+      if (focus === 'first') this.focusFirstItem();
+      if (focus === 'last') this.focusLastItem();
+      return;
+    }
 
     if (this.isOpen() || this.isClosing()) {
       this.cleanup();
@@ -138,6 +145,7 @@ export class KuiMenuComponent implements OnDestroy {
     }
 
     this.triggerEl = anchor;
+    this.restoreFocusOnClose = true;
     this.doOpen(anchor);
 
     if (focus === 'first') this.focusFirstItem();
@@ -154,12 +162,13 @@ export class KuiMenuComponent implements OnDestroy {
     if (!this.isOpen() && !this.isClosing()) return;
 
     this.cleanup();
+    this.restoreFocusOnClose = restoreFocus;
     this.isClosing.set(true);
 
     if (!this.overlayRef) {
       this.isClosing.set(false);
       this.isOpen.set(false);
-      if (restoreFocus) this.triggerEl?.focus();
+      if (this.restoreFocusOnClose) this.triggerEl?.focus();
     }
   }
 
@@ -202,7 +211,8 @@ export class KuiMenuComponent implements OnDestroy {
       this.isClosing.set(false);
       this.isOpen.set(false);
       this.detachOverlay();
-      this.triggerEl?.focus();
+      if (this.restoreFocusOnClose) this.triggerEl?.focus();
+      this.restoreFocusOnClose = true;
     }
   }
 
@@ -243,7 +253,7 @@ export class KuiMenuComponent implements OnDestroy {
       clampPanel();
     });
 
-    const resizeSub = observeViewportResize(this.document, () => {
+    const resizeSub = observeViewportResize(this.viewportRuler, () => {
       positionStrategy.apply();
       clampPanel();
     });

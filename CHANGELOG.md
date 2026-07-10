@@ -8,6 +8,26 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-07-10
+
+### Changed
+
+- Tooltips now render through CDK Overlay instead of appending DOM nodes to `body`, so they layer
+  correctly above CDK popover/dropdown surfaces and share the same overlay stack behavior.
+
+### Fixed
+
+- `kui-popover`: click and hover triggers can reopen immediately while the close animation is
+  still running, fixing fast close/reopen interactions.
+- `kui-popover`: `[trapFocus]="true"` now applies a real CDK focus trap and focuses the first
+  focusable element when opened.
+- `kui-menu`: pressing ArrowDown/ArrowUp after opening a menu with the mouse now moves focus to
+  the first/last item instead of leaving focus on the trigger.
+- `kui-dropdown`, `kui-menu`, `kui-popover`, `input[kuiColorInput]`, and `input[kuiSlider]` no
+  longer rely on direct `window` access for viewport or pointer tracking, improving SSR safety.
+- `input[kuiColorInput]`: generated swatches and copy action use Kikita tooltips instead of
+  native `title` tooltips.
+
 ## [0.1.1] - 2026-07-10
 
 ### Added

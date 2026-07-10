@@ -19,6 +19,10 @@
     animation: kui-tooltip-in 180ms var(--kui-ease, cubic-bezier(0.16, 1, 0.3, 1)) both;
   }
 
+  .kui-tooltip--overlay {
+    position: static;
+  }
+
   .kui-tooltip.is-hiding {
     animation: kui-tooltip-out 120ms var(--kui-ease, cubic-bezier(0.16, 1, 0.3, 1)) both;
   }

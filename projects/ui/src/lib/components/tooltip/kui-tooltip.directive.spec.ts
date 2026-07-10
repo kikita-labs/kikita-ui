@@ -46,7 +46,7 @@ describe('KuiTooltipDirective', () => {
     expect(btn.getAttribute('aria-describedby')).toBeNull();
   });
 
-  it('appends tooltip element to body on mouseenter and removes on mouseleave', () => {
+  it('renders tooltip in a CDK overlay pane on mouseenter and removes on mouseleave', () => {
     vi.useFakeTimers();
     const fixture = createFixture(TooltipHost);
     const btn = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
@@ -55,6 +55,7 @@ describe('KuiTooltipDirective', () => {
     const describedById = btn.getAttribute('aria-describedby')!;
     const tip = document.getElementById(describedById);
     expect(tip).not.toBeNull();
+    expect(tip?.closest('.cdk-overlay-pane')).not.toBeNull();
     expect(tip?.getAttribute('role')).toBe('tooltip');
     expect(tip?.classList.contains('kui-tooltip')).toBe(true);
     expect(tip?.getAttribute('data-kui-placement')).toBe('bottom');

@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { ViewportRuler } from '@angular/cdk/scrolling';
 import { DOCUMENT } from '@angular/common';
 
 import {
@@ -127,6 +128,7 @@ export class KuiDropdownComponent implements OnDestroy {
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
   private readonly document = inject(DOCUMENT);
+  private readonly viewportRuler = inject(ViewportRuler);
 
   private _anchorEl: HTMLElement | null = null;
   private _outsideClickIgnoreEl: HTMLElement | null = null;
@@ -207,7 +209,7 @@ export class KuiDropdownComponent implements OnDestroy {
       clampPanel();
     });
 
-    const resizeSub = observeViewportResize(this.document, () => {
+    const resizeSub = observeViewportResize(this.viewportRuler, () => {
       positionStrategy.apply();
       clampPanel();
     });
