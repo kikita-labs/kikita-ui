@@ -6,7 +6,7 @@
     justify-content: center;
     gap: var(--kui-btn-gap, 6px);
     min-block-size: var(--kui-btn-height, 40px);
-    border: 1px solid transparent;
+    border: var(--kui-border-width-hairline) solid transparent;
     border-radius: var(--kui-btn-radius, 8px);
     background-color: var(--kui-btn-bg);
     color: var(--kui-btn-color, Canvas);

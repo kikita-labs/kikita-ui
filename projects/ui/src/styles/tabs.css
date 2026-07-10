@@ -50,13 +50,17 @@
 
   .kui-tabs__scroll-btn--left {
     left: 0;
-    background: linear-gradient(to right, var(--kui-color-bg, #000) 50%, transparent);
+    background: linear-gradient(
+      to right,
+      var(--kui-color-bg, oklch(0.97 0.01 80)) 50%,
+      transparent
+    );
     padding-inline-end: 16px;
   }
 
   .kui-tabs__scroll-btn--right {
     right: 0;
-    background: linear-gradient(to left, var(--kui-color-bg, #000) 50%, transparent);
+    background: linear-gradient(to left, var(--kui-color-bg, oklch(0.97 0.01 80)) 50%, transparent);
     padding-inline-start: 16px;
   }
 
@@ -65,7 +69,8 @@
     display: flex;
     flex-direction: row;
     gap: var(--kui-tabs-gap, 2px);
-    border-bottom: 1px solid var(--kui-tabs-border, var(--kui-color-border));
+    border-bottom: var(--kui-border-width-hairline) solid
+      var(--kui-tabs-border, var(--kui-color-border));
     min-width: max-content;
   }
 
@@ -241,7 +246,8 @@
     flex-direction: column;
     min-width: var(--kui-tabs-vertical-list-width, 180px);
     border-bottom: none;
-    border-right: 1px solid var(--kui-tabs-border, var(--kui-color-border));
+    border-right: var(--kui-border-width-hairline) solid
+      var(--kui-tabs-border, var(--kui-color-border));
   }
 
   .kui-tabs[data-kui-orientation='vertical'] .kui-tab {

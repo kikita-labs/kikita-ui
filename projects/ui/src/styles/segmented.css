@@ -7,7 +7,7 @@
     gap: var(--kui-seg-gap, 2px);
     padding: var(--kui-seg-padding, 2px);
     background-color: var(--kui-seg-bg, var(--kui-color-surface-sunken));
-    border: 1px solid var(--kui-seg-border, var(--kui-color-border));
+    border: var(--kui-border-width-hairline) solid var(--kui-seg-border, var(--kui-color-border));
     border-radius: var(--kui-seg-radius, var(--kui-radius-md));
   }
 
@@ -55,7 +55,7 @@
   }
 
   .kui-segment[data-kui-selected] {
-    color: var(--kui-seg-fg-active, var(--kui-btn-solid-fg, oklch(1 0 0)));
+    color: var(--kui-seg-fg-active, var(--kui-btn-solid-fg, var(--kui-color-on-fill)));
     font-weight: var(--kui-seg-font-weight-active, 600);
     cursor: default;
   }

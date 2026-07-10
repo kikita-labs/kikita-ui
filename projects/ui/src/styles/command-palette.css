@@ -19,7 +19,8 @@
     max-inline-size: calc(100vw - var(--kui-space-8));
     max-block-size: var(--kui-command-max-height, 78vh);
     overflow: hidden;
-    border: 1px solid var(--kui-command-border, var(--kui-color-border));
+    border: var(--kui-border-width-hairline) solid
+      var(--kui-command-border, var(--kui-color-border));
     border-radius: var(--kui-command-radius, var(--kui-radius-xl));
     background: var(--kui-command-bg, var(--kui-color-surface-elevated));
     box-shadow: var(--kui-command-shadow, var(--kui-shadow-lg));
@@ -32,7 +33,8 @@
     gap: var(--kui-command-search-gap, var(--kui-space-3));
     block-size: var(--kui-command-search-height, 52px);
     padding-inline: var(--kui-space-4);
-    border-block-end: 1px solid var(--kui-command-border, var(--kui-color-border));
+    border-block-end: var(--kui-border-width-hairline) solid
+      var(--kui-command-border, var(--kui-color-border));
   }
 
   .kui-command__search-icon,
@@ -44,6 +46,10 @@
     inline-size: 16px;
     block-size: 16px;
     color: var(--kui-command-item-text-muted, var(--kui-color-text-secondary));
+  }
+
+  .kui-command__item-skeleton-icon {
+    inline-size: 16px;
   }
 
   .kui-command__search-icon > svg,
@@ -206,7 +212,8 @@
     justify-content: space-between;
     gap: var(--kui-space-3);
     padding: var(--kui-space-2) var(--kui-space-4);
-    border-block-start: 1px solid var(--kui-command-border, var(--kui-color-border));
+    border-block-start: var(--kui-border-width-hairline) solid
+      var(--kui-command-border, var(--kui-color-border));
     color: var(--kui-command-footer-text, var(--kui-color-text-secondary));
     font-size: var(--kui-text-xs-size);
   }
@@ -224,7 +231,8 @@
     min-inline-size: 18px;
     block-size: 18px;
     padding-inline: 5px;
-    border: 1px solid var(--kui-command-border, var(--kui-color-border));
+    border: var(--kui-border-width-hairline) solid
+      var(--kui-command-border, var(--kui-color-border));
     border-radius: var(--kui-radius-xs);
     background: var(--kui-command-shortcut-bg, var(--kui-color-surface));
     color: var(--kui-command-shortcut-text, var(--kui-color-text-secondary));

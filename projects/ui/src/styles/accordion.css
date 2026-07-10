@@ -114,11 +114,13 @@
 
   /* default: horizontal dividers */
   .kui-accordion[data-kui-appearance='default'] .kui-accordion-item {
-    border-bottom: 1px solid var(--kui-accordion-border, var(--kui-color-border));
+    border-bottom: var(--kui-border-width-hairline) solid
+      var(--kui-accordion-border, var(--kui-color-border));
   }
 
   .kui-accordion[data-kui-appearance='default'] .kui-accordion-item:first-child {
-    border-top: 1px solid var(--kui-accordion-border, var(--kui-color-border));
+    border-top: var(--kui-border-width-hairline) solid
+      var(--kui-accordion-border, var(--kui-color-border));
   }
 
   /* bordered: individual cards */
@@ -129,7 +131,8 @@
   }
 
   .kui-accordion[data-kui-appearance='bordered'] .kui-accordion-item {
-    border: 1px solid var(--kui-accordion-border, var(--kui-color-border));
+    border: var(--kui-border-width-hairline) solid
+      var(--kui-accordion-border, var(--kui-color-border));
     border-radius: var(--kui-accordion-radius, var(--kui-radius-md));
     overflow: hidden;
   }

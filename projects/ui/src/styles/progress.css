@@ -61,7 +61,7 @@
     height: 100%;
     border-radius: inherit;
     background: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
-    transition: width 200ms var(--kui-ease);
+    transition: width var(--kui-duration-normal) var(--kui-ease);
   }
 
   .kui-progress-linear[data-kui-color='primary'] .kui-progress-linear-fill {

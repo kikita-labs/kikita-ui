@@ -63,7 +63,7 @@
     align-items: center;
     justify-content: center;
     background: var(--kui-dialog-backdrop, oklch(0 0 0 / 0.5));
-    animation: kui-bd-in 200ms var(--kui-ease) both;
+    animation: kui-bd-in var(--kui-duration-normal) var(--kui-ease) both;
   }
 
   .kui-dialog-backdrop--closing {
@@ -72,7 +72,7 @@
 
   .kui-dialog {
     background: var(--kui-dialog-bg, var(--kui-color-surface-elevated));
-    border: 1px solid var(--kui-dialog-border, var(--kui-color-border));
+    border: var(--kui-border-width-hairline) solid var(--kui-dialog-border, var(--kui-color-border));
     border-radius: var(--kui-dialog-radius, var(--kui-radius-lg));
     box-shadow: var(--kui-dialog-shadow, var(--kui-shadow-lg));
     display: flex;
@@ -81,7 +81,7 @@
     max-width: calc(100vw - 32px);
     max-height: 85vh;
     color: var(--kui-color-text);
-    animation: kui-dialog-in 200ms var(--kui-ease) both;
+    animation: kui-dialog-in var(--kui-duration-normal) var(--kui-ease) both;
   }
 
   .kui-dialog--closing {
@@ -124,7 +124,7 @@
     gap: var(--kui-space-3);
     padding: var(--kui-dialog-padding-y, var(--kui-space-4))
       var(--kui-dialog-padding-x, var(--kui-space-6));
-    border-bottom: 1px solid var(--kui-color-border);
+    border-bottom: var(--kui-border-width-hairline) solid var(--kui-color-border);
     flex: 0 0 auto;
   }
 
@@ -177,7 +177,7 @@
     gap: var(--kui-space-2);
     padding: var(--kui-dialog-padding-y, var(--kui-space-4))
       var(--kui-dialog-padding-x, var(--kui-space-6));
-    border-top: 1px solid var(--kui-color-border);
+    border-top: var(--kui-border-width-hairline) solid var(--kui-color-border);
     flex: 0 0 auto;
   }
 }

@@ -52,7 +52,7 @@
         @if (loading()) {
           @for (row of [1, 2, 3]; track row) {
             <div class="kui-command__item kui-command__item--skeleton" aria-hidden="true">
-              <span kuiSkeleton shape="square" style="inline-size: 16px"></span>
+              <span kuiSkeleton shape="square" class="kui-command__item-skeleton-icon"></span>
               <span kuiSkeleton shape="text" style="inline-size: 60%"></span>
             </div>
           }

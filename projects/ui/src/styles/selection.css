@@ -7,11 +7,11 @@
     inline-size: var(--kui-checkbox-size, 18px);
     block-size: var(--kui-checkbox-size, 18px);
     flex: 0 0 auto;
-    border: var(--kui-checkbox-border-width, 1px) solid
+    border: var(--kui-checkbox-border-width, var(--kui-border-width-hairline)) solid
       var(--kui-checkbox-border, var(--kui-color-border));
     border-radius: var(--kui-checkbox-radius, var(--kui-radius-sm));
     background-color: var(--kui-checkbox-bg, var(--kui-color-surface));
-    color: var(--kui-checkbox-mark, oklch(1 0 0));
+    color: var(--kui-checkbox-mark, var(--kui-color-on-fill));
     cursor: pointer;
     margin: 0;
     transition:
@@ -92,7 +92,7 @@
     inline-size: var(--kui-radio-size, 18px);
     block-size: var(--kui-radio-size, 18px);
     flex: 0 0 auto;
-    border: var(--kui-radio-border-width, 1px) solid
+    border: var(--kui-radio-border-width, var(--kui-border-width-hairline)) solid
       var(--kui-radio-border, var(--kui-color-border));
     border-radius: 50%;
     background-color: var(--kui-radio-bg, var(--kui-color-surface));
@@ -111,7 +111,7 @@
     inline-size: 0.5em;
     block-size: 0.5em;
     border-radius: 50%;
-    background-color: var(--kui-radio-dot, oklch(1 0 0));
+    background-color: var(--kui-radio-dot, var(--kui-color-on-fill));
     opacity: 0;
     transform: scale(0.55);
     transition:
@@ -177,7 +177,7 @@
     inline-size: var(--kui-switch-width, 38px);
     block-size: var(--kui-switch-height, 22px);
     flex: 0 0 auto;
-    border: var(--kui-switch-border-width, 1px) solid
+    border: var(--kui-switch-border-width, var(--kui-border-width-hairline)) solid
       var(--kui-switch-border, var(--kui-color-border));
     border-radius: var(--kui-switch-radius, 999px);
     background-color: var(--kui-switch-bg, var(--kui-color-surface-sunken));
@@ -216,7 +216,7 @@
   }
 
   .kui-switch:checked::before {
-    background-color: var(--kui-switch-checked-thumb-bg, oklch(1 0 0));
+    background-color: var(--kui-switch-checked-thumb-bg, var(--kui-color-on-fill));
     transform: translateX(var(--kui-switch-thumb-translate, 16px));
   }
 

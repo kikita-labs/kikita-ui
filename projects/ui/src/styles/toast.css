@@ -167,7 +167,7 @@
     padding: var(--kui-toast-padding-y, var(--kui-space-3))
       var(--kui-toast-padding-x, var(--kui-space-4));
     background: var(--kui-toast-bg, var(--kui-color-surface-elevated));
-    border: 1px solid var(--kui-toast-border, var(--kui-color-border));
+    border: var(--kui-border-width-hairline) solid var(--kui-toast-border, var(--kui-color-border));
     border-left: 3px solid var(--kui-toast-accent-color, var(--kui-color-border-strong));
     border-radius: var(--kui-toast-radius, var(--kui-radius-md));
     box-shadow: var(--kui-toast-shadow, var(--kui-shadow-lg));

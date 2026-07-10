@@ -3,7 +3,8 @@
     display: flex;
     align-items: stretch;
     width: 100%;
-    border: 1px solid var(--kui-number-input-border, var(--kui-color-border));
+    border: var(--kui-border-width-hairline) solid
+      var(--kui-number-input-border, var(--kui-color-border));
     border-radius: var(--kui-radius-md);
     background: var(--kui-color-surface);
     overflow: hidden;
@@ -38,11 +39,13 @@
   }
 
   .kui-number-input__btn--dec {
-    border-right: 1px solid var(--kui-number-input-divider, var(--kui-color-border));
+    border-right: var(--kui-border-width-hairline) solid
+      var(--kui-number-input-divider, var(--kui-color-border));
   }
 
   .kui-number-input__btn--inc {
-    border-left: 1px solid var(--kui-number-input-divider, var(--kui-color-border));
+    border-left: var(--kui-border-width-hairline) solid
+      var(--kui-number-input-divider, var(--kui-color-border));
   }
 
   .kui-number-input__btn {
@@ -117,7 +120,8 @@
     flex: 0 0 var(--_h);
     display: flex;
     flex-direction: column;
-    border-left: 1px solid var(--kui-number-input-divider, var(--kui-color-border));
+    border-left: var(--kui-border-width-hairline) solid
+      var(--kui-number-input-divider, var(--kui-color-border));
   }
 
   .kui-number-input--a .kui-number-input__arrow {
@@ -155,7 +159,8 @@
   }
 
   .kui-number-input--a .kui-number-input__arrow--inc {
-    border-bottom: 1px solid var(--kui-number-input-divider, var(--kui-color-border));
+    border-bottom: var(--kui-border-width-hairline) solid
+      var(--kui-number-input-divider, var(--kui-color-border));
   }
 
   .kui-number-input[data-kui-disabled] {

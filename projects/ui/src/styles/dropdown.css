@@ -48,7 +48,7 @@
     font-family: var(--kui-font-sans, system-ui, -apple-system, sans-serif);
     font-size: var(--kui-text-sm-size, 13px);
     background: var(--kui-dropdown-bg);
-    border: 1px solid var(--kui-dropdown-border);
+    border: var(--kui-border-width-hairline) solid var(--kui-dropdown-border);
     border-radius: var(--kui-dropdown-radius);
     box-shadow: var(--kui-dropdown-shadow);
     padding: var(--kui-space-1);

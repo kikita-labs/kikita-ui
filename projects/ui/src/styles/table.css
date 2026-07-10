@@ -18,7 +18,8 @@
     background: var(--kui-table-th-bg, var(--kui-color-surface-sunken));
     text-align: left;
     white-space: nowrap;
-    border-bottom: 1px solid var(--kui-table-border, var(--kui-color-border));
+    border-bottom: var(--kui-border-width-hairline) solid
+      var(--kui-table-border, var(--kui-color-border));
   }
 
   /* Sticky header row applies sticky to all th children. */
@@ -108,7 +109,7 @@
   /* Rows */
 
   .kui-row {
-    border-bottom: 1px solid
+    border-bottom: var(--kui-border-width-hairline) solid
       var(--kui-table-row-border, var(--kui-color-border-subtle, var(--kui-color-border)));
     transition: background var(--kui-duration-fast, 100ms) var(--kui-ease);
   }
@@ -162,7 +163,8 @@
     width: 15px;
     height: 15px;
     border-radius: 3px;
-    border: 1.5px solid var(--kui-color-border-strong, var(--kui-color-border));
+    border: var(--kui-border-width-thick) solid
+      var(--kui-color-border-strong, var(--kui-color-border));
     background: transparent;
     appearance: none;
     -webkit-appearance: none;
@@ -192,7 +194,7 @@
     left: 3px;
     width: 5px;
     height: 8px;
-    border: 1.5px solid white;
+    border: var(--kui-border-width-thick) solid var(--kui-color-on-fill);
     border-top: none;
     border-left: none;
     transform: rotate(42deg);
@@ -204,8 +206,8 @@
     top: 5px;
     left: 2px;
     width: 7px;
-    height: 1.5px;
-    background: white;
+    height: var(--kui-border-width-thick);
+    background: var(--kui-color-on-fill);
     border-radius: 1px;
   }
 

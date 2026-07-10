@@ -67,7 +67,7 @@
     position: relative;
     height: 4px;
     background: var(--kui-slider-track-bg, var(--kui-color-border));
-    border-radius: var(--kui-slider-track-radius, 9999px);
+    border-radius: var(--kui-slider-track-radius, var(--kui-radius-full));
     /* Horizontal margin = thumb radius so thumb never overflows container */
     margin: 0 9px;
   }

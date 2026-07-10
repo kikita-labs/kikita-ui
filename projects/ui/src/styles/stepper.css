@@ -163,7 +163,7 @@
   .kui-step[data-kui-state='done'] .kui-step-circle {
     background: var(--kui-stepper-fg-done, var(--kui-color-primary-fill));
     border-color: var(--kui-stepper-fg-done, var(--kui-color-primary-fill));
-    color: oklch(1 0 0);
+    color: var(--kui-color-on-fill);
   }
   .kui-step[data-kui-state='done'] .kui-step-label {
     color: var(--kui-color-text);
@@ -200,7 +200,7 @@
   .kui-step[data-kui-state='error'] .kui-step-circle {
     background: var(--kui-stepper-fg-error, var(--kui-color-danger-fill));
     border-color: var(--kui-stepper-fg-error, var(--kui-color-danger-fill));
-    color: oklch(1 0 0);
+    color: var(--kui-color-on-fill);
   }
   .kui-step[data-kui-state='error'] .kui-step-label {
     color: var(--kui-stepper-fg-error, var(--kui-color-danger-fill));
