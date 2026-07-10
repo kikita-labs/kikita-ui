@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-07-10
+
 ### Fixed
 
 - `kuiTooltip`: fixed a regression from the CDK Overlay migration in 0.1.2 that pinned every
