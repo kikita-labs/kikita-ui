@@ -66,6 +66,14 @@ npm publish
 
 Do not publish from `projects/ui`; publish only from `dist/ui`.
 
+After publishing, tag the release commit and push the tag -- `npm publish` does not
+create a git tag on its own:
+
+```bash
+git tag -a vX.Y.Z -m "vX.Y.Z"
+git push origin vX.Y.Z
+```
+
 ## Versioning
 
 - `0.0.x`: private experimental package, breaking changes allowed.
