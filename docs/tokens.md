@@ -132,14 +132,30 @@ Typography tokens split size and line-height in implementation, even when docs s
 
 Letter spacing defaults to `0`.
 
+## Control Height
+
+Shared height scale for interactive controls (Input, Button, Icon-Button, Segmented, Tabs,
+Group):
+
+| Token                     |  Value |
+| ------------------------- | -----: |
+| `--kui-control-height-xs` |  `28px` |
+| `--kui-control-height-sm` |  `32px` |
+| `--kui-control-height-md` |  `40px` |
+| `--kui-control-height-lg` |  `44px` |
+
+Selected via `data-kui-size` (`xs`/`sm`/`md`/`lg`) on the component. This is the only axis that
+controls height; `data-kui-density` controls padding only (see Button tokens below).
+
 ## Component Tokens
+
+`--kui-btn-height` resolves to `--kui-control-height-md` and is overridden per instance by
+`[data-kui-size='xs'|'sm'|'lg']` (see Control Height below). `data-kui-density` only rebinds
+`--kui-btn-px`/`--kui-input-px`; it does not affect height.
 
 Button tokens:
 
 ```css
---kui-btn-height-compact
---kui-btn-height-regular
---kui-btn-height-comfortable
 --kui-btn-px-compact
 --kui-btn-px-regular
 --kui-btn-px-comfortable

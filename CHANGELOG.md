@@ -8,6 +8,16 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Changed
+
+- **Breaking:** `data-kui-density` no longer affects control height. Height is controlled only
+  by `data-kui-size` (`--kui-control-height-*`); density now rebinds `--kui-btn-px`/
+  `--kui-input-px` only. `--kui-btn-height-compact`, `--kui-btn-height-regular`, and
+  `--kui-btn-height-comfortable` are removed; `--kui-btn-height` now resolves to
+  `--kui-control-height-md` unconditionally.
+- Fixed: `kuiButton`, `kuiIconButton`, `kui-segmented`, and `kui-tabs` now match `kui-input`
+  height (40px) at the default `md` size instead of falling back to the density-driven 32px.
+
 ## [0.1.5] - 2026-07-11
 
 ### Changed

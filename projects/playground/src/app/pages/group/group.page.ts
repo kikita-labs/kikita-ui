@@ -5,6 +5,7 @@ import {
   KuiGroupDirective,
   KuiIconButtonDirective,
   KuiIconComponent,
+  KuiInputDirective,
 } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
@@ -16,6 +17,7 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
     KuiGroupDirective,
     KuiIconButtonDirective,
     KuiIconComponent,
+    KuiInputDirective,
     PlaygroundPanelComponent,
   ],
   templateUrl: './group.page.html',

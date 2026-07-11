@@ -96,4 +96,10 @@
     );
     --kui-seg-px: var(--kui-space-5, 20px);
   }
+
+  .kui-segmented[data-kui-size='md'] {
+    --kui-seg-height: calc(
+      var(--kui-control-height-md, 40px) - 2 * var(--kui-seg-padding, 2px) - 2px
+    );
+  }
 }

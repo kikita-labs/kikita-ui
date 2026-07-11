@@ -135,27 +135,26 @@ Supported density values:
 type KuiDensity = 'compact' | 'regular' | 'comfortable';
 ```
 
-Recommended control sizes:
+Density controls padding only. Height is controlled by `data-kui-size`
+(`--kui-control-height-*`), independent of density:
 
 | Token            | Compact | Regular | Comfortable |
 | ---------------- | ------: | ------: | ----------: |
-| Button height    |    24px |    32px |        40px |
 | Button x padding |     8px |    12px |        16px |
-| Input height     |    28px |    40px |        44px |
+| Input x padding  |     8px |    12px |        16px |
 
-Density should be expressible globally through providers and locally through a future density directive/attribute.
+Density is expressible globally through theme seeds and locally through the
+`data-kui-density` attribute.
 
 ```css
 [data-kui-density='compact'] {
-  --kui-btn-height: var(--kui-btn-height-compact);
   --kui-btn-px: var(--kui-btn-px-compact);
-  --kui-input-height: var(--kui-control-height-xs);
+  --kui-input-px: var(--kui-btn-px-compact);
 }
 
 [data-kui-density='comfortable'] {
-  --kui-btn-height: var(--kui-btn-height-comfortable);
   --kui-btn-px: var(--kui-btn-px-comfortable);
-  --kui-input-height: var(--kui-control-height-lg);
+  --kui-input-px: var(--kui-btn-px-comfortable);
 }
 ```
 

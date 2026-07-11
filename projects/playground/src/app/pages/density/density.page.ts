@@ -26,8 +26,8 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 })
 export class DensityPage {
   protected readonly densities = [
-    { name: 'compact', label: 'Compact', hint: '24px controls for dense tooling.' },
-    { name: 'regular', label: 'Regular', hint: '32px default from the Ember spec.' },
-    { name: 'comfortable', label: 'Comfortable', hint: '40px controls for touch-heavy UI.' },
+    { name: 'compact', label: 'Compact', hint: '8px padding for dense tooling.' },
+    { name: 'regular', label: 'Regular', hint: '12px padding, the default.' },
+    { name: 'comfortable', label: 'Comfortable', hint: '16px padding for touch-heavy UI.' },
   ] as const;
 }
