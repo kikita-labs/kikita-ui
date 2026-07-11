@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-11
+
 ### Changed
 
 - **Breaking:** `data-kui-density` no longer affects control height. Height is controlled only
