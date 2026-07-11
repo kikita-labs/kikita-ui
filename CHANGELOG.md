@@ -8,6 +8,18 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-11
+
+### Added
+
+- `kuiButton` gains a `loading` input: shows a `kuiLoader` spinner before the button content,
+  sets `aria-busy="true"`, and behaves like `disabled` (blocks clicks, removed from tab order).
+
+### Fixed
+
+- `kui-loader` no longer collapses into an oval when its flex container shrinks it (e.g. a
+  wrapped, multi-line `kuiButton` label); it now sets `flex-shrink: 0`.
+
 ## [0.2.0] - 2026-07-11
 
 ### Changed

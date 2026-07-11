@@ -115,6 +115,21 @@
 
 <app-panel
   num="04"
+  title="Loading state"
+  description="loading disables the button and shows a spinner; wraps cleanly with long text."
+>
+  <div class="button-grid">
+    <button kuiButton type="button" [loading]="true">Save changes</button>
+    <button kuiButton shape="outline" type="button" [loading]="true">Save changes</button>
+    <button kuiButton appearance="danger" type="button" [loading]="true">Delete</button>
+    <button kuiButton wrap type="button" [loading]="true" style="max-inline-size: 160px">
+      Save changes with a long wrapping label
+    </button>
+  </div>
+</app-panel>
+
+<app-panel
+  num="05"
   title="IconButton variants"
   description="IconButton supports the same appearance, size, and shape combinations."
 >

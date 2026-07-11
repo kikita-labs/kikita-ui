@@ -2,6 +2,7 @@
   .kui-loader {
     box-sizing: border-box;
     display: inline-block;
+    flex-shrink: 0;
     inline-size: var(--kui-loader-size, 20px);
     block-size: var(--kui-loader-size, 20px);
     border: var(--kui-loader-border-width, 2px) solid

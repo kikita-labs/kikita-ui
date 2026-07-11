@@ -15,6 +15,12 @@ class ButtonHost {}
 })
 class DisabledAnchorHost {}
 
+@Component({
+  imports: [KuiButtonDirective],
+  template: '<button kuiButton size="lg" [loading]="true">Save</button>',
+})
+class LoadingButtonHost {}
+
 describe('KuiButtonDirective', () => {
   it('adds button host attributes for appearance and size', () => {
     const fixture = createFixture(ButtonHost);
@@ -38,6 +44,21 @@ describe('KuiButtonDirective', () => {
     expect(anchor.getAttribute('aria-disabled')).toBe('true');
     expect(anchor.getAttribute('tabindex')).toBe('-1');
     expect(anchor.hasAttribute('disabled')).toBe(false);
+    expect(allowed).toBe(false);
+  });
+
+  it('renders a loader, marks the button busy and blocks clicks while loading', () => {
+    const fixture = createFixture(LoadingButtonHost);
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    const loader = button.querySelector('.kui-loader') as HTMLElement;
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+    const allowed = button.dispatchEvent(event);
+
+    expect(button.getAttribute('aria-busy')).toBe('true');
+    expect(button.getAttribute('disabled')).toBe('');
+    expect(loader).not.toBeNull();
+    expect(loader.getAttribute('data-kui-size')).toBe('lg');
     expect(allowed).toBe(false);
   });
 });

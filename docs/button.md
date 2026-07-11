@@ -17,6 +17,7 @@ import { KuiButtonAppearance, KuiButtonDirective, KuiButtonShape } from '@kikita
 <button kuiButton shape="ghost" appearance="success">Approve</button>
 <button kuiButton appearance="warning">Review</button>
 <button kuiButton wrap>Long responsive label</button>
+<button kuiButton [loading]="isSaving()">Save changes</button>
 
 <a kuiButton shape="outline" href="/settings">Settings</a>
 ```
@@ -44,6 +45,9 @@ Use `kui-icon` explicitly for icon content:
 - `wrap`: allows long button text to wrap instead of truncating in narrow containers.
 - `disabled`: disables button behavior. Anchor buttons receive `aria-disabled="true"` and are
   removed from tab order.
+- `loading`: shows a `kuiLoader` spinner before the button content, sets `aria-busy="true"`, and
+  behaves like `disabled` (blocks clicks, `aria-disabled`, removed from tab order, native
+  `disabled` attribute on `button` hosts).
 
 ## Migration from 0.1.4
 

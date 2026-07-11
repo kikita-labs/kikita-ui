@@ -37,6 +37,12 @@
     overflow-wrap: anywhere;
   }
 
+  .kui-button__loader {
+    align-self: center;
+    --kui-loader-track: color-mix(in oklch, currentColor 25%, transparent);
+    --kui-loader-fill: currentColor;
+  }
+
   .kui-button:hover {
     background-color: var(--_kui-btn-fill-hover, var(--kui-btn-bg-hover, var(--kui-btn-bg)));
   }
