@@ -139,10 +139,10 @@ Group):
 
 | Token                     |  Value |
 | ------------------------- | -----: |
-| `--kui-control-height-xs` |  `28px` |
-| `--kui-control-height-sm` |  `32px` |
-| `--kui-control-height-md` |  `40px` |
-| `--kui-control-height-lg` |  `44px` |
+| `--kui-control-height-xs` | `28px` |
+| `--kui-control-height-sm` | `32px` |
+| `--kui-control-height-md` | `40px` |
+| `--kui-control-height-lg` | `44px` |
 
 Selected via `data-kui-size` (`xs`/`sm`/`md`/`lg`) on the component. This is the only axis that
 controls height; `data-kui-density` controls padding only (see Button tokens below).
