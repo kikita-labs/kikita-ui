@@ -285,8 +285,6 @@
 
   .kui-color-input-copy-btn {
     margin-top: var(--kui-space-3);
-    padding-inline: 0;
-    color: var(--kui-btn-ghost-fg, var(--kui-color-text-secondary));
   }
 
   .kui-color-input-copy-btn > svg {

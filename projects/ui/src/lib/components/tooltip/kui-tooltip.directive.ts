@@ -35,7 +35,7 @@ let tooltipCounter = 0;
     '[attr.aria-describedby]': 'describedBy()',
     '(mouseenter)': 'show()',
     '(mouseleave)': 'hide()',
-    '(focusin)': 'show()',
+    '(focusin)': 'showOnFocus()',
     '(focusout)': 'hide()',
   },
 })
@@ -61,6 +61,15 @@ export class KuiTooltipDirective implements OnDestroy {
     const text = this.kuiTooltip().trim();
     if (!text || !isPlatformBrowser(this.platformId) || this.tooltipOverlay) return;
     this.showWithText(text);
+  }
+
+  /**
+   * Skips programmatic focus (e.g. a dialog auto-focusing its first focusable child on open) --
+   * only real keyboard navigation should surface the tooltip on focus.
+   */
+  protected showOnFocus(): void {
+    if (!this.el.nativeElement.matches(':focus-visible')) return;
+    this.show();
   }
 
   /** Show tooltip with dynamic text (used by kuiSlider for value display). */

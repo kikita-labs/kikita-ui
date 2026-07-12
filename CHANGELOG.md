@@ -8,6 +8,23 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-07-12
+
+### Fixed
+
+- `kui-color-input`'s copy-value button used a non-existent `data-kui-appearance="ghost"`
+  attribute (the real API is `data-kui-shape`), so it silently rendered as a solid button
+  patched with hardcoded `color`/`padding-inline` overrides to fake the ghost look. Now uses
+  `data-kui-shape="ghost"` and the overrides are gone.
+- `kuiTooltip` (and `kui-color-input`'s internal swatch/trigger/preset/copy tooltips) could
+  pop open on programmatic focus -- e.g. a `kui-popover` auto-focusing its first focusable
+  child on open -- even though the user never hovered or tabbed to the element. Tooltips on
+  focus now require `:focus-visible`.
+- `sticky` on `th[kuiTh]` and `tr[kuiThGroup]` had no effect when used as a bare boolean
+  attribute (`<th kuiTh sticky>`) because the input lacked a `booleanAttribute` transform, so
+  the attribute's `""` string value was falsy. Both now use `input(false, { transform:
+booleanAttribute })`.
+
 ## [0.3.0] - 2026-07-11
 
 ### Added
@@ -225,7 +242,10 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.1.5...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/kikita-labs/kikita-ui/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.1.5...v0.2.0
 [0.1.5]: https://github.com/kikita-labs/kikita-ui/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/kikita-labs/kikita-ui/releases/tag/v0.1.4
 [0.1.3]: https://github.com/kikita-labs/kikita-ui/releases/tag/v0.1.3

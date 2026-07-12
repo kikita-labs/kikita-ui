@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  booleanAttribute,
   computed,
   Directive,
   effect,
@@ -31,7 +32,7 @@ export class KuiThDirective implements AfterViewInit, OnDestroy {
 
   readonly sortKey = input<string | undefined>(undefined);
   readonly comparator = input<((a: unknown, b: unknown) => number) | undefined>(undefined);
-  readonly sticky = input<boolean>(false);
+  readonly sticky = input(false, { transform: booleanAttribute });
 
   protected readonly sortDir = computed(() => {
     const state = this.table?.sortState();

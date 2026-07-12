@@ -188,7 +188,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       ),
       this.renderer.listen(this.swatchBtn, 'mouseleave', () => this.hideTooltip()),
       this.renderer.listen(this.swatchBtn, 'focusin', () =>
-        this.showTooltip(this.swatchBtn, this.swatchTooltipText),
+        this.showTooltipOnFocus(this.swatchBtn, this.swatchTooltipText),
       ),
       this.renderer.listen(this.swatchBtn, 'focusout', () => this.hideTooltip()),
       this.renderer.listen(this.chevronBtn, 'mouseenter', () =>
@@ -196,7 +196,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       ),
       this.renderer.listen(this.chevronBtn, 'mouseleave', () => this.hideTooltip()),
       this.renderer.listen(this.chevronBtn, 'focusin', () =>
-        this.showTooltip(this.chevronBtn, 'Open color picker'),
+        this.showTooltipOnFocus(this.chevronBtn, 'Open color picker'),
       ),
       this.renderer.listen(this.chevronBtn, 'focusout', () => this.hideTooltip()),
     );
@@ -495,7 +495,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
         ),
         this.renderer.listen(btn, 'mouseleave', () => this.hideTooltip()),
         this.renderer.listen(btn, 'focusin', () =>
-          this.showTooltip(btn, `${name} seed: ${preset}`),
+          this.showTooltipOnFocus(btn, `${name} seed: ${preset}`),
         ),
         this.renderer.listen(btn, 'focusout', () => this.hideTooltip()),
       );
@@ -507,7 +507,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     const btn = this.renderer.createElement('button');
     this.renderer.addClass(btn, 'kui-button');
     this.renderer.addClass(btn, 'kui-color-input-copy-btn');
-    this.renderer.setAttribute(btn, 'data-kui-appearance', 'ghost');
+    this.renderer.setAttribute(btn, 'data-kui-shape', 'ghost');
     this.renderer.setAttribute(btn, 'data-kui-size', 'xs');
     this.renderer.setAttribute(btn, 'type', 'button');
     btn.innerHTML =
@@ -519,7 +519,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       }),
       this.renderer.listen(btn, 'mouseenter', () => this.showTooltip(btn, 'Copy value')),
       this.renderer.listen(btn, 'mouseleave', () => this.hideTooltip()),
-      this.renderer.listen(btn, 'focusin', () => this.showTooltip(btn, 'Copy value')),
+      this.renderer.listen(btn, 'focusin', () => this.showTooltipOnFocus(btn, 'Copy value')),
       this.renderer.listen(btn, 'focusout', () => this.hideTooltip()),
     );
   }
@@ -610,6 +610,15 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.hideTooltip();
     this.pickerUnlisten.forEach((fn) => fn());
     this.pickerUnlisten.length = 0;
+  }
+
+  /**
+   * Skips programmatic focus (e.g. the popover auto-focusing its first focusable child on
+   * open) -- only real keyboard navigation should surface the tooltip on focus.
+   */
+  private showTooltipOnFocus(anchor: HTMLElement, text: string): void {
+    if (!anchor.matches(':focus-visible')) return;
+    this.showTooltip(anchor, text);
   }
 
   private showTooltip(anchor: HTMLElement, text: string): void {

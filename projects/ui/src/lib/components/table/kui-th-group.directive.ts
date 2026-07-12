@@ -1,4 +1,4 @@
-import { Directive, input } from '@angular/core';
+import { booleanAttribute, Directive, input } from '@angular/core';
 
 @Directive({
   selector: 'tr[kuiThGroup]',
@@ -8,5 +8,5 @@ import { Directive, input } from '@angular/core';
   },
 })
 export class KuiThGroupDirective {
-  readonly sticky = input<boolean>(false);
+  readonly sticky = input(false, { transform: booleanAttribute });
 }
