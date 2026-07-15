@@ -45,9 +45,9 @@ Use `kui-icon` explicitly for icon content:
 - `wrap`: allows long button text to wrap instead of truncating in narrow containers.
 - `disabled`: disables button behavior. Anchor buttons receive `aria-disabled="true"` and are
   removed from tab order.
-- `loading`: shows a `kuiLoader` spinner before the button content, sets `aria-busy="true"`, and
-  behaves like `disabled` (blocks clicks, `aria-disabled`, removed from tab order, native
-  `disabled` attribute on `button` hosts).
+- `loading`: centers a `kuiLoader` spinner over the button content, fades the content out while
+  preserving its layout size, sets `aria-busy="true"`, and behaves like `disabled` (blocks clicks,
+  `aria-disabled`, removed from tab order, native `disabled` attribute on `button` hosts).
 
 ## Migration from 0.1.4
 

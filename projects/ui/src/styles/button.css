@@ -19,6 +19,7 @@
     min-inline-size: 0;
     overflow: hidden;
     padding-inline: var(--kui-btn-padding-inline, 16px);
+    position: relative;
     text-align: center;
     text-overflow: ellipsis;
     text-decoration: none;
@@ -38,9 +39,36 @@
   }
 
   .kui-button__loader {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
     align-self: center;
+    pointer-events: none;
+    translate: -50% -50%;
     --kui-loader-track: color-mix(in oklch, currentColor 25%, transparent);
     --kui-loader-fill: currentColor;
+  }
+
+  .kui-button__content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    gap: inherit;
+    overflow: hidden;
+    overflow-wrap: inherit;
+    text-overflow: ellipsis;
+    transition: opacity var(--kui-duration-base, 160ms) var(--kui-ease, ease);
+    white-space: inherit;
+  }
+
+  .kui-button[data-kui-wrap] .kui-button__content {
+    flex-wrap: wrap;
+  }
+
+  .kui-button[data-kui-loading] .kui-button__content {
+    opacity: 0;
   }
 
   .kui-button:hover {

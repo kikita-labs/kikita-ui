@@ -52,6 +52,7 @@ export class KuiButtonDirective {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly renderer = inject(Renderer2);
 
+  private contentEl: HTMLElement | null = null;
   private loaderEl: HTMLElement | null = null;
 
   protected readonly isDisabled = computed(() => this.disabled() || this.loading());
@@ -80,6 +81,8 @@ export class KuiButtonDirective {
   }
 
   private showLoader(size: KuiSize): void {
+    this.ensureContentWrapper();
+
     if (!this.loaderEl) {
       this.loaderEl = this.renderer.createElement('span');
       this.renderer.addClass(this.loaderEl, 'kui-loader');
@@ -87,7 +90,7 @@ export class KuiButtonDirective {
       this.renderer.setAttribute(this.loaderEl, 'role', 'status');
       this.renderer.setAttribute(this.loaderEl, 'aria-live', 'polite');
       this.renderer.setAttribute(this.loaderEl, 'aria-label', 'Loading');
-      this.renderer.insertBefore(this.host, this.loaderEl, this.host.firstChild);
+      this.renderer.appendChild(this.host, this.loaderEl);
     }
 
     this.renderer.setAttribute(this.loaderEl, 'data-kui-size', size);
@@ -100,5 +103,20 @@ export class KuiButtonDirective {
 
     this.renderer.removeChild(this.host, this.loaderEl);
     this.loaderEl = null;
+  }
+
+  private ensureContentWrapper(): void {
+    if (this.contentEl) {
+      return;
+    }
+
+    this.contentEl = this.renderer.createElement('span');
+    this.renderer.addClass(this.contentEl, 'kui-button__content');
+
+    while (this.host.firstChild) {
+      this.renderer.appendChild(this.contentEl, this.host.firstChild);
+    }
+
+    this.renderer.appendChild(this.host, this.contentEl);
   }
 }

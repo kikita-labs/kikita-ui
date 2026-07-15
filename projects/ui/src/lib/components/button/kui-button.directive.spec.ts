@@ -52,6 +52,7 @@ describe('KuiButtonDirective', () => {
 
     const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
     const loader = button.querySelector('.kui-loader') as HTMLElement;
+    const content = button.querySelector('.kui-button__content') as HTMLElement;
     const event = new MouseEvent('click', { bubbles: true, cancelable: true });
     const allowed = button.dispatchEvent(event);
 
@@ -59,6 +60,7 @@ describe('KuiButtonDirective', () => {
     expect(button.getAttribute('disabled')).toBe('');
     expect(loader).not.toBeNull();
     expect(loader.getAttribute('data-kui-size')).toBe('lg');
+    expect(content.textContent?.trim()).toBe('Save');
     expect(allowed).toBe(false);
   });
 });
