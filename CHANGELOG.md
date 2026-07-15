@@ -8,6 +8,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Changed
+
+- Package now publishes to the public `registry.npmjs.org` instead of
+  `npm.pkg.github.com`, under the MIT license. GitHub Packages required an
+  authenticated `npm install` for every consumer regardless of repository
+  visibility, which blocked anonymous `npm i @kikita-labs/ui`.
+
 ## [0.4.2] - 2026-07-15
 
 ### Fixed

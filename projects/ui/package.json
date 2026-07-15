@@ -2,7 +2,7 @@
   "name": "@kikita-labs/ui",
   "version": "0.4.2",
   "description": "Angular 22+ UI library and design system.",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kikita-labs/kikita-ui.git",
@@ -18,7 +18,8 @@
     "signals"
   ],
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "schematics": "./schematics/collection.json",
   "peerDependencies": {

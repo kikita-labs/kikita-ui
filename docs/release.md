@@ -1,7 +1,5 @@
 # Release
 
-Kikita UI is private and experimental during `0.0.x`.
-
 ## Package
 
 Current package name:
@@ -13,8 +11,15 @@ Current package name:
 Current registry target:
 
 ```text
-https://npm.pkg.github.com
+https://registry.npmjs.org
 ```
+
+Published under the MIT license (`LICENSE` at repo root, copied into the
+published package by `ng-package.json`) so any consumer can `npm i
+@kikita-labs/ui` without a registry auth token. Kikita UI moved off
+`npm.pkg.github.com` because GitHub Packages requires an authenticated `npm
+install` for every consumer regardless of repository visibility -- public repo
+visibility does not make a GitHub Packages npm install anonymous.
 
 The package metadata lives in `projects/ui/package.json`. The published package
 is built from `dist/ui`.
@@ -56,7 +61,7 @@ temporary Angular 22 app outside this workspace, then ran `ng add --theme`,
 
 ## Publish
 
-Authenticate npm for GitHub Packages first, then:
+Authenticate npm for `registry.npmjs.org` first (`npm login`), then:
 
 ```bash
 pnpm build

@@ -11,6 +11,11 @@
       "glob": "**/*",
       "input": "schematics",
       "output": "schematics"
+    },
+    {
+      "glob": "LICENSE",
+      "input": ".",
+      "output": "."
     }
   ],
   "lib": {
