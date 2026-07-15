@@ -8,6 +8,20 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-07-15
+
+### Fixed
+
+- `kuiDropdownFor`: opening the panel (mouse or keyboard) now always moves focus onto the first
+  selectable option, per the ARIA APG listbox popup pattern -- previously `tabindex="-1"` options
+  were unreachable by keyboard after a mouse-opened panel (axe `scrollable-region-focusable`).
+- `kui-dropdown` panel now gets an `aria-label` borrowed from the trigger's own accessible name
+  when it has none of its own (axe `aria-input-field-name`).
+- `kui-field`: added a keydown fallback (ArrowDown/ArrowUp/Enter/Space open + focus first/last
+  option) for dropdowns wired without `kuiSelect`/`kuiCombobox` (e.g. a plain `input[kuiInput]` +
+  `kui-dropdown` pair) -- that combination had no keyboard support at all before, only mouse-click
+  open.
+
 ## [0.4.1] - 2026-07-15
 
 ### Fixed
