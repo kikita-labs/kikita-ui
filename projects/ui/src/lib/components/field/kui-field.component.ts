@@ -57,7 +57,7 @@ export class KuiFieldComponent implements KuiOptionContext {
   /** Optional error text rendered below the control and announced through ARIA. */
   readonly error = input<string | undefined>();
 
-  /** Hides automatically rendered Angular Signal Forms error messages. */
+  /** Hides rendered error messages while keeping invalid state. */
   readonly hideErrors = input<boolean | undefined, unknown>(undefined, {
     transform: optionalBooleanAttribute,
   });
@@ -78,9 +78,10 @@ export class KuiFieldComponent implements KuiOptionContext {
 
   /** Error text rendered by shorthand input or inferred from a projected Angular Signal Forms field. */
   readonly displayedError = computed(() => {
+    if (this.effectiveHideErrors()) return undefined;
+
     const explicitError = this.error();
     if (explicitError) return explicitError;
-    if (this.effectiveHideErrors()) return undefined;
 
     return this.signalFormField()
       ?.state()
@@ -91,7 +92,7 @@ export class KuiFieldComponent implements KuiOptionContext {
   /** Whether the field currently has an error. */
   readonly invalid = computed(
     () =>
-      Boolean(this.displayedError()) ||
+      Boolean(this.error()) ||
       Boolean(this.projectedError()) ||
       Boolean(this.signalFormField()?.state().invalid()),
   );
@@ -128,7 +129,7 @@ export class KuiFieldComponent implements KuiOptionContext {
       ids.push(this.errorId);
     }
 
-    if (projectedErrorId) {
+    if (projectedErrorId && !this.effectiveHideErrors()) {
       ids.push(projectedErrorId);
     }
 

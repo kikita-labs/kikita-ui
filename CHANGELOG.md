@@ -18,6 +18,11 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 - `kuiButton` loading state now keeps the original content in layout, fades it out, and centers
   the spinner over the button so button size does not shift while loading.
 
+### Fixed
+
+- `kui-field hideErrors` now hides explicit and projected error messages while keeping invalid
+  state.
+
 ## [0.3.1] - 2026-07-12
 
 ### Fixed

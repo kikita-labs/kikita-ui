@@ -68,6 +68,16 @@ class HiddenSignalFormsErrorHost {
 }
 
 @Component({
+  imports: [KuiFieldComponent],
+  template: `
+    <kui-field label="Email" error="Email is required" hideErrors>
+      <input />
+    </kui-field>
+  `,
+})
+class HiddenExplicitErrorHost {}
+
+@Component({
   imports: [FormField, KuiFieldComponent, KuiInputDirective],
   template: `
     <kui-field label="Email">
@@ -100,6 +110,25 @@ class ProviderFieldOptionsHost {
   `,
 })
 class ProjectedFieldContentHost {}
+
+@Component({
+  imports: [
+    KuiErrorDirective,
+    KuiFieldComponent,
+    KuiHintDirective,
+    KuiInputDirective,
+    KuiLabelDirective,
+  ],
+  template: `
+    <kui-field hideErrors>
+      <label kuiLabel>Email</label>
+      <input kuiInput />
+      <p kuiHint>Use your work email</p>
+      <p kuiError>Email is required</p>
+    </kui-field>
+  `,
+})
+class HiddenProjectedErrorHost {}
 
 function requiredMarker(fixture: ComponentFixture<unknown>): HTMLElement | null {
   return fixture.nativeElement.querySelector('.kui-field__required');
@@ -151,6 +180,19 @@ describe('KuiFieldComponent', () => {
     );
   });
 
+  it('can hide explicit error messages while keeping invalid state', async () => {
+    await TestBed.configureTestingModule({
+      imports: [HiddenExplicitErrorHost],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(HiddenExplicitErrorHost);
+    fixture.detectChanges();
+
+    const field = fixture.nativeElement.querySelector('kui-field') as HTMLElement;
+
+    expect(errorMessage(fixture)).toBeNull();
+    expect(field.hasAttribute('data-kui-invalid')).toBe(true);
+  });
+
   it('uses provider defaults for size and hidden automatic errors', async () => {
     await TestBed.configureTestingModule({
       imports: [ProviderFieldOptionsHost],
@@ -191,5 +233,22 @@ describe('KuiFieldComponent', () => {
     expect(label.getAttribute('for')).toBe(input.id);
     expect(input.getAttribute('aria-describedby')).toContain(hint.id);
     expect(input.getAttribute('aria-describedby')).toContain(error.id);
+  });
+
+  it('can hide projected error content while keeping invalid state', async () => {
+    await TestBed.configureTestingModule({
+      imports: [HiddenProjectedErrorHost],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(HiddenProjectedErrorHost);
+    fixture.detectChanges();
+
+    const field = fixture.nativeElement.querySelector('kui-field') as HTMLElement;
+    const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+    const hint = fixture.nativeElement.querySelector('[kuiHint]') as HTMLElement;
+
+    expect(fixture.nativeElement.querySelector('[kuiError]')).toBeNull();
+    expect(input.getAttribute('aria-describedby')).toContain(hint.id);
+    expect(input.getAttribute('aria-describedby')).not.toContain('error');
+    expect(field.hasAttribute('data-kui-invalid')).toBe(true);
   });
 });

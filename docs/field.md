@@ -45,7 +45,9 @@ Bind Angular Signal Forms to the native control with `[formField]`:
 Signal Forms owns the form state. If the projected Kikita control has `[formField]` with a
 `required(...)` validator, the required marker is inferred automatically. If the field has errors
 with `message` values, the first message is rendered automatically unless `hideErrors` is set.
-An explicit `required` input on `kui-field` overrides the inferred state.
+`hideErrors` hides rendered error messages, including explicit `error` input and projected
+`kuiError` content, but keeps invalid state. An explicit `required` input on `kui-field`
+overrides the inferred state.
 
 ```html
 <kui-field label="Project" hint="Minimum 3 characters" hideErrors>
@@ -139,7 +141,7 @@ Error messages are still part of `aria-describedby` when projected with `kuiErro
 - `label`: shorthand label text
 - `hint`: shorthand hint text
 - `error`: explicit error text override
-- `hideErrors`: hides automatically inferred Angular Signal Forms error messages
+- `hideErrors`: hides rendered error messages while keeping invalid state
 - `required`: explicit required marker override
 - `size`: `xs | sm | md | lg`
 

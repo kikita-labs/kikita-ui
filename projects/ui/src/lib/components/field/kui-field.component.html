@@ -28,4 +28,6 @@
   <p class="kui-field__error" [id]="errorId" role="alert">{{ errorText }}</p>
 }
 
-<ng-content select="[kuiError]" />
+@if (!effectiveHideErrors()) {
+  <ng-content select="[kuiError]" />
+}
