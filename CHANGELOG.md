@@ -8,12 +8,23 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.4.3] - 2026-07-16
+
 ### Changed
 
 - Package now publishes to the public `registry.npmjs.org` instead of
   `npm.pkg.github.com`, under the MIT license. GitHub Packages required an
   authenticated `npm install` for every consumer regardless of repository
   visibility, which blocked anonymous `npm i @kikita-labs/ui`.
+
+### Fixed
+
+- `provideKikitaUi({ scrollbars: 'styled' })` no longer throws during server
+  rendering. Its `ENVIRONMENT_INITIALIZER` unconditionally wrote to
+  `document.documentElement.dataset`, which crashed Angular's build-time route
+  extraction/prerender pass (that pass provides a `DOCUMENT` without a real
+  `documentElement`). Now guarded with `isPlatformBrowser()`, matching the
+  existing guard pattern in `kui-toast.service.ts`.
 
 ## [0.4.2] - 2026-07-15
 
@@ -293,7 +304,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.3...HEAD
+[0.4.3]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.2...v0.4.3
 [0.4.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/kikita-labs/kikita-ui/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.2.0...v0.3.0

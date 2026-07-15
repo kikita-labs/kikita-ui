@@ -1,7 +1,8 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   ENVIRONMENT_INITIALIZER,
   EnvironmentProviders,
+  PLATFORM_ID,
   inject,
   makeEnvironmentProviders,
 } from '@angular/core';
@@ -19,8 +20,11 @@ export function provideKikitaUi(options: KikitaUiOptions = {}): EnvironmentProvi
       multi: true,
       useFactory: () => {
         const document = inject(DOCUMENT);
+        const platformId = inject(PLATFORM_ID);
 
         return () => {
+          if (!isPlatformBrowser(platformId)) return;
+
           if (options.scrollbars === 'styled') {
             document.documentElement.dataset['kuiScrollbars'] = 'styled';
             return;
