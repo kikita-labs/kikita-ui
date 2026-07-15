@@ -190,6 +190,7 @@ export class KuiDropdownComponent implements OnDestroy {
     this.overlayRef.attach(new TemplatePortal(this.tplRef(), this.vcr));
 
     const overlayEl = this.overlayRef.overlayElement;
+    this.bindAccessibleName(overlayEl, anchor);
 
     const clampPanel = (): void => {
       const panel = overlayEl.querySelector<HTMLElement>('.kui-dropdown');
@@ -243,6 +244,27 @@ export class KuiDropdownComponent implements OnDestroy {
   private _cleanup(): void {
     this.openSubs.forEach((s) => s.unsubscribe());
     this.openSubs = [];
+  }
+
+  /**
+   * `role="listbox"`/`"grid"` panels need their own accessible name (axe `aria-input-field-name`).
+   * Standalone triggers wired via `[kuiDropdownFor]` (e.g. an icon or text button) have no other
+   * association with the panel, so borrow the trigger's own accessible name. Skipped for form
+   * controls (e.g. `input[kuiSelect]`) -- those are labelled through `kui-field`'s own `<label>`
+   * instead, and have no useful `textContent` to borrow from.
+   */
+  private bindAccessibleName(overlayEl: HTMLElement, anchor: HTMLElement): void {
+    const role = this.panelRole();
+    if (role !== 'listbox' && role !== 'grid') return;
+
+    const panel = overlayEl.querySelector<HTMLElement>('.kui-dropdown');
+    if (!panel || panel.hasAttribute('aria-label') || panel.hasAttribute('aria-labelledby')) {
+      return;
+    }
+    if (anchor.tagName === 'INPUT' || anchor.tagName === 'TEXTAREA') return;
+
+    const name = anchor.getAttribute('aria-label') ?? anchor.textContent?.trim();
+    if (name) panel.setAttribute('aria-label', name);
   }
 
   private _detachOverlay(): void {

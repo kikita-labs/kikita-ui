@@ -42,6 +42,7 @@ function optionalBooleanAttribute(value: unknown): boolean | undefined {
     '[attr.data-kui-invalid]': 'invalid() ? "" : null',
     '[attr.data-dropdown-open]': 'dropdownOpen() ? "" : null',
     '(click)': 'handleClick($event)',
+    '(keydown)': 'handleKeydown($event)',
   },
 })
 export class KuiFieldComponent implements KuiOptionContext {
@@ -200,5 +201,54 @@ export class KuiFieldComponent implements KuiOptionContext {
     const control = this.controlSlot()?.nativeElement;
     if (!target || !control?.contains(target)) return;
     this.dropdown()?.toggle();
+  }
+
+  /**
+   * Keyboard fallback for a manually-wired dropdown (a control without `kuiSelect`/`kuiCombobox`,
+   * e.g. a plain `input[kuiInput]` with a sibling `kui-dropdown` inside `kui-field`). Those
+   * directives already wire their own keydown handling; skip entirely when one is registered
+   * (`_selectCtx`) to avoid double-handling the same key.
+   */
+  protected handleKeydown(event: KeyboardEvent): void {
+    if (this._selectCtx() || this._selectDisabled()) return;
+    const target = event.target as Node | null;
+    const control = this.controlSlot()?.nativeElement;
+    if (!target || !control?.contains(target)) return;
+
+    const dropdown = this.dropdown();
+    if (!dropdown) return;
+
+    if (!dropdown.isOpen()) {
+      if (!['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(event.key)) return;
+      event.preventDefault();
+      dropdown.open();
+      this.focusOption(event.key === 'ArrowUp' ? 'last' : 'first');
+      return;
+    }
+
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        this.focusOption('first');
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.focusOption('last');
+        break;
+      case 'Tab':
+        dropdown.close();
+        break;
+    }
+  }
+
+  private focusOption(which: 'first' | 'last'): void {
+    setTimeout(() => {
+      const panel = this.dropdown()?.getPanel();
+      const opts = panel?.querySelectorAll<HTMLElement>(
+        '.kui-listbox-option:not(.kui-listbox-option--disabled)',
+      );
+      if (!opts?.length) return;
+      (which === 'last' ? opts[opts.length - 1] : opts[0]).focus();
+    }, 0);
   }
 }
