@@ -71,20 +71,49 @@ npm publish
 
 Do not publish from `projects/ui`; publish only from `dist/ui`.
 
-After publishing, tag the release commit and push the tag -- `npm publish` does not
-create a git tag on its own:
+If `npm publish` (or `npm view`) resolves to `npm.pkg.github.com` instead of the
+public registry, a scoped registry override for `@kikita-labs` exists somewhere in
+the active npm config (project `.npmrc`, or a user-level `~/.npmrc`) left over from
+before the package moved to the public registry. A scope override wins over a
+plain `--registry` flag, so force the public registry explicitly for the publish
+command itself instead of hunting down and editing every config file:
 
 ```bash
-git tag -a vX.Y.Z -m "vX.Y.Z"
-git push origin vX.Y.Z
+npm publish --@kikita-labs:registry=https://registry.npmjs.org
 ```
 
-Then create a GitHub Release from that tag, with the matching `CHANGELOG.md` section
-as the notes body (requires `gh auth login` once):
+`npm publish` may require an interactive one-time password (2FA). If the CLI does
+not prompt for it (a known issue in some terminals), it prints a
+`https://www.npmjs.com/auth/cli/...` URL -- open it in a browser and approve there;
+the publish completes once approved. Newly published content can take up to a
+minute to propagate; a `curl https://registry.npmjs.org/@kikita-labs%2Fui`
+returning 404 right after a successful publish is registry replication lag, not a
+failed publish.
 
-```bash
-gh release create vX.Y.Z --title vX.Y.Z --notes-file path/to/section.md --latest
-```
+After publishing:
+
+1. Push the release commit(s) to `main` first -- a tag pushed before its commit
+   exists on `origin` leaves the tag pointing at a commit GitHub can't show
+   reachable from any branch:
+
+   ```bash
+   git push origin main
+   ```
+
+2. Tag the release and push the tag -- `npm publish` does not create a git tag on
+   its own:
+
+   ```bash
+   git tag -a vX.Y.Z -m "vX.Y.Z"
+   git push origin vX.Y.Z
+   ```
+
+3. Create a GitHub Release from that tag, with the matching `CHANGELOG.md` section
+   as the notes body (requires `gh auth login` once):
+
+   ```bash
+   gh release create vX.Y.Z --title vX.Y.Z --notes-file path/to/section.md --latest
+   ```
 
 ## Versioning
 
