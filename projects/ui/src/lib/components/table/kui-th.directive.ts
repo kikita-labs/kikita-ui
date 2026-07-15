@@ -74,6 +74,20 @@ export class KuiThDirective implements AfterViewInit, OnDestroy {
     if (this.sortButton) return;
 
     const host = this.el.nativeElement;
+    // A hydrated client instance re-runs ngAfterViewInit on the same DOM node a server-side
+    // instance already wrapped; reuse that button instead of nesting a second one inside it.
+    const existingButton = Array.from(host.children).find(
+      (child): child is HTMLButtonElement =>
+        child instanceof HTMLButtonElement && child.classList.contains('kui-th__sort-button'),
+    );
+
+    if (existingButton) {
+      this.sortColumnLabel.set(existingButton.textContent?.trim() || this.sortKey() || 'column');
+      this.removeSortListener = this.renderer.listen(existingButton, 'click', () => this.onSort());
+      this.sortButton = existingButton;
+      return;
+    }
+
     const button = this.renderer.createElement('button') as HTMLButtonElement;
     this.renderer.setAttribute(button, 'type', 'button');
     this.renderer.addClass(button, 'kui-th__sort-button');

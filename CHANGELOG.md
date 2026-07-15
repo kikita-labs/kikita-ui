@@ -8,6 +8,25 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.4.4] - 2026-07-16
+
+### Fixed
+
+- `th[kuiTh]`'s sortable header button no longer nests a duplicate `<button>` inside
+  itself after Angular hydration. A hydrated client directive instance re-ran its
+  one-time DOM-wrapping logic against DOM a server-side instance had already
+  wrapped; it now detects and reuses an existing `.kui-th__sort-button` instead of
+  wrapping it again. Fixes an axe `nested-interactive` violation on every sortable
+  table under SSR/prerendering.
+- `input[kuiNumberInput]`'s imperative DOM wrapping (container + step buttons via
+  `Renderer2`) is a known SSR/hydration incompatibility: Angular's hydration
+  node-matching can mismatch the directive's host against the wrapper it built,
+  leaving a stale server-rendered input nested inside a second, client-built
+  wrapper with no accessible label. No directive-level fix ships yet -- this
+  requires converting the directive to a templated component. Consumers using SSR
+  should skip hydration for views containing `kuiNumberInput` in the meantime
+  (`host: { ngSkipHydration: 'true' }` on the containing component).
+
 ## [0.4.3] - 2026-07-16
 
 ### Changed
@@ -304,7 +323,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.3...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.4...HEAD
+[0.4.4]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.3...v0.4.4
 [0.4.3]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.2...v0.4.3
 [0.4.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/kikita-labs/kikita-ui/compare/v0.3.0...v0.3.1

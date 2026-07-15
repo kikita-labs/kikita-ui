@@ -132,6 +132,15 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
 
   private _buildDOM(): void {
     const native = this.el.nativeElement;
+
+    // A hydrated client instance re-runs ngAfterViewInit on the same DOM a server-side instance
+    // already wrapped; adopt that structure instead of wrapping it a second time.
+    const existingContainer = native.parentElement;
+    if (existingContainer?.classList.contains('kui-number-input')) {
+      this._adoptDOM(existingContainer, native);
+      return;
+    }
+
     const parent = native.parentNode!;
 
     this.containerEl = this.renderer.createElement('div');
@@ -149,6 +158,23 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
       this._buildVariantA(native);
     }
 
+    this._unlisten.push(
+      this.renderer.listen(native, 'input', () => this._syncState()),
+      this.renderer.listen(native, 'change', () => this._syncState()),
+    );
+  }
+
+  private _adoptDOM(container: HTMLElement, native: HTMLElement): void {
+    this.containerEl = container;
+    this.decBtn = container.querySelector<HTMLElement>(
+      '.kui-number-input__btn--dec, .kui-number-input__arrow--dec',
+    )!;
+    this.incBtn = container.querySelector<HTMLElement>(
+      '.kui-number-input__btn--inc, .kui-number-input__arrow--inc',
+    )!;
+
+    this._wirePressEvents(this.decBtn, () => this._step(-1));
+    this._wirePressEvents(this.incBtn, () => this._step(1));
     this._unlisten.push(
       this.renderer.listen(native, 'input', () => this._syncState()),
       this.renderer.listen(native, 'change', () => this._syncState()),
