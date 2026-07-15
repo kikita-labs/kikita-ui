@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-07-15
+
 ### Added
 
 - Typography primitive: semantic role classes, text tone utilities, generated `--kui-type-*` /
@@ -258,7 +260,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/kikita-labs/kikita-ui/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.1.5...v0.2.0
