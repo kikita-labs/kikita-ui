@@ -28,7 +28,7 @@ let nextDrawerTitleId = 0;
       [class.kui-drawer-backdrop--closing]="isClosing()"
       (click)="onBackdropClick()"
     ></div>
-    <aside
+    <div
       #drawerPanel
       class="kui-drawer"
       [class.kui-drawer--closing]="isClosing()"
@@ -43,7 +43,7 @@ let nextDrawerTitleId = 0;
       (animationend)="onAnimationEnd($event)"
     >
       <ng-template cdkPortalOutlet />
-    </aside>
+    </div>
   `,
   imports: [CdkPortalOutlet, CdkTrapFocus],
   encapsulation: ViewEncapsulation.None,

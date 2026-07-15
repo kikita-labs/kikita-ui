@@ -29,7 +29,7 @@ The default is `scrollbars: 'native'` for application-owned scroll containers. K
 Use `kui-scroll` only for local opt-in when you do not want global application scrollbar styling:
 
 ```html
-<div class="kui-scroll" style="max-block-size: 240px; overflow: auto">
+<div class="kui-scroll" tabindex="0" style="max-block-size: 240px; overflow: auto">
   <p>Scrollable content...</p>
   <p>Scrollable content...</p>
   <p>Scrollable content...</p>
@@ -41,6 +41,7 @@ Apply the class to the element that actually scrolls. Do not apply it to a child
 ## Accessibility
 
 - The utility keeps native browser scrolling behavior.
+- Add `tabindex="0"` on the scrollable element itself so keyboard users can focus and scroll it (WCAG 2.1.1 / axe `scrollable-region-focusable`). CSS alone cannot make an overflow container focusable.
 - Do not add ARIA roles only to style a scrollbar.
 - Keyboard scrolling, touch scrolling, and assistive-technology behavior remain owned by the native scroll container.
 - In forced-colors mode, scrollbar colors fall back to the system implementation.

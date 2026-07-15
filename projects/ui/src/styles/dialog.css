@@ -167,7 +167,7 @@
     padding: var(--kui-dialog-padding-x, var(--kui-space-6));
     font-size: var(--kui-text-sm-size);
     line-height: 1.65;
-    color: var(--kui-color-text-secondary);
+    color: var(--kui-color-text);
   }
 
   .kui-dialog-footer {
