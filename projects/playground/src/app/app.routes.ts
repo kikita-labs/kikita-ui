@@ -7,6 +7,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/tokens/tokens.page').then((m) => m.TokensPage),
   },
   {
+    path: 'typography',
+    loadComponent: () => import('./pages/typography/typography.page').then((m) => m.TypographyPage),
+  },
+  {
     path: 'theme',
     loadComponent: () => import('./pages/theme/theme.page').then((m) => m.ThemePage),
   },

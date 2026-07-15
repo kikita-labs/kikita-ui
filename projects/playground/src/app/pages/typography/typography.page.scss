@@ -1,0 +1,154 @@
+.typography-scale {
+  display: grid;
+  gap: var(--kui-space-4);
+}
+
+.typography-scale__row {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: var(--kui-space-6);
+  align-items: baseline;
+  padding-block-end: var(--kui-space-4);
+  border-block-end: 1px solid var(--kui-color-border);
+}
+
+.typography-scale__row:last-child {
+  padding-block-end: 0;
+  border-block-end: 0;
+}
+
+.typography-scale__meta {
+  display: grid;
+  gap: var(--kui-space-1);
+  min-inline-size: 0;
+}
+
+.typography-scale__meta span {
+  color: var(--kui-color-text-secondary);
+  font-size: var(--kui-text-xs-size);
+}
+
+.typography-scale__sample {
+  display: inline-block;
+  max-inline-size: 100%;
+}
+
+.typography-table-wrap {
+  overflow: auto;
+  border: 1px solid var(--kui-color-border);
+  border-radius: var(--kui-radius-md);
+}
+
+.typography-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: var(--kui-text-sm-size);
+}
+
+.typography-table th,
+.typography-table td {
+  padding: var(--kui-space-2) var(--kui-space-3);
+  border-block-end: 1px solid var(--kui-color-border);
+  text-align: start;
+  white-space: nowrap;
+}
+
+.typography-table th {
+  color: var(--kui-color-text-secondary);
+  font-size: var(--kui-text-xs-size);
+  font-weight: var(--kui-font-weight-semibold);
+}
+
+.typography-grid,
+.typography-theme-grid,
+.typography-wrap-grid,
+.typography-directive-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--kui-space-4);
+}
+
+.typography-demo,
+.typography-theme-card,
+.typography-narrow {
+  display: grid;
+  gap: var(--kui-space-2);
+  min-inline-size: 0;
+  padding: var(--kui-space-4);
+  border: 1px solid var(--kui-color-border);
+  border-radius: var(--kui-radius-md);
+  background: var(--kui-color-surface);
+  color: var(--kui-color-text);
+}
+
+.typography-label {
+  font-weight: var(--kui-font-weight-semibold);
+}
+
+.typography-field {
+  block-size: var(--kui-control-height-sm);
+  border: 1px solid var(--kui-color-border);
+  border-radius: var(--kui-radius-sm);
+  background: var(--kui-color-surface-elevated);
+}
+
+.typography-field--invalid {
+  border-color: var(--kui-color-danger-fill);
+}
+
+.typography-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kui-space-2);
+  justify-content: space-between;
+  padding-block: var(--kui-space-2);
+  border-block-end: 1px solid var(--kui-color-border);
+}
+
+.typography-row:last-child {
+  border-block-end: 0;
+}
+
+.typography-tone-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--kui-space-4);
+}
+
+.typography-tone-grid article {
+  display: grid;
+  gap: var(--kui-space-1);
+}
+
+.typography-narrow {
+  max-inline-size: 280px;
+  border-style: dashed;
+}
+
+.typography-token-overflow {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.typography-token-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kui-space-2);
+}
+
+@media (max-width: 760px) {
+  .typography-scale__row,
+  .typography-grid,
+  .typography-theme-grid,
+  .typography-wrap-grid,
+  .typography-directive-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .typography-table th,
+  .typography-table td {
+    white-space: normal;
+  }
+}

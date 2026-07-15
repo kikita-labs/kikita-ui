@@ -117,20 +117,51 @@ Spacing uses a 4px base:
 
 ## Typography
 
-Typography tokens split size and line-height in implementation, even when docs show shorthand.
+Typography has two layers: raw text-size tokens and semantic type-role tokens.
 
-| Token             |   Size | Line height | Use           |
-| ----------------- | -----: | ----------: | ------------- |
-| `--kui-text-xs`   | `11px` |      `1.45` | Caption, hint |
-| `--kui-text-sm`   | `13px` |       `1.5` | Button, input |
-| `--kui-text-base` | `14px` |       `1.6` | Body          |
-| `--kui-text-md`   | `15px` |      `1.55` | Large label   |
-| `--kui-text-lg`   | `18px` |       `1.4` | Subheading    |
-| `--kui-text-xl`   | `22px` |       `1.3` | Heading       |
-| `--kui-text-2xl`  | `28px` |      `1.15` | Title         |
-| `--kui-text-3xl`  | `36px` |       `1.1` | Display       |
+Raw size tokens:
 
-Letter spacing defaults to `0`.
+| Token                  |   Size |
+| ---------------------- | -----: |
+| `--kui-text-2xs-size`  |  `9px` |
+| `--kui-text-xs-size`   | `11px` |
+| `--kui-text-sm-size`   | `13px` |
+| `--kui-text-base-size` | `14px` |
+| `--kui-text-md-size`   | `15px` |
+| `--kui-text-lg-size`   | `18px` |
+| `--kui-text-xl-size`   | `22px` |
+| `--kui-text-2xl-size`  | `28px` |
+| `--kui-text-3xl-size`  | `36px` |
+
+Font weight tokens:
+
+```css
+--kui-font-weight-regular
+--kui-font-weight-medium
+--kui-font-weight-semibold
+--kui-font-weight-bold
+```
+
+Semantic role tokens:
+
+```css
+--kui-type-display-size
+--kui-type-display-line-height
+--kui-type-display-weight
+```
+
+The same `size` / `line-height` / `weight` triplet exists for `heading-lg`, `heading-md`,
+`heading-sm`, `title`, `body-lg`, `body`, `body-sm`, `caption`, `overline`, and `code`.
+
+Runtime typography classes are available from `@kikita-labs/ui/styles`: `.kui-display`,
+`.kui-heading-lg`, `.kui-heading-md`, `.kui-heading-sm`, `.kui-title`, `.kui-body-lg`,
+`.kui-body`, `.kui-body-sm`, `.kui-caption`, `.kui-overline`, and `.kui-code`.
+
+Tone utility classes are color-only: `.kui-text-default`, `.kui-text-muted`,
+`.kui-text-disabled`, `.kui-text-primary`, `.kui-text-success`, `.kui-text-warning`, and
+`.kui-text-danger`.
+
+Letter spacing defaults to `0`; `.kui-overline` uses `0.5px` for uppercase readability.
 
 ## Control Height
 

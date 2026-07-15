@@ -3,6 +3,7 @@
 ## Phase 1
 
 - Theme foundation
+- Typography (done as CSS role/tone utility classes plus `kuiText` directive)
 - Icon abstraction
 - Button
 - IconButton

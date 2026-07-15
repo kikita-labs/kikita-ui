@@ -8,6 +8,11 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Added
+
+- Typography primitive: semantic role classes, text tone utilities, generated `--kui-type-*` /
+  `--kui-font-weight-*` theme tokens, and the `kuiText` directive.
+
 ### Changed
 
 - `kuiButton` loading state now keeps the original content in layout, fades it out, and centers

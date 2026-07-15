@@ -9,6 +9,7 @@ export * from './icon';
 export * from './icon-button';
 export * from './input';
 export * from './loader';
+export * from './typography';
 export * from './skeleton';
 export * from './radio';
 export * from './switch';

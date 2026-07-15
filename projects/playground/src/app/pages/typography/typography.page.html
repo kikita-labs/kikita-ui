@@ -1,0 +1,211 @@
+<app-panel
+  num="01"
+  title="Type scale"
+  description="Semantic classes decorate native elements; they do not replace heading, paragraph, small, or code semantics."
+>
+  <div class="typography-scale">
+    @for (role of roles; track role.role) {
+      <article class="typography-scale__row">
+        <div class="typography-scale__meta">
+          <code>.{{ role.className }}</code>
+          <span>{{ role.size }} / {{ role.lineHeight }} / {{ role.weight }}</span>
+        </div>
+        <div>
+          <span class="typography-scale__sample" [class]="role.className + ' kui-text-default'">
+            {{ role.sample }}
+          </span>
+          <p class="kui-caption kui-text-muted">{{ role.usage }}</p>
+        </div>
+      </article>
+    }
+  </div>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Role tokens"
+  description="Each role uses size, line-height, and weight tokens. Size values reuse the existing --kui-text-*-size scale."
+>
+  <div class="typography-table-wrap">
+    <table class="typography-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Class</th>
+          <th>Element</th>
+          <th>Size</th>
+          <th>Line</th>
+          <th>Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (role of roles; track role.role) {
+          <tr>
+            <td>
+              <code>{{ role.role }}</code>
+            </td>
+            <td>
+              <code>.{{ role.className }}</code>
+            </td>
+            <td>{{ role.element }}</td>
+            <td>{{ role.size }}</td>
+            <td>{{ role.lineHeight }}</td>
+            <td>{{ role.weight }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Product UI examples"
+  description="Examples use normal HTML structure plus typography classes."
+>
+  <div class="typography-grid">
+    <section class="typography-demo">
+      <p class="kui-overline kui-text-muted">Settings page section</p>
+      <h2 class="kui-heading-lg kui-text-default">Workspace settings</h2>
+      <p class="kui-body kui-text-muted">
+        Manage members, billing, and integrations for this workspace.
+      </p>
+      <h3 class="kui-title kui-text-default">Notification preferences</h3>
+      <p class="kui-body-sm kui-text-muted">
+        Choose how you want to be notified about account activity.
+      </p>
+    </section>
+
+    <section class="typography-demo">
+      <p class="kui-overline kui-text-muted">Dialog copy</p>
+      <h2 class="kui-heading-md kui-text-default">Delete this project?</h2>
+      <p class="kui-body kui-text-default">
+        This permanently removes the project and all related data.
+      </p>
+      <small class="kui-caption kui-text-muted">
+        Project ID: <code class="kui-code">proj_8f2a91</code>
+      </small>
+    </section>
+
+    <section class="typography-demo">
+      <p class="kui-overline kui-text-muted">Form text</p>
+      <label class="kui-body-sm kui-text-default typography-label">Workspace name</label>
+      <div class="typography-field"></div>
+      <small class="kui-caption kui-text-muted">Visible to all members of this workspace.</small>
+      <label class="kui-body-sm kui-text-default typography-label">Slug</label>
+      <div class="typography-field typography-field--invalid"></div>
+      <small class="kui-caption kui-text-danger">This slug is already taken.</small>
+    </section>
+
+    <section class="typography-demo">
+      <p class="kui-overline kui-text-muted">Table adjunct text</p>
+      <h3 class="kui-title kui-text-default">Recent invoices</h3>
+      <div class="typography-row">
+        <span class="kui-body-sm kui-text-default">INV-0231</span>
+        <span class="kui-caption kui-text-muted">Jul 12, 2026 - $240.00</span>
+      </div>
+      <div class="typography-row">
+        <span class="kui-body-sm kui-text-default">INV-0230</span>
+        <span class="kui-caption kui-text-muted">Jun 12, 2026 - $240.00</span>
+      </div>
+    </section>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="Tone utilities"
+  description="Tone classes set color only. Combine them with any type role."
+>
+  <div class="typography-tone-grid">
+    @for (tone of tones; track tone.className) {
+      <article>
+        <span [class]="'kui-body ' + tone.className">{{ tone.label }}</span>
+        <code>.{{ tone.className }}</code>
+      </article>
+    }
+  </div>
+</app-panel>
+
+<app-panel
+  num="05"
+  title="Theme contexts"
+  description="Theme scopes re-evaluate text tokens locally."
+>
+  <div class="typography-theme-grid">
+    <section class="typography-theme-card" data-kui-theme="dark">
+      <p class="kui-overline kui-text-muted">Dark</p>
+      <h3 class="kui-heading-sm kui-text-default">Team members</h3>
+      <p class="kui-body-sm kui-text-muted">3 pending invitations</p>
+      <small class="kui-caption kui-text-danger">2 members need action</small>
+    </section>
+
+    <section class="typography-theme-card" data-kui-theme="light">
+      <p class="kui-overline kui-text-muted">Light</p>
+      <h3 class="kui-heading-sm kui-text-default">Team members</h3>
+      <p class="kui-body-sm kui-text-muted">3 pending invitations</p>
+      <small class="kui-caption kui-text-danger">2 members need action</small>
+    </section>
+  </div>
+</app-panel>
+
+<app-panel
+  num="06"
+  title="Wrapping and overflow"
+  description="Typography wraps at narrow widths. Long token strings remain a local overflow decision."
+>
+  <div class="typography-wrap-grid">
+    <section class="typography-narrow">
+      <h2 class="kui-heading-sm kui-text-default">
+        Invite a new member to the Design and Engineering workspace
+      </h2>
+      <p class="kui-body-sm kui-text-muted">
+        Long paragraph text wraps cleanly at narrow widths without viewport-driven font scaling.
+      </p>
+    </section>
+
+    <section class="typography-narrow">
+      <p class="kui-body-sm kui-text-default">Single long token in a constrained row:</p>
+      <code class="kui-code typography-token-overflow">
+        a_very_long_environment_variable_name_that_overflows
+      </code>
+    </section>
+  </div>
+</app-panel>
+
+<app-panel num="07" title="Public CSS tokens" description="Typography token families.">
+  <div class="typography-token-list">
+    <code>--kui-font-sans</code>
+    <code>--kui-font-mono</code>
+    <code>--kui-font-weight-regular</code>
+    <code>--kui-font-weight-medium</code>
+    <code>--kui-font-weight-semibold</code>
+    <code>--kui-font-weight-bold</code>
+    <code>--kui-type-&#123;role&#125;-size</code>
+    <code>--kui-type-&#123;role&#125;-line-height</code>
+    <code>--kui-type-&#123;role&#125;-weight</code>
+  </div>
+</app-panel>
+
+<app-panel
+  num="08"
+  title="Directive"
+  description="The directive is convenience sugar over the same public classes."
+>
+  <div class="typography-directive-grid">
+    <section class="typography-demo">
+      <p kuiText variant="overline" tone="muted">Directive example</p>
+      <h2 kuiText variant="heading-md">Workspace access</h2>
+      <p kuiText variant="body-sm" tone="muted">
+        Invite members, assign roles, and review pending access requests.
+      </p>
+      <code kuiText variant="code">kuiText variant="heading-md"</code>
+    </section>
+
+    <section class="typography-demo">
+      <p kuiText variant="title" tone="success">Backup completed</p>
+      <p kuiText variant="caption" tone="danger">2 failed sync jobs need action.</p>
+      <p kuiText variant="body-sm" tone="primary">Primary tone stays color-only.</p>
+    </section>
+  </div>
+</app-panel>

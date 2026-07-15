@@ -19,6 +19,7 @@ interface NavItem {
 
 const NAV_ITEMS: readonly NavItem[] = [
   { path: '/tokens', label: 'Tokens' },
+  { path: '/typography', label: 'Typography' },
   { path: '/theme', label: 'Theme' },
   { path: '/density', label: 'Density' },
   { path: '/button', label: 'Button' },

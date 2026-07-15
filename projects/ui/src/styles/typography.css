@@ -1,0 +1,119 @@
+@layer kui.base {
+  :where(
+    .kui-display,
+    .kui-heading-lg,
+    .kui-heading-md,
+    .kui-heading-sm,
+    .kui-title,
+    .kui-body-lg,
+    .kui-body,
+    .kui-body-sm,
+    .kui-caption,
+    .kui-overline,
+    .kui-code
+  ) {
+    font-family: var(--kui-font-sans);
+    letter-spacing: 0;
+  }
+
+  :where(.kui-display) {
+    font-size: var(--kui-type-display-size);
+    font-weight: var(--kui-type-display-weight);
+    line-height: var(--kui-type-display-line-height);
+  }
+
+  :where(.kui-heading-lg) {
+    font-size: var(--kui-type-heading-lg-size);
+    font-weight: var(--kui-type-heading-lg-weight);
+    line-height: var(--kui-type-heading-lg-line-height);
+  }
+
+  :where(.kui-heading-md) {
+    font-size: var(--kui-type-heading-md-size);
+    font-weight: var(--kui-type-heading-md-weight);
+    line-height: var(--kui-type-heading-md-line-height);
+  }
+
+  :where(.kui-heading-sm) {
+    font-size: var(--kui-type-heading-sm-size);
+    font-weight: var(--kui-type-heading-sm-weight);
+    line-height: var(--kui-type-heading-sm-line-height);
+  }
+
+  :where(.kui-title) {
+    font-size: var(--kui-type-title-size);
+    font-weight: var(--kui-type-title-weight);
+    line-height: var(--kui-type-title-line-height);
+  }
+
+  :where(.kui-body-lg) {
+    font-size: var(--kui-type-body-lg-size);
+    font-weight: var(--kui-type-body-lg-weight);
+    line-height: var(--kui-type-body-lg-line-height);
+  }
+
+  :where(.kui-body) {
+    font-size: var(--kui-type-body-size);
+    font-weight: var(--kui-type-body-weight);
+    line-height: var(--kui-type-body-line-height);
+  }
+
+  :where(.kui-body-sm) {
+    font-size: var(--kui-type-body-sm-size);
+    font-weight: var(--kui-type-body-sm-weight);
+    line-height: var(--kui-type-body-sm-line-height);
+  }
+
+  :where(.kui-caption) {
+    font-size: var(--kui-type-caption-size);
+    font-weight: var(--kui-type-caption-weight);
+    line-height: var(--kui-type-caption-line-height);
+  }
+
+  :where(.kui-overline) {
+    font-size: var(--kui-type-overline-size);
+    font-weight: var(--kui-type-overline-weight);
+    letter-spacing: 0.5px;
+    line-height: var(--kui-type-overline-line-height);
+    text-transform: uppercase;
+  }
+
+  :where(.kui-code) {
+    border-radius: var(--kui-radius-xs);
+    background: var(--kui-color-surface-elevated);
+    color: var(--kui-color-text);
+    font-family: var(--kui-font-mono);
+    font-size: var(--kui-type-code-size);
+    font-weight: var(--kui-type-code-weight);
+    line-height: var(--kui-type-code-line-height);
+    padding: 1px 5px;
+  }
+
+  :where(.kui-text-default) {
+    color: var(--kui-color-text);
+  }
+
+  :where(.kui-text-muted) {
+    color: var(--kui-color-text-secondary);
+  }
+
+  :where(.kui-text-disabled) {
+    color: var(--kui-color-text-disabled);
+  }
+
+  :where(.kui-text-primary) {
+    color: var(--kui-color-primary-soft-text);
+  }
+
+  :where(.kui-text-success) {
+    color: var(--kui-color-success-soft-text);
+  }
+
+  :where(.kui-text-warning) {
+    color: var(--kui-color-warning-soft-text);
+  }
+
+  :where(.kui-text-danger) {
+    color: var(--kui-color-danger-soft-text);
+  }
+}
