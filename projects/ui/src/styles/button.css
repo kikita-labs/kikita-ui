@@ -14,7 +14,7 @@
     font: inherit;
     font-size: var(--kui-btn-font-size, 13px);
     font-weight: var(--kui-btn-font-weight, 500);
-    line-height: 1;
+    line-height: 1.2;
     max-inline-size: 100%;
     min-inline-size: 0;
     overflow: hidden;

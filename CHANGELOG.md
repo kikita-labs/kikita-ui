@@ -22,6 +22,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 - `kui-field hideErrors` now hides explicit and projected error messages while keeping invalid
   state.
+- `kuiButton` text no longer clips descenders like `g` and `p`.
 
 ## [0.3.1] - 2026-07-12
 
