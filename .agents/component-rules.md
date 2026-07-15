@@ -70,6 +70,10 @@ change unless explicitly deferred:
 - Component docs: `docs/<primitive>.md`
 - State tracking: `docs/state-coverage.md`
 - Roadmap/status tracking: `docs/component-roadmap.md`
+- Agent-surface source facts: keep `docs/<primitive>.md`, public JSDoc,
+  roadmap, state coverage, and changelog accurate enough for the docs repo to
+  generate Markdown mirrors, `llms.txt`, and MCP data from released package
+  behavior
 - Playground route: `projects/playground/src/app/pages/<primitive>/`
 - Playground navigation/routes: `projects/playground/src/app/app.ts` and related
   route/nav files when a new page is added

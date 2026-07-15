@@ -16,6 +16,7 @@ For Angular or component work, also read:
 
 - `.agents/angular-mcp.md`
 - `.agents/component-rules.md`
+- `.agents/agent-surface-source.md`
 - `.agents/style-and-design.md`
 - `docs/component-checklist.md`
 
