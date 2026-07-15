@@ -1,6 +1,6 @@
 # Kikita UI
 
-Private Angular 22+ UI library and design system package.
+Angular 22+ UI library and design system package.
 
 Package:
 
@@ -10,8 +10,8 @@ Package:
 
 ## Install
 
-For private GitHub Packages usage, configure npm authentication for
-`npm.pkg.github.com`, then install:
+Published on the public npm registry. No registry configuration or auth token
+is required:
 
 ```bash
 npm install @kikita-labs/ui
@@ -60,7 +60,7 @@ cd dist/ui
 npm publish
 ```
 
-Current `publishConfig.registry` targets GitHub Packages.
+Current `publishConfig.registry` targets the public npm registry.
 
 For end-to-end (e2e) testing, run:
 

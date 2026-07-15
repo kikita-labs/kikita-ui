@@ -1,12 +1,10 @@
 # Install
 
-Kikita UI is currently published as a private GitHub Packages package.
+Kikita UI is published under the `@kikita-labs` scope on the public npm
+registry. No registry configuration or auth token is required.
 
-Configure npm authentication for `npm.pkg.github.com` before installing:
-
-```text
-@kikita-labs:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=<github-token>
+```bash
+pnpm add @kikita-labs/ui
 ```
 
 ## Angular CLI
