@@ -8,6 +8,18 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-07-15
+
+### Fixed
+
+- `kui-scroll` docs example now includes `tabindex="0"` so scrollable regions stay
+  keyboard-focusable (axe `scrollable-region-focusable`).
+- `kui-drawer` panel now renders as `<div role="dialog">` instead of `<aside>`, whose
+  implicit role does not permit `role="dialog"` (axe `aria-allowed-role`).
+- `.kui-dialog-body` text now uses the primary text color instead of the secondary tone, and
+  `soft`-shape button text was darkened one palette stop, fixing color contrast below 4.5:1 on
+  dialog body copy and soft buttons (axe `color-contrast`).
+
 ## [0.4.0] - 2026-07-15
 
 ### Added
