@@ -13,9 +13,13 @@
   },
   "keywords": [
     "angular",
+    "angular-components",
     "ui",
+    "ui-library",
+    "component-library",
     "design-system",
-    "signals"
+    "signals",
+    "signal-forms"
   ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org",

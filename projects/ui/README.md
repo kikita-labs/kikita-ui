@@ -1,12 +1,15 @@
 # Kikita UI
 
-Angular 22+ UI library and design system package.
+Angular 22+ UI library and design system package for accessible, themeable
+product interfaces.
 
-Package:
+## Links
 
-```text
-@kikita-labs/ui
-```
+- Documentation: https://kikita-labs.github.io/kikita-ui-docs/
+- npm package: https://www.npmjs.com/package/@kikita-labs/ui
+- Repository: https://github.com/kikita-labs/kikita-ui
+- AI agent docs: https://kikita-labs.github.io/kikita-ui-docs/llms.txt
+- Local MCP server: https://www.npmjs.com/package/@kikita-labs/ui-mcp
 
 ## Install
 
@@ -52,24 +55,10 @@ pnpm build
 
 ## Publish
 
-Build first, then publish the Angular Package Format output:
+Build and publish the Angular Package Format output:
 
 ```bash
-pnpm build
-cd dist/ui
-npm publish
+npm run publish:ui
 ```
 
 Current `publishConfig.registry` targets the public npm registry.
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
