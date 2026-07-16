@@ -64,22 +64,28 @@ temporary Angular 22 app outside this workspace, then ran `ng add --theme`,
 Authenticate npm for `registry.npmjs.org` first (`npm login`), then:
 
 ```bash
-pnpm build
-cd dist/ui
-npm publish
+npm run publish:ui
 ```
 
-Do not publish from `projects/ui`; publish only from `dist/ui`.
+`publish:ui` builds the library and publishes `./dist/ui` with an explicit
+`@kikita-labs` npmjs registry override. Do not publish from `projects/ui`;
+publish only from `dist/ui` or through this script. Use this dry run before a
+real publish when changing release plumbing:
+
+```bash
+npm run publish:ui -- --dry-run
+```
 
 If `npm publish` (or `npm view`) resolves to `npm.pkg.github.com` instead of the
 public registry, a scoped registry override for `@kikita-labs` exists somewhere in
 the active npm config (project `.npmrc`, or a user-level `~/.npmrc`) left over from
 before the package moved to the public registry. A scope override wins over a
 plain `--registry` flag, so force the public registry explicitly for the publish
-command itself instead of hunting down and editing every config file:
+command itself. The repository `.npmrc` and `publish:ui` script already do this,
+but the standalone command is:
 
 ```bash
-npm publish --@kikita-labs:registry=https://registry.npmjs.org
+npm publish ./dist/ui --access public --@kikita-labs:registry=https://registry.npmjs.org
 ```
 
 `npm publish` may require an interactive one-time password (2FA). If the CLI does
@@ -89,6 +95,34 @@ the publish completes once approved. Newly published content can take up to a
 minute to propagate; a `curl https://registry.npmjs.org/@kikita-labs%2Fui`
 returning 404 right after a successful publish is registry replication lag, not a
 failed publish.
+
+Before updating the docs repo dependency, tags, release notes, or generated
+agent docs, verify the exact version is visible on npmjs:
+
+```bash
+npm view @kikita-labs/ui version license dist-tags.latest --registry=https://registry.npmjs.org
+npm view @kikita-labs/ui versions --json --registry=https://registry.npmjs.org
+```
+
+The first command must print `X.Y.Z` for `version`, the expected public license,
+and the intended `latest` dist-tag. The second command must include `X.Y.Z`.
+If npm CLI metadata appears stale or contradictory, verify the direct registry
+document before burning a new version:
+
+```powershell
+Invoke-RestMethod -Uri 'https://registry.npmjs.org/@kikita-labs%2Fui' |
+  Select-Object -ExpandProperty versions |
+  Get-Member -MemberType NoteProperty |
+  Select-Object -ExpandProperty Name
+```
+
+If npmjs still does not serve `X.Y.Z` through either npm CLI or the direct
+registry document, the package is not publishable for fresh consumers yet. Do
+not bump `kikita-ui-docs/package.json`, regenerate `llms.txt`, or tell
+downstream agents to install that version until npmjs serves the exact package.
+Prefer the `versions --json` or direct-registry check over
+`npm view @kikita-labs/ui@X.Y.Z` because some Windows npm shells parse scoped
+package exact-version selectors incorrectly.
 
 After publishing:
 

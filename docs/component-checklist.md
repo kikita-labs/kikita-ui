@@ -89,7 +89,23 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 - If the primitive is intentionally documented inside another page, that is stated in both roadmap and state coverage.
 - All tracked docs are English-only and contain no Cyrillic or mojibake.
 
-## 8. Tests
+## 8. Agent Surface Source
+
+- `docs/<primitive>.md` uses stable headings that the docs repo can mirror:
+  `Usage`, `API`, `Accessibility`, and migration/version notes when relevant.
+- Public API facts are table-friendly and include selectors, imports, inputs,
+  outputs, slots, marker directives, providers, tokens, CSS custom properties,
+  defaults, and unsupported behavior that agents might otherwise invent.
+- Examples are realistic and copy-pasteable for a consumer importing only from
+  `@kikita-labs/ui`.
+- Docs describe released behavior only. If the source is ahead of npmjs, the
+  docs repo follow-up is blocked until the exact package version is visible with
+  `npm view @kikita-labs/ui@X.Y.Z version --registry=https://registry.npmjs.org`.
+- Release-visible changes are reflected in `CHANGELOG.md`, roadmap, state
+  coverage, and source JSDoc before asking the docs repo to regenerate
+  `llms.txt`, Markdown mirrors, agent manifest, or MCP data.
+
+## 9. Tests
 
 - Unit tests cover public host attributes and inputs.
 - Unit tests cover important accessibility wiring.
@@ -99,7 +115,7 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 - Overlay tests verify open/close state and ARIA references while DOM exists.
 - Any skipped/deferred test is documented with the reason.
 
-## 9. Browser Review
+## 10. Browser Review
 
 - Browser smoke is run in the playground for the primitive route.
 - Visual baseline capture follows `docs/visual-regression.md` for affected routes, viewports, themes, console checks, overflow checks, and local screenshot storage.
@@ -111,7 +127,7 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 - Tooltip/popover/dropdown/dialog surfaces do not leave stale DOM or stale ARIA references after close.
 - Screenshots or notes are recorded when visual differences need follow-up.
 
-## 10. Verification Commands
+## 11. Verification Commands
 
 Run these before marking the primitive done:
 
@@ -125,7 +141,7 @@ pnpm build:playground
 
 If a command cannot run because of the local sandbox or environment, record the exact reason and rerun outside the sandbox when possible.
 
-## 11. Final Status
+## 12. Final Status
 
 Before finishing, answer these:
 
@@ -135,6 +151,7 @@ Before finishing, answer these:
 - Does the playground route exist?
 - Does state coverage match reality?
 - Are known gaps documented?
+- Are source docs ready for docs repo agent-surface regeneration?
 - Did tests and builds pass?
 - Did browser/a11y smoke pass?
 - Is anything intentionally deferred?

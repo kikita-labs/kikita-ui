@@ -9,6 +9,8 @@
     "build": "ng build ui",
     "build:playground": "ng build playground",
     "build:all": "ng build ui && ng build playground",
+    "publish": "npm run publish:ui",
+    "publish:ui": "npm run build && npm publish ./dist/ui --access public --@kikita-labs:registry=https://registry.npmjs.org/",
     "watch": "ng build ui --watch --configuration development",
     "test": "ng test ui",
     "audit:static": "node scripts/verify-static-audit.mjs",
