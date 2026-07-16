@@ -28,6 +28,31 @@ import { KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective } from '@kikita
 <kui-tabs variant="pill" [(selected)]="activeTab"> ... </kui-tabs>
 ```
 
+### Inverted Edge
+
+Use `inverted` when the tab list should sit on the opposite edge of the panels.
+Horizontal tabs render panels above the tab list and place the line indicator on
+the top edge. Vertical tabs render panels before the tab list and place the line
+indicator on the start edge.
+
+```html
+<kui-tabs inverted [(selected)]="activeTab">
+  <button kuiTab value="details">Details</button>
+  <button kuiTab value="history">History</button>
+
+  <div kuiTabPanel value="details">Details content</div>
+  <div kuiTabPanel value="history">History content</div>
+</kui-tabs>
+
+<kui-tabs orientation="vertical" inverted [(selected)]="activeTab">
+  <button kuiTab value="details">Details</button>
+  <button kuiTab value="history">History</button>
+
+  <div kuiTabPanel value="details">Details content</div>
+  <div kuiTabPanel value="history">History content</div>
+</kui-tabs>
+```
+
 ### Router Navigation
 
 Use `controlsPanels="false"` when `kui-tabs` is used as navigation and the routed page content is rendered by `router-outlet` instead of local `kuiTabPanel` elements.
@@ -43,6 +68,8 @@ Use `controlsPanels="false"` when `kui-tabs` is used as navigation and the route
 
 - `variant`: `line | pill` (default: `line`)
 - `size`: `xs | sm | md | lg` (default: `md`)
+- `orientation`: `horizontal | vertical` (default: `horizontal`)
+- `inverted`: `boolean` (default: `false`). Flips the tab edge: horizontal panels render above the list; vertical panels render before the list.
 - `selected`: two-way model, value of the active tab
 - `controlsPanels`: `boolean` (default: `true`). Set to `false` when tabs do not render local `kuiTabPanel` elements.
 

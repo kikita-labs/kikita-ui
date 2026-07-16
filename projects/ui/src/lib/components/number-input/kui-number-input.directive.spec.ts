@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, PLATFORM_ID, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { describe, it, expect, beforeEach } from 'vitest';
 
@@ -33,6 +33,12 @@ class TestHost {
   readonly disabled = signal(false);
   readonly readonly = signal(false);
 }
+
+@Component({
+  template: `<input type="number" kuiNumberInput value="5" />`,
+  imports: [KuiNumberInputDirective],
+})
+class ServerHost {}
 
 describe('KuiNumberInputDirective', () => {
   let fixture: ComponentFixture<TestHost>;
@@ -256,5 +262,20 @@ describe('KuiNumberInputDirective', () => {
   it('removes generated wrapper when directive is destroyed', () => {
     fixture.destroy();
     expect(fixture.nativeElement.querySelector('.kui-number-input')).toBeNull();
+  });
+});
+
+describe('KuiNumberInputDirective on the server', () => {
+  it('leaves the native input unwrapped so hydration can match the template DOM', async () => {
+    await TestBed.configureTestingModule({
+      imports: [ServerHost],
+      providers: [{ provide: PLATFORM_ID, useValue: 'server' }],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(ServerHost);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.kui-number-input')).toBeNull();
+    expect(fixture.nativeElement.querySelector('input[kuiNumberInput]')).not.toBeNull();
   });
 });

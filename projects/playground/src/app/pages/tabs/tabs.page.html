@@ -236,6 +236,44 @@
 
 <app-panel
   num="08"
+  title="Inverted edge"
+  description="<code>inverted</code> flips the tab edge: horizontal panels render above the tabs, vertical panels render before the tab list."
+>
+  <div class="component-board tabs-inverted-board">
+    <kui-tabs inverted selected="details">
+      <button kuiTab value="overview">Overview</button>
+      <button kuiTab value="details">Details</button>
+      <button kuiTab value="history">History</button>
+      <div kuiTabPanel value="overview">
+        <p>Overview panel above the tab list.</p>
+      </div>
+      <div kuiTabPanel value="details">
+        <p>Details panel above the tab list. Indicator sits on the top edge.</p>
+      </div>
+      <div kuiTabPanel value="history">
+        <p>History panel above the tab list.</p>
+      </div>
+    </kui-tabs>
+
+    <kui-tabs orientation="vertical" inverted selected="details">
+      <button kuiTab value="overview">Overview</button>
+      <button kuiTab value="details">Details</button>
+      <button kuiTab value="history">History</button>
+      <div kuiTabPanel value="overview">
+        <p>Overview panel before the tab list.</p>
+      </div>
+      <div kuiTabPanel value="details">
+        <p>Details panel before the tab list. Indicator sits on the start edge.</p>
+      </div>
+      <div kuiTabPanel value="history">
+        <p>History panel before the tab list.</p>
+      </div>
+    </kui-tabs>
+  </div>
+</app-panel>
+
+<app-panel
+  num="09"
   title="Error indicator"
   description="<code>[hasError]</code> on <code>[kuiTab]</code> adds a small danger dot next to the label. Does not change selected state or tab color — consumer decides when to show it (e.g. after a failed form submit)."
 >

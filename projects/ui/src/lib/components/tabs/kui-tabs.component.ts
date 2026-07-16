@@ -98,6 +98,7 @@ let nextTabsId = 0;
     '[attr.data-kui-variant]': 'variant()',
     '[attr.data-kui-size]': 'size()',
     '[attr.data-kui-orientation]': "orientation() === 'vertical' ? 'vertical' : null",
+    '[attr.data-kui-inverted]': 'inverted() ? "" : null',
   },
   providers: [
     {
@@ -114,6 +115,11 @@ export class KuiTabsComponent implements KuiTabsContext {
   readonly size = input<KuiSize>('md');
   /** Layout direction of the tab list. Defaults to horizontal. */
   readonly orientation = input<KuiTabsOrientation>('horizontal');
+  /**
+   * Flips the tab list edge: horizontal tabs render panels above and the indicator on top;
+   * vertical tabs render panels before the list and the indicator on the start edge.
+   */
+  readonly inverted = input(false, { transform: booleanAttribute });
   /** Whether tabs should expose `aria-controls` links to projected `kuiTabPanel` elements. */
   readonly controlsPanels = input(true, { transform: booleanAttribute });
   /** Currently selected tab value. */

@@ -74,8 +74,21 @@
     min-width: max-content;
   }
 
+  .kui-tabs__list::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: var(--kui-border-width-hairline);
+    background: var(--kui-tabs-border, var(--kui-color-border));
+    pointer-events: none;
+  }
+
   .kui-tab-indicator {
     position: absolute;
+    z-index: 2;
     left: 0;
     bottom: -1px;
     height: 2px;
@@ -173,10 +186,45 @@
     display: none;
   }
 
+  /* Inverted horizontal orientation: panels above, tab edge/indicator on top. */
+  .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) {
+    flex-direction: column-reverse;
+  }
+
+  .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) .kui-tabs__list {
+    border-top: var(--kui-border-width-hairline) solid
+      var(--kui-tabs-border, var(--kui-color-border));
+    border-bottom: none;
+  }
+
+  .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) .kui-tab {
+    border-top: 2px solid transparent;
+    border-bottom: none;
+    border-radius: 0 0 var(--kui-tab-radius, var(--kui-radius-sm))
+      var(--kui-tab-radius, var(--kui-radius-sm));
+    margin-top: -1px;
+    margin-bottom: 0;
+  }
+
+  .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) .kui-tab-indicator {
+    top: -1px;
+    bottom: auto;
+    border-radius: 0 0 1px 1px;
+  }
+
+  .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) .kui-tabs__list::after {
+    top: -1px;
+    bottom: auto;
+  }
+
   /* Pill variant */
   .kui-tabs[data-kui-variant='pill'] .kui-tabs__list {
     border-bottom: none;
     gap: var(--kui-tabs-pill-gap, 4px);
+  }
+
+  .kui-tabs[data-kui-variant='pill'] .kui-tabs__list::after {
+    display: none;
   }
 
   .kui-tabs[data-kui-variant='pill'] .kui-tab {
@@ -275,9 +323,48 @@
     border-radius: 1px 0 0 1px;
   }
 
+  .kui-tabs[data-kui-orientation='vertical'] .kui-tabs__list::after {
+    top: 0;
+    right: -1px;
+    bottom: 0;
+    left: auto;
+    width: var(--kui-border-width-hairline);
+    height: auto;
+  }
+
   .kui-tabs[data-kui-orientation='vertical'] .kui-tab-panel {
     flex: 1;
     min-width: 0;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] {
+    flex-direction: row-reverse;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] .kui-tabs__list {
+    border-right: none;
+    border-left: var(--kui-border-width-hairline) solid
+      var(--kui-tabs-border, var(--kui-color-border));
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] .kui-tab {
+    border-right: none;
+    border-left: 2px solid transparent;
+    border-radius: 0 var(--kui-tab-radius, var(--kui-radius-sm))
+      var(--kui-tab-radius, var(--kui-radius-sm)) 0;
+    margin-right: 0;
+    margin-left: -1px;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] .kui-tab-indicator {
+    left: -1px;
+    right: auto;
+    border-radius: 0 1px 1px 0;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] .kui-tabs__list::after {
+    right: auto;
+    left: -1px;
   }
 
   .kui-tabs[data-kui-orientation='vertical'][data-kui-variant='pill'] .kui-tabs__list {
@@ -288,5 +375,15 @@
     border-right: none;
     border-radius: var(--kui-tab-pill-radius, var(--kui-radius-md));
     margin-right: 0;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted][data-kui-variant='pill']
+    .kui-tabs__list {
+    border-left: none;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted][data-kui-variant='pill'] .kui-tab {
+    border-left: none;
+    margin-left: 0;
   }
 }

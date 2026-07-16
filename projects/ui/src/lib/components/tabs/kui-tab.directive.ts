@@ -79,16 +79,34 @@ export class KuiTabDirective {
     const button = this.elementRef.nativeElement;
 
     if (!this.errorDotEl) {
-      this.errorDotEl = this.renderer.createElement('span');
+      const [existingDot, ...extraDots] = Array.from(
+        button.querySelectorAll<HTMLElement>(':scope > .kui-tab-error-dot'),
+      );
+
+      this.errorDotEl = existingDot ?? this.renderer.createElement('span');
       this.renderer.addClass(this.errorDotEl, 'kui-tab-error-dot');
       this.renderer.setAttribute(this.errorDotEl, 'aria-hidden', 'true');
-      this.renderer.appendChild(button, this.errorDotEl);
+
+      if (!existingDot) {
+        this.renderer.appendChild(button, this.errorDotEl);
+      }
+
+      extraDots.forEach((dot) => this.renderer.removeChild(button, dot));
     }
 
     if (!this.errorSrEl) {
-      this.errorSrEl = this.renderer.createElement('span');
+      const [existingSr, ...extraSr] = Array.from(
+        button.querySelectorAll<HTMLElement>(':scope > .kui-tab-error-sr'),
+      );
+
+      this.errorSrEl = existingSr ?? this.renderer.createElement('span');
       this.renderer.addClass(this.errorSrEl, 'kui-tab-error-sr');
-      this.renderer.appendChild(button, this.errorSrEl);
+
+      if (!existingSr) {
+        this.renderer.appendChild(button, this.errorSrEl);
+      }
+
+      extraSr.forEach((sr) => this.renderer.removeChild(button, sr));
     }
 
     this.renderer.setProperty(this.errorSrEl, 'textContent', this.errorLabel());

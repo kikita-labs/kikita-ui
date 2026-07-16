@@ -1,3 +1,4 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   DOCUMENT,
@@ -5,6 +6,7 @@ import {
   DoCheck,
   ElementRef,
   OnDestroy,
+  PLATFORM_ID,
   Renderer2,
   booleanAttribute,
   computed,
@@ -69,6 +71,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
   private readonly el = inject(ElementRef<HTMLInputElement>);
   private readonly renderer = inject(Renderer2);
   private readonly doc = inject(DOCUMENT);
+  private readonly platformId = inject(PLATFORM_ID);
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
 
   /** @internal */
@@ -90,6 +93,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
   private _pressInterval: ReturnType<typeof setInterval> | null = null;
   private _unlisten: Array<() => void> = [];
   private _lastState = '';
+  private readonly _isBrowser = isPlatformBrowser(this.platformId);
 
   constructor() {
     // Read signals before the guard so they are tracked as dependencies
@@ -110,6 +114,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
   }
 
   ngAfterViewInit(): void {
+    if (!this._isBrowser) return;
     this._buildDOM();
     this._syncState();
   }

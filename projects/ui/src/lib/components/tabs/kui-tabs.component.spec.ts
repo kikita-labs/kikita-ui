@@ -24,6 +24,17 @@ class TabsHost {
 @Component({
   imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
   template: `
+    <kui-tabs selected="a" inverted>
+      <button kuiTab value="a">A</button>
+      <div kuiTabPanel value="a">Panel A</div>
+    </kui-tabs>
+  `,
+})
+class TabsInvertedHost {}
+
+@Component({
+  imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
+  template: `
     <kui-tabs selected="a">
       <button kuiTab value="a">A</button>
       <button kuiTab value="b" [hasError]="hasError()">B</button>
@@ -85,6 +96,16 @@ describe('KuiTabsComponent', () => {
     expect(tabs[1].hasAttribute('aria-controls')).toBe(false);
   });
 
+  it('marks inverted tabs on the host for flipped edge styling', () => {
+    TestBed.configureTestingModule({ imports: [TabsInvertedHost] });
+    const fixture = TestBed.createComponent(TabsInvertedHost);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('kui-tabs')?.hasAttribute('data-kui-inverted')).toBe(
+      true,
+    );
+  });
+
   it('hides inactive panels', () => {
     const fixture = createFixture();
     const panels = fixture.nativeElement.querySelectorAll(
@@ -125,5 +146,26 @@ describe('KuiTabsComponent', () => {
     fixture.detectChanges();
 
     expect(tabs[1].querySelector('.kui-tab-error-dot')).toBeNull();
+  });
+
+  it('reuses pre-rendered error affordances instead of duplicating them during hydration', () => {
+    TestBed.configureTestingModule({ imports: [TabsErrorHost] });
+    const fixture = TestBed.createComponent(TabsErrorHost);
+    fixture.detectChanges();
+
+    const tab = fixture.nativeElement.querySelectorAll('[role="tab"]')[1] as HTMLElement;
+    const dot = document.createElement('span');
+    const sr = document.createElement('span');
+
+    dot.className = 'kui-tab-error-dot';
+    sr.className = 'kui-tab-error-sr';
+    tab.append(dot, sr);
+
+    fixture.componentInstance.hasError.set(true);
+    fixture.detectChanges();
+
+    expect(tab.querySelectorAll('.kui-tab-error-dot')).toHaveLength(1);
+    expect(tab.querySelectorAll('.kui-tab-error-sr')).toHaveLength(1);
+    expect(tab.querySelector('.kui-tab-error-sr')?.textContent).toBe('has error');
   });
 });

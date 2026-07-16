@@ -8,6 +8,25 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.4.5] - 2026-07-16
+
+### Fixed
+
+- `input[kuiNumberInput]` no longer mutates DOM during server rendering. The
+  server output keeps the native `input[type=number]` in the template position
+  so Angular hydration can match it, then the browser enhances it with the
+  `.kui-number-input` wrapper and step buttons after hydration.
+- `kui-tabs` line indicators now stay above the tab-list edge while hovered tab
+  backgrounds render underneath, so the baseline is not visually cut out.
+- `button[kuiTab][hasError]` reuses pre-rendered error affordances during
+  hydration instead of appending duplicate error dots and screen-reader text.
+
+### Added
+
+- `kui-tabs` now supports the boolean `inverted` input. Horizontal tabs render
+  panels above the tab list with the indicator on top; vertical tabs render
+  panels before the tab list with the indicator on the start edge.
+
 ## [0.4.4] - 2026-07-16
 
 ### Fixed
@@ -19,13 +38,11 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   wrapping it again. Fixes an axe `nested-interactive` violation on every sortable
   table under SSR/prerendering.
 - `input[kuiNumberInput]`'s imperative DOM wrapping (container + step buttons via
-  `Renderer2`) is a known SSR/hydration incompatibility: Angular's hydration
-  node-matching can mismatch the directive's host against the wrapper it built,
-  leaving a stale server-rendered input nested inside a second, client-built
-  wrapper with no accessible label. No directive-level fix ships yet -- this
-  requires converting the directive to a templated component. Consumers using SSR
-  should skip hydration for views containing `kuiNumberInput` in the meantime
-  (`host: { ngSkipHydration: 'true' }` on the containing component).
+  `Renderer2`) is a known SSR/hydration incompatibility in this release:
+  Angular's hydration node-matching can mismatch the directive's host against
+  the wrapper it built, leaving a stale server-rendered input nested inside a
+  second, client-built wrapper with no accessible label. Consumers using SSR
+  should skip hydration for views containing `kuiNumberInput` in 0.4.4.
 
 ## [0.4.3] - 2026-07-16
 
@@ -323,7 +340,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.4...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.5...HEAD
+[0.4.5]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.4...v0.4.5
 [0.4.4]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.3...v0.4.4
 [0.4.3]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.2...v0.4.3
 [0.4.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.3.1...v0.4.0
