@@ -8,6 +8,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.4.6] - 2026-07-16
+
+### Fixed
+
+- `kui-command-palette` label highlights no longer introduce a visual gap
+  between matched and unmatched label text.
+
 ## [0.4.5] - 2026-07-16
 
 ### Fixed
@@ -340,7 +347,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.5...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.6...HEAD
+[0.4.6]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.5...v0.4.6
 [0.4.5]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.4...v0.4.5
 [0.4.4]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.3...v0.4.4
 [0.4.3]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.2...v0.4.3

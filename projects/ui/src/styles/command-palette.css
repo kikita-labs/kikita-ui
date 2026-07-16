@@ -179,13 +179,26 @@
   }
 
   .kui-command__item-label {
+    font-size: 0;
     line-height: 1.4;
   }
 
+  .kui-command__item-label > span,
   .kui-command__item-label mark {
+    display: inline;
+    padding: 0;
+    margin: 0;
     background: none;
     color: var(--kui-color-primary-soft-text);
+    font: inherit;
+    font-size: var(--kui-text-sm-size);
     font-weight: 600;
+    line-height: inherit;
+  }
+
+  .kui-command__item-label > span {
+    color: inherit;
+    font-weight: inherit;
   }
 
   .kui-command__item-desc,

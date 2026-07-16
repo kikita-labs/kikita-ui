@@ -79,10 +79,12 @@ describe('KuiCommandPaletteComponent', () => {
     openPalette();
 
     const options = overlayHost.querySelectorAll('.kui-command__item');
+    const label = overlayHost.querySelector('.kui-command__item-label') as HTMLElement;
     const highlight = overlayHost.querySelector('.kui-command__item-label mark') as HTMLElement;
 
     expect(options).toHaveLength(1);
     expect(options[0].textContent?.replace(/\s+/g, '')).toContain('Openprojects');
+    expect(label.querySelector('span')?.textContent).toBe('Open ');
     expect(highlight.textContent).toBe('proj');
   });
 
