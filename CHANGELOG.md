@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-07-17
+
 ### Added
 
 - `kuiButton` now supports `iconStart` and `iconEnd` inputs that render a `kui-icon` resolved by
@@ -409,7 +411,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.6...v0.5.0
 [0.4.6]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.5...v0.4.6
 [0.4.5]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.4...v0.4.5
