@@ -11,6 +11,12 @@ export interface KikitaUiOptions {
 
   /** Global component defaults. */
   readonly defaults?: KikitaUiDefaults;
+
+  /**
+   * Default icon set resolved by `kui-icon` when a name isn't matched by a locally provided set.
+   * Defaults to `'lucide'`. Set to `false` to opt out of bundling the default Lucide resolver.
+   */
+  readonly icons?: 'lucide' | false;
 }
 
 /** Global native scrollbar styling mode for application-owned scroll containers. */

@@ -13,10 +13,20 @@ import {
   viewChild,
 } from '@angular/core';
 
+import { KuiSize } from '../../types';
+import {
+  KUI_CHECK_D,
+  KUI_CIRCLE_ALERT_CIRCLE,
+  KUI_CIRCLE_ALERT_DOT,
+  KUI_CIRCLE_ALERT_LINE,
+  KUI_CLOUD_UPLOAD_D,
+  KUI_FILE_D,
+  KUI_PLUS_MINI_D,
+  KUI_X_D,
+} from '../../utils/kui-chrome-icon-paths.util';
 import { KuiButtonDirective } from '../button';
 import { KuiFieldActionDirective } from '../field';
 import { KuiProgressComponent } from '../progress';
-import { KuiSize } from '../../types';
 import { KuiUploadFile, KuiUploadFileStatus } from './kui-upload-file.interface';
 
 let nextInstanceId = 0;
@@ -86,6 +96,15 @@ function detectKind(name: string): KuiFileKind | null {
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiFileUploadComponent {
+  protected readonly _cloudUploadD = KUI_CLOUD_UPLOAD_D;
+  protected readonly _plusMiniD = KUI_PLUS_MINI_D;
+  protected readonly _circleAlertCircle = KUI_CIRCLE_ALERT_CIRCLE;
+  protected readonly _circleAlertLine = KUI_CIRCLE_ALERT_LINE;
+  protected readonly _circleAlertDot = KUI_CIRCLE_ALERT_DOT;
+  protected readonly _checkD = KUI_CHECK_D;
+  protected readonly _fileD = KUI_FILE_D;
+  protected readonly _xD = KUI_X_D;
+
   /** Full drag-and-drop dropzone, or a compact button-only trigger. Defaults to dropzone. */
   readonly variant = input<KuiFileUploadVariant>('dropzone');
 

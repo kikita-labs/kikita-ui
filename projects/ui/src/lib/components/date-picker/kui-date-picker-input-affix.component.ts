@@ -1,5 +1,11 @@
 import { Component, input, output, ViewEncapsulation } from '@angular/core';
 
+import {
+  KUI_CALENDAR_D,
+  KUI_CALENDAR_RECT,
+  KUI_CHEVRON_DOWN_D,
+  KUI_X_D,
+} from '../../utils/kui-chrome-icon-paths.util';
 import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
 
 /** @internal Visual leading icon + trailing clear/chevron rendered over `input[kuiDatePicker]`. */
@@ -10,16 +16,16 @@ import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
     <span kuiFieldAffixIcon>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <rect
-          x="3"
-          y="4"
-          width="18"
-          height="18"
-          rx="2"
+          x="${KUI_CALENDAR_RECT.x}"
+          y="${KUI_CALENDAR_RECT.y}"
+          width="${KUI_CALENDAR_RECT.width}"
+          height="${KUI_CALENDAR_RECT.height}"
+          rx="${KUI_CALENDAR_RECT.rx}"
           stroke="currentColor"
           stroke-width="2"
         ></rect>
         <path
-          d="M16 2v4M8 2v4M3 10h18"
+          d="${KUI_CALENDAR_D}"
           stroke="currentColor"
           stroke-width="2"
           stroke-linecap="round"
@@ -36,9 +42,15 @@ import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
           aria-label="Clear"
           (click)="onClear($event)"
         >
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" aria-hidden="true">
             <path
-              d="M4 4l8 8M12 4l-8 8"
+              d="${KUI_X_D[0]}"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            />
+            <path
+              d="${KUI_X_D[1]}"
               stroke="currentColor"
               stroke-width="1.6"
               stroke-linecap="round"
@@ -57,9 +69,9 @@ import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
         [attr.aria-expanded]="isOpen()"
         (click)="onToggle($event)"
       >
-        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true">
           <path
-            d="M4 6l4 4 4-4"
+            d="${KUI_CHEVRON_DOWN_D}"
             stroke="currentColor"
             stroke-width="1.6"
             stroke-linecap="round"

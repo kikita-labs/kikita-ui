@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
+import { KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
+
 /**
  * Decorative chevron separator between crumbs inside a `[kuiBreadcrumbs]` trail.
  * Renders as `aria-hidden` and is never read by assistive technology.
@@ -14,9 +16,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
 @Component({
   selector: 'li[kuiBreadcrumbSeparator]',
   template: `
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
       <path
-        d="M6 3l5 5-5 5"
+        d="${KUI_CHEVRON_RIGHT_D}"
         stroke="currentColor"
         stroke-width="1.5"
         stroke-linecap="round"

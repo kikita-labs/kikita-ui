@@ -31,8 +31,9 @@ class SourceIconHost {
 class UrlIconHost {}
 
 describe('KuiIconComponent', () => {
-  it('renders a registered icon by name with an accessible label', () => {
+  it('renders a registered icon by name with an accessible label', async () => {
     const fixture = createFixture(NamedIconHost);
+    await fixture.whenStable();
 
     const icon = fixture.nativeElement.querySelector('kui-icon') as HTMLElement;
 
@@ -57,6 +58,42 @@ describe('KuiIconComponent', () => {
 
     expect(image.getAttribute('src')).toBe('/assets/icon.svg');
     expect(image.getAttribute('alt')).toBe('');
+  });
+
+  it('resolves icon names through an async resolver function', async () => {
+    @Component({
+      imports: [KuiIconComponent],
+      template: '<kui-icon name="spark" />',
+    })
+    class ResolverIconHost {}
+
+    TestBed.configureTestingModule({
+      imports: [ResolverIconHost],
+      providers: [provideKuiIcons(async (name) => (name === 'spark' ? CLOSE_ICON : undefined))],
+    });
+
+    const fixture = TestBed.createComponent(ResolverIconHost);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const icon = fixture.nativeElement.querySelector('kui-icon') as HTMLElement;
+
+    expect(icon.querySelector('svg path')?.getAttribute('d')).toContain('M4 4');
+  });
+
+  it('lets a later provided icon set override an earlier one for the same name', async () => {
+    TestBed.configureTestingModule({
+      imports: [NamedIconHost],
+      providers: [provideKuiIcons({ check: CHECK_ICON }), provideKuiIcons({ check: CLOSE_ICON })],
+    });
+
+    const fixture = TestBed.createComponent(NamedIconHost);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const icon = fixture.nativeElement.querySelector('kui-icon') as HTMLElement;
+
+    expect(icon.querySelector('svg path')?.getAttribute('d')).toContain('M4 4');
   });
 });
 

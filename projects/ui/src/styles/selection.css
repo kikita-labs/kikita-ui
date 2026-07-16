@@ -2,8 +2,8 @@
   .kui-checkbox {
     appearance: none;
     box-sizing: border-box;
-    display: inline-grid;
-    place-content: center;
+    position: relative;
+    display: inline-block;
     inline-size: var(--kui-checkbox-size, 18px);
     block-size: var(--kui-checkbox-size, 18px);
     flex: 0 0 auto;
@@ -21,14 +21,31 @@
     vertical-align: middle;
   }
 
+  /*
+   * Check/indeterminate marks are Lucide's `check` and `minus` glyphs (see
+   * utils/kui-chrome-icon-paths.util.ts), rendered as a `currentColor` mask so no DOM
+   * child is needed inside the native (childless) checkbox input.
+   */
   .kui-checkbox::before {
     content: '';
-    inline-size: 0.58em;
-    block-size: 0.32em;
-    border-block-end: 2px solid currentColor;
-    border-inline-start: 2px solid currentColor;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    /* Rounded down to an even pixel count so it centers with an equal 1px gap on every
+       side -- an odd gap can't split evenly and shows as a visible off-center nudge. */
+    inline-size: round(down, calc(var(--kui-checkbox-size, 18px) * 0.82), 2px);
+    block-size: round(down, calc(var(--kui-checkbox-size, 18px) * 0.82), 2px);
+    background-color: currentColor;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
     opacity: 0;
-    transform: rotate(-45deg) scale(0.75);
+    transform: scale(0.7);
     transition:
       opacity var(--kui-duration-fast, 100ms) var(--kui-ease, ease),
       transform var(--kui-duration-fast, 100ms) var(--kui-ease, ease);
@@ -45,7 +62,7 @@
 
   .kui-checkbox:checked::before {
     opacity: 1;
-    transform: rotate(-45deg) scale(1);
+    transform: scale(1);
   }
 
   .kui-checkbox:indeterminate {
@@ -54,13 +71,10 @@
   }
 
   .kui-checkbox:indeterminate::before {
-    content: '';
     opacity: 1;
-    inline-size: 0.6em;
-    block-size: 0;
-    border-block-end: 2px solid var(--kui-checkbox-mark, var(--kui-color-on-fill));
-    border-inline-start: none;
-    transform: none;
+    transform: scale(1);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
   }
 
   .kui-checkbox:active {
@@ -102,8 +116,8 @@
   .kui-radio {
     appearance: none;
     box-sizing: border-box;
-    display: inline-grid;
-    place-content: center;
+    position: relative;
+    display: inline-block;
     inline-size: var(--kui-radio-size, 18px);
     block-size: var(--kui-radio-size, 18px);
     flex: 0 0 auto;
@@ -123,8 +137,12 @@
 
   .kui-radio::before {
     content: '';
-    inline-size: 0.5em;
-    block-size: 0.5em;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    /* Rounded down to an even pixel count -- see .kui-checkbox::before comment above. */
+    inline-size: round(down, calc(var(--kui-radio-size, 18px) * 0.5), 2px);
+    block-size: round(down, calc(var(--kui-radio-size, 18px) * 0.5), 2px);
     border-radius: 50%;
     background-color: var(--kui-radio-dot, var(--kui-color-on-fill));
     opacity: 0;

@@ -8,6 +8,47 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-07-17
+
+### Added
+
+- `kui-icon` now resolves unregistered names against a default Lucide icon set via
+  `provideKikitaUi()`, lazily fetched from the jsDelivr CDN by name -- no icon package install
+  required. Disable with `provideKikitaUi({ icons: false })`.
+- `provideKuiIcons()` now accepts an async resolver function (`KuiIconResolver`) in addition to a
+  static registry, so a custom icon set (or a different icon library entirely) can back
+  `kui-icon` globally or scoped to a specific component's `providers`.
+- `KikitaUiOptions.icons` (`'lucide' | false`) controls the default icon resolver.
+
+### Changed
+
+- `.kui-checkbox`'s checked/indeterminate marks are now Lucide's `check`/`minus` glyphs rendered
+  as a `currentColor` CSS mask, replacing the previous hand-drawn border-corner checkmark and
+  border-dash indeterminate mark. Native `<input>` elements can't have DOM children, so this uses
+  `mask-image` instead of an embedded SVG.
+- Library-internal chrome icons (chevrons, clear/close buttons, status glyphs, folder/file
+  icons, etc.) across accordion, breadcrumbs, calendar, color-input, combobox, command-palette,
+  date-picker, dialog, file-upload, select, stepper, tabs, toast, and tree now use real Lucide
+  path data instead of hand-drawn approximations. These stay static inline SVG (not routed
+  through the icon resolver), so internal chrome never depends on the network.
+
+### Fixed
+
+- `kui-toast`'s close button rendered its icon squeezed to half width -- the native `<button>`'s
+  user-agent padding was never reset, and `box-sizing: border-box` (common in consumer app
+  resets) shrank the content box below the icon's size. `.kui-toast-close` now resets
+  `padding: 0`.
+- Several internal "x" icons (select/combobox/date-picker clear buttons, stepper error state,
+  toast close/danger) rendered with one diagonal stroke missing after being redrawn from two
+  independent path segments joined into a single `d` attribute -- the second segment's relative
+  `m` command was computed from the first segment's end point instead of from the origin, moving
+  it outside the viewBox. Each now renders as two separate `<path>` elements, matching Lucide's
+  own markup.
+- `.kui-checkbox`/`.kui-radio` mark could render with an uneven 1px gap on one side (an odd pixel
+  remainder can't split evenly no matter the centering method). Mark/dot size is now rounded to
+  an even pixel count derived from the control's own size token, guaranteeing a symmetric gap
+  regardless of the size variant.
+
 ## [0.4.6] - 2026-07-16
 
 ### Fixed
@@ -347,7 +388,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.6...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.6...v0.5.0
 [0.4.6]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.5...v0.4.6
 [0.4.5]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.4...v0.4.5
 [0.4.4]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.3...v0.4.4

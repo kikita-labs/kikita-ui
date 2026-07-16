@@ -19,6 +19,11 @@ import {
 
 import { KuiSize } from '../../types';
 import {
+  KUI_CHEVRON_DOWN_D,
+  KUI_COPY_D,
+  KUI_COPY_RECT,
+} from '../../utils/kui-chrome-icon-paths.util';
+import {
   createKuiTooltipOverlay,
   KuiTooltipOverlayHandle,
 } from '../../utils/kui-tooltip-overlay.util';
@@ -171,8 +176,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.renderer.addClass(this.chevronBtn, 'kui-color-input__trigger');
     this.renderer.setAttribute(this.chevronBtn, 'type', 'button');
     this.renderer.setAttribute(this.chevronBtn, 'aria-label', 'Open color picker');
-    this.chevronBtn.innerHTML =
-      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+    this.chevronBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="${KUI_CHEVRON_DOWN_D}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
 
     this.renderer.appendChild(this.containerEl, this.swatchBtn);
     this.renderer.appendChild(this.containerEl, native);
@@ -510,8 +514,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.renderer.setAttribute(btn, 'data-kui-shape', 'ghost');
     this.renderer.setAttribute(btn, 'data-kui-size', 'xs');
     this.renderer.setAttribute(btn, 'type', 'button');
-    btn.innerHTML =
-      '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Copy value';
+    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="${KUI_COPY_RECT.x}" y="${KUI_COPY_RECT.y}" width="${KUI_COPY_RECT.width}" height="${KUI_COPY_RECT.height}" rx="${KUI_COPY_RECT.rx}" ry="${KUI_COPY_RECT.ry}" stroke="currentColor" stroke-width="2"></rect><path d="${KUI_COPY_D}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Copy value`;
     this.renderer.appendChild(panel, btn);
     this.pickerUnlisten.push(
       this.renderer.listen(btn, 'click', () => {

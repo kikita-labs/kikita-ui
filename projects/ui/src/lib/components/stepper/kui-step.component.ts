@@ -7,6 +7,7 @@ import {
   input,
 } from '@angular/core';
 
+import { KUI_CHECK_D, KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
 import { KUI_STEPPER_CONTEXT } from './kui-stepper-context.token';
 
 /** Visual state of a `kui-step`, derived from its position relative to the stepper's currentIndex. */
@@ -39,9 +40,9 @@ export type KuiStepState = 'done' | 'current' | 'upcoming' | 'disabled' | 'error
           (click)="onCircleClick()"
         >
           @if (state() === 'done') {
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
-                d="M3 8.5l3.2 3.2L13 5"
+                d="${KUI_CHECK_D}"
                 stroke="currentColor"
                 stroke-width="2"
                 stroke-linecap="round"
@@ -55,9 +56,15 @@ export type KuiStepState = 'done' | 'current' | 'upcoming' | 'disabled' | 'error
       } @else {
         <span class="kui-step-circle">
           @if (state() === 'error') {
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
-                d="M5 5l6 6M11 5l-6 6"
+                d="${KUI_X_D[0]}"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="${KUI_X_D[1]}"
                 stroke="currentColor"
                 stroke-width="2"
                 stroke-linecap="round"

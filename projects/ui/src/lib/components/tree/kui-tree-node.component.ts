@@ -9,6 +9,12 @@ import {
   viewChild,
 } from '@angular/core';
 
+import {
+  KUI_CHEVRON_RIGHT_D,
+  KUI_FILE_D,
+  KUI_FOLDER_D,
+  KUI_FOLDER_OPEN_D,
+} from '../../utils/kui-chrome-icon-paths.util';
 import { KUI_TREE_CONTEXT } from './kui-tree-context.token';
 import { KuiTreeNode } from './kui-tree-node.interface';
 
@@ -50,9 +56,9 @@ import { KuiTreeNode } from './kui-tree-node.interface';
             [attr.aria-expanded]="expanded()"
             (click)="onToggleClick($event)"
           >
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path
-                d="M6 4L10 8L6 12"
+                d="${KUI_CHEVRON_RIGHT_D}"
                 stroke="currentColor"
                 stroke-width="1.5"
                 stroke-linecap="round"
@@ -81,21 +87,22 @@ import { KuiTreeNode } from './kui-tree-node.interface';
       @if (node().icon === 'folder') {
         <span class="kui-tree-icon" aria-hidden="true">
           @if (expanded()) {
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
               <path
-                d="M2 4.5C2 3.67 2.67 3 3.5 3H6.4L7.9 4.5H12.5C13.33 4.5 14 5.17 14 6V6.4H3.3C2.7 6.4 2.19 6.83 2.09 7.42L1.19 12.72C1.11 13.16 1.44 13.56 1.89 13.56H12.2C12.75 13.56 13.21 13.16 13.29 12.62L14 8.2"
+                d="${KUI_FOLDER_OPEN_D}"
                 stroke="currentColor"
-                stroke-width="1.3"
+                stroke-width="1.5"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
             </svg>
           } @else {
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
               <path
-                d="M2 4.5C2 3.67 2.67 3 3.5 3H6.5L8 4.5H12.5C13.33 4.5 14 4.67 14 5.5V11.5C14 12.33 13.33 13 12.5 13H3.5C2.67 13 2 12.33 2 11.5V4.5Z"
+                d="${KUI_FOLDER_D}"
                 stroke="currentColor"
-                stroke-width="1.3"
+                stroke-width="1.5"
+                stroke-linecap="round"
                 stroke-linejoin="round"
               />
             </svg>
@@ -103,14 +110,21 @@ import { KuiTreeNode } from './kui-tree-node.interface';
         </span>
       } @else if (node().icon === 'file') {
         <span class="kui-tree-icon" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <path
-              d="M4 2H9L12 5V14H4V2Z"
+              d="${KUI_FILE_D[0]}"
               stroke="currentColor"
-              stroke-width="1.3"
+              stroke-width="1.5"
+              stroke-linecap="round"
               stroke-linejoin="round"
             />
-            <path d="M9 2V5H12" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+            <path
+              d="${KUI_FILE_D[1]}"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </span>
       }

@@ -1,5 +1,6 @@
 import { Component, computed, inject, ViewEncapsulation } from '@angular/core';
 
+import { KUI_TRIANGLE_ALERT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
 import { KUI_DIALOG_CONTEXT } from './kui-dialog-context.token';
 import type { KuiDialogContext, KuiDialogHost } from './kui-dialog-context.token';
@@ -15,23 +16,28 @@ import type { KuiConfirmConfig } from './kui-confirm.types';
   template: `
     <div class="kui-dialog-header">
       @if (ctx.appearance !== 'default') {
-        <svg class="kui-dialog-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <svg class="kui-dialog-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
-            d="M10 3L2.5 16.5h15L10 3z"
-            stroke="currentColor"
-            stroke-width="1.6"
-            stroke-linejoin="round"
-          />
-          <line
-            x1="10"
-            y1="9"
-            x2="10"
-            y2="12.5"
+            d="${KUI_TRIANGLE_ALERT_D[0]}"
             stroke="currentColor"
             stroke-width="1.6"
             stroke-linecap="round"
+            stroke-linejoin="round"
           />
-          <circle cx="10" cy="14.5" r="0.75" fill="currentColor" />
+          <path
+            d="${KUI_TRIANGLE_ALERT_D[1]}"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="${KUI_TRIANGLE_ALERT_D[2]}"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       }
       <h2 class="kui-dialog-title">{{ ctx.data.title }}</h2>

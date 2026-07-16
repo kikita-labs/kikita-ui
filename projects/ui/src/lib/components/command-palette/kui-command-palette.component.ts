@@ -19,6 +19,11 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { DOCUMENT } from '@angular/common';
 
+import {
+  KUI_SEARCH_CIRCLE,
+  KUI_SEARCH_HANDLE_D,
+  KUI_X_D,
+} from '../../utils/kui-chrome-icon-paths.util';
 import { KuiEmptyStateComponent, KuiEmptyStateIconDirective } from '../empty-state';
 import { KuiSkeletonDirective } from '../skeleton';
 import { KuiCommandGroup, KuiCommandItem } from './kui-command-palette.types';
@@ -43,6 +48,10 @@ interface KuiCommandLabelSegment {
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiCommandPaletteComponent implements OnDestroy {
+  protected readonly _searchCircle = KUI_SEARCH_CIRCLE;
+  protected readonly _searchHandleD = KUI_SEARCH_HANDLE_D;
+  protected readonly _xD = KUI_X_D;
+
   /** Controls whether the command palette overlay is open. */
   readonly open = model(false);
   /** Command groups rendered in the list. */

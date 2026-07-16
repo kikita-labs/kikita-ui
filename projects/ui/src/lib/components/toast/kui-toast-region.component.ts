@@ -10,6 +10,17 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { Subject } from 'rxjs';
 
+import {
+  KUI_CIRCLE_CHECK_CIRCLE,
+  KUI_CIRCLE_CHECK_D,
+  KUI_CIRCLE_X_CIRCLE,
+  KUI_CIRCLE_X_D,
+  KUI_INFO_CIRCLE,
+  KUI_INFO_DOT_D,
+  KUI_INFO_LINE_D,
+  KUI_TRIANGLE_ALERT_D,
+  KUI_X_D,
+} from '../../utils/kui-chrome-icon-paths.util';
 import type {
   KuiToastAppearance,
   KuiToastConfig,
@@ -55,10 +66,16 @@ interface InternalToastItem {
             <span class="kui-toast-icon">
               @switch (toast.config.appearance) {
                 @case ('success') {
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                    <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5" />
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle
+                      cx="${KUI_CIRCLE_CHECK_CIRCLE.cx}"
+                      cy="${KUI_CIRCLE_CHECK_CIRCLE.cy}"
+                      r="${KUI_CIRCLE_CHECK_CIRCLE.r}"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
                     <path
-                      d="M5.5 9l2.5 2.5 4.5-4.5"
+                      d="${KUI_CIRCLE_CHECK_D}"
                       stroke="currentColor"
                       stroke-width="1.5"
                       stroke-linecap="round"
@@ -67,30 +84,47 @@ interface InternalToastItem {
                   </svg>
                 }
                 @case ('warning') {
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path
-                      d="M9 2.5L16 15.5H2L9 2.5z"
+                      d="${KUI_TRIANGLE_ALERT_D[0]}"
                       stroke="currentColor"
                       stroke-width="1.5"
+                      stroke-linecap="round"
                       stroke-linejoin="round"
                     />
-                    <line
-                      x1="9"
-                      y1="8"
-                      x2="9"
-                      y2="11.5"
+                    <path
+                      d="${KUI_TRIANGLE_ALERT_D[1]}"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="${KUI_TRIANGLE_ALERT_D[2]}"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                }
+                @case ('danger') {
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle
+                      cx="${KUI_CIRCLE_X_CIRCLE.cx}"
+                      cy="${KUI_CIRCLE_X_CIRCLE.cy}"
+                      r="${KUI_CIRCLE_X_CIRCLE.r}"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                    <path
+                      d="${KUI_CIRCLE_X_D[0]}"
                       stroke="currentColor"
                       stroke-width="1.5"
                       stroke-linecap="round"
                     />
-                    <circle cx="9" cy="13.5" r="0.8" fill="currentColor" />
-                  </svg>
-                }
-                @case ('danger') {
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                    <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5" />
                     <path
-                      d="M6 6l6 6M12 6l-6 6"
+                      d="${KUI_CIRCLE_X_D[1]}"
                       stroke="currentColor"
                       stroke-width="1.5"
                       stroke-linecap="round"
@@ -98,18 +132,26 @@ interface InternalToastItem {
                   </svg>
                 }
                 @case ('info') {
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                    <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5" />
-                    <line
-                      x1="9"
-                      y1="8.5"
-                      x2="9"
-                      y2="13"
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle
+                      cx="${KUI_INFO_CIRCLE.cx}"
+                      cy="${KUI_INFO_CIRCLE.cy}"
+                      r="${KUI_INFO_CIRCLE.r}"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                    <path
+                      d="${KUI_INFO_LINE_D}"
                       stroke="currentColor"
                       stroke-width="1.5"
                       stroke-linecap="round"
                     />
-                    <circle cx="9" cy="5.5" r="0.9" fill="currentColor" />
+                    <path
+                      d="${KUI_INFO_DOT_D}"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
                   </svg>
                 }
               }
@@ -142,9 +184,15 @@ interface InternalToastItem {
               aria-label="Close"
               (click)="dismiss(toast.id)"
             >
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
-                  d="M2 2l8 8M10 2l-8 8"
+                  d="${KUI_X_D[0]}"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="${KUI_X_D[1]}"
                   stroke="currentColor"
                   stroke-width="1.5"
                   stroke-linecap="round"

@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 
 import { KuiSize } from '../../types';
+import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { KuiTabDirective } from './kui-tab.directive';
 import { KUI_TABS_CONTEXT, KuiTabsContext } from './kui-tabs-context.token';
 
@@ -50,9 +51,9 @@ let nextTabsId = 0;
           (click)="scrollBy(-200)"
           aria-label="Scroll tabs left"
         >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
-              d="M10 12L6 8l4-4"
+              d="${KUI_CHEVRON_LEFT_D}"
               stroke="currentColor"
               stroke-width="1.5"
               stroke-linecap="round"
@@ -79,9 +80,9 @@ let nextTabsId = 0;
           (click)="scrollBy(200)"
           aria-label="Scroll tabs right"
         >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
-              d="M6 4l4 4-4 4"
+              d="${KUI_CHEVRON_RIGHT_D}"
               stroke="currentColor"
               stroke-width="1.5"
               stroke-linecap="round"

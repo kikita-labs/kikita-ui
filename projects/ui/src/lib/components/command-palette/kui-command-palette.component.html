@@ -14,8 +14,12 @@
       <div class="kui-command__search">
         <span class="kui-command__search-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.3-4.3" />
+            <circle
+              [attr.cx]="_searchCircle.cx"
+              [attr.cy]="_searchCircle.cy"
+              [attr.r]="_searchCircle.r"
+            />
+            <path [attr.d]="_searchHandleD" />
           </svg>
         </span>
         <input
@@ -41,8 +45,8 @@
             (click)="clearQuery()"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
+              <path [attr.d]="_xD[0]" />
+              <path [attr.d]="_xD[1]" />
             </svg>
           </button>
         }
@@ -71,8 +75,12 @@
               stroke="currentColor"
               stroke-width="1.5"
             >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
+              <circle
+                [attr.cx]="_searchCircle.cx"
+                [attr.cy]="_searchCircle.cy"
+                [attr.r]="_searchCircle.r"
+              />
+              <path [attr.d]="_searchHandleD" />
             </svg>
           </kui-empty-state>
         } @else {

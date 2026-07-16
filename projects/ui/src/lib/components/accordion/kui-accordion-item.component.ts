@@ -10,6 +10,7 @@ import {
   input,
 } from '@angular/core';
 
+import { KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { KUI_ACCORDION_CONTEXT } from './kui-accordion-context.token';
 import { KuiAccordionIconDirective } from './kui-accordion-icon.directive';
 
@@ -47,9 +48,9 @@ let _nextId = 0;
       }
       <span class="kui-accordion-trigger-text">{{ header() }}</span>
       <span class="kui-accordion-chevron" aria-hidden="true">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
           <path
-            d="M6 4L10 8L6 12"
+            d="${KUI_CHEVRON_RIGHT_D}"
             stroke="currentColor"
             stroke-width="1.5"
             stroke-linecap="round"

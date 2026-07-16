@@ -1,8 +1,8 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, resource } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { KUI_ICONS } from './kui-icon-registry.token';
-import { KuiIconName, KuiIconSource } from './kui-icon-source.type';
+import { KuiIconName, KuiIconRegistry, KuiIconSource } from './kui-icon-source.type';
 
 /** Renders a registered inline SVG icon, direct inline SVG source, or external image URL. */
 @Component({
@@ -40,7 +40,16 @@ export class KuiIconComponent {
   private readonly iconSets = inject(KUI_ICONS, { optional: true }) ?? [];
   private readonly sanitizer = inject(DomSanitizer);
 
-  protected readonly svgSource = computed(() => this.source() ?? this.resolveIcon(this.name()));
+  private readonly resolvedIcon = resource({
+    params: () => {
+      const name = this.name();
+
+      return name ? { name, iconSets: this.iconSets } : undefined;
+    },
+    loader: ({ params }) => this.resolveIcon(params.name, params.iconSets),
+  });
+
+  protected readonly svgSource = computed(() => this.source() ?? this.resolvedIcon.value());
 
   protected readonly trustedSvgSource = computed<SafeHtml | undefined>(() => {
     const svg = this.svgSource();
@@ -56,13 +65,13 @@ export class KuiIconComponent {
     return typeof size === 'number' ? `${size}px` : size;
   });
 
-  private resolveIcon(name: KuiIconName | undefined): KuiIconSource | undefined {
-    if (!name) {
-      return undefined;
-    }
-
-    for (let index = this.iconSets.length - 1; index >= 0; index -= 1) {
-      const icon = this.iconSets[index][name];
+  private async resolveIcon(
+    name: KuiIconName,
+    iconSets: readonly KuiIconRegistry[],
+  ): Promise<KuiIconSource | undefined> {
+    for (let index = iconSets.length - 1; index >= 0; index -= 1) {
+      const iconSet = iconSets[index];
+      const icon = typeof iconSet === 'function' ? await iconSet(name) : iconSet[name];
 
       if (icon) {
         return icon;

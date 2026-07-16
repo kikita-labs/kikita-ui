@@ -11,6 +11,7 @@ import {
 
 import { getKuiCalendarLocaleText } from '../../i18n/kui-calendar-locale-text.util';
 import { KUI_LOCALE } from '../../i18n/kui-locale.token';
+import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
 import { KuiSeparatorDirective } from '../separator/kui-separator.directive';
 import {
@@ -92,7 +93,7 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
               stroke-linecap="round"
               stroke-linejoin="round"
             >
-              <path d="m15 18-6-6 6-6"></path>
+              <path d="${KUI_CHEVRON_LEFT_D}"></path>
             </svg>
           </button>
         } @else {
@@ -130,7 +131,7 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
               stroke-linecap="round"
               stroke-linejoin="round"
             >
-              <path d="m9 18 6-6-6-6"></path>
+              <path d="${KUI_CHEVRON_RIGHT_D}"></path>
             </svg>
           </button>
         } @else {

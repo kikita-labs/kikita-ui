@@ -1,6 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, output, TemplateRef, ViewEncapsulation } from '@angular/core';
 
+import { KUI_CHEVRON_DOWN_D, KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
 import { KuiChipDirective } from '../chip/kui-chip.directive';
 import { KuiChipRemoveDirective } from '../chip/kui-chip-remove.directive';
 import { KuiFieldActionDirective } from '../field';
@@ -25,9 +26,15 @@ export interface KuiSelectChipItem {
             <span kuiChip size="sm" (removed)="removed.emit(item.value)">
               <span class="kui-chip-label">{{ item.label }}</span>
               <button kuiChipRemove [attr.aria-label]="'Remove ' + item.label">
-                <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <path
-                    d="M4 4l8 8M12 4l-8 8"
+                    d="${KUI_X_D[0]}"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <path
+                    d="${KUI_X_D[1]}"
                     stroke="currentColor"
                     stroke-width="2"
                     stroke-linecap="round"
@@ -53,9 +60,15 @@ export interface KuiSelectChipItem {
           [disabled]="disabled() || readonly()"
           (click)="onClear($event)"
         >
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" aria-hidden="true">
             <path
-              d="M4 4l8 8M12 4l-8 8"
+              d="${KUI_X_D[0]}"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            />
+            <path
+              d="${KUI_X_D[1]}"
               stroke="currentColor"
               stroke-width="1.6"
               stroke-linecap="round"
@@ -72,9 +85,9 @@ export interface KuiSelectChipItem {
         [attr.aria-expanded]="isOpen()"
         (click)="onToggle($event)"
       >
-        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true">
           <path
-            d="M4 6l4 4 4-4"
+            d="${KUI_CHEVRON_DOWN_D}"
             stroke="currentColor"
             stroke-width="1.6"
             stroke-linecap="round"

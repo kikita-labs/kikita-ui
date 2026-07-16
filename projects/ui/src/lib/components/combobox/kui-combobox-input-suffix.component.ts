@@ -1,5 +1,6 @@
 import { Component, input, output, ViewEncapsulation } from '@angular/core';
 
+import { KUI_CHEVRON_DOWN_D, KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
 import { KuiFieldActionDirective } from '../field';
 
 /** @internal Visual suffix rendered over `input[kuiCombobox]`. */
@@ -18,9 +19,15 @@ import { KuiFieldActionDirective } from '../field';
           aria-label="Clear"
           (click)="onClear($event)"
         >
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" aria-hidden="true">
             <path
-              d="M4 4l8 8M12 4l-8 8"
+              d="${KUI_X_D[0]}"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            />
+            <path
+              d="${KUI_X_D[1]}"
               stroke="currentColor"
               stroke-width="1.6"
               stroke-linecap="round"
@@ -39,9 +46,9 @@ import { KuiFieldActionDirective } from '../field';
         [attr.aria-expanded]="isOpen()"
         (click)="onToggle($event)"
       >
-        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true">
           <path
-            d="M4 6l4 4 4-4"
+            d="${KUI_CHEVRON_DOWN_D}"
             stroke="currentColor"
             stroke-width="1.6"
             stroke-linecap="round"

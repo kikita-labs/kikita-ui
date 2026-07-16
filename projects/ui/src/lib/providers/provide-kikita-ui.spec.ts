@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 
+import { KUI_ICONS, resolveLucideIcon } from '../components/icon';
 import { provideKikitaUi } from './provide-kikita-ui';
 
 describe('provideKikitaUi', () => {
@@ -41,5 +42,21 @@ describe('provideKikitaUi', () => {
     TestBed.inject(DOCUMENT);
 
     expect(document.documentElement.dataset['kuiScrollbars']).toBe('styled');
+  });
+
+  it('registers the default Lucide icon resolver', () => {
+    TestBed.configureTestingModule({
+      providers: [provideKikitaUi()],
+    });
+
+    expect(TestBed.inject(KUI_ICONS)).toContain(resolveLucideIcon);
+  });
+
+  it('omits the default Lucide icon resolver when icons is disabled', () => {
+    TestBed.configureTestingModule({
+      providers: [provideKikitaUi({ icons: false })],
+    });
+
+    expect(TestBed.inject(KUI_ICONS, [])).not.toContain(resolveLucideIcon);
   });
 });
