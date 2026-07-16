@@ -1,15 +1,14 @@
 @layer kui.components {
   .kui-field-affix,
   .kui-affix {
-    display: inline-flex;
+    display: inline-block;
     flex: 0 0 auto;
-    align-items: center;
     max-inline-size: var(--kui-field-affix-max-inline-size);
     overflow: hidden;
     color: var(--kui-field-affix-text-muted);
     font: inherit;
     font-size: var(--kui-text-sm-size);
-    line-height: 1;
+    line-height: 1.3;
     text-overflow: ellipsis;
     user-select: none;
     white-space: nowrap;

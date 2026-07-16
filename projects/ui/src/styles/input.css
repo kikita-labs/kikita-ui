@@ -97,6 +97,7 @@
     inline-size: 100%;
     min-inline-size: 0;
     min-block-size: var(--kui-input-height, 40px);
+    overflow: hidden;
     gap: var(--kui-field-affix-gap, var(--kui-space-2, 8px));
     padding-block: 0;
     padding-inline: var(--kui-input-padding-inline, 12px);

@@ -8,6 +8,21 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.6.1] - 2026-07-17
+
+### Fixed
+
+- `[kuiFieldAffix]` clipped the descenders of letters like `g`/`p`/`y` because its line box
+  (`line-height: 1`) was shorter than the font's actual glyph metrics while `overflow: hidden`
+  clipped anything outside it. Its line-height now matches `.kui-input` (`1.3`).
+- `[kuiFieldAffix]` never actually ellipsized overflowing text: `text-overflow: ellipsis` has no
+  effect on flex containers, but the rule used `display: inline-flex`. Switched to
+  `inline-block`, which is a valid `text-overflow` context; the now-unnecessary
+  `align-items: center` on the flex-only rule was also removed.
+- `.kui-input-group` had no `overflow: hidden`, so when a `[kuiFieldAffix]`'s own clipped width
+  plus the input's minimum width exceeded the group's width, the affix visually spilled past the
+  group's border instead of being clipped by it.
+
 ## [0.6.0] - 2026-07-17
 
 ### Added
