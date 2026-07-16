@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { provideKuiIcons } from '../icon';
 import { KuiIconButtonDirective } from './kui-icon-button.directive';
+
+const CLOSE_ICON = '<svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" /></svg>';
+const CHECK_ICON = '<svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7" /></svg>';
 
 @Component({
   imports: [KuiIconButtonDirective],
@@ -15,6 +19,14 @@ class IconButtonHost {}
   template: '<a kuiIconButton disabled href="/blocked" aria-label="Blocked"></a>',
 })
 class DisabledIconAnchorHost {}
+
+@Component({
+  imports: [KuiIconButtonDirective],
+  template: '<button kuiIconButton [icon]="iconName()" aria-label="Close"></button>',
+})
+class IconInputHost {
+  protected readonly iconName = signal<string | undefined>('close');
+}
 
 describe('KuiIconButtonDirective', () => {
   it('adds icon button host attributes for appearance and size', () => {
@@ -40,6 +52,33 @@ describe('KuiIconButtonDirective', () => {
     expect(anchor.getAttribute('tabindex')).toBe('-1');
     expect(anchor.hasAttribute('disabled')).toBe(false);
     expect(allowed).toBe(false);
+  });
+
+  it('renders and updates a kui-icon from the icon input', async () => {
+    TestBed.configureTestingModule({
+      imports: [IconInputHost],
+      providers: [provideKuiIcons({ close: CLOSE_ICON, check: CHECK_ICON })],
+    });
+
+    const fixture = TestBed.createComponent(IconInputHost);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+
+    expect(button.querySelector('kui-icon svg path')?.getAttribute('d')).toContain('M4 4');
+
+    fixture.componentInstance['iconName'].set('check');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(button.querySelectorAll('kui-icon').length).toBe(1);
+    expect(button.querySelector('kui-icon svg path')?.getAttribute('d')).toContain('M3 8');
+
+    fixture.componentInstance['iconName'].set(undefined);
+    fixture.detectChanges();
+
+    expect(button.querySelector('kui-icon')).toBeNull();
   });
 });
 

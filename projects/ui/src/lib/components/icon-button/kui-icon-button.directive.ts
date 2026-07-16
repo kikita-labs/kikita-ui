@@ -1,7 +1,19 @@
-import { Directive, ElementRef, booleanAttribute, computed, inject, input } from '@angular/core';
+import {
+  type ComponentRef,
+  Directive,
+  ElementRef,
+  Renderer2,
+  ViewContainerRef,
+  booleanAttribute,
+  computed,
+  effect,
+  inject,
+  input,
+} from '@angular/core';
 
-import { KuiSize } from '../../types';
 import { KuiButtonAppearance, KuiButtonShape } from '../button';
+import { KuiIconComponent, type KuiIconName } from '../icon';
+import { KuiSize } from '../../types';
 
 /** Applies square Kikita UI icon button styling to native button and anchor elements. */
 @Directive({
@@ -30,11 +42,27 @@ export class KuiIconButtonDirective {
   /** Disables the icon button host and removes anchor icon buttons from tab order. */
   readonly disabled = input(false, { transform: booleanAttribute });
 
+  /**
+   * Renders the button's icon from a registered name instead of manually projecting a
+   * `kui-icon`. Prepended before any other projected content.
+   */
+  readonly icon = input<KuiIconName | undefined>();
+
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly renderer = inject(Renderer2);
+  private readonly viewContainerRef = inject(ViewContainerRef);
+
+  private iconRef: ComponentRef<KuiIconComponent> | null = null;
 
   protected readonly nativeDisabledAttribute = computed(() =>
     this.disabled() && this.host.tagName.toLowerCase() === 'button' ? '' : null,
   );
+
+  constructor() {
+    effect(() => {
+      this.iconRef = this.syncIcon(this.icon(), this.iconRef);
+    });
+  }
 
   protected handleClick(event: Event): void {
     if (!this.disabled()) {
@@ -43,5 +71,26 @@ export class KuiIconButtonDirective {
 
     event.preventDefault();
     event.stopImmediatePropagation();
+  }
+
+  private syncIcon(
+    name: KuiIconName | undefined,
+    existing: ComponentRef<KuiIconComponent> | null,
+  ): ComponentRef<KuiIconComponent> | null {
+    if (!name) {
+      existing?.destroy();
+      return null;
+    }
+
+    if (existing) {
+      existing.setInput('name', name);
+      return existing;
+    }
+
+    const created = this.viewContainerRef.createComponent(KuiIconComponent);
+    created.setInput('name', name);
+    this.renderer.insertBefore(this.host, created.location.nativeElement, this.host.firstChild);
+
+    return created;
   }
 }

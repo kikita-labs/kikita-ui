@@ -61,3 +61,18 @@
     grid-template-columns: 1fr;
   }
 }
+
+.icon-scale-row {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.icon-scale-row article {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--kui-color-text-secondary);
+}

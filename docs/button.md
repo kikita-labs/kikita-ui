@@ -28,11 +28,18 @@ axes can be combined freely.
 Without an explicit `appearance`, `solid` and `soft` use primary colors while `outline` and
 `ghost` use their neutral defaults.
 
-Use `kui-icon` explicitly for icon content:
+Use `iconStart`/`iconEnd` for a registered icon by name, instead of hand-projecting `kui-icon`:
+
+```html
+<button kuiButton appearance="success" iconStart="check">Save</button>
+<button kuiButton shape="outline" iconEnd="arrow-right">Continue</button>
+```
+
+Project `kui-icon` directly when the icon needs `source` or `src` instead of a registered `name`:
 
 ```html
 <button kuiButton appearance="success">
-  <kui-icon name="check" />
+  <kui-icon [source]="checkIcon" />
   Save
 </button>
 ```
@@ -48,6 +55,8 @@ Use `kui-icon` explicitly for icon content:
 - `loading`: centers a `kuiLoader` spinner over the button content, fades the content out while
   preserving its layout size, sets `aria-busy="true"`, and behaves like `disabled` (blocks clicks,
   `aria-disabled`, removed from tab order, native `disabled` attribute on `button` hosts).
+- `iconStart`: renders a `kui-icon` resolved by name before the button's projected content.
+- `iconEnd`: renders a `kui-icon` resolved by name after the button's projected content.
 
 ## Migration from 0.1.4
 

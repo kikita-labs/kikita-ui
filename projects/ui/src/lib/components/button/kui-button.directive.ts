@@ -1,7 +1,9 @@
 import {
+  type ComponentRef,
   Directive,
   ElementRef,
   Renderer2,
+  ViewContainerRef,
   booleanAttribute,
   computed,
   effect,
@@ -9,6 +11,7 @@ import {
   input,
 } from '@angular/core';
 
+import { KuiIconComponent, type KuiIconName } from '../icon';
 import { KuiSize } from '../../types';
 import { KuiButtonAppearance } from './kui-button-appearance.type';
 import { KuiButtonShape } from './kui-button-shape.type';
@@ -49,11 +52,20 @@ export class KuiButtonDirective {
   /** Shows a spinner before the button content and blocks interaction while true. */
   readonly loading = input(false, { transform: booleanAttribute });
 
+  /** Decorative icon rendered before the button's projected content. */
+  readonly iconStart = input<KuiIconName | undefined>();
+
+  /** Decorative icon rendered after the button's projected content. */
+  readonly iconEnd = input<KuiIconName | undefined>();
+
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly renderer = inject(Renderer2);
+  private readonly viewContainerRef = inject(ViewContainerRef);
 
   private contentEl: HTMLElement | null = null;
   private loaderEl: HTMLElement | null = null;
+  private iconStartRef: ComponentRef<KuiIconComponent> | null = null;
+  private iconEndRef: ComponentRef<KuiIconComponent> | null = null;
 
   protected readonly isDisabled = computed(() => this.disabled() || this.loading());
 
@@ -68,6 +80,14 @@ export class KuiButtonDirective {
       } else {
         this.hideLoader();
       }
+    });
+
+    effect(() => {
+      this.iconStartRef = this.syncIcon('start', this.iconStart(), this.iconStartRef);
+    });
+
+    effect(() => {
+      this.iconEndRef = this.syncIcon('end', this.iconEnd(), this.iconEndRef);
     });
   }
 
@@ -103,6 +123,37 @@ export class KuiButtonDirective {
 
     this.renderer.removeChild(this.host, this.loaderEl);
     this.loaderEl = null;
+  }
+
+  private syncIcon(
+    position: 'start' | 'end',
+    name: KuiIconName | undefined,
+    existing: ComponentRef<KuiIconComponent> | null,
+  ): ComponentRef<KuiIconComponent> | null {
+    if (!name) {
+      existing?.destroy();
+      return null;
+    }
+
+    if (existing) {
+      existing.setInput('name', name);
+      return existing;
+    }
+
+    this.ensureContentWrapper();
+
+    const contentEl = this.contentEl!;
+    const created = this.viewContainerRef.createComponent(KuiIconComponent);
+    created.setInput('name', name);
+    this.renderer.addClass(created.location.nativeElement, `kui-button__icon-${position}`);
+
+    if (position === 'start') {
+      this.renderer.insertBefore(contentEl, created.location.nativeElement, contentEl.firstChild);
+    } else {
+      this.renderer.appendChild(contentEl, created.location.nativeElement);
+    }
+
+    return created;
   }
 
   private ensureContentWrapper(): void {

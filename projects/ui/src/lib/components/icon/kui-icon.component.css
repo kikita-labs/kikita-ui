@@ -2,6 +2,12 @@
   display: inline-grid;
   inline-size: var(--kui-icon-size, 1em);
   block-size: var(--kui-icon-size, 1em);
+  /* Overrides the flex/grid-item default min-size of "auto", which would otherwise floor this
+     element at its content's min-content size (the resolved icon's intrinsic dimensions) instead
+     of the requested --kui-icon-size when the host is placed inside another flex/grid container,
+     for example kuiIconButton. */
+  min-inline-size: 0;
+  min-block-size: 0;
   place-items: center;
   color: inherit;
   line-height: 0;
@@ -13,15 +19,23 @@
   display: block;
   inline-size: 100%;
   block-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 0;
 }
 
 .kui-icon__svg {
   color: inherit;
 }
 
-.kui-icon__svg :where(svg),
-.kui-icon__image {
+/*
+ * The resolved SVG markup is inserted via [innerHTML], so Angular's template compiler never sees
+ * it and never stamps its view-encapsulation content attribute onto it. A normal emulated-encapsulation
+ * selector (implicitly scoped to that attribute) can never match this node, so ::ng-deep is required
+ * to reach it and force it to fill its host box instead of rendering at its own width/height attributes
+ * (for example the 24x24 the default Lucide resolver's SVGs carry).
+ */
+:host ::ng-deep .kui-icon__svg svg {
   display: block;
-  inline-size: 100%;
-  block-size: 100%;
+  width: 100%;
+  height: 100%;
 }

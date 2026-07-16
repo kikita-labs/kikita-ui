@@ -11,18 +11,29 @@ import { KuiIconButtonDirective } from '@kikita-labs/ui';
 
 ## Usage
 
+Use `icon` for a registered icon by name, instead of hand-projecting `kui-icon`:
+
+```html
+<button kuiIconButton icon="x" aria-label="Close"></button>
+
+<button kuiIconButton shape="soft" appearance="success" icon="check" aria-label="Approve"></button>
+
+<a
+  kuiIconButton
+  shape="outline"
+  appearance="primary"
+  href="/settings"
+  icon="settings"
+  aria-label="Settings"
+></a>
+```
+
+Project `kui-icon` directly when the icon needs `source` or `src` instead of a registered `name`:
+
 ```html
 <button kuiIconButton aria-label="Close">
-  <kui-icon name="x" />
+  <kui-icon [source]="closeIcon" />
 </button>
-
-<button kuiIconButton shape="soft" appearance="success" aria-label="Approve">
-  <kui-icon name="check" />
-</button>
-
-<a kuiIconButton shape="outline" appearance="primary" href="/settings" aria-label="Settings">
-  <kui-icon name="settings" />
-</a>
 ```
 
 ## Inputs
@@ -32,6 +43,7 @@ import { KuiIconButtonDirective } from '@kikita-labs/ui';
 - `size`: `xs | sm | md | lg`; defaults to `md`.
 - `disabled`: disables icon button behavior. Anchor icon buttons receive `aria-disabled="true"`
   and are removed from tab order.
+- `icon`: renders a `kui-icon` resolved by name, prepended before any other projected content.
 
 ## Migration from 0.1.4
 

@@ -8,6 +8,27 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Added
+
+- `kuiButton` now supports `iconStart` and `iconEnd` inputs that render a `kui-icon` resolved by
+  name before/after the button's projected content, so consumers no longer have to hand-project
+  `kui-icon` for the common case of a registered icon.
+- `kuiIconButton` now supports an `icon` input that renders a `kui-icon` resolved by name as the
+  button's content, for the same reason. Manually projecting `kui-icon` (for a `source` or `src`
+  icon, for example) still works and is unaffected.
+
+### Fixed
+
+- `kui-icon` ignored its `size` input for any icon resolved by `name` (including the default
+  Lucide resolver added in 0.5.0), rendering at the resolved SVG's own `width`/`height` attributes
+  instead (for example 24x24 for every Lucide icon). The resolved markup is inserted via
+  `[innerHTML]`, so Angular's template compiler never sees it and never stamps the component's
+  view-encapsulation content attribute onto it; the scoped selector meant to size it
+  (`.kui-icon__svg :where(svg)`) could therefore never match that node. The rule now uses
+  `::ng-deep` to reach the injected SVG regardless of encapsulation, and `.kui-icon__svg` and
+  `:host` now reset their default flex/grid-item minimum size to `0` so the icon can shrink below
+  the resolved SVG's intrinsic size instead of flooring at it.
+
 ## [0.5.0] - 2026-07-17
 
 ### Added

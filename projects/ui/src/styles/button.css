@@ -71,6 +71,11 @@
     opacity: 0;
   }
 
+  .kui-button__icon-start,
+  .kui-button__icon-end {
+    flex-shrink: 0;
+  }
+
   .kui-button:hover {
     background-color: var(--_kui-btn-fill-hover, var(--kui-btn-bg-hover, var(--kui-btn-bg)));
   }

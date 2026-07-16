@@ -1,7 +1,7 @@
 <app-panel
   num="01"
   title="Icon abstraction"
-  description="Registry-backed <code>kui-icon</code> and icon-only actions."
+  description="Unregistered names resolve against the default Lucide icon set via provideKikitaUi(); no local icon registry needed. Icon-only actions compose the same way."
 >
   <div class="icon-grid">
     <article>
@@ -9,16 +9,16 @@
       <code>name="check"</code>
     </article>
     <article>
-      <kui-icon name="spark" label="Spark icon" size="24px" />
-      <code>name="spark"</code>
+      <kui-icon name="sparkle" label="Sparkle icon" size="24px" />
+      <code>name="sparkle"</code>
     </article>
     <article>
-      <kui-icon name="warning" label="Warning icon" size="24px" />
-      <code>name="warning"</code>
+      <kui-icon name="triangle-alert" label="Warning icon" size="24px" />
+      <code>name="triangle-alert"</code>
     </article>
     <article>
       <kui-icon name="settings" label="Settings icon" size="24px" />
-      <code>name="settings" (default Lucide resolver)</code>
+      <code>name="settings"</code>
     </article>
   </div>
 
@@ -26,11 +26,11 @@
     <button kuiIconButton aria-label="Confirm" type="button">
       <kui-icon name="check" />
     </button>
-    <button kuiIconButton shape="soft" aria-label="Spark" type="button">
-      <kui-icon name="spark" />
+    <button kuiIconButton shape="soft" aria-label="Sparkle" type="button">
+      <kui-icon name="sparkle" />
     </button>
     <button kuiIconButton appearance="danger" aria-label="Warning" type="button">
-      <kui-icon name="warning" />
+      <kui-icon name="triangle-alert" />
     </button>
   </div>
 </app-panel>
@@ -66,7 +66,7 @@
                   [disabled]="state.value === 'disabled'"
                   [attr.aria-label]="variant.label"
                 >
-                  <kui-icon name="spark" />
+                  <kui-icon name="sparkle" />
                 </button>
               </td>
             }
@@ -79,6 +79,35 @@
 
 <app-panel
   num="03"
+  title="Icon size scaling (default Lucide resolver)"
+  description="A single resolved SVG (its own width/height attributes intact) must scale to the size input, not render at its native intrinsic size."
+>
+  <div class="icon-scale-row">
+    @for (sizePx of scaleSizes; track sizePx) {
+      <article>
+        <kui-icon name="settings" label="Settings" [size]="sizePx + 'px'" />
+        <code>{{ sizePx }}px</code>
+      </article>
+    }
+  </div>
+
+  <div class="state-board__row">
+    @for (iconButtonSize of sizeRows; track iconButtonSize.value) {
+      <button
+        kuiIconButton
+        shape="outline"
+        [size]="iconButtonSize.value"
+        aria-label="Settings"
+        type="button"
+      >
+        <kui-icon name="settings" />
+      </button>
+    }
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
   title="Icon button size matrix"
   description="xs / sm / md / lg across all states. Ghost shape."
 >
@@ -108,7 +137,7 @@
                   [disabled]="state.value === 'disabled'"
                   aria-label="Action"
                 >
-                  <kui-icon name="spark" />
+                  <kui-icon name="sparkle" />
                 </button>
               </td>
             }

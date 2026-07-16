@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { provideKuiIcons } from '../icon';
 import { KuiButtonDirective } from './kui-button.directive';
+
+const CHECK_ICON = '<svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7" /></svg>';
+const ARROW_ICON = '<svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5" /></svg>';
 
 @Component({
   imports: [KuiButtonDirective],
@@ -20,6 +24,15 @@ class DisabledAnchorHost {}
   template: '<button kuiButton size="lg" [loading]="true">Save</button>',
 })
 class LoadingButtonHost {}
+
+@Component({
+  imports: [KuiButtonDirective],
+  template: '<button kuiButton [iconStart]="startIcon()" [iconEnd]="endIcon()">Continue</button>',
+})
+class IconSlotButtonHost {
+  protected readonly startIcon = signal<string | undefined>('check');
+  protected readonly endIcon = signal<string | undefined>('arrow');
+}
 
 describe('KuiButtonDirective', () => {
   it('adds button host attributes for appearance and size', () => {
@@ -62,6 +75,35 @@ describe('KuiButtonDirective', () => {
     expect(loader.getAttribute('data-kui-size')).toBe('lg');
     expect(content.textContent?.trim()).toBe('Save');
     expect(allowed).toBe(false);
+  });
+
+  it('renders iconStart and iconEnd around the projected content and updates reactively', async () => {
+    TestBed.configureTestingModule({
+      imports: [IconSlotButtonHost],
+      providers: [provideKuiIcons({ check: CHECK_ICON, arrow: ARROW_ICON })],
+    });
+
+    const fixture = TestBed.createComponent(IconSlotButtonHost);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    const content = button.querySelector('.kui-button__content') as HTMLElement;
+    const icons = [...content.querySelectorAll('kui-icon')];
+
+    expect(icons).toHaveLength(2);
+    expect(icons[0].classList.contains('kui-button__icon-start')).toBe(true);
+    expect(icons[1].classList.contains('kui-button__icon-end')).toBe(true);
+    expect(content.textContent?.trim()).toBe('Continue');
+
+    fixture.componentInstance['startIcon'].set(undefined);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(content.querySelectorAll('kui-icon')).toHaveLength(1);
+    expect(content.querySelector('kui-icon')?.classList.contains('kui-button__icon-end')).toBe(
+      true,
+    );
   });
 });
 

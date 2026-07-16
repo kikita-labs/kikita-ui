@@ -168,7 +168,7 @@
                         type="button"
                         [attr.aria-label]="appearance.label + ' ' + shape.label + ' ' + size.label"
                       >
-                        <kui-icon name="spark" />
+                        <kui-icon name="sparkle" />
                       </button>
                     </td>
                   }
@@ -179,5 +179,40 @@
         </div>
       </section>
     }
+  </div>
+</app-panel>
+
+<app-panel
+  num="06"
+  title="Icon slots"
+  description="iconStart / iconEnd on kuiButton and icon on kuiIconButton resolve a registered name without hand-projecting kui-icon."
+>
+  <div class="button-grid">
+    <button kuiButton appearance="success" iconStart="check" type="button">Save</button>
+    <button kuiButton shape="outline" iconEnd="arrow-right" type="button">Continue</button>
+    <button
+      kuiButton
+      appearance="danger"
+      iconStart="triangle-alert"
+      iconEnd="arrow-right"
+      type="button"
+    >
+      Both slots
+    </button>
+    <button
+      kuiIconButton
+      shape="soft"
+      appearance="success"
+      icon="check"
+      aria-label="Approve"
+      type="button"
+    ></button>
+    <button
+      kuiIconButton
+      shape="outline"
+      icon="settings"
+      aria-label="Settings"
+      type="button"
+    ></button>
   </div>
 </app-panel>
