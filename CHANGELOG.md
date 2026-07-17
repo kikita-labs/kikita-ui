@@ -8,6 +8,22 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.6.2] - 2026-07-17
+
+### Fixed
+
+- `kuiButton`'s `iconStart`/`iconEnd` and `kuiIconButton`'s `icon` (added in 0.6.0) crashed the
+  whole page under SSR/prerendering with `TypeError: e.hasAttribute is not a function`. Unlike
+  `loading`, which is rarely `true` on first render, these are ordinarily static template
+  attributes, so both server and client ran the same constructor-time Renderer2 DOM mutation
+  (wrapping content, inserting the icon component) on first render. Angular's hydration
+  reconciliation matches server DOM against the _compiled template_, not against whatever a
+  directive mutates at runtime, so the server-rendered (already-wrapped) markup didn't match what
+  the client's hydration pass expected, and it crashed. Both directives now skip this mutation
+  entirely on the server (same `isPlatformBrowser` guard already used by `kuiNumberInput` for the
+  same class of issue in 0.4.5) and apply it on the client only, after hydration completes. The
+  icon/wrapper is absent from the initial server-rendered HTML and appears once client JS runs.
+
 ## [0.6.1] - 2026-07-17
 
 ### Fixed
@@ -426,7 +442,9 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.6.2...HEAD
+[0.6.2]: https://github.com/kikita-labs/kikita-ui/compare/v0.6.1...v0.6.2
+[0.6.1]: https://github.com/kikita-labs/kikita-ui/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.6...v0.5.0
 [0.4.6]: https://github.com/kikita-labs/kikita-ui/compare/v0.4.5...v0.4.6

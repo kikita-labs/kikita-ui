@@ -1,7 +1,9 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   type ComponentRef,
   Directive,
   ElementRef,
+  PLATFORM_ID,
   Renderer2,
   ViewContainerRef,
   booleanAttribute,
@@ -51,6 +53,7 @@ export class KuiIconButtonDirective {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly renderer = inject(Renderer2);
   private readonly viewContainerRef = inject(ViewContainerRef);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   private iconRef: ComponentRef<KuiIconComponent> | null = null;
 
@@ -59,6 +62,11 @@ export class KuiIconButtonDirective {
   );
 
   constructor() {
+    // See KuiButtonDirective for why this DOM mutation must not run during SSR.
+    if (!this.isBrowser) {
+      return;
+    }
+
     effect(() => {
       this.iconRef = this.syncIcon(this.icon(), this.iconRef);
     });

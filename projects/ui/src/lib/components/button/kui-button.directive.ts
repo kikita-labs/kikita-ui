@@ -1,7 +1,9 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   type ComponentRef,
   Directive,
   ElementRef,
+  PLATFORM_ID,
   Renderer2,
   ViewContainerRef,
   booleanAttribute,
@@ -61,6 +63,7 @@ export class KuiButtonDirective {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly renderer = inject(Renderer2);
   private readonly viewContainerRef = inject(ViewContainerRef);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   private contentEl: HTMLElement | null = null;
   private loaderEl: HTMLElement | null = null;
@@ -74,6 +77,17 @@ export class KuiButtonDirective {
   );
 
   constructor() {
+    /**
+     * Angular's hydration reconciliation matches server DOM against the compiled template, not
+     * against whatever this directive mutates at runtime. Running these Renderer2 mutations
+     * during SSR (for statically-true inputs like iconStart/iconEnd, unlike loading, which is
+     * rarely true on first render) ships wrapped markup the client's hydration pass doesn't
+     * expect, crashing it. Skip entirely on the server; the client wraps/inserts after hydration.
+     */
+    if (!this.isBrowser) {
+      return;
+    }
+
     effect(() => {
       if (this.loading()) {
         this.showLoader(this.size());

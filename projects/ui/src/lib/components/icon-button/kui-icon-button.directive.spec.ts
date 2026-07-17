@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, PLATFORM_ID, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideKuiIcons } from '../icon';
@@ -77,6 +77,24 @@ describe('KuiIconButtonDirective', () => {
 
     fixture.componentInstance['iconName'].set(undefined);
     fixture.detectChanges();
+
+    expect(button.querySelector('kui-icon')).toBeNull();
+  });
+
+  it('does not mutate the DOM for icon when rendered on the server platform', () => {
+    TestBed.configureTestingModule({
+      imports: [IconInputHost],
+      providers: [
+        provideKuiIcons({ close: CLOSE_ICON, check: CHECK_ICON }),
+        { provide: PLATFORM_ID, useValue: 'server' },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(IconInputHost);
+
+    expect(() => fixture.detectChanges()).not.toThrow();
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
 
     expect(button.querySelector('kui-icon')).toBeNull();
   });
