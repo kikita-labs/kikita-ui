@@ -8,6 +8,21 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.6.3] - 2026-07-17
+
+### Fixed
+
+- Dialog demo close buttons used a hand-drawn inline SVG `x` glyph instead of the library's
+  `kui-icon` component; switched to `<kui-icon name="x" />` (Lucide `x`) in `docs/dialog.md` and
+  the playground dialog demos.
+- `input[kuiDatePicker]`'s documented `kui-dropdown` usage set `panelWidth="content"`, which sizes
+  the panel to `minWidth: anchor.offsetWidth` -- fine for panels narrower than their trigger, but
+  `kui-calendar` has its own fixed width (`--kui-calendar-width`, 296px) and doesn't grow to fill
+  extra space. On a wide field, `content` stretched the whole dropdown panel (backdrop included)
+  to the input's width instead of leaving the calendar at its natural size. Switched every
+  documented/demo date-picker `kui-dropdown` to `panelWidth="auto"`, which ignores the trigger's
+  width entirely, matching `kui-color-input`'s picker.
+
 ## [0.6.2] - 2026-07-17
 
 ### Fixed

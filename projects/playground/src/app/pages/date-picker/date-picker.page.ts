@@ -33,4 +33,5 @@ export class DatePickerPage {
   protected readonly disabledDate = signal<Date | null>(new Date());
   protected readonly readonlyDate = signal<Date | null>(new Date());
   protected readonly viewDate = signal<Date>(new Date());
+  protected readonly wideDate = signal<Date | null>(new Date());
 }

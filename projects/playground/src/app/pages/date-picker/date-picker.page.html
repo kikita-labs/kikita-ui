@@ -14,7 +14,7 @@
     <div class="state-board__row">
       <kui-field label="Meeting date" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="basicDate" />
-        <kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
           <kui-calendar flat [(value)]="basicDate" [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
@@ -30,7 +30,7 @@
         class="date-picker-page__field"
       >
         <input kuiDatePicker [(value)]="hintDate" />
-        <kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
           <kui-calendar flat [(value)]="hintDate" [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
@@ -45,7 +45,7 @@
     <div class="state-board__row">
       <kui-field label="Departure" hint="Today or later" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="restrictedDate" [minDate]="today" />
-        <kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
           <kui-calendar flat [(value)]="restrictedDate" [minDate]="today" [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
@@ -60,13 +60,13 @@
     <div class="state-board__row">
       <kui-field label="Clearable" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="clearableDate" />
-        <kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
           <kui-calendar flat [(value)]="clearableDate" [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
       <kui-field label="Not clearable" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="notClearableDate" [clearable]="false" />
-        <kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
           <kui-calendar flat [(value)]="notClearableDate" [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
@@ -81,13 +81,13 @@
     <div class="state-board__row">
       <kui-field label="Disabled" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="disabledDate" [disabled]="true" />
-        <kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
           <kui-calendar flat [(value)]="disabledDate" />
         </kui-dropdown>
       </kui-field>
       <kui-field label="Readonly" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="readonlyDate" [readonly]="true" />
-        <kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
           <kui-calendar flat [(value)]="readonlyDate" />
         </kui-dropdown>
       </kui-field>
@@ -102,7 +102,7 @@
     <div class="state-board__row">
       <kui-field label="Try 32.13.2026" hint="dd.mm.yyyy" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="basicDate" />
-        <kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
           <kui-calendar flat [(value)]="basicDate" [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
@@ -117,8 +117,23 @@
     <div class="state-board__row">
       <kui-field label="Meeting date" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="basicDate" [(viewDate)]="viewDate" />
-        <kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
           <kui-calendar flat [(value)]="basicDate" [(viewDate)]="viewDate" [showFooter]="true" />
+        </kui-dropdown>
+      </kui-field>
+    </div>
+  </app-panel>
+
+  <app-panel
+    num="08"
+    title="Wide field"
+    description='Field is 640px wide — panelWidth="auto" keeps the calendar at its own fixed width instead of stretching to fill the input.'
+  >
+    <div class="state-board__row">
+      <kui-field label="Meeting date" class="date-picker-page__field date-picker-page__field--wide">
+        <input kuiDatePicker [(value)]="wideDate" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
+          <kui-calendar flat [(value)]="wideDate" [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
     </div>

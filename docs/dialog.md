@@ -104,7 +104,9 @@ export class MyDialog implements KuiDialogHost<TResult, TData> {
       <!-- Optional icon slot: add class="kui-dialog-icon" to your SVG. -->
       <svg class="kui-dialog-icon" aria-hidden="true"></svg>
       <h2 class="kui-dialog-title">Title</h2>
-      <button class="kui-dialog-close" aria-label="Close">x</button>
+      <button class="kui-dialog-close" aria-label="Close">
+        <kui-icon name="x" />
+      </button>
     </div>
     <div class="kui-dialog-body">Content</div>
     <div class="kui-dialog-footer">Actions</div>

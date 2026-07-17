@@ -6,6 +6,7 @@ import {
   KuiButtonDirective,
   KuiDialogContext,
   KuiDialogHost,
+  KuiIconComponent,
   KuiInputDirective,
   KuiTextareaDirective,
   KuiFieldComponent,
@@ -29,14 +30,7 @@ type EditResult = 'saved' | null;
       <h2 class="kui-dialog-title">Edit profile</h2>
       @if (ctx.closable) {
         <button class="kui-dialog-close" type="button" aria-label="Close" (click)="ctx.close(null)">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M4 4l8 8M12 4l-8 8"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-          </svg>
+          <kui-icon name="x" />
         </button>
       }
     </div>
@@ -53,7 +47,7 @@ type EditResult = 'saved' | null;
       <button kuiButton type="button" (click)="ctx.close('saved')">Save</button>
     </div>
   `,
-  imports: [KuiButtonDirective, KuiInputDirective, KuiFieldComponent],
+  imports: [KuiButtonDirective, KuiInputDirective, KuiFieldComponent, KuiIconComponent],
   encapsulation: ViewEncapsulation.None,
 })
 export class EditDialog implements KuiDialogHost<EditResult, EditData> {
@@ -94,14 +88,7 @@ export class EditDialog implements KuiDialogHost<EditResult, EditData> {
           aria-label="Close"
           (click)="ctx.close(false)"
         >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M4 4l8 8M12 4l-8 8"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-          </svg>
+          <kui-icon name="x" />
         </button>
       }
     </div>
@@ -113,7 +100,7 @@ export class EditDialog implements KuiDialogHost<EditResult, EditData> {
       <button kuiButton appearance="danger" type="button" (click)="ctx.close(true)">Delete</button>
     </div>
   `,
-  imports: [KuiButtonDirective],
+  imports: [KuiButtonDirective, KuiIconComponent],
   encapsulation: ViewEncapsulation.None,
 })
 export class DeleteDialog implements KuiDialogHost<boolean, void> {
@@ -129,14 +116,7 @@ export class DeleteDialog implements KuiDialogHost<boolean, void> {
     <div class="kui-dialog-header">
       <h2 class="kui-dialog-title">Terms of service</h2>
       <button class="kui-dialog-close" type="button" aria-label="Close" (click)="ctx.close()">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M4 4l8 8M12 4l-8 8"
-            stroke="currentColor"
-            stroke-width="1.6"
-            stroke-linecap="round"
-          />
-        </svg>
+        <kui-icon name="x" />
       </button>
     </div>
     <div class="kui-dialog-body">
@@ -151,7 +131,7 @@ export class DeleteDialog implements KuiDialogHost<boolean, void> {
       <button kuiButton shape="outline" type="button" (click)="ctx.close()">Close</button>
     </div>
   `,
-  imports: [KuiButtonDirective],
+  imports: [KuiButtonDirective, KuiIconComponent],
   encapsulation: ViewEncapsulation.None,
 })
 export class LongBodyDialog implements KuiDialogHost<void, void> {
@@ -169,14 +149,7 @@ export class LongBodyDialog implements KuiDialogHost<void, void> {
       <h2 class="kui-dialog-title">auto - content-sized</h2>
       @if (ctx.closable) {
         <button class="kui-dialog-close" type="button" aria-label="Close" (click)="ctx.close(null)">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M4 4l8 8M12 4l-8 8"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-          </svg>
+          <kui-icon name="x" />
         </button>
       }
     </div>
@@ -193,7 +166,13 @@ export class LongBodyDialog implements KuiDialogHost<void, void> {
       <button kuiButton type="button" (click)="ctx.close('sent')">Send</button>
     </div>
   `,
-  imports: [KuiButtonDirective, KuiInputDirective, KuiTextareaDirective, KuiFieldComponent],
+  imports: [
+    KuiButtonDirective,
+    KuiInputDirective,
+    KuiTextareaDirective,
+    KuiFieldComponent,
+    KuiIconComponent,
+  ],
   encapsulation: ViewEncapsulation.None,
 })
 export class AutoDialog implements KuiDialogHost<'sent' | null, void> {

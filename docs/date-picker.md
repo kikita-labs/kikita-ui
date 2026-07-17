@@ -21,7 +21,7 @@ import {
 ```html
 <kui-field label="Meeting date">
   <input kuiDatePicker [(value)]="date" />
-  <kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+  <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
     <kui-calendar flat [(value)]="date" [showFooter]="true" />
   </kui-dropdown>
 </kui-field>
@@ -30,7 +30,7 @@ import {
 Three things on `kui-dropdown` matter here, all different from its default (listbox) usage:
 
 - `panelRole="dialog"` — the panel holds a calendar grid, not a list of options.
-- `panelWidth="content"` — sizes the panel to the calendar's own width (296px by default)
+- `panelWidth="auto"` — sizes the panel to the calendar's own width (296px by default)
   instead of clipping it to the (usually narrower) field. This is why the popover is often
   wider than the input — that's intentional, not a bug: `kui-calendar` has a fixed width
   (`--kui-calendar-width`, 296px by default) because its day grid needs a minimum amount of
@@ -85,7 +85,7 @@ the field stays on the last good date until a valid one is typed.
 
 ```html
 <input kuiDatePicker [(value)]="date" [(viewDate)]="viewDate" />
-<kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+<kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
   <kui-calendar flat [(value)]="date" [(viewDate)]="viewDate" [showFooter]="true" />
 </kui-dropdown>
 ```

@@ -34,7 +34,7 @@ function optionalBooleanAttribute(value: unknown): boolean | undefined {
  * ```html
  * <kui-field label="Meeting date">
  *   <input kuiDatePicker [(value)]="date" />
- *   <kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+ *   <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
  *     <kui-calendar flat [(value)]="date" [showFooter]="true" />
  *   </kui-dropdown>
  * </kui-field>

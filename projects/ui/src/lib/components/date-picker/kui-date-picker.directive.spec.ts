@@ -17,7 +17,7 @@ import { KuiDatePickerDirective } from './kui-date-picker.directive';
         [disabled]="disabled()"
         [readonly]="readonly()"
       />
-      <kui-dropdown panelRole="dialog" panelWidth="content" maxHeight="420px">
+      <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
         <kui-calendar flat [(value)]="value" />
       </kui-dropdown>
     </kui-field>
