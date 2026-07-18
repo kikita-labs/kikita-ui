@@ -28,6 +28,12 @@ const COMMAND_GROUPS: readonly KuiCommandGroup[] = [
         meta: '12 files',
         icon: 'D',
       },
+      {
+        id: 'qa-long',
+        label: 'QA: gjpqy very long command label to test ellipsis overflow',
+        description: 'gjpqy descender check in the description line too',
+        icon: 'Q',
+      },
     ],
   },
   {
