@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-07-18
+
 ### Changed
 
 - **Breaking:** `kui-empty-state`'s `title` input renamed to `heading`. `title` collided with the
