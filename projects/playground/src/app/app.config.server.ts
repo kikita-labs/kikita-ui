@@ -1,5 +1,6 @@
-import { mergeApplicationConfig, type ApplicationConfig } from '@angular/core';
-import { provideServerRendering, RenderMode, ServerRoute, withRoutes } from '@angular/ssr';
+import { type ApplicationConfig, mergeApplicationConfig } from '@angular/core';
+import type { ServerRoute } from '@angular/ssr';
+import { provideServerRendering, RenderMode, withRoutes } from '@angular/ssr';
 
 import { appConfig } from './app.config';
 

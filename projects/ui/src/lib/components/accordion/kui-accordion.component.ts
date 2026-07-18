@@ -1,8 +1,9 @@
-import { Component, ViewEncapsulation, computed, inject, model } from '@angular/core';
+import { Component, computed, inject, model, ViewEncapsulation } from '@angular/core';
 
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
-import { KUI_ACCORDION_CONTEXT, KuiAccordionContext } from './kui-accordion-context.token';
+import type { KuiAccordionContext } from './kui-accordion-context.token';
+import { KUI_ACCORDION_CONTEXT } from './kui-accordion-context.token';
 
 /** Visual style of the accordion container. */
 export type KuiAccordionAppearance = 'default' | 'bordered' | 'ghost';

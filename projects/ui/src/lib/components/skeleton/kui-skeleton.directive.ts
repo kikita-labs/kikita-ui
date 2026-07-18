@@ -1,7 +1,7 @@
 import { Directive, input } from '@angular/core';
 
-import { KuiSkeletonAnimation } from './kui-skeleton-animation.type';
-import { KuiSkeletonShape } from './kui-skeleton-shape.type';
+import type { KuiSkeletonAnimation } from './kui-skeleton-animation.type';
+import type { KuiSkeletonShape } from './kui-skeleton-shape.type';
 
 /** Applies Kikita UI skeleton placeholder styling to an existing host element. */
 @Directive({

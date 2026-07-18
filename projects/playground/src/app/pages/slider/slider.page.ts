@@ -1,6 +1,6 @@
-import { Component, ViewEncapsulation, signal } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FormField, FormRoot, form, max, min } from '@angular/forms/signals';
+import { form, FormField, FormRoot, max, min } from '@angular/forms/signals';
 
 import { KuiFieldComponent, KuiSliderDirective, KuiTooltipDirective } from '@kikita-labs/ui';
 

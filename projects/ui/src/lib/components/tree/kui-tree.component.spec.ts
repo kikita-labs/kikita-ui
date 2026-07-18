@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { KuiTreeComponent } from './kui-tree.component';
-import { KuiTreeMode, KuiTreeNode } from './kui-tree-node.interface';
+import type { KuiTreeMode, KuiTreeNode } from './kui-tree-node.interface';
 
 const NODES: KuiTreeNode[] = [
   {

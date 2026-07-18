@@ -1,9 +1,10 @@
 import { Component, PLATFORM_ID, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { provideKuiIcons } from '../icon';
 import { provideKikitaUi } from '../../providers';
 import { kuiProvideButtonOptions } from '../../tokens';
+import { provideKuiIcons } from '../icon';
 import { KuiButtonDirective } from './kui-button.directive';
 
 const CHECK_ICON = '<svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7" /></svg>';

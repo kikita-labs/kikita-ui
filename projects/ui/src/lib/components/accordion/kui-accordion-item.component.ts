@@ -1,13 +1,13 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  Component,
-  TemplateRef,
-  ViewEncapsulation,
   booleanAttribute,
+  Component,
   computed,
   contentChild,
   inject,
   input,
+  TemplateRef,
+  ViewEncapsulation,
 } from '@angular/core';
 
 import { KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';

@@ -1,4 +1,5 @@
 import { InjectionToken } from '@angular/core';
+
 import type { KuiDialogAppearance } from './kui-dialog.types';
 
 /**

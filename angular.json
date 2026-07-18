@@ -30,6 +30,12 @@
           "options": {
             "tsConfig": "projects/ui/tsconfig.spec.json"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/ui/**/*.ts", "projects/ui/**/*.html"]
+          }
         }
       }
     },
@@ -101,6 +107,12 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/playground/**/*.ts", "projects/playground/**/*.html"]
+          }
         }
       }
     }

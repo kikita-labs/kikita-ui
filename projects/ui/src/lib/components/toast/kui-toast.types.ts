@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
 
 /** Visual intent of a toast notification. */
 export type KuiToastAppearance = 'neutral' | 'success' | 'warning' | 'danger' | 'info';

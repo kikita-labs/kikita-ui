@@ -1,20 +1,21 @@
 import {
-  Component,
-  ElementRef,
-  ViewEncapsulation,
   booleanAttribute,
+  Component,
   computed,
+  ElementRef,
   inject,
   input,
   model,
   signal,
+  ViewEncapsulation,
 } from '@angular/core';
 
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
-import { KUI_TREE_CONTEXT, KuiTreeCheckedState, KuiTreeContext } from './kui-tree-context.token';
-import { KuiTreeMode, KuiTreeNode } from './kui-tree-node.interface';
+import type { KuiTreeCheckedState, KuiTreeContext } from './kui-tree-context.token';
+import { KUI_TREE_CONTEXT } from './kui-tree-context.token';
 import { KuiTreeNodeComponent } from './kui-tree-node.component';
+import type { KuiTreeMode, KuiTreeNode } from './kui-tree-node.interface';
 
 interface KuiTreeFlatEntry {
   readonly id: string;

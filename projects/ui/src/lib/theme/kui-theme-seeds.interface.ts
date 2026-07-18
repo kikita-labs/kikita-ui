@@ -1,4 +1,4 @@
-import { KuiDensity } from '../types';
+import type { KuiDensity } from '../types';
 
 /** Seed values used to generate a full Kikita UI theme. */
 export interface KuiThemeSeeds {

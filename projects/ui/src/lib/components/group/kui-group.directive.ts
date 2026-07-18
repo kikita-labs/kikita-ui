@@ -1,8 +1,8 @@
-import { Directive, booleanAttribute, computed, input } from '@angular/core';
+import { booleanAttribute, computed, Directive, input } from '@angular/core';
 
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
-import { KuiGroupOrientation } from './kui-group-orientation.type';
+import type { KuiGroupOrientation } from './kui-group-orientation.type';
 
 /** Groups adjacent Kikita UI controls and can collapse their shared borders. */
 @Directive({

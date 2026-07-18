@@ -1,4 +1,5 @@
-import { InjectionToken, Provider } from '@angular/core';
+import type { Provider } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
 /**
  * BCP 47 locale tag (for example `'en-US'`, `'ru-RU'`) used by date-aware Kikita UI

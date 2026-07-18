@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
+import { KuiEmptyStateComponent } from './kui-empty-state.component';
 import { KuiEmptyStateActionsDirective } from './kui-empty-state-actions.directive';
 import { KuiEmptyStateIconDirective } from './kui-empty-state-icon.directive';
-import { KuiEmptyStateComponent } from './kui-empty-state.component';
 
 @Component({
   imports: [KuiEmptyStateActionsDirective, KuiEmptyStateComponent, KuiEmptyStateIconDirective],

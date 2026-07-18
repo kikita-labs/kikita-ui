@@ -1,6 +1,8 @@
 import { Component, signal, ViewEncapsulation } from '@angular/core';
 
-import { KuiButtonDirective, KuiCommandGroup, KuiCommandPaletteComponent } from '@kikita-labs/ui';
+import { KuiButtonDirective, KuiCommandPaletteComponent } from '@kikita-labs/ui';
+
+import type { KuiCommandGroup } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 

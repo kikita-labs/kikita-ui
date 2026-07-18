@@ -1,7 +1,7 @@
 import { Directive, input } from '@angular/core';
 
-import { KuiTextTone } from './kui-text-tone.type';
-import { KuiTextVariant } from './kui-text-variant.type';
+import type { KuiTextTone } from './kui-text-tone.type';
+import type { KuiTextVariant } from './kui-text-variant.type';
 
 /** Applies Kikita UI semantic typography role and tone classes to native text elements. */
 @Directive({

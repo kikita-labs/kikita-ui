@@ -1,20 +1,21 @@
+import type { ElementRef } from '@angular/core';
 import {
-  Component,
-  ElementRef,
-  ViewChild,
-  ViewEncapsulation,
   afterEveryRender,
+  Component,
   computed,
   contentChildren,
   inject,
   input,
   model,
+  ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiSegmentDirective } from './kui-segment.directive';
-import { KUI_SEGMENTED_CONTEXT, KuiSegmentedContext } from './kui-segmented-context.token';
+import type { KuiSegmentedContext } from './kui-segmented-context.token';
+import { KUI_SEGMENTED_CONTEXT } from './kui-segmented-context.token';
 
 /**
  * Segmented control for selecting one option from a compact horizontal set.
@@ -53,7 +54,7 @@ export class KuiSegmentedComponent implements KuiSegmentedContext {
   readonly size = input<KuiSize | undefined>();
 
   @ViewChild('thumb', { static: true })
-  private thumbRef!: ElementRef<HTMLSpanElement>;
+  private readonly thumbRef!: ElementRef<HTMLSpanElement>;
 
   private readonly segmentItems = contentChildren(KuiSegmentDirective);
   private readonly rootDefaultSize = injectKuiRootSizeDefault();

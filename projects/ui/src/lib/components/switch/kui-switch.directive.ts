@@ -1,6 +1,6 @@
-import { Directive, booleanAttribute, computed, inject, input } from '@angular/core';
+import { booleanAttribute, computed, Directive, inject, input } from '@angular/core';
 
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiFieldComponent } from '../field';
 

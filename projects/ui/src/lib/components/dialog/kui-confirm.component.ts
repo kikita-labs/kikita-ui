@@ -2,9 +2,9 @@ import { Component, computed, inject, ViewEncapsulation } from '@angular/core';
 
 import { KUI_TRIANGLE_ALERT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
-import { KUI_DIALOG_CONTEXT } from './kui-dialog-context.token';
-import type { KuiDialogContext, KuiDialogHost } from './kui-dialog-context.token';
 import type { KuiConfirmConfig } from './kui-confirm.types';
+import type { KuiDialogContext, KuiDialogHost } from './kui-dialog-context.token';
+import { KUI_DIALOG_CONTEXT } from './kui-dialog-context.token';
 
 /**
  * @internal

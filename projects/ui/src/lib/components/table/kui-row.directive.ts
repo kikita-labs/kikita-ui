@@ -1,4 +1,4 @@
-import { Directive, computed, inject, input } from '@angular/core';
+import { computed, Directive, inject, input } from '@angular/core';
 
 import { KUI_TABLE_CTX } from './kui-table.directive';
 

@@ -1,13 +1,15 @@
-import { Component, viewChild } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { Component, viewChild } from '@angular/core';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
 import { afterEach } from 'vitest';
 
+import { KuiSeparatorDirective } from '../separator';
 import { KuiMenuComponent } from './kui-menu.component';
 import { KuiMenuForDirective } from './kui-menu-for.directive';
 import { KuiMenuHeaderDirective } from './kui-menu-header.directive';
 import { KuiMenuItemDirective } from './kui-menu-item.directive';
-import { KuiSeparatorDirective } from '../separator';
 
 @Component({
   imports: [

@@ -1,11 +1,10 @@
 import {
-  DEFAULT_KUI_THEME,
-  KuiColorScaleName,
-  KuiGeneratedTheme,
-  KuiThemeMode,
   createKuiThemeCssText,
   createKuiThemeVariableMap,
+  DEFAULT_KUI_THEME,
 } from '@kikita-labs/ui';
+
+import type { KuiColorScaleName, KuiGeneratedTheme, KuiThemeMode } from '@kikita-labs/ui';
 
 export interface SeedRow {
   readonly name: string;

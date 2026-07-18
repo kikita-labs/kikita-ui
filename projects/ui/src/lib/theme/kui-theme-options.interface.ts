@@ -1,4 +1,4 @@
-import { KuiThemeSeeds } from './kui-theme-seeds.interface';
+import type { KuiThemeSeeds } from './kui-theme-seeds.interface';
 
 /** Options accepted by the Kikita UI theme provider. */
 export interface KuiThemeOptions {

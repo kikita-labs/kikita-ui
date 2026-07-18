@@ -1,9 +1,11 @@
-import { inject, Injector, Type } from '@angular/core';
-import { Observable } from 'rxjs';
+import type { Type } from '@angular/core';
+import { inject, Injector } from '@angular/core';
 
-import { KuiDrawerHost } from './kui-drawer-context.token';
+import type { Observable } from 'rxjs';
+
 import { KuiDrawerService } from './kui-drawer.service';
-import { KuiDrawerConfig } from './kui-drawer.types';
+import type { KuiDrawerConfig } from './kui-drawer.types';
+import type { KuiDrawerHost } from './kui-drawer-context.token';
 
 /** Infer the result type from a {@link KuiDrawerHost} component. */
 export type InferDrawerResult<TComponent> =

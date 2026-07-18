@@ -1,21 +1,17 @@
+import type { ElementRef, WritableSignal } from '@angular/core';
 import {
   Component,
   DestroyRef,
-  ElementRef,
-  ViewEncapsulation,
   effect,
   inject,
   signal,
   viewChild,
-  WritableSignal,
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  KuiButtonDirective,
-  KuiFieldComponent,
-  KuiFileUploadComponent,
-  KuiUploadFile,
-} from '@kikita-labs/ui';
+import { KuiButtonDirective, KuiFieldComponent, KuiFileUploadComponent } from '@kikita-labs/ui';
+
+import type { KuiUploadFile } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 

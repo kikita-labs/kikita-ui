@@ -1,8 +1,9 @@
 import { Component, computed, inject, input, resource } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import type { SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { KUI_ICONS } from './kui-icon-registry.token';
-import { KuiIconName, KuiIconRegistry, KuiIconSource } from './kui-icon-source.type';
+import type { KuiIconName, KuiIconRegistry, KuiIconSource } from './kui-icon-source.type';
 
 /** Renders a registered inline SVG icon, direct inline SVG source, or external image URL. */
 @Component({

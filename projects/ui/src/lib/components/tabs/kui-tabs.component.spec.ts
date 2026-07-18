@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { KuiTabPanelDirective } from './kui-tab-panel.directive';
 import { KuiTabDirective } from './kui-tab.directive';
+import { KuiTabPanelDirective } from './kui-tab-panel.directive';
 import { KuiTabsComponent } from './kui-tabs.component';
 
 @Component({

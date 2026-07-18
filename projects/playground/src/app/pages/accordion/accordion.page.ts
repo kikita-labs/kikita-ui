@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, signal } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiAccordionComponent,

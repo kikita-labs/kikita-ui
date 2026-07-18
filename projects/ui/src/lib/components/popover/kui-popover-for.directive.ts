@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostListener, inject, input } from '@angular/core';
 
-import { KuiPopoverComponent } from './kui-popover.component';
+import type { KuiPopoverComponent } from './kui-popover.component';
 
 /**
  * Wires any element as a trigger for a `<kui-popover>`.

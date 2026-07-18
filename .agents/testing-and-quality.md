@@ -10,6 +10,7 @@ Use `pnpm.cmd` on Windows if PowerShell blocks `pnpm.ps1`.
 Fast local gate:
 
 ```bash
+pnpm.cmd lint
 pnpm.cmd audit:static
 pnpm.cmd test:scripts
 pnpm.cmd test
@@ -19,6 +20,7 @@ Full gate:
 
 ```bash
 pnpm.cmd format:check
+pnpm.cmd lint
 pnpm.cmd audit:static
 pnpm.cmd skills:check
 pnpm.cmd test:scripts

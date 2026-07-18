@@ -1,18 +1,19 @@
 import { Component, DestroyRef, inject, signal, ViewEncapsulation } from '@angular/core';
+
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
   KUI_DIALOG_CONTEXT,
   KuiButtonDirective,
-  KuiDialogContext,
-  KuiDialogHost,
+  kuiConfirm,
+  kuiDialog,
+  KuiFieldComponent,
   KuiIconComponent,
   KuiInputDirective,
   KuiTextareaDirective,
-  KuiFieldComponent,
-  kuiDialog,
-  kuiConfirm,
 } from '@kikita-labs/ui';
+
+import type { KuiDialogContext, KuiDialogHost } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 

@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, computed, inject } from '@angular/core';
+import { Component, computed, inject, ViewEncapsulation } from '@angular/core';
 
 import {
   KUI_THEME,

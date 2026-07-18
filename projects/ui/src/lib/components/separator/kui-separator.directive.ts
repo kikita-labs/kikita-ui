@@ -1,8 +1,8 @@
 import { Directive, input } from '@angular/core';
 
-import { KuiSeparatorAppearance } from './kui-separator-appearance.type';
-import { KuiSeparatorOrientation } from './kui-separator-orientation.type';
-import { KuiSeparatorSpacing } from './kui-separator-spacing.type';
+import type { KuiSeparatorAppearance } from './kui-separator-appearance.type';
+import type { KuiSeparatorOrientation } from './kui-separator-orientation.type';
+import type { KuiSeparatorSpacing } from './kui-separator-spacing.type';
 
 /** Applies Kikita UI separator styling to a native horizontal rule. */
 @Directive({

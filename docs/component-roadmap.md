@@ -103,6 +103,17 @@ Do not build Charts until a real consumer needs it.
   Do not add provider defaults for every component input; evaluate future candidates from real
   consumer repetition first.
 
+- ESLint is enabled for the library and playground. The gate fails on hard errors and reports
+  warnings for current architecture/accessibility debt that needs focused follow-up before those
+  rules can safely become blocking: selector edge cases on internal components, aliased public
+  inputs, native-event output names, template keyboard/focus warnings, unused variables in tests,
+  and expression-statement cleanup.
+
+- Angular workspace package versions should be aligned before release hardening. `pnpm peers check`
+  currently reports that `@angular/platform-server@22.0.7` wants
+  `@angular/common`, `@angular/compiler`, `@angular/core`, and `@angular/platform-browser` at
+  `22.0.7`, while the lockfile has `22.0.1` for those packages.
+
 ## Install DX
 
 Angular schematic support is implemented and verified against a fresh Angular

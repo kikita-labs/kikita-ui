@@ -1,4 +1,5 @@
-import { Directive, inject, OnDestroy, TemplateRef } from '@angular/core';
+import type { OnDestroy } from '@angular/core';
+import { Directive, inject, TemplateRef } from '@angular/core';
 
 import { KuiFieldComponent } from '../field/kui-field.component';
 

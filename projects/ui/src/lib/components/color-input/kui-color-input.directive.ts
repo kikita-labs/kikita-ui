@@ -1,33 +1,28 @@
 import { Overlay } from '@angular/cdk/overlay';
+import type { AfterViewInit, ComponentRef, DoCheck, OnDestroy } from '@angular/core';
 import {
-  AfterViewInit,
-  ComponentRef,
-  Directive,
-  DoCheck,
-  ElementRef,
-  Injector,
-  OnDestroy,
-  Renderer2,
   booleanAttribute,
   computed,
+  Directive,
   effect,
+  ElementRef,
   inject,
+  Injector,
   input,
+  Renderer2,
   signal,
   ViewContainerRef,
 } from '@angular/core';
 
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import {
   KUI_CHEVRON_DOWN_D,
   KUI_COPY_D,
   KUI_COPY_RECT,
 } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
-import {
-  createKuiTooltipOverlay,
-  KuiTooltipOverlayHandle,
-} from '../../utils/kui-tooltip-overlay.util';
+import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.util';
+import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KuiFieldComponent } from '../field';
 
@@ -118,8 +113,8 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private swatchTooltipText = '';
   private tooltipOverlay: KuiTooltipOverlayHandle | null = null;
   private tooltipAnchor: HTMLElement | null = null;
-  private readonly unlisten: Array<() => void> = [];
-  private readonly pickerUnlisten: Array<() => void> = [];
+  private readonly unlisten: (() => void)[] = [];
+  private readonly pickerUnlisten: (() => void)[] = [];
 
   ngAfterViewInit(): void {
     this.buildDom();

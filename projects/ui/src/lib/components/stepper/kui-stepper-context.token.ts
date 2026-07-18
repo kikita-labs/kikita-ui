@@ -1,6 +1,7 @@
-import { InjectionToken, Signal } from '@angular/core';
+import type { Signal } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-import { KuiStepComponent } from './kui-step.component';
+import type { KuiStepComponent } from './kui-step.component';
 
 /** Shared context provided by KuiStepperComponent to projected `kui-step` children. */
 export interface KuiStepperContext {

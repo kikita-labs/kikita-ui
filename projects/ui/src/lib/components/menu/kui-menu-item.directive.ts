@@ -1,6 +1,6 @@
 import { booleanAttribute, Directive, ElementRef, inject, input } from '@angular/core';
 
-import { KuiMenuItemAppearance } from './kui-menu-item-appearance.type';
+import type { KuiMenuItemAppearance } from './kui-menu-item-appearance.type';
 
 let nextMenuItemId = 0;
 

@@ -1,8 +1,5 @@
-import {
-  ApplicationConfig,
-  provideBrowserGlobalErrorListeners,
-  provideZonelessChangeDetection,
-} from '@angular/core';
+import type { ApplicationConfig } from '@angular/core';
+import { provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 

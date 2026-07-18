@@ -10,6 +10,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Added
 
+- ESLint is now part of the workspace quality gate, with Angular ESLint, TypeScript ESLint,
+  sorted imports/exports, lint-staged autofix for TypeScript files, and `ng lint` targets for
+  both the library and playground.
 - `kuiProvideButtonOptions()` and `KUI_BUTTON_OPTIONS` allow scoped defaults for Kikita UI button
   primitives. Configure ordinary buttons through `button` and icon-only buttons through
   `iconButton`.

@@ -1,9 +1,11 @@
+import { CdkTrapFocus } from '@angular/cdk/a11y';
+import type { OverlayRef } from '@angular/cdk/overlay';
+import { Overlay } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { DOCUMENT } from '@angular/common';
+import type { ElementRef, OnDestroy, TemplateRef } from '@angular/core';
 import {
   Component,
-  ElementRef,
-  OnDestroy,
-  TemplateRef,
-  ViewContainerRef,
   computed,
   effect,
   inject,
@@ -12,12 +14,9 @@ import {
   output,
   signal,
   viewChild,
+  ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
-import { CdkTrapFocus } from '@angular/cdk/a11y';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
-import { DOCUMENT } from '@angular/common';
 
 import {
   KUI_SEARCH_CIRCLE,
@@ -26,7 +25,7 @@ import {
 } from '../../utils/kui-chrome-icon-paths.util';
 import { KuiEmptyStateComponent, KuiEmptyStateIconDirective } from '../empty-state';
 import { KuiSkeletonDirective } from '../skeleton';
-import { KuiCommandGroup, KuiCommandItem } from './kui-command-palette.types';
+import type { KuiCommandGroup, KuiCommandItem } from './kui-command-palette.types';
 
 let nextCommandPaletteId = 0;
 

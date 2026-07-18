@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { KuiCellDirective } from './kui-cell.directive';
 import { KuiRowDirective } from './kui-row.directive';
 import { KuiSelectCellComponent } from './kui-select-cell.component';
 import { KuiSelectThComponent } from './kui-select-th.component';
 import { KuiTableDirective } from './kui-table.directive';
-import { KuiThGroupDirective } from './kui-th-group.directive';
 import { KuiThDirective } from './kui-th.directive';
-import { KuiSortState } from './types';
+import { KuiThGroupDirective } from './kui-th-group.directive';
+import type { KuiSortState } from './types';
 
 interface Row {
   id: number;

@@ -1,6 +1,8 @@
-import { Component, ViewEncapsulation, signal } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
 
-import { KuiTreeComponent, KuiTreeNode } from '@kikita-labs/ui';
+import { KuiTreeComponent } from '@kikita-labs/ui';
+
+import type { KuiTreeNode } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 

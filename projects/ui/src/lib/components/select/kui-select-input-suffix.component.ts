@@ -1,11 +1,12 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, input, output, TemplateRef, ViewEncapsulation } from '@angular/core';
+import type { TemplateRef } from '@angular/core';
+import { Component, computed, input, output, ViewEncapsulation } from '@angular/core';
 
 import { KUI_CHEVRON_DOWN_D, KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
 import { KuiChipDirective } from '../chip/kui-chip.directive';
 import { KuiChipRemoveDirective } from '../chip/kui-chip-remove.directive';
 import { KuiFieldActionDirective } from '../field';
-import { KuiSelectValueContext } from './kui-select-value.directive';
+import type { KuiSelectValueContext } from './kui-select-value.directive';
 
 /** @internal Selected item rendered inside a multiple select control. */
 export interface KuiSelectChipItem {

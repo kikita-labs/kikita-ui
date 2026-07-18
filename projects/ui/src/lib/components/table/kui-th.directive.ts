@@ -1,5 +1,5 @@
+import type { AfterViewInit, OnDestroy } from '@angular/core';
 import {
-  AfterViewInit,
   booleanAttribute,
   computed,
   Directive,
@@ -7,7 +7,6 @@ import {
   ElementRef,
   inject,
   input,
-  OnDestroy,
   Renderer2,
   signal,
 } from '@angular/core';

@@ -1,10 +1,10 @@
 import {
-  Component,
-  ViewEncapsulation,
   booleanAttribute,
+  Component,
   computed,
   inject,
   input,
+  ViewEncapsulation,
 } from '@angular/core';
 
 import { KUI_CHECK_D, KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';

@@ -1,7 +1,8 @@
-import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
+import type { EnvironmentProviders } from '@angular/core';
+import { makeEnvironmentProviders } from '@angular/core';
 
 import { KUI_ICONS } from './kui-icon-registry.token';
-import { KuiIconRegistry } from './kui-icon-source.type';
+import type { KuiIconRegistry } from './kui-icon-source.type';
 
 /**
  * Registers an icon set for `KuiIconComponent` lookup by name — either a static map of trusted

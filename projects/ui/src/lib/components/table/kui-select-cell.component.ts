@@ -1,7 +1,7 @@
-import { Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 
-import { KUI_TABLE_CTX } from './kui-table.directive';
 import { KuiRowDirective } from './kui-row.directive';
+import { KUI_TABLE_CTX } from './kui-table.directive';
 
 /** Renders a native checkbox cell for selectable table rows. */
 @Component({

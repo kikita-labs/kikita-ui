@@ -1,5 +1,5 @@
-import { Component, ViewEncapsulation, computed, signal } from '@angular/core';
-import { FormField, FormRoot, email, form, minLength, required } from '@angular/forms/signals';
+import { Component, computed, signal, ViewEncapsulation } from '@angular/core';
+import { email, form, FormField, FormRoot, minLength, required } from '@angular/forms/signals';
 
 import { KuiButtonDirective, KuiFieldComponent, KuiInputDirective } from '@kikita-labs/ui';
 

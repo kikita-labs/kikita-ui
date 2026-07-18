@@ -1,9 +1,9 @@
-import { DEFAULT_KUI_THEME } from './default-kui-theme.const';
 import {
   createKuiTheme,
   createKuiThemeStyleSheet,
   createKuiThemeVariableMap,
 } from './create-kui-theme';
+import { DEFAULT_KUI_THEME } from './default-kui-theme.const';
 
 describe('createKuiTheme', () => {
   it('generates seed, palette, semantic, and component variables from the default theme', () => {

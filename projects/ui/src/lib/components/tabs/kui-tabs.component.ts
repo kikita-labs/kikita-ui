@@ -1,25 +1,26 @@
+import type { ElementRef } from '@angular/core';
 import {
-  Component,
-  DestroyRef,
-  ElementRef,
-  ViewEncapsulation,
   afterEveryRender,
   afterNextRender,
   booleanAttribute,
+  Component,
   computed,
   contentChildren,
+  DestroyRef,
   inject,
   input,
   model,
   signal,
   viewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiTabDirective } from './kui-tab.directive';
-import { KUI_TABS_CONTEXT, KuiTabsContext } from './kui-tabs-context.token';
+import type { KuiTabsContext } from './kui-tabs-context.token';
+import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
 
 /** Visual treatment used by `kui-tabs`. */
 export type KuiTabsVariant = 'line' | 'pill';

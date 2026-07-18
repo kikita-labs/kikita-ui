@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { KUI_LOCALE } from '../../i18n/kui-locale.token';
 import { KuiCalendarComponent } from './kui-calendar.component';
-import { KuiCalendarMode, KuiCalendarValue } from './kui-calendar.types';
+import type { KuiCalendarMode, KuiCalendarValue } from './kui-calendar.types';
 
 @Component({
   imports: [KuiCalendarComponent],

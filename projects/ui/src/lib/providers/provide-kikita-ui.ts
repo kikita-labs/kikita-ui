@@ -1,16 +1,16 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import type { EnvironmentProviders } from '@angular/core';
 import {
   ENVIRONMENT_INITIALIZER,
-  EnvironmentProviders,
-  PLATFORM_ID,
   inject,
   makeEnvironmentProviders,
+  PLATFORM_ID,
 } from '@angular/core';
 
 import { KUI_ICONS, resolveLucideIcon } from '../components/icon';
 import { DEFAULT_KUI_THEME, provideKuiTheme } from '../theme';
+import type { KikitaUiOptions } from './kikita-ui-options.interface';
 import { KIKITA_UI_OPTIONS } from './kikita-ui-options.token';
-import { KikitaUiOptions } from './kikita-ui-options.interface';
 
 /** Provides root Kikita UI configuration for an Angular application. */
 export function provideKikitaUi(options: KikitaUiOptions = {}): EnvironmentProviders {

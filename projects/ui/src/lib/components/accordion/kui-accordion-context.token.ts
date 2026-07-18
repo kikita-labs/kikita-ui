@@ -1,4 +1,5 @@
-import { InjectionToken, Signal } from '@angular/core';
+import type { Signal } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
 /** Shared context provided by KuiAccordionComponent to item children. */
 export interface KuiAccordionContext {

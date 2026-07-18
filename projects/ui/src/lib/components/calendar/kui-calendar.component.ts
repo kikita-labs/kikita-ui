@@ -1,12 +1,12 @@
 import {
-  Component,
-  ViewEncapsulation,
   booleanAttribute,
+  Component,
   computed,
   inject,
   input,
   model,
   signal,
+  ViewEncapsulation,
 } from '@angular/core';
 
 import { getKuiCalendarLocaleText } from '../../i18n/kui-calendar-locale-text.util';
@@ -15,6 +15,13 @@ import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
 import { KuiSeparatorDirective } from '../separator/kui-separator.directive';
+import type {
+  KuiCalendarDisabledPredicate,
+  KuiCalendarMode,
+  KuiCalendarSize,
+  KuiCalendarValue,
+  KuiDateRange,
+} from './kui-calendar.types';
 import {
   addDays,
   addMonths,
@@ -26,13 +33,6 @@ import {
   startOfWeek,
   weekdayIndex,
 } from './kui-calendar-date.util';
-import {
-  KuiCalendarDisabledPredicate,
-  KuiCalendarMode,
-  KuiCalendarSize,
-  KuiCalendarValue,
-  KuiDateRange,
-} from './kui-calendar.types';
 
 interface KuiCalendarDayCell {
   date: Date;

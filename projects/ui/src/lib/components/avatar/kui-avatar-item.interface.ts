@@ -1,4 +1,4 @@
-import { KuiAvatarStatus } from './kui-avatar-status.type';
+import type { KuiAvatarStatus } from './kui-avatar-status.type';
 
 /** Data item rendered by `kui-avatar-group`. */
 export interface KuiAvatarItem {

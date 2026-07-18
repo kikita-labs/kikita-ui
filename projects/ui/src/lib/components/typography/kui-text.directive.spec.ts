@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { KuiTextDirective } from './kui-text.directive';
-import { KuiTextTone } from './kui-text-tone.type';
-import { KuiTextVariant } from './kui-text-variant.type';
+import type { KuiTextTone } from './kui-text-tone.type';
+import type { KuiTextVariant } from './kui-text-variant.type';
 
 @Component({
   imports: [KuiTextDirective],

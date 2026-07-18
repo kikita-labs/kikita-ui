@@ -1,4 +1,5 @@
-import { InjectionToken, Signal } from '@angular/core';
+import type { Signal } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
 /** Shared context injected by KuiSegmentedComponent into child segment directives. */
 export interface KuiSegmentedContext {

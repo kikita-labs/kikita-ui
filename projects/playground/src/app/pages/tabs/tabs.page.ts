@@ -1,13 +1,13 @@
-import { Component, ViewEncapsulation, signal } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiBadgeDirective,
   KuiButtonDirective,
   KuiCellDirective,
   KuiTabDirective,
+  KuiTableDirective,
   KuiTabPanelDirective,
   KuiTabsComponent,
-  KuiTableDirective,
   KuiThDirective,
   KuiThGroupDirective,
 } from '@kikita-labs/ui';

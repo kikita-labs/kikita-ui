@@ -1,13 +1,7 @@
-import {
-  Component,
-  OnDestroy,
-  PLATFORM_ID,
-  ViewEncapsulation,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import type { OnDestroy } from '@angular/core';
+import { Component, computed, inject, PLATFORM_ID, signal, ViewEncapsulation } from '@angular/core';
+
 import { Subject } from 'rxjs';
 
 import {

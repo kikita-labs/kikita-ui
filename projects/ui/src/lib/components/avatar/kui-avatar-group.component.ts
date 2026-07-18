@@ -1,10 +1,10 @@
 import { Component, computed, input } from '@angular/core';
 
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
-import { KuiAvatarItem } from './kui-avatar-item.interface';
-import { KuiAvatarShape } from './kui-avatar-shape.type';
-import { KuiAvatarSize } from './kui-avatar-size.type';
 import { KuiAvatarComponent } from './kui-avatar.component';
+import type { KuiAvatarItem } from './kui-avatar-item.interface';
+import type { KuiAvatarShape } from './kui-avatar-shape.type';
+import type { KuiAvatarSize } from './kui-avatar-size.type';
 
 /** Renders an overlapping avatar stack with an overflow avatar when items exceed the limit. */
 @Component({

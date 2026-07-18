@@ -1,22 +1,20 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { isPlatformBrowser } from '@angular/common';
+import type { OnDestroy } from '@angular/core';
 import {
   computed,
   Directive,
   ElementRef,
-  OnDestroy,
-  PLATFORM_ID,
-  Renderer2,
   inject,
   input,
+  PLATFORM_ID,
+  Renderer2,
   signal,
 } from '@angular/core';
 
-import { KuiTooltipPlacement } from './kui-tooltip-placement.type';
-import {
-  createKuiTooltipOverlay,
-  KuiTooltipOverlayHandle,
-} from '../../utils/kui-tooltip-overlay.util';
+import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.util';
+import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
+import type { KuiTooltipPlacement } from './kui-tooltip-placement.type';
 
 let tooltipCounter = 0;
 

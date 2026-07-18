@@ -1,24 +1,24 @@
+import type { Signal, TemplateRef } from '@angular/core';
 import {
-  Component,
-  ElementRef,
-  Signal,
   booleanAttribute,
+  Component,
   computed,
   contentChild,
   effect,
+  ElementRef,
   inject,
   input,
   signal,
-  TemplateRef,
   viewChild,
 } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
 
-import { KUI_OPTION_CONTEXT, KuiOptionContext } from '../dropdown/kui-option-context.token';
-import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
+import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
+import { KUI_OPTION_CONTEXT } from '../dropdown/kui-option-context.token';
 import {
   KuiErrorDirective,
   KuiHintDirective,

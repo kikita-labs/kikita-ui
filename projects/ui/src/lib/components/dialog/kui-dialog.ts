@@ -1,9 +1,11 @@
-import { inject, Injector, Type } from '@angular/core';
-import { Observable } from 'rxjs';
+import type { Type } from '@angular/core';
+import { inject, Injector } from '@angular/core';
 
-import { KuiDialogHost } from './kui-dialog-context.token';
+import type { Observable } from 'rxjs';
+
 import { KuiDialogService } from './kui-dialog.service';
-import { KuiDialogConfig } from './kui-dialog.types';
+import type { KuiDialogConfig } from './kui-dialog.types';
+import type { KuiDialogHost } from './kui-dialog-context.token';
 
 /** Infer the result type from a {@link KuiDialogHost} component. */
 export type InferDialogResult<TComponent> =

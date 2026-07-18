@@ -1,8 +1,8 @@
-import { Component, ViewEncapsulation, computed, input } from '@angular/core';
+import { Component, computed, input, ViewEncapsulation } from '@angular/core';
 
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
-import { KuiEmptyStateContext } from './kui-empty-state-context.type';
-import { KuiEmptyStateSize } from './kui-empty-state-size.type';
+import type { KuiEmptyStateContext } from './kui-empty-state-context.type';
+import type { KuiEmptyStateSize } from './kui-empty-state-size.type';
 
 const KUI_EMPTY_STATE_SIZES = ['sm', 'md', 'lg'] as const;
 

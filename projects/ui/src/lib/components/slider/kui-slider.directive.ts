@@ -1,28 +1,24 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import type { AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
 import {
-  AfterViewInit,
-  Directive,
-  DoCheck,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  PLATFORM_ID,
-  Renderer2,
   booleanAttribute,
   computed,
+  Directive,
   effect,
+  ElementRef,
+  HostListener,
   inject,
   input,
+  PLATFORM_ID,
+  Renderer2,
 } from '@angular/core';
 
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.util';
+import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
 import { KuiFieldComponent } from '../field';
 import { KuiTooltipDirective } from '../tooltip/kui-tooltip.directive';
-import {
-  createKuiTooltipOverlay,
-  KuiTooltipOverlayHandle,
-} from '../../utils/kui-tooltip-overlay.util';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 
 const KUI_SLIDER_SIZES = ['sm', 'md', 'lg'] as const;
 

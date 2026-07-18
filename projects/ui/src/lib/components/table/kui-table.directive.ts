@@ -1,10 +1,12 @@
-import { Directive, InjectionToken, Signal, computed, input, signal } from '@angular/core';
+import type { Signal } from '@angular/core';
+import { computed, Directive, InjectionToken, input, signal } from '@angular/core';
+
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
 
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
-import { KuiActiveSortState, KuiSortState } from './types';
+import type { KuiActiveSortState, KuiSortState } from './types';
 
 /** Injection token used by table child directives to access their parent table state. */
 export const KUI_TABLE_CTX = new InjectionToken<KuiTableDirective>('KuiTableContext');

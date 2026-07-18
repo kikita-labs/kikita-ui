@@ -1,5 +1,5 @@
-import { KuiSize } from '../types';
-import { KuiThemeOptions } from '../theme';
+import type { KuiThemeOptions } from '../theme';
+import type { KuiSize } from '../types';
 
 /** Root configuration for Kikita UI providers. */
 export interface KikitaUiOptions {

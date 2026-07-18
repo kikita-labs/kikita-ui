@@ -1,6 +1,8 @@
-import { Component, ViewEncapsulation, signal } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
 
-import { KuiButtonDirective, KuiToastPosition, kuiToast } from '@kikita-labs/ui';
+import { KuiButtonDirective, kuiToast } from '@kikita-labs/ui';
+
+import type { KuiToastPosition } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 

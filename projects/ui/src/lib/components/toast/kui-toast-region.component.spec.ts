@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+
 import { describe, expect, it } from 'vitest';
 
 import { KuiToastRegionComponent } from './kui-toast-region.component';

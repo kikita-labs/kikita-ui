@@ -1,17 +1,19 @@
 import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
 import { vi } from 'vitest';
 
+import type { KuiFileUploadMode, KuiFileUploadVariant } from './kui-file-upload.component';
 import { KuiFileUploadComponent } from './kui-file-upload.component';
-import { KuiFileUploadMode, KuiFileUploadVariant } from './kui-file-upload.component';
-import { KuiUploadFile } from './kui-upload-file.interface';
+import type { KuiUploadFile } from './kui-upload-file.interface';
 
 function makeFile(name: string, type: string, size: number): File {
   return new File([new Uint8Array(size)], name, { type });
 }
 
 function fileListOf(...files: File[]): FileList {
-  const list: Partial<FileList> & { [index: number]: File } = { length: files.length };
+  const list: Partial<FileList> & Record<number, File> = { length: files.length };
   files.forEach((file, i) => (list[i] = file));
   list.item = (i: number) => files[i] ?? null;
   return list as FileList;

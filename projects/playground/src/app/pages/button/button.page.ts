@@ -1,17 +1,16 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 import {
-  KuiButtonAppearance,
   KuiButtonDirective,
-  KuiButtonShape,
   KuiCellDirective,
   KuiIconButtonDirective,
   KuiIconComponent,
-  KuiSize,
   KuiTableDirective,
   KuiThDirective,
   KuiThGroupDirective,
 } from '@kikita-labs/ui';
+
+import type { KuiButtonAppearance, KuiButtonShape, KuiSize } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
@@ -32,17 +31,17 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class ButtonPage {
-  protected readonly shapes: ReadonlyArray<{ value: KuiButtonShape; label: string }> = [
+  protected readonly shapes: readonly { value: KuiButtonShape; label: string }[] = [
     { value: 'solid', label: 'Solid' },
     { value: 'soft', label: 'Soft' },
     { value: 'outline', label: 'Outline' },
     { value: 'ghost', label: 'Ghost' },
   ];
 
-  protected readonly appearances: ReadonlyArray<{
+  protected readonly appearances: readonly {
     value: KuiButtonAppearance;
     label: string;
-  }> = [
+  }[] = [
     { value: 'primary', label: 'Primary' },
     { value: 'danger', label: 'Danger' },
     { value: 'success', label: 'Success' },
@@ -57,7 +56,7 @@ export class ButtonPage {
     { value: 'disabled' as const, label: 'Disabled' },
   ];
 
-  protected readonly sizes: ReadonlyArray<{ value: KuiSize; label: string }> = [
+  protected readonly sizes: readonly { value: KuiSize; label: string }[] = [
     { value: 'xs', label: 'xs' },
     { value: 'sm', label: 'sm' },
     { value: 'md', label: 'md (default)' },

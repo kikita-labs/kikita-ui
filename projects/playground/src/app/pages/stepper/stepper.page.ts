@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation, WritableSignal, signal } from '@angular/core';
+import type { WritableSignal } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
 
 import { KuiButtonDirective, KuiStepComponent, KuiStepperComponent } from '@kikita-labs/ui';
 

@@ -1,13 +1,9 @@
 import { DatePipe } from '@angular/common';
-import { Component, ViewEncapsulation, computed, signal } from '@angular/core';
+import { Component, computed, signal, ViewEncapsulation } from '@angular/core';
 
-import {
-  KuiButtonDirective,
-  KuiCalendarComponent,
-  KuiCalendarMode,
-  KuiCalendarValue,
-  KuiDateRange,
-} from '@kikita-labs/ui';
+import { KuiButtonDirective, KuiCalendarComponent } from '@kikita-labs/ui';
+
+import type { KuiCalendarMode, KuiCalendarValue, KuiDateRange } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 

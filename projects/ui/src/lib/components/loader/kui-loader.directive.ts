@@ -1,6 +1,6 @@
-import { Directive, computed, input } from '@angular/core';
+import { computed, Directive, input } from '@angular/core';
 
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 
 /** Applies Kikita UI loading indicator styling to an inline element. */

@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, computed, signal } from '@angular/core';
+import { Component, computed, signal, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { KuiFieldComponent, KuiNumberInputDirective } from '@kikita-labs/ui';

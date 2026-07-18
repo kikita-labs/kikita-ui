@@ -1,5 +1,5 @@
-import { Component, ViewEncapsulation, computed, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Component, computed, signal, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiCellDirective,

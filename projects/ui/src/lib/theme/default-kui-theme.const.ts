@@ -1,4 +1,4 @@
-import { KuiThemeOptions } from './kui-theme-options.interface';
+import type { KuiThemeOptions } from './kui-theme-options.interface';
 
 /** Default experimental Kikita UI theme seeds. */
 export const DEFAULT_KUI_THEME: KuiThemeOptions = {

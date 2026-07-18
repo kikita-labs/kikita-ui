@@ -1,6 +1,7 @@
-import { InjectionToken, Provider } from '@angular/core';
+import type { Provider } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-import { KuiToastOptions } from './kui-toast.types';
+import type { KuiToastOptions } from './kui-toast.types';
 
 /** @internal DI token for global toast defaults. */
 export const KUI_TOAST_OPTIONS = new InjectionToken<KuiToastOptions>('KUI_TOAST_OPTIONS');

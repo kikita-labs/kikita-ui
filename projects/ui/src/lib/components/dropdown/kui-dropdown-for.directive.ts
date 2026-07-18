@@ -1,6 +1,7 @@
-import { Directive, ElementRef, inject, input, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Directive, ElementRef, inject, input } from '@angular/core';
 
-import { KuiDropdownComponent } from './kui-dropdown.component';
+import type { KuiDropdownComponent } from './kui-dropdown.component';
 
 @Directive({
   selector: '[kuiDropdownFor]',

@@ -2,8 +2,8 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiBreadcrumbItemDirective,
-  KuiBreadcrumbSeparatorComponent,
   KuiBreadcrumbsDirective,
+  KuiBreadcrumbSeparatorComponent,
 } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';

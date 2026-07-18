@@ -1,7 +1,7 @@
 export { KuiPopoverComponent } from './kui-popover.component';
-export { KuiPopoverForDirective } from './kui-popover-for.directive';
 export type {
-  KuiPopoverPlacement,
   KuiPopoverAlign,
+  KuiPopoverPlacement,
   KuiPopoverTriggerType,
 } from './kui-popover.types';
+export { KuiPopoverForDirective } from './kui-popover-for.directive';

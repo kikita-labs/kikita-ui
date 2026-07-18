@@ -1,16 +1,16 @@
 import {
-  Directive,
-  ElementRef,
   booleanAttribute,
   computed,
+  Directive,
+  ElementRef,
   inject,
   input,
   output,
 } from '@angular/core';
 
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
-import { KuiChipAppearance } from './kui-chip-appearance.type';
-import { KuiChipSize } from './kui-chip-size.type';
+import type { KuiChipAppearance } from './kui-chip-appearance.type';
+import type { KuiChipSize } from './kui-chip-size.type';
 
 /** Applies Kikita UI chip styling to selected values, filters, tags, and metadata. */
 @Directive({

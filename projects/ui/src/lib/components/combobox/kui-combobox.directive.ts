@@ -1,26 +1,28 @@
+import type { ComponentRef, OnDestroy, Signal } from '@angular/core';
 import {
-  ComponentRef,
-  Directive,
-  ElementRef,
-  Signal,
   booleanAttribute,
   computed,
+  Directive,
   effect,
+  ElementRef,
   inject,
   input,
   model,
-  OnDestroy,
   output,
   ViewContainerRef,
 } from '@angular/core';
-import { FormValueControl, ValidationError, WithOptionalFieldTree } from '@angular/forms/signals';
+import type {
+  FormValueControl,
+  ValidationError,
+  WithOptionalFieldTree,
+} from '@angular/forms/signals';
 
 import { KUI_COMBOBOX_OPTIONS } from '../../tokens/kui-combobox-options.token';
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
-import { KuiOptionContext } from '../dropdown/kui-option-context.token';
+import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import { KuiComboboxInputSuffixComponent } from './kui-combobox-input-suffix.component';
-import { KuiComboboxMode } from './kui-combobox-mode.type';
+import type { KuiComboboxMode } from './kui-combobox-mode.type';
 
 function optionalBooleanAttribute(value: unknown): boolean | undefined {
   return value == null ? undefined : booleanAttribute(value);

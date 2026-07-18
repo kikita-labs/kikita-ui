@@ -1,12 +1,12 @@
-import { Component, ViewEncapsulation, computed, inject } from '@angular/core';
+import { Component, computed, inject, ViewEncapsulation } from '@angular/core';
 
 import {
+  KUI_THEME,
   KuiCardDirective,
   KuiCellDirective,
   KuiTableDirective,
   KuiThDirective,
   KuiThGroupDirective,
-  KUI_THEME,
 } from '@kikita-labs/ui';
 
 import { createCssText, createPaletteRows, createSeedRows } from '../../playground-data';

@@ -1,4 +1,5 @@
-import { InjectionToken, Signal } from '@angular/core';
+import type { Signal } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
 /** Selection context shared by dropdown-like components with projected options. */
 export interface KuiOptionContext {

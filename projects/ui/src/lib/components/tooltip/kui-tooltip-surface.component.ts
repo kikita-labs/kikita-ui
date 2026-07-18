@@ -1,6 +1,6 @@
 import { Component, input, ViewEncapsulation } from '@angular/core';
 
-import { KuiTooltipPlacement } from './kui-tooltip-placement.type';
+import type { KuiTooltipPlacement } from './kui-tooltip-placement.type';
 
 /** @internal CDK overlay surface used by Kikita tooltip producers. */
 @Component({

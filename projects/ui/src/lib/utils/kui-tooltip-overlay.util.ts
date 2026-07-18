@@ -1,8 +1,8 @@
-import { Overlay, OverlayRef, ConnectedPosition } from '@angular/cdk/overlay';
+import type { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ComponentRef } from '@angular/core';
+import type { ComponentRef } from '@angular/core';
 
-import { KuiTooltipPlacement } from '../components/tooltip/kui-tooltip-placement.type';
+import type { KuiTooltipPlacement } from '../components/tooltip/kui-tooltip-placement.type';
 import { KuiTooltipSurfaceComponent } from '../components/tooltip/kui-tooltip-surface.component';
 
 const TOOLTIP_GAP = 6;

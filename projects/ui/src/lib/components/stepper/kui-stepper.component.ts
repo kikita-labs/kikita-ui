@@ -1,17 +1,18 @@
 import {
-  Component,
-  ViewEncapsulation,
   booleanAttribute,
+  Component,
   computed,
   contentChildren,
   inject,
   input,
   model,
+  ViewEncapsulation,
 } from '@angular/core';
 
-import { KuiStepComponent } from './kui-step.component';
-import { KUI_STEPPER_CONTEXT, KuiStepperContext } from './kui-stepper-context.token';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { KuiStepComponent } from './kui-step.component';
+import type { KuiStepperContext } from './kui-stepper-context.token';
+import { KUI_STEPPER_CONTEXT } from './kui-stepper-context.token';
 
 /** Layout direction of the step list. */
 export type KuiStepperOrientation = 'horizontal' | 'vertical';

@@ -1,13 +1,16 @@
-import { DOCUMENT } from '@angular/common';
-import { inject, Injector, Service, Type } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Observable } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+import type { Type } from '@angular/core';
+import { inject, Injector, Service } from '@angular/core';
 
+import type { Observable } from 'rxjs';
+
+import type { KuiDialogConfig } from './kui-dialog.types';
 import { KuiDialogContainerComponent } from './kui-dialog-container.component';
-import { KUI_DIALOG_CONTEXT, KuiDialogContext, KuiDialogHost } from './kui-dialog-context.token';
+import type { KuiDialogContext, KuiDialogHost } from './kui-dialog-context.token';
+import { KUI_DIALOG_CONTEXT } from './kui-dialog-context.token';
 import { KuiDialogRef } from './kui-dialog-ref';
-import { KuiDialogConfig } from './kui-dialog.types';
 
 type FocusableElement = Element & { focus: () => void };
 

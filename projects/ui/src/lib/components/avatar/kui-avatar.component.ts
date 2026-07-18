@@ -1,10 +1,11 @@
-import { Component, booleanAttribute, computed, input, signal } from '@angular/core';
+import { booleanAttribute, Component, computed, input, signal } from '@angular/core';
 
-import { KuiSkeletonDirective, KuiSkeletonShape } from '../skeleton';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
-import { KuiAvatarShape } from './kui-avatar-shape.type';
-import { KuiAvatarSize } from './kui-avatar-size.type';
-import { KuiAvatarStatus } from './kui-avatar-status.type';
+import type { KuiSkeletonShape } from '../skeleton';
+import { KuiSkeletonDirective } from '../skeleton';
+import type { KuiAvatarShape } from './kui-avatar-shape.type';
+import type { KuiAvatarSize } from './kui-avatar-size.type';
+import type { KuiAvatarStatus } from './kui-avatar-status.type';
 
 const STATUS_LABELS: Record<KuiAvatarStatus, string> = {
   online: 'online',

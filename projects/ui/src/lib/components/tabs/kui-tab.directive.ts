@@ -1,12 +1,12 @@
 import {
-  Directive,
-  ElementRef,
-  Renderer2,
   booleanAttribute,
   computed,
+  Directive,
   effect,
+  ElementRef,
   inject,
   input,
+  Renderer2,
 } from '@angular/core';
 
 import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';

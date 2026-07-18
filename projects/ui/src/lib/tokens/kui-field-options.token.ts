@@ -1,6 +1,7 @@
-import { InjectionToken, Provider } from '@angular/core';
+import type { Provider } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-import { KuiSize } from '../types';
+import type { KuiSize } from '../types';
 
 /** Shared defaults for input-like controls composed inside `kui-field`. */
 export interface KuiFieldControlOptions {

@@ -1,22 +1,22 @@
+import type { ConnectedPosition, OverlayRef } from '@angular/cdk/overlay';
+import { Overlay } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { ViewportRuler } from '@angular/cdk/scrolling';
+import { DOCUMENT } from '@angular/common';
+import type { OnDestroy, TemplateRef } from '@angular/core';
 import {
   Component,
+  computed,
+  contentChildren,
   DestroyRef,
   ElementRef,
-  OnDestroy,
-  TemplateRef,
-  ViewContainerRef,
-  ViewEncapsulation,
-  contentChildren,
-  computed,
   inject,
   input,
   signal,
   viewChild,
+  ViewContainerRef,
+  ViewEncapsulation,
 } from '@angular/core';
-import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
-import { ViewportRuler } from '@angular/cdk/scrolling';
-import { DOCUMENT } from '@angular/common';
 
 import {
   clampPanelToAvailableSpace,
@@ -24,9 +24,9 @@ import {
   observeViewportResize,
   wireFloatingPanelDismissal,
 } from '../../utils/kui-floating-panel.util';
-import { KuiMenuAlign } from './kui-menu-align.type';
+import type { KuiMenuAlign } from './kui-menu-align.type';
 import { KuiMenuItemDirective } from './kui-menu-item.directive';
-import { KuiMenuPlacement } from './kui-menu-placement.type';
+import type { KuiMenuPlacement } from './kui-menu-placement.type';
 
 let nextMenuId = 0;
 

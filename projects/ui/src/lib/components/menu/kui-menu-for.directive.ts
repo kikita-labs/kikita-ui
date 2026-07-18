@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostListener, inject, input } from '@angular/core';
 
-import { KuiMenuComponent } from './kui-menu.component';
+import type { KuiMenuComponent } from './kui-menu.component';
 
 /** Wires a native element as the trigger for a `kui-menu`. */
 @Directive({

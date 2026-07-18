@@ -1,14 +1,9 @@
-import {
-  Component,
-  ComponentRef,
-  ElementRef,
-  EventEmitter,
-  signal,
-  ViewEncapsulation,
-  viewChild,
-} from '@angular/core';
-import { CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
+import type { ComponentPortal } from '@angular/cdk/portal';
+import { CdkPortalOutlet } from '@angular/cdk/portal';
+import type { ComponentRef, ElementRef } from '@angular/core';
+import { Component, EventEmitter, signal, viewChild, ViewEncapsulation } from '@angular/core';
+
 import type { KuiDialogAppearance, KuiDialogSize } from './kui-dialog.types';
 
 let nextDialogTitleId = 0;

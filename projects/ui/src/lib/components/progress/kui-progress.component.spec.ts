@@ -1,8 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { KuiProgressColor, KuiProgressComponent, KuiProgressSize } from './kui-progress.component';
+import type { KuiProgressColor, KuiProgressSize } from './kui-progress.component';
+import { KuiProgressComponent } from './kui-progress.component';
 
 @Component({
   imports: [KuiProgressComponent],

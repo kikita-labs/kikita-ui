@@ -1,10 +1,10 @@
-import {
+import type {
   ConnectedPosition,
   FlexibleConnectedPositionStrategy,
   Overlay,
   OverlayRef,
 } from '@angular/cdk/overlay';
-import { ViewportRuler } from '@angular/cdk/scrolling';
+import type { ViewportRuler } from '@angular/cdk/scrolling';
 
 /**
  * Shared dismissal wiring for anchored floating panels (`kui-dropdown`, `kui-menu`, and any

@@ -1,7 +1,8 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, ViewEncapsulation, effect, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, effect, inject, signal, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+
+import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs';
 
 import {
@@ -9,8 +10,9 @@ import {
   KuiCardDirective,
   KuiSegmentDirective,
   KuiSegmentedComponent,
-  KuiThemeMode,
 } from '@kikita-labs/ui';
+
+import type { KuiThemeMode } from '@kikita-labs/ui';
 
 interface NavItem {
   readonly path: string;

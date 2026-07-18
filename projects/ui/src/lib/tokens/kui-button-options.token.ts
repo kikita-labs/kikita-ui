@@ -1,4 +1,5 @@
-import { InjectionToken, Provider } from '@angular/core';
+import type { Provider } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
 import type { KuiButtonAppearance } from '../components/button/kui-button-appearance.type';
 import type { KuiButtonShape } from '../components/button/kui-button-shape.type';

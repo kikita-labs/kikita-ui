@@ -1,17 +1,19 @@
 import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormField, form, required } from '@angular/forms/signals';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { form, FormField, required } from '@angular/forms/signals';
+
 import { describe, expect, it } from 'vitest';
 
 import { provideKikitaUi } from '../../providers';
 import { kuiProvideFieldOptions } from '../../tokens';
 import { KuiInputDirective } from '../input';
+import { KuiFieldComponent } from './kui-field.component';
 import {
   KuiErrorDirective,
   KuiHintDirective,
   KuiLabelDirective,
 } from './kui-field-markers.directive';
-import { KuiFieldComponent } from './kui-field.component';
 
 @Component({
   imports: [KuiFieldComponent],

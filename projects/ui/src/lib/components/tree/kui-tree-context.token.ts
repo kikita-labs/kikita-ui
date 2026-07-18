@@ -1,6 +1,7 @@
-import { InjectionToken, Signal } from '@angular/core';
+import type { Signal } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-import { KuiTreeMode, KuiTreeNode } from './kui-tree-node.interface';
+import type { KuiTreeMode, KuiTreeNode } from './kui-tree-node.interface';
 
 /** Aggregate checked state of a node, including the checkbox `indeterminate` case. */
 export type KuiTreeCheckedState = 'true' | 'false' | 'mixed';

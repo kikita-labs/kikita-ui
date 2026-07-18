@@ -1,23 +1,23 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
+  booleanAttribute,
   type ComponentRef,
+  computed,
   Directive,
+  effect,
   ElementRef,
+  inject,
+  input,
   PLATFORM_ID,
   Renderer2,
   ViewContainerRef,
-  booleanAttribute,
-  computed,
-  effect,
-  inject,
-  input,
 } from '@angular/core';
 
-import { KuiButtonAppearance, KuiButtonShape } from '../button';
-import { KuiIconComponent, type KuiIconName } from '../icon';
-import { KuiSize } from '../../types';
 import { KUI_BUTTON_OPTIONS } from '../../tokens/kui-button-options.token';
+import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import type { KuiButtonAppearance, KuiButtonShape } from '../button';
+import { KuiIconComponent, type KuiIconName } from '../icon';
 
 /** Applies square Kikita UI icon button styling to native button and anchor elements. */
 @Directive({

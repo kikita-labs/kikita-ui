@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
 import { describe, expect, it } from 'vitest';
 
 import { KuiInputGroupDirective } from './kui-input-group.directive';

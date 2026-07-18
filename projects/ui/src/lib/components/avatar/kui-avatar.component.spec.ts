@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { KuiAvatarGroupComponent } from './kui-avatar-group.component';
 import { KuiAvatarComponent } from './kui-avatar.component';
+import { KuiAvatarGroupComponent } from './kui-avatar-group.component';
 
 @Component({
   imports: [KuiAvatarComponent],

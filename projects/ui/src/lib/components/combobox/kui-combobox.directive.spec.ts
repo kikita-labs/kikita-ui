@@ -1,5 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { kuiProvideComboboxOptions, kuiProvideFieldOptions } from '../../tokens';

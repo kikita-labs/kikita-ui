@@ -1,4 +1,6 @@
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
+
+import type { Observable } from 'rxjs';
 
 /**
  * Handle returned by {@link KuiDrawerService.open}.

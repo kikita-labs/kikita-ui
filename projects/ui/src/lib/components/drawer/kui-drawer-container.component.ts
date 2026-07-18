@@ -1,14 +1,8 @@
-import {
-  Component,
-  ComponentRef,
-  ElementRef,
-  EventEmitter,
-  signal,
-  ViewEncapsulation,
-  viewChild,
-} from '@angular/core';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
-import { CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
+import type { ComponentPortal } from '@angular/cdk/portal';
+import { CdkPortalOutlet } from '@angular/cdk/portal';
+import type { ComponentRef, ElementRef } from '@angular/core';
+import { Component, EventEmitter, signal, viewChild, ViewEncapsulation } from '@angular/core';
 
 import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
 

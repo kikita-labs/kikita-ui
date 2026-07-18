@@ -1,18 +1,19 @@
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import type { ComponentRef } from '@angular/core';
 import {
   ApplicationRef,
-  ComponentRef,
+  createComponent,
   EnvironmentInjector,
+  inject,
   PLATFORM_ID,
   Service,
-  createComponent,
-  inject,
 } from '@angular/core';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+
 import { EMPTY } from 'rxjs';
 
-import { KuiToastRegionComponent } from './kui-toast-region.component';
 import { KUI_TOAST_OPTIONS } from './kui-toast.token';
 import type { KuiToastConfig, KuiToastOptions, KuiToastRef } from './kui-toast.types';
+import { KuiToastRegionComponent } from './kui-toast-region.component';
 
 /**
  * Service for displaying toast notifications.

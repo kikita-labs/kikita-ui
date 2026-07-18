@@ -1,21 +1,19 @@
 import { isPlatformBrowser } from '@angular/common';
+import type { AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
 import {
-  AfterViewInit,
-  DOCUMENT,
-  Directive,
-  DoCheck,
-  ElementRef,
-  OnDestroy,
-  PLATFORM_ID,
-  Renderer2,
   booleanAttribute,
   computed,
+  Directive,
+  DOCUMENT,
   effect,
+  ElementRef,
   inject,
   input,
+  PLATFORM_ID,
+  Renderer2,
 } from '@angular/core';
 
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiFieldComponent } from '../field';
 
@@ -96,7 +94,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
 
   private _pressTimer: ReturnType<typeof setTimeout> | null = null;
   private _pressInterval: ReturnType<typeof setInterval> | null = null;
-  private _unlisten: Array<() => void> = [];
+  private _unlisten: (() => void)[] = [];
   private _lastState = '';
   private readonly _isBrowser = isPlatformBrowser(this.platformId);
 

@@ -1,10 +1,12 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { KuiCommandGroup, KuiCommandItem } from './kui-command-palette.types';
 import { KuiCommandPaletteComponent } from './kui-command-palette.component';
+import type { KuiCommandGroup, KuiCommandItem } from './kui-command-palette.types';
 
 @Component({
   imports: [KuiCommandPaletteComponent],

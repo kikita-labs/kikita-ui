@@ -1,4 +1,5 @@
-import { InjectionToken, Provider } from '@angular/core';
+import type { Provider } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
 import type { KuiFieldControlOptions } from './kui-field-options.token';
 

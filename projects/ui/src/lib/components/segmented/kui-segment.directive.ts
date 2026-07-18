@@ -1,4 +1,4 @@
-import { Directive, ElementRef, booleanAttribute, computed, inject, input } from '@angular/core';
+import { booleanAttribute, computed, Directive, ElementRef, inject, input } from '@angular/core';
 
 import { KUI_SEGMENTED_CONTEXT } from './kui-segmented-context.token';
 

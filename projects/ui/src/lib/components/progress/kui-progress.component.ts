@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, computed, input } from '@angular/core';
+import { Component, computed, input, ViewEncapsulation } from '@angular/core';
 
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 

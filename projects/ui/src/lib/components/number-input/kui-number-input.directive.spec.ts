@@ -1,6 +1,8 @@
 import { Component, PLATFORM_ID, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { describe, it, expect, beforeEach } from 'vitest';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { KuiNumberInputDirective } from './kui-number-input.directive';
 

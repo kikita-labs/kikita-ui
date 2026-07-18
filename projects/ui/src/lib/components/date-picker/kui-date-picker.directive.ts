@@ -1,22 +1,25 @@
+import type { ComponentRef, OnDestroy } from '@angular/core';
 import {
-  ComponentRef,
-  Directive,
-  ElementRef,
-  OnDestroy,
-  ViewContainerRef,
   booleanAttribute,
   computed,
+  Directive,
   effect,
+  ElementRef,
   inject,
   input,
   model,
   output,
   signal,
+  ViewContainerRef,
 } from '@angular/core';
-import { FormValueControl, ValidationError, WithOptionalFieldTree } from '@angular/forms/signals';
+import type {
+  FormValueControl,
+  ValidationError,
+  WithOptionalFieldTree,
+} from '@angular/forms/signals';
 
-import { startOfMonth } from '../calendar/kui-calendar-date.util';
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
+import { startOfMonth } from '../calendar/kui-calendar-date.util';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import { formatDisplayDate, parseDisplayDate } from './kui-date-format.util';
 import { KuiDatePickerInputAffixComponent } from './kui-date-picker-input-affix.component';

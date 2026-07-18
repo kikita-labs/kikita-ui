@@ -1,8 +1,8 @@
-import { Directive, booleanAttribute, computed, input } from '@angular/core';
+import { booleanAttribute, computed, Directive, input } from '@angular/core';
 
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
-import { KuiCardAppearance } from './kui-card-appearance.type';
+import type { KuiCardAppearance } from './kui-card-appearance.type';
 
 /** Applies Kikita UI card surface styling to semantic container elements. */
 @Directive({

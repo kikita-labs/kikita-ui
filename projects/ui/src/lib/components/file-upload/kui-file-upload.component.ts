@@ -1,19 +1,19 @@
+import type { ElementRef } from '@angular/core';
 import {
-  Component,
-  DestroyRef,
-  ElementRef,
-  ViewEncapsulation,
   booleanAttribute,
+  Component,
   computed,
+  DestroyRef,
   inject,
   input,
   model,
   output,
   signal,
   viewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 
-import { KuiSize } from '../../types';
+import type { KuiSize } from '../../types';
 import {
   KUI_CHECK_D,
   KUI_CIRCLE_ALERT_CIRCLE,
@@ -28,7 +28,7 @@ import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiButtonDirective } from '../button';
 import { KuiFieldActionDirective } from '../field';
 import { KuiProgressComponent } from '../progress';
-import { KuiUploadFile, KuiUploadFileStatus } from './kui-upload-file.interface';
+import type { KuiUploadFile, KuiUploadFileStatus } from './kui-upload-file.interface';
 
 let nextInstanceId = 0;
 

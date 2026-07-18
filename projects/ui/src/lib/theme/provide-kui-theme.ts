@@ -1,16 +1,12 @@
 import { DOCUMENT } from '@angular/common';
-import {
-  ENVIRONMENT_INITIALIZER,
-  EnvironmentProviders,
-  inject,
-  makeEnvironmentProviders,
-} from '@angular/core';
+import type { EnvironmentProviders } from '@angular/core';
+import { ENVIRONMENT_INITIALIZER, inject, makeEnvironmentProviders } from '@angular/core';
 
 import { createKuiTheme, createKuiThemeStyleSheet } from './create-kui-theme';
 import { DEFAULT_KUI_THEME } from './default-kui-theme.const';
-import { KuiThemeOptions } from './kui-theme-options.interface';
-import { KuiGeneratedTheme } from './kui-theme-tokens.interface';
 import { KUI_THEME } from './kui-theme.token';
+import type { KuiThemeOptions } from './kui-theme-options.interface';
+import type { KuiGeneratedTheme } from './kui-theme-tokens.interface';
 
 const KUI_THEME_STYLE_ID = 'kui-theme';
 

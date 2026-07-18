@@ -1,8 +1,9 @@
 import { Component, PLATFORM_ID, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { provideKuiIcons } from '../icon';
 import { kuiProvideButtonOptions } from '../../tokens';
+import { provideKuiIcons } from '../icon';
 import { KuiIconButtonDirective } from './kui-icon-button.directive';
 
 const CLOSE_ICON = '<svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" /></svg>';

@@ -1,7 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormField, form, max, min } from '@angular/forms/signals';
-import { describe, it, expect, beforeEach } from 'vitest';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { form, FormField, max, min } from '@angular/forms/signals';
+
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { KuiFieldComponent } from '../field';
 import { KuiSliderDirective } from './kui-slider.directive';

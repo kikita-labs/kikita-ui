@@ -1,22 +1,22 @@
+import { CdkTrapFocus } from '@angular/cdk/a11y';
+import type { ConnectedPosition, OverlayRef } from '@angular/cdk/overlay';
+import { Overlay } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { ViewportRuler } from '@angular/cdk/scrolling';
+import { DOCUMENT } from '@angular/common';
+import type { OnDestroy, TemplateRef } from '@angular/core';
 import {
   Component,
-  DestroyRef,
-  OnDestroy,
-  TemplateRef,
-  ViewContainerRef,
-  ViewEncapsulation,
   computed,
+  DestroyRef,
   inject,
   input,
   model,
   signal,
   viewChild,
+  ViewContainerRef,
+  ViewEncapsulation,
 } from '@angular/core';
-import { CdkTrapFocus } from '@angular/cdk/a11y';
-import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
-import { ViewportRuler } from '@angular/cdk/scrolling';
-import { DOCUMENT } from '@angular/common';
 
 import {
   createFloatingPositionStrategy,

@@ -21,6 +21,7 @@
     "test:visual": "playwright test --project=visual",
     "test:browser": "playwright test",
     "test:ssr": "playwright test --config=playwright.ssr.config.ts",
+    "lint": "ng lint",
     "audit:static": "node scripts/verify-static-audit.mjs",
     "skills:check": "node scripts/sync-agent-skills.mjs --check",
     "skills:sync": "node scripts/sync-agent-skills.mjs",
@@ -44,21 +45,31 @@
     "@angular/build": "^22.0.2",
     "@angular/cli": "^22.0.2",
     "@angular/compiler-cli": "^22.0.0",
+    "@angular-eslint/builder": "22.0.0",
     "@angular/platform-server": "^22.0.7",
     "@angular/ssr": "^22.0.7",
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.1",
+    "angular-eslint": "22.0.0",
     "axe-core": "^4.12.1",
+    "eslint": "^10.3.0",
+    "eslint-plugin-simple-import-sort": "^13.0.0",
     "husky": "^9.1.7",
     "jsdom": "^28.0.0",
     "lint-staged": "^17.0.8",
     "ng-packagr": "^22.0.0",
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
+    "typescript-eslint": "8.60.1",
     "vitest": "^4.0.8"
   },
   "lint-staged": {
-    "*.{ts,mjs,json,md,scss,css,yaml,yml}": [
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{mjs,json,md,scss,css,yaml,yml}": [
       "prettier --write"
     ]
   }

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, booleanAttribute, inject, input } from '@angular/core';
+import { booleanAttribute, Directive, ElementRef, inject, input } from '@angular/core';
 
 /**
  * A single crumb inside a `[kuiBreadcrumbs]` trail. Use on `<a>` for a

@@ -1,13 +1,16 @@
-import { DOCUMENT } from '@angular/common';
-import { inject, Injector, Service, Type } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Observable } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+import type { Type } from '@angular/core';
+import { inject, Injector, Service } from '@angular/core';
 
-import { KUI_DRAWER_CONTEXT, KuiDrawerContext, KuiDrawerHost } from './kui-drawer-context.token';
+import type { Observable } from 'rxjs';
+
+import type { KuiDrawerConfig } from './kui-drawer.types';
 import { KuiDrawerContainerComponent } from './kui-drawer-container.component';
+import type { KuiDrawerContext, KuiDrawerHost } from './kui-drawer-context.token';
+import { KUI_DRAWER_CONTEXT } from './kui-drawer-context.token';
 import { KuiDrawerRef } from './kui-drawer-ref';
-import { KuiDrawerConfig } from './kui-drawer.types';
 
 type FocusableElement = Element & { focus: () => void };
 

@@ -1,7 +1,6 @@
+import type { ComponentRef, OnDestroy, Signal } from '@angular/core';
 import {
-  Signal,
   booleanAttribute,
-  ComponentRef,
   computed,
   Directive,
   effect,
@@ -9,20 +8,21 @@ import {
   inject,
   input,
   model,
-  OnDestroy,
   output,
   ViewContainerRef,
 } from '@angular/core';
-import { FormValueControl, ValidationError, WithOptionalFieldTree } from '@angular/forms/signals';
+import type {
+  FormValueControl,
+  ValidationError,
+  WithOptionalFieldTree,
+} from '@angular/forms/signals';
 
-import { KuiOptionContext } from '../dropdown/kui-option-context.token';
-import { KuiFieldComponent } from '../field/kui-field.component';
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
 import { KUI_SELECT_OPTIONS } from '../../tokens/kui-select-options.token';
-import {
-  KuiSelectChipItem,
-  KuiSelectInputSuffixComponent,
-} from './kui-select-input-suffix.component';
+import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
+import { KuiFieldComponent } from '../field/kui-field.component';
+import type { KuiSelectChipItem } from './kui-select-input-suffix.component';
+import { KuiSelectInputSuffixComponent } from './kui-select-input-suffix.component';
 
 /** Multiple select value presentation mode. */
 export type KuiSelectMultipleDisplay = 'chips' | 'text';

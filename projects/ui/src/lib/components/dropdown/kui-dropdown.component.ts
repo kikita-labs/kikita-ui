@@ -1,3 +1,9 @@
+import type { OverlayRef } from '@angular/cdk/overlay';
+import { Overlay } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { ViewportRuler } from '@angular/cdk/scrolling';
+import { DOCUMENT } from '@angular/common';
+import type { OnDestroy, TemplateRef } from '@angular/core';
 import {
   Component,
   computed,
@@ -5,17 +11,11 @@ import {
   inject,
   input,
   model,
-  OnDestroy,
   signal,
-  TemplateRef,
+  viewChild,
   ViewContainerRef,
   ViewEncapsulation,
-  viewChild,
 } from '@angular/core';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
-import { ViewportRuler } from '@angular/cdk/scrolling';
-import { DOCUMENT } from '@angular/common';
 
 import {
   clampPanelToAvailableSpace,

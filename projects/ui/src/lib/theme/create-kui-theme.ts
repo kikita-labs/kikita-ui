@@ -1,8 +1,8 @@
 import { DEFAULT_KUI_THEME } from './default-kui-theme.const';
-import { KuiOklchColor } from './kui-theme-color.interface';
-import { KuiThemeMode } from './kui-theme-mode.type';
-import { KuiThemeOptions } from './kui-theme-options.interface';
-import {
+import type { KuiOklchColor } from './kui-theme-color.interface';
+import type { KuiThemeMode } from './kui-theme-mode.type';
+import type { KuiThemeOptions } from './kui-theme-options.interface';
+import type {
   KuiColorScaleName,
   KuiCssVariableMap,
   KuiGeneratedTheme,

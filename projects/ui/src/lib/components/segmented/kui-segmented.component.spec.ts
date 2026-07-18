@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { KuiSegmentDirective } from './kui-segment.directive';
 import { KuiSegmentedComponent } from './kui-segmented.component';

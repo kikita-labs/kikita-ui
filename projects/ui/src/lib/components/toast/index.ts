@@ -1,10 +1,10 @@
+export { kuiToast } from './kui-toast';
+export { KuiToastService } from './kui-toast.service';
+export { provideKuiToastOptions } from './kui-toast.token';
 export type {
   KuiToastAppearance,
-  KuiToastPosition,
   KuiToastConfig,
   KuiToastOptions,
+  KuiToastPosition,
   KuiToastRef,
 } from './kui-toast.types';
-export { provideKuiToastOptions } from './kui-toast.token';
-export { KuiToastService } from './kui-toast.service';
-export { kuiToast } from './kui-toast';

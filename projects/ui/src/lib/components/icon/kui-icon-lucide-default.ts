@@ -1,4 +1,4 @@
-import { KuiIconResolver } from './kui-icon-source.type';
+import type { KuiIconResolver } from './kui-icon-source.type';
 
 /**
  * Major version of `lucide-static` served from the CDN. Pinned to a major so new icons and

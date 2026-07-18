@@ -1,4 +1,4 @@
-import { Directive, computed, inject, input } from '@angular/core';
+import { computed, Directive, inject, input } from '@angular/core';
 
 import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
 

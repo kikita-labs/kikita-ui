@@ -1,12 +1,12 @@
+import type { ElementRef } from '@angular/core';
 import {
   Component,
-  ElementRef,
-  ViewEncapsulation,
   computed,
   effect,
   inject,
   input,
   viewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 
 import {
@@ -16,7 +16,7 @@ import {
   KUI_FOLDER_OPEN_D,
 } from '../../utils/kui-chrome-icon-paths.util';
 import { KUI_TREE_CONTEXT } from './kui-tree-context.token';
-import { KuiTreeNode } from './kui-tree-node.interface';
+import type { KuiTreeNode } from './kui-tree-node.interface';
 
 /**
  * @internal Recursive row/group renderer for `kui-tree`. Reads all state and

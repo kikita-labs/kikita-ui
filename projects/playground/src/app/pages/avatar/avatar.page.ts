@@ -1,6 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { KuiAvatarComponent, KuiAvatarGroupComponent, KuiAvatarItem } from '@kikita-labs/ui';
+import { KuiAvatarComponent, KuiAvatarGroupComponent } from '@kikita-labs/ui';
+
+import type { KuiAvatarItem } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 

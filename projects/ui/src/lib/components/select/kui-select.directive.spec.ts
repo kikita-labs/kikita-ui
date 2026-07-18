@@ -1,6 +1,8 @@
-import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { Component, signal } from '@angular/core';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
 import { afterEach } from 'vitest';
 
 import { kuiProvideSelectOptions } from '../../tokens';
