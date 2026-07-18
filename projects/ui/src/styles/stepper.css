@@ -233,7 +233,7 @@
     font-size: var(--kui-text-base-size);
   }
 
-  /* compact — dots only, no labels */
+  /* compact dots only, no labels */
   .kui-stepper[data-kui-compact] .kui-step-body {
     display: none;
   }

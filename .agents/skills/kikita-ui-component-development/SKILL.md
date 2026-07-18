@@ -15,8 +15,11 @@ Use this skill to deliver a public Kikita UI primitive end to end.
    `.agents/ssr-hydration.md`, `.agents/testing-and-quality.md`, and
    `docs/component-checklist.md`.
 3. Run `git status --short` and preserve unrelated changes.
-4. Use `angularCliKikita.list_projects`; if best-practices tooling fails, read
-   `instructions://best-practices`.
+4. Use `angularCliKikita.list_projects`, then
+   `angularCliKikita.get_best_practices` with the workspace path. If Codex
+   returns `Unexpected response type`, treat it as the upstream Codex MCP bug
+   tracked in <https://github.com/openai/codex/issues/29002>, use local docs and
+   CLI checks as the fallback, and report the MCP blocker explicitly.
 
 ## Design Before Code
 

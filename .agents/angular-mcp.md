@@ -8,15 +8,20 @@ at the older `discord-bot` workspace.
 Use `angularCliKikita.list_projects` first when Angular workspace context
 matters.
 
-The current Angular CLI MCP tools `get_best_practices` and
-`search_documentation` can return `Unexpected response type` in Codex while the
-server is otherwise healthy. When that happens, read the MCP resource
-`instructions://best-practices` from `angularCliKikita` instead of silently
-falling back to guesses.
+## Known Codex Tool-Call Issue
 
-Known working Angular MCP source for best practices:
+Codex can fail on valid Angular MCP `tools/call` results with
+`Unexpected response type`.
+
+This is tracked upstream as:
 
 ```text
-server: angularCliKikita
-resource: instructions://best-practices
+https://github.com/openai/codex/issues/29002
 ```
+
+When this Codex bug appears, do not change repository source code to work around
+it. Use the default Angular CLI MCP configuration and fall back to repository
+docs plus local CLI checks until Codex fixes MCP result handling.
+
+If Angular MCP tooling is unavailable, record the exact tool error in the final
+response instead of pretending the MCP best-practices gate passed.

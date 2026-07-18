@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-07-18
+
 ### Added
 
 - ESLint is now part of the workspace quality gate, with Angular ESLint, TypeScript ESLint,
@@ -33,6 +35,11 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   properties.
 - Removed the unused `KikitaUiDefaults.density` option. Density remains supported through theme
   seeds, where it actually affects generated CSS variables.
+
+### Removed
+
+- Removed internal `formatDisplayDate()` and `parseDisplayDate()` helpers from the package root
+  export surface. Date formatting remains an implementation detail of `input[kuiDatePicker]`.
 
 ## [0.7.0] - 2026-07-18
 
@@ -499,7 +506,9 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v0.6.2...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.7.0...v1.0.0
+[0.7.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/kikita-labs/kikita-ui/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/kikita-labs/kikita-ui/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.5.0...v0.6.0

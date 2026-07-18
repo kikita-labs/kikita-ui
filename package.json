@@ -19,6 +19,7 @@
     "test:a11y": "playwright test --project=a11y",
     "test:responsive": "playwright test --project=responsive",
     "test:visual": "playwright test --project=visual",
+    "test:visual:update": "playwright test --project=visual --update-snapshots",
     "test:browser": "playwright test",
     "test:ssr": "playwright test --config=playwright.ssr.config.ts",
     "lint": "ng lint",
@@ -42,10 +43,10 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular/build": "^22.0.2",
-    "@angular/cli": "^22.0.2",
-    "@angular/compiler-cli": "^22.0.0",
     "@angular-eslint/builder": "22.0.0",
+    "@angular/build": "^22.0.7",
+    "@angular/cli": "^22.0.7",
+    "@angular/compiler-cli": "^22.0.0",
     "@angular/platform-server": "^22.0.7",
     "@angular/ssr": "^22.0.7",
     "@eslint/js": "^10.0.1",

@@ -60,21 +60,21 @@
 ## Phase 5
 
 - Calendar (done as `kui-calendar`; single/range mode, month/year/decade navigation, keyboard support, `minDate`/`maxDate`/`disabledDates`, `flat` variant, `viewDate`/`showPrevNav`/`showNextNav` for linked-pair layouts, `KUI_LOCALE`-driven month/weekday names via `Intl`; `mode="multiple"` deferred, no concrete use case yet)
-- Date Picker (done as `input[kuiDatePicker]` + `kui-calendar` + `kui-dropdown`; `dd.MM.yyyy` text mask, `minDate`/`maxDate`, `clearable`, Signal Forms control contract; `mode="range"` and a mobile bottom-sheet popover variant are not implemented — single-date only for now)
+- Date Picker (done as `input[kuiDatePicker]` + `kui-calendar` + `kui-dropdown`; `dd.MM.yyyy` text mask, `minDate`/`maxDate`, `clearable`, Signal Forms control contract; `mode="range"` and a mobile bottom-sheet popover variant are not implemented -- single-date only for now)
 
 ## Phase 6
 
 - Tree (done as `kui-tree` + recursive internal `kui-tree-node`; `display` and `checkable` modes,
   indeterminate checkbox cascading, lazy-loaded children via `loadChildren`, roving-tabindex
   keyboard navigation with type-ahead; per-node `icon` is limited to the built-in `folder`/`file`
-  glyphs — a custom icon `TemplateRef` slot and virtualization are not implemented)
+  glyphs -- a custom icon `TemplateRef` slot and virtualization are not implemented)
 
 ## Phase 7
 
 - File Upload (done as `kui-file-upload`; `dropzone` and `compact` variants, `single`/`multiple`
   mode, client-side `accept`/`maxSize`/`maxCount` validation, drag-and-drop, image thumbnail
   previews, and a file list with pending/uploading/success/error rows. It is a controlled
-  component — no upload transport is built in; the consumer drives `status`/`progress` on the
+  component -- no upload transport is built in; the consumer drives `status`/`progress` on the
   two-way `files` model and responds to `(retry)`. Built ahead of the original "wait for a real
   consumer" gate because a real consumer need now exists.)
 
@@ -92,8 +92,10 @@ Do not build Charts until a real consumer needs it.
 - Architecture hardening before `1.0.0`: internal coordination tokens for Accordion, Dropdown,
   Segmented, Stepper, Tabs, and Table were removed from public barrels. Keep `KUI_DIALOG_CONTEXT`
   and `KUI_DRAWER_CONTEXT` public because consumer-provided dialog/drawer content injects them for
-  typed data and close callbacks. Continue reviewing config/data interfaces for intentional
-  `readonly` usage without making consumer-owned mutable models harder to use.
+  typed data and close callbacks. Public API freeze review on 2026-07-18 removed accidental
+  internal Date Picker formatting helpers from the package root, kept default resolver/providers as
+  intentional public extension points, and confirmed config/data `readonly` usage should protect
+  library-owned immutable data without restricting consumer-owned mutable models.
 
 - DI defaults audit before `1.0.0`: root `provideKikitaUi({ defaults.size })` now drives public
   size-enabled primitives when local size inputs are omitted. Components with narrower size unions
@@ -128,7 +130,24 @@ consumer app:
 
 Initial install documentation lives in `docs/install.md`.
 
-Docs pages exist for implemented primitives through Scrollbar. A full static component audit has been run across implemented primitives for docs presence, JSDoc coverage, public style entrypoint coverage, Cyrillic leakage, overlay/CDK usage, and obvious SSR DOM access. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, Number Input, Combobox, and Scrollbar. Committed visual regression baselines and assistive-technology review are still pending.
+Docs pages exist for implemented primitives through Scrollbar. A full static component audit has been run across implemented primitives for docs presence, JSDoc coverage, public style entrypoint coverage, Cyrillic leakage, overlay/CDK usage, and obvious SSR DOM access. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, Number Input, Combobox, and Scrollbar. Committed visual regression baselines now cover representative stable routes; assistive-technology review recording is still pending.
+
+## Post-1.0 Feature Scope
+
+These gaps are intentionally deferred from `1.0.0` because the current public APIs and docs do not
+promise them:
+
+- Date Picker range mode and mobile bottom-sheet popover. Ship `1.0.0` as single-date only.
+- File Upload Signal Forms control contract. Ship `1.0.0` as a controlled component with two-way
+  `files`; add forms integration when a consumer workflow requires it.
+- Menu submenu, checkbox/radio items, and context-menu helper. Ship `1.0.0` with basic menu
+  actions, grouping, separators, disabled/destructive states, and trigger positioning.
+- Tree custom icon template slot and virtualization. Ship `1.0.0` with built-in file/folder/no-icon
+  states and lazy loading, without virtual scrolling guarantees.
+- Calendar multiple selection mode. Ship `1.0.0` with single/range modes only.
+
+If one of these becomes a real consumer blocker before release, move that item back into a
+pre-1.0 fix list and update `docs/state-coverage.md` with the changed decision.
 
 ## Consumer Migration Gate
 

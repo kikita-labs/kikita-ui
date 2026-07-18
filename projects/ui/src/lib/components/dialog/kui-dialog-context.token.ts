@@ -26,7 +26,7 @@ export interface KuiDialogHost<TResult = void, TData = unknown> {
   readonly dialogContext: KuiDialogContext<TResult, TData>;
 }
 
-/** @internal Injection token that carries {@link KuiDialogContext} into dialog components. */
+/** Injection token that carries {@link KuiDialogContext} into dialog components. */
 export const KUI_DIALOG_CONTEXT = new InjectionToken<KuiDialogContext<unknown, unknown>>(
   'KUI_DIALOG_CONTEXT',
 );

@@ -27,7 +27,7 @@ export interface KuiDrawerHost<TResult = void, TData = unknown> {
   readonly drawerContext: KuiDrawerContext<TResult, TData>;
 }
 
-/** @internal Injection token that carries {@link KuiDrawerContext} into drawer components. */
+/** Injection token that carries {@link KuiDrawerContext} into drawer components. */
 export const KUI_DRAWER_CONTEXT = new InjectionToken<KuiDrawerContext<unknown, unknown>>(
   'KUI_DRAWER_CONTEXT',
 );

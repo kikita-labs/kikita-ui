@@ -19,9 +19,9 @@ export class StepperPage {
   protected readonly errorVisible = signal(true);
 
   protected readonly sizeRows = [
-    { value: 'sm' as const, label: 'sm · 24px' },
-    { value: 'md' as const, label: 'md · 32px (default)' },
-    { value: 'lg' as const, label: 'lg · 40px' },
+    { value: 'sm' as const, label: 'sm / 24px' },
+    { value: 'md' as const, label: 'md / 32px (default)' },
+    { value: 'lg' as const, label: 'lg / 40px' },
   ];
 
   protected next(step: WritableSignal<number>, max: number): void {
