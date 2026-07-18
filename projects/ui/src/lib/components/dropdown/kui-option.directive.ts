@@ -28,6 +28,7 @@ let nextOptionId = 0;
     '(keydown)': 'handleKeydown($event)',
   },
 })
+/** Marks projected dropdown content as a selectable Kikita UI option. */
 export class KuiOptionDirective {
   /** The value emitted and passed to the selection context when this option is chosen. */
   readonly value = input.required<unknown>();

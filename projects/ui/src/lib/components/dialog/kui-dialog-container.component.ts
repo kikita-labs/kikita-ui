@@ -51,6 +51,7 @@ let nextDialogTitleId = 0;
   imports: [CdkPortalOutlet, CdkTrapFocus],
   encapsulation: ViewEncapsulation.None,
 })
+/** Renders the modal dialog surface used by the dialog service. */
 export class KuiDialogContainerComponent {
   private readonly portalOutlet = viewChild.required(CdkPortalOutlet);
   private readonly dialogPanel = viewChild.required<ElementRef<HTMLElement>>('dialogPanel');

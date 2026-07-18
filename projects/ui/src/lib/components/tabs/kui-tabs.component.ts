@@ -109,6 +109,7 @@ let nextTabsId = 0;
   ],
   encapsulation: ViewEncapsulation.None,
 })
+/** Coordinates tab triggers and tab panels with accessible selection state. */
 export class KuiTabsComponent implements KuiTabsContext {
   /** Tab visual style: underline indicator (line) or pill background (pill). */
   readonly variant = input<KuiTabsVariant>('line');

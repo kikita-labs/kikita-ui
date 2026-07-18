@@ -12,6 +12,7 @@ import { KuiDropdownComponent } from './kui-dropdown.component';
     '[attr.aria-haspopup]': '"listbox"',
   },
 })
+/** Connects a trigger element to a Kikita UI dropdown instance. */
 export class KuiDropdownForDirective implements OnInit {
   readonly kuiDropdownFor = input.required<KuiDropdownComponent>();
 

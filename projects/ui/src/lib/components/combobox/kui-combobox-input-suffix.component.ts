@@ -61,6 +61,7 @@ import { KuiFieldActionDirective } from '../field';
   host: { class: 'kui-combobox-control-overlay' },
   encapsulation: ViewEncapsulation.None,
 })
+/** Renders combobox input actions such as clear and dropdown toggle controls. */
 export class KuiComboboxInputSuffixComponent {
   readonly clearable = input(false);
   readonly hasValue = input(false);

@@ -48,6 +48,7 @@ export type KuiStepperSize = 'sm' | 'md' | 'lg';
   ],
   encapsulation: ViewEncapsulation.None,
 })
+/** Coordinates a sequence of Kikita UI steps and exposes stepper context. */
 export class KuiStepperComponent implements KuiStepperContext {
   /** Layout direction of the step list. Defaults to horizontal. */
   readonly orientation = input<KuiStepperOrientation>('horizontal');

@@ -9,7 +9,7 @@ import type { KuiConfirmConfig } from './kui-confirm.types';
 /**
  * @internal
  * Pre-built confirmation dialog rendered by {@link kuiConfirm}.
- * Not part of the public API — do not use directly.
+ * Not part of the public API; do not use directly.
  */
 @Component({
   selector: 'kui-confirm',
@@ -57,6 +57,7 @@ import type { KuiConfirmConfig } from './kui-confirm.types';
   imports: [KuiButtonDirective],
   encapsulation: ViewEncapsulation.None,
 })
+/** Renders the default confirmation dialog content for `confirm()`. */
 export class KuiConfirmComponent implements KuiDialogHost<boolean, KuiConfirmConfig> {
   public readonly dialogContext =
     inject<KuiDialogContext<boolean, KuiConfirmConfig>>(KUI_DIALOG_CONTEXT);

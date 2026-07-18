@@ -8,14 +8,26 @@
     "start": "ng serve playground",
     "build": "ng build ui",
     "build:playground": "ng build playground",
+    "build:playground:ssr": "ng build playground",
     "build:all": "ng build ui && ng build playground",
     "publish": "npm run publish:ui",
     "publish:ui": "npm run build && npm publish ./dist/ui --access public --@kikita-labs:registry=https://registry.npmjs.org/",
     "watch": "ng build ui --watch --configuration development",
     "test": "ng test ui",
+    "test:scripts": "vitest run scripts",
+    "test:e2e": "playwright test --project=e2e",
+    "test:a11y": "playwright test --project=a11y",
+    "test:responsive": "playwright test --project=responsive",
+    "test:visual": "playwright test --project=visual",
+    "test:browser": "playwright test",
+    "test:ssr": "playwright test --config=playwright.ssr.config.ts",
     "audit:static": "node scripts/verify-static-audit.mjs",
+    "skills:check": "node scripts/sync-agent-skills.mjs --check",
+    "skills:sync": "node scripts/sync-agent-skills.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "lint-staged": "lint-staged",
+    "prepare": "husky"
   },
   "dependencies": {
     "@angular/cdk": "22.0.0",
@@ -32,10 +44,22 @@
     "@angular/build": "^22.0.2",
     "@angular/cli": "^22.0.2",
     "@angular/compiler-cli": "^22.0.0",
+    "@angular/platform-server": "^22.0.7",
+    "@angular/ssr": "^22.0.7",
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.1",
+    "axe-core": "^4.12.1",
+    "husky": "^9.1.7",
     "jsdom": "^28.0.0",
+    "lint-staged": "^17.0.8",
     "ng-packagr": "^22.0.0",
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
     "vitest": "^4.0.8"
+  },
+  "lint-staged": {
+    "*.{ts,mjs,json,md,scss,css,yaml,yml}": [
+      "prettier --write"
+    ]
   }
 }

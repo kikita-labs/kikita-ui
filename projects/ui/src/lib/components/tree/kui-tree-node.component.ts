@@ -142,6 +142,7 @@ import { KuiTreeNode } from './kui-tree-node.interface';
   `,
   encapsulation: ViewEncapsulation.None,
 })
+/** Renders one interactive row in a Kikita UI tree. */
 export class KuiTreeNodeComponent {
   /** Node data rendered by this row. */
   readonly node = input.required<KuiTreeNode>();

@@ -32,4 +32,5 @@ import { KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
   },
   encapsulation: ViewEncapsulation.None,
 })
+/** Renders the default separator between breadcrumb items. */
 export class KuiBreadcrumbSeparatorComponent {}

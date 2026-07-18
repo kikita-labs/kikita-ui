@@ -96,6 +96,7 @@ export type KuiStepState = 'done' | 'current' | 'upcoming' | 'disabled' | 'error
   },
   encapsulation: ViewEncapsulation.None,
 })
+/** Represents one step within a Kikita UI stepper. */
 export class KuiStepComponent {
   /** Step label text. */
   readonly label = input<string>('');

@@ -210,6 +210,7 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
   imports: [KuiButtonDirective, KuiSeparatorDirective],
   encapsulation: ViewEncapsulation.None,
 })
+/** Displays a navigable calendar grid for selecting a date or date range. */
 export class KuiCalendarComponent {
   private readonly injectedLocale = inject(KUI_LOCALE);
 

@@ -61,6 +61,7 @@ let nextDropdownId = 0;
   styles: ``,
   encapsulation: ViewEncapsulation.None,
 })
+/** Renders an anchored selectable dropdown panel. */
 export class KuiDropdownComponent implements OnDestroy {
   /**
    * Preferred maximum height of the panel before scrolling activates. This is always

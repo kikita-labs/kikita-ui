@@ -48,6 +48,7 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "projects/playground/src/main.ts",
+            "server": "projects/playground/src/main.server.ts",
             "tsConfig": "projects/playground/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -56,15 +57,19 @@
                 "input": "projects/playground/public"
               }
             ],
-            "styles": ["projects/playground/src/styles.scss"]
+            "styles": ["projects/playground/src/styles.scss"],
+            "outputMode": "server",
+            "ssr": {
+              "entry": "projects/playground/src/server.ts"
+            }
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "550kB",
+                  "maximumError": "650kB"
                 },
                 {
                   "type": "anyComponentStyle",

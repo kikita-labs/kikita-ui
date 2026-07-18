@@ -88,6 +88,12 @@ Do not build Charts until a real consumer needs it.
   helper. Signal writes drive change detection directly now; no zone wrapping anywhere in the
   overlay/floating-panel primitives.
 
+- Architecture hardening before `1.0.0`: internal coordination tokens for Accordion, Dropdown,
+  Segmented, Stepper, Tabs, and Table were removed from public barrels. Keep `KUI_DIALOG_CONTEXT`
+  and `KUI_DRAWER_CONTEXT` public because consumer-provided dialog/drawer content injects them for
+  typed data and close callbacks. Continue reviewing config/data interfaces for intentional
+  `readonly` usage without making consumer-owned mutable models harder to use.
+
 ## Install DX
 
 Angular schematic support is implemented and verified against a fresh Angular

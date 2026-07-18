@@ -63,6 +63,7 @@ function optionalBooleanAttribute(value: unknown): boolean | undefined {
     '(keydown)': 'handleKeydown($event)',
   },
 })
+/** Adds a calendar-backed date picker behavior to a native input. */
 export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date | null> {
   /** Selected date. Bound by `[formField]` or `[(value)]`. */
   readonly value = model<Date | null>(null);

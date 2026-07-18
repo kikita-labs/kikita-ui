@@ -50,17 +50,17 @@ and `aria-haspopup`.
 
 ## `KuiDropdownComponent` API
 
-| Input        | Type                                      | Default     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| ------------ | ----------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `maxHeight`  | `string \| null`                          | `'240px'`   | Preferred max height of panel. Always additionally clamped to the viewport (see below) — `null` only removes the _preferred_ cap, not the viewport clamp.                                                                                                                                                                                                                                                                                     |
-| `offset`     | `number`                                  | `4`         | Gap between anchor and panel edge in px.                                                                                                                                                                                                                                                                                                                                                                                                      |
-| `panelRole`  | `'listbox' \| 'dialog' \| 'grid' \| null` | `'listbox'` | ARIA role on the panel. Set to `'dialog'` for non-listbox content, e.g. `kui-calendar`.                                                                                                                                                                                                                                                                                                                                                       |
-| `panelWidth` | `'anchor' \| 'content' \| 'auto'`         | `'anchor'`  | `'anchor'` matches the trigger's width exactly (listboxes). `'content'` grows with the panel's own content but never _below_ the trigger's width, so it isn't clipped by a narrower trigger — e.g. `kui-calendar` in a date picker. `'auto'` ignores the trigger's width entirely and sizes purely to content, for panels that are their own small fixed-size widget regardless of how wide the trigger is — e.g. `kui-color-input`'s picker. |
-| `width`      | `string \| null`                          | `null`      | Explicit panel width (any CSS width, e.g. `'320px'`). Overrides `panelWidth` entirely — for a panel that's deliberately wider or narrower than its trigger, with no per-component workaround needed.                                                                                                                                                                                                                                          |
+| Input        | Type                                      | Default     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------------ | ----------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `maxHeight`  | `string \| null`                          | `'240px'`   | Preferred max height of panel. Always additionally clamped to the viewport (see below); `null` only removes the _preferred_ cap, not the viewport clamp.                                                                                                                                                                                                                                                                                    |
+| `offset`     | `number`                                  | `4`         | Gap between anchor and panel edge in px.                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `panelRole`  | `'listbox' \| 'dialog' \| 'grid' \| null` | `'listbox'` | ARIA role on the panel. Set to `'dialog'` for non-listbox content, e.g. `kui-calendar`.                                                                                                                                                                                                                                                                                                                                                     |
+| `panelWidth` | `'anchor' \| 'content' \| 'auto'`         | `'anchor'`  | `'anchor'` matches the trigger's width exactly (listboxes). `'content'` grows with the panel's own content but never _below_ the trigger's width, so it isn't clipped by a narrower trigger, e.g. `kui-calendar` in a date picker. `'auto'` ignores the trigger's width entirely and sizes purely to content, for panels that are their own small fixed-size widget regardless of how wide the trigger is, e.g. `kui-color-input`'s picker. |
+| `width`      | `string \| null`                          | `null`      | Explicit panel width (any CSS width, e.g. `'320px'`). Overrides `panelWidth` entirely for a panel that's deliberately wider or narrower than its trigger, with no per-component workaround needed.                                                                                                                                                                                                                                          |
 
 ### Viewport-Safe By Default
 
-The panel's actual `max-height` is always `min(maxHeight, calc(100vh - var(--kui-dropdown-viewport-margin, 32px)))` — it can never render taller than the viewport with no way to reach the overflow. When content exceeds the available height, the panel scrolls internally instead of clipping or "shrinking" visually. This applies to every `kui-dropdown` consumer with no per-instance opt-in required.
+The panel's actual `max-height` is always `min(maxHeight, calc(100vh - var(--kui-dropdown-viewport-margin, 32px)))`; it can never render taller than the viewport with no way to reach the overflow. When content exceeds the available height, the panel scrolls internally instead of clipping or "shrinking" visually. This applies to every `kui-dropdown` consumer with no per-instance opt-in required.
 
 The panel also closes itself if the anchor (trigger) scrolls out of the viewport, instead of following it off-screen or rendering detached from its trigger.
 
@@ -90,7 +90,8 @@ The panel also closes itself if the anchor (trigger) scrolls out of the viewport
 
 `kuiOption` renders `role="option"`, roving focus targets, selected/disabled
 state classes, and Enter/Space selection. Selection state comes from
-`KUI_OPTION_CONTEXT`.
+the owning Select, Combobox, Menu, or Field integration. That coordination token
+is internal and is not part of the public dropdown API.
 
 ## Accessibility
 
@@ -119,11 +120,11 @@ state classes, and Enter/Space selection. Selection state comes from
 - Uses `scrollStrategies.noop()` plus a document capture scroll listener that
   reapplies the position strategy. This covers ordinary scroll containers that
   are not registered as `CdkScrollable`. Scroll events originating from inside
-  the panel itself (e.g. scrolling a tall calendar/listbox) are ignored —
+  the panel itself (e.g. scrolling a tall calendar/listbox) are ignored;
   repositioning mid-scroll of the panel's own content raced with the browser's
   scroll commit and reset `scrollTop` back to 0.
 - If the scroll listener finds the anchor has scrolled fully out of the
-  viewport, it closes the panel instead of repositioning — a detached floating
+  viewport, it closes the panel instead of repositioning; a detached floating
   panel with no visible trigger is confusing and easy to lose track of.
 - Uses a document capture click listener for outside click.
 - Detaches the overlay after the `kui-dropdown-out` animation finishes.

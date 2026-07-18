@@ -1,0 +1,9 @@
+pnpm.cmd format:check
+pnpm.cmd audit:static
+pnpm.cmd skills:check
+pnpm.cmd test:scripts
+pnpm.cmd test
+pnpm.cmd build
+pnpm.cmd build:playground
+pnpm.cmd test:ssr
+pnpm.cmd test:browser

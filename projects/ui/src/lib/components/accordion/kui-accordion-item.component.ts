@@ -78,6 +78,7 @@ let _nextId = 0;
   host: { class: 'kui-accordion-item' },
   encapsulation: ViewEncapsulation.None,
 })
+/** Represents a single expandable item inside a Kikita UI accordion. */
 export class KuiAccordionItemComponent {
   /** Label text rendered inside the trigger button. */
   readonly header = input<string>('');

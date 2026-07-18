@@ -11,6 +11,13 @@ Always read:
 
 - `.agents/workflow.md`
 - `.agents/git-policy.md`
+- `.agents/architecture.md`
+- `.agents/angular-code-style.md`
+- `.agents/imports-and-boundaries.md`
+- `.agents/testing-and-quality.md`
+- `.agents/documentation.md`
+- `.agents/skills.md`
+- `.agents/refactoring.md`
 
 For Angular or component work, also read:
 
@@ -18,11 +25,12 @@ For Angular or component work, also read:
 - `.agents/component-rules.md`
 - `.agents/agent-surface-source.md`
 - `.agents/style-and-design.md`
+- `.agents/ssr-hydration.md`
 - `docs/component-checklist.md`
 
-For visual, accessibility, release, or publishing work, also read the relevant
-tracked docs:
+For visual, accessibility, release, or publishing work, also read:
 
+- `.agents/release-and-publishing.md`
 - `docs/accessibility.md`
 - `docs/visual-regression.md`
 - `docs/release.md`
@@ -44,6 +52,8 @@ tracked docs:
 - Public UI selectors use the `kui` prefix.
 - Prefer native HTML semantics before ARIA.
 - Use Angular CDK or Angular Aria for complex accessibility behavior.
+- Keep repo-distributed skills under `.agents/skills/`; local user skill
+  installs are never overwritten without explicit consent.
 - Do not invent component visuals. Use the matching Claude Design spec under
   `.local-notes/claude-design/design system/`; if the spec is missing or unclear,
   stop and report the gap.

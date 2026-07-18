@@ -215,6 +215,7 @@ interface InternalToastItem {
   `,
   encapsulation: ViewEncapsulation.None,
 })
+/** Hosts and announces active Kikita UI toast notifications. */
 export class KuiToastRegionComponent implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
 

@@ -98,7 +98,7 @@ export class App {
 
   constructor() {
     effect(() => {
-      this.document.documentElement.dataset['kuiTheme'] = this.mode();
+      this.document.documentElement.setAttribute('data-kui-theme', this.mode());
     });
   }
 

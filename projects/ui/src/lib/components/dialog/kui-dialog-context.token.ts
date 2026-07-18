@@ -8,7 +8,7 @@ import type { KuiDialogAppearance } from './kui-dialog.types';
 export interface KuiDialogContext<TResult = void, TData = unknown> {
   /** Data passed through {@link KuiDialogConfig.data}. */
   readonly data: TData;
-  /** Whether the × close button is shown (mirrors {@link KuiDialogConfig.closable}). */
+  /** Whether the close button is shown (mirrors {@link KuiDialogConfig.closable}). */
   readonly closable: boolean;
   /** Visual intent (mirrors {@link KuiDialogConfig.appearance}). Use to conditionally render `.kui-dialog-icon`. */
   readonly appearance: KuiDialogAppearance;
@@ -18,7 +18,7 @@ export interface KuiDialogContext<TResult = void, TData = unknown> {
 
 /**
  * Structural contract for components that can be opened as a dialog.
- * The `dialogContext` field **must** be `public` — TypeScript enforces this
+ * The `dialogContext` field **must** be `public`; TypeScript enforces this
  * at the `kuiDialog()` call site.
  */
 export interface KuiDialogHost<TResult = void, TData = unknown> {

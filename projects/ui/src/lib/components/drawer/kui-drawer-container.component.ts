@@ -48,6 +48,7 @@ let nextDrawerTitleId = 0;
   imports: [CdkPortalOutlet, CdkTrapFocus],
   encapsulation: ViewEncapsulation.None,
 })
+/** Renders the modal drawer surface used by the drawer service. */
 export class KuiDrawerContainerComponent {
   private readonly portalOutlet = viewChild.required(CdkPortalOutlet);
   private readonly drawerPanel = viewChild.required<ElementRef<HTMLElement>>('drawerPanel');

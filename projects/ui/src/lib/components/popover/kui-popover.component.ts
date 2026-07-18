@@ -76,6 +76,7 @@ let nextPopoverId = 0;
   `,
   encapsulation: ViewEncapsulation.None,
 })
+/** Renders an anchored popover surface with configurable trigger behavior. */
 export class KuiPopoverComponent implements OnDestroy {
   /** Preferred side of the anchor. Auto-flips to fit in viewport. */
   readonly placement = input<KuiPopoverPlacement>('bottom');

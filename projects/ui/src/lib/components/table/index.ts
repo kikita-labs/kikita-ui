@@ -1,4 +1,4 @@
-export { KuiTableDirective, KUI_TABLE_CTX } from './kui-table.directive';
+export { KuiTableDirective } from './kui-table.directive';
 export { KuiThGroupDirective } from './kui-th-group.directive';
 export { KuiThDirective } from './kui-th.directive';
 export { KuiRowDirective } from './kui-row.directive';

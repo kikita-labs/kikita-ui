@@ -74,6 +74,7 @@ const CIRCULAR_CONFIGS: Record<string, CircularConfig> = {
     'aria-valuemax': '100',
   },
 })
+/** Displays linear or circular progress with accessible progressbar semantics. */
 export class KuiProgressComponent {
   /** Visual shape of the progress indicator. Defaults to linear. */
   readonly type = input<KuiProgressType>('linear');

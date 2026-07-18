@@ -95,6 +95,7 @@ function detectKind(name: string): KuiFileKind | null {
   },
   encapsulation: ViewEncapsulation.None,
 })
+/** Provides a drag-and-drop file upload surface with native file input semantics. */
 export class KuiFileUploadComponent {
   protected readonly _cloudUploadD = KUI_CLOUD_UPLOAD_D;
   protected readonly _plusMiniD = KUI_PLUS_MINI_D;

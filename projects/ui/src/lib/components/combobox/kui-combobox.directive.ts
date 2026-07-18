@@ -67,6 +67,7 @@ function optionalBooleanAttribute(value: unknown): boolean | undefined {
     '(keydown)': 'handleKeydown($event)',
   },
 })
+/** Adds searchable combobox behavior to a native input. */
 export class KuiComboboxDirective<T = unknown>
   implements OnDestroy, KuiOptionContext, FormValueControl<T | string | null>
 {

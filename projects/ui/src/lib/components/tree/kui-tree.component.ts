@@ -57,6 +57,7 @@ interface KuiTreeIndex {
   providers: [{ provide: KUI_TREE_CONTEXT, useFactory: () => inject(KuiTreeComponent) }],
   encapsulation: ViewEncapsulation.None,
 })
+/** Renders hierarchical data with roving focus, selection, and optional checkbox state. */
 export class KuiTreeComponent implements KuiTreeContext {
   /** Selection/toggle behavior. */
   readonly mode = input<KuiTreeMode>('display');

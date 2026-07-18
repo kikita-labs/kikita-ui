@@ -84,6 +84,7 @@ import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
   host: { class: 'kui-date-picker-control-overlay' },
   encapsulation: ViewEncapsulation.None,
 })
+/** Renders date-picker input controls such as calendar and clear actions. */
 export class KuiDatePickerInputAffixComponent {
   readonly clearable = input(false);
   readonly hasValue = input(false);
