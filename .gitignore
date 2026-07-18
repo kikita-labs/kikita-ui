@@ -41,6 +41,7 @@ pnpm-debug.log*
 /libpeerconnection.log
 testem.log
 /typings
+*.tsbuildinfo
 __screenshots__/
 output/
 playwright-report/

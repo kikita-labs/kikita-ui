@@ -18,6 +18,8 @@ export async function gotoReady(page: Page, route: string): Promise<void> {
   });
   page.on('pageerror', (error) => errors.push(error.message));
 
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+
   const response = await page.goto(route);
   expect(response?.ok()).toBe(true);
   await page.waitForLoadState('networkidle');

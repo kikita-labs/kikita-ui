@@ -12,7 +12,6 @@ export default defineConfig({
   use: {
     ...devices['Desktop Chrome'],
     baseURL,
-    reducedMotion: 'reduce',
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
   },

@@ -20,7 +20,6 @@ export default defineConfig({
     ...devices['Desktop Chrome'],
     baseURL,
     colorScheme: 'light',
-    reducedMotion: 'reduce',
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
   },

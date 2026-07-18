@@ -18,13 +18,7 @@ const commonTsConfig = {
   languageOptions: {
     parserOptions: {
       projectService: {
-        allowDefaultProject: [
-          'eslint.config.js',
-          'playwright.config.ts',
-          'playwright.ssr.config.ts',
-          'tests/e2e/*.ts',
-          'tests/e2e/support/*.ts',
-        ],
+        allowDefaultProject: ['eslint.config.js'],
         maximumDefaultProjectFileMatchCount_THIS_WILL_SLOW_DOWN_LINTING: 16,
       },
       tsconfigRootDir: __dirname,
