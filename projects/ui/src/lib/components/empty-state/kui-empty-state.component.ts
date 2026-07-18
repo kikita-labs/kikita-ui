@@ -20,6 +20,7 @@ import { KuiEmptyStateSize } from './kui-empty-state-size.type';
     class: 'kui-empty',
     '[attr.data-kui-context]': 'context()',
     '[attr.data-kui-size]': 'size()',
+    '[attr.title]': 'null',
   },
   encapsulation: ViewEncapsulation.None,
 })
