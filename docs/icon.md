@@ -94,6 +94,41 @@ Omit `label` for decorative icons. Decorative icons render with `aria-hidden="tr
 `source` (direct inline SVG markup) always takes precedence over `name` and resolves
 synchronously -- no registry lookup, no network request.
 
+## Size
+
+Use named presets for design-system sizing:
+
+```html
+<kui-icon name="check" size="2xs" />
+<kui-icon name="check" size="xs" />
+<kui-icon name="check" size="sm" />
+<kui-icon name="check" size="md" />
+<kui-icon name="check" size="lg" />
+<kui-icon name="check" size="xl" />
+<kui-icon name="check" size="2xl" />
+```
+
+The default remains `1em`, so an icon without `size` follows the surrounding text or parent
+control sizing. Presets map to CSS variables with built-in fallbacks:
+
+| Preset | CSS variable          | Fallback   |
+| ------ | --------------------- | ---------- |
+| `2xs`  | `--kui-icon-size-2xs` | `0.75rem`  |
+| `xs`   | `--kui-icon-size-xs`  | `0.875rem` |
+| `sm`   | `--kui-icon-size-sm`  | `1rem`     |
+| `md`   | `--kui-icon-size-md`  | `1.25rem`  |
+| `lg`   | `--kui-icon-size-lg`  | `1.5rem`   |
+| `xl`   | `--kui-icon-size-xl`  | `2rem`     |
+| `2xl`  | `--kui-icon-size-2xl` | `2.5rem`   |
+
+Numbers are converted to pixels and arbitrary CSS size strings still pass through:
+
+```html
+<kui-icon name="settings" [size]="24" />
+<kui-icon name="settings" size="1.25em" />
+<kui-icon name="settings" size="calc(1rem + 2px)" />
+```
+
 ## Resolution Order
 
 For a given `name`, `kui-icon` checks every provided `KUI_ICONS` entry from the most recently

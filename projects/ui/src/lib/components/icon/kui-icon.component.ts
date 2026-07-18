@@ -3,7 +3,18 @@ import type { SafeHtml } from '@angular/platform-browser';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { KUI_ICONS } from './kui-icon-registry.token';
+import type { KuiIconSizePreset } from './kui-icon-size.type';
 import type { KuiIconName, KuiIconRegistry, KuiIconSource } from './kui-icon-source.type';
+
+const KUI_ICON_SIZE_PRESETS: Record<KuiIconSizePreset, string> = {
+  '2xs': 'var(--kui-icon-size-2xs, 0.75rem)',
+  xs: 'var(--kui-icon-size-xs, 0.875rem)',
+  sm: 'var(--kui-icon-size-sm, 1rem)',
+  md: 'var(--kui-icon-size-md, 1.25rem)',
+  lg: 'var(--kui-icon-size-lg, 1.5rem)',
+  xl: 'var(--kui-icon-size-xl, 2rem)',
+  '2xl': 'var(--kui-icon-size-2xl, 2.5rem)',
+};
 
 /** Renders a registered inline SVG icon, direct inline SVG source, or external image URL. */
 @Component({
@@ -35,8 +46,13 @@ export class KuiIconComponent {
   /** Accessible label. Omit for decorative icons. */
   readonly label = input<string | undefined>();
 
-  /** CSS size for the icon box. */
-  readonly size = input<string | number>('1em');
+  /**
+   * Icon box size.
+   *
+   * Named presets map to Kikita icon CSS variables. Numbers are converted to pixels. Other strings
+   * are passed through as CSS sizes.
+   */
+  readonly size = input<KuiIconSizePreset | string | number>('1em');
 
   private readonly iconSets = inject(KUI_ICONS, { optional: true }) ?? [];
   private readonly sanitizer = inject(DomSanitizer);
@@ -63,7 +79,11 @@ export class KuiIconComponent {
   protected readonly iconSize = computed(() => {
     const size = this.size();
 
-    return typeof size === 'number' ? `${size}px` : size;
+    if (typeof size === 'number') {
+      return `${size}px`;
+    }
+
+    return isKuiIconSizePreset(size) ? KUI_ICON_SIZE_PRESETS[size] : size;
   });
 
   private async resolveIcon(
@@ -81,4 +101,8 @@ export class KuiIconComponent {
 
     return undefined;
   }
+}
+
+function isKuiIconSizePreset(size: string): size is KuiIconSizePreset {
+  return Object.hasOwn(KUI_ICON_SIZE_PRESETS, size);
 }

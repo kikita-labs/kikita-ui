@@ -29,6 +29,16 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 export class IconsPage {
   protected readonly scaleSizes = [12, 16, 24, 32, 48, 64];
 
+  protected readonly iconSizes = [
+    { value: '2xs' as const, label: '2xs' },
+    { value: 'xs' as const, label: 'xs' },
+    { value: 'sm' as const, label: 'sm' },
+    { value: 'md' as const, label: 'md' },
+    { value: 'lg' as const, label: 'lg' },
+    { value: 'xl' as const, label: 'xl' },
+    { value: '2xl' as const, label: '2xl' },
+  ];
+
   protected readonly buttonShapes = [
     { value: 'solid' as const, label: 'Solid' },
     { value: 'soft' as const, label: 'Soft' },

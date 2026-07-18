@@ -13,6 +13,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 - ESLint is now part of the workspace quality gate, with Angular ESLint, TypeScript ESLint,
   sorted imports/exports, lint-staged autofix for TypeScript files, and `ng lint` targets for
   both the library and playground.
+- `kui-icon` now accepts named size presets (`2xs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`) in
+  addition to existing numeric pixel values and arbitrary CSS size strings.
 - `kuiProvideButtonOptions()` and `KUI_BUTTON_OPTIONS` allow scoped defaults for Kikita UI button
   primitives. Configure ordinary buttons through `button` and icon-only buttons through
   `iconButton`.
@@ -23,9 +25,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 - `provideKikitaUi({ defaults: { size } })` now applies to public size-enabled primitives when
   local size inputs are omitted. Components with narrower size unions apply only supported values;
-  `kui-icon` is excluded because its `size` input is a raw CSS/icon size, not a Kikita control-size
-  preset. Field and component-specific providers still win over root defaults, and local inputs
-  remain strongest.
+  `kui-icon` is excluded because icon size is an icon-specific visual scale, not a Kikita
+  control-size preset. Field and component-specific providers still win over root defaults, and
+  local inputs remain strongest.
 - `KuiFieldOptions`, `KuiSelectOptions`, and `KuiComboboxOptions` now share
   `KuiFieldControlOptions` for clearable field-control defaults, with `readonly` option
   properties.

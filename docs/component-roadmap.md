@@ -4,7 +4,8 @@
 
 - Theme foundation
 - Typography (done as CSS role/tone utility classes plus `kuiText` directive)
-- Icon abstraction
+- Icon abstraction (done as `kui-icon`; default Lucide resolver, registry/resolver overrides, named
+  size presets, and numeric/CSS custom sizes)
 - Button
 - IconButton
 - Field (affixes, field actions, input-group focus delegation, and rich messages covered from Claude spec 33)

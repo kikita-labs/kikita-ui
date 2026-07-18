@@ -79,8 +79,23 @@
 
 <app-panel
   num="03"
-  title="Icon size scaling (default Lucide resolver)"
-  description="A single resolved SVG (its own width/height attributes intact) must scale to the size input, not render at its native intrinsic size."
+  title="Icon size presets"
+  description="Named icon sizes map to Kikita CSS variables while keeping the default icon size inherited from surrounding text."
+>
+  <div class="icon-scale-row">
+    @for (iconSize of iconSizes; track iconSize.value) {
+      <article>
+        <kui-icon name="settings" label="Settings" [size]="iconSize.value" />
+        <code>size="{{ iconSize.label }}"</code>
+      </article>
+    }
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="Custom icon size scaling"
+  description="A single resolved SVG (its own width/height attributes intact) still scales to numeric and CSS string sizes."
 >
   <div class="icon-scale-row">
     @for (sizePx of scaleSizes; track sizePx) {
@@ -107,7 +122,7 @@
 </app-panel>
 
 <app-panel
-  num="04"
+  num="05"
   title="Icon button size matrix"
   description="xs / sm / md / lg across all states. Ghost shape."
 >

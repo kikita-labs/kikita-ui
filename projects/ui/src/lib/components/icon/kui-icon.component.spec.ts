@@ -31,6 +31,24 @@ class SourceIconHost {
 })
 class UrlIconHost {}
 
+@Component({
+  imports: [KuiIconComponent],
+  template: '<kui-icon name="check" size="lg" />',
+})
+class PresetSizeIconHost {}
+
+@Component({
+  imports: [KuiIconComponent],
+  template: '<kui-icon name="check" [size]="32" />',
+})
+class NumericSizeIconHost {}
+
+@Component({
+  imports: [KuiIconComponent],
+  template: '<kui-icon name="check" size="1.75em" />',
+})
+class CssSizeIconHost {}
+
 describe('KuiIconComponent', () => {
   it('renders a registered icon by name with an accessible label', async () => {
     const fixture = createFixture(NamedIconHost);
@@ -95,6 +113,30 @@ describe('KuiIconComponent', () => {
     const icon = fixture.nativeElement.querySelector('kui-icon') as HTMLElement;
 
     expect(icon.querySelector('svg path')?.getAttribute('d')).toContain('M4 4');
+  });
+
+  it('maps named size presets to Kikita icon CSS variables', () => {
+    const fixture = createFixture(PresetSizeIconHost);
+
+    const icon = fixture.nativeElement.querySelector('kui-icon') as HTMLElement;
+
+    expect(icon.style.getPropertyValue('--kui-icon-size')).toBe('var(--kui-icon-size-lg, 1.5rem)');
+  });
+
+  it('converts numeric sizes to pixels', () => {
+    const fixture = createFixture(NumericSizeIconHost);
+
+    const icon = fixture.nativeElement.querySelector('kui-icon') as HTMLElement;
+
+    expect(icon.style.getPropertyValue('--kui-icon-size')).toBe('32px');
+  });
+
+  it('passes through custom CSS size strings', () => {
+    const fixture = createFixture(CssSizeIconHost);
+
+    const icon = fixture.nativeElement.querySelector('kui-icon') as HTMLElement;
+
+    expect(icon.style.getPropertyValue('--kui-icon-size')).toBe('1.75em');
   });
 });
 
