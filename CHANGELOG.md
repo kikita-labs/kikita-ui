@@ -8,6 +8,20 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Changed
+
+- **Breaking:** `kui-empty-state`'s `title` input renamed to `heading`. `title` collided with the
+  global HTML `title` attribute -- Angular kept it as a literal DOM attribute alongside consuming
+  it as the component input, so hovering anywhere over an empty state showed a native browser
+  tooltip duplicating the visible heading. Update `<kui-empty-state title="...">` to
+  `<kui-empty-state heading="...">`.
+
+### Fixed
+
+- `.kui-chip-label`'s `line-height: 1` clipped glyph descenders (g, p, y) under `overflow: hidden`
+  when a chip's label text overflowed. Set `line-height: normal` on the label while the chip
+  itself keeps `line-height: 1` for fixed-height centering.
+
 ## [0.6.3] - 2026-07-17
 
 ### Fixed

@@ -18,7 +18,7 @@ import {
 
 ```html
 <kui-empty-state
-  title="No projects yet"
+  heading="No projects yet"
   description="Create the first project to start working with your team."
 >
   <svg kuiEmptyStateIcon viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -36,7 +36,7 @@ import {
 
 ## Inputs
 
-- `title`: required empty-state title text
+- `heading`: required empty-state heading text
 - `description`: optional supporting text
 - `context`: `no-data | no-results | error | no-access | success`
 - `size`: `sm | md | lg`
@@ -48,7 +48,7 @@ import {
 
 ## Accessibility
 
-- Use surrounding page structure for heading hierarchy. The built-in title is visual text, not a
+- Use surrounding page structure for heading hierarchy. The built-in heading is visual text, not a
   forced heading level.
 - Decorative icons should use `[kuiEmptyStateIcon]`.
 - Use `role="status"` on the `kui-empty-state` host when a no-results state appears dynamically

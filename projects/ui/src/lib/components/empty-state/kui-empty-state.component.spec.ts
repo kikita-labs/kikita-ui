@@ -8,7 +8,7 @@ import { KuiEmptyStateComponent } from './kui-empty-state.component';
 @Component({
   imports: [KuiEmptyStateActionsDirective, KuiEmptyStateComponent, KuiEmptyStateIconDirective],
   template: `
-    <kui-empty-state title="No results" description="Change filters" context="no-results" size="sm">
+    <kui-empty-state heading="No results" description="Change filters" context="no-results" size="sm">
       <span kuiEmptyStateIcon>icon</span>
       <button kuiEmptyStateActions type="button">Reset</button>
     </kui-empty-state>

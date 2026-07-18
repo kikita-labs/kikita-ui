@@ -9,7 +9,7 @@ import { KuiEmptyStateSize } from './kui-empty-state-size.type';
   template: `
     <ng-content select="[kuiEmptyStateIcon]" />
     <div class="kui-empty__body">
-      <div class="kui-empty__title">{{ title() }}</div>
+      <div class="kui-empty__title">{{ heading() }}</div>
       @if (description(); as descriptionText) {
         <div class="kui-empty__description">{{ descriptionText }}</div>
       }
@@ -20,13 +20,12 @@ import { KuiEmptyStateSize } from './kui-empty-state-size.type';
     class: 'kui-empty',
     '[attr.data-kui-context]': 'context()',
     '[attr.data-kui-size]': 'size()',
-    '[attr.title]': 'null',
   },
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiEmptyStateComponent {
-  /** Empty-state title text. Use the surrounding page hierarchy for heading semantics. */
-  readonly title = input.required<string>();
+  /** Empty-state heading text. Use the surrounding page hierarchy for heading semantics. */
+  readonly heading = input.required<string>();
 
   /** Optional supporting description text. */
   readonly description = input<string | null>(null);
