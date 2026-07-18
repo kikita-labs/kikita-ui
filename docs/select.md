@@ -165,12 +165,14 @@ providers: [kuiProvideSelectOptions({ clearable: true, maxVisibleChips: 2 })];
 ```
 
 Local inputs win over select provider defaults. Field defaults are used only for shared clearable
-behavior:
+behavior inherited through `KuiFieldControlOptions`:
 
 ```text
 clearable: local input > KUI_SELECT_OPTIONS > KUI_FIELD_OPTIONS > false
 maxVisibleChips: local input > KUI_SELECT_OPTIONS > 3
 ```
+
+See `docs/di-defaults.md` before adding or changing provider defaults.
 
 ## Signal Forms
 

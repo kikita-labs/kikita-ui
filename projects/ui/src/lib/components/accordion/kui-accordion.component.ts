@@ -1,6 +1,7 @@
-import { Component, ViewEncapsulation, inject, model } from '@angular/core';
+import { Component, ViewEncapsulation, computed, inject, model } from '@angular/core';
 
 import { KuiSize } from '../../types';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KUI_ACCORDION_CONTEXT, KuiAccordionContext } from './kui-accordion-context.token';
 
 /** Visual style of the accordion container. */
@@ -27,7 +28,7 @@ export type KuiAccordionMode = 'exclusive' | 'multi';
   host: {
     class: 'kui-accordion',
     '[attr.data-kui-appearance]': 'appearance()',
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-mode]': 'mode()',
   },
   providers: [
@@ -46,13 +47,17 @@ export class KuiAccordionComponent implements KuiAccordionContext {
   readonly appearance = model<KuiAccordionAppearance>('default');
 
   /** Trigger height and font size. */
-  readonly size = model<KuiSize>('md');
+  readonly size = model<KuiSize | undefined>();
 
   /**
    * IDs of currently expanded items. Supports two-way binding.
    * Mutations are reflected via `expandedItemsChange`.
    */
   readonly expandedItems = model<string[]>([]);
+
+  private readonly rootDefaultSize = injectKuiRootSizeDefault();
+
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
   /** @internal */
   toggle(id: string): void {

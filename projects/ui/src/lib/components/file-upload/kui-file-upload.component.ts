@@ -24,6 +24,7 @@ import {
   KUI_PLUS_MINI_D,
   KUI_X_D,
 } from '../../utils/kui-chrome-icon-paths.util';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiButtonDirective } from '../button';
 import { KuiFieldActionDirective } from '../field';
 import { KuiProgressComponent } from '../progress';
@@ -89,7 +90,7 @@ function detectKind(name: string): KuiFileKind | null {
   imports: [KuiButtonDirective, KuiFieldActionDirective, KuiProgressComponent],
   host: {
     class: 'kui-file-upload',
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-variant]': 'variant()',
     '[attr.data-kui-disabled]': 'disabled() ? "" : null',
   },
@@ -125,7 +126,7 @@ export class KuiFileUploadComponent {
   readonly maxCount = input<number | undefined>();
 
   /** Row height and thumbnail size. Only `sm`/`md`/`lg` have dedicated styling. */
-  readonly size = input<KuiSize>('md');
+  readonly size = input<KuiSize | undefined>();
 
   /** Disables the dropzone/trigger and stops it from reacting to drag/click/keyboard. */
   readonly disabled = input(false, { transform: booleanAttribute });
@@ -139,6 +140,7 @@ export class KuiFileUploadComponent {
   protected readonly dragState = signal<KuiFileUploadDragState>('none');
   protected readonly formError = signal<string | null>(null);
   protected readonly hasFiles = computed(() => this.files().length > 0);
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
   protected readonly dropzoneAriaLabel = computed(() => {
     const base = 'Upload file. Drag and drop or click to browse.';
@@ -149,6 +151,7 @@ export class KuiFileUploadComponent {
   protected readonly acceptAttr = computed(() => this.accept()?.join(',') ?? null);
 
   private readonly fileInput = viewChild<ElementRef<HTMLInputElement>>('fileInput');
+  private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private readonly instanceId = nextInstanceId++;
   private idSeq = 0;
   private dragCounter = 0;

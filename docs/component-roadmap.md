@@ -94,6 +94,15 @@ Do not build Charts until a real consumer needs it.
   typed data and close callbacks. Continue reviewing config/data interfaces for intentional
   `readonly` usage without making consumer-owned mutable models harder to use.
 
+- DI defaults audit before `1.0.0`: root `provideKikitaUi({ defaults.size })` now drives public
+  size-enabled primitives when local size inputs are omitted. Components with narrower size unions
+  apply only supported root values. `kui-icon` is excluded because its `size` is a raw CSS/icon
+  size, not a Kikita control-size preset. `kuiProvideButtonOptions` is the only new
+  component-specific default provider because button shape/appearance defaults are a repeated
+  design-system decision. Field-control clearability is shared through `KuiFieldControlOptions`.
+  Do not add provider defaults for every component input; evaluate future candidates from real
+  consumer repetition first.
+
 ## Install DX
 
 Angular schematic support is implemented and verified against a fresh Angular

@@ -1,7 +1,10 @@
-import { Component, ViewEncapsulation, input } from '@angular/core';
+import { Component, ViewEncapsulation, computed, input } from '@angular/core';
 
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiEmptyStateContext } from './kui-empty-state-context.type';
 import { KuiEmptyStateSize } from './kui-empty-state-size.type';
+
+const KUI_EMPTY_STATE_SIZES = ['sm', 'md', 'lg'] as const;
 
 /** Displays a non-blocking empty, error, no-access, or success state for known UI regions. */
 @Component({
@@ -19,7 +22,7 @@ import { KuiEmptyStateSize } from './kui-empty-state-size.type';
   host: {
     class: 'kui-empty',
     '[attr.data-kui-context]': 'context()',
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
   },
   encapsulation: ViewEncapsulation.None,
 })
@@ -34,5 +37,10 @@ export class KuiEmptyStateComponent {
   readonly context = input<KuiEmptyStateContext>('no-data');
 
   /** Empty-state layout size. Small uses a compact horizontal layout. */
-  readonly size = input<KuiEmptyStateSize>('md');
+  readonly size = input<KuiEmptyStateSize | undefined>();
+
+  private readonly rootDefaultSize =
+    injectKuiRootSizeDefault<KuiEmptyStateSize>(KUI_EMPTY_STATE_SIZES);
+
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 }

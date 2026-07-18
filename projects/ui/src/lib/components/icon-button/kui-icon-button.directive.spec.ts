@@ -2,6 +2,7 @@ import { Component, PLATFORM_ID, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideKuiIcons } from '../icon';
+import { kuiProvideButtonOptions } from '../../tokens';
 import { KuiIconButtonDirective } from './kui-icon-button.directive';
 
 const CLOSE_ICON = '<svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" /></svg>';
@@ -13,6 +14,12 @@ const CHECK_ICON = '<svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7" /></svg>';
     '<button kuiIconButton shape="soft" appearance="warning" size="xs" aria-label="Settings"></button>',
 })
 class IconButtonHost {}
+
+@Component({
+  imports: [KuiIconButtonDirective],
+  template: '<button kuiIconButton aria-label="Settings"></button>',
+})
+class DefaultIconButtonHost {}
 
 @Component({
   imports: [KuiIconButtonDirective],
@@ -39,6 +46,26 @@ describe('KuiIconButtonDirective', () => {
     expect(button.getAttribute('data-kui-appearance')).toBe('warning');
     expect(button.getAttribute('data-kui-size')).toBe('xs');
     expect(button.getAttribute('aria-label')).toBe('Settings');
+  });
+
+  it('uses scoped icon button option defaults when local inputs are omitted', () => {
+    TestBed.configureTestingModule({
+      imports: [DefaultIconButtonHost],
+      providers: [
+        kuiProvideButtonOptions({
+          iconButton: { shape: 'outline', appearance: 'success', size: 'sm' },
+        }),
+      ],
+    });
+
+    const fixture = TestBed.createComponent(DefaultIconButtonHost);
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+
+    expect(button.getAttribute('data-kui-shape')).toBe('outline');
+    expect(button.getAttribute('data-kui-appearance')).toBe('success');
+    expect(button.getAttribute('data-kui-size')).toBe('sm');
   });
 
   it('marks disabled anchor icon buttons as aria-disabled and prevents clicks', () => {

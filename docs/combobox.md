@@ -174,6 +174,9 @@ providers: [
 clearable: local input > KUI_COMBOBOX_OPTIONS > KUI_FIELD_OPTIONS > true
 ```
 
+Combobox inherits shared clearable semantics from `KuiFieldControlOptions`. See
+`docs/di-defaults.md` before adding or changing provider defaults.
+
 ## Tokens
 
 Combobox uses `--kui-combobox-*` variables for suffix affordances, loader, and highlight treatment.

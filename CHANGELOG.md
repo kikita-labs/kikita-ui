@@ -8,6 +8,27 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Added
+
+- `kuiProvideButtonOptions()` and `KUI_BUTTON_OPTIONS` allow scoped defaults for Kikita UI button
+  primitives. Configure ordinary buttons through `button` and icon-only buttons through
+  `iconButton`.
+- `docs/di-defaults.md` documents the dependency-injection default policy and precedence rules for
+  future component work.
+
+### Changed
+
+- `provideKikitaUi({ defaults: { size } })` now applies to public size-enabled primitives when
+  local size inputs are omitted. Components with narrower size unions apply only supported values;
+  `kui-icon` is excluded because its `size` input is a raw CSS/icon size, not a Kikita control-size
+  preset. Field and component-specific providers still win over root defaults, and local inputs
+  remain strongest.
+- `KuiFieldOptions`, `KuiSelectOptions`, and `KuiComboboxOptions` now share
+  `KuiFieldControlOptions` for clearable field-control defaults, with `readonly` option
+  properties.
+- Removed the unused `KikitaUiDefaults.density` option. Density remains supported through theme
+  seeds, where it actually affects generated CSS variables.
+
 ## [0.7.0] - 2026-07-18
 
 ### Changed

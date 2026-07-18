@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation, computed, input } from '@angular/core';
 
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+
 /** Visual shape used by `kui-progress`. */
 export type KuiProgressType = 'linear' | 'circular';
 
@@ -8,6 +10,8 @@ export type KuiProgressColor = 'primary' | 'success' | 'warning' | 'danger' | 'n
 
 /** Size token used by `kui-progress`. */
 export type KuiProgressSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+const KUI_PROGRESS_SIZES = ['xs', 'sm', 'md', 'lg'] as const;
 
 interface CircularConfig {
   readonly size: number;
@@ -65,7 +69,7 @@ const CIRCULAR_CONFIGS: Record<string, CircularConfig> = {
   host: {
     '[class.kui-progress-linear]': 'type() === "linear"',
     '[class.kui-progress-circular]': 'type() === "circular"',
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-color]': 'color()',
     '[attr.data-kui-indeterminate]': 'isIndeterminate() ? "true" : null',
     role: 'progressbar',
@@ -86,10 +90,13 @@ export class KuiProgressComponent {
   readonly color = input<KuiProgressColor>('primary');
 
   /** Visual size of the progress indicator. */
-  readonly size = input<KuiProgressSize>('md');
+  readonly size = input<KuiProgressSize | undefined>();
+
+  private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiProgressSize>(KUI_PROGRESS_SIZES);
 
   protected readonly isIndeterminate = computed(() => this.value() === null);
   protected readonly clampedValue = computed(() => Math.max(0, Math.min(100, this.value() ?? 0)));
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
   protected readonly fillWidth = computed(() => {
     if (this.isIndeterminate()) return null;
@@ -97,7 +104,7 @@ export class KuiProgressComponent {
   });
 
   protected readonly circCfg = computed(
-    () => CIRCULAR_CONFIGS[this.size()] ?? CIRCULAR_CONFIGS['md'],
+    () => CIRCULAR_CONFIGS[this.effectiveSize()] ?? CIRCULAR_CONFIGS['md'],
   );
 
   protected readonly dashOffset = computed(() => {

@@ -13,7 +13,7 @@ class StandaloneTextareaHost {}
 @Component({
   imports: [KuiFieldComponent, KuiTextareaDirective],
   template: `
-    <kui-field label="Notes" hint="Short internal note" error="Required">
+    <kui-field label="Notes" hint="Short internal note" error="Required" size="sm">
       <textarea kuiTextarea></textarea>
     </kui-field>
   `,
@@ -41,6 +41,7 @@ describe('KuiTextareaDirective', () => {
 
     expect(textarea.id).toBeTruthy();
     expect(label.getAttribute('for')).toBe(textarea.id);
+    expect(textarea.getAttribute('data-kui-size')).toBe('sm');
     expect(textarea.getAttribute('aria-invalid')).toBe('true');
     expect(textarea.getAttribute('aria-describedby')).toContain(`${textarea.id}-hint`);
     expect(textarea.getAttribute('aria-describedby')).toContain(`${textarea.id}-error`);

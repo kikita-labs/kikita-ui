@@ -13,6 +13,9 @@
 - Do not add Angular legacy compatibility unless explicitly requested.
 - Every public component, directive, provider, service, type, and token must have
   JSDoc.
+- Read `docs/di-defaults.md` before adding or changing dependency-injection
+  defaults. Do not add provider options for every input; add them only for
+  repeated design-system decisions.
 - Public UI selectors use the `kui` prefix.
 - Prefer native HTML semantics before ARIA.
 - Use Angular CDK or Angular Aria for complex accessibility behavior.

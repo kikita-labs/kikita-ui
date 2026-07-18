@@ -12,6 +12,7 @@ import {
 import { getKuiCalendarLocaleText } from '../../i18n/kui-calendar-locale-text.util';
 import { KUI_LOCALE } from '../../i18n/kui-locale.token';
 import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
 import { KuiSeparatorDirective } from '../separator/kui-separator.directive';
 import {
@@ -57,6 +58,8 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
   months: { prev: 'Previous year', next: 'Next year' },
   years: { prev: 'Previous decade', next: 'Next decade' },
 };
+
+const KUI_CALENDAR_SIZES = ['sm', 'md'] as const;
 
 /**
  * Inline month-grid date picker with month/year/decade navigation. Building block for
@@ -204,7 +207,7 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
   `,
   host: {
     class: 'kui-calendar',
-    '[attr.data-kui-size]': "size() === 'sm' ? 'sm' : null",
+    '[attr.data-kui-size]': "effectiveSize() === 'sm' ? 'sm' : null",
     '[attr.data-kui-flat]': "flat() ? '' : null",
   },
   imports: [KuiButtonDirective, KuiSeparatorDirective],
@@ -213,11 +216,12 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
 /** Displays a navigable calendar grid for selecting a date or date range. */
 export class KuiCalendarComponent {
   private readonly injectedLocale = inject(KUI_LOCALE);
+  private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiCalendarSize>(KUI_CALENDAR_SIZES);
 
   /** Selection mode. `single` picks one date; `range` picks a start/end pair. */
   readonly mode = input<KuiCalendarMode>('single');
   /** Visual density. `sm` is a compact, border/padding-less variant for sidebars. */
-  readonly size = input<KuiCalendarSize>('md');
+  readonly size = input<KuiCalendarSize | undefined>();
   /**
    * Strips the calendar's own background/border/padding. Set this when nesting it inside
    * chrome that already provides those — e.g. a `kui-dropdown`/`kui-popover` in a date
@@ -264,6 +268,7 @@ export class KuiCalendarComponent {
   protected readonly focusedDate = signal<Date>(startOfDay(new Date()));
   protected readonly hoverDate = signal<Date | null>(null);
   protected readonly liveAnnounce = signal('');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
   protected readonly viewYear = computed(() => this.viewDate().getFullYear());
   protected readonly viewMonth = computed(() => this.viewDate().getMonth());

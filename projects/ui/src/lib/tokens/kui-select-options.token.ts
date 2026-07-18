@@ -1,11 +1,11 @@
 import { InjectionToken, Provider } from '@angular/core';
 
+import type { KuiFieldControlOptions } from './kui-field-options.token';
+
 /** Defaults specific to `input[kuiSelect]` controls. */
-export interface KuiSelectOptions {
-  /** When true, select controls show a clear button by default. */
-  clearable?: boolean;
+export interface KuiSelectOptions extends KuiFieldControlOptions {
   /** Default visible selected chips before select renders a collapsed `+N` chip. */
-  maxVisibleChips?: number;
+  readonly maxVisibleChips?: number;
 }
 
 /** Injection token for `input[kuiSelect]` defaults. Takes precedence over {@link KUI_FIELD_OPTIONS}. */

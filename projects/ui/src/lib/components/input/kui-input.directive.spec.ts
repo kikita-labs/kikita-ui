@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { provideKikitaUi } from '../../providers';
 import { KuiFieldComponent } from '../field';
 import { KuiInputDirective } from './kui-input.directive';
 
@@ -19,6 +20,22 @@ class StandaloneInputHost {}
   `,
 })
 class FieldInputHost {}
+
+@Component({
+  imports: [KuiInputDirective],
+  template: '<input kuiInput />',
+})
+class DefaultInputHost {}
+
+@Component({
+  imports: [KuiFieldComponent, KuiInputDirective],
+  template: `
+    <kui-field label="Email" size="lg">
+      <input kuiInput />
+    </kui-field>
+  `,
+})
+class FieldSizedInputHost {}
 
 describe('KuiInputDirective', () => {
   it('adds input host attributes for size and invalid state', () => {
@@ -43,6 +60,34 @@ describe('KuiInputDirective', () => {
     expect(input.getAttribute('aria-invalid')).toBe('true');
     expect(input.getAttribute('aria-describedby')).toContain(`${input.id}-hint`);
     expect(input.getAttribute('aria-describedby')).toContain(`${input.id}-error`);
+  });
+
+  it('uses the root size default when no local size or field size is set', () => {
+    TestBed.configureTestingModule({
+      imports: [DefaultInputHost],
+      providers: [provideKikitaUi({ defaults: { size: 'sm' } })],
+    });
+
+    const fixture = TestBed.createComponent(DefaultInputHost);
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+
+    expect(input.getAttribute('data-kui-size')).toBe('sm');
+  });
+
+  it('inherits parent field size before falling back to the root default', () => {
+    TestBed.configureTestingModule({
+      imports: [FieldSizedInputHost],
+      providers: [provideKikitaUi({ defaults: { size: 'sm' } })],
+    });
+
+    const fixture = TestBed.createComponent(FieldSizedInputHost);
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+
+    expect(input.getAttribute('data-kui-size')).toBe('lg');
   });
 });
 

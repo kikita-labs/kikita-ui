@@ -40,10 +40,25 @@ Project `kui-icon` directly when the icon needs `source` or `src` instead of a r
 
 - `shape`: `solid | soft | outline | ghost`; defaults to `ghost`.
 - `appearance`: `primary | danger | success | warning`; optional.
-- `size`: `xs | sm | md | lg`; defaults to `md`.
+- `size`: `xs | sm | md | lg`; defaults to `provideKikitaUi({ defaults.size })`, then `md`.
 - `disabled`: disables icon button behavior. Anchor icon buttons receive `aria-disabled="true"`
   and are removed from tab order.
 - `icon`: renders a `kui-icon` resolved by name, prepended before any other projected content.
+
+## Provider Defaults
+
+Use `kuiProvideButtonOptions` to configure repeated icon-button defaults:
+
+```ts
+providers: [
+  kuiProvideButtonOptions({
+    iconButton: { shape: 'outline', appearance: 'primary', size: 'sm' },
+  }),
+];
+```
+
+Use root `provideKikitaUi({ defaults: { size: 'sm' } })` for broad default sizing across all
+size-enabled primitives. Local inputs always win.
 
 ## Migration from 0.1.4
 

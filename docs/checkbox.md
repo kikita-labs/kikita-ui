@@ -40,7 +40,8 @@ CVA-first design.
 
 ## Inputs
 
-- `size`: `xs | sm | md | lg`
+- `size`: `xs | sm | md | lg`; defaults to the parent `kui-field` size, then
+  `provideKikitaUi({ defaults.size })`, then `md`
 - `invalid`: marks the checkbox invalid outside a field error state
 - `id`: explicit id override
 

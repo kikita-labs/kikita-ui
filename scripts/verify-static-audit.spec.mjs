@@ -45,6 +45,20 @@ describe('verify-static-audit', () => {
       ]),
     );
   });
+
+  it('reports package barrel imports from library implementation files', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/lib/components/button/kui-button.directive.ts'),
+      "import { provideKikitaUi } from '@kikita-labs/ui';\n\n/** Button directive. */\nexport class KuiButtonDirective {}\n",
+    );
+
+    expect(runStaticAudit(root)).toEqual(
+      expect.arrayContaining([
+        'projects/ui/src/lib/components/button/kui-button.directive.ts imports @kikita-labs/ui from inside the library source',
+      ]),
+    );
+  });
 });
 
 function makeValidRepo() {

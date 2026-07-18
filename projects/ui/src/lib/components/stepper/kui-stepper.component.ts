@@ -2,6 +2,7 @@ import {
   Component,
   ViewEncapsulation,
   booleanAttribute,
+  computed,
   contentChildren,
   inject,
   input,
@@ -10,11 +11,14 @@ import {
 
 import { KuiStepComponent } from './kui-step.component';
 import { KUI_STEPPER_CONTEXT, KuiStepperContext } from './kui-stepper-context.token';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 
 /** Layout direction of the step list. */
 export type KuiStepperOrientation = 'horizontal' | 'vertical';
 /** Circle/label size for `kui-stepper`. */
 export type KuiStepperSize = 'sm' | 'md' | 'lg';
+
+const KUI_STEPPER_SIZES = ['sm', 'md', 'lg'] as const;
 
 /**
  * Progress indicator for a multi-step process. Projects `kui-step` children and
@@ -37,7 +41,7 @@ export type KuiStepperSize = 'sm' | 'md' | 'lg';
     class: 'kui-stepper',
     role: 'list',
     '[attr.data-kui-orientation]': "orientation() === 'vertical' ? 'vertical' : null",
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-compact]': "compact() ? '' : null",
   },
   providers: [
@@ -53,7 +57,7 @@ export class KuiStepperComponent implements KuiStepperContext {
   /** Layout direction of the step list. Defaults to horizontal. */
   readonly orientation = input<KuiStepperOrientation>('horizontal');
   /** Circle size and label font scale. Defaults to md. */
-  readonly size = input<KuiStepperSize>('md');
+  readonly size = input<KuiStepperSize | undefined>();
   /** Index of the currently active step. Supports two-way binding. */
   readonly currentIndex = model(0);
   /**
@@ -66,6 +70,10 @@ export class KuiStepperComponent implements KuiStepperContext {
   readonly compact = input(false, { transform: booleanAttribute });
 
   readonly steps = contentChildren(KuiStepComponent);
+
+  private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiStepperSize>(KUI_STEPPER_SIZES);
+
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
   /** @internal */
   goTo(index: number): void {

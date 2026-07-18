@@ -1,6 +1,5 @@
 import { InjectionToken, Signal } from '@angular/core';
 
-import { KuiSize } from '../../types';
 import { KuiTreeMode, KuiTreeNode } from './kui-tree-node.interface';
 
 /** Aggregate checked state of a node, including the checkbox `indeterminate` case. */
@@ -9,7 +8,6 @@ export type KuiTreeCheckedState = 'true' | 'false' | 'mixed';
 /** Shared context provided by KuiTreeComponent to recursive KuiTreeNodeComponent children. */
 export interface KuiTreeContext {
   readonly mode: Signal<KuiTreeMode>;
-  readonly size: Signal<KuiSize>;
   hasChildren(node: KuiTreeNode): boolean;
   childrenFor(node: KuiTreeNode): readonly KuiTreeNode[];
   isExpanded(id: string): boolean;

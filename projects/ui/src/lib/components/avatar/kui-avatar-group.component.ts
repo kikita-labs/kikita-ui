@@ -1,5 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiAvatarItem } from './kui-avatar-item.interface';
 import { KuiAvatarShape } from './kui-avatar-shape.type';
 import { KuiAvatarSize } from './kui-avatar-size.type';
@@ -12,7 +13,7 @@ import { KuiAvatarComponent } from './kui-avatar.component';
   templateUrl: './kui-avatar-group.component.html',
   host: {
     class: 'kui-avatar-group',
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-shape]': 'shape()',
     '[attr.role]': '"group"',
     '[attr.aria-label]': 'label()',
@@ -27,13 +28,17 @@ export class KuiAvatarGroupComponent {
   readonly max = input(4);
 
   /** Size applied to every avatar in the group. */
-  readonly size = input<KuiAvatarSize>('md');
+  readonly size = input<KuiAvatarSize | undefined>();
 
   /** Shape applied to every avatar in the group. */
   readonly shape = input<KuiAvatarShape>('circle');
 
   /** Accessible group label. */
   readonly label = input('Avatar group');
+
+  private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiAvatarSize>();
+
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
   protected readonly visibleAvatars = computed(() => {
     const max = Math.max(1, Math.floor(this.max()));

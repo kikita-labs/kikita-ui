@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 
 import { KuiSize } from '../../types';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KUI_TREE_CONTEXT, KuiTreeCheckedState, KuiTreeContext } from './kui-tree-context.token';
 import { KuiTreeMode, KuiTreeNode } from './kui-tree-node.interface';
 import { KuiTreeNodeComponent } from './kui-tree-node.component';
@@ -51,7 +52,7 @@ interface KuiTreeIndex {
     role: 'tree',
     '[attr.aria-label]': 'ariaLabel()',
     '[attr.aria-multiselectable]': "mode() === 'checkable' ? 'true' : null",
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-mobile]': "mobile() ? '' : null",
   },
   providers: [{ provide: KUI_TREE_CONTEXT, useFactory: () => inject(KuiTreeComponent) }],
@@ -63,7 +64,7 @@ export class KuiTreeComponent implements KuiTreeContext {
   readonly mode = input<KuiTreeMode>('display');
 
   /** Row height and text size. */
-  readonly size = input<KuiSize>('md');
+  readonly size = input<KuiSize | undefined>();
 
   /** Root nodes of the tree. */
   readonly data = input<readonly KuiTreeNode[]>([]);
@@ -89,6 +90,7 @@ export class KuiTreeComponent implements KuiTreeContext {
   >();
 
   private readonly hostEl = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   private readonly loadedChildren = signal<ReadonlyMap<string, readonly KuiTreeNode[]>>(new Map());
   private readonly loadingIds = signal<ReadonlySet<string>>(new Set());
@@ -113,6 +115,8 @@ export class KuiTreeComponent implements KuiTreeContext {
   });
 
   private readonly activeId = computed(() => this.focusedId() ?? this.index().flat[0]?.id ?? null);
+
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
   hasChildren(node: KuiTreeNode): boolean {
     if (node.lazy && !this.isLoaded(node.id)) return true;

@@ -13,7 +13,7 @@ class StandaloneCheckboxHost {}
 @Component({
   imports: [KuiFieldComponent, KuiCheckboxDirective],
   template: `
-    <kui-field label="Accept" hint="Required" error="Required">
+    <kui-field label="Accept" hint="Required" error="Required" size="lg">
       <input kuiCheckbox type="checkbox" />
     </kui-field>
   `,
@@ -40,6 +40,7 @@ describe('KuiCheckboxDirective', () => {
 
     expect(checkbox.id).toBeTruthy();
     expect(label.getAttribute('for')).toBe(checkbox.id);
+    expect(checkbox.getAttribute('data-kui-size')).toBe('lg');
     expect(checkbox.getAttribute('aria-invalid')).toBe('true');
     expect(checkbox.getAttribute('aria-describedby')).toContain(`${checkbox.id}-hint`);
     expect(checkbox.getAttribute('aria-describedby')).toContain(`${checkbox.id}-error`);

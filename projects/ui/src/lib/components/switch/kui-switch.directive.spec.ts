@@ -13,7 +13,7 @@ class StandaloneSwitchHost {}
 @Component({
   imports: [KuiFieldComponent, KuiSwitchDirective],
   template: `
-    <kui-field label="Enabled" hint="Optional" error="Required">
+    <kui-field label="Enabled" hint="Optional" error="Required" size="lg">
       <input kuiSwitch type="checkbox" />
     </kui-field>
   `,
@@ -41,6 +41,7 @@ describe('KuiSwitchDirective', () => {
 
     expect(control.id).toBeTruthy();
     expect(label.getAttribute('for')).toBe(control.id);
+    expect(control.getAttribute('data-kui-size')).toBe('lg');
     expect(control.getAttribute('aria-invalid')).toBe('true');
     expect(control.getAttribute('aria-describedby')).toContain(`${control.id}-hint`);
     expect(control.getAttribute('aria-describedby')).toContain(`${control.id}-error`);

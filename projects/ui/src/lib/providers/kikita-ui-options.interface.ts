@@ -1,4 +1,4 @@
-import { KuiDensity, KuiSize } from '../types';
+import { KuiSize } from '../types';
 import { KuiThemeOptions } from '../theme';
 
 /** Root configuration for Kikita UI providers. */
@@ -25,5 +25,4 @@ export type KuiScrollbarMode = 'native' | 'styled';
 /** Shared defaults used by Kikita UI components unless locally overridden. */
 export interface KikitaUiDefaults {
   readonly size?: KuiSize;
-  readonly density?: KuiDensity;
 }

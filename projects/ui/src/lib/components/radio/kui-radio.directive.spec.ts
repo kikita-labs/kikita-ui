@@ -13,7 +13,7 @@ class StandaloneRadioHost {}
 @Component({
   imports: [KuiFieldComponent, KuiRadioDirective],
   template: `
-    <kui-field label="Plan" hint="Choose one" error="Required">
+    <kui-field label="Plan" hint="Choose one" error="Required" size="lg">
       <input kuiRadio type="radio" name="plan" />
     </kui-field>
   `,
@@ -40,6 +40,7 @@ describe('KuiRadioDirective', () => {
 
     expect(radio.id).toBeTruthy();
     expect(label.getAttribute('for')).toBe(radio.id);
+    expect(radio.getAttribute('data-kui-size')).toBe('lg');
     expect(radio.getAttribute('aria-invalid')).toBe('true');
     expect(radio.getAttribute('aria-describedby')).toContain(`${radio.id}-hint`);
     expect(radio.getAttribute('aria-describedby')).toContain(`${radio.id}-error`);

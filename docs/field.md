@@ -153,15 +153,21 @@ Use `kuiProvideFieldOptions` for app-wide field defaults:
 providers: [kuiProvideFieldOptions({ size: 'sm', hideErrors: true })];
 ```
 
+Use root `provideKikitaUi({ defaults: { size: 'sm' } })` when the whole application should prefer
+a different default control size. `kui-field` and projected native controls use that root size
+unless a field-specific provider or local `size` input overrides it.
+
 Local inputs always win over provider defaults:
 
 ```text
-local input > KUI_FIELD_OPTIONS > component default
+local input > KUI_FIELD_OPTIONS > provideKikitaUi defaults > component default
 ```
 
 `KUI_FIELD_OPTIONS` is intentionally static configuration. Do not pass writable signals to it.
 Runtime density/size switching should be implemented as a dedicated runtime API rather than by
 mutating provider option objects.
+
+See `docs/di-defaults.md` before adding or changing field-control provider defaults.
 
 ## CSS Classes
 

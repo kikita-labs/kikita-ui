@@ -15,6 +15,8 @@ import {
 
 import { KuiIconComponent, type KuiIconName } from '../icon';
 import { KuiSize } from '../../types';
+import { KUI_BUTTON_OPTIONS } from '../../tokens/kui-button-options.token';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiButtonAppearance } from './kui-button-appearance.type';
 import { KuiButtonShape } from './kui-button-shape.type';
 
@@ -23,9 +25,9 @@ import { KuiButtonShape } from './kui-button-shape.type';
   selector: 'button[kuiButton], a[kuiButton]',
   host: {
     class: 'kui-button',
-    '[attr.data-kui-shape]': 'shape()',
-    '[attr.data-kui-appearance]': 'appearance()',
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-shape]': 'effectiveShape()',
+    '[attr.data-kui-appearance]': 'effectiveAppearance()',
+    '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-wrap]': 'wrap() ? "" : null',
     '[attr.data-kui-loading]': 'loading() ? "" : null',
     '[attr.aria-disabled]': 'isDisabled() ? "true" : null',
@@ -37,13 +39,13 @@ import { KuiButtonShape } from './kui-button-shape.type';
 })
 export class KuiButtonDirective {
   /** Visual button surface shape. */
-  readonly shape = input<KuiButtonShape>('solid');
+  readonly shape = input<KuiButtonShape | undefined>();
 
   /** Optional semantic color intent; each shape provides its own default when omitted. */
-  readonly appearance = input<KuiButtonAppearance | null>(null);
+  readonly appearance = input<KuiButtonAppearance | null | undefined>();
 
   /** Button size mapped to Kikita UI control height tokens. */
-  readonly size = input<KuiSize>('md');
+  readonly size = input<KuiSize | undefined>();
 
   /** Allows button text to wrap instead of truncating when the container is narrow. */
   readonly wrap = input(false, { transform: booleanAttribute });
@@ -64,6 +66,8 @@ export class KuiButtonDirective {
   private readonly renderer = inject(Renderer2);
   private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly buttonOpts = inject(KUI_BUTTON_OPTIONS, { optional: true });
+  private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   private contentEl: HTMLElement | null = null;
   private loaderEl: HTMLElement | null = null;
@@ -71,6 +75,20 @@ export class KuiButtonDirective {
   private iconEndRef: ComponentRef<KuiIconComponent> | null = null;
 
   protected readonly isDisabled = computed(() => this.disabled() || this.loading());
+
+  protected readonly effectiveShape = computed(
+    () => this.shape() ?? this.buttonOpts?.button?.shape ?? 'solid',
+  );
+
+  protected readonly effectiveAppearance = computed(() => {
+    const appearance = this.appearance();
+
+    return appearance !== undefined ? appearance : (this.buttonOpts?.button?.appearance ?? null);
+  });
+
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.buttonOpts?.button?.size ?? this.rootDefaultSize ?? 'md',
+  );
 
   protected readonly nativeDisabledAttribute = computed(() =>
     this.isDisabled() && this.host.tagName.toLowerCase() === 'button' ? '' : null,
@@ -90,7 +108,7 @@ export class KuiButtonDirective {
 
     effect(() => {
       if (this.loading()) {
-        this.showLoader(this.size());
+        this.showLoader(this.effectiveSize());
       } else {
         this.hideLoader();
       }

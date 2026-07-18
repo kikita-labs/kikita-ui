@@ -6,6 +6,7 @@ import {
   afterEveryRender,
   afterNextRender,
   booleanAttribute,
+  computed,
   contentChildren,
   inject,
   input,
@@ -16,6 +17,7 @@ import {
 
 import { KuiSize } from '../../types';
 import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiTabDirective } from './kui-tab.directive';
 import { KUI_TABS_CONTEXT, KuiTabsContext } from './kui-tabs-context.token';
 
@@ -97,7 +99,7 @@ let nextTabsId = 0;
   host: {
     class: 'kui-tabs',
     '[attr.data-kui-variant]': 'variant()',
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-orientation]': "orientation() === 'vertical' ? 'vertical' : null",
     '[attr.data-kui-inverted]': 'inverted() ? "" : null',
   },
@@ -114,7 +116,7 @@ export class KuiTabsComponent implements KuiTabsContext {
   /** Tab visual style: underline indicator (line) or pill background (pill). */
   readonly variant = input<KuiTabsVariant>('line');
   /** Tab size. Defaults to md. */
-  readonly size = input<KuiSize>('md');
+  readonly size = input<KuiSize | undefined>();
   /** Layout direction of the tab list. Defaults to horizontal. */
   readonly orientation = input<KuiTabsOrientation>('horizontal');
   /**
@@ -131,11 +133,13 @@ export class KuiTabsComponent implements KuiTabsContext {
   private readonly scrollElRef = viewChild<ElementRef<HTMLElement>>('scrollEl');
   private readonly indicatorRef = viewChild<ElementRef<HTMLSpanElement>>('indicator');
   private readonly destroyRef = inject(DestroyRef);
+  private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private readonly idBase = `kui-tabs-${nextTabsId++}`;
   private indicatorFirstRender = true;
 
   protected readonly canScrollLeft = signal(false);
   protected readonly canScrollRight = signal(false);
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
   constructor() {
     afterNextRender(() => {

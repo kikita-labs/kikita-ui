@@ -1,7 +1,11 @@
-import { Directive, input } from '@angular/core';
+import { Directive, computed, input } from '@angular/core';
+
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 
 /** Size of the breadcrumb trail. */
 export type KuiBreadcrumbsSize = 'sm' | 'md' | 'lg';
+
+const KUI_BREADCRUMBS_SIZES = ['sm', 'md', 'lg'] as const;
 
 /**
  * Marks an `<ol>` as a Kikita UI breadcrumb trail. Place inside a
@@ -24,10 +28,15 @@ export type KuiBreadcrumbsSize = 'sm' | 'md' | 'lg';
   host: {
     class: 'kui-breadcrumbs',
     role: 'list',
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
   },
 })
 export class KuiBreadcrumbsDirective {
   /** Font size and icon/gap scale of the trail. Defaults to md. */
-  readonly size = input<KuiBreadcrumbsSize>('md');
+  readonly size = input<KuiBreadcrumbsSize | undefined>();
+
+  private readonly rootDefaultSize =
+    injectKuiRootSizeDefault<KuiBreadcrumbsSize>(KUI_BREADCRUMBS_SIZES);
+
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 }

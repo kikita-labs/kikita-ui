@@ -16,6 +16,7 @@ import {
 } from '@angular/core';
 
 import { KuiSize } from '../../types';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiFieldComponent } from '../field';
 
 /** Layout of the increment/decrement controls. */
@@ -57,7 +58,7 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
 })
 export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestroy {
   /** Control height matched to `--kui-control-height-*` tokens. */
-  readonly size = input<KuiSize>('md');
+  readonly size = input<KuiSize | undefined>();
 
   /** Button layout: `b` = minus/plus on sides (recommended), `a` = stacked arrows on right. */
   readonly variant = input<KuiNumberInputVariant>('b');
@@ -73,6 +74,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
   private readonly doc = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
+  private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   /** @internal */
   protected readonly inputId = computed(() => this.id() ?? this.field?.controlId ?? null);
@@ -84,6 +86,9 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
 
   /** @internal */
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize ?? 'md',
+  );
 
   private containerEl!: HTMLElement;
   private decBtn!: HTMLElement;
@@ -99,7 +104,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
     // Read signals before the guard so they are tracked as dependencies
     // even on the first run when containerEl is not yet built (same pattern as kuiSlider).
     effect(() => {
-      const size = this.size();
+      const size = this.effectiveSize();
       const invalid = this.effectiveInvalid();
       if (!this.containerEl) return;
 
@@ -153,7 +158,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
     if (this.variant() === 'a') {
       this.renderer.addClass(this.containerEl, 'kui-number-input--a');
     }
-    this.renderer.setAttribute(this.containerEl, 'data-kui-size', this.size());
+    this.renderer.setAttribute(this.containerEl, 'data-kui-size', this.effectiveSize());
 
     this.renderer.insertBefore(parent, this.containerEl, native);
 

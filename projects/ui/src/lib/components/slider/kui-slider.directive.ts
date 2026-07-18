@@ -22,6 +22,9 @@ import {
   createKuiTooltipOverlay,
   KuiTooltipOverlayHandle,
 } from '../../utils/kui-tooltip-overlay.util';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+
+const KUI_SLIDER_SIZES = ['sm', 'md', 'lg'] as const;
 
 /** Semantic color used by `kuiSlider`. */
 export type KuiSliderColor = 'primary' | 'success' | 'danger' | 'neutral';
@@ -54,7 +57,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   readonly color = input<KuiSliderColor>('primary');
 
   /** Visual size of the generated slider control. */
-  readonly size = input<KuiSliderSize>('md');
+  readonly size = input<KuiSliderSize | undefined>();
 
   /** Optional label rendered below the minimum side of the slider. */
   readonly minLabel = input<string>('');
@@ -81,6 +84,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
 
   /** @internal */
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
   private containerEl!: HTMLElement;
   private fillEl!: HTMLElement;
@@ -90,11 +94,12 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   private tooltipVisible = false;
   private lastNativeState = '';
   private scrollUnlisten: (() => void) | null = null;
+  private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiSliderSize>(KUI_SLIDER_SIZES);
 
   constructor() {
     effect(() => {
       const color = this.color();
-      const size = this.size();
+      const size = this.effectiveSize();
       const invalid = this.effectiveInvalid();
       if (!this.containerEl) return;
       this.syncContainerState(color, size, invalid);
@@ -266,7 +271,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
     this.renderer.appendChild(this.containerEl, trackEl);
 
     const color = this.color();
-    const size = this.size();
+    const size = this.effectiveSize();
     this.syncContainerState(color, size, this.effectiveInvalid());
     if (native.disabled) {
       this.renderer.setAttribute(this.containerEl, 'data-kui-disabled', 'true');

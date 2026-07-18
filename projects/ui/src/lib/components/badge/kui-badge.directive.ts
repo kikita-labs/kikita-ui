@@ -1,6 +1,7 @@
-import { Directive, input } from '@angular/core';
+import { Directive, computed, input } from '@angular/core';
 
 import { KuiSize } from '../../types';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiBadgeAppearance } from './kui-badge-appearance.type';
 
 /** Applies Kikita UI badge styling to inline status or metadata elements. */
@@ -9,7 +10,7 @@ import { KuiBadgeAppearance } from './kui-badge-appearance.type';
   host: {
     class: 'kui-badge',
     '[attr.data-kui-appearance]': 'appearance()',
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
   },
 })
 export class KuiBadgeDirective {
@@ -17,5 +18,9 @@ export class KuiBadgeDirective {
   readonly appearance = input<KuiBadgeAppearance>('neutral');
 
   /** Badge size mapped to Kikita UI text and spacing tokens. */
-  readonly size = input<KuiSize>('md');
+  readonly size = input<KuiSize | undefined>();
+
+  private readonly rootDefaultSize = injectKuiRootSizeDefault();
+
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 }

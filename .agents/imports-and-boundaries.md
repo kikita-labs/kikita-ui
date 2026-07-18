@@ -7,6 +7,9 @@ make it clear what is internal.
 
 - Library implementation files may use relative imports inside
   `projects/ui/src/lib`.
+- Library implementation files must not import from `@kikita-labs/ui` or
+  `@kikita-labs/ui/*`. That package barrel is for consumers and playground
+  package-facing checks, not for library internals.
 - Playground pages should import public primitives from `@kikita-labs/ui` to
   exercise the package-facing API through the workspace alias.
 - Do not import private component implementation files from unrelated primitive

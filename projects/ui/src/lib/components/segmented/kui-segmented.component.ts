@@ -4,6 +4,7 @@ import {
   ViewChild,
   ViewEncapsulation,
   afterEveryRender,
+  computed,
   contentChildren,
   inject,
   input,
@@ -11,6 +12,7 @@ import {
 } from '@angular/core';
 
 import { KuiSize } from '../../types';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiSegmentDirective } from './kui-segment.directive';
 import { KUI_SEGMENTED_CONTEXT, KuiSegmentedContext } from './kui-segmented-context.token';
 
@@ -32,7 +34,7 @@ import { KUI_SEGMENTED_CONTEXT, KuiSegmentedContext } from './kui-segmented-cont
   host: {
     class: 'kui-segmented',
     role: 'radiogroup',
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
     '(keydown)': 'onKeydown($event)',
   },
   providers: [
@@ -48,13 +50,16 @@ export class KuiSegmentedComponent implements KuiSegmentedContext {
   readonly selected = model<string>('');
 
   /** Control size. Defaults to md. */
-  readonly size = input<KuiSize>('md');
+  readonly size = input<KuiSize | undefined>();
 
   @ViewChild('thumb', { static: true })
   private thumbRef!: ElementRef<HTMLSpanElement>;
 
   private readonly segmentItems = contentChildren(KuiSegmentDirective);
+  private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private firstRender = true;
+
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
   constructor() {
     afterEveryRender(() => this.positionThumb());

@@ -1,10 +1,9 @@
 import { InjectionToken, Provider } from '@angular/core';
 
+import type { KuiFieldControlOptions } from './kui-field-options.token';
+
 /** Defaults specific to `input[kuiCombobox]` controls. */
-export interface KuiComboboxOptions {
-  /** When true, combobox controls show a clear button by default. */
-  clearable?: boolean;
-}
+export interface KuiComboboxOptions extends KuiFieldControlOptions {}
 
 /** Injection token for `kui-combobox` defaults. Takes precedence over {@link KUI_FIELD_OPTIONS}. */
 export const KUI_COMBOBOX_OPTIONS = new InjectionToken<KuiComboboxOptions>('KUI_COMBOBOX_OPTIONS');

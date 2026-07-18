@@ -35,6 +35,8 @@ Rules:
 - Runtime component CSS lives under `projects/ui/src/styles` and is imported by
   `projects/ui/src/styles/kikita-ui.css`.
 - Public docs and release facts live in `docs/` and `CHANGELOG.md`.
+- DI provider defaults are public API. Before adding or changing them, read
+  `docs/di-defaults.md` and preserve the documented precedence chain.
 - Agent operating rules and repo-distributed skills live in `.agents/`.
 - `.local-notes/` may guide work, but tracked docs and public typings are the
   durable source of truth.

@@ -23,6 +23,7 @@ import {
   KUI_COPY_D,
   KUI_COPY_RECT,
 } from '../../utils/kui-chrome-icon-paths.util';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import {
   createKuiTooltipOverlay,
   KuiTooltipOverlayHandle,
@@ -65,7 +66,7 @@ let nextColorInputTooltipId = 0;
 })
 export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy {
   /** Control height matched to Kikita UI size tokens. */
-  readonly size = input<KuiSize>('md');
+  readonly size = input<KuiSize | undefined>();
 
   /** Applies error border. Also inherited from a parent `kui-field` with an error. */
   readonly invalidInput = input(false, { alias: 'invalid', transform: booleanAttribute });
@@ -82,11 +83,15 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private readonly vcr = inject(ViewContainerRef);
   private readonly injector = inject(Injector);
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
+  private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   protected readonly inputId = computed(() => this.id() ?? this.field?.controlId ?? null);
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
   protected readonly effectiveInvalid = computed(
     () => this.invalidInput() || Boolean(this.field?.invalid()) || this.invalidValue(),
+  );
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize ?? 'md',
   );
 
   private containerEl!: HTMLElement;
@@ -129,7 +134,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       native.value,
       native.disabled,
       native.readOnly,
-      this.size(),
+      this.effectiveSize(),
       this.invalidInput(),
       this.field?.invalid() ?? false,
       this.swatchLabel(),
@@ -227,7 +232,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
 
     this.invalidValue.set(!valid);
 
-    this.renderer.setAttribute(this.containerEl, 'data-kui-size', this.size());
+    this.renderer.setAttribute(this.containerEl, 'data-kui-size', this.effectiveSize());
     this.setBooleanAttr(this.containerEl, 'data-kui-open', this.open());
     this.setBooleanAttr(this.containerEl, 'data-kui-invalid', this.effectiveInvalid());
     this.setBooleanAttr(this.containerEl, 'data-kui-disabled', native.disabled);

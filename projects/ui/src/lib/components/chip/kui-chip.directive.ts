@@ -8,6 +8,7 @@ import {
   output,
 } from '@angular/core';
 
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiChipAppearance } from './kui-chip-appearance.type';
 import { KuiChipSize } from './kui-chip-size.type';
 
@@ -17,7 +18,7 @@ import { KuiChipSize } from './kui-chip-size.type';
   host: {
     class: 'kui-chip',
     '[attr.data-kui-appearance]': 'appearance()',
-    '[attr.data-kui-size]': 'size()',
+    '[attr.data-kui-size]': 'effectiveSize()',
     '[class.kui-chip--disabled]': 'disabled()',
     '[class.kui-chip--invalid]': 'invalid()',
     '[attr.aria-disabled]': 'disabled() ? "true" : null',
@@ -31,7 +32,7 @@ export class KuiChipDirective {
   readonly appearance = input<KuiChipAppearance>('neutral');
 
   /** Chip size preset. Use `sm` inside Select and Combobox controls. */
-  readonly size = input<KuiChipSize>('md');
+  readonly size = input<KuiChipSize | undefined>();
 
   /** Marks the chip disabled and makes its remove action inert. */
   readonly disabled = input(false, { transform: booleanAttribute });
@@ -41,6 +42,10 @@ export class KuiChipDirective {
 
   /** Emitted when a nested `button[kuiChipRemove]` is activated. */
   readonly removed = output<void>();
+
+  private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiChipSize>();
+
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
   protected readonly disabledAttr = computed(() => {
     const tag = this.elementRef.nativeElement.tagName.toLowerCase();

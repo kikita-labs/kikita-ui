@@ -18,6 +18,7 @@ import { KUI_OPTION_CONTEXT, KuiOptionContext } from '../dropdown/kui-option-con
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
 import { KuiSize } from '../../types';
+import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import {
   KuiErrorDirective,
   KuiHintDirective,
@@ -104,7 +105,9 @@ export class KuiFieldComponent implements KuiOptionContext {
   );
 
   /** Effective field size after local input and provider defaults are applied. */
-  readonly effectiveSize = computed(() => this.size() ?? this.fieldOpts?.size ?? 'md');
+  readonly effectiveSize = computed(
+    () => this.size() ?? this.fieldOpts?.size ?? this.rootDefaultSize ?? 'md',
+  );
 
   /** Effective auto-error visibility after local input and provider defaults are applied. */
   readonly effectiveHideErrors = computed(
@@ -146,6 +149,7 @@ export class KuiFieldComponent implements KuiOptionContext {
   private readonly projectedError = contentChild(KuiErrorDirective);
   private readonly hostEl = inject(ElementRef<HTMLElement>);
   private readonly fieldOpts = inject(KUI_FIELD_OPTIONS, { optional: true });
+  private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private readonly controlSlot = viewChild<ElementRef<HTMLElement>>('controlSlot');
   private readonly _selectCtx = signal<KuiOptionContext | null>(null);
   private readonly _selectDisabled = signal(false);

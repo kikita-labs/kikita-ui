@@ -77,6 +77,9 @@ export function runStaticAudit(root = defaultRoot) {
   runCheck(failures, 'public barrels do not export internal context tokens', () =>
     checkPublicBarrelContextExports(root),
   );
+  runCheck(failures, 'library internals do not import the public package barrel', () =>
+    checkLibraryInternalPackageImports(root),
+  );
   runCheck(failures, 'public exports have nearby JSDoc', () => checkPublicJSDoc(root));
   runCheck(failures, 'library files avoid top-level browser globals', () =>
     checkTopLevelBrowserGlobals(root),
@@ -352,6 +355,33 @@ function checkPublicBarrelContextExports(root) {
     if (/Kui[A-Za-z0-9]*Context\b/.test(text) && text.includes('context.token')) {
       failures.push(
         `projects/ui/src/lib/components/${primitive}/index.ts exports an internal context type`,
+      );
+    }
+  }
+
+  return failures;
+}
+
+function checkLibraryInternalPackageImports(root) {
+  const failures = [];
+  const libDir = join(root, 'projects/ui/src/lib');
+
+  if (!existsSync(libDir)) {
+    return failures;
+  }
+
+  const files = collectTextFiles(root, [libDir]).filter(
+    (file) => file.endsWith('.ts') && !file.endsWith('.spec.ts'),
+  );
+  const packageImportPattern =
+    /^\s*(?:import|export)\s+(?:type\s+)?(?:[\s\S]*?\s+from\s+)?['"]@kikita-labs\/ui(?:\/[^'"]*)?['"]/gm;
+
+  for (const file of files) {
+    const text = readFileSync(file, 'utf8');
+
+    if (packageImportPattern.test(text)) {
+      failures.push(
+        `${toRepoPath(root, file)} imports @kikita-labs/ui from inside the library source`,
       );
     }
   }

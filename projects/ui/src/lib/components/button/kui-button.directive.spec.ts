@@ -2,6 +2,8 @@ import { Component, PLATFORM_ID, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideKuiIcons } from '../icon';
+import { provideKikitaUi } from '../../providers';
+import { kuiProvideButtonOptions } from '../../tokens';
 import { KuiButtonDirective } from './kui-button.directive';
 
 const CHECK_ICON = '<svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7" /></svg>';
@@ -12,6 +14,18 @@ const ARROW_ICON = '<svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5" /></s
   template: '<button kuiButton shape="soft" appearance="success" size="sm" wrap>Save</button>',
 })
 class ButtonHost {}
+
+@Component({
+  imports: [KuiButtonDirective],
+  template: '<button kuiButton>Save</button>',
+})
+class DefaultButtonHost {}
+
+@Component({
+  imports: [KuiButtonDirective],
+  template: '<button kuiButton shape="outline" appearance="danger" size="lg">Delete</button>',
+})
+class ExplicitButtonHost {}
 
 @Component({
   imports: [KuiButtonDirective],
@@ -45,6 +59,61 @@ describe('KuiButtonDirective', () => {
     expect(button.getAttribute('data-kui-appearance')).toBe('success');
     expect(button.getAttribute('data-kui-size')).toBe('sm');
     expect(button.hasAttribute('data-kui-wrap')).toBe(true);
+  });
+
+  it('uses scoped button option defaults when local inputs are omitted', () => {
+    TestBed.configureTestingModule({
+      imports: [DefaultButtonHost],
+      providers: [
+        kuiProvideButtonOptions({
+          button: { shape: 'ghost', appearance: 'success', size: 'sm' },
+        }),
+      ],
+    });
+
+    const fixture = TestBed.createComponent(DefaultButtonHost);
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+
+    expect(button.getAttribute('data-kui-shape')).toBe('ghost');
+    expect(button.getAttribute('data-kui-appearance')).toBe('success');
+    expect(button.getAttribute('data-kui-size')).toBe('sm');
+  });
+
+  it('lets explicit button inputs override scoped option defaults', () => {
+    TestBed.configureTestingModule({
+      imports: [ExplicitButtonHost],
+      providers: [
+        kuiProvideButtonOptions({
+          button: { shape: 'ghost', appearance: 'success', size: 'sm' },
+        }),
+      ],
+    });
+
+    const fixture = TestBed.createComponent(ExplicitButtonHost);
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+
+    expect(button.getAttribute('data-kui-shape')).toBe('outline');
+    expect(button.getAttribute('data-kui-appearance')).toBe('danger');
+    expect(button.getAttribute('data-kui-size')).toBe('lg');
+  });
+
+  it('uses root size defaults when scoped button options do not set size', () => {
+    TestBed.configureTestingModule({
+      imports: [DefaultButtonHost],
+      providers: [provideKikitaUi({ defaults: { size: 'sm' } })],
+    });
+
+    const fixture = TestBed.createComponent(DefaultButtonHost);
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+
+    expect(button.getAttribute('data-kui-shape')).toBe('solid');
+    expect(button.getAttribute('data-kui-size')).toBe('sm');
   });
 
   it('marks disabled anchors as aria-disabled and prevents click navigation', () => {

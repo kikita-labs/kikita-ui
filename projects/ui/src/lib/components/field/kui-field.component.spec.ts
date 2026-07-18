@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormField, form, required } from '@angular/forms/signals';
 import { describe, expect, it } from 'vitest';
 
+import { provideKikitaUi } from '../../providers';
 import { kuiProvideFieldOptions } from '../../tokens';
 import { KuiInputDirective } from '../input';
 import {
@@ -91,6 +92,16 @@ class ProviderFieldOptionsHost {
     required(path.email, { message: 'Email is required' });
   });
 }
+
+@Component({
+  imports: [KuiFieldComponent],
+  template: `
+    <kui-field label="Email">
+      <input />
+    </kui-field>
+  `,
+})
+class RootDefaultFieldHost {}
 
 @Component({
   imports: [
@@ -206,6 +217,19 @@ describe('KuiFieldComponent', () => {
     expect(field.getAttribute('data-kui-size')).toBe('sm');
     expect(errorMessage(fixture)).toBeNull();
     expect(field.hasAttribute('data-kui-invalid')).toBe(true);
+  });
+
+  it('uses root size defaults when scoped field options omit size', async () => {
+    await TestBed.configureTestingModule({
+      imports: [RootDefaultFieldHost],
+      providers: [provideKikitaUi({ defaults: { size: 'lg' } })],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(RootDefaultFieldHost);
+    fixture.detectChanges();
+
+    const field = fixture.nativeElement.querySelector('kui-field') as HTMLElement;
+
+    expect(field.getAttribute('data-kui-size')).toBe('lg');
   });
 
   it('lets explicit required false override an Angular Signal Forms required validator', async () => {

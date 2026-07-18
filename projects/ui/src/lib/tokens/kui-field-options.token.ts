@@ -2,14 +2,18 @@ import { InjectionToken, Provider } from '@angular/core';
 
 import { KuiSize } from '../types';
 
-/** Global defaults applied to all Kikita UI field controls. */
-export interface KuiFieldOptions {
-  /** Default `kui-field` size when no local `size` input is provided. */
-  size?: KuiSize;
-  /** Hides automatically rendered Angular Signal Forms error messages by default. */
-  hideErrors?: boolean;
+/** Shared defaults for input-like controls composed inside `kui-field`. */
+export interface KuiFieldControlOptions {
   /** When true, field controls with clear affordances show a clear button by default. */
-  clearable?: boolean;
+  readonly clearable?: boolean;
+}
+
+/** Global defaults applied to all Kikita UI field controls. */
+export interface KuiFieldOptions extends KuiFieldControlOptions {
+  /** Default `kui-field` size when no local `size` input is provided. */
+  readonly size?: KuiSize;
+  /** Hides automatically rendered Angular Signal Forms error messages by default. */
+  readonly hideErrors?: boolean;
 }
 
 /** Injection token for app-wide {@link KuiFieldOptions} defaults. */
