@@ -67,6 +67,7 @@ export class KuiDialogService {
     container._size = size;
     container._appearance = appearance;
     container._dismissable = dismissable;
+    container._closable.set(closable);
 
     container.closed.subscribe((result) => {
       overlayRef.detach();

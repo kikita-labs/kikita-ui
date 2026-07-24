@@ -61,22 +61,22 @@ export class MyDialog implements KuiDialogHost<TResult, TData> {
 
 `dialogContext` provides:
 
-| Member       | Type                         | Description                               |
-| ------------ | ---------------------------- | ----------------------------------------- |
-| `data`       | `TData`                      | Data passed via `kuiDialog()(data)`.      |
-| `closable`   | `boolean`                    | Whether to show a close button.           |
-| `appearance` | `KuiDialogAppearance`        | Visual intent for `.kui-dialog-icon`.     |
-| `close(r?)`  | `(result?: TResult) => void` | Close the dialog, optionally with result. |
+| Member       | Type                         | Description                                                                                                                                                                                 |
+| ------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data`       | `TData`                      | Data passed via `kuiDialog()(data)`.                                                                                                                                                        |
+| `closable`   | `boolean`                    | Mirrors {@link KuiDialogConfig.closable}. The close button itself is rendered automatically by the container — this is exposed for informational use only (e.g. adjusting your own layout). |
+| `appearance` | `KuiDialogAppearance`        | Visual intent for `.kui-dialog-icon`.                                                                                                                                                       |
+| `close(r?)`  | `(result?: TResult) => void` | Close the dialog, optionally with result.                                                                                                                                                   |
 
 ## KuiDialogConfig
 
-| Option        | Type                  | Default     | Description                                    |
-| ------------- | --------------------- | ----------- | ---------------------------------------------- |
-| `data`        | `TData`               | `undefined` | Passed into the component via `dialogContext`. |
-| `size`        | `KuiDialogSize`       | `'md'`      | Panel width preset.                            |
-| `appearance`  | `KuiDialogAppearance` | `'default'` | Colors `.kui-dialog-icon` via CSS variable.    |
-| `dismissable` | `boolean`             | `true`      | Allow Escape and backdrop-click to close.      |
-| `closable`    | `boolean`             | `true`      | Expose close-button state via `dialogContext`. |
+| Option        | Type                  | Default     | Description                                      |
+| ------------- | --------------------- | ----------- | ------------------------------------------------ |
+| `data`        | `TData`               | `undefined` | Passed into the component via `dialogContext`.   |
+| `size`        | `KuiDialogSize`       | `'md'`      | Panel width preset.                              |
+| `appearance`  | `KuiDialogAppearance` | `'default'` | Colors `.kui-dialog-icon` via CSS variable.      |
+| `dismissable` | `boolean`             | `true`      | Allow Escape and backdrop-click to close.        |
+| `closable`    | `boolean`             | `true`      | Render the close button, top-right of the panel. |
 
 ## KuiDialogSize
 
@@ -97,22 +97,37 @@ export class MyDialog implements KuiDialogHost<TResult, TData> {
 
 ## CSS Structure
 
+The dialog container renders the backdrop, panel, and — when `closable: true` — the
+`.kui-dialog-close` button itself, absolutely positioned top-right of the panel. Your dialog
+component only needs to supply the header/body/footer content:
+
 ```html
 <div class="kui-dialog-backdrop">
   <div class="kui-dialog kui-dialog--md" role="dialog" aria-modal="true">
+    <!-- Your component's content, projected here: -->
     <div class="kui-dialog-header">
       <!-- Optional icon slot: add class="kui-dialog-icon" to your SVG. -->
       <svg class="kui-dialog-icon" aria-hidden="true"></svg>
       <h2 class="kui-dialog-title">Title</h2>
-      <button class="kui-dialog-close" aria-label="Close">
-        <kui-icon name="x" />
-      </button>
     </div>
     <div class="kui-dialog-body">Content</div>
     <div class="kui-dialog-footer">Actions</div>
+    <!-- Rendered automatically by the container, not by your template: -->
+    <button class="kui-dialog-close" aria-label="Close">
+      <kui-icon name="x" />
+    </button>
   </div>
 </div>
 ```
+
+The header reserves space on its right edge (via `.kui-dialog:has(> .kui-dialog-close)
+
+> .kui-dialog-header`) so a long, wrapping title never runs underneath the button.
+
+If your dialog component's own markup already includes a `.kui-dialog-close` element (older
+manual markup), the container detects it and skips rendering its own button rather than showing
+two. New dialog components should not render `.kui-dialog-close` themselves — let the container
+handle it via `closable`.
 
 ### `.kui-dialog-icon`
 
@@ -122,17 +137,19 @@ automatically from `appearance`. Size is fixed at 20 x 20 px.
 
 ## CSS Tokens
 
-| Token                     | Default                             |
-| ------------------------- | ----------------------------------- |
-| `--kui-dialog-bg`         | `var(--kui-color-surface-elevated)` |
-| `--kui-dialog-border`     | `var(--kui-color-border)`           |
-| `--kui-dialog-radius`     | `var(--kui-radius-lg)`              |
-| `--kui-dialog-shadow`     | `var(--kui-shadow-lg)`              |
-| `--kui-dialog-backdrop`   | `oklch(0 0 0 / 0.5)`                |
-| `--kui-dialog-padding-x`  | `var(--kui-space-6)`                |
-| `--kui-dialog-padding-y`  | `var(--kui-space-4)`                |
-| `--kui-dialog-title-size` | `var(--kui-text-lg-size)`           |
-| `--kui-dialog-icon-color` | set by `data-kui-appearance` attr   |
+| Token                         | Default                             |
+| ----------------------------- | ----------------------------------- |
+| `--kui-dialog-bg`             | `var(--kui-color-surface-elevated)` |
+| `--kui-dialog-border`         | `var(--kui-color-border)`           |
+| `--kui-dialog-radius`         | `var(--kui-radius-lg)`              |
+| `--kui-dialog-shadow`         | `var(--kui-shadow-lg)`              |
+| `--kui-dialog-backdrop`       | `oklch(0 0 0 / 0.5)`                |
+| `--kui-dialog-padding-x`      | `var(--kui-space-6)`                |
+| `--kui-dialog-padding-y`      | `var(--kui-space-4)`                |
+| `--kui-dialog-title-size`     | `var(--kui-text-lg-size)`           |
+| `--kui-dialog-icon-color`     | set by `data-kui-appearance` attr   |
+| `--kui-dialog-close-offset-x` | `var(--kui-dialog-padding-x)`       |
+| `--kui-dialog-close-offset-y` | `var(--kui-dialog-padding-y)`       |
 
 ## Animations
 

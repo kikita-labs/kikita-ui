@@ -8,7 +8,6 @@ import {
   kuiConfirm,
   kuiDialog,
   KuiFieldComponent,
-  KuiIconComponent,
   KuiInputDirective,
   KuiTextareaDirective,
 } from '@kikita-labs/ui';
@@ -29,11 +28,6 @@ type EditResult = 'saved' | null;
   template: `
     <div class="kui-dialog-header">
       <h2 class="kui-dialog-title">Edit profile</h2>
-      @if (ctx.closable) {
-        <button class="kui-dialog-close" type="button" aria-label="Close" (click)="ctx.close(null)">
-          <kui-icon name="x" />
-        </button>
-      }
     </div>
     <div class="kui-dialog-body" style="display:flex;flex-direction:column;gap:16px">
       <kui-field label="Name">
@@ -48,7 +42,7 @@ type EditResult = 'saved' | null;
       <button kuiButton type="button" (click)="ctx.close('saved')">Save</button>
     </div>
   `,
-  imports: [KuiButtonDirective, KuiInputDirective, KuiFieldComponent, KuiIconComponent],
+  imports: [KuiButtonDirective, KuiInputDirective, KuiFieldComponent],
   encapsulation: ViewEncapsulation.None,
 })
 export class EditDialog implements KuiDialogHost<EditResult, EditData> {
@@ -82,16 +76,6 @@ export class EditDialog implements KuiDialogHost<EditResult, EditData> {
         <circle cx="10" cy="14.5" r="0.75" fill="currentColor" />
       </svg>
       <h2 class="kui-dialog-title">Delete account?</h2>
-      @if (ctx.closable) {
-        <button
-          class="kui-dialog-close"
-          type="button"
-          aria-label="Close"
-          (click)="ctx.close(false)"
-        >
-          <kui-icon name="x" />
-        </button>
-      }
     </div>
     <div class="kui-dialog-body">
       This action is irreversible. All account data will be permanently removed.
@@ -101,7 +85,7 @@ export class EditDialog implements KuiDialogHost<EditResult, EditData> {
       <button kuiButton appearance="danger" type="button" (click)="ctx.close(true)">Delete</button>
     </div>
   `,
-  imports: [KuiButtonDirective, KuiIconComponent],
+  imports: [KuiButtonDirective],
   encapsulation: ViewEncapsulation.None,
 })
 export class DeleteDialog implements KuiDialogHost<boolean, void> {
@@ -116,9 +100,6 @@ export class DeleteDialog implements KuiDialogHost<boolean, void> {
   template: `
     <div class="kui-dialog-header">
       <h2 class="kui-dialog-title">Terms of service</h2>
-      <button class="kui-dialog-close" type="button" aria-label="Close" (click)="ctx.close()">
-        <kui-icon name="x" />
-      </button>
     </div>
     <div class="kui-dialog-body">
       @for (i of items; track i) {
@@ -132,13 +113,63 @@ export class DeleteDialog implements KuiDialogHost<boolean, void> {
       <button kuiButton shape="outline" type="button" (click)="ctx.close()">Close</button>
     </div>
   `,
-  imports: [KuiButtonDirective, KuiIconComponent],
+  imports: [KuiButtonDirective],
   encapsulation: ViewEncapsulation.None,
 })
 export class LongBodyDialog implements KuiDialogHost<void, void> {
   public readonly dialogContext = inject<KuiDialogContext<void, void>>(KUI_DIALOG_CONTEXT);
   protected readonly ctx = this.dialogContext;
   protected readonly items = Array.from({ length: 20 }, (_, i) => i + 1);
+}
+
+// ── Demo dialog: header title lengths (close button auto-positioned) ──────
+
+@Component({
+  selector: 'app-normal-title-dialog',
+  template: `
+    <div class="kui-dialog-header">
+      <h2 class="kui-dialog-title">Update payment method</h2>
+    </div>
+    <div class="kui-dialog-body">
+      The close button is rendered by the dialog container itself, top-right of the panel — no
+      markup needed in this template.
+    </div>
+    <div class="kui-dialog-footer">
+      <button kuiButton type="button" (click)="ctx.close()">Got it</button>
+    </div>
+  `,
+  imports: [KuiButtonDirective],
+  encapsulation: ViewEncapsulation.None,
+})
+export class NormalTitleDialog implements KuiDialogHost<void, void> {
+  public readonly dialogContext = inject<KuiDialogContext<void, void>>(KUI_DIALOG_CONTEXT);
+  protected readonly ctx = this.dialogContext;
+}
+
+@Component({
+  selector: 'app-long-title-dialog',
+  template: `
+    <div class="kui-dialog-header">
+      <h2 class="kui-dialog-title">
+        This is a deliberately very long dialog title used to verify that wrapped header text never
+        runs underneath the auto-positioned close button
+      </h2>
+    </div>
+    <div class="kui-dialog-body">
+      The header reserves space on the right via
+      <code>.kui-dialog:has(&gt; .kui-dialog-close) &gt; .kui-dialog-header</code> so a long,
+      wrapping title stays clear of the button regardless of how many lines it takes.
+    </div>
+    <div class="kui-dialog-footer">
+      <button kuiButton type="button" (click)="ctx.close()">Got it</button>
+    </div>
+  `,
+  imports: [KuiButtonDirective],
+  encapsulation: ViewEncapsulation.None,
+})
+export class LongTitleDialog implements KuiDialogHost<void, void> {
+  public readonly dialogContext = inject<KuiDialogContext<void, void>>(KUI_DIALOG_CONTEXT);
+  protected readonly ctx = this.dialogContext;
 }
 
 // ── Demo dialog: auto size (textarea resize demo) ─────────────────────────
@@ -148,11 +179,6 @@ export class LongBodyDialog implements KuiDialogHost<void, void> {
   template: `
     <div class="kui-dialog-header">
       <h2 class="kui-dialog-title">auto - content-sized</h2>
-      @if (ctx.closable) {
-        <button class="kui-dialog-close" type="button" aria-label="Close" (click)="ctx.close(null)">
-          <kui-icon name="x" />
-        </button>
-      }
     </div>
     <div class="kui-dialog-body" style="display:flex;flex-direction:column;gap:16px">
       <kui-field label="Subject">
@@ -167,13 +193,7 @@ export class LongBodyDialog implements KuiDialogHost<void, void> {
       <button kuiButton type="button" (click)="ctx.close('sent')">Send</button>
     </div>
   `,
-  imports: [
-    KuiButtonDirective,
-    KuiInputDirective,
-    KuiTextareaDirective,
-    KuiFieldComponent,
-    KuiIconComponent,
-  ],
+  imports: [KuiButtonDirective, KuiInputDirective, KuiTextareaDirective, KuiFieldComponent],
   encapsulation: ViewEncapsulation.None,
 })
 export class AutoDialog implements KuiDialogHost<'sent' | null, void> {
@@ -233,6 +253,12 @@ function injectNoDismissDialog() {
 function injectEditDialogNoClose() {
   return kuiDialog(EditDialog, { size: 'md', closable: false });
 }
+function injectNormalTitleDialog() {
+  return kuiDialog(NormalTitleDialog, { size: 'sm' });
+}
+function injectLongTitleDialog() {
+  return kuiDialog(LongTitleDialog, { size: 'sm' });
+}
 
 // ── Page ──────────────────────────────────────────────────────────────────
 
@@ -253,6 +279,8 @@ export class DialogPage {
   private readonly openLongBody = injectLongBodyDialog();
   private readonly openNoDismiss = injectNoDismissDialog();
   private readonly openEditNoClose = injectEditDialogNoClose();
+  private readonly openNormalTitle = injectNormalTitleDialog();
+  private readonly openLongTitle = injectLongTitleDialog();
   private readonly confirm = kuiConfirm();
 
   protected readonly resultSizes = signal<string>('—');
@@ -307,6 +335,14 @@ export class DialogPage {
     this.openEditNoClose({ name: 'Alex Smith' })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((r) => this.resultNoClose.set(r ?? 'undefined'));
+  }
+
+  protected showNormalTitle(): void {
+    this.openNormalTitle(undefined).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+  }
+
+  protected showLongTitle(): void {
+    this.openLongTitle(undefined).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 
   protected showConfirmDefault(): void {

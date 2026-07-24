@@ -69,6 +69,24 @@
     </div>
   </app-panel>
 
+  <!-- Panel 04b: header title lengths -->
+  <app-panel
+    num="04b"
+    title="Close button — title lengths"
+    description="The close button is rendered by the container, absolutely positioned top-right of the panel. The header reserves space for it via CSS, so a short or a very long wrapping title never overlaps it."
+  >
+    <div class="component-board">
+      <div class="state-board__row" style="gap: 8px; flex-wrap: wrap">
+        <button kuiButton shape="outline" type="button" (click)="showNormalTitle()">
+          Normal title
+        </button>
+        <button kuiButton shape="outline" type="button" (click)="showLongTitle()">
+          Very long title
+        </button>
+      </div>
+    </div>
+  </app-panel>
+
   <!-- Panel 05: dismissable: false -->
   <app-panel
     num="05"

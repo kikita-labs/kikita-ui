@@ -8,6 +8,17 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-07-25
+
+### Changed
+
+- `kuiDialog()` now renders the `.kui-dialog-close` button itself, absolutely positioned
+  top-right of the panel, when `closable: true` (the default). Dialog components no longer need
+  to render the button manually; the header reserves space for it automatically so long, wrapping
+  titles don't run underneath it. `dialogContext.closable` is retained for informational use only.
+  If a dialog component still renders its own `.kui-dialog-close` (older manual markup), the
+  container detects it and skips its own button instead of showing two.
+
 ## [1.0.0] - 2026-07-18
 
 ### Added
@@ -506,7 +517,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.7.0...v1.0.0
 [0.7.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/kikita-labs/kikita-ui/compare/v0.6.1...v0.6.2
