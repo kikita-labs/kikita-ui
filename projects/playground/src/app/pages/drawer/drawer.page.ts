@@ -28,23 +28,6 @@ type SettingsDrawerResult = 'saved' | 'cancelled';
         <h2 class="kui-drawer-title">{{ ctx.data.title }}</h2>
         <div class="kui-drawer-subtitle">{{ ctx.side }} · {{ ctx.size }}</div>
       </div>
-      @if (ctx.closable) {
-        <button
-          class="kui-drawer-close"
-          type="button"
-          aria-label="Close drawer"
-          (click)="ctx.close('cancelled')"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path
-              d="M4 4l8 8M12 4l-8 8"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-          </svg>
-        </button>
-      }
     </div>
     <div class="kui-drawer-body drawer-form">
       <kui-field label="Project">
@@ -101,7 +84,7 @@ export class ActionSheetDrawer implements KuiDrawerHost<string, void> {
 
 function injectSettingsDrawer(
   side: 'right' | 'left' | 'top' | 'bottom',
-  size: 'sm' | 'md' | 'lg' | 'full',
+  size: 'sm' | 'md' | 'lg' | 'full' | 'auto',
   config?: { closeOnBackdropClick?: boolean; closeOnEscape?: boolean; closable?: boolean },
 ) {
   return kuiDrawer(SettingsDrawer, { side, size, ...config });
@@ -123,6 +106,7 @@ export class DrawerPage {
   private readonly openRightSm = injectSettingsDrawer('right', 'sm');
   private readonly openRightMd = injectSettingsDrawer('right', 'md');
   private readonly openRightLg = injectSettingsDrawer('right', 'lg');
+  private readonly openRightAuto = injectSettingsDrawer('right', 'auto');
   private readonly openLeftMd = injectSettingsDrawer('left', 'md');
   private readonly openTopMd = injectSettingsDrawer('top', 'md');
   private readonly openBottomMd = injectSettingsDrawer('bottom', 'md');
@@ -149,6 +133,12 @@ export class DrawerPage {
 
   protected showRightLg(): void {
     this.openRightLg({ title: 'Task details' })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((result) => this.lastResult.set(result ?? 'undefined'));
+  }
+
+  protected showRightAuto(): void {
+    this.openRightAuto({ title: 'Auto width' })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result) => this.lastResult.set(result ?? 'undefined'));
   }

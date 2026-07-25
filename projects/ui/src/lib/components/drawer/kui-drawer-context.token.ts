@@ -13,7 +13,11 @@ export interface KuiDrawerContext<TResult = void, TData = unknown> {
   readonly side: KuiDrawerSide;
   /** Drawer size resolved from config. */
   readonly size: KuiDrawerSize;
-  /** Whether close affordances should be rendered by context-aware content. */
+  /**
+   * Mirrors {@link KuiDrawerConfig.closable}. The close button itself is rendered
+   * automatically by the container — this is exposed for informational use only
+   * (e.g. adjusting your own layout).
+   */
   readonly closable: boolean;
   /** Close the drawer, optionally resolving with a result value. */
   close(result?: TResult): void;

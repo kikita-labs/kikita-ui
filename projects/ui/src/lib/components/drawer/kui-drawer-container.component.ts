@@ -4,6 +4,7 @@ import { CdkPortalOutlet } from '@angular/cdk/portal';
 import type { ComponentRef, ElementRef } from '@angular/core';
 import { Component, EventEmitter, signal, viewChild, ViewEncapsulation } from '@angular/core';
 
+import { KuiIconComponent } from '../icon/kui-icon.component';
 import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
 
 let nextDrawerTitleId = 0;
@@ -37,9 +38,14 @@ let nextDrawerTitleId = 0;
       (animationend)="onAnimationEnd($event)"
     >
       <ng-template cdkPortalOutlet />
+      @if (_closable()) {
+        <button type="button" class="kui-drawer-close" aria-label="Close" (click)="close()">
+          <kui-icon name="x" />
+        </button>
+      }
     </div>
   `,
-  imports: [CdkPortalOutlet, CdkTrapFocus],
+  imports: [CdkPortalOutlet, CdkTrapFocus, KuiIconComponent],
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders the modal drawer surface used by the drawer service. */
@@ -55,6 +61,8 @@ export class KuiDrawerContainerComponent {
   _size: KuiDrawerSize = 'md';
   /** @internal Set by the service after the component is created. */
   _closeOnBackdropClick = true;
+  /** @internal Set via `_closable.set()` by the service after the component is created. */
+  readonly _closable = signal(true);
 
   private _closeResult: unknown;
 
@@ -65,6 +73,15 @@ export class KuiDrawerContainerComponent {
   attachContent<T>(portal: ComponentPortal<T>): ComponentRef<T> {
     const ref = this.portalOutlet().attachComponentPortal(portal);
     (ref.location.nativeElement as HTMLElement).style.display = 'contents';
+    // If the projected content already brings its own `.kui-drawer-close`
+    // (older manual markup), skip the auto-rendered one instead of showing
+    // two close buttons. Scoped to the attached content's own root so it
+    // never matches our own button, which is a sibling of the portal
+    // outlet, not a descendant of it.
+    const contentRoot = ref.location.nativeElement as HTMLElement;
+    if (contentRoot.querySelector('.kui-drawer-close')) {
+      this._closable.set(false);
+    }
     this.bindAccessibleName();
     return ref;
   }

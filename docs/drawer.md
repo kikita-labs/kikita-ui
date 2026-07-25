@@ -39,14 +39,6 @@ type EditResult = 'saved' | 'cancelled';
         <h2 class="kui-drawer-title">Edit item</h2>
         <div class="kui-drawer-subtitle">{{ drawerContext.data.id }}</div>
       </div>
-      <button
-        class="kui-drawer-close"
-        type="button"
-        aria-label="Close"
-        (click)="drawerContext.close('cancelled')"
-      >
-        ...
-      </button>
     </div>
     <div class="kui-drawer-body">...</div>
     <div class="kui-drawer-footer">
@@ -75,13 +67,46 @@ function injectEditDrawer() {
 
 ## Config
 
-| Option                 | Type                                     | Default   | Notes                                                     |
-| ---------------------- | ---------------------------------------- | --------- | --------------------------------------------------------- |
-| `side`                 | `'right' \| 'left' \| 'bottom' \| 'top'` | `'right'` | Edge from which the drawer enters.                        |
-| `size`                 | `'sm' \| 'md' \| 'lg' \| 'full'`         | `'md'`    | Width for left/right, height for top/bottom.              |
-| `closeOnBackdropClick` | `boolean`                                | `true`    | Disable for required actions.                             |
-| `closeOnEscape`        | `boolean`                                | `true`    | Disable for required actions.                             |
-| `closable`             | `boolean`                                | `true`    | Passed to the content context for close-button rendering. |
+| Option                 | Type                                       | Default   | Notes                                                                                                    |
+| ---------------------- | ------------------------------------------ | --------- | -------------------------------------------------------------------------------------------------------- |
+| `side`                 | `'right' \| 'left' \| 'bottom' \| 'top'`   | `'right'` | Edge from which the drawer enters.                                                                       |
+| `size`                 | `'sm' \| 'md' \| 'lg' \| 'full' \| 'auto'` | `'md'`    | Width for left/right, height for top/bottom. `'auto'` sizes to content (min 320px width / 200px height). |
+| `closeOnBackdropClick` | `boolean`                                  | `true`    | Disable for required actions.                                                                            |
+| `closeOnEscape`        | `boolean`                                  | `true`    | Disable for required actions.                                                                            |
+| `closable`             | `boolean`                                  | `true`    | Render the close button, top-right of the panel.                                                         |
+
+## CSS Structure
+
+The drawer container renders the backdrop, panel, and — when `closable: true` — the
+`.kui-drawer-close` button itself, absolutely positioned top-right of the panel. Your drawer
+component only needs to supply the header/body/footer content:
+
+```html
+<div class="kui-drawer" data-kui-side="right" role="dialog" aria-modal="true">
+  <!-- Your component's content, projected here: -->
+  <div class="kui-drawer-header">
+    <div class="kui-drawer-header-text">
+      <h2 class="kui-drawer-title">Title</h2>
+      <div class="kui-drawer-subtitle">Subtitle</div>
+    </div>
+  </div>
+  <div class="kui-drawer-body">Content</div>
+  <div class="kui-drawer-footer">Actions</div>
+  <!-- Rendered automatically by the container, not by your template: -->
+  <button class="kui-drawer-close" aria-label="Close">
+    <kui-icon name="x" />
+  </button>
+</div>
+```
+
+The header reserves space on its trailing edge (via `.kui-drawer:has(> .kui-drawer-close)
+
+> .kui-drawer-header`) so a long, wrapping title never runs underneath the button.
+
+If your drawer component's own markup already includes a `.kui-drawer-close` element (older
+manual markup), the container detects it and skips rendering its own button rather than showing
+two. New drawer components should not render `.kui-drawer-close` themselves — let the container
+handle it via `closable`.
 
 ## Accessibility
 
@@ -108,5 +133,7 @@ Drawer styles consume public Kikita CSS variables:
 - `--kui-drawer-height-lg`
 - `--kui-drawer-duration-open`
 - `--kui-drawer-duration-close`
+- `--kui-drawer-close-offset-x` (default `var(--kui-drawer-header-padding-x)`)
+- `--kui-drawer-close-offset-y` (default `var(--kui-drawer-header-padding-y)`)
 
 See `projects/ui/src/styles/drawer.css` for the full token list.

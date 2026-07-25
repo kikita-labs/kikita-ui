@@ -189,6 +189,21 @@
     --kui-drawer-height: 100vh;
   }
 
+  .kui-drawer[data-kui-size='auto'] {
+    --kui-drawer-width: auto;
+    --kui-drawer-height: auto;
+  }
+
+  .kui-drawer[data-kui-side='right'][data-kui-size='auto'],
+  .kui-drawer[data-kui-side='left'][data-kui-size='auto'] {
+    min-inline-size: var(--kui-drawer-width-sm);
+  }
+
+  .kui-drawer[data-kui-side='top'][data-kui-size='auto'],
+  .kui-drawer[data-kui-side='bottom'][data-kui-size='auto'] {
+    min-block-size: 200px;
+  }
+
   .kui-drawer-header {
     display: flex;
     flex: 0 0 auto;
@@ -220,8 +235,11 @@
   }
 
   .kui-drawer-close {
+    position: absolute;
+    inset-block-start: var(--kui-drawer-close-offset-y, var(--kui-drawer-header-padding-y));
+    inset-inline-end: var(--kui-drawer-close-offset-x, var(--kui-drawer-header-padding-x));
+    z-index: 1;
     display: inline-flex;
-    flex: 0 0 auto;
     align-items: center;
     justify-content: center;
     inline-size: var(--kui-drawer-close-size);
@@ -242,6 +260,13 @@
     outline: 0;
     background: var(--kui-color-surface-sunken);
     color: var(--kui-color-text);
+  }
+
+  /* Reserve room in the header so long titles don't run under the close button. */
+  .kui-drawer:has(> .kui-drawer-close) > .kui-drawer-header {
+    padding-inline-end: calc(
+      var(--kui-drawer-header-padding-x) + var(--kui-drawer-close-size) + var(--kui-space-2)
+    );
   }
 
   .kui-drawer-body {

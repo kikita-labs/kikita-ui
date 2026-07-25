@@ -17,12 +17,17 @@
     </div>
   </app-panel>
 
-  <app-panel num="02" title="Sizes" description="sm, md, and lg presets match the design spec.">
+  <app-panel
+    num="02"
+    title="Sizes"
+    description="sm, md, and lg presets match the design spec. auto sizes to content."
+  >
     <div class="component-board">
       <div class="state-board__row drawer-actions">
         <button kuiButton shape="outline" type="button" (click)="showRightSm()">Open sm</button>
         <button kuiButton shape="outline" type="button" (click)="showRightMd()">Open md</button>
         <button kuiButton shape="outline" type="button" (click)="showRightLg()">Open lg</button>
+        <button kuiButton shape="outline" type="button" (click)="showRightAuto()">Open auto</button>
       </div>
     </div>
   </app-panel>

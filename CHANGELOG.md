@@ -8,6 +8,22 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-07-25
+
+### Added
+
+- `KuiDrawerSize` gains an `'auto'` value: the drawer sizes to its content instead of a fixed
+  width/height preset (min 320px width for left/right, min 200px height for top/bottom).
+
+### Changed
+
+- `kuiDrawer()` now renders the `.kui-drawer-close` button itself, absolutely positioned
+  top-right of the panel, when `closable: true` (the default). Drawer components no longer need
+  to render the button manually; the header reserves space for it automatically so long, wrapping
+  titles don't run underneath it. `drawerContext.closable` is retained for informational use only.
+  If a drawer component still renders its own `.kui-drawer-close` (older manual markup), the
+  container detects it and skips its own button instead of showing two.
+
 ## [1.1.0] - 2026-07-25
 
 ### Changed
@@ -517,7 +533,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.7.0...v1.0.0
 [0.7.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.6.2...v0.7.0

@@ -2,7 +2,7 @@
 export type KuiDrawerSide = 'right' | 'left' | 'bottom' | 'top';
 
 /** Drawer size preset. Width for left/right drawers, height for top/bottom drawers. */
-export type KuiDrawerSize = 'sm' | 'md' | 'lg' | 'full';
+export type KuiDrawerSize = 'sm' | 'md' | 'lg' | 'full' | 'auto';
 
 /** Options passed to {@link KuiDrawerService.open} or {@link kuiDrawer}. */
 export interface KuiDrawerConfig<TData = unknown> {
@@ -16,6 +16,6 @@ export interface KuiDrawerConfig<TData = unknown> {
   closeOnBackdropClick?: boolean;
   /** Allow closing via Escape key. Defaults to `true`. */
   closeOnEscape?: boolean;
-  /** Show the close button in examples and context-aware components. Defaults to `true`. */
+  /** Render the close button, top-right of the panel. Defaults to `true`. */
   closable?: boolean;
 }

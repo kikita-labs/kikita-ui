@@ -69,6 +69,7 @@ export class KuiDrawerService {
     container._side = side;
     container._size = size;
     container._closeOnBackdropClick = closeOnBackdropClick;
+    container._closable.set(closable);
 
     container.closed.subscribe((result) => {
       overlayRef.detach();
