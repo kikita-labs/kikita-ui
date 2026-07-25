@@ -1,0 +1,40 @@
+name: Publish @kikita-labs/ui
+
+# Trusted Publishing: npm exchanges this workflow's OIDC token for a
+# short-lived publish credential. No NPM_TOKEN secret involved -- the trust
+# relationship is configured on npmjs.com under the package's
+# Settings > Trusted Publisher (GitHub Actions, org kikita-labs, repo
+# kikita-ui, workflow filename publish.yml).
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      # OIDC trusted publishing needs npm CLI >= 11.5.1.
+      - run: npm install -g npm@latest
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm test
+
+      - run: pnpm build
+
+      - run: npm publish ./dist/ui --access public

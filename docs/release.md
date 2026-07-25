@@ -61,34 +61,55 @@ temporary Angular 22 app outside this workspace, then ran `ng add --theme`,
 
 ## Publish
 
-Check login state before attempting a publish -- do not run `npm login`
-non-interactively and do not guess credentials:
+### Primary path: Trusted Publishing (CI, no agent involvement)
+
+`.github/workflows/publish.yml` publishes `@kikita-labs/ui` automatically when
+a `vX.Y.Z` tag is pushed. It authenticates via npm's OIDC Trusted Publishing
+(GitHub Actions exchanges a short-lived OIDC token for a publish credential --
+no `NPM_TOKEN` secret, no 2FA/OTP prompt, nothing an agent or human needs to
+approve interactively). The trust relationship is configured once on
+npmjs.com under the package's Settings > Trusted Publisher (provider GitHub
+Actions, org `kikita-labs`, repo `kikita-ui`, workflow filename `publish.yml`)
+-- that one-time setup must be done by a package owner in their own browser
+session; an agent cannot do it.
+
+With this in place, the publish step of a release is simply: push the release
+commit to `main`, then push the `vX.Y.Z` tag (see "After tagging" below). The
+workflow builds, tests, and publishes on its own. Watch it with:
 
 ```bash
-npm whoami --registry=https://registry.npmjs.org
+gh run list --workflow=publish.yml --limit=1
+gh run watch
 ```
 
-- If this prints a username, npm is already authenticated; proceed straight to
-  `npm run publish:ui`.
-- If it prints `401 Unauthorized` (or any error), npm is not logged in. Do not
-  attempt to log in programmatically -- `npm login` needs an interactive
-  browser approval that an agent cannot complete. Tell the user to run `npm
-login` themselves (they can use the `!` prefix to run it directly in the
-  session), then wait for them to confirm before publishing.
+### Fallback path: manual `npm publish` (do not use from an agent)
 
-Once authenticated:
+If Trusted Publishing isn't configured yet, or CI is broken, someone can
+publish manually with `npm run publish:ui`, but this requires an interactive
+2FA/OTP browser approval on every publish, checked per-publish independent of
+login state. If the CLI doesn't prompt for it inline, it prints a
+`https://www.npmjs.com/auth/cli/...` URL to stdout to open instead.
+
+In an agent-run shell, that URL is redacted to `***` in both the terminal
+output and `npm-cache/_logs/*-debug-*.log` -- this is a harness-level secret
+scrub on anything that looks like an auth token/URL, not an npm bug, and it
+cannot be worked around from the agent side (do not try alternate tools,
+encodings, or log-scraping to recover it; that defeats the point of the
+redaction). An agent cannot complete a manual publish. If Trusted Publishing
+isn't set up yet, tell the user to run `npm run publish:ui` themselves (the
+`!` prefix runs it directly in the session) so the real URL prints in their
+own terminal unredacted, then have them open and approve it there. Do not
+reach for an automation/bypass-2FA token as a workaround -- npm is actively
+restricting what those tokens can do (account/package management blocked
+around Aug 2026, direct publish rights removed around Jan 2027), so Trusted
+Publishing is the durable fix, not a stopgap.
+
+Manual publish uses an explicit `@kikita-labs` npmjs registry override and
+must run from `dist/ui`, never from `projects/ui`:
 
 ```bash
-npm run publish:ui
-```
-
-`publish:ui` builds the library and publishes `./dist/ui` with an explicit
-`@kikita-labs` npmjs registry override. Do not publish from `projects/ui`;
-publish only from `dist/ui` or through this script. Use this dry run before a
-real publish when changing release plumbing:
-
-```bash
-npm run publish:ui -- --dry-run
+npm run publish:ui -- --dry-run   # dry run before changing release plumbing
+npm run publish:ui                # real publish
 ```
 
 If `npm publish` (or `npm view`) resolves to `npm.pkg.github.com` instead of the
@@ -103,23 +124,7 @@ but the standalone command is:
 npm publish ./dist/ui --access public --@kikita-labs:registry=https://registry.npmjs.org
 ```
 
-`npm publish` may require an interactive one-time password (2FA) even when
-already logged in -- 2FA on publish is checked per-publish, separately from the
-login session. If the CLI does not prompt for it (a known issue in some
-terminals), it prints a `https://www.npmjs.com/auth/cli/...` URL to stdout
-instead of hanging on a prompt.
-
-In an agent-run shell, that URL is redacted to `***` in both the terminal
-output and `npm-cache/_logs/*-debug-*.log` -- this is a harness-level secret
-scrub on anything that looks like an auth token/URL, not an npm bug, and it
-cannot be worked around from the agent side (do not try alternate tools,
-encodings, or log-scraping to recover it; that defeats the point of the
-redaction). When this happens, the agent cannot complete the publish. Ask the
-user to run `npm run publish:ui` themselves (they can use the `!` prefix to
-run it directly in the session) so the real URL prints in their own terminal
-unredacted, then have them open and approve it there.
-
-Once approved, newly published content can take up to a minute to propagate; a
+Once published (either path), content can take up to a minute to propagate; a
 `curl https://registry.npmjs.org/@kikita-labs%2Fui` returning 404 right after a
 successful publish is registry replication lag, not a failed publish.
 
