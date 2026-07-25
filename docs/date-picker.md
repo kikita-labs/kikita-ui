@@ -2,8 +2,7 @@
 
 `input[kuiDatePicker]` converts a native text input into a date picker trigger. Text is
 parsed/formatted as `dd.MM.yyyy`; pair it with `kui-calendar` inside a sibling `kui-dropdown`
-for the popover grid — both bound to the same `value` stay in sync automatically, no extra
-wiring needed.
+for the popover grid.
 
 ## Import
 
@@ -22,7 +21,27 @@ import {
 <kui-field label="Meeting date">
   <input kuiDatePicker [(value)]="date" />
   <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-    <kui-calendar flat [(value)]="date" [showFooter]="true" />
+    <kui-calendar flat showFooter />
+  </kui-dropdown>
+</kui-field>
+```
+
+The calendar needs no `[value]`/`(valueChange)` or `[(viewDate)]` binding: when `kui-calendar`
+is found as a sibling of `input[kuiDatePicker]` inside the same `kui-field`, the directive
+auto-discovers it and wires `value`/`viewDate` both ways automatically — a day clicked in the
+calendar updates the input, and a valid date typed in the input updates (and scrolls) the
+calendar. This is the recommended usage.
+
+Manually binding `[value]`/`(valueChange)`/`[(viewDate)]` on the calendar still works — it's no
+longer required, not deprecated. If you keep the old pattern (e.g. bound to the same signal as
+the input), the auto-wire effects and your binding stay in sync without fighting each other:
+
+```html
+<!-- Still supported: manual binding, same as before this feature shipped. -->
+<kui-field label="Meeting date">
+  <input kuiDatePicker [(value)]="date" [(viewDate)]="viewDate" />
+  <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
+    <kui-calendar flat [(value)]="date" [(viewDate)]="viewDate" [showFooter]="true" />
   </kui-dropdown>
 </kui-field>
 ```
@@ -50,12 +69,17 @@ And on `kui-calendar`:
 ## Disabled Dates
 
 ```html
-<input kuiDatePicker [(value)]="date" [minDate]="today" />
-<kui-calendar flat [(value)]="date" [minDate]="today" />
+<input kuiDatePicker [(value)]="date" [minDate]="today" /> <kui-calendar flat [minDate]="today" />
 ```
 
-`minDate`/`maxDate` are enforced both on typed text (marks the field invalid) and forwarded to
-the linked calendar's grid (disables the cells).
+`minDate`/`maxDate` are enforced on typed text (marks the field invalid) by the directive, and
+control the calendar's disabled cells independently. They are **not** auto-forwarded from the
+directive into the calendar: `kui-calendar` declares `minDate`/`maxDate` as plain inputs (not
+two-way models), and the directive only has a `contentChild` reference to the calendar, not a
+`ComponentRef` — so there is no supported way to programmatically override an unbound input from
+outside the component the way `value`/`viewDate` are pushed/pulled. Bind `[minDate]`/`[maxDate]`
+on the calendar directly (typically the same signal as on the input, as above) to keep disabled
+dates in sync between the two.
 
 ## Clearable
 
@@ -81,24 +105,13 @@ Typing an out-of-format (`32.13.2026`) or out-of-range (before `minDate`/after `
 sets `aria-invalid`/`data-kui-invalid` (red border) without discarding the last valid value —
 the field stays on the last good date until a valid one is typed.
 
-## Live Month Sync While Typing
-
-```html
-<input kuiDatePicker [(value)]="date" [(viewDate)]="viewDate" />
-<kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-  <kui-calendar flat [(value)]="date" [(viewDate)]="viewDate" [showFooter]="true" />
-</kui-dropdown>
-```
-
-Bind `viewDate` on both the input and the calendar to keep the popover's displayed month in
-sync as a valid date is typed — otherwise the calendar only picks up the value's month when
-it's first constructed, not on every subsequent keystroke.
-
 ## Inputs
 
-- `value`: two-way model, `Date | null`
-- `viewDate`: two-way model, first-of-month `Date` — bind alongside a linked `kui-calendar`'s
-  own `viewDate` for live month sync (see above)
+- `value`: two-way model, `Date | null`. Auto-wired into a sibling `kui-calendar` inside the
+  same `kui-field` (see Usage above); manual binding on the calendar is optional.
+- `viewDate`: two-way model, first-of-month `Date`. Also auto-wired into a sibling
+  `kui-calendar`, keeping the popover's displayed month in sync as a valid date is typed or the
+  calendar is navigated.
 - `minDate` / `maxDate`: `Date | undefined`
 - `clearable`: `boolean | undefined` (default resolves to `true`)
 - `disabled` / `readonly`: `boolean` (default: `false`)
@@ -131,9 +144,13 @@ styles.
 
 ## Known Gaps
 
-- `mode="range"` is not implemented — neither the "one field" (`12.07.2026 – 20.07.2026`) nor
-  the "two fields" ("From"/"To") layout from the design brief. Single-date picking only, for now.
+- Range picking (pairing with `kui-calendar-range`, either "one field" or "two fields" layouts)
+  is not implemented — `input[kuiDatePicker]` only auto-wires `kui-calendar` (single-date).
+  Single-date picking only, for now. See [Calendar Range](./calendar-range.md) for standalone
+  range selection without a text-input trigger.
 - No mobile bottom-sheet popover variant; the popover is always a floating panel, on any
   viewport size.
 - No locale-aware display format (`format` input); the mask is always `dd.MM.yyyy`, matching
   the design brief's explicit non-goal for this iteration.
+- `minDate`/`maxDate` are not auto-forwarded to a paired calendar (see Disabled Dates above);
+  bind them on both elements.

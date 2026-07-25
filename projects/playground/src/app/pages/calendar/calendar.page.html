@@ -1,37 +1,19 @@
 <app-panel
   num="01"
-  title="Single mode"
-  description='Default <code>mode="single"</code>. Click a day to select it; today has a ring, the selection a filled circle.'
+  title="Basic (single date)"
+  description="Click a day to select it; today has a ring, the selection a filled circle."
 >
   <div class="component-board">
     <kui-calendar [(value)]="singleValue" />
     <div class="value-label">
-      {{ singleDate() ? (singleDate() | date: 'yyyy-MM-dd') : '—' }}
+      {{ singleValue() ? (singleValue() | date: 'yyyy-MM-dd') : '—' }}
     </div>
   </div>
+  <pre class="pg-snippet"><code>{{ basicSnippet }}</code></pre>
 </app-panel>
 
 <app-panel
   num="02"
-  title="Range mode"
-  description='<code>mode="range"</code>. First click sets the start; hovering before the second click previews the range; second click commits it.'
->
-  <div class="component-board">
-    <kui-calendar mode="range" [(value)]="rangeValue" />
-    <div class="value-label">
-      @if (range(); as r) {
-        {{ r.start | date: 'yyyy-MM-dd' }}
-        –
-        {{ r.end ? (r.end | date: 'yyyy-MM-dd') : '…' }}
-      } @else {
-        —
-      }
-    </div>
-  </div>
-</app-panel>
-
-<app-panel
-  num="03"
   title="Disabled dates"
   description="<code>minDate</code> disables everything before today. Toggle to compare."
 >
@@ -41,10 +23,11 @@
     </button>
     <kui-calendar [(value)]="restrictedValue" [minDate]="minDate()" />
   </div>
+  <pre class="pg-snippet"><code>{{ disabledSnippet }}</code></pre>
 </app-panel>
 
 <app-panel
-  num="04"
+  num="03"
   title="Sizes"
   description="<code>size</code>: md (default) / sm — sm drops the border/padding for embedding in sidebars."
 >
@@ -52,10 +35,11 @@
     <kui-calendar [(value)]="sidebarValue" />
     <kui-calendar size="sm" [(value)]="sidebarValue" />
   </div>
+  <pre class="pg-snippet"><code>{{ sizesSnippet }}</code></pre>
 </app-panel>
 
 <app-panel
-  num="05"
+  num="04"
   title="Locale"
   description="<code>locale</code> input overrides the app-wide <code>KUI_LOCALE</code> default — month/weekday names and first day of week come from <code>Intl</code>, no bundled locale data."
 >
@@ -63,20 +47,22 @@
     <kui-calendar locale="en-US" [(value)]="ruValue" />
     <kui-calendar locale="ru-RU" [(value)]="ruValue" />
   </div>
+  <pre class="pg-snippet"><code>{{ localeSnippet }}</code></pre>
 </app-panel>
 
 <app-panel
-  num="06"
+  num="05"
   title="Footer"
   description='Off by default. <code>showFooter</code> adds the value + "Today" shortcut — useful when the calendar is the whole surface, e.g. inside a popover.'
 >
   <div class="component-board">
     <kui-calendar showFooter [(value)]="footerValue" />
   </div>
+  <pre class="pg-snippet"><code>{{ footerSnippet }}</code></pre>
 </app-panel>
 
 <app-panel
-  num="07"
+  num="06"
   title="Custom footer (content projection)"
   description="Project an element with <code>kuiCalendarFooter</code> to fully replace the built-in footer."
 >
@@ -89,4 +75,5 @@
       </div>
     </kui-calendar>
   </div>
+  <pre class="pg-snippet"><code>{{ customFooterSnippet }}</code></pre>
 </app-panel>

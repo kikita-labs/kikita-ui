@@ -175,6 +175,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/calendar/calendar.page').then((m) => m.CalendarPage),
   },
   {
+    path: 'calendar-range',
+    loadComponent: () =>
+      import('./pages/calendar-range/calendar-range.page').then((m) => m.CalendarRangePage),
+  },
+  {
     path: 'date-picker',
     loadComponent: () =>
       import('./pages/date-picker/date-picker.page').then((m) => m.DatePickerPage),

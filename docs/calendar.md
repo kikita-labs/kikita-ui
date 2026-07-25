@@ -1,6 +1,6 @@
 # Calendar
 
-`kui-calendar` is an inline month-grid date picker with month/year/decade navigation. It's the building block for date/date-range pickers that open it in a popover, but it's also usable inline (sidebars, filter panels).
+`kui-calendar` is an inline month-grid single-date picker with month/year/decade navigation. It's the building block for date pickers that open it in a popover, but it's also usable inline (sidebars, filter panels). For range selection (a start/end pair), see [Calendar Range](./calendar-range.md).
 
 Header nav/title controls and the footer's "Today" button are `kuiButton` (ghost) underneath; the rule between the grid and the footer is `hr[kuiSeparator]`. `kui-calendar` itself only carries the styling that's actually calendar-specific (day grid, cell states, month/year pickers).
 
@@ -16,13 +16,11 @@ import { KuiCalendarComponent } from '@kikita-labs/ui';
 <kui-calendar [(value)]="selectedDate" />
 ```
 
-### Range Mode
+`value` is a two-way model holding a `Date | null`.
 
-```html
-<kui-calendar mode="range" [(value)]="selectedRange" />
-```
-
-`value` holds a `Date` in `single` mode, and a `{ start: Date; end: Date | null }` object (`KuiDateRange`) in `range` mode. `end` is `null` while the range is still open (only the start date has been picked); the first click after a committed range starts a new one.
+Placed as a sibling of `input[kuiDatePicker]` inside the same `kui-field`, the directive
+auto-wires this calendar's `value`/`viewDate` for you — see [Date Picker](./date-picker.md),
+which is the recommended way to pair the two.
 
 ### Disabled Dates
 
@@ -89,9 +87,10 @@ don't stack into a double frame. See [Date Picker](./date-picker.md).
 ```
 
 `viewDate` (a first-of-month `Date`, two-way) drives which month the grid shows. Bind it when
-an external control (e.g. a paired `input[kuiDatePicker]`) needs to move the calendar to a
-specific month — for example, jumping to the typed date's month in real time. Left unbound, it
-defaults to today's month, or the bound `value`'s month at construction time.
+an external control needs to move the calendar to a specific month manually. Left unbound, it
+defaults to today's month, or the bound `value`'s month at construction time. When paired with
+`input[kuiDatePicker]` inside the same `kui-field`, this is wired automatically — see
+[Date Picker](./date-picker.md).
 
 `showPrevNav`/`showNextNav` (`boolean`, default `true`) hide the previous/next nav button. This
 is for pairing two linked calendars a month apart (one showing month N with only a "previous"
@@ -119,8 +118,7 @@ Or override it for a single instance with the `locale` input, which takes preced
 
 ## Inputs
 
-- `mode`: `single | range` (default: `single`)
-- `value`: two-way model, `Date | KuiDateRange | null` depending on `mode` (default: `null`)
+- `value`: two-way model, `Date | null` (default: `null`)
 - `viewDate`: two-way model, first-of-month `Date` driving which month is displayed
 - `size`: `md | sm` (default: `md`)
 - `flat`: `boolean` (default: `false`). Strips the calendar's own background/border/padding.
@@ -134,7 +132,7 @@ Or override it for a single instance with the `locale` input, which takes preced
 ## Accessibility
 
 - `role="grid"` on the day grid, `role="row"` on the weekday header row.
-- `aria-selected` on selected/range-endpoint cells, `aria-current="date"` on today, `aria-disabled` on disabled dates.
+- `aria-selected` on the selected cell, `aria-current="date"` on today, `aria-disabled` on disabled dates.
 - Roving tabindex: one day cell is in the tab order at a time (the focused date); arrow keys, `Home`/`End`, `PageUp`/`PageDown` move focus without leaving the grid.
 - Month/year changes are announced through an `aria-live="polite"` region.
 
@@ -149,9 +147,16 @@ Or override it for a single instance with the `locale` input, which takes preced
 
 ## Style Import
 
-Import `@kikita-labs/ui/styles` (which includes `calendar.css`) once in your application styles.
+Import `@kikita-labs/ui/styles` (which includes `calendar.css`) once in your application styles. `kui-calendar-range` shares the same stylesheet (see [Calendar Range](./calendar-range.md)).
+
+## Version Notes
+
+- As of this release, `kui-calendar` is single-date only: the `mode` input and the
+  `Date | KuiDateRange | null` union `value` type are gone. Existing `mode="range"` usage
+  migrates to the new `kui-calendar-range` component (`value: KuiDateRange | null`); see
+  [Calendar Range](./calendar-range.md).
 
 ## Known Gaps
 
-- `mode="multiple"` (arbitrary multi-date selection) is not implemented; the design spec marks it low priority until a concrete use case appears.
-- `kui-calendar` is inline-only; a popover-based date/date-range picker that wraps it is not yet built.
+- Arbitrary multi-date selection is not implemented; the design spec marks it low priority until a concrete use case appears.
+- `kui-calendar` is inline-only; a popover-based date picker that wraps it is not yet built (see [Date Picker](./date-picker.md) for the current pairing pattern with `input[kuiDatePicker]`).

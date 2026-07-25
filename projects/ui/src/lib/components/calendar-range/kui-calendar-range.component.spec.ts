@@ -3,12 +3,13 @@ import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { KUI_LOCALE } from '../../i18n/kui-locale.token';
-import { KuiCalendarComponent } from './kui-calendar.component';
+import type { KuiDateRange } from '../calendar/kui-calendar.types';
+import { KuiCalendarRangeComponent } from './kui-calendar-range.component';
 
 @Component({
-  imports: [KuiCalendarComponent],
+  imports: [KuiCalendarRangeComponent],
   template: `
-    <kui-calendar
+    <kui-calendar-range
       [(value)]="value"
       [minDate]="minDate()"
       [size]="size()"
@@ -16,35 +17,23 @@ import { KuiCalendarComponent } from './kui-calendar.component';
     />
   `,
 })
-class CalendarHost {
-  readonly value = signal<Date | null>(null);
+class CalendarRangeHost {
+  readonly value = signal<KuiDateRange | null>(null);
   readonly minDate = signal<Date | undefined>(undefined);
   readonly size = signal<'md' | 'sm'>('md');
   readonly showFooter = signal(false);
 }
 
-@Component({
-  imports: [KuiCalendarComponent],
-  template: `
-    <kui-calendar [(value)]="value">
-      <div kuiCalendarFooter class="custom-footer">custom footer</div>
-    </kui-calendar>
-  `,
-})
-class CalendarProjectedFooterHost {
-  readonly value = signal<Date | null>(null);
-}
-
-describe('KuiCalendarComponent', () => {
-  let fixture: ComponentFixture<CalendarHost>;
-  let host: CalendarHost;
+describe('KuiCalendarRangeComponent', () => {
+  let fixture: ComponentFixture<CalendarRangeHost>;
+  let host: CalendarRangeHost;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CalendarHost, CalendarProjectedFooterHost],
+      imports: [CalendarRangeHost],
       providers: [{ provide: KUI_LOCALE, useValue: 'en-US' }],
     });
-    fixture = TestBed.createComponent(CalendarHost);
+    fixture = TestBed.createComponent(CalendarRangeHost);
     host = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -73,14 +62,37 @@ describe('KuiCalendarComponent', () => {
     expect(cell.getAttribute('aria-current')).toBe('date');
   });
 
-  it('selects a date on click and emits valueChange', () => {
-    const cell = dayButton('15');
-    cell.click();
+  it('builds a range across two clicks', () => {
+    dayButton('10').click();
     fixture.detectChanges();
-    expect(host.value()).not.toBeNull();
-    expect(host.value()?.getDate()).toBe(15);
-    expect(cell.classList.contains('kui-calendar-day--selected')).toBe(true);
-    expect(cell.getAttribute('aria-selected')).toBe('true');
+    dayButton('20').click();
+    fixture.detectChanges();
+
+    const range = host.value();
+    expect(range?.start.getDate()).toBe(10);
+    expect(range?.end?.getDate()).toBe(20);
+    expect(el().querySelectorAll('.kui-calendar-day--range-middle').length).toBeGreaterThan(0);
+  });
+
+  it('normalizes a reversed range so start <= end', () => {
+    dayButton('20').click();
+    fixture.detectChanges();
+    dayButton('10').click();
+    fixture.detectChanges();
+
+    const range = host.value();
+    expect(range?.start.getDate()).toBe(10);
+    expect(range?.end?.getDate()).toBe(20);
+  });
+
+  it('previews the range on hover before the second click', () => {
+    dayButton('10').click();
+    fixture.detectChanges();
+
+    dayButton('15').dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(el().querySelectorAll('.kui-calendar-day--preview').length).toBeGreaterThan(0);
   });
 
   it('disables dates before minDate and blocks selection', () => {
@@ -111,7 +123,7 @@ describe('KuiCalendarComponent', () => {
     fixture.detectChanges();
     grid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
     fixture.detectChanges();
-    expect(host.value()?.getDate()).toBe(16);
+    expect(host.value()?.start.getDate()).toBe(16);
   });
 
   it('hides the footer by default and shows it with showFooter', () => {
@@ -125,24 +137,15 @@ describe('KuiCalendarComponent', () => {
     expect(footer?.querySelector('.kui-calendar-value')?.textContent).toBe('—');
   });
 
-  it('replaces the default footer with projected [kuiCalendarFooter] content', () => {
-    const projectedFixture = TestBed.createComponent(CalendarProjectedFooterHost);
-    projectedFixture.detectChanges();
-    const projectedEl = projectedFixture.nativeElement as HTMLElement;
-
-    expect(projectedEl.querySelector('.custom-footer')?.textContent).toBe('custom footer');
-    expect(projectedEl.querySelector('.kui-calendar-footer')).toBeNull();
-  });
-
   it('renders localized month names via the injected locale', async () => {
     await TestBed.resetTestingModule()
       .configureTestingModule({
-        imports: [CalendarHost],
+        imports: [CalendarRangeHost],
         providers: [{ provide: KUI_LOCALE, useValue: 'ru-RU' }],
       })
       .compileComponents();
 
-    const ruFixture = TestBed.createComponent(CalendarHost);
+    const ruFixture = TestBed.createComponent(CalendarRangeHost);
     ruFixture.detectChanges();
     const title = (ruFixture.nativeElement as HTMLElement).querySelector('.kui-calendar-title');
     // Cyrillic range built from numeric char codes, not literal characters -- tracked

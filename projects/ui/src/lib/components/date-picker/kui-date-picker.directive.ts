@@ -10,6 +10,7 @@ import {
   model,
   output,
   signal,
+  untracked,
   ViewContainerRef,
 } from '@angular/core';
 import type {
@@ -28,17 +29,39 @@ function optionalBooleanAttribute(value: unknown): boolean | undefined {
   return value == null ? undefined : booleanAttribute(value);
 }
 
+/** Compares two nullable dates by timestamp, treating `null` as its own distinct value. */
+function sameDate(a: Date | null, b: Date | null): boolean {
+  return (a?.getTime() ?? null) === (b?.getTime() ?? null);
+}
+
 /**
  * Converts a native text input into a Kikita UI date picker trigger. Text is parsed/
  * formatted as `dd.MM.yyyy`; pair it with `kui-calendar` inside a sibling `kui-dropdown`
- * for the popover grid — both bound to the same `value` keep in sync automatically.
+ * for the popover grid.
+ *
+ * When a `kui-calendar` is found as a sibling inside the same `kui-field` (via
+ * `KuiFieldComponent.getCalendar()`), the directive auto-wires it: its own `value` and
+ * `viewDate` are pushed into the calendar, and the calendar's `value`/`viewDate` changes (a
+ * day click, a month/year drill) are pulled back — no manual `[value]`/`(valueChange)` or
+ * `[(viewDate)]` binding is required on the calendar for this to work. This is purely additive:
+ * a calendar that still binds `[value]`/`[(viewDate)]` manually (e.g. to the same signal as the
+ * input) keeps working exactly as before, since the auto-wire effects only write when the
+ * calendar's value actually differs from the directive's, converging to the same state either
+ * way without looping.
+ *
+ * `minDate`/`maxDate` are not auto-forwarded to the calendar: `kui-calendar` declares them as
+ * plain (non-model) inputs, and this directive has no `ComponentRef` for a sibling placed
+ * directly in the template (only a `contentChild` reference), so there is no supported
+ * imperative API to override an unbound `@Input`-style signal from outside the component. Bind
+ * `[minDate]`/`[maxDate]` on the calendar directly (typically the same signal as on the input)
+ * to keep disabled dates in sync between the two.
  *
  * @example
  * ```html
  * <kui-field label="Meeting date">
  *   <input kuiDatePicker [(value)]="date" />
  *   <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
- *     <kui-calendar flat [(value)]="date" [showFooter]="true" />
+ *     <kui-calendar flat showFooter />
  *   </kui-dropdown>
  * </kui-field>
  * ```
@@ -68,12 +91,17 @@ function optionalBooleanAttribute(value: unknown): boolean | undefined {
 })
 /** Adds a calendar-backed date picker behavior to a native input. */
 export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date | null> {
-  /** Selected date. Bound by `[formField]` or `[(value)]`. */
+  /**
+   * Selected date. Bound by `[formField]` or `[(value)]`. Auto-wired into a sibling
+   * `kui-calendar` inside the same `kui-field` (see the class doc); manual `[(value)]` binding
+   * on the calendar is optional, not required.
+   */
   readonly value = model<Date | null>(null);
   /**
-   * First-of-month date a bound `kui-calendar` should display. Two-way — bind the same
-   * signal on both `input[kuiDatePicker]` and `kui-calendar` to keep the popover's
-   * displayed month in sync as the user types a valid date.
+   * First-of-month date a bound `kui-calendar` should display. Auto-wired (both ways) into a
+   * sibling `kui-calendar` inside the same `kui-field`, keeping the popover's displayed month
+   * in sync as the user types a valid date or navigates the calendar -- manual `[(viewDate)]`
+   * binding on the calendar is optional, not required.
    */
   readonly viewDate = model<Date>(new Date());
 
@@ -176,6 +204,56 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
       }
 
       this.wasOpen = isOpen;
+    });
+
+    // Auto-wire a paired `kui-calendar` found as a sibling inside the same `kui-field` (see
+    // the class doc). Push effects mirror this directive's own `value`/`viewDate` into the
+    // calendar; pull effects mirror the calendar's back. Each effect only *tracks* the one
+    // signal it drives from (its own `this.value`/`this.viewDate` for push, the calendar's for
+    // pull) and reads the other side with `untracked()` purely for the equality check -- reading
+    // both sides as tracked dependencies would make the push effect re-fire whenever the
+    // calendar changes (e.g. a day click) too, and since it would still see this directive's own
+    // (stale, not-yet-updated) value as different from the calendar's fresh one, it would
+    // immediately stomp the calendar's new value back down before the pull effect below ever got
+    // to propagate it. Tracking only the driving side keeps the two effects from fighting, while
+    // the equality check still lets a manual `[(value)]`/`[(viewDate)]` binding on the calendar
+    // (e.g. bound to the same signal as the input) keep working -- the extra writes are no-ops
+    // once both sides agree, and the pair converges without looping regardless of which side
+    // changed first.
+    effect(() => {
+      const calendar = this.field?.getCalendar();
+      if (!calendar) return;
+      const value = this.value();
+      if (!sameDate(untracked(calendar.value), value)) {
+        calendar.value.set(value);
+      }
+    });
+
+    effect(() => {
+      const calendar = this.field?.getCalendar();
+      if (!calendar) return;
+      const calendarValue = calendar.value();
+      if (!sameDate(calendarValue, untracked(this.value))) {
+        this.value.set(calendarValue);
+      }
+    });
+
+    effect(() => {
+      const calendar = this.field?.getCalendar();
+      if (!calendar) return;
+      const viewDate = this.viewDate();
+      if (untracked(calendar.viewDate).getTime() !== viewDate.getTime()) {
+        calendar.viewDate.set(viewDate);
+      }
+    });
+
+    effect(() => {
+      const calendar = this.field?.getCalendar();
+      if (!calendar) return;
+      const calendarViewDate = calendar.viewDate();
+      if (calendarViewDate.getTime() !== untracked(this.viewDate).getTime()) {
+        this.viewDate.set(calendarViewDate);
+      }
     });
 
     this.affixRef.instance.cleared.subscribe(() => this.clear());

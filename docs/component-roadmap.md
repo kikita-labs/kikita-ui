@@ -59,8 +59,9 @@
 
 ## Phase 5
 
-- Calendar (done as `kui-calendar`; single/range mode, month/year/decade navigation, keyboard support, `minDate`/`maxDate`/`disabledDates`, `flat` variant, `viewDate`/`showPrevNav`/`showNextNav` for linked-pair layouts, `KUI_LOCALE`-driven month/weekday names via `Intl`; `mode="multiple"` deferred, no concrete use case yet)
-- Date Picker (done as `input[kuiDatePicker]` + `kui-calendar` + `kui-dropdown`; `dd.MM.yyyy` text mask, `minDate`/`maxDate`, `clearable`, Signal Forms control contract; `mode="range"` and a mobile bottom-sheet popover variant are not implemented -- single-date only for now)
+- Calendar (done as `kui-calendar`; single-date selection only as of this release -- `mode` and the `Date | KuiDateRange | null` union `value` were split out. Month/year/decade navigation, keyboard support, `minDate`/`maxDate`/`disabledDates`, `flat` variant, `viewDate`/`showPrevNav`/`showNextNav` for linked-pair layouts, `KUI_LOCALE`-driven month/weekday names via `Intl`; multi-date selection deferred, no concrete use case yet)
+- Calendar Range (done as `kui-calendar-range`; split out of `kui-calendar`'s former `mode="range"`. Start/end pair selection with hover preview and reversed-range normalization, same month/year/decade navigation, keyboard support, `minDate`/`maxDate`/`disabledDates`, `flat` variant, `viewDate`/`showPrevNav`/`showNextNav`, `KUI_LOCALE`-driven locale as `kui-calendar`; not yet composed into a popover-based range picker)
+- Date Picker (done as `input[kuiDatePicker]` + `kui-calendar` + `kui-dropdown`; `dd.MM.yyyy` text mask, `minDate`/`maxDate`, `clearable`, Signal Forms control contract. `input[kuiDatePicker]` now auto-discovers a sibling `kui-calendar` inside the same `kui-field` and auto-wires `value`/`viewDate` via `effect()`s -- manual `[value]`/`(valueChange)`/`[(viewDate)]` binding on the calendar is optional, kept working for backward compatibility. `minDate`/`maxDate` are not auto-forwarded, since `kui-calendar` declares them as plain inputs. Range mode (pairing with `kui-calendar-range`) and a mobile bottom-sheet popover variant are not implemented -- single-date only for now)
 
 ## Phase 6
 

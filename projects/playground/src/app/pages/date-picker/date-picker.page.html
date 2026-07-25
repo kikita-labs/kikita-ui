@@ -8,20 +8,42 @@
 
   <app-panel
     num="01"
-    title="Basic"
-    description="Type dd.mm.yyyy or pick in the popover — both stay in sync through the shared value signal."
+    title="Basic (auto-wired, recommended)"
+    description="No [value]/[(viewDate)] binding on the calendar -- input[kuiDatePicker] auto-discovers the sibling kui-calendar inside the same kui-field and wires it automatically."
   >
     <div class="state-board__row">
       <kui-field label="Meeting date" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="basicDate" />
         <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-          <kui-calendar flat [(value)]="basicDate" [showFooter]="true" />
+          <kui-calendar flat [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
     </div>
+    <pre class="pg-snippet"><code>{{ basicSnippet }}</code></pre>
   </app-panel>
 
-  <app-panel num="02" title="With hint" description="kui-field label, hint, and required marker.">
+  <app-panel
+    num="02"
+    title="Legacy manual binding (still supported)"
+    description="Binding [value]/[(viewDate)] on the calendar directly still works -- it's optional now, not deprecated. The auto-wire effects and the manual binding stay in sync without conflict."
+  >
+    <div class="state-board__row">
+      <kui-field label="Meeting date" class="date-picker-page__field">
+        <input kuiDatePicker [(value)]="legacyDate" [(viewDate)]="legacyViewDate" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
+          <kui-calendar
+            flat
+            [(value)]="legacyDate"
+            [(viewDate)]="legacyViewDate"
+            [showFooter]="true"
+          />
+        </kui-dropdown>
+      </kui-field>
+    </div>
+    <pre class="pg-snippet"><code>{{ legacySnippet }}</code></pre>
+  </app-panel>
+
+  <app-panel num="03" title="With hint" description="kui-field label, hint, and required marker.">
     <div class="state-board__row">
       <kui-field
         label="Meeting date"
@@ -31,29 +53,31 @@
       >
         <input kuiDatePicker [(value)]="hintDate" />
         <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-          <kui-calendar flat [(value)]="hintDate" [showFooter]="true" />
+          <kui-calendar flat [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
     </div>
+    <pre class="pg-snippet"><code>{{ hintSnippet }}</code></pre>
   </app-panel>
 
   <app-panel
-    num="03"
+    num="04"
     title="Disabled dates"
-    description="minDate is forwarded to the calendar grid and enforced on typed text."
+    description="minDate is bound on both the input and the calendar -- it is not auto-forwarded, since kui-calendar declares it as a plain (non-model) input."
   >
     <div class="state-board__row">
       <kui-field label="Departure" hint="Today or later" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="restrictedDate" [minDate]="today" />
         <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-          <kui-calendar flat [(value)]="restrictedDate" [minDate]="today" [showFooter]="true" />
+          <kui-calendar flat [minDate]="today" [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
     </div>
+    <pre class="pg-snippet"><code>{{ disabledDatesSnippet }}</code></pre>
   </app-panel>
 
   <app-panel
-    num="04"
+    num="05"
     title="Clearable"
     description="clearable (default true) shows a clear button once a value is present."
   >
@@ -61,20 +85,21 @@
       <kui-field label="Clearable" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="clearableDate" />
         <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-          <kui-calendar flat [(value)]="clearableDate" [showFooter]="true" />
+          <kui-calendar flat [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
       <kui-field label="Not clearable" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="notClearableDate" [clearable]="false" />
         <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-          <kui-calendar flat [(value)]="notClearableDate" [showFooter]="true" />
+          <kui-calendar flat [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
     </div>
+    <pre class="pg-snippet"><code>{{ clearableSnippet }}</code></pre>
   </app-panel>
 
   <app-panel
-    num="05"
+    num="06"
     title="Disabled / readonly"
     description="Disabled blocks all interaction; readonly shows the value but never opens the popover."
   >
@@ -82,20 +107,21 @@
       <kui-field label="Disabled" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="disabledDate" [disabled]="true" />
         <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-          <kui-calendar flat [(value)]="disabledDate" />
+          <kui-calendar flat />
         </kui-dropdown>
       </kui-field>
       <kui-field label="Readonly" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="readonlyDate" [readonly]="true" />
         <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-          <kui-calendar flat [(value)]="readonlyDate" />
+          <kui-calendar flat />
         </kui-dropdown>
       </kui-field>
     </div>
+    <pre class="pg-snippet"><code>{{ disabledReadonlySnippet }}</code></pre>
   </app-panel>
 
   <app-panel
-    num="06"
+    num="07"
     title="Invalid input"
     description="Type 32.13.2026 (or any date before minDate/after maxDate) — the border turns red and aria-invalid is set, without discarding the last valid value."
   >
@@ -103,25 +129,11 @@
       <kui-field label="Try 32.13.2026" hint="dd.mm.yyyy" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="basicDate" />
         <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-          <kui-calendar flat [(value)]="basicDate" [showFooter]="true" />
+          <kui-calendar flat [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
     </div>
-  </app-panel>
-
-  <app-panel
-    num="07"
-    title="Live month sync while typing"
-    description="[(viewDate)] bound on both the input and the calendar keeps the popover's displayed month in sync as a valid date is typed."
-  >
-    <div class="state-board__row">
-      <kui-field label="Meeting date" class="date-picker-page__field">
-        <input kuiDatePicker [(value)]="basicDate" [(viewDate)]="viewDate" />
-        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-          <kui-calendar flat [(value)]="basicDate" [(viewDate)]="viewDate" [showFooter]="true" />
-        </kui-dropdown>
-      </kui-field>
-    </div>
+    <pre class="pg-snippet"><code>{{ invalidSnippet }}</code></pre>
   </app-panel>
 
   <app-panel
@@ -133,9 +145,10 @@
       <kui-field label="Meeting date" class="date-picker-page__field date-picker-page__field--wide">
         <input kuiDatePicker [(value)]="wideDate" />
         <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-          <kui-calendar flat [(value)]="wideDate" [showFooter]="true" />
+          <kui-calendar flat [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
     </div>
+    <pre class="pg-snippet"><code>{{ wideSnippet }}</code></pre>
   </app-panel>
 </div>

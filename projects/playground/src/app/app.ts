@@ -64,6 +64,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/stepper', label: 'Stepper' },
   { path: '/breadcrumbs', label: 'Breadcrumbs' },
   { path: '/calendar', label: 'Calendar' },
+  { path: '/calendar-range', label: 'Calendar Range' },
   { path: '/date-picker', label: 'Date Picker' },
   { path: '/tree', label: 'Tree' },
   { path: '/file-upload', label: 'File Upload' },

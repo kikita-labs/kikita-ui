@@ -14,8 +14,11 @@ import { KUI_LOCALE } from '../../i18n/kui-locale.token';
 import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
-import { KuiSeparatorDirective } from '../separator/kui-separator.directive';
-import type { KuiCalendarDisabledPredicate, KuiCalendarSize } from './kui-calendar.types';
+import type {
+  KuiCalendarDisabledPredicate,
+  KuiCalendarSize,
+  KuiDateRange,
+} from '../calendar/kui-calendar.types';
 import {
   addDays,
   addMonths,
@@ -26,7 +29,8 @@ import {
   startOfMonth,
   startOfWeek,
   weekdayIndex,
-} from './kui-calendar-date.util';
+} from '../calendar/kui-calendar-date.util';
+import { KuiSeparatorDirective } from '../separator/kui-separator.directive';
 
 interface KuiCalendarDayCell {
   date: Date;
@@ -56,20 +60,19 @@ const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
 const KUI_CALENDAR_SIZES = ['sm', 'md'] as const;
 
 /**
- * Inline month-grid single-date picker with month/year/decade navigation. Building block for
- * date pickers that open it in a popover, but also usable inline (sidebars, filter panels).
- * When placed as a sibling of `input[kuiDatePicker]` inside the same `kui-field`, the directive
- * auto-wires this calendar to its own value — no manual `[value]`/`(valueChange)` binding is
- * needed in that case. For range selection use `kui-calendar-range` instead.
+ * Inline month-grid date-range picker with month/year/decade navigation. Same visual grid
+ * behavior as `kui-calendar` (month/year/decade nav, day-cell rendering, disabled dates,
+ * locale, keyboard nav), but selects a start/end pair instead of a single date: first click
+ * sets the start, hovering before the second click previews the range, second click commits it.
  *
  * @example
  * ```html
- * <kui-calendar [(value)]="selectedDate" />
- * <kui-calendar size="sm" [(value)]="selectedDate" />
+ * <kui-calendar-range [(value)]="selectedRange" />
+ * <kui-calendar-range size="sm" [(value)]="selectedRange" />
  * ```
  */
 @Component({
-  selector: 'kui-calendar',
+  selector: 'kui-calendar-range',
   template: `
     <ng-content select="[kuiCalendarHeader]">
       <div class="kui-calendar-header">
@@ -162,6 +165,7 @@ const KUI_CALENDAR_SIZES = ['sm', 'md'] as const;
             [attr.aria-current]="cell.ariaCurrent"
             [attr.aria-disabled]="cell.ariaDisabled"
             (click)="!cell.disabled && selectDate(cell.date)"
+            (mouseenter)="onDayHover(cell.date)"
             (focus)="focusedDate.set(cell.date)"
           >
             <span class="kui-calendar-day-inner">{{ cell.label }}</span>
@@ -208,8 +212,8 @@ const KUI_CALENDAR_SIZES = ['sm', 'md'] as const;
   imports: [KuiButtonDirective, KuiSeparatorDirective],
   encapsulation: ViewEncapsulation.None,
 })
-/** Displays a navigable calendar grid for selecting a single date. */
-export class KuiCalendarComponent {
+/** Displays a navigable calendar grid for selecting a start/end date range. */
+export class KuiCalendarRangeComponent {
   private readonly injectedLocale = inject(KUI_LOCALE);
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiCalendarSize>(KUI_CALENDAR_SIZES);
 
@@ -217,8 +221,8 @@ export class KuiCalendarComponent {
   readonly size = input<KuiCalendarSize | undefined>();
   /**
    * Strips the calendar's own background/border/padding. Set this when nesting it inside
-   * chrome that already provides those — e.g. a `kui-dropdown`/`kui-popover` in a date
-   * picker — so the two don't stack into a double frame.
+   * chrome that already provides those — e.g. a `kui-dropdown`/`kui-popover` — so the two
+   * don't stack into a double frame.
    */
   readonly flat = input(false, { transform: booleanAttribute });
   /** Shows Saturday/Sunday in a muted color. Defaults to true. */
@@ -249,12 +253,11 @@ export class KuiCalendarComponent {
   readonly showNextNav = input(true, { transform: booleanAttribute });
 
   /**
-   * Selected date. Supports two-way binding. When this calendar is a sibling of
-   * `input[kuiDatePicker]` inside the same `kui-field`, the directive auto-wires this model to
-   * its own value — manual `[(value)]` binding is unnecessary there (and if still bound, the
-   * directive's own value wins, since it drives the wiring effect).
+   * Selected range. Supports two-way binding. `end` is `null` while the range is still open
+   * (only the start date has been picked); the first click after a committed range starts a
+   * new one.
    */
-  readonly value = model<Date | null>(null);
+  readonly value = model<KuiDateRange | null>(null);
   /**
    * First-of-month date the grid currently displays. Supports two-way binding so a
    * consumer can drive the visible month externally — e.g. keeping two calendars a
@@ -264,6 +267,7 @@ export class KuiCalendarComponent {
 
   protected readonly view = signal<KuiCalendarView>('days');
   protected readonly focusedDate = signal<Date>(startOfDay(new Date()));
+  protected readonly hoverDate = signal<Date | null>(null);
   protected readonly liveAnnounce = signal('');
   protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
@@ -274,7 +278,7 @@ export class KuiCalendarComponent {
 
   constructor() {
     const initial = this.value();
-    if (initial) this.viewDate.set(startOfMonth(initial));
+    if (initial?.start) this.viewDate.set(startOfMonth(initial.start));
   }
 
   protected readonly localeText = computed(() =>
@@ -294,12 +298,31 @@ export class KuiCalendarComponent {
     return `${this.localeText().monthsLong[this.viewMonth()]} ${year}`;
   });
 
+  private readonly committedRange = computed<{ lo: Date; hi: Date; committed: boolean } | null>(
+    () => {
+      const val = this.value();
+      const hover = this.hoverDate();
+      if (val?.start && val.end) {
+        const [lo, hi] =
+          val.start.getTime() <= val.end.getTime() ? [val.start, val.end] : [val.end, val.start];
+        return { lo, hi, committed: true };
+      }
+      if (val?.start && hover) {
+        const [lo, hi] =
+          val.start.getTime() <= hover.getTime() ? [val.start, hover] : [hover, val.start];
+        return { lo, hi, committed: false };
+      }
+      if (val?.start) return { lo: val.start, hi: val.start, committed: false };
+      return null;
+    },
+  );
+
   protected readonly dayCells = computed<KuiCalendarDayCell[]>(() => {
     const year = this.viewYear();
     const month = this.viewMonth();
     const firstDayOfWeek = this.localeText().firstDayOfWeek;
     const focused = this.focusedDate();
-    const single = this.value();
+    const range = this.committedRange();
 
     const firstOfMonth = new Date(year, month, 1);
     const leading = weekdayIndex(firstOfMonth, firstDayOfWeek);
@@ -320,9 +343,24 @@ export class KuiCalendarComponent {
       if (disabled) cls += ' kui-calendar-day--disabled';
 
       let ariaSelected: 'true' | null = null;
-      if (single && isSameDay(date, single)) {
-        cls += ' kui-calendar-day--selected';
-        ariaSelected = 'true';
+      if (range) {
+        const { lo, hi, committed } = range;
+        if (isSameDay(date, lo) || isSameDay(date, hi)) {
+          if (isSameDay(lo, hi)) {
+            cls += ' kui-calendar-day--selected';
+          } else if (isSameDay(date, lo)) {
+            cls += committed
+              ? ' kui-calendar-day--range-start'
+              : ' kui-calendar-day--preview kui-calendar-day--preview-start';
+          } else {
+            cls += committed
+              ? ' kui-calendar-day--range-end'
+              : ' kui-calendar-day--preview kui-calendar-day--preview-end';
+          }
+          ariaSelected = 'true';
+        } else if (date.getTime() > lo.getTime() && date.getTime() < hi.getTime()) {
+          cls += committed ? ' kui-calendar-day--range-middle' : ' kui-calendar-day--preview';
+        }
       }
 
       cells.push({
@@ -371,8 +409,10 @@ export class KuiCalendarComponent {
   });
 
   protected readonly valueLabel = computed(() => {
-    const val = this.value();
-    return val ? this.formatIso(val) : '—';
+    const range = this.value();
+    if (!range?.start) return '—';
+    if (!range.end) return `${this.formatIso(range.start)} – …`;
+    return `${this.formatIso(range.start)} – ${this.formatIso(range.end)}`;
   });
 
   private isDisabled(date: Date): boolean {
@@ -394,10 +434,25 @@ export class KuiCalendarComponent {
   }
 
   protected selectDate(date: Date): void {
-    this.value.set(startOfDay(date));
+    const current = this.value();
+    if (!current?.start || current.end) {
+      this.value.set({ start: startOfDay(date), end: null });
+    } else if (date.getTime() < current.start.getTime()) {
+      this.value.set({ start: startOfDay(date), end: current.start });
+    } else {
+      this.value.set({ start: current.start, end: startOfDay(date) });
+    }
+    this.hoverDate.set(null);
     this.focusedDate.set(startOfDay(date));
     if (date.getMonth() !== this.viewMonth() || date.getFullYear() !== this.viewYear()) {
       this.viewDate.set(startOfMonth(date));
+    }
+  }
+
+  protected onDayHover(date: Date): void {
+    const current = this.value();
+    if (current?.start && !current.end) {
+      this.hoverDate.set(date);
     }
   }
 
