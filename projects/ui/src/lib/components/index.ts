@@ -4,6 +4,7 @@ export * from './badge';
 export * from './breadcrumbs';
 export * from './button';
 export * from './calendar';
+export * from './calendar-range';
 export * from './card';
 export * from './checkbox';
 export * from './chip';

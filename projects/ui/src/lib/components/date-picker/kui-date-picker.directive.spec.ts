@@ -20,7 +20,7 @@ import { KuiDatePickerDirective } from './kui-date-picker.directive';
         [readonly]="readonly()"
       />
       <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-        <kui-calendar flat [(value)]="value" />
+        <kui-calendar flat />
       </kui-dropdown>
     </kui-field>
   `,
@@ -31,6 +31,26 @@ class TestDatePickerHost {
   readonly minDate = signal<Date | undefined>(undefined);
   readonly disabled = signal(false);
   readonly readonly = signal(false);
+}
+
+/**
+ * Legacy pairing where the calendar's `value`/`viewDate` are still bound manually to the same
+ * signals as the input -- must keep working unchanged alongside the new auto-wire effects.
+ */
+@Component({
+  template: `
+    <kui-field label="Meeting date">
+      <input kuiDatePicker [(value)]="value" [(viewDate)]="viewDate" />
+      <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
+        <kui-calendar flat [(value)]="value" [(viewDate)]="viewDate" />
+      </kui-dropdown>
+    </kui-field>
+  `,
+  imports: [KuiFieldComponent, KuiDropdownComponent, KuiDatePickerDirective, KuiCalendarComponent],
+})
+class TestDatePickerManualBindingHost {
+  readonly value = signal<Date | null>(null);
+  readonly viewDate = signal<Date>(new Date());
 }
 
 function clickInput(input: HTMLInputElement): void {
@@ -166,5 +186,67 @@ describe('KuiDatePickerDirective', () => {
 
     expect(document.querySelector('.kui-dropdown--closing')).toBeTruthy();
     expect(document.activeElement).toBe(input);
+  });
+
+  it('pushes the typed value into the unbound sibling calendar (auto-wire)', () => {
+    const input = getInput();
+    input.value = '17.07.2026';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    clickInput(input);
+    fixture.detectChanges();
+
+    const selected = document.querySelector('.kui-calendar-day--selected');
+    expect(selected?.textContent?.trim()).toBe('17');
+  });
+});
+
+describe('KuiDatePickerDirective with a manually-bound calendar (legacy pairing)', () => {
+  let fixture: ComponentFixture<TestDatePickerManualBindingHost>;
+  let host: HTMLElement;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestDatePickerManualBindingHost],
+    }).compileComponents();
+    fixture = TestBed.createComponent(TestDatePickerManualBindingHost);
+    host = fixture.nativeElement as HTMLElement;
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    document.querySelector('.cdk-overlay-container')?.replaceChildren();
+  });
+
+  function getInput(): HTMLInputElement {
+    return host.querySelector('input') as HTMLInputElement;
+  }
+
+  it('keeps a manually-bound calendar in sync without looping or dropping the binding', () => {
+    const input = getInput();
+    input.value = '17.07.2026';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.value()?.getDate()).toBe(17);
+
+    clickInput(input);
+    fixture.detectChanges();
+
+    const selected = document.querySelector('.kui-calendar-day--selected');
+    expect(selected?.textContent?.trim()).toBe('17');
+
+    const dayButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(
+        '.kui-calendar-day:not(.kui-calendar-day--muted)',
+      ),
+    );
+    const cell = dayButtons.find((b) => b.textContent?.trim() === '20');
+    cell?.click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.value()?.getDate()).toBe(20);
+    expect(getInput().value).toMatch(/^20\./);
   });
 });

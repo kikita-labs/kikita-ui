@@ -1,0 +1,56 @@
+<app-panel
+  num="01"
+  title="Basic (range)"
+  description="First click sets the start; hovering before the second click previews the range; second click commits it."
+>
+  <div class="component-board">
+    <kui-calendar-range [(value)]="rangeValue" />
+    <div class="value-label">
+      @if (rangeLabel(); as r) {
+        {{ r.start | date: 'yyyy-MM-dd' }}
+        –
+        {{ r.end ? (r.end | date: 'yyyy-MM-dd') : '…' }}
+      } @else {
+        —
+      }
+    </div>
+  </div>
+  <pre class="pg-snippet"><code>{{ basicSnippet }}</code></pre>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Disabled dates"
+  description="<code>minDate</code> disables everything before today. Toggle to compare."
+>
+  <div class="component-board">
+    <button type="button" kuiButton shape="outline" size="sm" (click)="toggleRestrict()">
+      Future only: {{ restrictPast() ? 'on' : 'off' }}
+    </button>
+    <kui-calendar-range [(value)]="restrictedValue" [minDate]="minDate()" />
+  </div>
+  <pre class="pg-snippet"><code>{{ disabledSnippet }}</code></pre>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Sizes"
+  description="<code>size</code>: md (default) / sm — sm drops the border/padding for embedding in sidebars."
+>
+  <div class="component-board" style="flex-direction: row; align-items: flex-start; gap: 24px">
+    <kui-calendar-range [(value)]="sidebarValue" />
+    <kui-calendar-range size="sm" [(value)]="sidebarValue" />
+  </div>
+  <pre class="pg-snippet"><code>{{ sizesSnippet }}</code></pre>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="Footer"
+  description='Off by default. <code>showFooter</code> adds the value + "Today" shortcut — useful when the calendar is the whole surface, e.g. inside a popover.'
+>
+  <div class="component-board">
+    <kui-calendar-range showFooter [(value)]="footerValue" />
+  </div>
+  <pre class="pg-snippet"><code>{{ footerSnippet }}</code></pre>
+</app-panel>

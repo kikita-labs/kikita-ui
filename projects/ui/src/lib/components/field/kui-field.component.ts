@@ -16,6 +16,7 @@ import { FormField } from '@angular/forms/signals';
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { KuiCalendarComponent } from '../calendar/kui-calendar.component';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KUI_OPTION_CONTEXT } from '../dropdown/kui-option-context.token';
@@ -144,6 +145,13 @@ export class KuiFieldComponent implements KuiOptionContext {
   protected readonly dropdownOpen = computed(() => this.dropdown()?.isOpen() ?? false);
   protected readonly projectedLabel = contentChild(KuiLabelDirective);
 
+  /**
+   * Sibling `kui-calendar` projected into this field, if any -- discovered so
+   * `input[kuiDatePicker]` can auto-wire it via `getCalendar()` without the consumer manually
+   * binding `[value]`/`(valueChange)` on the calendar.
+   */
+  protected readonly calendar = contentChild(KuiCalendarComponent);
+
   private readonly signalFormField = contentChild<FormField<unknown>>(FormField);
   private readonly projectedHint = contentChild(KuiHintDirective);
   private readonly projectedError = contentChild(KuiErrorDirective);
@@ -197,6 +205,11 @@ export class KuiFieldComponent implements KuiOptionContext {
 
   getDropdown(): KuiDropdownComponent | undefined {
     return this.dropdown();
+  }
+
+  /** Sibling `kui-calendar` projected into this field, if any. See {@link calendar}. */
+  getCalendar(): KuiCalendarComponent | undefined {
+    return this.calendar();
   }
 
   protected handleClick(event: MouseEvent): void {
