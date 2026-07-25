@@ -61,7 +61,7 @@ export class DatePickerPage {
   protected readonly disabledDatesSnippet = `<kui-field label="Departure" hint="Today or later">
   <input kuiDatePicker [(value)]="date" [minDate]="today" />
   <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-    <kui-calendar flat [minDate]="today" showFooter />
+    <kui-calendar flat showFooter />
   </kui-dropdown>
 </kui-field>`;
 

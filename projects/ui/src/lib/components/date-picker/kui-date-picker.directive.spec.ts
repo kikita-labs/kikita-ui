@@ -125,6 +125,23 @@ describe('KuiDatePickerDirective', () => {
     expect(input.getAttribute('aria-invalid')).toBe('true');
   });
 
+  it('auto-wires minDate into the linked calendar without a manual [minDate] binding', () => {
+    const now = new Date();
+    fixture.componentInstance.minDate.set(new Date(now.getFullYear(), now.getMonth(), 16));
+    fixture.detectChanges();
+
+    clickInput(getInput());
+    fixture.detectChanges();
+
+    const buttons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(
+        '.kui-calendar-day:not(.kui-calendar-day--muted)',
+      ),
+    );
+    const cell = buttons.find((b) => b.textContent?.trim() === '15');
+    expect(cell?.getAttribute('aria-disabled')).toBe('true');
+  });
+
   it('selecting a day in the linked calendar formats it back into the input', () => {
     clickInput(getInput());
     fixture.detectChanges();

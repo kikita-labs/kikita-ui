@@ -63,13 +63,13 @@
   <app-panel
     num="04"
     title="Disabled dates"
-    description="minDate is bound on both the input and the calendar -- it is not auto-forwarded, since kui-calendar declares it as a plain (non-model) input."
+    description="minDate is bound on the input only -- it is auto-wired into the paired calendar, same as value/viewDate."
   >
     <div class="state-board__row">
       <kui-field label="Departure" hint="Today or later" class="date-picker-page__field">
         <input kuiDatePicker [(value)]="restrictedDate" [minDate]="today" />
         <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-          <kui-calendar flat [minDate]="today" [showFooter]="true" />
+          <kui-calendar flat [showFooter]="true" />
         </kui-dropdown>
       </kui-field>
     </div>

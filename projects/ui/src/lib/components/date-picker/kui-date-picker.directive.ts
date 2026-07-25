@@ -40,21 +40,14 @@ function sameDate(a: Date | null, b: Date | null): boolean {
  * for the popover grid.
  *
  * When a `kui-calendar` is found as a sibling inside the same `kui-field` (via
- * `KuiFieldComponent.getCalendar()`), the directive auto-wires it: its own `value` and
- * `viewDate` are pushed into the calendar, and the calendar's `value`/`viewDate` changes (a
- * day click, a month/year drill) are pulled back — no manual `[value]`/`(valueChange)` or
- * `[(viewDate)]` binding is required on the calendar for this to work. This is purely additive:
- * a calendar that still binds `[value]`/`[(viewDate)]` manually (e.g. to the same signal as the
- * input) keeps working exactly as before, since the auto-wire effects only write when the
- * calendar's value actually differs from the directive's, converging to the same state either
- * way without looping.
- *
- * `minDate`/`maxDate` are not auto-forwarded to the calendar: `kui-calendar` declares them as
- * plain (non-model) inputs, and this directive has no `ComponentRef` for a sibling placed
- * directly in the template (only a `contentChild` reference), so there is no supported
- * imperative API to override an unbound `@Input`-style signal from outside the component. Bind
- * `[minDate]`/`[maxDate]` on the calendar directly (typically the same signal as on the input)
- * to keep disabled dates in sync between the two.
+ * `KuiFieldComponent.getCalendar()`), the directive auto-wires it: its own `value`, `viewDate`,
+ * `minDate`, and `maxDate` are pushed into the calendar, and the calendar's `value`/`viewDate`
+ * changes (a day click, a month/year drill) are pulled back — no manual `[value]`/`(valueChange)`,
+ * `[(viewDate)]`, `[minDate]`, or `[maxDate]` binding is required on the calendar for this to
+ * work. This is purely additive: a calendar that still binds these manually (e.g. to the same
+ * signals as the input) keeps working exactly as before, since the auto-wire effects only write
+ * when the calendar's value actually differs from the directive's, converging to the same state
+ * either way without looping.
  *
  * @example
  * ```html
@@ -253,6 +246,26 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
       const calendarViewDate = calendar.viewDate();
       if (calendarViewDate.getTime() !== untracked(this.viewDate).getTime()) {
         this.viewDate.set(calendarViewDate);
+      }
+    });
+
+    // `minDate`/`maxDate` only flow one way (this directive is the source of truth for them,
+    // the calendar never changes them on its own), so push-only, no matching pull effect.
+    effect(() => {
+      const calendar = this.field?.getCalendar();
+      if (!calendar) return;
+      const min = this.minDate();
+      if (untracked(calendar.minDate)?.getTime() !== min?.getTime()) {
+        calendar.minDate.set(min);
+      }
+    });
+
+    effect(() => {
+      const calendar = this.field?.getCalendar();
+      if (!calendar) return;
+      const max = this.maxDate();
+      if (untracked(calendar.maxDate)?.getTime() !== max?.getTime()) {
+        calendar.maxDate.set(max);
       }
     });
 

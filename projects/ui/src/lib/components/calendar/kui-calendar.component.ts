@@ -228,10 +228,14 @@ export class KuiCalendarComponent {
    * false — most inline placements (sidebars, filter panels) render the calendar bare.
    */
   readonly showFooter = input(false, { transform: booleanAttribute });
-  /** Earliest selectable date (inclusive). Dates before it are disabled. */
-  readonly minDate = input<Date | undefined>(undefined);
-  /** Latest selectable date (inclusive). Dates after it are disabled. */
-  readonly maxDate = input<Date | undefined>(undefined);
+  /**
+   * Earliest selectable date (inclusive). Dates before it are disabled. A `model` (not a
+   * plain `input`) so `input[kuiDatePicker]` can auto-wire it from its own `minDate`, the
+   * same way it auto-wires `value`/`viewDate` — see {@link value}.
+   */
+  readonly minDate = model<Date | undefined>(undefined);
+  /** Latest selectable date (inclusive). Dates after it are disabled. See {@link minDate}. */
+  readonly maxDate = model<Date | undefined>(undefined);
   /** Individual dates to disable, or a predicate called with each rendered date. */
   readonly disabledDates = input<Date[] | KuiCalendarDisabledPredicate | undefined>(undefined);
   /**

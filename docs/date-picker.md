@@ -69,17 +69,17 @@ And on `kui-calendar`:
 ## Disabled Dates
 
 ```html
-<input kuiDatePicker [(value)]="date" [minDate]="today" /> <kui-calendar flat [minDate]="today" />
+<kui-field label="Meeting date">
+  <input kuiDatePicker [(value)]="date" [minDate]="today" />
+  <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
+    <kui-calendar flat showFooter />
+  </kui-dropdown>
+</kui-field>
 ```
 
 `minDate`/`maxDate` are enforced on typed text (marks the field invalid) by the directive, and
-control the calendar's disabled cells independently. They are **not** auto-forwarded from the
-directive into the calendar: `kui-calendar` declares `minDate`/`maxDate` as plain inputs (not
-two-way models), and the directive only has a `contentChild` reference to the calendar, not a
-`ComponentRef` — so there is no supported way to programmatically override an unbound input from
-outside the component the way `value`/`viewDate` are pushed/pulled. Bind `[minDate]`/`[maxDate]`
-on the calendar directly (typically the same signal as on the input, as above) to keep disabled
-dates in sync between the two.
+auto-wired into a sibling `kui-calendar` the same way `value`/`viewDate` are — no need to bind
+them on the calendar too.
 
 ## Clearable
 
@@ -112,7 +112,8 @@ the field stays on the last good date until a valid one is typed.
 - `viewDate`: two-way model, first-of-month `Date`. Also auto-wired into a sibling
   `kui-calendar`, keeping the popover's displayed month in sync as a valid date is typed or the
   calendar is navigated.
-- `minDate` / `maxDate`: `Date | undefined`
+- `minDate` / `maxDate`: `Date | undefined`. Also auto-wired into a sibling `kui-calendar`
+  (push-only — the calendar never changes these on its own).
 - `clearable`: `boolean | undefined` (default resolves to `true`)
 - `disabled` / `readonly`: `boolean` (default: `false`)
 - `placeholder`: `string` (default: `'dd.mm.yyyy'`)
@@ -152,5 +153,3 @@ styles.
   viewport size.
 - No locale-aware display format (`format` input); the mask is always `dd.MM.yyyy`, matching
   the design brief's explicit non-goal for this iteration.
-- `minDate`/`maxDate` are not auto-forwarded to a paired calendar (see Disabled Dates above);
-  bind them on both elements.

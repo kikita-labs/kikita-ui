@@ -11,11 +11,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 ### Added
 
 - `input[kuiDatePicker]` auto-discovers a sibling `kui-calendar` projected inside the same
-  `kui-field` (via a new `KuiFieldComponent.getCalendar()` accessor) and wires its `value` and
-  `viewDate` automatically -- a paired calendar no longer needs manual `[value]`/
-  `(valueChange)`/`[(viewDate)]` binding. Manually binding those on the calendar still works
-  unchanged; the auto-wire effects only write when the two sides actually differ, so an existing
-  manual binding and the new auto-wire converge without looping or fighting each other.
+  `kui-field` (via a new `KuiFieldComponent.getCalendar()` accessor) and wires its `value`,
+  `viewDate`, `minDate`, and `maxDate` automatically -- a paired calendar no longer needs manual
+  `[value]`/`(valueChange)`/`[(viewDate)]`/`[minDate]`/`[maxDate]` binding. Manually binding those
+  on the calendar still works unchanged; the auto-wire effects only write when the two sides
+  actually differ, so an existing manual binding and the new auto-wire converge without looping or
+  fighting each other. `kui-calendar`'s `minDate`/`maxDate` are now `model()` (were plain
+  `input()`) to support this.
 - `KuiCalendarRangeComponent` (`kui-calendar-range`): a new standalone date-range calendar with
   the same month/year/decade grid, keyboard navigation, disabled-date, and locale behavior as
   `kui-calendar`, selecting a `KuiDateRange | null` start/end pair instead of a single date.
