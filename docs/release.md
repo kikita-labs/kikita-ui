@@ -103,14 +103,24 @@ but the standalone command is:
 npm publish ./dist/ui --access public --@kikita-labs:registry=https://registry.npmjs.org
 ```
 
-`npm publish` may require an interactive one-time password (2FA). If the CLI does
-not prompt for it (a known issue in some terminals, including this agent's), it
-prints a `https://www.npmjs.com/auth/cli/...` URL to stdout instead of hanging on
-a prompt. Open that URL directly (e.g. via a browser tool) so the user sees the
-approval screen immediately -- the publish process blocks until the user
-approves it there. Do not try to complete or bypass that approval; it must be
-the user. Newly published content can take up to a minute to propagate; a `curl
-https://registry.npmjs.org/@kikita-labs%2Fui` returning 404 right after a
+`npm publish` may require an interactive one-time password (2FA) even when
+already logged in -- 2FA on publish is checked per-publish, separately from the
+login session. If the CLI does not prompt for it (a known issue in some
+terminals), it prints a `https://www.npmjs.com/auth/cli/...` URL to stdout
+instead of hanging on a prompt.
+
+In an agent-run shell, that URL is redacted to `***` in both the terminal
+output and `npm-cache/_logs/*-debug-*.log` -- this is a harness-level secret
+scrub on anything that looks like an auth token/URL, not an npm bug, and it
+cannot be worked around from the agent side (do not try alternate tools,
+encodings, or log-scraping to recover it; that defeats the point of the
+redaction). When this happens, the agent cannot complete the publish. Ask the
+user to run `npm run publish:ui` themselves (they can use the `!` prefix to
+run it directly in the session) so the real URL prints in their own terminal
+unredacted, then have them open and approve it there.
+
+Once approved, newly published content can take up to a minute to propagate; a
+`curl https://registry.npmjs.org/@kikita-labs%2Fui` returning 404 right after a
 successful publish is registry replication lag, not a failed publish.
 
 Before updating the docs repo dependency, tags, release notes, or generated
