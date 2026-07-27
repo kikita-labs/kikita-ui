@@ -14,6 +14,7 @@
   ) {
     font-family: var(--kui-font-sans);
     letter-spacing: 0;
+    margin: 0;
   }
 
   :where(.kui-display) {

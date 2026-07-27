@@ -8,6 +8,33 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-07-28
+
+### Added
+
+- `provideKikitaUi()` now also registers a built-in brand icon set (`KUI_BRAND_ICONS`) resolved
+  locally alongside the default Lucide resolver. It currently exposes one icon, the Kikita UI
+  wordmark glyph, available as `<kui-icon name="kikita-brand" />` with no extra setup. Disabled by
+  `icons: false` like the Lucide default.
+
+### Changed
+
+- `kuiText` typography classes (`.kui-display`, `.kui-heading-*`, `.kui-title`, `.kui-body-*`,
+  `.kui-caption`, `.kui-overline`, `.kui-code`) now reset `margin: 0`. Previously the directive
+  left the host element's user-agent margin untouched, so the same `variant` produced a different
+  margin depending on the underlying tag (`p`/`h1`-`h6` vs `div`/`span`). Vertical spacing is a
+  layout concern, not a typography one -- consumers control it explicitly (gap, layout
+  primitives, or their own margin utility) instead of inheriting it implicitly from the tag.
+
+### Fixed
+
+- `kuiButton` truncates long labels correctly instead of hard-clipping mid-word: the projected
+  text now lives in a dedicated `.kui-button__label` span carrying `text-overflow: ellipsis`,
+  since `text-overflow` never applied on the flex-container `.kui-button__content` it used to sit
+  on directly. Also raised the button's `line-height` from `1.2` to `1.4` (new
+  `--kui-btn-line-height` token) so descenders (`g`, `p`, `y`) no longer get clipped by
+  `overflow: hidden` at tight line-box heights.
+
 ## [1.2.0] - 2026-07-25
 
 ### Added

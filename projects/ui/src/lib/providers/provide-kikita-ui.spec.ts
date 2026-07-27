@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 
-import { KUI_ICONS, resolveLucideIcon } from '../components/icon';
+import { KUI_BRAND_ICONS, KUI_ICONS, resolveLucideIcon } from '../components/icon';
 import { provideKikitaUi } from './provide-kikita-ui';
 
 describe('provideKikitaUi', () => {
@@ -58,5 +58,21 @@ describe('provideKikitaUi', () => {
     });
 
     expect(TestBed.inject(KUI_ICONS, [])).not.toContain(resolveLucideIcon);
+  });
+
+  it('registers the default brand icon set', () => {
+    TestBed.configureTestingModule({
+      providers: [provideKikitaUi()],
+    });
+
+    expect(TestBed.inject(KUI_ICONS)).toContain(KUI_BRAND_ICONS);
+  });
+
+  it('omits the default brand icon set when icons is disabled', () => {
+    TestBed.configureTestingModule({
+      providers: [provideKikitaUi({ icons: false })],
+    });
+
+    expect(TestBed.inject(KUI_ICONS, [])).not.toContain(KUI_BRAND_ICONS);
   });
 });
