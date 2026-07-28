@@ -8,6 +8,47 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-07-28
+
+### Fixed
+
+- `kui-field` at the default `md` size no longer reserves `4px` of gap above and below the control
+  row when the label and message rows are empty. The host's `grid-template-rows` gap used to apply
+  uniformly between all three row tracks regardless of whether the label/hint/error rows had any
+  content, so an unlabeled `md` field measured `48px` tall instead of the `40px` control height it
+  visually contained. Spacing now lives on the label/hint/error elements themselves
+  (`margin-block-end`/`margin-block-start`), so it only appears when those elements actually
+  render.
+- `kuiGroup` now supports `kui-field` as a group member, with or without a label, hint, or error.
+  Previously `kui-field`'s host didn't match the group's
+  `:where(.kui-button, .kui-icon-button, .kui-input)` selector, so a `kui-field` placed inside a
+  `collapsed` group kept its own fully-rounded corners and broke the merged-border look; worse,
+  when `kui-field` was the group's last DOM child, no sibling matched `:last-child` against that
+  selector, so the true last button also lost its outer corner rounding. Separately, a sibling
+  button next to a labeled/hinted/error `kui-field` had no way to vertically line up with the
+  field's control: flexbox `align-items` only aligns box edges, and a field's outer box grows past
+  its control whenever a label, hint, or error renders. A horizontal `kuiGroup` now lays its direct
+  children out on a 3-row grid (label / control / message); plain buttons and inputs are pinned to
+  the middle row, and a `kui-field` child becomes a CSS subgrid spanning all 3 rows so its own
+  label/control/message content resolves against the group's shared row tracks. The group's
+  collapsed-border rules also reach through `kui-field`'s host into its projected `.kui-input` for
+  radius stripping/restoring and treat the field as a normal group member for adjacent-sibling
+  spacing. Vertical groups are unaffected and keep their existing flex layout. Field-free groups
+  stay on the original flex layout: grid's auto-column track sizing rounds sub-pixel widths
+  slightly differently than flex, which was enough to reopen a 1-2px seam on the collapsed-border
+  overlap between plain buttons.
+- A `collapsed` group no longer widens its outer button columns when the group itself is
+  stretched by its own container (a parent using `align-items`/`justify-items: stretch`, common in
+  flex-column or grid layouts). Grid's `auto` column tracks absorb positive free space by default,
+  so a stretched group distributed that leftover width into the near-empty button columns instead
+  of leaving it as trailing space, visibly pushing buttons away from an adjacent `kui-field`.
+- An invalid `kui-field` or `input[kuiInput]` inside a `collapsed` group no longer loses its red
+  error border at the seam where it touches a non-invalid sibling. The collapsed-border overlap
+  paints whichever sibling is later in DOM order on top of the shared 1px seam; when that later
+  sibling was an ordinary button, its neutral border color silently covered the invalid color.
+  Invalid controls now get their own stacking context (`position: relative; z-index: 1`) so they
+  paint on top of neutral siblings on both sides regardless of DOM order.
+
 ## [1.3.0] - 2026-07-28
 
 ### Added
@@ -560,7 +601,9 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.3.1...HEAD
+[1.3.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.3.0...v1.3.1
+[1.3.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.7.0...v1.0.0

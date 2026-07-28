@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 import {
   KuiButtonDirective,
+  KuiFieldComponent,
   KuiGroupDirective,
   KuiIconButtonDirective,
   KuiIconComponent,
@@ -14,6 +15,7 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   selector: 'app-group-page',
   imports: [
     KuiButtonDirective,
+    KuiFieldComponent,
     KuiGroupDirective,
     KuiIconButtonDirective,
     KuiIconComponent,

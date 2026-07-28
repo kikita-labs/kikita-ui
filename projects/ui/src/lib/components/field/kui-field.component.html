@@ -18,16 +18,18 @@
   <ng-content select=":not([kuiLabel]):not([kuiHint]):not([kuiError])" />
 </div>
 
-@if (hint(); as hintText) {
-  <p class="kui-field__hint" [id]="hintId">{{ hintText }}</p>
-}
+<div class="kui-field__message-row">
+  @if (hint(); as hintText) {
+    <p class="kui-field__hint" [id]="hintId">{{ hintText }}</p>
+  }
 
-<ng-content select="[kuiHint]" />
+  <ng-content select="[kuiHint]" />
 
-@if (displayedError(); as errorText) {
-  <p class="kui-field__error" [id]="errorId" role="alert">{{ errorText }}</p>
-}
+  @if (displayedError(); as errorText) {
+    <p class="kui-field__error" [id]="errorId" role="alert">{{ errorText }}</p>
+  }
 
-@if (!effectiveHideErrors()) {
-  <ng-content select="[kuiError]" />
-}
+  @if (!effectiveHideErrors()) {
+    <ng-content select="[kuiError]" />
+  }
+</div>

@@ -44,3 +44,185 @@
     </div>
   </div>
 </app-panel>
+
+<app-panel
+  num="02"
+  title="Group with kui-field"
+  description="kui-field participates in collapsed border merging the same way a bare input does: the group reaches through the field host into its projected .kui-input for radius stripping/restoring."
+>
+  <div class="component-board">
+    <div kuiGroup collapsed>
+      <button kuiIconButton icon="play" shape="ghost" type="button" aria-label="Play"></button>
+      <button
+        kuiIconButton
+        icon="list-plus"
+        shape="ghost"
+        type="button"
+        aria-label="Add to queue"
+      ></button>
+      <button kuiIconButton icon="x" shape="ghost" type="button" aria-label="Remove"></button>
+      <kui-field>
+        <input kuiInput placeholder="Track name or URL" />
+      </kui-field>
+    </div>
+
+    <div kuiGroup collapsed>
+      <button kuiIconButton icon="play" shape="outline" type="button" aria-label="Play"></button>
+      <button
+        kuiIconButton
+        icon="list-plus"
+        shape="outline"
+        type="button"
+        aria-label="Add to queue"
+      ></button>
+      <button kuiIconButton icon="x" shape="outline" type="button" aria-label="Remove"></button>
+      <kui-field>
+        <input kuiInput placeholder="Track name or URL" />
+      </kui-field>
+    </div>
+
+    <div kuiGroup collapsed>
+      <button kuiIconButton icon="play" shape="solid" type="button" aria-label="Play"></button>
+      <kui-field>
+        <input kuiInput placeholder="Track name or URL" />
+      </kui-field>
+      <button kuiIconButton icon="x" shape="solid" type="button" aria-label="Remove"></button>
+    </div>
+
+    <div kuiGroup collapsed>
+      <kui-field>
+        <input kuiInput placeholder="Track name or URL" />
+      </kui-field>
+      <button kuiIconButton icon="search" shape="soft" type="button" aria-label="Search"></button>
+    </div>
+
+    <div kuiGroup collapsed size="xs">
+      <button kuiIconButton icon="play" shape="outline" type="button" aria-label="Play"></button>
+      <kui-field size="xs">
+        <input kuiInput placeholder="xs" />
+      </kui-field>
+    </div>
+
+    <div kuiGroup collapsed size="sm">
+      <button kuiIconButton icon="play" shape="outline" type="button" aria-label="Play"></button>
+      <kui-field size="sm">
+        <input kuiInput placeholder="sm" />
+      </kui-field>
+    </div>
+
+    <div kuiGroup collapsed size="lg">
+      <button kuiIconButton icon="play" shape="outline" type="button" aria-label="Play"></button>
+      <kui-field size="lg">
+        <input kuiInput placeholder="lg" />
+      </kui-field>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Group with labeled kui-field"
+  description="A horizontal kuiGroup lays its children out on a 3-row grid (label / control / message) instead of a flex row; a kui-field child becomes a CSS subgrid spanning all 3 rows, so its label/control/message content resolves against the group's shared row tracks. A sibling button pinned to the middle row lines up with the field's control automatically -- no manual alignment needed, and no dependency on which of label/hint/error the field renders."
+>
+  <div class="component-board">
+    <div kuiGroup>
+      <kui-field label="Track name or URL">
+        <input kuiInput placeholder="Search" />
+      </kui-field>
+      <button kuiButton shape="solid" type="button">Add</button>
+    </div>
+
+    <div kuiGroup collapsed>
+      <kui-field label="Track name or URL">
+        <input kuiInput placeholder="Search" />
+      </kui-field>
+      <button kuiButton shape="outline" type="button">Add</button>
+    </div>
+
+    <div kuiGroup collapsed size="xs">
+      <kui-field size="xs" label="Track name or URL">
+        <input kuiInput placeholder="xs" />
+      </kui-field>
+      <button kuiButton size="xs" shape="outline" type="button">Add</button>
+    </div>
+
+    <div kuiGroup collapsed size="sm">
+      <kui-field size="sm" label="Track name or URL">
+        <input kuiInput placeholder="sm" />
+      </kui-field>
+      <button kuiButton size="sm" shape="outline" type="button">Add</button>
+    </div>
+
+    <div kuiGroup collapsed size="lg">
+      <kui-field size="lg" label="Track name or URL">
+        <input kuiInput placeholder="lg" />
+      </kui-field>
+      <button kuiButton size="lg" shape="outline" type="button">Add</button>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="Group with kui-field: every label/hint/error combination"
+  description="The subgrid layout doesn't care which rows a field actually uses -- every combination of label, hint, and error keeps its control row aligned with the sibling button's control row, both plain and collapsed."
+>
+  <div class="component-board">
+    <div kuiGroup collapsed>
+      <kui-field label="Coupon code">
+        <input kuiInput placeholder="Label only" />
+      </kui-field>
+      <button kuiButton shape="outline" type="button">Apply</button>
+    </div>
+
+    <div kuiGroup collapsed>
+      <kui-field hint="Applies at checkout">
+        <input kuiInput placeholder="Hint only" />
+      </kui-field>
+      <button kuiButton shape="outline" type="button">Apply</button>
+    </div>
+
+    <div kuiGroup collapsed>
+      <kui-field error="Coupon expired">
+        <input kuiInput placeholder="Error only" />
+      </kui-field>
+      <button kuiButton shape="outline" type="button">Apply</button>
+    </div>
+
+    <div kuiGroup collapsed>
+      <kui-field label="Coupon code" hint="Applies at checkout">
+        <input kuiInput placeholder="Label + hint" />
+      </kui-field>
+      <button kuiButton shape="outline" type="button">Apply</button>
+    </div>
+
+    <div kuiGroup collapsed>
+      <kui-field label="Coupon code" error="Coupon expired">
+        <input kuiInput placeholder="Label + error" />
+      </kui-field>
+      <button kuiButton shape="outline" type="button">Apply</button>
+    </div>
+
+    <div kuiGroup collapsed>
+      <kui-field hint="Applies at checkout" error="Coupon expired">
+        <input kuiInput placeholder="Hint + error" />
+      </kui-field>
+      <button kuiButton shape="outline" type="button">Apply</button>
+    </div>
+
+    <div kuiGroup collapsed>
+      <kui-field label="Coupon code" hint="Applies at checkout" error="Coupon expired">
+        <input kuiInput placeholder="Label + hint + error" />
+      </kui-field>
+      <button kuiButton shape="outline" type="button">Apply</button>
+    </div>
+
+    <div kuiGroup collapsed>
+      <button kuiIconButton icon="play" shape="outline" type="button" aria-label="Play"></button>
+      <kui-field label="Coupon code" hint="Applies at checkout" error="Coupon expired">
+        <input kuiInput placeholder="Label + hint + error, buttons on both sides" />
+      </kui-field>
+      <button kuiIconButton icon="x" shape="outline" type="button" aria-label="Remove"></button>
+    </div>
+  </div>
+</app-panel>

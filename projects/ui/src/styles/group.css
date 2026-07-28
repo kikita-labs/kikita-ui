@@ -1,13 +1,56 @@
 ﻿@layer kui.components {
   .kui-group {
-    display: inline-flex;
-    align-items: stretch;
     gap: var(--kui-group-gap, 8px);
     vertical-align: middle;
   }
 
+  .kui-group[data-kui-orientation='horizontal'] {
+    display: inline-flex;
+    align-items: stretch;
+  }
+
   .kui-group[data-kui-orientation='vertical'] {
+    display: inline-flex;
     flex-direction: column;
+    align-items: stretch;
+  }
+
+  /*
+   * A horizontal group containing a kui-field switches from flex to a 3-row grid (label /
+   * control / message) so the field can become a subgrid (see below) and expose those same row
+   * tracks to its label/hint/error content. Plain buttons/inputs are pinned to the middle
+   * (control) track, so they line up with a field's control regardless of whether that field has
+   * a label, a hint, an error, all three, or none -- the row heights are driven by real grid
+   * content, not by a flex box-edge alignment guess. Field-free groups stay on flex: grid's
+   * auto-column track sizing rounds sub-pixel widths slightly differently than flex, which was
+   * enough to reopen a 1-2px seam on the -1px collapsed-border overlap between plain buttons.
+   */
+  .kui-group[data-kui-orientation='horizontal']:has(> kui-field.kui-field) {
+    display: inline-grid;
+    grid-auto-flow: column;
+    grid-template-rows: auto auto auto;
+    row-gap: 0;
+    align-items: stretch;
+    /*
+     * `auto` grid tracks absorb positive free space by default (grid's `justify-content:normal`
+     * distributes leftover space into `auto` columns, unlike flex's `justify-content:flex-start`
+     * default, which just leaves it after the last item). This group can end up wider than its
+     * content whenever its own container stretches it to fill (e.g. a parent grid/flex with
+     * `align-items`/`justify-items: stretch`), and without this, that leftover space inflates the
+     * button columns -- which have almost no content of their own -- pushing them away from the
+     * field instead of staying snug against it.
+     */
+    justify-content: start;
+  }
+
+  .kui-group[data-kui-orientation='horizontal']:has(> kui-field.kui-field)
+    > :where(.kui-button, .kui-icon-button, .kui-input) {
+    grid-row: 2;
+  }
+
+  .kui-group[data-kui-orientation='horizontal'] > kui-field.kui-field {
+    grid-row: 1 / 4;
+    --kui-field-grid-rows: subgrid;
   }
 
   .kui-group[data-kui-size='xs'] {
@@ -29,19 +72,44 @@
     gap: 0;
   }
 
+  /*
+   * kui-field renders its own border on the projected .kui-input, not on its
+   * host, so the host never matches :where(.kui-button, .kui-icon-button,
+   * .kui-input) directly. It is listed alongside those selectors for spacing
+   * and :first-child/:last-child targeting, while radius rules reach through
+   * to kui-field's nested .kui-input, the element that actually draws a border.
+   */
   .kui-group[data-kui-collapsed] > :where(.kui-button, .kui-icon-button, .kui-input) {
     border-radius: 0;
   }
 
+  .kui-group[data-kui-collapsed] > kui-field.kui-field .kui-input {
+    border-radius: 0;
+  }
+
+  /*
+   * The -1px overlap above merges two adjacent borders into what reads as one line, but paints
+   * the later sibling's border on top at that shared pixel. That's invisible for two neutral
+   * borders, but an invalid control's border color is semantic -- if a plain, non-invalid
+   * neighbor happens to be the later sibling, its ordinary border silently covers the invalid
+   * color at the seam. Lifting the invalid control into its own stacking context makes it paint
+   * on top of neutral siblings on both sides, regardless of DOM order.
+   */
+  .kui-group[data-kui-collapsed] > .kui-input[data-kui-invalid],
+  .kui-group[data-kui-collapsed] > kui-field.kui-field[data-kui-invalid] {
+    position: relative;
+    z-index: 1;
+  }
+
   .kui-group[data-kui-collapsed][data-kui-orientation='horizontal']
-    > :where(.kui-button, .kui-icon-button, .kui-input)
-    + :where(.kui-button, .kui-icon-button, .kui-input) {
+    > :where(.kui-button, .kui-icon-button, .kui-input, kui-field.kui-field)
+    + :where(.kui-button, .kui-icon-button, .kui-input, kui-field.kui-field) {
     margin-inline-start: var(--kui-group-collapsed-gap, -1px);
   }
 
   .kui-group[data-kui-collapsed][data-kui-orientation='vertical']
-    > :where(.kui-button, .kui-icon-button, .kui-input)
-    + :where(.kui-button, .kui-icon-button, .kui-input) {
+    > :where(.kui-button, .kui-icon-button, .kui-input, kui-field.kui-field)
+    + :where(.kui-button, .kui-icon-button, .kui-input, kui-field.kui-field) {
     margin-block-start: var(--kui-group-collapsed-gap, -1px);
   }
 
@@ -57,6 +125,20 @@
     border-end-end-radius: var(--kui-btn-radius, 8px);
   }
 
+  .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='horizontal']
+    > kui-field.kui-field:first-child
+    .kui-input {
+    border-start-start-radius: var(--kui-btn-radius, 8px);
+    border-end-start-radius: var(--kui-btn-radius, 8px);
+  }
+
+  .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='horizontal']
+    > kui-field.kui-field:last-child
+    .kui-input {
+    border-start-end-radius: var(--kui-btn-radius, 8px);
+    border-end-end-radius: var(--kui-btn-radius, 8px);
+  }
+
   .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='vertical']
     > :where(.kui-button, .kui-icon-button, .kui-input):first-child {
     border-start-start-radius: var(--kui-btn-radius, 8px);
@@ -65,6 +147,20 @@
 
   .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='vertical']
     > :where(.kui-button, .kui-icon-button, .kui-input):last-child {
+    border-end-start-radius: var(--kui-btn-radius, 8px);
+    border-end-end-radius: var(--kui-btn-radius, 8px);
+  }
+
+  .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='vertical']
+    > kui-field.kui-field:first-child
+    .kui-input {
+    border-start-start-radius: var(--kui-btn-radius, 8px);
+    border-start-end-radius: var(--kui-btn-radius, 8px);
+  }
+
+  .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='vertical']
+    > kui-field.kui-field:last-child
+    .kui-input {
     border-end-start-radius: var(--kui-btn-radius, 8px);
     border-end-end-radius: var(--kui-btn-radius, 8px);
   }
