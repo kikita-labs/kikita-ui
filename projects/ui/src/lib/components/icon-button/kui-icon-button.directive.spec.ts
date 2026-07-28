@@ -36,6 +36,13 @@ class IconInputHost {
   protected readonly iconName = signal<string | undefined>('close');
 }
 
+@Component({
+  imports: [KuiIconButtonDirective],
+  template:
+    '<button kuiIconButton size="lg" icon="check" [loading]="true" aria-label="Save"></button>',
+})
+class LoadingIconButtonHost {}
+
 describe('KuiIconButtonDirective', () => {
   it('adds icon button host attributes for appearance and size', () => {
     const fixture = createFixture(IconButtonHost);
@@ -107,6 +114,31 @@ describe('KuiIconButtonDirective', () => {
     fixture.detectChanges();
 
     expect(button.querySelector('kui-icon')).toBeNull();
+  });
+
+  it('renders a loader, marks the button busy and blocks clicks while loading', () => {
+    TestBed.configureTestingModule({
+      imports: [LoadingIconButtonHost],
+      providers: [provideKuiIcons({ check: CHECK_ICON })],
+    });
+
+    const fixture = TestBed.createComponent(LoadingIconButtonHost);
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    const loader = button.querySelector('.kui-loader') as HTMLElement;
+    const content = button.querySelector('.kui-icon-button__content') as HTMLElement;
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+    const allowed = button.dispatchEvent(event);
+
+    expect(button.getAttribute('data-kui-loading')).toBe('');
+    expect(button.getAttribute('aria-busy')).toBe('true');
+    expect(button.getAttribute('aria-disabled')).toBe('true');
+    expect(button.getAttribute('disabled')).toBe('');
+    expect(loader).not.toBeNull();
+    expect(loader.getAttribute('data-kui-size')).toBe('lg');
+    expect(content.querySelector('kui-icon')).not.toBeNull();
+    expect(allowed).toBe(false);
   });
 
   it('does not mutate the DOM for icon when rendered on the server platform', () => {

@@ -129,6 +129,39 @@
 </app-panel>
 
 <app-panel
+  num="04b"
+  title="IconButton loading state"
+  description="loading disables the icon button, keeps its footprint, fades the icon out, and centers the spinner."
+>
+  <div class="button-grid">
+    <button kuiIconButton type="button" [loading]="true" aria-label="Save">
+      <kui-icon name="check" />
+    </button>
+    <button kuiIconButton shape="outline" type="button" [loading]="true" aria-label="Save">
+      <kui-icon name="check" />
+    </button>
+    <button
+      kuiIconButton
+      shape="soft"
+      appearance="danger"
+      type="button"
+      [loading]="true"
+      icon="triangle-alert"
+      aria-label="Delete"
+    ></button>
+    <button
+      kuiIconButton
+      shape="solid"
+      size="lg"
+      type="button"
+      [loading]="true"
+      icon="sparkle"
+      aria-label="Generate"
+    ></button>
+  </div>
+</app-panel>
+
+<app-panel
   num="05"
   title="IconButton variants"
   description="IconButton supports the same appearance, size, and shape combinations."

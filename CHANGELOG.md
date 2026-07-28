@@ -8,6 +8,14 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-07-29
+
+### Added
+
+- `kuiIconButton` now supports `loading`, matching `kuiButton`. It replaces the icon (and any
+  projected content) with a centered `kui-loader` spinner, disables the host the same way
+  `disabled` does, and sets `aria-busy="true"` while keeping the button's footprint.
+
 ## [1.3.1] - 2026-07-28
 
 ### Fixed
