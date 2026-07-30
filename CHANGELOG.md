@@ -8,6 +8,11 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Fixed
+
+- `.kui-dialog-title` no longer inherits the browser's default `<h2>` block margins, which pushed
+  the title off from the header's top/bottom padding.
+
 ## [1.4.0] - 2026-07-29
 
 ### Added
