@@ -159,6 +159,21 @@
       </kui-field>
       <button kuiButton size="lg" shape="outline" type="button">Add</button>
     </div>
+
+    <div
+      style="
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--kui-space-4);
+      "
+    >
+      <div kuiGroup collapsed style="justify-self: start">
+        <kui-field label="Prefix">
+          <input kuiInput type="text" placeholder="%" />
+        </kui-field>
+        <button kuiButton iconStart="save" type="button">Save changes</button>
+      </div>
+    </div>
   </div>
 </app-panel>
 

@@ -101,16 +101,23 @@
     z-index: 1;
   }
 
+  /*
+   * The overlap sits on the earlier sibling's trailing margin, not the later sibling's leading
+   * margin. In the grid-with-field variant above, CSS Grid sizes an `auto` column from the
+   * item's outer (margin) box, so a leading negative margin shrinks that item's own column by
+   * 1px below its content's true width -- harmless on a field/input (no text to clip), but it
+   * silently ellipsis-clipped the last character of a text button sitting in the next column.
+   * Anchoring the negative margin to the earlier sibling instead means the 1px always lands on
+   * whichever element is first, never eating into a text-bearing button's own track.
+   */
   .kui-group[data-kui-collapsed][data-kui-orientation='horizontal']
-    > :where(.kui-button, .kui-icon-button, .kui-input, kui-field.kui-field)
-    + :where(.kui-button, .kui-icon-button, .kui-input, kui-field.kui-field) {
-    margin-inline-start: var(--kui-group-collapsed-gap, -1px);
+    > :where(.kui-button, .kui-icon-button, .kui-input, kui-field.kui-field):not(:last-child) {
+    margin-inline-end: var(--kui-group-collapsed-gap, -1px);
   }
 
   .kui-group[data-kui-collapsed][data-kui-orientation='vertical']
-    > :where(.kui-button, .kui-icon-button, .kui-input, kui-field.kui-field)
-    + :where(.kui-button, .kui-icon-button, .kui-input, kui-field.kui-field) {
-    margin-block-start: var(--kui-group-collapsed-gap, -1px);
+    > :where(.kui-button, .kui-icon-button, .kui-input, kui-field.kui-field):not(:last-child) {
+    margin-block-end: var(--kui-group-collapsed-gap, -1px);
   }
 
   .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='horizontal']

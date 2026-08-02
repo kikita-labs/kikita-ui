@@ -8,6 +8,20 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.4.3] - 2026-08-03
+
+### Fixed
+
+- A collapsed `kuiGroup` containing a `kui-field` used `margin-inline-start`/`margin-block-start`
+  on the second of each adjacent pair to overlap borders by 1px. In the grid layout that variant
+  switches to (see the field-subgrid comment in `group.css`), CSS Grid sizes an `auto` column from
+  the item's outer (margin) box, so that leading negative margin shrank the item's own column by
+  1px below its content's true width -- invisible on a field/input, but it silently
+  ellipsis-clipped the last character of a text button sitting in the next column. The overlap now
+  anchors to `margin-inline-end`/`margin-block-end` on the earlier sibling (`:not(:last-child)`)
+  instead, so the 1px always lands on whichever element comes first and never eats into a
+  text-bearing button's own track.
+
 ## [1.4.2] - 2026-08-03
 
 ### Fixed
@@ -655,7 +669,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.2...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.3...HEAD
+[1.4.3]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.2...v1.4.3
 [1.4.2]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.3.1...v1.4.0
