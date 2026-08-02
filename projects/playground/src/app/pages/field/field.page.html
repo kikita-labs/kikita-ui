@@ -89,6 +89,79 @@
 
 <app-panel
   num="03"
+  title="kuiFieldAffix auto-detect"
+  description="One directive, three looks: auto-detected as text, icon (kui-icon or kuiLoader host), or action (button host)."
+>
+  <div class="field-grid field-grid--two">
+    <kui-field label="Text" hint="Plain host -> muted text styling.">
+      <span kuiFieldAffix>$</span>
+      <input kuiInput value="19.99" aria-label="Amount" />
+      <span kuiFieldAffix emphasis="strong">USD</span>
+    </kui-field>
+
+    <kui-field
+      label="Icon via kui-icon name"
+      hint="kui-icon host -> icon styling, auto aria-hidden."
+    >
+      <kui-icon kuiFieldAffix name="search" />
+      <input kuiInput placeholder="Search" aria-label="Search" />
+    </kui-field>
+
+    <kui-field
+      label="Icon via kui-icon projected SVG"
+      hint="Raw <svg> child, no provideKuiIcons registration needed."
+    >
+      <kui-icon kuiFieldAffix>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
+        </svg>
+      </kui-icon>
+      <input kuiInput placeholder="Search" aria-label="Search projected icon" />
+    </kui-field>
+
+    <kui-field
+      label="Icon via raw span (legacy)"
+      hint="Not kui-icon -> falls back to kuiFieldAffixIcon explicit override."
+    >
+      <span kuiFieldAffixIcon>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
+        </svg>
+      </span>
+      <input kuiInput placeholder="Search" aria-label="Search legacy icon" />
+    </kui-field>
+
+    <kui-field
+      label="Action via plain button"
+      hint="Any <button> host -> action styling, auto-detected."
+    >
+      <input kuiInput value="tokens" aria-label="Search query, clearable" />
+      <button kuiFieldAffix type="button" aria-label="Clear search">
+        <kui-icon name="x" />
+      </button>
+    </kui-field>
+
+    <kui-field label="Action via kuiFieldAction (legacy)" hint="Explicit alias, same result.">
+      <input kuiInput value="tokens" aria-label="Search query, clearable (legacy)" />
+      <button kuiFieldAction type="button" aria-label="Clear search">
+        <kui-icon name="x" />
+      </button>
+    </kui-field>
+
+    <kui-field
+      label="Loading"
+      hint="kuiLoader host -> icon styling, but keeps role/aria-live of its own."
+    >
+      <input kuiInput value="kui_live_" aria-label="API key" />
+      <span kuiLoader kuiFieldAffix aria-label="Checking key"></span>
+    </kui-field>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
   title="Slot presence matrix"
   description="Every combination of label / hint / error to catch grid-row regressions when a slot is absent."
 >
@@ -145,7 +218,7 @@
 </app-panel>
 
 <app-panel
-  num="04"
+  num="05"
   title="Size matrix"
   description="xs / sm / md / lg x default / error / disabled."
 >

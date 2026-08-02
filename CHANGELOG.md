@@ -8,6 +8,33 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Fixed
+
+- Clicking `kui-field`'s auto-applied `.kui-input-group` chrome (from a projected `kuiFieldAffix`)
+  outside the shorter native control -- the padding between the group's 40px border and the
+  control's own text-line height -- did nothing instead of focusing the control, and the cursor
+  stayed the default arrow there instead of hinting a click would focus text. Angular's
+  class-selector directive matching only attaches to a _static_ `class="..."` string in a
+  template, not a `[class.foo]` property binding, so `KuiInputGroupDirective` (which the group's
+  chrome had been assumed to pick up automatically) never actually attached to `kui-field`'s
+  control slot; `kui-field` now re-implements the same click-to-focus delegation directly, and
+  `.kui-input-group` gets `cursor: text` so hovering that padding matches.
+- A text `kuiFieldAffix` (`.kui-field-affix`) used a different `line-height` multiplier
+  (`1.3`) than the grouped `.kui-input` beside it (`1`) at the same font size, rendering a
+  ~1px-shorter box and a slightly misaligned text baseline between them; both now use `1`.
+
+### Added
+
+- `kuiFieldAffix` now auto-detects its look from the host element instead of requiring a separate
+  directive per case: any `<button>` gets action styling, a `<kui-icon>` (or `<span kuiLoader>`)
+  host gets icon styling with `aria-hidden`/`role`/`aria-live` left to that host to manage, and
+  everything else gets muted text styling. `kuiFieldAffixIcon` and `kuiFieldAction` still work
+  (now deprecated, planned for removal in the next major version) for markup written before this
+  auto-detection existed.
+- `kui-icon` now projects light-DOM content synchronously when `name`/`source`/`src` are all
+  unset (`<kui-icon kuiFieldAffix><svg>...</svg></kui-icon>`) -- a synchronous escape hatch for a
+  one-off `<svg>` that isn't worth registering in a shared icon set via `provideKuiIcons`.
+
 ## [1.4.1] - 2026-08-03
 
 ### Fixed

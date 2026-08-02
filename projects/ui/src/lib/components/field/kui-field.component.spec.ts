@@ -333,6 +333,22 @@ describe('KuiFieldComponent', () => {
     expect(control.classList.contains('kui-input-group')).toBe(true);
   });
 
+  it('focuses the native control when clicking input-group chrome padding, not just the control itself', async () => {
+    await TestBed.configureTestingModule({ imports: [AffixContentHost] }).compileComponents();
+    const fixture = TestBed.createComponent(AffixContentHost);
+    fixture.detectChanges();
+
+    const control = fixture.nativeElement.querySelector('.kui-field__control') as HTMLElement;
+    const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+
+    expect(document.activeElement).not.toBe(input);
+    // The control slot itself, not the (shorter) native input or the affix text -- the gap that
+    // used to swallow clicks silently instead of focusing the input.
+    control.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(document.activeElement).toBe(input);
+  });
+
   it('does not add input-group chrome when no affix content is projected', async () => {
     await TestBed.configureTestingModule({ imports: [NoAffixContentHost] }).compileComponents();
     const fixture = TestBed.createComponent(NoAffixContentHost);

@@ -33,6 +33,18 @@ class UrlIconHost {}
 
 @Component({
   imports: [KuiIconComponent],
+  template: `
+    <kui-icon>
+      <svg viewBox="0 0 16 16" fill="none">
+        <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" />
+      </svg>
+    </kui-icon>
+  `,
+})
+class ProjectedContentIconHost {}
+
+@Component({
+  imports: [KuiIconComponent],
   template: '<kui-icon name="check" size="lg" />',
 })
 class PresetSizeIconHost {}
@@ -77,6 +89,15 @@ describe('KuiIconComponent', () => {
 
     expect(image.getAttribute('src')).toBe('/assets/icon.svg');
     expect(image.getAttribute('alt')).toBe('');
+  });
+
+  it('projects light-DOM content synchronously when name/source/src are all unset', () => {
+    const fixture = createFixture(ProjectedContentIconHost);
+
+    const icon = fixture.nativeElement.querySelector('kui-icon') as HTMLElement;
+
+    expect(icon.getAttribute('aria-hidden')).toBe('true');
+    expect(icon.querySelector('svg path')?.getAttribute('d')).toContain('M4 4');
   });
 
   it('resolves icon names through an async resolver function', async () => {

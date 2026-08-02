@@ -16,7 +16,12 @@ const KUI_ICON_SIZE_PRESETS: Record<KuiIconSizePreset, string> = {
   '2xl': 'var(--kui-icon-size-2xl, 2.5rem)',
 };
 
-/** Renders a registered inline SVG icon, direct inline SVG source, or external image URL. */
+/**
+ * Renders a registered inline SVG icon, direct inline SVG source, or external image URL. When
+ * `name`/`source`/`src` are all unset, projects light-DOM children instead (e.g.
+ * `<kui-icon kuiFieldAffix><svg>...</svg></kui-icon>`) — a synchronous escape hatch for a raw,
+ * one-off SVG that isn't worth registering in a shared icon set via `provideKuiIcons`.
+ */
 @Component({
   selector: 'kui-icon',
   templateUrl: './kui-icon.component.html',

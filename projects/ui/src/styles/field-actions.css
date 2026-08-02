@@ -8,7 +8,13 @@
     color: var(--kui-field-affix-text-muted);
     font: inherit;
     font-size: var(--kui-text-sm-size);
-    line-height: 1.3;
+    /*
+     * Matches `.kui-input-group > .kui-input`'s line-height (input.css) so a text affix's line
+     * box sits at the same height as the sibling <input> inside the shared group border -- a
+     * different multiplier at the same font-size (this used to be 1.3) rounds to a different
+     * pixel height than the input's and shows up as a ~1px vertical wobble between them.
+     */
+    line-height: 1;
     text-overflow: ellipsis;
     user-select: none;
     white-space: nowrap;

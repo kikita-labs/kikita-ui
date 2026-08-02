@@ -79,10 +79,17 @@ is not rendered unless it should be part of the field semantics.
 
 ## Affixes And Field Actions
 
-Drop `kuiFieldAffix`, `kuiFieldAffixIcon`, or `kuiFieldAction` directly inside `kui-field` for
-prefix text, suffix text, leading icons, trailing actions, or clear buttons. `kui-field` detects
-them and switches its control slot to shared `.kui-input-group` chrome (flex layout, one shared
-border) automatically — no wrapper `<div>` needed:
+Drop `kuiFieldAffix` directly inside `kui-field` for prefix text, suffix text, leading icons, or
+trailing actions. `kui-field` detects it and switches its control slot to shared `.kui-input-group`
+chrome (flex layout, one shared border) automatically — no wrapper `<div>` needed. One directive,
+three looks, auto-detected from the host element:
+
+- `<button kuiFieldAffix>` (any `<button>`) — action styling (compact, borderless, its own
+  hover/active/focus-visible states). Do not also add `kuiButton`/`kuiIconButton` — their own
+  chrome fights this compact affix chrome.
+- `<kui-icon kuiFieldAffix>` — icon styling (fixed square slot). `aria-hidden` is delegated to
+  `kui-icon` itself, so a labeled icon still announces.
+- anything else — muted text styling (`emphasis` input for full-color text instead of muted).
 
 ```html
 <kui-field label="Project URL" hint="The prefix and suffix are visual field chrome.">
@@ -90,10 +97,33 @@ border) automatically — no wrapper `<div>` needed:
   <input kuiInput aria-label="Project slug" />
   <span kuiFieldAffix>.dev</span>
 </kui-field>
+
+<kui-field label="Search">
+  <kui-icon kuiFieldAffix name="search" />
+  <input kuiInput aria-label="Search query" />
+  <button kuiFieldAffix type="button" aria-label="Clear search">
+    <kui-icon name="x" />
+  </button>
+</kui-field>
 ```
 
-Use `kuiFieldAction` for inline field buttons such as clear, password visibility, dropdown
-chevron, or custom trailing actions:
+`kui-icon` also accepts a raw `<svg>` as projected content when `name`/`source`/`src` are all
+unset — a synchronous escape hatch for a one-off icon that isn't worth registering via
+`provideKuiIcons`:
+
+```html
+<kui-icon kuiFieldAffix>
+  <svg viewBox="0 0 24 24">...</svg>
+</kui-icon>
+```
+
+A `<span kuiLoader kuiFieldAffix>` also auto-detects as icon styling (a spinner is icon-shaped),
+but keeps its own `role="status"`/`aria-live`/`aria-label` — `kuiFieldAffix` never touches those.
+
+`kuiFieldAffixIcon` (decorative icon that isn't `kui-icon`, e.g. a raw `<svg>` with no aria
+handling of its own) and `kuiFieldAction` (explicit alias for the button case) still work as
+explicit overrides for markup written before this auto-detection existed, or for content the
+auto-detection can't see through — prefer `kuiFieldAffix` for new code:
 
 ```html
 <kui-field label="Search">
@@ -103,17 +133,15 @@ chevron, or custom trailing actions:
 </kui-field>
 ```
 
-`kuiFieldAffix`, `kuiFieldAffixIcon`, and `kuiFieldAction` are directives, not bare CSS classes —
-import `KuiFieldAffixDirective`, `KuiFieldAffixIconDirective`, and `KuiFieldActionDirective` from
-`@kikita-labs/ui`. `kuiFieldAffixIcon` sets `aria-hidden="true"` for you (it's always decorative).
-`kuiFieldAffix` accepts an `emphasis` input (`'default' | 'strong'`) for full-color text instead of
-the muted default.
+These are directives, not bare CSS classes — import `KuiFieldAffixDirective`,
+`KuiFieldAffixIconDirective`, and `KuiFieldActionDirective` from `@kikita-labs/ui`.
 
-For field chrome the three directives don't cover (spinners, custom markup), build
-`.kui-input-group` by hand and import `KuiInputGroupDirective`. The directive delegates clicks on
-non-interactive field chrome — prefix text, suffix text, decorative icons, empty group space — to
-the first enabled native control inside the group. Interactive descendants such as clear buttons,
-chevrons, visibility toggles, links, and the control itself keep their own behavior:
+For field chrome none of this covers (spinners built from a bare `<span>` with no `kuiLoader`,
+other custom markup), build `.kui-input-group` by hand and import `KuiInputGroupDirective`. The
+directive delegates clicks on non-interactive field chrome — prefix text, suffix text, decorative
+icons, empty group space — to the first enabled native control inside the group. Interactive
+descendants such as clear buttons, chevrons, visibility toggles, links, and the control itself
+keep their own behavior:
 
 ```html
 <kui-field>

@@ -21,6 +21,10 @@ import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KUI_OPTION_CONTEXT } from '../dropdown/kui-option-context.token';
 import {
+  KUI_INPUT_GROUP_CONTROL_SELECTOR,
+  KUI_INPUT_GROUP_INTERACTIVE_SELECTOR,
+} from '../input/kui-input-group.directive';
+import {
   KuiFieldActionDirective,
   KuiFieldAffixDirective,
   KuiFieldAffixIconDirective,
@@ -229,11 +233,27 @@ export class KuiFieldComponent implements KuiOptionContext {
   }
 
   protected handleClick(event: MouseEvent): void {
-    if (this._selectDisabled()) return;
-    const target = event.target as Node | null;
+    const target = event.target as HTMLElement | null;
     const control = this.controlSlot()?.nativeElement;
     if (!target || !control?.contains(target)) return;
-    this.dropdown()?.toggle();
+
+    // `.kui-input-group` chrome here comes from `[class.kui-input-group]` (see
+    // `hasInputGroupChrome`), a property binding -- `KuiInputGroupDirective`'s own
+    // `.kui-input-group` selector only matches a *static* class string, so it never attaches to
+    // this element. Re-implement its click-to-focus delegation here instead of relying on it,
+    // otherwise clicking the group's padding (the gap between its 40px border and the shorter
+    // native control) does nothing.
+    if (this.hasInputGroupChrome() && !target.closest(KUI_INPUT_GROUP_INTERACTIVE_SELECTOR)) {
+      control
+        .querySelector<
+          HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+        >(KUI_INPUT_GROUP_CONTROL_SELECTOR)
+        ?.focus();
+    }
+
+    if (!this._selectDisabled()) {
+      this.dropdown()?.toggle();
+    }
   }
 
   /**

@@ -2,4 +2,6 @@
   <span class="kui-icon__svg" [innerHTML]="svg"></span>
 } @else if (imageSource(); as image) {
   <img class="kui-icon__image" [src]="image" alt="" />
+} @else {
+  <span class="kui-icon__projected"><ng-content /></span>
 }

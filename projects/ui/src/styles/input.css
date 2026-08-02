@@ -105,6 +105,15 @@
     border-radius: var(--kui-input-radius, 8px);
     background-color: var(--kui-input-bg, Field);
     color: var(--kui-input-color, FieldText);
+    /*
+     * The visible border is 40px tall but the native control inside is only its own text-line
+     * height, vertically centered -- without this, hovering that padding gap (or a non-interactive
+     * decorative icon, which has pointer-events: none and lets the hover fall through to here)
+     * shows the default arrow cursor instead of hinting that a click focuses the text control.
+     * `.kui-field-action` sets its own `cursor: pointer` and wins the cascade for the interactive
+     * case.
+     */
+    cursor: text;
     transition:
       background-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
       border-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
