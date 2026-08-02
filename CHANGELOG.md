@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-08-03
+
 ### Fixed
 
 - `kui-field` now detects projected `kuiFieldAffix`, `kuiFieldAffixIcon`, or `kuiFieldAction`
@@ -624,7 +626,9 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.3.1...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.1...HEAD
+[1.4.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.0...v1.4.1
+[1.4.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.3.1...v1.4.0
 [1.3.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.1.0...v1.2.0
