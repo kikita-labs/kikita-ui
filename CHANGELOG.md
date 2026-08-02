@@ -12,6 +12,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 - `.kui-dialog-title` no longer inherits the browser's default `<h2>` block margins, which pushed
   the title off from the header's top/bottom padding.
+- `kuiCard`'s `xs`/`sm`/`lg` sizes now derive their padding from the `--kui-space-*` spacing scale
+  (`--kui-space-2`/`--kui-space-3`/`--kui-space-6`) instead of hardcoded pixel values, matching the
+  already-tokenized `md` default and letting a themed spacing scale override them consistently.
 
 ## [1.4.0] - 2026-07-29
 
