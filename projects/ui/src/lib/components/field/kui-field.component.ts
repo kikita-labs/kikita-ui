@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   contentChild,
+  contentChildren,
   effect,
   ElementRef,
   inject,
@@ -19,6 +20,11 @@ import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KUI_OPTION_CONTEXT } from '../dropdown/kui-option-context.token';
+import {
+  KuiFieldActionDirective,
+  KuiFieldAffixDirective,
+  KuiFieldAffixIconDirective,
+} from './kui-field-affix.directive';
 import {
   KuiErrorDirective,
   KuiHintDirective,
@@ -143,6 +149,29 @@ export class KuiFieldComponent implements KuiOptionContext {
   protected readonly dropdown = contentChild(KuiDropdownComponent);
   protected readonly dropdownOpen = computed(() => this.dropdown()?.isOpen() ?? false);
   protected readonly projectedLabel = contentChild(KuiLabelDirective);
+
+  private readonly projectedAffixes = contentChildren(KuiFieldAffixDirective, {
+    descendants: true,
+  });
+  private readonly projectedAffixIcons = contentChildren(KuiFieldAffixIconDirective, {
+    descendants: true,
+  });
+  private readonly projectedFieldActions = contentChildren(KuiFieldActionDirective, {
+    descendants: true,
+  });
+
+  /**
+   * Whether the control slot should render as `.kui-input-group` chrome (shared border, flex
+   * layout) instead of letting a single `.kui-input` draw its own border. Detected from projected
+   * `kuiFieldAffix` / `kuiFieldAffixIcon` / `kuiFieldAction` content so callers never hand-wire the
+   * wrapper themselves.
+   */
+  protected readonly hasInputGroupChrome = computed(
+    () =>
+      this.projectedAffixes().length > 0 ||
+      this.projectedAffixIcons().length > 0 ||
+      this.projectedFieldActions().length > 0,
+  );
 
   private readonly signalFormField = contentChild<FormField<unknown>>(FormField);
   private readonly projectedHint = contentChild(KuiHintDirective);

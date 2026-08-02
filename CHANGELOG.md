@@ -10,6 +10,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- `kui-field` now detects projected `kuiFieldAffix`, `kuiFieldAffixIcon`, or `kuiFieldAction`
+  content and switches its control slot to shared `.kui-input-group` chrome (flex layout, one
+  shared border) automatically. Previously callers had to hand-wrap that content in a
+  `<div class="kui-input-group">` themselves, and forgetting it silently broke the layout (the
+  affix rendered on its own line above the input instead of inside its border). The manual
+  `.kui-input-group` class still works for custom field chrome the three directives don't cover
+  (e.g. a loading spinner).
 - `.kui-dialog-title` no longer inherits the browser's default `<h2>` block margins, which pushed
   the title off from the header's top/bottom padding.
 - `kuiCard`'s `xs`/`sm`/`lg` sizes now derive their padding from the `--kui-space-*` spacing scale

@@ -25,29 +25,30 @@
 >
   <div class="field-grid field-grid--two">
     <kui-field label="Project URL" hint="Prefix and suffix are part of the field chrome.">
-      <div class="kui-input-group">
-        <span kuiFieldAffix>https://</span>
-        <input kuiInput value="kikita" aria-label="Project slug" />
-        <span kuiFieldAffix>.dev</span>
-      </div>
+      <span kuiFieldAffix>https://</span>
+      <input kuiInput value="kikita" aria-label="Project slug" />
+      <span kuiFieldAffix>.dev</span>
     </kui-field>
 
     <kui-field label="Search" hint="Clear action uses the shared field action style.">
-      <div class="kui-input-group">
-        <span kuiFieldAffixIcon>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.3-4.3" />
-          </svg>
-        </span>
-        <input kuiInput value="tokens" aria-label="Search query" />
-        <button kuiFieldAction type="button" aria-label="Clear search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 6 6 18" />
-            <path d="m6 6 12 12" />
-          </svg>
-        </button>
-      </div>
+      <span kuiFieldAffixIcon>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
+        </svg>
+      </span>
+      <input kuiInput value="tokens" aria-label="Search query" />
+      <button kuiFieldAction type="button" aria-label="Clear search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </svg>
+      </button>
+    </kui-field>
+
+    <kui-field [label]="'Search members'" hint="kui-icon affix wired to a signal-forms field.">
+      <kui-icon kuiFieldAffixIcon name="search" />
+      <input kuiInput type="text" placeholder="Search members" [formField]="membersForm.query" />
     </kui-field>
 
     <kui-field>
@@ -70,10 +71,8 @@
 
     <kui-field required>
       <label kuiLabel>Domain</label>
-      <div class="kui-input-group" data-kui-invalid>
-        <span class="kui-field-affix">https://</span>
-        <input kuiInput value="example" aria-label="Domain" />
-      </div>
+      <span kuiFieldAffix>https://</span>
+      <input kuiInput value="example" aria-label="Domain" />
       <p kuiError class="kui-field__message kui-field__message--error">
         <span class="kui-field__message-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

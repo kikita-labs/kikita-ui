@@ -14,7 +14,7 @@
   </div>
 }
 
-<div class="kui-field__control" #controlSlot>
+<div class="kui-field__control" [class.kui-input-group]="hasInputGroupChrome()" #controlSlot>
   <ng-content select=":not([kuiLabel]):not([kuiHint]):not([kuiError])" />
 </div>
 

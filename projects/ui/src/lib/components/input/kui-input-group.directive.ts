@@ -17,7 +17,12 @@ const CONTROL_SELECTOR = [
   'select:not(:disabled)',
 ].join(',');
 
-/** Adds focus delegation behavior to `.kui-input-group` field chrome containers. */
+/**
+ * Adds focus delegation behavior to `.kui-input-group` field chrome containers. `kui-field`
+ * applies this class to its control slot automatically when it detects projected
+ * `kuiFieldAffix` / `kuiFieldAffixIcon` / `kuiFieldAction` content; only build this markup by
+ * hand outside `kui-field` or for custom affix content the auto-detection doesn't cover.
+ */
 @Directive({
   selector: '.kui-input-group',
 })

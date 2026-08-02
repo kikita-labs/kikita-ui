@@ -9,6 +9,7 @@ import { provideKikitaUi } from '../../providers';
 import { kuiProvideFieldOptions } from '../../tokens';
 import { KuiInputDirective } from '../input';
 import { KuiFieldComponent } from './kui-field.component';
+import { KuiFieldActionDirective, KuiFieldAffixDirective } from './kui-field-affix.directive';
 import {
   KuiErrorDirective,
   KuiHintDirective,
@@ -143,6 +144,38 @@ class ProjectedFieldContentHost {}
 })
 class HiddenProjectedErrorHost {}
 
+@Component({
+  imports: [KuiFieldAffixDirective, KuiFieldComponent, KuiInputDirective],
+  template: `
+    <kui-field label="Project URL">
+      <span kuiFieldAffix>https://</span>
+      <input kuiInput />
+    </kui-field>
+  `,
+})
+class AffixContentHost {}
+
+@Component({
+  imports: [KuiFieldActionDirective, KuiFieldComponent, KuiInputDirective],
+  template: `
+    <kui-field label="Search">
+      <input kuiInput />
+      <button kuiFieldAction type="button" aria-label="Clear"></button>
+    </kui-field>
+  `,
+})
+class FieldActionContentHost {}
+
+@Component({
+  imports: [KuiFieldComponent, KuiInputDirective],
+  template: `
+    <kui-field label="No affixes">
+      <input kuiInput />
+    </kui-field>
+  `,
+})
+class NoAffixContentHost {}
+
 function requiredMarker(fixture: ComponentFixture<unknown>): HTMLElement | null {
   return fixture.nativeElement.querySelector('.kui-field__required');
 }
@@ -276,5 +309,37 @@ describe('KuiFieldComponent', () => {
     expect(input.getAttribute('aria-describedby')).toContain(hint.id);
     expect(input.getAttribute('aria-describedby')).not.toContain('error');
     expect(field.hasAttribute('data-kui-invalid')).toBe(true);
+  });
+
+  it('auto-wraps the control slot in input-group chrome when a kuiFieldAffix is projected', async () => {
+    await TestBed.configureTestingModule({ imports: [AffixContentHost] }).compileComponents();
+    const fixture = TestBed.createComponent(AffixContentHost);
+    fixture.detectChanges();
+
+    const control = fixture.nativeElement.querySelector('.kui-field__control') as HTMLElement;
+
+    expect(control.classList.contains('kui-input-group')).toBe(true);
+  });
+
+  it('auto-wraps the control slot in input-group chrome when a kuiFieldAction is projected', async () => {
+    await TestBed.configureTestingModule({
+      imports: [FieldActionContentHost],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(FieldActionContentHost);
+    fixture.detectChanges();
+
+    const control = fixture.nativeElement.querySelector('.kui-field__control') as HTMLElement;
+
+    expect(control.classList.contains('kui-input-group')).toBe(true);
+  });
+
+  it('does not add input-group chrome when no affix content is projected', async () => {
+    await TestBed.configureTestingModule({ imports: [NoAffixContentHost] }).compileComponents();
+    const fixture = TestBed.createComponent(NoAffixContentHost);
+    fixture.detectChanges();
+
+    const control = fixture.nativeElement.querySelector('.kui-field__control') as HTMLElement;
+
+    expect(control.classList.contains('kui-input-group')).toBe(false);
   });
 });

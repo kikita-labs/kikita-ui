@@ -4,16 +4,18 @@ import { Directive, input } from '@angular/core';
 export type KuiFieldAffixEmphasis = 'default' | 'strong';
 
 /**
- * Applies Kikita UI field-affix text styling to a prefix/suffix element placed beside a
- * control inside `.kui-input-group` (e.g. `https://` / `.dev` around a domain input).
+ * Applies Kikita UI field-affix text styling to a prefix/suffix element placed beside a control
+ * inside `kui-field` (e.g. `https://` / `.dev` around a domain input). `kui-field` detects this
+ * directive and switches its control slot to shared `.kui-input-group` chrome automatically — no
+ * wrapper markup needed.
  *
  * @example
  * ```html
- * <div class="kui-input-group">
+ * <kui-field label="Project URL">
  *   <span kuiFieldAffix>https://</span>
  *   <input kuiInput value="kikita" />
  *   <span kuiFieldAffix>.dev</span>
- * </div>
+ * </kui-field>
  * ```
  */
 @Directive({
@@ -29,15 +31,16 @@ export class KuiFieldAffixDirective {
 }
 
 /**
- * Applies Kikita UI field-affix styling to a decorative prefix/suffix icon inside
- * `.kui-input-group` (e.g. a search icon before the input).
+ * Applies Kikita UI field-affix styling to a decorative prefix/suffix icon inside `kui-field`
+ * (e.g. a search icon before the input). `kui-field` detects this directive and switches its
+ * control slot to shared `.kui-input-group` chrome automatically — no wrapper markup needed.
  *
  * @example
  * ```html
- * <div class="kui-input-group">
+ * <kui-field label="Search">
  *   <span kuiFieldAffixIcon><svg>...</svg></span>
  *   <input kuiInput placeholder="Search" />
- * </div>
+ * </kui-field>
  * ```
  */
 @Directive({
@@ -51,14 +54,15 @@ export class KuiFieldAffixIconDirective {}
 
 /**
  * Applies Kikita UI field-action button styling to a custom prefix/suffix action inside
- * `.kui-input-group` (e.g. a clear button).
+ * `kui-field` (e.g. a clear button). `kui-field` detects this directive and switches its control
+ * slot to shared `.kui-input-group` chrome automatically — no wrapper markup needed.
  *
  * @example
  * ```html
- * <div class="kui-input-group">
+ * <kui-field>
  *   <input kuiInput [(value)]="query" />
  *   <button kuiFieldAction type="button" aria-label="Clear"><svg>...</svg></button>
- * </div>
+ * </kui-field>
  * ```
  */
 @Directive({
