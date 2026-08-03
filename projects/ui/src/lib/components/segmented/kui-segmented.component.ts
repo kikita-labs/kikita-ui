@@ -4,12 +4,19 @@ import {
   Component,
   computed,
   contentChildren,
+  effect,
   inject,
   input,
   model,
+  output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import type {
+  FormValueControl,
+  ValidationError,
+  WithOptionalFieldTree,
+} from '@angular/forms/signals';
 
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
@@ -21,9 +28,12 @@ import { KUI_SEGMENTED_CONTEXT } from './kui-segmented-context.token';
  * Segmented control for selecting one option from a compact horizontal set.
  * Projects `[kuiSegment]` buttons inside a `role="radiogroup"` container.
  *
+ * Implements {@link FormValueControl} for Signal Forms integration via `[formField]` on
+ * `kui-segmented` itself. For standalone use, bind `[(value)]` directly.
+ *
  * @example
  * ```html
- * <kui-segmented [(selected)]="view" aria-label="View mode">
+ * <kui-segmented [(value)]="view" aria-label="View mode">
  *   <button kuiSegment value="list">List</button>
  *   <button kuiSegment value="grid">Grid</button>
  * </kui-segmented>
@@ -36,22 +46,39 @@ import { KUI_SEGMENTED_CONTEXT } from './kui-segmented-context.token';
     class: 'kui-segmented',
     role: 'radiogroup',
     '[attr.data-kui-size]': 'effectiveSize()',
+    '[attr.aria-disabled]': 'disabled() ? "true" : null',
+    '[attr.aria-invalid]': 'invalid() ? "true" : null',
     '(keydown)': 'onKeydown($event)',
   },
-  providers: [
-    {
-      provide: KUI_SEGMENTED_CONTEXT,
-      useFactory: () => inject(KuiSegmentedComponent),
-    },
-  ],
+  providers: [{ provide: KUI_SEGMENTED_CONTEXT, useFactory: () => inject(KuiSegmentedComponent) }],
   encapsulation: ViewEncapsulation.None,
 })
-export class KuiSegmentedComponent implements KuiSegmentedContext {
-  /** Currently selected segment value. */
+export class KuiSegmentedComponent implements KuiSegmentedContext, FormValueControl<string> {
+  /** Currently selected segment value. Bound by `[formField]` or `[(value)]`. */
+  readonly value = model<string>('');
+
+  /**
+   * Currently selected segment value.
+   *
+   * @deprecated Use `value` instead -- required to satisfy `FormValueControl` for `[formField]`
+   * integration. Kept in sync with `value` for markup written before this existed; planned for
+   * removal in the next major version.
+   */
   readonly selected = model<string>('');
 
   /** Control size. Defaults to md. */
   readonly size = input<KuiSize | undefined>();
+
+  /** Whether every segment is disabled. Set by `[formField]` or `[disabled]` directly. */
+  readonly disabled = input(false);
+  /** Whether the control has validation errors. Set by `[formField]`. */
+  readonly invalid = input(false);
+  /** Current validation errors. Set by `[formField]`. */
+  readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
+  /** Whether the control has been touched. Set by `[formField]`. */
+  readonly touched = input(false);
+  /** Emitted when a segment is selected; marks the control as touched in the form system. */
+  readonly touch = output<void>();
 
   @ViewChild('thumb', { static: true })
   private readonly thumbRef!: ElementRef<HTMLSpanElement>;
@@ -62,12 +89,26 @@ export class KuiSegmentedComponent implements KuiSegmentedContext {
 
   protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
+  readonly groupDisabled = computed(() => this.disabled());
+
   constructor() {
     afterEveryRender(() => this.positionThumb());
+
+    effect(() => {
+      const v = this.value();
+      if (this.selected() !== v) this.selected.set(v);
+    });
+
+    effect(() => {
+      const s = this.selected();
+      if (this.value() !== s) this.value.set(s);
+    });
   }
 
   select(value: string): void {
-    this.selected.set(value);
+    if (this.disabled()) return;
+    this.value.set(value);
+    this.touch.emit();
   }
 
   private positionThumb(): void {
@@ -75,7 +116,7 @@ export class KuiSegmentedComponent implements KuiSegmentedContext {
     if (!thumb) return;
 
     const items = this.segmentItems().filter((item) => !item.isDisabled());
-    const item = items.find((s) => s.value() === this.selected());
+    const item = items.find((s) => s.value() === this.value());
 
     if (!item) {
       thumb.style.opacity = '0';
@@ -105,7 +146,7 @@ export class KuiSegmentedComponent implements KuiSegmentedContext {
     const items = this.segmentItems();
     if (!items.length) return;
 
-    const idx = items.findIndex((s) => s.value() === this.selected());
+    const idx = items.findIndex((s) => s.value() === this.value());
 
     switch (event.key) {
       case 'ArrowRight':

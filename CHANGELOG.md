@@ -8,6 +8,18 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Added
+
+- `kui-segmented` implements `FormValueControl<string>` and now takes `[formField]` directly for
+  Signal Forms integration, matching `kui-select`/`kui-combobox`. Added `disabled`, `invalid`,
+  `errors`, `touched` inputs and a `touch` output driven by `[formField]`.
+
+### Changed
+
+- `kui-segmented`'s `selected` model is deprecated in favor of `value` (the name
+  `FormValueControl` requires); `selected`/`selectedChange` keep working, kept in sync with
+  `value`, and are planned for removal in the next major version.
+
 ## [1.4.4] - 2026-08-03
 
 ### Changed

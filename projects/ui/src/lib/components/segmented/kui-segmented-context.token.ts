@@ -4,6 +4,7 @@ import { InjectionToken } from '@angular/core';
 /** Shared context injected by KuiSegmentedComponent into child segment directives. */
 export interface KuiSegmentedContext {
   readonly selected: Signal<string>;
+  readonly groupDisabled: Signal<boolean>;
   select(value: string): void;
 }
 

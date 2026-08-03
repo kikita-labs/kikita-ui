@@ -12,7 +12,7 @@ import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
 ## Usage
 
 ```html
-<kui-segmented [(selected)]="view">
+<kui-segmented [(value)]="view">
   <button kuiSegment value="list">List</button>
   <button kuiSegment value="grid">Grid</button>
   <button kuiSegment value="calendar">Calendar</button>
@@ -22,13 +22,31 @@ import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
 ### Sizes
 
 ```html
-<kui-segmented size="sm" [(selected)]="view">...</kui-segmented>
+<kui-segmented size="sm" [(value)]="view">...</kui-segmented>
+```
+
+### Signal Forms
+
+`kui-segmented` implements `FormValueControl<string>`, so it takes `[formField]` directly
+(it is not a native element, so `[formField]` goes on `kui-segmented` itself, not on `kui-field`):
+
+```html
+<kui-field label="View">
+  <kui-segmented [formField]="myForm.view">
+    <button kuiSegment value="list">List</button>
+    <button kuiSegment value="grid">Grid</button>
+  </kui-segmented>
+</kui-field>
 ```
 
 ## Inputs - `kui-segmented`
 
-- `selected`: two-way model - value of the active segment
+- `value`: two-way model - value of the active segment. Bound by `[formField]` or `[(value)]`.
+- `selected`: **deprecated**, use `value` instead. Kept in sync with `value` for markup written
+  before Signal Forms support existed; planned for removal in the next major version.
 - `size`: `xs | sm | md | lg` (default: `md`)
+- `disabled`: `boolean` - disables every segment. Set by `[formField]` or directly.
+- `invalid`, `errors`, `touched`: set by `[formField]`.
 
 ## Inputs - `[kuiSegment]`
 
