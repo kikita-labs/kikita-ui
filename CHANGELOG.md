@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.5.1] - 2026-08-04
+
 ### Fixed
 
 - `kuiButton` always wrapped projected content in a `.kui-button__label` span, even with no text
@@ -15,6 +17,18 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   conditionally hidden). `.kui-button__content`'s `gap: inherit` still applied between the icon and
   that empty label, so the icon sat off-center. `.kui-button__label:empty { display: none }` drops
   it from the flex layout so the gap isn't counted.
+
+- `kui-segmented`'s `value`/`selected` two-way sync (added in 1.5.0 for the `FormValueControl`
+  migration) ran two symmetric `effect()`s that each treated any mismatch between the two models as
+  a change to propagate. Model inputs are only assigned by Angular after the constructor returns, so
+  on first render one model still held its `''` default while the other already carried the
+  consumer's real initial value -- whichever effect read that mismatch first blindly overwrote the
+  real value with the other model's unset default. This broke every consumer still using the
+  deprecated one-way `[selected]="x()" (selectedChange)="..."` pattern (two-way `[(selected)]`
+  happened to mask it, since Angular rewrites the bound expression every tick): the initial selection
+  -- and anything reacting to it, like a persisted theme toggle -- silently reset back to unselected
+  on load. Each sync effect now seeds the still-default model from the other's real value only on
+  its own first run, instead of both effects fighting over which value wins.
 
 ## [1.5.0] - 2026-08-04
 
@@ -707,7 +721,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.1...HEAD
+[1.5.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.4...v1.5.0
 [1.4.4]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.3...v1.4.4
 [1.4.3]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.2...v1.4.3

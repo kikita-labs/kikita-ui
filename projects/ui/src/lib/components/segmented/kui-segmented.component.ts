@@ -86,6 +86,8 @@ export class KuiSegmentedComponent implements KuiSegmentedContext, FormValueCont
   private readonly segmentItems = contentChildren(KuiSegmentDirective);
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private firstRender = true;
+  private valueEffectSeeded = false;
+  private selectedEffectSeeded = false;
 
   protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
@@ -94,13 +96,35 @@ export class KuiSegmentedComponent implements KuiSegmentedContext, FormValueCont
   constructor() {
     afterEveryRender(() => this.positionThumb());
 
+    /**
+     * Legacy markup binds only `[selected]`; new markup binds only `[(value)]`/`[formField]`. Model
+     * inputs aren't applied until after the constructor runs, so their real initial values are only
+     * observable once these effects first execute -- seed whichever model is still at its `''`
+     * default from the other's real initial value on that first run, before falling through to the
+     * ordinary bidirectional sync below. Otherwise the two effects would each see a real value on
+     * one side and the unset default on the other and clobber it back to `''`.
+     */
     effect(() => {
       const v = this.value();
+
+      if (!this.valueEffectSeeded) {
+        this.valueEffectSeeded = true;
+        if (!v && this.selected()) this.value.set(this.selected());
+        return;
+      }
+
       if (this.selected() !== v) this.selected.set(v);
     });
 
     effect(() => {
       const s = this.selected();
+
+      if (!this.selectedEffectSeeded) {
+        this.selectedEffectSeeded = true;
+        if (!s && this.value()) this.selected.set(this.value());
+        return;
+      }
+
       if (this.value() !== s) this.value.set(s);
     });
   }

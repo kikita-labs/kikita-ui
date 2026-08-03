@@ -35,6 +35,23 @@ class DeprecatedSelectedHost {
 }
 
 @Component({
+  imports: [KuiSegmentedComponent, KuiSegmentDirective],
+  template: `
+    <kui-segmented
+      [selected]="selected()"
+      (selectedChange)="selected.set($event)"
+      aria-label="View mode"
+    >
+      <button kuiSegment value="list">List</button>
+      <button kuiSegment value="grid">Grid</button>
+    </kui-segmented>
+  `,
+})
+class SplitBindingSelectedHost {
+  readonly selected = signal('grid');
+}
+
+@Component({
   imports: [FormField, KuiFieldComponent, KuiSegmentedComponent, KuiSegmentDirective],
   template: `
     <kui-field label="View">
@@ -128,6 +145,19 @@ describe('KuiSegmentedComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.selected()).toBe('grid');
+  });
+
+  it('honors initial [selected] value with split property + event binding (no banana-in-box)', () => {
+    TestBed.configureTestingModule({ imports: [SplitBindingSelectedHost] });
+    const fixture = TestBed.createComponent(SplitBindingSelectedHost);
+    fixture.detectChanges();
+
+    const items = fixture.nativeElement.querySelectorAll(
+      '[role="radio"]',
+    ) as NodeListOf<HTMLElement>;
+
+    expect(items[0].getAttribute('aria-checked')).toBe('false');
+    expect(items[1].getAttribute('aria-checked')).toBe('true');
   });
 
   it('binds to Signal Forms via [formField]', () => {
