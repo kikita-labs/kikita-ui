@@ -68,6 +68,10 @@
     white-space: inherit;
   }
 
+  .kui-button__label:empty {
+    display: none;
+  }
+
   .kui-button[data-kui-wrap] .kui-button__content {
     flex-wrap: wrap;
   }

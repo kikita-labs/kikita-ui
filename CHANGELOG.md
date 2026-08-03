@@ -8,6 +8,14 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Fixed
+
+- `kuiButton` always wrapped projected content in a `.kui-button__label` span, even with no text
+  (e.g. an icon-only `kuiButton` used instead of `kuiIconButton`, or a `kuiButton` whose label is
+  conditionally hidden). `.kui-button__content`'s `gap: inherit` still applied between the icon and
+  that empty label, so the icon sat off-center. `.kui-button__label:empty { display: none }` drops
+  it from the flex layout so the gap isn't counted.
+
 ## [1.5.0] - 2026-08-04
 
 ### Added
