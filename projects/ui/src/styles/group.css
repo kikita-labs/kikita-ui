@@ -50,7 +50,42 @@
 
   .kui-group[data-kui-orientation='horizontal'] > kui-field.kui-field {
     grid-row: 1 / 4;
+    min-inline-size: 0;
     --kui-field-grid-rows: subgrid;
+  }
+
+  /*
+   * Reference input-group implementations (PrimeNG's `.p-inputtext { flex: 1 1 auto }` next to
+   * an explicit `.p-button { width: auto }`; ng-zorro's table-cell `width: 1px` addon next to a
+   * `width: 100%` input) agree: the text control grows to fill the group, buttons/addons stay
+   * content-sized -- always, with no per-instance opt-in from the consumer. `grid-auto-columns`
+   * can't express that split for implicit auto-flow columns (it sizes every generated track the
+   * same way, and an `fr` track shares leftover space by fr-count, not by content, so making a
+   * button's column `fr` too would just reflate it), and the field's position among sibling
+   * buttons varies (see the docs examples above), so there's no single static
+   * `grid-template-columns` list that fits every arrangement. `:has()` keyed on the field's
+   * `:nth-child` position pins that one column to `minmax(0, 1fr)` and leaves every column before
+   * it `auto`; columns after it (further buttons) fall through to the container's implicit
+   * `auto` sizing. Five slots covers every documented arrangement with headroom.
+   */
+  .kui-group[data-kui-orientation='horizontal']:has(> kui-field.kui-field:nth-child(1)) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .kui-group[data-kui-orientation='horizontal']:has(> kui-field.kui-field:nth-child(2)) {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .kui-group[data-kui-orientation='horizontal']:has(> kui-field.kui-field:nth-child(3)) {
+    grid-template-columns: auto auto minmax(0, 1fr);
+  }
+
+  .kui-group[data-kui-orientation='horizontal']:has(> kui-field.kui-field:nth-child(4)) {
+    grid-template-columns: auto auto auto minmax(0, 1fr);
+  }
+
+  .kui-group[data-kui-orientation='horizontal']:has(> kui-field.kui-field:nth-child(5)) {
+    grid-template-columns: auto auto auto auto minmax(0, 1fr);
   }
 
   .kui-group[data-kui-size='xs'] {

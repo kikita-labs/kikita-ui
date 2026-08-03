@@ -8,6 +8,22 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.4.4] - 2026-08-03
+
+### Changed
+
+- A horizontal `kuiGroup` containing a `kui-field` now grows the field's column to fill the
+  group's available width by default; button/icon-button columns stay content-sized. Previously
+  every column in that grid layout was `auto` (content-sized), so stretching the group itself
+  (`width: 100%`, a stretched parent grid/flex cell, etc.) left the extra space sitting empty
+  after the last child instead of going to the field -- matching the pattern used by reference
+  input-group implementations (a text control that grows next to buttons/addons that don't), it
+  now requires no per-instance CSS from the consumer. Since the field's position among sibling
+  buttons varies (leading icon buttons, trailing icon buttons, or both), the fill is expressed as
+  five `:has()` + `:nth-child()` rules covering the field at column position 1 through 5, each
+  pinning that one column to `minmax(0, 1fr)` and leaving the columns before it `auto`; a field
+  beyond the fifth child falls back to the previous `auto`-sized behavior.
+
 ## [1.4.3] - 2026-08-03
 
 ### Fixed
@@ -669,7 +685,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.3...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.4...HEAD
+[1.4.4]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.3...v1.4.4
 [1.4.3]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.2...v1.4.3
 [1.4.2]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.0...v1.4.1
