@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-08-04
+
 ### Added
 
 - `kui-segmented` implements `FormValueControl<string>` and now takes `[formField]` directly for
@@ -697,7 +699,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.4...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.4...v1.5.0
 [1.4.4]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.3...v1.4.4
 [1.4.3]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.2...v1.4.3
 [1.4.2]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.1...v1.4.2
