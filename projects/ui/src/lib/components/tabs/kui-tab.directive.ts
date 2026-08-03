@@ -49,7 +49,7 @@ export class KuiTabDirective {
   private errorDotEl: HTMLElement | null = null;
   private errorSrEl: HTMLElement | null = null;
 
-  protected readonly isSelected = computed(() => this.context.selected() === this.value());
+  protected readonly isSelected = computed(() => this.context.value() === this.value());
   protected readonly tabId = computed(() => this.context.tabId(this.value()));
   protected readonly panelId = computed(() =>
     this.context.controlsPanels() ? this.context.panelId(this.value()) : null,

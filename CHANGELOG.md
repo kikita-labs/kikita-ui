@@ -8,6 +8,31 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-08-04
+
+### Fixed
+
+- `kui-field`'s `displayedError`/`invalid` computed signals read a projected Signal Forms field's
+  `state().errors()`/`state().invalid()` directly, with no `state().touched()` gate. A `required`
+  field wired to `[formField]` rendered its error styling and message immediately on first
+  render -- before the user had focused or interacted with it at all -- instead of only after the
+  field was touched, which is the gating pattern Signal Forms itself documents
+  (`field().touched() && field().invalid()`). Both computed signals now additionally require
+  `state().touched()` before surfacing an error. This is the single place error/invalid state is
+  computed for every control that projects into `kui-field` (input, textarea, select, combobox,
+  date-picker, number-input, etc.) -- none of them duplicate this logic themselves -- so the fix
+  applies uniformly without touching any individual control.
+
+### Changed
+
+- `kui-tabs`'s `selected` model is deprecated in favor of `value`, and `kui-tree`'s `selected`
+  model is deprecated in favor of `value`, matching the `value` convention already used by
+  `kui-select`, `kui-combobox`, `kui-date-picker`, `kui-calendar`, and `kui-segmented` -- and the
+  name `FormValueControl` requires if either component ever adds `[formField]` support.
+  `selected`/`selectedChange` keep working on both, kept in sync with `value` using the same
+  seeded-effect fix applied to `kui-segmented` in 1.5.1, and are planned for removal in the next
+  major version.
+
 ## [1.5.1] - 2026-08-04
 
 ### Fixed
@@ -721,7 +746,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.1...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.4...v1.5.0
 [1.4.4]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.3...v1.4.4

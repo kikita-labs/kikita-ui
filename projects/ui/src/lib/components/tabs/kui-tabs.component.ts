@@ -7,6 +7,7 @@ import {
   computed,
   contentChildren,
   DestroyRef,
+  effect,
   inject,
   input,
   model,
@@ -35,7 +36,7 @@ let nextTabsId = 0;
  *
  * @example
  * ```html
- * <kui-tabs selected="general">
+ * <kui-tabs value="general">
  *   <button kuiTab value="general">General</button>
  *   <button kuiTab value="advanced">Advanced</button>
  *   <div kuiTabPanel value="general">General settings</div>
@@ -127,7 +128,15 @@ export class KuiTabsComponent implements KuiTabsContext {
   readonly inverted = input(false, { transform: booleanAttribute });
   /** Whether tabs should expose `aria-controls` links to projected `kuiTabPanel` elements. */
   readonly controlsPanels = input(true, { transform: booleanAttribute });
-  /** Currently selected tab value. */
+  /** Currently selected tab value. Supports two-way binding via `[(value)]`. */
+  readonly value = model<string>('');
+
+  /**
+   * Currently selected tab value.
+   *
+   * @deprecated Use `value` instead. Kept in sync with `value` for markup written before this was
+   * renamed; planned for removal in the next major version.
+   */
   readonly selected = model<string>('');
 
   private readonly tabItems = contentChildren(KuiTabDirective);
@@ -137,6 +146,8 @@ export class KuiTabsComponent implements KuiTabsContext {
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private readonly idBase = `kui-tabs-${nextTabsId++}`;
   private indicatorFirstRender = true;
+  private valueEffectSeeded = false;
+  private selectedEffectSeeded = false;
 
   protected readonly canScrollLeft = signal(false);
   protected readonly canScrollRight = signal(false);
@@ -153,10 +164,43 @@ export class KuiTabsComponent implements KuiTabsContext {
     });
 
     afterEveryRender(() => this.positionIndicator());
+
+    /**
+     * Legacy markup binds only `[selected]`; new markup binds only `[(value)]`. Model inputs
+     * aren't applied until after the constructor runs, so their real initial values are only
+     * observable once these effects first execute -- seed whichever model is still at its `''`
+     * default from the other's real initial value on that first run, before falling through to
+     * the ordinary bidirectional sync below. Otherwise the two effects would each see a real value
+     * on one side and the unset default on the other and clobber it back to `''` (see the same fix
+     * in `kui-segmented`).
+     */
+    effect(() => {
+      const v = this.value();
+
+      if (!this.valueEffectSeeded) {
+        this.valueEffectSeeded = true;
+        if (!v && this.selected()) this.value.set(this.selected());
+        return;
+      }
+
+      if (this.selected() !== v) this.selected.set(v);
+    });
+
+    effect(() => {
+      const s = this.selected();
+
+      if (!this.selectedEffectSeeded) {
+        this.selectedEffectSeeded = true;
+        if (!s && this.value()) this.selected.set(this.value());
+        return;
+      }
+
+      if (this.value() !== s) this.value.set(s);
+    });
   }
 
   select(value: string): void {
-    this.selected.set(value);
+    this.value.set(value);
   }
 
   tabId(value: string): string {
@@ -187,7 +231,7 @@ export class KuiTabsComponent implements KuiTabsContext {
       return;
     }
 
-    const item = this.tabItems().find((t) => t.value() === this.selected());
+    const item = this.tabItems().find((t) => t.value() === this.value());
     if (!item) {
       indicator.style.opacity = '0';
       return;
@@ -231,7 +275,7 @@ export class KuiTabsComponent implements KuiTabsContext {
     const tabs = this.tabItems();
     if (!tabs.length) return;
 
-    const idx = tabs.findIndex((t) => t.value() === this.selected());
+    const idx = tabs.findIndex((t) => t.value() === this.value());
     const nextKey = this.orientation() === 'vertical' ? 'ArrowDown' : 'ArrowRight';
     const prevKey = this.orientation() === 'vertical' ? 'ArrowUp' : 'ArrowLeft';
 

@@ -25,7 +25,7 @@ const NODES: KuiTreeNode[] = [
       ariaLabel="Test tree"
       [mode]="mode()"
       [data]="nodes"
-      [(selected)]="selected"
+      [(value)]="selected"
       [(checkedIds)]="checkedIds"
       [(expandedIds)]="expandedIds"
       [loadChildren]="loadChildren"
@@ -44,6 +44,31 @@ class TreeHost {
 
   readonly loadChildren = (node: KuiTreeNode): Promise<KuiTreeNode[]> =>
     this.loadChildrenImpl(node);
+}
+
+@Component({
+  imports: [KuiTreeComponent],
+  template: ` <kui-tree ariaLabel="Test tree" [data]="nodes" [(selected)]="selected" /> `,
+})
+class TreeDeprecatedSelectedHost {
+  readonly nodes = NODES;
+  readonly selected = signal<string | null>(null);
+}
+
+@Component({
+  imports: [KuiTreeComponent],
+  template: `
+    <kui-tree
+      ariaLabel="Test tree"
+      [selected]="selected()"
+      (selectedChange)="selected.set($event)"
+      [data]="nodes"
+    />
+  `,
+})
+class TreeSplitBindingSelectedHost {
+  readonly nodes = NODES;
+  readonly selected = signal<string | null>('root-b');
 }
 
 describe('KuiTreeComponent', () => {
@@ -227,5 +252,33 @@ describe('KuiTreeComponent', () => {
       fixture.detectChanges();
       expect(host.checkedIds()).toContain('child-a1');
     });
+  });
+});
+
+describe('KuiTreeComponent value/selected sync', () => {
+  it('deprecated [(selected)] still two-way binds', () => {
+    TestBed.configureTestingModule({ imports: [TreeDeprecatedSelectedHost] });
+    const fixture = TestBed.createComponent(TreeDeprecatedSelectedHost);
+    fixture.detectChanges();
+
+    const row = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+      '[data-node-id="root-b"]',
+    )!;
+    row.click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.selected()).toBe('root-b');
+  });
+
+  it('honors initial [selected] value with split property + event binding (no banana-in-box)', () => {
+    TestBed.configureTestingModule({ imports: [TreeSplitBindingSelectedHost] });
+    const fixture = TestBed.createComponent(TreeSplitBindingSelectedHost);
+    fixture.detectChanges();
+
+    const row = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+      '[data-node-id="root-b"]',
+    )!;
+
+    expect(row.getAttribute('aria-selected')).toBe('true');
   });
 });

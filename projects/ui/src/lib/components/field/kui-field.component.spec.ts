@@ -203,11 +203,27 @@ describe('KuiFieldComponent', () => {
     expect(requiredMarker(fixture)).not.toBeNull();
   });
 
-  it('renders the first Angular Signal Forms error message automatically', async () => {
+  it('does not show an Angular Signal Forms error before the field is touched', async () => {
     await TestBed.configureTestingModule({
       imports: [SignalFormsRequiredHost],
     }).compileComponents();
     const fixture = TestBed.createComponent(SignalFormsRequiredHost);
+    fixture.detectChanges();
+
+    expect(errorMessage(fixture)).toBeNull();
+    expect(fixture.nativeElement.querySelector('.kui-field').hasAttribute('data-kui-invalid')).toBe(
+      false,
+    );
+  });
+
+  it('renders the first Angular Signal Forms error message once the field is touched', async () => {
+    await TestBed.configureTestingModule({
+      imports: [SignalFormsRequiredHost],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(SignalFormsRequiredHost);
+    fixture.detectChanges();
+
+    fixture.componentInstance.profileForm.email().markAsTouched();
     fixture.detectChanges();
 
     expect(errorMessage(fixture)?.textContent?.trim()).toBe('Email is required');
@@ -218,6 +234,9 @@ describe('KuiFieldComponent', () => {
       imports: [HiddenSignalFormsErrorHost],
     }).compileComponents();
     const fixture = TestBed.createComponent(HiddenSignalFormsErrorHost);
+    fixture.detectChanges();
+
+    fixture.componentInstance.profileForm.email().markAsTouched();
     fixture.detectChanges();
 
     expect(errorMessage(fixture)).toBeNull();
@@ -245,6 +264,9 @@ describe('KuiFieldComponent', () => {
       providers: [kuiProvideFieldOptions({ size: 'sm', hideErrors: true })],
     }).compileComponents();
     const fixture = TestBed.createComponent(ProviderFieldOptionsHost);
+    fixture.detectChanges();
+
+    fixture.componentInstance.profileForm.email().markAsTouched();
     fixture.detectChanges();
 
     const field = fixture.nativeElement.querySelector('kui-field') as HTMLElement;

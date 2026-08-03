@@ -2,6 +2,7 @@ import {
   booleanAttribute,
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   input,
@@ -37,7 +38,7 @@ interface KuiTreeIndex {
  *
  * @example
  * ```html
- * <kui-tree ariaLabel="Project explorer" [data]="nodes" [(selected)]="selectedId" />
+ * <kui-tree ariaLabel="Project explorer" [data]="nodes" [(value)]="selectedId" />
  * ```
  */
 @Component({
@@ -77,6 +78,14 @@ export class KuiTreeComponent implements KuiTreeContext {
   readonly mobile = input(false, { transform: booleanAttribute });
 
   /** Controlled id of the selected node (`display` mode). Supports two-way binding. */
+  readonly value = model<string | null>(null);
+
+  /**
+   * Controlled id of the selected node (`display` mode).
+   *
+   * @deprecated Use `value` instead. Kept in sync with `value` for markup written before this was
+   * renamed; planned for removal in the next major version.
+   */
   readonly selected = model<string | null>(null);
 
   /** Controlled set of checked node ids (`checkable` mode). Supports two-way binding. */
@@ -96,6 +105,8 @@ export class KuiTreeComponent implements KuiTreeContext {
   private readonly loadedChildren = signal<ReadonlyMap<string, readonly KuiTreeNode[]>>(new Map());
   private readonly loadingIds = signal<ReadonlySet<string>>(new Set());
   private readonly focusedId = signal<string | null>(null);
+  private valueEffectSeeded = false;
+  private selectedEffectSeeded = false;
 
   private readonly index = computed<KuiTreeIndex>(() => {
     const flat: KuiTreeFlatEntry[] = [];
@@ -119,6 +130,41 @@ export class KuiTreeComponent implements KuiTreeContext {
 
   protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
 
+  constructor() {
+    /**
+     * Legacy markup binds only `[selected]`; new markup binds only `[(value)]`. Model inputs
+     * aren't applied until after the constructor runs, so their real initial values are only
+     * observable once these effects first execute -- seed whichever model is still at its `null`
+     * default from the other's real initial value on that first run, before falling through to
+     * the ordinary bidirectional sync below. Otherwise the two effects would each see a real value
+     * on one side and the unset default on the other and clobber it back to `null` (see the same
+     * fix in `kui-segmented`).
+     */
+    effect(() => {
+      const v = this.value();
+
+      if (!this.valueEffectSeeded) {
+        this.valueEffectSeeded = true;
+        if (!v && this.selected()) this.value.set(this.selected());
+        return;
+      }
+
+      if (this.selected() !== v) this.selected.set(v);
+    });
+
+    effect(() => {
+      const s = this.selected();
+
+      if (!this.selectedEffectSeeded) {
+        this.selectedEffectSeeded = true;
+        if (!s && this.value()) this.selected.set(this.value());
+        return;
+      }
+
+      if (this.value() !== s) this.value.set(s);
+    });
+  }
+
   hasChildren(node: KuiTreeNode): boolean {
     if (node.lazy && !this.isLoaded(node.id)) return true;
     return this.childrenFor(node).length > 0;
@@ -137,7 +183,7 @@ export class KuiTreeComponent implements KuiTreeContext {
   }
 
   isSelected(id: string): boolean {
-    return this.mode() === 'display' && this.selected() === id;
+    return this.mode() === 'display' && this.value() === id;
   }
 
   isActive(id: string): boolean {
@@ -159,7 +205,7 @@ export class KuiTreeComponent implements KuiTreeContext {
     if (node.disabled) return;
     this.focusedId.set(node.id);
     if (this.mode() === 'display') {
-      this.selected.set(node.id);
+      this.value.set(node.id);
     } else {
       this.toggleCheck(node);
     }
@@ -220,7 +266,7 @@ export class KuiTreeComponent implements KuiTreeContext {
         break;
       }
       case 'Enter':
-        if (this.mode() === 'display' && !node.disabled) this.selected.set(node.id);
+        if (this.mode() === 'display' && !node.disabled) this.value.set(node.id);
         break;
       case ' ':
         event.preventDefault();

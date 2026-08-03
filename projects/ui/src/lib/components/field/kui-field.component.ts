@@ -95,10 +95,10 @@ export class KuiFieldComponent implements KuiOptionContext {
     const explicitError = this.error();
     if (explicitError) return explicitError;
 
-    return this.signalFormField()
-      ?.state()
-      .errors()
-      .find((error) => error.message)?.message;
+    const formFieldState = this.signalFormField()?.state();
+    if (!formFieldState?.touched()) return undefined;
+
+    return formFieldState.errors().find((error) => error.message)?.message;
   });
 
   /** Whether the field currently has an error. */
@@ -106,7 +106,9 @@ export class KuiFieldComponent implements KuiOptionContext {
     () =>
       Boolean(this.error()) ||
       Boolean(this.projectedError()) ||
-      Boolean(this.signalFormField()?.state().invalid()),
+      Boolean(
+        this.signalFormField()?.state().touched() && this.signalFormField()?.state().invalid(),
+      ),
   );
 
   /** Whether the required marker should be visible. */
