@@ -99,14 +99,3 @@ pnpm start
 projects/ui         library package
 projects/playground internal playground app
 ```
-
-## Release
-
-Publish the library package from this repository:
-
-```bash
-npm run publish:ui
-```
-
-After publishing a new UI version, update `kikita-ui-docs`, regenerate the agent
-surface, publish `@kikita-labs/ui-mcp`, and deploy the docs site.
