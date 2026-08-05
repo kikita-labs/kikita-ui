@@ -51,6 +51,13 @@
       <input kuiInput type="text" placeholder="Search members" [formField]="membersForm.query" />
     </kui-field>
 
+    <kui-field
+      label="Discord ID"
+      hint="required(), [formField], untouched -- should render plain, not invalid, until touched/blurred."
+    >
+      <input kuiInput type="text" [formField]="requiredForm.discordId" />
+    </kui-field>
+
     <kui-field>
       <label kuiLabel>API key</label>
       <div class="kui-input-group">

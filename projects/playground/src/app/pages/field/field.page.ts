@@ -1,5 +1,5 @@
 import { Component, signal, ViewEncapsulation } from '@angular/core';
-import { form, FormField } from '@angular/forms/signals';
+import { form, FormField, required } from '@angular/forms/signals';
 
 import {
   KuiCellDirective,
@@ -52,4 +52,9 @@ export class FieldPage {
 
   protected readonly membersModel = signal({ query: '' });
   protected readonly membersForm = form(this.membersModel);
+
+  protected readonly requiredModel = signal({ discordId: '' });
+  protected readonly requiredForm = form(this.requiredModel, (path) => {
+    required(path.discordId, { message: 'Discord ID is required' });
+  });
 }

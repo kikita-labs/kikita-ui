@@ -82,8 +82,18 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
 
   protected readonly inputId = computed(() => this.id() ?? this.field?.controlId ?? null);
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
+  /**
+   * Signal Forms' native-control interop auto-wires this directive's `invalid` input straight
+   * from the bound field's raw (untouched-gated) state whenever `[formField]` is present -- see
+   * `KuiFieldComponent.hasSignalFormField`. In that case `invalidInput()` no longer reflects a
+   * deliberate manual override, so it's ignored in favor of the field's own gated `invalid()`;
+   * `invalidValue()` (a parse-error state internal to this control) always still applies.
+   */
   protected readonly effectiveInvalid = computed(
-    () => this.invalidInput() || Boolean(this.field?.invalid()) || this.invalidValue(),
+    () =>
+      (this.field?.hasSignalFormField()
+        ? Boolean(this.field.invalid())
+        : this.invalidInput() || Boolean(this.field?.invalid())) || this.invalidValue(),
   );
   protected readonly effectiveSize = computed(
     () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize ?? 'md',

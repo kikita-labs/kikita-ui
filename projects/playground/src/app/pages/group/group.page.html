@@ -241,3 +241,45 @@
     </div>
   </div>
 </app-panel>
+
+<app-panel
+  num="05"
+  title="Group with multiple kui-fields"
+  description="Every kui-field in the group gets its own minmax(0, 1fr) column, so N fields split the group's free width evenly regardless of how many buttons sit around them -- the directive reads the actual projected children instead of matching a fixed field count/position."
+>
+  <div class="component-board">
+    <div kuiGroup>
+      <kui-field label="Discord ID">
+        <input kuiInput placeholder="123456789012345678" />
+      </kui-field>
+      <kui-field label="Username (optional)">
+        <input kuiInput placeholder="kikita13" />
+      </kui-field>
+      <button kuiButton iconStart="user-plus" type="button">Grant</button>
+    </div>
+
+    <div kuiGroup collapsed>
+      <kui-field label="First name">
+        <input kuiInput placeholder="Ada" />
+      </kui-field>
+      <kui-field label="Last name">
+        <input kuiInput placeholder="Lovelace" />
+      </kui-field>
+      <kui-field label="Email">
+        <input kuiInput placeholder="ada@example.com" />
+      </kui-field>
+      <button kuiButton shape="outline" type="button">Save</button>
+    </div>
+
+    <div kuiGroup collapsed>
+      <button kuiIconButton icon="plus" shape="outline" type="button" aria-label="Add"></button>
+      <kui-field label="From">
+        <input kuiInput placeholder="Origin" />
+      </kui-field>
+      <kui-field label="To">
+        <input kuiInput placeholder="Destination" />
+      </kui-field>
+      <button kuiIconButton icon="arrow-right" shape="outline" type="button" aria-label="Go"></button>
+    </div>
+  </div>
+</app-panel>

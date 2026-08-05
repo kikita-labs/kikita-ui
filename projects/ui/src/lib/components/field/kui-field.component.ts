@@ -116,6 +116,19 @@ export class KuiFieldComponent implements KuiOptionContext {
     () => this.required() ?? this.signalFormField()?.state().required() ?? false,
   );
 
+  /**
+   * Whether a Signal Forms `[formField]` is projected into this field. Angular Signal Forms'
+   * native-control interop auto-wires ANY directive on the bound host element that declares an
+   * `invalid`/`disabled`/`required`/... input matching its `FIELD_STATE_KEY_TO_CONTROL_BINDING`
+   * list, writing the field's raw (untouched-gated) state straight into it -- bypassing this
+   * component's own touched gate on `invalid`/`displayedError` entirely. Every control directive
+   * that projects into `kui-field` (`kuiInput`, `kuiTextarea`, ...) exposes an `[invalid]` input
+   * for standalone use outside a field, and that exact name collides with the reserved binding.
+   * Those directives check this flag to ignore their own (Signal-Forms-clobbered) `invalid` input
+   * and trust only this component's gated `invalid()` whenever a Signal Forms field is present.
+   */
+  readonly hasSignalFormField = computed(() => Boolean(this.signalFormField()));
+
   /** Effective field size after local input and provider defaults are applied. */
   readonly effectiveSize = computed(
     () => this.size() ?? this.fieldOpts?.size ?? this.rootDefaultSize ?? 'md',

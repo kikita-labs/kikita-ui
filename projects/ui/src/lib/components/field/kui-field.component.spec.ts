@@ -214,6 +214,12 @@ describe('KuiFieldComponent', () => {
     expect(fixture.nativeElement.querySelector('.kui-field').hasAttribute('data-kui-invalid')).toBe(
       false,
     );
+    // Angular Signal Forms' native-control interop auto-wires `input[kuiInput]`'s own `invalid`
+    // input straight from the field's raw (untouched-gated) state -- regression coverage for that
+    // bypassing kui-field's touched gate and painting the control invalid before any interaction.
+    expect(fixture.nativeElement.querySelector('input').hasAttribute('data-kui-invalid')).toBe(
+      false,
+    );
   });
 
   it('renders the first Angular Signal Forms error message once the field is touched', async () => {

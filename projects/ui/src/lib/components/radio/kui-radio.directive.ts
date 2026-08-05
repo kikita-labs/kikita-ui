@@ -35,8 +35,16 @@ export class KuiRadioDirective {
     () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize ?? 'md',
   );
 
-  protected readonly invalid = computed(
-    () => this.invalidInput() || Boolean(this.field?.invalid()),
+  /**
+   * Signal Forms' native-control interop auto-wires this directive's `invalid` input straight
+   * from the bound field's raw (untouched-gated) state whenever `[formField]` is present -- see
+   * `KuiFieldComponent.hasSignalFormField`. In that case `invalidInput()` no longer reflects a
+   * deliberate manual override, so it's ignored in favor of the field's own gated `invalid()`.
+   */
+  protected readonly invalid = computed(() =>
+    this.field?.hasSignalFormField()
+      ? Boolean(this.field.invalid())
+      : this.invalidInput() || Boolean(this.field?.invalid()),
   );
 
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);

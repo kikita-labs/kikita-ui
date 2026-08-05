@@ -8,6 +8,33 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.6.1] - 2026-08-06
+
+### Fixed
+
+- A horizontal `kuiGroup` with more than one `kui-field` child only stretched one of them to fill
+  the group's width, leaving the others content-sized. The fix in 1.4.4 pinned a field's column to
+  `minmax(0, 1fr)` with five static `:has(kui-field:nth-child(N))` CSS rules keyed to the field's
+  position -- with two or more fields present, more than one rule matched the same
+  `grid-template-columns` property, and only the last one in cascade order won, so every field
+  before it fell back to `auto`. `KuiGroupDirective` now reads its actual projected children at
+  render time and builds the column list itself: every `kui-field` gets `minmax(0, 1fr)`,
+  everything else stays `auto`, for any count, order, and mix of fields and buttons (including
+  zero fields, which leaves the group on its original flex layout).
+- Angular Signal Forms' native-control interop auto-wires a bound native control's `invalid` input
+  straight from the field's raw, untouched-gated `state().invalid()` whenever `[formField]` is
+  present (it does the same for any input named `disabled`/`required`/`readonly`/etc.). Every
+  Kikita UI control that projects into `kui-field` -- `kuiInput`, `kuiTextarea`, `kuiCheckbox`,
+  `kuiRadio`, `kuiSwitch`, `kuiSlider`, `kuiNumberInput`, `kuiColorInput`, `kuiDatePicker` --
+  exposes a same-named `[invalid]` input for standalone use outside a field, and that name
+  collision let Signal Forms silently override it, bypassing the touched gate 1.6.0 added to
+  `kui-field` itself: a required field bound via `[formField]` rendered its control invalid (red
+  border) immediately, before the user had touched it, even though the field's own error message
+  correctly waited for `touched`. Each control now ignores its own `invalid` input in favor of
+  `kui-field`'s already-gated `invalid()` whenever a Signal Forms field is projected into that
+  field; the manual `[invalid]` override for standalone controls (no `kui-field`/`[formField]`) is
+  unaffected.
+
 ## [1.6.0] - 2026-08-04
 
 ### Fixed
@@ -746,7 +773,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.1...HEAD
+[1.6.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.4...v1.5.0
