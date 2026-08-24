@@ -6,7 +6,20 @@ task looks small.
 1. Read `AGENTS.md`.
 2. Read this file.
 3. Run `git status --short` and identify unrelated user changes. Do not revert
-   or rewrite unrelated changes.
+   or rewrite unrelated changes. Before branch-specific work, verify that the
+   current branch contains the current local `main`:
+
+   ```bash
+   git merge-base --is-ancestor main HEAD
+   ```
+
+   For `release/1.x`, `release/2.x`, and similar long-lived branches, do not
+   assume synchronization from the branch name or an earlier merge. If the
+   check fails, preserve any worktree changes, merge `main` into the current
+   branch, resolve conflicts, and run the relevant quality checks before
+   continuing. Repeat this synchronization after `main` receives release fixes
+   and before forwarding them to another release branch.
+
 4. For Angular work, call `angularCliKikita.list_projects` first. Do not use the
    generic `angularCli` server for this repository.
 5. Read `docs/component-checklist.md` before creating or changing any public
