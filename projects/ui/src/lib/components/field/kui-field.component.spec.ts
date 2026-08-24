@@ -9,6 +9,7 @@ import { provideKikitaUi } from '../../providers';
 import { kuiProvideFieldOptions } from '../../tokens';
 import { KuiInputDirective } from '../input';
 import { KuiFieldComponent } from './kui-field.component';
+import { KuiFieldActionDirective, KuiFieldAffixDirective } from './kui-field-affix.directive';
 import {
   KuiErrorDirective,
   KuiHintDirective,
@@ -143,6 +144,38 @@ class ProjectedFieldContentHost {}
 })
 class HiddenProjectedErrorHost {}
 
+@Component({
+  imports: [KuiFieldAffixDirective, KuiFieldComponent, KuiInputDirective],
+  template: `
+    <kui-field label="Project URL">
+      <span kuiFieldAffix>https://</span>
+      <input kuiInput />
+    </kui-field>
+  `,
+})
+class AffixContentHost {}
+
+@Component({
+  imports: [KuiFieldActionDirective, KuiFieldComponent, KuiInputDirective],
+  template: `
+    <kui-field label="Search">
+      <input kuiInput />
+      <button kuiFieldAction type="button" aria-label="Clear"></button>
+    </kui-field>
+  `,
+})
+class FieldActionContentHost {}
+
+@Component({
+  imports: [KuiFieldComponent, KuiInputDirective],
+  template: `
+    <kui-field label="No affixes">
+      <input kuiInput />
+    </kui-field>
+  `,
+})
+class NoAffixContentHost {}
+
 function requiredMarker(fixture: ComponentFixture<unknown>): HTMLElement | null {
   return fixture.nativeElement.querySelector('.kui-field__required');
 }
@@ -170,11 +203,33 @@ describe('KuiFieldComponent', () => {
     expect(requiredMarker(fixture)).not.toBeNull();
   });
 
-  it('renders the first Angular Signal Forms error message automatically', async () => {
+  it('does not show an Angular Signal Forms error before the field is touched', async () => {
     await TestBed.configureTestingModule({
       imports: [SignalFormsRequiredHost],
     }).compileComponents();
     const fixture = TestBed.createComponent(SignalFormsRequiredHost);
+    fixture.detectChanges();
+
+    expect(errorMessage(fixture)).toBeNull();
+    expect(fixture.nativeElement.querySelector('.kui-field').hasAttribute('data-kui-invalid')).toBe(
+      false,
+    );
+    // Angular Signal Forms' native-control interop auto-wires `input[kuiInput]`'s own `invalid`
+    // input straight from the field's raw (untouched-gated) state -- regression coverage for that
+    // bypassing kui-field's touched gate and painting the control invalid before any interaction.
+    expect(fixture.nativeElement.querySelector('input').hasAttribute('data-kui-invalid')).toBe(
+      false,
+    );
+  });
+
+  it('renders the first Angular Signal Forms error message once the field is touched', async () => {
+    await TestBed.configureTestingModule({
+      imports: [SignalFormsRequiredHost],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(SignalFormsRequiredHost);
+    fixture.detectChanges();
+
+    fixture.componentInstance.profileForm.email().markAsTouched();
     fixture.detectChanges();
 
     expect(errorMessage(fixture)?.textContent?.trim()).toBe('Email is required');
@@ -185,6 +240,9 @@ describe('KuiFieldComponent', () => {
       imports: [HiddenSignalFormsErrorHost],
     }).compileComponents();
     const fixture = TestBed.createComponent(HiddenSignalFormsErrorHost);
+    fixture.detectChanges();
+
+    fixture.componentInstance.profileForm.email().markAsTouched();
     fixture.detectChanges();
 
     expect(errorMessage(fixture)).toBeNull();
@@ -212,6 +270,9 @@ describe('KuiFieldComponent', () => {
       providers: [kuiProvideFieldOptions({ size: 'sm', hideErrors: true })],
     }).compileComponents();
     const fixture = TestBed.createComponent(ProviderFieldOptionsHost);
+    fixture.detectChanges();
+
+    fixture.componentInstance.profileForm.email().markAsTouched();
     fixture.detectChanges();
 
     const field = fixture.nativeElement.querySelector('kui-field') as HTMLElement;
@@ -276,5 +337,53 @@ describe('KuiFieldComponent', () => {
     expect(input.getAttribute('aria-describedby')).toContain(hint.id);
     expect(input.getAttribute('aria-describedby')).not.toContain('error');
     expect(field.hasAttribute('data-kui-invalid')).toBe(true);
+  });
+
+  it('auto-wraps the control slot in input-group chrome when a kuiFieldAffix is projected', async () => {
+    await TestBed.configureTestingModule({ imports: [AffixContentHost] }).compileComponents();
+    const fixture = TestBed.createComponent(AffixContentHost);
+    fixture.detectChanges();
+
+    const control = fixture.nativeElement.querySelector('.kui-field__control') as HTMLElement;
+
+    expect(control.classList.contains('kui-input-group')).toBe(true);
+  });
+
+  it('auto-wraps the control slot in input-group chrome when a kuiFieldAction is projected', async () => {
+    await TestBed.configureTestingModule({
+      imports: [FieldActionContentHost],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(FieldActionContentHost);
+    fixture.detectChanges();
+
+    const control = fixture.nativeElement.querySelector('.kui-field__control') as HTMLElement;
+
+    expect(control.classList.contains('kui-input-group')).toBe(true);
+  });
+
+  it('focuses the native control when clicking input-group chrome padding, not just the control itself', async () => {
+    await TestBed.configureTestingModule({ imports: [AffixContentHost] }).compileComponents();
+    const fixture = TestBed.createComponent(AffixContentHost);
+    fixture.detectChanges();
+
+    const control = fixture.nativeElement.querySelector('.kui-field__control') as HTMLElement;
+    const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+
+    expect(document.activeElement).not.toBe(input);
+    // The control slot itself, not the (shorter) native input or the affix text -- the gap that
+    // used to swallow clicks silently instead of focusing the input.
+    control.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(document.activeElement).toBe(input);
+  });
+
+  it('does not add input-group chrome when no affix content is projected', async () => {
+    await TestBed.configureTestingModule({ imports: [NoAffixContentHost] }).compileComponents();
+    const fixture = TestBed.createComponent(NoAffixContentHost);
+    fixture.detectChanges();
+
+    const control = fixture.nativeElement.querySelector('.kui-field__control') as HTMLElement;
+
+    expect(control.classList.contains('kui-input-group')).toBe(false);
   });
 });

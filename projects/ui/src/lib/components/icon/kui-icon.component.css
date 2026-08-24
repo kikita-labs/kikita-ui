@@ -15,7 +15,8 @@
 }
 
 .kui-icon__svg,
-.kui-icon__image {
+.kui-icon__image,
+.kui-icon__projected {
   display: block;
   inline-size: 100%;
   block-size: 100%;
@@ -23,7 +24,8 @@
   min-block-size: 0;
 }
 
-.kui-icon__svg {
+.kui-icon__svg,
+.kui-icon__projected {
   color: inherit;
 }
 
@@ -35,6 +37,17 @@
  * (for example the 24x24 the default Lucide resolver's SVGs carry).
  */
 :host ::ng-deep .kui-icon__svg svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Projected content (light DOM) keeps the parent template's view-encapsulation attribute, not
+ * kui-icon's own, so the same ::ng-deep escape is needed to size a raw <svg> passed as children
+ * (`<kui-icon kuiFieldAffix><svg>...</svg></kui-icon>`) instead of via `name`/`source`/`src`.
+ */
+:host ::ng-deep .kui-icon__projected svg {
   display: block;
   width: 100%;
   height: 100%;

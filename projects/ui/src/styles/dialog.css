@@ -130,6 +130,7 @@
   }
 
   .kui-dialog-title {
+    margin: 0;
     font-size: var(--kui-dialog-title-size, var(--kui-text-lg-size));
     font-weight: 600;
     flex: 1;

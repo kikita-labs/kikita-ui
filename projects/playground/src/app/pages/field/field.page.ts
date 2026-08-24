@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
+import { form, FormField, required } from '@angular/forms/signals';
 
 import {
   KuiCellDirective,
@@ -6,8 +7,10 @@ import {
   KuiFieldAffixDirective,
   KuiFieldAffixIconDirective,
   KuiFieldComponent,
+  KuiIconComponent,
   KuiInputDirective,
   KuiInputGroupDirective,
+  KuiLoaderDirective,
   KuiTableDirective,
   KuiTextareaDirective,
   KuiThDirective,
@@ -19,13 +22,16 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 @Component({
   selector: 'app-field-page',
   imports: [
+    FormField,
     KuiCellDirective,
     KuiFieldActionDirective,
     KuiFieldAffixDirective,
     KuiFieldAffixIconDirective,
     KuiFieldComponent,
+    KuiIconComponent,
     KuiInputGroupDirective,
     KuiInputDirective,
+    KuiLoaderDirective,
     KuiTableDirective,
     KuiTextareaDirective,
     KuiThDirective,
@@ -43,4 +49,12 @@ export class FieldPage {
     { value: 'md' as const, label: 'md (default)' },
     { value: 'lg' as const, label: 'lg' },
   ];
+
+  protected readonly membersModel = signal({ query: '' });
+  protected readonly membersForm = form(this.membersModel);
+
+  protected readonly requiredModel = signal({ discordId: '' });
+  protected readonly requiredForm = form(this.requiredModel, (path) => {
+    required(path.discordId, { message: 'Discord ID is required' });
+  });
 }

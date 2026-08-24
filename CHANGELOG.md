@@ -31,6 +31,250 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `model<KuiDateRange | null>`. `KuiDateRange` itself is unchanged and now documented as the
   value type of `kui-calendar-range`.
 
+- `kui-accordion` configuration fields (`mode`, `appearance`, and `size`) and `kui-dropdown`'s
+  `closeOnSelect` are now read-only `input()` values. They no longer expose writable model outputs;
+  mutable accordion state remains available through `expandedItems`.
+
+## [1.6.1] - 2026-08-06
+
+### Fixed
+
+- A horizontal `kuiGroup` with more than one `kui-field` child only stretched one of them to fill
+  the group's width, leaving the others content-sized. The fix in 1.4.4 pinned a field's column to
+  `minmax(0, 1fr)` with five static `:has(kui-field:nth-child(N))` CSS rules keyed to the field's
+  position -- with two or more fields present, more than one rule matched the same
+  `grid-template-columns` property, and only the last one in cascade order won, so every field
+  before it fell back to `auto`. `KuiGroupDirective` now reads its actual projected children at
+  render time and builds the column list itself: every `kui-field` gets `minmax(0, 1fr)`,
+  everything else stays `auto`, for any count, order, and mix of fields and buttons (including
+  zero fields, which leaves the group on its original flex layout).
+- Angular Signal Forms' native-control interop auto-wires a bound native control's `invalid` input
+  straight from the field's raw, untouched-gated `state().invalid()` whenever `[formField]` is
+  present (it does the same for any input named `disabled`/`required`/`readonly`/etc.). Every
+  Kikita UI control that projects into `kui-field` -- `kuiInput`, `kuiTextarea`, `kuiCheckbox`,
+  `kuiRadio`, `kuiSwitch`, `kuiSlider`, `kuiNumberInput`, `kuiColorInput`, `kuiDatePicker` --
+  exposes a same-named `[invalid]` input for standalone use outside a field, and that name
+  collision let Signal Forms silently override it, bypassing the touched gate 1.6.0 added to
+  `kui-field` itself: a required field bound via `[formField]` rendered its control invalid (red
+  border) immediately, before the user had touched it, even though the field's own error message
+  correctly waited for `touched`. Each control now ignores its own `invalid` input in favor of
+  `kui-field`'s already-gated `invalid()` whenever a Signal Forms field is projected into that
+  field; the manual `[invalid]` override for standalone controls (no `kui-field`/`[formField]`) is
+  unaffected.
+
+## [1.6.0] - 2026-08-04
+
+### Fixed
+
+- `kui-field`'s `displayedError`/`invalid` computed signals read a projected Signal Forms field's
+  `state().errors()`/`state().invalid()` directly, with no `state().touched()` gate. A `required`
+  field wired to `[formField]` rendered its error styling and message immediately on first
+  render -- before the user had focused or interacted with it at all -- instead of only after the
+  field was touched, which is the gating pattern Signal Forms itself documents
+  (`field().touched() && field().invalid()`). Both computed signals now additionally require
+  `state().touched()` before surfacing an error. This is the single place error/invalid state is
+  computed for every control that projects into `kui-field` (input, textarea, select, combobox,
+  date-picker, number-input, etc.) -- none of them duplicate this logic themselves -- so the fix
+  applies uniformly without touching any individual control.
+
+### Changed
+
+- `kui-tabs`'s `selected` model is deprecated in favor of `value`, and `kui-tree`'s `selected`
+  model is deprecated in favor of `value`, matching the `value` convention already used by
+  `kui-select`, `kui-combobox`, `kui-date-picker`, `kui-calendar`, and `kui-segmented` -- and the
+  name `FormValueControl` requires if either component ever adds `[formField]` support.
+  `selected`/`selectedChange` keep working on both, kept in sync with `value` using the same
+  seeded-effect fix applied to `kui-segmented` in 1.5.1, and are planned for removal in the next
+  major version.
+
+## [1.5.1] - 2026-08-04
+
+### Fixed
+
+- `kuiButton` always wrapped projected content in a `.kui-button__label` span, even with no text
+  (e.g. an icon-only `kuiButton` used instead of `kuiIconButton`, or a `kuiButton` whose label is
+  conditionally hidden). `.kui-button__content`'s `gap: inherit` still applied between the icon and
+  that empty label, so the icon sat off-center. `.kui-button__label:empty { display: none }` drops
+  it from the flex layout so the gap isn't counted.
+
+- `kui-segmented`'s `value`/`selected` two-way sync (added in 1.5.0 for the `FormValueControl`
+  migration) ran two symmetric `effect()`s that each treated any mismatch between the two models as
+  a change to propagate. Model inputs are only assigned by Angular after the constructor returns, so
+  on first render one model still held its `''` default while the other already carried the
+  consumer's real initial value -- whichever effect read that mismatch first blindly overwrote the
+  real value with the other model's unset default. This broke every consumer still using the
+  deprecated one-way `[selected]="x()" (selectedChange)="..."` pattern (two-way `[(selected)]`
+  happened to mask it, since Angular rewrites the bound expression every tick): the initial selection
+  -- and anything reacting to it, like a persisted theme toggle -- silently reset back to unselected
+  on load. Each sync effect now seeds the still-default model from the other's real value only on
+  its own first run, instead of both effects fighting over which value wins.
+
+## [1.5.0] - 2026-08-04
+
+### Added
+
+- `kui-segmented` implements `FormValueControl<string>` and now takes `[formField]` directly for
+  Signal Forms integration, matching `kui-select`/`kui-combobox`. Added `disabled`, `invalid`,
+  `errors`, `touched` inputs and a `touch` output driven by `[formField]`.
+
+### Changed
+
+- `kui-segmented`'s `selected` model is deprecated in favor of `value` (the name
+  `FormValueControl` requires); `selected`/`selectedChange` keep working, kept in sync with
+  `value`, and are planned for removal in the next major version.
+
+## [1.4.4] - 2026-08-03
+
+### Changed
+
+- A horizontal `kuiGroup` containing a `kui-field` now grows the field's column to fill the
+  group's available width by default; button/icon-button columns stay content-sized. Previously
+  every column in that grid layout was `auto` (content-sized), so stretching the group itself
+  (`width: 100%`, a stretched parent grid/flex cell, etc.) left the extra space sitting empty
+  after the last child instead of going to the field -- matching the pattern used by reference
+  input-group implementations (a text control that grows next to buttons/addons that don't), it
+  now requires no per-instance CSS from the consumer. Since the field's position among sibling
+  buttons varies (leading icon buttons, trailing icon buttons, or both), the fill is expressed as
+  five `:has()` + `:nth-child()` rules covering the field at column position 1 through 5, each
+  pinning that one column to `minmax(0, 1fr)` and leaving the columns before it `auto`; a field
+  beyond the fifth child falls back to the previous `auto`-sized behavior.
+
+## [1.4.3] - 2026-08-03
+
+### Fixed
+
+- A collapsed `kuiGroup` containing a `kui-field` used `margin-inline-start`/`margin-block-start`
+  on the second of each adjacent pair to overlap borders by 1px. In the grid layout that variant
+  switches to (see the field-subgrid comment in `group.css`), CSS Grid sizes an `auto` column from
+  the item's outer (margin) box, so that leading negative margin shrank the item's own column by
+  1px below its content's true width -- invisible on a field/input, but it silently
+  ellipsis-clipped the last character of a text button sitting in the next column. The overlap now
+  anchors to `margin-inline-end`/`margin-block-end` on the earlier sibling (`:not(:last-child)`)
+  instead, so the 1px always lands on whichever element comes first and never eats into a
+  text-bearing button's own track.
+
+## [1.4.2] - 2026-08-03
+
+### Fixed
+
+- Clicking `kui-field`'s auto-applied `.kui-input-group` chrome (from a projected `kuiFieldAffix`)
+  outside the shorter native control -- the padding between the group's 40px border and the
+  control's own text-line height -- did nothing instead of focusing the control, and the cursor
+  stayed the default arrow there instead of hinting a click would focus text. Angular's
+  class-selector directive matching only attaches to a _static_ `class="..."` string in a
+  template, not a `[class.foo]` property binding, so `KuiInputGroupDirective` (which the group's
+  chrome had been assumed to pick up automatically) never actually attached to `kui-field`'s
+  control slot; `kui-field` now re-implements the same click-to-focus delegation directly, and
+  `.kui-input-group` gets `cursor: text` so hovering that padding matches.
+- A text `kuiFieldAffix` (`.kui-field-affix`) used a different `line-height` multiplier
+  (`1.3`) than the grouped `.kui-input` beside it (`1`) at the same font size, rendering a
+  ~1px-shorter box and a slightly misaligned text baseline between them; both now use `1`.
+
+### Added
+
+- `kuiFieldAffix` now auto-detects its look from the host element instead of requiring a separate
+  directive per case: any `<button>` gets action styling, a `<kui-icon>` (or `<span kuiLoader>`)
+  host gets icon styling with `aria-hidden`/`role`/`aria-live` left to that host to manage, and
+  everything else gets muted text styling. `kuiFieldAffixIcon` and `kuiFieldAction` still work
+  (now deprecated, planned for removal in the next major version) for markup written before this
+  auto-detection existed.
+- `kui-icon` now projects light-DOM content synchronously when `name`/`source`/`src` are all
+  unset (`<kui-icon kuiFieldAffix><svg>...</svg></kui-icon>`) -- a synchronous escape hatch for a
+  one-off `<svg>` that isn't worth registering in a shared icon set via `provideKuiIcons`.
+
+## [1.4.1] - 2026-08-03
+
+### Fixed
+
+- `kui-field` now detects projected `kuiFieldAffix`, `kuiFieldAffixIcon`, or `kuiFieldAction`
+  content and switches its control slot to shared `.kui-input-group` chrome (flex layout, one
+  shared border) automatically. Previously callers had to hand-wrap that content in a
+  `<div class="kui-input-group">` themselves, and forgetting it silently broke the layout (the
+  affix rendered on its own line above the input instead of inside its border). The manual
+  `.kui-input-group` class still works for custom field chrome the three directives don't cover
+  (e.g. a loading spinner).
+- `.kui-dialog-title` no longer inherits the browser's default `<h2>` block margins, which pushed
+  the title off from the header's top/bottom padding.
+- `kuiCard`'s `xs`/`sm`/`lg` sizes now derive their padding from the `--kui-space-*` spacing scale
+  (`--kui-space-2`/`--kui-space-3`/`--kui-space-6`) instead of hardcoded pixel values, matching the
+  already-tokenized `md` default and letting a themed spacing scale override them consistently.
+
+## [1.4.0] - 2026-07-29
+
+### Added
+
+- `kuiIconButton` now supports `loading`, matching `kuiButton`. It replaces the icon (and any
+  projected content) with a centered `kui-loader` spinner, disables the host the same way
+  `disabled` does, and sets `aria-busy="true"` while keeping the button's footprint.
+
+## [1.3.1] - 2026-07-28
+
+### Fixed
+
+- `kui-field` at the default `md` size no longer reserves `4px` of gap above and below the control
+  row when the label and message rows are empty. The host's `grid-template-rows` gap used to apply
+  uniformly between all three row tracks regardless of whether the label/hint/error rows had any
+  content, so an unlabeled `md` field measured `48px` tall instead of the `40px` control height it
+  visually contained. Spacing now lives on the label/hint/error elements themselves
+  (`margin-block-end`/`margin-block-start`), so it only appears when those elements actually
+  render.
+- `kuiGroup` now supports `kui-field` as a group member, with or without a label, hint, or error.
+  Previously `kui-field`'s host didn't match the group's
+  `:where(.kui-button, .kui-icon-button, .kui-input)` selector, so a `kui-field` placed inside a
+  `collapsed` group kept its own fully-rounded corners and broke the merged-border look; worse,
+  when `kui-field` was the group's last DOM child, no sibling matched `:last-child` against that
+  selector, so the true last button also lost its outer corner rounding. Separately, a sibling
+  button next to a labeled/hinted/error `kui-field` had no way to vertically line up with the
+  field's control: flexbox `align-items` only aligns box edges, and a field's outer box grows past
+  its control whenever a label, hint, or error renders. A horizontal `kuiGroup` now lays its direct
+  children out on a 3-row grid (label / control / message); plain buttons and inputs are pinned to
+  the middle row, and a `kui-field` child becomes a CSS subgrid spanning all 3 rows so its own
+  label/control/message content resolves against the group's shared row tracks. The group's
+  collapsed-border rules also reach through `kui-field`'s host into its projected `.kui-input` for
+  radius stripping/restoring and treat the field as a normal group member for adjacent-sibling
+  spacing. Vertical groups are unaffected and keep their existing flex layout. Field-free groups
+  stay on the original flex layout: grid's auto-column track sizing rounds sub-pixel widths
+  slightly differently than flex, which was enough to reopen a 1-2px seam on the collapsed-border
+  overlap between plain buttons.
+- A `collapsed` group no longer widens its outer button columns when the group itself is
+  stretched by its own container (a parent using `align-items`/`justify-items: stretch`, common in
+  flex-column or grid layouts). Grid's `auto` column tracks absorb positive free space by default,
+  so a stretched group distributed that leftover width into the near-empty button columns instead
+  of leaving it as trailing space, visibly pushing buttons away from an adjacent `kui-field`.
+- An invalid `kui-field` or `input[kuiInput]` inside a `collapsed` group no longer loses its red
+  error border at the seam where it touches a non-invalid sibling. The collapsed-border overlap
+  paints whichever sibling is later in DOM order on top of the shared 1px seam; when that later
+  sibling was an ordinary button, its neutral border color silently covered the invalid color.
+  Invalid controls now get their own stacking context (`position: relative; z-index: 1`) so they
+  paint on top of neutral siblings on both sides regardless of DOM order.
+
+## [1.3.0] - 2026-07-28
+
+### Added
+
+- `provideKikitaUi()` now also registers a built-in brand icon set (`KUI_BRAND_ICONS`) resolved
+  locally alongside the default Lucide resolver. It currently exposes one icon, the Kikita UI
+  wordmark glyph, available as `<kui-icon name="kikita-brand" />` with no extra setup. Disabled by
+  `icons: false` like the Lucide default.
+
+### Changed
+
+- `kuiText` typography classes (`.kui-display`, `.kui-heading-*`, `.kui-title`, `.kui-body-*`,
+  `.kui-caption`, `.kui-overline`, `.kui-code`) now reset `margin: 0`. Previously the directive
+  left the host element's user-agent margin untouched, so the same `variant` produced a different
+  margin depending on the underlying tag (`p`/`h1`-`h6` vs `div`/`span`). Vertical spacing is a
+  layout concern, not a typography one -- consumers control it explicitly (gap, layout
+  primitives, or their own margin utility) instead of inheriting it implicitly from the tag.
+
+### Fixed
+
+- `kuiButton` truncates long labels correctly instead of hard-clipping mid-word: the projected
+  text now lives in a dedicated `.kui-button__label` span carrying `text-overflow: ellipsis`,
+  since `text-overflow` never applied on the flex-container `.kui-button__content` it used to sit
+  on directly. Also raised the button's `line-height` from `1.2` to `1.4` (new
+  `--kui-btn-line-height` token) so descenders (`g`, `p`, `y`) no longer get clipped by
+  `overflow: hidden` at tight line-box heights.
+
 ## [1.2.0] - 2026-07-25
 
 ### Added
@@ -556,7 +800,18 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.1...HEAD
+[1.6.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.0...v1.6.1
+[1.6.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.1...v1.6.0
+[1.5.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.0...v1.5.1
+[1.5.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.4...v1.5.0
+[1.4.4]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.3...v1.4.4
+[1.4.3]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.2...v1.4.3
+[1.4.2]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.1...v1.4.2
+[1.4.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.4.0...v1.4.1
+[1.4.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.3.1...v1.4.0
+[1.3.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.3.0...v1.3.1
+[1.3.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/kikita-labs/kikita-ui/compare/v0.7.0...v1.0.0

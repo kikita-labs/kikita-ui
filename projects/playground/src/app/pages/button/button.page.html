@@ -129,6 +129,39 @@
 </app-panel>
 
 <app-panel
+  num="04b"
+  title="IconButton loading state"
+  description="loading disables the icon button, keeps its footprint, fades the icon out, and centers the spinner."
+>
+  <div class="button-grid">
+    <button kuiIconButton type="button" [loading]="true" aria-label="Save">
+      <kui-icon name="check" />
+    </button>
+    <button kuiIconButton shape="outline" type="button" [loading]="true" aria-label="Save">
+      <kui-icon name="check" />
+    </button>
+    <button
+      kuiIconButton
+      shape="soft"
+      appearance="danger"
+      type="button"
+      [loading]="true"
+      icon="triangle-alert"
+      aria-label="Delete"
+    ></button>
+    <button
+      kuiIconButton
+      shape="solid"
+      size="lg"
+      type="button"
+      [loading]="true"
+      icon="sparkle"
+      aria-label="Generate"
+    ></button>
+  </div>
+</app-panel>
+
+<app-panel
   num="05"
   title="IconButton variants"
   description="IconButton supports the same appearance, size, and shape combinations."
@@ -212,6 +245,44 @@
       shape="outline"
       icon="settings"
       aria-label="Settings"
+      type="button"
+    ></button>
+  </div>
+</app-panel>
+
+<app-panel
+  num="07"
+  title="Long label truncation"
+  description="Constrained-width buttons with descender-heavy text (g/p) to check ellipsis clipping against line-height."
+>
+  <div class="button-grid">
+    <button kuiButton iconStart="check" type="button" style="max-inline-size: 180px">
+      Grouping and processing gigapixel graphics
+    </button>
+    <button
+      kuiButton
+      shape="outline"
+      iconEnd="arrow-right"
+      type="button"
+      style="max-inline-size: 180px"
+    >
+      Upgrade group permissions properly
+    </button>
+    <button
+      kuiButton
+      appearance="danger"
+      iconStart="triangle-alert"
+      iconEnd="arrow-right"
+      type="button"
+      style="max-inline-size: 180px"
+    >
+      Grouping gigapixel graphics properly
+    </button>
+    <button
+      kuiIconButton
+      shape="soft"
+      icon="sparkle"
+      aria-label="Grouping and processing gigapixel graphics"
       type="button"
     ></button>
   </div>

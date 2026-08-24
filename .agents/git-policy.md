@@ -32,30 +32,6 @@ match, and add the comparison link at the bottom of the file.
 Purely internal changes such as test refactors, playground-only tweaks, or docs
 wording do not need a changelog entry.
 
-## Breaking Changes For Docs/Consumer Repo
-
-The docs/consumer app lives in a sibling repo at `../kikita-ui-docs` relative to
-this repo's parent `kikita` folder. It is not updated automatically when this
-library changes.
-
-Whenever a change here is breaking or otherwise requires action in that repo,
-write an entry to:
-
-```text
-../kikita-ui-docs/.local-notes/LIBRARY-BREAKING-CHANGES.md
-```
-
-Create the file if it does not exist. Each entry should say what changed, why,
-and the exact before/after usage so the docs repo can migrate without
-re-deriving context.
-
-Examples that require an entry:
-
-- Renamed or removed public API
-- A bare CSS class replaced by a directive
-- A changed default
-- A required migration step
-
 ## Package
 
 Current package scope is `@kikita-labs/ui`.

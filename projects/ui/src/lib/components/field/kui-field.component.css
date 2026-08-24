@@ -2,17 +2,25 @@
   display: grid;
   align-content: start;
   min-inline-size: 0;
-  gap: var(--kui-field-gap, 4px);
-  grid-template-rows:
-    var(--kui-field-label-row, auto)
-    var(--kui-field-control-row, auto)
-    var(--kui-field-message-row, auto);
+  gap: 0;
+  /*
+   * kuiGroup overrides --kui-field-grid-rows to `subgrid` for a group child so the field's
+   * label/control/message rows resolve against the group's own row tracks instead of their own
+   * auto sizing -- that's how a sibling button pinned to the group's control row lines up with
+   * this field's control regardless of whether a label/hint/error is present. See group.css.
+   */
+  grid-template-rows: var(
+    --kui-field-grid-rows,
+    var(--kui-field-label-row, auto) var(--kui-field-control-row, auto)
+      var(--kui-field-message-row, auto)
+  );
 }
 
 .kui-field__label {
   display: inline-flex;
   grid-row: 1;
   gap: var(--kui-space-1, 4px);
+  margin-block-end: var(--kui-field-gap, 4px);
   color: var(--kui-field-label-color, var(--kui-color-text));
   font-size: var(--kui-field-label-size, var(--kui-text-sm-size, 13px));
   font-weight: var(--kui-field-label-weight, 600);
@@ -24,6 +32,7 @@
   grid-row: 1;
   align-items: baseline;
   gap: var(--kui-space-1, 4px);
+  margin-block-end: var(--kui-field-gap, 4px);
 }
 
 .kui-field__error {
@@ -41,6 +50,7 @@
 .kui-field__error {
   min-block-size: var(--kui-field-message-min-height, 0);
   margin: 0;
+  margin-block-start: var(--kui-field-gap, 4px);
   font-size: var(--kui-field-hint-size, var(--kui-text-xs-size, 11px));
   line-height: 1.4;
 }
@@ -60,19 +70,32 @@
   min-inline-size: 0;
 }
 
+/*
+ * A single grid item for both hint and error (and their projected counterparts): hint and error
+ * can render at once, and each needs its own line, but the 3-row template (label/control/message)
+ * only reserves one row for messages. Stacking them as ordinary block children inside this one
+ * grid-placed wrapper keeps the field to exactly 3 real grid rows no matter how many message lines
+ * render, which matters when a kuiGroup subgrids those 3 rows (see group.css) -- a subgrid can't
+ * grow past the row count its parent assigned it.
+ */
+.kui-field__message-row {
+  grid-row: 3;
+  min-inline-size: 0;
+}
+
 :host([data-kui-size='xs']) {
-  gap: var(--kui-field-gap-xs, 2px);
+  --kui-field-gap: var(--kui-field-gap-xs, 2px);
   --kui-field-control-row: var(--kui-control-height-xs, 28px);
   --kui-field-label-size: var(--kui-text-xs-size, 11px);
   --kui-field-hint-size: var(--kui-text-xs-size, 11px);
 }
 
 :host([data-kui-size='sm']) {
-  gap: var(--kui-field-gap-sm, 3px);
+  --kui-field-gap: var(--kui-field-gap-sm, 3px);
   --kui-field-control-row: var(--kui-control-height-sm, 32px);
 }
 
 :host([data-kui-size='lg']) {
-  gap: var(--kui-field-gap-lg, 6px);
+  --kui-field-gap: var(--kui-field-gap-lg, 6px);
   --kui-field-control-row: var(--kui-control-height-lg, 44px);
 }

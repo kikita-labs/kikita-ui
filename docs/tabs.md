@@ -11,7 +11,7 @@ import { KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective } from '@kikita
 ## Usage
 
 ```html
-<kui-tabs [(selected)]="activeTab">
+<kui-tabs [(value)]="activeTab">
   <button kuiTab value="overview">Overview</button>
   <button kuiTab value="settings">Settings</button>
   <button kuiTab value="logs">Logs</button>
@@ -25,7 +25,7 @@ import { KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective } from '@kikita
 ### Pill Variant
 
 ```html
-<kui-tabs variant="pill" [(selected)]="activeTab"> ... </kui-tabs>
+<kui-tabs variant="pill" [(value)]="activeTab"> ... </kui-tabs>
 ```
 
 ### Inverted Edge
@@ -36,7 +36,7 @@ the top edge. Vertical tabs render panels before the tab list and place the line
 indicator on the start edge.
 
 ```html
-<kui-tabs inverted [(selected)]="activeTab">
+<kui-tabs inverted [(value)]="activeTab">
   <button kuiTab value="details">Details</button>
   <button kuiTab value="history">History</button>
 
@@ -44,7 +44,7 @@ indicator on the start edge.
   <div kuiTabPanel value="history">History content</div>
 </kui-tabs>
 
-<kui-tabs orientation="vertical" inverted [(selected)]="activeTab">
+<kui-tabs orientation="vertical" inverted [(value)]="activeTab">
   <button kuiTab value="details">Details</button>
   <button kuiTab value="history">History</button>
 
@@ -58,7 +58,7 @@ indicator on the start edge.
 Use `controlsPanels="false"` when `kui-tabs` is used as navigation and the routed page content is rendered by `router-outlet` instead of local `kuiTabPanel` elements.
 
 ```html
-<kui-tabs [(selected)]="currentRoute" [controlsPanels]="false" aria-label="Sections">
+<kui-tabs [(value)]="currentRoute" [controlsPanels]="false" aria-label="Sections">
   <button kuiTab value="/overview">Overview</button>
   <button kuiTab value="/settings">Settings</button>
 </kui-tabs>
@@ -70,7 +70,9 @@ Use `controlsPanels="false"` when `kui-tabs` is used as navigation and the route
 - `size`: `xs | sm | md | lg` (default: `md`)
 - `orientation`: `horizontal | vertical` (default: `horizontal`)
 - `inverted`: `boolean` (default: `false`). Flips the tab edge: horizontal panels render above the list; vertical panels render before the list.
-- `selected`: two-way model, value of the active tab
+- `value`: two-way model, value of the active tab. Bound by `[(value)]`.
+- `selected`: **deprecated**, use `value` instead. Kept in sync with `value` for markup written
+  before this was renamed; planned for removal in the next major version.
 - `controlsPanels`: `boolean` (default: `true`). Set to `false` when tabs do not render local `kuiTabPanel` elements.
 
 ## Inputs - `[kuiTab]`

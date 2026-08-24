@@ -7,7 +7,7 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 
-import { KUI_ICONS, resolveLucideIcon } from '../components/icon';
+import { KUI_BRAND_ICONS, KUI_ICONS, resolveLucideIcon } from '../components/icon';
 import { DEFAULT_KUI_THEME, provideKuiTheme } from '../theme';
 import type { KikitaUiOptions } from './kikita-ui-options.interface';
 import { KIKITA_UI_OPTIONS } from './kikita-ui-options.token';
@@ -18,7 +18,10 @@ export function provideKikitaUi(options: KikitaUiOptions = {}): EnvironmentProvi
     provideKuiTheme(options.theme ?? DEFAULT_KUI_THEME),
     ...(options.icons === false
       ? []
-      : [{ provide: KUI_ICONS, multi: true, useValue: resolveLucideIcon }]),
+      : [
+          { provide: KUI_ICONS, multi: true, useValue: resolveLucideIcon },
+          { provide: KUI_ICONS, multi: true, useValue: KUI_BRAND_ICONS },
+        ]),
     {
       provide: ENVIRONMENT_INITIALIZER,
       multi: true,

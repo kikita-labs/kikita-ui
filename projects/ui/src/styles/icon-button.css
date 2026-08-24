@@ -14,6 +14,7 @@
     font: inherit;
     line-height: 0;
     padding: 0;
+    position: relative;
     text-decoration: none;
     transition:
       background-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
@@ -22,6 +23,28 @@
       transform var(--kui-duration-fast, 100ms) var(--kui-ease, ease);
     user-select: none;
     vertical-align: middle;
+  }
+
+  .kui-icon-button__content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    transition: opacity var(--kui-duration-base, 160ms) var(--kui-ease, ease);
+  }
+
+  .kui-icon-button__loader {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    pointer-events: none;
+    translate: -50% -50%;
+    --kui-loader-track: color-mix(in oklch, currentColor 25%, transparent);
+    --kui-loader-fill: currentColor;
+  }
+
+  .kui-icon-button[data-kui-loading] .kui-icon-button__content {
+    opacity: 0;
   }
 
   .kui-icon-button:hover {

@@ -5,7 +5,7 @@
 >
   <div class="component-board">
     <div class="state-board__row">
-      <kui-segmented [selected]="view()" (selectedChange)="view.set($event)" aria-label="View mode">
+      <kui-segmented [(value)]="view" aria-label="View mode">
         <button kuiSegment value="list">List</button>
         <button kuiSegment value="grid">Grid</button>
         <button kuiSegment value="table">Table</button>
@@ -14,11 +14,7 @@
     </div>
 
     <div class="state-board__row">
-      <kui-segmented
-        [selected]="period()"
-        (selectedChange)="period.set($event)"
-        aria-label="Time period"
-      >
+      <kui-segmented [(value)]="period" aria-label="Time period">
         <button kuiSegment value="day">Day</button>
         <button kuiSegment value="week">Week</button>
         <button kuiSegment value="month">Month</button>
@@ -27,11 +23,7 @@
     </div>
 
     <div class="state-board__row">
-      <kui-segmented
-        [selected]="align()"
-        (selectedChange)="align.set($event)"
-        aria-label="Text alignment"
-      >
+      <kui-segmented [(value)]="align" aria-label="Text alignment">
         <button kuiSegment value="left">
           <kui-icon name="align-left" size="14px" label="Left" />
         </button>
@@ -70,19 +62,19 @@
               <code>size="{{ sizeRow.value }}"</code>
             </td>
             <td kuiCell class="matrix-cell">
-              <kui-segmented [size]="sizeRow.value" selected="seg-b-{{ sizeRow.value }}">
+              <kui-segmented [size]="sizeRow.value" value="seg-b-{{ sizeRow.value }}">
                 <button kuiSegment value="seg-a-{{ sizeRow.value }}">A</button>
                 <button kuiSegment value="seg-b-{{ sizeRow.value }}">B</button>
               </kui-segmented>
             </td>
             <td kuiCell class="matrix-cell">
-              <kui-segmented [size]="sizeRow.value" selected="seg-sel-a-{{ sizeRow.value }}">
+              <kui-segmented [size]="sizeRow.value" value="seg-sel-a-{{ sizeRow.value }}">
                 <button kuiSegment value="seg-sel-a-{{ sizeRow.value }}">A</button>
                 <button kuiSegment value="seg-sel-b-{{ sizeRow.value }}">B</button>
               </kui-segmented>
             </td>
             <td kuiCell class="matrix-cell">
-              <kui-segmented [size]="sizeRow.value" selected="seg-foc-b-{{ sizeRow.value }}">
+              <kui-segmented [size]="sizeRow.value" value="seg-foc-b-{{ sizeRow.value }}">
                 <button kuiSegment value="seg-foc-a-{{ sizeRow.value }}" class="kui-seg-demo-focus">
                   A
                 </button>
@@ -90,7 +82,7 @@
               </kui-segmented>
             </td>
             <td kuiCell class="matrix-cell">
-              <kui-segmented [size]="sizeRow.value" selected="seg-dis-b-{{ sizeRow.value }}">
+              <kui-segmented [size]="sizeRow.value" value="seg-dis-b-{{ sizeRow.value }}">
                 <button kuiSegment value="seg-dis-a-{{ sizeRow.value }}" disabled>A</button>
                 <button kuiSegment value="seg-dis-b-{{ sizeRow.value }}">B</button>
               </kui-segmented>
@@ -109,7 +101,7 @@
 >
   <div class="component-board">
     <div class="state-board__row">
-      <kui-segmented [selected]="'seg-selected'" aria-label="Segment states">
+      <kui-segmented [value]="'seg-selected'" aria-label="Segment states">
         <button kuiSegment value="seg-default">Default</button>
         <button kuiSegment value="seg-hover" class="kui-seg-demo-hover">Hover</button>
         <button kuiSegment value="seg-focus" class="kui-seg-demo-focus">Focus</button>

@@ -9,7 +9,7 @@ import { KuiTabsComponent } from './kui-tabs.component';
 @Component({
   imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
   template: `
-    <kui-tabs [selected]="tab()" [controlsPanels]="controlsPanels()">
+    <kui-tabs [value]="tab()" [controlsPanels]="controlsPanels()">
       <button kuiTab value="a">A</button>
       <button kuiTab value="b">B</button>
       <div kuiTabPanel value="a">Panel A</div>
@@ -25,7 +25,7 @@ class TabsHost {
 @Component({
   imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
   template: `
-    <kui-tabs selected="a" inverted>
+    <kui-tabs value="a" inverted>
       <button kuiTab value="a">A</button>
       <div kuiTabPanel value="a">Panel A</div>
     </kui-tabs>
@@ -36,7 +36,7 @@ class TabsInvertedHost {}
 @Component({
   imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
   template: `
-    <kui-tabs selected="a">
+    <kui-tabs value="a">
       <button kuiTab value="a">A</button>
       <button kuiTab value="b" [hasError]="hasError()">B</button>
       <div kuiTabPanel value="a">Panel A</div>
@@ -46,6 +46,36 @@ class TabsInvertedHost {}
 })
 class TabsErrorHost {
   readonly hasError = signal(false);
+}
+
+@Component({
+  imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
+  template: `
+    <kui-tabs [(selected)]="selected">
+      <button kuiTab value="a">A</button>
+      <button kuiTab value="b">B</button>
+      <div kuiTabPanel value="a">Panel A</div>
+      <div kuiTabPanel value="b">Panel B</div>
+    </kui-tabs>
+  `,
+})
+class TabsDeprecatedSelectedHost {
+  readonly selected = signal('a');
+}
+
+@Component({
+  imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
+  template: `
+    <kui-tabs [selected]="selected()" (selectedChange)="selected.set($event)">
+      <button kuiTab value="a">A</button>
+      <button kuiTab value="b">B</button>
+      <div kuiTabPanel value="a">Panel A</div>
+      <div kuiTabPanel value="b">Panel B</div>
+    </kui-tabs>
+  `,
+})
+class TabsSplitBindingSelectedHost {
+  readonly selected = signal('b');
 }
 
 describe('KuiTabsComponent', () => {
@@ -168,5 +198,28 @@ describe('KuiTabsComponent', () => {
     expect(tab.querySelectorAll('.kui-tab-error-dot')).toHaveLength(1);
     expect(tab.querySelectorAll('.kui-tab-error-sr')).toHaveLength(1);
     expect(tab.querySelector('.kui-tab-error-sr')?.textContent).toBe('has error');
+  });
+
+  it('deprecated [(selected)] still two-way binds', () => {
+    TestBed.configureTestingModule({ imports: [TabsDeprecatedSelectedHost] });
+    const fixture = TestBed.createComponent(TabsDeprecatedSelectedHost);
+    fixture.detectChanges();
+
+    const tabs = fixture.nativeElement.querySelectorAll('[role="tab"]') as NodeListOf<HTMLElement>;
+    tabs[1].click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.selected()).toBe('b');
+  });
+
+  it('honors initial [selected] value with split property + event binding (no banana-in-box)', () => {
+    TestBed.configureTestingModule({ imports: [TabsSplitBindingSelectedHost] });
+    const fixture = TestBed.createComponent(TabsSplitBindingSelectedHost);
+    fixture.detectChanges();
+
+    const tabs = fixture.nativeElement.querySelectorAll('[role="tab"]') as NodeListOf<HTMLElement>;
+
+    expect(tabs[0].getAttribute('aria-selected')).toBe('false');
+    expect(tabs[1].getAttribute('aria-selected')).toBe('true');
   });
 });

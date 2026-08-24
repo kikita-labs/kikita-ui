@@ -1,0 +1,6 @@
+# Normalize all text files to LF in the repository and on checkout, regardless
+# of platform or local `core.autocrlf` setting. Without this, Windows checkouts
+# with `core.autocrlf=true` reintroduce CRLF into working-tree files that are
+# stored as LF, which makes Prettier's `format:check` (LF-only) fail against
+# files that have no real content diff from HEAD.
+* text=auto eol=lf

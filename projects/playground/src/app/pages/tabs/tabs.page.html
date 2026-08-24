@@ -4,7 +4,7 @@
   description="Compound component: <code>kui-tabs</code>, <code>[kuiTab]</code>, <code>[kuiTabPanel]</code>. Keyboard: ←→ Home End."
 >
   <div class="component-board">
-    <kui-tabs selected="general">
+    <kui-tabs value="general">
       <button kuiTab value="general">General</button>
       <button kuiTab value="advanced">Advanced</button>
       <button kuiTab value="billing">Billing</button>
@@ -23,7 +23,7 @@
 
 <app-panel num="02" title="With badge" description="Tab labels can include badge or icon children.">
   <div class="component-board">
-    <kui-tabs selected="open">
+    <kui-tabs value="open">
       <button kuiTab value="open">
         Open
         <span kuiBadge appearance="primary">12</span>
@@ -52,7 +52,7 @@
   description='<code>variant="pill"</code> gives the active tab a <code>primary-soft-bg</code> background with no bottom indicator.'
 >
   <div class="component-board">
-    <kui-tabs variant="pill" selected="general">
+    <kui-tabs variant="pill" value="general">
       <button kuiTab value="general">General</button>
       <button kuiTab value="advanced">Advanced</button>
       <button kuiTab value="billing">Billing</button>
@@ -61,7 +61,7 @@
       <div kuiTabPanel value="billing"><p>Billing panel.</p></div>
     </kui-tabs>
 
-    <kui-tabs variant="pill" selected="open">
+    <kui-tabs variant="pill" value="open">
       <button kuiTab value="open">
         Open
         <span kuiBadge appearance="primary">12</span>
@@ -81,7 +81,7 @@
   description="Many tabs scroll horizontally. At &lt;480px scroll-snap applies."
 >
   <div class="component-board">
-    <kui-tabs selected="tab1">
+    <kui-tabs value="tab1">
       @for (tab of manyTabs; track tab) {
         <button kuiTab [value]="tab">{{ tab }}</button>
       }
@@ -120,7 +120,7 @@
               <td kuiCell style="padding: 16px; vertical-align: top">
                 <kui-tabs
                   [variant]="variant.value"
-                  [selected]="
+                  [value]="
                     col.value === 'selected'
                       ? 'ta-' + variant.value + '-' + col.value
                       : 'tb-' + variant.value + '-' + col.value
@@ -166,7 +166,7 @@
               <code>size="{{ sizeRow.value }}"</code>
             </td>
             <td kuiCell style="padding: 16px; vertical-align: top">
-              <kui-tabs [size]="sizeRow.value" selected="tab-line-b-{{ sizeRow.value }}">
+              <kui-tabs [size]="sizeRow.value" value="tab-line-b-{{ sizeRow.value }}">
                 <button kuiTab value="tab-line-a-{{ sizeRow.value }}">Overview</button>
                 <button kuiTab value="tab-line-b-{{ sizeRow.value }}">Activity</button>
                 <button kuiTab value="tab-line-c-{{ sizeRow.value }}">Settings</button>
@@ -179,7 +179,7 @@
               <kui-tabs
                 variant="pill"
                 [size]="sizeRow.value"
-                selected="tab-pill-b-{{ sizeRow.value }}"
+                value="tab-pill-b-{{ sizeRow.value }}"
               >
                 <button kuiTab value="tab-pill-a-{{ sizeRow.value }}">Overview</button>
                 <button kuiTab value="tab-pill-b-{{ sizeRow.value }}">Activity</button>
@@ -202,7 +202,7 @@
   description='<code>orientation="vertical"</code> stacks the tab list in a column. Keyboard: ↑↓ Home End.'
 >
   <div class="component-board" style="display: flex; gap: 48px; flex-wrap: wrap">
-    <kui-tabs orientation="vertical" selected="general">
+    <kui-tabs orientation="vertical" value="general">
       <button kuiTab value="general">General</button>
       <button kuiTab value="advanced">Advanced</button>
       <button kuiTab value="billing">Billing</button>
@@ -217,7 +217,7 @@
       </div>
     </kui-tabs>
 
-    <kui-tabs orientation="vertical" variant="pill" selected="general">
+    <kui-tabs orientation="vertical" variant="pill" value="general">
       <button kuiTab value="general">General</button>
       <button kuiTab value="advanced">Advanced</button>
       <button kuiTab value="billing">Billing</button>
@@ -240,7 +240,7 @@
   description="<code>inverted</code> flips the tab edge: horizontal panels render above the tabs, vertical panels render before the tab list."
 >
   <div class="component-board tabs-inverted-board">
-    <kui-tabs inverted selected="details">
+    <kui-tabs inverted value="details">
       <button kuiTab value="overview">Overview</button>
       <button kuiTab value="details">Details</button>
       <button kuiTab value="history">History</button>
@@ -255,7 +255,7 @@
       </div>
     </kui-tabs>
 
-    <kui-tabs orientation="vertical" inverted selected="details">
+    <kui-tabs orientation="vertical" inverted value="details">
       <button kuiTab value="overview">Overview</button>
       <button kuiTab value="details">Details</button>
       <button kuiTab value="history">History</button>
@@ -278,7 +278,7 @@
   description="<code>[hasError]</code> on <code>[kuiTab]</code> adds a small danger dot next to the label. Does not change selected state or tab color — consumer decides when to show it (e.g. after a failed form submit)."
 >
   <div class="component-board">
-    <kui-tabs selected="general">
+    <kui-tabs value="general">
       <button kuiTab value="general">General</button>
       <button kuiTab value="advanced" [hasError]="tabsErrorVisible()">Advanced</button>
       <button kuiTab value="billing">Billing</button>

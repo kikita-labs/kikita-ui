@@ -42,6 +42,16 @@ Set `icons: false` to opt out of the default resolver entirely (no network reque
 provideKikitaUi({ icons: false });
 ```
 
+`provideKikitaUi()` also registers a small built-in brand icon set alongside the Lucide resolver,
+resolved locally with no network request. Currently it contains one icon, the Kikita UI wordmark
+glyph:
+
+```html
+<kui-icon name="kikita-brand" label="Kikita UI" />
+```
+
+It is also disabled by `icons: false`.
+
 ## Custom And Overriding Icon Sets
 
 `provideKuiIcons()` accepts either a static registry (`Record<name, svgString>`) or an async

@@ -12,8 +12,6 @@ or docs-repo handoff work.
   package version is visible on npmjs.
 - Add `CHANGELOG.md` entries for release-visible API, behavior, or bug fixes.
 - Pure internal tooling, tests, and docs wording do not need changelog entries.
-- Record breaking docs/consumer follow-up in the sibling docs repo local note
-  described by `.agents/git-policy.md`.
 
 ## Release Gate
 

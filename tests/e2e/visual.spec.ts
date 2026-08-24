@@ -10,7 +10,12 @@ const viewports = [
 const themes = ['light', 'dark'] as const;
 
 async function setPlaygroundTheme(page: Page, theme: (typeof themes)[number]): Promise<void> {
-  await page.getByRole('radio', { name: theme, exact: true }).click();
+  /**
+   * The header renders two theme toggles side by side (one wired via legacy [selected], one via
+   * [formField]) sharing the same underlying state as a live demo -- both have identically-named
+   * "light"/"dark" radios, so pick the first; either one moves both.
+   */
+  await page.getByRole('radio', { name: theme, exact: true }).first().click();
   await expect(page.locator('html')).toHaveAttribute('data-kui-theme', theme);
 }
 

@@ -28,7 +28,7 @@ export class KuiTabPanelDirective {
 
   private readonly context = inject(KUI_TABS_CONTEXT);
 
-  protected readonly isActive = computed(() => this.context.selected() === this.value());
+  protected readonly isActive = computed(() => this.context.value() === this.value());
   protected readonly tabId = computed(() => this.context.tabId(this.value()));
   protected readonly panelId = computed(() => this.context.panelId(this.value()));
 }

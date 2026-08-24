@@ -35,9 +35,7 @@ export class KuiSegmentDirective {
   private readonly context = inject(KUI_SEGMENTED_CONTEXT);
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  readonly isDisabled = computed(
-    () => this.disabled() || this.elementRef.nativeElement.hasAttribute('disabled'),
-  );
+  readonly isDisabled = computed(() => this.disabled() || this.context.groupDisabled());
   protected readonly isSelected = computed(() => this.context.selected() === this.value());
 
   /** @internal */

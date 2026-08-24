@@ -5,10 +5,17 @@
       <h1>Development board</h1>
     </div>
 
-    <kui-segmented [selected]="mode()" (selectedChange)="setMode($any($event))" size="sm">
-      <button kuiSegment value="light">light</button>
-      <button kuiSegment value="dark">dark</button>
-    </kui-segmented>
+    <div class="header__theme-toggles">
+      <kui-segmented [selected]="mode()" (selectedChange)="setMode($any($event))" size="sm">
+        <button kuiSegment value="light">light</button>
+        <button kuiSegment value="dark">dark</button>
+      </kui-segmented>
+
+      <kui-segmented [formField]="themeForm.mode" size="sm">
+        <button kuiSegment value="light">light</button>
+        <button kuiSegment value="dark">dark</button>
+      </kui-segmented>
+    </div>
   </header>
 
   <nav kuiCard class="playground-nav" aria-label="Playground sections">

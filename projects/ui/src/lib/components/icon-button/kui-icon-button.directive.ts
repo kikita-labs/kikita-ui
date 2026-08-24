@@ -27,9 +27,11 @@ import { KuiIconComponent, type KuiIconName } from '../icon';
     '[attr.data-kui-shape]': 'effectiveShape()',
     '[attr.data-kui-appearance]': 'effectiveAppearance()',
     '[attr.data-kui-size]': 'effectiveSize()',
-    '[attr.aria-disabled]': 'disabled() ? "true" : null',
+    '[attr.data-kui-loading]': 'loading() ? "" : null',
+    '[attr.aria-disabled]': 'isDisabled() ? "true" : null',
+    '[attr.aria-busy]': 'loading() ? "true" : null',
     '[attr.disabled]': 'nativeDisabledAttribute()',
-    '[attr.tabindex]': 'disabled() ? "-1" : null',
+    '[attr.tabindex]': 'isDisabled() ? "-1" : null',
     '(click)': 'handleClick($event)',
   },
 })
@@ -46,6 +48,9 @@ export class KuiIconButtonDirective {
   /** Disables the icon button host and removes anchor icon buttons from tab order. */
   readonly disabled = input(false, { transform: booleanAttribute });
 
+  /** Shows a spinner in place of the icon and blocks interaction while true. */
+  readonly loading = input(false, { transform: booleanAttribute });
+
   /**
    * Renders the button's icon from a registered name instead of manually projecting a
    * `kui-icon`. Prepended before any other projected content.
@@ -60,9 +65,13 @@ export class KuiIconButtonDirective {
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   private iconRef: ComponentRef<KuiIconComponent> | null = null;
+  private contentEl: HTMLElement | null = null;
+  private loaderEl: HTMLElement | null = null;
+
+  protected readonly isDisabled = computed(() => this.disabled() || this.loading());
 
   protected readonly nativeDisabledAttribute = computed(() =>
-    this.disabled() && this.host.tagName.toLowerCase() === 'button' ? '' : null,
+    this.isDisabled() && this.host.tagName.toLowerCase() === 'button' ? '' : null,
   );
 
   protected readonly effectiveShape = computed(
@@ -90,15 +99,48 @@ export class KuiIconButtonDirective {
     effect(() => {
       this.iconRef = this.syncIcon(this.icon(), this.iconRef);
     });
+
+    effect(() => {
+      if (this.loading()) {
+        this.showLoader(this.effectiveSize());
+      } else {
+        this.hideLoader();
+      }
+    });
   }
 
   protected handleClick(event: Event): void {
-    if (!this.disabled()) {
+    if (!this.isDisabled()) {
       return;
     }
 
     event.preventDefault();
     event.stopImmediatePropagation();
+  }
+
+  private showLoader(size: KuiSize): void {
+    this.ensureContentWrapper();
+
+    if (!this.loaderEl) {
+      this.loaderEl = this.renderer.createElement('span');
+      this.renderer.addClass(this.loaderEl, 'kui-loader');
+      this.renderer.addClass(this.loaderEl, 'kui-icon-button__loader');
+      this.renderer.setAttribute(this.loaderEl, 'role', 'status');
+      this.renderer.setAttribute(this.loaderEl, 'aria-live', 'polite');
+      this.renderer.setAttribute(this.loaderEl, 'aria-label', 'Loading');
+      this.renderer.appendChild(this.host, this.loaderEl);
+    }
+
+    this.renderer.setAttribute(this.loaderEl, 'data-kui-size', size);
+  }
+
+  private hideLoader(): void {
+    if (!this.loaderEl) {
+      return;
+    }
+
+    this.renderer.removeChild(this.host, this.loaderEl);
+    this.loaderEl = null;
   }
 
   private syncIcon(
@@ -115,10 +157,28 @@ export class KuiIconButtonDirective {
       return existing;
     }
 
+    this.ensureContentWrapper();
+
+    const contentEl = this.contentEl!;
     const created = this.viewContainerRef.createComponent(KuiIconComponent);
     created.setInput('name', name);
-    this.renderer.insertBefore(this.host, created.location.nativeElement, this.host.firstChild);
+    this.renderer.insertBefore(contentEl, created.location.nativeElement, contentEl.firstChild);
 
     return created;
+  }
+
+  private ensureContentWrapper(): void {
+    if (this.contentEl) {
+      return;
+    }
+
+    this.contentEl = this.renderer.createElement('span');
+    this.renderer.addClass(this.contentEl, 'kui-icon-button__content');
+
+    while (this.host.firstChild) {
+      this.renderer.appendChild(this.contentEl, this.host.firstChild);
+    }
+
+    this.renderer.appendChild(this.host, this.contentEl);
   }
 }

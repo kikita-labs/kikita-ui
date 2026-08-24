@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   contentChild,
+  contentChildren,
   effect,
   ElementRef,
   inject,
@@ -20,6 +21,15 @@ import { KuiCalendarComponent } from '../calendar/kui-calendar.component';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KUI_OPTION_CONTEXT } from '../dropdown/kui-option-context.token';
+import {
+  KUI_INPUT_GROUP_CONTROL_SELECTOR,
+  KUI_INPUT_GROUP_INTERACTIVE_SELECTOR,
+} from '../input/kui-input-group.directive';
+import {
+  KuiFieldActionDirective,
+  KuiFieldAffixDirective,
+  KuiFieldAffixIconDirective,
+} from './kui-field-affix.directive';
 import {
   KuiErrorDirective,
   KuiHintDirective,
@@ -86,10 +96,10 @@ export class KuiFieldComponent implements KuiOptionContext {
     const explicitError = this.error();
     if (explicitError) return explicitError;
 
-    return this.signalFormField()
-      ?.state()
-      .errors()
-      .find((error) => error.message)?.message;
+    const formFieldState = this.signalFormField()?.state();
+    if (!formFieldState?.touched()) return undefined;
+
+    return formFieldState.errors().find((error) => error.message)?.message;
   });
 
   /** Whether the field currently has an error. */
@@ -97,13 +107,28 @@ export class KuiFieldComponent implements KuiOptionContext {
     () =>
       Boolean(this.error()) ||
       Boolean(this.projectedError()) ||
-      Boolean(this.signalFormField()?.state().invalid()),
+      Boolean(
+        this.signalFormField()?.state().touched() && this.signalFormField()?.state().invalid(),
+      ),
   );
 
   /** Whether the required marker should be visible. */
   readonly isRequired = computed(
     () => this.required() ?? this.signalFormField()?.state().required() ?? false,
   );
+
+  /**
+   * Whether a Signal Forms `[formField]` is projected into this field. Angular Signal Forms'
+   * native-control interop auto-wires ANY directive on the bound host element that declares an
+   * `invalid`/`disabled`/`required`/... input matching its `FIELD_STATE_KEY_TO_CONTROL_BINDING`
+   * list, writing the field's raw (untouched-gated) state straight into it -- bypassing this
+   * component's own touched gate on `invalid`/`displayedError` entirely. Every control directive
+   * that projects into `kui-field` (`kuiInput`, `kuiTextarea`, ...) exposes an `[invalid]` input
+   * for standalone use outside a field, and that exact name collides with the reserved binding.
+   * Those directives check this flag to ignore their own (Signal-Forms-clobbered) `invalid` input
+   * and trust only this component's gated `invalid()` whenever a Signal Forms field is present.
+   */
+  readonly hasSignalFormField = computed(() => Boolean(this.signalFormField()));
 
   /** Effective field size after local input and provider defaults are applied. */
   readonly effectiveSize = computed(
@@ -151,6 +176,29 @@ export class KuiFieldComponent implements KuiOptionContext {
    * binding `[value]`/`(valueChange)` on the calendar.
    */
   protected readonly calendar = contentChild(KuiCalendarComponent);
+
+  private readonly projectedAffixes = contentChildren(KuiFieldAffixDirective, {
+    descendants: true,
+  });
+  private readonly projectedAffixIcons = contentChildren(KuiFieldAffixIconDirective, {
+    descendants: true,
+  });
+  private readonly projectedFieldActions = contentChildren(KuiFieldActionDirective, {
+    descendants: true,
+  });
+
+  /**
+   * Whether the control slot should render as `.kui-input-group` chrome (shared border, flex
+   * layout) instead of letting a single `.kui-input` draw its own border. Detected from projected
+   * `kuiFieldAffix` / `kuiFieldAffixIcon` / `kuiFieldAction` content so callers never hand-wire the
+   * wrapper themselves.
+   */
+  protected readonly hasInputGroupChrome = computed(
+    () =>
+      this.projectedAffixes().length > 0 ||
+      this.projectedAffixIcons().length > 0 ||
+      this.projectedFieldActions().length > 0,
+  );
 
   private readonly signalFormField = contentChild<FormField<unknown>>(FormField);
   private readonly projectedHint = contentChild(KuiHintDirective);
@@ -213,11 +261,27 @@ export class KuiFieldComponent implements KuiOptionContext {
   }
 
   protected handleClick(event: MouseEvent): void {
-    if (this._selectDisabled()) return;
-    const target = event.target as Node | null;
+    const target = event.target as HTMLElement | null;
     const control = this.controlSlot()?.nativeElement;
     if (!target || !control?.contains(target)) return;
-    this.dropdown()?.toggle();
+
+    // `.kui-input-group` chrome here comes from `[class.kui-input-group]` (see
+    // `hasInputGroupChrome`), a property binding -- `KuiInputGroupDirective`'s own
+    // `.kui-input-group` selector only matches a *static* class string, so it never attaches to
+    // this element. Re-implement its click-to-focus delegation here instead of relying on it,
+    // otherwise clicking the group's padding (the gap between its 40px border and the shorter
+    // native control) does nothing.
+    if (this.hasInputGroupChrome() && !target.closest(KUI_INPUT_GROUP_INTERACTIVE_SELECTOR)) {
+      control
+        .querySelector<
+          HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+        >(KUI_INPUT_GROUP_CONTROL_SELECTOR)
+        ?.focus();
+    }
+
+    if (!this._selectDisabled()) {
+      this.dropdown()?.toggle();
+    }
   }
 
   /**

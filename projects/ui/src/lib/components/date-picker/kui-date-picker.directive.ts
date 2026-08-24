@@ -161,9 +161,21 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
     return false;
   });
 
+  /**
+   * Signal Forms' native-control interop auto-wires this directive's `invalid` input straight
+   * from the bound field's raw (untouched-gated) state whenever `[formField]` is present -- see
+   * `KuiFieldComponent.hasSignalFormField`. In that case `invalid()` no longer reflects a
+   * deliberate manual override, so it's ignored in favor of the field's own gated `invalid()`;
+   * `parseFailed()`/`outOfRange()` (parse/range state internal to this control) always still
+   * apply.
+   */
   protected readonly effectiveInvalid = computed(
     () =>
-      this.invalid() || Boolean(this.field?.invalid()) || this.parseFailed() || this.outOfRange(),
+      (this.field?.hasSignalFormField()
+        ? Boolean(this.field.invalid())
+        : this.invalid() || Boolean(this.field?.invalid())) ||
+      this.parseFailed() ||
+      this.outOfRange(),
   );
 
   constructor() {

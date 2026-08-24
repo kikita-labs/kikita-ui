@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, effect, inject, signal, ViewEncapsulation } from '@angular/core';
+import { Component, computed, effect, inject, signal, ViewEncapsulation } from '@angular/core';
+import { form, FormField } from '@angular/forms/signals';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -75,6 +76,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   imports: [
     RouterOutlet,
     RouterLink,
+    FormField,
     KuiButtonDirective,
     KuiCardDirective,
     KuiSegmentedComponent,
@@ -88,7 +90,14 @@ export class App {
   private readonly document = inject(DOCUMENT);
   private readonly router = inject(Router);
 
-  protected readonly mode = signal<KuiThemeMode>('dark');
+  /**
+   * Single source of truth for both header segmented controls below -- one wired the legacy way
+   * ([selected] + (selectedChange)), the other via Signal Forms ([formField]) -- so toggling either
+   * one moves both, proving the two binding styles stay in sync on the same state.
+   */
+  protected readonly themeModel = signal<{ mode: KuiThemeMode }>({ mode: 'dark' });
+  protected readonly themeForm = form(this.themeModel);
+  protected readonly mode = computed(() => this.themeModel().mode);
   protected readonly navItems = NAV_ITEMS;
   protected readonly currentPath = toSignal(
     this.router.events.pipe(
@@ -106,6 +115,6 @@ export class App {
   }
 
   protected setMode(mode: KuiThemeMode): void {
-    this.mode.set(mode);
+    this.themeModel.set({ mode });
   }
 }

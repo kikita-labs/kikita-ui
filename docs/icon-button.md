@@ -36,6 +36,12 @@ Project `kui-icon` directly when the icon needs `source` or `src` instead of a r
 </button>
 ```
 
+Use `loading` to show a spinner in place of the icon while an action is pending:
+
+```html
+<button kuiIconButton icon="check" loading aria-label="Save"></button>
+```
+
 ## Inputs
 
 - `shape`: `solid | soft | outline | ghost`; defaults to `ghost`.
@@ -43,6 +49,8 @@ Project `kui-icon` directly when the icon needs `source` or `src` instead of a r
 - `size`: `xs | sm | md | lg`; defaults to `provideKikitaUi({ defaults.size })`, then `md`.
 - `disabled`: disables icon button behavior. Anchor icon buttons receive `aria-disabled="true"`
   and are removed from tab order.
+- `loading`: replaces the icon (and any projected content) with a centered spinner, disables the
+  host the same way `disabled` does, and sets `aria-busy="true"`. The host keeps its footprint.
 - `icon`: renders a `kui-icon` resolved by name, prepended before any other projected content.
 
 ## Provider Defaults

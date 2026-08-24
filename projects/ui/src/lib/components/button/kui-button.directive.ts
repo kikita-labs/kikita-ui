@@ -70,6 +70,7 @@ export class KuiButtonDirective {
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   private contentEl: HTMLElement | null = null;
+  private labelEl: HTMLElement | null = null;
   private loaderEl: HTMLElement | null = null;
   private iconStartRef: ComponentRef<KuiIconComponent> | null = null;
   private iconEndRef: ComponentRef<KuiIconComponent> | null = null;
@@ -175,12 +176,13 @@ export class KuiButtonDirective {
     this.ensureContentWrapper();
 
     const contentEl = this.contentEl!;
+    const labelEl = this.labelEl!;
     const created = this.viewContainerRef.createComponent(KuiIconComponent);
     created.setInput('name', name);
     this.renderer.addClass(created.location.nativeElement, `kui-button__icon-${position}`);
 
     if (position === 'start') {
-      this.renderer.insertBefore(contentEl, created.location.nativeElement, contentEl.firstChild);
+      this.renderer.insertBefore(contentEl, created.location.nativeElement, labelEl);
     } else {
       this.renderer.appendChild(contentEl, created.location.nativeElement);
     }
@@ -196,10 +198,14 @@ export class KuiButtonDirective {
     this.contentEl = this.renderer.createElement('span');
     this.renderer.addClass(this.contentEl, 'kui-button__content');
 
+    this.labelEl = this.renderer.createElement('span');
+    this.renderer.addClass(this.labelEl, 'kui-button__label');
+
     while (this.host.firstChild) {
-      this.renderer.appendChild(this.contentEl, this.host.firstChild);
+      this.renderer.appendChild(this.labelEl, this.host.firstChild);
     }
 
+    this.renderer.appendChild(this.contentEl, this.labelEl);
     this.renderer.appendChild(this.host, this.contentEl);
   }
 }

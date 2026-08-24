@@ -14,7 +14,7 @@ import { KuiTreeComponent } from '@kikita-labs/ui';
 ## Usage
 
 ```html
-<kui-tree ariaLabel="Project explorer" [data]="nodes" [(selected)]="selectedId" />
+<kui-tree ariaLabel="Project explorer" [data]="nodes" [(value)]="selectedId" />
 ```
 
 ```ts
@@ -62,17 +62,18 @@ result is cached for the node's lifetime in this tree instance.
 
 ## Inputs
 
-| Input          | Type                                                     | Default     | Notes                                                                         |
-| -------------- | -------------------------------------------------------- | ----------- | ----------------------------------------------------------------------------- |
-| `mode`         | `'display' \| 'checkable'`                               | `'display'` | Click behavior and whether checkboxes render.                                 |
-| `size`         | `KuiSize`                                                | `'md'`      | Row height/text size; only `sm`/`md`/`lg` have dedicated styling.             |
-| `data`         | `readonly KuiTreeNode[]`                                 | `[]`        | Root nodes.                                                                   |
-| `ariaLabel`    | `string`                                                 | `'Tree'`    | Accessible name for the `role="tree"` container.                              |
-| `mobile`       | `boolean`                                                | `false`     | Enlarges the toggle tap target to 44x44px.                                    |
-| `selected`     | `string \| null`                                         | `null`      | Controlled selected node id (`display` mode). Two-way (`selectedChange`).     |
-| `checkedIds`   | `string[]`                                               | `[]`        | Controlled checked node ids (`checkable` mode). Two-way (`checkedIdsChange`). |
-| `expandedIds`  | `string[]`                                               | `[]`        | Controlled expanded node ids. Two-way (`expandedIdsChange`).                  |
-| `loadChildren` | `(node: KuiTreeNode) => Promise<readonly KuiTreeNode[]>` | —           | Called once per `lazy` node the first time it's expanded.                     |
+| Input          | Type                                                     | Default     | Notes                                                                                                          |
+| -------------- | -------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------- |
+| `mode`         | `'display' \| 'checkable'`                               | `'display'` | Click behavior and whether checkboxes render.                                                                  |
+| `size`         | `KuiSize`                                                | `'md'`      | Row height/text size; only `sm`/`md`/`lg` have dedicated styling.                                              |
+| `data`         | `readonly KuiTreeNode[]`                                 | `[]`        | Root nodes.                                                                                                    |
+| `ariaLabel`    | `string`                                                 | `'Tree'`    | Accessible name for the `role="tree"` container.                                                               |
+| `mobile`       | `boolean`                                                | `false`     | Enlarges the toggle tap target to 44x44px.                                                                     |
+| `value`        | `string \| null`                                         | `null`      | Controlled selected node id (`display` mode). Two-way (`valueChange`).                                         |
+| `selected`     | `string \| null`                                         | `null`      | **Deprecated**, use `value` instead. Kept in sync with `value`; planned for removal in the next major version. |
+| `checkedIds`   | `string[]`                                               | `[]`        | Controlled checked node ids (`checkable` mode). Two-way (`checkedIdsChange`).                                  |
+| `expandedIds`  | `string[]`                                               | `[]`        | Controlled expanded node ids. Two-way (`expandedIdsChange`).                                                   |
+| `loadChildren` | `(node: KuiTreeNode) => Promise<readonly KuiTreeNode[]>` | —           | Called once per `lazy` node the first time it's expanded.                                                      |
 
 ### `KuiTreeNode`
 

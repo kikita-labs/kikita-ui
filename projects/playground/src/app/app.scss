@@ -24,6 +24,12 @@ app-root {
   padding: 20px;
 }
 
+.header__theme-toggles {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 .header p {
   margin: 0;
   color: var(--kui-color-text-secondary);

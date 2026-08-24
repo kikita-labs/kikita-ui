@@ -33,6 +33,13 @@
       <kui-icon name="triangle-alert" />
     </button>
   </div>
+
+  <div class="icon-grid">
+    <article>
+      <kui-icon name="kikita-brand" label="Kikita UI brand mark" size="24px" />
+      <code>name="kikita-brand"</code>
+    </article>
+  </div>
 </app-panel>
 
 <app-panel
@@ -160,5 +167,36 @@
         }
       </tbody>
     </table>
+  </div>
+</app-panel>
+
+<app-panel
+  num="06"
+  title="Projected content (sync, no registry)"
+  description="When name/source/src are all unset, kui-icon projects light-DOM children synchronously instead of resolving through provideKuiIcons -- a one-off raw <svg> that isn't worth registering."
+>
+  <div class="icon-grid">
+    <article>
+      <kui-icon label="Custom mark" size="24px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2 2 7l10 5 10-5-10-5Z" />
+          <path d="m2 17 10 5 10-5" />
+          <path d="m2 12 10 5 10-5" />
+        </svg>
+      </kui-icon>
+      <code>&lt;kui-icon&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/kui-icon&gt;</code>
+    </article>
+  </div>
+
+  <div class="state-board__row">
+    <button kuiIconButton aria-label="Custom mark" type="button">
+      <kui-icon>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2 2 7l10 5 10-5-10-5Z" />
+          <path d="m2 17 10 5 10-5" />
+          <path d="m2 12 10 5 10-5" />
+        </svg>
+      </kui-icon>
+    </button>
   </div>
 </app-panel>

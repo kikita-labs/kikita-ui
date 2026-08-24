@@ -43,13 +43,13 @@
   }
 
   .kui-card[data-kui-size='xs'] {
-    --kui-card-padding: 8px;
+    --kui-card-padding: var(--kui-space-2, 8px);
   }
   .kui-card[data-kui-size='sm'] {
-    --kui-card-padding: 12px;
+    --kui-card-padding: var(--kui-space-3, 12px);
   }
   .kui-card[data-kui-size='lg'] {
-    --kui-card-padding: 24px;
+    --kui-card-padding: var(--kui-space-6, 24px);
   }
 
   @media (prefers-reduced-motion: reduce) {
