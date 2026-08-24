@@ -24,16 +24,16 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Changed
 
+- `kui-accordion` configuration fields (`mode`, `appearance`, and `size`) and `kui-dropdown`'s
+  `closeOnSelect` are now read-only `input()` values. They no longer expose writable model outputs;
+  mutable accordion state remains available through `expandedItems`.
+
 - `kui-calendar` (`KuiCalendarComponent`) is now single-date only. The `mode` input and the
   `KuiCalendarMode`/`KuiCalendarValue` types are gone; `value` is now `model<Date | null>`
   instead of `model<Date | KuiDateRange | null>`. Existing `mode="range"` usage migrates to the
   new `KuiCalendarRangeComponent` (`kui-calendar-range`), whose `value` is
   `model<KuiDateRange | null>`. `KuiDateRange` itself is unchanged and now documented as the
   value type of `kui-calendar-range`.
-
-- `kui-accordion` configuration fields (`mode`, `appearance`, and `size`) and `kui-dropdown`'s
-  `closeOnSelect` are now read-only `input()` values. They no longer expose writable model outputs;
-  mutable accordion state remains available through `expandedItems`.
 
 ## [1.6.1] - 2026-08-06
 

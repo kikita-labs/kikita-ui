@@ -1,4 +1,4 @@
-import { Component, computed, inject, model, ViewEncapsulation } from '@angular/core';
+import { Component, computed, inject, input, model, ViewEncapsulation } from '@angular/core';
 
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
@@ -42,13 +42,13 @@ export type KuiAccordionMode = 'exclusive' | 'multi';
 })
 export class KuiAccordionComponent implements KuiAccordionContext {
   /** Toggle mode for the accordion. */
-  readonly mode = model<KuiAccordionMode>('exclusive');
+  readonly mode = input<KuiAccordionMode>('exclusive');
 
   /** Visual appearance of the accordion. */
-  readonly appearance = model<KuiAccordionAppearance>('default');
+  readonly appearance = input<KuiAccordionAppearance>('default');
 
   /** Trigger height and font size. */
-  readonly size = model<KuiSize | undefined>();
+  readonly size = input<KuiSize | undefined>();
 
   /**
    * IDs of currently expanded items. Supports two-way binding.

@@ -251,7 +251,6 @@ export class KuiSelectDirective<T = unknown>
     effect(() => {
       const dropdown = this.field?.getDropdown();
       if (!dropdown) return;
-      dropdown.closeOnSelect.set(!this.multiple());
       const isOpen = dropdown.isOpen();
 
       if (this._wasOpen && !isOpen) {

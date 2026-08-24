@@ -55,6 +55,9 @@ import { KuiAccordionComponent, KuiAccordionItemComponent } from '@kikita-labs/u
 | `size`          | `KuiSize`                            | `'md'`        | Trigger height and text size.                              |
 | `expandedItems` | `string[]`                           | `[]`          | IDs of currently expanded items. Supports two-way binding. |
 
+`mode`, `appearance`, and `size` are configuration inputs. Only
+`expandedItems` is component-owned mutable state and supports two-way binding.
+
 ### `kui-accordion-item`
 
 | Input      | Type      | Default | Notes                                                     |

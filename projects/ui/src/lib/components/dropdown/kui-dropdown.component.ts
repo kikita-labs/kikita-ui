@@ -10,7 +10,6 @@ import {
   DestroyRef,
   inject,
   input,
-  model,
   signal,
   viewChild,
   ViewContainerRef,
@@ -23,6 +22,7 @@ import {
   observeViewportResize,
   wireFloatingPanelDismissal,
 } from '../../utils/kui-floating-panel.util';
+import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
 
 let nextDropdownId = 0;
 
@@ -87,7 +87,7 @@ export class KuiDropdownComponent implements OnDestroy {
   readonly offset = input(4);
 
   /** Close the panel when a selectable option is clicked. */
-  readonly closeOnSelect = model(true);
+  readonly closeOnSelect = input(true);
 
   /**
    * ARIA role rendered on the panel. Defaults to `listbox` for `kuiSelect`/`kuiCombobox`.
@@ -130,6 +130,7 @@ export class KuiDropdownComponent implements OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
   private readonly document = inject(DOCUMENT);
   private readonly viewportRuler = inject(ViewportRuler);
+  private readonly optionContext = inject(KUI_OPTION_CONTEXT, { optional: true });
 
   private _anchorEl: HTMLElement | null = null;
   private _outsideClickIgnoreEl: HTMLElement | null = null;
@@ -277,7 +278,7 @@ export class KuiDropdownComponent implements OnDestroy {
   protected handlePanelClick(e: MouseEvent): void {
     const target = e.target as Element;
     if (
-      this.closeOnSelect() &&
+      (this.optionContext?.shouldCloseOnSelect?.() ?? this.closeOnSelect()) &&
       target.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
     ) {
       this.close();
