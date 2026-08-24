@@ -8,6 +8,7 @@ import {
   Component,
   computed,
   DestroyRef,
+  effect,
   inject,
   input,
   model,
@@ -90,6 +91,15 @@ export class KuiDropdownComponent implements OnDestroy {
   readonly closeOnSelect = model(true);
 
   /**
+   * Controlled open state exposed as the `open` model input.
+   *
+   * The imperative `open()`, `close()`, and `toggle()` methods remain available and keep this
+   * model synchronized. The separate field name is required because `open()` is an existing
+   * public method.
+   */
+  readonly openState = model(false, { alias: 'open' });
+
+  /**
    * ARIA role rendered on the panel. Defaults to `listbox` for `kuiSelect`/`kuiCombobox`.
    * Set to `dialog` (or `null` to omit the role entirely) when projecting non-listbox
    * content, e.g. `kui-calendar` inside a date picker.
@@ -137,6 +147,18 @@ export class KuiDropdownComponent implements OnDestroy {
   private openSubs: { unsubscribe: () => void }[] = [];
 
   constructor() {
+    effect(() => {
+      const requestedOpen = this.openState();
+      const renderedOpen = this.isOpen();
+      const closing = this.isClosing();
+
+      if (requestedOpen && !renderedOpen && !closing) {
+        this.open();
+      } else if (!requestedOpen && renderedOpen && !closing) {
+        this.close();
+      }
+    });
+
     this.destroyRef.onDestroy(() => this._cleanup());
   }
 
@@ -148,6 +170,8 @@ export class KuiDropdownComponent implements OnDestroy {
   setAnchor(positionEl: HTMLElement, outsideClickIgnoreEl?: HTMLElement): void {
     this._anchorEl = positionEl;
     this._outsideClickIgnoreEl = outsideClickIgnoreEl ?? null;
+
+    if (this.openState() && !this.isOpen()) this.open();
   }
 
   /** Returns the rendered panel element for keyboard navigation queries. */
@@ -232,12 +256,14 @@ export class KuiDropdownComponent implements OnDestroy {
     );
 
     this.openSubs = [posSub, resizeSub, dismissSub];
+    this.openState.set(true);
     this.isOpen.set(true);
     this.isClosing.set(false);
   }
 
   close(): void {
     if (!this.isOpen() && !this.isClosing()) return;
+    this.openState.set(false);
     this._cleanup();
     this.isClosing.set(true);
   }

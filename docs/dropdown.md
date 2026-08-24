@@ -48,6 +48,25 @@ For non-button triggers, the host element must already be focusable and handle
 keyboard activation. The directive only wires click toggling, `aria-expanded`,
 and `aria-haspopup`.
 
+### Controlled open state
+
+Use the `open` model when the parent owns when the panel should be visible. The
+dropdown updates the bound signal when it closes itself because of Escape, an
+outside click, or an off-screen anchor.
+
+```ts
+readonly resultsOpen = signal(false);
+```
+
+```html
+<kui-dropdown [(open)]="resultsOpen" panelWidth="anchor" [panelRole]="null">
+  <!-- Projected search results. -->
+</kui-dropdown>
+```
+
+The existing `open()`, `close()`, and `toggle()` methods remain available for
+imperative integrations.
+
 ## `KuiDropdownComponent` API
 
 | Input        | Type                                      | Default     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 |
@@ -64,9 +83,10 @@ The panel's actual `max-height` is always `min(maxHeight, calc(100vh - var(--kui
 
 The panel also closes itself if the anchor (trigger) scrolls out of the viewport, instead of following it off-screen or rendering detached from its trigger.
 
-| Signal   | Type              | Description         |
-| -------- | ----------------- | ------------------- |
-| `isOpen` | `Signal<boolean>` | Current open state. |
+| Signal   | Type                   | Description                                                          |
+| -------- | ---------------------- | -------------------------------------------------------------------- |
+| `open`   | `ModelSignal<boolean>` | Controlled requested open state. Use `[(open)]` for two-way binding. |
+| `isOpen` | `Signal<boolean>`      | Current open state.                                                  |
 
 | Method          | Description                                                  |
 | --------------- | ------------------------------------------------------------ |

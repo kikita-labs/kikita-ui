@@ -8,6 +8,12 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Added
+
+- `kui-dropdown` now exposes a controlled `open` model for `[(open)]` binding. Imperative
+  `open()`, `close()`, and `toggle()` methods remain available, and internal dismissal keeps the
+  bound state synchronized.
+
 ## [1.6.1] - 2026-08-06
 
 ### Fixed
