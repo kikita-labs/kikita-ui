@@ -39,7 +39,7 @@
         <button class="kui-btn kui-btn--solid kui-btn--sm" [kuiDropdownFor]="actionsMenu">
           Actions ▾
         </button>
-        <kui-dropdown #actionsMenu [maxHeight]="null">
+        <kui-dropdown #actionsMenu panelWidth="content" [maxHeight]="null">
           @for (action of actions; track action.value) {
             <div
               kuiOption

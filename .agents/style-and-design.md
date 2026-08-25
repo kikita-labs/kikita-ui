@@ -38,6 +38,19 @@
   still expose real component states and catch obvious responsive/theming
   defects.
 
+## Text Overflow And Truncation
+
+- Do not add `overflow: hidden` as a mechanical fix for text that does not fit.
+  It can clip glyphs with descenders (`g`, `p`, `q`, `y`, `j`) when the text
+  wrapper has a constrained line box or `line-height`.
+- Decide the width policy first: allow wrapping, grow the surface with its
+  content, or set an explicit width. For dropdowns, the default
+  `panelWidth="anchor"` intentionally keeps the panel trigger-sized; use
+  `panelWidth="content"` for menu-like labels that should remain readable.
+- Use `text-overflow: ellipsis` only for a deliberately one-line surface with
+  a dedicated text wrapper. Verify normal and focused states, selected icons,
+  descenders, and zoomed text in a browser before treating it as complete.
+
 ## Overlay Positioning
 
 - Overlay primitives must use Angular CDK or Angular Aria for positioning and

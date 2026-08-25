@@ -83,6 +83,24 @@ imperative integrations.
 | `panelWidth`    | `'anchor' \| 'content' \| 'auto'`         | `'anchor'`  | `'anchor'` matches the trigger's width exactly (listboxes). `'content'` grows with the panel's own content but never _below_ the trigger's width, so it isn't clipped by a narrower trigger, e.g. `kui-calendar` in a date picker. `'auto'` ignores the trigger's width entirely and sizes purely to content, for panels that are their own small fixed-size widget regardless of how wide the trigger is, e.g. `kui-color-input`'s picker. |
 | `width`         | `string \| null`                          | `null`      | Explicit panel width (any CSS width, e.g. `'320px'`). Overrides `panelWidth` entirely for a panel that's deliberately wider or narrower than its trigger, with no per-component workaround needed.                                                                                                                                                                                                                                          |
 
+### Option Text And Panel Width
+
+The default `panelWidth="anchor"` keeps the panel the same width as its
+trigger. Option text is therefore allowed to wrap at normal word boundaries;
+the component must not treat `overflow: hidden` as a universal fix for text
+that does not fit.
+
+Earlier listbox styling used `white-space: nowrap`, `overflow: hidden`, and
+`text-overflow: ellipsis`, but that was reverted for fixed-width dropdowns.
+That combination can hide useful text and can clip glyphs with descenders such
+as `g`, `p`, and `q` when the line box or `line-height` is constrained. It also
+makes a narrow action dropdown hide labels that should remain readable.
+
+Use `panelWidth="content"` or an explicit `width` when menu-like labels should
+remain fully visible. Only use one-line ellipsis for a deliberately constrained
+surface, with a dedicated text wrapper, a safe line-height, and visual checks
+for descenders, focus state, selected checkmarks, and zoomed text.
+
 ### Viewport-Safe By Default
 
 The panel's actual `max-height` is always `min(maxHeight, calc(100vh - var(--kui-dropdown-viewport-margin, 32px)))`; it can never render taller than the viewport with no way to reach the overflow. When content exceeds the available height, the panel scrolls internally instead of clipping or "shrinking" visually. This applies to every `kui-dropdown` consumer with no per-instance opt-in required.
