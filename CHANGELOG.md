@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.7.1] - 2026-08-26
+
 ### Fixed
 
 - `[kuiFieldAffix]` and `.kui-input-group > .kui-input` clipped descenders (`g`/`p`/`q`/`y`/`j`)
@@ -798,7 +800,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.1...HEAD
+[1.7.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.1...v1.6.0
