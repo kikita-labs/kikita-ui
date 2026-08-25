@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-08-25
+
 ### Added
 
 - `kui-dropdown` now exposes a controlled `open` model for `[(open)]` binding. Imperative
@@ -784,7 +786,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.1...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.0...v1.5.1
