@@ -164,6 +164,14 @@
       <input kuiInput value="kui_live_" aria-label="API key" />
       <span kuiLoader kuiFieldAffix aria-label="Checking key"></span>
     </kui-field>
+
+    <kui-field
+      label="Numeric suffix"
+      hint="No manual .kui-input-group wrapper needed -- kuiFieldAffix alone triggers the chrome."
+    >
+      <input kuiInput type="number" inputmode="numeric" value="960" aria-label="Preview width" />
+      <span kuiFieldAffix>px</span>
+    </kui-field>
   </div>
 </app-panel>
 
@@ -221,6 +229,34 @@
         <input kuiInput placeholder="Value" />
       </kui-field>
     </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="05b"
+  title="Affix descender clipping"
+  description="Affix and input line boxes must stay tall enough for descenders (g/p/q/y/j) once overflow: hidden clips anything outside them."
+>
+  <div class="field-grid field-grid--three">
+    <kui-field label="1. Pair of descenders">
+      <span kuiFieldAffix>py</span>
+      <input kuiInput value="gj" aria-label="Pair of descenders" />
+    </kui-field>
+
+    <kui-field label="2. Many descenders">
+      <span kuiFieldAffix>https://</span>
+      <input kuiInput value="playground" aria-label="Many descenders" />
+      <span kuiFieldAffix>.dev</span>
+    </kui-field>
+
+    <kui-field
+      label="3. Very long affix, group width constrained"
+      hint="overflow-x: hidden on .kui-input-group clips the affix at the group's own border instead of letting it spill past it."
+      style="max-inline-size: 160px"
+    >
+      <span kuiFieldAffix>https://really-long-subdomain.example.</span>
+      <input kuiInput value="gj" aria-label="Very long affix, group constrained" />
+    </kui-field>
   </div>
 </app-panel>
 

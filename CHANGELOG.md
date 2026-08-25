@@ -42,6 +42,20 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `.kui-number-input--stacked` (was `.kui-number-input--a`); no modifier class change for the
   default `split` layout (was, and remains, unmarked).
 
+## [1.7.1] - 2026-08-26
+
+### Fixed
+
+- `[kuiFieldAffix]` and `.kui-input-group > .kui-input` clipped descenders (`g`/`p`/`q`/`y`/`j`)
+  again: `line-height: 1` on both (set in 1.7.0's predecessor to "pixel-match" the affix to the
+  grouped `<input>`) shortened their line boxes below the font's glyph metrics while
+  `overflow: hidden` cut off anything outside them. The match never actually held -- a native
+  `<input>` under `block-size: auto` sizes from the UA's own form-control metrics, not the CSS
+  line-height formula a plain `<span>` uses, so the two differ by several px regardless of this
+  value. Both now use `line-height: 1.3`; `.kui-input-group` itself switched from `overflow: hidden`
+  to `overflow-x: hidden` so it still clips an overflowing affix at its own border without also
+  clipping the row vertically.
+
 ## [1.7.0] - 2026-08-25
 
 ### Added
@@ -820,7 +834,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.1...HEAD
+[1.7.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.1...v1.6.0
