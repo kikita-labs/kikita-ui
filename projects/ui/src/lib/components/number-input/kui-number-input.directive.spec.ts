@@ -30,7 +30,7 @@ class TestHost {
   readonly max = signal(10);
   readonly step = signal(1);
   readonly size = signal<'sm' | 'md' | 'lg'>('md');
-  readonly variant = signal<'a' | 'b'>('b');
+  readonly variant = signal<'stacked' | 'split'>('split');
   readonly invalid = signal(false);
   readonly disabled = signal(false);
   readonly readonly = signal(false);
@@ -97,7 +97,7 @@ describe('KuiNumberInputDirective', () => {
     expect(container().dataset['kuiSize']).toBe('lg');
   });
 
-  it('variant b renders dec and inc side buttons', () => {
+  it('variant split renders dec and inc side buttons', () => {
     expect(fixture.nativeElement.querySelector('.kui-number-input__btn--dec')).not.toBeNull();
     expect(fixture.nativeElement.querySelector('.kui-number-input__btn--inc')).not.toBeNull();
   });

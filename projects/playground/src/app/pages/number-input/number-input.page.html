@@ -2,29 +2,36 @@
   <app-panel num="01" title="Variants" description="md, default, value 42">
     <div class="ni-grid-2">
       <div>
-        <div class="ni-label">variant b, recommended, minus/plus on sides</div>
-        <div class="ni-input-box">
-          <input type="number" kuiNumberInput value="42" min="0" max="99" aria-label="Variant B" />
-        </div>
-      </div>
-      <div>
-        <div class="ni-label">variant a, stacked arrows on right</div>
+        <div class="ni-label">split, recommended, minus/plus on sides</div>
         <div class="ni-input-box">
           <input
             type="number"
             kuiNumberInput
-            variant="a"
             value="42"
             min="0"
             max="99"
-            aria-label="Variant A"
+            aria-label="Variant split"
+          />
+        </div>
+      </div>
+      <div>
+        <div class="ni-label">stacked, arrows on right</div>
+        <div class="ni-input-box">
+          <input
+            type="number"
+            kuiNumberInput
+            variant="stacked"
+            value="42"
+            min="0"
+            max="99"
+            aria-label="Variant stacked"
           />
         </div>
       </div>
     </div>
   </app-panel>
 
-  <app-panel num="02" title="States" description="variant b, md, value 5, min 0, max 10">
+  <app-panel num="02" title="States" description="variant split, md, value 5, min 0, max 10">
     <div class="ni-grid-states">
       <div>
         <div class="ni-col-label">default</div>
@@ -83,7 +90,7 @@
     </div>
   </app-panel>
 
-  <app-panel num="03" title="Sizes" description="variant b, default, value 42">
+  <app-panel num="03" title="Sizes" description="variant split, default, value 42">
     <div class="ni-sizes">
       <div>
         <div class="ni-field-label">sm, 32px</div>
@@ -100,7 +107,7 @@
     </div>
   </app-panel>
 
-  <app-panel num="04" title="In KuiField" description="md, variant b">
+  <app-panel num="04" title="In KuiField" description="md, variant split">
     <div class="ni-field-grid">
       <kui-field label="Count" hint="Enter a value from 1 to 100" [required]="true">
         <input type="number" kuiNumberInput min="1" max="100" value="5" />
@@ -127,7 +134,7 @@
     </div>
   </app-panel>
 
-  <app-panel num="05" title="Dark and Light Themes" description="md, variant b">
+  <app-panel num="05" title="Dark and Light Themes" description="md, variant split">
     <div class="ni-theme-row">
       @for (theme of ['dark', 'light']; track theme) {
         <div class="ni-theme-box" [attr.data-kui-theme]="theme">
@@ -173,7 +180,7 @@
     </div>
   </app-panel>
 
-  <app-panel num="06" title="Mobile" description="size lg, variant b, 44px touch target">
+  <app-panel num="06" title="Mobile" description="size lg, variant split, 44px touch target">
     <div class="ni-mobile-frame">
       <div class="ni-mobile-header">Settings</div>
       <div class="ni-mobile-body">
@@ -215,7 +222,7 @@
       </div>
 
       <div class="ni-live-row">
-        <span class="ni-mono">variant b, md</span>
+        <span class="ni-mono">split, md</span>
         <div class="ni-live-input">
           <input
             type="number"
@@ -223,28 +230,28 @@
             min="0"
             max="100"
             [(ngModel)]="liveValue"
-            aria-label="live b md"
+            aria-label="live split md"
           />
         </div>
       </div>
 
       <div class="ni-live-row">
-        <span class="ni-mono">variant a, md</span>
+        <span class="ni-mono">stacked, md</span>
         <div class="ni-live-input">
           <input
             type="number"
             kuiNumberInput
-            variant="a"
+            variant="stacked"
             min="0"
             max="100"
             [(ngModel)]="liveValue"
-            aria-label="live a md"
+            aria-label="live stacked md"
           />
         </div>
       </div>
 
       <div class="ni-live-row">
-        <span class="ni-mono">variant b, sm</span>
+        <span class="ni-mono">split, sm</span>
         <div class="ni-live-input ni-live-input--sm">
           <input
             type="number"
@@ -253,13 +260,13 @@
             min="0"
             max="100"
             [(ngModel)]="liveValue"
-            aria-label="live b sm"
+            aria-label="live split sm"
           />
         </div>
       </div>
 
       <div class="ni-live-row">
-        <span class="ni-mono">variant b, lg</span>
+        <span class="ni-mono">split, lg</span>
         <div class="ni-live-input">
           <input
             type="number"
@@ -268,7 +275,7 @@
             min="0"
             max="100"
             [(ngModel)]="liveValue"
-            aria-label="live b lg"
+            aria-label="live split lg"
           />
         </div>
       </div>

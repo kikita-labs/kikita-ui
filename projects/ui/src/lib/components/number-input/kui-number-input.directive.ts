@@ -18,7 +18,7 @@ import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiFieldComponent } from '../field';
 
 /** Layout of the increment/decrement controls. */
-export type KuiNumberInputVariant = 'a' | 'b';
+export type KuiNumberInputVariant = 'stacked' | 'split';
 
 const PRESS_DELAY_MS = 400;
 const PRESS_INTERVAL_MS = 80;
@@ -58,8 +58,8 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
   /** Control height matched to `--kui-control-height-*` tokens. */
   readonly size = input<KuiSize | undefined>();
 
-  /** Button layout: `b` = minus/plus on sides (recommended), `a` = stacked arrows on right. */
-  readonly variant = input<KuiNumberInputVariant>('b');
+  /** Button layout: `split` = minus/plus on sides (recommended), `stacked` = arrows stacked on the right. */
+  readonly variant = input<KuiNumberInputVariant>('split');
 
   /** Applies error border. Also inherited from a parent `kui-field` with an error. */
   readonly invalidInput = input(false, { alias: 'invalid', transform: booleanAttribute });
@@ -161,17 +161,17 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
 
     this.containerEl = this.renderer.createElement('div');
     this.renderer.addClass(this.containerEl, 'kui-number-input');
-    if (this.variant() === 'a') {
-      this.renderer.addClass(this.containerEl, 'kui-number-input--a');
+    if (this.variant() === 'stacked') {
+      this.renderer.addClass(this.containerEl, 'kui-number-input--stacked');
     }
     this.renderer.setAttribute(this.containerEl, 'data-kui-size', this.effectiveSize());
 
     this.renderer.insertBefore(parent, this.containerEl, native);
 
-    if (this.variant() === 'b') {
-      this._buildVariantB(native);
+    if (this.variant() === 'split') {
+      this._buildVariantSplit(native);
     } else {
-      this._buildVariantA(native);
+      this._buildVariantStacked(native);
     }
 
     this._unlisten.push(
@@ -197,7 +197,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
     );
   }
 
-  private _buildVariantB(native: HTMLElement): void {
+  private _buildVariantSplit(native: HTMLElement): void {
     this.decBtn = this._createBtn(
       ['kui-number-input__btn', 'kui-number-input__btn--dec'],
       'Decrease value',
@@ -217,7 +217,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
     this._wirePressEvents(this.incBtn, () => this._step(1));
   }
 
-  private _buildVariantA(native: HTMLElement): void {
+  private _buildVariantStacked(native: HTMLElement): void {
     this.renderer.appendChild(this.containerEl, native);
 
     const arrowsEl = this.renderer.createElement('div');

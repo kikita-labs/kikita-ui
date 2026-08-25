@@ -35,6 +35,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `model<KuiDateRange | null>`. `KuiDateRange` itself is unchanged and now documented as the
   value type of `kui-calendar-range`.
 
+- `kuiNumberInput`'s `variant` input renamed its two values from the opaque `'a'`/`'b'` to
+  `'stacked'`/`'split'`: `'b'` (side minus/plus buttons, the default) is now `'split'`, and `'a'`
+  (stacked up/down arrows on the right) is now `'stacked'`. `KuiNumberInputVariant` narrows to
+  `'stacked' | 'split'`. The generated container's variant modifier class is now
+  `.kui-number-input--stacked` (was `.kui-number-input--a`); no modifier class change for the
+  default `split` layout (was, and remains, unmarked).
+
 ## [1.7.0] - 2026-08-25
 
 ### Added

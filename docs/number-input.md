@@ -24,21 +24,21 @@ import { KuiNumberInputDirective } from '@kikita-labs/ui';
 </kui-field>
 ```
 
-Variant B, with minus/plus controls on the sides, is the default and recommended
-for most use cases. Variant A uses stacked arrows on the right and is more compact.
+`split`, with minus/plus controls on the sides, is the default and recommended
+for most use cases. `stacked` uses stacked arrows on the right and is more compact.
 
 ```html
-<input type="number" kuiNumberInput variant="a" min="0" max="99" [(ngModel)]="qty" />
+<input type="number" kuiNumberInput variant="stacked" min="0" max="99" [(ngModel)]="qty" />
 ```
 
 ## Inputs
 
-| Input     | Type                   | Default | Notes                                                                  |
-| --------- | ---------------------- | ------- | ---------------------------------------------------------------------- |
-| `size`    | `'sm' \| 'md' \| 'lg'` | `'md'`  | Control height from `--kui-control-height-*`. Buttons scale to match.  |
-| `variant` | `'a' \| 'b'`           | `'b'`   | B uses side controls; A uses stacked controls on the right.            |
-| `invalid` | `boolean`              | `false` | Applies error border. Also inherited from parent `kui-field` error.    |
-| `id`      | `string`               | none    | Id override. Falls back to `kui-field` control id when inside a field. |
+| Input     | Type                   | Default   | Notes                                                                     |
+| --------- | ---------------------- | --------- | ------------------------------------------------------------------------- |
+| `size`    | `'sm' \| 'md' \| 'lg'` | `'md'`    | Control height from `--kui-control-height-*`. Buttons scale to match.     |
+| `variant` | `'stacked' \| 'split'` | `'split'` | `split` uses side controls; `stacked` uses stacked controls on the right. |
+| `invalid` | `boolean`              | `false`   | Applies error border. Also inherited from parent `kui-field` error.       |
+| `id`      | `string`               | none      | Id override. Falls back to `kui-field` control id when inside a field.    |
 
 Standard HTML attributes (`min`, `max`, `step`, `disabled`, `readonly`, `value`)
 are placed directly on the native input and work without extra directive inputs.
