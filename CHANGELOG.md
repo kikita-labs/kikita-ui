@@ -14,6 +14,11 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `open()`, `close()`, and `toggle()` methods remain available, and internal dismissal keeps the
   bound state synchronized.
 
+### Fixed
+
+- Standalone `kui-dropdown` options now close the panel after Enter/Space selection when
+  `closeOnSelect` is enabled, matching pointer selection behavior.
+
 ## [1.6.1] - 2026-08-06
 
 ### Fixed

@@ -53,6 +53,7 @@ let nextDropdownId = 0;
         [class.kui-dropdown--closing]="isClosing()"
         [attr.role]="panelRole()"
         (click)="handlePanelClick($event)"
+        (keydown)="handlePanelKeydown($event)"
         (animationend)="onAnimationEnd($event)"
       >
         <ng-content />
@@ -306,6 +307,15 @@ export class KuiDropdownComponent implements OnDestroy {
       this.closeOnSelect() &&
       target.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
     ) {
+      this.close();
+    }
+  }
+
+  protected handlePanelKeydown(e: KeyboardEvent): void {
+    if (!this.closeOnSelect() || (e.key !== 'Enter' && e.key !== ' ')) return;
+
+    const target = e.target as HTMLElement | null;
+    if (target?.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')) {
       this.close();
     }
   }

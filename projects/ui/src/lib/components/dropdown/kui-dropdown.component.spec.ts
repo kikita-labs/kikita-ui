@@ -7,13 +7,15 @@ import { afterEach } from 'vitest';
 
 import { KuiDropdownComponent } from './kui-dropdown.component';
 import { KuiDropdownForDirective } from './kui-dropdown-for.directive';
+import { KuiOptionDirective } from './kui-option.directive';
 
 @Component({
-  imports: [KuiDropdownComponent, KuiDropdownForDirective],
+  imports: [KuiDropdownComponent, KuiDropdownForDirective, KuiOptionDirective],
   template: `
     <button id="trigger" type="button" [kuiDropdownFor]="dropdown">Open</button>
     <kui-dropdown #dropdown [(open)]="open">
-      <div>Content</div>
+      <div kuiOption value="first">First</div>
+      <div kuiOption value="second">Second</div>
     </kui-dropdown>
   `,
 })
@@ -78,6 +80,25 @@ describe('KuiDropdownComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
+    expect(document.querySelector('.kui-dropdown--closing')).not.toBeNull();
+  });
+
+  it('closes after keyboard option selection in standalone mode', async () => {
+    const fixture = createFixture();
+    const host = fixture.componentInstance;
+
+    host.open.set(true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const option = document.querySelector<HTMLElement>('.kui-listbox-option');
+    expect(option).not.toBeNull();
+
+    option!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    fixture.detectChanges();
+
+    expect(host.open()).toBe(false);
     expect(document.querySelector('.kui-dropdown--closing')).not.toBeNull();
   });
 });

@@ -5,6 +5,11 @@ It handles positioning, open/close animation, outside click, scroll-follow, and
 Escape close. It does not own selection or value state; Select, Combobox, Menu,
 or another host component provides that context.
 
+By default, an outside pointer or focus interaction closes the panel. The
+anchored trigger is excluded from that outside interaction, while sibling
+controls are intentionally treated as outside. `kuiOption` Enter/Space
+selection follows the same `closeOnSelect` rule as pointer selection.
+
 ## Import
 
 ```ts
@@ -69,13 +74,14 @@ imperative integrations.
 
 ## `KuiDropdownComponent` API
 
-| Input        | Type                                      | Default     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| ------------ | ----------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `maxHeight`  | `string \| null`                          | `'240px'`   | Preferred max height of panel. Always additionally clamped to the viewport (see below); `null` only removes the _preferred_ cap, not the viewport clamp.                                                                                                                                                                                                                                                                                    |
-| `offset`     | `number`                                  | `4`         | Gap between anchor and panel edge in px.                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `panelRole`  | `'listbox' \| 'dialog' \| 'grid' \| null` | `'listbox'` | ARIA role on the panel. Set to `'dialog'` for non-listbox content, e.g. `kui-calendar`.                                                                                                                                                                                                                                                                                                                                                     |
-| `panelWidth` | `'anchor' \| 'content' \| 'auto'`         | `'anchor'`  | `'anchor'` matches the trigger's width exactly (listboxes). `'content'` grows with the panel's own content but never _below_ the trigger's width, so it isn't clipped by a narrower trigger, e.g. `kui-calendar` in a date picker. `'auto'` ignores the trigger's width entirely and sizes purely to content, for panels that are their own small fixed-size widget regardless of how wide the trigger is, e.g. `kui-color-input`'s picker. |
-| `width`      | `string \| null`                          | `null`      | Explicit panel width (any CSS width, e.g. `'320px'`). Overrides `panelWidth` entirely for a panel that's deliberately wider or narrower than its trigger, with no per-component workaround needed.                                                                                                                                                                                                                                          |
+| Input           | Type                                      | Default     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| --------------- | ----------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `maxHeight`     | `string \| null`                          | `'240px'`   | Preferred max height of panel. Always additionally clamped to the viewport (see below); `null` only removes the _preferred_ cap, not the viewport clamp.                                                                                                                                                                                                                                                                                    |
+| `offset`        | `number`                                  | `4`         | Gap between anchor and panel edge in px.                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `closeOnSelect` | `boolean`                                 | `true`      | Closes the panel after an enabled option is selected with a pointer or Enter/Space.                                                                                                                                                                                                                                                                                                                                                         |
+| `panelRole`     | `'listbox' \| 'dialog' \| 'grid' \| null` | `'listbox'` | ARIA role on the panel. Set to `'dialog'` for non-listbox content, e.g. `kui-calendar`.                                                                                                                                                                                                                                                                                                                                                     |
+| `panelWidth`    | `'anchor' \| 'content' \| 'auto'`         | `'anchor'`  | `'anchor'` matches the trigger's width exactly (listboxes). `'content'` grows with the panel's own content but never _below_ the trigger's width, so it isn't clipped by a narrower trigger, e.g. `kui-calendar` in a date picker. `'auto'` ignores the trigger's width entirely and sizes purely to content, for panels that are their own small fixed-size widget regardless of how wide the trigger is, e.g. `kui-color-input`'s picker. |
+| `width`         | `string \| null`                          | `null`      | Explicit panel width (any CSS width, e.g. `'320px'`). Overrides `panelWidth` entirely for a panel that's deliberately wider or narrower than its trigger, with no per-component workaround needed.                                                                                                                                                                                                                                          |
 
 ### Viewport-Safe By Default
 
@@ -119,8 +125,8 @@ is internal and is not part of the public dropdown API.
 - Select-style hosts should expose `role="combobox"`, `aria-expanded`,
   `aria-controls`, and `aria-describedby` through their own directive.
 - Options use `role="option"` inside the dropdown `role="listbox"` panel.
-- Escape closes the panel. Enter/Space selects an option. Tab closes without
-  stealing focus back from the next tabbable element.
+- Escape closes the panel. Enter/Space selects an option and, by default, closes
+  it. Tab closes without stealing focus back from the next tabbable element.
 
 ## CSS Tokens
 

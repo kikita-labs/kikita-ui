@@ -35,7 +35,7 @@
 
 - Select (done as `input[kuiSelect]` with `kui-dropdown` and `kuiOption`; multiple mode renders field-internal chips with collapsed `+N` overflow and supports `ng-template[kuiSelectValue]`)
 - Dropdown (done as `kui-dropdown` + `[kuiDropdownFor]` + `[kuiOption]`; controlled `open` model;
-  field auto-wiring via `contentChild`)
+  field auto-wiring via `contentChild`; pointer and keyboard option selection)
 - Popover (done as `kui-popover` + `[kuiPopoverFor]`)
 - Dialog (done as `kui-dialog` + dialog service)
 - Confirm (done as `kuiConfirm()` on top of Dialog)
