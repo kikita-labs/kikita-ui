@@ -24,6 +24,16 @@ visibility does not make a GitHub Packages npm install anonymous.
 The package metadata lives in `projects/ui/package.json`. The published package
 is built from `dist/ui`.
 
+## Branch Model
+
+Release branches are version-line branches named `release/<n>.x`; this process
+must not be tied to a specific release number. The current release line and its
+fixes are developed on `release/<n>.x`, the next release line is developed on
+`release/<n+1>.x`, and `main` contains only the currently published release line.
+
+The release branch is the preparation and maintenance surface. `main` is the
+publication surface.
+
 ## Local Verification
 
 Run before publishing:
@@ -73,9 +83,22 @@ Actions, org `kikita-labs`, repo `kikita-ui`, workflow filename `publish.yml`)
 -- that one-time setup must be done by a package owner in their own browser
 session; an agent cannot do it.
 
-With this in place, the publish step of a release is simply: push the release
-commit to `main`, then push the `vX.Y.Z` tag (see "After tagging" below). The
-workflow builds, tests, and publishes on its own. Watch it with:
+With this in place, the release flow is:
+
+1. Complete the current release line and its fixes on `release/<n>.x`.
+2. Merge `release/<n>.x` into `main`.
+3. On `main`, move the matching `[Unreleased]` entries into a dated release
+   heading, update the comparison link, and bump `projects/ui/package.json` to
+   the same `X.Y.Z` version.
+4. Run the full release gate after the release metadata change.
+5. Merge the finalized `main` into the maintained release branches, including
+   `release/<n+1>.x`, so the current and next release lines stay synchronized.
+6. Push `main`, create the `vX.Y.Z` tag on that `main` commit, and push the tag.
+
+The workflow builds, tests, and publishes from that tag. Do not tag a release
+branch directly, even though the workflow trigger accepts any `v*` tag.
+
+Watch the workflow with:
 
 ```bash
 gh run list --workflow=publish.yml --limit=1
@@ -128,8 +151,8 @@ Once published (either path), content can take up to a minute to propagate; a
 `curl https://registry.npmjs.org/@kikita-labs%2Fui` returning 404 right after a
 successful publish is registry replication lag, not a failed publish.
 
-Before updating the docs repo dependency, tags, release notes, or generated
-agent docs, verify the exact version is visible on npmjs:
+Before updating the docs repo dependency, release notes, or generated agent
+docs, verify the exact version is visible on npmjs:
 
 ```bash
 npm view @kikita-labs/ui version license dist-tags.latest --registry=https://registry.npmjs.org
@@ -156,30 +179,13 @@ Prefer the `versions --json` or direct-registry check over
 `npm view @kikita-labs/ui@X.Y.Z` because some Windows npm shells parse scoped
 package exact-version selectors incorrectly.
 
-After publishing:
+After the package is visible on npm, create a GitHub Release from the tag, with
+the matching `CHANGELOG.md` section as the notes body (requires `gh auth login`
+once):
 
-1. Push the release commit(s) to `main` first -- a tag pushed before its commit
-   exists on `origin` leaves the tag pointing at a commit GitHub can't show
-   reachable from any branch:
-
-   ```bash
-   git push origin main
-   ```
-
-2. Tag the release and push the tag -- `npm publish` does not create a git tag on
-   its own:
-
-   ```bash
-   git tag -a vX.Y.Z -m "vX.Y.Z"
-   git push origin vX.Y.Z
-   ```
-
-3. Create a GitHub Release from that tag, with the matching `CHANGELOG.md` section
-   as the notes body (requires `gh auth login` once):
-
-   ```bash
-   gh release create vX.Y.Z --title vX.Y.Z --notes-file path/to/section.md --latest
-   ```
+```bash
+gh release create vX.Y.Z --title vX.Y.Z --notes-file path/to/section.md --latest
+```
 
 ## Versioning
 
