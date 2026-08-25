@@ -35,6 +35,19 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `model<KuiDateRange | null>`. `KuiDateRange` itself is unchanged and now documented as the
   value type of `kui-calendar-range`.
 
+## [1.7.0] - 2026-08-25
+
+### Added
+
+- `kui-dropdown` now exposes a controlled `open` model for `[(open)]` binding. Imperative
+  `open()`, `close()`, and `toggle()` methods remain available, and internal dismissal keeps the
+  bound state synchronized.
+
+### Fixed
+
+- Standalone `kui-dropdown` options now close the panel after Enter/Space selection when
+  `closeOnSelect` is enabled, matching pointer selection behavior.
+
 ## [1.6.1] - 2026-08-06
 
 ### Fixed
@@ -800,7 +813,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.1...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.5.0...v1.5.1

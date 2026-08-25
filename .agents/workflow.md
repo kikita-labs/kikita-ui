@@ -13,12 +13,21 @@ task looks small.
    git merge-base --is-ancestor main HEAD
    ```
 
-   For `release/1.x`, `release/2.x`, and similar long-lived branches, do not
-   assume synchronization from the branch name or an earlier merge. If the
-   check fails, preserve any worktree changes, merge `main` into the current
-   branch, resolve conflicts, and run the relevant quality checks before
-   continuing. Repeat this synchronization after `main` receives release fixes
-   and before forwarding them to another release branch.
+   Release branches are version-line branches named `release/<n>.x`; do not
+   hard-code a particular release number in this workflow. The current release
+   line and its fixes are developed on `release/<n>.x`, the next release line is
+   developed on `release/<n+1>.x`, and `main` contains only the currently
+   published release line. Do not assume synchronization from a branch name or
+   an earlier merge. If the check fails, preserve any worktree changes, merge
+   `main` into the current release branch, resolve conflicts, and run the
+   relevant quality checks before continuing.
+
+   To release the current line, merge `release/<n>.x` into `main`, finalize the
+   version and changelog on `main`, run the release gate again, and then merge
+   the finalized `main` back into the maintained release branches before
+   tagging. Push and tag the release from `main`; do not tag a release branch
+   directly. Repeat synchronization after `main` receives release fixes and
+   before forwarding them to another release branch.
 
 4. For Angular work, call `angularCliKikita.list_projects` first. Do not use the
    generic `angularCli` server for this repository.

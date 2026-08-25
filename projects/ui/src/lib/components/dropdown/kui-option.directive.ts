@@ -47,7 +47,7 @@ export class KuiOptionDirective {
     const host = this.el.nativeElement;
 
     // afterNextRender: Angular has rendered projected content into host by this point.
-    // Wrap existing children in .kui-listbox-option-text (flex:1, ellipsis),
+    // Wrap existing children in .kui-listbox-option-text (flex:1, width-aware wrapping),
     // then append .kui-listbox-check (flex-shrink:0, SVG via CSS mask).
     afterNextRender(() => {
       const textSpan = renderer.createElement('span');

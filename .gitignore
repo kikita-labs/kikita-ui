@@ -16,7 +16,9 @@ pnpm-debug.log*
 .npm/
 
 # IDEs and editors
-.idea/
+.idea/*
+!.idea/icon.svg
+!.idea/icon_dark.svg
 .project
 .classpath
 .c9/
@@ -53,7 +55,8 @@ test-results/
 !.env.example
 .codex/
 .claude/
-.local-notes/
+.local-notes/*
+!.local-notes/.gitkeep
 *.dc.html
 
 # System files

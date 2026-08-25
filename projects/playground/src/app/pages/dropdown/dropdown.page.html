@@ -39,7 +39,7 @@
         <button class="kui-btn kui-btn--solid kui-btn--sm" [kuiDropdownFor]="actionsMenu">
           Actions ▾
         </button>
-        <kui-dropdown #actionsMenu [maxHeight]="null">
+        <kui-dropdown #actionsMenu panelWidth="content" [maxHeight]="null">
           @for (action of actions; track action.value) {
             <div
               kuiOption
@@ -56,9 +56,53 @@
     </div>
   </app-panel>
 
-  <!-- Panel 03: scroll repositioning -->
+  <!-- Panel 03: controlled open model -->
   <app-panel
     num="03"
+    title="Controlled open model"
+    description="Bind <code>[(open)]</code> to a parent signal. Open the panel programmatically while it is closed, then use the anchored trigger to toggle it. Escape, outside click, and option selection update the signal."
+  >
+    <div class="component-board">
+      <div class="state-board__row">
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <button type="button" kuiButton size="sm" [kuiDropdownFor]="controlledDropdown">
+            Toggle panel
+          </button>
+          <button
+            type="button"
+            kuiButton
+            shape="outline"
+            size="sm"
+            [disabled]="controlledOpen()"
+            (click)="controlledOpen.set(true)"
+          >
+            Open from parent
+          </button>
+        </div>
+        <kui-dropdown #controlledDropdown [(open)]="controlledOpen">
+          <div
+            kuiOption
+            [value]="'first'"
+            (kuiOptionSelect)="controlledSelection.set($any($event))"
+          >
+            First option
+          </div>
+          <div
+            kuiOption
+            [value]="'second'"
+            (kuiOptionSelect)="controlledSelection.set($any($event))"
+          >
+            Second option
+          </div>
+        </kui-dropdown>
+        <code>open: {{ controlledOpen() }}; selected: {{ controlledSelection() ?? 'none' }}</code>
+      </div>
+    </div>
+  </app-panel>
+
+  <!-- Panel 04: scroll repositioning -->
+  <app-panel
+    num="04"
     title="Scroll repositioning"
     description="Dropdown follows its anchor on scroll — no close-on-scroll."
   >

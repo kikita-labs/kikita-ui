@@ -8,6 +8,7 @@ import {
   Component,
   computed,
   DestroyRef,
+  effect,
   inject,
   input,
   signal,
@@ -52,6 +53,7 @@ let nextDropdownId = 0;
         [class.kui-dropdown--closing]="isClosing()"
         [attr.role]="panelRole()"
         (click)="handlePanelClick($event)"
+        (keydown)="handlePanelKeydown($event)"
         (animationend)="onAnimationEnd($event)"
       >
         <ng-content />
@@ -88,6 +90,15 @@ export class KuiDropdownComponent implements OnDestroy {
 
   /** Close the panel when a selectable option is clicked. */
   readonly closeOnSelect = input(true);
+
+  /**
+   * Controlled open state exposed as the `open` model input.
+   *
+   * The imperative `open()`, `close()`, and `toggle()` methods remain available and keep this
+   * model synchronized. The separate field name is required because `open()` is an existing
+   * public method.
+   */
+  readonly openState = model(false, { alias: 'open' });
 
   /**
    * ARIA role rendered on the panel. Defaults to `listbox` for `kuiSelect`/`kuiCombobox`.
@@ -138,6 +149,18 @@ export class KuiDropdownComponent implements OnDestroy {
   private openSubs: { unsubscribe: () => void }[] = [];
 
   constructor() {
+    effect(() => {
+      const requestedOpen = this.openState();
+      const renderedOpen = this.isOpen();
+      const closing = this.isClosing();
+
+      if (requestedOpen && !renderedOpen && !closing) {
+        this.open();
+      } else if (!requestedOpen && renderedOpen && !closing) {
+        this.close();
+      }
+    });
+
     this.destroyRef.onDestroy(() => this._cleanup());
   }
 
@@ -149,6 +172,8 @@ export class KuiDropdownComponent implements OnDestroy {
   setAnchor(positionEl: HTMLElement, outsideClickIgnoreEl?: HTMLElement): void {
     this._anchorEl = positionEl;
     this._outsideClickIgnoreEl = outsideClickIgnoreEl ?? null;
+
+    if (this.openState() && !this.isOpen()) this.open();
   }
 
   /** Returns the rendered panel element for keyboard navigation queries. */
@@ -233,12 +258,14 @@ export class KuiDropdownComponent implements OnDestroy {
     );
 
     this.openSubs = [posSub, resizeSub, dismissSub];
+    this.openState.set(true);
     this.isOpen.set(true);
     this.isClosing.set(false);
   }
 
   close(): void {
     if (!this.isOpen() && !this.isClosing()) return;
+    this.openState.set(false);
     this._cleanup();
     this.isClosing.set(true);
   }
@@ -281,6 +308,15 @@ export class KuiDropdownComponent implements OnDestroy {
       (this.optionContext?.shouldCloseOnSelect?.() ?? this.closeOnSelect()) &&
       target.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
     ) {
+      this.close();
+    }
+  }
+
+  protected handlePanelKeydown(e: KeyboardEvent): void {
+    if (!this.closeOnSelect() || (e.key !== 'Enter' && e.key !== ' ')) return;
+
+    const target = e.target as HTMLElement | null;
+    if (target?.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')) {
       this.close();
     }
   }

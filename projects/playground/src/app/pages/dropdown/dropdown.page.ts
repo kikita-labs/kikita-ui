@@ -1,6 +1,7 @@
 import { Component, signal, ViewEncapsulation } from '@angular/core';
 
 import {
+  KuiButtonDirective,
   KuiDropdownComponent,
   KuiDropdownForDirective,
   KuiFieldComponent,
@@ -34,6 +35,7 @@ const ACTIONS = [
   templateUrl: './dropdown.page.html',
   imports: [
     PlaygroundPanelComponent,
+    KuiButtonDirective,
     KuiFieldComponent,
     KuiInputDirective,
     KuiDropdownComponent,
@@ -47,4 +49,6 @@ export class DropdownPage {
   protected readonly actions = ACTIONS;
   protected readonly selectedFruit = signal<string | null>(null);
   protected readonly lastAction = signal<string | null>(null);
+  protected readonly controlledOpen = signal(false);
+  protected readonly controlledSelection = signal<string | null>(null);
 }

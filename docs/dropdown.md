@@ -5,6 +5,11 @@ It handles positioning, open/close animation, outside click, scroll-follow, and
 Escape close. It does not own selection or value state; Select, Combobox, Menu,
 or another host component provides that context.
 
+By default, an outside pointer or focus interaction closes the panel. The
+anchored trigger is excluded from that outside interaction, while sibling
+controls are intentionally treated as outside. `kuiOption` Enter/Space
+selection follows the same `closeOnSelect` rule as pointer selection.
+
 ## Import
 
 ```ts
@@ -48,16 +53,53 @@ For non-button triggers, the host element must already be focusable and handle
 keyboard activation. The directive only wires click toggling, `aria-expanded`,
 and `aria-haspopup`.
 
+### Controlled open state
+
+Use the `open` model when the parent owns when the panel should be visible. The
+dropdown updates the bound signal when it closes itself because of Escape, an
+outside click, or an off-screen anchor.
+
+```ts
+readonly resultsOpen = signal(false);
+```
+
+```html
+<kui-dropdown [(open)]="resultsOpen" panelWidth="anchor" [panelRole]="null">
+  <!-- Projected search results. -->
+</kui-dropdown>
+```
+
+The existing `open()`, `close()`, and `toggle()` methods remain available for
+imperative integrations.
+
 ## `KuiDropdownComponent` API
 
 | Input           | Type                                      | Default     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | --------------- | ----------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `maxHeight`     | `string \| null`                          | `'240px'`   | Preferred max height of panel. Always additionally clamped to the viewport (see below); `null` only removes the _preferred_ cap, not the viewport clamp.                                                                                                                                                                                                                                                                                    |
 | `offset`        | `number`                                  | `4`         | Gap between anchor and panel edge in px.                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `closeOnSelect` | `boolean`                                 | `true`      | Close the panel when an enabled selectable option is clicked.                                                                                                                                                                                                                                                                                                                                                                               |
+| `closeOnSelect` | `boolean`                                 | `true`      | Closes the panel after an enabled option is selected with a pointer or Enter/Space.                                                                                                                                                                                                                                                                                                                                                         |
 | `panelRole`     | `'listbox' \| 'dialog' \| 'grid' \| null` | `'listbox'` | ARIA role on the panel. Set to `'dialog'` for non-listbox content, e.g. `kui-calendar`.                                                                                                                                                                                                                                                                                                                                                     |
 | `panelWidth`    | `'anchor' \| 'content' \| 'auto'`         | `'anchor'`  | `'anchor'` matches the trigger's width exactly (listboxes). `'content'` grows with the panel's own content but never _below_ the trigger's width, so it isn't clipped by a narrower trigger, e.g. `kui-calendar` in a date picker. `'auto'` ignores the trigger's width entirely and sizes purely to content, for panels that are their own small fixed-size widget regardless of how wide the trigger is, e.g. `kui-color-input`'s picker. |
 | `width`         | `string \| null`                          | `null`      | Explicit panel width (any CSS width, e.g. `'320px'`). Overrides `panelWidth` entirely for a panel that's deliberately wider or narrower than its trigger, with no per-component workaround needed.                                                                                                                                                                                                                                          |
+
+### Option Text And Panel Width
+
+The default `panelWidth="anchor"` keeps the panel the same width as its
+trigger. Option text is therefore allowed to wrap at normal word boundaries;
+the component must not treat `overflow: hidden` as a universal fix for text
+that does not fit.
+
+Earlier listbox styling used `white-space: nowrap`, `overflow: hidden`, and
+`text-overflow: ellipsis`, but that was reverted for fixed-width dropdowns.
+That combination can hide useful text and can clip glyphs with descenders such
+as `g`, `p`, and `q` when the line box or `line-height` is constrained. It also
+makes a narrow action dropdown hide labels that should remain readable.
+
+Use `panelWidth="content"` or an explicit `width` when menu-like labels should
+remain fully visible. Only use one-line ellipsis for a deliberately constrained
+surface, with a dedicated text wrapper, a safe line-height, and visual checks
+for descenders, focus state, selected checkmarks, and zoomed text.
 
 ### Viewport-Safe By Default
 
@@ -65,9 +107,10 @@ The panel's actual `max-height` is always `min(maxHeight, calc(100vh - var(--kui
 
 The panel also closes itself if the anchor (trigger) scrolls out of the viewport, instead of following it off-screen or rendering detached from its trigger.
 
-| Signal   | Type              | Description         |
-| -------- | ----------------- | ------------------- |
-| `isOpen` | `Signal<boolean>` | Current open state. |
+| Signal   | Type                   | Description                                                          |
+| -------- | ---------------------- | -------------------------------------------------------------------- |
+| `open`   | `ModelSignal<boolean>` | Controlled requested open state. Use `[(open)]` for two-way binding. |
+| `isOpen` | `Signal<boolean>`      | Current open state.                                                  |
 
 | Method          | Description                                                  |
 | --------------- | ------------------------------------------------------------ |
@@ -100,8 +143,8 @@ is internal and is not part of the public dropdown API.
 - Select-style hosts should expose `role="combobox"`, `aria-expanded`,
   `aria-controls`, and `aria-describedby` through their own directive.
 - Options use `role="option"` inside the dropdown `role="listbox"` panel.
-- Escape closes the panel. Enter/Space selects an option. Tab closes without
-  stealing focus back from the next tabbable element.
+- Escape closes the panel. Enter/Space selects an option and, by default, closes
+  it. Tab closes without stealing focus back from the next tabbable element.
 
 ## CSS Tokens
 
