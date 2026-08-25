@@ -11,6 +11,7 @@ import {
   effect,
   inject,
   input,
+  model,
   signal,
   viewChild,
   ViewContainerRef,
