@@ -8,6 +8,21 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Fixed
+
+- `kuiNumberInput` now uses the shared `--kui-input-*` control-chrome tokens for height, border,
+  radius, background, text, placeholder, focus, and invalid states, matching `kuiInput` and
+  `kuiInputGroup` customization behavior. Number-specific tokens remain available for its
+  increment/decrement controls.
+
+### Changed
+
+- The legacy Select chrome tokens `--kui-select-bg`, `--kui-select-border`,
+  `--kui-select-border-hover`, `--kui-select-border-focus`, `--kui-select-border-error`, and
+  `--kui-select-radius` are now deprecated. They remain emitted in 1.x for compatibility, but
+  `input[kuiSelect]` uses the shared `--kui-input-*` tokens; migrate before the legacy names are
+  removed in v2.
+
 ## [1.7.1] - 2026-08-26
 
 ### Fixed

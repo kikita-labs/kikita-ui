@@ -664,6 +664,8 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-color-input-preview-swatch-size': '48px',
     '--kui-color-input-thumb-size': '16px',
     '--kui-color-input-hue-track-height': '12px',
+    // Deprecated in 1.x: input[kuiSelect] uses the shared --kui-input-* tokens.
+    // Keep these generated names for compatibility until their planned removal in v2.
     '--kui-select-bg': 'var(--kui-color-surface)',
     '--kui-select-border': 'var(--kui-color-border)',
     '--kui-select-border-hover': 'var(--kui-color-border-strong)',

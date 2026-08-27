@@ -329,12 +329,6 @@ Field and input tokens:
 Select tokens:
 
 ```css
---kui-select-bg
---kui-select-border
---kui-select-border-hover
---kui-select-border-focus
---kui-select-border-error
---kui-select-radius
 --kui-select-affordance-size
 --kui-select-suffix-inline-end
 --kui-select-suffix-gap
@@ -342,6 +336,21 @@ Select tokens:
 --kui-select-chip-layer-inline-end
 --kui-select-chip-layer-gap
 ```
+
+Deprecated Select chrome tokens:
+
+These tokens are deprecated in 1.x and planned for removal in v2. They remain
+emitted for compatibility, but current `input[kuiSelect]` styles do not consume
+them. Use the shared input tokens instead.
+
+| Deprecated token            | Replacement                |
+| --------------------------- | -------------------------- |
+| `--kui-select-bg`           | `--kui-input-bg`           |
+| `--kui-select-border`       | `--kui-input-border`       |
+| `--kui-select-border-hover` | `--kui-input-border-hover` |
+| `--kui-select-border-focus` | `--kui-input-border-focus` |
+| `--kui-select-border-error` | `--kui-input-border-error` |
+| `--kui-select-radius`       | `--kui-input-radius`       |
 
 Combobox tokens:
 

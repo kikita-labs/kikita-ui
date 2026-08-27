@@ -45,6 +45,17 @@ describe('createKuiTheme', () => {
     expect(theme.dark['--kui-avatar-p1-bg']).toBe('oklch(0.28 0.16 285)');
   });
 
+  it('keeps deprecated select chrome tokens during the 1.x compatibility window', () => {
+    const theme = createKuiTheme(DEFAULT_KUI_THEME);
+
+    expect(theme.component['--kui-select-bg']).toBe('var(--kui-color-surface)');
+    expect(theme.component['--kui-select-border']).toBe('var(--kui-color-border)');
+    expect(theme.component['--kui-select-border-hover']).toBe('var(--kui-color-border-strong)');
+    expect(theme.component['--kui-select-border-focus']).toBe('var(--kui-color-primary-fill)');
+    expect(theme.component['--kui-select-border-error']).toBe('var(--kui-color-danger-fill)');
+    expect(theme.component['--kui-select-radius']).toBe('var(--kui-radius-md)');
+  });
+
   it('emits a mode-specific flat CSS variable map', () => {
     const theme = createKuiTheme(DEFAULT_KUI_THEME);
 
