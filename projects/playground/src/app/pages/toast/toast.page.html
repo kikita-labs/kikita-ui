@@ -33,4 +33,18 @@
       show toasts in the current position.
     </p>
   </app-panel>
+
+  <!-- p.04 Lifecycle -->
+  <app-panel num="04" title="Lifecycle controls">
+    <div class="toast-btn-row">
+      <button kuiButton (click)="openPersistent()">Open reactive persistent</button>
+      <button kuiButton shape="outline" (click)="releasePersistent()">Start auto-dismiss</button>
+      <button kuiButton shape="outline" (click)="updatePersistent()">Update to success</button>
+      <button kuiButton shape="ghost" (click)="dismissAll()">Dismiss all</button>
+    </div>
+    <p class="toast-note">
+      <code>persistent</code> accepts a signal. <code>ref.update()</code> can switch a tracked toast
+      from a persistent loading state to a timed success state.
+    </p>
+  </app-panel>
 </div>

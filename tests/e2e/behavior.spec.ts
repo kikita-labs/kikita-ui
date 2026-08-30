@@ -44,6 +44,21 @@ test('does not dismiss a dialog when a text-selection drag leaves the panel', as
   await expect(dialog).toBeHidden();
 });
 
+test('supports reactive and programmatic toast lifecycle controls', async ({ page }) => {
+  await gotoReady(page, '/toast');
+
+  await page.getByRole('button', { name: 'Open reactive persistent' }).click();
+  const runningToast = page.getByRole('status').filter({ hasText: 'Background sync is running' });
+  await expect(runningToast).toBeVisible();
+
+  await page.getByRole('button', { name: 'Update to success' }).click();
+  const completeToast = page.getByRole('status').filter({ hasText: 'Background sync complete' });
+  await expect(completeToast).toBeVisible();
+
+  await page.getByRole('button', { name: 'Dismiss all' }).click();
+  await expect(completeToast).toBeHidden();
+});
+
 test('opens and dismisses mobile info tooltips from icon triggers', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await gotoReady(page, '/tooltip');

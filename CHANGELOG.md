@@ -20,6 +20,10 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Changed
 
+- Toasts now support reactive `persistent` signals, in-place `KuiToastRef.update()` lifecycle
+  updates, stable reference ids, service-level `dismiss()`/`dismissAll()`, and progress animation
+  pause/resume in sync with hover-paused timers.
+
 - `kuiTooltip` now defaults to an adaptive trigger: hover/focus for mouse input and tap for touch
   input. Added `KUI_TOOLTIP_OPTIONS`, `KuiTooltipOptions`, `KuiTooltipTriggerType`,
   `kuiProvideTooltipOptions`, and the local `triggerType` override for disabling or changing the

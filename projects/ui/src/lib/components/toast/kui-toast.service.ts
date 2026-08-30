@@ -15,6 +15,8 @@ import { KUI_TOAST_OPTIONS } from './kui-toast.token';
 import type { KuiToastConfig, KuiToastOptions, KuiToastRef } from './kui-toast.types';
 import { KuiToastRegionComponent } from './kui-toast-region.component';
 
+const noop = (): void => undefined;
+
 /**
  * Service for displaying toast notifications.
  *
@@ -41,6 +43,16 @@ export class KuiToastService {
     this.getRegion()?._position.set(position);
   }
 
+  /** Dismiss a toast created by this service. */
+  dismiss(id: number): void {
+    this.regionRef?.instance.dismiss(id);
+  }
+
+  /** Dismiss all toasts created by this service. */
+  dismissAll(): void {
+    this.regionRef?.instance.dismissAll();
+  }
+
   /**
    * Show a toast notification.
    * Returns a {@link KuiToastRef} handle for programmatic control.
@@ -48,7 +60,7 @@ export class KuiToastService {
   open(config: KuiToastConfig): KuiToastRef {
     const region = this.getRegion();
     if (!region) {
-      return { close: () => {}, closed$: EMPTY, action$: EMPTY };
+      return { id: -1, close: noop, update: noop, closed$: EMPTY, action$: EMPTY };
     }
 
     const merged: KuiToastConfig = {

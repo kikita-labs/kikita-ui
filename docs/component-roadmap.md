@@ -39,7 +39,7 @@
 - Popover (done as `kui-popover` + `[kuiPopoverFor]`)
 - Dialog (done as `kui-dialog` + dialog service)
 - Confirm (done as `kuiConfirm()` on top of Dialog)
-- Toast (done as toast provider/service + viewport)
+- Toast (done as toast provider/service + viewport; reactive persistence, ref updates, and service dismissal)
 - Accordion (done as `kui-accordion`)
 - Progress (done as `kui-progress`)
 - Slider (done as `input[type=range][kuiSlider]`; `kui-field` id/ARIA/invalid wiring covered)
