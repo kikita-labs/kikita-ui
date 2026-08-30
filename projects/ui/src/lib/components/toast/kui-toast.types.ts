@@ -1,3 +1,5 @@
+import type { Signal } from '@angular/core';
+
 import type { Observable } from 'rxjs';
 
 /** Visual intent of a toast notification. */
@@ -22,10 +24,10 @@ export interface KuiToastConfig {
   appearance?: KuiToastAppearance;
   /** Label for the inline action button. When set, clicking it emits on `KuiToastRef.action$`. */
   actionLabel?: string;
-  /** Auto-dismiss delay in milliseconds. Defaults to `5000`. Ignored when `persistent` is `true`. */
+  /** Auto-dismiss delay in milliseconds. Defaults to `5000`. `Infinity` also keeps the toast open. */
   duration?: number;
-  /** Keep the toast until the user closes it explicitly. Defaults to `false`. */
-  persistent?: boolean;
+  /** Keep the toast until the user closes it explicitly. Accepts a reactive signal. Defaults to `false`. */
+  persistent?: boolean | Signal<boolean>;
   /** Show the × close button. Defaults to `true`. */
   closable?: boolean;
   /** Show the appearance icon. Neutral appearance has no icon. Defaults to `true`. */
@@ -52,8 +54,12 @@ export interface KuiToastOptions {
 
 /** Handle returned by {@link KuiToastService.open}. */
 export interface KuiToastRef {
+  /** Stable identifier for this toast within the owning toast service. */
+  readonly id: number;
   /** Programmatically close this toast (triggers the exit animation). */
   close(): void;
+  /** Update this toast and re-evaluate its auto-dismiss timer. */
+  update(config: Partial<KuiToastConfig>): void;
   /** Emits once after the close animation finishes, then completes. */
   readonly closed$: Observable<void>;
   /** Emits once when the action button is clicked, then completes. */

@@ -2,7 +2,7 @@ import { Component, signal, ViewEncapsulation } from '@angular/core';
 
 import { KuiButtonDirective, kuiToast } from '@kikita-labs/ui';
 
-import type { KuiToastPosition } from '@kikita-labs/ui';
+import type { KuiToastPosition, KuiToastRef } from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
@@ -17,6 +17,9 @@ export class ToastPage {
   private readonly toast = kuiToast();
 
   protected readonly position = signal<KuiToastPosition>('bottom-center');
+  protected readonly persistent = signal(true);
+
+  private persistentToast: KuiToastRef | null = null;
 
   protected readonly positions: KuiToastPosition[] = [
     'top-start',
@@ -89,5 +92,36 @@ export class ToastPage {
       showProgress: true,
       duration: 5000,
     });
+  }
+
+  protected openPersistent(): void {
+    this.persistentToast?.close();
+    this.persistent.set(true);
+    this.persistentToast = this.toast.open({
+      title: 'Background sync is running',
+      message: 'The signal controls when auto-dismiss starts.',
+      appearance: 'info',
+      persistent: this.persistent,
+    });
+  }
+
+  protected releasePersistent(): void {
+    this.persistent.set(false);
+  }
+
+  protected updatePersistent(): void {
+    this.persistentToast?.update({
+      title: 'Background sync complete',
+      message: 'The toast now closes automatically in 3 seconds.',
+      appearance: 'success',
+      persistent: false,
+      duration: 3000,
+      showProgress: true,
+    });
+  }
+
+  protected dismissAll(): void {
+    this.toast.dismissAll();
+    this.persistentToast = null;
   }
 }

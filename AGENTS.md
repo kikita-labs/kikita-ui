@@ -49,6 +49,10 @@ For visual, accessibility, release, or publishing work, also read:
 - CSS variables are the public theming contract.
 - Every public component, directive, provider, service, type, and token must have
   JSDoc.
+- When deprecating a public API or token, mark it explicitly, document its
+  replacement and compatibility window, and state the planned removal release
+  in the matching docs and `CHANGELOG.md`. Compatibility-only names must never
+  remain undocumented.
 - Public UI selectors use the `kui` prefix.
 - Prefer native HTML semantics before ARIA.
 - Use Angular CDK or Angular Aria for complex accessibility behavior.

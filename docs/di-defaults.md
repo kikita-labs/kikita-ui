@@ -13,6 +13,8 @@ local input > scoped component provider > field provider > root provider > compo
 Use the narrowest layer that matches the consumer need:
 
 - `provideKikitaUi({ defaults: { size } })`: broad application default for size-enabled primitives.
+- `provideKikitaUi({ tooltip: { triggerType } })` or `kuiProvideTooltipOptions(...)`: global or
+  scoped interaction defaults for `kuiTooltip`.
 - `kuiProvideFieldOptions(...)`: scoped defaults for `kui-field` and input-like field controls.
 - Component providers such as `kuiProvideButtonOptions(...)`: repeated defaults for one primitive family.
 - Local inputs: one-off behavior in a specific template.
@@ -38,6 +40,25 @@ provideKikitaUi({
 Components whose size type is narrower than `KuiSize` apply only supported values. For example, `kui-calendar` supports `sm | md`, so a root `size: 'sm'` applies, while `xs` or `lg` is ignored and the calendar keeps `md`.
 
 Do not use root defaults for `kui-icon` because its `size` input is a raw CSS/icon size (`string | number`), not a Kikita control-size preset.
+
+## Tooltip Trigger Defaults
+
+`kuiTooltip` uses the `KUI_TOOLTIP_OPTIONS` token. Its default is
+`{ triggerType: KuiTooltipTriggerType.Auto }`, which shows tooltips on mouse hover and keyboard
+focus and toggles them on touch tap. Use
+`provideKikitaUi({ tooltip: { triggerType } })` for the application default,
+`kuiProvideTooltipOptions(...)` for a scoped subtree, or the local `triggerType` input for one
+trigger.
+
+Precedence:
+
+```text
+local triggerType > scoped KUI_TOOLTIP_OPTIONS > provideKikitaUi({ tooltip.triggerType }) > auto
+```
+
+`Hover` preserves desktop hover/focus behavior and disables touch taps. `Click` uses click or
+keyboard activation on all input devices. `None` disables the directive entirely. Tooltip content
+must remain supplemental and non-interactive; use `kuiPopover` for links, buttons, or richer content.
 
 ## Field Controls
 

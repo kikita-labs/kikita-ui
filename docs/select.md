@@ -220,3 +220,18 @@ and automatic error messages from the projected form field.
 Select consumes `input.css`, `field-actions.css`, `listbox.css`, and `dropdown.css`
 through the public `@kikita-labs/ui/styles` entrypoint. The clear affordance uses
 the shared `--kui-field-action-*` tokens and select-specific suffix/chip-layer tokens.
+
+## Migration Notes
+
+The legacy Select chrome tokens below are deprecated in 1.x and planned for
+removal in v2. They are still emitted for compatibility, but current
+`input[kuiSelect]` styles use the shared input tokens.
+
+| Deprecated token            | Use instead                |
+| --------------------------- | -------------------------- |
+| `--kui-select-bg`           | `--kui-input-bg`           |
+| `--kui-select-border`       | `--kui-input-border`       |
+| `--kui-select-border-hover` | `--kui-input-border-hover` |
+| `--kui-select-border-focus` | `--kui-input-border-focus` |
+| `--kui-select-border-error` | `--kui-input-border-error` |
+| `--kui-select-radius`       | `--kui-input-radius`       |

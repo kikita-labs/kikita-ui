@@ -32,6 +32,31 @@ export class MyComponent {
 }
 ```
 
+## Persistent and reactive lifecycle
+
+`persistent: true` disables auto-dismiss while keeping the toast manually closable through its
+close button or returned reference. `persistent` also accepts a `Signal<boolean>`; changing the
+signal to `false` starts the configured timer, while changing it to `true` pauses the timer and
+preserves its remaining time.
+
+```ts
+import { signal } from '@angular/core';
+
+const persistent = signal(true);
+const ref = this.toast.open({
+  title: 'Uploading…',
+  message: 'This toast is controlled by a signal.',
+  appearance: 'info',
+  persistent,
+});
+
+// Start auto-dismiss using the configured duration.
+persistent.set(false);
+
+// Or close immediately at any time.
+ref.close();
+```
+
 ## With action button
 
 ```ts
@@ -61,26 +86,55 @@ export const appConfig: ApplicationConfig = {
 
 ## KuiToastConfig
 
-| Property       | Type                 | Default     | Description                                                   |
-| -------------- | -------------------- | ----------- | ------------------------------------------------------------- |
-| `title`        | `string`             | -           | **Required.** Headline text.                                  |
-| `message`      | `string`             | -           | Supporting text below the title.                              |
-| `appearance`   | `KuiToastAppearance` | `'neutral'` | Visual intent, controls accent bar and icon colour.           |
-| `actionLabel`  | `string`             | -           | Label for inline action button. Clicking emits `ref.action$`. |
-| `duration`     | `number`             | `5000`      | Auto-dismiss delay in ms.                                     |
-| `persistent`   | `boolean`            | `false`     | Keep the toast until the user closes it.                      |
-| `closable`     | `boolean`            | `true`      | Show the close button.                                        |
-| `showIcon`     | `boolean`            | `true`      | Show the appearance icon (neutral has no icon).               |
-| `showProgress` | `boolean`            | `false`     | Show a progress bar tracking time until auto-dismiss.         |
+| Property       | Type                         | Default     | Description                                                   |
+| -------------- | ---------------------------- | ----------- | ------------------------------------------------------------- |
+| `title`        | `string`                     | -           | **Required.** Headline text.                                  |
+| `message`      | `string`                     | -           | Supporting text below the title.                              |
+| `appearance`   | `KuiToastAppearance`         | `'neutral'` | Visual intent, controls accent bar and icon colour.           |
+| `actionLabel`  | `string`                     | -           | Label for inline action button. Clicking emits `ref.action$`. |
+| `duration`     | `number`                     | `5000`      | Auto-dismiss delay in ms; `Infinity` keeps the toast open.    |
+| `persistent`   | `boolean \| Signal<boolean>` | `false`     | Keep the toast open; a signal can control this reactively.    |
+| `closable`     | `boolean`                    | `true`      | Show the close button.                                        |
+| `showIcon`     | `boolean`                    | `true`      | Show the appearance icon (neutral has no icon).               |
+| `showProgress` | `boolean`                    | `false`     | Show a progress bar tracking time until auto-dismiss.         |
 
 ## KuiToastRef
 
 ```ts
 interface KuiToastRef {
+  readonly id: number;
   close(): void;
+  update(config: Partial<KuiToastConfig>): void;
   readonly closed$: Observable<void>;
   readonly action$: Observable<void>;
 }
+```
+
+`ref.update()` changes the toast in place and re-evaluates its timer. This is useful for async
+flows such as loading → success or loading → error:
+
+```ts
+const ref = this.toast.open({ title: 'Uploading…', persistent: true });
+
+this.api.upload().subscribe({
+  next: () =>
+    ref.update({
+      title: 'Uploaded',
+      appearance: 'success',
+      persistent: false,
+      duration: 3000,
+      showProgress: true,
+    }),
+  error: () => ref.update({ title: 'Upload failed', appearance: 'danger', persistent: true }),
+});
+```
+
+For cross-feature cleanup, the service can dismiss one toast by its reference id or dismiss all
+toasts created by that service:
+
+```ts
+this.toast.dismiss(ref.id);
+this.toast.dismissAll();
 ```
 
 ## KuiToastOptions (global)
@@ -134,6 +188,8 @@ bottom-start bottom-center bottom-end   <- default
 ## Behaviour
 
 - **Auto-dismiss:** 5 s by default. Hover on the toast pauses the timer; mouseleave resumes with remaining time.
+- **Persistent lifecycle:** `persistent: true`, `persistent: signal(true)`, or `duration: Infinity` keeps a toast open until it is closed or its state changes. Persistent toasts can still be evicted when `maxVisible` is exceeded.
+- **Programmatic control:** `KuiToastRef.close()` closes one toast, `update()` changes it in place, and `KuiToastService.dismissAll()` closes the service's active toasts.
 - **Eviction:** when `maxVisible` is reached, the oldest visible toast is dismissed before the new one appears.
 - **No focus steal:** toast does not capture keyboard focus on appear (unlike Dialog).
 - **`aria-live="polite"`** on the region, screen readers announce new toasts without interrupting current speech.

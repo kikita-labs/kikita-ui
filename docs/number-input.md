@@ -91,10 +91,16 @@ included through `@kikita-labs/ui/styles`.
 
 ## CSS Custom Properties
 
-| Property                          | Default                        | Description                        |
-| --------------------------------- | ------------------------------ | ---------------------------------- |
-| `--kui-number-input-border`       | `--kui-color-border`           | Border color in default state      |
-| `--kui-number-input-divider`      | `--kui-color-border`           | Divider between buttons and input  |
-| `--kui-number-input-btn-bg`       | `transparent`                  | Button background in default state |
-| `--kui-number-input-btn-bg-hover` | `--kui-color-surface-elevated` | Button background on hover         |
-| `--kui-number-input-btn-text`     | `--kui-color-text-secondary`   | Button icon color                  |
+The number-input wrapper uses the shared `--kui-input-*` tokens for its common control chrome
+(height, border, radius, background, text, placeholder, focus, and invalid states). The
+number-specific tokens below are only for the increment/decrement control chrome.
+
+| Property                          | Default                        | Description                                       |
+| --------------------------------- | ------------------------------ | ------------------------------------------------- |
+| `--kui-input-bg`                  | `--kui-color-surface`          | Number-input background                           |
+| `--kui-input-bg-disabled`         | `--kui-color-surface-sunken`   | Number-input background when disabled or readonly |
+| `--kui-number-input-border`       | `--kui-input-border`           | Optional number-input border override             |
+| `--kui-number-input-divider`      | `--kui-color-border`           | Divider between buttons and input                 |
+| `--kui-number-input-btn-bg`       | `transparent`                  | Button background in default state                |
+| `--kui-number-input-btn-bg-hover` | `--kui-color-surface-elevated` | Button background on hover                        |
+| `--kui-number-input-btn-text`     | `--kui-color-text-secondary`   | Button icon color                                 |

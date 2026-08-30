@@ -56,6 +56,34 @@ describe('KuiDrawerContainerComponent', () => {
     expect(panel.classList.contains('kui-drawer--closing')).toBe(true);
   });
 
+  it('does not close when a pointer starts inside the panel and ends on the backdrop', () => {
+    const fixture = create();
+    fixture.detectChanges();
+
+    const panel: HTMLElement = fixture.nativeElement.querySelector('.kui-drawer');
+    const backdrop: HTMLElement = fixture.nativeElement.querySelector('.kui-drawer-backdrop');
+
+    panel.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    backdrop.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(panel.classList.contains('kui-drawer--closing')).toBe(false);
+  });
+
+  it('closes when a pointer starts on the backdrop', () => {
+    const fixture = create();
+    fixture.detectChanges();
+
+    const panel: HTMLElement = fixture.nativeElement.querySelector('.kui-drawer');
+    const backdrop: HTMLElement = fixture.nativeElement.querySelector('.kui-drawer-backdrop');
+
+    backdrop.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    backdrop.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(panel.classList.contains('kui-drawer--closing')).toBe(true);
+  });
+
   it('toggles the close button on a later detectChanges call', () => {
     const fixture = create();
     fixture.detectChanges();

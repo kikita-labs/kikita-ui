@@ -48,7 +48,7 @@
   }
 
   @media (max-width: 767px) {
-    .kui-tooltip {
+    .kui-tooltip:not(.kui-tooltip--touch) {
       display: none;
     }
   }

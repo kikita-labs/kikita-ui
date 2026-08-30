@@ -2,17 +2,18 @@
   .kui-number-input {
     display: flex;
     align-items: stretch;
-    width: 100%;
-    border: var(--kui-border-width-hairline) solid
-      var(--kui-number-input-border, var(--kui-color-border));
-    border-radius: var(--kui-radius-md);
-    background: var(--kui-color-surface);
+    inline-size: 100%;
+    border: var(--kui-input-border-width, 1px) solid
+      var(--kui-number-input-border, var(--kui-input-border, ButtonBorder));
+    border-radius: var(--kui-input-radius, 8px);
+    background-color: var(--kui-input-bg, Field);
+    color: var(--kui-input-color, FieldText);
     overflow: hidden;
     transition:
       border-color var(--kui-duration-base) var(--kui-ease),
       box-shadow var(--kui-duration-base) var(--kui-ease);
 
-    --_h: var(--kui-control-height-md);
+    --_h: var(--kui-input-height, var(--kui-control-height-md));
     --_fs: var(--kui-text-md-size);
     --_icon: 12px;
   }
@@ -30,12 +31,12 @@
   }
 
   .kui-number-input:hover:not([data-kui-disabled]):not([data-kui-readonly]) {
-    border-color: var(--kui-color-border-strong);
+    border-color: var(--kui-input-border-hover, ButtonBorder);
   }
 
   .kui-number-input:focus-within:not([data-kui-disabled]) {
-    border-color: var(--kui-color-primary-fill);
-    box-shadow: 0 0 0 3px var(--kui-color-primary-focus-ring);
+    border-color: var(--kui-input-border-focus, Highlight);
+    box-shadow: var(--kui-input-focus-ring, 0 0 0 3px Highlight);
   }
 
   .kui-number-input__btn--dec {
@@ -89,7 +90,7 @@
     min-width: 0;
     border: none;
     background: transparent;
-    color: var(--kui-color-text);
+    color: var(--kui-input-color, FieldText);
     font: inherit;
     font-size: var(--_fs);
     height: var(--_h);
@@ -108,7 +109,7 @@
   }
 
   .kui-number-input__input::placeholder {
-    color: var(--kui-color-text-disabled);
+    color: var(--kui-input-placeholder-color, GrayText);
   }
 
   .kui-number-input--stacked .kui-number-input__input {
@@ -166,13 +167,13 @@
   }
 
   .kui-number-input[data-kui-disabled] {
-    background: var(--kui-color-surface-sunken);
+    background-color: var(--kui-input-bg-disabled, var(--kui-input-bg, Field));
     opacity: 0.6;
     pointer-events: none;
   }
 
   .kui-number-input[data-kui-readonly] {
-    background: var(--kui-color-surface-sunken);
+    background-color: var(--kui-input-bg-disabled, var(--kui-input-bg, Field));
   }
 
   .kui-number-input[data-kui-readonly] .kui-number-input__btn,
@@ -183,6 +184,6 @@
 
   .kui-number-input[data-kui-invalid],
   .kui-field[data-kui-invalid] .kui-number-input {
-    border-color: var(--kui-color-danger-fill);
+    border-color: var(--kui-input-border-error, var(--kui-input-border-invalid, Mark));
   }
 }

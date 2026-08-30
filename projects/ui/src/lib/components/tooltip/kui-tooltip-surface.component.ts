@@ -1,4 +1,4 @@
-import { Component, input, ViewEncapsulation } from '@angular/core';
+import { booleanAttribute, Component, input, ViewEncapsulation } from '@angular/core';
 
 import type { KuiTooltipPlacement } from './kui-tooltip-placement.type';
 
@@ -12,6 +12,7 @@ import type { KuiTooltipPlacement } from './kui-tooltip-placement.type';
     role: 'tooltip',
     '[attr.id]': 'tooltipId()',
     '[attr.data-kui-placement]': 'placement()',
+    '[class.kui-tooltip--touch]': 'touchEnabled()',
   },
 })
 export class KuiTooltipSurfaceComponent {
@@ -23,4 +24,7 @@ export class KuiTooltipSurfaceComponent {
 
   /** Preferred tooltip placement. */
   readonly placement = input<KuiTooltipPlacement>('top');
+
+  /** @internal Allows an explicitly touch-enabled tooltip to render at mobile widths. */
+  readonly touchEnabled = input(false, { transform: booleanAttribute });
 }
