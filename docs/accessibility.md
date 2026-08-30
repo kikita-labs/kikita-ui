@@ -97,6 +97,8 @@ Review dropdown, select, tooltip, popover, dialog, toast, and any future overlay
 
 - Tooltip content is supplemental, not required to complete the task.
 - Tooltip `aria-describedby` exists only while the tooltip DOM exists.
+- Touch-open tooltips keep `role="tooltip"`, remain non-interactive, and close on outside click,
+  focus outside, repeat tap, or Escape.
 - Popovers that contain interactive content use a pattern appropriate for their role and do not masquerade as tooltips.
 - Dropdown and select triggers announce expanded/collapsed state.
 - Menu-like controls use roving focus or active-descendant behavior only when the chosen pattern requires it.

@@ -13,6 +13,7 @@ interface KuiTooltipOverlayOptions {
   readonly overlay: Overlay;
   readonly placement: KuiTooltipPlacement;
   readonly text: string;
+  readonly touchEnabled?: boolean;
 }
 
 /** Handle for an internal CDK-backed Kikita tooltip surface. */
@@ -27,7 +28,7 @@ export interface KuiTooltipOverlayHandle {
 export function createKuiTooltipOverlay(
   options: KuiTooltipOverlayOptions,
 ): KuiTooltipOverlayHandle {
-  const { anchor, id, overlay, placement, text } = options;
+  const { anchor, id, overlay, placement, text, touchEnabled } = options;
   const overlayRef = overlay.create({
     hasBackdrop: false,
     panelClass: 'kui-tooltip-pane',
@@ -42,6 +43,7 @@ export function createKuiTooltipOverlay(
   tooltipRef.setInput('tooltipId', id ?? null);
   tooltipRef.setInput('placement', placement);
   tooltipRef.setInput('text', text);
+  tooltipRef.setInput('touchEnabled', touchEnabled ?? false);
   tooltipRef.changeDetectorRef.detectChanges();
   const tooltipEl = tooltipRef.location.nativeElement as HTMLElement;
 

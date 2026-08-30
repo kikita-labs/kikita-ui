@@ -25,7 +25,7 @@
 - Loader (done as `[kuiLoader]`)
 - Skeleton (done as `[kuiSkeleton]`)
 - Empty State (done as `kui-empty-state` + projected icon/actions markers)
-- Tooltip (done as `[kuiTooltip]`)
+- Tooltip (done as `[kuiTooltip]`; adaptive touch tap trigger, configurable through DI and local `triggerType`)
 - Card (done as `[kuiCard]`)
 - Tabs (done as `kui-tabs`)
 - Segmented (done as `kui-segmented`)

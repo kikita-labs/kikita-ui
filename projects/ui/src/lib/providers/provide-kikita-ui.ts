@@ -9,6 +9,7 @@ import {
 
 import { KUI_BRAND_ICONS, KUI_ICONS, resolveLucideIcon } from '../components/icon';
 import { DEFAULT_KUI_THEME, provideKuiTheme } from '../theme';
+import { KUI_TOOLTIP_OPTIONS } from '../tokens/kui-tooltip-options.token';
 import type { KikitaUiOptions } from './kikita-ui-options.interface';
 import { KIKITA_UI_OPTIONS } from './kikita-ui-options.token';
 
@@ -22,6 +23,7 @@ export function provideKikitaUi(options: KikitaUiOptions = {}): EnvironmentProvi
           { provide: KUI_ICONS, multi: true, useValue: resolveLucideIcon },
           { provide: KUI_ICONS, multi: true, useValue: KUI_BRAND_ICONS },
         ]),
+    ...(options.tooltip ? [{ provide: KUI_TOOLTIP_OPTIONS, useValue: options.tooltip }] : []),
     {
       provide: ENVIRONMENT_INITIALIZER,
       multi: true,

@@ -1,4 +1,5 @@
 import type { KuiThemeOptions } from '../theme';
+import type { KuiTooltipOptions } from '../tokens/kui-tooltip-options.token';
 import type { KuiSize } from '../types';
 
 /** Root configuration for Kikita UI providers. */
@@ -11,6 +12,9 @@ export interface KikitaUiOptions {
 
   /** Global component defaults. */
   readonly defaults?: KikitaUiDefaults;
+
+  /** Default options for `kuiTooltip` instances. Defaults to adaptive `auto` behavior. */
+  readonly tooltip?: KuiTooltipOptions;
 
   /**
    * Default icon set resolved by `kui-icon` when a name isn't matched by a locally provided set.

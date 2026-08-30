@@ -31,6 +31,7 @@ provideKuiTheme(...)
 provideKuiIcons(...)
 provideKuiButtonOptions(...)
 provideKuiFieldOptions(...)
+kuiProvideTooltipOptions(...)
 ```
 
 Default precedence is intentionally narrow and static:

@@ -21,3 +21,18 @@ test('keeps overlay primitives interactive', async ({ page }) => {
   await expect(page.getByRole('listbox').or(page.getByRole('menu')).first()).toBeVisible();
   await page.keyboard.press('Escape');
 });
+
+test('opens and dismisses mobile info tooltips from icon triggers', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await gotoReady(page, '/tooltip');
+
+  const trigger = page.getByRole('button', { name: 'Billing information' });
+  const tooltip = page.getByRole('tooltip');
+
+  await trigger.dispatchEvent('pointerdown', { pointerType: 'touch' });
+  await trigger.dispatchEvent('click');
+  await expect(tooltip).toBeVisible();
+
+  await page.getByRole('heading', { name: 'Tooltip' }).click();
+  await expect(tooltip).toBeHidden();
+});

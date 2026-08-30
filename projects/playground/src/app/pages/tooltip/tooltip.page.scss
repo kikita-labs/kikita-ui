@@ -1,1 +1,15 @@
-/* No page-specific styles */
+.tooltip-info-example {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kui-space-2);
+}
+
+.tooltip-info-example__label {
+  color: var(--kui-color-text-secondary);
+  font-size: var(--kui-text-xs-size);
+  font-weight: 600;
+}
+
+.tooltip-info-example__row {
+  align-items: center;
+}

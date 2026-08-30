@@ -17,6 +17,12 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Changed
 
+- `kuiTooltip` now defaults to an adaptive trigger: hover/focus for mouse input and tap for touch
+  input. Added `KUI_TOOLTIP_OPTIONS`, `KuiTooltipOptions`, `KuiTooltipTriggerType`,
+  `kuiProvideTooltipOptions`, and the local `triggerType` override for disabling or changing the
+  behavior at app, component, or instance scope. Tap-open tooltips keep the existing tooltip
+  surface and close on outside click, focus outside, second tap, or Escape.
+
 - The legacy Select chrome tokens `--kui-select-bg`, `--kui-select-border`,
   `--kui-select-border-hover`, `--kui-select-border-focus`, `--kui-select-border-error`, and
   `--kui-select-radius` are now deprecated. They remain emitted in 1.x for compatibility, but
