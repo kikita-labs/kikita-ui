@@ -165,6 +165,8 @@ automatically from `appearance`. Size is fixed at 20 x 20 px.
 - Focus is trapped inside the dialog via CDK `cdkTrapFocus`.
 - Focus returns to the opener after the dialog closes.
 - Escape closes when `dismissable: true`.
+- Backdrop dismissal only applies when the pointer interaction starts on the backdrop;
+  selecting text or dragging from inside the panel cannot dismiss the dialog.
 - Page scroll is blocked via CDK block scroll strategy while open.
 
 ## Confirm

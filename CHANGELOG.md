@@ -10,6 +10,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- Dialog and Drawer backdrop dismissal now ignores clicks produced after a pointer interaction
+  started inside the surface, so text-selection drags cannot close the modal accidentally.
+
 - `kuiNumberInput` now uses the shared `--kui-input-*` control-chrome tokens for height, border,
   radius, background, text, placeholder, focus, and invalid states, matching `kuiInput` and
   `kuiInputGroup` customization behavior. Number-specific tokens remain available for its

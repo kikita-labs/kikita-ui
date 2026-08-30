@@ -21,6 +21,7 @@ let nextDialogTitleId = 0;
     <div
       class="kui-dialog-backdrop"
       [class.kui-dialog-backdrop--closing]="isClosing()"
+      (pointerdown)="onBackdropPointerDown($event)"
       (click)="onBackdropClick()"
       (animationend)="onAnimationEnd($event)"
     >
@@ -69,6 +70,7 @@ export class KuiDialogContainerComponent {
   readonly _closable = signal(true);
 
   private _closeResult: unknown;
+  private _backdropPointerDownOnBackdrop = false;
 
   /** Emits the close result after the exit animation finishes. */
   readonly closed = new EventEmitter<unknown>();
@@ -100,8 +102,15 @@ export class KuiDialogContainerComponent {
     this.isClosing.set(true);
   }
 
+  protected onBackdropPointerDown(event: PointerEvent): void {
+    this._backdropPointerDownOnBackdrop = event.target === event.currentTarget;
+  }
+
   protected onBackdropClick(): void {
-    if (this._dismissable) this.close();
+    const startedOnBackdrop = this._backdropPointerDownOnBackdrop;
+    this._backdropPointerDownOnBackdrop = false;
+
+    if (startedOnBackdrop && this._dismissable) this.close();
   }
 
   protected onAnimationEnd(event: AnimationEvent): void {

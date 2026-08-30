@@ -115,7 +115,9 @@ handle it via `closable`.
 - Focus returns to the previously focused element after close.
 - If `.kui-drawer-title` exists, it is wired as `aria-labelledby`.
 - Escape closes by default unless `closeOnEscape` is `false`.
-- Backdrop click closes by default unless `closeOnBackdropClick` is `false`.
+- Backdrop click closes by default unless `closeOnBackdropClick` is `false`, and only when
+  the pointer interaction starts on the backdrop. Selecting text or dragging from inside the
+  drawer cannot dismiss it.
 
 ## Tokens
 
