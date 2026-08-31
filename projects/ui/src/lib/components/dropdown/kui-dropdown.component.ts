@@ -310,6 +310,10 @@ export class KuiDropdownComponent implements OnDestroy {
       target.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
     ) {
       this.close();
+      return;
+    }
+    if (this.closeOnSelect() && this.isCalendarDayClick(target)) {
+      this.close();
     }
   }
 
@@ -319,7 +323,24 @@ export class KuiDropdownComponent implements OnDestroy {
     const target = e.target as HTMLElement | null;
     if (target?.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')) {
       this.close();
+      return;
     }
+    if (target && this.isCalendarDayClick(target)) {
+      this.close();
+    }
+  }
+
+  /**
+   * True for a click/activation on a `kui-calendar` day cell -- `kui-calendar` is single-date
+   * only, so any day pick is a complete selection. Excludes a `kui-calendar-range` day (it
+   * shares `kui-calendar`'s host class for CSS, so it's told apart by its own
+   * `data-kui-range` host attribute): a range stays open after picking the start date so the
+   * user can still pick the end date, and has no auto-close behavior of its own yet.
+   */
+  private isCalendarDayClick(target: Element): boolean {
+    const day = target.closest('.kui-calendar-day:not(.kui-calendar-day--disabled)');
+    if (!day) return false;
+    return !day.closest('[data-kui-range]');
   }
 
   protected onAnimationEnd(event: AnimationEvent): void {

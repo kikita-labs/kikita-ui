@@ -42,6 +42,22 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `.kui-number-input--stacked` (was `.kui-number-input--a`); no modifier class change for the
   default `split` layout (was, and remains, unmarked).
 
+## [1.7.4] - 2026-08-31
+
+### Fixed
+
+- `kui-calendar` day/month/year cell hover no longer uses `--kui-color-surface-elevated`. Nested
+  flat (`[flat]`) inside a `kui-dropdown`/`kui-popover` panel -- as `input[kuiDatePicker]` does --
+  the panel itself is painted with that same token, so the hover fill was invisible. Hover now
+  uses the new `--kui-calendar-day-hover-bg` token, defaulting to `--kui-color-surface-sunken`,
+  which stays visible against both the standalone calendar's own `--kui-color-surface` and an
+  elevated panel background.
+- `kui-dropdown`'s existing `closeOnSelect` (default `true`) now also closes the panel when a
+  `kui-calendar` day is picked -- matching the `input[kuiDatePicker]` composition shown in its
+  own doc example, where nothing previously closed the popover after a date was chosen.
+  `kui-calendar-range` is left open after the start day so the end day can still be picked;
+  nothing yet auto-closes it once the range completes.
+
 ## [1.7.3] - 2026-08-31
 
 ### Fixed
@@ -872,7 +888,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.3...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.4...HEAD
+[1.7.4]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.3...v1.7.4
 [1.7.3]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.2...v1.7.3
 [1.7.2]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.1...v1.7.2
 [1.7.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.0...v1.7.1
