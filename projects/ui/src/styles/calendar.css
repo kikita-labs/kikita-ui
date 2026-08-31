@@ -99,8 +99,12 @@
     border-radius: var(--kui-calendar-cell-radius, var(--kui-radius-md));
     transition: background-color 0.1s ease;
   }
+  /* Sunken, not elevated: a flat calendar embedded in a dropdown/popover panel already sits
+     on --kui-color-surface-elevated, so a hover fill using that same token would be invisible
+     against it. Sunken stays visible against both the standalone calendar's own
+     --kui-color-surface and the elevated panel it's nested in when flat. */
   .kui-calendar-day:hover:not(.kui-calendar-day--disabled) .kui-calendar-day-inner {
-    background: var(--kui-color-surface-elevated);
+    background: var(--kui-calendar-day-hover-bg, var(--kui-color-surface-sunken));
   }
   .kui-calendar-day:focus-visible .kui-calendar-day-inner {
     box-shadow: 0 0 0 2px var(--kui-color-primary-focus-ring);
@@ -202,7 +206,7 @@
     font-family: inherit;
   }
   .kui-calendar-picker-cell:hover {
-    background: var(--kui-color-surface-elevated);
+    background: var(--kui-calendar-day-hover-bg, var(--kui-color-surface-sunken));
   }
   .kui-calendar-picker-cell:focus-visible {
     outline: none;

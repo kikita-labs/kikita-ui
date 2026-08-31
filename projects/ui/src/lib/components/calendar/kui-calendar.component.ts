@@ -209,6 +209,7 @@ const KUI_CALENDAR_SIZES = ['sm', 'md'] as const;
     class: 'kui-calendar',
     '[attr.data-kui-size]': "effectiveSize() === 'sm' ? 'sm' : null",
     '[attr.data-kui-flat]': "flat() ? '' : null",
+    '[attr.data-kui-mode]': 'mode()',
   },
   imports: [KuiButtonDirective, KuiSeparatorDirective],
   encapsulation: ViewEncapsulation.None,
