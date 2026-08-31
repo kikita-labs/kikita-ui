@@ -302,11 +302,13 @@ export class KuiDropdownComponent implements OnDestroy {
   }
 
   protected handlePanelClick(e: MouseEvent): void {
+    if (!this.closeOnSelect()) return;
     const target = e.target as Element;
-    if (
-      this.closeOnSelect() &&
-      target.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
-    ) {
+    if (target.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')) {
+      this.close();
+      return;
+    }
+    if (this.isSingleCalendarDayClick(target)) {
       this.close();
     }
   }
@@ -317,7 +319,23 @@ export class KuiDropdownComponent implements OnDestroy {
     const target = e.target as HTMLElement | null;
     if (target?.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')) {
       this.close();
+      return;
     }
+    if (target && this.isSingleCalendarDayClick(target)) {
+      this.close();
+    }
+  }
+
+  /**
+   * True for a click/activation on a `kui-calendar` day cell, but only in single-date mode --
+   * a range calendar stays open after picking the start date so the user can still pick the
+   * end date; it has no auto-close behavior of its own yet.
+   */
+  private isSingleCalendarDayClick(target: Element): boolean {
+    const day = target.closest('.kui-calendar-day:not(.kui-calendar-day--disabled)');
+    if (!day) return false;
+    const calendar = day.closest('.kui-calendar');
+    return calendar?.getAttribute('data-kui-mode') !== 'range';
   }
 
   protected onAnimationEnd(event: AnimationEvent): void {

@@ -8,6 +8,20 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Fixed
+
+- `kui-calendar` day/month/year cell hover no longer uses `--kui-color-surface-elevated`. Nested
+  flat (`[flat]`) inside a `kui-dropdown`/`kui-popover` panel -- as `input[kuiDatePicker]` does --
+  the panel itself is painted with that same token, so the hover fill was invisible. Hover now
+  uses the new `--kui-calendar-day-hover-bg` token, defaulting to `--kui-color-surface-sunken`,
+  which stays visible against both the standalone calendar's own `--kui-color-surface` and an
+  elevated panel background.
+- `kui-dropdown`'s existing `closeOnSelect` (default `true`) now also closes the panel when a
+  `kui-calendar` day is picked in single-date mode -- matching the `input[kuiDatePicker]`
+  composition shown in its own doc example, where nothing previously closed the popover after a
+  date was chosen. A range calendar (`mode="range"`) is left open after the start day so the end
+  day can still be picked; nothing yet auto-closes it once the range completes.
+
 ## [1.7.3] - 2026-08-31
 
 ### Fixed
