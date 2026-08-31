@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [1.7.4] - 2026-08-31
+
 ### Fixed
 
 - `kui-calendar` day/month/year cell hover no longer uses `--kui-color-surface-elevated`. Nested
@@ -852,7 +854,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.3...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.4...HEAD
+[1.7.4]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.3...v1.7.4
 [1.7.3]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.2...v1.7.3
 [1.7.2]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.1...v1.7.2
 [1.7.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.0...v1.7.1
