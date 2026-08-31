@@ -95,7 +95,7 @@
 
   .kui-toast-region {
     position: fixed;
-    z-index: var(--kui-z-toast, 600);
+    z-index: var(--kui-z-toast, 1100);
     display: flex;
     gap: var(--kui-toast-stack-gap, var(--kui-space-2));
     pointer-events: none;

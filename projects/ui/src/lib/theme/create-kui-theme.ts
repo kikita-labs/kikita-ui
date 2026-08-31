@@ -703,7 +703,7 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-toast-region-offset': 'var(--kui-space-4)',
     '--kui-toast-min-width': '280px',
     '--kui-toast-max-width': '400px',
-    '--kui-z-toast': '600',
+    '--kui-z-toast': '1100',
     '--kui-popover-bg': 'var(--kui-color-surface-elevated)',
     '--kui-popover-border': 'var(--kui-color-border)',
     '--kui-popover-radius': 'var(--kui-radius-lg)',
