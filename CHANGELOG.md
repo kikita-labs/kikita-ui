@@ -42,6 +42,14 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `.kui-number-input--stacked` (was `.kui-number-input--a`); no modifier class change for the
   default `split` layout (was, and remains, unmarked).
 
+## [1.7.3] - 2026-08-31
+
+### Fixed
+
+- `--kui-z-toast` raised from `600` to `1100` so the toast region (appended to `document.body`)
+  stacks above the Angular CDK overlay container (`z-index: 1000`) used by Dialog, Drawer, and
+  other CDK-based overlays. Toasts fired while a modal is open were previously hidden behind it.
+
 ## [1.7.2] - 2026-08-31
 
 ### Fixed
@@ -864,7 +872,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.2...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.3...HEAD
+[1.7.3]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.2...v1.7.3
 [1.7.2]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.1...v1.7.2
 [1.7.1]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.6.1...v1.7.0
