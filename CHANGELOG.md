@@ -8,6 +8,12 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Fixed
+
+- `--kui-z-toast` raised from `600` to `1100` so the toast region (appended to `document.body`)
+  stacks above the Angular CDK overlay container (`z-index: 1000`) used by Dialog, Drawer, and
+  other CDK-based overlays. Toasts fired while a modal is open were previously hidden behind it.
+
 ## [1.7.2] - 2026-08-31
 
 ### Fixed
