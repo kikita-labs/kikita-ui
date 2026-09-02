@@ -8,6 +8,15 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Fixed
+
+- `kui-calendar` range-start/range-end/range-middle hover selectors now include
+  `:not(.kui-calendar-day--disabled)`, matching the specificity of the generic day hover rule so
+  the intended primary-tinted hover wins by source order instead of falling back to the neutral
+  `--kui-color-surface-sunken` fill. Also added a missing `--selected:hover` rule so hovering a
+  single selected day no longer leaves `--kui-color-on-fill` text on a low-contrast gray
+  background.
+
 ## [1.7.4] - 2026-08-31
 
 ### Fixed
