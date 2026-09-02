@@ -10,6 +10,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- `kui-table` switched from `border-collapse: collapse` to `border-collapse: separate` with
+  `border-spacing: 0`. `collapse` silently disables `position: sticky` on `th`/`td` in
+  Chromium/WebKit, which broke both the sticky header row (`.kui-th-group--sticky`) and the sticky
+  first column (`.kui-th--sticky`/`.kui-cell--sticky`). All borders in this file are one-sided
+  (`border-bottom`/`border-right`), so the visual result is unchanged. Also raised the z-index of
+  a header cell that is sticky on both axes (row + column) above single-axis sticky cells so the
+  corner cell no longer sits behind the rest of the sticky header row.
 - `kui-calendar` range-start/range-end/range-middle hover selectors now include
   `:not(.kui-calendar-day--disabled)`, matching the specificity of the generic day hover rule so
   the intended primary-tinted hover wins by source order instead of falling back to the neutral
