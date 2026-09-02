@@ -1,7 +1,8 @@
 @layer kui.components {
   .kui-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     font-size: var(--kui-table-font-size, var(--kui-text-sm-size, 13px));
     color: var(--kui-color-text);
   }
@@ -27,6 +28,11 @@
     position: sticky;
     top: 0;
     z-index: 2;
+  }
+
+  /* Both row-sticky and column-sticky: raise above single-axis sticky cells. */
+  .kui-th-group--sticky .kui-th--sticky {
+    z-index: 3;
   }
 
   /* Sticky individual column (left). */
