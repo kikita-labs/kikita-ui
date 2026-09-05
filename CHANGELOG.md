@@ -8,8 +8,19 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Added
+
+- `KuiChipDirective` gained a `removable` input that renders a default crossmark remove button
+  (and a matching `removeLabel` input for its accessible name), so making a chip removable no
+  longer requires hand-building a `button[kuiChipRemove]` with your own SVG or icon. Projecting a
+  custom `button[kuiChipRemove]` (optionally combined with `kuiIconButton`) remains supported as
+  the escape hatch for a fully custom remove control.
+
 ### Fixed
 
+- `docs/chip.md`'s remove-action example rendered an empty, invisible button
+  (`<button kuiChipRemove ...>...</button>` with a literal ellipsis instead of real content).
+  Replaced with the `removable` input and a working `kuiChipRemove` + `kuiIconButton` example.
 - `kui-table` switched from `border-collapse: collapse` to `border-collapse: separate` with
   `border-spacing: 0`. `collapse` silently disables `position: sticky` on `th`/`td` in
   Chromium/WebKit, which broke both the sticky header row (`.kui-th-group--sticky`) and the sticky

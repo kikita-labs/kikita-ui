@@ -47,7 +47,9 @@
 - Menu (done as `kui-menu` + `[kuiMenuFor]` + `button/a[kuiMenuItem]` + `hr[kuiSeparator]`; submenu, checkbox/radio items, and context-menu helper deferred per Claude brief)
 - Separator (done as `hr[kuiSeparator]`; Menu uses the generic separator directly)
 - Drawer (done as `kuiDrawer()` typed CDK overlay with side and size presets)
-- Chip (done as `[kuiChip]` + `button[kuiChipRemove]`; Select multiselect uses it for selected values)
+- Chip (done as `[kuiChip]` with a `removable` default remove button, plus `button[kuiChipRemove]`
+  as the escape hatch for a fully custom remove control; Select multiselect uses
+  `button[kuiChipRemove]` for selected values)
 - Combobox (done as `input[kuiCombobox]` with projected `kui-dropdown`/`kuiOption`, search output, highlight pipe, free mode, and provider defaults)
 - Command Palette (done as `kui-command-palette`; supports grouped commands, filtering with label highlights, loading skeleton rows, empty state, keyboard navigation, and CDK overlay focus trapping)
 - Scrollbar (done as `.kui-scroll` CSS utility plus internal scroll-container styling for dropdown, dialog, drawer, and command palette)
