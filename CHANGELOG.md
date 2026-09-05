@@ -21,6 +21,11 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 - `docs/chip.md`'s remove-action example rendered an empty, invisible button
   (`<button kuiChipRemove ...>...</button>` with a literal ellipsis instead of real content).
   Replaced with the `removable` input and a working `kuiChipRemove` + `kuiIconButton` example.
+- Dialog and Drawer's close button rendered its crossmark via `<kui-icon name="x" />`, which
+  fetches the icon markup from a CDN on first use. If that request is blocked or slow, the close
+  button showed no icon. Switched to the same static inline-SVG chrome-icon pattern already used
+  by Select/Toast/Stepper/Chip, matching this library's existing convention of never letting
+  internal chrome depend on the network.
 - `kui-table` switched from `border-collapse: collapse` to `border-collapse: separate` with
   `border-spacing: 0`. `collapse` silently disables `position: sticky` on `th`/`td` in
   Chromium/WebKit, which broke both the sticky header row (`.kui-th-group--sticky`) and the sticky

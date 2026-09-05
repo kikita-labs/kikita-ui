@@ -4,7 +4,7 @@ import { CdkPortalOutlet } from '@angular/cdk/portal';
 import type { ComponentRef, ElementRef } from '@angular/core';
 import { Component, EventEmitter, signal, viewChild, ViewEncapsulation } from '@angular/core';
 
-import { KuiIconComponent } from '../icon/kui-icon.component';
+import { KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
 import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
 
 let nextDrawerTitleId = 0;
@@ -41,12 +41,25 @@ let nextDrawerTitleId = 0;
       <ng-template cdkPortalOutlet />
       @if (_closable()) {
         <button type="button" class="kui-drawer-close" aria-label="Close" (click)="close()">
-          <kui-icon name="x" />
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="${KUI_X_D[0]}"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+            <path
+              d="${KUI_X_D[1]}"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
         </button>
       }
     </div>
   `,
-  imports: [CdkPortalOutlet, CdkTrapFocus, KuiIconComponent],
+  imports: [CdkPortalOutlet, CdkTrapFocus],
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders the modal drawer surface used by the drawer service. */
