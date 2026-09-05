@@ -8,6 +8,38 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Added
+
+- `KuiChipDirective` gained a `removable` input that renders a default crossmark remove button
+  (and a matching `removeLabel` input for its accessible name), so making a chip removable no
+  longer requires hand-building a `button[kuiChipRemove]` with your own SVG or icon. Projecting a
+  custom `button[kuiChipRemove]` (optionally combined with `kuiIconButton`) remains supported as
+  the escape hatch for a fully custom remove control.
+
+### Fixed
+
+- `docs/chip.md`'s remove-action example rendered an empty, invisible button
+  (`<button kuiChipRemove ...>...</button>` with a literal ellipsis instead of real content).
+  Replaced with the `removable` input and a working `kuiChipRemove` + `kuiIconButton` example.
+- Dialog and Drawer's close button rendered its crossmark via `<kui-icon name="x" />`, which
+  fetches the icon markup from a CDN on first use. If that request is blocked or slow, the close
+  button showed no icon. Switched to the same static inline-SVG chrome-icon pattern already used
+  by Select/Toast/Stepper/Chip, matching this library's existing convention of never letting
+  internal chrome depend on the network.
+- `kui-table` switched from `border-collapse: collapse` to `border-collapse: separate` with
+  `border-spacing: 0`. `collapse` silently disables `position: sticky` on `th`/`td` in
+  Chromium/WebKit, which broke both the sticky header row (`.kui-th-group--sticky`) and the sticky
+  first column (`.kui-th--sticky`/`.kui-cell--sticky`). All borders in this file are one-sided
+  (`border-bottom`/`border-right`), so the visual result is unchanged. Also raised the z-index of
+  a header cell that is sticky on both axes (row + column) above single-axis sticky cells so the
+  corner cell no longer sits behind the rest of the sticky header row.
+- `kui-calendar` range-start/range-end/range-middle hover selectors now include
+  `:not(.kui-calendar-day--disabled)`, matching the specificity of the generic day hover rule so
+  the intended primary-tinted hover wins by source order instead of falling back to the neutral
+  `--kui-color-surface-sunken` fill. Also added a missing `--selected:hover` rule so hovering a
+  single selected day no longer leaves `--kui-color-on-fill` text on a low-contrast gray
+  background.
+
 ## [1.7.4] - 2026-08-31
 
 ### Fixed

@@ -1,6 +1,11 @@
 import { Component, signal, ViewEncapsulation } from '@angular/core';
 
-import { KuiButtonDirective, KuiChipDirective, KuiChipRemoveDirective } from '@kikita-labs/ui';
+import {
+  KuiButtonDirective,
+  KuiChipDirective,
+  KuiChipRemoveDirective,
+  KuiIconButtonDirective,
+} from '@kikita-labs/ui';
 
 import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
 
@@ -8,7 +13,13 @@ import { PlaygroundPanelComponent } from '../../shared/panel/panel.component';
   selector: 'app-chip-page',
   templateUrl: './chip.page.html',
   styleUrl: './chip.page.scss',
-  imports: [PlaygroundPanelComponent, KuiButtonDirective, KuiChipDirective, KuiChipRemoveDirective],
+  imports: [
+    PlaygroundPanelComponent,
+    KuiButtonDirective,
+    KuiChipDirective,
+    KuiChipRemoveDirective,
+    KuiIconButtonDirective,
+  ],
   encapsulation: ViewEncapsulation.None,
 })
 export class ChipPage {

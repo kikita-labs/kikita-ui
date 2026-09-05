@@ -27,35 +27,38 @@
   <app-panel
     num="03"
     title="Remove action"
-    description="Remove is a native button inside the chip."
+    description="`removable` renders a default remove button. `kuiChipRemove` is the escape hatch for a fully custom one."
   >
     <div class="chip-stack">
       <div class="chip-row">
-        <span kuiChip size="sm" (removed)="markRemoved('Angular')">
+        <span
+          kuiChip
+          size="sm"
+          removable
+          removeLabel="Remove Angular"
+          (removed)="markRemoved('Angular')"
+        >
           <span class="kui-chip-label">Angular</span>
-          <button kuiChipRemove aria-label="Remove Angular">
-            <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path
-                d="M4 4l8 8M12 4l-8 8"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-          </button>
         </span>
-        <span kuiChip size="sm" appearance="primary" (removed)="markRemoved('Design')">
+        <span
+          kuiChip
+          size="sm"
+          appearance="primary"
+          removable
+          removeLabel="Remove Design"
+          (removed)="markRemoved('Design')"
+        >
           <span class="kui-chip-label">Design</span>
-          <button kuiChipRemove aria-label="Remove Design">
-            <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path
-                d="M4 4l8 8M12 4l-8 8"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-          </button>
+        </span>
+        <span kuiChip size="sm" (removed)="markRemoved('Backend')">
+          <span class="kui-chip-label">Backend</span>
+          <button
+            kuiChipRemove
+            kuiIconButton
+            icon="x"
+            size="xs"
+            aria-label="Remove Backend"
+          ></button>
         </span>
         <span class="kui-chip-counter" data-kui-size="sm">+4</span>
       </div>
@@ -71,19 +74,7 @@
     <div class="chip-row">
       <button kuiChip type="button">Interactive</button>
       <button kuiChip type="button" class="kui-chip--focus">Focus</button>
-      <span kuiChip disabled>
-        Disabled
-        <button kuiChipRemove aria-label="Remove disabled">
-          <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path
-              d="M4 4l8 8M12 4l-8 8"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
-        </button>
-      </span>
+      <span kuiChip disabled removable removeLabel="Remove disabled">Disabled</span>
       <span kuiChip invalid>Invalid</span>
     </div>
   </app-panel>
