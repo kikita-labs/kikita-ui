@@ -165,12 +165,15 @@
     border-radius: 0 var(--kui-calendar-cell-radius, var(--kui-radius-md))
       var(--kui-calendar-cell-radius, var(--kui-radius-md)) 0;
   }
-  .kui-calendar-day--range-start:hover .kui-calendar-day-inner,
-  .kui-calendar-day--range-end:hover .kui-calendar-day-inner {
+  .kui-calendar-day--range-start:hover:not(.kui-calendar-day--disabled) .kui-calendar-day-inner,
+  .kui-calendar-day--range-end:hover:not(.kui-calendar-day--disabled) .kui-calendar-day-inner {
     background: var(--kui-color-primary-fill-hover);
   }
-  .kui-calendar-day--range-middle:hover .kui-calendar-day-inner {
+  .kui-calendar-day--range-middle:hover:not(.kui-calendar-day--disabled) .kui-calendar-day-inner {
     background: var(--kui-color-primary-soft-bg-hover);
+  }
+  .kui-calendar-day--selected:hover:not(.kui-calendar-day--disabled) .kui-calendar-day-inner {
+    background: var(--kui-color-primary-fill-hover);
   }
   .kui-calendar-day--today.kui-calendar-day--range-start .kui-calendar-day-inner,
   .kui-calendar-day--today.kui-calendar-day--range-end .kui-calendar-day-inner {

@@ -20,6 +20,16 @@ import { KuiChipRemoveDirective } from './kui-chip-remove.directive';
       <span class="kui-chip-label">Design</span>
       <button kuiChipRemove aria-label="Remove Design">x</button>
     </span>
+
+    <span
+      kuiChip
+      removable
+      [removeLabel]="removableLabel()"
+      [disabled]="removableDisabled()"
+      (removed)="removableRemoved.set(removableRemoved() + 1)"
+    >
+      <span class="kui-chip-label">Backend</span>
+    </span>
   `,
   imports: [KuiChipDirective, KuiChipRemoveDirective],
 })
@@ -27,6 +37,9 @@ class TestChipHost {
   readonly disabled = signal(false);
   readonly invalid = signal(false);
   readonly removed = signal(0);
+  readonly removableLabel = signal<string | undefined>('Remove Backend');
+  readonly removableDisabled = signal(false);
+  readonly removableRemoved = signal(0);
 }
 
 describe('KuiChipDirective', () => {
@@ -79,5 +92,41 @@ describe('KuiChipDirective', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.removed()).toBe(0);
+  });
+
+  it('renders a default remove button when removable is set', () => {
+    const chips = fixture.nativeElement.querySelectorAll('[kuiChip]');
+    const chip = chips[1] as HTMLElement;
+    const remove = chip.querySelector('.kui-chip-remove') as HTMLButtonElement;
+
+    expect(remove).not.toBeNull();
+    expect(remove.getAttribute('type')).toBe('button');
+    expect(remove.getAttribute('aria-label')).toBe('Remove Backend');
+    expect(remove.querySelector('svg')).not.toBeNull();
+
+    remove.click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.removableRemoved()).toBe(1);
+  });
+
+  it('falls back to a generic label and makes the default remove button inert when disabled', () => {
+    fixture.componentInstance.removableLabel.set(undefined);
+    fixture.componentInstance.removableDisabled.set(true);
+    fixture.detectChanges();
+
+    const chips = fixture.nativeElement.querySelectorAll('[kuiChip]');
+    const chip = chips[1] as HTMLElement;
+    const remove = chip.querySelector('.kui-chip-remove') as HTMLButtonElement;
+
+    expect(remove.getAttribute('aria-label')).toBe('Remove');
+    expect(remove.getAttribute('aria-disabled')).toBe('true');
+    expect(remove.getAttribute('tabindex')).toBe('-1');
+    expect(remove.hasAttribute('disabled')).toBe(true);
+
+    remove.click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.removableRemoved()).toBe(0);
   });
 });
