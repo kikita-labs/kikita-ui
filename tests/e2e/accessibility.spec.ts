@@ -13,6 +13,7 @@ const routes = [
   '/dialog',
   '/table',
   '/alert',
+  '/otp-input',
 ];
 
 for (const route of routes) {

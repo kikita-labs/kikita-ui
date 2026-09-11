@@ -10,6 +10,20 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Added
 
+- `KuiOtpInputComponent` (`kui-otp-input`): a new composite control for entering a one-time
+  verification code (SMS/email/authenticator) or PIN, as a row of single-character cells. Each
+  cell renders the kit's own `input[kuiInput]` styling unmodified; the component owns roving
+  keyboard navigation (auto-advance while typing, `Backspace` on an empty cell clears and
+  refocuses the previous cell, `ArrowLeft`/`ArrowRight`/`Home`/`End` for focus movement), paste
+  distribution of a full code across cells, and coordinated per-cell value state. Supports
+  `length` (default `6`), `size` (`xs`/`sm`/`md`/`lg`, same scale as `Input`), `mask`
+  (password-style cells), `integerOnly` (digits-only with a numeric keyboard by default, or
+  uppercased alphanumeric for backup codes), `loading` (disables cells, blurs the entered code in
+  place, and shows a centered `Loader` without changing the group's size), and
+  `invalid`/`disabled`/`readOnly`/`autoFocus`. Implements `FormValueControl<string>` for
+  `[formField]` on `kui-otp-input` itself (not on `kui-field`), the same pattern `kui-segmented`
+  uses. `(complete)` fires once, with the completed value, when every cell becomes filled.
+
 - `KuiAlertComponent` (`kui-alert`): a new inline notification companion to `kuiToast()`. Renders
   directly in the page content flow instead of floating or auto-dismissing. Supports `neutral` /
   `info` / `success` / `warning` / `danger` appearances (reusing `kuiToast()`'s severity-to-icon

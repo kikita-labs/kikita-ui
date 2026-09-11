@@ -70,6 +70,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/date-picker', label: 'Date Picker' },
   { path: '/tree', label: 'Tree' },
   { path: '/file-upload', label: 'File Upload' },
+  { path: '/otp-input', label: 'OTP Input' },
 ];
 
 @Component({

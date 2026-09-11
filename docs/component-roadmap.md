@@ -97,6 +97,17 @@
   `[kuiAlertActions]` marker directives let a consumer project custom title/icon/message/action
   content instead of the plain-string inputs, the same shorthand-input-or-projected-content
   pattern `kui-empty-state` uses.)
+- OTP Input (done as `kui-otp-input`; row of single-character cells for a one-time verification
+  code/PIN, built from Claude Design spec `02 OTP Input.dc.html`. Composite component (not a
+  directive) because it needs roving keyboard navigation, paste distribution, and coordinated
+  per-cell value state -- each cell still renders the kit's own `input[kuiInput]` unmodified,
+  only cell layout is overridden. `length` (default `6`), `size` (`xs`/`sm`/`md`/`lg`), `mask`
+  (password-style cells), `integerOnly` (digits-only numeric keyboard vs. uppercased alphanumeric
+  for backup codes), `loading` (disables cells + shows `Loader`), `invalid`/`disabled`/`readOnly`,
+  `autoFocus`. Implements `FormValueControl<string>` for `[formField]` on `kui-otp-input` itself,
+  the same pattern `kui-segmented` uses; `kui-field` wraps it for label/hint/error. No built-in
+  success/error status icon after verification -- an intentional scope decision, since the
+  component cannot know a server verification result on its own.)
 
 ## Later
 

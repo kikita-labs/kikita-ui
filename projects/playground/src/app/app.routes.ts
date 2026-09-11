@@ -197,5 +197,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/file-upload/file-upload.page').then((m) => m.FileUploadPage),
   },
+  {
+    path: 'otp-input',
+    loadComponent: () => import('./pages/otp-input/otp-input.page').then((m) => m.OtpInputPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

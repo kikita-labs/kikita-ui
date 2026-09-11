@@ -89,6 +89,11 @@ code {
 
 .component-board {
   display: grid;
+  // `minmax(0, 1fr)`, not the bare implicit `auto` column default, matches `.state-board`'s and
+  // `.component-board__fields`'s own grid-column sizing just below: without it, a wide, non-
+  // wrapping child (e.g. a long fixed-width row) sets the column's -- and so the whole board's --
+  // width to its own content size instead of shrinking to fit the viewport.
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
 }
 

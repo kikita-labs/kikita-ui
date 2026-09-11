@@ -73,3 +73,46 @@ test('opens and dismisses mobile info tooltips from icon triggers', async ({ pag
   await page.getByRole('heading', { name: 'Tooltip' }).click();
   await expect(tooltip).toBeHidden();
 });
+
+test('clicking a kui-field label focuses the first OTP Input cell', async ({ page }) => {
+  // jsdom (unit tests) does not implement native label-activation behavior, so this real-browser
+  // check is the only place `kui-otp-input`'s first-cell id adoption from `kui-field.controlId` is
+  // actually verified end to end.
+  await gotoReady(page, '/otp-input');
+
+  const field = page.locator('kui-field', {
+    has: page.getByText('Code from email', { exact: true }),
+  });
+  const label = field.getByText('Code from email', { exact: true });
+  const firstCell = field.getByRole('textbox', { name: 'Digit 1 of 6' }).first();
+
+  await label.click();
+  await expect(firstCell).toBeFocused();
+});
+
+test('OTP Input keyboard navigation and paste distribute across cells', async ({ page }) => {
+  await gotoReady(page, '/otp-input');
+
+  const group = page.locator('kui-otp-input').first();
+  const cells = group.locator('input');
+
+  await cells.nth(0).focus();
+  await page.keyboard.type('12');
+  await expect(cells.nth(2)).toBeFocused();
+
+  await page.keyboard.press('ArrowLeft');
+  await expect(cells.nth(1)).toBeFocused();
+
+  await page.keyboard.press('Backspace');
+  await page.keyboard.press('Backspace');
+  await expect(cells.nth(0)).toBeFocused();
+
+  await cells.nth(0).evaluate((el: HTMLInputElement) => {
+    const data = new DataTransfer();
+    data.setData('text', '654321');
+    el.dispatchEvent(
+      new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true }),
+    );
+  });
+  await expect(page.locator('.otp-demo__readout code').first()).toHaveText('654321');
+});

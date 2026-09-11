@@ -1,0 +1,51 @@
+.otp-demo__row {
+  // A grid/flex item's automatic minimum size defaults to its own min-content, not 0 -- the
+  // shared `.state-board__row` doesn't set this itself (most pages never hit it), but this page's
+  // 8-cell backup-code demo is wide enough on a narrow viewport to hit it. Same fix as
+  // `.otp-demo__stack` and `.kui-otp-input` (otp-input.css) below it in the same chain.
+  min-inline-size: 0;
+}
+
+.otp-demo__readout {
+  font-size: var(--kui-text-sm-size);
+  color: var(--kui-color-text-secondary);
+}
+
+.otp-demo__complete {
+  color: var(--kui-color-success-soft-text);
+}
+
+.otp-demo__stack {
+  display: flex;
+  flex-direction: column;
+  // Shares the same flex `min-width: auto` floor as `.kui-otp-input` itself (see otp-input.css):
+  // without it, this wrapper can't shrink below the 8-cell backup-code demo's full unwrapped
+  // width, so `.kui-otp-input`'s own `overflow-x: auto` never gets a narrower box to engage in.
+  min-inline-size: 0;
+  gap: var(--kui-space-2);
+}
+
+.otp-demo__label {
+  font-size: var(--kui-text-xs-size);
+  font-weight: 600;
+  color: var(--kui-color-text-secondary);
+}
+
+.otp-demo__status {
+  font-size: var(--kui-text-sm-size);
+  color: var(--kui-color-text-secondary);
+}
+
+.otp-demo__status--success {
+  color: var(--kui-color-success-soft-text);
+}
+
+.otp-demo__status--error {
+  color: var(--kui-color-danger-soft-text);
+}
+
+.otp-demo__hint {
+  margin: 0;
+  font-size: var(--kui-text-xs-size);
+  color: var(--kui-color-text-secondary);
+}

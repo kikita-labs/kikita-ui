@@ -1,0 +1,158 @@
+<app-panel
+  num="01"
+  title="OTP Input"
+  description="Row of single-character cells for a one-time verification code. <code>kui-otp-input</code>. Keyboard: type to auto-advance, Backspace/←→/Home/End, paste distributes the full code."
+>
+  <div class="component-board">
+    <div class="state-board__row otp-demo__row">
+      <kui-otp-input [(value)]="defaultCode" />
+      <span class="otp-demo__readout">
+        Value: <code>{{ defaultCode() || '—' }}</code>
+        @if (defaultComplete()) {
+          <span class="otp-demo__complete">— complete ✓</span>
+        }
+      </span>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel num="02" title="Sizes" description="xs / sm / md (default) / lg.">
+  <div class="table-wrap">
+    <table kuiTable aria-label="OTP input sizes">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          <th kuiTh>Cells</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <tr>
+            <td kuiCell class="matrix-label">
+              <strong>{{ sizeRow.label }}</strong>
+              <code>size="{{ sizeRow.value }}"</code>
+            </td>
+            <td kuiCell class="matrix-cell">
+              <kui-otp-input [size]="sizeRow.value" [length]="4" [autoFocus]="false" />
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Mask and backup codes"
+  description="mask hides entered characters. integerOnly=false accepts letters and digits, uppercased."
+>
+  <div class="component-board">
+    <div class="state-board__row otp-demo__row">
+      <div class="otp-demo__stack">
+        <span class="otp-demo__label">mask — PIN entry</span>
+        <kui-otp-input [(value)]="maskedCode" [length]="4" mask ariaLabel="PIN code" />
+      </div>
+    </div>
+    <div class="state-board__row otp-demo__row">
+      <div class="otp-demo__stack">
+        <span class="otp-demo__label">integerOnly=false — backup code</span>
+        <kui-otp-input
+          [(value)]="backupCode"
+          [length]="8"
+          [integerOnly]="false"
+          ariaLabel="Backup code"
+        />
+      </div>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="Loading and verification"
+  description="loading blurs the entered code in place and shows a centered Loader, without changing the group's size. Success/error status after that is consumer-composed."
+>
+  <div class="component-board">
+    <div class="state-board__row otp-demo__row">
+      <kui-otp-input
+        [(value)]="verifyCode"
+        [loading]="verifying()"
+        (complete)="onVerifyComplete($event)"
+      />
+      @if (verifying()) {
+        <span class="otp-demo__status">Verifying code…</span>
+      }
+      @if (verifyResult() === 'success') {
+        <span class="otp-demo__status otp-demo__status--success">Code verified</span>
+      }
+      @if (verifyResult() === 'error') {
+        <span class="otp-demo__status otp-demo__status--error">Invalid code</span>
+      }
+      <button kuiButton shape="ghost" size="xs" type="button" (click)="resetVerify()">Reset</button>
+    </div>
+    <p class="otp-demo__hint">Type any 6 digits — an odd last digit reports as invalid.</p>
+  </div>
+</app-panel>
+
+<app-panel
+  num="05"
+  title="States"
+  description="Invalid, disabled, and read-only apply to every cell."
+>
+  <div class="component-board">
+    <div class="state-board__row otp-demo__row">
+      <div class="otp-demo__stack">
+        <span class="otp-demo__label">invalid</span>
+        <kui-otp-input value="482913" invalid [autoFocus]="false" />
+      </div>
+    </div>
+    <div class="state-board__row otp-demo__row">
+      <div class="otp-demo__stack">
+        <span class="otp-demo__label">disabled</span>
+        <kui-otp-input value="482913" disabled [autoFocus]="false" />
+      </div>
+    </div>
+    <div class="state-board__row otp-demo__row">
+      <div class="otp-demo__stack">
+        <span class="otp-demo__label">readOnly</span>
+        <kui-otp-input value="482913" readOnly [autoFocus]="false" />
+      </div>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="06"
+  title="Inside kui-field"
+  description="label/hint/error stay kui-field's job -- setting error alone already marks every cell invalid, no separate [invalid] needed."
+>
+  <div class="component-board">
+    <div class="state-board__row otp-demo__row">
+      <kui-field
+        label="Code from email"
+        hint="We sent a 6-digit code to your email"
+        error="Code is wrong or expired -- request a new one"
+      >
+        <kui-otp-input [(value)]="fieldCode" [autoFocus]="false" />
+      </kui-field>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="07"
+  title="Signal Forms"
+  description="kui-otp-input implements FormValueControl<string>; [formField] goes on kui-otp-input itself, not on kui-field."
+>
+  <div class="component-board">
+    <div class="state-board__row otp-demo__row">
+      <kui-field label="Verification code">
+        <kui-otp-input [formField]="signInForm.code" [autoFocus]="false" />
+      </kui-field>
+      <span class="otp-demo__readout"
+        >Model: <code>{{ model().code || '—' }}</code></span
+      >
+    </div>
+  </div>
+</app-panel>

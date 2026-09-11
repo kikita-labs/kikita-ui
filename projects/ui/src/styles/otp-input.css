@@ -1,0 +1,98 @@
+@layer kui.components {
+  .kui-otp-input {
+    display: inline-flex;
+    /*
+     * Cells are fixed-size and never wrap mid-code onto a second line -- a long `length` (e.g. an
+     * 8-character backup code) at a large `size` can be wider than a narrow mobile viewport.
+     * Scrolling the group itself, instead of letting it push out the surrounding page, keeps every
+     * cell reachable without introducing page-level horizontal overflow. Invisible at normal
+     * lengths/sizes, since `overflow-x: auto` only shows a scrollbar once content actually
+     * overflows.
+     *
+     * `min-inline-size: 0` is required alongside it: a flex/inline-flex item's default `min-width`
+     * is `auto`, which floors it at its own min-content size (here, the full unwrapped width of
+     * every cell, since cells never wrap internally) regardless of `max-inline-size` -- the same
+     * fix `button.css`/`chip.css`/`color-input.css` already apply to their own flex children.
+     * Without it, a parent flex row cannot shrink this element and `overflow-x: auto` never
+     * actually engages.
+     *
+     * Any non-`visible` `overflow-x` forces `overflow-y` to `auto` too (CSS 2.1 Overflow, ss 11.1.1
+     * -- the two axes cannot mix `visible` with a scrolling value), so this box now clips its own
+     * content box on every side, including a focused cell's `box-shadow` focus ring, which extends
+     * past the cell's border box and would otherwise be cut off on every edge, not just during an
+     * actual horizontal scroll. `padding` + matching negative `margin` reopens exactly enough room
+     * inside the clipped box for that ring (`--kui-input-focus-ring`'s spread, `3px` by default) to
+     * render fully, without changing this element's own outer footprint or the gap to its
+     * siblings.
+     */
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    align-items: center;
+    gap: var(--kui-otp-gap, var(--kui-space-2, 8px));
+    overflow-x: auto;
+    padding: var(--kui-otp-focus-ring-space, 4px);
+    margin: calc(var(--kui-otp-focus-ring-space, 4px) * -1);
+    /* Anchors `.kui-otp-input__loader` below without reserving any extra layout space for
+     * `loading` -- it is `position: absolute`, so it overlays the cells in place instead of
+     * sitting beside them and widening the group. */
+    position: relative;
+  }
+
+  /*
+   * `.kui-otp-input__cell` reuses the kit's own `input[kuiInput]` styling (border, background,
+   * focus ring, invalid/disabled state) untouched -- only cell layout is overridden here. The
+   * selector repeats `input.kui-input` from styles/input.css so this rule matches (and slightly
+   * exceeds) that rule's specificity, in source order, without `!important`.
+   */
+  input.kui-input.kui-otp-input__cell {
+    --kui-otp-cell-size: var(--kui-input-height, 40px);
+    --kui-otp-cell-font-size: var(--kui-text-xl-size, 22px);
+    inline-size: var(--kui-otp-cell-size);
+    block-size: var(--kui-otp-cell-size);
+    padding-inline: 0;
+    text-align: center;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    font-size: var(--kui-otp-cell-font-size);
+  }
+
+  input.kui-input.kui-otp-input__cell[data-kui-size='xs'] {
+    --kui-otp-cell-size: var(--kui-control-height-xs, 28px);
+    --kui-otp-cell-font-size: var(--kui-text-sm-size, 13px);
+  }
+
+  input.kui-input.kui-otp-input__cell[data-kui-size='sm'] {
+    --kui-otp-cell-size: var(--kui-control-height-sm, 32px);
+    --kui-otp-cell-font-size: var(--kui-text-base-size, 14px);
+  }
+
+  input.kui-input.kui-otp-input__cell[data-kui-size='lg'] {
+    --kui-otp-cell-size: var(--kui-control-height-lg, 44px);
+    --kui-otp-cell-font-size: var(--kui-text-2xl-size, 28px);
+  }
+
+  .kui-otp-input[data-kui-alpha] .kui-otp-input__cell {
+    text-transform: uppercase;
+  }
+
+  /*
+   * `loading` blurs the entered code in place instead of hiding it (unlike `kuiButton`'s content,
+   * which the consumer already knows by heart) or covering it with a separate tinted layer (an
+   * opaque overlay at cell size reads as a plain gray box sitting on top of the input, not as a
+   * "processing" affordance, and a translucent one needs a different tint per theme to read
+   * against `--kui-color-surface`, which is already near-black in dark theme). Blurring the cells
+   * themselves needs neither: the digits are still legible-but-softened, and there is no extra
+   * layer or color to get wrong in either theme.
+   */
+  .kui-otp-input[data-kui-loading] .kui-otp-input__cell {
+    filter: blur(var(--kui-otp-loading-blur, 2px));
+  }
+
+  .kui-otp-input__loader {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    translate: -50% -50%;
+    pointer-events: none;
+  }
+}

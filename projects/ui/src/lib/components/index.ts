@@ -26,6 +26,7 @@ export * from './input';
 export * from './loader';
 export * from './menu';
 export * from './number-input';
+export * from './otp-input';
 export * from './popover';
 export * from './progress';
 export * from './radio';
