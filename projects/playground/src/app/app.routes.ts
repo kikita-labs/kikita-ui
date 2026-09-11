@@ -110,6 +110,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/toast/toast.page').then((m) => m.ToastPage),
   },
   {
+    path: 'alert',
+    loadComponent: () => import('./pages/alert/alert.page').then((m) => m.AlertPage),
+  },
+  {
     path: 'popover',
     loadComponent: () => import('./pages/popover/popover.page').then((m) => m.PopoverPage),
   },

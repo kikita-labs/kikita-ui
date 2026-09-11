@@ -82,6 +82,22 @@
   two-way `files` model and responds to `(retry)`. Built ahead of the original "wait for a real
   consumer" gate because a real consumer need now exists.)
 
+## Phase 8
+
+- Alert (done as `kui-alert`; inline notification companion to Toast, built from Claude Design spec
+  `01 Alert.dc.html`. `neutral`/`info`/`success`/`warning`/`danger` appearances x `soft`/`outline`/
+  `solid` shapes, `sm`/`md` sizes, optional icon reusing Toast's severity mapping and rendered as
+  inline SVG from `kui-chrome-icon-paths.util` -- same synchronous, SSR-safe chrome pattern as
+  Toast, not the async name-resolved `kui-icon` -- optional title/message, optional inline
+  `kuiButton` ghost action, optional `kuiIconButton` ghost close (icon projected as inline SVG,
+  not the `icon` input), `banner` full-width no-radius variant. `role="alert"`/`aria-live="assertive"`
+  only for `danger`, `role="status"`/`aria-live="polite"` otherwise, always `aria-atomic="true"`,
+  same pattern as Toast. Controlled component -- `(closed)` only notifies the consumer, it does not
+  remove itself from the DOM. `[kuiAlertTitle]`/`[kuiAlertIcon]`/`[kuiAlertMessage]`/
+  `[kuiAlertActions]` marker directives let a consumer project custom title/icon/message/action
+  content instead of the plain-string inputs, the same shorthand-input-or-projected-content
+  pattern `kui-empty-state` uses.)
+
 ## Later
 
 Do not build Charts until a real consumer needs it.

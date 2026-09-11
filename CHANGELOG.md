@@ -10,6 +10,22 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Added
 
+- `KuiAlertComponent` (`kui-alert`): a new inline notification companion to `kuiToast()`. Renders
+  directly in the page content flow instead of floating or auto-dismissing. Supports `neutral` /
+  `info` / `success` / `warning` / `danger` appearances (reusing `kuiToast()`'s severity-to-icon
+  mapping, rendered as inline SVG from `kui-chrome-icon-paths.util` -- the same synchronous,
+  SSR-safe pattern `kuiToast()` uses for its own chrome) across `soft` / `outline` / `solid` shapes
+  and `sm` / `md` sizes, optional `title` / `message`, an inline ghost `actionLabel` action, a
+  closable `kuiIconButton` close control, and a full-width `banner` variant.
+  `role="alert"`/`aria-live="assertive"` is used only for `danger`; every other appearance uses
+  `role="status"`/`aria-live="polite"`, both always `aria-atomic="true"`. It is a controlled
+  component: `(closed)` only notifies the consumer, it does not remove itself from the DOM.
+  `KuiAlertTitleDirective` (`[kuiAlertTitle]`), `KuiAlertIconDirective` (`[kuiAlertIcon]`),
+  `KuiAlertMessageDirective` (`[kuiAlertMessage]`), and `KuiAlertActionsDirective`
+  (`[kuiAlertActions]`) let a consumer project custom title/icon/message/action content instead of
+  the plain-string inputs, the same shorthand-input-or-projected-content pattern `kui-empty-state`
+  uses for its icon/actions slots.
+
 - `input[kuiDatePicker]` auto-discovers a sibling `kui-calendar` projected inside the same
   `kui-field` (via a new `KuiFieldComponent.getCalendar()` accessor) and wires its `value`,
   `viewDate`, `minDate`, and `maxDate` automatically -- a paired calendar no longer needs manual

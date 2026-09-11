@@ -49,6 +49,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/dropdown', label: 'Dropdown' },
   { path: '/dialog', label: 'Dialog' },
   { path: '/toast', label: 'Toast' },
+  { path: '/alert', label: 'Alert' },
   { path: '/popover', label: 'Popover' },
   { path: '/accordion', label: 'Accordion' },
   { path: '/progress', label: 'Progress' },

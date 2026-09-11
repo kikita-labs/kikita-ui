@@ -1,0 +1,42 @@
+.matrix-grid {
+  display: grid;
+  grid-template-columns: 96px repeat(3, minmax(0, 1fr));
+  gap: var(--kui-space-3);
+  align-items: start;
+}
+
+.matrix-grid__header {
+  font-size: var(--kui-text-xs-size);
+  font-weight: 600;
+  color: var(--kui-color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.matrix-label {
+  font-size: var(--kui-text-xs-size);
+  font-weight: 600;
+  color: var(--kui-color-text-secondary);
+  align-self: center;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.reset-link {
+  align-self: flex-start;
+  font-size: var(--kui-text-xs-size);
+  color: var(--kui-color-text-secondary);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.banner-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border-radius: var(--kui-radius-md);
+  overflow: hidden;
+}

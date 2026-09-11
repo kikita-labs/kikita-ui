@@ -25,6 +25,7 @@
 @import './dialog.css';
 @import './empty-state.css';
 @import './toast.css';
+@import './alert.css';
 @import './popover.css';
 @import './accordion.css';
 @import './progress.css';

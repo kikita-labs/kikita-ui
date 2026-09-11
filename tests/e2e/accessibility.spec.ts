@@ -12,6 +12,7 @@ const routes = [
   '/dropdown',
   '/dialog',
   '/table',
+  '/alert',
 ];
 
 for (const route of routes) {

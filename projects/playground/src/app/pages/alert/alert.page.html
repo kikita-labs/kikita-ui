@@ -1,0 +1,159 @@
+<app-panel
+  num="01"
+  title="Alert"
+  description="Inline notification embedded in the page content flow -- unlike Toast, it does not float, auto-dismiss, or require a body-level region."
+>
+  <div class="component-board">
+    <div class="state-board__row">
+      <kui-alert message="This is how Alert renders with nothing but message set." />
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Appearance x shape"
+  description="Each card is a working instance (title + message + icon + close), closable via the button."
+>
+  <div class="component-board">
+    <div class="matrix-grid">
+      <div class="matrix-grid__header"></div>
+      @for (shape of shapes; track shape; let first = $first) {
+        <div class="matrix-grid__header">{{ shape }}{{ first ? ' (default)' : '' }}</div>
+      }
+
+      @for (appearance of appearances; track appearance; let first = $first) {
+        <span class="matrix-label">{{ appearance }}{{ first ? ' (default)' : '' }}</span>
+        @for (shape of shapes; track shape) {
+          @if (isOpen(appearance + '_' + shape)) {
+            <kui-alert
+              [appearance]="appearance"
+              [shape]="shape"
+              title="New version available"
+              message="Refresh the page to get the latest changes."
+              (closed)="dismiss(appearance + '_' + shape)"
+            />
+          } @else {
+            <span></span>
+          }
+        }
+      }
+    </div>
+    <button type="button" class="reset-link" (click)="resetAll()">
+      Show closed examples again
+    </button>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Size x content"
+  description="sm and md across title-only, title + message, and message + action."
+>
+  <div class="component-board">
+    <div class="component-board__row">
+      <kui-alert appearance="success" size="sm" title="Done" />
+      <kui-alert
+        appearance="success"
+        size="sm"
+        title="Export finished"
+        message="File is available in Downloads."
+      />
+      <kui-alert
+        appearance="success"
+        size="sm"
+        message="A new theme is available."
+        actionLabel="Apply"
+      />
+    </div>
+    <div class="component-board__row">
+      <kui-alert appearance="success" title="Done" />
+      <kui-alert
+        appearance="success"
+        title="Export finished"
+        message="File is available in Downloads."
+      />
+      <kui-alert appearance="success" message="A new theme is available." actionLabel="Apply" />
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="banner"
+  description="Full-width variant without corner radius, for system-wide messages above the page content."
+>
+  <div class="component-board">
+    <div class="banner-stack">
+      <kui-alert
+        appearance="neutral"
+        banner
+        message="Planned maintenance Saturday, 02:00-04:00 UTC."
+      />
+      <kui-alert appearance="info" banner message="We updated the terms of service." />
+      <kui-alert appearance="success" banner message="Account verified -- all features unlocked." />
+      <kui-alert appearance="warning" banner message="Your plan expires in 5 days." />
+      <kui-alert
+        appearance="danger"
+        banner
+        message="Lost connection to the server. Changes are not saved."
+      />
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="05"
+  title="Options"
+  description="showIcon, closable, and no-icon neutral appearance."
+>
+  <div class="component-board">
+    <div class="state-board__row">
+      <kui-alert
+        appearance="info"
+        title="No icon"
+        message="showIcon is false."
+        [showIcon]="false"
+      />
+      <kui-alert
+        appearance="danger"
+        title="Not closable"
+        message="closable is false."
+        [closable]="false"
+      />
+      <kui-alert
+        appearance="neutral"
+        title="Neutral has no icon"
+        message="Even with showIcon true."
+      />
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="06"
+  title="Custom content"
+  description="[kuiAlertTitle] / [kuiAlertIcon] / [kuiAlertMessage] / [kuiAlertActions] projected content replaces the built-in title/icon/message/action."
+>
+  <div class="component-board">
+    <div class="state-board__row">
+      <kui-alert appearance="info" title="Deploy started" [closable]="false">
+        <kui-icon kuiAlertIcon name="rocket" size="1.125rem" />
+        <p kuiAlertMessage>
+          Building <code>main</code> -- follow along in the <a href="#">deploy log</a>.
+        </p>
+      </kui-alert>
+      <kui-alert appearance="danger" title="Upload failed">
+        <div kuiAlertActions>
+          <button kuiButton shape="ghost" size="xs" type="button">Retry</button>
+          <button kuiButton shape="ghost" size="xs" type="button">Cancel</button>
+        </div>
+      </kui-alert>
+      <kui-alert appearance="warning" message="Renews automatically on the 5th.">
+        <span kuiAlertTitle
+          >Plan expiring <span kuiBadge appearance="warning" size="xs">5 days</span></span
+        >
+      </kui-alert>
+    </div>
+  </div>
+</app-panel>
