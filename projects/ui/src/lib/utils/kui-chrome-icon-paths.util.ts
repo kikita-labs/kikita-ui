@@ -11,6 +11,9 @@ export const KUI_CHEVRON_DOWN_D = 'm6 9 6 6 6-6';
 export const KUI_CHEVRON_LEFT_D = 'm15 18-6-6 6-6';
 export const KUI_CHEVRON_RIGHT_D = 'm9 18 6-6-6-6';
 
+export const KUI_CHEVRONS_LEFT_D = ['m11 17-5-5 5-5', 'm18 17-5-5 5-5'] as const;
+export const KUI_CHEVRONS_RIGHT_D = ['m6 17 5-5-5-5', 'm13 17 5-5-5-5'] as const;
+
 export const KUI_X_D = ['M18 6 6 18', 'm6 6 12 12'] as const;
 
 export const KUI_CHECK_D = 'M20 6 9 17l-5-5';

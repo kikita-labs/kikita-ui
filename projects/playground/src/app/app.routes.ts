@@ -201,5 +201,9 @@ export const routes: Routes = [
     path: 'otp-input',
     loadComponent: () => import('./pages/otp-input/otp-input.page').then((m) => m.OtpInputPage),
   },
+  {
+    path: 'pagination',
+    loadComponent: () => import('./pages/pagination/pagination.page').then((m) => m.PaginationPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

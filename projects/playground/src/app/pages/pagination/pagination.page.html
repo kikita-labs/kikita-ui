@@ -1,0 +1,181 @@
+<app-panel
+  num="01"
+  title="Pagination"
+  description="Navigation between pages of a long list/table: page numbers, step forward/back, jump to first/last. <code>kui-pagination</code>. Composed entirely from Button/IconButton/Select -- no new visuals."
+>
+  <div class="component-board">
+    <div class="state-board__row pagination-demo__row">
+      <kui-pagination
+        [totalPages]="10"
+        [(currentPage)]="defaultPage"
+        ariaLabel="Default demo pagination"
+      />
+      <span class="pagination-demo__readout"
+        >Page: <code>{{ defaultPage() }}</code></span
+      >
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Variants"
+  description="full adds the summary and rows-per-page picker on top of compact. compact is First/Prev/numbers+ellipsis/Next/Last. simple is only Prev/Page X of Y/Next."
+>
+  <div class="table-wrap">
+    <table kuiTable aria-label="Pagination variants">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          <th kuiTh>Pagination</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (variantRow of variantRows; track variantRow.value) {
+          <tr>
+            <td kuiCell class="matrix-label">
+              <strong>{{ variantRow.label }}</strong>
+              <code>variant="{{ variantRow.value }}"</code>
+            </td>
+            <td kuiCell class="matrix-cell">
+              <kui-pagination
+                [variant]="variantRow.value"
+                [totalPages]="12"
+                [totalItems]="289"
+                [currentPage]="variantPages()[variantRow.value]"
+                (currentPageChange)="setVariantPage(variantRow.value, $event)"
+                [(pageSize)]="variantPageSize"
+                [ariaLabel]="'Pagination, ' + variantRow.value + ' variant demo'"
+              />
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Sizes"
+  description="xs / sm / md (default) / lg -- same scale as Button/IconButton."
+>
+  <div class="table-wrap">
+    <table kuiTable aria-label="Pagination sizes">
+      <thead>
+        <tr kuiThGroup>
+          <th kuiTh></th>
+          <th kuiTh>Pagination</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (sizeRow of sizeRows; track sizeRow.value) {
+          <tr>
+            <td kuiCell class="matrix-label">
+              <strong>{{ sizeRow.label }}</strong>
+              <code>size="{{ sizeRow.value }}"</code>
+            </td>
+            <td kuiCell class="matrix-cell">
+              <kui-pagination
+                [size]="sizeRow.value"
+                [totalPages]="12"
+                [currentPage]="sizePages()[sizeRow.value]"
+                (currentPageChange)="setSizePage(sizeRow.value, $event)"
+                [ariaLabel]="'Pagination, size ' + sizeRow.value + ' demo'"
+              />
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="Full: summary and rows-per-page"
+  description="Showing X-Y of Z is aria-live=polite. Changing rows-per-page resets currentPage to 1."
+>
+  <div class="component-board">
+    <div class="state-board__row pagination-demo__row">
+      <kui-pagination
+        variant="full"
+        [totalPages]="12"
+        [totalItems]="289"
+        [(currentPage)]="fullPage"
+        [(pageSize)]="fullPageSize"
+        ariaLabel="Full variant demo pagination"
+      />
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="05"
+  title="Simple"
+  description="Narrow-layout variant: Prev / Page X of Y / Next only."
+>
+  <div class="component-board">
+    <div class="state-board__row pagination-demo__row">
+      <kui-pagination
+        variant="simple"
+        [totalPages]="4"
+        [(currentPage)]="simplePage"
+        ariaLabel="Simple variant demo pagination"
+      />
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="06"
+  title="Disabled"
+  description="Blocks every control natively, removing them from tab order at the range boundaries."
+>
+  <div class="component-board">
+    <div class="state-board__row pagination-demo__row">
+      <kui-pagination
+        [totalPages]="12"
+        [currentPage]="disabledPage()"
+        disabled
+        ariaLabel="Disabled demo pagination"
+      />
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="07"
+  title="With kui-table"
+  description="kui-pagination is a plain sibling of table[kuiTable], not a child -- the page owns currentPage/pageSize and slices the rows fed to the table. See docs/pagination.md, 'Usage with kui-table'."
+>
+  <div class="component-board">
+    <div class="table-wrap">
+      <table kuiTable [data]="tablePageRows()" aria-label="Users">
+        <thead>
+          <tr kuiThGroup>
+            <th kuiTh>Name</th>
+            <th kuiTh>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of tablePageRows(); track row.id) {
+            <tr kuiRow [value]="row">
+              <td kuiCell>{{ row.name }}</td>
+              <td kuiCell>{{ row.status }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <kui-pagination
+      variant="full"
+      [totalPages]="tableTotalPages()"
+      [totalItems]="tableRows.length"
+      [(currentPage)]="tablePage"
+      [(pageSize)]="tablePageSize"
+      [pageSizeOptions]="[5, 10, 20]"
+      ariaLabel="Users table pagination"
+    />
+  </div>
+</app-panel>

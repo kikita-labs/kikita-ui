@@ -108,6 +108,24 @@
   the same pattern `kui-segmented` uses; `kui-field` wraps it for label/hint/error. No built-in
   success/error status icon after verification -- an intentional scope decision, since the
   component cannot know a server verification result on its own.)
+- Pagination (done as `kui-pagination`; navigation between pages of a long list/table, built from
+  Claude Design spec `03 Pagination.dc.html`. Composed entirely from existing primitives --
+  `button[kuiButton]` for page numbers, `button[kuiIconButton]` for First/Prev/Next/Last,
+  `input[kuiSelect]` for the rows-per-page picker -- plus a static non-interactive ellipsis, the
+  one piece of markup with no kit primitive. `variant` (`full`/`compact`/`simple`), `size`
+  (`xs`/`sm`/`md`/`lg`, same scale as `Button`), `totalPages` (required), `currentPage`/`pageSize`
+  (two-way models), `siblingCount`/`boundaryCount` (MUI `usePagination` vocabulary), `totalItems`,
+  `disabled`. Standalone sibling of `table[kuiTable]`, never nested inside it -- `kuiTable` is a
+  directive on a bare `<table>` (whose only legal children are thead/tbody/tfoot/tr) with no
+  slicing concept of its own, so the consuming page owns `currentPage`/`pageSize` and derives the
+  table's page slice, the same composition Angular Material uses for `mat-paginator` +
+  `mat-table`/`DataSource`; no DI link between the two components was added. Not a
+  `FormValueControl` -- page-level navigation state, not a form field value, so it is never placed
+  inside `kui-field`. Current page marked with `shape="solid" appearance="primary"` plus
+  `aria-current="page"`, matching the Claude Design spec exactly. First/Prev/Next/Last render as
+  static inline SVG chrome (`kui-chrome-icon-paths.util`), not `IconButton`'s network-dependent,
+  name-resolved `icon` input -- the same as `kui-select`'s dropdown chevron and `kui-tabs`' scroll
+  chevrons.)
 
 ## Later
 

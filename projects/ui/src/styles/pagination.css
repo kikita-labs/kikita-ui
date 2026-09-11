@@ -1,0 +1,110 @@
+@layer kui.components {
+  .kui-pagination {
+    --kui-pagination-gap: var(--kui-space-1, 4px);
+    --kui-pagination-summary-gap: var(--kui-space-3, 12px);
+    --kui-pagination-ellipsis-color: var(--kui-color-text-secondary);
+    --kui-pagination-page-min-size-xs: var(--kui-control-height-xs, 28px);
+    --kui-pagination-page-min-size-sm: var(--kui-control-height-sm, 32px);
+    --kui-pagination-page-min-size-md: var(--kui-control-height-md, 40px);
+    --kui-pagination-page-min-size-lg: var(--kui-control-height-lg, 44px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--kui-pagination-summary-gap);
+    max-inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .kui-pagination__summary {
+    font-size: var(--kui-text-xs-size, 12px);
+    color: var(--kui-pagination-ellipsis-color);
+  }
+
+  .kui-pagination__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-pagination-gap);
+    flex-wrap: wrap;
+    max-inline-size: 100%;
+  }
+
+  /*
+   * Page-number buttons reuse `button[kuiButton]` untouched (border, background, focus ring,
+   * hover/active state, `shape`/`appearance` visuals) -- the only override here is a per-size
+   * `min-inline-size`, so a one-digit and a two-digit page number produce the same square
+   * footprint instead of `Button`'s normal content-based width.
+   */
+  .kui-button.kui-pagination__page {
+    min-inline-size: var(--kui-pagination-page-min-size-md);
+    padding-inline: 0;
+  }
+
+  .kui-button.kui-pagination__page[data-kui-size='xs'] {
+    min-inline-size: var(--kui-pagination-page-min-size-xs);
+  }
+
+  .kui-button.kui-pagination__page[data-kui-size='sm'] {
+    min-inline-size: var(--kui-pagination-page-min-size-sm);
+  }
+
+  .kui-button.kui-pagination__page[data-kui-size='lg'] {
+    min-inline-size: var(--kui-pagination-page-min-size-lg);
+  }
+
+  /* Static, non-interactive separator -- not a button, so it gets its own square footprint here
+     instead of inheriting Button's sizing rules above. */
+  .kui-pagination__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--kui-pagination-page-min-size-md);
+    block-size: var(--kui-pagination-page-min-size-md);
+    color: var(--kui-pagination-ellipsis-color);
+    font-size: var(--kui-text-sm-size, 13px);
+    /* Plain text content otherwise shows the browser's default text-selection (I-beam) cursor on
+       hover -- misleading for a static, non-interactive separator with no click handler. */
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .kui-pagination__ellipsis[data-kui-size='xs'] {
+    inline-size: var(--kui-pagination-page-min-size-xs);
+    block-size: var(--kui-pagination-page-min-size-xs);
+  }
+
+  .kui-pagination__ellipsis[data-kui-size='sm'] {
+    inline-size: var(--kui-pagination-page-min-size-sm);
+    block-size: var(--kui-pagination-page-min-size-sm);
+  }
+
+  .kui-pagination__ellipsis[data-kui-size='lg'] {
+    inline-size: var(--kui-pagination-page-min-size-lg);
+    block-size: var(--kui-pagination-page-min-size-lg);
+  }
+
+  .kui-pagination__simple-label {
+    font-size: var(--kui-text-sm-size, 13px);
+    color: var(--kui-color-text);
+    padding-inline: var(--kui-space-2, 8px);
+    white-space: nowrap;
+  }
+
+  .kui-pagination__page-size {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kui-space-2, 8px);
+    margin-inline-start: var(--kui-pagination-summary-gap);
+  }
+
+  .kui-pagination__page-size-label {
+    font-size: var(--kui-text-xs-size, 12px);
+    color: var(--kui-pagination-ellipsis-color);
+    white-space: nowrap;
+  }
+
+  /* Fixed width instead of the field's normal 100%-of-container stretch: inside the nav's flex
+     row the select is a compact, content-sized control, not a full-width form field. */
+  .kui-pagination__page-size-field {
+    inline-size: var(--kui-pagination-page-size-width, 76px);
+  }
+}

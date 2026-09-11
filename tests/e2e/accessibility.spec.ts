@@ -14,6 +14,7 @@ const routes = [
   '/table',
   '/alert',
   '/otp-input',
+  '/pagination',
 ];
 
 for (const route of routes) {

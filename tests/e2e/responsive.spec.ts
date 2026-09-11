@@ -12,6 +12,7 @@ const routes = [
   '/dropdown',
   '/dialog',
   '/table',
+  '/pagination',
 ];
 
 test('has no document overflow across representative routes', async ({ page }) => {

@@ -10,6 +10,20 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Added
 
+- `KuiPaginationComponent` (`kui-pagination`): a new composite control for navigating pages of a
+  long list or table -- page numbers, step forward/back, jump to first/last, and (with
+  `variant="full"`) a "Showing X-Y of Z" summary and a rows-per-page picker. Composed entirely from
+  existing primitives (`button[kuiButton]` for page numbers, `button[kuiIconButton]` for
+  First/Prev/Next/Last, `input[kuiSelect]` for the rows-per-page picker), plus a static
+  non-interactive ellipsis. Supports `variant` (`full`/`compact`/`simple`), `size`
+  (`xs`/`sm`/`md`/`lg`, same scale as `Button`), `totalPages` (required), `currentPage`/`pageSize`
+  (two-way models), `siblingCount`/`boundaryCount` page-window controls, `pageSizeOptions`,
+  `totalItems`, and `disabled`. Deliberately a plain sibling of `table[kuiTable]`, never nested
+  inside it -- the consuming page owns `currentPage`/`pageSize` and derives the table's page slice,
+  the same composition Angular Material uses for `mat-paginator` + `mat-table`. First/Prev/Next/Last
+  render as static inline SVG chrome (`kui-chrome-icon-paths.util`), not `IconButton`'s
+  network-dependent, name-resolved `icon` input, the same as `kui-select`'s dropdown chevron.
+
 - `KuiOtpInputComponent` (`kui-otp-input`): a new composite control for entering a one-time
   verification code (SMS/email/authenticator) or PIN, as a row of single-character cells. Each
   cell renders the kit's own `input[kuiInput]` styling unmodified; the component owns roving

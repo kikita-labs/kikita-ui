@@ -116,3 +116,32 @@ test('OTP Input keyboard navigation and paste distribute across cells', async ({
   });
   await expect(page.locator('.otp-demo__readout code').first()).toHaveText('654321');
 });
+
+test('Pagination: page clicks, boundary disabling, and rows-per-page reset to page 1', async ({
+  page,
+}) => {
+  await gotoReady(page, '/pagination');
+
+  const readout = page.locator('.pagination-demo__readout code').first();
+  const nav = page.locator('app-panel[num="01"]').getByRole('navigation');
+
+  await expect(readout).toHaveText('1');
+  await nav.getByRole('button', { name: 'Page 3' }).click();
+  await expect(readout).toHaveText('3');
+
+  const first = nav.getByRole('button', { name: 'First page' });
+  const prev = nav.getByRole('button', { name: 'Previous page' });
+  await first.click();
+  await expect(readout).toHaveText('1');
+  await expect(first).toBeDisabled();
+  await expect(prev).toBeDisabled();
+
+  // variant="full" demo (app-panel num="04"): changing rows-per-page resets currentPage to 1.
+  // Starts on page 5 (of 12), so "Page 6" is inside the initial window; "Page 1" is always
+  // visible (boundary page).
+  const fullPanel = page.locator('app-panel[num="04"]');
+  await fullPanel.getByRole('button', { name: 'Page 6' }).click();
+  await fullPanel.getByRole('combobox', { name: 'Rows per page' }).click();
+  await page.getByRole('option', { name: '50' }).click();
+  await expect(fullPanel.getByRole('button', { name: 'Page 1, current' })).toBeVisible();
+});
