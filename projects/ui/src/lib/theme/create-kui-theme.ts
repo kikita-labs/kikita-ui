@@ -873,6 +873,12 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-file-upload-item-height': '56px',
     '--kui-file-upload-thumbnail-size': '36px',
     '--kui-file-upload-error-color': 'var(--kui-color-danger-fill)',
+    '--kui-timepicker-col-gap': 'var(--kui-space-2)',
+    '--kui-timepicker-icon-color': 'var(--kui-color-text-secondary)',
+    '--kui-timepicker-cell-bg-selected': 'var(--kui-color-primary-fill)',
+    '--kui-timepicker-cell-text-selected': 'var(--kui-color-on-fill)',
+    '--kui-timepicker-cell-bg-hover': 'var(--kui-color-surface-sunken)',
+    '--kui-timepicker-affordance-size': '20px',
   };
 }
 

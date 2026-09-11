@@ -10,6 +10,32 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Added
 
+- `KuiTimePickerDirective` (`input[kuiTimePicker]`) and `KuiTimePickerPanelComponent`
+  (`kui-time-picker-panel`): a new text-field-trigger + popup pattern for picking a time of day,
+  the same composition `input[kuiDatePicker]` uses with `kui-calendar`. The panel renders
+  scrollable hour/minute/(second) `role="listbox"`/`role="option"` columns, an AM/PM
+  `kui-segmented` toggle (12h format only), and "Now"/"Done" footer actions
+  (`button[kuiButton]`). Supports `format` (`'24h'`/`'12h'`, default `'24h'`), `hourStep`/
+  `minuteStep`/`secondStep` (default `1`), `showSeconds` (default `false`), `minTime`/`maxTime`
+  and `disabledHours`/`disabledMinutes`/`disabledSeconds` (same convention as `kuiDatePicker`'s
+  `minDate`/`maxDate` -- disables the matching wheel cells and marks a typed/selected value
+  landing on one `aria-invalid`), `clearable`, `disabled`/`readonly`/`invalid`, and `value`/`(valueChange)`
+  as `Date | null` (only the hours/minutes/seconds fields are meaningful). Typing auto-inserts the
+  `:` separator, clamps each hour/minute/second group into range as it's completed, and snaps to
+  the nearest `hourStep`/`minuteStep`/`secondStep`; for `format="12h"` the `AM`/`PM` suffix is
+  optional, defaulting from the value's previous period so a fully-typed value commits without
+  waiting on it. When `kui-time-picker-panel` is a sibling of `input[kuiTimePicker]` inside the
+  same `kui-field`, the directive auto-wires it (`value` both ways; the rest of the inputs above
+  push-only) -- no manual binding on the panel is required. `kui-time-picker-panel` also works
+  standalone (no `kui-dropdown` ancestor), the same way `kui-calendar` does, auto-detecting
+  whether one is present to draw its own chrome or not. Selecting a column cell (click or arrow
+  key) deliberately does not close the panel, so hours can be picked before minutes/seconds
+  without the panel closing early; close explicitly with `Enter`/`Escape`/an outside click, or the
+  panel's "Done" button. Implements the Angular Signal Forms `FormValueControl<Date | null>`
+  contract, the same shape as `kuiDatePicker`. The leading clock affix icon is a new static chrome
+  glyph (`KUI_CLOCK_CIRCLE`/`KUI_CLOCK_D` in `kui-chrome-icon-paths.util`), matching how
+  `KUI_CALENDAR_D` is handled for `kuiDatePicker`.
+
 - `KuiPaginationComponent` (`kui-pagination`): a new composite control for navigating pages of a
   long list or table -- page numbers, step forward/back, jump to first/last, and (with
   `variant="full"`) a "Showing X-Y of Z" summary and a rows-per-page picker. Composed entirely from

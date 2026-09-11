@@ -15,6 +15,7 @@ const routes = [
   '/alert',
   '/otp-input',
   '/pagination',
+  '/time-picker',
 ];
 
 for (const route of routes) {

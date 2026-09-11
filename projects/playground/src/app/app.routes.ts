@@ -205,5 +205,10 @@ export const routes: Routes = [
     path: 'pagination',
     loadComponent: () => import('./pages/pagination/pagination.page').then((m) => m.PaginationPage),
   },
+  {
+    path: 'time-picker',
+    loadComponent: () =>
+      import('./pages/time-picker/time-picker.page').then((m) => m.TimePickerPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

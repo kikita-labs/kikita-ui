@@ -145,3 +145,46 @@ test('Pagination: page clicks, boundary disabling, and rows-per-page reset to pa
   await page.getByRole('option', { name: '50' }).click();
   await expect(fullPanel.getByRole('button', { name: 'Page 1, current' })).toBeVisible();
 });
+
+test('clicking a kui-field label focuses the Time Picker input', async ({ page }) => {
+  // jsdom (unit tests) does not implement native label-activation behavior, so this real-browser
+  // check is the only place `input[kuiTimePicker]`'s `kui-field.controlId` adoption is actually
+  // verified end to end (same gap OTP Input's own label-focus test above covers).
+  await gotoReady(page, '/time-picker');
+
+  // Scoped to the "01 Basic" panel -- "Meeting time" is also the label text in the "07 Wide
+  // field" demo further down the same page.
+  const field = page.locator('app-panel[num="01"] kui-field');
+  const label = field.getByText('Meeting time', { exact: true });
+  const input = field.getByRole('combobox');
+
+  await label.click();
+  await expect(input).toBeFocused();
+});
+
+test('Time Picker panel centers each scrollable column on its selected cell when opened', async ({
+  page,
+}) => {
+  // Real-browser-only: centering reads `getBoundingClientRect`/`scrollTop`, neither meaningful in
+  // jsdom, and this exact regression (columns opened at `scrollTop: 0` instead of centered on the
+  // already-selected hour/minute) was only caught by manual browser testing, not the unit suite.
+  await gotoReady(page, '/time-picker');
+
+  const field = page.locator('app-panel[num="01"] kui-field');
+  await field.getByRole('button', { name: 'Open time picker' }).click();
+
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).toBeVisible();
+
+  const hours = dialog.getByRole('listbox', { name: 'Hours' });
+  const minutes = dialog.getByRole('listbox', { name: 'Minutes' });
+  await expect.poll(() => hours.evaluate((el) => el.scrollTop)).toBeGreaterThan(0);
+  await expect.poll(() => minutes.evaluate((el) => el.scrollTop)).toBeGreaterThan(0);
+
+  // Reopening after a close must re-center too, not just the first-ever open.
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await field.getByRole('button', { name: 'Open time picker' }).click();
+  await expect(dialog).toBeVisible();
+  await expect.poll(() => hours.evaluate((el) => el.scrollTop)).toBeGreaterThan(0);
+});

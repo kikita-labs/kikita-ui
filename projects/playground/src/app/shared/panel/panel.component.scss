@@ -1,6 +1,11 @@
 .panel {
   --kui-card-padding: 20px;
   display: grid;
+  // Grid's default implicit column track sizes to content, so a long single-line title/description
+  // (or an unwrapped `<pre>` snippet) can force the whole panel -- and the page around it -- wider
+  // than the viewport at narrow widths. `minmax(0, 1fr)` is the standard fix: it lets the track
+  // shrink below its content's intrinsic min-content size instead of growing to fit it.
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   margin-block-start: 16px;
 }
@@ -9,6 +14,12 @@
   display: flex;
   gap: 12px;
   align-items: flex-start;
+}
+
+.panel__title > div {
+  // Flex items default to `min-inline-size: auto`, which can also refuse to shrink below content
+  // size -- same failure mode as the grid track above, one level in. Belt-and-braces alongside it.
+  min-inline-size: 0;
 }
 
 .panel__title > span {
@@ -21,6 +32,15 @@
   font-weight: 700;
   padding: 4px 8px;
   text-align: center;
+}
+
+.panel__title h2,
+.panel__title p {
+  // An unbroken run with no spaces (e.g. a title like "minuteStep=15/secondStep=15") has no
+  // normal word-wrap opportunity and would otherwise force this box -- and the grid track/page
+  // around it -- wider than the viewport at narrow widths, same failure mode as the two rules
+  // above, one level deeper (content, not layout).
+  overflow-wrap: anywhere;
 }
 
 .panel__title p {

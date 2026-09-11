@@ -126,6 +126,20 @@
   static inline SVG chrome (`kui-chrome-icon-paths.util`), not `IconButton`'s network-dependent,
   name-resolved `icon` input -- the same as `kui-select`'s dropdown chevron and `kui-tabs`' scroll
   chevrons.)
+- Time Picker (done as `input[kuiTimePicker]` + `kui-time-picker-panel`; new pattern (not among the
+  43 pre-existing kit components), built from Claude Design spec `04 Time Picker.dc.html`. Composed
+  entirely from existing primitives -- `Field`, `Input` (trigger), `Dropdown` (Tier 3, the same
+  primitive `kuiDatePicker` uses), `Segmented` (AM/PM), `Button` (footer "Now"/"Done") -- plus
+  hand-rolled `role="listbox"`/`role="option"` scrollable hour/minute/second columns, since the kit
+  has no ready-made "wheel" primitive. `format` (`24h`/`12h`), `hourStep`/`minuteStep`/`secondStep`,
+  `showSeconds`, `minTime`/`maxTime`, `disabledHours`/`disabledMinutes`/`disabledSeconds`,
+  `clearable`, `disabled`/`readonly`/`invalid`,
+  `value`/`(valueChange)` as `Date | null` (hours/minutes/seconds only) -- the same conventions
+  `kuiDatePicker` already established. The directive auto-wires a sibling `kui-time-picker-panel`
+  inside the same `kui-field`, mirroring `kuiDatePicker` + `kui-calendar` exactly. Selecting a
+  column cell does not auto-close the panel (Enter/Escape/outside click/"Done" do); columns do not
+  auto-scroll to the selected value on open (keyboard navigation does scroll). Range mode not
+  implemented -- explicit design-brief scope cut.)
 
 ## Later
 

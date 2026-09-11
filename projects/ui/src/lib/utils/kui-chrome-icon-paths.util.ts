@@ -67,3 +67,12 @@ export const KUI_FOLDER_OPEN_D =
   'm6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2';
 
 export const KUI_PLUS_MINI_D = 'M8 3v10M3 8h10';
+
+/**
+ * Clock glyph used as `input[kuiTimePicker]`'s leading affix icon. Not part of the original
+ * Lucide-derived set above (no clock existed in this file yet); this exact path was drafted in
+ * the Claude Design Time Picker spec (`04 Time Picker.dc.html`) and approved by the user as the
+ * component's chrome icon, matching Lucide's own `clock` glyph coordinates.
+ */
+export const KUI_CLOCK_CIRCLE = { cx: 12, cy: 12, r: 9 } as const;
+export const KUI_CLOCK_D = 'M12 7v5l3.5 2';

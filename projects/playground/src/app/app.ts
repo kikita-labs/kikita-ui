@@ -72,6 +72,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/file-upload', label: 'File Upload' },
   { path: '/otp-input', label: 'OTP Input' },
   { path: '/pagination', label: 'Pagination' },
+  { path: '/time-picker', label: 'Time Picker' },
 ];
 
 @Component({

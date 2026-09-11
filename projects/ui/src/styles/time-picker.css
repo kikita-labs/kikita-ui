@@ -1,0 +1,192 @@
+@layer kui.components {
+  input.kui-input.kui-timepicker-input {
+    padding-inline-start: 34px;
+    padding-inline-end: 34px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  input.kui-input.kui-timepicker-input[data-has-clear] {
+    padding-inline-end: 56px;
+  }
+
+  input.kui-input.kui-timepicker-input:disabled {
+    cursor: not-allowed;
+  }
+
+  .kui-timepicker-control-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: var(--kui-space-3);
+    pointer-events: none;
+    color: var(--kui-timepicker-icon-color);
+  }
+
+  .kui-timepicker-suffix {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-timepicker-suffix-gap, 2px);
+    pointer-events: none;
+  }
+
+  .kui-timepicker-clear,
+  .kui-timepicker-chevron {
+    pointer-events: all;
+  }
+
+  .kui-timepicker-clear,
+  .kui-timepicker-chevron {
+    --kui-field-action-size: var(--kui-timepicker-affordance-size);
+  }
+
+  .kui-timepicker-clear > svg {
+    inline-size: 12px;
+    block-size: 12px;
+  }
+
+  .kui-timepicker-chevron svg {
+    transition:
+      color var(--kui-duration-base) var(--kui-ease),
+      transform var(--kui-duration-base) var(--kui-ease);
+  }
+
+  .kui-timepicker-chevron[aria-expanded='true'] {
+    color: var(--kui-color-primary-fill);
+  }
+
+  .kui-timepicker-chevron[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+
+  .kui-timepicker-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kui-space-3);
+    padding: var(--kui-space-3);
+    /* Own chrome by default, same as kui-calendar -- dropped via [data-kui-flat] (auto-detected
+       from an ancestor kui-dropdown, see the component's host binding) when nested inside a
+       dropdown/popover panel that already draws a background/border of its own. */
+    background: var(--kui-color-surface);
+    border: var(--kui-border-width-hairline) solid var(--kui-color-border);
+    border-radius: var(--kui-radius-lg);
+  }
+
+  .kui-timepicker-panel[data-kui-flat] {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+  }
+
+  .kui-timepicker-columns {
+    display: flex;
+    gap: var(--kui-timepicker-col-gap);
+  }
+
+  .kui-timepicker-col {
+    display: flex;
+    flex-direction: column;
+    /* Keep cells at their own fixed square size (see .kui-timepicker-opt) instead of the
+       default flex `stretch`, which would otherwise widen them back out to the column's
+       full cross-axis size. */
+    align-items: center;
+    overflow-y: auto;
+    /* Explicit, not left to default 'visible' -- pairing overflow-y:auto with an implicit
+       overflow-x:visible computes overflow-x as 'auto' too per spec, which can paint a spurious
+       horizontal scrollbar even with zero actual horizontal overflow (cells are fixed-width and
+       never wider than the column). Hidden forecloses that regardless of the real cause. */
+    overflow-x: hidden;
+    /* 5, not 6, rows -- the AM/PM segmented toggle + Now/Done footer need their own room under
+       the same dropdown maxHeight; 6 rows left too little budget for them and forced the whole
+       panel (not just an individual column) to scroll even when a column itself had empty
+       space below its last item. Matches the Claude Design spec's own sizing for its busier
+       (seconds + AM/PM) example. */
+    max-block-size: calc(var(--kui-control-height-sm, 32px) * 5);
+    padding: 4px;
+    gap: 2px;
+    border-radius: var(--kui-radius-sm);
+    outline: none;
+    background: transparent;
+    scroll-behavior: smooth;
+  }
+
+  .kui-timepicker-col:focus-visible {
+    outline: 2px solid var(--kui-color-primary-fill);
+    outline-offset: -2px;
+  }
+
+  /*
+   * Fixed square cells (inline-size == block-size == --kui-control-height-sm), not flex:1
+   * stretched to fill whatever width the column happens to have left over. A cell's width used
+   * to depend on how much space a scrollbar (or scrollbar-gutter reservation) ate out of its own
+   * column -- a scrolling column's cells rendered narrower than a non-scrolling column's, and
+   * reserving gutter space uniformly to fix that just traded the mismatch for a dead strip on
+   * every column's right edge. Fixed width sidesteps both: it never depends on overflow state.
+   */
+  .kui-timepicker-opt {
+    inline-size: var(--kui-control-height-sm, 32px);
+    block-size: var(--kui-control-height-sm, 32px);
+    /* A plain div (not a button -- see docs/time-picker.md's accessibility rationale) is
+       text-selectable by default; a native button wouldn't be. Clicking/dragging across cells
+       to pick a value shouldn't paint a text selection over them. */
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--kui-radius-sm);
+    cursor: pointer;
+    font-variant-numeric: tabular-nums;
+    font-size: var(--kui-text-sm-size);
+    flex: none;
+    color: var(--kui-color-text);
+  }
+
+  .kui-timepicker-opt:hover {
+    background: var(--kui-timepicker-cell-bg-hover);
+  }
+
+  /* Matches .kui-calendar-day--disabled -- min/max time bounds out-of-range cell. */
+  .kui-timepicker-opt--disabled {
+    color: var(--kui-color-text-disabled);
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .kui-timepicker-opt--disabled:hover {
+    background: transparent;
+  }
+
+  .kui-timepicker-opt--selected {
+    background: var(--kui-timepicker-cell-bg-selected);
+    color: var(--kui-timepicker-cell-text-selected);
+    font-weight: 600;
+  }
+
+  /* Matches .kui-calendar-day--selected:hover -- a selected cell still darkens on hover
+     (var(--kui-color-primary-fill-hover), the same fill-hover token Button/Calendar use),
+     it just never falls back to the plain hover background of an unselected cell. */
+  .kui-timepicker-opt--selected:hover {
+    background: var(--kui-color-primary-fill-hover);
+  }
+
+  /* Stretch AM/PM to fill the panel width like the columns row/footer above and below it --
+     kui-segmented is inline-flex/content-hugging by design, so segments need an explicit
+     flex:1 override here to share the stretched width evenly. */
+  .kui-timepicker-period .kui-segmented {
+    display: flex;
+    width: 100%;
+  }
+  .kui-timepicker-period .kui-segment {
+    flex: 1;
+  }
+
+  .kui-timepicker-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--kui-space-2);
+    border-top: var(--kui-border-width-hairline) solid var(--kui-color-border);
+    padding-top: var(--kui-space-2);
+  }
+}

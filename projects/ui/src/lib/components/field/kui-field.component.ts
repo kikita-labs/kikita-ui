@@ -25,6 +25,7 @@ import {
   KUI_INPUT_GROUP_CONTROL_SELECTOR,
   KUI_INPUT_GROUP_INTERACTIVE_SELECTOR,
 } from '../input/kui-input-group.directive';
+import { KuiTimePickerPanelComponent } from '../time-picker/kui-time-picker-panel.component';
 import {
   KuiFieldActionDirective,
   KuiFieldAffixDirective,
@@ -177,6 +178,14 @@ export class KuiFieldComponent implements KuiOptionContext {
    */
   protected readonly calendar = contentChild(KuiCalendarComponent);
 
+  /**
+   * Sibling `kui-time-picker-panel` projected into this field, if any -- discovered so
+   * `input[kuiTimePicker]` can auto-wire it via `getTimePickerPanel()` without the consumer
+   * manually binding `[value]`/`(valueChange)`/`[format]`/`[minuteStep]`/`[secondStep]`/
+   * `[showSeconds]` on the panel.
+   */
+  protected readonly timePickerPanel = contentChild(KuiTimePickerPanelComponent);
+
   private readonly projectedAffixes = contentChildren(KuiFieldAffixDirective, {
     descendants: true,
   });
@@ -258,6 +267,11 @@ export class KuiFieldComponent implements KuiOptionContext {
   /** Sibling `kui-calendar` projected into this field, if any. See {@link calendar}. */
   getCalendar(): KuiCalendarComponent | undefined {
     return this.calendar();
+  }
+
+  /** Sibling `kui-time-picker-panel` projected into this field, if any. See {@link timePickerPanel}. */
+  getTimePickerPanel(): KuiTimePickerPanelComponent | undefined {
+    return this.timePickerPanel();
   }
 
   protected handleClick(event: MouseEvent): void {

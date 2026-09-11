@@ -13,6 +13,7 @@ const routes = [
   '/dialog',
   '/table',
   '/pagination',
+  '/time-picker',
 ];
 
 test('has no document overflow across representative routes', async ({ page }) => {

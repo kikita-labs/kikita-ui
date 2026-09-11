@@ -41,6 +41,7 @@ export * from './switch';
 export * from './table';
 export * from './tabs';
 export * from './textarea';
+export * from './time-picker';
 export * from './toast';
 export * from './tooltip';
 export * from './tree';
