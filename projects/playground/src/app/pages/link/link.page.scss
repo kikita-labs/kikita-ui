@@ -6,12 +6,19 @@
 
 .tone-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: var(--kui-space-3);
+  // Grid items default to `min-width: auto` (their content's min-content size), so without this
+  // a fixed-width label + link combo refuses to shrink below its own content width and overflows
+  // the `.component-board` track's `minmax(0, 1fr)` column instead of actually being constrained
+  // by it -- the exact failure mode `.component-board`'s own comment in app.scss warns about.
+  min-width: 0;
 }
 
 .tone-row .size-row-label {
   width: 190px;
+  max-width: 100%;
   flex: none;
   margin: 0;
 }
