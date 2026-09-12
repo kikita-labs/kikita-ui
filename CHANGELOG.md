@@ -10,6 +10,26 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Added
 
+- `KuiLinkDirective` (`a[kuiLink]`/`button[kuiLink]`): a new directive for inline interactive
+  text -- navigation (`<a href>`) or a JS-driven action (`<button type="button">`, per MUI's
+  accessibility guidance that a link with no real `href` should be a button). Composes
+  `[kuiText]` internally via Angular's Directive Composition API (`hostDirectives`), exposing only
+  its `variant` input -- no need to add `[kuiText]` separately in a template, and no duplicated
+  type scale. `[kuiText]`'s own `tone` input is not exposed, so `tone` is unambiguous: it comes
+  only from `[kuiLink]`. Supports `tone`
+  (`default`/`muted`/`primary`/`success`/`warning`/`danger`, default `primary`; color is unaffected
+  by hover/focus/active -- only underline thickness and a `:focus-visible` ring change),
+  `variant` (`body-lg`/`body`/`body-sm`/`caption`, default `body`, forwarded to the composed
+  `[kuiText]`), `underline` (`always`/`hover`/`none`, default `hover`, matching MUI `Link`'s axis
+  by meaning), `iconStart`/`iconEnd` (name-resolved via `kui-icon`, the same insertion pattern
+  `[kuiButton]` uses), `external` (defaults to `target() === '_blank'`; adds
+  `rel="noopener noreferrer"` merged with any user-supplied `rel`, the library's own static
+  external-link chrome glyph in the `iconEnd` slot unless `iconEnd` is set explicitly, and a
+  visually-hidden "(opens in a new tab)" suffix in the accessible name), and `disabled`
+  (`aria-disabled` + `tabIndex="-1"` + blocked click on `<a>`, the same convention `[kuiButton]`
+  already applies for `as="a"`; native `disabled` attribute on a host `<button>`). No `visited`
+  tone/state -- deliberate, not found in Taiga `tuiLink`, MUI `Link`, or the kit's own `Text`.
+
 - `KuiTimePickerDirective` (`input[kuiTimePicker]`) and `KuiTimePickerPanelComponent`
   (`kui-time-picker-panel`): a new text-field-trigger + popup pattern for picking a time of day,
   the same composition `input[kuiDatePicker]` uses with `kui-calendar`. The panel renders

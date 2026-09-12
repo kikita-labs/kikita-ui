@@ -1,0 +1,17 @@
+.size-row-label {
+  margin: 0 0 8px;
+  color: var(--kui-color-text-secondary);
+  font-size: 12px;
+}
+
+.tone-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--kui-space-3);
+}
+
+.tone-row .size-row-label {
+  width: 190px;
+  flex: none;
+  margin: 0;
+}

@@ -23,6 +23,7 @@ export * from './group';
 export * from './icon';
 export * from './icon-button';
 export * from './input';
+export * from './link';
 export * from './loader';
 export * from './menu';
 export * from './number-input';

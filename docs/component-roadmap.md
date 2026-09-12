@@ -140,6 +140,30 @@
   column cell does not auto-close the panel (Enter/Escape/outside click/"Done" do); columns do not
   auto-scroll to the selected value on open (keyboard navigation does scroll). Range mode not
   implemented -- explicit design-brief scope cut.)
+- Link (done as `a[kuiLink]` + `button[kuiLink]`; new pattern (not among the 43 pre-existing kit
+  components), built from Claude Design spec `05 Link.dc.html`. Composes `[kuiText]` via Angular's
+  Directive Composition API (`hostDirectives: [{ directive: KuiTextDirective, inputs: ['variant']
+}]`) instead of duplicating `Text`'s type scale, matching the spec's own Anatomy note that
+  typography is "reused, not duplicated" -- `[kuiLink]` never needs `[kuiText]` added separately in
+  a template, and `[kuiText]`'s own `tone` input is not exposed (stays at its default, no visible
+  effect) so there is exactly one `tone` in `[kuiLink]`'s public API, not two same-named inputs
+  left to coincide across two independently-applied directives -- a documented Angular anti-pattern
+  when unintentional. `tone` (`default`/`muted`/`primary`/`success`/`warning`/`danger`, default
+  `primary`) is unaffected by hover/focus/active -- only underline thickness (hairline to thick)
+  and a `:focus-visible` box-shadow ring change, the Taiga `tuiLink` research-note precedent the
+  spec cites. `underline` (`always`/`hover`/`none`, default `hover`) matches MUI `Link`'s axis by
+  meaning. `iconStart`/`iconEnd` reuse `Button`'s `ViewContainerRef`/`Renderer2` icon-insertion
+  pattern (`KuiIconName`, Lucide-resolved, decorative). `external` (auto-detected from
+  `target="_blank"` when unset) adds `rel="noopener noreferrer"` merged with any user-supplied
+  `rel`, the library's own static external-link chrome glyph (`KUI_EXTERNAL_LINK_D` in
+  `kui-chrome-icon-paths.util`, matching Lucide's own `external-link` glyph coordinates -- same
+  treatment as `KUI_CALENDAR_D`/`KUI_CLOCK_D`) in the `iconEnd` slot unless `iconEnd` is set
+  explicitly, and a visually-hidden "(opens in a new tab)" suffix appended to the accessible name.
+  `disabled` follows the same `aria-disabled` + `tabIndex=-1` + blocked-click convention
+  `[kuiButton]` already uses for `as="a"` (a host `<button>` also gets the native `disabled`
+  attribute). No "visited" tone/state -- not found in Taiga `tuiLink`, MUI `Link`, or the kit's own
+  `Text`, and not a typical pattern in product SaaS/dashboard UI per the spec's own Open
+  Questions.)
 
 ## Later
 

@@ -1,0 +1,103 @@
+<app-panel
+  num="01"
+  title="Anatomy"
+  description="Directive-based: <code>[kuiLink]</code> on <code>&amp;lt;a&amp;gt;</code>/<code>&amp;lt;button&amp;gt;</code>. Composes <code>[kuiText]</code> internally via hostDirectives for typography (<code>variant</code>) — no second directive to add in the template."
+>
+  <div class="component-board">
+    <p class="kui-body">
+      Read the <a kuiLink href="#">product documentation</a> before requesting access.
+    </p>
+  </div>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Tone x state"
+  description="Color never changes between hover/focus/active and rest — only underline thickness and the focus ring do."
+>
+  <div class="component-board" style="gap: 12px">
+    @for (row of toneRows; track row.value) {
+      <div class="tone-row">
+        <span class="size-row-label">{{ row.label }}</span>
+        <a kuiLink [tone]="row.value" href="#" (click)="$event.preventDefault()">Link text</a>
+      </div>
+    }
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Underline modes"
+  description="<code>underline</code>: always / hover (default) / none. Use <code>always</code> for a link inside a paragraph of body text."
+>
+  <div class="component-board__row" style="align-items: flex-start">
+    <div>
+      <div class="size-row-label">always</div>
+      <a kuiLink underline="always" href="#" (click)="$event.preventDefault()"
+        >Inline paragraph link</a
+      >
+    </div>
+    <div>
+      <div class="size-row-label">hover (default)</div>
+      <a kuiLink underline="hover" href="#" (click)="$event.preventDefault()">Standalone link</a>
+    </div>
+    <div>
+      <div class="size-row-label">none</div>
+      <a kuiLink underline="none" href="#" (click)="$event.preventDefault()">No underline</a>
+    </div>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="Sizes, via composed kuiText"
+  description="<code>variant</code> is forwarded straight into the internally-composed <code>[kuiText]</code> directive — <code>[kuiLink]</code> carries no typography scale of its own."
+>
+  <div class="component-board" style="gap: 12px">
+    @for (row of variantRows; track row.value) {
+      <div class="tone-row">
+        <span class="size-row-label">{{ row.label }}</span>
+        <a kuiLink [variant]="row.value" href="#" (click)="$event.preventDefault()"
+          >Example link text</a
+        >
+      </div>
+    }
+  </div>
+</app-panel>
+
+<app-panel
+  num="05"
+  title="Icons, external links, disabled"
+  description='<code>iconStart</code>/<code>iconEnd</code>, auto external-link chrome glyph + hidden hint for <code>target="_blank"</code>, disabled anchor and button.'
+>
+  <div class="component-board" style="gap: 12px">
+    <div class="tone-row">
+      <span class="size-row-label">iconStart="download"</span>
+      <a kuiLink iconStart="download" href="#" (click)="$event.preventDefault()">Download report</a>
+    </div>
+    <div class="tone-row">
+      <span class="size-row-label">iconEnd="arrow-right"</span>
+      <a kuiLink iconEnd="arrow-right" href="#" (click)="$event.preventDefault()">All updates</a>
+    </div>
+    <div class="tone-row">
+      <span class="size-row-label">external (target="_blank")</span>
+      <a kuiLink href="https://kikita-labs.github.io/kikita-ui-docs/" target="_blank"
+        >Kikita UI documentation</a
+      >
+    </div>
+    <div class="tone-row">
+      <span class="size-row-label">tone="danger"</span>
+      <a kuiLink tone="danger" href="#" (click)="$event.preventDefault()">Delete account</a>
+    </div>
+    <div class="tone-row">
+      <span class="size-row-label">disabled anchor</span>
+      <a kuiLink iconStart="download" href="#" disabled (click)="$event.preventDefault()"
+        >Download (unavailable)</a
+      >
+    </div>
+    <div class="tone-row">
+      <span class="size-row-label">disabled button</span>
+      <button kuiLink type="button" disabled>Copy link</button>
+    </div>
+  </div>
+</app-panel>

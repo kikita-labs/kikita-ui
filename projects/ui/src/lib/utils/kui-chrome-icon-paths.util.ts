@@ -76,3 +76,15 @@ export const KUI_PLUS_MINI_D = 'M8 3v10M3 8h10';
  */
 export const KUI_CLOCK_CIRCLE = { cx: 12, cy: 12, r: 9 } as const;
 export const KUI_CLOCK_D = 'M12 7v5l3.5 2';
+
+/**
+ * External-link glyph auto-rendered by `[kuiLink]` when `external` resolves to `true` and no
+ * explicit `iconEnd` is set. It is the library's own fixed chrome for that state, not a
+ * consumer-chosen icon, so it renders as static inline SVG here rather than through the async
+ * `kui-icon` name registry -- the same treatment `KUI_CALENDAR_D`/`KUI_CLOCK_D` get.
+ */
+export const KUI_EXTERNAL_LINK_D = [
+  'M15 3h6v6',
+  'M10 14 21 3',
+  'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6',
+] as const;

@@ -73,6 +73,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/otp-input', label: 'OTP Input' },
   { path: '/pagination', label: 'Pagination' },
   { path: '/time-picker', label: 'Time Picker' },
+  { path: '/link', label: 'Link' },
 ];
 
 @Component({
