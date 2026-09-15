@@ -10,6 +10,23 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Added
 
+- `kuiMediaViewer()`: a new fullscreen photo lightbox opener, the same imperative shape as
+  `kuiDialog()`/`kuiConfirm()`/`kuiDrawer()` on top of `KuiDialogService`. Call it with
+  `{ items, index? }` (`items: { id?, src, alt }[]`, `id` optional and defaulting to `src`) to
+  open. For `items.length > 1` it renders prev/next navigation with boundary disabling, Home/End/
+  Left/Right keyboard navigation, a live-region "N / total" counter, and a thumbnail strip; a
+  single photo renders none of that chrome, only zoom and Close. Zoom in/out (`maxZoom`/
+  `zoomStep`, default `3`/`0.5`) supports pointer-drag pan while zoomed (stopping cleanly once the
+  pointer leaves the viewer or is released anywhere, including outside the browser window), mouse
+  wheel/trackpad-pinch zoom, and continuous touchscreen two-finger pinch-zoom. Each photo shows a
+  loading (`Skeleton`)/error (`EmptyState`) stage state while it loads. `onIndexChange` reports the
+  viewed index on open and on every navigation. Photos only -- video is out of scope. Grid layout,
+  per-tile multi-select, and any trigger element are the consumer's own composition around the
+  opener, not part of its API.
+- `KuiDialogSize` gained a `'fullscreen'` value (alongside `'auto'`/`'sm'`/`'md'`/`'lg'`): the
+  panel fills the viewport with no radius, border, shadow, or padding of its own, for content that
+  needs to own its full layout (used by `kuiMediaViewer()`'s lightbox).
+
 - `KuiLinkDirective` (`a[kuiLink]`/`button[kuiLink]`): a new directive for inline interactive
   text -- navigation (`<a href>`) or a JS-driven action (`<button type="button">`, per MUI's
   accessibility guidance that a link with no real `href` should be a button). Composes

@@ -1,0 +1,54 @@
+.media-viewer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--kui-space-3);
+}
+
+.media-viewer-tile {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  border-radius: var(--kui-radius-md);
+  overflow: hidden;
+  background: transparent;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--kui-color-primary-fill);
+    outline-offset: 2px;
+  }
+}
+
+.media-viewer-tile-wrap {
+  position: relative;
+}
+
+// A chip wrapper around the checkbox, not styling applied to the checkbox itself -- an Angular
+// component-scoped class on `input[kuiCheckbox]` directly would tie for specificity with
+// `.kui-checkbox:checked` (both class + one more selector) and, loading after the library's own
+// CSS, win the tie: the checkbox would stay unchecked-colored even when checked, hiding its own
+// checkmark (drawn with the unchanged `currentColor`) against the same light background.
+.media-viewer-tile-checkbox {
+  position: absolute;
+  top: var(--kui-space-2);
+  left: var(--kui-space-2);
+  display: inline-flex;
+  padding: var(--kui-space-1);
+  border-radius: var(--kui-radius-sm);
+  background: var(--kui-color-surface);
+  box-shadow: var(--kui-shadow-lg);
+}
+
+.media-viewer-readout {
+  font-size: var(--kui-text-sm-size);
+  color: var(--kui-color-text-secondary);
+}

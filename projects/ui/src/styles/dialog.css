@@ -103,6 +103,17 @@
     min-width: 320px;
   }
 
+  /* Fills the entire viewport for content that owns its own full layout (see KuiDialogSize). */
+  .kui-dialog--fullscreen {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
   /* Appearance colors .kui-dialog-icon */
   .kui-dialog[data-kui-appearance='danger'] {
     --kui-dialog-icon-color: var(--kui-color-danger-fill);

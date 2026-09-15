@@ -88,3 +88,15 @@ export const KUI_EXTERNAL_LINK_D = [
   'M10 14 21 3',
   'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6',
 ] as const;
+
+/**
+ * Close/Prev/Next/Zoom in/Zoom out on `kui-media-viewer`'s lightbox toolbar are essential-to-
+ * operate chrome, not consumer-chosen decoration, so they render as static inline SVG here
+ * instead of through the async name-resolved `kui-icon` -- the same treatment
+ * `kui-pagination`'s First/Prev/Next/Last already get, and for the same reason (no network
+ * dependency for controls the lightbox cannot function without). Zoom in/out reuse the search
+ * icon's circle/handle shape (`KUI_SEARCH_CIRCLE`/`KUI_SEARCH_HANDLE_D` above), matching Lucide's
+ * own `zoom-in`/`zoom-out` glyphs, which are the `search` magnifier plus a `+`/`-` mark inside.
+ */
+export const KUI_ZOOM_LINE_H_D = 'M8 11h6';
+export const KUI_ZOOM_LINE_V_D = 'M11 8v6';

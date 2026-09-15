@@ -164,6 +164,19 @@
   attribute). No "visited" tone/state -- not found in Taiga `tuiLink`, MUI `Link`, or the kit's own
   `Text`, and not a typical pattern in product SaaS/dashboard UI per the spec's own Open
   Questions.)
+- Media Viewer (done as `kuiMediaViewer()` + internal `kui-media-viewer`; new pattern (not among
+  the 43 pre-existing kit components), built from Claude Design spec `06 Media Viewer.dc.html`. A
+  fullscreen photo lightbox opener over `KuiDialogService`, the same shape as
+  `kuiDialog()`/`kuiConfirm()`/`kuiDrawer()`: prev/next navigation with boundary disabling,
+  Home/End/Left/Right keyboard navigation, a live-region counter, a thumbnail strip, zoom in/out
+  with `maxZoom`/`zoomStep` bounds, and pan while zoomed with a fixed offset-budget clamp (not a
+  natural-image-size measurement, per the spec's own open question). `KuiDialogSize` gained a
+  `'fullscreen'` value for the panel instead of a page-level CSS override, resolving the spec's own
+  open question #2. Close/Prev/Next/Zoom in/Zoom out reuse `button[kuiIconButton]` with static
+  inline SVG content instead of the async name-resolved `icon` input, the same treatment
+  Pagination's First/Prev/Next/Last already get. Photos only -- video is out of scope. Grid layout,
+  per-tile multi-select, and any trigger element are the consumer's own composition around the
+  opener, never part of its API.)
 
 ## Later
 

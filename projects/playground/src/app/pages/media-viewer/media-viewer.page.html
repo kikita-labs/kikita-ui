@@ -1,0 +1,85 @@
+<app-panel
+  num="01"
+  title="Grid entry point"
+  description="Each tile is a plain <code>&amp;lt;button&amp;gt;</code> the consumer already owns. Clicking one calls <code>kuiMediaViewer()({ items, index })</code>."
+>
+  <div class="media-viewer-grid">
+    @for (photo of photos; track photo.id ?? photo.src) {
+      <button
+        type="button"
+        class="media-viewer-tile"
+        [attr.aria-label]="'Open photo ' + ($index + 1) + ' of ' + photos.length"
+        (click)="openPhotoAt($index)"
+      >
+        <img [src]="photo.src" [alt]="photo.alt" />
+      </button>
+    }
+  </div>
+  @if (lastViewedIndex(); as index) {
+    <p class="media-viewer-readout">Last viewed via onIndexChange: photo {{ index + 1 }}</p>
+  }
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Multi-select composition"
+  description="A per-tile <code>input[kuiCheckbox]</code> next to the cover button -- consumer composition, not a MediaViewer prop. Clicking the checkbox selects; clicking the photo opens the viewer."
+>
+  <div class="media-viewer-grid">
+    @for (photo of photos; track photo.id ?? photo.src) {
+      <div class="media-viewer-tile-wrap">
+        <button
+          type="button"
+          class="media-viewer-tile"
+          [attr.aria-label]="'Open photo ' + ($index + 1) + ' of ' + photos.length"
+          (click)="openPhotoAt($index)"
+        >
+          <img [src]="photo.src" [alt]="photo.alt" />
+        </button>
+        <span class="media-viewer-tile-checkbox">
+          <input
+            type="checkbox"
+            kuiCheckbox
+            size="sm"
+            [checked]="isSelected(photo.id ?? photo.src)"
+            (change)="toggleSelected(photo.id ?? photo.src)"
+            aria-label="Select photo"
+          />
+        </span>
+      </div>
+    }
+  </div>
+  <p class="media-viewer-readout">Selected: {{ selected().size }}</p>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Trigger button entry point"
+  description="No grid -- a single element opens the viewer directly, e.g. a photo preview inside a task card."
+>
+  <button kuiButton shape="outline" (click)="openPhotoAt(0)">Open photo viewer</button>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="Single photo, no gallery chrome"
+  description="One item in <code>items</code> is enough -- no separate API for this. The counter, Prev/Next, and thumbnail strip disappear on their own; only zoom and Close remain."
+>
+  <button kuiButton shape="outline" (click)="openSinglePhoto()">Open a single photo</button>
+</app-panel>
+
+<app-panel
+  num="06"
+  title="Custom zoom bounds"
+  description="<code>maxZoom</code>/<code>zoomStep</code> passed per open call -- here capped at 1.5x in 0.25 steps."
+>
+  <button kuiButton shape="outline" (click)="openLimitedZoom()">Open with maxZoom=1.5</button>
+</app-panel>
+
+<app-panel
+  num="07"
+  title="Photo load error"
+  description='A photo URL that fails to load shows <code>kui-empty-state</code> (<code>context="error"</code>) inside the stage instead of a broken image icon.'
+>
+  <button kuiButton shape="outline" (click)="openErrorDemo()">Open with a broken photo URL</button>
+</app-panel>

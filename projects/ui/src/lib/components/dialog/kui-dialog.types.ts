@@ -1,5 +1,12 @@
-/** Available width presets for a dialog panel. */
-export type KuiDialogSize = 'auto' | 'sm' | 'md' | 'lg';
+/**
+ * Available width presets for a dialog panel.
+ *
+ * `'fullscreen'` covers the entire viewport with no radius, border, shadow, or padding of its
+ * own, for content that needs to own its full layout (for example `kui-media-viewer`'s lightbox).
+ * It is a plain width/chrome preset, not a distinct dialog variant: dismissable/closable, the
+ * backdrop, focus trap, and Escape handling all stay exactly as configured.
+ */
+export type KuiDialogSize = 'auto' | 'sm' | 'md' | 'lg' | 'fullscreen';
 
 /** Visual intent of the dialog, affects `.kui-dialog-icon` color. */
 export type KuiDialogAppearance = 'default' | 'danger' | 'warning';

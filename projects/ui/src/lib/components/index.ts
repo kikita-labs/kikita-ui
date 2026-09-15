@@ -25,6 +25,7 @@ export * from './icon-button';
 export * from './input';
 export * from './link';
 export * from './loader';
+export * from './media-viewer';
 export * from './menu';
 export * from './number-input';
 export * from './otp-input';

@@ -214,5 +214,10 @@ export const routes: Routes = [
     path: 'link',
     loadComponent: () => import('./pages/link/link.page').then((m) => m.LinkPage),
   },
+  {
+    path: 'media-viewer',
+    loadComponent: () =>
+      import('./pages/media-viewer/media-viewer.page').then((m) => m.MediaViewerPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

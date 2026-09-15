@@ -94,6 +94,15 @@ describe('KuiDialogContainerComponent', () => {
     expect(fixture.nativeElement.querySelectorAll('.kui-dialog-close').length).toBe(0);
   });
 
+  it('applies the fullscreen size class', () => {
+    const fixture = create();
+    fixture.componentInstance._size = 'fullscreen';
+    fixture.detectChanges();
+
+    const panel = fixture.nativeElement.querySelector('.kui-dialog');
+    expect(panel.classList.contains('kui-dialog--fullscreen')).toBe(true);
+  });
+
   it('still renders the auto close button for plain projected content', () => {
     const fixture = create();
     fixture.detectChanges();

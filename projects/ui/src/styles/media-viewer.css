@@ -1,0 +1,214 @@
+@layer kui.components {
+  /*
+   * The kit has no semantic overlay/scrim token yet -- this literal is the same class of
+   * unlabelled value `--kui-dialog-backdrop` already carries in dialog.css, just a higher opacity
+   * because this is a standalone fullscreen viewer rather than a modal layered over visible page
+   * content.
+   */
+  .kui-media-viewer {
+    --kui-media-viewer-scrim-bg: oklch(0 0 0 / 0.92);
+    --kui-media-viewer-fg: var(--kui-color-on-fill);
+    --kui-media-viewer-fg-muted: color-mix(in oklch, var(--kui-color-on-fill) 65%, transparent);
+    --kui-media-viewer-hover-bg: color-mix(in oklch, var(--kui-color-on-fill) 16%, transparent);
+    --kui-media-viewer-strip-thumb-size: calc(var(--kui-space-16, 64px) + var(--kui-space-4, 16px));
+    --kui-media-viewer-strip-active-border: var(--kui-color-primary-fill);
+
+    /* Ghost icon buttons (Close/Zoom/Prev/Next) stay legible on the dark scrim. */
+    --kui-btn-ghost-fg: var(--kui-media-viewer-fg);
+    --kui-btn-ghost-bg-hov: var(--kui-media-viewer-hover-bg);
+
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--kui-media-viewer-scrim-bg);
+    color: var(--kui-media-viewer-fg);
+    /* App-like chrome (counter, thumbnails, the photo itself), not a text surface -- the same
+       treatment `button[kuiIconButton]` already applies to itself in icon-button.css. Without it
+       a mouse drag anywhere in the lightbox (including a pan drag on the photo) starts a native
+       text/element selection instead. */
+    user-select: none;
+  }
+
+  .kui-media-viewer__visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .kui-media-viewer__toolbar {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--kui-space-4);
+  }
+
+  .kui-media-viewer__counter {
+    font-size: var(--kui-text-sm-size);
+    font-variant-numeric: tabular-nums;
+    color: var(--kui-media-viewer-fg);
+  }
+
+  .kui-media-viewer__toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-2);
+  }
+
+  .kui-media-viewer__close {
+    margin-inline-start: var(--kui-space-2);
+  }
+
+  .kui-media-viewer__stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding-inline: var(--kui-space-16, 64px);
+    /*
+     * Opts the whole stage out of the browser's native touch gestures (page pinch-zoom,
+     * two-finger pan), not just `.kui-media-viewer__image` below -- a real pinch's second finger
+     * easily lands on the frame's own letterbox padding or this stage's background rather than
+     * squarely on the photo, and if that touch point's own target allows the native gesture, the
+     * browser can claim the whole two-finger gesture instead of delivering pointer events to
+     * `onFramePointerDown/Move`.
+     */
+    touch-action: none;
+  }
+
+  /*
+   * Centered with inset + margin-block: auto, not top: 50% + transform: translateY(-50%).
+   * `button[kuiIconButton]` sets its own `transform` on `:active` (press scale) -- a `transform`
+   * from here would be silently overridden by that rule (higher specificity: class+pseudo-class
+   * beats class alone), snapping the button to `top: 50%` with no compensating translate, i.e.
+   * visibly dropping it down by half its own height for the duration of the press.
+   */
+  .kui-media-viewer__nav {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-block: auto;
+    z-index: 1;
+  }
+
+  .kui-media-viewer__nav--prev {
+    left: var(--kui-space-4);
+  }
+
+  .kui-media-viewer__nav--next {
+    right: var(--kui-space-4);
+  }
+
+  .kui-media-viewer__frame {
+    position: relative;
+    width: min(80vw, 900px);
+    height: min(70vh, 600px);
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    border-radius: var(--kui-radius-md);
+    /* Panning is a pointerdown/move/up drag on this element -- without this, a mouse drag
+       starts a native text/element selection instead (the frame has no text of its own, but the
+       browser still starts a selection drag from any pointerdown inside it). */
+    user-select: none;
+    /* Same reasoning as `.kui-media-viewer__stage` -- this is the element the pointer/pinch
+       handlers actually listen on. */
+    touch-action: none;
+  }
+
+  .kui-media-viewer__placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .kui-media-viewer__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 150ms ease;
+    touch-action: none;
+    /*
+     * The pointer-drag pan (KuiMediaViewerComponent.onFramePointerDown/Move) competes with two
+     * browser-native gestures a plain <img> would otherwise start on the same mousedown+move:
+     * the built-in "drag this image out" ghost, and (Firefox/Safari especially) selecting the
+     * image as content. `[draggable=false]` on the element (template) plus `-webkit-user-drag`
+     * here cover the drag ghost; `user-select`/`-webkit-user-select` cover the selection.
+     */
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .kui-media-viewer__image--hidden {
+    visibility: hidden;
+  }
+
+  .kui-media-viewer__strip {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    /*
+     * Plain `justify-content: center` traps content once it overflows: a centered flex line with
+     * more content than the container keeps half of the overflow on each side, including past
+     * `scrollLeft: 0` on the start side -- scrolling all the way to the start does not reach the
+     * first item, it stays partially or fully clipped and permanently unreachable. `safe center`
+     * (CSS Box Alignment) falls back to start-alignment specifically when centering would cause
+     * this kind of unreachable overflow, keeping every item scrollable into view; the plain
+     * `center` above it is the fallback for a browser that does not understand the `safe` keyword
+     * (an unsupported declaration is ignored, leaving the prior one in effect) -- still centered
+     * when short, just without the overflow-safety fix on that engine.
+     */
+    justify-content: center;
+    justify-content: safe center;
+    gap: var(--kui-space-2);
+    padding: var(--kui-space-3) var(--kui-space-4);
+    overflow-x: auto;
+    /*
+     * Required alongside `overflow-x: auto` -- a flex item's default `min-inline-size` is `auto`,
+     * which floors it at its own content's min-content width (every thumbnail unwrapped, side by
+     * side) regardless of the parent's width. Without this the strip pushes the flex column wider
+     * than the viewport instead of scrolling internally -- the same fix `button.css`/`chip.css`/
+     * `otp-input.css` already apply to their own flex children.
+     */
+    min-inline-size: 0;
+  }
+
+  .kui-media-viewer__thumb {
+    flex-shrink: 0;
+    width: var(--kui-media-viewer-strip-thumb-size);
+    height: var(--kui-media-viewer-strip-thumb-size);
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: var(--kui-radius-sm);
+    overflow: hidden;
+    background: transparent;
+    cursor: pointer;
+    color: var(--kui-media-viewer-fg);
+  }
+
+  .kui-media-viewer__thumb:focus-visible {
+    outline: 2px solid var(--kui-color-primary-fill);
+    outline-offset: 2px;
+  }
+
+  .kui-media-viewer__thumb--active {
+    border-color: var(--kui-media-viewer-strip-active-border);
+  }
+
+  .kui-media-viewer__thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

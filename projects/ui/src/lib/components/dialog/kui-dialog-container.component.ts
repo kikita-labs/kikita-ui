@@ -32,6 +32,7 @@ let nextDialogTitleId = 0;
         [class.kui-dialog--md]="_size === 'md'"
         [class.kui-dialog--lg]="_size === 'lg'"
         [class.kui-dialog--auto]="_size === 'auto'"
+        [class.kui-dialog--fullscreen]="_size === 'fullscreen'"
         [class.kui-dialog--closing]="isClosing()"
         [attr.data-kui-appearance]="_appearance !== 'default' ? _appearance : null"
         role="dialog"
