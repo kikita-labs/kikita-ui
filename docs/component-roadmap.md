@@ -177,6 +177,26 @@
   Pagination's First/Prev/Next/Last already get. Photos only -- video is out of scope. Grid layout,
   per-tile multi-select, and any trigger element are the consumer's own composition around the
   opener, never part of its API.)
+- Carousel (done as `kui-carousel` + `[kuiCarouselSlide]`; new pattern (not among the 43
+  pre-existing kit components), built from Claude Design spec `07 Carousel.dc.html`. Slide track is
+  native scroll + `scroll-snap`, scrolled programmatically to the current slide rather than a
+  hand-rolled transform animation, so trackpad/touch swipe and its inertia come from the browser.
+  `[kuiCarouselSlide]` projects arbitrary content the same way `kuiTab`/`kuiTabPanel` do for
+  `kui-tabs`. Prev/Next/Play/Pause reuse `button[kuiIconButton]` with static inline SVG chrome, the
+  same treatment Pagination/Media Viewer already give their own essential controls. `itemsPerView`
+  (default `1`), `loop` (default `false`, disabling Prev/Next at the edges instead of wrapping),
+  `autoplay`/`autoplayInterval` (default `false`/`4000`, always renders a visible Play/Pause and
+  pauses on hover/focus), `showArrows`/`showDots` (default `true`/`true`, swipe/scroll always
+  works), `draggable` (default `true`, one flag for native touch swipe plus an added pointer-based
+  mouse drag-to-scroll; `false` also switches the track to `overflow-x: hidden` so wheel/trackpad
+  can't move it either, not just the drag gesture), `ariaLabel` (required), `index`/`(indexChange)`
+  two-way model. A debounced `scroll` listener syncs `index` back from any manual drag/swipe/scroll,
+  keeping the dot picker and Prev/Next disabled state correct regardless of how the track moved.
+  Dot picker follows the "tabbed carousel" ARIA pattern (`role="tablist"`/`role="tab"`, roving
+  tabindex) and is capped to `slideCount - itemsPerView + 1` reachable positions, not one dot per
+  slide. No responsive per-breakpoint `itemsPerView` and no size/compact prop for the whole
+  component -- matching every researched kit (Ant Design, NG-ZORRO, PrimeNG/PrimeVue/PrimeReact,
+  Taiga UI), Prev/Next/Play inherit size from the kit's own size/density DI context instead.)
 
 ## Later
 

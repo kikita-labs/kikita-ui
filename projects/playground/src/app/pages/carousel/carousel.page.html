@@ -1,0 +1,169 @@
+<app-panel
+  num="01"
+  title="Default"
+  description="itemsPerView=1, loop=false (default). Prev is disabled on the first slide. <code>kui-carousel</code> + <code>[kuiCarouselSlide]</code>."
+>
+  <div class="carousel-demo">
+    <kui-carousel ariaLabel="Default demo slides" [(index)]="defaultIndex">
+      @for (slide of slides; track slide) {
+        <div kuiCarouselSlide class="carousel-demo__slide">
+          <img [src]="slide" alt="" />
+        </div>
+      }
+    </kui-carousel>
+    <span class="carousel-demo__readout"
+      >Index: <code>{{ defaultIndex() }}</code></span
+    >
+  </div>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Loop"
+  description="Prev/Next wrap around at the edges instead of disabling."
+>
+  <div class="carousel-demo">
+    <kui-carousel ariaLabel="Looping demo slides" loop [(index)]="loopIndex">
+      @for (slide of slides; track slide) {
+        <div kuiCarouselSlide class="carousel-demo__slide">
+          <img [src]="slide" alt="" />
+        </div>
+      }
+    </kui-carousel>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Autoplay"
+  description="Always shows a visible Play/Pause control; pauses on hover/focus."
+>
+  <div class="carousel-demo">
+    <kui-carousel ariaLabel="Autoplay demo slides" autoplay [autoplayInterval]="2500">
+      @for (slide of slides; track slide) {
+        <div kuiCarouselSlide class="carousel-demo__slide">
+          <img [src]="slide" alt="" />
+        </div>
+      }
+    </kui-carousel>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="itemsPerView"
+  description="Shows more than one slide at a time; the reachable dot count shrinks accordingly."
+>
+  <div class="carousel-demo">
+    <span class="carousel-demo__label">itemsPerView = 2</span>
+    <kui-carousel ariaLabel="Two slides per view" [itemsPerView]="2" [(index)]="ipv2Index">
+      @for (slide of slides; track slide) {
+        <div kuiCarouselSlide class="carousel-demo__slide">
+          <img [src]="slide" alt="" />
+        </div>
+      }
+    </kui-carousel>
+  </div>
+  <div class="carousel-demo">
+    <span class="carousel-demo__label">itemsPerView = 3</span>
+    <kui-carousel ariaLabel="Three slides per view" [itemsPerView]="3" [(index)]="ipv3Index">
+      @for (slide of slides; track slide) {
+        <div kuiCarouselSlide class="carousel-demo__slide">
+          <img [src]="slide" alt="" />
+        </div>
+      }
+    </kui-carousel>
+  </div>
+</app-panel>
+
+<app-panel
+  num="05"
+  title="Navigation visibility"
+  description="showArrows/showDots default to true. Swipe/scroll works regardless of either."
+>
+  <div class="carousel-demo">
+    <span class="carousel-demo__label">showArrows=false</span>
+    <kui-carousel ariaLabel="Dots only demo slides" [showArrows]="false">
+      @for (slide of slides; track slide) {
+        <div kuiCarouselSlide class="carousel-demo__slide">
+          <img [src]="slide" alt="" />
+        </div>
+      }
+    </kui-carousel>
+  </div>
+  <div class="carousel-demo">
+    <span class="carousel-demo__label">showDots=false</span>
+    <kui-carousel ariaLabel="Arrows only demo slides" [showDots]="false">
+      @for (slide of slides; track slide) {
+        <div kuiCarouselSlide class="carousel-demo__slide">
+          <img [src]="slide" alt="" />
+        </div>
+      }
+    </kui-carousel>
+  </div>
+  <div class="carousel-demo">
+    <span class="carousel-demo__label">showArrows=false, showDots=false (swipe only)</span>
+    <kui-carousel
+      ariaLabel="Swipe only demo slides"
+      [showArrows]="false"
+      [showDots]="false"
+      [(index)]="noNavIndex"
+    >
+      @for (slide of slides; track slide) {
+        <div kuiCarouselSlide class="carousel-demo__slide">
+          <img [src]="slide" alt="" />
+        </div>
+      }
+    </kui-carousel>
+    <p class="carousel-demo__note">
+      Not self-sufficient under WCAG 2.5.7 -- kept reachable as a configurable combination per
+      Claude Design spec <code>07 Carousel.dc.html</code>, flagged here rather than hidden.
+    </p>
+  </div>
+</app-panel>
+
+<app-panel
+  num="06"
+  title="draggable"
+  description="Defaults to true (native touch swipe plus mouse drag-to-scroll -- try dragging the demo below with a mouse). false also locks wheel/trackpad scroll, not just the drag gesture."
+>
+  <div class="carousel-demo">
+    <span class="carousel-demo__label">draggable=false</span>
+    <kui-carousel ariaLabel="Non-draggable demo slides" [draggable]="false">
+      @for (slide of slides; track slide) {
+        <div kuiCarouselSlide class="carousel-demo__slide">
+          <img [src]="slide" alt="" />
+        </div>
+      }
+    </kui-carousel>
+  </div>
+</app-panel>
+
+<app-panel
+  num="07"
+  title="Autoplay with no manual control"
+  description="autoplay + showArrows=false + showDots=false + draggable=false: a self-updating carousel with no way to pause it by hand."
+>
+  <div class="carousel-demo">
+    <kui-carousel
+      ariaLabel="Autoplay only demo slides"
+      autoplay
+      [autoplayInterval]="6000"
+      [showArrows]="false"
+      [showDots]="false"
+      [draggable]="false"
+      loop
+    >
+      @for (slide of slides; track slide) {
+        <div kuiCarouselSlide class="carousel-demo__slide">
+          <img [src]="slide" alt="" />
+        </div>
+      }
+    </kui-carousel>
+    <p class="carousel-demo__note">
+      Deliberately conflicts with WCAG 2.2.2 (Pause, Stop, Hide) -- kept reachable per Claude Design
+      spec <code>07 Carousel.dc.html</code>'s own open questions, not recommended for production
+      content that carries information a user would need to pause and read.
+    </p>
+  </div>
+</app-panel>

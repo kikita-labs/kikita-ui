@@ -75,6 +75,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/time-picker', label: 'Time Picker' },
   { path: '/link', label: 'Link' },
   { path: '/media-viewer', label: 'Media Viewer' },
+  { path: '/carousel', label: 'Carousel' },
 ];
 
 @Component({

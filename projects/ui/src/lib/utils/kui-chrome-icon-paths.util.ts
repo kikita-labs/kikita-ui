@@ -100,3 +100,13 @@ export const KUI_EXTERNAL_LINK_D = [
  */
 export const KUI_ZOOM_LINE_H_D = 'M8 11h6';
 export const KUI_ZOOM_LINE_V_D = 'M11 8v6';
+
+/**
+ * Play/Pause toggle on `kui-carousel`'s autoplay control. Essential-to-operate chrome (it starts
+ * and stops the carousel's own timer, not consumer-chosen decoration), so it renders as static
+ * inline SVG here instead of through the async name-resolved `kui-icon` -- the same treatment
+ * `kui-pagination`'s First/Prev/Next/Last and `kui-media-viewer`'s toolbar already get. Matches
+ * Lucide's own `play`/`pause` glyph coordinates.
+ */
+export const KUI_PLAY_D = 'M6 3v18l15-9z';
+export const KUI_PAUSE_D = ['M6 4h4v16H6z', 'M14 4h4v16h-4z'] as const;

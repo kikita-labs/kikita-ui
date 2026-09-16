@@ -219,5 +219,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/media-viewer/media-viewer.page').then((m) => m.MediaViewerPage),
   },
+  {
+    path: 'carousel',
+    loadComponent: () => import('./pages/carousel/carousel.page').then((m) => m.CarouselPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

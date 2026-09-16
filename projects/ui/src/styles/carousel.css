@@ -1,0 +1,137 @@
+@layer kui.components {
+  .kui-carousel {
+    --kui-carousel-gap: var(--kui-space-4, 16px);
+    --kui-carousel-radius: var(--kui-radius-lg, 12px);
+    --kui-carousel-slide-radius: var(--kui-radius-md, 8px);
+    --kui-carousel-bg: var(--kui-color-surface);
+    --kui-carousel-border: var(--kui-color-border);
+    --kui-carousel-slide-bg: var(--kui-color-surface-sunken);
+    --kui-carousel-control-bg: var(--kui-color-surface);
+    --kui-carousel-control-shadow: var(--kui-shadow-lg);
+    --kui-carousel-dot-bg: var(--kui-color-border);
+    --kui-carousel-dot-bg-active: var(--kui-color-primary-fill);
+    --kui-carousel-dot-size: var(--kui-space-2, 8px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--kui-space-2, 8px);
+    max-inline-size: 100%;
+  }
+
+  .kui-carousel__region {
+    position: relative;
+    border-radius: var(--kui-carousel-radius);
+    overflow: hidden;
+    background: var(--kui-carousel-bg);
+    border: 1px solid var(--kui-carousel-border);
+  }
+
+  .kui-carousel__track {
+    display: flex;
+    gap: var(--kui-carousel-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: var(--kui-carousel-gap);
+  }
+
+  /*
+   * This track is the carousel's own viewport chrome, not a scrollable content pane like a
+   * dropdown listbox or dialog body -- it must never show scrollbar chrome, including under the
+   * global `data-kui-scrollbars="styled"` opt-in. `:root[data-kui-scrollbars='styled'] *` in
+   * scrollbar.css outranks a plain `.kui-carousel__track` selector on specificity alone, so the
+   * override has to repeat that same `:root[data-kui-scrollbars='styled']` prefix to win.
+   */
+  .kui-carousel__track,
+  :root[data-kui-scrollbars='styled'] .kui-carousel__track {
+    scrollbar-width: none;
+  }
+
+  .kui-carousel__track::-webkit-scrollbar,
+  :root[data-kui-scrollbars='styled'] .kui-carousel__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  /*
+   * `draggable=false`: blocking the drag/swipe gesture alone still leaves wheel and trackpad
+   * scroll able to move the track, so the scroll container itself is locked too.
+   */
+  .kui-carousel__track[data-kui-locked] {
+    overflow-x: hidden;
+  }
+
+  .kui-carousel__slide {
+    flex: 0 0
+      calc(
+        (100% - var(--kui-carousel-gap) * (var(--kui-carousel-items-per-view, 1) - 1)) /
+          var(--kui-carousel-items-per-view, 1)
+      );
+    scroll-snap-align: start;
+    border-radius: var(--kui-carousel-slide-radius);
+    overflow: hidden;
+    background: var(--kui-carousel-slide-bg);
+  }
+
+  /*
+   * Positioning lives on this wrapper span, not on the button itself: `button[kuiIconButton]`
+   * already owns `transform` for its own `:active` press feedback (`scale(0.97)`), and a second
+   * `transform: translateY(-50%)` on the same element would replace that rule outright instead of
+   * combining with it -- the button visibly jumps out of vertical center on press/click.
+   *
+   * `border-radius` matches `--kui-btn-radius` (`IconButton`'s own shape), not a full circle like
+   * the Claude Design spec's literal demo markup: that spec was built against a mock IconButton
+   * that happened to render circular, but the kit's real `button[kuiIconButton]` is a rounded
+   * square (`--kui-btn-radius`, default 8px) with a transparent idle background. A circular
+   * backdrop only looks right while the button itself stays transparent; the moment it gets its
+   * own opaque tint on hover/active/focus-visible, that square-shaped tint sits visibly inside a
+   * rounder backdrop, showing the backdrop bulging out past the button's corners. Matching the
+   * radius keeps the two shapes identical at every state.
+   */
+  .kui-carousel__control-slot {
+    position: absolute;
+    display: inline-flex;
+    border-radius: var(--kui-btn-radius, 8px);
+    background: var(--kui-carousel-control-bg);
+    box-shadow: var(--kui-carousel-control-shadow);
+  }
+
+  .kui-carousel__control-slot--prev {
+    left: var(--kui-space-2, 8px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .kui-carousel__control-slot--next {
+    right: var(--kui-space-2, 8px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .kui-carousel__control-slot--play {
+    top: var(--kui-space-2, 8px);
+    right: var(--kui-space-2, 8px);
+  }
+
+  .kui-carousel__dots {
+    display: flex;
+    gap: var(--kui-space-2, 8px);
+    justify-content: center;
+  }
+
+  .kui-carousel__dot {
+    inline-size: var(--kui-carousel-dot-size);
+    block-size: var(--kui-carousel-dot-size);
+    padding: 0;
+    border: 0;
+    border-radius: var(--kui-radius-full, 9999px);
+    cursor: pointer;
+    background: var(--kui-carousel-dot-bg);
+  }
+
+  .kui-carousel__dot[data-kui-selected] {
+    background: var(--kui-carousel-dot-bg-active);
+  }
+
+  .kui-carousel__dot:focus-visible {
+    outline: 2px solid var(--kui-color-primary-fill);
+    outline-offset: 2px;
+  }
+}

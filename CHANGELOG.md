@@ -10,6 +10,26 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Added
 
+- `KuiCarouselComponent` (`kui-carousel`) + `KuiCarouselSlideDirective` (`[kuiCarouselSlide]`): a
+  new horizontal slide strip, built from Claude Design spec `07 Carousel.dc.html`. The track is
+  native scroll + `scroll-snap`, scrolled programmatically to the current slide rather than a
+  hand-rolled transform animation. `[kuiCarouselSlide]` projects arbitrary content, the same
+  content-projection shape `kuiTab`/`kuiTabPanel` use for `kui-tabs`. `itemsPerView` (default `1`),
+  `loop` (default `false`), `autoplay`/`autoplayInterval` (default `false`/`4000`, always shows a
+  visible Play/Pause and pauses on hover/focus), `showArrows`/`showDots` (default `true`/`true`),
+  required `ariaLabel`, and a two-way `index` model. Prev/Next/Play/Pause reuse
+  `button[kuiIconButton]` with static inline SVG chrome, matching `kui-pagination`/
+  `kui-media-viewer`'s own essential controls. The dot picker follows the "tabbed carousel" ARIA
+  pattern with roving tabindex and is capped to the reachable index range, not one dot per slide. A
+  debounced `scroll` listener syncs `index` back from a manual drag/swipe of the track, so the dot
+  picker and Prev/Next disabled state stay correct regardless of how the user moved the track.
+  `draggable` (default `true`) adds a pointer-based mouse drag-to-scroll on top of native touch
+  swipe -- one flag for both, since they're the same "drag the track" action from different input
+  devices; `false` also switches the track to `overflow-x: hidden` so wheel/trackpad scroll can't
+  move it either, not just the drag gesture. Mouse drag restores `scroll-snap-type` only after its
+  release-triggered snap scroll actually settles (`scrollend`/timeout), and a new drag starting
+  before that cancels the pending restore, avoiding an instant-jump artifact and a stuck-track race
+  on a quick release-then-redrag that the Claude Design spec's own reference implementation has.
 - `kuiMediaViewer()`: a new fullscreen photo lightbox opener, the same imperative shape as
   `kuiDialog()`/`kuiConfirm()`/`kuiDrawer()` on top of `KuiDialogService`. Call it with
   `{ items, index? }` (`items: { id?, src, alt }[]`, `id` optional and defaulting to `src`) to

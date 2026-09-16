@@ -1,0 +1,25 @@
+.carousel-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kui-space-2);
+  max-inline-size: 480px;
+}
+
+.carousel-demo__slide img {
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.carousel-demo__readout,
+.carousel-demo__note {
+  font-size: var(--kui-text-sm-size);
+  color: var(--kui-color-text-secondary);
+}
+
+.carousel-demo__label {
+  font-size: var(--kui-text-xs-size);
+  font-weight: 600;
+  color: var(--kui-color-text-secondary);
+}
