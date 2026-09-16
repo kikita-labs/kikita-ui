@@ -1,0 +1,153 @@
+@layer kui.components {
+  .kui-splitter {
+    --kui-splitter-pane-bg: var(--kui-color-surface);
+    --kui-splitter-pane-border: var(--kui-color-border);
+    --kui-splitter-radius: var(--kui-radius-md);
+    --kui-splitter-gutter-size: var(--kui-space-2, 8px);
+    --kui-splitter-gutter-line: var(--kui-color-border);
+    --kui-splitter-gutter-line-hover: var(--kui-color-border-strong);
+    --kui-splitter-gutter-line-active: var(--kui-color-primary-fill);
+    --kui-splitter-gutter-line-disabled: var(--kui-color-border-subtle);
+    --kui-splitter-thumb-bg: var(--kui-color-border-strong);
+    --kui-splitter-thumb-bg-hover: var(--kui-color-primary-fill-hover);
+    --kui-splitter-thumb-bg-active: var(--kui-color-primary-fill-active);
+    --kui-splitter-thumb-thickness: 4px;
+    --kui-splitter-thumb-length: 24px;
+    --kui-splitter-collapse-btn-size: 20px;
+    --kui-splitter-collapse-btn-bg: var(--kui-splitter-thumb-bg);
+    --kui-splitter-collapse-btn-fg: var(--kui-color-surface);
+    --kui-splitter-focus-ring: var(--kui-color-primary-focus-ring);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid var(--kui-splitter-pane-border);
+    border-radius: var(--kui-splitter-radius);
+    overflow: hidden;
+    background: var(--kui-splitter-pane-bg);
+    /*
+     * A resizable layout region is expected to fill its container by default, the same way
+     * angular-split/react-resizable-panels behave -- without this, a splitter dropped into any
+     * flex/grid parent that doesn't itself stretch children (for example a centered flex pane, as
+     * in a nested splitter) shrinks to its content's intrinsic width/height instead, breaking both
+     * the visual layout and the drag math (which measures this element's own clientWidth/Height).
+     */
+    inline-size: 100%;
+    block-size: 100%;
+    max-inline-size: 100%;
+  }
+
+  .kui-splitter[data-kui-orientation='vertical'] {
+    flex-direction: column;
+  }
+
+  .kui-splitter-pane {
+    box-sizing: border-box;
+    overflow: auto;
+    min-inline-size: 0;
+    min-block-size: 0;
+  }
+
+  .kui-splitter-gutter {
+    position: relative;
+    flex: 0 0 var(--kui-splitter-gutter-size);
+    touch-action: none;
+    outline: none;
+  }
+
+  .kui-splitter-gutter[data-kui-orientation='vertical'] {
+    cursor: col-resize;
+  }
+
+  .kui-splitter-gutter[data-kui-orientation='horizontal'] {
+    cursor: row-resize;
+  }
+
+  .kui-splitter-gutter[aria-disabled='true'] {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .kui-splitter-gutter:focus-visible {
+    box-shadow: 0 0 0 2px var(--kui-splitter-focus-ring);
+  }
+
+  .kui-splitter-gutter__line {
+    position: absolute;
+    background: var(--kui-splitter-gutter-line);
+  }
+
+  .kui-splitter-gutter[data-kui-orientation='vertical'] .kui-splitter-gutter__line {
+    inline-size: 1px;
+    block-size: 100%;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+  }
+
+  .kui-splitter-gutter[data-kui-orientation='horizontal'] .kui-splitter-gutter__line {
+    block-size: 1px;
+    inline-size: 100%;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+  }
+
+  .kui-splitter-gutter:hover .kui-splitter-gutter__line,
+  .kui-splitter-gutter:hover .kui-splitter-gutter__thumb {
+    background: var(--kui-splitter-gutter-line-hover);
+  }
+
+  .kui-splitter-gutter[data-kui-dragging] .kui-splitter-gutter__line,
+  .kui-splitter-gutter[data-kui-dragging] .kui-splitter-gutter__thumb {
+    background: var(--kui-splitter-gutter-line-active);
+  }
+
+  .kui-splitter-gutter[aria-disabled='true'] .kui-splitter-gutter__line {
+    background: var(--kui-splitter-gutter-line-disabled);
+  }
+
+  .kui-splitter-gutter__thumb {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--kui-splitter-thumb-bg);
+    border-radius: var(--kui-radius-full, 9999px);
+    transition: background var(--kui-duration-fast, 100ms) var(--kui-ease, ease);
+  }
+
+  .kui-splitter-gutter[data-kui-orientation='vertical'] .kui-splitter-gutter__thumb {
+    inline-size: var(--kui-splitter-thumb-thickness);
+    block-size: var(--kui-splitter-thumb-length);
+  }
+
+  .kui-splitter-gutter[data-kui-orientation='horizontal'] .kui-splitter-gutter__thumb {
+    block-size: var(--kui-splitter-thumb-thickness);
+    inline-size: var(--kui-splitter-thumb-length);
+  }
+
+  .kui-splitter-gutter__thumb-btn {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    transform: translate(-50%, -50%);
+    inline-size: var(--kui-splitter-collapse-btn-size);
+    block-size: var(--kui-splitter-collapse-btn-size);
+    padding: 0;
+    border: none;
+    border-radius: var(--kui-radius-full, 9999px);
+    background: var(--kui-splitter-collapse-btn-bg);
+    color: var(--kui-splitter-collapse-btn-fg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background var(--kui-duration-fast, 100ms) var(--kui-ease, ease);
+  }
+
+  .kui-splitter-gutter:hover .kui-splitter-gutter__thumb-btn {
+    background: var(--kui-splitter-thumb-bg-hover);
+  }
+
+  .kui-splitter-gutter[data-kui-dragging] .kui-splitter-gutter__thumb-btn {
+    background: var(--kui-splitter-thumb-bg-active);
+  }
+}

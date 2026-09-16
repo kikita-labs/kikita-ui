@@ -1,0 +1,48 @@
+.splitter-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kui-space-2);
+  max-inline-size: 640px;
+}
+
+/*
+ * Direct-child combinator only -- a plain descendant selector would also match the inner splitter
+ * of the "Nested splitters" demo (a kui-splitter inside a kui-splitter-pane inside this element),
+ * forcing it to the same fixed height as the outer one regardless of how much room its own pane
+ * actually has, which overflows it.
+ */
+.splitter-demo > kui-splitter {
+  block-size: 220px;
+}
+
+.splitter-demo--tall > kui-splitter {
+  block-size: 320px;
+}
+
+.splitter-demo__pane {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--kui-text-sm-size);
+  font-weight: 600;
+  color: var(--kui-color-text-secondary);
+}
+
+.splitter-demo__pane--sunken {
+  background: var(--kui-color-surface-sunken);
+}
+
+.splitter-demo__pane--nested {
+  display: block;
+  padding: 0;
+}
+
+.splitter-demo__pane--nested kui-splitter {
+  border: none;
+  border-radius: 0;
+}
+
+.splitter-demo__readout {
+  font-size: var(--kui-text-sm-size);
+  color: var(--kui-color-text-secondary);
+}

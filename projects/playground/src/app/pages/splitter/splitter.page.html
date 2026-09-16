@@ -1,0 +1,99 @@
+<app-panel
+  num="01"
+  title="Default"
+  description="Two equal panes, orientation=horizontal (default). Drag the gutter or focus it (Tab) and use arrow keys / Home / End."
+>
+  <div class="splitter-demo">
+    <kui-splitter (sizesChange)="onResize($event)">
+      <kui-splitter-pane class="splitter-demo__pane">Pane A</kui-splitter-pane>
+      <kui-splitter-pane class="splitter-demo__pane">Pane B</kui-splitter-pane>
+    </kui-splitter>
+    @if (lastSizes(); as sizes) {
+      <span class="splitter-demo__readout"
+        >Sizes: <code>{{ sizes[0].toFixed(1) }}% / {{ sizes[1].toFixed(1) }}%</code></span
+      >
+    }
+  </div>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="orientation=vertical"
+  description="Panes stacked top-to-bottom, horizontal gutter line."
+>
+  <div class="splitter-demo splitter-demo--tall">
+    <kui-splitter orientation="vertical">
+      <kui-splitter-pane class="splitter-demo__pane">Top</kui-splitter-pane>
+      <kui-splitter-pane class="splitter-demo__pane">Bottom</kui-splitter-pane>
+    </kui-splitter>
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Collapsible pane"
+  description="Button on the gutter collapses/restores the left pane one touch; Enter on the focused gutter does the same."
+>
+  <div class="splitter-demo">
+    <kui-splitter>
+      <kui-splitter-pane
+        [size]="30"
+        [minSize]="15"
+        [collapsible]="true"
+        class="splitter-demo__pane splitter-demo__pane--sunken"
+      >
+        Files
+      </kui-splitter-pane>
+      <kui-splitter-pane [size]="70" class="splitter-demo__pane">Editor</kui-splitter-pane>
+    </kui-splitter>
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="Multiple panes"
+  description="Any number of panes; each gutter only resizes the two panes touching it."
+>
+  <div class="splitter-demo">
+    <kui-splitter>
+      <kui-splitter-pane [size]="25" class="splitter-demo__pane">A</kui-splitter-pane>
+      <kui-splitter-pane class="splitter-demo__pane">B</kui-splitter-pane>
+      <kui-splitter-pane class="splitter-demo__pane">C</kui-splitter-pane>
+    </kui-splitter>
+  </div>
+</app-panel>
+
+<app-panel
+  num="05"
+  title="Nested splitters (IDE layout)"
+  description="Outer vertical split (top/terminal) containing an independent horizontal split (files/editor) in its top pane."
+>
+  <div class="splitter-demo splitter-demo--tall">
+    <kui-splitter orientation="vertical">
+      <kui-splitter-pane [size]="75" class="splitter-demo__pane splitter-demo__pane--nested">
+        <kui-splitter>
+          <kui-splitter-pane [size]="25" class="splitter-demo__pane splitter-demo__pane--sunken"
+            >Files</kui-splitter-pane
+          >
+          <kui-splitter-pane class="splitter-demo__pane">Editor</kui-splitter-pane>
+        </kui-splitter>
+      </kui-splitter-pane>
+      <kui-splitter-pane [minSize]="10" class="splitter-demo__pane splitter-demo__pane--sunken"
+        >Terminal</kui-splitter-pane
+      >
+    </kui-splitter>
+  </div>
+</app-panel>
+
+<app-panel
+  num="06"
+  title="Disabled"
+  description="Gutter is removed from tab order and ignores drag -- pane content stays interactive."
+>
+  <div class="splitter-demo">
+    <kui-splitter [disabled]="true">
+      <kui-splitter-pane class="splitter-demo__pane">A</kui-splitter-pane>
+      <kui-splitter-pane class="splitter-demo__pane">B</kui-splitter-pane>
+    </kui-splitter>
+  </div>
+</app-panel>

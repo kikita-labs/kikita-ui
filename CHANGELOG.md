@@ -10,6 +10,18 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Added
 
+- `KuiSplitterComponent` (`kui-splitter`) + `KuiSplitterPaneComponent` (`kui-splitter-pane`): a new
+  draggable multi-pane layout, built from Claude Design spec `08 Splitter.dc.html`, following the
+  W3C ARIA APG Window Splitter Pattern. `orientation` (`horizontal`/`vertical`, default
+  `horizontal`), `disabled`, and `(sizesChange)` on the splitter; `size` (optional initial share),
+  `minSize` (default `10`), and `collapsible` (first/last pane only) on each pane. Gutters are
+  created and positioned by the splitter itself (`ViewContainerRef.createComponent` + `Renderer2`
+  `insertBefore`, the same technique angular-split uses) since Angular content projection has no
+  declarative way to interleave generated elements between projected sibling panes -- deferred
+  until `afterNextRender` specifically to avoid an `NG0500` hydration mismatch against the
+  gutter-free server-rendered DOM. Supports 2+ panes (each gutter only resizes the two panes
+  touching it), nested splitters, and pointer drag + full keyboard (arrows/Shift-large-step/
+  Home/End/Enter/Escape). No `[kuiSplitterThumb]` custom-thumb projection yet -- documented gap.
 - `KuiCarouselComponent` (`kui-carousel`) + `KuiCarouselSlideDirective` (`[kuiCarouselSlide]`): a
   new horizontal slide strip, built from Claude Design spec `07 Carousel.dc.html`. The track is
   native scroll + `scroll-snap`, scrolled programmatically to the current slide rather than a

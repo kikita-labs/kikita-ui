@@ -197,6 +197,24 @@
   slide. No responsive per-breakpoint `itemsPerView` and no size/compact prop for the whole
   component -- matching every researched kit (Ant Design, NG-ZORRO, PrimeNG/PrimeVue/PrimeReact,
   Taiga UI), Prev/Next/Play inherit size from the kit's own size/density DI context instead.)
+- Splitter (done as `kui-splitter` + `kui-splitter-pane`; new pattern (not among the 43 pre-existing
+  kit components), built from Claude Design spec `08 Splitter.dc.html`, following the W3C ARIA APG
+  Window Splitter Pattern. `orientation` (`horizontal`/`vertical`, default `horizontal`),
+  `disabled`, `(sizesChange)`; per-pane `size` (optional initial share), `minSize` (default `10`),
+  `collapsible` (first/last pane only, one-touch button + Enter). Gutters are not written by the
+  consumer -- the splitter creates and positions one internal gutter component per adjacent pane
+  pair via `ViewContainerRef.createComponent` + `Renderer2.insertBefore` (the same technique
+  angular-split uses), since Angular content projection cannot declaratively interleave generated
+  elements between projected sibling components. That insertion is deferred to `afterNextRender`
+  specifically -- doing it synchronously in the constructor made Angular's hydration reconciliation
+  see gutter elements the gutter-free server-rendered DOM didn't have, throwing `NG0500`; pane
+  `flex-basis` sizing (via `calc()` against the gutters' fixed pixel width, always summing to
+  exactly 100%) is still computed on both server and client. Supports 2+ panes (each gutter clamps
+  and resizes only the two panes touching it, no cascading), nested splitters (no special API, each
+  instance measures only its own immediate container), and full pointer-drag + keyboard (arrows,
+  Shift for a 10% step, Home/End, Enter, Escape to cancel an active drag). No `[kuiSplitterThumb]`
+  custom-thumb projection (would need relocating a projected DOM node into the adjacent gutter) and
+  no size persistence between sessions -- explicit design-spec/iteration scope cuts.)
 
 ## Later
 

@@ -223,5 +223,9 @@ export const routes: Routes = [
     path: 'carousel',
     loadComponent: () => import('./pages/carousel/carousel.page').then((m) => m.CarouselPage),
   },
+  {
+    path: 'splitter',
+    loadComponent: () => import('./pages/splitter/splitter.page').then((m) => m.SplitterPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

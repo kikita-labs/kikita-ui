@@ -39,6 +39,7 @@ export * from './select';
 export * from './separator';
 export * from './skeleton';
 export * from './slider';
+export * from './splitter';
 export * from './stepper';
 export * from './switch';
 export * from './table';
