@@ -171,6 +171,12 @@ describe('KuiTimePickerDirective', () => {
    */
   it('lets AM/PM be typed one character at a time, auto-inserting the leading space', () => {
     fixture.componentInstance.format.set('12h');
+    // `parseDisplayTime` defaults an omitted AM/PM suffix from `base`'s own period, and `base`
+    // falls back to the real wall-clock `new Date()` when `value` is unset (see
+    // `handleInput`/`parseDisplayTime`'s doc) -- pinning `value` to a fixed AM instant up front
+    // makes the "digits alone default to AM" assertion below deterministic regardless of what
+    // time of day this test actually runs at (found flaky: it failed for real after 12:00 PM).
+    fixture.componentInstance.value.set(new Date(2024, 0, 1, 3, 0));
     fixture.detectChanges();
 
     const input = getInput();
