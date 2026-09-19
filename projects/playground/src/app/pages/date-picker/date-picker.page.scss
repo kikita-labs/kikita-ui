@@ -4,8 +4,12 @@
 }
 
 .date-picker-page__field--wide {
-  max-inline-size: 100%;
-  inline-size: 640px;
+  // A flex-item `kui-field` (`.state-board__row` is `display: flex`) with a fixed `inline-size`
+  // does not reliably respect a separate `max-inline-size: 100%` -- the row itself grows to fit
+  // the 640px item instead of clamping it, overflowing the page at narrow widths. A single
+  // `min()` avoids that flex-basis/max-width interaction entirely: the browser picks the smaller
+  // of the two candidates per-item, with no separate clamp pass to disagree with the flex sizing.
+  inline-size: min(640px, 100%);
 }
 
 .pg-snippet {

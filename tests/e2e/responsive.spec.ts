@@ -13,6 +13,7 @@ const routes = [
   '/dialog',
   '/table',
   '/pagination',
+  '/date-picker',
   '/time-picker',
   '/link',
   '/chart',
