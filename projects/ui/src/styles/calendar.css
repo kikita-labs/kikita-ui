@@ -232,7 +232,7 @@
     font-size: var(--kui-text-xs-size);
   }
   .kui-calendar[data-kui-size='sm'] .kui-calendar-weekday {
-    font-size: 9px;
+    font-size: var(--kui-text-2xs-size);
   }
   .kui-calendar[data-kui-size='sm'][data-kui-flat] {
     padding: 0;

@@ -4,7 +4,7 @@
   }
 
   .kui-color-input__control {
-    font-family: var(--kui-font-mono, ui-monospace, SFMono-Regular, Consolas, monospace);
+    font-family: var(--kui-font-mono);
   }
 
   .kui-color-input__swatch {
@@ -209,7 +209,7 @@
     padding: 5px 6px;
     color: var(--kui-color-text);
     font: inherit;
-    font-family: var(--kui-font-mono, ui-monospace, SFMono-Regular, Consolas, monospace);
+    font-family: var(--kui-font-mono);
     font-size: var(--kui-text-xs-size);
     background: var(--kui-input-bg, var(--kui-color-surface));
     border: var(--kui-border-width-hairline) solid var(--kui-input-border, var(--kui-color-border));

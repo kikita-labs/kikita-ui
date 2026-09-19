@@ -77,7 +77,7 @@
 
   .kui-th__sort-button::after {
     content: ' \2195';
-    font-size: 9px;
+    font-size: var(--kui-text-2xs-size);
     opacity: 0.35;
   }
 

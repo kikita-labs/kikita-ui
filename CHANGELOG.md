@@ -238,6 +238,12 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 - `kui-calendar`'s value display used a hardcoded `monospace` font instead of
   `--kui-font-mono`.
+- Removed redundant hardcoded fallback chains in `var(--kui-font-mono, ...)`/
+  `var(--kui-font-sans, ...)` (`kui-color-input`, `kui-tooltip`, `kui-dropdown`)
+  that duplicated the token's own value instead of relying on it.
+- Replaced hardcoded `font-size: 9px` with `--kui-text-2xs-size` in
+  `kui-calendar`, `kui-file-upload`, and `kui-table` (same value, now sourced
+  from the token instead of a duplicated literal).
 
 ### Changed
 
