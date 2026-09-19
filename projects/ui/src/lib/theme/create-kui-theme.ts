@@ -178,6 +178,19 @@ function createLightSemanticVariables(
     '--kui-avatar-p6-fg': 'oklch(0.25 0.11 220)',
     '--kui-avatar-p7-bg': 'oklch(0.87 0.08 260)',
     '--kui-avatar-p7-fg': 'oklch(0.25 0.13 260)',
+    '--kui-chart-series-1': 'oklch(0.56 0.18 285)',
+    '--kui-chart-series-2': 'oklch(0.55 0.11 190)',
+    '--kui-chart-series-3': 'oklch(0.58 0.17 25)',
+    '--kui-chart-series-4': 'oklch(0.55 0.13 145)',
+    '--kui-chart-series-5': 'oklch(0.58 0.18 350)',
+    '--kui-chart-series-6': 'oklch(0.62 0.15 75)',
+    '--kui-chart-series-7': 'oklch(0.54 0.14 215)',
+    '--kui-chart-series-8': 'oklch(0.64 0.15 55)',
+    '--kui-chart-grid-color': 'var(--kui-color-border)',
+    '--kui-chart-axis-label-color': 'var(--kui-color-text-secondary)',
+    '--kui-chart-tooltip-bg': 'var(--kui-color-surface-elevated)',
+    '--kui-chart-tooltip-text': 'var(--kui-color-text)',
+    '--kui-chart-tooltip-border': 'var(--kui-color-border)',
   };
 }
 
@@ -245,6 +258,19 @@ function createDarkSemanticVariables(
     '--kui-avatar-p6-fg': 'oklch(0.87 0.07 220)',
     '--kui-avatar-p7-bg': 'oklch(0.28 0.14 260)',
     '--kui-avatar-p7-fg': 'oklch(0.87 0.08 260)',
+    '--kui-chart-series-1': 'oklch(0.72 0.17 285)',
+    '--kui-chart-series-2': 'oklch(0.72 0.13 190)',
+    '--kui-chart-series-3': 'oklch(0.72 0.16 25)',
+    '--kui-chart-series-4': 'oklch(0.72 0.15 145)',
+    '--kui-chart-series-5': 'oklch(0.72 0.17 350)',
+    '--kui-chart-series-6': 'oklch(0.75 0.15 75)',
+    '--kui-chart-series-7': 'oklch(0.70 0.13 215)',
+    '--kui-chart-series-8': 'oklch(0.78 0.15 55)',
+    '--kui-chart-grid-color': 'var(--kui-color-border)',
+    '--kui-chart-axis-label-color': 'var(--kui-color-text-secondary)',
+    '--kui-chart-tooltip-bg': 'var(--kui-color-surface-elevated)',
+    '--kui-chart-tooltip-text': 'var(--kui-color-text)',
+    '--kui-chart-tooltip-border': 'var(--kui-color-border)',
   };
 }
 
@@ -879,6 +905,14 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-timepicker-cell-text-selected': 'var(--kui-color-on-fill)',
     '--kui-timepicker-cell-bg-hover': 'var(--kui-color-surface-sunken)',
     '--kui-timepicker-affordance-size': '20px',
+    '--kui-chart-height-sm': '160px',
+    '--kui-chart-height-md': '240px',
+    '--kui-chart-height-lg': '320px',
+    '--kui-chart-stroke-width': '2px',
+    '--kui-chart-point-radius': '4px',
+    '--kui-chart-bar-radius': 'var(--kui-radius-xs)',
+    '--kui-chart-donut-thickness': '28px',
+    '--kui-chart-tooltip-radius': 'var(--kui-radius-md)',
   };
 }
 

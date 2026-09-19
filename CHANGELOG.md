@@ -10,6 +10,79 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Added
 
+- `KuiLineChartComponent` (`kui-line-chart`), `KuiBarChartComponent` (`kui-bar-chart`),
+  `KuiScatterChartComponent` (`kui-scatter-chart`), and `KuiDonutChartComponent`
+  (`kui-donut-chart`): a new SVG chart family, built from Claude Design spec `09 Chart.dc.html`.
+  Built ahead of the roadmap's original "wait for a real consumer" gate for Charts because a real
+  consumer need now exists. Thin, type-specific public components share one internal engine (scale
+  math, tooltip, keyboard navigation, alt-table) rather than one "kitchen-sink" component with a
+  `type` prop -- the GitLab UI Pajamas architecture reference, though its own charts wrap ECharts,
+  not a hand-rolled SVG renderer like this one (SVG was chosen specifically for native
+  accessibility: every point/bar/slice is a real, focusable DOM node). `kui-line-chart`: `area`
+  boolean (not a separate type). `kui-bar-chart`: `orientation` (`vertical`/`horizontal`, flips
+  on-screen placement only -- `axes.x`/`axes.y` stay semantic) and `stacked` (diverging
+  positive/negative stacking, like D3's `stackOffsetDiverging`; uniquely among the four types,
+  hiding a series through the legend recomputes the stacked value-axis domain, since a collapsed
+  stack's height genuinely changes). `kui-scatter-chart`: no `categories` input -- both axes are
+  independent numeric domains from the data's own extent, deliberately not forced through `0`
+  (unlike the other three types) since scatter plots typically correlate two unrelated measures;
+  `bubble` boolean reads unscaled `r` from each point (Chart.js precedent), and every point/bubble
+  gets an invisible hit-target circle at least 10 viewBox units in radius, layered under the
+  (possibly much smaller) visible dot, for touch/pointer precision. `kui-donut-chart`: `slices`
+  input replaces `series`; hiding a slice through the legend recomputes the remaining slices'
+  shares and re-partitions the circle, the same "looks like the hidden item was never there" rule
+  every other chart type's legend-hide behavior follows; a ring, not a filled disc (60% fixed
+  inner-radius ratio); a single 100%-share slice renders as a true two-circle ring rather than an
+  arc wedge, since SVG's arc command cannot close a full-circle arc seamlessly; no center text/sum,
+  deferred, not invented, since no design source specifies one. Shared across all four:
+  `series[].color`/`slices[].color` is optional, defaulting to a round-robin over eight literal
+  `--kui-chart-series-*` theme tokens (a real categorical palette, distinct per light/dark theme,
+  not aliases of existing semantic colors); the hover/focus tooltip is one shared CDK-overlay
+  instance retargeted between marks (via CDK's public
+  `FlexibleConnectedPositionStrategy.setOrigin()`), not an overlay per mark; on pointer hover it
+  follows the cursor (`pointermove` retargets the overlay to a virtual `{x, y}` viewport-point
+  origin, not the hovered mark's own element -- a donut slice's bounding box can be far from its
+  visible wedge, so all four chart types anchor pointer interactions to the cursor instead);
+  keyboard focus still anchors to the focused mark's element. `kui-bar-chart`: only the end of a
+  bar actually away from the axis rounds (`--kui-chart-bar-radius`) -- every stacked segment's
+  internal seam, and every bar's axis-touching end, stays square; rounding every corner uniformly
+  cut visible notches into stacked bars' internal joins. `kui-line-chart`/`kui-scatter-chart`
+  marks grow (`transform: scale(1.4)`, centered on the mark itself) on pointer hover;
+  `kui-bar-chart` bars brighten (`filter: brightness(1.15)`) instead -- growing a bar would
+  overlap its axis/grid/stack neighbors, which a point-like mark never has to worry about. On
+  touch, tapping a mark pins the tooltip open (it stays up until an outside tap, `Escape`, or
+  tapping a different mark, instead of the hover-follow model's `pointerleave`-hides-it, since a
+  touch `pointerleave` fires almost immediately on release); the tooltip also now always renders
+  at phone-narrow viewports (previously hidden by the same CSS rule that suppresses a purely
+  decorative hover tooltip below 768px -- a chart tooltip is the primary way to read a value, not
+  decorative). Hovering a mark/slice or its legend entry cross-highlights the other; `sm`/`md`/`lg` sizes set the SVG's nominal
+  `viewBox` dimensions, scaled responsively by pure CSS (`width:100%;height:auto` +
+  `preserveAspectRatio="xMidYMid meet"`) with no `ResizeObserver`/client-side width measurement; a
+  shape-appropriate skeleton loading placeholder per type (a wavy-sparkline dot trail for
+  `kui-line-chart`, a scattered dot cluster for `kui-scatter-chart`, a shimmering ring for
+  `kui-donut-chart`, a var-height bar silhouette matching a Claude Design reference for
+  `kui-bar-chart`) instead of a generic spinner; a shared dashed-border empty-state composition
+  (from that same reference, not the kit's own `kui-empty-state`, whose anatomy doesn't match); an
+  accessible alt-table with exact (not compact-formatted) values behind a "Table" toggle; and
+  roving-tabindex keyboard navigation (arrows/Home/End) with `role="graphics-symbol img"` per
+  WAI-ARIA Graphics Module guidance on every mark. `null`/`NaN`/`Infinity` in cartesian series data
+  are gaps, never silently drawn as `0`. `KuiDonutChartComponent`, hiding a slice through the
+  legend recomputes the remaining shares and re-partitions the circle (a single 100%-share slice
+  renders as a seamless two-circle ring rather than an unclosable arc wedge); the re-partition
+  animates as an actual sweep around the rim -- each slice's shape (`d`, always drawn in its own
+  local frame starting at angle `0`) and position (a separate `rotate(deg cx cy)` transform) are
+  two independent CSS transitions, not one interpolated path string, since browsers interpolate
+  `d` by linearly interpolating coordinates in a straight line, which visibly cuts through the
+  donut's interior for a large repositioning instead of sweeping around it. Stacked `kui-bar-chart`
+  bars also transition `x`/`y`/`width`/`height` smoothly on their own hide-recompute, instead of
+  jumping straight to the new geometry. `KuiChartLegendComponent` (`kui-chart-legend`) and
+  `KuiChartLegendItemDirective` (`kuiChartLegendItem`): every `kui-*-chart` component implements a
+  new public `KuiChartLegendSource` interface (`legendItems`/`hoveredLegendId` signals,
+  `toggleLegendItem`/`setHoveredLegendId` methods), so `kui-chart-legend` can render a chart's
+  legend anywhere in the DOM instead of only inline, with a `kuiChartLegendItem`-projected
+  `<ng-template>` replacing its default markup for full custom rendering -- the "headless legend"
+  pattern common to chart libraries with external-legend support (amCharts, Recharts, MUI X
+  Charts).
 - `KuiSplitterComponent` (`kui-splitter`) + `KuiSplitterPaneComponent` (`kui-splitter-pane`): a new
   draggable multi-pane layout, built from Claude Design spec `08 Splitter.dc.html`, following the
   W3C ARIA APG Window Splitter Pattern. `orientation` (`horizontal`/`vertical`, default

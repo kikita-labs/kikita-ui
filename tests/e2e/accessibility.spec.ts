@@ -17,6 +17,7 @@ const routes = [
   '/pagination',
   '/time-picker',
   '/link',
+  '/chart',
 ];
 
 for (const route of routes) {

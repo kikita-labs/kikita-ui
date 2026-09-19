@@ -1,0 +1,291 @@
+@if (loading()) {
+  <div
+    class="kui-chart__loading-bars"
+    [style.height.px]="dimensions().height"
+    role="status"
+    aria-live="polite"
+    aria-label="Loading chart"
+  >
+    @for (top of loadingGridLineOffsets; track top) {
+      <div class="kui-chart__loading-bars-grid-line" [style.top.%]="top"></div>
+    }
+    <div class="kui-chart__loading-bars-axis-line kui-chart__loading-bars-axis-line--x"></div>
+    <div class="kui-chart__loading-bars-axis-line kui-chart__loading-bars-axis-line--y"></div>
+    @for (height of loadingBarHeights; track $index) {
+      <div
+        kuiSkeleton
+        shape="square"
+        class="kui-chart__loading-bars-bar"
+        [style.height.%]="height"
+      ></div>
+    }
+  </div>
+} @else if (!hasData()) {
+  <div class="kui-chart__empty" [style.height.px]="dimensions().height">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 19V5M4 19H20M8 15V11M12 15V7M16 15V12"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+    <span>No data</span>
+  </div>
+} @else {
+  <div
+    class="kui-chart__graphic"
+    role="graphics-document"
+    aria-roledescription="bar chart"
+    [attr.aria-label]="ariaLabel()"
+  >
+    @if (!showTable()) {
+      <svg
+        [attr.viewBox]="'0 0 ' + dimensions().width + ' ' + dimensions().height"
+        preserveAspectRatio="xMidYMid meet"
+        class="kui-chart__svg"
+      >
+        @if (showValueAxis() && showValueGrid()) {
+          <g class="kui-chart__grid">
+            @for (tick of valueTicks(); track tick) {
+              @if (isVertical()) {
+                <line
+                  [attr.x1]="paddingLeft()"
+                  [attr.x2]="dimensions().width - paddingRight"
+                  [attr.y1]="valueTickCoord(tick)"
+                  [attr.y2]="valueTickCoord(tick)"
+                  class="kui-chart__grid-line"
+                />
+              } @else {
+                <line
+                  [attr.x1]="valueTickCoord(tick)"
+                  [attr.x2]="valueTickCoord(tick)"
+                  [attr.y1]="8"
+                  [attr.y2]="dimensions().height - paddingBottom"
+                  class="kui-chart__grid-line"
+                />
+              }
+            }
+          </g>
+        }
+        @if (showCategoryAxis() && showCategoryGrid()) {
+          <g class="kui-chart__grid">
+            @for (index of categoryTickIndices(); track index) {
+              @if (isVertical()) {
+                <line
+                  [attr.x1]="categoryTickCoord(index)"
+                  [attr.x2]="categoryTickCoord(index)"
+                  [attr.y1]="8"
+                  [attr.y2]="dimensions().height - paddingBottom"
+                  class="kui-chart__grid-line"
+                />
+              } @else {
+                <line
+                  [attr.x1]="paddingLeft()"
+                  [attr.x2]="dimensions().width - paddingRight"
+                  [attr.y1]="categoryTickCoord(index)"
+                  [attr.y2]="categoryTickCoord(index)"
+                  class="kui-chart__grid-line"
+                />
+              }
+            }
+          </g>
+        }
+
+        @if (showValueAxis()) {
+          @if (isVertical()) {
+            <line
+              [attr.x1]="paddingLeft()"
+              [attr.x2]="paddingLeft()"
+              [attr.y1]="8"
+              [attr.y2]="dimensions().height - paddingBottom"
+              class="kui-chart__axis-line"
+            />
+            @for (tick of valueTicks(); track tick) {
+              <text
+                [attr.x]="paddingLeft() - 4"
+                [attr.y]="valueTickCoord(tick)"
+                class="kui-chart__axis-text kui-chart__axis-text--y"
+              >
+                {{ formatValue(tick) }}
+              </text>
+            }
+          } @else {
+            <line
+              [attr.x1]="paddingLeft()"
+              [attr.x2]="dimensions().width - paddingRight"
+              [attr.y1]="dimensions().height - paddingBottom"
+              [attr.y2]="dimensions().height - paddingBottom"
+              class="kui-chart__axis-line"
+            />
+            @for (tick of valueTicks(); track tick) {
+              <text
+                [attr.x]="valueTickCoord(tick)"
+                [attr.y]="dimensions().height - 8"
+                class="kui-chart__axis-text kui-chart__axis-text--x"
+                [class.kui-chart__axis-text--edge-start]="tick === valueTicks()[0]"
+                [class.kui-chart__axis-text--edge-end]="tick === valueTicks().at(-1)"
+              >
+                {{ formatValue(tick) }}
+              </text>
+            }
+          }
+        }
+        @if (showCategoryAxis()) {
+          @if (isVertical()) {
+            <line
+              [attr.x1]="paddingLeft()"
+              [attr.x2]="dimensions().width - paddingRight"
+              [attr.y1]="dimensions().height - paddingBottom"
+              [attr.y2]="dimensions().height - paddingBottom"
+              class="kui-chart__axis-line"
+            />
+            @for (index of categoryTickIndices(); track index) {
+              <text
+                [attr.x]="categoryTickCoord(index)"
+                [attr.y]="dimensions().height - 8"
+                class="kui-chart__axis-text kui-chart__axis-text--x"
+                [class.kui-chart__axis-text--edge-start]="index === categoryTickIndices()[0]"
+                [class.kui-chart__axis-text--edge-end]="index === categoryTickIndices().at(-1)"
+              >
+                {{ categories()[index] }}
+              </text>
+            }
+          } @else {
+            <line
+              [attr.x1]="paddingLeft()"
+              [attr.x2]="paddingLeft()"
+              [attr.y1]="8"
+              [attr.y2]="dimensions().height - paddingBottom"
+              class="kui-chart__axis-line"
+            />
+            @for (index of categoryTickIndices(); track index) {
+              <text
+                [attr.x]="paddingLeft() - 4"
+                [attr.y]="categoryTickCoord(index)"
+                class="kui-chart__axis-text kui-chart__axis-text--y"
+              >
+                {{ categories()[index] }}
+              </text>
+            }
+          }
+        }
+
+        <g
+          #barsGroup
+          class="kui-chart__marks"
+          (keydown)="onBarsKeydown($event)"
+          (pointerleave)="onBarsPointerLeave($event)"
+          (pointermove)="onBarsPointerMove($event)"
+          (focusout)="onBarsFocusOut($event, barsGroup)"
+        >
+          @for (bar of bars(); track bar.seriesId + ':' + bar.categoryIndex; let i = $index) {
+            <!--
+              Dimming (`.kui-chart__series--dimmed`) lives on this WRAPPING `<g>`, not on the
+              patch/bar individually -- SVG group opacity composites its children together first
+              and applies the alpha ONCE to the flattened result, unlike CSS opacity on two
+              separate overlapping elements, which multiplies (0.4 * 0.4 = 0.16 alpha where the
+              patch and bar overlap, vs 0.4 alone where only the bar covers), visibly two-toning
+              the bar into a brighter near-axis half and a darker far half (found from a user
+              screenshot).
+            -->
+            <g
+              [class.kui-chart__series--dimmed]="
+                hoveredSeriesId() && hoveredSeriesId() !== bar.seriesId
+              "
+            >
+              @if (bar.roundsFarEnd) {
+                <!--
+                  Drawn BEHIND the real bar, covering only its axis-side half, plain (no `rx`),
+                  same fill. `.kui-chart__bar`'s `rx` rounds all 4 corners; this patch shows
+                  through the two corners it rounds on the axis side, squaring them back off, so
+                  only the far-from-axis end (the real value end) reads as rounded -- rounding
+                  every corner looked broken on stacked bars, where it cut visible notches at
+                  internal segment joins (found from a user screenshot). Sized to half the bar's
+                  length, not the exact radius, so it doesn't need to know
+                  `--kui-chart-bar-radius`'s resolved pixel value (a CSS var, evaluated by the
+                  browser, not read back into this component's TS) -- every real radius token is
+                  far smaller than half of any bar worth rendering. `pointer-events: none` +
+                  `aria-hidden` -- purely cosmetic, never a hit target.
+                -->
+                <rect
+                  aria-hidden="true"
+                  class="kui-chart__bar-axis-patch"
+                  [attr.x]="bar.patchX"
+                  [attr.y]="bar.patchY"
+                  [attr.width]="bar.patchWidth"
+                  [attr.height]="bar.patchHeight"
+                  [style.fill]="bar.seriesColor"
+                />
+              }
+              <rect
+                #barRef
+                role="graphics-symbol img"
+                [attr.id]="chartId + '-bar-' + i"
+                [attr.aria-label]="markLabel(bar)"
+                [attr.tabindex]="i === focusedMarkIndex() ? 0 : -1"
+                [attr.x]="bar.x"
+                [attr.y]="bar.y"
+                [attr.width]="bar.width"
+                [attr.height]="bar.height"
+                [attr.rx]="bar.roundsFarEnd ? 'var(--kui-chart-bar-radius)' : null"
+                class="kui-chart__bar"
+                [style.fill]="bar.seriesColor"
+                [class.kui-chart__bar--hovered]="hoveredBarKey() === barKey(bar)"
+                (pointerenter)="onBarEnter(bar, $event, barsGroup)"
+                (focus)="onBarFocus(bar, i, barRef)"
+              />
+            </g>
+          }
+        </g>
+      </svg>
+    } @else {
+      <table kuiTable class="kui-chart__table">
+        <thead>
+          <tr kuiThGroup>
+            <th kuiTh>Category</th>
+            @for (s of visibleSeries(); track s.seriesId) {
+              <th kuiTh>{{ s.seriesName }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (category of categories(); track category; let categoryIndex = $index) {
+            <tr kuiRow [value]="category">
+              <td kuiCell>{{ category }}</td>
+              @for (s of visibleSeries(); track s.seriesId) {
+                <td kuiCell>{{ s.slots[categoryIndex]?.y ?? '—' }}</td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <div class="kui-chart__toolbar">
+    @if (legendEnabled()) {
+      <div class="kui-chart__legend">
+        @for (s of legendSeries(); track s.seriesId) {
+          <button
+            type="button"
+            class="kui-chart__legend-item"
+            [attr.aria-pressed]="!isSeriesHidden(s.seriesId)"
+            [class.kui-chart__legend-item--hidden]="isSeriesHidden(s.seriesId)"
+            [class.kui-chart__legend-item--active]="hoveredSeriesId() === s.seriesId"
+            (click)="toggleSeries(s.seriesId)"
+            (pointerenter)="!isSeriesHidden(s.seriesId) && hoveredSeriesId.set(s.seriesId)"
+            (pointerleave)="hoveredSeriesId.set(null)"
+          >
+            <span class="kui-chart__legend-swatch" [style.background]="s.seriesColor"></span>
+            {{ s.seriesName }}
+          </button>
+        }
+      </div>
+    }
+    <button kuiButton shape="outline" size="xs" type="button" (click)="showTable.set(!showTable())">
+      {{ showTable() ? 'Chart' : 'Table' }}
+    </button>
+  </div>
+}

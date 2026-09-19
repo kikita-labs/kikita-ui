@@ -1,0 +1,142 @@
+@if (loading()) {
+  <div
+    class="kui-chart__loading-ring"
+    role="status"
+    aria-live="polite"
+    aria-label="Loading chart"
+  >
+    <svg
+      [attr.viewBox]="'0 0 ' + dimensions().width + ' ' + dimensions().height"
+      preserveAspectRatio="xMidYMid meet"
+      class="kui-chart__svg"
+    >
+      @for (path of loadingWedgePaths(); track $index) {
+        <path [attr.d]="path" class="kui-chart__loading-ring-wedge"></path>
+      }
+    </svg>
+  </div>
+} @else if (!hasData()) {
+  <div class="kui-chart__empty" [style.height.px]="dimensions().height">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 19V5M4 19H20M8 15V11M12 15V7M16 15V12"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+    <span>No data</span>
+  </div>
+} @else {
+  <div
+    class="kui-chart__graphic"
+    role="graphics-document"
+    aria-roledescription="donut chart"
+    [attr.aria-label]="ariaLabel()"
+  >
+    @if (!showTable()) {
+      <svg
+        [attr.viewBox]="'0 0 ' + dimensions().width + ' ' + dimensions().height"
+        preserveAspectRatio="xMidYMid meet"
+        class="kui-chart__svg"
+      >
+        <g
+          #slicesGroup
+          class="kui-chart__marks"
+          (keydown)="onSlicesKeydown($event)"
+          (pointerleave)="onSlicesPointerLeave($event)"
+          (pointermove)="onSlicesPointerMove($event)"
+          (focusout)="onSlicesFocusOut($event, slicesGroup)"
+        >
+          @for (slice of renderedSlices(); track slice.sliceId; let i = $index) {
+            <!--
+              Rotation (position) lives on this wrapping `<g>`, set via `[attr.transform]` and
+              rewritten every animation frame during a hide/show re-partition (see
+              `KuiDonutChartComponent`'s `displayedShareById` doc) -- no CSS `transition` on it, or
+              it would fight the JS-driven tween.
+
+              Two `<path>`s share the same `d`, deliberately: the first is the real, untransformed
+              hit target (pointer/focus events, a11y attrs) -- it never moves. The second is a
+              `pointer-events: none` cosmetic twin that gets the hover pop-out `[style.transform]`.
+              Putting both hit-testing AND the pop-out transform on ONE element caused a real,
+              found-in-browser infinite flicker: hovering near the shared edge between two slices
+              pushed the hovered slice's own geometry out from under the cursor, which fired
+              `pointerleave`, which un-popped it, which put the cursor back over it, which fired
+              `pointerenter` again -- forever. A stable hit path the pop-out never touches can't
+              flicker like that.
+            -->
+            <g [attr.transform]="slice.rotateTransform">
+              <path
+                #markRef
+                role="graphics-symbol img"
+                [attr.id]="chartId + '-slice-' + i"
+                [attr.aria-label]="sliceLabel(slice)"
+                [attr.tabindex]="i === focusedMarkIndex() ? 0 : -1"
+                [attr.d]="slice.path"
+                [attr.fill-rule]="isSingleVisibleSlice() ? 'evenodd' : null"
+                class="kui-chart__slice-hit"
+                (pointerenter)="onSliceEnter(slice, $event, slicesGroup)"
+                (focus)="onSliceFocus(slice, i, markRef)"
+              />
+              <path
+                aria-hidden="true"
+                [attr.d]="slice.path"
+                [attr.fill-rule]="isSingleVisibleSlice() ? 'evenodd' : null"
+                [style.transform]="hoveredSliceId() === slice.sliceId ? slice.popOutTransform : null"
+                class="kui-chart__slice"
+                [class.kui-chart__slice--no-separator]="isSingleVisibleSlice()"
+                [style.fill]="slice.color"
+                [class.kui-chart__series--dimmed]="
+                  hoveredSliceId() && hoveredSliceId() !== slice.sliceId
+                "
+              />
+            </g>
+          }
+        </g>
+      </svg>
+    } @else {
+      <table kuiTable class="kui-chart__table">
+        <thead>
+          <tr kuiThGroup>
+            <th kuiTh>Label</th>
+            <th kuiTh>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (slice of legendSlices(); track slice.sliceId) {
+            <tr kuiRow [value]="slice">
+              <td kuiCell>{{ slice.label }}</td>
+              <td kuiCell>{{ slice.value }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <div class="kui-chart__toolbar">
+    @if (legendEnabled()) {
+      <div class="kui-chart__legend">
+        @for (slice of legendSlices(); track slice.sliceId) {
+          <button
+            type="button"
+            class="kui-chart__legend-item"
+            [attr.aria-pressed]="!isSliceHidden(slice.sliceId)"
+            [class.kui-chart__legend-item--hidden]="isSliceHidden(slice.sliceId)"
+            [class.kui-chart__legend-item--active]="hoveredSliceId() === slice.sliceId"
+            (click)="toggleSlice(slice.sliceId)"
+            (pointerenter)="!isSliceHidden(slice.sliceId) && hoveredSliceId.set(slice.sliceId)"
+            (pointerleave)="hoveredSliceId.set(null)"
+          >
+            <span class="kui-chart__legend-swatch" [style.background]="slice.color"></span>
+            {{ slice.label }}
+          </button>
+        }
+      </div>
+    }
+    <button kuiButton shape="outline" size="xs" type="button" (click)="showTable.set(!showTable())">
+      {{ showTable() ? 'Chart' : 'Table' }}
+    </button>
+  </div>
+}

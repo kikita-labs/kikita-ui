@@ -1,0 +1,371 @@
+<app-panel
+  num="01"
+  title="Default"
+  description="Single series, area off. Tab into the chart, then use arrow keys / Home / End."
+>
+  <div class="chart-demo">
+    <kui-line-chart
+      ariaLabel="Sessions per day"
+      [series]="singleSeries"
+      [categories]="categories"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="02"
+  title="Area"
+  description="Same data with area=true -- a visual flag, not a separate chart type."
+>
+  <div class="chart-demo">
+    <kui-line-chart
+      ariaLabel="Sessions per day (area)"
+      [series]="singleSeries"
+      [categories]="categories"
+      [area]="true"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="03"
+  title="Multiple series"
+  description="Legend appears automatically for more than one series. Click a legend item to hide/show that series; hover to highlight it on the chart."
+>
+  <div class="chart-demo">
+    <kui-line-chart
+      ariaLabel="Sessions and signups per day"
+      [series]="multiSeries"
+      [categories]="categories"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="04"
+  title="Gaps"
+  description="null values break the line instead of connecting across or drawing as zero."
+>
+  <div class="chart-demo">
+    <kui-line-chart
+      ariaLabel="Sessions per day with gaps"
+      [series]="gapSeries"
+      [categories]="categories"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="05"
+  title="Negative values"
+  description="The value axis always includes zero but does not clamp negative values."
+>
+  <div class="chart-demo">
+    <kui-line-chart
+      ariaLabel="Net change per day"
+      [series]="negativeSeries"
+      [categories]="categories"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="06"
+  title="Dense series (120 points)"
+  description="Tick labels thin automatically at high density. No built-in zoom/pan."
+>
+  <div class="chart-demo">
+    <kui-line-chart
+      ariaLabel="Sessions over 120 days"
+      [series]="denseSeries"
+      [categories]="denseCategories"
+      size="lg"
+    />
+  </div>
+</app-panel>
+
+<app-panel num="07" title="Loading" description="Skeleton placeholder instead of the chart.">
+  <div class="chart-demo">
+    <kui-line-chart
+      ariaLabel="Sessions per day"
+      [series]="singleSeries"
+      [categories]="categories"
+      [loading]="true"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="08"
+  title="Empty"
+  description="Empty or missing series always renders EmptyState, never a blank canvas."
+>
+  <div class="chart-demo">
+    <kui-line-chart ariaLabel="Sessions per day" [series]="emptySeries" [categories]="categories" />
+  </div>
+</app-panel>
+
+<app-panel
+  num="09"
+  title="Sizes"
+  description="Canvas height only: 200 / 280 / 360px for sm / md / lg."
+>
+  <div class="chart-demo chart-demo--stack">
+    <kui-line-chart
+      ariaLabel="Sessions per day, small"
+      [series]="singleSeries"
+      [categories]="categories"
+      size="sm"
+    />
+    <kui-line-chart
+      ariaLabel="Sessions per day, medium"
+      [series]="singleSeries"
+      [categories]="categories"
+      size="md"
+    />
+    <kui-line-chart
+      ariaLabel="Sessions per day, large"
+      [series]="singleSeries"
+      [categories]="categories"
+      size="lg"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="10"
+  title="Bar: default (vertical, grouped)"
+  description="Single series, MRR by plan."
+>
+  <div class="chart-demo">
+    <kui-bar-chart ariaLabel="MRR by plan" [series]="mrrSeries" [categories]="planCategories" />
+  </div>
+</app-panel>
+
+<app-panel
+  num="11"
+  title="Bar: grouped multi-series, negative values"
+  description="Side-by-side bars per category. Value axis always includes zero without clamping negatives."
+>
+  <div class="chart-demo">
+    <kui-bar-chart
+      ariaLabel="New vs churned by plan"
+      [series]="groupedSeries"
+      [categories]="planCategories"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="12"
+  title="Bar: stacked"
+  description="stacked=true. Hiding a series through the legend recomputes the stack height (unlike grouped/line, which keep the axis fixed)."
+>
+  <div class="chart-demo">
+    <kui-bar-chart
+      ariaLabel="Sessions, signups, purchases by plan"
+      [series]="stackedSeries"
+      [categories]="planCategories"
+      [stacked]="true"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="13"
+  title="Bar: horizontal"
+  description="orientation=horizontal flips on-screen placement only -- axes.x/y stay semantic."
+>
+  <div class="chart-demo">
+    <kui-bar-chart
+      ariaLabel="MRR by plan (horizontal)"
+      [series]="mrrSeries"
+      [categories]="planCategories"
+      orientation="horizontal"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="14"
+  title="Bar: horizontal stacked"
+  description="Both orientation and stacked apply together."
+>
+  <div class="chart-demo">
+    <kui-bar-chart
+      ariaLabel="Sessions, signups, purchases by plan (horizontal, stacked)"
+      [series]="stackedSeries"
+      [categories]="planCategories"
+      orientation="horizontal"
+      [stacked]="true"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="15"
+  title="Bar: loading"
+  description="Var-height skeleton silhouette, distinct from every other type's own shape-specific placeholder."
+>
+  <div class="chart-demo">
+    <kui-bar-chart
+      ariaLabel="MRR by plan"
+      [series]="mrrSeries"
+      [categories]="planCategories"
+      [loading]="true"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="16"
+  title="Scatter: default"
+  description="No categories input -- both axes are independent numeric domains from the data's own extent, not forced through zero."
+>
+  <div class="chart-demo">
+    <kui-scatter-chart ariaLabel="Age vs. income" [series]="scatterSeries" />
+  </div>
+</app-panel>
+
+<app-panel
+  num="17"
+  title="Scatter: multiple series"
+  description="Legend toggle works the same as line/bar."
+>
+  <div class="chart-demo">
+    <kui-scatter-chart ariaLabel="Age vs. sessions by plan" [series]="scatterMultiSeries" />
+  </div>
+</app-panel>
+
+<app-panel
+  num="18"
+  title="Bubble"
+  description="bubble=true reads r from each point as the visual radius (unscaled, Chart.js precedent) -- a boolean flag, not a separate chart type."
+>
+  <div class="chart-demo">
+    <kui-scatter-chart
+      ariaLabel="Age vs. income, bubble sized by plan value"
+      [series]="bubbleSeries"
+      [bubble]="true"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="19"
+  title="Scatter: loading / empty"
+  description="Scattered-dot loading skeleton, matching scatter's own visual language; same shared empty-state composition as every type."
+>
+  <div class="chart-demo chart-demo--stack">
+    <kui-scatter-chart ariaLabel="Age vs. income" [series]="scatterSeries" [loading]="true" />
+    <kui-scatter-chart ariaLabel="Age vs. income" [series]="emptyScatterSeries" />
+  </div>
+</app-panel>
+
+<app-panel
+  num="20"
+  title="Donut: default"
+  description="Click a legend item to hide a slice -- the remaining slices recompute and re-partition the circle, as if the hidden one was never there."
+>
+  <div class="chart-demo">
+    <kui-donut-chart ariaLabel="Plan mix" [slices]="planMixSlices" />
+  </div>
+</app-panel>
+
+<app-panel
+  num="21"
+  title="Donut: single slice"
+  description="Legend hidden by default for one slice, same as line/bar/scatter."
+>
+  <div class="chart-demo">
+    <kui-donut-chart ariaLabel="Single plan" [slices]="singleSlice" />
+  </div>
+</app-panel>
+
+<app-panel
+  num="22"
+  title="Donut: loading / empty"
+  description="Ring-shaped loading skeleton, matching the donut's own shape; same shared empty-state composition as every type."
+>
+  <div class="chart-demo chart-demo--stack">
+    <kui-donut-chart ariaLabel="Plan mix" [slices]="planMixSlices" [loading]="true" />
+    <kui-donut-chart ariaLabel="Plan mix" [slices]="emptySlices" />
+  </div>
+</app-panel>
+
+<app-panel
+  num="23"
+  title="Donut: sizes"
+  description="Canvas is square: 200 / 280 / 360px for sm / md / lg."
+>
+  <div class="chart-demo chart-demo--stack">
+    <kui-donut-chart ariaLabel="Plan mix, small" [slices]="planMixSlices" size="sm" />
+    <kui-donut-chart ariaLabel="Plan mix, medium" [slices]="planMixSlices" size="md" />
+    <kui-donut-chart ariaLabel="Plan mix, large" [slices]="planMixSlices" size="lg" />
+  </div>
+</app-panel>
+
+<app-panel
+  num="24"
+  title="Customization: custom tooltip text and custom series color"
+  description="The only extension points are the tooltip formatter (text still renders through the kit's Tooltip) and color on a series (any valid CSS color, same as ColorInput)."
+>
+  <div class="chart-demo">
+    <kui-bar-chart
+      ariaLabel="MRR by plan"
+      [series]="mrrCustomSeries"
+      [categories]="planCategories"
+      [tooltip]="formatMrrTooltip"
+    />
+  </div>
+</app-panel>
+
+<app-panel
+  num="25"
+  title="Custom legend: positioned outside the chart"
+  description="KuiChartLegendSource lets kui-chart-legend render the same legend data/interactions anywhere in the DOM -- here, in a sidebar to the right instead of the chart's own inline slot ([legend]=false suppresses that one)."
+>
+  <div class="chart-demo chart-demo--legend-sidebar">
+    <kui-line-chart
+      #sidebarLegendChart
+      ariaLabel="Sessions and signups per day"
+      [series]="multiSeries"
+      [categories]="categories"
+      [legend]="false"
+    />
+    <aside class="chart-demo__legend-sidebar">
+      <kui-chart-legend [chart]="sidebarLegendChart" />
+    </aside>
+  </div>
+</app-panel>
+
+<app-panel
+  num="26"
+  title="Custom legend: fully custom item markup"
+  description="A kuiChartLegendItem-marked ng-template replaces kui-chart-legend's own button markup entirely -- here, a swatch plus a percent-style value badge instead of just a label."
+>
+  <div class="chart-demo">
+    <kui-donut-chart
+      #customLegendDonut
+      ariaLabel="Plan mix"
+      [slices]="planMixSlices"
+      [legend]="false"
+    />
+    <kui-chart-legend [chart]="customLegendDonut">
+      <ng-template kuiChartLegendItem let-item let-hovered="hovered">
+        <button
+          type="button"
+          class="chart-demo__custom-legend-item"
+          [class.chart-demo__custom-legend-item--hovered]="hovered"
+          [class.chart-demo__custom-legend-item--hidden]="item.hidden"
+          (click)="customLegendDonut.toggleLegendItem(item.id)"
+          (pointerenter)="customLegendDonut.setHoveredLegendId(item.id)"
+          (pointerleave)="customLegendDonut.setHoveredLegendId(null)"
+        >
+          <span class="chart-demo__custom-legend-swatch" [style.background]="item.color"></span>
+          {{ item.label }}
+        </button>
+      </ng-template>
+    </kui-chart-legend>
+  </div>
+</app-panel>

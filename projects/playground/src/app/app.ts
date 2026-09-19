@@ -77,6 +77,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/media-viewer', label: 'Media Viewer' },
   { path: '/carousel', label: 'Carousel' },
   { path: '/splitter', label: 'Splitter' },
+  { path: '/chart', label: 'Chart' },
 ];
 
 @Component({

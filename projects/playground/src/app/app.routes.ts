@@ -227,5 +227,9 @@ export const routes: Routes = [
     path: 'splitter',
     loadComponent: () => import('./pages/splitter/splitter.page').then((m) => m.SplitterPage),
   },
+  {
+    path: 'chart',
+    loadComponent: () => import('./pages/chart/chart.page').then((m) => m.ChartPage),
+  },
   { path: '**', redirectTo: 'tokens' },
 ];

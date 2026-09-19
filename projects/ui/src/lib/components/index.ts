@@ -8,6 +8,7 @@ export * from './calendar';
 export * from './calendar-range';
 export * from './card';
 export * from './carousel';
+export * from './chart';
 export * from './checkbox';
 export * from './chip';
 export * from './color-input';

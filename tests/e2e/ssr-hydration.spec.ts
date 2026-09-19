@@ -13,6 +13,7 @@ const routes = [
   '/dialog',
   '/number-input',
   '/table',
+  '/chart',
 ];
 
 for (const route of routes) {

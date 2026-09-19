@@ -216,11 +216,117 @@
   custom-thumb projection (would need relocating a projected DOM node into the adjacent gutter) and
   no size persistence between sessions -- explicit design-spec/iteration scope cuts.)
 
+## Phase 9
+
+- Chart (in progress; built ahead of the original "wait for a real consumer" gate because a real
+  consumer need now exists. `kui-line-chart` done as of 2026-09-17 -- `area` boolean (not a
+  separate type/component), single/multiple `series`, legend toggle (does not recompute the
+  value-axis domain, matching the spec's stability requirement), `null`/`NaN`/`Infinity` treated as
+  gaps (never drawn as `0`), value axis always includes `0` without clamping negative values, `sm`/
+  `md`/`lg` sizes (canvas height fixed; width measured via `ResizeObserver` from `afterNextRender`
+  onward -- SSR and the first client render share a per-size nominal fallback so hydration still
+  reconciles, the same `afterNextRender` pattern `kui-splitter` uses for its own post-hydration DOM
+  work), dense-series (120-point) tick thinning, a centered `kuiLoader` spinner for the loading
+  state and a shared dashed-border/icon empty-state composition (from Claude Design
+  `02ec9aaf/40 Charts.dc.html`, common to every future chart type -- not the kit's
+  `kui-empty-state`/`Skeleton`, whose anatomy doesn't match that spec) for empty/missing data, an
+  alt-table with exact (non-compact) values, and roving-tabindex keyboard navigation
+  (arrows/Home/End) with `role="graphics-symbol img"` per point. A real browser pass (not just unit
+  tests, which stayed green throughout) found and fixed 4 bugs invisible to the test suite: a
+  missing default round-robin series color (marks/lines were invisible), a tooltip that recreated
+  its overlay on every adjacent-mark hover instead of retargeting one shared overlay (fixed by
+  moving pointerleave/focusout from each mark to the marks group), circular marks rendering as
+  ellipses (`preserveAspectRatio="none"` against a mismatched nominal viewBox width -- fixed by
+  actually adding the `ResizeObserver` sync instead of avoiding it), and an oversized fixed
+  y-axis-label padding. See `.local-notes/v2/chart-architecture-plan.md`'s 2026-09-17
+  browser-verification revision for the full detail. Tooltip reuses the kit's existing CDK-Overlay-backed
+  `KuiTooltipDirective` machinery directly (`createKuiTooltipOverlay`, widened to accept an
+  `SVGElement`/`Element` anchor, plus a new `retarget()` using CDK's public
+  `FlexibleConnectedPositionStrategy.setOrigin()`) -- one shared overlay retargeted between marks,
+  not a tooltip directive per point, and not a second tooltip primitive; a real WCAG 1.4.13 gap was
+  found in that shared directive's hover/focus mode while integrating it (not dismissible via
+  Escape, not hoverable) and filed separately below rather than patched inline, since it affects
+  every `[kuiTooltip]` consumer in the kit, not only Chart.
+
+  `kui-bar-chart` done as of 2026-09-17 -- `orientation` (`vertical`/`horizontal`, flips on-screen
+  placement only, `axes.x`/`axes.y` stay semantic), `stacked` (only meaningful with >1 series;
+  positive/negative values stack separately -- diverging, like D3's `stackOffsetDiverging`;
+  deliberately recomputes the value-axis domain on legend hide, unlike grouped mode and
+  `kui-line-chart`, since a collapsed stack's height genuinely changes), and its own var-height
+  skeleton-bar loading state (the only chart type with a design-sourced loading shape -- others
+  reuse kit primitives instead of inventing one). Extracted three genuinely shared units while
+  building it, once a second real consumer existed to verify they generalize (not designed ahead of
+  that need): `KuiChartTooltipController` (the retarget-not-recreate tooltip logic), a pure
+  `computeRovingIndex` keyboard-nav helper, and `observeChartWidth` (the guarded `ResizeObserver`
+  setup) -- `kui-line-chart` was refactored onto all three, so the tooltip-retarget bug class
+  found there cannot recur per-component. A second browser pass on `kui-bar-chart` before calling
+  it done caught one more real bug invisible to unit tests: horizontal orientation's category text
+  labels (e.g. "Enterprise") clipped against the fixed left padding sized for numeric value ticks --
+  fixed with an orientation-aware left padding, not a shared one.
+
+  `kui-scatter-chart` done as of 2026-09-17 -- no `categories` input (both axes are independent
+  numeric domains from the data's own `x`/`y` extent, deliberately **not** forced to include `0`,
+  unlike `kui-line-chart`/`kui-bar-chart` -- scatter plots typically correlate two independent
+  measures, and forcing a zero baseline on either axis would compress the interesting range;
+  matches D3/Chart.js scatter practice), `bubble` boolean (Chart.js precedent: bubble is scatter
+  plus an unscaled `r`, not a separate chart type), and a two-circle-per-point render (an invisible
+  hit-target circle at least 10 viewBox units in radius carrying the interactive/accessible
+  attributes, layered under an `aria-hidden` decorative dot at the actual radius) so a small
+  default dot or bubble stays easy to hover/tap precisely. Reused all three shared units
+  (`KuiChartTooltipController`, `computeRovingIndex`, `observeChartWidth`) from `kui-bar-chart`
+  without modification -- further confirming they generalize. A browser pass before calling it done
+  found no new bugs this time (unlike line's missing default color and bar's clipped horizontal
+  labels) -- the shared-unit extraction from Phase 5 is starting to pay off.
+
+  `kui-donut-chart` done as of 2026-09-17 -- all four public chart components now ship. No
+  `categories`/`axes` inputs (a donut has no axes); `slices: KuiChartSlice[]` (`{id?, label, value,
+color?}`) replaces `series`, negative `value` dropped during normalization. Hiding a slice
+  through the legend freezes the remaining slices' angles instead of re-partitioning the circle --
+  the canonical spec's Open Questions are explicit about this, and an earlier version of the shared
+  `computeDonutShares` function (written during Phase 1, before any chart component existed to
+  verify it against) got this backwards, excluding hidden slices from the total and recomputing
+  angles; caught and fixed before building this component, re-checking the spec text directly
+  rather than trusting the Phase 1 summary. A ring, not a filled disc (60% fixed inner-radius
+  ratio, not configurable in v1) -- matching the spec's own "donut" naming. No center text/sum: the
+  spec doesn't specify one and no design source dictates its appearance, so it stays deferred
+  rather than invented. Reused all three Phase 5 shared units without modification. A browser pass
+  before calling it done found one more real bug invisible to unit tests, of a kind not seen in the
+  first three types: a single 100%-share slice rendered nothing at all -- SVG's arc command cannot
+  draw a true 360-degree arc (the start/end points land on the same coordinates, which every
+  browser treats as a zero-length, invisible path), the same well-known limitation d3-shape's
+  `arc()` generator works around; fixed the same way, by nudging the angular span a fraction of a
+  degree short of a full circle when the slice spans one.
+
+  Thin type-specific public components composing a shared internal SVG engine (axis, legend,
+  tooltip, keyboard nav, alt table) was the target shape from the start, built via composition as
+  each type was added, not a deep inheritance chain and not pre-built ahead of a real consumer for
+  each type. Own SVG renderer, not a wrapped charting engine (GitLab UI Pajamas was the
+  architecture reference for the public-API split, not for engine cost -- their charts wrap
+  ECharts). See `.local-notes/v2/chart-architecture-plan.md` for the full design (data contracts,
+  scale/stacking math, missing-data handling, accessibility, SSR) and the phased implementation
+  checklist, including every correction made mid-implementation -- no abstract base classes for
+  shared inputs (no precedent anywhere else in the kit; inputs are flat per component instead), and
+  the donut hide-behavior fix above.)
+
 ## Later
 
-Do not build Charts until a real consumer needs it.
-
 ## Known Tech Debt
+
+- Committed visual-regression baselines for `/button`, `/field`, `/select`, `/dialog`, `/table`,
+  and `/calendar` (`tests/e2e/visual.spec.ts`) are stale on `release/2.x` as of 2026-09-17 --
+  `pnpm.cmd test:browser` fails all 24 desktop/mobile x light/dark combinations with page-height
+  diffs (confirmed unrelated to the Chart work in this phase: reproduces identically with the
+  Chart playground nav entry reverted). Needs its own investigation (likely accumulated layout
+  drift from unrelated changes) and a baseline re-record, not a quick patch.
+
+- `KuiTooltipDirective`'s hover/focus display mode is not fully WCAG 1.4.13 (Content on Hover or
+  Focus) compliant: Escape does not dismiss the tooltip in hover/focus mode (only the touch-tap
+  branch handles Escape, via `startTapDismissal`), and the tooltip surface is not hoverable
+  (moving the pointer from the anchor onto the tooltip itself dismisses it instead of keeping it
+  open). Found 2026-09-17 while integrating the chart component's tooltip (Phase 9, see
+  `.local-notes/v2/chart-architecture-plan.md` section 7); affects every existing `[kuiTooltip]`
+  consumer in the kit, not only Chart. Deferred as its own fix -- needs its own test pass across
+  hover/focus/touch modes before changing shared directive behavior.
 
 - ~~`kui-dropdown` injects `NgZone`...~~ Done 2026-07-10: removed `NgZone` from `kui-dropdown`,
   `kui-menu`, `kui-popover`, and the shared `wireFloatingPanelDismissal`/`kui-floating-panel.util`
