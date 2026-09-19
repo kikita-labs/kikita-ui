@@ -143,13 +143,13 @@
           (pointermove)="onMarksPointerMove($event)"
           (focusout)="onMarksFocusOut($event, marksGroup)"
         >
-          @for (mark of marks(); track $index; let i = $index) {
+          @for (mark of marks(); track $index) {
             <circle
               #markRef
               role="graphics-symbol img"
-              [attr.id]="chartId + '-mark-' + i"
+              [attr.id]="chartId + '-mark-' + $index"
               [attr.aria-label]="markLabel(mark)"
-              [attr.tabindex]="i === focusedMarkIndex() ? 0 : -1"
+              [attr.tabindex]="$index === focusedMarkIndex() ? 0 : -1"
               [attr.cx]="mark.x"
               [attr.cy]="mark.y"
               [attr.r]="hitRadius(mark)"
@@ -157,8 +157,8 @@
               [class.kui-chart__series--dimmed]="
                 hoveredSeriesId() && hoveredSeriesId() !== mark.seriesId
               "
-              (pointerenter)="onMarkEnter(mark, i, $event, marksGroup)"
-              (focus)="onMarkFocus(mark, i, markRef)"
+              (pointerenter)="onMarkEnter(mark, $index, $event, marksGroup)"
+              (focus)="onMarkFocus(mark, $index, markRef)"
             />
             <circle
               aria-hidden="true"
@@ -170,7 +170,7 @@
               [class.kui-chart__series--dimmed]="
                 hoveredSeriesId() && hoveredSeriesId() !== mark.seriesId
               "
-              [class.kui-chart__mark--hovered]="hoveredMarkKey() === i"
+              [class.kui-chart__mark--hovered]="hoveredMarkKey() === $index"
             />
           }
         </g>

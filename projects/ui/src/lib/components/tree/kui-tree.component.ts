@@ -45,8 +45,8 @@ interface KuiTreeIndex {
   selector: 'kui-tree',
   imports: [KuiTreeNodeComponent],
   template: `
-    @for (root of data(); track root.id; let i = $index, c = $count) {
-      <kui-tree-node [node]="root" [level]="1" [setSize]="c" [posInset]="i + 1" />
+    @for (root of data(); track root.id) {
+      <kui-tree-node [node]="root" [level]="1" [setSize]="$count" [posInset]="$index + 1" />
     }
   `,
   host: {

@@ -180,7 +180,7 @@
           (pointermove)="onBarsPointerMove($event)"
           (focusout)="onBarsFocusOut($event, barsGroup)"
         >
-          @for (bar of bars(); track bar.seriesId + ':' + bar.categoryIndex; let i = $index) {
+          @for (bar of bars(); track bar.seriesId + ':' + bar.categoryIndex) {
             <!--
               Dimming (`.kui-chart__series--dimmed`) lives on this WRAPPING `<g>`, not on the
               patch/bar individually -- SVG group opacity composites its children together first
@@ -222,9 +222,9 @@
               <rect
                 #barRef
                 role="graphics-symbol img"
-                [attr.id]="chartId + '-bar-' + i"
+                [attr.id]="chartId + '-bar-' + $index"
                 [attr.aria-label]="markLabel(bar)"
-                [attr.tabindex]="i === focusedMarkIndex() ? 0 : -1"
+                [attr.tabindex]="$index === focusedMarkIndex() ? 0 : -1"
                 [attr.x]="bar.x"
                 [attr.y]="bar.y"
                 [attr.width]="bar.width"
@@ -234,7 +234,7 @@
                 [style.fill]="bar.seriesColor"
                 [class.kui-chart__bar--hovered]="hoveredBarKey() === barKey(bar)"
                 (pointerenter)="onBarEnter(bar, $event, barsGroup)"
-                (focus)="onBarFocus(bar, i, barRef)"
+                (focus)="onBarFocus(bar, $index, barRef)"
               />
             </g>
           }

@@ -44,7 +44,7 @@
           (pointermove)="onSlicesPointerMove($event)"
           (focusout)="onSlicesFocusOut($event, slicesGroup)"
         >
-          @for (slice of renderedSlices(); track slice.sliceId; let i = $index) {
+          @for (slice of renderedSlices(); track slice.sliceId) {
             <!--
               Rotation (position) lives on this wrapping `<g>`, set via `[attr.transform]` and
               rewritten every animation frame during a hide/show re-partition (see
@@ -65,14 +65,14 @@
               <path
                 #markRef
                 role="graphics-symbol img"
-                [attr.id]="chartId + '-slice-' + i"
+                [attr.id]="chartId + '-slice-' + $index"
                 [attr.aria-label]="sliceLabel(slice)"
-                [attr.tabindex]="i === focusedMarkIndex() ? 0 : -1"
+                [attr.tabindex]="$index === focusedMarkIndex() ? 0 : -1"
                 [attr.d]="slice.path"
                 [attr.fill-rule]="isSingleVisibleSlice() ? 'evenodd' : null"
                 class="kui-chart__slice-hit"
                 (pointerenter)="onSliceEnter(slice, $event, slicesGroup)"
-                (focus)="onSliceFocus(slice, i, markRef)"
+                (focus)="onSliceFocus(slice, $index, markRef)"
               />
               <path
                 aria-hidden="true"

@@ -134,8 +134,13 @@ import type { KuiTreeNode } from './kui-tree-node.interface';
 
     @if (expanded() && hasChildren()) {
       <div class="kui-tree-group" role="group">
-        @for (child of children(); track child.id; let i = $index, c = $count) {
-          <kui-tree-node [node]="child" [level]="level() + 1" [setSize]="c" [posInset]="i + 1" />
+        @for (child of children(); track child.id) {
+          <kui-tree-node
+            [node]="child"
+            [level]="level() + 1"
+            [setSize]="$count"
+            [posInset]="$index + 1"
+          />
         }
       </div>
     }

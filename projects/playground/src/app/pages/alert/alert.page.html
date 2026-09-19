@@ -18,12 +18,12 @@
   <div class="component-board">
     <div class="matrix-grid">
       <div class="matrix-grid__header"></div>
-      @for (shape of shapes; track shape; let first = $first) {
-        <div class="matrix-grid__header">{{ shape }}{{ first ? ' (default)' : '' }}</div>
+      @for (shape of shapes; track shape) {
+        <div class="matrix-grid__header">{{ shape }}{{ $first ? ' (default)' : '' }}</div>
       }
 
-      @for (appearance of appearances; track appearance; let first = $first) {
-        <span class="matrix-label">{{ appearance }}{{ first ? ' (default)' : '' }}</span>
+      @for (appearance of appearances; track appearance) {
+        <span class="matrix-label">{{ appearance }}{{ $first ? ' (default)' : '' }}</span>
         @for (shape of shapes; track shape) {
           @if (isOpen(appearance + '_' + shape)) {
             <kui-alert

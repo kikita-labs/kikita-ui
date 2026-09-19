@@ -68,24 +68,24 @@ const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
   selector: 'kui-otp-input',
   imports: [KuiInputDirective, KuiLoaderDirective],
   template: `
-    @for (char of cells(); track $index; let i = $index) {
+    @for (char of cells(); track $index) {
       <input
         kuiInput
         #cellEl
-        [id]="cellId(i)"
+        [id]="cellId($index)"
         [type]="mask() ? 'password' : 'text'"
         [attr.inputmode]="integerOnly() ? 'numeric' : 'text'"
-        [attr.autocomplete]="i === 0 ? 'one-time-code' : 'off'"
+        [attr.autocomplete]="$index === 0 ? 'one-time-code' : 'off'"
         [attr.maxlength]="1"
-        [attr.aria-label]="cellLabel(i)"
+        [attr.aria-label]="cellLabel($index)"
         class="kui-otp-input__cell"
         [size]="effectiveSize()"
         [invalid]="effectiveInvalid()"
         [disabled]="disabled() || loading()"
         [readOnly]="readOnly()"
         [value]="char"
-        (input)="onCellInput(i, $event)"
-        (keydown)="onCellKeydown(i, $event)"
+        (input)="onCellInput($index, $event)"
+        (keydown)="onCellKeydown($index, $event)"
         (paste)="onCellPaste($event)"
         (focus)="onCellFocus($event)"
       />

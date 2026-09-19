@@ -179,13 +179,13 @@
           (pointermove)="onMarksPointerMove($event)"
           (focusout)="onMarksFocusOut($event, marksGroup)"
         >
-          @for (mark of marks(); track mark.seriesId + ':' + mark.categoryIndex; let i = $index) {
+          @for (mark of marks(); track mark.seriesId + ':' + mark.categoryIndex) {
             <circle
               #markRef
               role="graphics-symbol img"
-              [attr.id]="chartId + '-mark-' + i"
+              [attr.id]="chartId + '-mark-' + $index"
               [attr.aria-label]="markLabel(mark)"
-              [attr.tabindex]="i === focusedMarkIndex() ? 0 : -1"
+              [attr.tabindex]="$index === focusedMarkIndex() ? 0 : -1"
               [attr.cx]="mark.x"
               [attr.cy]="mark.y"
               r="var(--kui-chart-point-radius)"
@@ -196,7 +196,7 @@
               "
               [class.kui-chart__mark--hovered]="hoveredMarkKey() === markKey(mark)"
               (pointerenter)="onMarkEnter(mark, $event, marksGroup)"
-              (focus)="onMarkFocus(mark, i, markRef)"
+              (focus)="onMarkFocus(mark, $index, markRef)"
             />
           }
         </g>
