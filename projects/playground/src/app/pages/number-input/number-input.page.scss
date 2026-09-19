@@ -13,7 +13,7 @@
   font-size: var(--kui-text-xs-size);
   font-weight: 600;
   color: var(--kui-color-text-secondary);
-  font-family: monospace;
+  font-family: var(--kui-font-mono);
   margin-bottom: var(--kui-space-2);
 }
 
@@ -34,7 +34,7 @@
 }
 
 .ni-mono {
-  font-family: monospace;
+  font-family: var(--kui-font-mono);
   font-size: var(--kui-text-xs-size);
   color: var(--kui-color-text-secondary);
 }

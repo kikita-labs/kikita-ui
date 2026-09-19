@@ -189,7 +189,7 @@
   .kui-calendar-value {
     font-size: var(--kui-text-xs-size);
     color: var(--kui-color-text-secondary);
-    font-family: monospace;
+    font-family: var(--kui-font-mono);
   }
 
   .kui-calendar-picker-grid {

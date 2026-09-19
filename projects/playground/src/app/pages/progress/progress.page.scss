@@ -32,13 +32,13 @@
   font-size: var(--kui-text-xs-size);
   font-weight: 600;
   color: var(--kui-color-text-secondary);
-  font-family: monospace;
+  font-family: var(--kui-font-mono);
 }
 
 .pr-row-label {
   font-size: var(--kui-text-xs-size);
   color: var(--kui-color-text-secondary);
-  font-family: monospace;
+  font-family: var(--kui-font-mono);
   white-space: nowrap;
 }
 

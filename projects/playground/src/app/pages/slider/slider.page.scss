@@ -12,7 +12,7 @@
 .sl-state-label {
   font-size: var(--kui-text-xs-size);
   font-weight: 600;
-  font-family: monospace;
+  font-family: var(--kui-font-mono);
   color: var(--kui-color-text-secondary);
   margin-bottom: 20px;
 }
@@ -43,7 +43,7 @@
 .sl-mono {
   font-size: var(--kui-text-xs-size);
   color: var(--kui-color-text-secondary);
-  font-family: monospace;
+  font-family: var(--kui-font-mono);
 }
 
 /* Field label */

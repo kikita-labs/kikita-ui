@@ -34,7 +34,7 @@
   line-height: 1.6;
 
   code {
-    font-family: monospace;
+    font-family: var(--kui-font-mono);
     font-size: var(--kui-text-xs-size);
     background: var(--kui-color-surface-elevated);
     padding: 1px 5px;

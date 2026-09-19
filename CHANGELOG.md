@@ -234,6 +234,11 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   the same month/year/decade grid, keyboard navigation, disabled-date, and locale behavior as
   `kui-calendar`, selecting a `KuiDateRange | null` start/end pair instead of a single date.
 
+### Fixed
+
+- `kui-calendar`'s value display used a hardcoded `monospace` font instead of
+  `--kui-font-mono`.
+
 ### Changed
 
 - `kui-accordion` configuration fields (`mode`, `appearance`, and `size`) and `kui-dropdown`'s
