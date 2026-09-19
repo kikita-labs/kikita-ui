@@ -1,10 +1,5 @@
 @if (loading()) {
-  <div
-    class="kui-chart__loading-wave"
-    role="status"
-    aria-live="polite"
-    aria-label="Loading chart"
-  >
+  <div class="kui-chart__loading-wave" role="status" aria-live="polite" aria-label="Loading chart">
     <svg
       [attr.viewBox]="'0 0 ' + dimensions().width + ' ' + dimensions().height"
       preserveAspectRatio="xMidYMid meet"
@@ -76,7 +71,13 @@
         <defs>
           @for (path of linePaths(); track path.seriesId) {
             @if (path.areaD) {
-              <linearGradient [attr.id]="chartId + '-area-' + path.seriesId" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient
+                [attr.id]="chartId + '-area-' + path.seriesId"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
                 <stop offset="0%" [style.stop-color]="path.seriesColor" stop-opacity="0.35" />
                 <stop offset="100%" [style.stop-color]="path.seriesColor" stop-opacity="0" />
               </linearGradient>

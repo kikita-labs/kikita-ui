@@ -1,10 +1,5 @@
 @if (loading()) {
-  <div
-    class="kui-chart__loading-ring"
-    role="status"
-    aria-live="polite"
-    aria-label="Loading chart"
-  >
+  <div class="kui-chart__loading-ring" role="status" aria-live="polite" aria-label="Loading chart">
     <svg
       [attr.viewBox]="'0 0 ' + dimensions().width + ' ' + dimensions().height"
       preserveAspectRatio="xMidYMid meet"
@@ -83,7 +78,9 @@
                 aria-hidden="true"
                 [attr.d]="slice.path"
                 [attr.fill-rule]="isSingleVisibleSlice() ? 'evenodd' : null"
-                [style.transform]="hoveredSliceId() === slice.sliceId ? slice.popOutTransform : null"
+                [style.transform]="
+                  hoveredSliceId() === slice.sliceId ? slice.popOutTransform : null
+                "
                 class="kui-chart__slice"
                 [class.kui-chart__slice--no-separator]="isSingleVisibleSlice()"
                 [style.fill]="slice.color"

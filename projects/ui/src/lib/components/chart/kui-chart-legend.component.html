@@ -3,7 +3,10 @@
     @if (itemTemplate(); as template) {
       <ng-container
         [ngTemplateOutlet]="template"
-        [ngTemplateOutletContext]="{ $implicit: item, hovered: chart().hoveredLegendId() === item.id }"
+        [ngTemplateOutletContext]="{
+          $implicit: item,
+          hovered: chart().hoveredLegendId() === item.id,
+        }"
       ></ng-container>
     } @else {
       <button
