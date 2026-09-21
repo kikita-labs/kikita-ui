@@ -115,10 +115,8 @@ export function computeStackedDomain(
  * `computeGroupedDomain`'s "hiding never recomputes the scale" rule for line/grouped-bar).
  * Deliberately does **not** force the domain to include `0`, unlike `computeGroupedDomain` --
  * scatter plots typically correlate two independent measures (e.g. age vs. income) where forcing
- * a zero baseline on either axis would compress the actually-interesting data range, the opposite
- * of what "always include 0" is for on a bar/line value axis. Matches typical scatter-plot
- * practice (D3, Chart.js scatter both use the data extent, not a forced zero) -- a deliberate
- * per-type deviation, not an oversight; see `docs/chart.md`.
+ * a zero baseline on either axis would compress the data range. This deliberate
+ * per-type deviation from cartesian charts is documented in `docs/chart.md`.
  */
 export function computeScatterDomain(
   series: readonly { readonly points: readonly { readonly x: number; readonly y: number }[] }[],
@@ -157,21 +155,13 @@ function trimTrailingZero(value: number): string {
 
 /**
  * Picks which category indices get a rendered tick label so labels do not overlap at high
- * density (the spec's 120-point demo). `minLabelWidth` is an estimate in the same units as
- * `availableWidth` (SVG viewBox units) -- both chart-provided, not measured per label; measuring
- * actual rendered label width is a v2 concern (see plan section 12.5).
+ * density. `minLabelWidth` is an estimate in the same SVG viewBox units as
+ * `availableWidth`; labels are not measured individually.
  *
  * The last index is always force-included (so the axis never silently drops its final category),
  * which the even `step` spacing above it does not account for -- the gap between the
- * second-to-last natural tick and the forced last one can land under `minLabelWidth`, and unlike
- * every other tick (anchored `middle`, splitting its width evenly on both sides), the first/last
- * tick anchor inward (`start`/`end` -- see `.kui-chart__axis-text--edge-start/-end` in
- * `chart.css`) so their *entire* label width pulls toward that neighbor, not just half of it.
- * Found by browser-checking the dense-series demo after adding the edge-anchor fix: the last two
- * labels visibly overlapped even though they looked correctly spaced by index alone. If the last
- * two indices would render closer than `minLabelWidth` apart, the second-to-last is dropped
- * instead -- simpler and more predictable than rotating text, and this library doesn't rotate
- * labels anywhere else.
+ * second-to-last natural tick and the forced last one can land under `minLabelWidth`.
+ * Edge labels anchor inward, so the second-to-last tick is dropped when that gap is too narrow.
  */
 export function thinTicks(
   categoryCount: number,

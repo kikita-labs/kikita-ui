@@ -49,18 +49,10 @@ const PADDING = 8;
  * a donut (a ring) from a pie (a filled disc), matching the spec's "donut", not "pie". */
 const INNER_RADIUS_RATIO = 0.6;
 
-/** Hover pop-out distance, in SVG viewBox units, along the hovered slice's bisector angle -- see
- * the Claude Design spec `02ec9aaf/40 Charts.dc.html`'s Hover section: "the hovered segment
- * shifts a few px from the center". */
+/** Hover pop-out distance in SVG viewBox units along the slice bisector. */
 const HOVER_POP_OUT = 6;
 
-/** Static share split for the loading skeleton's generic wedges -- decorative only, not derived
- * from any real data (the loading state has none yet). Four uneven shares read as "a donut chart
- * is loading" rather than a plain ring; a real `donutArcPath` per wedge (with the usual
- * `.kui-chart__slice`-style separator) gives a true transparent center for free, unlike an earlier
- * version that overlaid a `kuiSkeleton` circle with a second div guessing at the ambient page
- * background color to fake a hole -- that guess was visibly wrong (a flat gray disc, not a ring)
- * on a real page, found by browser-checking this exact demo. */
+/** Decorative loading-skeleton wedges; they do not represent data. */
 const LOADING_WEDGE_SHARES = [0.38, 0.27, 0.21, 0.14] as const;
 
 /** How long a hide/show re-partition animates, in ms. */

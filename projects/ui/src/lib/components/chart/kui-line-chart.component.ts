@@ -55,10 +55,8 @@ const SIZE_DIMENSIONS = {
 } as const;
 
 /**
- * Fixed plot-area padding, not measured against actual tick-label width -- a v1 simplification
- * (plan section 12.5). `left` is sized for the default compact formatter's typical output
- * (2-4 chars, e.g. `250`/`1.2K`); a consumer-supplied `valueFormat` producing much wider labels
- * can still clip against the plot area -- no dynamic measurement guards against that yet.
+ * Fixed plot-area padding for typical compact tick labels. Wider custom labels
+ * can clip because the chart does not measure text dynamically.
  */
 const PADDING = { top: 8, right: 8, bottom: 24, left: 28 };
 const MIN_TICK_LABEL_WIDTH = 48;
@@ -202,8 +200,7 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
 
   protected readonly legendEnabled = computed(() => this.legend() ?? this.series().length > 1);
 
-  /** Axis domain is computed from every series, including hidden ones -- hiding a series through
-   * the legend must not recompute the scale (see class doc / plan section 10 item 1). */
+  /** Axis domain includes hidden series so legend toggles do not move the scale. */
   private readonly domain = computed(() => computeGroupedDomain(this.normalizedSeries()));
   private readonly scale = computed(() => computeNiceScale(this.domain().min, this.domain().max));
 
@@ -230,9 +227,7 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
     this.normalizedSeries().filter((s) => !this.hiddenSeriesIds().has(s.seriesId)),
   );
 
-  /** Every series regardless of hidden state -- the legend must stay interactive for hidden
-   * series so the consumer can bring them back; "all hidden" is not the same state as
-   * `EmptyState` (plan section 12.4). */
+  /** Includes hidden series so the legend can restore them; all-hidden is not empty data. */
   protected readonly legendSeries = computed(() => this.normalizedSeries());
 
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
@@ -248,9 +243,7 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
   readonly hoveredLegendId: () => string | null = computed(() => this.hoveredSeriesId());
 
-  /** One rendered mark per non-gap slot of every visible series, in category-major order (all
-   * series' marks for category 0, then category 1, ...) -- matches left-to-right visual reading
-   * order for multi-series charts (plan section 12.6, order decided here). */
+  /** Non-gap visible marks in category-major order for keyboard navigation. */
   protected readonly marks = computed<readonly KuiLineChartMark[]>(() => {
     const series = this.visibleSeries();
     const result: KuiLineChartMark[] = [];

@@ -380,10 +380,9 @@ export class KuiPaginationComponent {
 }
 
 /**
- * Ports MUI Pagination's `usePagination` windowing algorithm: `siblingCount` pages around the
- * current page, `boundaryCount` pages pinned at each edge, collapsing to a single "ellipsis" slot
- * (with no page number of its own) wherever there's a gap, and collapsing entirely wherever the
- * gap would only ever have held one page.
+ * Builds the page window from `siblingCount` pages around the current page and
+ * `boundaryCount` pages at each edge. Gaps become ellipsis slots only when they
+ * conceal more than one page.
  */
 function computePageWindow(
   page: number,

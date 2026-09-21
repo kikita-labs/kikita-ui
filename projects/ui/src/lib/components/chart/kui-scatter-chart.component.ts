@@ -68,9 +68,7 @@ const LOADING_SCATTER_RATIOS = [
   { x: 0.92, y: 0.25 },
 ] as const;
 
-/** Default visual radius for a non-bubble point, and the minimum invisible hit-target radius for
- * every point/bubble -- a small visual dot (or a bubble smaller than this) would otherwise be
- * hard to hover/tap precisely (plan section 12.6's touch hit-area note). */
+/** Default visual radius and minimum invisible hit target for every point. */
 const DEFAULT_POINT_RADIUS = 3;
 const MIN_HIT_RADIUS = 10;
 
@@ -102,9 +100,8 @@ interface KuiScatterChartMark {
   encapsulation: ViewEncapsulation.None,
 })
 /**
- * Scatter/bubble chart. `bubble` is a boolean flag, not a separate component or chart type --
- * matches the Chart.js precedent (bubble is scatter plus an unscaled `r`), not a different data
- * model. See docs/chart.md for the shared contracts and design limitations.
+ * Scatter/bubble chart. `bubble` reads the unscaled `r` value from each point;
+ * it does not introduce a separate data model. See docs/chart.md for shared contracts.
  *
  * Unlike `kui-line-chart`/`kui-bar-chart`, there is no `categories` input -- both axes are
  * independent numeric domains computed from the data's own extent, **not** forced to include `0`

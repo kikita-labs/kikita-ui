@@ -384,8 +384,7 @@ export class KuiBarChartComponent implements KuiChartLegendSource {
 
   protected readonly valueTicks = computed(() => this.scale().ticks);
 
-  /** `axes.x`/`axes.y` stay semantic; only the drawn screen orientation of their grid lines
-   * flips with `orientation` (plan section 12.1). */
+  /** `axes.x`/`axes.y` stay semantic while orientation changes their screen placement. */
   protected readonly showCategoryAxis = computed(() => this.axes().x ?? true);
   protected readonly showValueAxis = computed(() => this.axes().y ?? true);
 

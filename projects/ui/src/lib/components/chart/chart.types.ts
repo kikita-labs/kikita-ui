@@ -52,10 +52,8 @@ export interface KuiChartScatterPoint {
   /** Position on the vertical axis, in the series' own data units. */
   readonly y: number;
   /**
-   * Bubble radius in SVG viewBox units -- it visually scales with the chart on container resize,
-   * unlike Chart.js's canvas-pixel `r`, which does not. Only read when `bubble` is `true`. The
-   * component does not clamp this value; the consumer is responsible for passing a radius that
-   * fits the plot area.
+   * Bubble radius in SVG viewBox units. Read only when `bubble` is `true`.
+   * The component does not clamp it; consumers must keep it within the plot area.
    */
   readonly r?: number;
 }
@@ -137,11 +135,8 @@ export interface KuiChartLegendItem {
  * fully custom legend. Set `[legend]="false"` on the chart to suppress its own inline legend when
  * using this instead, or the same data renders twice.
  *
- * Modeled after the "headless" legend pattern common to chart libraries that support external
- * legend containers (amCharts' external-container legends, Recharts' `Legend`/
- * `DefaultLegendContent` payload API, MUI X Charts' `ChartsWrapper` + `legendPosition`) -- the
- * chart exposes its legend data and hide/hover state as its own public API, and any renderer can
- * consume it, not just the chart's own built-in inline markup.
+ * Exposes legend data and hide/hover state for any external renderer, not only
+ * the chart's built-in inline markup.
  */
 export interface KuiChartLegendSource {
   /** Every series/slice, in series order, regardless of hidden state -- hidden items stay in the
