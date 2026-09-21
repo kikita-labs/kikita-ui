@@ -196,9 +196,8 @@ of `{appearance}-soft-*`:
 
 ## Known gaps
 
-- `title` is intentionally optional, unlike `kuiToast()` where it is required -- justified by
-  message-only usage in PrimeNG Messages and NG-ZORRO Alert. See Claude Design spec
-  `01 Alert.dc.html`'s open questions for the full rationale.
+- `title` is optional so a message-only notice does not require an artificial heading.
+  See [the preserved design decisions](design-provenance.md).
 - The close button's hit target is 28px (`kuiIconButton size="xs"`), below the 44px platform
   recommendation. This is an inherited kit limitation already present in `kuiToast()`, not
   something this component introduces or fixes.

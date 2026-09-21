@@ -65,15 +65,30 @@
 - Verify overlay trigger ARIA after open/close: `aria-controls` must point to an
   existing panel only while the panel exists.
 
+## Internal Typography Composition
+
+| Text responsibility                                               | Implementation                                                               |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Consumer-facing typography role, such as Link variant             | Compose `KuiTextDirective`, explicitly exposing only intended inputs         |
+| Component label with size, selection, disabled, or severity state | Use component/semantic CSS tokens; keep state colors owned by the component  |
+| Projected rich content                                            | Preserve consumer markup and native semantics; avoid automatic text wrappers |
+| SVG axes and marks                                                | Use SVG/CSS typography; do not add HTML text wrappers                        |
+
+`kuiText` applies both role and tone classes. Its default tone must not override
+selected, solid, disabled, or invalid text colors. Link exposes only `variant`;
+Link's own tone controls color. Do not override composed size/weight/line-height
+in the component layer. Heading semantics still require native heading elements.
+
+Do not add a directive to every internal string. Font-token normalization belongs
+to token maintenance and must preserve density, wrapping, zoom, and state contrast.
+
 ## Design Escalation
 
-Before implementing any new component, check `.local-notes/claude-design/design system/`
-for the matching component spec file, for example `02 Button.dc.html` or
-`19 Popover.dc (1).html`.
+Before new or changed visuals, follow `docs/design-provenance.md` and read the
+matching approved component design record. Local exports are optional authoring
+inputs; essential requirements and approval evidence must be available in the
+tracked record before implementation.
 
-If a component spec does not exist in `.local-notes/claude-design/design system/`
-or states, variants, tokens, layout, or visual behavior are unclear or missing,
-stop and tell the user. Do not invent a design.
-
-Designed components are added to `.local-notes/claude-design/design system/`
-before implementation begins.
+If states, variants, tokens, layout, visual behavior, or approval are missing or
+unclear, stop the affected visual work and report the gap. Existing source is
+not retroactive design approval. Do not invent a design.

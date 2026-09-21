@@ -107,9 +107,7 @@ interface KuiDonutChartSlice {
   encapsulation: ViewEncapsulation.None,
 })
 /**
- * Donut chart. Built from Claude Design spec `09 Chart.dc.html`; see
- * `.local-notes/v2/chart-architecture-plan.md` for the full design rationale, shared with
- * `kui-line-chart`/`kui-bar-chart`/`kui-scatter-chart`.
+ * Donut chart. See docs/chart.md for the shared contracts and design limitations.
  *
  * Unlike the cartesian chart types, there are no `categories`/`axes` inputs -- a donut has no
  * axes. Hiding a slice through the legend recomputes the remaining slices' shares/angles (the

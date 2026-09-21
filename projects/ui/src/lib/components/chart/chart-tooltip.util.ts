@@ -5,25 +5,10 @@ import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.ut
 import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
 
 /**
- * Owns the one shared tooltip overlay for a chart instance: `show()` creates it on the first
- * call and retargets/updates its text on every call after, `hide()` disposes it. Callers must
- * only call `hide()` when focus/hover leaves the whole marks group (not on every individual
- * mark's own leave/blur) -- a per-mark `hide()` call defeats retargeting by disposing and
- * recreating the overlay on every adjacent-mark hover (found and fixed in `kui-line-chart`
- * during browser verification; centralized here so `kui-bar-chart`/donut/scatter cannot repeat
- * it). See `.local-notes/v2/chart-architecture-plan.md`'s 2026-09-17 browser-verification
- * revision, item 2.
- *
- * The anchor is a `{x, y}` viewport point (the pointer position), not the hovered mark element --
- * a mark-as-anchor tooltip is pinned to that element's own `getBoundingClientRect`, which for a
- * keyboard-focused mark is exactly what you want, but for a mouse-hovered one means the tooltip
- * jumps to wherever CDK's connected-position logic puts it relative to that box (for a small
- * point-like mark, close to the cursor by coincidence; for a large or non-convex shape like a
- * donut slice's wedge, potentially nowhere near it -- see `KuiDonutChartComponent`'s doc). Callers
- * pass a mark element to `show`/`move` only for keyboard focus (see `showAt`); pointer interactions
- * pass the event's `{clientX, clientY}` instead, and `move` keeps that point updated on
- * `pointermove` so the tooltip visibly follows the cursor, matching common chart libraries'
- * hover-tooltip behavior (Chart.js, Highcharts).
+ * Reuses one overlay per chart while moving between marks. Dispose only when
+ * interaction leaves the marks group; per-mark disposal breaks retargeting.
+ * Pointer interactions use viewport coordinates so the tooltip follows the cursor.
+ * Keyboard focus uses the mark element as its anchor. See docs/chart.md.
  */
 /** `pointerType` values a touchscreen/stylus reports -- shared by every chart component to decide
  * between mouse-style hover-follow (`show`/`move`, hidden by `onXsPointerLeave`) and touch-style

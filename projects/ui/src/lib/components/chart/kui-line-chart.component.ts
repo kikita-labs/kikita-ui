@@ -44,19 +44,9 @@ import { isTouchPointerType, KuiChartTooltipController } from './chart-tooltip.u
 let nextLineChartId = 0;
 
 /**
- * Nominal plot dimensions per `size`, in SVG viewBox user units -- not a real measured pixel size.
- * The `<svg>` itself scales responsively by pure CSS (`width:100%;height:auto` with
- * `preserveAspectRatio="xMidYMid meet"`, matching the Claude Design spec
- * `02ec9aaf/40 Charts.dc.html`'s `.kui-chart` rule): the browser does the scaling, so there is no
- * `ResizeObserver`/`afterNextRender` measurement step and no post-hydration re-render. An earlier
- * version of this component measured the real container width on the client and re-rendered once
- * that landed -- it caused a visible "narrow, then snaps to full width" flicker on every page load
- * (the first paint used a fallback width, then jumped once `ResizeObserver` reported the real one)
- * and was pure over-engineering: nothing here actually needs the true pixel width, only a stable
- * aspect ratio. Tick-thinning (`thinTicks`) and font sizing are both computed against this nominal
- * width too, so they stay consistent with whatever the chart is actually scaled to -- the same
- * static-viewBox assumption the design spec itself makes (see `docs/chart.md`'s Known gaps: a
- * chart rendered much narrower than its nominal size can still under-thin ticks or look dense).
+ * Nominal SVG viewBox units; CSS preserves the aspect ratio without browser
+ * measurement or a post-hydration resize. Tick density uses this width, so much
+ * narrower rendered charts can crowd labels. See docs/chart.md for limits.
  */
 const SIZE_DIMENSIONS = {
   sm: { width: 320, height: 200 },
@@ -73,18 +63,11 @@ const SIZE_DIMENSIONS = {
 const PADDING = { top: 8, right: 8, bottom: 24, left: 28 };
 const MIN_TICK_LABEL_WIDTH = 48;
 
-/** Dot positions (fraction 0..1 of the loading placeholder's box) for the line-chart skeleton --
- * a static sparkline silhouette, not real data. Traces the same shape as the Claude Design spec
- * `02ec9aaf/40 Charts.dc.html`'s "sm" sparkline sample points, converted from its 280x90 viewBox to
- * fractions -- line/scatter/donut have no design-sourced loading visual (unlike `kui-bar-chart`,
- * see its `LOADING_BAR_HEIGHTS` doc), so each invents its own shape-appropriate placeholder instead
- * of falling back to a generic spinner. Fractions, not fixed percent-of-100 viewBox units, so the
- * `<svg>` can use the same real `dimensions()` viewBox (and `preserveAspectRatio="xMidYMid meet"`)
- * as the actual chart -- an earlier version used a fixed `0 0 100 100` viewBox with
- * `preserveAspectRatio="none"`, which stretched the dots into thin ellipses and, combined with the
- * default `--kui-color-skeleton-bg` contrast being subtle at a 2px stroke width, rendered as
- * essentially invisible on a real page (found by browser-checking this exact demo -- computed
- * styles all looked correct, the shapes were just too faint and distorted to read). */
+/**
+ * Decorative loading-wave positions as fractions of the nominal viewBox.
+ * Preserve its aspect ratio so circular dots do not stretch into ellipses.
+ * This placeholder has no recorded approved loading design; see docs/chart.md.
+ */
 const LOADING_WAVE_RATIOS = [
   { x: 0.036, y: 0.75 },
   { x: 0.2, y: 0.625 },
@@ -126,9 +109,8 @@ interface KuiLineChartMark {
 /**
  * Line/area chart. `area` is a boolean flag, not a separate component or chart type -- line and
  * area differ only in whether the area under the curve is filled; every other mechanic (axes,
- * legend, tooltip, keyboard navigation, alt-table) is identical. Built from Claude Design spec
- * `09 Chart.dc.html`; see `.local-notes/v2/chart-architecture-plan.md` for the full design
- * rationale (data contracts, scale math, missing-data handling, accessibility).
+ * legend, tooltip, keyboard navigation, alt-table) is identical. See docs/chart.md for data contracts,
+ * scale math, missing-data handling, accessibility, and design limitations.
  *
  * `null` values in a series' `data` are gaps -- the line breaks there instead of connecting
  * across, and the gap is never silently drawn as `0`. The value axis always includes `0` and is

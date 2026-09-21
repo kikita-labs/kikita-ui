@@ -19,8 +19,7 @@ interface KuiTooltipOverlayOptions {
    * latter for a mouse-following tooltip (`KuiChartTooltipController.move`), since anchoring to a
    * mark's own element bounding box breaks down for large/non-convex shapes (a donut slice's arc
    * can have a bounding box whose center lands nowhere near the visible wedge -- see
-   * `KuiDonutChartComponent`'s doc on why marks-as-anchor doesn't generalize). See
-   * `.local-notes/v2/chart-architecture-plan.md` section 7.
+   * `KuiDonutChartComponent`'s doc on why marks-as-anchor doesn't generalize). See docs/chart.md for the interaction contract.
    */
   readonly anchor: FlexibleConnectedPositionStrategyOrigin;
   readonly id?: string;

@@ -63,10 +63,7 @@ const MIN_TICK_LABEL_WIDTH = 48;
  * bar-chart spacing choice -- not measured or configurable in v1. */
 const BAND_GAP_FRACTION = 0.3;
 
-/** Var-height skeleton bar silhouette for the loading state -- from Claude Design spec
- * `02ec9aaf/40 Charts.dc.html`'s `.chart-skeleton` composition (the only chart type with a
- * design-sourced loading visual; other types reuse the kit's own primitives instead of
- * inventing a shape with no source -- see `docs/chart.md`). */
+/** Decorative bar heights in percent, retained from the original loading design. */
 const LOADING_BAR_HEIGHTS = [45, 70, 55, 85, 60, 90, 50, 75] as const;
 
 /** Grid-line top offsets (percent) behind the loading bar silhouette, so the loading state shows
@@ -118,9 +115,7 @@ interface KuiBarChartBar {
   encapsulation: ViewEncapsulation.None,
 })
 /**
- * Vertical or horizontal bar chart, grouped (default) or stacked. Built from Claude Design spec
- * `09 Chart.dc.html`; see `.local-notes/v2/chart-architecture-plan.md` for the full design
- * rationale, shared with `kui-line-chart`.
+ * Vertical or horizontal bar chart, grouped (default) or stacked. See docs/chart.md for the shared contracts and design limitations.
  *
  * `axes.x`/`axes.y` stay semantic (x = categories, y = values) regardless of `orientation` --
  * only the on-screen placement of the axes changes when `orientation="horizontal"`. Stacked mode

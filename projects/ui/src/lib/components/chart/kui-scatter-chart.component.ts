@@ -104,9 +104,7 @@ interface KuiScatterChartMark {
 /**
  * Scatter/bubble chart. `bubble` is a boolean flag, not a separate component or chart type --
  * matches the Chart.js precedent (bubble is scatter plus an unscaled `r`), not a different data
- * model. Built from Claude Design spec `09 Chart.dc.html`; see
- * `.local-notes/v2/chart-architecture-plan.md` for the full design rationale, shared with
- * `kui-line-chart`/`kui-bar-chart`.
+ * model. See docs/chart.md for the shared contracts and design limitations.
  *
  * Unlike `kui-line-chart`/`kui-bar-chart`, there is no `categories` input -- both axes are
  * independent numeric domains computed from the data's own extent, **not** forced to include `0`

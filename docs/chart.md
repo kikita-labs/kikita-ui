@@ -3,10 +3,7 @@
 Universal SVG chart family for product analytics: line, area, bar (vertical/horizontal,
 grouped/stacked), donut, and scatter/bubble share one internal engine (scale math, axes, legend,
 tooltip, keyboard navigation, alt-table) behind thin, type-specific public components -- not one
-kitchen-sink component with a `type` prop. New pattern, built from Claude Design spec
-`09 Chart.dc.html`. See `.local-notes/v2/chart-architecture-plan.md` for the full design rationale
-(data contracts, scale/stacking math, missing-data handling, accessibility, SSR) and the phased
-implementation checklist.
+kitchen-sink component with a `type` prop. The contract and limitations below describe current source. Historical design exports are not required to understand or use this API.
 
 **All four types are implemented:** `kui-line-chart`, `kui-bar-chart`, `kui-scatter-chart`,
 `kui-donut-chart`.
@@ -156,8 +153,7 @@ not part of the base renderer). Aggregate or paginate very dense series before p
 
 `size` (`sm` / `md` / `lg`, default `md`) sets the SVG's nominal `viewBox` dimensions (a fixed
 per-size width/height pair, not a real measured pixel size). The `<svg>` itself scales
-responsively by pure CSS (`width:100%;height:auto` with `preserveAspectRatio="xMidYMid meet"`,
-matching the Claude Design spec `02ec9aaf/40 Charts.dc.html`'s own `.kui-chart` rule) -- there is
+responsively by pure CSS (`width:100%;height:auto` with `preserveAspectRatio="xMidYMid meet"`) -- there is
 no `ResizeObserver`/client-side width measurement. An earlier version measured the real container
 width and re-rendered once that landed, which caused a visible "narrow, then snaps to full width"
 flicker on first paint; removed as unnecessary complexity, since nothing actually needs the true
@@ -176,11 +172,11 @@ gaps.
 `kui-line-chart` shows a wavy sparkline silhouette of shimmering dots, `kui-scatter-chart` shows a
 loose scattered dot cluster, `kui-donut-chart` shows a shimmering ring, and `kui-bar-chart` shows
 var-height bars (see its own section below) -- only the bar shape has an actual design source
-(Claude Design `02ec9aaf/40 Charts.dc.html`'s `.chart-skeleton`); the other three invent a
+(the original bar-chart design); the other three invent a
 shape-appropriate placeholder built from the kit's own `[kuiSkeleton]` primitive rather than
 falling back to a generic spinner. An empty or missing `series` (no non-gap value anywhere) always
 renders an empty-state composition (dashed border, faded chart icon, "No data" text) -- from that
-same `02ec9aaf` spec, shared across every chart type, not the kit's `kui-empty-state` (its anatomy
+original chart design, shared across every chart type, not the kit's `kui-empty-state` (its anatomy
 doesn't match this spec).
 
 ## Tooltip and value formatting
@@ -239,8 +235,7 @@ value-axis domain (the remaining stack collapses to its own height) -- the delib
 "hiding never recomputes the scale" that applies to `kui-line-chart` and grouped `kui-bar-chart`.
 Grouped mode keeps the axis fixed, same as line.
 
-**Loading** uses a var-height skeleton bar silhouette (from Claude Design
-`02ec9aaf/40 Charts.dc.html`'s `.chart-skeleton`) -- the only chart type whose loading shape has an
+**Loading** uses a var-height skeleton bar silhouette (from the original bar-chart design) -- the only chart type whose loading shape has an
 actual design source; the other three (see Loading / Empty above) invent their own.
 
 ## `kui-scatter-chart`
