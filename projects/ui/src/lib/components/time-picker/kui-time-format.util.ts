@@ -9,7 +9,8 @@ const RE_24H_HM = /^(\d{1,2}):(\d{2})$/;
 const RE_12H_HMS = /^(\d{1,2}):(\d{2}):(\d{2})\s*(AM|PM)?$/i;
 const RE_12H_HM = /^(\d{1,2}):(\d{2})\s*(AM|PM)?$/i;
 
-function pad(value: number): string {
+/** Formats a time field as a two-digit decimal value. */
+export function formatTwoDigits(value: number): string {
   return String(value).padStart(2, '0');
 }
 
@@ -53,7 +54,7 @@ export function maxTimeInputLength(format: KuiTimePickerFormat, showSeconds: boo
  */
 function clampDigitGroup(digits: string, max: number): string {
   if (digits.length < 2) return digits;
-  return pad(Math.min(Number(digits), max));
+  return formatTwoDigits(Math.min(Number(digits), max));
 }
 
 /**
@@ -103,16 +104,16 @@ export function formatDisplayTime(
   showSeconds: boolean,
 ): string {
   const hours = date.getHours();
-  const minutes = pad(date.getMinutes());
-  const seconds = showSeconds ? `:${pad(date.getSeconds())}` : '';
+  const minutes = formatTwoDigits(date.getMinutes());
+  const seconds = showSeconds ? `:${formatTwoDigits(date.getSeconds())}` : '';
 
   if (format === '12h') {
     const period = hours >= 12 ? 'PM' : 'AM';
     const hour12 = hours % 12 === 0 ? 12 : hours % 12;
-    return `${pad(hour12)}:${minutes}${seconds} ${period}`;
+    return `${formatTwoDigits(hour12)}:${minutes}${seconds} ${period}`;
   }
 
-  return `${pad(hours)}:${minutes}${seconds}`;
+  return `${formatTwoDigits(hours)}:${minutes}${seconds}`;
 }
 
 /**

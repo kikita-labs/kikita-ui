@@ -13,7 +13,7 @@ import {
 import { KuiButtonDirective } from '../button/kui-button.directive';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KuiSegmentDirective, KuiSegmentedComponent } from '../segmented';
-import { nearestStep } from './kui-time-format.util';
+import { formatTwoDigits, nearestStep } from './kui-time-format.util';
 import type { KuiTimePickerFormat, KuiTimePickerPeriod } from './kui-time-picker.types';
 
 /** @internal One selectable cell inside a `kui-time-picker-panel` column. */
@@ -31,10 +31,6 @@ interface KuiTimePickerColumn {
   readonly ariaLabel: string;
   readonly cells: readonly KuiTimePickerCell[];
   readonly apply: (value: number) => void;
-}
-
-function pad(value: number): string {
-  return String(value).padStart(2, '0');
 }
 
 function range(count: number, step: number): number[] {
@@ -311,7 +307,7 @@ export class KuiTimePickerPanelComponent {
         const h24 = format === '12h' ? (h % 12) + (this.period() === 'PM' ? 12 : 0) : h;
         return {
           value: h,
-          label: pad(h),
+          label: formatTwoDigits(h),
           id: `${this.instanceId}-hour-${h}`,
           selected: h === selectedHour,
           disabled: isHourDisabled(h24),
@@ -327,7 +323,7 @@ export class KuiTimePickerPanelComponent {
       ariaLabel: 'Minutes',
       cells: range(60, minuteStep).map((m) => ({
         value: m,
-        label: pad(m),
+        label: formatTwoDigits(m),
         id: `${this.instanceId}-minute-${m}`,
         selected: m === selectedMinute,
         disabled: isMinuteDisabled(m),
@@ -343,7 +339,7 @@ export class KuiTimePickerPanelComponent {
         ariaLabel: 'Seconds',
         cells: range(60, secondStep).map((s) => ({
           value: s,
-          label: pad(s),
+          label: formatTwoDigits(s),
           id: `${this.instanceId}-second-${s}`,
           selected: s === selectedSecond,
           disabled: isSecondDisabled(s),
