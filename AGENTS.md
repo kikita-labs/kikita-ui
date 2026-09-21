@@ -58,9 +58,9 @@ For visual, accessibility, release, or publishing work, also read:
 - Use Angular CDK or Angular Aria for complex accessibility behavior.
 - Keep repo-distributed skills under `.agents/skills/`; local user skill
   installs are never overwritten without explicit consent.
-- Do not invent component visuals. Use the matching Claude Design spec under
-  `.local-notes/claude-design/design system/`; if the spec is missing or unclear,
-  stop and report the gap.
+- Do not invent component visuals. Follow `docs/design-provenance.md` and the
+  matching approved component design record. If the required design or approval
+  is missing or unclear, stop the affected visual work and report the gap.
 - All git-tracked repository content must be English-only.
 - Do not add Cyrillic text or mojibake to tracked files.
 - Never add `Co-authored-by`, `Generated-by`, AI attribution, or assistant

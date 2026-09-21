@@ -13,21 +13,11 @@ task looks small.
    git merge-base --is-ancestor main HEAD
    ```
 
-   Release branches are version-line branches named `release/<n>.x`; do not
-   hard-code a particular release number in this workflow. The current release
-   line and its fixes are developed on `release/<n>.x`, the next release line is
-   developed on `release/<n+1>.x`, and `main` contains only the currently
-   published release line. Do not assume synchronization from a branch name or
-   an earlier merge. If the check fails, preserve any worktree changes, merge
-   `main` into the current release branch, resolve conflicts, and run the
-   relevant quality checks before continuing.
-
-   To release the current line, merge `release/<n>.x` into `main`, finalize the
-   version and changelog on `main`, run the release gate again, and then merge
-   the finalized `main` back into the maintained release branches before
-   tagging. Push and tag the release from `main`; do not tag a release branch
-   directly. Repeat synchronization after `main` receives release fixes and
-   before forwarding them to another release branch.
+   Do not infer synchronization from a branch name or an earlier merge. If the
+   check fails, preserve worktree changes, merge `main` into the release branch,
+   resolve conflicts, and run relevant checks. The version-line branch and tag
+   policy lives in `.agents/release-and-publishing.md`; release commands live
+   in `docs/release.md`.
 
 4. For Angular work, call `angularCliKikita.list_projects` first. Do not use the
    generic `angularCli` server for this repository.
@@ -40,10 +30,9 @@ task looks small.
    - `docs/visual-regression.md` for visual or responsive changes
    - `docs/release.md` before versioning or publishing
    - `CHANGELOG.md` before public API, behavior, or user-visible fixes
-7. For a new or visually changed component, read the matching Claude Design spec
-   under `.local-notes/claude-design/design system/` before implementing. If the
-   spec is missing or ambiguous, stop and report the gap instead of inventing a
-   design.
+7. For a new or visually changed component, follow `docs/design-provenance.md`
+   and read the matching approved design record. If it is missing or ambiguous,
+   stop the affected visual work and report the gap instead of inventing a design.
 8. Implement the smallest correct change that follows existing local patterns.
 9. Update all required docs, tests, exports, styles, roadmap, state coverage, and
    changelog entries in the same change.

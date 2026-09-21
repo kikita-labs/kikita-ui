@@ -4,7 +4,7 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 
 ## 1. Design Input
 
-- Matching Claude Design spec exists in `.local-notes/claude-design/design system/`.
+- Matching approved design record is accessible from the checkout, following `docs/design-provenance.md`.
 - Component states, variants, sizes, density behavior, light/dark treatment, motion, and mobile behavior are clear from the spec.
 - No visual decisions are invented when the spec is missing or ambiguous.
 - Token names and component API names follow the existing `kui` naming style.

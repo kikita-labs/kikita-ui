@@ -1,6 +1,7 @@
 # Kikita UI Ember Design System Spec
 
-This document is derived from the Claude Design exports in `.local-notes/claude-design/design system/`.
+This document records foundations derived from the original Claude Design exports.
+See [design provenance](design-provenance.md) for approval and portable handoff requirements.
 
 The repository remains the source of truth. The HTML exports are reference material only.
 

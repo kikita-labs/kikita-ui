@@ -29,16 +29,14 @@ Granular providers:
 ```ts
 provideKuiTheme(...)
 provideKuiIcons(...)
-provideKuiButtonOptions(...)
-provideKuiFieldOptions(...)
+kuiProvideButtonOptions(...)
+kuiProvideFieldOptions(...)
 kuiProvideTooltipOptions(...)
 ```
 
-Default precedence is intentionally narrow and static:
-
-```text
-local input > scoped component provider > field provider > root provideKikitaUi defaults > component default
-```
+Default precedence is property-specific. Consult [DI defaults](di-defaults.md)
+for the actual fallback chain of each supported property; not every component
+participates in every provider layer.
 
 Use root `provideKikitaUi({ defaults: { size } })` for broad application control sizing. Use scoped
 component providers only for repeated design-system decisions such as button shape/appearance or
@@ -50,3 +48,8 @@ See `docs/di-defaults.md` before adding or changing provider defaults.
 ## Public API
 
 Only export intended public APIs from `projects/ui/src/public-api.ts`.
+
+The playground imports the package name through a workspace source alias. It
+checks source integration, but does not prove that the built package installs
+correctly. Follow [installation verification](install.md) and the
+[release gate](release.md) for consumer-package evidence.

@@ -66,6 +66,8 @@ export const appConfig: ApplicationConfig = {
 
 ## Documentation
 
+Repository contracts and verification records: [source documentation index](docs/README.md).
+
 The docs site includes component pages, examples, API tables, playgrounds,
 SSR-rendered pages, and AI-readable docs.
 

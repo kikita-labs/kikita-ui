@@ -15,11 +15,20 @@ Use this skill when documentation is part of the change.
    documentation, release documentation, or local notes.
 3. Keep tracked documentation English-only.
 
+## Canonical Ownership
+
+Use `.agents/documentation.md` for canonical ownership and evidence rules.
+Resolve paths from the repository root even when this skill is installed
+elsewhere. Verify disputed statements against source; existing functionality
+alone does not close an improvement request. Distinguish source behavior,
+published contracts, inherited reports, and fresh verification.
+
 ## Placement
 
 - Put agent instructions in `.agents/*.md`.
 - Put repo-distributed skills in `.agents/skills/*`.
 - Put public component docs in `docs/<primitive>.md`.
+- Add source documentation navigation to `docs/README.md`.
 - Put release process in `docs/release.md`.
 - Put release-visible changes in `CHANGELOG.md`.
 - Put temporary session notes only in ignored `.local-notes/`.
@@ -41,4 +50,6 @@ When changing public primitive behavior, update:
 - `CHANGELOG.md` when release-visible;
 - matching skills or `.agents` docs when workflow changes.
 
-Run `pnpm.cmd audit:static` and `pnpm.cmd skills:check` before handoff.
+For wording-only changes, run static audit, skill drift check, formatting, and
+`git diff --check`. Inspect nonfatal skill drift; do not overwrite local installs.
+Use `.agents/testing-and-quality.md` for broader gates when behavior changes.

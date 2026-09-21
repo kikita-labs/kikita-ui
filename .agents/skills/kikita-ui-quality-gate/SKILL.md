@@ -18,27 +18,9 @@ Use this skill to prove a Kikita UI change is ready.
 
 Use `pnpm.cmd` on Windows if `pnpm.ps1` is blocked.
 
-Fast gate:
-
-```bash
-pnpm.cmd audit:static
-pnpm.cmd test:scripts
-pnpm.cmd test
-```
-
-Full gate:
-
-```bash
-pnpm.cmd format:check
-pnpm.cmd audit:static
-pnpm.cmd skills:check
-pnpm.cmd test:scripts
-pnpm.cmd test
-pnpm.cmd build
-pnpm.cmd build:playground
-pnpm.cmd test:ssr
-pnpm.cmd test:browser
-```
+Read the fast and full command lists in `.agents/testing-and-quality.md` from
+the repository root. Both include lint. Select the gate appropriate to the
+changed surface; do not substitute an older copied list.
 
 ## Browser Review
 

@@ -18,15 +18,17 @@ Use this skill to deliver a public Kikita UI primitive end to end.
 4. Use `angularCliKikita.list_projects`, then
    `angularCliKikita.get_best_practices` with the workspace path. If Codex
    returns `Unexpected response type`, treat it as the upstream Codex MCP bug
-   tracked in <https://github.com/openai/codex/issues/29002>, use local docs and
-   CLI checks as the fallback, and report the MCP blocker explicitly.
+   tracked in <https://github.com/openai/codex/issues/29002>. Read the server's
+   `instructions://best-practices` resource and continue with working tools such
+   as `list_projects` and `run_target`. Follow `.agents/angular-mcp.md` for any
+   further fallback, and report the failed call separately from successful reads.
 
 ## Design Before Code
 
 - For a new component, first create or update `docs/design-brief.md` with the
   functional brief the designer needs.
-- Read the matching Claude Design spec under `.local-notes/claude-design/design system/`.
-- Stop and report the gap if the design spec is missing or ambiguous.
+- Follow `docs/design-provenance.md` and read the matching approved design record.
+- Stop the affected visual work if its design or approval is missing or ambiguous.
 - Do not invent visuals or clone another UI library's API or styling.
 
 ## Implementation
