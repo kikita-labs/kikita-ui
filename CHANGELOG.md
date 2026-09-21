@@ -10,6 +10,10 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Added
 
+- Command Palette reports empty, whitespace-containing, and duplicate command IDs
+  across groups in development builds. Stable consumer-owned IDs remain required;
+  selection still emits the complete command item.
+
 - `KuiLineChartComponent` (`kui-line-chart`), `KuiBarChartComponent` (`kui-bar-chart`),
   `KuiScatterChartComponent` (`kui-scatter-chart`), and `KuiDonutChartComponent`
   (`kui-donut-chart`): a new SVG chart family, built from Claude Design spec `09 Chart.dc.html`.

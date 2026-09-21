@@ -14,7 +14,7 @@ import type { KuiCommandGroup, KuiCommandItem } from './kui-command-palette.type
     <button class="trigger" type="button">Trigger</button>
     <kui-command-palette
       [(open)]="open"
-      [groups]="groups"
+      [groups]="groups()"
       [(query)]="query"
       (selected)="markSelected($event)"
     />
@@ -24,7 +24,8 @@ class CommandPaletteHost {
   readonly open = signal(false);
   readonly query = signal('');
   readonly selected = signal<string | null>(null);
-  readonly groups: readonly KuiCommandGroup[] = [
+  readonly selectedItem = signal<KuiCommandItem | null>(null);
+  readonly groups = signal<readonly KuiCommandGroup[]>([
     {
       heading: 'Navigation',
       items: [
@@ -36,10 +37,11 @@ class CommandPaletteHost {
       heading: 'Danger',
       items: [{ id: 'delete', label: 'Delete workspace', danger: true }],
     },
-  ];
+  ]);
 
   markSelected(item: KuiCommandItem): void {
     this.selected.set(item.id);
+    this.selectedItem.set(item);
   }
 }
 
@@ -110,6 +112,81 @@ describe('KuiCommandPaletteComponent', () => {
     fixture.detectChanges();
 
     expect(input.getAttribute('aria-activedescendant')).toContain('delete');
+  });
+
+  it('keeps command keys when duplicate labels are filtered, reordered, and relabeled', () => {
+    const first = { id: 'file.open', label: 'Open', keywords: ['file'] };
+    const second = { id: 'project.open', label: 'Open', keywords: ['project'] };
+    fixture.componentInstance.groups.set([
+      { heading: 'Files', items: [first] },
+      { heading: 'Projects', items: [second] },
+    ]);
+    openPalette();
+    const before = overlayHost.querySelectorAll<HTMLElement>('[role="option"]');
+    const secondId = before[1].id;
+    expect(before[0].id).not.toBe(secondId);
+    fixture.componentInstance.query.set('project');
+    fixture.detectChanges();
+    expect(overlayHost.querySelector('[role="option"]')?.id).toBe(secondId);
+    const translated = { ...second, label: 'Projekt oeffnen' };
+    fixture.componentInstance.query.set('');
+    fixture.componentInstance.groups.set([
+      { heading: 'Projects', items: [translated] },
+      { heading: 'Files', items: [{ ...first }] },
+    ]);
+    fixture.detectChanges();
+    const input = overlayHost.querySelector<HTMLInputElement>('.kui-command__input')!;
+    expect(input.getAttribute('aria-activedescendant')).toBe(secondId);
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    fixture.detectChanges();
+    expect(fixture.componentInstance.selectedItem()).toBe(translated);
+  });
+
+  it('resets to the first enabled command when the active command disappears', () => {
+    openPalette();
+    const input = overlayHost.querySelector<HTMLInputElement>('.kui-command__input')!;
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+    fixture.detectChanges();
+    expect(input.getAttribute('aria-activedescendant')).toContain('delete');
+    fixture.componentInstance.groups.set([
+      { items: [{ id: 'replacement', label: 'Replacement' }] },
+    ]);
+    fixture.detectChanges();
+    expect(input.getAttribute('aria-activedescendant')).toContain('replacement');
+    fixture.componentInstance.groups.set([]);
+    fixture.detectChanges();
+    expect(input.hasAttribute('aria-activedescendant')).toBe(false);
+  });
+
+  it.each(['', 'two words', 'tab\tid'])('rejects invalid id %j in development', (id) => {
+    fixture.componentInstance.groups.set([{ items: [{ id, label: 'Invalid' }] }]);
+    expect(() => openPalette()).toThrow(/non-empty string without whitespace/);
+  });
+
+  it('rejects duplicate IDs across groups in development', () => {
+    fixture.componentInstance.groups.set([
+      { heading: 'First', items: [{ id: 'same', label: 'One' }] },
+      { heading: 'Second', items: [{ id: 'same', label: 'Two' }] },
+    ]);
+    expect(() => openPalette()).toThrow(/unique across all groups/);
+  });
+
+  it('namespaces punctuation-bearing command keys across palette instances', () => {
+    const item = { id: 'project:open/a#b', label: 'Open' };
+    fixture.componentInstance.groups.set([{ items: [item] }]);
+    openPalette();
+    const second = TestBed.createComponent(KuiCommandPaletteComponent);
+    try {
+      second.componentRef.setInput('groups', [{ items: [item] }]);
+      second.componentInstance.open.set(true);
+      second.detectChanges();
+      const options = overlayHost.querySelectorAll<HTMLElement>('[role="option"]');
+      expect(options).toHaveLength(2);
+      expect(options[0].id).not.toBe(options[1].id);
+      expect(document.getElementById(options[1].id)).toBe(options[1]);
+    } finally {
+      second.destroy();
+    }
   });
 
   function openPalette(): void {

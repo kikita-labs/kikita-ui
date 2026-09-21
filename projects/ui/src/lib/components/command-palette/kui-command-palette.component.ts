@@ -10,6 +10,7 @@ import {
   effect,
   inject,
   input,
+  isDevMode,
   model,
   output,
   signal,
@@ -80,9 +81,28 @@ export class KuiCommandPaletteComponent implements OnDestroy {
   private overlayRef: OverlayRef | null = null;
   private previouslyFocused: HTMLElement | null = null;
 
+  private readonly validatedGroups = computed(() => {
+    const groups = this.groups();
+    if (isDevMode()) {
+      const ids = new Set<string>();
+      for (const group of groups) {
+        for (const item of group.items) {
+          if (typeof item.id !== 'string' || !item.id || /\s/.test(item.id)) {
+            throw new Error('KuiCommandItem.id must be a non-empty string without whitespace.');
+          }
+          if (ids.has(item.id)) {
+            throw new Error('KuiCommandItem.id must be unique across all groups in a palette.');
+          }
+          ids.add(item.id);
+        }
+      }
+    }
+    return groups;
+  });
+
   protected readonly filteredGroups = computed(() => {
     const query = this.query().trim().toLocaleLowerCase();
-    const groups = this.groups();
+    const groups = this.validatedGroups();
     if (!query) return groups;
 
     return groups

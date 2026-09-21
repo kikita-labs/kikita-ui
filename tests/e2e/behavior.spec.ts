@@ -2,6 +2,23 @@ import { expect, test } from '@playwright/test';
 
 import { gotoReady } from './support/page-ready';
 
+test('selects a filtered command by keyboard with a valid active descendant', async ({ page }) => {
+  await gotoReady(page, '/command-palette');
+  await page.getByRole('button', { name: 'Open command palette', exact: true }).click();
+  const search = page.getByRole('combobox', { name: 'Command palette' });
+  await expect(search).toBeFocused();
+  await search.fill('projects');
+  const option = page.getByRole('option', { name: /Open projects/ });
+  await expect(option).toBeVisible();
+  await expect(search).toHaveAttribute('aria-activedescendant', (await option.getAttribute('id'))!);
+  await search.press('Enter');
+  await expect(page.getByRole('dialog', { name: 'Command palette' })).toBeHidden();
+  await expect(page.getByText('selected: Open projects', { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Open command palette', exact: true }),
+  ).toBeFocused();
+});
+
 test('loads representative primitive playground routes', async ({ page }) => {
   for (const route of ['/tokens', '/button', '/field', '/select', '/dialog', '/table']) {
     await gotoReady(page, route);

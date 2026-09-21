@@ -59,6 +59,28 @@ readonly groups: readonly KuiCommandGroup[] = [
 Search checks `label`, `description`, `meta`, and `keywords`. Matching text inside item labels is
 highlighted.
 
+## Command Identity
+
+Supply a stable, non-empty `id` without whitespace, unique across every group in
+one palette, including disabled and filtered-out commands. Use domain keys such
+as `file.open` and `project.open`; both may have the visible label "Open". Keep
+keys unchanged when translating labels or recreating item objects. Do not derive
+keys from labels, array positions, or per-render random values.
+
+Development builds report invalid or duplicate IDs. Production does not repair
+invalid data or generate replacement keys; consumers own uniqueness. Separate
+palette instances namespace option DOM IDs. `selected` emits the original complete
+item, not an ID string. Use `item.id` to dispatch the application action.
+
+Changing groups or query resets keyboard activity to the first enabled match;
+an empty result clears the active descendant. Reordering does not preserve the
+previous active command. DOM lookup uses `getElementById`, not a CSS selector
+built from the consumer key.
+
+This retains the required-ID API and follows
+[Angular's tracking guidance](https://angular.dev/guide/templates/control-flow#why-is-track-in-for-blocks-important).
+Index tracking remains appropriate for genuinely static lists.
+
 ## Accessibility
 
 - Uses a CDK overlay with scroll blocking.
