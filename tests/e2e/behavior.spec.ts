@@ -2,6 +2,21 @@ import { expect, test } from '@playwright/test';
 
 import { gotoReady } from './support/page-ready';
 
+test('uses composed typography line height for anchor and button links', async ({ page }) => {
+  await gotoReady(page, '/link');
+  for (const selector of ['a.kui-link', 'button.kui-link']) {
+    const link = page.locator(selector).first();
+    await link.evaluate((element) => {
+      const variant = element.getAttribute('data-kui-text-variant');
+      (element as HTMLElement).style.setProperty(`--kui-type-${variant}-size`, '20px');
+      (element as HTMLElement).style.setProperty(`--kui-type-${variant}-line-height`, '2');
+      element.parentElement!.style.lineHeight = '64px';
+    });
+    await expect(link).toHaveCSS('font-size', '20px');
+    await expect(link).toHaveCSS('line-height', '40px');
+  }
+});
+
 test('selects a filtered command by keyboard with a valid active descendant', async ({ page }) => {
   await gotoReady(page, '/command-palette');
   await page.getByRole('button', { name: 'Open command palette', exact: true }).click();

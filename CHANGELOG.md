@@ -240,6 +240,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- Link now uses the composed typography variant's line-height token instead of
+  overriding it with the parent's line height, for both anchor and button hosts.
+
 - `kui-calendar`'s value display used a hardcoded `monospace` font instead of
   `--kui-font-mono`.
 - Removed redundant hardcoded fallback chains in `var(--kui-font-mono, ...)`/

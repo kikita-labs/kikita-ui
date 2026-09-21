@@ -26,7 +26,6 @@
      * `kui.components` layer would silently outrank [kuiText]'s `kui.base` layer regardless of
      * specificity or source order if it set them. */
     font-family: inherit;
-    line-height: inherit;
     text-decoration-line: none;
     text-decoration-color: currentcolor;
     text-decoration-thickness: var(--kui-link-decoration-thickness-rest);

@@ -64,6 +64,11 @@ carries no typography scale of its own. Only inline text roles make sense for a 
 acting as a heading wraps `[kuiLink]` inside an `<h1>`-`<h6>`, not the reverse -- so heading
 semantics never depend on whether the text happens to be a link.
 
+Font size, weight, and line height use the selected `--kui-type-<variant>-*`
+tokens. The component layer must not replace the role's line height with the
+parent's value. This requirement is preserved from the original Link design's
+Typography anatomy; the correction is included in Unreleased.
+
 ### Icons
 
 ```html
