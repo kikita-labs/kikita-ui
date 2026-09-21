@@ -27,6 +27,7 @@ pnpm.cmd test:scripts
 pnpm.cmd test
 pnpm.cmd build
 pnpm.cmd build:playground
+pnpm.cmd build:kikita-ui-playground
 pnpm.cmd test:ssr
 pnpm.cmd test:browser
 ```

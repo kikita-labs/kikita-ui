@@ -40,6 +40,12 @@
     },
     {
       "path": "./tsconfig.tools.json"
+    },
+    {
+      "path": "./projects/kikita-ui-playground/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/kikita-ui-playground/tsconfig.spec.json"
     }
   ]
 }
