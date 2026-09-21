@@ -84,17 +84,17 @@ contract; it is plain projected content inside `kui-field` (see Known Gaps).
 
 ## Inputs
 
-| Input         | Type                       | Default      | Notes                                                                  |
-| ------------- | -------------------------- | ------------ | ---------------------------------------------------------------------- |
-| `variant`     | `'dropzone' \| 'compact'`  | `'dropzone'` | `dropzone`: full drag-and-drop zone. `compact`: trigger button only.   |
-| `mode`        | `'single' \| 'multiple'`   | `'multiple'` | `single`: re-selecting replaces the current file.                      |
-| `accept`      | `readonly string[]`        | `undefined`  | Allowed MIME types. Omit to accept any file type.                      |
-| `acceptLabel` | `string`                   | `undefined`  | Format/limit hint text rendered under the dropzone or compact trigger. |
-| `maxSize`     | `number` (bytes)           | `undefined`  | Maximum file size.                                                     |
-| `maxCount`    | `number`                   | `undefined`  | Maximum file count (`multiple` mode only).                             |
-| `size`        | `KuiSize`                  | `'md'`       | Row height/thumbnail size; only `sm`/`md`/`lg` have dedicated styling. |
-| `disabled`    | `boolean`                  | `false`      | Dropzone/trigger stop reacting to drag, click, and keyboard.           |
-| `files`       | `readonly KuiUploadFile[]` | `[]`         | Controlled file list. Two-way (`filesChange`).                         |
+| Input         | Type                       | Default      | Notes                                                                                                                     |
+| ------------- | -------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| `variant`     | `'dropzone' \| 'compact'`  | `'dropzone'` | `dropzone`: full drag-and-drop zone. `compact`: trigger button only.                                                      |
+| `mode`        | `'single' \| 'multiple'`   | `'multiple'` | `single`: re-selecting replaces the current file.                                                                         |
+| `accept`      | `readonly string[]`        | `undefined`  | Allowed MIME types. Omit to accept any file type.                                                                         |
+| `acceptLabel` | `string`                   | `undefined`  | Format/limit hint text rendered under the dropzone or compact trigger.                                                    |
+| `maxSize`     | `number` (bytes)           | `undefined`  | Maximum file size. Static numeric values are coerced; invalid/non-positive values omit the limit.                         |
+| `maxCount`    | `number`                   | `undefined`  | Maximum file count (`multiple` mode only). Static numeric values are coerced; invalid/non-positive values omit the limit. |
+| `size`        | `KuiSize`                  | `'md'`       | Row height/thumbnail size; only `sm`/`md`/`lg` have dedicated styling.                                                    |
+| `disabled`    | `boolean`                  | `false`      | Dropzone/trigger stop reacting to drag, click, and keyboard.                                                              |
+| `files`       | `readonly KuiUploadFile[]` | `[]`         | Controlled file list. Two-way (`filesChange`).                                                                            |
 
 ## Outputs
 

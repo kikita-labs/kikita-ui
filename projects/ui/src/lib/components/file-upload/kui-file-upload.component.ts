@@ -7,6 +7,7 @@ import {
   inject,
   input,
   model,
+  numberAttribute,
   output,
   signal,
   viewChild,
@@ -41,6 +42,13 @@ export type KuiFileUploadMode = 'single' | 'multiple';
 
 /** Drag-over state of the `dropzone` variant's drop target. */
 type KuiFileUploadDragState = 'none' | 'over' | 'invalid';
+
+function positiveLimitAttribute(value: unknown): number | undefined {
+  if (value == null || value === '') return undefined;
+
+  const parsed = numberAttribute(value);
+  return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : undefined;
+}
 
 interface KuiFileKind {
   readonly label: string;
@@ -121,10 +129,14 @@ export class KuiFileUploadComponent {
   readonly acceptLabel = input<string | undefined>();
 
   /** Maximum file size in bytes. Omit for no size limit. */
-  readonly maxSize = input<number | undefined>();
+  readonly maxSize = input<number | undefined, unknown>(undefined, {
+    transform: positiveLimitAttribute,
+  });
 
   /** Maximum number of files (`multiple` mode only). Omit for no count limit. */
-  readonly maxCount = input<number | undefined>();
+  readonly maxCount = input<number | undefined, unknown>(undefined, {
+    transform: positiveLimitAttribute,
+  });
 
   /** Row height and thumbnail size. Only `sm`/`md`/`lg` have dedicated styling. */
   readonly size = input<KuiSize | undefined>();

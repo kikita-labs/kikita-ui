@@ -49,6 +49,12 @@ class FileUploadHost {
   }
 }
 
+@Component({
+  imports: [KuiFileUploadComponent],
+  template: '<kui-file-upload maxSize="1024" maxCount="3" />',
+})
+class StaticFileUploadLimitsHost {}
+
 describe('KuiFileUploadComponent', () => {
   let fixture: ComponentFixture<FileUploadHost>;
   let host: FileUploadHost;
@@ -230,5 +236,17 @@ describe('KuiFileUploadComponent', () => {
 
     expect(fixture.nativeElement.querySelector('.kui-file-upload-dropzone')).toBeNull();
     expect(fixture.nativeElement.querySelector('.kui-file-upload-compact-trigger')).toBeTruthy();
+  });
+});
+
+describe('KuiFileUploadComponent static limits', () => {
+  it('coerces static positive limits', () => {
+    TestBed.configureTestingModule({ imports: [StaticFileUploadLimitsHost] });
+    const fixture = TestBed.createComponent(StaticFileUploadLimitsHost);
+    fixture.detectChanges();
+    const upload = fixture.debugElement.children[0].componentInstance as KuiFileUploadComponent;
+
+    expect(upload.maxSize()).toBe(1024);
+    expect(upload.maxCount()).toBe(3);
   });
 });
