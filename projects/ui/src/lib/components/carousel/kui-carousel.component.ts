@@ -10,7 +10,6 @@ import {
   inject,
   input,
   model,
-  numberAttribute,
   PLATFORM_ID,
   signal,
   viewChild,
@@ -24,10 +23,16 @@ import {
   KUI_PAUSE_D,
   KUI_PLAY_D,
 } from '../../utils/kui-chrome-icon-paths.util';
+import { positiveIntegerAttribute } from '../../utils/kui-input-transform.util';
 import { KuiIconButtonDirective } from '../icon-button';
 import { KuiCarouselSlideDirective } from './kui-carousel-slide.directive';
 
 let nextCarouselId = 0;
+
+function autoplayIntervalAttribute(value: unknown): number {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 4000;
+}
 
 /**
  * Native scroll-snap carousel with projected slides, navigation, and optional autoplay.
@@ -177,7 +182,7 @@ let nextCarouselId = 0;
 /** Slide strip with Prev/Next, a dot picker, and optional autoplay. See the class-level example above. */
 export class KuiCarouselComponent {
   /** How many slides are visible at once. Defaults to `1`. */
-  readonly itemsPerView = input(1, { transform: numberAttribute });
+  readonly itemsPerView = input(1, { transform: positiveIntegerAttribute });
 
   /** Wraps navigation at the edges instead of disabling Prev/Next there. Defaults to `false`. */
   readonly loop = input(false, { transform: booleanAttribute });
@@ -189,7 +194,7 @@ export class KuiCarouselComponent {
   readonly autoplay = input(false, { transform: booleanAttribute });
 
   /** Autoplay delay between slides, in milliseconds. Defaults to `4000`. */
-  readonly autoplayInterval = input(4000, { transform: numberAttribute });
+  readonly autoplayInterval = input(4000, { transform: autoplayIntervalAttribute });
 
   /** Shows the Prev/Next arrow controls. Defaults to `true`. Swipe/scroll works regardless. */
   readonly showArrows = input(true, { transform: booleanAttribute });

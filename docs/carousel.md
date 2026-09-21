@@ -119,17 +119,17 @@ documented open question in the design spec, not an oversight.
 
 ## API
 
-| Input              | Type          | Default    | Description                                                                                         |
-| ------------------ | ------------- | ---------- | --------------------------------------------------------------------------------------------------- |
-| `itemsPerView`     | `number`      | `1`        | How many slides are visible at once.                                                                |
-| `loop`             | `boolean`     | `false`    | Wraps navigation at the edges instead of disabling Prev/Next there.                                 |
-| `autoplay`         | `boolean`     | `false`    | Advances automatically on a timer; always shows Play/Pause.                                         |
-| `autoplayInterval` | `number` (ms) | `4000`     | Autoplay delay between slides.                                                                      |
-| `showArrows`       | `boolean`     | `true`     | Shows the Prev/Next arrow controls.                                                                 |
-| `showDots`         | `boolean`     | `true`     | Shows the dot picker below the track.                                                               |
-| `draggable`        | `boolean`     | `true`     | Enables mouse drag-to-scroll; `false` also locks wheel/trackpad scroll.                             |
-| `ariaLabel`        | `string`      | `'Slides'` | Accessible name for the carousel region. Prefer a content-specific name; do not include "carousel". |
-| `index`            | `number`      | `0`        | Index of the first visible slide. Two-way model.                                                    |
+| Input              | Type                 | Default    | Description                                                                                         |
+| ------------------ | -------------------- | ---------- | --------------------------------------------------------------------------------------------------- |
+| `itemsPerView`     | positive integer     | `1`        | How many slides are visible at once. Invalid or non-positive static values use `1`.                 |
+| `loop`             | `boolean`            | `false`    | Wraps navigation at the edges instead of disabling Prev/Next there.                                 |
+| `autoplay`         | `boolean`            | `false`    | Advances automatically on a timer; always shows Play/Pause.                                         |
+| `autoplayInterval` | positive number (ms) | `4000`     | Autoplay delay between slides. Invalid or non-positive static values use `4000`.                    |
+| `showArrows`       | `boolean`            | `true`     | Shows the Prev/Next arrow controls.                                                                 |
+| `showDots`         | `boolean`            | `true`     | Shows the dot picker below the track.                                                               |
+| `draggable`        | `boolean`            | `true`     | Enables mouse drag-to-scroll; `false` also locks wheel/trackpad scroll.                             |
+| `ariaLabel`        | `string`             | `'Slides'` | Accessible name for the carousel region. Prefer a content-specific name; do not include "carousel". |
+| `index`            | `number`             | `0`        | Index of the first visible slide. Two-way model.                                                    |
 
 | Output        | Payload  | Description                                      |
 | ------------- | -------- | ------------------------------------------------ |
