@@ -20,16 +20,12 @@ import type {
 } from '@angular/forms/signals';
 
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
+import { sameNullableDate } from '../../utils/kui-date-equality.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { startOfMonth } from '../calendar/kui-calendar-date.util';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import { formatDisplayDate, parseDisplayDate } from './kui-date-format.util';
 import { KuiDatePickerInputAffixComponent } from './kui-date-picker-input-affix.component';
-
-/** Compares two nullable dates by timestamp, treating `null` as its own distinct value. */
-function sameDate(a: Date | null, b: Date | null): boolean {
-  return (a?.getTime() ?? null) === (b?.getTime() ?? null);
-}
 
 /**
  * Converts a native text input into a Kikita UI date picker trigger. Text is parsed/
@@ -226,7 +222,7 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
       const calendar = this.field?.getCalendar();
       if (!calendar) return;
       const value = this.value();
-      if (!sameDate(untracked(calendar.value), value)) {
+      if (!sameNullableDate(untracked(calendar.value), value)) {
         calendar.value.set(value);
       }
     });
@@ -235,7 +231,7 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
       const calendar = this.field?.getCalendar();
       if (!calendar) return;
       const calendarValue = calendar.value();
-      if (!sameDate(calendarValue, untracked(this.value))) {
+      if (!sameNullableDate(calendarValue, untracked(this.value))) {
         this.value.set(calendarValue);
       }
     });

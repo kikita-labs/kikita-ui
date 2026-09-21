@@ -20,6 +20,7 @@ import type {
 } from '@angular/forms/signals';
 
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
+import { sameNullableDate } from '../../utils/kui-date-equality.util';
 import {
   optionalBooleanAttribute,
   positiveIntegerAttribute,
@@ -33,11 +34,6 @@ import {
 } from './kui-time-format.util';
 import type { KuiTimePickerFormat } from './kui-time-picker.types';
 import { KuiTimePickerInputAffixComponent } from './kui-time-picker-input-affix.component';
-
-/** Compares two nullable dates by timestamp, treating `null` as its own distinct value. */
-function sameInstant(a: Date | null, b: Date | null): boolean {
-  return (a?.getTime() ?? null) === (b?.getTime() ?? null);
-}
 
 /**
  * Converts a native text input into a time-of-day picker trigger. Text is parsed/formatted per
@@ -272,7 +268,7 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
       const panel = this.field?.getTimePickerPanel();
       if (!panel) return;
       const value = this.value();
-      if (!sameInstant(untracked(panel.value), value)) {
+      if (!sameNullableDate(untracked(panel.value), value)) {
         panel.value.set(value);
       }
     });
@@ -281,7 +277,7 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
       const panel = this.field?.getTimePickerPanel();
       if (!panel) return;
       const panelValue = panel.value();
-      if (!sameInstant(panelValue, untracked(this.value))) {
+      if (!sameNullableDate(panelValue, untracked(this.value))) {
         this.value.set(panelValue);
       }
     });
