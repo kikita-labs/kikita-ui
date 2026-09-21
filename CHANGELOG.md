@@ -24,6 +24,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `siblingCount` and `boundaryCount`.
 - `kui-otp-input` coerces a static `length` attribute and uses one cell for invalid or
   non-positive values.
+- `kui-splitter-pane` normalizes static size percentages and bounds minimum sizes to `0`–`100`.
 
 ### Added
 

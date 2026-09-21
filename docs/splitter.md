@@ -143,7 +143,7 @@ interactive); only the resize affordance is disabled.
 | Input         | Type                  | Default | Description                                                                       |
 | ------------- | --------------------- | ------- | --------------------------------------------------------------------------------- |
 | `size`        | `number \| undefined` | --      | Initial/requested share, as a percentage. Optional -- see Usage above.            |
-| `minSize`     | `number`              | `10`    | Minimum share, as a percentage.                                                   |
+| `minSize`     | `number`              | `10`    | Minimum share percentage, clamped to `0`–`100`; invalid static values use `10`.   |
 | `collapsible` | `boolean`             | `false` | Renders a one-touch collapse button on the adjacent gutter. First/last pane only. |
 
 `kui-splitter-pane` also exposes `currentSize` (live percentage, a `Signal<number>`), `collapsed`

@@ -39,14 +39,16 @@ export class KuiSplitterPaneComponent {
    * explicit `size` split the remaining space evenly among themselves, the same way flex items
    * without an explicit basis share leftover space.
    */
-  readonly size = input<number | undefined>(undefined, { transform: numberAttributeOrUndefined });
+  readonly size = input<number | undefined>(undefined, {
+    transform: percentageOrUndefinedAttribute,
+  });
 
   /**
    * Minimum share, as a percentage. Defaults to `10`, which is enough to stop an accidental drag
    * or keyboard step from collapsing the pane to nothing; override only when a different floor is
    * actually needed.
    */
-  readonly minSize = input(10, { transform: numberAttribute });
+  readonly minSize = input(10, { transform: minimumPercentageAttribute });
 
   /**
    * Renders a one-touch collapse button on the adjacent gutter. Only meaningful on the first or
@@ -75,8 +77,13 @@ export class KuiSplitterPaneComponent {
   }
 }
 
-function numberAttributeOrUndefined(value: unknown): number | undefined {
+function percentageOrUndefinedAttribute(value: unknown): number | undefined {
   if (value === undefined || value === null || value === '') return undefined;
   const parsed = typeof value === 'number' ? value : parseFloat(String(value));
-  return Number.isNaN(parsed) ? undefined : parsed;
+  return Number.isFinite(parsed) && parsed >= 0 ? Math.min(parsed, 100) : undefined;
+}
+
+function minimumPercentageAttribute(value: unknown): number {
+  const parsed = numberAttribute(value, 10);
+  return Number.isFinite(parsed) ? Math.min(Math.max(parsed, 0), 100) : 10;
 }
