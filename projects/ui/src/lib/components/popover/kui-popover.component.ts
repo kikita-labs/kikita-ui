@@ -13,6 +13,7 @@ import {
   inject,
   input,
   model,
+  numberAttribute,
   signal,
   viewChild,
   ViewContainerRef,
@@ -31,6 +32,16 @@ import type {
 } from './kui-popover.types';
 
 let nextPopoverId = 0;
+
+function popoverOffsetAttribute(value: unknown): number {
+  const parsed = numberAttribute(value, 8);
+  return Number.isFinite(parsed) ? parsed : 8;
+}
+
+function hoverDelayAttribute(value: unknown): number {
+  const parsed = numberAttribute(value, 100);
+  return Number.isFinite(parsed) && parsed >= 0 ? Math.floor(parsed) : 100;
+}
 
 /**
  * Floating content panel anchored to a trigger element.
@@ -95,10 +106,10 @@ export class KuiPopoverComponent implements OnDestroy {
   readonly ariaLabel = input('Popover');
 
   /** Delay before closing on mouseleave (ms). Allows mouse to travel from trigger to panel. */
-  readonly hoverDelay = input(100);
+  readonly hoverDelay = input(100, { transform: hoverDelayAttribute });
 
   /** Gap in px between anchor and panel (arrow adds extra offset automatically). */
-  readonly offset = input(8);
+  readonly offset = input(8, { transform: popoverOffsetAttribute });
 
   /** Trap focus inside the panel and auto-focus the first focusable element on open. */
   readonly trapFocus = input(false, { transform: booleanAttribute });

@@ -26,6 +26,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   non-positive values.
 - `kui-splitter-pane` normalizes static size percentages and bounds minimum sizes to `0`–`100`.
 - `kui-carousel` coerces static slide-count and autoplay interval attributes with safe fallbacks.
+- `kui-dropdown`, `kui-menu`, and `kui-popover` coerce static overlay offsets; Popover also
+  normalizes its hover delay.
 
 ### Added
 

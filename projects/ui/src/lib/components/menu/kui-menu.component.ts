@@ -12,6 +12,7 @@ import {
   ElementRef,
   inject,
   input,
+  numberAttribute,
   signal,
   viewChild,
   ViewContainerRef,
@@ -29,6 +30,11 @@ import { KuiMenuItemDirective } from './kui-menu-item.directive';
 import type { KuiMenuPlacement } from './kui-menu-placement.type';
 
 let nextMenuId = 0;
+
+function menuOffsetAttribute(value: unknown): number {
+  const parsed = numberAttribute(value, 4);
+  return Number.isFinite(parsed) ? parsed : 4;
+}
 
 /**
  * Floating action menu rendered in an Angular CDK overlay.
@@ -77,7 +83,7 @@ export class KuiMenuComponent implements OnDestroy {
   readonly menuAlign = input<KuiMenuAlign>('start');
 
   /** Gap in px between the trigger and menu panel. */
-  readonly offset = input(4);
+  readonly offset = input(4, { transform: menuOffsetAttribute });
 
   /** Minimum panel width. */
   readonly minWidth = input<string | null>(null);
