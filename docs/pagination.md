@@ -147,19 +147,19 @@ them from tab order.
 
 ## API
 
-| Input             | Type                              | Default                 | Description                                                                 |
-| ----------------- | --------------------------------- | ----------------------- | --------------------------------------------------------------------------- |
-| `variant`         | `'full' \| 'compact' \| 'simple'` | `'compact'`             | Layout preset. See Variants above.                                          |
-| `size`            | `KuiSize`                         | `'md'`                  | Control size. Same scale as `Button`/`IconButton`.                          |
-| `totalPages`      | `number`                          | --                      | Total number of pages. Required -- there is no reasonable default.          |
-| `currentPage`     | `number`                          | `1`                     | Current page, 1-based. Two-way model.                                       |
-| `siblingCount`    | `number`                          | `1`                     | Page numbers shown beside the current page before an ellipsis appears.      |
-| `boundaryCount`   | `number`                          | `1`                     | Page numbers always shown at each edge before an ellipsis appears.          |
-| `pageSize`        | `number`                          | `25`                    | Rows shown per page. Only used by `variant="full"`. Two-way model.          |
-| `pageSizeOptions` | `readonly number[]`               | `[10, 25, 50, 100]`     | Choices offered by the rows-per-page picker. Only used by `variant="full"`. |
-| `totalItems`      | `number \| undefined`             | `totalPages * pageSize` | Total item count, for the summary text. Only used by `variant="full"`.      |
-| `disabled`        | `boolean`                         | `false`                 | Disables every control.                                                     |
-| `ariaLabel`       | `string`                          | `'Pagination'`          | Accessible name for the `nav` landmark.                                     |
+| Input             | Type                              | Default                 | Description                                                                                               |
+| ----------------- | --------------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------- |
+| `variant`         | `'full' \| 'compact' \| 'simple'` | `'compact'`             | Layout preset. See Variants above.                                                                        |
+| `size`            | `KuiSize`                         | `'md'`                  | Control size. Same scale as `Button`/`IconButton`.                                                        |
+| `totalPages`      | positive integer                  | --                      | Required total page count. Static numeric values are coerced; invalid or non-positive values use `1`.     |
+| `currentPage`     | `number`                          | `1`                     | Current page, 1-based. Two-way model.                                                                     |
+| `siblingCount`    | non-negative integer              | `1`                     | Page numbers shown beside the current page before an ellipsis appears. Static numeric values are coerced. |
+| `boundaryCount`   | non-negative integer              | `1`                     | Page numbers always shown at each edge before an ellipsis appears. Static numeric values are coerced.     |
+| `pageSize`        | `number`                          | `25`                    | Rows shown per page. Only used by `variant="full"`. Two-way model.                                        |
+| `pageSizeOptions` | `readonly number[]`               | `[10, 25, 50, 100]`     | Choices offered by the rows-per-page picker. Only used by `variant="full"`.                               |
+| `totalItems`      | `number \| undefined`             | `totalPages * pageSize` | Total item count, for the summary text. Only used by `variant="full"`.                                    |
+| `disabled`        | `boolean`                         | `false`                 | Disables every control.                                                                                   |
+| `ariaLabel`       | `string`                          | `'Pagination'`          | Accessible name for the `nav` landmark.                                                                   |
 
 | Output              | Payload  | Description                                            |
 | ------------------- | -------- | ------------------------------------------------------ |

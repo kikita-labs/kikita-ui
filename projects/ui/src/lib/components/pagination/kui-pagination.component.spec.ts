@@ -2,6 +2,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { afterEach } from 'vitest';
 
@@ -46,6 +47,12 @@ class FullHost {
   template: `<kui-pagination [totalPages]="12" [currentPage]="5" [disabled]="true" />`,
 })
 class DisabledHost {}
+
+@Component({
+  imports: [KuiPaginationComponent],
+  template: `<kui-pagination totalPages="12" siblingCount="0" boundaryCount="0" />`,
+})
+class StaticNumberHost {}
 
 // Helpers
 
@@ -198,5 +205,16 @@ describe('KuiPaginationComponent', () => {
     const buttons = getButtons(fixture);
 
     for (const b of buttons) expect(b.disabled).toBe(true);
+  });
+
+  it('coerces static counts to finite integers while allowing zero display counts', () => {
+    const fixture = createFixture(StaticNumberHost);
+    const pagination = fixture.debugElement
+      .query(By.directive(KuiPaginationComponent))
+      .injector.get(KuiPaginationComponent);
+
+    expect(pagination.totalPages()).toBe(12);
+    expect(pagination.siblingCount()).toBe(0);
+    expect(pagination.boundaryCount()).toBe(0);
   });
 });

@@ -20,6 +20,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   finite, safe fallback behavior for invalid values.
 - `kuiTimePicker` coerces static hour/minute/second step attributes and uses `1` for invalid or
   non-positive values.
+- `kui-pagination` coerces static page-count attributes to finite integers and preserves zero for
+  `siblingCount` and `boundaryCount`.
 
 ### Added
 

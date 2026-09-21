@@ -16,6 +16,7 @@ import {
   KUI_CHEVRONS_RIGHT_D,
 } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { positiveIntegerAttribute } from '../../utils/kui-input-transform.util';
 import { KuiButtonDirective } from '../button';
 import { KuiDropdownComponent, KuiOptionDirective } from '../dropdown';
 import { KuiFieldComponent } from '../field';
@@ -24,6 +25,11 @@ import { KuiSelectDirective } from '../select';
 import type { KuiPaginationVariant } from './kui-pagination-variant.type';
 
 let nextPaginationId = 0;
+
+function nonNegativeIntegerAttribute(value: unknown): number {
+  const parsed = numberAttribute(value, 1);
+  return Number.isFinite(parsed) ? Math.max(0, Math.floor(parsed)) : 1;
+}
 
 /** One rendered slot in the page-number row: either a page button or a static ellipsis. */
 interface KuiPaginationPageItem {
@@ -252,16 +258,16 @@ export class KuiPaginationComponent {
   readonly size = input<KuiSize | undefined>();
 
   /** Total number of pages. Required -- there is no reasonable default. */
-  readonly totalPages = input.required<number, unknown>({ transform: numberAttribute });
+  readonly totalPages = input.required<number, unknown>({ transform: positiveIntegerAttribute });
 
   /** Current page, 1-based. Two-way bindable via `[(currentPage)]`. Defaults to `1`. */
   readonly currentPage = model(1);
 
   /** How many page numbers to show beside the current page before an ellipsis appears. */
-  readonly siblingCount = input(1, { transform: numberAttribute });
+  readonly siblingCount = input(1, { transform: nonNegativeIntegerAttribute });
 
   /** How many page numbers to always show at each edge before an ellipsis appears. */
-  readonly boundaryCount = input(1, { transform: numberAttribute });
+  readonly boundaryCount = input(1, { transform: nonNegativeIntegerAttribute });
 
   /** Rows shown per page. Only used by `variant="full"`. Two-way bindable. Defaults to `25`. */
   readonly pageSize = model(25);
