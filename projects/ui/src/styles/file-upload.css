@@ -248,14 +248,8 @@
   }
 
   .kui-file-upload-item-retry {
-    font-size: var(--kui-text-xs-size);
-    font-weight: 600;
-    color: var(--kui-color-primary-soft-text);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    text-decoration: underline;
+    --kui-type-caption-weight: var(--kui-font-weight-semibold);
+
     flex-shrink: 0;
   }
 

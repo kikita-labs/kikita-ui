@@ -135,6 +135,11 @@ file. The dropzone is `role="button"` with an `aria-label` that includes
 `maxCount` form error is its own `aria-live="polite"` region. The remove
 button has `aria-label="Remove {name}"`.
 
+The errored-item Retry control is a native `button[kuiLink]` with caption
+typography and an always-visible underline. It remains an action: it has
+`type="button"`, does not navigate or submit a surrounding form, and emits the
+same `retry` payload for the consumer-owned upload restart.
+
 ## Known Gaps
 
 - Does not implement an Angular Signal Forms control contract. `files` is a

@@ -160,7 +160,7 @@ describe('KuiFileUploadComponent', () => {
     expect(host.files().length).toBe(0);
   });
 
-  it('retry button emits the entry without mutating the model', () => {
+  it('retry uses a native Link-styled button and emits without mutating the model', () => {
     host.files.set([
       {
         id: 'f1',
@@ -174,9 +174,14 @@ describe('KuiFileUploadComponent', () => {
     ]);
     fixture.detectChanges();
 
-    (
-      fixture.nativeElement.querySelector('.kui-file-upload-item-retry') as HTMLButtonElement
-    ).click();
+    const retry = fixture.nativeElement.querySelector(
+      '.kui-file-upload-item-retry',
+    ) as HTMLButtonElement;
+    expect(retry.type).toBe('button');
+    expect(retry.classList.contains('kui-link')).toBe(true);
+    expect(retry.getAttribute('data-kui-text-variant')).toBe('caption');
+    expect(retry.getAttribute('data-kui-underline')).toBe('always');
+    retry.click();
     fixture.detectChanges();
 
     expect(host.retried.length).toBe(1);

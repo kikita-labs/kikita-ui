@@ -27,6 +27,7 @@ import {
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiButtonDirective } from '../button';
 import { KuiFieldActionDirective } from '../field';
+import { KuiLinkDirective } from '../link';
 import { KuiProgressComponent } from '../progress';
 import type { KuiUploadFile, KuiUploadFileStatus } from './kui-upload-file.interface';
 
@@ -87,7 +88,7 @@ function detectKind(name: string): KuiFileKind | null {
 @Component({
   selector: 'kui-file-upload',
   templateUrl: './kui-file-upload.component.html',
-  imports: [KuiButtonDirective, KuiFieldActionDirective, KuiProgressComponent],
+  imports: [KuiButtonDirective, KuiFieldActionDirective, KuiLinkDirective, KuiProgressComponent],
   host: {
     class: 'kui-file-upload',
     '[attr.data-kui-size]': 'effectiveSize()',

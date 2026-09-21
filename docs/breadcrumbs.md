@@ -85,6 +85,12 @@ The library does not enforce a single collapse strategy; pick the one that fits 
 - The current crumb is a `<span aria-current="page">`, not a link, and is not in tab order.
 - `[kuiBreadcrumbSeparator]` renders a decorative chevron `<li aria-hidden="true">`, never read by assistive technology.
 
+Breadcrumb links intentionally do not compose `[kuiLink]`. Breadcrumbs owns its
+navigation-specific spacing, responsive size scale, color tokens, separator
+relationship, and current-page treatment; applying generic Link styling would
+create competing visual contracts. Keep navigable crumbs as native anchors with
+`[kuiBreadcrumbItem]`.
+
 ## Explicitly Not Included
 
 - A dropdown/menu embedded in a single crumb (navigating on click, not choosing from a list) — that is a Menu/Dropdown use case, not Breadcrumbs.
