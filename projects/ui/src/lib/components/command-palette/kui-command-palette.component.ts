@@ -5,6 +5,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { DOCUMENT } from '@angular/common';
 import type { ElementRef, OnDestroy, TemplateRef } from '@angular/core';
 import {
+  booleanAttribute,
   Component,
   computed,
   effect,
@@ -57,7 +58,7 @@ export class KuiCommandPaletteComponent implements OnDestroy {
   /** Command groups rendered in the list. */
   readonly groups = input<readonly KuiCommandGroup[]>([]);
   /** Loading state. Renders skeleton rows and sets `aria-busy`. */
-  readonly loading = input(false);
+  readonly loading = input(false, { transform: booleanAttribute });
   /** Search input placeholder. */
   readonly placeholder = input('Type a command or search...');
   /** Accessible label for the modal command palette dialog. */

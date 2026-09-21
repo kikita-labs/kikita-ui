@@ -5,6 +5,7 @@ import { ViewportRuler } from '@angular/cdk/scrolling';
 import { DOCUMENT } from '@angular/common';
 import type { OnDestroy, TemplateRef } from '@angular/core';
 import {
+  booleanAttribute,
   Component,
   computed,
   DestroyRef,
@@ -90,7 +91,7 @@ export class KuiDropdownComponent implements OnDestroy {
   readonly offset = input(4);
 
   /** Close the panel when a selectable option is clicked. */
-  readonly closeOnSelect = input(true);
+  readonly closeOnSelect = input(true, { transform: booleanAttribute });
 
   /**
    * Controlled open state exposed as the `open` model input.

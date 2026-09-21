@@ -6,6 +6,7 @@ import { ViewportRuler } from '@angular/cdk/scrolling';
 import { DOCUMENT } from '@angular/common';
 import type { OnDestroy, TemplateRef } from '@angular/core';
 import {
+  booleanAttribute,
   Component,
   computed,
   DestroyRef,
@@ -85,7 +86,7 @@ export class KuiPopoverComponent implements OnDestroy {
   readonly align = input<KuiPopoverAlign>('center');
 
   /** Show the arrow caret pointing to the anchor. */
-  readonly arrow = input(false);
+  readonly arrow = input(false, { transform: booleanAttribute });
 
   /** `click` toggles on click and closes on outside click / ESC. `hover` opens on mouseenter and closes on mouseleave. */
   readonly triggerType = input<KuiPopoverTriggerType>('click');
@@ -100,7 +101,7 @@ export class KuiPopoverComponent implements OnDestroy {
   readonly offset = input(8);
 
   /** Trap focus inside the panel and auto-focus the first focusable element on open. */
-  readonly trapFocus = input(false);
+  readonly trapFocus = input(false, { transform: booleanAttribute });
 
   /** Two-way binding for controlled open state. */
   readonly open = model(false);

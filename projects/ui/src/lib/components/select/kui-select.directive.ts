@@ -90,15 +90,15 @@ export class KuiSelectDirective<T = unknown>
   readonly value = model<T | readonly T[] | null>(null);
 
   /** Whether the control is disabled. Set by `[formField]` or `[disabled]` directly. */
-  readonly disabled = input(false);
+  readonly disabled = input(false, { transform: booleanAttribute });
   /** Whether the control is readonly. Set by `[formField]` or `[readonly]` directly. */
-  readonly readonly = input(false);
+  readonly readonly = input(false, { transform: booleanAttribute });
   /** Whether the control has validation errors. Set by `[formField]`. */
-  readonly invalid = input(false);
+  readonly invalid = input(false, { transform: booleanAttribute });
   /** Current validation errors. Set by `[formField]`. */
   readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
   /** Whether the control has been touched. Set by `[formField]`. */
-  readonly touched = input(false);
+  readonly touched = input(false, { transform: booleanAttribute });
   /** Emitted when the dropdown closes; marks the control as touched in the form system. */
   readonly touch = output<void>();
   /** Explicit id override. If omitted inside `kui-field`, the field id is used. */
