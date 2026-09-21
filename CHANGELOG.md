@@ -18,6 +18,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   indeterminate state instead of an invalid ARIA/CSS numeric value.
 - `kui-avatar` and `kui-avatar-group` coerce static numeric palette/count attributes and retain
   finite, safe fallback behavior for invalid values.
+- `kuiTimePicker` coerces static hour/minute/second step attributes and uses `1` for invalid or
+  non-positive values.
 
 ### Added
 

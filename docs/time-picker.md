@@ -127,11 +127,14 @@ last valid value:
   browser at construction time or from "Now"). Auto-wired into a sibling
   `kui-time-picker-panel` inside the same `kui-field` (see Usage above).
 - `format`: `'24h' | '12h'` (default: `'24h'`). Also auto-wired (push-only) into the panel.
-- `hourStep`: `number` (default: `1`). Not in the Claude Design spec's own API table (only
+- `hourStep`: positive integer (default: `1`). Static numeric values are coerced; invalid or
+  non-positive values use `1`. Not in the Claude Design spec's own API table (only
   `minuteStep`/`secondStep` are) — added for naming/behavior parity with those two. Also
   auto-wired (push-only).
-- `minuteStep`: `number` (default: `1`). Also auto-wired (push-only).
-- `secondStep`: `number` (default: `1`, only relevant with `showSeconds`). Also auto-wired
+- `minuteStep`: positive integer (default: `1`). Static numeric values are coerced; invalid or
+  non-positive values use `1`. Also auto-wired (push-only).
+- `secondStep`: positive integer (default: `1`, only relevant with `showSeconds`). Static numeric
+  values are coerced; invalid or non-positive values use `1`. Also auto-wired
   (push-only).
 - `showSeconds`: `boolean` (default: `false`). Also auto-wired (push-only).
 - `minTime` / `maxTime`: `Date | undefined` — earliest/latest selectable time-of-day (inclusive;

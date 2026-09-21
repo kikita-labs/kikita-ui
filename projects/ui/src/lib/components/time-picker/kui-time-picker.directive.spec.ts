@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
@@ -45,6 +46,24 @@ class TestTimePickerHost {
   readonly disabled = signal(false);
   readonly readonly = signal(false);
 }
+
+@Component({
+  template: `
+    <kui-field label="Time">
+      <input kuiTimePicker hourStep="3" minuteStep="invalid" secondStep="0" />
+      <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="280px">
+        <kui-time-picker-panel />
+      </kui-dropdown>
+    </kui-field>
+  `,
+  imports: [
+    KuiFieldComponent,
+    KuiDropdownComponent,
+    KuiTimePickerDirective,
+    KuiTimePickerPanelComponent,
+  ],
+})
+class StaticStepsTimePickerHost {}
 
 function clickInput(input: HTMLInputElement): void {
   input.dispatchEvent(new Event('pointerdown', { bubbles: true }));
@@ -348,5 +367,27 @@ describe('KuiTimePickerDirective', () => {
     clickInput(getInput());
     fixture.detectChanges();
     expect(document.querySelectorAll('.kui-timepicker-col').length).toBe(3);
+  });
+});
+
+describe('KuiTimePickerDirective static step attributes', () => {
+  afterEach(() => {
+    document.querySelector('.cdk-overlay-container')?.replaceChildren();
+  });
+
+  it('coerces static numeric attributes and defaults invalid steps to one', async () => {
+    await TestBed.configureTestingModule({
+      imports: [StaticStepsTimePickerHost],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(StaticStepsTimePickerHost);
+    fixture.detectChanges();
+
+    const directive = fixture.debugElement
+      .query(By.directive(KuiTimePickerDirective))
+      .injector.get(KuiTimePickerDirective);
+
+    expect(directive.hourStep()).toBe(3);
+    expect(directive.minuteStep()).toBe(1);
+    expect(directive.secondStep()).toBe(1);
   });
 });

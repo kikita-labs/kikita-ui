@@ -20,6 +20,10 @@ import type {
 } from '@angular/forms/signals';
 
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
+import {
+  optionalBooleanAttribute,
+  positiveIntegerAttribute,
+} from '../../utils/kui-input-transform.util';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import {
   autoMaskTimeInputText,
@@ -29,10 +33,6 @@ import {
 } from './kui-time-format.util';
 import type { KuiTimePickerFormat } from './kui-time-picker.types';
 import { KuiTimePickerInputAffixComponent } from './kui-time-picker-input-affix.component';
-
-function optionalBooleanAttribute(value: unknown): boolean | undefined {
-  return value == null ? undefined : booleanAttribute(value);
-}
 
 /** Compares two nullable dates by timestamp, treating `null` as its own distinct value. */
 function sameInstant(a: Date | null, b: Date | null): boolean {
@@ -102,11 +102,11 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
    * `minuteStep`/`secondStep`), added for naming/behavior parity with those two. Auto-wired
    * (push-only) into a sibling `kui-time-picker-panel`.
    */
-  readonly hourStep = input(1);
+  readonly hourStep = input(1, { transform: positiveIntegerAttribute });
   /** Minute column step. Auto-wired (push-only) into a sibling `kui-time-picker-panel`. */
-  readonly minuteStep = input(1);
+  readonly minuteStep = input(1, { transform: positiveIntegerAttribute });
   /** Second column step, used only when `showSeconds` is true. Auto-wired (push-only). */
-  readonly secondStep = input(1);
+  readonly secondStep = input(1, { transform: positiveIntegerAttribute });
   /** Shows a seconds column/field. Defaults to false. Auto-wired (push-only). */
   readonly showSeconds = input(false, { transform: booleanAttribute });
   /**
