@@ -13,7 +13,6 @@ import {
   inject,
   input,
   model,
-  numberAttribute,
   signal,
   viewChild,
   ViewContainerRef,
@@ -26,14 +25,10 @@ import {
   observeViewportResize,
   wireFloatingPanelDismissal,
 } from '../../utils/kui-floating-panel.util';
+import { standardOverlayOffsetAttribute } from '../../utils/kui-input-transform.util';
 import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
 
 let nextDropdownId = 0;
-
-function dropdownOffsetAttribute(value: unknown): number {
-  const parsed = numberAttribute(value, 4);
-  return Number.isFinite(parsed) ? parsed : 4;
-}
 
 /**
  * Floating listbox panel rendered in an Angular CDK overlay.
@@ -94,7 +89,7 @@ export class KuiDropdownComponent implements OnDestroy {
   });
 
   /** Gap in px between the anchor and the panel edge. */
-  readonly offset = input(4, { transform: dropdownOffsetAttribute });
+  readonly offset = input(4, { transform: standardOverlayOffsetAttribute });
 
   /** Close the panel when a selectable option is clicked. */
   readonly closeOnSelect = input(true, { transform: booleanAttribute });

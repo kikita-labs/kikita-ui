@@ -15,3 +15,9 @@ export function positiveIntegerAttribute(value: unknown): number {
   const parsed = numberAttribute(value, 1);
   return Number.isFinite(parsed) && parsed >= 1 ? Math.floor(parsed) : 1;
 }
+
+/** Coerces an overlay gap to a finite number, using the standard four-pixel gap on failure. */
+export function standardOverlayOffsetAttribute(value: unknown): number {
+  const parsed = numberAttribute(value, 4);
+  return Number.isFinite(parsed) ? parsed : 4;
+}
