@@ -23,6 +23,18 @@ class ProgressHost {
   readonly size = signal<KuiProgressSize>('md');
 }
 
+@Component({
+  imports: [KuiProgressComponent],
+  template: `<kui-progress value="60" aria-label="Upload progress" />`,
+})
+class StaticProgressValueHost {}
+
+@Component({
+  imports: [KuiProgressComponent],
+  template: `<kui-progress value="not-a-number" aria-label="Upload progress" />`,
+})
+class InvalidStaticProgressValueHost {}
+
 describe('KuiProgressComponent', () => {
   let fixture: ComponentFixture<ProgressHost>;
   let host: ProgressHost;
@@ -128,5 +140,27 @@ describe('KuiProgressComponent', () => {
     const fill = el().querySelector('.kui-progress-circular-fill')!;
     const offset = parseFloat(fill.getAttribute('stroke-dashoffset')!);
     expect(offset).toBeCloseTo(103.67 * 0.25, 1);
+  });
+});
+
+describe('KuiProgressComponent static value attributes', () => {
+  it('coerces a static numeric value attribute', () => {
+    TestBed.configureTestingModule({ imports: [StaticProgressValueHost] });
+    const fixture = TestBed.createComponent(StaticProgressValueHost);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('kui-progress')?.getAttribute('aria-valuenow')).toBe(
+      '60',
+    );
+  });
+
+  it('treats an invalid static numeric value as indeterminate', () => {
+    TestBed.configureTestingModule({ imports: [InvalidStaticProgressValueHost] });
+    const fixture = TestBed.createComponent(InvalidStaticProgressValueHost);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('kui-progress')?.hasAttribute('aria-valuenow')).toBe(
+      false,
+    );
   });
 });

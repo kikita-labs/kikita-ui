@@ -14,7 +14,8 @@ import { KuiProgressComponent } from '@kikita-labs/ui';
 <kui-progress value="60" aria-label="Upload progress" />
 ```
 
-Set `value` to a number from `0` to `100`. Values are clamped visually.
+Set `value` to a number from `0` to `100`. Static numeric attributes are coerced; invalid values
+are treated as indeterminate. Values are clamped visually.
 
 ## Indeterminate
 

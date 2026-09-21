@@ -1,4 +1,4 @@
-import { Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { Component, computed, input, numberAttribute, ViewEncapsulation } from '@angular/core';
 
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 
@@ -28,6 +28,13 @@ const CIRCULAR_CONFIGS: Record<string, CircularConfig> = {
   lg: { size: 48, cx: 24, cy: 24, r: 22.25, strokeWidth: 3.5, circumference: 139.8 },
   xl: { size: 64, cx: 32, cy: 32, r: 30, strokeWidth: 4, circumference: 188.5 },
 };
+
+function numberOrNullAttribute(value: unknown): number | null {
+  if (value == null) return null;
+
+  const parsed = numberAttribute(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
 
 @Component({
   selector: 'kui-progress',
@@ -83,8 +90,8 @@ export class KuiProgressComponent {
   /** Visual shape of the progress indicator. Defaults to linear. */
   readonly type = input<KuiProgressType>('linear');
 
-  /** Progress value from 0 to 100, or null for an indeterminate indicator. */
-  readonly value = input<number | null>(null);
+  /** Progress value from 0 to 100, or null for an indeterminate indicator. Invalid values are indeterminate. */
+  readonly value = input<number | null, unknown>(null, { transform: numberOrNullAttribute });
 
   /** Semantic color applied to the filled portion of the indicator. */
   readonly color = input<KuiProgressColor>('primary');

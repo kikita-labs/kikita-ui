@@ -14,6 +14,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   chart- or slide-specific fallback accessible name; applications should continue to provide a
   content-specific label where available. `kui-empty-state` supports a description-only state, and
   `tr[kuiRow]` no longer requires `value` when it does not participate in row selection.
+- `kui-progress` coerces a static numeric `value` attribute. Invalid values produce the existing
+  indeterminate state instead of an invalid ARIA/CSS numeric value.
 
 ### Added
 
