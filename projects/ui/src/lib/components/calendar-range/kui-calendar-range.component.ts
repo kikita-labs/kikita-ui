@@ -11,6 +11,11 @@ import {
 
 import { getKuiCalendarLocaleText } from '../../i18n/kui-calendar-locale-text.util';
 import { KUI_LOCALE } from '../../i18n/kui-locale.token';
+import {
+  KUI_CALENDAR_NAVIGATION_LABELS,
+  KUI_CALENDAR_SIZES,
+  type KuiCalendarNavigationView,
+} from '../../utils/kui-calendar-navigation.util';
 import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
@@ -49,15 +54,7 @@ interface KuiCalendarPickerCell {
   onClick: () => void;
 }
 
-type KuiCalendarView = 'days' | 'months' | 'years';
-
-const NAV_LABEL: Record<KuiCalendarView, { prev: string; next: string }> = {
-  days: { prev: 'Previous month', next: 'Next month' },
-  months: { prev: 'Previous year', next: 'Next year' },
-  years: { prev: 'Previous decade', next: 'Next decade' },
-};
-
-const KUI_CALENDAR_SIZES = ['sm', 'md'] as const;
+type KuiCalendarView = KuiCalendarNavigationView;
 
 /**
  * Inline month-grid date-range picker with month/year/decade navigation. Same visual grid
@@ -286,7 +283,7 @@ export class KuiCalendarRangeComponent {
     getKuiCalendarLocaleText(this.locale() ?? this.injectedLocale),
   );
 
-  protected readonly navLabels = computed(() => NAV_LABEL[this.view()]);
+  protected readonly navLabels = computed(() => KUI_CALENDAR_NAVIGATION_LABELS[this.view()]);
 
   protected readonly headerLabel = computed(() => {
     const view = this.view();
