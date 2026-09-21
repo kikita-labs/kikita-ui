@@ -34,6 +34,13 @@ Command Palette retains consumer-owned required IDs. Development builds diagnose
 invalid and duplicate IDs across groups; the identity contract and focus-reset
 behavior are documented in [Command Palette](command-palette.md).
 
+Scrollbar custom-track research is not a shipped replacement. A Chromium-only
+prototype supports the article's CSS feature combination and falls back in
+forced-colors, but `animation-range` is not Baseline and Firefox/WebKit still
+need verification. Keep native scrollbar styling until a concrete approved
+design need and the complete browser/accessibility matrix justify a separate
+opt-in primitive; see [Scrollbar](scrollbar.md).
+
 Inherited reports below are retained as investigation items. Dates describe the
 original reports, not fresh validation of the current checkout. Reproduce before
 fixing or closing them; record new evidence in state coverage.

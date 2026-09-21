@@ -82,3 +82,14 @@ remain separate work; this decision does not certify them as complete.
 
 Local skill copies are not updated automatically. Run the skill check and use
 the consent-preserving sync workflow when installing changed repository skills.
+
+## Scrollbar Replacement Decision
+
+The article-based custom-track approach is retained as research, not treated as
+already delivered merely because native token styling exists. The 2026-09-21
+Chromium feasibility probe observed its CSS feature combination and native
+fallback in forced-colors, but Firefox and WebKit were not available locally.
+Because `animation-range` is not Baseline, native styling remains the public
+contract. Reopen the implementation only for an approved concrete design need
+with a cross-browser, keyboard, touch, RTL, zoom, forced-colors, nested-scroll,
+drag-cancellation, and SSR/hydration verification plan.

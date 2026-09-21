@@ -11,9 +11,10 @@ For new verification, record scope, method/command, date, revision, result, and
 artifact (or explain why none exists). Separate source inspection from unit,
 browser, visual, SSR/hydration, and assistive-technology evidence.
 
-| Date       | Revision                           | Scope / method                         | Result / limitation                                                                                  |
-| ---------- | ---------------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| 2026-09-20 | 9cea329 plus documentation changes | Chart source and source-doc comparison | Corrected loading, sizing, and donut legend descriptions; no new runtime, visual, or AT verification |
+| Date       | Revision                           | Scope / method                           | Result / limitation                                                                                                                                           |
+| ---------- | ---------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-20 | 9cea329 plus documentation changes | Chart source and source-doc comparison   | Corrected loading, sizing, and donut legend descriptions; no new runtime, visual, or AT verification                                                          |
+| 2026-09-21 | 7f88697 plus scrollbar research    | Isolated custom-track Chromium 149 probe | CSS feature combination, keyboard scrolling, RTL, and forced-colors fallback observed; Firefox/WebKit binaries unavailable, so no cross-browser certification |
 
 ## Covered
 
@@ -57,7 +58,7 @@ browser, visual, SSR/hydration, and assistive-technology evidence.
 | Chip            | `/chip`            | neutral/primary/success/warning/danger/info appearances, xs/sm/md/lg sizes, default `removable` remove button, custom `button[kuiChipRemove]` remove action (plain and combined with `kuiIconButton`), counter, interactive button chip, focus, disabled, invalid, icon/avatar composition                                                                                   |
 | Combobox        | `/combobox`        | `input[kuiCombobox]`, local and remote search, projected `kui-dropdown`/`kuiOption`, highlight pipe, invalid/disabled/readonly/loading/empty states, inherited field sizes, free input mode, keyboard navigation, CDK overlay positioning                                                                                                                                    |
 | Command Palette | `/command-palette` | CDK overlay dialog, focus trap, grouped commands, query filtering, highlighted label matches, loading skeleton rows, empty state, disabled and danger items, keyboard navigation, selected output                                                                                                                                                                            |
-| Scrollbar       | `/scrollbar`       | `.kui-scroll` utility, vertical and horizontal native scroll containers, light/dark themed thumb tokens, static default/hover/active state references, dialog/dropdown/table-like contexts                                                                                                                                                                                   |
+| Scrollbar       | `/scrollbar`       | `.kui-scroll` utility, vertical and horizontal native scroll containers, light/dark themed thumb tokens, static default/hover/active state references, dialog/dropdown/table-like contexts. The article-based CSS custom-track probe is Chromium-only feasibility evidence; native styling remains the supported contract.                                                   |
 
 | Color Input | `/color-input` | compact `input[kuiColorInput]`, hex and OKLCH text values, swatch preview, chevron trigger, Kikita popover picker, 2D lightness/chroma surface, hue slider, L/C/H inputs, presets, copy action, invalid/disabled/readonly states, xs/sm/md/lg sizes, seed-grid composition |
 | Stepper | `/stepper` | horizontal/vertical orientation, sm/md/lg sizes, done/current/upcoming/disabled/error states, description line, compact dots-only mode, clickable done-step back navigation, non-linear forward jump, dark/light themes |
