@@ -6,13 +6,12 @@ import { inject, Injector, Service } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
+import { getFocusableElement } from '../../utils/kui-focusable-element.util';
 import type { KuiDialogConfig } from './kui-dialog.types';
 import { KuiDialogContainerComponent } from './kui-dialog-container.component';
 import type { KuiDialogContext, KuiDialogHost } from './kui-dialog-context.token';
 import { KUI_DIALOG_CONTEXT } from './kui-dialog-context.token';
 import { KuiDialogRef } from './kui-dialog-ref';
-
-type FocusableElement = Element & { focus: () => void };
 
 /**
  * @internal
@@ -91,12 +90,4 @@ export class KuiDialogService {
 
     return ref.afterClosed();
   }
-}
-
-function getFocusableElement(element: Element | null): FocusableElement | null {
-  if (!element || typeof (element as Partial<FocusableElement>).focus !== 'function') {
-    return null;
-  }
-
-  return element as FocusableElement;
 }

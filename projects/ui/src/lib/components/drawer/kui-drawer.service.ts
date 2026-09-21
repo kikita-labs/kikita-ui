@@ -6,13 +6,12 @@ import { inject, Injector, Service } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
+import { getFocusableElement } from '../../utils/kui-focusable-element.util';
 import type { KuiDrawerConfig } from './kui-drawer.types';
 import { KuiDrawerContainerComponent } from './kui-drawer-container.component';
 import type { KuiDrawerContext, KuiDrawerHost } from './kui-drawer-context.token';
 import { KUI_DRAWER_CONTEXT } from './kui-drawer-context.token';
 import { KuiDrawerRef } from './kui-drawer-ref';
-
-type FocusableElement = Element & { focus: () => void };
 
 /**
  * @internal
@@ -93,12 +92,4 @@ export class KuiDrawerService {
 
     return ref.afterClosed();
   }
-}
-
-function getFocusableElement(element: Element | null): FocusableElement | null {
-  if (!element || typeof (element as Partial<FocusableElement>).focus !== 'function') {
-    return null;
-  }
-
-  return element as FocusableElement;
 }
