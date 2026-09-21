@@ -8,7 +8,6 @@ import {
   inject,
   input,
   model,
-  numberAttribute,
   output,
   signal,
   viewChildren,
@@ -23,6 +22,7 @@ import { FormField } from '@angular/forms/signals';
 
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { positiveIntegerAttribute } from '../../utils/kui-input-transform.util';
 import { KuiFieldComponent } from '../field';
 import { KuiInputDirective } from '../input';
 import { KuiLoaderDirective } from '../loader';
@@ -115,7 +115,7 @@ const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
 /** Row of single-character cells for a one-time verification code or PIN. See the class-level example above. */
 export class KuiOtpInputComponent implements FormValueControl<string> {
   /** Number of cells. Defaults to `6`, the most common SMS/email code length. */
-  readonly length = input(6, { transform: numberAttribute });
+  readonly length = input(6, { transform: positiveIntegerAttribute });
 
   /** Control size. Defaults to md. */
   readonly size = input<KuiSize | undefined>();

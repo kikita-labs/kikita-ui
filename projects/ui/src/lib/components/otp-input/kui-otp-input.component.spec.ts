@@ -74,6 +74,12 @@ class OtpInputValidatorHost {
   });
 }
 
+@Component({
+  imports: [KuiOtpInputComponent],
+  template: `<kui-otp-input length="4" />`,
+})
+class StaticOtpInputHost {}
+
 describe('KuiOtpInputComponent', () => {
   function createFixture(): ComponentFixture<OtpInputHost> {
     TestBed.configureTestingModule({ imports: [OtpInputHost] });
@@ -97,6 +103,14 @@ describe('KuiOtpInputComponent', () => {
 
     expect(host.getAttribute('role')).toBe('group');
     expect(host.getAttribute('aria-label')).toBe('Verification code');
+    expect(cells(fixture).length).toBe(4);
+  });
+
+  it('coerces a static length attribute to a positive integer', () => {
+    TestBed.configureTestingModule({ imports: [StaticOtpInputHost] });
+    const fixture = TestBed.createComponent(StaticOtpInputHost);
+    fixture.detectChanges();
+
     expect(cells(fixture).length).toBe(4);
   });
 

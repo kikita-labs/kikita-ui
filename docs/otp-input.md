@@ -106,7 +106,7 @@ styling stay hidden until the field is touched.
 
 | Input         | Type                         | Default               | Description                                                                                         |
 | ------------- | ---------------------------- | --------------------- | --------------------------------------------------------------------------------------------------- |
-| `length`      | `number`                     | `6`                   | Number of cells.                                                                                    |
+| `length`      | positive integer             | `6`                   | Number of cells. Static numeric values are coerced; invalid or non-positive values use `1`.         |
 | `size`        | `KuiSize`                    | `'md'`                | Cell size. Same scale as `Input`.                                                                   |
 | `mask`        | `boolean`                    | `false`               | Renders every cell as `type="password"`, hiding entered characters.                                 |
 | `integerOnly` | `boolean`                    | `true`                | Restricts input to digits with a numeric mobile keyboard. `false` accepts letters too (uppercased). |
