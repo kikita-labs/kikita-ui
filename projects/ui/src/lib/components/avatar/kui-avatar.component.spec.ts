@@ -43,6 +43,20 @@ class GroupHost {
   ];
 }
 
+@Component({
+  imports: [KuiAvatarComponent],
+  template: '<kui-avatar name="Nikita Repin" paletteIndex="9" />',
+})
+class StaticPaletteHost {}
+
+@Component({
+  imports: [KuiAvatarGroupComponent],
+  template: '<kui-avatar-group max="2" [avatars]="avatars" />',
+})
+class StaticMaxHost {
+  protected readonly avatars = [{ name: 'A' }, { name: 'B' }, { name: 'C' }];
+}
+
 describe('KuiAvatarComponent', () => {
   it('renders initials with an accessible image role and status in the label', () => {
     const fixture = createFixture(InitialsHost);
@@ -100,6 +114,22 @@ describe('KuiAvatarGroupComponent', () => {
     expect(avatars.length).toBe(2);
     expect(overflow.textContent?.trim()).toBe('+1');
     expect(overflow.getAttribute('aria-label')).toBe('1 more');
+  });
+});
+
+describe('KuiAvatarComponent numeric attributes', () => {
+  it('coerces and clamps a static palette index', () => {
+    const fixture = createFixture(StaticPaletteHost);
+
+    expect(
+      fixture.nativeElement.querySelector('kui-avatar')?.getAttribute('data-kui-palette'),
+    ).toBe('7');
+  });
+
+  it('coerces a static maximum avatar count', () => {
+    const fixture = createFixture(StaticMaxHost);
+
+    expect(fixture.nativeElement.querySelectorAll('kui-avatar')).toHaveLength(2);
   });
 });
 

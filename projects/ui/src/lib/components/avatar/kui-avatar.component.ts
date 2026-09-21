@@ -1,4 +1,11 @@
-import { booleanAttribute, Component, computed, input, signal } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  computed,
+  input,
+  numberAttribute,
+  signal,
+} from '@angular/core';
 
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiSkeletonShape } from '../skeleton';
@@ -13,6 +20,13 @@ const STATUS_LABELS: Record<KuiAvatarStatus, string> = {
   busy: 'busy',
   offline: 'offline',
 };
+
+function numberOrUndefinedAttribute(value: unknown): number | undefined {
+  if (value == null || value === '') return undefined;
+
+  const parsed = numberAttribute(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
 
 /** Renders an accessible user or entity avatar with image, initials, or icon fallback. */
 @Component({
@@ -54,7 +68,9 @@ export class KuiAvatarComponent {
   readonly status = input<KuiAvatarStatus | undefined>();
 
   /** Optional palette slot from 1 to 7. Defaults to a stable hash of the name. */
-  readonly paletteIndex = input<number | undefined>();
+  readonly paletteIndex = input<number | undefined, unknown>(undefined, {
+    transform: numberOrUndefinedAttribute,
+  });
 
   /** Shows the skeleton/shimmer loading state and hides avatar content. */
   readonly loading = input(false, { transform: booleanAttribute });

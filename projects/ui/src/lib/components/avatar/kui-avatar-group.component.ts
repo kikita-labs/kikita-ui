@@ -1,10 +1,15 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, numberAttribute } from '@angular/core';
 
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiAvatarComponent } from './kui-avatar.component';
 import type { KuiAvatarItem } from './kui-avatar-item.interface';
 import type { KuiAvatarShape } from './kui-avatar-shape.type';
 import type { KuiAvatarSize } from './kui-avatar-size.type';
+
+function positiveIntegerAttribute(value: unknown): number {
+  const parsed = numberAttribute(value, 4);
+  return Number.isFinite(parsed) && parsed >= 1 ? Math.floor(parsed) : 4;
+}
 
 /** Renders an overlapping avatar stack with an overflow avatar when items exceed the limit. */
 @Component({
@@ -25,7 +30,8 @@ export class KuiAvatarGroupComponent {
   readonly avatars = input<readonly KuiAvatarItem[]>([]);
 
   /** Maximum visible avatars before rendering an overflow counter. */
-  readonly max = input(4);
+  /** Maximum visible avatars. Invalid or less-than-one values use the default of `4`. */
+  readonly max = input(4, { transform: positiveIntegerAttribute });
 
   /** Size applied to every avatar in the group. */
   readonly size = input<KuiAvatarSize | undefined>();

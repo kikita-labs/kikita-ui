@@ -16,6 +16,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `tr[kuiRow]` no longer requires `value` when it does not participate in row selection.
 - `kui-progress` coerces a static numeric `value` attribute. Invalid values produce the existing
   indeterminate state instead of an invalid ARIA/CSS numeric value.
+- `kui-avatar` and `kui-avatar-group` coerce static numeric palette/count attributes and retain
+  finite, safe fallback behavior for invalid values.
 
 ### Added
 
