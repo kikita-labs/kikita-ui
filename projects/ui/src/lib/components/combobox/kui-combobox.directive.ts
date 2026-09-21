@@ -19,14 +19,11 @@ import type {
 
 import { KUI_COMBOBOX_OPTIONS } from '../../tokens/kui-combobox-options.token';
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
+import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import { KuiComboboxInputSuffixComponent } from './kui-combobox-input-suffix.component';
 import type { KuiComboboxMode } from './kui-combobox-mode.type';
-
-function optionalBooleanAttribute(value: unknown): boolean | undefined {
-  return value == null ? undefined : booleanAttribute(value);
-}
 
 /**
  * Converts a native text input into a searchable Kikita UI combobox trigger.

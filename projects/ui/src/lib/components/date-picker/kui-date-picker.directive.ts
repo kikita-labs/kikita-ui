@@ -20,14 +20,11 @@ import type {
 } from '@angular/forms/signals';
 
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
+import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { startOfMonth } from '../calendar/kui-calendar-date.util';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import { formatDisplayDate, parseDisplayDate } from './kui-date-format.util';
 import { KuiDatePickerInputAffixComponent } from './kui-date-picker-input-affix.component';
-
-function optionalBooleanAttribute(value: unknown): boolean | undefined {
-  return value == null ? undefined : booleanAttribute(value);
-}
 
 /** Compares two nullable dates by timestamp, treating `null` as its own distinct value. */
 function sameDate(a: Date | null, b: Date | null): boolean {

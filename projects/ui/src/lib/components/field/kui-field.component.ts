@@ -17,6 +17,7 @@ import { FormField } from '@angular/forms/signals';
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { KuiCalendarComponent } from '../calendar/kui-calendar.component';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
@@ -38,10 +39,6 @@ import {
 } from './kui-field-markers.directive';
 
 let nextFieldId = 0;
-
-function optionalBooleanAttribute(value: unknown): boolean | undefined {
-  return value == null ? undefined : booleanAttribute(value);
-}
 
 /** Wraps a form control with Kikita UI label, hint, error, and required state semantics. */
 @Component({
