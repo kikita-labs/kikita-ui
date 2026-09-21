@@ -207,23 +207,9 @@ export interface KuiChartDonutShare {
 }
 
 /**
- * Computes each slice's share of the total for `kui-donut-chart`. `hiddenSliceIds` are excluded
- * from both the total and the returned list -- hiding a slice through the legend re-partitions the
- * circle among the remaining slices, the same "looks like the hidden item was never there" rule
- * `kui-line-chart`/`kui-bar-chart` (grouped) apply to their own hidden-series behavior, so all
- * chart types recompute consistently. `stacked bar` and `donut` both fully exclude the hidden item
- * from their totals; only grouped line/bar keep a fixed axis domain (see `computeGroupedDomain`'s
- * JSDoc) because there the axis is shared infrastructure other visible series still read from.
- *
- * An earlier version of this function had the opposite behavior (frozen angles, hidden slice
- * leaves a gap instead of being excluded from the total) per a since-superseded reading of a
- * different design spec (`0aef6d78/09 Chart.dc.html`'s Open Questions). That spec conflicted with
- * this library's own default recompute-on-hide behavior everywhere else; the maintainer confirmed
- * on 2026-09-18 that recompute is correct for donut too, reverting to this simpler behavior.
- *
- * When every remaining slice's `value` is `0` (including an empty `slices` array), every slice gets
- * an equal share instead of `NaN` from dividing by a zero total -- this still produces a full
- * circle for a single all-zero slice, and even wedges for several, rather than a broken render.
+ * Computes donut shares after excluding hidden slices from both output and total.
+ * Zero-total visible slices receive equal shares, including one full-circle slice.
+ * Unlike grouped line/bar axes, donut angles recompute when visibility changes.
  */
 export function computeDonutShares(
   slices: readonly KuiChartSlicePoint[],

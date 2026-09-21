@@ -33,27 +33,11 @@ import { KuiAlertTitleDirective } from './kui-alert-title.directive';
 const KUI_ALERT_SIZES: readonly KuiAlertSize[] = ['sm', 'md'];
 
 /**
- * Inline notification embedded in the page content flow.
- *
- * Unlike `kuiToast()`, `kui-alert` does not float above the interface, does not self-dismiss on a
- * timer, and does not require a `document.body` region -- it renders directly in the surrounding
- * content. It is a controlled component: closing it is the consumer's responsibility. `kui-alert`
- * only emits `(closed)` when the close button is clicked; removing it from the DOM (e.g. from an
- * `@if` bound to a signal) is up to the caller, the same pattern `[kuiChip]`'s `(removed)` uses.
- *
- * `title`/`message`/`actionLabel` cover the common plain-text case. For richer content, project
- * `[kuiAlertTitle]`, `[kuiAlertIcon]`, `[kuiAlertMessage]`, or `[kuiAlertActions]` instead -- the
- * same shorthand-input-or-projected-content pattern `kui-empty-state` uses for its icon/actions
- * slots. A projected slot always takes over its area entirely; it is not merged with the matching
- * input.
- *
- * At least one of `title`/`message`/a projected `[kuiAlertMessage]` should be set. `neutral` never
- * shows the *built-in* icon regardless of `showIcon`, matching `kuiToast()`'s severity mapping --
- * a projected `[kuiAlertIcon]` always renders, since an explicit custom icon is always intentional.
- * The built-in severity icon and the close glyph are inline SVGs built from
- * `kui-chrome-icon-paths.util` -- the same synchronous, SSR-safe pattern `kuiToast()` uses for its
- * own chrome -- instead of the async, name-resolved `kui-icon`, so they never depend on a network
- * fetch or wait past hydration to appear.
+ * Inline controlled notification. The consumer removes it after the closed event;
+ * there is no timer or overlay. Projected title, icon, message, and action slots
+ * replace their matching shorthand inputs. Supply a title, message, or message slot.
+ * Neutral hides the built-in icon, but an explicit icon slot always renders.
+ * Essential chrome uses synchronous inline SVG. See docs/alert.md.
  *
  * @example
  * ```html

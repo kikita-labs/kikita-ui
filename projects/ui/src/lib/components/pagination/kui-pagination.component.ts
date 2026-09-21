@@ -46,28 +46,11 @@ interface KuiPaginationEllipsisItem {
 type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
 
 /**
- * Navigation between pages of a long list or table: page numbers, step forward/back, jump to
- * first/last, and optionally a "Showing X-Y of Z" summary and a rows-per-page picker.
- *
- * Composed entirely from existing kit primitives -- `button[kuiButton]` for page numbers,
- * `button[kuiIconButton]` for First/Prev/Next/Last, and `input[kuiSelect]` for the rows-per-page
- * picker -- plus one piece of markup the kit has no primitive for: a static, non-interactive
- * ellipsis. The First/Prev/Next/Last chevrons are this component's own internal chrome, not
- * user-facing content, so (like `kui-select`'s dropdown chevron and `kui-tabs`' scroll chevrons)
- * they render as static inline SVG from `kui-chrome-icon-paths.util` projected into
- * `button[kuiIconButton]` instead of that directive's network-dependent, name-resolved `icon`
- * input. `kui-pagination` itself only owns the page-window/ellipsis algorithm and the
- * coordinated `currentPage`/`pageSize` state; it is a composite component (not a directive) for
- * the same reason `kui-segmented` is: no single native element models "a row of independently
- * focusable page controls".
- *
- * The current page is marked with `shape="solid" appearance="primary"` plus `aria-current="page"`
- * (state is never carried by color alone) -- the page-number buttons otherwise reuse
- * `button[kuiButton]` untouched, matching Claude Design spec `03 Pagination.dc.html` exactly.
- *
- * Uncontrolled/controlled state is plain two-way binding (`[(currentPage)]`, `[(pageSize)]`),
- * not `FormValueControl` -- pagination is page-level navigation state, not a form field value,
- * so it is never placed inside `kui-field`.
+ * Page navigation with a page window, optional summary, and rows-per-page picker.
+ * The consumer owns data slicing; currentPage and pageSize are two-way models.
+ * Composes existing button, icon-button, and select primitives. The current page
+ * has aria-current="page"; ellipses are noninteractive. Pagination is navigation
+ * state, not a Signal Forms field. See docs/pagination.md.
  *
  * @example
  * ```html

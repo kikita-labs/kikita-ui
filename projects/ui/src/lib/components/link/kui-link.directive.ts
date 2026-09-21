@@ -24,13 +24,10 @@ type KuiLinkEndSlot =
   | { readonly kind: 'external'; readonly ref: ComponentRef<KuiLinkExternalIconComponent> };
 
 /**
- * Applies Kikita UI interactive link styling and behavior to a native `<a>` (real navigation) or
- * `<button type="button">` (JS-driven action with no navigation -- MUI's a11y guidance: a link
- * with no real `href` should render as a button, not an anchor).
- *
- * Composes `[kuiText]` as a host directive, exposing only its `variant` input for typography.
- * `[kuiText]`'s own `tone` is not exposed -- `tone` belongs to `[kuiLink]` alone. See `docs/link.md`
- * for the full rationale and usage examples.
+ * Styles native anchors for navigation and buttons for actions. Consumers supply
+ * a real href on anchors and type="button" on action buttons.
+ * Composes KuiTextDirective's variant input; link tone owns interactive color.
+ * See docs/link.md for usage and accessibility requirements.
  */
 @Directive({
   selector: 'a[kuiLink], button[kuiLink]',

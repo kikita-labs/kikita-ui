@@ -30,30 +30,12 @@ import { KuiCarouselSlideDirective } from './kui-carousel-slide.directive';
 let nextCarouselId = 0;
 
 /**
- * Horizontal strip of arbitrary-content slides with Prev/Next arrows, a dot picker, and optional
- * autoplay. New pattern (not among the kit's pre-existing primitives), built from Claude Design
- * spec `07 Carousel.dc.html`.
- *
- * The slide track is native scroll + `scroll-snap`, programmatically scrolled to the current slide
- * -- not a hand-rolled transform animation -- so trackpad/touch swipe and its inertia come from the
- * browser for free. A pointer-based mouse drag-to-scroll is layered on top for desktop (`draggable`,
- * default `true`, one flag for both touch swipe and mouse drag since they're the same "drag the
- * track" action from different input devices); disabling it also switches the track to
- * `overflow-x: hidden` so wheel/trackpad scroll can't move it either. A debounced `scroll` listener
- * syncs `index` back from any of these so the dot picker and Prev/Next state stay correct
- * regardless of how the user moved the track. `[kuiCarouselSlide]` marks projected slide content
- * (`role="group"` +
- * `aria-roledescription="slide"`), the same content-projection shape `kuiTab`/`kuiTabPanel` use for
- * `kui-tabs`. Prev/Next/Play/Pause reuse `button[kuiIconButton]` with static inline SVG chrome
- * (`kui-chrome-icon-paths.util`) instead of the network-dependent, name-resolved `icon` input, the
- * same treatment `kui-pagination` and `kui-media-viewer` already give their own essential-to-
- * operate controls. The dot picker follows the "tabbed carousel" pattern
- * (`role="tablist"`/`role="tab"`, roving tabindex) since the kit has no ready-made "dots" primitive.
- *
- * Per the design spec's own open questions: `showArrows=false, showDots=false` ("swipe only") is
- * left reachable even though it is not self-sufficient under WCAG 2.5.7, and `autoplay` (default
- * `false`) always renders a visible Play/Pause control and pauses on hover/focus as a compromise
- * with the general accessibility guidance to avoid autoplay entirely.
+ * Native scroll-snap carousel with projected slides, navigation, and optional autoplay.
+ * The index model follows both programmatic and manual scrolling. Setting draggable
+ * false disables touch/mouse dragging and wheel/trackpad scrolling of the track.
+ * Autoplay defaults off; when enabled, it exposes Play/Pause and pauses on hover/focus.
+ * The dot picker uses roving tabs. Hiding both arrows and dots leaves a swipe-only
+ * surface that needs an accessible non-drag alternative. See docs/carousel.md.
  *
  * @example
  * ```html

@@ -36,3 +36,18 @@ Follow Angular 22 best practices and the local component rules.
 - Expose readonly signals and command methods.
 - Use effects only for side effects close to the boundary.
 - Do not copy one signal into another writable signal when `computed()` works.
+
+## Comments and Public JSDoc
+
+- Start public JSDoc with the observable contract. Add units, defaults,
+  precedence, side effects, ownership, and deprecation details where relevant.
+- Keep non-obvious invariants close to the code: Signal Forms collisions,
+  hydration timing, numerical edge cases, and security constraints need reasons.
+- Move incident histories and alternative-library comparisons to tracked design
+  decisions when they remain useful. Preserve required license attribution.
+- Do not enforce an arbitrary line limit or narrate obvious assignments.
+
+Prefer `Viewport coordinates for pointer tooltips; element anchors for keyboard
+focus` over a history of every tooltip bug. Prefer `Consumer owns removal; this
+output only requests dismissal` over describing the event emitter implementation.
+Use a short summary plus `@remarks` when a public contract needs extended detail.

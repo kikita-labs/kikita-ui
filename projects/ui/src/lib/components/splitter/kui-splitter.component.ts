@@ -28,30 +28,12 @@ const ARROW_STEP = 2;
 const ARROW_STEP_LARGE = 10;
 
 /**
- * Draggable multi-pane layout: two or more `kui-splitter-pane`s separated by keyboard- and
- * pointer-resizable gutters, following the W3C ARIA APG Window Splitter Pattern. New pattern (not
- * among the kit's pre-existing primitives), built from Claude Design spec `08 Splitter.dc.html`.
- *
- * Gutters are not written by the consumer -- `kui-splitter` creates one `KuiSplitterGutterComponent`
- * per pair of adjacent panes and inserts it between their native elements with `Renderer2`
- * (`ViewContainerRef.createComponent` + `insertBefore`), the same technique real-world libraries
- * like angular-split use: Angular's content projection has no declarative way to interleave
- * generated elements between individually projected sibling components. Pane sizes are percentages
- * of the splitter's own immediate container, computed via `calc()` against the gutters' fixed pixel
- * width so panes and gutters always sum to exactly 100% with no drift; nesting one splitter inside
- * another pane needs no special API since each splitter only ever measures its own container.
- *
- * A custom thumb via a `[kuiSplitterThumb]` marker (projected inside a pane, replacing the default
- * grip/chevron) is not implemented in this iteration -- it would require relocating a projected DOM
- * node into the adjacent gutter, deferred as a documented gap.
- *
- * Gutters are only ever created in the browser, after the first render (`afterNextRender`), never
- * during SSR and never synchronously in the constructor: the server-rendered DOM has no gutters at
- * all (the template projects only panes), and inserting them any earlier than `afterNextRender`
- * makes Angular's hydration reconciliation see gutter elements where it expected only the projected
- * panes it rendered server-side, throwing `NG0500`. Pane sizes/`flex-basis`, unlike the gutters
- * themselves, are computed on both server and client so panes are correctly sized before hydration
- * -- only the imperative gutter DOM insertion is deferred.
+ * Resizable layout with two or more projected panes and generated adjacent gutters.
+ * Pointer and keyboard resizing follow the ARIA Window Splitter pattern. Pane
+ * percentages account for gutter width within this splitter's immediate container.
+ * Gutters are inserted only afterNextRender: earlier insertion changes the server
+ * DOM shape before hydration and causes NG0500. Pane sizing runs on both platforms.
+ * Custom projected thumbs are unsupported. See docs/splitter.md.
  *
  * @example
  * ```html
