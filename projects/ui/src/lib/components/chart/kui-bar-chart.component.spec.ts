@@ -11,7 +11,6 @@ import { KuiBarChartComponent } from './kui-bar-chart.component';
   imports: [KuiBarChartComponent],
   template: `
     <kui-bar-chart
-      ariaLabel="Signups per plan"
       [series]="series()"
       [categories]="categories()"
       [orientation]="orientation()"
@@ -44,6 +43,13 @@ function bars(fixture: ComponentFixture<HostComponent>): SVGRectElement[] {
 }
 
 describe('KuiBarChartComponent', () => {
+  it('uses a generic accessible name when ariaLabel is omitted', () => {
+    const fixture = createFixture();
+    const graphic = fixture.nativeElement.querySelector('.kui-chart__graphic') as HTMLElement;
+
+    expect(graphic.getAttribute('aria-label')).toBe('Bar chart');
+  });
+
   it('renders one bar per non-gap data point (grouped, single series)', () => {
     const fixture = createFixture();
     expect(bars(fixture)).toHaveLength(3);

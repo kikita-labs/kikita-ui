@@ -63,9 +63,9 @@ The `<th>` owns `aria-sort`; the button owns the keyboard and click interaction.
 
 ## Inputs: `tr[kuiRow]`
 
-| Input   | Type | Description                   |
-| ------- | ---- | ----------------------------- |
-| `value` | `T`  | The data object for this row. |
+| Input   | Type             | Description                                                                              |
+| ------- | ---------------- | ---------------------------------------------------------------------------------------- |
+| `value` | `T \| undefined` | Data object used for selected state. Omit it for a presentational row without selection. |
 
 ## Sort
 

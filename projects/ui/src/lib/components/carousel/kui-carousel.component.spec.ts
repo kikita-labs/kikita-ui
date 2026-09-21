@@ -11,7 +11,6 @@ import { KuiCarouselSlideDirective } from './kui-carousel-slide.directive';
   imports: [KuiCarouselComponent, KuiCarouselSlideDirective],
   template: `
     <kui-carousel
-      ariaLabel="Demo slides"
       [itemsPerView]="itemsPerView()"
       [loop]="loop()"
       [draggable]="draggable()"
@@ -33,7 +32,7 @@ class BasicHost {
 @Component({
   imports: [KuiCarouselComponent, KuiCarouselSlideDirective],
   template: `
-    <kui-carousel ariaLabel="Demo slides" [autoplay]="true" [autoplayInterval]="1000">
+    <kui-carousel [autoplay]="true" [autoplayInterval]="1000">
       <div kuiCarouselSlide>1</div>
       <div kuiCarouselSlide>2</div>
     </kui-carousel>
@@ -57,6 +56,13 @@ function getButtons(fixture: ComponentFixture<unknown>, label: RegExp): HTMLButt
 describe('KuiCarouselComponent', () => {
   afterEach(() => {
     vi.useRealTimers();
+  });
+
+  it('uses a generic accessible region name when ariaLabel is omitted', () => {
+    const fixture = createFixture(BasicHost);
+    const region = fixture.nativeElement.querySelector('.kui-carousel__region') as HTMLElement;
+
+    expect(region.getAttribute('aria-label')).toBe('Slides');
   });
 
   it('syncs the index model from a manual scroll/swipe once scrolling settles', () => {
@@ -186,11 +192,11 @@ describe('KuiCarouselComponent', () => {
     expect(track.style.scrollSnapType).toBe('none');
   });
 
-  it('renders a region with the required accessible name and roledescription', () => {
+  it('renders a region with its fallback accessible name and roledescription', () => {
     const fixture = createFixture(BasicHost);
     const region = fixture.nativeElement.querySelector('[role="region"]');
 
-    expect(region.getAttribute('aria-label')).toBe('Demo slides');
+    expect(region.getAttribute('aria-label')).toBe('Slides');
     expect(region.getAttribute('aria-roledescription')).toBe('carousel');
   });
 

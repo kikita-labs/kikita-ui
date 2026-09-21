@@ -8,6 +8,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Changed
+
+- `ariaLabel` is optional for `kui-carousel` and all four chart components. Each now supplies a
+  chart- or slide-specific fallback accessible name; applications should continue to provide a
+  content-specific label where available. `kui-empty-state` supports a description-only state, and
+  `tr[kuiRow]` no longer requires `value` when it does not participate in row selection.
+
 ### Added
 
 - Command Palette reports empty, whitespace-containing, and duplicate command IDs

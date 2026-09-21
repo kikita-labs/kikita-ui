@@ -22,6 +22,12 @@ import { KuiEmptyStateIconDirective } from './kui-empty-state-icon.directive';
 })
 class EmptyStateHost {}
 
+@Component({
+  imports: [KuiEmptyStateComponent],
+  template: `<kui-empty-state description="Change filters" />`,
+})
+class DescriptionOnlyEmptyStateHost {}
+
 describe('KuiEmptyStateComponent', () => {
   it('renders context, size, title, description, and projected slots', () => {
     const fixture = createFixture(EmptyStateHost);
@@ -38,6 +44,15 @@ describe('KuiEmptyStateComponent', () => {
     expect(icon.classList.contains('kui-empty__icon')).toBe(true);
     expect(icon.getAttribute('aria-hidden')).toBe('true');
     expect(actions.classList.contains('kui-empty__actions')).toBe(true);
+  });
+
+  it('supports a description without a heading', () => {
+    const fixture = createFixture(DescriptionOnlyEmptyStateHost);
+
+    expect(fixture.nativeElement.querySelector('.kui-empty__title')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.kui-empty__description')?.textContent).toContain(
+      'Change filters',
+    );
   });
 });
 

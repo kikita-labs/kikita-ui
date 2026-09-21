@@ -209,10 +209,10 @@ export class KuiCarouselComponent {
   readonly draggable = input(true, { transform: booleanAttribute });
 
   /**
-   * Accessible name for the carousel region. Required -- must not contain the word "carousel",
-   * since the region's own `aria-roledescription="carousel"` already announces that.
+   * Accessible name for the carousel region. Defaults to `Slides`; use a content-specific name
+   * where one is available. Do not include `carousel`, because `aria-roledescription` announces it.
    */
-  readonly ariaLabel = input.required<string>();
+  readonly ariaLabel = input('Slides');
 
   /** Index of the first visible slide. Two-way bindable via `[(index)]`. Defaults to `0`. */
   readonly index = model(0);

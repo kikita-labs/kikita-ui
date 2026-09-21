@@ -38,8 +38,8 @@ protected readonly series: readonly KuiChartCartesianSeries[] = [
 protected readonly categories = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 ```
 
-`ariaLabel` is required -- it is the accessible name for the chart as a whole (what it shows),
-distinct from each point's own `aria-label` (its value).
+`ariaLabel` has a chart-type fallback name and should describe what the chart shows. It is distinct
+from each point's own `aria-label` (its value).
 
 ## Area
 
@@ -301,18 +301,18 @@ appearance -- deferred rather than invented; see Known gaps.
 
 ### `kui-line-chart`
 
-| Input         | Type                                            | Default       | Description                                                               |
-| ------------- | ----------------------------------------------- | ------------- | ------------------------------------------------------------------------- |
-| `series`      | `readonly KuiChartCartesianSeries[]`            | -- (required) | `{id?, name, color?, data}`. Empty/no non-gap value renders `EmptyState`. |
-| `categories`  | `readonly string[]`                             | `[]`          | Category labels, aligned index-for-index with each series' `data`.        |
-| `area`        | `boolean`                                       | `false`       | Fills the area under each line. Not a separate chart type.                |
-| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`        | Nominal SVG `viewBox` height: 200 / 280 / 360px.                          |
-| `loading`     | `boolean`                                       | `false`       | Shows a wavy-sparkline skeleton placeholder instead of the chart.         |
-| `legend`      | `boolean \| undefined`                          | auto          | Defaults to `true` when there is more than one series.                    |
-| `axes`        | `KuiChartAxesOptions`                           | `{}`          | `{x?, y?, gridLines?, xTitle?, yTitle?}`.                                 |
-| `valueFormat` | `(value: number) => string`                     | compact       | Axis tick / default tooltip / legend number formatting.                   |
-| `tooltip`     | `(point: KuiChartPoint) => string \| undefined` | built-in      | Overrides the default tooltip text.                                       |
-| `ariaLabel`   | `string`                                        | -- (required) | Accessible name for the chart as a whole.                                 |
+| Input         | Type                                            | Default        | Description                                                               |
+| ------------- | ----------------------------------------------- | -------------- | ------------------------------------------------------------------------- |
+| `series`      | `readonly KuiChartCartesianSeries[]`            | -- (required)  | `{id?, name, color?, data}`. Empty/no non-gap value renders `EmptyState`. |
+| `categories`  | `readonly string[]`                             | `[]`           | Category labels, aligned index-for-index with each series' `data`.        |
+| `area`        | `boolean`                                       | `false`        | Fills the area under each line. Not a separate chart type.                |
+| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`         | Nominal SVG `viewBox` height: 200 / 280 / 360px.                          |
+| `loading`     | `boolean`                                       | `false`        | Shows a wavy-sparkline skeleton placeholder instead of the chart.         |
+| `legend`      | `boolean \| undefined`                          | auto           | Defaults to `true` when there is more than one series.                    |
+| `axes`        | `KuiChartAxesOptions`                           | `{}`           | `{x?, y?, gridLines?, xTitle?, yTitle?}`.                                 |
+| `valueFormat` | `(value: number) => string`                     | compact        | Axis tick / default tooltip / legend number formatting.                   |
+| `tooltip`     | `(point: KuiChartPoint) => string \| undefined` | built-in       | Overrides the default tooltip text.                                       |
+| `ariaLabel`   | `string`                                        | `'Line chart'` | Accessible name for the chart as a whole; prefer a content-specific name. |
 
 ### `kui-bar-chart`
 
@@ -328,33 +328,33 @@ appearance -- deferred rather than invented; see Known gaps.
 | `axes`        | `KuiChartAxesOptions`                           | `{}`          | `{x?, y?, gridLines?, xTitle?, yTitle?}`.                                 |
 | `valueFormat` | `(value: number) => string`                     | compact       | Axis tick / default tooltip / legend number formatting.                   |
 | `tooltip`     | `(point: KuiChartPoint) => string \| undefined` | built-in      | Overrides the default tooltip text.                                       |
-| `ariaLabel`   | `string`                                        | -- (required) | Accessible name for the chart as a whole.                                 |
+| `ariaLabel`   | `string`                                        | `'Bar chart'` | Accessible name for the chart as a whole; prefer a content-specific name. |
 
 ### `kui-scatter-chart`
 
-| Input         | Type                                            | Default       | Description                                                               |
-| ------------- | ----------------------------------------------- | ------------- | ------------------------------------------------------------------------- |
-| `series`      | `readonly KuiChartScatterSeries[]`              | -- (required) | `{id?, name, color?, points: {x, y, r?}[]}`. Empty renders `EmptyState`.  |
-| `bubble`      | `boolean`                                       | `false`       | Reads `r` from each point as the radius. Not a separate chart type.       |
-| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`        | Nominal SVG `viewBox` height: 200 / 280 / 360px.                          |
-| `loading`     | `boolean`                                       | `false`       | Shows a scattered-dot skeleton placeholder instead of the chart.          |
-| `legend`      | `boolean \| undefined`                          | auto          | Defaults to `true` when there is more than one series.                    |
-| `axes`        | `KuiChartAxesOptions`                           | `{}`          | `{x?, y?, gridLines?, xTitle?, yTitle?}`. No `categories`-related fields. |
-| `valueFormat` | `(value: number) => string`                     | compact       | Axis tick / default tooltip / legend number formatting.                   |
-| `tooltip`     | `(point: KuiChartPoint) => string \| undefined` | built-in      | Overrides the default tooltip text.                                       |
-| `ariaLabel`   | `string`                                        | -- (required) | Accessible name for the chart as a whole.                                 |
+| Input         | Type                                            | Default           | Description                                                               |
+| ------------- | ----------------------------------------------- | ----------------- | ------------------------------------------------------------------------- |
+| `series`      | `readonly KuiChartScatterSeries[]`              | -- (required)     | `{id?, name, color?, points: {x, y, r?}[]}`. Empty renders `EmptyState`.  |
+| `bubble`      | `boolean`                                       | `false`           | Reads `r` from each point as the radius. Not a separate chart type.       |
+| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`            | Nominal SVG `viewBox` height: 200 / 280 / 360px.                          |
+| `loading`     | `boolean`                                       | `false`           | Shows a scattered-dot skeleton placeholder instead of the chart.          |
+| `legend`      | `boolean \| undefined`                          | auto              | Defaults to `true` when there is more than one series.                    |
+| `axes`        | `KuiChartAxesOptions`                           | `{}`              | `{x?, y?, gridLines?, xTitle?, yTitle?}`. No `categories`-related fields. |
+| `valueFormat` | `(value: number) => string`                     | compact           | Axis tick / default tooltip / legend number formatting.                   |
+| `tooltip`     | `(point: KuiChartPoint) => string \| undefined` | built-in          | Overrides the default tooltip text.                                       |
+| `ariaLabel`   | `string`                                        | `'Scatter chart'` | Accessible name for the chart as a whole; prefer a content-specific name. |
 
 ### `kui-donut-chart`
 
-| Input         | Type                                            | Default       | Description                                                         |
-| ------------- | ----------------------------------------------- | ------------- | ------------------------------------------------------------------- |
-| `slices`      | `readonly KuiChartSlice[]`                      | -- (required) | `{id?, label, value, color?}`. Negative `value` is dropped.         |
-| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`        | Square nominal SVG `viewBox`: 200 / 280 / 360px.                    |
-| `loading`     | `boolean`                                       | `false`       | Shows a shimmering ring skeleton placeholder instead of the chart.  |
-| `legend`      | `boolean \| undefined`                          | auto          | Defaults to `true` when there is more than one slice.               |
-| `valueFormat` | `(value: number) => string`                     | compact       | Default tooltip/legend number formatting.                           |
-| `tooltip`     | `(point: KuiChartPoint) => string \| undefined` | built-in      | Overrides the default `"<label>: <value> (<share>%)"` tooltip text. |
-| `ariaLabel`   | `string`                                        | -- (required) | Accessible name for the chart as a whole.                           |
+| Input         | Type                                            | Default         | Description                                                               |
+| ------------- | ----------------------------------------------- | --------------- | ------------------------------------------------------------------------- |
+| `slices`      | `readonly KuiChartSlice[]`                      | -- (required)   | `{id?, label, value, color?}`. Negative `value` is dropped.               |
+| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`          | Square nominal SVG `viewBox`: 200 / 280 / 360px.                          |
+| `loading`     | `boolean`                                       | `false`         | Shows a shimmering ring skeleton placeholder instead of the chart.        |
+| `legend`      | `boolean \| undefined`                          | auto            | Defaults to `true` when there is more than one slice.                     |
+| `valueFormat` | `(value: number) => string`                     | compact         | Default tooltip/legend number formatting.                                 |
+| `tooltip`     | `(point: KuiChartPoint) => string \| undefined` | built-in        | Overrides the default `"<label>: <value> (<share>%)"` tooltip text.       |
+| `ariaLabel`   | `string`                                        | `'Donut chart'` | Accessible name for the chart as a whole; prefer a content-specific name. |
 
 ### `kui-chart-legend`
 

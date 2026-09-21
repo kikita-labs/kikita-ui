@@ -9,14 +9,7 @@ import { KuiDonutChartComponent } from './kui-donut-chart.component';
 
 @Component({
   imports: [KuiDonutChartComponent],
-  template: `
-    <kui-donut-chart
-      ariaLabel="Plan mix"
-      [slices]="slices()"
-      [loading]="loading()"
-      [tooltip]="tooltip()"
-    />
-  `,
+  template: ` <kui-donut-chart [slices]="slices()" [loading]="loading()" [tooltip]="tooltip()" /> `,
 })
 class HostComponent {
   readonly slices = signal<readonly KuiChartSlice[]>([
@@ -81,6 +74,13 @@ function expectFullRingPath(d: string | null): void {
 }
 
 describe('KuiDonutChartComponent', () => {
+  it('uses a generic accessible name when ariaLabel is omitted', () => {
+    const fixture = createFixture();
+    const graphic = fixture.nativeElement.querySelector('.kui-chart__graphic') as HTMLElement;
+
+    expect(graphic.getAttribute('aria-label')).toBe('Donut chart');
+  });
+
   it('renders one arc path per slice', () => {
     const fixture = createFixture();
     expect(slicePaths(fixture)).toHaveLength(3);

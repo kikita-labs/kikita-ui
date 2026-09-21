@@ -39,8 +39,9 @@ import '@kikita-labs/ui/styles';
 protected readonly slide = signal(0);
 ```
 
-`ariaLabel` is required and must not contain the word "carousel" -- the region's own
-`aria-roledescription="carousel"` already announces that to screen readers.
+`ariaLabel` defaults to `Slides` and should use a content-specific name when one is available. It
+must not contain the word "carousel" -- the region's own `aria-roledescription="carousel"`
+already announces that to screen readers.
 
 ## itemsPerView
 
@@ -118,17 +119,17 @@ documented open question in the design spec, not an oversight.
 
 ## API
 
-| Input              | Type          | Default       | Description                                                             |
-| ------------------ | ------------- | ------------- | ----------------------------------------------------------------------- |
-| `itemsPerView`     | `number`      | `1`           | How many slides are visible at once.                                    |
-| `loop`             | `boolean`     | `false`       | Wraps navigation at the edges instead of disabling Prev/Next there.     |
-| `autoplay`         | `boolean`     | `false`       | Advances automatically on a timer; always shows Play/Pause.             |
-| `autoplayInterval` | `number` (ms) | `4000`        | Autoplay delay between slides.                                          |
-| `showArrows`       | `boolean`     | `true`        | Shows the Prev/Next arrow controls.                                     |
-| `showDots`         | `boolean`     | `true`        | Shows the dot picker below the track.                                   |
-| `draggable`        | `boolean`     | `true`        | Enables mouse drag-to-scroll; `false` also locks wheel/trackpad scroll. |
-| `ariaLabel`        | `string`      | -- (required) | Accessible name for the carousel region. Must not contain "carousel".   |
-| `index`            | `number`      | `0`           | Index of the first visible slide. Two-way model.                        |
+| Input              | Type          | Default    | Description                                                                                         |
+| ------------------ | ------------- | ---------- | --------------------------------------------------------------------------------------------------- |
+| `itemsPerView`     | `number`      | `1`        | How many slides are visible at once.                                                                |
+| `loop`             | `boolean`     | `false`    | Wraps navigation at the edges instead of disabling Prev/Next there.                                 |
+| `autoplay`         | `boolean`     | `false`    | Advances automatically on a timer; always shows Play/Pause.                                         |
+| `autoplayInterval` | `number` (ms) | `4000`     | Autoplay delay between slides.                                                                      |
+| `showArrows`       | `boolean`     | `true`     | Shows the Prev/Next arrow controls.                                                                 |
+| `showDots`         | `boolean`     | `true`     | Shows the dot picker below the track.                                                               |
+| `draggable`        | `boolean`     | `true`     | Enables mouse drag-to-scroll; `false` also locks wheel/trackpad scroll.                             |
+| `ariaLabel`        | `string`      | `'Slides'` | Accessible name for the carousel region. Prefer a content-specific name; do not include "carousel". |
+| `index`            | `number`      | `0`        | Index of the first visible slide. Two-way model.                                                    |
 
 | Output        | Payload  | Description                                      |
 | ------------- | -------- | ------------------------------------------------ |
@@ -138,8 +139,8 @@ documented open question in the design spec, not an oversight.
 
 ## Accessibility
 
-- The outer element is `role="region"` with `aria-roledescription="carousel"` and the required
-  `ariaLabel`, per the W3C ARIA APG "grouped carousel" pattern.
+- The outer element is `role="region"` with `aria-roledescription="carousel"` and `ariaLabel`,
+  which defaults to `Slides`; provide a content-specific label where possible.
 - Each slide is `role="group"` with `aria-roledescription="slide"` and an `aria-label` of
   `"N of total"`.
 - The dot picker follows the "tabbed carousel" variant: `role="tablist"`/`role="tab"`,

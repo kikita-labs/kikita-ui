@@ -161,7 +161,7 @@ export class KuiBarChartComponent implements KuiChartLegendSource {
   readonly tooltip = input<KuiChartTooltipFormatter | undefined>(undefined);
 
   /** Accessible name for the chart as a whole (what it shows, not per-bar detail). */
-  readonly ariaLabel = input.required<string>();
+  readonly ariaLabel = input('Bar chart');
 
   protected readonly chartId = `kui-bar-chart-${++nextBarChartId}`;
   protected readonly loadingBarHeights = LOADING_BAR_HEIGHTS;

@@ -12,7 +12,6 @@ import { KuiLineChartComponent } from './kui-line-chart.component';
   imports: [KuiLineChartComponent],
   template: `
     <kui-line-chart
-      ariaLabel="Sessions per day"
       [series]="series()"
       [categories]="categories()"
       [loading]="loading()"
@@ -47,6 +46,13 @@ function chartInstance(fixture: ComponentFixture<HostComponent>): KuiLineChartCo
 }
 
 describe('KuiLineChartComponent', () => {
+  it('uses a generic accessible name when ariaLabel is omitted', () => {
+    const fixture = createFixture();
+    const graphic = fixture.nativeElement.querySelector('.kui-chart__graphic') as HTMLElement;
+
+    expect(graphic.getAttribute('aria-label')).toBe('Line chart');
+  });
+
   it('renders one mark per non-gap data point', () => {
     const fixture = createFixture();
     expect(marks(fixture)).toHaveLength(3);

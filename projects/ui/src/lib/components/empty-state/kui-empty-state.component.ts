@@ -12,7 +12,9 @@ const KUI_EMPTY_STATE_SIZES = ['sm', 'md', 'lg'] as const;
   template: `
     <ng-content select="[kuiEmptyStateIcon]" />
     <div class="kui-empty__body">
-      <div class="kui-empty__title">{{ heading() }}</div>
+      @if (heading(); as headingText) {
+        <div class="kui-empty__title">{{ headingText }}</div>
+      }
       @if (description(); as descriptionText) {
         <div class="kui-empty__description">{{ descriptionText }}</div>
       }
@@ -27,8 +29,8 @@ const KUI_EMPTY_STATE_SIZES = ['sm', 'md', 'lg'] as const;
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiEmptyStateComponent {
-  /** Empty-state heading text. Use the surrounding page hierarchy for heading semantics. */
-  readonly heading = input.required<string>();
+  /** Empty-state heading text. Omit when the supporting description is sufficient. */
+  readonly heading = input<string | undefined>();
 
   /** Optional supporting description text. */
   readonly description = input<string | null>(null);

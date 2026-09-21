@@ -14,7 +14,11 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
 export class KuiRowDirective {
   private readonly table = inject(KUI_TABLE_CTX, { optional: true });
 
-  readonly value = input.required<unknown>();
+  /** Row data used to determine selected state. Omit for a non-selectable presentational row. */
+  readonly value = input<unknown | undefined>();
 
-  readonly selected = computed(() => this.table?.isSelected(this.value() as never) ?? false);
+  readonly selected = computed(() => {
+    const value = this.value();
+    return value === undefined ? false : (this.table?.isSelected(value as never) ?? false);
+  });
 }

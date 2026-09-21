@@ -149,7 +149,7 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
   readonly tooltip = input<KuiChartTooltipFormatter | undefined>(undefined);
 
   /** Accessible name for the chart as a whole (what it shows, not per-point detail). */
-  readonly ariaLabel = input.required<string>();
+  readonly ariaLabel = input('Line chart');
 
   protected readonly chartId = `kui-line-chart-${++nextLineChartId}`;
   protected readonly loadingWavePoints = computed(() => {

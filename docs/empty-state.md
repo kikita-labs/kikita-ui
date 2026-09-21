@@ -36,7 +36,7 @@ import {
 
 ## Inputs
 
-- `heading`: required empty-state heading text
+- `heading`: optional empty-state heading text; omit it for a description-only state
 - `description`: optional supporting text
 - `context`: `no-data | no-results | error | no-access | success`
 - `size`: `sm | md | lg`

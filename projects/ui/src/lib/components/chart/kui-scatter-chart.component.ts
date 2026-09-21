@@ -137,7 +137,7 @@ export class KuiScatterChartComponent implements KuiChartLegendSource {
   readonly tooltip = input<KuiChartTooltipFormatter | undefined>(undefined);
 
   /** Accessible name for the chart as a whole (what it shows, not per-point detail). */
-  readonly ariaLabel = input.required<string>();
+  readonly ariaLabel = input('Scatter chart');
 
   protected readonly chartId = `kui-scatter-chart-${++nextScatterChartId}`;
 

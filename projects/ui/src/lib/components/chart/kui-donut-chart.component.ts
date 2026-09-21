@@ -132,7 +132,7 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
   readonly tooltip = input<KuiChartTooltipFormatter | undefined>(undefined);
 
   /** Accessible name for the chart as a whole (what it shows, not per-slice detail). */
-  readonly ariaLabel = input.required<string>();
+  readonly ariaLabel = input('Donut chart');
 
   protected readonly chartId = `kui-donut-chart-${++nextDonutChartId}`;
 

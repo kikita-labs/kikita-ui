@@ -11,7 +11,6 @@ import { KuiScatterChartComponent } from './kui-scatter-chart.component';
   imports: [KuiScatterChartComponent],
   template: `
     <kui-scatter-chart
-      ariaLabel="Cohort activity"
       [series]="series()"
       [bubble]="bubble()"
       [loading]="loading()"
@@ -52,6 +51,13 @@ function decorationMarks(fixture: ComponentFixture<HostComponent>): SVGCircleEle
 }
 
 describe('KuiScatterChartComponent', () => {
+  it('uses a generic accessible name when ariaLabel is omitted', () => {
+    const fixture = createFixture();
+    const graphic = fixture.nativeElement.querySelector('.kui-chart__graphic') as HTMLElement;
+
+    expect(graphic.getAttribute('aria-label')).toBe('Scatter chart');
+  });
+
   it('renders one hit-circle and one decoration circle per point', () => {
     const fixture = createFixture();
     expect(hitMarks(fixture)).toHaveLength(3);

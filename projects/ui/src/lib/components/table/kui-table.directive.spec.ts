@@ -75,6 +75,28 @@ function getSortableButtons(fixture: ComponentFixture<TableHost>): HTMLButtonEle
 }
 
 describe('KuiTableDirective', () => {
+  it('allows a presentational row without a selection value', () => {
+    @Component({
+      imports: [KuiCellDirective, KuiRowDirective, KuiTableDirective],
+      template: `<table kuiTable>
+        <tbody>
+          <tr kuiRow>
+            <td kuiCell>Summary</td>
+          </tr>
+        </tbody>
+      </table>`,
+    })
+    class PresentationalRowHost {}
+
+    TestBed.configureTestingModule({ imports: [PresentationalRowHost] });
+    const fixture = TestBed.createComponent(PresentationalRowHost);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('tr')?.classList.contains('kui-row--selected')).toBe(
+      false,
+    );
+  });
+
   it('renders sortable headers as real buttons inside table headers', () => {
     const fixture = createFixture();
     const th = fixture.nativeElement.querySelector('th[kuiTh]') as HTMLTableCellElement;
