@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -44,6 +45,8 @@ const textExtensions = new Set([
   '.yml',
 ]);
 const routeCoverageExclusions = new Set(['/tokens', '/theme', '/forms']);
+const localeCatalogueDirectories = new Set(['projects/kikita-ui-playground/public/i18n']);
+const playgroundLocaleDirectory = 'projects/kikita-ui-playground/public/i18n';
 const disallowedTopLevelGlobals =
   /(?:=\s*(window|document|navigator|localStorage|sessionStorage)\b|\b(window|document|navigator|localStorage|sessionStorage)\.)/;
 
@@ -63,7 +66,12 @@ if (isMain()) {
 
 export function runStaticAudit(root = defaultRoot) {
   const failures = [];
-  runCheck(failures, 'tracked text has no Cyrillic characters', () => checkNoCyrillic(root));
+  runCheck(failures, 'tracked text has no unexpected Cyrillic characters', () =>
+    checkNoCyrillic(root),
+  );
+  runCheck(failures, 'playground locale catalogues parse and share key paths', () =>
+    checkPlaygroundLocaleCatalogues(root),
+  );
   runCheck(failures, 'all public style files are imported by kikita-ui.css', () =>
     checkStyleImports(root),
   );
@@ -106,6 +114,10 @@ function checkNoCyrillic(root) {
     root,
     trackedRoots.map((entry) => join(root, entry)),
   )) {
+    if (isLocaleCatalogue(root, file) || isIgnoredByGit(root, file)) {
+      continue;
+    }
+
     const text = readFileSync(file, 'utf8');
     const match = /[\u0401\u0410-\u044f\u0451]/u.exec(text);
 
@@ -115,6 +127,67 @@ function checkNoCyrillic(root) {
   }
 
   return failures;
+}
+
+function isLocaleCatalogue(root, file) {
+  const directory = toRepoPath(root, file).split('/').slice(0, -1).join('/');
+
+  return localeCatalogueDirectories.has(directory);
+}
+
+function checkPlaygroundLocaleCatalogues(root) {
+  const directory = join(root, playgroundLocaleDirectory);
+
+  if (!existsSync(directory)) {
+    return [];
+  }
+
+  const catalogues = new Map();
+  const failures = [];
+
+  for (const fileName of readdirSync(directory)
+    .filter((file) => file.endsWith('.json'))
+    .sort()) {
+    const file = join(directory, fileName);
+
+    try {
+      catalogues.set(fileName, JSON.parse(readFileSync(file, 'utf8')));
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      failures.push(`${playgroundLocaleDirectory}/${fileName} is not valid JSON: ${reason}`);
+    }
+  }
+
+  if (catalogues.size < 2) {
+    return failures;
+  }
+
+  const referenceFile = catalogues.has('en.json') ? 'en.json' : [...catalogues.keys()][0];
+  const referenceKeys = flattenTranslationKeys(catalogues.get(referenceFile)).join('\n');
+
+  for (const [fileName, catalogue] of catalogues) {
+    if (fileName === referenceFile) {
+      continue;
+    }
+
+    if (flattenTranslationKeys(catalogue).join('\n') !== referenceKeys) {
+      failures.push(
+        `${playgroundLocaleDirectory}/${fileName} does not have the same key paths as ${referenceFile}`,
+      );
+    }
+  }
+
+  return failures;
+}
+
+function flattenTranslationKeys(value, prefix = '') {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return [prefix.slice(0, -1)];
+  }
+
+  return Object.entries(value)
+    .flatMap(([key, child]) => flattenTranslationKeys(child, `${prefix}${key}.`))
+    .sort();
 }
 
 function checkStyleImports(root) {
@@ -175,7 +248,9 @@ function checkTrackedLinks(root) {
     join(root, 'AGENTS.md'),
     join(root, '.agents'),
     join(root, 'docs'),
-  ]).filter((file) => file.endsWith('.md'));
+  ])
+    .filter((file) => file.endsWith('.md'))
+    .filter((file) => !isIgnoredByGit(root, file));
   const markdownLinkPattern = /\]\(([^)#][^)]+)\)/g;
   const inlinePathPattern = /`((?:\.agents|docs|projects|scripts)\/[^`]+)`/g;
 
@@ -229,7 +304,11 @@ function checkSkills(root) {
   }
 
   const skills = readdirSync(skillsDir)
-    .filter((entry) => statSync(join(skillsDir, entry)).isDirectory())
+    .filter((entry) => {
+      const skillPath = join(skillsDir, entry, 'SKILL.md');
+
+      return statSync(join(skillsDir, entry)).isDirectory() && !isIgnoredByGit(root, skillPath);
+    })
     .sort();
 
   for (const skill of skills) {
@@ -483,6 +562,22 @@ function collectTextFiles(root, entries) {
 
 function isTextFile(file) {
   return textExtensions.has(file.slice(file.lastIndexOf('.')));
+}
+
+function isIgnoredByGit(root, file) {
+  if (!existsSync(join(root, '.git'))) {
+    return false;
+  }
+
+  try {
+    execFileSync('git', ['check-ignore', '--quiet', '--', toRepoPath(root, file)], {
+      cwd: root,
+      stdio: 'ignore',
+    });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function stripLineComment(line) {

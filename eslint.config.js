@@ -101,7 +101,7 @@ module.exports = defineConfig([
     },
   },
   {
-    files: ['projects/playground/**/*.ts'],
+    files: ['projects/playground/**/*.ts', 'projects/kikita-ui-playground/**/*.ts'],
     ...commonTsConfig,
     rules: {
       ...commonTsConfig.rules,
@@ -135,6 +135,14 @@ module.exports = defineConfig([
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/prefer-readonly': 'off',
+    },
+  },
+  {
+    files: ['projects/kikita-ui-playground/e2e/**/*.ts'],
+    languageOptions: {
+      parserOptions: {
+        projectService: false,
+      },
     },
   },
   {

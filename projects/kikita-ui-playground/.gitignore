@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Angular build output
+dist/
+.angular/cache/
+.angular/
+
+# Package manager
+# Keep only the lockfile for the chosen package manager tracked. Uncomment the other two
+# below at scaffold time (SCAFFOLD: keep the two NOT matching pnpm):
+# pnpm-lock.yaml
+# package-lock.json
+# yarn.lock
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Test / coverage output
+coverage/
+playwright-report/
+test-results/
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# AI agent tool state — personal, machine-specific (permissions, local settings, session
+# state). Repo-distributed skills/conventions belong under .agents/, which is tracked.
+.claude/
+.codex/
+
+# Local notes (never tracked, agent scratch space)
+.local-notes/

@@ -4,7 +4,9 @@ pnpm.cmd audit:static
 pnpm.cmd skills:check
 pnpm.cmd test:scripts
 pnpm.cmd test
+pnpm.cmd test:kikita-ui-playground
 pnpm.cmd build
 pnpm.cmd build:playground
+pnpm.cmd test:kikita-ui-playground:ssr
 pnpm.cmd test:ssr
 pnpm.cmd test:browser

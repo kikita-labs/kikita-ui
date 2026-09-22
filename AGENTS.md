@@ -38,6 +38,13 @@ For visual, accessibility, release, or publishing work, also read:
 - `docs/state-coverage.md`
 - `CHANGELOG.md`
 
+For work in `projects/kikita-ui-playground/`, also read:
+
+- `projects/kikita-ui-playground/AGENTS.md`
+
+That application owns additional rules for its Angular shell, runtime i18n,
+SSR verification, and its own `.agents/` documentation tree.
+
 ## Non-Negotiable Rules
 
 - Angular 22+ only.
@@ -61,8 +68,9 @@ For visual, accessibility, release, or publishing work, also read:
 - Do not invent component visuals. Follow `docs/design-provenance.md` and the
   matching approved component design record. If the required design or approval
   is missing or unclear, stop the affected visual work and report the gap.
-- All git-tracked repository content must be English-only.
-- Do not add Cyrillic text or mojibake to tracked files.
+- All git-tracked repository content must be English-only, except locale resource catalogues
+  under `projects/kikita-ui-playground/public/i18n/`, which use the locale's native language.
+- Do not add Cyrillic text or mojibake to tracked files outside approved locale catalogues.
 - Never add `Co-authored-by`, `Generated-by`, AI attribution, or assistant
   attribution lines to commit messages.
 - Do not claim co-authorship for Claude, Codex, ChatGPT, or any other AI tool.

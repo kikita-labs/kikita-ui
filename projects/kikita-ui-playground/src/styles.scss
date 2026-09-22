@@ -1,0 +1,12 @@
+@use './styles/layers';
+
+@layer app.base {
+  :root {
+    --app-space-2: 0.5rem;
+    --app-space-4: 1rem;
+    --app-space-8: 2rem;
+    --app-content-width: 72rem;
+    --app-font-weight-strong: 700;
+    --app-letter-spacing-eyebrow: 0.08em;
+  }
+}

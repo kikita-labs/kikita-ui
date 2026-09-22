@@ -1,0 +1,36 @@
+<main class="playground-shell">
+  <header>
+    <p class="playground-shell__eyebrow">Kikita UI</p>
+    <h1>{{ 'playground.title' | transloco }}</h1>
+    <p>{{ 'playground.description' | transloco }}</p>
+
+    <fieldset class="playground-shell__language">
+      <legend>{{ 'playground.language' | transloco }}</legend>
+      <label>
+        <input
+          type="radio"
+          name="language"
+          value="en"
+          [checked]="language() === 'en'"
+          (change)="setLanguage('en')"
+        />
+        {{ 'playground.languageNames.en' | transloco }}
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="language"
+          value="ru"
+          [checked]="language() === 'ru'"
+          (change)="setLanguage('ru')"
+        />
+        {{ 'playground.languageNames.ru' | transloco }}
+      </label>
+    </fieldset>
+  </header>
+
+  <section>
+    <p>{{ 'playground.empty' | transloco }}</p>
+    <router-outlet />
+  </section>
+</main>

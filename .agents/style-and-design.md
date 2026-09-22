@@ -4,8 +4,11 @@
 
 - All git-tracked repository content must be written in English: code comments,
   docs, examples, ARIA labels, playground text, test names, commit-facing notes,
-  and default UI strings.
-- Do not add Cyrillic text or mojibake/garbled encoding to tracked files.
+  and default UI strings. Locale resource catalogues under
+  `projects/kikita-ui-playground/public/i18n/` are the exception and use their locale's
+  native language.
+- Do not add Cyrillic text or mojibake/garbled encoding to tracked files outside approved
+  locale resource catalogues.
 - Local untracked notes may use any language.
 
 ## Style Architecture

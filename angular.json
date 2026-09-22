@@ -115,6 +115,89 @@
           }
         }
       }
+    },
+    "kikita-ui-playground": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/kikita-ui-playground",
+      "sourceRoot": "projects/kikita-ui-playground/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/kikita-ui-playground/src/main.ts",
+            "tsConfig": "projects/kikita-ui-playground/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/kikita-ui-playground/public"
+              }
+            ],
+            "styles": ["projects/kikita-ui-playground/src/styles.scss"],
+            "server": "projects/kikita-ui-playground/src/main.server.ts",
+            "outputMode": "server",
+            "security": {
+              "allowedHosts": ["localhost", "127.0.0.1"]
+            },
+            "ssr": {
+              "entry": "projects/kikita-ui-playground/src/server.ts"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "300kB",
+                  "maximumError": "400kB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "kikita-ui-playground:build:production"
+            },
+            "development": {
+              "buildTarget": "kikita-ui-playground:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/kikita-ui-playground/**/*.ts",
+              "projects/kikita-ui-playground/**/*.html"
+            ]
+          }
+        }
+      }
     }
   }
 }

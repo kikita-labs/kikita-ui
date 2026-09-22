@@ -1,0 +1,12 @@
+{
+  "playground": {
+    "title": "Kikita UI playground",
+    "description": "A verification surface for Kikita UI components, states, themes, and SSR.",
+    "language": "Language",
+    "languageNames": {
+      "en": "English",
+      "ru": "Russian"
+    },
+    "empty": "Component routes will be added here."
+  }
+}

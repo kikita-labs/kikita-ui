@@ -25,6 +25,11 @@ projects/ui/src/lib/
   utils/
 projects/ui/src/styles/
 projects/playground/src/app/pages/<primitive>/
+projects/kikita-ui-playground/
+  AGENTS.md
+  .agents/
+  public/i18n/
+  src/app/
 docs/
 .agents/
 ```
@@ -32,6 +37,9 @@ docs/
 Rules:
 
 - Public library code lives under `projects/ui/src/lib`.
+- `projects/kikita-ui-playground` is the replacement playground application. Its
+  application-specific agent rules live in its local `AGENTS.md` and `.agents/` tree;
+  read them in addition to this repository-level documentation when changing it.
 - Runtime component CSS lives under `projects/ui/src/styles` and is imported by
   `projects/ui/src/styles/kikita-ui.css`.
 - Public docs and release facts live in `docs/` and `CHANGELOG.md`.

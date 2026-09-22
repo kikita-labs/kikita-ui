@@ -21,6 +21,9 @@ task looks small.
 
 4. For Angular work, call `angularCliKikita.list_projects` first. Do not use the
    generic `angularCli` server for this repository.
+   For work targeting `kikita-ui-playground`, also read
+   `projects/kikita-ui-playground/AGENTS.md` and its linked `.agents/` files before
+   editing application code.
 5. Read `docs/component-checklist.md` before creating or changing any public
    primitive.
 6. Read the relevant existing docs before editing code:
@@ -41,7 +44,8 @@ task looks small.
     claim the gate passed.
 11. Before committing, review `git diff --check`, `git diff --stat`, and the
     relevant changed files. Confirm no tracked file contains Cyrillic or
-    mojibake.
+    mojibake outside approved locale catalogues under
+    `projects/kikita-ui-playground/public/i18n/`.
 
 If any checklist item is intentionally deferred, write the reason in
 `docs/component-roadmap.md` and `docs/state-coverage.md`. Do not leave deferred
