@@ -32,7 +32,7 @@ test('keeps the header fixed while the sidebar and workspace scroll independentl
   const scrollState = await page.evaluate(() => {
     const header = document.querySelector('.playground-header');
     const catalog = document.querySelector('.component-sidebar__catalog');
-    const workspace = document.querySelector('.playground-workspace');
+    const workspace = document.querySelector('.playground-shell__workspace');
 
     if (!(header instanceof HTMLElement)) throw new Error('Playground header is missing.');
     if (!(catalog instanceof HTMLElement)) throw new Error('Sidebar catalog is missing.');
@@ -41,7 +41,6 @@ test('keeps the header fixed while the sidebar and workspace scroll independentl
     const tallContent = document.createElement('div');
     tallContent.style.blockSize = '1200px';
     catalog.append(tallContent.cloneNode());
-    workspace.append(tallContent);
 
     const headerTop = header.getBoundingClientRect().top;
     workspace.scrollTop = 400;
@@ -65,6 +64,9 @@ test('keeps the header fixed while the sidebar and workspace scroll independentl
 
   expect(scrollState.headerTop).toBe(0);
   expect(scrollState.catalogScrollTop, JSON.stringify(scrollState)).toBeGreaterThan(0);
+  expect(scrollState.workspaceScrollHeight, JSON.stringify(scrollState)).toBeGreaterThan(
+    scrollState.workspaceClientHeight,
+  );
   expect(scrollState.workspaceScrollTop).toBeGreaterThan(0);
   expect(scrollState.catalogAfterWorkspaceScroll).toBe(0);
   expect(scrollState.workspaceAfterCatalogScroll).toBe(400);
@@ -143,7 +145,7 @@ test('keeps the mobile shell viewport-bound with separate sidebar and workspace 
   const scrollState = await page.evaluate(() => {
     const header = document.querySelector('.playground-header');
     const catalog = document.querySelector('.component-sidebar__catalog');
-    const workspace = document.querySelector('.playground-workspace');
+    const workspace = document.querySelector('.playground-shell__workspace');
 
     if (!(header instanceof HTMLElement)) throw new Error('Playground header is missing.');
     if (!(catalog instanceof HTMLElement)) throw new Error('Sidebar catalog is missing.');
@@ -152,7 +154,6 @@ test('keeps the mobile shell viewport-bound with separate sidebar and workspace 
     const tallContent = document.createElement('div');
     tallContent.style.blockSize = '1200px';
     catalog.append(tallContent.cloneNode());
-    workspace.append(tallContent);
 
     const headerRect = header.getBoundingClientRect();
     workspace.scrollTop = 300;
@@ -164,6 +165,8 @@ test('keeps the mobile shell viewport-bound with separate sidebar and workspace 
       headerHeight: headerRect.height,
       catalogScrollTop: catalog.scrollTop,
       catalogAfterWorkspaceScroll,
+      workspaceClientHeight: workspace.clientHeight,
+      workspaceScrollHeight: workspace.scrollHeight,
       workspaceScrollTop: workspace.scrollTop,
       documentScrollTop: document.documentElement.scrollTop,
       documentScrollHeight: document.documentElement.scrollHeight,
@@ -174,6 +177,7 @@ test('keeps the mobile shell viewport-bound with separate sidebar and workspace 
   expect(scrollState.headerTop).toBe(0);
   expect(scrollState.headerHeight).toBe(54);
   expect(scrollState.catalogScrollTop).toBeGreaterThan(0);
+  expect(scrollState.workspaceScrollHeight).toBeGreaterThan(scrollState.workspaceClientHeight);
   expect(scrollState.workspaceScrollTop).toBeGreaterThan(0);
   expect(scrollState.catalogAfterWorkspaceScroll).toBe(0);
   expect(scrollState.documentScrollTop).toBe(0);

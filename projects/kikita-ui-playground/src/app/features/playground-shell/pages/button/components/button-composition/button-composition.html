@@ -1,0 +1,23 @@
+<app-playground-example-card [heading]="'button.examples.composition' | transloco">
+  <div
+    class="button-composition__examples"
+    role="group"
+    [attr.aria-label]="'button.accessibility.composition' | transloco"
+  >
+    <button kuiButton type="button" appearance="success" iconStart="check">
+      {{ 'button.actions.iconStart' | transloco }}
+    </button>
+
+    <button kuiButton type="button" shape="outline" iconEnd="arrow-right">
+      {{ 'button.actions.iconEnd' | transloco }}
+    </button>
+
+    <a kuiButton href="/components/button">
+      {{ 'button.actions.link' | transloco }}
+    </a>
+
+    <button kuiButton type="button" wrap class="button-composition__wrap-example">
+      {{ 'button.actions.longLabel' | transloco }}
+    </button>
+  </div>
+</app-playground-example-card>

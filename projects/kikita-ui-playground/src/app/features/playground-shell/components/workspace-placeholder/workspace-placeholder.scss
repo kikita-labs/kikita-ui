@@ -6,9 +6,8 @@
   .playground-workspace {
     display: grid;
     min-inline-size: 0;
-    min-block-size: 0;
+    min-block-size: 100%;
     place-items: center;
-    overflow: auto;
     padding: var(--kui-space-8);
   }
 

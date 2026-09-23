@@ -46,8 +46,8 @@
 
 ## Validation
 
-- Run `pnpm.cmd audit:static` after changing a catalogue. It parses every root catalogue and
-  verifies that their nested key paths are equal.
+- Run `pnpm.cmd audit:static` after changing a catalogue. It parses root and scoped catalogues,
+  verifies that scopes contain each supported language, and compares their nested key paths.
 - For a growing catalogue set, add `@jsverse/transloco-validator` to lint-staged for changed
   `public/i18n/**/*.json` files. It validates JSON structure and duplicate keys.
 - Test one root translation, one scoped translation when scopes exist, fallback behavior, and the

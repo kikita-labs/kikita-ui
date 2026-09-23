@@ -48,9 +48,18 @@ export class PlaygroundShell {
   protected readonly selectedComponentId = toSignal(
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-      map(() => this.route.firstChild?.snapshot?.paramMap.get('componentId') ?? null),
+      map(() => {
+        const activeRoute = this.route.firstChild?.snapshot;
+
+        return activeRoute?.paramMap.get('componentId') ?? activeRoute?.data['componentId'] ?? null;
+      }),
     ),
-    { initialValue: null },
+    {
+      initialValue:
+        this.route.firstChild?.snapshot?.paramMap.get('componentId') ??
+        this.route.firstChild?.snapshot?.data['componentId'] ??
+        null,
+    },
   );
 
   protected readonly themeStylesheet = computed(() =>

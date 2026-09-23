@@ -32,6 +32,23 @@ describe('verify-static-audit', () => {
     );
   });
 
+  it('allows native text and checks matching keys in scoped locale catalogues', () => {
+    const root = makeValidRepo();
+    const scopeDirectory = join(root, 'projects/kikita-ui-playground/public/i18n/button');
+    const nativeText = String.fromCodePoint(0x041a, 0x043e, 0x043f, 0x043a, 0x0430);
+    mkdirSync(scopeDirectory, { recursive: true });
+    writeFileSync(join(scopeDirectory, 'en.json'), '{"title":"Button"}');
+    writeFileSync(join(scopeDirectory, 'ru.json'), JSON.stringify({ title: nativeText }));
+
+    expect(runStaticAudit(root)).toEqual([]);
+
+    writeFileSync(join(scopeDirectory, 'ru.json'), JSON.stringify({ heading: nativeText }));
+
+    expect(runStaticAudit(root)).toContain(
+      'projects/kikita-ui-playground/public/i18n/button/ru.json does not have the same key paths as projects/kikita-ui-playground/public/i18n/button/en.json',
+    );
+  });
+
   it('reports internal context exports from public primitive barrels', () => {
     const root = makeValidRepo();
     writeFileSync(

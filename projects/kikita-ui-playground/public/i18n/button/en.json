@@ -1,0 +1,45 @@
+{
+  "title": "Button",
+  "examples": {
+    "states": "States",
+    "composition": "Composition"
+  },
+  "shapes": {
+    "solid": "Solid",
+    "soft": "Soft",
+    "outline": "Outline",
+    "ghost": "Ghost"
+  },
+  "appearances": {
+    "default": "Default",
+    "primary": "Primary",
+    "success": "Success",
+    "warning": "Warning",
+    "danger": "Danger"
+  },
+  "sizes": {
+    "xs": "Extra small",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large"
+  },
+  "actions": {
+    "default": "Default",
+    "disabled": "Disabled",
+    "loading": "Loading",
+    "disabledLink": "Disabled link",
+    "interactiveSave": "Save",
+    "startLoading": "Simulate loading",
+    "resetLoading": "Reset loading",
+    "iconStart": "Save with leading icon",
+    "iconEnd": "Continue with trailing icon",
+    "link": "Navigation link",
+    "longLabel": "Continue with a long label that wraps onto multiple lines"
+  },
+  "accessibility": {
+    "sizeMatrix": "{{size}} button variants",
+    "variant": "{{size}} {{shape}} button, {{appearance}} appearance",
+    "states": "Button states",
+    "composition": "Button composition examples"
+  }
+}

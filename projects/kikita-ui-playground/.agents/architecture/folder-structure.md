@@ -117,24 +117,25 @@ utilities` import-boundary story. The pattern isn't limited to mixins: any group
   same internal shape (`interfaces/`, `types/`, etc. next to `<name>.ts`). There is no flat
   exception for the component a feature's route loads; it's a component like any other, just
   the one wired up in `<feature-name>.routes.ts`.
-- `components/` gets its own aggregator `index.ts`, re-exporting each `<component-name>/`
-  barrel with explicit named exports (never `export *` — same rule as any other barrel, see
-  `aliases-and-barrels.md`). This is the one kind-folder that gets an aggregator on top of
-  its leaf barrels — reusable components are imported often enough across a feature's pages
-  and other components that a single import path (`from '../components'`) pays for itself.
-  `pages/` deliberately does **not** get this: each page is wired into
+- A page's private presentation components may live under
+  `pages/<page-name>/components/<component-name>/` when they are used only by that page.
+  Promote them to the feature-level `components/<component-name>/` only when another page
+  in the feature needs them. Use `shared/ui/` only when another feature needs the component.
+- Every `components/` kind-folder, including a page-local one, gets its own aggregator
+  `index.ts`, re-exporting each `<component-name>/` barrel with explicit named exports
+  (never `export *` — same rule as any other barrel, see `aliases-and-barrels.md`). The
+  feature-level `components/` folder serves reusable feature components; page-local
+  `components/` folders keep page-specific decomposition colocated with their entry page.
+  `pages/` itself deliberately does **not** get this: each page is wired into
   `<feature-name>.routes.ts` via `loadComponent: () => import(...)` on its own file path —
   an aggregator barrel would force a static import of every page into one chunk and defeat
   that lazy-loading.
-- `pages/<page-name>/` holds the components a feature's routes actually load — the entry
-  points. Everything else the feature needs (a table, a card, a modal body) is a
-  `<component-name>/` folder under a sibling `components/` kind-folder, next to `pages/`,
-  not inside it. `components/` mirrors `pages/` and the other feature-root kind-folders
-  (`services/`, `interfaces/`, etc.) — every kind of feature-root content gets its own
-  folder, none of it sits flat. This is the one structural signal that tells `pages/` and
-  regular components apart; don't also rename entry components with a `-page` suffix on
-  top of the `pages/` folder — the folder location already says what it is, a suffix would
-  just repeat the same fact twice.
+- `pages/<page-name>/` holds the component a feature's route actually loads — the entry
+  point — plus any page-private presentation components in its nested `components/` folder.
+  Reusable feature components (for example, a card shared by multiple pages) live under the
+  sibling feature-level `components/` folder. Don't also rename entry components with a
+  `-page` suffix on top of the `pages/` folder — the folder location already says what it
+  is, a suffix would just repeat the same fact twice.
 - A feature-root subfolder (`interfaces/`, `types/`, `constants/`, `enums/`, `helpers/`,
   `services/`) is only for something genuinely shared by 2+ components within that one
   feature — a `missions-api.service.ts` used by both a page and a table, for instance. If
@@ -170,11 +171,11 @@ utilities` import-boundary story. The pattern isn't limited to mixins: any group
       `routing.md` — not routes inlined in `app.routes.ts`.
 - [ ] Every component in a feature — including the one(s) loaded by its routes — has its own
       `<name>/` folder; no component's files sit flat directly under the feature root.
-- [ ] Routed entry components live under `pages/<page-name>/`; non-routed components live
-      under `components/<component-name>/`, a sibling kind-folder of `pages/`, not nested
-      inside it and not flat in the feature root.
-- [ ] `components/` has its own aggregator `index.ts` with explicit named exports of each
-      `<component-name>/` barrel; `pages/` does not have one.
+- [ ] Routed entry components live under `pages/<page-name>/`; page-private presentation
+      components may live under its nested `components/<component-name>/`; components reused
+      by multiple pages live under the feature-level sibling `components/<component-name>/`.
+- [ ] Each feature-level or page-local `components/` folder has its own aggregator `index.ts`
+      with explicit named exports of each `<component-name>/` barrel; `pages/` does not.
 - [ ] A feature-root subfolder (`interfaces/`, `services/`, etc.) exists only for code shared
       by 2+ components of that feature — single-consumer code stays co-located in its own
       component instead, and cross-feature reuse goes through `shared/` with a doc entry.

@@ -25,11 +25,10 @@
   }
 
   .playground-shell__workspace {
-    display: grid;
-    grid-template-rows: minmax(0, 1fr);
+    display: block;
     min-inline-size: 0;
     min-block-size: 0;
-    overflow: hidden;
+    overflow: auto;
   }
 
   .playground-shell__workspace router-outlet {

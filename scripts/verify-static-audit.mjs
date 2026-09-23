@@ -45,8 +45,9 @@ const textExtensions = new Set([
   '.yml',
 ]);
 const routeCoverageExclusions = new Set(['/tokens', '/theme', '/forms']);
-const localeCatalogueDirectories = new Set(['projects/kikita-ui-playground/public/i18n']);
 const playgroundLocaleDirectory = 'projects/kikita-ui-playground/public/i18n';
+const localeCataloguePathPattern =
+  /^projects\/kikita-ui-playground\/public\/i18n\/(?:[^/]+\/)?[a-z]{2,3}(?:-[a-zA-Z0-9]{2,8})*\.json$/u;
 const disallowedTopLevelGlobals =
   /(?:=\s*(window|document|navigator|localStorage|sessionStorage)\b|\b(window|document|navigator|localStorage|sessionStorage)\.)/;
 
@@ -130,9 +131,7 @@ function checkNoCyrillic(root) {
 }
 
 function isLocaleCatalogue(root, file) {
-  const directory = toRepoPath(root, file).split('/').slice(0, -1).join('/');
-
-  return localeCatalogueDirectories.has(directory);
+  return localeCataloguePathPattern.test(toRepoPath(root, file));
 }
 
 function checkPlaygroundLocaleCatalogues(root) {
@@ -142,38 +141,65 @@ function checkPlaygroundLocaleCatalogues(root) {
     return [];
   }
 
-  const catalogues = new Map();
   const failures = [];
+  const catalogueDirectories = [
+    directory,
+    ...readdirSync(directory, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => join(directory, entry.name)),
+  ];
+  let rootCatalogueNames = [];
 
-  for (const fileName of readdirSync(directory)
-    .filter((file) => file.endsWith('.json'))
-    .sort()) {
-    const file = join(directory, fileName);
+  for (const catalogueDirectory of catalogueDirectories) {
+    const cataloguePath = toRepoPath(root, catalogueDirectory);
+    const catalogues = new Map();
+    const fileNames = readdirSync(catalogueDirectory, { withFileTypes: true })
+      .filter(
+        (entry) =>
+          entry.isFile() && localeCataloguePathPattern.test(`${cataloguePath}/${entry.name}`),
+      )
+      .map((entry) => entry.name)
+      .sort();
 
-    try {
-      catalogues.set(fileName, JSON.parse(readFileSync(file, 'utf8')));
-    } catch (error) {
-      const reason = error instanceof Error ? error.message : String(error);
-      failures.push(`${playgroundLocaleDirectory}/${fileName} is not valid JSON: ${reason}`);
+    if (catalogueDirectory === directory) {
+      rootCatalogueNames = fileNames;
+    } else if (
+      rootCatalogueNames.length > 0 &&
+      fileNames.join('\n') !== rootCatalogueNames.join('\n')
+    ) {
+      failures.push(
+        `${cataloguePath} does not contain the same language catalogues as ${playgroundLocaleDirectory}`,
+      );
     }
-  }
 
-  if (catalogues.size < 2) {
-    return failures;
-  }
+    for (const fileName of fileNames) {
+      const file = join(catalogueDirectory, fileName);
 
-  const referenceFile = catalogues.has('en.json') ? 'en.json' : [...catalogues.keys()][0];
-  const referenceKeys = flattenTranslationKeys(catalogues.get(referenceFile)).join('\n');
+      try {
+        catalogues.set(fileName, JSON.parse(readFileSync(file, 'utf8')));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        failures.push(`${cataloguePath}/${fileName} is not valid JSON: ${reason}`);
+      }
+    }
 
-  for (const [fileName, catalogue] of catalogues) {
-    if (fileName === referenceFile) {
+    if (catalogues.size < 2) {
       continue;
     }
 
-    if (flattenTranslationKeys(catalogue).join('\n') !== referenceKeys) {
-      failures.push(
-        `${playgroundLocaleDirectory}/${fileName} does not have the same key paths as ${referenceFile}`,
-      );
+    const referenceFile = catalogues.has('en.json') ? 'en.json' : [...catalogues.keys()][0];
+    const referenceKeys = flattenTranslationKeys(catalogues.get(referenceFile)).join('\n');
+
+    for (const [fileName, catalogue] of catalogues) {
+      if (fileName === referenceFile) {
+        continue;
+      }
+
+      if (flattenTranslationKeys(catalogue).join('\n') !== referenceKeys) {
+        failures.push(
+          `${cataloguePath}/${fileName} does not have the same key paths as ${cataloguePath}/${referenceFile}`,
+        );
+      }
     }
   }
 
