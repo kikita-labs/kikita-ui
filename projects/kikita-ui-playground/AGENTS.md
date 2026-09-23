@@ -33,6 +33,10 @@ also read:
 
 - `.agents/decisions/README.md`
 
+For component-entity page design or implementation, also read:
+
+- `.agents/component-page-authoring.md` — agreed contract for component entity pages; follow it when implementing or migrating component routes.
+
 ## Non-Negotiable Rules
 
 - Latest stable Angular only. Standalone by default — do not write `standalone: true`, it's

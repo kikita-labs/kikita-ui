@@ -1,0 +1,15 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .playground-example-card {
+    display: grid;
+    gap: var(--kui-space-4);
+  }
+
+  .playground-example-card__content {
+    min-inline-size: 0;
+  }
+}

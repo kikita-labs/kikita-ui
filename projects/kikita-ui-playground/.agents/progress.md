@@ -5,16 +5,17 @@ not after every commit.
 
 ## Status
 
-| Date       | Area                | Status | Notes                                                                                                                                                                                            |
-| ---------- | ------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 2026-09-22 | Project scaffolding | Done   | Angular SSR shell, Transloco root catalogues, Vitest, and Playwright verification are wired.                                                                                                     |
-| 2026-09-23 | Playground shell    | Done   | Docs-matched KUI header/palette/sidebar, independent shell scroll regions, direct component routes, and 320px/tablet layout checks are implemented. Component-specific demos remain future work. |
+| Date       | Area                      | Status | Notes                                                                                                                                                                                            |
+| ---------- | ------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2026-09-22 | Project scaffolding       | Done   | Angular SSR shell, Transloco root catalogues, Vitest, and Playwright verification are wired.                                                                                                     |
+| 2026-09-23 | Playground shell          | Done   | Docs-matched KUI header/palette/sidebar, independent shell scroll regions, direct component routes, and 320px/tablet layout checks are implemented. Component-specific demos remain future work. |
+| 2026-09-23 | Component page foundation | Done   | Agreed the component-page authoring contract and built the reusable Playground example card with Kikita UI primitives.                                                                           |
 
 Status values: `Done`, `In progress`, `Blocked`, `Pending`.
 
 ## Current Risks / Open Questions
 
-- Component URLs currently render a shared placeholder until component demo content is designed and implemented.
+- Component URLs still render a shared placeholder. The Button page is the next pilot and will use `PlaygroundExampleCard`.
 
 ## Review Checklist
 

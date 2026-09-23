@@ -13,6 +13,7 @@ for a given task; this file is the flat map of everything that exists under `.ag
 - [refactoring.md](./refactoring.md) — refactor policy.
 - [progress.md](./progress.md) — dated status log.
 - [accessibility.md](./accessibility.md) — a11y and responsive rules.
+- [component-page-authoring.md](./component-page-authoring.md) — agreed contract for component entity pages and reusable example groups.
 
 - [agent-surface.md](./agent-surface.md) — JSDoc requirements.
 
