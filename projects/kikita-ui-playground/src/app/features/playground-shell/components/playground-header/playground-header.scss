@@ -49,10 +49,6 @@
     color: var(--kui-color-primary-fill);
   }
 
-  .playground-header__separator {
-    block-size: var(--kui-space-6);
-  }
-
   @media (width < 48rem) {
     .playground-header {
       block-size: var(--app-mobile-header-height);
