@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, PLATFORM_ID } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
@@ -153,6 +153,21 @@ describe('KuiColorInputDirective', () => {
     const thumb = document.querySelector('.kui-color-input-thumb') as HTMLElement;
 
     expect(thumb.style.left).toBe('100%');
+  });
+});
+
+describe('KuiColorInputDirective on the server', () => {
+  it('leaves the native input unwrapped so hydration can match the template DOM', async () => {
+    await TestBed.configureTestingModule({
+      imports: [ColorInputHost],
+      providers: [{ provide: PLATFORM_ID, useValue: 'server' }],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(ColorInputHost);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.kui-color-input')).toBeNull();
+    expect(fixture.nativeElement.querySelector('input[kuiColorInput]')).not.toBeNull();
   });
 });
 

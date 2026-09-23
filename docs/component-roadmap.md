@@ -12,7 +12,7 @@ repository does not establish publication or a passing quality gate. See
 | 1                         | Theme, typography, icons, buttons, field, input, group, playground                                                                                                |
 | 2                         | Signal Forms spike; textarea, checkbox, switch, radio, badge, avatar, loader, skeleton, empty state, tooltip, card, tabs, segmented, table                        |
 | 3                         | Select, dropdown, popover, dialog, confirm, toast, accordion, progress, slider, number input, menu, separator, drawer, chip, combobox, command palette, scrollbar |
-| 4                         | Color input, stepper, breadcrumbs                                                                                                                                 |
+| 4                         | Color input (server-native markup with browser-only picker enhancement), stepper, breadcrumbs                                                                     |
 | 5                         | Calendar, calendar range, single-date picker                                                                                                                      |
 | 6                         | Tree                                                                                                                                                              |
 | 7                         | Controlled file upload                                                                                                                                            |

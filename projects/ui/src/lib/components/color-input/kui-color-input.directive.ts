@@ -1,4 +1,5 @@
 import { Overlay } from '@angular/cdk/overlay';
+import { isPlatformBrowser } from '@angular/common';
 import type { AfterViewInit, ComponentRef, DoCheck, OnDestroy } from '@angular/core';
 import {
   booleanAttribute,
@@ -9,6 +10,7 @@ import {
   inject,
   Injector,
   input,
+  PLATFORM_ID,
   Renderer2,
   signal,
   ViewContainerRef,
@@ -38,6 +40,8 @@ let nextColorInputTooltipId = 0;
  *
  * The native input remains the form value source. It accepts hex colors and OKLCH values for
  * Kikita theme seed editing, while the swatch/chevron open a Kikita picker popover.
+ * The server keeps the native input in its template position; picker controls are added in the
+ * browser so hydration sees the same DOM shape on both platforms.
  *
  * @example
  * ```html
@@ -77,8 +81,10 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly injector = inject(Injector);
+  private readonly platformId = inject(PLATFORM_ID);
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
+  private readonly isBrowser = isPlatformBrowser(this.platformId);
 
   protected readonly inputId = computed(() => this.id() ?? this.field?.controlId ?? null);
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
@@ -127,6 +133,8 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private readonly pickerUnlisten: (() => void)[] = [];
 
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
+
     this.buildDom();
     this.syncState();
   }

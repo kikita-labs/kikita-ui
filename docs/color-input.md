@@ -73,6 +73,9 @@ Empty input is treated as neutral, not invalid. Unsupported non-empty strings se
 - Disabled and readonly inputs disable the swatch button.
 - Invalid text keeps the last valid swatch color and still allows the picker to
   open.
+- During server rendering the directive leaves the native input in its template
+  position. It adds the picker controls in the browser after the view is created
+  so Angular can hydrate the server markup before the directive wraps the input.
 
 ## Signal Forms
 

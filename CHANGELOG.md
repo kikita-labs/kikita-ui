@@ -8,6 +8,10 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+### Fixed
+
+- `kuiColorInput` now leaves its native input unwrapped during server rendering and creates picker chrome in the browser, preventing SSR/hydration DOM mismatches.
+
 ### Changed
 
 - `ariaLabel` is optional for `kui-carousel` and all four chart components. Each now supplies a
