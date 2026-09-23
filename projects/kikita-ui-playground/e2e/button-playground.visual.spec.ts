@@ -18,6 +18,11 @@ for (const [size, fileName] of [
   });
 }
 
+test('captures the minimally configured default button', async ({ page }) => {
+  const defaultExample = page.getByRole('group', { name: 'Default button example', exact: true });
+  await expect(defaultExample).toHaveScreenshot('button-default.png');
+});
+
 test('captures button states', async ({ page }) => {
   await expect(page.getByRole('group', { name: 'Button states' })).toHaveScreenshot(
     'button-states.png',

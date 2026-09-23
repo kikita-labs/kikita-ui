@@ -1,6 +1,7 @@
 {
   "title": "Button",
   "examples": {
+    "default": "Default",
     "states": "States",
     "composition": "Composition"
   },
@@ -37,6 +38,7 @@
     "longLabel": "Continue with a long label that wraps onto multiple lines"
   },
   "accessibility": {
+    "default": "Default button example",
     "sizeMatrix": "{{size}} button variants",
     "variant": "{{size}} {{shape}} button, {{appearance}} appearance",
     "states": "Button states",

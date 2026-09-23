@@ -6,6 +6,10 @@ test('shows the full button variant matrix and native compositions', async ({ pa
 
   await expect(page.getByRole('heading', { level: 1, name: 'Button' })).toBeVisible();
 
+  const defaultExample = page.getByRole('group', { name: 'Default button example', exact: true });
+  await expect(defaultExample).toBeInViewport();
+  await expect(defaultExample.getByRole('button', { name: 'Default', exact: true })).toBeEnabled();
+
   for (const size of ['Extra small', 'Small', 'Medium', 'Large']) {
     const matrix = page.getByRole('group', { name: `${size} button variants`, exact: true });
 

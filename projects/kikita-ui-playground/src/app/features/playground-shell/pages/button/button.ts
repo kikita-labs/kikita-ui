@@ -4,11 +4,18 @@ import { KuiTextDirective } from '@kikita-labs/ui';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
-import { ButtonComposition, ButtonStates, ButtonVariantMatrix } from './components';
+import { ButtonComposition, ButtonDefault, ButtonStates, ButtonVariantMatrix } from './components';
 
 @Component({
   selector: 'app-button',
-  imports: [ButtonComposition, ButtonStates, ButtonVariantMatrix, KuiTextDirective, TranslocoPipe],
+  imports: [
+    ButtonComposition,
+    ButtonDefault,
+    ButtonStates,
+    ButtonVariantMatrix,
+    KuiTextDirective,
+    TranslocoPipe,
+  ],
   templateUrl: './button.html',
   styleUrl: './button.scss',
 })
