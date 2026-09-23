@@ -4,6 +4,8 @@ import { isDevMode, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 
+import { provideKikitaUi } from '@kikita-labs/ui';
+
 import { provideTransloco } from '@jsverse/transloco';
 
 import { routes } from './app.routes';
@@ -15,6 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(withFetch()),
+    provideKikitaUi({ scrollbars: 'styled' }),
     provideTransloco({
       config: {
         availableLangs: ['en', 'ru'],

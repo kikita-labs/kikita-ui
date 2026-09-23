@@ -1,0 +1,51 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-block-size: 100dvh;
+  }
+
+  .playground-shell {
+    display: grid;
+    grid-template-rows: var(--app-header-height) minmax(0, 1fr);
+    inline-size: 100%;
+    block-size: 100dvh;
+    background: var(--kui-color-bg);
+    color: var(--kui-color-text);
+  }
+
+  .playground-shell__body {
+    display: grid;
+    grid-template-columns: var(--app-sidebar-width) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    inline-size: min(var(--app-shell-max-width), 100%);
+    block-size: 100%;
+    margin-inline: auto;
+    min-block-size: 0;
+    overflow: hidden;
+  }
+
+  .playground-shell__workspace {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr);
+    min-inline-size: 0;
+    min-block-size: 0;
+    overflow: hidden;
+  }
+
+  .playground-shell__workspace router-outlet {
+    display: none;
+  }
+
+  @media (width < 48rem) {
+    .playground-shell {
+      grid-template-rows: var(--app-mobile-header-height) minmax(0, 1fr);
+      block-size: 100dvh;
+    }
+
+    .playground-shell__body {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 42dvh) minmax(0, 1fr);
+      min-block-size: 0;
+    }
+  }
+}

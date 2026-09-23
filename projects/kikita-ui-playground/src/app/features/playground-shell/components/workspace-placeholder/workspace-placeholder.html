@@ -1,0 +1,19 @@
+<main class="playground-workspace">
+  <section class="playground-empty" aria-live="polite">
+    <kui-icon name="package" aria-hidden="true" size="50px" />
+
+    @let selected = selectedComponent();
+
+    @if (selected) {
+      <h2 kuiText variant="heading-sm">{{ selected | transloco }}</h2>
+
+      <p kuiText variant="body-sm" tone="muted">
+        {{ 'playground.workspace.pageComingSoon' | transloco }}
+      </p>
+    } @else {
+      <p kuiText variant="body-sm" tone="muted">
+        {{ 'playground.workspace.selectComponent' | transloco }}
+      </p>
+    }
+  </section>
+</main>

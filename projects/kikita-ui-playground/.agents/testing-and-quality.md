@@ -46,12 +46,15 @@ level — see `git-policy.md` for exactly which of these run on commit vs on pus
   `printWidth: 100`, Angular HTML template support via the `angular` parser override, and
   `"htmlWhitespaceSensitivity": "ignore"` so sibling-tag blank lines survive formatting —
   see `code-style/html-markup.md`). Don't hand-edit formatting rules anywhere else.
+- **Stylelint**: the root `stylelint.config.mjs` checks SCSS correctness and conventions,
+  including repository BEM classes and token custom properties. SCSS is formatted by
+  Prettier after Stylelint runs.
 - **Editor consistency**: `.editorconfig` at the root pins indent size/style and final-
   newline behavior for any editor, independent of Prettier. `.vscode/extensions.json`
   recommends the Angular Language Service, ESLint, and Prettier extensions.
-- **What each tool owns**: ESLint = correctness/type-safety, Prettier = whitespace/quotes/
-  line-wrapping. Never add a formatting rule to ESLint config — that's Prettier's job and
-  the two would fight.
+- **What each tool owns**: ESLint = TypeScript and Angular template correctness; Stylelint =
+  SCSS correctness and conventions; Prettier = formatting. Never add formatting rules to
+  ESLint or Stylelint — Prettier owns formatting.
 
 ## Ignoring files
 

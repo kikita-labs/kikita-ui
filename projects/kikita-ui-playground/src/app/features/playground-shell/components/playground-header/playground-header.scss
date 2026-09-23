@@ -1,0 +1,88 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .playground-header {
+    display: block;
+    block-size: var(--app-header-height);
+    background: var(--kui-color-surface);
+    box-shadow: inset 0 -1px var(--kui-color-border);
+  }
+
+  .playground-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--kui-space-4);
+    inline-size: min(var(--app-shell-max-width), 100%);
+    block-size: 100%;
+    margin-inline: auto;
+    padding-inline: var(--kui-space-6);
+  }
+
+  .playground-header__brand,
+  .playground-header__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-3);
+  }
+
+  .playground-header__brand {
+    min-inline-size: 0;
+  }
+
+  .playground-header__brand h1,
+  .playground-header__brand p {
+    margin: 0;
+  }
+
+  .playground-header__mark {
+    display: grid;
+    flex: 0 0 auto;
+    inline-size: var(--kui-space-8);
+    aspect-ratio: 1;
+    place-items: center;
+    border-radius: var(--kui-radius-sm);
+    background: var(--kui-color-primary-soft-bg);
+    color: var(--kui-color-primary-fill);
+  }
+
+  .playground-header__separator {
+    block-size: var(--kui-space-6);
+  }
+
+  @media (width < 48rem) {
+    .playground-header {
+      block-size: var(--app-mobile-header-height);
+    }
+
+    .playground-header__inner {
+      flex-wrap: wrap;
+      padding: var(--kui-space-2) var(--kui-space-4);
+    }
+
+    .playground-header__brand {
+      flex: 1 1 10rem;
+      gap: var(--kui-space-2);
+    }
+
+    .playground-header__brand p,
+    .playground-header__separator {
+      display: none;
+    }
+
+    .playground-header__controls {
+      gap: var(--kui-space-1);
+    }
+
+    .playground-header__controls app-playground-palette {
+      order: 1;
+    }
+
+    .playground-header__controls > button {
+      order: 0;
+    }
+  }
+}

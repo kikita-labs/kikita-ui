@@ -1,0 +1,8 @@
+**/dist/**
+**/node_modules/**
+**/.angular/**
+**/coverage/**
+**/pnpm-lock.yaml
+**/package-lock.json
+**/yarn.lock
+/.kikita-create-angular-app-src/

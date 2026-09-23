@@ -1,0 +1,33 @@
+@layer app.components {
+  .seed-popover {
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .seed-popover__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-3);
+  }
+
+  .seed-popover__label {
+    display: inline-flex;
+    margin-block-end: var(--kui-space-1);
+    color: var(--kui-color-text-secondary);
+    font-size: var(--kui-text-xs-size);
+    font-weight: 600;
+  }
+
+  .seed-popover__input {
+    inline-size: 100%;
+  }
+
+  .seed-popover__error {
+    margin: 0;
+    color: var(--kui-color-danger-fill);
+  }
+
+  .seed-popover__reset {
+    margin-block-start: var(--kui-space-4);
+  }
+}

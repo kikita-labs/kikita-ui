@@ -72,6 +72,8 @@
     "lint-staged": "^17.0.8",
     "ng-packagr": "^22.0.0",
     "prettier": "^3.8.1",
+    "stylelint": "^17.15.0",
+    "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "8.60.1",
     "vitest": "^4.0.8"
@@ -81,7 +83,15 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{mjs,json,md,scss,css,yaml,yml}": [
+    "*.html": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.scss": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{mjs,json,md,css,yaml,yml}": [
       "prettier --write"
     ]
   }

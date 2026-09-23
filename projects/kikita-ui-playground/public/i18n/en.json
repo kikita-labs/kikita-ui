@@ -1,12 +1,89 @@
 {
   "playground": {
-    "title": "Kikita UI playground",
-    "description": "A verification surface for Kikita UI components, states, themes, and SSR.",
-    "language": "Language",
-    "languageNames": {
-      "en": "English",
-      "ru": "Russian"
+    "title": "Kikita UI",
+    "product": "Playground",
+    "language": "Switch language to Russian",
+    "theme": {
+      "useLight": "Switch to light theme",
+      "useDark": "Switch to dark theme"
     },
-    "empty": "Component routes will be added here."
+    "palette": {
+      "title": "Seed tokens",
+      "open": "Open theme colors",
+      "openColorPicker": "Open seed color picker",
+      "reset": "Reset to defaults",
+      "invalidColor": "Enter a valid #RGB, #RRGGBB, or OKLCH color.",
+      "colors": {
+        "primary": "Primary",
+        "neutral": "Neutral",
+        "success": "Success",
+        "warning": "Warning",
+        "danger": "Danger",
+        "info": "Info"
+      }
+    },
+    "navigation": {
+      "title": "Components",
+      "label": "Component navigation",
+      "searchLabel": "Search components",
+      "searchPlaceholder": "Find component",
+      "noResults": "No components found."
+    },
+    "groups": {
+      "actions": "Actions",
+      "forms": "Forms",
+      "surfaces": "Surfaces",
+      "feedback": "Feedback",
+      "dataIdentity": "Data and identity"
+    },
+    "components": {
+      "accordion": "Accordion",
+      "avatar": "Avatar",
+      "badge": "Badge",
+      "breadcrumbs": "Breadcrumbs",
+      "button": "Button",
+      "calendar": "Calendar",
+      "card": "Card",
+      "checkbox": "Checkbox",
+      "chip": "Chip",
+      "colorInput": "Color input",
+      "combobox": "Combobox",
+      "commandPalette": "Command palette",
+      "datePicker": "Date picker",
+      "dialog": "Dialog",
+      "drawer": "Drawer",
+      "dropdown": "Dropdown",
+      "emptyState": "Empty state",
+      "field": "Field",
+      "fileUpload": "File upload",
+      "group": "Group",
+      "icon": "Icon",
+      "iconButton": "Icon button",
+      "input": "Input",
+      "loader": "Loader",
+      "menu": "Menu",
+      "numberInput": "Number input",
+      "popover": "Popover",
+      "progress": "Progress",
+      "radio": "Radio",
+      "scrollbar": "Scrollbar",
+      "segmented": "Segmented",
+      "select": "Select",
+      "separator": "Separator",
+      "skeleton": "Skeleton",
+      "slider": "Slider",
+      "stepper": "Stepper",
+      "switch": "Switch",
+      "table": "Table",
+      "tabs": "Tabs",
+      "textarea": "Textarea",
+      "toast": "Toast",
+      "tooltip": "Tooltip",
+      "tree": "Tree"
+    },
+    "workspace": {
+      "selectComponent": "Select a component",
+      "pageComingSoon": "Its playground page will be added in a later phase."
+    }
   }
 }

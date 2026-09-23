@@ -1,0 +1,15 @@
+<div class="playground-shell">
+  <app-playground-header
+    [themeMode]="themeMode()"
+    [seedColors]="seedColors()"
+    (themeModeChange)="setThemeMode($event)"
+    (seedColorsChange)="setSeedColors($event)"
+  />
+
+  <div class="playground-shell__body">
+    <app-component-sidebar [selectedComponent]="selectedComponentId()" />
+    <div class="playground-shell__workspace">
+      <router-outlet />
+    </div>
+  </div>
+</div>

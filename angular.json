@@ -139,7 +139,10 @@
                 "input": "projects/kikita-ui-playground/public"
               }
             ],
-            "styles": ["projects/kikita-ui-playground/src/styles.scss"],
+            "styles": [
+              "projects/ui/src/styles/kikita-ui.css",
+              "projects/kikita-ui-playground/src/styles.scss"
+            ],
             "server": "projects/kikita-ui-playground/src/main.server.ts",
             "outputMode": "server",
             "security": {
@@ -154,8 +157,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "300kB",
-                  "maximumError": "400kB"
+                  "maximumWarning": "600kB",
+                  "maximumError": "650kB"
                 },
                 {
                   "type": "anyComponentStyle",

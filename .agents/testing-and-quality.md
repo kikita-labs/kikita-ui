@@ -50,7 +50,9 @@ characterization test when coverage is missing. Keep refactors small and green.
 
 ## Hooks
 
-- `pre-commit` runs cheap checks only.
+- `pre-commit` runs `lint-staged` on staged files: ESLint and Prettier for TypeScript and
+  Angular templates; Stylelint and Prettier for SCSS. It also runs the static and skills
+  checks from `.husky/pre-commit`.
 - `pre-push` runs the full local gate including browser and SSR checks.
 - If a hook fails because of local environment limits, run the same command
   manually and record the exact blocker.

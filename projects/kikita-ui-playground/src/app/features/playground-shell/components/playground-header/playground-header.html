@@ -1,0 +1,54 @@
+<header class="playground-header">
+  @let themeModeValue = themeMode();
+
+  <div class="playground-header__inner">
+    <div class="playground-header__brand">
+      <span class="playground-header__mark" aria-hidden="true">
+        <kui-icon name="kikita-brand" size="15px" />
+      </span>
+
+      <h1 kuiText variant="title">{{ 'playground.title' | transloco }}</h1>
+
+      <hr class="playground-header__separator" kuiSeparator orientation="vertical" spacing="none" />
+
+      <p kuiText variant="body-sm" tone="muted">{{ 'playground.product' | transloco }}</p>
+    </div>
+
+    <div class="playground-header__controls">
+      <app-playground-palette
+        [seedColors]="seedColors()"
+        (seedColorsChange)="seedColorsChange.emit($event)"
+      />
+
+      <button
+        kuiIconButton
+        type="button"
+        shape="outline"
+        size="sm"
+        [attr.aria-label]="
+          (themeModeValue === 'dark' ? 'playground.theme.useLight' : 'playground.theme.useDark')
+            | transloco
+        "
+        [attr.aria-pressed]="themeModeValue === 'dark'"
+        (click)="toggleTheme()"
+      >
+        @if (themeModeValue === 'dark') {
+          <kui-icon name="moon" size="15px" aria-hidden="true" />
+        } @else {
+          <kui-icon name="sun" size="15px" aria-hidden="true" />
+        }
+      </button>
+
+      <button
+        kuiIconButton
+        type="button"
+        shape="outline"
+        size="sm"
+        [attr.aria-label]="'playground.language' | transloco"
+        (click)="toggleLanguage()"
+      >
+        {{ language() === 'en' ? 'RU' : 'EN' }}
+      </button>
+    </div>
+  </div>
+</header>

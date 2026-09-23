@@ -16,10 +16,11 @@
 Husky wires the quality gate from `testing-and-quality.md` directly into git, so a bad
 commit/push can't land even if the agent forgets to run checks manually.
 
-- **pre-commit**: runs `lint-staged` — ESLint `--fix` and Prettier `--write`, but only on
+- **pre-commit**: runs `lint-staged` — ESLint `--fix` and Prettier `--write` for TypeScript
+  and Angular templates, plus Stylelint `--fix` and Prettier `--write` for SCSS, but only on
   the files actually staged for this commit (not the whole repo). Fast, and only touches
-  what you're already changing. If `lint-staged` can't auto-fix a lint error, the commit is
-  blocked until it's fixed by hand. Also runs the non-English content check (see
+  what you're already changing. If a linter can't auto-fix an error, the commit is blocked
+  until it's fixed by hand. Also runs the non-English content check (see
   `testing-and-quality.md`) — a stray Cyrillic character outside `public/i18n/` in a staged
   file blocks the commit.
 - **pre-push**: runs the full gate — `pnpm run lint`, then
