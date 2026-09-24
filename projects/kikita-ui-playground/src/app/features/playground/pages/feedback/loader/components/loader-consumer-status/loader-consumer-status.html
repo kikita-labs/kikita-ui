@@ -1,0 +1,24 @@
+<app-playground-example-card [heading]="'loader.examples.consumerStatus' | transloco">
+  <div
+    class="loader-consumer-status"
+    role="group"
+    [attr.aria-label]="'loader.accessibility.consumerStatus' | transloco"
+  >
+    <div class="loader-consumer-status__actions">
+      <button kuiButton type="button" (click)="startCheck()">
+        {{ 'loader.actions.startCheck' | transloco }}
+      </button>
+
+      <button kuiButton shape="ghost" type="button" (click)="completeCheck()">
+        {{ 'loader.actions.completeCheck' | transloco }}
+      </button>
+    </div>
+
+    @if (isChecking()) {
+      <p class="loader-consumer-status__message">
+        <span kuiLoader [label]="'loader.accessibility.checking' | transloco"></span>
+        {{ 'loader.status.checking' | transloco }}
+      </p>
+    }
+  </div>
+</app-playground-example-card>

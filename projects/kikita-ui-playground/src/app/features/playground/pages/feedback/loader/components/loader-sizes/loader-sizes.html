@@ -1,0 +1,14 @@
+<app-playground-example-card [heading]="'loader.examples.sizes' | transloco">
+  <div
+    class="loader-sizes__grid"
+    role="group"
+    [attr.aria-label]="'loader.accessibility.sizes' | transloco"
+  >
+    @for (size of sizes; track size.value) {
+      <section class="loader-sizes__item" role="group" [attr.aria-label]="size.label | transloco">
+        <h3 kuiText variant="heading-sm">{{ size.label | transloco }}</h3>
+        <span kuiLoader [size]="size.value" [label]="size.accessibleName | transloco"></span>
+      </section>
+    }
+  </div>
+</app-playground-example-card>

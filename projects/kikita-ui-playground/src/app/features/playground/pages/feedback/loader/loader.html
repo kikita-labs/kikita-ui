@@ -1,0 +1,21 @@
+<main class="playground-workspace loader-playground" aria-labelledby="loader-playground-title">
+  <h1 id="loader-playground-title" kuiText variant="heading-lg">
+    {{ 'loader.title' | transloco }}
+  </h1>
+
+  <app-playground-example-card [heading]="'loader.examples.default' | transloco">
+    <div
+      class="loader-playground__default"
+      role="group"
+      [attr.aria-label]="'loader.accessibility.default' | transloco"
+    >
+      <span kuiLoader></span>
+    </div>
+  </app-playground-example-card>
+
+  <app-loader-sizes />
+
+  <app-loader-compositions />
+
+  <app-loader-consumer-status />
+</main>

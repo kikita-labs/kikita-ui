@@ -1,0 +1,28 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .loader-consumer-status {
+    display: grid;
+    justify-items: start;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .loader-consumer-status__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .loader-consumer-status__message {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+    margin: 0;
+  }
+}
