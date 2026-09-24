@@ -1,0 +1,52 @@
+<app-playground-example-card
+  class="empty-state-live-filter"
+  id="empty-state-live-filter"
+  [heading]="'emptyState.examples.liveFilter' | transloco"
+>
+  <div
+    class="empty-state-live-filter__scenario"
+    role="group"
+    [attr.aria-label]="'emptyState.accessibility.liveFilter' | transloco"
+  >
+    <label kuiText for="empty-state-project-filter">
+      {{ 'emptyState.filter.label' | transloco }}
+    </label>
+    <input
+      id="empty-state-project-filter"
+      kuiInput
+      type="search"
+      [placeholder]="'emptyState.filter.placeholder' | transloco"
+      [ngModel]="filterQuery()"
+      (ngModelChange)="filterQuery.set($event)"
+    />
+
+    <ul
+      class="empty-state-live-filter__project-list"
+      [attr.aria-label]="'emptyState.accessibility.projectList' | transloco"
+    >
+      @for (project of filteredProjects(); track project) {
+        <li kuiText>{{ project }}</li>
+      } @empty {
+        <li class="empty-state-live-filter__empty-result" role="presentation">
+          <kui-empty-state
+            role="status"
+            context="no-results"
+            [heading]="'emptyState.samples.liveFilter.heading' | transloco"
+            [description]="'emptyState.samples.liveFilter.description' | transloco"
+          >
+            <svg kuiEmptyStateIcon viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M21 8v13H3V8" />
+              <path d="M1 3h22v5H1z" />
+              <path d="M10 12h4" />
+            </svg>
+            <div kuiEmptyStateActions>
+              <button kuiButton type="button" (click)="clearFilter()">
+                {{ 'emptyState.actions.clearFilter' | transloco }}
+              </button>
+            </div>
+          </kui-empty-state>
+        </li>
+      }
+    </ul>
+  </div>
+</app-playground-example-card>

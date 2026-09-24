@@ -1,0 +1,53 @@
+<section
+  class="empty-state-content-compositions"
+  role="group"
+  [attr.aria-label]="'emptyState.accessibility.contentCombinations' | transloco"
+>
+  <app-playground-example-card [heading]="'emptyState.examples.contentCombinations' | transloco">
+    <div class="empty-state-content-compositions__grid">
+      <section
+        class="empty-state-content-compositions__example"
+        id="empty-state-heading-only"
+        role="group"
+        [attr.aria-label]="'emptyState.accessibility.headingOnly' | transloco"
+      >
+        <h3 kuiText variant="heading-sm">{{ 'emptyState.examples.headingOnly' | transloco }}</h3>
+        <kui-empty-state [heading]="'emptyState.samples.headingOnly.heading' | transloco" />
+      </section>
+
+      <section
+        class="empty-state-content-compositions__example"
+        role="group"
+        [attr.aria-label]="'emptyState.accessibility.descriptionOnly' | transloco"
+      >
+        <h3 kuiText variant="heading-sm">
+          {{ 'emptyState.examples.descriptionOnly' | transloco }}
+        </h3>
+        <kui-empty-state
+          [description]="'emptyState.samples.descriptionOnly.description' | transloco"
+        />
+      </section>
+
+      <section
+        class="empty-state-content-compositions__example"
+        role="group"
+        [attr.aria-label]="'emptyState.accessibility.actionOnly' | transloco"
+      >
+        <h3 kuiText variant="heading-sm">{{ 'emptyState.examples.actionOnly' | transloco }}</h3>
+        <kui-empty-state>
+          <div kuiEmptyStateActions>
+            <a kuiButton href="/components/empty-state#empty-state-live-filter">
+              {{ 'emptyState.actions.viewProjects' | transloco }}
+            </a>
+            <a kuiButton shape="ghost" href="/components/empty-state#empty-state-contexts">
+              {{ 'emptyState.actions.viewContexts' | transloco }}
+            </a>
+            <a kuiButton shape="ghost" href="/components/empty-state#empty-state-heading-only">
+              {{ 'emptyState.actions.readSavedSearch' | transloco }}
+            </a>
+          </div>
+        </kui-empty-state>
+      </section>
+    </div>
+  </app-playground-example-card>
+</section>

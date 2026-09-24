@@ -1,0 +1,85 @@
+{
+  "title": "Empty State",
+  "examples": {
+    "default": "Default",
+    "contexts": "Contexts",
+    "sizesAndSlots": "Sizes and projected slots",
+    "contentCombinations": "Content combinations",
+    "headingOnly": "Heading only",
+    "descriptionOnly": "Description only",
+    "actionOnly": "Actions only",
+    "liveFilter": "Live filter"
+  },
+  "accessibility": {
+    "default": "Default empty state example",
+    "contexts": "Empty State context variants",
+    "sizesAndSlots": "Empty State size and slot variants",
+    "contentCombinations": "Empty State content combinations",
+    "headingOnly": "Heading-only empty state",
+    "descriptionOnly": "Description-only empty state",
+    "actionOnly": "Action-only empty state",
+    "liveFilter": "Live project filter example",
+    "projectList": "Matching sample projects"
+  },
+  "contexts": {
+    "noData": "No data",
+    "noResults": "No results",
+    "error": "Error",
+    "noAccess": "No access",
+    "success": "Success"
+  },
+  "sizes": {
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large"
+  },
+  "samples": {
+    "default": {
+      "description": "Nothing here yet."
+    },
+    "noData": {
+      "heading": "No projects yet",
+      "description": "Create a project to get started."
+    },
+    "noResults": {
+      "heading": "No matching projects",
+      "description": "Try another search term."
+    },
+    "error": {
+      "heading": "Projects could not load",
+      "description": "Check your connection and try again."
+    },
+    "noAccess": {
+      "heading": "Access required",
+      "description": "Ask a workspace administrator for access."
+    },
+    "success": {
+      "heading": "All caught up",
+      "description": "There are no outstanding project updates."
+    },
+    "sizes": {
+      "heading": "Empty",
+      "description": "Add one."
+    },
+    "headingOnly": {
+      "heading": "Search saved"
+    },
+    "descriptionOnly": {
+      "description": "Choose a project to continue."
+    },
+    "liveFilter": {
+      "heading": "No matching projects",
+      "description": "Change your search or clear the filter."
+    }
+  },
+  "actions": {
+    "viewProjects": "View projects",
+    "viewContexts": "See contexts",
+    "readSavedSearch": "Read saved search",
+    "clearFilter": "Clear filter"
+  },
+  "filter": {
+    "label": "Filter sample projects",
+    "placeholder": "Search project names"
+  }
+}

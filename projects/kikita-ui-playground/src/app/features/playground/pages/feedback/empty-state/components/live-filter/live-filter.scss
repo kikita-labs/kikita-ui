@@ -1,0 +1,22 @@
+@layer app.components {
+  :host {
+    display: block;
+  }
+
+  .empty-state-live-filter__scenario {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .empty-state-live-filter__project-list {
+    display: grid;
+    gap: var(--kui-space-2);
+    margin: 0;
+    padding-inline-start: var(--kui-space-5);
+  }
+
+  .empty-state-live-filter__empty-result {
+    list-style: none;
+  }
+}
