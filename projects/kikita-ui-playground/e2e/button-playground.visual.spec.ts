@@ -29,6 +29,34 @@ test('captures button states', async ({ page }) => {
   );
 });
 
+test('captures the keyboard-focused button state', async ({ page }) => {
+  const states = page.getByRole('group', { name: 'Button states', exact: true });
+  const saveButton = states.getByRole('button', { name: 'Save', exact: true });
+  const focusedButton = states.getByRole('button', { name: 'Focused', exact: true });
+
+  await saveButton.focus();
+  await saveButton.press('Tab');
+
+  await expect(focusedButton).toBeFocused();
+  await expect(focusedButton).toHaveJSProperty('disabled', false);
+  expect(await focusedButton.evaluate((button) => button.matches(':focus-visible'))).toBe(true);
+  await expect(states).toHaveScreenshot('button-focused.png', { animations: 'disabled' });
+});
+
+test('captures pointer hover and pressed button states', async ({ page }) => {
+  const states = page.getByRole('group', { name: 'Button states', exact: true });
+  const button = states.getByRole('button', { name: 'Save', exact: true });
+
+  await button.hover();
+  expect(await button.evaluate((element) => element.matches(':hover'))).toBe(true);
+  await expect(states).toHaveScreenshot('button-hover.png', { animations: 'disabled' });
+
+  await page.mouse.down();
+  expect(await button.evaluate((element) => element.matches(':active'))).toBe(true);
+  await expect(states).toHaveScreenshot('button-pressed.png', { animations: 'disabled' });
+  await page.mouse.up();
+});
+
 test('captures button composition examples', async ({ page }) => {
   await expect(page.getByRole('group', { name: 'Button composition examples' })).toHaveScreenshot(
     'button-composition.png',

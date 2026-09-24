@@ -30,6 +30,7 @@
     "loading": "Loading",
     "disabledLink": "Disabled link",
     "interactiveSave": "Save",
+    "focused": "Focused",
     "startLoading": "Simulate loading",
     "resetLoading": "Reset loading",
     "iconStart": "Save with leading icon",
