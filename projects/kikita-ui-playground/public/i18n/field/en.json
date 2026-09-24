@@ -1,0 +1,65 @@
+{
+  "title": "Field",
+  "examples": {
+    "default": "Default",
+    "anatomy": "Label and messages",
+    "sizes": "Sizes",
+    "validation": "Validation",
+    "projected": "Projected content",
+    "providers": "Provider defaults",
+    "affixes": "Affixes and actions"
+  },
+  "accessibility": {
+    "default": "Default field example",
+    "anatomy": "Field labels and messages",
+    "sizes": "Field sizes",
+    "validation": "Field validation",
+    "projected": "Projected field content",
+    "providers": "Field provider defaults",
+    "affixes": "Field affixes and actions",
+    "namedControl": "A control with hint only",
+    "controlOnly": "A control without field content"
+  },
+  "fields": {
+    "projectName": "Project name",
+    "ownerEmail": "Owner email",
+    "size": "Field size {{size}}",
+    "requiredEmail": "Required email",
+    "hiddenError": "Hidden error",
+    "requiredMarkerHidden": "Required rule without marker",
+    "domain": "Domain",
+    "providerDefault": "Provider default",
+    "providerOverride": "Local override",
+    "website": "Website",
+    "search": "Search projects",
+    "amount": "Amount"
+  },
+  "hints": {
+    "workEmail": "Use your work email address.",
+    "noVisibleLabel": "We'll use this address for account updates.",
+    "requiredEmail": "We'll use this address for account updates.",
+    "domain": "Use lowercase letters and numbers for your workspace URL.",
+    "website": "Use your public project address.",
+    "amount": "Enter the amount in US dollars."
+  },
+  "errors": {
+    "required": "Enter an email address.",
+    "hidden": "This explicit error remains invalid while its text is hidden.",
+    "providerHidden": "This message is hidden by the provider default.",
+    "providerVisible": "Choose a project name to continue.",
+    "domain": "Use lowercase letters and numbers for your workspace URL."
+  },
+  "placeholders": {
+    "projectName": "New project",
+    "email": "name@example.com",
+    "value": "Enter a value",
+    "domain": "project"
+  },
+  "actions": {
+    "clearSearch": "Clear search",
+    "clear": "Clear"
+  },
+  "states": {
+    "checking": "Checking amount"
+  }
+}

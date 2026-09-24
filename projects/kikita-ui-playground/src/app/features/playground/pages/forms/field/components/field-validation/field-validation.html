@@ -1,0 +1,34 @@
+<section role="group" [attr.aria-label]="'field.accessibility.validation' | transloco">
+  <app-playground-example-card [heading]="'field.examples.validation' | transloco">
+    <div class="field-validation__examples">
+      <kui-field
+        [label]="'field.fields.requiredEmail' | transloco"
+        [hint]="'field.hints.requiredEmail' | transloco"
+      >
+        <input
+          kuiInput
+          type="email"
+          [formField]="validationForm.email"
+          [placeholder]="'field.placeholders.email' | transloco"
+        />
+      </kui-field>
+
+      <kui-field
+        [label]="'field.fields.hiddenError' | transloco"
+        [error]="'field.errors.hidden' | transloco"
+        hideErrors
+      >
+        <input kuiInput type="text" [placeholder]="'field.placeholders.value' | transloco" />
+      </kui-field>
+
+      <kui-field [label]="'field.fields.requiredMarkerHidden' | transloco" [required]="false">
+        <input
+          kuiInput
+          type="text"
+          [formField]="validationForm.markerOverride"
+          [placeholder]="'field.placeholders.value' | transloco"
+        />
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+</section>

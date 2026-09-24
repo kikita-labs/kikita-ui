@@ -1,0 +1,36 @@
+<section role="group" [attr.aria-label]="'field.accessibility.affixes' | transloco">
+  <app-playground-example-card [heading]="'field.examples.affixes' | transloco">
+    <div class="field-affixes__examples">
+      <kui-field
+        [label]="'field.fields.website' | transloco"
+        [hint]="'field.hints.website' | transloco"
+      >
+        <span kuiFieldAffix>https://</span>
+        <input kuiInput type="text" [placeholder]="'field.placeholders.domain' | transloco" />
+        <span kuiFieldAffix>.dev</span>
+      </kui-field>
+
+      <kui-field [label]="'field.fields.search' | transloco">
+        <kui-icon kuiFieldAffix name="search" />
+        <input kuiInput type="search" [formField]="searchForm.query" />
+        <button
+          kuiFieldAffix
+          type="button"
+          [attr.aria-label]="'field.actions.clearSearch' | transloco"
+          (click)="clearQuery()"
+        >
+          {{ 'field.actions.clear' | transloco }}
+        </button>
+      </kui-field>
+
+      <kui-field
+        [label]="'field.fields.amount' | transloco"
+        [hint]="'field.hints.amount' | transloco"
+      >
+        <span kuiFieldAffix emphasis="strong">USD</span>
+        <input kuiInput type="number" value="42" />
+        <span kuiLoader kuiFieldAffix [label]="'field.states.checking' | transloco"></span>
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+</section>
