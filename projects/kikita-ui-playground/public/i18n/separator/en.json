@@ -1,0 +1,33 @@
+{
+  "title": "Separator",
+  "examples": {
+    "default": "Default",
+    "appearance": "Appearance",
+    "spacing": "Spacing",
+    "vertical": "Vertical composition"
+  },
+  "appearance": {
+    "subtle": "Subtle",
+    "default": "Default",
+    "strong": "Strong"
+  },
+  "spacing": {
+    "none": "None",
+    "extraSmall": "Extra small",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large"
+  },
+  "content": {
+    "first": "First group",
+    "second": "Second group",
+    "left": "Left",
+    "right": "Right"
+  },
+  "accessibility": {
+    "default": "Default separator example",
+    "appearance": "Separator appearance examples",
+    "spacing": "Separator spacing examples",
+    "vertical": "Vertical separator examples"
+  }
+}
