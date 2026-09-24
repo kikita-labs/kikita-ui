@@ -1,0 +1,51 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .calendar-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .calendar-playground h1 {
+    margin: 0;
+  }
+
+  .calendar-playground__catalogue {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .calendar-playground__catalogue > app-calendar-default,
+  .calendar-playground__catalogue > app-calendar-appearance {
+    display: contents;
+  }
+
+  .calendar-playground__catalogue > app-calendar-configurations {
+    grid-column: 1 / -1;
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .calendar-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .calendar-playground__catalogue {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (width < 40rem) {
+    .calendar-playground {
+      padding-inline: var(--kui-space-2);
+    }
+  }
+}

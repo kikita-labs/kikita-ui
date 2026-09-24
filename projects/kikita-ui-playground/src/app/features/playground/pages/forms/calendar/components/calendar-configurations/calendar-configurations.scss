@@ -1,0 +1,45 @@
+@layer app.components {
+  .calendar-configurations__catalogue {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .calendar-configurations__locales {
+    grid-column: 1 / -1;
+    min-inline-size: 0;
+  }
+
+  .calendar-configurations__locale-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+  }
+
+  .calendar-configurations__locale-example {
+    display: grid;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .calendar-configurations__locale-example p {
+    margin: 0;
+  }
+
+  @media (width < 64rem) {
+    .calendar-configurations__catalogue {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .calendar-configurations__locales {
+      grid-column: auto;
+    }
+
+    .calendar-configurations__locale-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

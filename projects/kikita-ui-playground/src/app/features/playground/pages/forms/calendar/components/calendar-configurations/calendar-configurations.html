@@ -1,0 +1,52 @@
+<div class="calendar-configurations__catalogue">
+  <section role="group" [attr.aria-label]="'calendar.accessibility.footer' | transloco">
+    <app-playground-example-card [heading]="'calendar.examples.footer' | transloco">
+      <kui-calendar showFooter [(value)]="footerValue" [(viewDate)]="footerViewDate" />
+    </app-playground-example-card>
+  </section>
+
+  <section role="group" [attr.aria-label]="'calendar.accessibility.constraints' | transloco">
+    <app-playground-example-card [heading]="'calendar.examples.constraints' | transloco">
+      <kui-calendar
+        [minDate]="minSelectableDate"
+        [maxDate]="maxSelectableDate"
+        [disabledDates]="disabledDates"
+        [showWeekend]="false"
+        [(value)]="constrainedValue"
+        [(viewDate)]="constrainedViewDate"
+      />
+    </app-playground-example-card>
+  </section>
+
+  <section
+    class="calendar-configurations__locales"
+    role="group"
+    [attr.aria-label]="'calendar.accessibility.locales' | transloco"
+  >
+    <app-playground-example-card [heading]="'calendar.examples.locales' | transloco">
+      <div class="calendar-configurations__locale-grid">
+        <div
+          class="calendar-configurations__locale-example"
+          role="group"
+          [attr.aria-label]="'calendar.locales.english' | transloco"
+        >
+          <p kuiText variant="body-sm" tone="muted">
+            {{ 'calendar.locales.english' | transloco }}
+          </p>
+          <kui-calendar locale="en-US" [(value)]="englishValue" [(viewDate)]="englishViewDate" />
+        </div>
+
+        <div
+          class="calendar-configurations__locale-example"
+          role="group"
+          [attr.aria-label]="'calendar.locales.russian' | transloco"
+        >
+          <p kuiText variant="body-sm" tone="muted">
+            {{ 'calendar.locales.russian' | transloco }}
+          </p>
+          <kui-calendar locale="ru-RU" [(value)]="russianValue" [(viewDate)]="russianViewDate" />
+        </div>
+      </div>
+    </app-playground-example-card>
+  </section>
+</div>

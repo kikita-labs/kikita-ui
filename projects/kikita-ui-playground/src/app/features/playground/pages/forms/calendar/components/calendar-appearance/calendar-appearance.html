@@ -1,0 +1,11 @@
+<section role="group" [attr.aria-label]="'calendar.accessibility.compact' | transloco">
+  <app-playground-example-card [heading]="'calendar.examples.compact' | transloco">
+    <kui-calendar size="sm" [(value)]="compactValue" [(viewDate)]="compactViewDate" />
+  </app-playground-example-card>
+</section>
+
+<section role="group" [attr.aria-label]="'calendar.accessibility.flat' | transloco">
+  <app-playground-example-card [heading]="'calendar.examples.flat' | transloco">
+    <kui-calendar flat [(value)]="flatValue" [(viewDate)]="flatViewDate" />
+  </app-playground-example-card>
+</section>
