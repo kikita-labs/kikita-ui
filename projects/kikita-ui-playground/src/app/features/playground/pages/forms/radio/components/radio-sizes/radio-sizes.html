@@ -1,0 +1,25 @@
+<section role="group" [attr.aria-label]="'radio.accessibility.sizes' | transloco">
+  <app-playground-example-card [heading]="'radio.examples.sizes' | transloco">
+    <div class="radio-sizes__options">
+      <label class="radio-option">
+        <input kuiRadio type="radio" name="radio-size-xs" id="radio-size-xs" size="xs" checked />
+        <span kuiText>{{ 'radio.sizes.xs' | transloco }}</span>
+      </label>
+
+      <label class="radio-option">
+        <input kuiRadio type="radio" name="radio-size-sm" id="radio-size-sm" size="sm" checked />
+        <span kuiText>{{ 'radio.sizes.sm' | transloco }}</span>
+      </label>
+
+      <label class="radio-option">
+        <input kuiRadio type="radio" name="radio-size-md" id="radio-size-md" size="md" checked />
+        <span kuiText>{{ 'radio.sizes.md' | transloco }}</span>
+      </label>
+
+      <label class="radio-option">
+        <input kuiRadio type="radio" name="radio-size-lg" id="radio-size-lg" size="lg" checked />
+        <span kuiText>{{ 'radio.sizes.lg' | transloco }}</span>
+      </label>
+    </div>
+  </app-playground-example-card>
+</section>
