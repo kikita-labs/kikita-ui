@@ -1,0 +1,68 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .switch-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .switch-playground h1 {
+    margin: 0;
+  }
+
+  .switch-playground__cards,
+  .switch-playground__examples,
+  .switch-playground__sizes,
+  .switch-playground__states,
+  .switch-playground__field-examples {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .switch-playground__cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .switch-playground__size-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) repeat(2, minmax(4rem, auto));
+    align-items: center;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .switch-playground__size-name {
+    min-inline-size: 0;
+  }
+
+  .switch-playground__state-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .switch-playground__control {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  @media (width < 48rem) {
+    .switch-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .switch-playground__cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

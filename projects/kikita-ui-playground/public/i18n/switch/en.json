@@ -1,0 +1,44 @@
+{
+  "title": "Switch",
+  "examples": {
+    "default": "Default",
+    "sizes": "Sizes",
+    "states": "Invalid and disabled",
+    "interactions": "Pointer and keyboard",
+    "field": "Field and Signal Forms"
+  },
+  "groups": {
+    "invalid": "Invalid",
+    "disabled": "Disabled"
+  },
+  "hints": {
+    "field": "The field supplies the size and description.",
+    "accountAlerts": "Turn on this switch to enable account alerts."
+  },
+  "errors": {
+    "activationRequired": "Enable account alerts to continue."
+  },
+  "labels": {
+    "default": "Default switch",
+    "off": "Off",
+    "on": "On",
+    "pointerSample": "Pointer sample",
+    "keyboardSample": "Keyboard sample",
+    "inheritedSize": "Inherited field size",
+    "localSize": "Local size override",
+    "accountAlerts": "Account alerts"
+  },
+  "sizes": {
+    "xs": "Extra small",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large"
+  },
+  "accessibility": {
+    "default": "Default switch example",
+    "sizes": "Switch sizes",
+    "states": "Switch states",
+    "interactions": "Switch interactions",
+    "field": "Switch field examples"
+  }
+}
