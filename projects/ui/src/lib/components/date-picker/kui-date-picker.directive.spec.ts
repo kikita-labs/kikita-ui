@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
@@ -16,6 +17,7 @@ import { KuiDatePickerDirective } from './kui-date-picker.directive';
         kuiDatePicker
         [(value)]="value"
         [minDate]="minDate()"
+        [maxDate]="maxDate()"
         [disabled]="disabled()"
         [readonly]="readonly()"
       />
@@ -29,6 +31,7 @@ import { KuiDatePickerDirective } from './kui-date-picker.directive';
 class TestDatePickerHost {
   readonly value = signal<Date | null>(null);
   readonly minDate = signal<Date | undefined>(undefined);
+  readonly maxDate = signal<Date | undefined>(undefined);
   readonly disabled = signal(false);
   readonly readonly = signal(false);
 }
@@ -97,6 +100,60 @@ describe('KuiDatePickerDirective', () => {
     expect(value?.getMonth()).toBe(6);
     expect(value?.getDate()).toBe(17);
     expect(input.getAttribute('aria-invalid')).toBeNull();
+  });
+
+  it('preserves four-digit years below 0100 when parsing and formatting', () => {
+    const input = getInput();
+    input.value = '01.01.0001';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.value()?.getFullYear()).toBe(1);
+    expect(input.value).toBe('01.01.0001');
+    expect(input.getAttribute('aria-invalid')).toBeNull();
+  });
+
+  it('validates leap days against the full four-digit year', () => {
+    const input = getInput();
+    input.value = '29.02.0000';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.value()?.getFullYear()).toBe(0);
+    expect(input.getAttribute('aria-invalid')).toBeNull();
+
+    input.value = '29.02.0001';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+    expect(fixture.componentInstance.value()?.getFullYear()).toBe(0);
+  });
+
+  it('uses inclusive local-day bounds even when min and max include times', () => {
+    fixture.componentInstance.minDate.set(new Date(2026, 6, 17, 15));
+    fixture.componentInstance.maxDate.set(new Date(2026, 6, 17, 8));
+    fixture.detectChanges();
+
+    const input = getInput();
+    input.value = '17.07.2026';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(input.getAttribute('aria-invalid')).toBeNull();
+  });
+
+  it('defaults the linked calendar view model to the first day of the current month', () => {
+    const directive = fixture.debugElement
+      .query(By.directive(KuiDatePickerDirective))
+      .injector.get(KuiDatePickerDirective);
+    const viewDate = directive.viewDate();
+
+    expect(viewDate.getDate()).toBe(1);
+    expect(viewDate.getHours()).toBe(0);
+    expect(viewDate.getMinutes()).toBe(0);
+    expect(viewDate.getSeconds()).toBe(0);
+    expect(viewDate.getMilliseconds()).toBe(0);
   });
 
   it('marks an invalid date as aria-invalid without clearing the previous value', () => {

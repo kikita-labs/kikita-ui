@@ -1,7 +1,8 @@
 # Date Picker
 
 `input[kuiDatePicker]` converts a native text input into a date picker trigger. Text is
-parsed/formatted as `dd.MM.yyyy`; pair it with `kui-calendar` inside a sibling `kui-dropdown`
+parsed/formatted as `dd.MM.yyyy`; surrounding whitespace is trimmed, and four-digit years from
+`0000` through `9999` are preserved. Pair it with `kui-calendar` inside a sibling `kui-dropdown`
 for the popover grid.
 
 ## Import
@@ -101,19 +102,25 @@ them on the calendar too.
 
 ## Invalid Input
 
-Typing an out-of-format (`32.13.2026`) or out-of-range (before `minDate`/after `maxDate`) date
-sets `aria-invalid`/`data-kui-invalid` (red border) without discarding the last valid value —
-the field stays on the last good date until a valid one is typed.
+Typing an out-of-format value (`32.13.2026`) sets `aria-invalid`/`data-kui-invalid` (red border)
+without replacing the last successfully parsed `value`. A parseable date outside `minDate` or
+`maxDate` updates `value` and `viewDate` to the typed date but keeps the field invalid; the linked
+calendar continues to disable dates outside the configured range. Typing a valid in-range date
+clears the invalid state.
 
 ## Inputs
 
-- `value`: two-way model, `Date | null`. Auto-wired into a sibling `kui-calendar` inside the
-  same `kui-field` (see Usage above); manual binding on the calendar is optional.
-- `viewDate`: two-way model, first-of-month `Date`. Also auto-wired into a sibling
+- `value`: two-way model, `Date | null` (default: `null`). Its `valueChange` model output is
+  available for one-way output binding. Auto-wired into a sibling `kui-calendar` inside the same
+  `kui-field` (see Usage above); manual binding on the calendar is optional.
+- `viewDate`: two-way model, first-of-month `Date` (defaults to the first day of the current
+  month). Its `viewDateChange` model output is available for one-way output binding. Auto-wired into a sibling
   `kui-calendar`, keeping the popover's displayed month in sync as a valid date is typed or the
   calendar is navigated.
-- `minDate` / `maxDate`: `Date | undefined`. Also auto-wired into a sibling `kui-calendar`
-  (push-only — the calendar never changes these on its own).
+- `minDate` / `maxDate`: `Date | undefined` (default: `undefined`). These are inclusive local
+  calendar-day boundaries; their time portions are ignored, matching `kui-calendar`. They are
+  also auto-wired into a sibling `kui-calendar` (push-only — the calendar never changes these on
+  its own).
 - `clearable`: `boolean | undefined` (default resolves to `true`)
 - `disabled` / `readonly`: `boolean` (default: `false`)
 - `placeholder`: `string` (default: `'dd.mm.yyyy'`)

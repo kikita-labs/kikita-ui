@@ -22,7 +22,7 @@ import type {
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
 import { sameNullableDate } from '../../utils/kui-date-equality.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
-import { startOfMonth } from '../calendar/kui-calendar-date.util';
+import { startOfDay, startOfMonth } from '../calendar/kui-calendar-date.util';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import { formatDisplayDate, parseDisplayDate } from './kui-date-format.util';
 import { KuiDatePickerInputAffixComponent } from './kui-date-picker-input-affix.component';
@@ -84,12 +84,13 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
    */
   readonly value = model<Date | null>(null);
   /**
-   * First-of-month date a bound `kui-calendar` should display. Auto-wired (both ways) into a
-   * sibling `kui-calendar` inside the same `kui-field`, keeping the popover's displayed month
-   * in sync as the user types a valid date or navigates the calendar -- manual `[(viewDate)]`
-   * binding on the calendar is optional, not required.
+   * First-of-month date a bound `kui-calendar` should display. Defaults to the first day of the
+   * current month. Auto-wired (both ways) into a sibling `kui-calendar` inside the same
+   * `kui-field`, keeping the popover's displayed month in sync as the user types a valid date or
+   * navigates the calendar -- manual `[(viewDate)]` binding on the calendar is optional, not
+   * required.
    */
-  readonly viewDate = model<Date>(new Date());
+  readonly viewDate = model<Date>(startOfMonth(new Date()));
 
   /** Whether the control is disabled. Set by `[formField]` or `[disabled]` directly. */
   readonly disabled = input(false, { transform: booleanAttribute });
@@ -149,8 +150,9 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
     if (!value) return false;
     const min = this.minDate();
     const max = this.maxDate();
-    if (min && value.getTime() < min.getTime()) return true;
-    if (max && value.getTime() > max.getTime()) return true;
+    const valueDay = startOfDay(value).getTime();
+    if (min && valueDay < startOfDay(min).getTime()) return true;
+    if (max && valueDay > startOfDay(max).getTime()) return true;
     return false;
   });
 
