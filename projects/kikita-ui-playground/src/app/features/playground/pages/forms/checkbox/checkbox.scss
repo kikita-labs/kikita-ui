@@ -1,0 +1,35 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .checkbox-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .checkbox-playground h1 {
+    margin: 0;
+  }
+
+  .checkbox-playground__cards,
+  .checkbox-playground__options {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .checkbox-playground__options {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+    align-items: start;
+  }
+
+  @media (width < 48rem) {
+    .checkbox-playground {
+      padding: var(--kui-space-6);
+    }
+  }
+}

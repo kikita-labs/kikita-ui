@@ -1,0 +1,62 @@
+<main class="playground-workspace checkbox-playground" aria-labelledby="checkbox-playground-title">
+  <h1 id="checkbox-playground-title" kuiText variant="heading-lg">
+    {{ 'checkbox.title' | transloco }}
+  </h1>
+
+  <app-playground-example-card [heading]="'checkbox.examples.default' | transloco">
+    <div role="group" [attr.aria-label]="'checkbox.accessibility.default' | transloco">
+      <kui-field [label]="'checkbox.labels.default' | transloco">
+        <input kuiCheckbox type="checkbox" />
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+
+  <div class="checkbox-playground__cards">
+    <app-playground-example-card [heading]="'checkbox.examples.sizes' | transloco">
+      <div role="group" [attr.aria-label]="'checkbox.accessibility.sizes' | transloco">
+        <div class="checkbox-playground__options">
+          <kui-field [label]="'checkbox.labels.extraSmall' | transloco">
+            <input kuiCheckbox type="checkbox" size="xs" />
+          </kui-field>
+          <kui-field [label]="'checkbox.labels.small' | transloco">
+            <input kuiCheckbox type="checkbox" size="sm" checked />
+          </kui-field>
+          <kui-field [label]="'checkbox.labels.medium' | transloco">
+            <input kuiCheckbox type="checkbox" size="md" checked />
+          </kui-field>
+          <kui-field [label]="'checkbox.labels.large' | transloco">
+            <input kuiCheckbox type="checkbox" size="lg" />
+          </kui-field>
+        </div>
+      </div>
+    </app-playground-example-card>
+
+    <app-playground-example-card [heading]="'checkbox.examples.states' | transloco">
+      <div role="group" [attr.aria-label]="'checkbox.accessibility.states' | transloco">
+        <div class="checkbox-playground__options">
+          <kui-field [label]="'checkbox.labels.checked' | transloco">
+            <input kuiCheckbox type="checkbox" checked />
+          </kui-field>
+          <kui-field [label]="'checkbox.labels.disabled' | transloco">
+            <input kuiCheckbox type="checkbox" disabled />
+          </kui-field>
+          <kui-field [label]="'checkbox.labels.disabledChecked' | transloco">
+            <input kuiCheckbox type="checkbox" disabled checked />
+          </kui-field>
+          <kui-field
+            [label]="'checkbox.labels.invalid' | transloco"
+            [error]="'checkbox.errors.required' | transloco"
+          >
+            <input kuiCheckbox type="checkbox" />
+          </kui-field>
+          <kui-field [label]="'checkbox.labels.indeterminate' | transloco">
+            <input kuiCheckbox type="checkbox" [indeterminate]="true" />
+          </kui-field>
+          <kui-field [label]="'checkbox.labels.focused' | transloco">
+            <input #focusedCheckbox kuiCheckbox type="checkbox" />
+          </kui-field>
+        </div>
+      </div>
+    </app-playground-example-card>
+  </div>
+</main>
