@@ -1,0 +1,43 @@
+<app-playground-example-card [heading]="'colorInput.examples.sizes' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'colorInput.accessibility.sizesGroup' | transloco"
+    class="color-input-sizes__examples"
+  >
+    <kui-field [label]="'colorInput.sizes.xs' | transloco">
+      <input
+        kuiColorInput
+        size="xs"
+        value="#5b4fe0"
+        [swatchLabel]="'colorInput.actions.swatch' | transloco"
+      />
+    </kui-field>
+
+    <kui-field [label]="'colorInput.sizes.sm' | transloco">
+      <input
+        kuiColorInput
+        size="sm"
+        value="#5b4fe0"
+        [swatchLabel]="'colorInput.actions.swatch' | transloco"
+      />
+    </kui-field>
+
+    <kui-field [label]="'colorInput.sizes.md' | transloco">
+      <input
+        kuiColorInput
+        size="md"
+        value="#5b4fe0"
+        [swatchLabel]="'colorInput.actions.swatch' | transloco"
+      />
+    </kui-field>
+
+    <kui-field [label]="'colorInput.sizes.lg' | transloco">
+      <input
+        kuiColorInput
+        size="lg"
+        value="#5b4fe0"
+        [swatchLabel]="'colorInput.actions.swatch' | transloco"
+      />
+    </kui-field>
+  </div>
+</app-playground-example-card>

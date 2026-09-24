@@ -1,0 +1,20 @@
+@layer app.components {
+  .color-input-sizes__examples {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .color-input-sizes__examples {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width < 40rem) {
+    .color-input-sizes__examples {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "title": "Color Input",
+  "examples": {
+    "default": "Default",
+    "sizes": "Sizes",
+    "values": "Color values",
+    "states": "Field states"
+  },
+  "fields": {
+    "basicLabel": "Color value",
+    "basicHint": "Enter a hex or OKLCH color value.",
+    "hexLabel": "Hex",
+    "oklchLabel": "OKLCH",
+    "disabledLabel": "Disabled",
+    "disabledHint": "This value cannot be changed.",
+    "readonlyLabel": "Read-only",
+    "focusedLabel": "Focused",
+    "invalidLabel": "Invalid",
+    "invalidError": "Choose a supported color value."
+  },
+  "sizes": {
+    "xs": "Extra small",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large"
+  },
+  "actions": {
+    "swatch": "Choose color"
+  },
+  "accessibility": {
+    "defaultGroup": "Default color input",
+    "sizesGroup": "Color input sizes",
+    "valuesGroup": "Color input value formats",
+    "statesGroup": "Color input field states"
+  }
+}

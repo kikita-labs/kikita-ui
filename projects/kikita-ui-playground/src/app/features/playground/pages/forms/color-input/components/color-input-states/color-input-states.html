@@ -1,0 +1,48 @@
+<app-playground-example-card [heading]="'colorInput.examples.states' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'colorInput.accessibility.statesGroup' | transloco"
+    class="color-input-states__examples"
+  >
+    <kui-field
+      [label]="'colorInput.fields.disabledLabel' | transloco"
+      [hint]="'colorInput.fields.disabledHint' | transloco"
+    >
+      <input
+        kuiColorInput
+        value="#8b8b8b"
+        disabled
+        [swatchLabel]="'colorInput.actions.swatch' | transloco"
+      />
+    </kui-field>
+
+    <kui-field [label]="'colorInput.fields.readonlyLabel' | transloco">
+      <input
+        kuiColorInput
+        value="#5b4fe0"
+        readonly
+        [swatchLabel]="'colorInput.actions.swatch' | transloco"
+      />
+    </kui-field>
+
+    <kui-field [label]="'colorInput.fields.focusedLabel' | transloco">
+      <input
+        kuiColorInput
+        value="#5b4fe0"
+        [swatchLabel]="'colorInput.actions.swatch' | transloco"
+      />
+    </kui-field>
+
+    <kui-field
+      [label]="'colorInput.fields.invalidLabel' | transloco"
+      [error]="'colorInput.fields.invalidError' | transloco"
+    >
+      <input
+        kuiColorInput
+        value="#e0002a"
+        invalid
+        [swatchLabel]="'colorInput.actions.swatch' | transloco"
+      />
+    </kui-field>
+  </div>
+</app-playground-example-card>
