@@ -1,0 +1,45 @@
+<app-playground-example-card [heading]="'icon.examples.sizes' | transloco">
+  <div class="icon-size-examples__stack">
+    <section
+      class="icon-size-examples__section"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.presetSizes' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'icon.labels.presetSizes' | transloco }}</h3>
+
+      <div class="icon-size-examples__grid">
+        @for (size of presetSizes; track size) {
+          <div
+            class="icon-size-examples__item"
+            role="group"
+            [attr.aria-label]="'icon.accessibility.presetSize' | transloco: { size }"
+          >
+            <kui-icon name="kikita-brand" [size]="size" />
+            <span kuiText variant="caption">{{ size }}</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section
+      class="icon-size-examples__section"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.rawSizes' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'icon.labels.rawSizes' | transloco }}</h3>
+
+      <div class="icon-size-examples__grid icon-size-examples__grid--custom">
+        @for (example of customSizes; track example.id) {
+          <div
+            class="icon-size-examples__item"
+            role="group"
+            [attr.aria-label]="example.accessibility | transloco"
+          >
+            <kui-icon name="kikita-brand" [size]="example.value" />
+            <span kuiText variant="caption">{{ example.label | transloco }}</span>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+</app-playground-example-card>

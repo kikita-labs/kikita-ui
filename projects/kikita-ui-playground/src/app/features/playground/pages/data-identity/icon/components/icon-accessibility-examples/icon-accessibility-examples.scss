@@ -1,0 +1,21 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .icon-accessibility-examples__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .icon-accessibility-examples__item {
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "title": "Icon",
+  "examples": {
+    "default": "Default",
+    "sizes": "Sizes",
+    "sources": "Source types",
+    "accessibility": "Accessible names"
+  },
+  "labels": {
+    "localDefault": "Local brand icon",
+    "presetSizes": "Preset sizes",
+    "rawSizes": "CSS sizes",
+    "numericSize": "24 px",
+    "cssSize": "1.75em",
+    "registeredName": "Registered name",
+    "registeredBrand": "Kikita UI brand mark",
+    "staticSource": "Static SVG source",
+    "directSource": "Direct SVG source",
+    "imageSource": "Playground favicon",
+    "imageUrl": "Image URL",
+    "projectedSource": "Projected SVG icon",
+    "projectedSvg": "Projected SVG",
+    "decorative": "Decorative icon",
+    "accessibleBrand": "Kikita UI brand icon",
+    "labeled": "Labeled image"
+  },
+  "accessibility": {
+    "defaultExample": "Default icon example",
+    "sizeCatalogue": "Icon size catalogue",
+    "presetSizes": "Icon preset sizes",
+    "presetSize": "Icon size {{size}}",
+    "rawSizes": "Raw CSS size examples",
+    "numericSize": "Numeric size 24 pixels",
+    "cssSize": "CSS size 1.75em",
+    "sourceExamples": "Icon source examples",
+    "registeredName": "Registered name example",
+    "directSource": "Direct SVG source example",
+    "imageSource": "Image URL source example",
+    "projectedSource": "Projected SVG source example",
+    "accessibleNames": "Icon accessible name examples",
+    "decorative": "Decorative icon example",
+    "labeled": "Labeled icon example"
+  }
+}

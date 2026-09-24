@@ -1,0 +1,40 @@
+<main class="playground-workspace icon-playground" aria-labelledby="icon-playground-title">
+  <h1 id="icon-playground-title" kuiText variant="heading-lg">
+    {{ 'icon.title' | transloco }}
+  </h1>
+
+  <div class="icon-playground__catalogue">
+    <section role="group" [attr.aria-label]="'icon.accessibility.defaultExample' | transloco">
+      <app-playground-example-card [heading]="'icon.examples.default' | transloco">
+        <div class="icon-playground__default-example">
+          <kui-icon name="kikita-brand" />
+          <span kuiText variant="body-sm">{{ 'icon.labels.localDefault' | transloco }}</span>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="icon-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.sizeCatalogue' | transloco"
+    >
+      <app-icon-size-examples />
+    </section>
+
+    <section
+      class="icon-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.sourceExamples' | transloco"
+    >
+      <app-icon-source-examples />
+    </section>
+
+    <section
+      class="icon-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.accessibleNames' | transloco"
+    >
+      <app-icon-accessibility-examples />
+    </section>
+  </div>
+</main>

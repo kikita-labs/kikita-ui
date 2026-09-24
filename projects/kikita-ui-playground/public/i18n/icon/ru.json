@@ -1,0 +1,44 @@
+{
+  "title": "Иконка",
+  "examples": {
+    "default": "По умолчанию",
+    "sizes": "Размеры",
+    "sources": "Источники",
+    "accessibility": "Доступные имена"
+  },
+  "labels": {
+    "localDefault": "Локальная иконка бренда",
+    "presetSizes": "Предустановленные размеры",
+    "rawSizes": "Размеры CSS",
+    "numericSize": "24 пикселя",
+    "cssSize": "1.75em",
+    "registeredName": "Зарегистрированное имя",
+    "registeredBrand": "Зарегистрированная иконка бренда Kikita UI",
+    "staticSource": "Статический SVG-источник",
+    "directSource": "Прямой SVG-источник",
+    "imageSource": "Фавикон Playground",
+    "imageUrl": "URL изображения",
+    "projectedSource": "Спроецированная SVG-иконка",
+    "projectedSvg": "Спроецированный SVG",
+    "decorative": "Декоративная иконка",
+    "accessibleBrand": "Иконка бренда Kikita UI",
+    "labeled": "Иконка с подписью"
+  },
+  "accessibility": {
+    "defaultExample": "Пример иконки по умолчанию",
+    "sizeCatalogue": "Размеры иконок",
+    "presetSizes": "Предустановленные размеры иконок",
+    "presetSize": "Размер иконки {{size}}",
+    "rawSizes": "Примеры произвольных размеров CSS",
+    "numericSize": "Числовой размер 24 пикселя",
+    "cssSize": "Размер CSS 1.75em",
+    "sourceExamples": "Примеры источников иконок",
+    "registeredName": "Пример зарегистрированного имени",
+    "directSource": "Пример прямого SVG-источника",
+    "imageSource": "Пример URL изображения",
+    "projectedSource": "Пример спроецированного SVG",
+    "accessibleNames": "Примеры доступных имен иконок",
+    "decorative": "Пример декоративной иконки",
+    "labeled": "Пример иконки с подписью"
+  }
+}
