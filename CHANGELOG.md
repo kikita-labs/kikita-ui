@@ -10,6 +10,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- `kui-menu` closes immediately when reduced motion is preferred, without waiting for an exit
+  animation that the reduced-motion stylesheet disables.
 - `kuiColorInput` now leaves its native input unwrapped during server rendering and creates picker chrome in the browser, preventing SSR/hydration DOM mismatches.
 
 ### Changed

@@ -138,6 +138,39 @@ describe('KuiMenuComponent', () => {
 
     expect(document.activeElement).toBe(trigger);
   });
+
+  it('closes immediately when reduced motion is preferred', () => {
+    const view = document.defaultView;
+    if (!view) throw new Error('The test document should have a default window.');
+
+    const originalMatchMedia = view.matchMedia;
+    Object.defineProperty(view, 'matchMedia', {
+      configurable: true,
+      value: () => ({ matches: true }) as MediaQueryList,
+    });
+
+    try {
+      const fixture = createFixture();
+      const menu = fixture.componentInstance.menu();
+      const trigger = getTrigger(fixture);
+
+      trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+      fixture.detectChanges();
+      expect(menu.isOpen()).toBe(true);
+
+      getPanel()?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+      fixture.detectChanges();
+
+      expect(menu.isOpen()).toBe(false);
+      expect(getPanel()).toBeNull();
+      expect(document.activeElement).toBe(trigger);
+    } finally {
+      Object.defineProperty(view, 'matchMedia', {
+        configurable: true,
+        value: originalMatchMedia,
+      });
+    }
+  });
 });
 
 function createFixture(): ComponentFixture<MenuHost> {

@@ -100,6 +100,8 @@ Wires a native element as the trigger. The directive sets:
 - Inside the menu, `ArrowDown`, `ArrowUp`, `Home`, and `End` move focus.
 - `Escape` closes the menu and returns focus to the trigger.
 - `Tab` closes the menu and lets focus continue normally.
+- When `prefers-reduced-motion: reduce` is active, closing completes without waiting for an exit
+  animation.
 
 ## Deferred
 

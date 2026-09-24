@@ -166,10 +166,8 @@ export class KuiMenuComponent implements OnDestroy {
     this.restoreFocusOnClose = restoreFocus;
     this.isClosing.set(true);
 
-    if (!this.overlayRef) {
-      this.isClosing.set(false);
-      this.isOpen.set(false);
-      if (this.restoreFocusOnClose) this.triggerEl?.focus();
+    if (!this.overlayRef || this.prefersReducedMotion()) {
+      this.finishClose();
     }
   }
 
@@ -209,11 +207,7 @@ export class KuiMenuComponent implements OnDestroy {
 
   protected onAnimationEnd(event: AnimationEvent): void {
     if (this.isClosing() && event.animationName === 'kui-menu-out') {
-      this.isClosing.set(false);
-      this.isOpen.set(false);
-      this.detachOverlay();
-      if (this.restoreFocusOnClose) this.triggerEl?.focus();
-      this.restoreFocusOnClose = true;
+      this.finishClose();
     }
   }
 
@@ -359,6 +353,20 @@ export class KuiMenuComponent implements OnDestroy {
   private cleanup(): void {
     this.openSubs.forEach((s) => s.unsubscribe());
     this.openSubs = [];
+  }
+
+  private finishClose(): void {
+    this.isClosing.set(false);
+    this.isOpen.set(false);
+    this.detachOverlay();
+    if (this.restoreFocusOnClose) this.triggerEl?.focus();
+    this.restoreFocusOnClose = true;
+  }
+
+  private prefersReducedMotion(): boolean {
+    return (
+      this.document.defaultView?.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+    );
   }
 
   private detachOverlay(): void {
