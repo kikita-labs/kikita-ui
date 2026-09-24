@@ -1,10 +1,13 @@
 import {
+  afterNextRender,
   booleanAttribute,
   Component,
   computed,
   inject,
+  Injector,
   input,
   model,
+  type OnInit,
   signal,
   ViewEncapsulation,
 } from '@angular/core';
@@ -144,12 +147,7 @@ type KuiCalendarView = KuiCalendarNavigationView;
           <span class="kui-calendar-weekday">{{ name }}</span>
         }
       </div>
-      <div
-        class="kui-calendar-grid"
-        role="grid"
-        aria-label="Calendar"
-        (keydown)="onGridKeyDown($event)"
-      >
+      <div class="kui-calendar-grid" role="grid" aria-label="Calendar">
         @for (cell of dayCells(); track cell.date.getTime()) {
           <button
             class="{{ cell.cls }}"
@@ -158,6 +156,7 @@ type KuiCalendarView = KuiCalendarNavigationView;
             [attr.aria-selected]="cell.ariaSelected"
             [attr.aria-current]="cell.ariaCurrent"
             [attr.aria-disabled]="cell.ariaDisabled"
+            (keydown)="onGridKeyDown($event)"
             (click)="!cell.disabled && selectDate(cell.date)"
             (focus)="focusedDate.set(cell.date)"
           >
@@ -206,7 +205,8 @@ type KuiCalendarView = KuiCalendarNavigationView;
   encapsulation: ViewEncapsulation.None,
 })
 /** Displays a navigable calendar grid for selecting a single date. */
-export class KuiCalendarComponent {
+export class KuiCalendarComponent implements OnInit {
+  private readonly injector = inject(Injector);
   private readonly injectedLocale = inject(KUI_LOCALE);
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiCalendarSize>(KUI_CALENDAR_SIZES);
 
@@ -276,6 +276,17 @@ export class KuiCalendarComponent {
   constructor() {
     const initial = this.value();
     if (initial) this.viewDate.set(startOfMonth(initial));
+  }
+
+  ngOnInit(): void {
+    const viewDate = this.viewDate();
+    const initial = this.value();
+    const isInView = (date: Date): boolean =>
+      date.getFullYear() === viewDate.getFullYear() && date.getMonth() === viewDate.getMonth();
+    const candidate =
+      initial && isInView(initial) ? initial : isInView(this.today) ? this.today : viewDate;
+
+    this.focusedDate.set(candidate);
   }
 
   protected readonly localeText = computed(() =>
@@ -477,11 +488,15 @@ export class KuiCalendarComponent {
     }
     event.preventDefault();
     this.moveFocus(date);
-    queueMicrotask(() => {
-      const grid = (event.currentTarget as HTMLElement | null)?.querySelector<HTMLButtonElement>(
-        '.kui-calendar-day[tabindex="0"]',
-      );
-      grid?.focus();
-    });
+    const currentTarget = event.currentTarget as HTMLElement | null;
+    afterNextRender(
+      {
+        write: () => {
+          const grid = currentTarget?.closest('.kui-calendar-grid');
+          grid?.querySelector<HTMLButtonElement>('.kui-calendar-day[tabindex="0"]')?.focus();
+        },
+      },
+      { injector: this.injector },
+    );
   }
 }

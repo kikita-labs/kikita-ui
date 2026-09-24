@@ -35,13 +35,22 @@ class CalendarProjectedFooterHost {
   readonly value = signal<Date | null>(null);
 }
 
+@Component({
+  imports: [KuiCalendarComponent],
+  template: `<kui-calendar [value]="value()" [viewDate]="viewDate()" />`,
+})
+class CalendarInitialValueHost {
+  readonly value = signal<Date | null>(new Date(2026, 4, 14));
+  readonly viewDate = signal(new Date(2026, 4, 1));
+}
+
 describe('KuiCalendarComponent', () => {
   let fixture: ComponentFixture<CalendarHost>;
   let host: CalendarHost;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CalendarHost, CalendarProjectedFooterHost],
+      imports: [CalendarHost, CalendarProjectedFooterHost, CalendarInitialValueHost],
       providers: [{ provide: KUI_LOCALE, useValue: 'en-US' }],
     });
     fixture = TestBed.createComponent(CalendarHost);
@@ -65,6 +74,20 @@ describe('KuiCalendarComponent', () => {
   it('renders a 7-day week header and a 6x7 day grid', () => {
     expect(el().querySelectorAll('.kui-calendar-weekday').length).toBe(7);
     expect(el().querySelectorAll('.kui-calendar-day').length).toBe(42);
+  });
+
+  it('puts the initially selected date in the tab order for the displayed month', () => {
+    const initialFixture = TestBed.createComponent(CalendarInitialValueHost);
+    initialFixture.detectChanges();
+
+    const calendar = initialFixture.nativeElement as HTMLElement;
+    const tabStops = calendar.querySelectorAll<HTMLButtonElement>(
+      '.kui-calendar-day[tabindex="0"]',
+    );
+
+    expect(tabStops).toHaveLength(1);
+    expect(tabStops[0].textContent?.trim()).toBe('14');
+    expect(tabStops[0].getAttribute('aria-selected')).toBe('true');
   });
 
   it('marks today with aria-current="date"', () => {
@@ -104,14 +127,26 @@ describe('KuiCalendarComponent', () => {
   });
 
   it('navigates to the next month header on arrow-right past month end via keyboard, and Enter selects', () => {
-    const grid = el().querySelector('.kui-calendar-grid') as HTMLElement;
     const cell = dayButton('15');
     cell.focus();
-    grid.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    cell.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     fixture.detectChanges();
-    grid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    cell.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
     fixture.detectChanges();
     expect(host.value()?.getDate()).toBe(16);
+  });
+
+  it('moves DOM focus to the new roving day after ArrowRight', async () => {
+    const currentDay = dayButton('15');
+    currentDay.focus();
+    currentDay.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const nextDay = dayButton('16');
+    expect(nextDay.getAttribute('tabindex')).toBe('0');
+    expect(document.activeElement).toBe(nextDay);
   });
 
   it('hides the footer by default and shows it with showFooter', () => {
