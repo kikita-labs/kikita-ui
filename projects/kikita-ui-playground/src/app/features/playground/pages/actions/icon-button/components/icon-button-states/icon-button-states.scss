@@ -1,0 +1,9 @@
+@layer app.components {
+  .icon-button-states__examples {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+}

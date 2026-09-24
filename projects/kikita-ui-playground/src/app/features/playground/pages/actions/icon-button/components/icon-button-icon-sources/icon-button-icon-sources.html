@@ -1,0 +1,42 @@
+<app-playground-example-card [heading]="'iconButton.examples.icons' | transloco">
+  <div
+    class="icon-button-icon-sources__examples"
+    role="group"
+    [attr.aria-label]="'iconButton.accessibility.icons' | transloco"
+  >
+    <button
+      kuiIconButton
+      type="button"
+      icon="trash-2"
+      shape="outline"
+      appearance="danger"
+      [attr.aria-label]="'iconButton.actions.delete' | transloco"
+    ></button>
+
+    <a
+      kuiIconButton
+      href="/components/icon-button#icon-button-states"
+      icon="settings"
+      shape="outline"
+      appearance="primary"
+      [attr.aria-label]="'iconButton.actions.statesLink' | transloco"
+    ></a>
+
+    <button
+      kuiIconButton
+      type="button"
+      [attr.aria-label]="'iconButton.actions.customSource' | transloco"
+    >
+      <kui-icon [source]="plusIconSource" />
+    </button>
+
+    <button
+      kuiIconButton
+      type="button"
+      icon="settings"
+      [attr.aria-label]="'iconButton.actions.registeredAndProjected' | transloco"
+    >
+      <kui-icon data-icon-source="projected" [source]="plusIconSource" />
+    </button>
+  </div>
+</app-playground-example-card>

@@ -1,0 +1,49 @@
+{
+  "title": "Icon Button",
+  "examples": {
+    "default": "Default",
+    "states": "States",
+    "icons": "Icon sources"
+  },
+  "shapes": {
+    "solid": "Solid",
+    "soft": "Soft",
+    "outline": "Outline",
+    "ghost": "Ghost"
+  },
+  "appearances": {
+    "default": "Default",
+    "primary": "Primary",
+    "success": "Success",
+    "warning": "Warning",
+    "danger": "Danger"
+  },
+  "sizes": {
+    "xs": "Extra small",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large"
+  },
+  "actions": {
+    "add": "Add item",
+    "disabled": "Disabled settings",
+    "loading": "Loading save",
+    "disabledLink": "Disabled settings link",
+    "interactiveSave": "Save changes",
+    "settings": "Settings",
+    "startLoading": "Simulate loading",
+    "resetLoading": "Reset loading",
+    "delete": "Delete item",
+    "statesLink": "Open icon button states",
+    "customSource": "Add item with a custom icon source",
+    "registeredAndProjected": "Add item with registered and projected icons"
+  },
+  "accessibility": {
+    "default": "Default icon button example",
+    "sizeMatrix": "{{size}} icon button variants",
+    "shapeMatrix": "{{size}} {{shape}} variants",
+    "variant": "{{size}} {{shape}} icon button, {{appearance}} appearance",
+    "states": "Icon button states",
+    "icons": "Icon source and link examples"
+  }
+}
