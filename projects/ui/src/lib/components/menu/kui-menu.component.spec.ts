@@ -28,6 +28,10 @@ import { KuiMenuItemDirective } from './kui-menu-item.directive';
       <hr kuiSeparator spacing="xs" />
       <button type="button" kuiMenuItem appearance="destructive">Delete</button>
     </kui-menu>
+    <button type="button" [kuiMenuFor]="wideMenu" id="wide-trigger">Wide actions</button>
+    <kui-menu #wideMenu ariaLabel="Wide actions" minWidth="220px">
+      <button type="button" kuiMenuItem>Open</button>
+    </kui-menu>
     <button type="button" id="after">After</button>
   `,
 })
@@ -78,6 +82,16 @@ describe('KuiMenuComponent', () => {
     expect(items[0]?.getAttribute('role')).toBe('menuitem');
     expect(items[1]?.getAttribute('aria-disabled')).toBe('true');
     expect(items[2]?.getAttribute('data-kui-appearance')).toBe('destructive');
+  });
+
+  it('applies minWidth to the visible menu panel', () => {
+    const fixture = createFixture();
+    const trigger = fixture.nativeElement.querySelector('#wide-trigger') as HTMLButtonElement;
+
+    trigger.click();
+    fixture.detectChanges();
+
+    expect(getPanel()?.style.minInlineSize).toBe('220px');
   });
 
   it('ArrowDown opens the menu and focuses the first enabled item', () => {
