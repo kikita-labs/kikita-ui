@@ -1,0 +1,19 @@
+<app-playground-example-card [heading]="'textarea.examples.validation' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'textarea.accessibility.validationGroup' | transloco"
+    class="textarea-validation__content"
+  >
+    <kui-field
+      [label]="'textarea.fields.requiredDescription' | transloco"
+      [hint]="'textarea.hints.requiredDescription' | transloco"
+    >
+      <textarea
+        kuiTextarea
+        rows="4"
+        [formField]="validationForm.description"
+        [placeholder]="'textarea.placeholders.requiredDescription' | transloco"
+      ></textarea>
+    </kui-field>
+  </div>
+</app-playground-example-card>

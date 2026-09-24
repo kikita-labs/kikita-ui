@@ -1,0 +1,23 @@
+<app-playground-example-card [heading]="'textarea.examples.sizes' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'textarea.accessibility.sizesGroup' | transloco"
+    class="textarea-sizes__examples"
+  >
+    <kui-field [label]="'textarea.sizes.xs' | transloco">
+      <textarea kuiTextarea size="xs" rows="1"></textarea>
+    </kui-field>
+
+    <kui-field [label]="'textarea.sizes.sm' | transloco">
+      <textarea kuiTextarea size="sm" rows="1"></textarea>
+    </kui-field>
+
+    <kui-field [label]="'textarea.sizes.md' | transloco">
+      <textarea kuiTextarea size="md" rows="1"></textarea>
+    </kui-field>
+
+    <kui-field [label]="'textarea.sizes.lg' | transloco">
+      <textarea kuiTextarea size="lg" rows="1"></textarea>
+    </kui-field>
+  </div>
+</app-playground-example-card>

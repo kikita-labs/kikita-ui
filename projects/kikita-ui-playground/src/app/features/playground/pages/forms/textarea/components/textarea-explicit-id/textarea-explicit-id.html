@@ -1,0 +1,12 @@
+<app-playground-example-card [heading]="'textarea.examples.explicitId' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'textarea.accessibility.explicitIdGroup' | transloco"
+    class="textarea-explicit-id__content"
+  >
+    <label kuiText variant="body-sm" for="textarea-explicit-id">
+      {{ 'textarea.fields.explicitId' | transloco }}
+    </label>
+    <textarea id="textarea-explicit-id" kuiTextarea rows="3"></textarea>
+  </div>
+</app-playground-example-card>

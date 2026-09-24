@@ -1,0 +1,46 @@
+<app-playground-example-card [heading]="'textarea.examples.states' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'textarea.accessibility.statesGroup' | transloco"
+    class="textarea-states__examples"
+  >
+    <kui-field [label]="'textarea.fields.interactive' | transloco">
+      <textarea
+        kuiTextarea
+        rows="3"
+        [placeholder]="'textarea.placeholders.interactive' | transloco"
+      ></textarea>
+    </kui-field>
+
+    <kui-field [label]="'textarea.fields.readonly' | transloco">
+      <textarea
+        kuiTextarea
+        rows="3"
+        readonly
+        [value]="'textarea.values.readonly' | transloco"
+      ></textarea>
+    </kui-field>
+
+    <kui-field [label]="'textarea.fields.disabled' | transloco">
+      <textarea
+        kuiTextarea
+        rows="3"
+        disabled
+        [value]="'textarea.values.disabled' | transloco"
+      ></textarea>
+    </kui-field>
+
+    <div class="textarea-states__standalone">
+      <label kuiText variant="body-sm" for="invalid-textarea">
+        {{ 'textarea.fields.invalid' | transloco }}
+      </label>
+      <textarea
+        id="invalid-textarea"
+        kuiTextarea
+        rows="3"
+        invalid
+        [value]="'textarea.values.invalid' | transloco"
+      ></textarea>
+    </div>
+  </div>
+</app-playground-example-card>

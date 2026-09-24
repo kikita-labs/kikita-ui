@@ -1,0 +1,14 @@
+<app-playground-example-card [heading]="'textarea.examples.default' | transloco">
+  <div role="group" [attr.aria-label]="'textarea.accessibility.defaultGroup' | transloco">
+    <kui-field
+      [label]="'textarea.fields.projectNotes' | transloco"
+      [hint]="'textarea.hints.projectNotes' | transloco"
+    >
+      <textarea
+        kuiTextarea
+        rows="3"
+        [placeholder]="'textarea.placeholders.projectNotes' | transloco"
+      ></textarea>
+    </kui-field>
+  </div>
+</app-playground-example-card>
