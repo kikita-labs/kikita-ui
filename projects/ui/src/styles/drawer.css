@@ -263,7 +263,7 @@
   }
 
   /* Reserve room in the header so long titles don't run under the close button. */
-  .kui-drawer:has(> .kui-drawer-close) > .kui-drawer-header {
+  .kui-drawer:has(> .kui-drawer-close) .kui-drawer-header {
     padding-inline-end: calc(
       var(--kui-drawer-header-padding-x) + var(--kui-drawer-close-size) + var(--kui-space-2)
     );
@@ -292,8 +292,10 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .kui-drawer,
-    .kui-drawer-backdrop {
+    .kui-drawer[data-kui-side],
+    .kui-drawer[data-kui-side].kui-drawer--closing,
+    .kui-drawer-backdrop,
+    .kui-drawer-backdrop--closing {
       animation-duration: 1ms;
     }
   }

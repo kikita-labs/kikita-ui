@@ -13,6 +13,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 - `kui-menu` now applies `minWidth` to the visible panel as well as its CDK overlay pane.
 - `kui-menu` closes immediately when reduced motion is preferred, without waiting for an exit
   animation that the reduced-motion stylesheet disables.
+- `kui-drawer` reserves close-button space for titles rendered through a component portal and
+  honors reduced-motion durations for both opening and closing panels and backdrops.
 - `kuiDatePicker` preserves four-digit years from `0000` through `0099`, compares `minDate` and `maxDate` as inclusive local calendar days like `kui-calendar`, and initializes `viewDate` to the first day of the current month.
 - `kui-calendar` now places its initial roving tab stop on a date in the displayed month, preferring the selected date, then today, then the first day of that month. This keeps a bound calendar keyboard-reachable when its displayed month differs from the current month.
 - `kui-calendar` now moves DOM focus with its roving tab stop when keyboard navigation changes the focused date.
