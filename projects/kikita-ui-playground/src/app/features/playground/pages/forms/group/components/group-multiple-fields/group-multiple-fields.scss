@@ -1,0 +1,18 @@
+@layer app.components {
+  .group-multiple-fields__examples {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .group-multiple-fields__case {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .group-multiple-fields__case p {
+    margin: 0;
+  }
+}

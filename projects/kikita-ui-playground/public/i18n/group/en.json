@@ -1,0 +1,110 @@
+{
+  "title": "Group",
+  "examples": {
+    "default": "Default",
+    "layouts": "Orientation and corners",
+    "sizes": "Sizes",
+    "compositions": "Composed controls",
+    "fieldCombinations": "Field alignment",
+    "multipleFields": "Multiple fields"
+  },
+  "accessibility": {
+    "default": "Default group example",
+    "defaultControls": "Default control group",
+    "layouts": "Group orientations and corners",
+    "horizontalRounded": "Horizontal group with rounded outer corners",
+    "horizontalSquare": "Horizontal group with square outer corners",
+    "verticalRounded": "Vertical group with rounded outer corners",
+    "verticalSquare": "Vertical group with square outer corners",
+    "sizes": "Group sizes",
+    "sizeXs": "Extra small input group",
+    "sizeSm": "Small input group",
+    "sizeMd": "Medium input group",
+    "sizeLg": "Large input group",
+    "scopedDefault": "Group with a component-scoped size default",
+    "compositions": "Grouped controls and interaction",
+    "search": "Project search controls",
+    "mixedButtons": "Mixed button shapes and appearances",
+    "fieldCombinations": "Field label, hint, and error combinations",
+    "fieldCases": {
+      "empty": "Field without a label, hint, or error",
+      "labelOnly": "Field with a label",
+      "hintOnly": "Field with a hint",
+      "errorOnly": "Field with an error",
+      "labelHint": "Field with a label and hint",
+      "labelError": "Field with a label and error",
+      "hintError": "Field with a hint and error",
+      "labelHintError": "Field with a label, hint, and error"
+    },
+    "fieldControl": "Promotion code control",
+    "multipleFields": "Multiple Field columns",
+    "twoFields": "Two Field columns and an action",
+    "interleavedFields": "Interleaved buttons and Field columns"
+  },
+  "labels": {
+    "horizontalRounded": "Horizontal, rounded ends",
+    "horizontalSquare": "Horizontal, square ends",
+    "verticalRounded": "Vertical, rounded ends",
+    "verticalSquare": "Vertical, square ends",
+    "extraSmall": "Extra small",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "scopedDefault": "Component-scoped size default",
+    "search": "Search",
+    "mixedButtons": "Mixed button shapes",
+    "fieldCases": {
+      "empty": "No label or messages",
+      "labelOnly": "Label only",
+      "hintOnly": "Hint only",
+      "errorOnly": "Error only",
+      "labelHint": "Label and hint",
+      "labelError": "Label and error",
+      "hintError": "Hint and error",
+      "labelHintError": "Label, hint, and error"
+    },
+    "twoFields": "Two fields share the available width",
+    "interleavedFields": "Fields between controls"
+  },
+  "fields": {
+    "search": "Search projects",
+    "projectQuery": "Project name",
+    "promotionCode": "Promotion code",
+    "promotionCodeControl": "Promotion code input",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "origin": "From",
+    "destination": "To"
+  },
+  "hints": {
+    "projectQuery": "Search by a project name or URL.",
+    "promotionCode": "Enter the code shown in your offer."
+  },
+  "errors": {
+    "promotionCode": "This promotion code has expired."
+  },
+  "placeholders": {
+    "projectQuery": "Search projects",
+    "promotionCode": "SAVE10",
+    "firstName": "Ada",
+    "lastName": "Lovelace",
+    "origin": "Starting point",
+    "destination": "Destination"
+  },
+  "actions": {
+    "first": "First",
+    "second": "Second",
+    "third": "Third",
+    "search": "Search",
+    "decrease": "Decrease",
+    "increase": "Increase",
+    "save": "Save",
+    "publish": "Publish",
+    "apply": "Apply",
+    "add": "Add stop",
+    "go": "Go"
+  },
+  "status": {
+    "searched": "Showing results for {{query}}."
+  }
+}

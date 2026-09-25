@@ -1,0 +1,25 @@
+@layer app.components {
+  .group-field-combinations__examples {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .group-field-combinations__case {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .group-field-combinations__case p {
+    margin: 0;
+  }
+
+  @media (width < 40rem) {
+    .group-field-combinations__examples {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

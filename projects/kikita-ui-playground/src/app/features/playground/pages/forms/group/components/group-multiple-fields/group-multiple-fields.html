@@ -1,0 +1,59 @@
+<section role="group" [attr.aria-label]="'group.accessibility.multipleFields' | transloco">
+  <app-playground-example-card [heading]="'group.examples.multipleFields' | transloco">
+    <div class="group-multiple-fields__examples">
+      <div class="group-multiple-fields__case">
+        <p kuiText variant="body-sm">{{ 'group.labels.twoFields' | transloco }}</p>
+        <div kuiGroup role="group" [attr.aria-label]="'group.accessibility.twoFields' | transloco">
+          <kui-field [label]="'group.fields.firstName' | transloco">
+            <input
+              kuiInput
+              type="text"
+              [placeholder]="'group.placeholders.firstName' | transloco"
+            />
+          </kui-field>
+          <kui-field [label]="'group.fields.lastName' | transloco">
+            <input kuiInput type="text" [placeholder]="'group.placeholders.lastName' | transloco" />
+          </kui-field>
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.save' | transloco }}
+          </button>
+        </div>
+      </div>
+
+      <div class="group-multiple-fields__case">
+        <p kuiText variant="body-sm">{{ 'group.labels.interleavedFields' | transloco }}</p>
+        <div
+          kuiGroup
+          collapsed
+          role="group"
+          [attr.aria-label]="'group.accessibility.interleavedFields' | transloco"
+        >
+          <button
+            kuiIconButton
+            icon="plus"
+            shape="outline"
+            type="button"
+            [attr.aria-label]="'group.actions.add' | transloco"
+          ></button>
+          <kui-field [label]="'group.fields.origin' | transloco">
+            <input kuiInput type="text" [placeholder]="'group.placeholders.origin' | transloco" />
+          </kui-field>
+          <kui-field [label]="'group.fields.destination' | transloco">
+            <input
+              kuiInput
+              type="text"
+              [placeholder]="'group.placeholders.destination' | transloco"
+            />
+          </kui-field>
+          <button
+            kuiIconButton
+            icon="arrow-right"
+            shape="outline"
+            type="button"
+            [attr.aria-label]="'group.actions.go' | transloco"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>

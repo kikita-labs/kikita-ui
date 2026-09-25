@@ -1,0 +1,68 @@
+<section role="group" [attr.aria-label]="'group.accessibility.compositions' | transloco">
+  <app-playground-example-card [heading]="'group.examples.compositions' | transloco">
+    <div class="group-compositions__examples">
+      <div class="group-compositions__case">
+        <p kuiText variant="body-sm">{{ 'group.labels.search' | transloco }}</p>
+        <div
+          kuiGroup
+          collapsed
+          role="group"
+          [attr.aria-label]="'group.accessibility.search' | transloco"
+        >
+          <kui-field
+            [label]="'group.fields.projectQuery' | transloco"
+            [hint]="'group.hints.projectQuery' | transloco"
+          >
+            <input
+              kuiInput
+              type="search"
+              [formField]="searchForm.query"
+              [placeholder]="'group.placeholders.projectQuery' | transloco"
+            />
+          </kui-field>
+          <button kuiButton shape="outline" type="button" (click)="submitSearch()">
+            {{ 'group.actions.search' | transloco }}
+          </button>
+        </div>
+
+        @if (hasSearched()) {
+          <p class="group-compositions__status" role="status">
+            {{ 'group.status.searched' | transloco: { query: searchForm.query().value() } }}
+          </p>
+        }
+      </div>
+
+      <div class="group-compositions__case">
+        <p kuiText variant="body-sm">{{ 'group.labels.mixedButtons' | transloco }}</p>
+        <div
+          kuiGroup
+          collapsed
+          role="group"
+          [attr.aria-label]="'group.accessibility.mixedButtons' | transloco"
+        >
+          <button
+            kuiIconButton
+            icon="minus"
+            shape="ghost"
+            type="button"
+            [attr.aria-label]="'group.actions.decrease' | transloco"
+          ></button>
+          <button
+            kuiIconButton
+            icon="plus"
+            shape="outline"
+            appearance="primary"
+            type="button"
+            [attr.aria-label]="'group.actions.increase' | transloco"
+          ></button>
+          <button kuiButton shape="soft" appearance="success" type="button">
+            {{ 'group.actions.save' | transloco }}
+          </button>
+          <button kuiButton shape="solid" appearance="primary" type="button">
+            {{ 'group.actions.publish' | transloco }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>
