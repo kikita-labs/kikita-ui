@@ -1,0 +1,264 @@
+<main class="playground-workspace dropdown-playground" aria-labelledby="dropdown-playground-title">
+  <h1 id="dropdown-playground-title" kuiText variant="heading-lg">
+    {{ 'dropdown.title' | transloco }}
+  </h1>
+
+  <div class="dropdown-playground__catalogue">
+    <section role="group" [attr.aria-label]="'dropdown.accessibility.options' | transloco">
+      <app-playground-example-card [heading]="'dropdown.examples.options' | transloco">
+        <div class="dropdown-playground__examples">
+          <div
+            class="dropdown-playground__example"
+            role="group"
+            [attr.aria-label]="'dropdown.accessibility.default' | transloco"
+          >
+            <button kuiButton type="button" [kuiDropdownFor]="defaultDropdown">
+              {{ 'dropdown.triggers.default' | transloco }}
+            </button>
+
+            <kui-dropdown #defaultDropdown>
+              @for (option of defaultOptions; track option.value) {
+                <div
+                  kuiOption
+                  [value]="option.value"
+                  [disabled]="option.disabled"
+                  (kuiOptionSelect)="recordDefaultSelection($event)"
+                >
+                  {{ option.label | transloco }}
+                </div>
+              }
+            </kui-dropdown>
+
+            @if (defaultSelection(); as selection) {
+              <p kuiText variant="body-sm" role="status">
+                {{ 'dropdown.status.selected' | transloco: { value: selection } }}
+              </p>
+            }
+          </div>
+
+          <div
+            class="dropdown-playground__example"
+            role="group"
+            [attr.aria-label]="'dropdown.accessibility.keepOpen' | transloco"
+          >
+            <button kuiButton type="button" [kuiDropdownFor]="stayOpenDropdown">
+              {{ 'dropdown.triggers.keepOpen' | transloco }}
+            </button>
+
+            <kui-dropdown #stayOpenDropdown [closeOnSelect]="false">
+              @for (option of defaultOptions; track option.value) {
+                <div
+                  kuiOption
+                  [value]="option.value"
+                  [disabled]="option.disabled"
+                  (kuiOptionSelect)="recordKeepOpenSelection($event)"
+                >
+                  {{ option.label | transloco }}
+                </div>
+              }
+            </kui-dropdown>
+
+            @if (keepOpenSelection(); as selection) {
+              <p kuiText variant="body-sm" role="status">
+                {{ 'dropdown.status.selected' | transloco: { value: selection } }}
+              </p>
+            }
+          </div>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'dropdown.accessibility.widths' | transloco">
+      <app-playground-example-card [heading]="'dropdown.examples.widths' | transloco">
+        <div class="dropdown-playground__examples dropdown-playground__examples--two-columns">
+          <div class="dropdown-playground__example">
+            <button kuiButton type="button" [kuiDropdownFor]="anchorWidthDropdown">
+              {{ 'dropdown.triggers.anchorWidth' | transloco }}
+            </button>
+            <kui-dropdown #anchorWidthDropdown panelWidth="anchor">
+              @for (option of defaultOptions; track option.value) {
+                <div kuiOption [value]="option.value">
+                  {{ option.label | transloco }}
+                </div>
+              }
+            </kui-dropdown>
+          </div>
+
+          <div class="dropdown-playground__example">
+            <button
+              kuiButton
+              class="dropdown-playground__content-trigger"
+              type="button"
+              [kuiDropdownFor]="contentWidthDropdown"
+            >
+              {{ 'dropdown.triggers.contentWidth' | transloco }}
+            </button>
+            <kui-dropdown #contentWidthDropdown panelWidth="content">
+              <div kuiOption value="long-label">
+                {{ 'dropdown.options.longLabel' | transloco }}
+              </div>
+            </kui-dropdown>
+          </div>
+
+          <div class="dropdown-playground__example">
+            <button kuiButton type="button" [kuiDropdownFor]="autoWidthDropdown">
+              {{ 'dropdown.triggers.autoWidth' | transloco }}
+            </button>
+            <kui-dropdown #autoWidthDropdown panelWidth="auto">
+              <div kuiOption value="long-label">
+                {{ 'dropdown.options.longLabel' | transloco }}
+              </div>
+              <div kuiOption value="short-label">
+                {{ 'dropdown.options.shortLabel' | transloco }}
+              </div>
+            </kui-dropdown>
+          </div>
+
+          <div class="dropdown-playground__example">
+            <button kuiButton type="button" [kuiDropdownFor]="explicitWidthDropdown">
+              {{ 'dropdown.triggers.explicitWidth' | transloco }}
+            </button>
+            <kui-dropdown #explicitWidthDropdown width="16rem">
+              <div kuiOption value="long-label">
+                {{ 'dropdown.options.longLabel' | transloco }}
+              </div>
+              <div kuiOption value="short-label">
+                {{ 'dropdown.options.shortLabel' | transloco }}
+              </div>
+            </kui-dropdown>
+          </div>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'dropdown.accessibility.heightAndOffset' | transloco">
+      <app-playground-example-card [heading]="'dropdown.examples.heightAndOffset' | transloco">
+        <div class="dropdown-playground__examples dropdown-playground__examples--two-columns">
+          <div class="dropdown-playground__example">
+            <button kuiButton type="button" [kuiDropdownFor]="defaultHeightDropdown">
+              {{ 'dropdown.triggers.defaultHeight' | transloco }}
+            </button>
+            <kui-dropdown #defaultHeightDropdown>
+              @for (option of extendedOptions; track option.value) {
+                <div kuiOption [value]="option.value">{{ option.label | transloco }}</div>
+              }
+            </kui-dropdown>
+          </div>
+
+          <div class="dropdown-playground__example">
+            <button kuiButton type="button" [kuiDropdownFor]="preferredHeightDropdown">
+              {{ 'dropdown.triggers.preferredHeight' | transloco }}
+            </button>
+            <kui-dropdown #preferredHeightDropdown maxHeight="120px">
+              @for (option of extendedOptions; track option.value) {
+                <div kuiOption [value]="option.value">{{ option.label | transloco }}</div>
+              }
+            </kui-dropdown>
+          </div>
+
+          <div class="dropdown-playground__example">
+            <button kuiButton type="button" [kuiDropdownFor]="unboundedHeightDropdown">
+              {{ 'dropdown.triggers.noPreferredHeight' | transloco }}
+            </button>
+            <kui-dropdown #unboundedHeightDropdown [maxHeight]="null">
+              @for (option of extendedOptions; track option.value) {
+                <div kuiOption [value]="option.value">{{ option.label | transloco }}</div>
+              }
+            </kui-dropdown>
+          </div>
+
+          <div class="dropdown-playground__example">
+            <button kuiButton type="button" [kuiDropdownFor]="zeroOffsetDropdown">
+              {{ 'dropdown.triggers.zeroOffset' | transloco }}
+            </button>
+            <kui-dropdown #zeroOffsetDropdown offset="0">
+              <div kuiOption value="rename">
+                {{ 'dropdown.options.rename' | transloco }}
+              </div>
+            </kui-dropdown>
+          </div>
+
+          <div class="dropdown-playground__example">
+            <button kuiButton type="button" [kuiDropdownFor]="twelveOffsetDropdown">
+              {{ 'dropdown.triggers.twelveOffset' | transloco }}
+            </button>
+            <kui-dropdown #twelveOffsetDropdown offset="12">
+              <div kuiOption value="rename">
+                {{ 'dropdown.options.rename' | transloco }}
+              </div>
+            </kui-dropdown>
+          </div>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'dropdown.accessibility.controlled' | transloco">
+      <app-playground-example-card [heading]="'dropdown.examples.controlled' | transloco">
+        <div class="dropdown-playground__example">
+          <div class="dropdown-playground__controls">
+            <button kuiButton type="button" (click)="controlledOpen.set(true)">
+              {{ 'dropdown.actions.openFromParent' | transloco }}
+            </button>
+            <button kuiButton type="button" (click)="controlledOpen.set(false)">
+              {{ 'dropdown.actions.closeFromParent' | transloco }}
+            </button>
+            <button kuiButton type="button" [kuiDropdownFor]="controlledDropdown">
+              {{ 'dropdown.triggers.controlled' | transloco }}
+            </button>
+          </div>
+
+          <kui-dropdown #controlledDropdown [(open)]="controlledOpen">
+            @for (option of defaultOptions; track option.value) {
+              <div kuiOption [value]="option.value">
+                {{ option.label | transloco }}
+              </div>
+            }
+          </kui-dropdown>
+
+          <p kuiText variant="body-sm" role="status">
+            {{ (controlledOpen() ? 'dropdown.status.open' : 'dropdown.status.closed') | transloco }}
+          </p>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'dropdown.accessibility.edgePlacement' | transloco">
+      <app-playground-example-card [heading]="'dropdown.examples.edgePlacement' | transloco">
+        <div class="dropdown-playground__edge-stage">
+          <div class="dropdown-playground__example">
+            <button kuiButton type="button" [kuiDropdownFor]="edgeDropdown">
+              {{ 'dropdown.triggers.edgePlacement' | transloco }}
+            </button>
+            <kui-dropdown #edgeDropdown>
+              @for (option of defaultOptions; track option.value) {
+                <div kuiOption [value]="option.value">
+                  {{ option.label | transloco }}
+                </div>
+              }
+            </kui-dropdown>
+          </div>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'dropdown.accessibility.anchorDismissal' | transloco">
+      <app-playground-example-card [heading]="'dropdown.examples.anchorDismissal' | transloco">
+        <div class="dropdown-playground__scroll-stage">
+          <div class="dropdown-playground__example">
+            <button kuiButton type="button" [kuiDropdownFor]="scrollAnchorDropdown">
+              {{ 'dropdown.triggers.scrollAnchor' | transloco }}
+            </button>
+            <kui-dropdown #scrollAnchorDropdown>
+              <div kuiOption value="rename">
+                {{ 'dropdown.options.rename' | transloco }}
+              </div>
+              <div kuiOption value="duplicate">
+                {{ 'dropdown.options.duplicate' | transloco }}
+              </div>
+            </kui-dropdown>
+          </div>
+        </div>
+      </app-playground-example-card>
+    </section>
+  </div>
+</main>

@@ -1,0 +1,85 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .dropdown-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .dropdown-playground h1 {
+    margin: 0;
+  }
+
+  .dropdown-playground__catalogue {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .dropdown-playground__catalogue > section {
+    min-inline-size: 0;
+  }
+
+  .dropdown-playground__examples,
+  .dropdown-playground__example,
+  .dropdown-playground__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .dropdown-playground__example {
+    flex-direction: column;
+  }
+
+  .dropdown-playground__content-trigger {
+    inline-size: calc(
+      var(--kui-space-16) + var(--kui-space-16) + var(--kui-space-16) + var(--kui-space-16)
+    );
+  }
+
+  .dropdown-playground__examples--two-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dropdown-playground__edge-stage {
+    display: grid;
+    grid-template-rows: repeat(6, var(--kui-space-16));
+  }
+
+  .dropdown-playground__edge-stage > .dropdown-playground__example {
+    grid-row: 6;
+    align-self: end;
+  }
+
+  .dropdown-playground__scroll-stage {
+    display: grid;
+    grid-template-rows: repeat(8, var(--kui-space-16));
+  }
+
+  @media (width < 64rem) {
+    .dropdown-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .dropdown-playground__catalogue {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (width < 30rem) {
+    .dropdown-playground__examples--two-columns {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

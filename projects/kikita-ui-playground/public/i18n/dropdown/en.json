@@ -1,0 +1,66 @@
+{
+  "title": "Dropdown",
+  "examples": {
+    "options": "Options and selection behavior",
+    "widths": "Panel width strategies",
+    "heightAndOffset": "Panel height and offset",
+    "controlled": "Controlled open state",
+    "edgePlacement": "Viewport placement",
+    "anchorDismissal": "Anchor scroll dismissal"
+  },
+  "accessibility": {
+    "options": "Dropdown options and selection behavior",
+    "default": "Default listbox example",
+    "keepOpen": "Keep open after selection example",
+    "widths": "Dropdown panel width strategies",
+    "heightAndOffset": "Dropdown panel height and offset examples",
+    "controlled": "Controlled Dropdown open state example",
+    "edgePlacement": "Dropdown viewport placement example",
+    "anchorDismissal": "Dropdown anchor scroll dismissal example"
+  },
+  "triggers": {
+    "default": "Options",
+    "keepOpen": "Keep open",
+    "anchorWidth": "Anchor width",
+    "contentWidth": "Content width",
+    "autoWidth": "Auto width",
+    "explicitWidth": "16 rem width",
+    "preferredHeight": "120 px preferred cap",
+    "defaultHeight": "Default 240 px cap",
+    "noPreferredHeight": "No preferred cap",
+    "zeroOffset": "Zero offset",
+    "twelveOffset": "12 px offset",
+    "controlled": "Controlled listbox",
+    "edgePlacement": "Near viewport edge",
+    "scrollAnchor": "Scroll anchor example"
+  },
+  "actions": {
+    "openFromParent": "Open from parent",
+    "closeFromParent": "Close from parent"
+  },
+  "options": {
+    "rename": "Rename",
+    "duplicate": "Duplicate",
+    "archive": "Archive",
+    "delete": "Delete",
+    "longLabel": "A longer option label that can widen the panel",
+    "shortLabel": "Short label",
+    "choice01": "First item",
+    "choice02": "Second item",
+    "choice03": "Third item",
+    "choice04": "Fourth item",
+    "choice05": "Fifth item",
+    "choice06": "Sixth item",
+    "choice07": "Seventh item",
+    "choice08": "Eighth item",
+    "choice09": "Ninth item",
+    "choice10": "Tenth item",
+    "choice11": "Eleventh item",
+    "choice12": "Twelfth item"
+  },
+  "status": {
+    "selected": "Option event: {{value}}",
+    "open": "Model state: open",
+    "closed": "Model state: closed"
+  }
+}
