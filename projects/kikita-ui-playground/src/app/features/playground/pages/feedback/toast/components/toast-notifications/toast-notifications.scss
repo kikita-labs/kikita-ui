@@ -1,0 +1,35 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .toast-notifications__row,
+  .toast-notifications__grid,
+  .toast-notifications__case {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .toast-notifications__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .toast-notifications__case {
+    place-content: start start;
+  }
+
+  .toast-notifications__case h3,
+  .toast-notifications__case p {
+    margin: 0;
+  }
+
+  @media (width < 48rem) {
+    .toast-notifications__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

@@ -1,0 +1,61 @@
+<app-playground-example-card [heading]="'toast.examples.lifecycle' | transloco">
+  <div
+    class="toast-lifecycle__content"
+    role="group"
+    [attr.aria-label]="'toast.accessibility.lifecycle' | transloco"
+  >
+    <div
+      class="toast-lifecycle__case"
+      role="group"
+      [attr.aria-label]="'toast.accessibility.signalCase' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'toast.labels.signalCase' | transloco }}</h3>
+      <div class="toast-lifecycle__row">
+        <button kuiButton (click)="openTracked()">
+          {{ 'toast.actions.openTracked' | transloco }}
+        </button>
+        <button
+          kuiButton
+          shape="outline"
+          [disabled]="!hasTrackedToast()"
+          (click)="releasePersistence()"
+        >
+          {{ 'toast.actions.releasePersistence' | transloco }}
+        </button>
+        <button kuiButton shape="outline" [disabled]="!hasTrackedToast()" (click)="updateTracked()">
+          {{ 'toast.actions.updateTracked' | transloco }}
+        </button>
+        <button kuiButton shape="outline" [disabled]="!hasTrackedToast()" (click)="closeTracked()">
+          {{ 'toast.actions.closeTracked' | transloco }}
+        </button>
+        <button
+          kuiButton
+          shape="ghost"
+          [disabled]="!hasTrackedToast()"
+          (click)="dismissTrackedById()"
+        >
+          {{ 'toast.actions.dismissById' | transloco }}
+        </button>
+      </div>
+      @if (lifecycleResult()) {
+        <p kuiText variant="body-sm" role="status">{{ lifecycleResult() }}</p>
+      }
+    </div>
+
+    <div
+      class="toast-lifecycle__case"
+      role="group"
+      [attr.aria-label]="'toast.accessibility.capacityCase' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'toast.labels.capacityCase' | transloco }}</h3>
+      <div class="toast-lifecycle__row">
+        <button kuiButton shape="outline" (click)="openStack()">
+          {{ 'toast.actions.openFour' | transloco }}
+        </button>
+        <button kuiButton shape="ghost" (click)="dismissAll()">
+          {{ 'toast.actions.dismissAll' | transloco }}
+        </button>
+      </div>
+    </div>
+  </div>
+</app-playground-example-card>

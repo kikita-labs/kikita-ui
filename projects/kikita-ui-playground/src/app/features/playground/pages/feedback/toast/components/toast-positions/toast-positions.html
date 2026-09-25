@@ -1,0 +1,18 @@
+<app-playground-example-card [heading]="'toast.examples.positions' | transloco">
+  <div
+    class="toast-positions__grid"
+    role="group"
+    [attr.aria-label]="'toast.accessibility.positions' | transloco"
+  >
+    @for (positionOption of positions; track positionOption.value) {
+      <button
+        kuiButton
+        [shape]="position() === positionOption.value ? 'solid' : 'outline'"
+        [attr.aria-pressed]="position() === positionOption.value"
+        (click)="showAt(positionOption.value, positionOption.label)"
+      >
+        {{ positionOption.label | transloco }}
+      </button>
+    }
+  </div>
+</app-playground-example-card>

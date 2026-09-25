@@ -1,0 +1,98 @@
+<app-playground-example-card [heading]="'toast.examples.default' | transloco">
+  <div
+    class="toast-notifications__row"
+    role="group"
+    [attr.aria-label]="'toast.accessibility.default' | transloco"
+  >
+    <button kuiButton (click)="showDefault()">
+      {{ 'toast.actions.showDefault' | transloco }}
+    </button>
+  </div>
+</app-playground-example-card>
+
+<app-playground-example-card [heading]="'toast.examples.appearances' | transloco">
+  <div
+    class="toast-notifications__grid"
+    role="group"
+    [attr.aria-label]="'toast.accessibility.appearances' | transloco"
+  >
+    <button kuiButton (click)="showDefault()">{{ 'toast.actions.showNeutral' | transloco }}</button>
+    @for (appearance of appearances; track appearance.value) {
+      <button kuiButton (click)="showAppearance(appearance)">
+        {{ 'toast.actions.show' | transloco }} {{ appearance.label | transloco }}
+      </button>
+    }
+  </div>
+</app-playground-example-card>
+
+<app-playground-example-card [heading]="'toast.examples.contentAndOptions' | transloco">
+  <div
+    class="toast-notifications__grid"
+    role="group"
+    [attr.aria-label]="'toast.accessibility.contentAndOptions' | transloco"
+  >
+    <div
+      class="toast-notifications__case"
+      role="group"
+      [attr.aria-label]="'toast.accessibility.messageCase' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'toast.labels.messageCase' | transloco }}</h3>
+      <button kuiButton shape="outline" (click)="showMessage()">
+        {{ 'toast.actions.showMessage' | transloco }}
+      </button>
+    </div>
+
+    <div
+      class="toast-notifications__case"
+      role="group"
+      [attr.aria-label]="'toast.accessibility.actionCase' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'toast.labels.actionCase' | transloco }}</h3>
+      <button kuiButton shape="outline" (click)="showAction()">
+        {{ 'toast.actions.showAction' | transloco }}
+      </button>
+      @if (actionResult()) {
+        <p kuiText variant="body-sm" role="status">{{ actionResult() }}</p>
+      }
+    </div>
+
+    <div
+      class="toast-notifications__case"
+      role="group"
+      [attr.aria-label]="'toast.accessibility.noIconCase' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'toast.labels.noIconCase' | transloco }}</h3>
+      <button kuiButton shape="outline" (click)="showWithoutIcon()">
+        {{ 'toast.actions.showNoIcon' | transloco }}
+      </button>
+    </div>
+
+    <div
+      class="toast-notifications__case"
+      role="group"
+      [attr.aria-label]="'toast.accessibility.noCloseCase' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'toast.labels.noCloseCase' | transloco }}</h3>
+      <button kuiButton shape="outline" (click)="showWithoutClose()">
+        {{ 'toast.actions.showNoClose' | transloco }}
+      </button>
+      <button kuiButton shape="ghost" (click)="closeWithoutButton()">
+        {{ 'toast.actions.closeByRef' | transloco }}
+      </button>
+      @if (closedResult()) {
+        <p kuiText variant="body-sm" role="status">{{ closedResult() }}</p>
+      }
+    </div>
+
+    <div
+      class="toast-notifications__case"
+      role="group"
+      [attr.aria-label]="'toast.accessibility.progressCase' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'toast.labels.progressCase' | transloco }}</h3>
+      <button kuiButton shape="outline" (click)="showProgress()">
+        {{ 'toast.actions.showProgress' | transloco }}
+      </button>
+    </div>
+  </div>
+</app-playground-example-card>
