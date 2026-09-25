@@ -1,0 +1,12 @@
+@layer app.components {
+  .file-upload-validation__example {
+    min-inline-size: 0;
+  }
+
+  .file-upload-validation__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-2);
+    margin-block-start: var(--kui-space-3);
+  }
+}

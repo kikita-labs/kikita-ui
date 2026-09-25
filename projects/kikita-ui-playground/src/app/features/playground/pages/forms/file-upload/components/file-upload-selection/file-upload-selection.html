@@ -1,0 +1,35 @@
+<section role="group" [attr.aria-label]="'fileUpload.accessibility.default' | transloco">
+  <app-playground-example-card [heading]="'fileUpload.groups.default' | transloco">
+    <kui-file-upload />
+  </app-playground-example-card>
+</section>
+
+<section role="group" [attr.aria-label]="'fileUpload.accessibility.variants' | transloco">
+  <app-playground-example-card [heading]="'fileUpload.groups.variants' | transloco">
+    <div class="file-upload-selection__examples">
+      <div role="group" [attr.aria-label]="'fileUpload.labels.dropzoneMultiple' | transloco">
+        <p kuiText variant="caption">{{ 'fileUpload.labels.dropzoneMultiple' | transloco }}</p>
+        <kui-file-upload [acceptLabel]="'fileUpload.hints.anyFormats' | transloco" />
+      </div>
+
+      <div role="group" [attr.aria-label]="'fileUpload.labels.dropzoneSingle' | transloco">
+        <p kuiText variant="caption">{{ 'fileUpload.labels.dropzoneSingle' | transloco }}</p>
+        <kui-file-upload mode="single" [acceptLabel]="'fileUpload.hints.single' | transloco" />
+      </div>
+
+      <div role="group" [attr.aria-label]="'fileUpload.labels.compactMultiple' | transloco">
+        <p kuiText variant="caption">{{ 'fileUpload.labels.compactMultiple' | transloco }}</p>
+        <kui-file-upload variant="compact" [acceptLabel]="'fileUpload.hints.anyFile' | transloco" />
+      </div>
+
+      <div role="group" [attr.aria-label]="'fileUpload.labels.compactSingle' | transloco">
+        <p kuiText variant="caption">{{ 'fileUpload.labels.compactSingle' | transloco }}</p>
+        <kui-file-upload
+          variant="compact"
+          mode="single"
+          [acceptLabel]="'fileUpload.hints.single' | transloco"
+        />
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>

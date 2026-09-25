@@ -1,0 +1,46 @@
+@let exampleFiles = files();
+
+<section role="group" [attr.aria-label]="'fileUpload.accessibility.sizes' | transloco">
+  <app-playground-example-card [heading]="'fileUpload.groups.sizes' | transloco">
+    <div class="file-upload-sizes__examples">
+      <div>
+        <p kuiText variant="caption">{{ 'fileUpload.labels.sizeSm' | transloco }}</p>
+        <kui-file-upload size="sm" [files]="exampleFiles" />
+      </div>
+
+      <div>
+        <p kuiText variant="caption">{{ 'fileUpload.labels.sizeMd' | transloco }}</p>
+        <kui-file-upload size="md" [files]="exampleFiles" />
+      </div>
+
+      <div>
+        <p kuiText variant="caption">{{ 'fileUpload.labels.sizeLg' | transloco }}</p>
+        <kui-file-upload size="lg" [files]="exampleFiles" />
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>
+
+<section role="group" [attr.aria-label]="'fileUpload.accessibility.disabled' | transloco">
+  <app-playground-example-card [heading]="'fileUpload.groups.disabled' | transloco">
+    <div class="file-upload-sizes__examples">
+      <div role="group" [attr.aria-label]="'fileUpload.labels.disabledDropzone' | transloco">
+        <kui-file-upload
+          disabled
+          [acceptLabel]="'fileUpload.hints.unavailable' | transloco"
+          [files]="exampleFiles"
+          (retry)="onRetry($event)"
+        />
+      </div>
+      <div role="group" [attr.aria-label]="'fileUpload.labels.disabledCompact' | transloco">
+        <kui-file-upload
+          variant="compact"
+          disabled
+          [acceptLabel]="'fileUpload.hints.unavailable' | transloco"
+          [files]="exampleFiles"
+          (retry)="onRetry($event)"
+        />
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>

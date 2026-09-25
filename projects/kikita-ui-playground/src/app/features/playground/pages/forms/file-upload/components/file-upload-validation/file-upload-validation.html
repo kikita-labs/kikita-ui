@@ -1,0 +1,47 @@
+<section role="group" [attr.aria-label]="'fileUpload.accessibility.validation' | transloco">
+  <app-playground-example-card [heading]="'fileUpload.groups.validation' | transloco">
+    <div class="file-upload-validation__example">
+      <kui-file-upload
+        [accept]="acceptedTypes"
+        [acceptLabel]="'fileUpload.hints.validation' | transloco"
+        [maxSize]="1024"
+        [maxCount]="2"
+        [(files)]="files"
+      />
+
+      <div class="file-upload-validation__actions">
+        <button kuiButton type="button" [disabled]="!hasPendingFile()" (click)="startUpload()">
+          {{ 'fileUpload.actions.startUpload' | transloco }}
+        </button>
+
+        <button kuiButton type="button" [disabled]="!hasUploadingFile()" (click)="finishUpload()">
+          {{ 'fileUpload.actions.finishUpload' | transloco }}
+        </button>
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>
+
+<section role="group" [attr.aria-label]="'fileUpload.accessibility.wildcard' | transloco">
+  <app-playground-example-card [heading]="'fileUpload.groups.wildcard' | transloco">
+    <div class="file-upload-validation__example">
+      <kui-file-upload
+        [accept]="['image/*']"
+        [acceptLabel]="'fileUpload.hints.imageWildcard' | transloco"
+      />
+    </div>
+  </app-playground-example-card>
+</section>
+
+<section role="group" [attr.aria-label]="'fileUpload.accessibility.single' | transloco">
+  <app-playground-example-card [heading]="'fileUpload.groups.single' | transloco">
+    <div class="file-upload-validation__example">
+      <kui-file-upload
+        mode="single"
+        [acceptLabel]="'fileUpload.hints.single' | transloco"
+        [maxCount]="1"
+        [(files)]="singleFiles"
+      />
+    </div>
+  </app-playground-example-card>
+</section>
