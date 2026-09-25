@@ -1,0 +1,30 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .breadcrumbs-playground__sizes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .breadcrumbs-playground__sizes > section {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .breadcrumbs-playground__sizes h3 {
+    margin: 0;
+  }
+
+  @media (width < 40rem) {
+    .breadcrumbs-playground__sizes {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

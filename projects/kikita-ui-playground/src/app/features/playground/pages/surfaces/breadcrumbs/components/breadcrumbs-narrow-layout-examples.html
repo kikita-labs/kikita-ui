@@ -1,0 +1,89 @@
+<section
+  id="breadcrumbs-responsive-examples"
+  role="group"
+  [attr.aria-label]="'breadcrumbs.accessibility.responsive' | transloco"
+>
+  <app-playground-example-card [heading]="'breadcrumbs.examples.responsive' | transloco">
+    <div class="breadcrumbs-playground__responsive">
+      <section
+        class="breadcrumbs-playground__narrow"
+        role="group"
+        [attr.aria-label]="'breadcrumbs.accessibility.truncate' | transloco"
+      >
+        <h3 kuiText variant="heading-sm">
+          {{ 'breadcrumbs.examples.truncate' | transloco }}
+        </h3>
+
+        <nav [attr.aria-label]="'breadcrumbs.accessibility.navigation' | transloco">
+          <ol kuiBreadcrumbs class="breadcrumbs-playground__nonwrapping">
+            <li>
+              <a kuiBreadcrumbItem href="/">{{ 'breadcrumbs.items.playground' | transloco }}</a>
+            </li>
+            <li kuiBreadcrumbSeparator></li>
+            <li>
+              <a kuiBreadcrumbItem href="/" class="kui-breadcrumb-truncate">
+                {{ 'breadcrumbs.items.longSection' | transloco }}
+              </a>
+            </li>
+            <li kuiBreadcrumbSeparator></li>
+            <li>
+              <span kuiBreadcrumbItem current>
+                {{ 'breadcrumbs.items.current' | transloco }}
+              </span>
+            </li>
+          </ol>
+        </nav>
+      </section>
+
+      <section
+        class="breadcrumbs-playground__narrow"
+        role="group"
+        [attr.aria-label]="'breadcrumbs.accessibility.ellipsis' | transloco"
+      >
+        <h3 kuiText variant="heading-sm">
+          {{ 'breadcrumbs.examples.ellipsis' | transloco }}
+        </h3>
+
+        <nav [attr.aria-label]="'breadcrumbs.accessibility.navigation' | transloco">
+          <ol kuiBreadcrumbs>
+            <li>
+              <a kuiBreadcrumbItem href="/">{{ 'breadcrumbs.items.playground' | transloco }}</a>
+            </li>
+            <li kuiBreadcrumbSeparator></li>
+            <li aria-hidden="true"><span class="kui-breadcrumb-ellipsis">…</span></li>
+            <li kuiBreadcrumbSeparator></li>
+            <li>
+              <span kuiBreadcrumbItem current>
+                {{ 'breadcrumbs.items.current' | transloco }}
+              </span>
+            </li>
+          </ol>
+        </nav>
+      </section>
+
+      <section
+        class="breadcrumbs-playground__narrow"
+        role="group"
+        [attr.aria-label]="'breadcrumbs.accessibility.firstAndLast' | transloco"
+      >
+        <h3 kuiText variant="heading-sm">
+          {{ 'breadcrumbs.examples.firstAndLast' | transloco }}
+        </h3>
+
+        <nav [attr.aria-label]="'breadcrumbs.accessibility.navigation' | transloco">
+          <ol kuiBreadcrumbs>
+            <li>
+              <a kuiBreadcrumbItem href="/">{{ 'breadcrumbs.items.playground' | transloco }}</a>
+            </li>
+            <li kuiBreadcrumbSeparator></li>
+            <li>
+              <span kuiBreadcrumbItem current>
+                {{ 'breadcrumbs.items.current' | transloco }}
+              </span>
+            </li>
+          </ol>
+        </nav>
+      </section>
+    </div>
+  </app-playground-example-card>
+</section>

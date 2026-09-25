@@ -1,0 +1,41 @@
+<main class="playground-workspace breadcrumbs-playground" aria-labelledby="breadcrumbs-title">
+  <h1 id="breadcrumbs-title" kuiText variant="heading-lg">
+    {{ 'breadcrumbs.title' | transloco }}
+  </h1>
+
+  <div class="breadcrumbs-playground__catalogue">
+    <section
+      id="breadcrumbs-default-example"
+      role="group"
+      [attr.aria-label]="'breadcrumbs.accessibility.default' | transloco"
+    >
+      <app-playground-example-card [heading]="'breadcrumbs.examples.default' | transloco">
+        <nav [attr.aria-label]="'breadcrumbs.accessibility.navigation' | transloco">
+          <ol kuiBreadcrumbs>
+            <li>
+              <a kuiBreadcrumbItem href="/">{{ 'breadcrumbs.items.playground' | transloco }}</a>
+            </li>
+            <li kuiBreadcrumbSeparator></li>
+            <li>
+              <span kuiBreadcrumbItem>{{ 'breadcrumbs.items.surfaces' | transloco }}</span>
+            </li>
+            <li kuiBreadcrumbSeparator></li>
+            <li>
+              <span kuiBreadcrumbItem current>{{ 'breadcrumbs.items.current' | transloco }}</span>
+            </li>
+          </ol>
+        </nav>
+      </app-playground-example-card>
+    </section>
+
+    <app-breadcrumbs-composition-examples></app-breadcrumbs-composition-examples>
+
+    <app-breadcrumbs-size-examples
+      class="breadcrumbs-playground__wide"
+    ></app-breadcrumbs-size-examples>
+
+    <app-breadcrumbs-narrow-layout-examples
+      class="breadcrumbs-playground__wide"
+    ></app-breadcrumbs-narrow-layout-examples>
+  </div>
+</main>
