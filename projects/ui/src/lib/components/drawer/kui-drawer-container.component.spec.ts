@@ -106,6 +106,24 @@ describe('KuiDrawerContainerComponent', () => {
     expect(buttons[0].getAttribute('aria-label')).toBe('Close');
   });
 
+  it('binds the dialog accessible name to a portal title after it renders', async () => {
+    const fixture = create();
+    fixture.detectChanges();
+
+    fixture.componentInstance.attachContent(new ComponentPortal(PlainContent));
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const panel: HTMLElement = fixture.nativeElement.querySelector('.kui-drawer');
+    const title = panel.querySelector<HTMLElement>('.kui-drawer-title');
+
+    expect(title).not.toBeNull();
+    expect(title?.id).toMatch(/^kui-drawer-title-/);
+    expect(panel.getAttribute('aria-labelledby')).toBe(title?.id);
+    expect(panel.hasAttribute('aria-label')).toBe(false);
+  });
+
   it('skips the auto close button when projected content already has one', () => {
     const fixture = create();
     fixture.detectChanges();

@@ -2,7 +2,16 @@ import { CdkTrapFocus } from '@angular/cdk/a11y';
 import type { ComponentPortal } from '@angular/cdk/portal';
 import { CdkPortalOutlet } from '@angular/cdk/portal';
 import type { ComponentRef, ElementRef } from '@angular/core';
-import { Component, EventEmitter, signal, viewChild, ViewEncapsulation } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  EventEmitter,
+  inject,
+  Injector,
+  signal,
+  viewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 
 import { KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
 import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
@@ -64,6 +73,7 @@ let nextDrawerTitleId = 0;
 })
 /** Renders the modal drawer surface used by the drawer service. */
 export class KuiDrawerContainerComponent {
+  private readonly injector = inject(Injector);
   private readonly portalOutlet = viewChild.required(CdkPortalOutlet);
   private readonly drawerPanel = viewChild.required<ElementRef<HTMLElement>>('drawerPanel');
 
@@ -97,7 +107,7 @@ export class KuiDrawerContainerComponent {
     if (contentRoot.querySelector('.kui-drawer-close')) {
       this._closable.set(false);
     }
-    this.bindAccessibleName();
+    afterNextRender(() => this.bindAccessibleName(), { injector: this.injector });
     return ref;
   }
 
