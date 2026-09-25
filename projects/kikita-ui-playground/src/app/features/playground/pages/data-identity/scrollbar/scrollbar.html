@@ -1,0 +1,114 @@
+<main
+  class="playground-workspace scrollbar-playground"
+  aria-labelledby="scrollbar-playground-title"
+>
+  <h1 id="scrollbar-playground-title" kuiText variant="heading-lg">
+    {{ 'scrollbar.title' | transloco }}
+  </h1>
+
+  <div class="scrollbar-playground__catalogue">
+    <section role="group" [attr.aria-label]="'scrollbar.accessibility.local' | transloco">
+      <app-playground-example-card [heading]="'scrollbar.examples.local' | transloco">
+        <div class="scrollbar-playground__example">
+          <span kuiText>{{ 'scrollbar.labels.vertical' | transloco }}</span>
+
+          <div
+            class="scrollbar-playground__scroll-region scrollbar-playground__scroll-region--vertical kui-scroll"
+            role="region"
+            tabindex="0"
+            [attr.aria-label]="'scrollbar.accessibility.vertical' | transloco"
+          >
+            @for (row of rows; track row) {
+              <p kuiText>{{ 'scrollbar.content.row' | transloco: { index: row } }}</p>
+            }
+          </div>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'scrollbar.accessibility.global' | transloco">
+      <app-playground-example-card [heading]="'scrollbar.examples.global' | transloco">
+        <div class="scrollbar-playground__example">
+          <span kuiText>{{ 'scrollbar.labels.table' | transloco }}</span>
+
+          <div
+            class="scrollbar-playground__table-scroll"
+            role="region"
+            tabindex="0"
+            [attr.aria-label]="'scrollbar.accessibility.table' | transloco"
+          >
+            <table>
+              <caption kuiText>{{ 'scrollbar.labels.table' | transloco }}</caption>
+              <thead>
+                <tr>
+                  @for (column of columns; track column) {
+                    <th scope="col" kuiText>
+                      {{ 'scrollbar.content.column' | transloco: { index: column } }}
+                    </th>
+                  }
+                </tr>
+              </thead>
+              <tbody>
+                @for (row of tableRows; track row) {
+                  <tr>
+                    @for (column of columns; track column) {
+                      <td kuiText>
+                        {{ 'scrollbar.content.cell' | transloco: { row: row, column: column } }}
+                      </td>
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="scrollbar-playground__themes-group"
+      role="group"
+      [attr.aria-label]="'scrollbar.accessibility.themes' | transloco"
+    >
+      <app-playground-example-card [heading]="'scrollbar.examples.themes' | transloco">
+        <div class="scrollbar-playground__themes">
+          <section
+            class="scrollbar-playground__theme-example"
+            data-kui-theme="light"
+            [attr.aria-label]="'scrollbar.accessibility.lightTheme' | transloco"
+          >
+            <h3 kuiText variant="heading-md">{{ 'scrollbar.labels.light' | transloco }}</h3>
+            <div
+              class="scrollbar-playground__scroll-region scrollbar-playground__scroll-region--theme kui-scroll"
+              role="region"
+              tabindex="0"
+              [attr.aria-label]="'scrollbar.accessibility.lightScroll' | transloco"
+            >
+              @for (row of themeRows; track row) {
+                <p kuiText>{{ 'scrollbar.content.row' | transloco: { index: row } }}</p>
+              }
+            </div>
+          </section>
+
+          <section
+            class="scrollbar-playground__theme-example"
+            data-kui-theme="dark"
+            [attr.aria-label]="'scrollbar.accessibility.darkTheme' | transloco"
+          >
+            <h3 kuiText variant="heading-md">{{ 'scrollbar.labels.dark' | transloco }}</h3>
+            <div
+              class="scrollbar-playground__scroll-region scrollbar-playground__scroll-region--theme kui-scroll"
+              role="region"
+              tabindex="0"
+              [attr.aria-label]="'scrollbar.accessibility.darkScroll' | transloco"
+            >
+              @for (row of themeRows; track row) {
+                <p kuiText>{{ 'scrollbar.content.row' | transloco: { index: row } }}</p>
+              }
+            </div>
+          </section>
+        </div>
+      </app-playground-example-card>
+    </section>
+  </div>
+</main>

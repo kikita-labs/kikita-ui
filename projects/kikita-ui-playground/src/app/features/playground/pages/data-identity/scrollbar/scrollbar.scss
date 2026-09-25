@@ -1,0 +1,137 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .scrollbar-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .scrollbar-playground h1 {
+    margin: 0;
+  }
+
+  .scrollbar-playground__catalogue,
+  .scrollbar-playground__themes,
+  .scrollbar-playground__example {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .scrollbar-playground__catalogue {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: var(--kui-space-5);
+  }
+
+  .scrollbar-playground__catalogue > section {
+    min-inline-size: 0;
+  }
+
+  .scrollbar-playground__themes-group {
+    grid-column: 1 / -1;
+  }
+
+  .scrollbar-playground__example > span {
+    min-inline-size: 0;
+  }
+
+  .scrollbar-playground__scroll-region,
+  .scrollbar-playground__table-scroll {
+    min-inline-size: 0;
+    max-block-size: calc(var(--kui-space-16) * 3);
+    overflow: auto;
+    border: 1px solid var(--kui-color-border);
+    border-radius: var(--kui-radius-md);
+    background: var(--kui-color-surface);
+    color: var(--kui-color-text);
+  }
+
+  .scrollbar-playground__scroll-region {
+    padding-inline: var(--kui-space-3);
+  }
+
+  .scrollbar-playground__scroll-region--vertical {
+    max-block-size: calc(var(--kui-space-16) * 2);
+  }
+
+  .scrollbar-playground__scroll-region p {
+    margin: 0;
+    padding-block: var(--kui-space-2);
+    border-block-end: 1px solid var(--kui-color-border-subtle);
+  }
+
+  .scrollbar-playground__table-scroll {
+    max-block-size: calc(var(--kui-space-16) * 3);
+  }
+
+  .scrollbar-playground__table-scroll table {
+    min-inline-size: calc(var(--kui-space-16) * 12);
+    border-collapse: collapse;
+  }
+
+  .scrollbar-playground__table-scroll th,
+  .scrollbar-playground__table-scroll td {
+    padding: var(--kui-space-3);
+    border-block-end: 1px solid var(--kui-color-border-subtle);
+    text-align: start;
+    white-space: nowrap;
+  }
+
+  .scrollbar-playground__table-scroll th {
+    background: var(--kui-color-surface-sunken);
+  }
+
+  .scrollbar-playground__table-scroll caption {
+    padding: var(--kui-space-2);
+    text-align: start;
+  }
+
+  .scrollbar-playground__themes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .scrollbar-playground__theme-example {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+    padding: var(--kui-space-4);
+    border: 1px solid var(--kui-color-border);
+    border-radius: var(--kui-radius-md);
+    background: var(--kui-color-bg);
+    color: var(--kui-color-text);
+  }
+
+  .scrollbar-playground__theme-example h3 {
+    margin: 0;
+  }
+
+  .scrollbar-playground__scroll-region--theme {
+    max-block-size: calc(var(--kui-space-16) * 2);
+  }
+
+  @media (width < 64rem) {
+    .scrollbar-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .scrollbar-playground__catalogue {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .scrollbar-playground__themes-group {
+      grid-column: auto;
+    }
+  }
+
+  @media (width < 40rem) {
+    .scrollbar-playground__themes {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

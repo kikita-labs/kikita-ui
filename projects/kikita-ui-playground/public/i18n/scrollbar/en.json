@@ -1,0 +1,30 @@
+{
+  "title": "Scrollbar",
+  "examples": {
+    "local": "Local utility",
+    "global": "Application-wide styling",
+    "themes": "Theme contexts"
+  },
+  "labels": {
+    "vertical": "Vertical",
+    "table": "Wide data table",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "accessibility": {
+    "local": "Local scrollbar utility example",
+    "global": "Application-wide scrollbar styling example",
+    "vertical": "Focus to scroll the vertical content",
+    "table": "Focus to scroll the wide data table",
+    "themes": "Scrollbar theme examples",
+    "lightTheme": "Light scrollbar theme example",
+    "darkTheme": "Dark scrollbar theme example",
+    "lightScroll": "Focus to scroll the light themed content",
+    "darkScroll": "Focus to scroll the dark themed content"
+  },
+  "content": {
+    "row": "Scrollable row {{index}}",
+    "column": "Column {{index}}",
+    "cell": "{{row}} / {{column}}"
+  }
+}
