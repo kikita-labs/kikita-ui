@@ -1,0 +1,20 @@
+<kui-field [label]="'combobox.fields.tag' | transloco" [hint]="'combobox.hints.free' | transloco">
+  <input
+    kuiCombobox
+    mode="free"
+    [(value)]="tag"
+    [placeholder]="'combobox.placeholders.tag' | transloco"
+  />
+
+  <kui-dropdown>
+    <button kuiOption type="button" [value]="'combobox.options.bug' | transloco">
+      {{ 'combobox.options.bug' | transloco }}
+    </button>
+    <button kuiOption type="button" [value]="'combobox.options.feature' | transloco">
+      {{ 'combobox.options.feature' | transloco }}
+    </button>
+    <button kuiOption type="button" [value]="'combobox.options.regression' | transloco">
+      {{ 'combobox.options.regression' | transloco }}
+    </button>
+  </kui-dropdown>
+</kui-field>

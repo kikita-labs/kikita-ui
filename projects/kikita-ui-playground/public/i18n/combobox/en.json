@@ -1,0 +1,72 @@
+{
+  "title": "Combobox",
+  "examples": {
+    "default": "Default",
+    "filtering": "Filtering and selection",
+    "modes": "Input modes",
+    "fieldStates": "Field sizes and states",
+    "sizes": "Field sizes",
+    "states": "States",
+    "affordances": "Loading and clear action",
+    "clearable": "Clear action"
+  },
+  "modes": {
+    "free": "Free input",
+    "async": "Async filtering"
+  },
+  "fields": {
+    "assignee": "Assignee",
+    "searchPeople": "Search people",
+    "tag": "Tag",
+    "reviewer": "Reviewer",
+    "disabled": "Disabled",
+    "readonly": "Readonly",
+    "invalid": "Invalid",
+    "focused": "Focus example",
+    "clearable": "Clearable",
+    "notClearable": "Clear action hidden"
+  },
+  "hints": {
+    "filtering": "Type to filter local options",
+    "free": "Typed text becomes the value",
+    "async": "The consumer filters results",
+    "disabled": "Cannot edit or open options",
+    "readonly": "Value stays visible and cannot change"
+  },
+  "placeholders": {
+    "assignee": "Choose a person",
+    "searchPeople": "Search people...",
+    "tag": "Type or choose...",
+    "reviewer": "Search reviewers...",
+    "size": "Choose...",
+    "search": "Search..."
+  },
+  "options": {
+    "amelia": "Amelia Novak",
+    "daniel": "Daniel Kowalski",
+    "ravi": "Ravi Patel",
+    "bug": "Bug",
+    "feature": "Feature",
+    "regression": "Regression",
+    "available": "Available"
+  },
+  "sizes": {
+    "xs": "Extra small",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large"
+  },
+  "states": {
+    "loading": "Loading",
+    "loadingPeople": "Loading people",
+    "noMatches": "No matches",
+    "requiredOwner": "Choose an owner"
+  },
+  "accessibility": {
+    "default": "Default combobox example",
+    "filtering": "Local filtering combobox example",
+    "modes": "Free input and async filtering examples",
+    "fieldStates": "Field sizes and states",
+    "affordances": "Loading and clear action examples"
+  }
+}

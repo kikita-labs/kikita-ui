@@ -1,0 +1,82 @@
+<app-playground-example-card [heading]="'combobox.examples.fieldStates' | transloco">
+  <div
+    class="combobox-field-states__layout"
+    role="group"
+    [attr.aria-label]="'combobox.accessibility.fieldStates' | transloco"
+  >
+    <section class="combobox-field-states__section">
+      <h3 kuiText variant="heading-sm">{{ 'combobox.examples.sizes' | transloco }}</h3>
+
+      <div class="combobox-field-states__sizes">
+        @for (fieldSize of fieldSizes; track fieldSize.value) {
+          @let sizeLabel = fieldSize.labelKey | transloco;
+
+          <kui-field [size]="fieldSize.value" [label]="sizeLabel">
+            <input kuiCombobox [placeholder]="'combobox.placeholders.size' | transloco" />
+            <kui-dropdown>
+              <button kuiOption type="button" [value]="'combobox.options.available' | transloco">
+                {{ 'combobox.options.available' | transloco }}
+              </button>
+            </kui-dropdown>
+          </kui-field>
+        }
+      </div>
+    </section>
+
+    <section class="combobox-field-states__section">
+      <h3 kuiText variant="heading-sm">{{ 'combobox.examples.states' | transloco }}</h3>
+
+      <div class="combobox-field-states__states">
+        <kui-field
+          [label]="'combobox.fields.disabled' | transloco"
+          [hint]="'combobox.hints.disabled' | transloco"
+        >
+          <input kuiCombobox disabled [placeholder]="'combobox.placeholders.search' | transloco" />
+          <kui-dropdown>
+            <button kuiOption type="button" [value]="'combobox.options.available' | transloco">
+              {{ 'combobox.options.available' | transloco }}
+            </button>
+          </kui-dropdown>
+        </kui-field>
+
+        <kui-field
+          [label]="'combobox.fields.readonly' | transloco"
+          [hint]="'combobox.hints.readonly' | transloco"
+        >
+          <input
+            kuiCombobox
+            readonly
+            [(value)]="readonlyOwner"
+            [placeholder]="'combobox.placeholders.search' | transloco"
+          />
+          <kui-dropdown>
+            <button kuiOption type="button" [value]="'combobox.options.amelia' | transloco">
+              {{ 'combobox.options.amelia' | transloco }}
+            </button>
+          </kui-dropdown>
+        </kui-field>
+
+        <kui-field
+          [label]="'combobox.fields.invalid' | transloco"
+          [error]="'combobox.states.requiredOwner' | transloco"
+        >
+          <input kuiCombobox invalid [placeholder]="'combobox.placeholders.search' | transloco" />
+          <kui-dropdown>
+            <button kuiOption type="button" [value]="'combobox.options.available' | transloco">
+              {{ 'combobox.options.available' | transloco }}
+            </button>
+          </kui-dropdown>
+        </kui-field>
+
+        <kui-field [label]="'combobox.fields.focused' | transloco">
+          <input kuiCombobox [placeholder]="'combobox.placeholders.search' | transloco" />
+          <kui-dropdown>
+            <button kuiOption type="button" value="available">
+              {{ 'combobox.options.available' | transloco }}
+            </button>
+          </kui-dropdown>
+        </kui-field>
+      </div>
+    </section>
+  </div>
+</app-playground-example-card>

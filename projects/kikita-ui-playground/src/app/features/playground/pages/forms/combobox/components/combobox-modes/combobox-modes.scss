@@ -1,0 +1,25 @@
+@layer app.components {
+  .combobox-modes__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+  }
+
+  .combobox-modes__mode {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .combobox-modes__mode h3 {
+    margin: 0;
+  }
+
+  @media (width < 48rem) {
+    .combobox-modes__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
