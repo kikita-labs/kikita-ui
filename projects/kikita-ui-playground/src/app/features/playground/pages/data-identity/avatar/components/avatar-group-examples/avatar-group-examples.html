@@ -1,0 +1,52 @@
+<section
+  id="avatar-group-examples"
+  role="group"
+  [attr.aria-label]="'avatar.accessibility.groups' | transloco"
+>
+  <app-playground-example-card [heading]="'avatar.examples.groups' | transloco">
+    <div class="avatar-group-examples__content">
+      <div class="avatar-group-examples__matrix">
+        @for (groupSize of groupSizes; track groupSize.value) {
+          <div class="avatar-group-examples__item">
+            <span kuiText variant="body-sm">{{ groupSize.label | transloco }}</span>
+            <kui-avatar-group
+              [avatars]="completeGroup()"
+              [label]="groupSize.label | transloco"
+              [size]="groupSize.value"
+            />
+          </div>
+        }
+      </div>
+
+      <div class="avatar-group-examples__list">
+        <div class="avatar-group-examples__item">
+          <span kuiText variant="body-sm">{{ 'avatar.groups.defaultLimit' | transloco }}</span>
+          <kui-avatar-group
+            [avatars]="groupMembers()"
+            [label]="'avatar.groups.defaultLabel' | transloco"
+          />
+        </div>
+
+        <div class="avatar-group-examples__item">
+          <span kuiText variant="body-sm">{{ 'avatar.groups.customLimit' | transloco }}</span>
+          <kui-avatar-group
+            [avatars]="groupMembers()"
+            [label]="'avatar.groups.customLabel' | transloco"
+            max="2"
+            size="sm"
+            shape="square"
+          />
+        </div>
+
+        <div class="avatar-group-examples__item">
+          <span kuiText variant="body-sm">{{ 'avatar.groups.noOverflow' | transloco }}</span>
+          <kui-avatar-group
+            [avatars]="completeGroup()"
+            [label]="'avatar.groups.completeLabel' | transloco"
+            size="lg"
+          />
+        </div>
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>

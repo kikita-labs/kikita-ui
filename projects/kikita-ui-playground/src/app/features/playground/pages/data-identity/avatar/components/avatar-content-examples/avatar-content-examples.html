@@ -1,0 +1,36 @@
+<section
+  id="avatar-content-example"
+  role="group"
+  [attr.aria-label]="'avatar.accessibility.content' | transloco"
+>
+  <app-playground-example-card [heading]="'avatar.examples.content' | transloco">
+    <div class="avatar-content-examples__grid">
+      <div class="avatar-content-examples__item" id="avatar-minimum-default">
+        <span kuiText variant="body-sm">{{ 'avatar.content.minimumDefault' | transloco }}</span>
+        <kui-avatar />
+      </div>
+
+      <div class="avatar-content-examples__item">
+        <span kuiText variant="body-sm">{{ 'avatar.content.generatedInitials' | transloco }}</span>
+        <kui-avatar [name]="'avatar.people.generated' | transloco" />
+      </div>
+
+      <div class="avatar-content-examples__item">
+        <span kuiText variant="body-sm">{{ 'avatar.content.explicitInitials' | transloco }}</span>
+        <kui-avatar
+          [name]="'avatar.people.explicit' | transloco"
+          [initials]="'avatar.content.explicitValue' | transloco"
+        />
+      </div>
+
+      <div class="avatar-content-examples__item">
+        <span kuiText variant="body-sm">{{ 'avatar.content.localImage' | transloco }}</span>
+        <kui-avatar
+          src="/assets/avatar-example.svg"
+          [name]="'avatar.people.image' | transloco"
+          [alt]="'avatar.content.imageAlt' | transloco"
+        />
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>

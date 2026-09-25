@@ -1,0 +1,49 @@
+<section
+  id="avatar-variant-matrix"
+  role="group"
+  [attr.aria-label]="'avatar.accessibility.variants' | transloco"
+>
+  <app-playground-example-card [heading]="'avatar.examples.variants' | transloco">
+    <div class="avatar-variant-examples__matrix">
+      @for (shape of shapes; track shape.value) {
+        @for (size of sizes; track size.value) {
+          <div class="avatar-variant-examples__item">
+            <span kuiText variant="body-sm">
+              {{ 'avatar.shapes.' + shape.label | transloco }} ·
+              {{ 'avatar.sizes.' + size.label | transloco }}
+            </span>
+            <kui-avatar
+              [shape]="shape.value"
+              [size]="size.value"
+              [name]="'avatar.people.matrix' | transloco"
+            />
+          </div>
+        }
+      }
+    </div>
+  </app-playground-example-card>
+</section>
+
+<section
+  id="avatar-palette-examples"
+  role="group"
+  [attr.aria-label]="'avatar.accessibility.palette' | transloco"
+>
+  <app-playground-example-card [heading]="'avatar.examples.palette' | transloco">
+    <div class="avatar-variant-examples__palette">
+      <div class="avatar-variant-examples__item">
+        <span kuiText variant="body-sm">{{ 'avatar.palette.automatic' | transloco }}</span>
+        <kui-avatar [name]="'avatar.people.palette' | transloco" />
+      </div>
+
+      @for (slot of paletteSlots; track slot) {
+        <div class="avatar-variant-examples__item">
+          <span kuiText variant="body-sm">
+            {{ 'avatar.palette.slot' | transloco: { slot: slot } }}
+          </span>
+          <kui-avatar [name]="'avatar.people.palette' | transloco" [paletteIndex]="slot" />
+        </div>
+      }
+    </div>
+  </app-playground-example-card>
+</section>

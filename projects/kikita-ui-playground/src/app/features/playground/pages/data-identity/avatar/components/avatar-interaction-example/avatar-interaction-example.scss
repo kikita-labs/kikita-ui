@@ -1,0 +1,29 @@
+@layer app.components {
+  :host,
+  section {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .avatar-interaction-example__content {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .avatar-interaction-example__content > span,
+  .avatar-interaction-example__status {
+    min-inline-size: 0;
+  }
+
+  .avatar-interaction-example__action {
+    min-inline-size: var(--kui-control-height-lg);
+    min-block-size: var(--kui-control-height-lg);
+  }
+
+  .avatar-interaction-example__status {
+    display: block;
+    margin-block-start: var(--kui-space-3);
+  }
+}
