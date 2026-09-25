@@ -1,0 +1,58 @@
+{
+  "title": "Command Palette",
+  "examples": {
+    "default": "Commands",
+    "filtering": "Filtering",
+    "loading": "Loading",
+    "empty": "No results"
+  },
+  "actions": {
+    "openDefault": "Open command palette",
+    "openFiltered": "Open filtered palette",
+    "openLoading": "Open loading state",
+    "openEmpty": "Open empty state"
+  },
+  "status": {
+    "selected": "Selected: {{command}}",
+    "noneSelected": "No command selected"
+  },
+  "groups": {
+    "navigation": "Navigation",
+    "actions": "Actions"
+  },
+  "commands": {
+    "projects": "Open projects",
+    "components": "Browse components",
+    "createTask": "Create task",
+    "export": "Export workspace",
+    "delete": "Delete workspace"
+  },
+  "descriptions": {
+    "projects": "Browse your project workspace.",
+    "components": "Explore the component library."
+  },
+  "keywords": {
+    "workspace": "workspace",
+    "library": "library",
+    "remove": "remove"
+  },
+  "badges": {
+    "new": "New"
+  },
+  "meta": {
+    "unavailable": "Unavailable"
+  },
+  "scenarios": {
+    "projectQuery": "project",
+    "emptyQuery": "no-matching-command"
+  },
+  "accessibility": {
+    "default": "Default command palette example",
+    "filtering": "Filtered command palette example",
+    "loading": "Loading command palette example",
+    "empty": "Empty command palette example",
+    "dialogLabel": "Command palette",
+    "searchPlaceholder": "Type a command or search...",
+    "emptyText": "No matching commands"
+  }
+}

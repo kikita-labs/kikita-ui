@@ -1,0 +1,93 @@
+<div class="command-palette-examples">
+  <app-playground-example-card [heading]="'commandPalette.examples.default' | transloco">
+    <div
+      class="command-palette-examples__default"
+      role="group"
+      [attr.aria-label]="'commandPalette.accessibility.default' | transloco"
+    >
+      <button kuiButton type="button" (click)="openDefaultPalette()">
+        {{ 'commandPalette.actions.openDefault' | transloco }}
+      </button>
+
+      @if (selectedCommand(); as command) {
+        <p kuiText variant="body-sm" role="status">
+          {{ 'commandPalette.status.selected' | transloco: { command: command } }}
+        </p>
+      } @else {
+        <p kuiText variant="body-sm" role="status">
+          {{ 'commandPalette.status.noneSelected' | transloco }}
+        </p>
+      }
+    </div>
+
+    <kui-command-palette
+      [(open)]="defaultOpen"
+      [groups]="groups()"
+      [label]="'commandPalette.accessibility.dialogLabel' | transloco"
+      [placeholder]="'commandPalette.accessibility.searchPlaceholder' | transloco"
+      (selected)="selectCommand($event)"
+    />
+  </app-playground-example-card>
+
+  <app-playground-example-card [heading]="'commandPalette.examples.filtering' | transloco">
+    <div
+      class="command-palette-examples__trigger"
+      role="group"
+      [attr.aria-label]="'commandPalette.accessibility.filtering' | transloco"
+    >
+      <button kuiButton type="button" (click)="openFilteredPalette()">
+        {{ 'commandPalette.actions.openFiltered' | transloco }}
+      </button>
+    </div>
+
+    <kui-command-palette
+      [(open)]="filteredOpen"
+      [groups]="groups()"
+      [(query)]="filteredQuery"
+      [label]="'commandPalette.accessibility.dialogLabel' | transloco"
+      [placeholder]="'commandPalette.accessibility.searchPlaceholder' | transloco"
+      (selected)="selectCommand($event)"
+    />
+  </app-playground-example-card>
+
+  <app-playground-example-card [heading]="'commandPalette.examples.loading' | transloco">
+    <div
+      class="command-palette-examples__trigger"
+      role="group"
+      [attr.aria-label]="'commandPalette.accessibility.loading' | transloco"
+    >
+      <button kuiButton type="button" (click)="openLoadingPalette()">
+        {{ 'commandPalette.actions.openLoading' | transloco }}
+      </button>
+    </div>
+
+    <kui-command-palette
+      [(open)]="loadingOpen"
+      [groups]="groups()"
+      [loading]="true"
+      [label]="'commandPalette.accessibility.dialogLabel' | transloco"
+      [placeholder]="'commandPalette.accessibility.searchPlaceholder' | transloco"
+    />
+  </app-playground-example-card>
+
+  <app-playground-example-card [heading]="'commandPalette.examples.empty' | transloco">
+    <div
+      class="command-palette-examples__trigger"
+      role="group"
+      [attr.aria-label]="'commandPalette.accessibility.empty' | transloco"
+    >
+      <button kuiButton type="button" (click)="openEmptyPalette()">
+        {{ 'commandPalette.actions.openEmpty' | transloco }}
+      </button>
+    </div>
+
+    <kui-command-palette
+      [(open)]="emptyOpen"
+      [groups]="groups()"
+      [(query)]="emptyQuery"
+      [emptyText]="'commandPalette.accessibility.emptyText' | transloco"
+      [label]="'commandPalette.accessibility.dialogLabel' | transloco"
+      [placeholder]="'commandPalette.accessibility.searchPlaceholder' | transloco"
+    />
+  </app-playground-example-card>
+</div>
