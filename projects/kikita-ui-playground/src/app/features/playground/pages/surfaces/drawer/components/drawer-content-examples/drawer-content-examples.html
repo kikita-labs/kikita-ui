@@ -1,0 +1,17 @@
+<app-drawer-example-actions>
+  <button kuiButton shape="outline" type="button" (click)="openLongTitleDrawer()">
+    {{ 'drawer.actions.openLongTitle' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openUntitledDrawer()">
+    {{ 'drawer.actions.openUntitled' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openLongBodyDrawer()">
+    {{ 'drawer.actions.openLongBody' | transloco }}
+  </button>
+</app-drawer-example-actions>
+
+@if (result(); as message) {
+  <p kuiText variant="body-sm" class="drawer-example-result" role="status">
+    {{ 'drawer.status.' + message | transloco }}
+  </p>
+}

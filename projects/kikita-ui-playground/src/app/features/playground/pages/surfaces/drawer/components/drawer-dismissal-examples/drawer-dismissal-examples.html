@@ -1,0 +1,20 @@
+<app-drawer-example-actions>
+  <button kuiButton shape="outline" type="button" (click)="openNoCloseDrawer()">
+    {{ 'drawer.actions.openNoClose' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openNoEscapeDrawer()">
+    {{ 'drawer.actions.openNoEscape' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openNoBackdropDrawer()">
+    {{ 'drawer.actions.openNoBackdrop' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openLockedDrawer()">
+    {{ 'drawer.actions.openLocked' | transloco }}
+  </button>
+</app-drawer-example-actions>
+
+@if (result(); as message) {
+  <p kuiText variant="body-sm" class="drawer-example-result" role="status">
+    {{ 'drawer.status.' + message | transloco }}
+  </p>
+}

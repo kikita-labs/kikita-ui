@@ -1,0 +1,8 @@
+@layer app.components {
+  .drawer-example-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+}

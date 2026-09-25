@@ -1,0 +1,15 @@
+@layer app.components {
+  .drawer-size-examples {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .drawer-size-examples h3 {
+    margin: 0 0 var(--kui-space-2);
+  }
+
+  .drawer-example-result {
+    margin-block: var(--kui-space-3) 0;
+  }
+}
