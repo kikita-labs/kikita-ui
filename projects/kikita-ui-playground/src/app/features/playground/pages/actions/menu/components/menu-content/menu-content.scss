@@ -1,0 +1,12 @@
+@layer app.components {
+  .menu-content__group {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  @media (width < 32rem) {
+    .menu-content__group {
+      justify-content: flex-end;
+    }
+  }
+}

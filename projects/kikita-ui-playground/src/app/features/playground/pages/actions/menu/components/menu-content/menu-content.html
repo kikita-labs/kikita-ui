@@ -1,0 +1,44 @@
+<app-playground-example-card [heading]="'menu.examples.content' | transloco">
+  <div
+    id="menu-content-example"
+    class="menu-content__group"
+    role="group"
+    [attr.aria-label]="'menu.accessibility.content' | transloco"
+  >
+    <button kuiButton type="button" shape="outline" [kuiMenuFor]="rowActionsMenu">
+      {{ 'menu.triggers.rowActions' | transloco }}
+    </button>
+
+    <kui-menu
+      #rowActionsMenu
+      [ariaLabel]="'menu.triggers.rowActions' | transloco"
+      menuAlign="end"
+      minWidth="220px"
+    >
+      <div kuiMenuHeader>{{ 'menu.content.project' | transloco }}</div>
+      <button type="button" kuiMenuItem>
+        <span class="kui-menu-item__icon" aria-hidden="true">R</span>
+        <span class="kui-menu-item__label">{{ 'menu.actions.rename' | transloco }}</span>
+        <span class="kui-menu-item__shortcut">F2</span>
+      </button>
+      <a kuiMenuItem href="/components/menu#menu-content-example">
+        <span class="kui-menu-item__label">{{ 'menu.actions.projectDetails' | transloco }}</span>
+      </a>
+      <button type="button" kuiMenuItem>
+        <span class="kui-menu-item__icon" aria-hidden="true">C</span>
+        <span class="kui-menu-item__label">{{ 'menu.actions.copyLink' | transloco }}</span>
+        <span class="kui-menu-item__shortcut">Ctrl C</span>
+      </button>
+      <hr kuiSeparator spacing="xs" />
+      <button type="button" kuiMenuItem disabled>
+        <span class="kui-menu-item__label">{{ 'menu.actions.archive' | transloco }}</span>
+      </button>
+      <button type="button" kuiMenuItem appearance="destructive">
+        <span class="kui-menu-item__label">{{ 'menu.actions.delete' | transloco }}</span>
+      </button>
+      <a kuiMenuItem href="/components/menu#menu-content-example" disabled>
+        <span class="kui-menu-item__label">{{ 'menu.actions.disabledLink' | transloco }}</span>
+      </a>
+    </kui-menu>
+  </div>
+</app-playground-example-card>

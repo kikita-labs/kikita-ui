@@ -1,0 +1,72 @@
+<app-playground-example-card [heading]="'menu.examples.spacing' | transloco">
+  <div
+    class="menu-spacing__examples"
+    role="group"
+    [attr.aria-label]="'menu.accessibility.spacing' | transloco"
+  >
+    <div class="menu-spacing__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="startMenu">
+        {{ 'menu.alignment.start' | transloco }}
+      </button>
+      <kui-menu
+        #startMenu
+        menuAlign="start"
+        [ariaLabel]="'menu.accessibility.positionedMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-spacing__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="endMenu">
+        {{ 'menu.alignment.end' | transloco }}
+      </button>
+      <kui-menu
+        #endMenu
+        menuAlign="end"
+        [ariaLabel]="'menu.accessibility.positionedMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-spacing__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="zeroOffsetMenu">
+        {{ 'menu.spacing.zeroOffset' | transloco }}
+      </button>
+      <kui-menu
+        #zeroOffsetMenu
+        offset="0"
+        [ariaLabel]="'menu.accessibility.positionedMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-spacing__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="wideOffsetMenu">
+        {{ 'menu.spacing.wideOffset' | transloco }}
+      </button>
+      <kui-menu
+        #wideOffsetMenu
+        offset="12"
+        [ariaLabel]="'menu.accessibility.positionedMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-spacing__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="minWidthMenu">
+        {{ 'menu.spacing.minWidth' | transloco }}
+      </button>
+      <kui-menu
+        #minWidthMenu
+        minWidth="220px"
+        [ariaLabel]="'menu.accessibility.positionedMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+  </div>
+</app-playground-example-card>

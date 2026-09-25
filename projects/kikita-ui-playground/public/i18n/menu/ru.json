@@ -1,0 +1,58 @@
+{
+  "title": "Меню",
+  "examples": {
+    "default": "По умолчанию",
+    "placement": "Положение",
+    "spacing": "Выравнивание и отступы",
+    "content": "Содержимое и состояния"
+  },
+  "placements": {
+    "bottomStart": "Снизу, начало",
+    "bottomEnd": "Снизу, конец",
+    "topStart": "Сверху, начало",
+    "topEnd": "Сверху, конец",
+    "leftStart": "Слева, начало",
+    "leftEnd": "Слева, конец",
+    "rightStart": "Справа, начало",
+    "rightEnd": "Справа, конец"
+  },
+  "alignment": {
+    "start": "Начало",
+    "end": "Конец"
+  },
+  "spacing": {
+    "zeroOffset": "Без отступа",
+    "wideOffset": "Отступ 12 px",
+    "minWidth": "Минимум 220 px"
+  },
+  "triggers": {
+    "actions": "Действия",
+    "rowActions": "Действия строки"
+  },
+  "actions": {
+    "edit": "Изменить",
+    "copy": "Копировать",
+    "openItem": "Открыть элемент",
+    "rename": "Переименовать",
+    "copyLink": "Скопировать ссылку",
+    "projectDetails": "Сведения о проекте",
+    "archive": "В архив",
+    "delete": "Удалить",
+    "disabledLink": "Недоступная ссылка"
+  },
+  "content": {
+    "project": "Проект"
+  },
+  "messages": {
+    "editActivated": "Действие «Изменить» запущено",
+    "copyActivated": "Действие «Копировать» запущено"
+  },
+  "accessibility": {
+    "defaultGroup": "Пример меню действий по умолчанию",
+    "placements": "Примеры положения меню",
+    "placementMenu": "Действия для примеров положения",
+    "positionedMenu": "Действия с заданным положением",
+    "spacing": "Примеры выравнивания и отступов меню",
+    "content": "Пример содержимого и состояний меню"
+  }
+}
