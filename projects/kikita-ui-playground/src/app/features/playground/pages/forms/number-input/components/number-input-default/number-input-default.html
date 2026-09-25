@@ -1,0 +1,10 @@
+<app-playground-example-card [heading]="'numberInput.examples.default' | transloco">
+  <div role="group" [attr.aria-label]="'numberInput.accessibility.default' | transloco">
+    <kui-field
+      [label]="'numberInput.fields.quantity' | transloco"
+      [hint]="'numberInput.hints.quantity' | transloco"
+    >
+      <input type="number" kuiNumberInput />
+    </kui-field>
+  </div>
+</app-playground-example-card>

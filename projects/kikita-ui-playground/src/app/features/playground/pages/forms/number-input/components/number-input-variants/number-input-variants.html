@@ -1,0 +1,15 @@
+<app-playground-example-card [heading]="'numberInput.examples.variants' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'numberInput.accessibility.variants' | transloco"
+    class="number-input-variants__grid"
+  >
+    <kui-field [label]="'numberInput.fields.split' | transloco">
+      <input type="number" kuiNumberInput value="4" />
+    </kui-field>
+
+    <kui-field [label]="'numberInput.fields.stacked' | transloco">
+      <input type="number" kuiNumberInput variant="stacked" value="4" />
+    </kui-field>
+  </div>
+</app-playground-example-card>

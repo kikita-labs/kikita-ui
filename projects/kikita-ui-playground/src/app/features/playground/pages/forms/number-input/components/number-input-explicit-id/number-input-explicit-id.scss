@@ -1,0 +1,7 @@
+@layer app.components {
+  .number-input-explicit-id__content {
+    display: grid;
+    gap: var(--kui-space-2);
+    max-inline-size: 100%;
+  }
+}

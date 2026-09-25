@@ -1,0 +1,49 @@
+{
+  "title": "Number Input",
+  "examples": {
+    "default": "Default Number Input",
+    "variants": "Number Input variants",
+    "sizes": "Number Input sizes",
+    "states": "Number Input states",
+    "validation": "Number Input Signal Forms validation",
+    "explicitId": "Number Input explicit id and local invalid state"
+  },
+  "accessibility": {
+    "default": "Default Number Input example",
+    "variants": "Number Input variants",
+    "sizes": "Number Input sizes",
+    "states": "Number Input states",
+    "validation": "Number Input Signal Forms validation",
+    "explicitId": "Number Input explicit id and local invalid state"
+  },
+  "fields": {
+    "quantity": "Quantity",
+    "split": "Split layout",
+    "stacked": "Stacked layout",
+    "extraSmall": "Extra small (md appearance)",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "fieldInherited": "Large inherited from Field",
+    "bounded": "Bounded from 0 to 10",
+    "atMinimum": "At minimum",
+    "atMaximum": "At maximum",
+    "stepFive": "Step by 5",
+    "disabled": "Disabled",
+    "readOnly": "Read-only",
+    "invalid": "Explicitly invalid",
+    "validatedQuantity": "Validated quantity",
+    "explicitId": "Quantity with explicit id (invalid)"
+  },
+  "hints": {
+    "quantity": "Use the stepper buttons or arrow keys.",
+    "invalid": "This example is intentionally invalid.",
+    "validation": "Enter a quantity from 1 to 10."
+  },
+  "errors": {
+    "explicit": "This value is not accepted.",
+    "required": "Enter a quantity.",
+    "minimum": "Enter at least 1.",
+    "maximum": "Enter no more than 10."
+  }
+}

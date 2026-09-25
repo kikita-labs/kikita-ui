@@ -1,0 +1,12 @@
+<app-playground-example-card [heading]="'numberInput.examples.explicitId' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'numberInput.accessibility.explicitId' | transloco"
+    class="number-input-explicit-id__content"
+  >
+    <label kuiText variant="body-sm" for="explicit-number-input-id">
+      {{ 'numberInput.fields.explicitId' | transloco }}
+    </label>
+    <input id="explicit-number-input-id" type="number" kuiNumberInput [invalid]="true" />
+  </div>
+</app-playground-example-card>
