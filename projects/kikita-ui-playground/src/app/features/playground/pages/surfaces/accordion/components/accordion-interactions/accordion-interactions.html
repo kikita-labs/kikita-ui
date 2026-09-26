@@ -1,0 +1,77 @@
+<section
+  class="accordion-interactions"
+  role="group"
+  [attr.aria-label]="'accordion.accessibility.interactions' | transloco"
+>
+  <app-playground-example-card [heading]="'accordion.examples.interactions' | transloco">
+    <div class="accordion-interactions__modes">
+      <section
+        class="accordion-interactions__mode"
+        role="group"
+        [attr.aria-label]="'accordion.accessibility.exclusive' | transloco"
+      >
+        <h3 kuiText variant="heading-sm">{{ 'accordion.mode.exclusive' | transloco }}</h3>
+
+        <kui-accordion mode="exclusive" [(expandedItems)]="exclusiveExpandedItems">
+          <kui-accordion-item
+            id="accordion-exclusive-account"
+            [header]="'accordion.headers.account' | transloco"
+          >
+            <p kuiText>{{ 'accordion.content.account' | transloco }}</p>
+          </kui-accordion-item>
+
+          <kui-accordion-item
+            id="accordion-exclusive-privacy"
+            [header]="'accordion.headers.privacy' | transloco"
+          >
+            <p kuiText>{{ 'accordion.content.privacy' | transloco }}</p>
+          </kui-accordion-item>
+        </kui-accordion>
+
+        <output kuiText aria-live="polite" aria-atomic="true">
+          @let exclusiveOpenIds = exclusiveExpandedItems();
+          <span>{{ 'accordion.status.openItems' | transloco }}:</span>
+          @if (exclusiveOpenIds.length > 0) {
+            <code>{{ exclusiveOpenIds.join(', ') }}</code>
+          } @else {
+            {{ 'accordion.status.none' | transloco }}
+          }
+        </output>
+      </section>
+
+      <section
+        class="accordion-interactions__mode"
+        role="group"
+        [attr.aria-label]="'accordion.accessibility.multi' | transloco"
+      >
+        <h3 kuiText variant="heading-sm">{{ 'accordion.mode.multi' | transloco }}</h3>
+
+        <kui-accordion mode="multi" [(expandedItems)]="multiExpandedItems">
+          <kui-accordion-item
+            id="accordion-multi-profile"
+            [header]="'accordion.headers.profile' | transloco"
+          >
+            <p kuiText>{{ 'accordion.content.profile' | transloco }}</p>
+          </kui-accordion-item>
+
+          <kui-accordion-item
+            id="accordion-multi-billing"
+            [header]="'accordion.headers.billing' | transloco"
+          >
+            <p kuiText>{{ 'accordion.content.billing' | transloco }}</p>
+          </kui-accordion-item>
+        </kui-accordion>
+
+        <output kuiText aria-live="polite" aria-atomic="true">
+          @let multiOpenIds = multiExpandedItems();
+          <span>{{ 'accordion.status.openItems' | transloco }}:</span>
+          @if (multiOpenIds.length > 0) {
+            <code>{{ multiOpenIds.join(', ') }}</code>
+          } @else {
+            {{ 'accordion.status.none' | transloco }}
+          }
+        </output>
+      </section>
+    </div>
+  </app-playground-example-card>
+</section>

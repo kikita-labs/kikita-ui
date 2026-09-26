@@ -1,0 +1,30 @@
+<main
+  class="playground-workspace accordion-playground"
+  aria-labelledby="accordion-playground-title"
+>
+  <h1 id="accordion-playground-title" kuiText variant="heading-lg">
+    {{ 'accordion.title' | transloco }}
+  </h1>
+
+  <div class="accordion-playground__catalogue">
+    <section
+      class="accordion-playground__default"
+      role="group"
+      [attr.aria-label]="'accordion.accessibility.default' | transloco"
+    >
+      <app-playground-example-card [heading]="'accordion.examples.default' | transloco">
+        <kui-accordion>
+          <kui-accordion-item [header]="'accordion.headers.default' | transloco">
+            <p kuiText>{{ 'accordion.content.default' | transloco }}</p>
+          </kui-accordion-item>
+        </kui-accordion>
+      </app-playground-example-card>
+    </section>
+
+    <app-accordion-item-states class="accordion-playground__wide" />
+
+    <app-accordion-appearance-matrix class="accordion-playground__wide" />
+
+    <app-accordion-interactions class="accordion-playground__wide" />
+  </div>
+</main>

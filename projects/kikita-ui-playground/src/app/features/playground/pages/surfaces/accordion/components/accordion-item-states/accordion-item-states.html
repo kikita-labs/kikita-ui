@@ -1,0 +1,55 @@
+<section
+  class="accordion-item-states"
+  role="group"
+  [attr.aria-label]="'accordion.accessibility.itemStates' | transloco"
+>
+  <app-playground-example-card [heading]="'accordion.examples.itemStates' | transloco">
+    <div class="accordion-item-states__examples">
+      <section
+        class="accordion-item-states__example"
+        role="group"
+        [attr.aria-label]="'accordion.accessibility.disabled' | transloco"
+      >
+        <h3 kuiText variant="heading-sm">{{ 'accordion.itemState.disabled' | transloco }}</h3>
+
+        <kui-accordion>
+          <kui-accordion-item
+            id="accordion-item-available"
+            [header]="'accordion.headers.available' | transloco"
+          >
+            <p kuiText>{{ 'accordion.content.available' | transloco }}</p>
+          </kui-accordion-item>
+
+          <kui-accordion-item
+            id="accordion-item-disabled"
+            [header]="'accordion.headers.disabled' | transloco"
+            disabled
+          >
+            <p kuiText>{{ 'accordion.content.disabled' | transloco }}</p>
+          </kui-accordion-item>
+        </kui-accordion>
+      </section>
+
+      <section
+        class="accordion-item-states__example"
+        role="group"
+        [attr.aria-label]="'accordion.accessibility.icon' | transloco"
+      >
+        <h3 kuiText variant="heading-sm">{{ 'accordion.itemState.icon' | transloco }}</h3>
+
+        <kui-accordion appearance="bordered" size="sm">
+          <kui-accordion-item
+            id="accordion-item-icon"
+            [header]="'accordion.headers.workspace' | transloco"
+          >
+            <ng-template kuiAccordionIcon>
+              <kui-icon name="kikita-brand" size="sm" />
+            </ng-template>
+
+            <p kuiText>{{ 'accordion.content.icon' | transloco }}</p>
+          </kui-accordion-item>
+        </kui-accordion>
+      </section>
+    </div>
+  </app-playground-example-card>
+</section>

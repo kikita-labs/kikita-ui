@@ -1,0 +1,66 @@
+{
+  "title": "Accordion",
+  "examples": {
+    "default": "Default",
+    "catalogue": "Appearance and size",
+    "interactions": "Open state",
+    "itemStates": "Item states and icon"
+  },
+  "accessibility": {
+    "default": "Default accordion example",
+    "catalogue": "Accordion appearance and size examples",
+    "appearance": "{{appearance}} appearance examples",
+    "variant": "{{appearance}}, {{size}} example",
+    "interactions": "Accordion open-state interactions",
+    "exclusive": "Exclusive mode interaction",
+    "multi": "Multi mode interaction",
+    "itemStates": "Accordion item state and icon examples",
+    "disabled": "Disabled item example",
+    "icon": "Custom icon template example"
+  },
+  "appearance": {
+    "default": "Default",
+    "bordered": "Bordered",
+    "ghost": "Ghost"
+  },
+  "size": {
+    "extraSmall": "Extra small (xs)",
+    "small": "Small (sm)",
+    "medium": "Medium (md)",
+    "large": "Large (lg)"
+  },
+  "mode": {
+    "exclusive": "Exclusive",
+    "multi": "Multiple"
+  },
+  "itemState": {
+    "disabled": "Disabled item",
+    "icon": "Custom trigger icon"
+  },
+  "headers": {
+    "default": "Account settings",
+    "variant": "{{appearance}}, {{size}}",
+    "account": "Account",
+    "privacy": "Privacy",
+    "profile": "Profile",
+    "billing": "Billing",
+    "available": "Available section",
+    "disabled": "Disabled section",
+    "workspace": "Workspace"
+  },
+  "content": {
+    "default": "Manage account preferences and contact details.",
+    "catalogue": "This panel is collapsed until its trigger is activated.",
+    "account": "Review account preferences and contact details.",
+    "privacy": "Choose which profile details are visible.",
+    "profile": "Update your display name and profile image.",
+    "billing": "Review your current plan and billing contact.",
+    "available": "This section can be opened with its trigger.",
+    "disabled": "This section remains unavailable while disabled.",
+    "icon": "A locally registered decorative icon is projected into the trigger."
+  },
+  "status": {
+    "openItems": "Open items",
+    "none": "None"
+  }
+}

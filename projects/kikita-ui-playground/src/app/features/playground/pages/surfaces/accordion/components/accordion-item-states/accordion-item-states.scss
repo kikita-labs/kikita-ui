@@ -1,0 +1,34 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .accordion-item-states,
+  .accordion-item-states__examples,
+  .accordion-item-states__example {
+    min-inline-size: 0;
+  }
+
+  .accordion-item-states__examples {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+  }
+
+  .accordion-item-states__example {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-3);
+  }
+
+  .accordion-item-states__example h3 {
+    margin: 0;
+  }
+
+  @media (width < 40rem) {
+    .accordion-item-states__examples {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
