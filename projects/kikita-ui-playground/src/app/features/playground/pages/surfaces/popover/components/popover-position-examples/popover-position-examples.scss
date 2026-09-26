@@ -1,0 +1,29 @@
+@layer app.components {
+  .popover-position-examples {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+    max-inline-size: 60rem;
+    margin-inline: auto;
+  }
+
+  .popover-position-examples__example {
+    display: grid;
+    justify-items: center;
+    min-inline-size: 0;
+  }
+
+  .popover-position-examples__example button {
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: var(--kui-control-height-lg, 44px);
+    white-space: normal;
+  }
+
+  @media (width < 32rem) {
+    .popover-position-examples {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}

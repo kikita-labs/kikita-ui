@@ -1,0 +1,18 @@
+<div class="popover-position-examples">
+  @for (position of positions; track position.key) {
+    <div class="popover-position-examples__example">
+      <button kuiButton type="button" size="lg" [kuiPopoverFor]="positionPopover">
+        {{ 'popover.positions.' + position.key | transloco }}
+      </button>
+      <kui-popover
+        #positionPopover
+        [placement]="position.placement"
+        [align]="position.align"
+        [arrow]="true"
+        [ariaLabel]="'popover.accessibility.positionPanel' | transloco"
+      >
+        <p kuiText class="kui-popover-desc">{{ 'popover.content.position' | transloco }}</p>
+      </kui-popover>
+    </div>
+  }
+</div>
