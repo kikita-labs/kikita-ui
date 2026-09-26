@@ -1,0 +1,12 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .slider-default__control-row {
+    display: grid;
+    align-items: center;
+    min-block-size: var(--kui-control-height-lg, 44px);
+  }
+}

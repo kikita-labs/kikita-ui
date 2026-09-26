@@ -1,0 +1,56 @@
+{
+  "title": "Ползунок",
+  "examples": {
+    "default": "По умолчанию",
+    "variants": "Размеры и цвета",
+    "endpoints": "Границы диапазона",
+    "states": "Отключённое и ошибочное состояния",
+    "signalForms": "Signal Forms",
+    "tooltips": "Подсказки"
+  },
+  "accessibility": {
+    "default": "Пример ползунка по умолчанию",
+    "variants": "Варианты размера и цвета ползунка",
+    "endpoints": "Границы диапазона ползунка",
+    "states": "Отключённое и ошибочное состояния ползунка",
+    "signalForms": "Пример ползунка с Signal Forms",
+    "tooltips": "Примеры подсказок ползунка"
+  },
+  "labels": {
+    "default": "Громкость по умолчанию",
+    "minimum": "Минимум",
+    "withEndpointLabels": "Подписи границ",
+    "maximum": "Максимум",
+    "rangeStart": "0",
+    "rangeEnd": "100",
+    "disabled": "Отключённый ползунок",
+    "fieldInvalid": "Ползунок поля с ошибкой",
+    "explicitInvalid": "Отдельный ползунок с ошибкой",
+    "volume": "Громкость",
+    "valueTooltip": "Подсказка значения",
+    "staticTooltip": "Статическая подсказка"
+  },
+  "variants": {
+    "smPrimary": "Маленький, основной",
+    "smSuccess": "Маленький, успешный",
+    "smDanger": "Маленький, опасный",
+    "smNeutral": "Маленький, нейтральный",
+    "mdPrimary": "Средний, основной",
+    "mdSuccess": "Средний, успешный",
+    "mdDanger": "Средний, опасный",
+    "mdNeutral": "Средний, нейтральный",
+    "lgPrimary": "Большой, основной",
+    "lgSuccess": "Большой, успешный",
+    "lgDanger": "Большой, опасный",
+    "lgNeutral": "Большой, нейтральный"
+  },
+  "hints": {
+    "keyboard": "Используйте стрелки, Home и End."
+  },
+  "errors": {
+    "fieldInvalid": "Значение нужно проверить."
+  },
+  "tooltips": {
+    "static": "Скорость воспроизведения"
+  }
+}
