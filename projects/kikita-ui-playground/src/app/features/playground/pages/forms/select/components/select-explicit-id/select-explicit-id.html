@@ -1,0 +1,22 @@
+<app-playground-example-card [heading]="'select.examples.explicitId' | transloco">
+  <div
+    class="select-explicit-id__content"
+    role="group"
+    [attr.aria-label]="'select.accessibility.explicitId' | transloco"
+  >
+    <label kuiText variant="body-sm" for="select-explicit-id">
+      {{ 'select.fields.explicitId' | transloco }}
+    </label>
+    <kui-field>
+      <input
+        kuiSelect
+        id="select-explicit-id"
+        [placeholder]="'select.placeholders.role' | transloco"
+      />
+      <kui-dropdown>
+        <div kuiOption value="designer">{{ 'select.options.designer' | transloco }}</div>
+        <div kuiOption value="engineer">{{ 'select.options.engineer' | transloco }}</div>
+      </kui-dropdown>
+    </kui-field>
+  </div>
+</app-playground-example-card>

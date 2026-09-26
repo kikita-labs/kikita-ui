@@ -1,0 +1,7 @@
+@layer app.components {
+  .select-explicit-id__content {
+    display: grid;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+}

@@ -1,0 +1,7 @@
+@layer app.components {
+  .select-default__value {
+    display: block;
+    margin-block-start: var(--kui-space-3);
+    color: var(--kui-color-text-secondary);
+  }
+}

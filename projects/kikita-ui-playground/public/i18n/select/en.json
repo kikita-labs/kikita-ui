@@ -1,0 +1,83 @@
+{
+  "title": "Select",
+  "examples": {
+    "default": "Default",
+    "explicitId": "Explicit id",
+    "sizes": "Sizes",
+    "valuesAndModes": "Values and multiple selection",
+    "providerDefaults": "Provider defaults",
+    "states": "States",
+    "keyboard": "Keyboard interaction",
+    "validation": "Signal Forms validation"
+  },
+  "accessibility": {
+    "default": "Default select example",
+    "explicitId": "Select with an explicit id",
+    "sizes": "Select sizes",
+    "modes": "Select value and multiple-selection modes",
+    "providerDefaults": "Select provider defaults",
+    "states": "Select states",
+    "keyboard": "Keyboard interaction example",
+    "validation": "Required select validation example"
+  },
+  "fields": {
+    "role": "Role",
+    "explicitId": "Explicit select id",
+    "objectValue": "Object value",
+    "defaultChipLimit": "Default chip limit",
+    "multipleChips": "Multiple values as chips",
+    "multipleText": "Multiple values as text",
+    "providerDefaults": "Provider defaults",
+    "customValues": "Custom selected-value template",
+    "disabled": "Disabled",
+    "focusTarget": "Focus target",
+    "readonly": "Readonly",
+    "clearable": "Clearable",
+    "invalid": "Invalid",
+    "requiredRole": "Required role",
+    "keyboard": "Keyboard navigation"
+  },
+  "hints": {
+    "chooseRole": "Choose one role.",
+    "multipleChips": "Choose more than one role. The list stays open after each selection.",
+    "providerDefaults": "Clearability and the two-chip limit come from Select provider options.",
+    "keyboard": "Use the arrow keys to navigate, Enter to select, and Escape to close.",
+    "validation": "Open and close the select to trigger validation.",
+    "disabled": "The value cannot be changed and the list does not open.",
+    "readonly": "The value stays visible; the list and clear action are unavailable."
+  },
+  "placeholders": {
+    "role": "Choose a role",
+    "person": "Choose a person"
+  },
+  "options": {
+    "designer": "Designer",
+    "engineer": "Engineer",
+    "manager": "Manager",
+    "researcher": "Researcher",
+    "owner": "Owner",
+    "editor": "Editor",
+    "reviewer": "Reviewer",
+    "viewer": "Viewer"
+  },
+  "teams": {
+    "engineering": "Engineering",
+    "platform": "Platform"
+  },
+  "sizes": {
+    "xs": "Extra small",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large"
+  },
+  "status": {
+    "selected": "Selected value: {{value}}"
+  },
+  "actions": {
+    "remove": "Remove {{value}}"
+  },
+  "errors": {
+    "invalid": "Choose a supported role.",
+    "required": "Choose a role to continue."
+  }
+}
