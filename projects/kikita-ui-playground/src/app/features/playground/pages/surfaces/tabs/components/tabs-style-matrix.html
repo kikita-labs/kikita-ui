@@ -1,0 +1,58 @@
+<div class="tabs-style-matrix">
+  @for (example of examples(); track example.id) {
+    <section
+      class="tabs-style-matrix__item"
+      role="group"
+      [attr.aria-label]="
+        'tabs.accessibility.matrixExample'
+          | transloco
+            : {
+                orientation: ('tabs.values.' + example.orientation | transloco),
+                variant: ('tabs.values.' + example.variant | transloco),
+                size: example.size,
+                edge: ('tabs.values.' + (example.inverted ? 'inverted' : 'normal') | transloco),
+              }
+      "
+    >
+      <p
+        kuiText
+        variant="body-sm"
+        tone="muted"
+        class="tabs-style-matrix__caption"
+        aria-hidden="true"
+      >
+        {{
+          'tabs.accessibility.matrixExample'
+            | transloco
+              : {
+                  orientation: ('tabs.values.' + example.orientation | transloco),
+                  variant: ('tabs.values.' + example.variant | transloco),
+                  size: example.size,
+                  edge: ('tabs.values.' + (example.inverted ? 'inverted' : 'normal') | transloco),
+                }
+        }}
+      </p>
+
+      <kui-tabs
+        [size]="example.size"
+        [variant]="example.variant"
+        [orientation]="example.orientation"
+        [inverted]="example.inverted"
+        value="overview"
+      >
+        <button kuiTab value="overview">{{ 'tabs.labels.overview' | transloco }}</button>
+        <button kuiTab value="settings">{{ 'tabs.labels.settings' | transloco }}</button>
+        <div kuiTabPanel value="overview" tabindex="0">
+          <span class="tabs-style-matrix__panel-copy">
+            {{ 'tabs.panels.matrix' | transloco }}
+          </span>
+        </div>
+        <div kuiTabPanel value="settings" tabindex="0">
+          <span class="tabs-style-matrix__panel-copy">
+            {{ 'tabs.panels.matrix' | transloco }}
+          </span>
+        </div>
+      </kui-tabs>
+    </section>
+  }
+</div>

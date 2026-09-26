@@ -1,0 +1,157 @@
+<main class="playground-workspace tabs-playground" aria-labelledby="tabs-playground-title">
+  <h1 id="tabs-playground-title" kuiText variant="heading-lg">
+    {{ 'tabs.title' | transloco }}
+  </h1>
+
+  <div class="tabs-playground__catalogue">
+    <app-playground-example-card [heading]="'tabs.examples.default' | transloco">
+      <section
+        class="tabs-example"
+        role="group"
+        [attr.aria-label]="'tabs.accessibility.default' | transloco"
+      >
+        <kui-tabs>
+          <button kuiTab>{{ 'tabs.labels.general' | transloco }}</button>
+          <button kuiTab value="security">{{ 'tabs.labels.security' | transloco }}</button>
+          <div kuiTabPanel tabindex="0">{{ 'tabs.panels.general' | transloco }}</div>
+          <div kuiTabPanel value="security" tabindex="0">
+            {{ 'tabs.panels.security' | transloco }}
+          </div>
+        </kui-tabs>
+      </section>
+    </app-playground-example-card>
+
+    <app-playground-example-card [heading]="'tabs.examples.horizontal' | transloco">
+      <div class="tabs-matrix">
+        <app-tabs-style-matrix orientation="horizontal" />
+        <app-tabs-style-matrix orientation="horizontal" [inverted]="true" />
+      </div>
+    </app-playground-example-card>
+
+    <app-playground-example-card [heading]="'tabs.examples.vertical' | transloco">
+      <div class="tabs-matrix">
+        <app-tabs-style-matrix orientation="vertical" />
+        <app-tabs-style-matrix orientation="vertical" [inverted]="true" />
+      </div>
+    </app-playground-example-card>
+
+    <app-playground-example-card [heading]="'tabs.examples.keyboard' | transloco">
+      <section
+        class="tabs-example"
+        role="group"
+        [attr.aria-label]="'tabs.accessibility.keyboard' | transloco"
+      >
+        <kui-tabs [(value)]="keyboardValue">
+          <button kuiTab value="overview">{{ 'tabs.labels.overview' | transloco }}</button>
+          <button kuiTab value="activity">{{ 'tabs.labels.activity' | transloco }}</button>
+          <button kuiTab value="settings">{{ 'tabs.labels.settings' | transloco }}</button>
+          <div kuiTabPanel value="overview" tabindex="0">
+            {{ 'tabs.panels.overview' | transloco }}
+          </div>
+          <div kuiTabPanel value="activity" tabindex="0">
+            {{ 'tabs.panels.activity' | transloco }}
+          </div>
+          <div kuiTabPanel value="settings" tabindex="0">
+            {{ 'tabs.panels.settings' | transloco }}
+          </div>
+        </kui-tabs>
+      </section>
+    </app-playground-example-card>
+
+    <app-playground-example-card [heading]="'tabs.examples.error' | transloco">
+      <section
+        class="tabs-example"
+        role="group"
+        [attr.aria-label]="'tabs.accessibility.error' | transloco"
+      >
+        <kui-tabs value="profile">
+          <button kuiTab value="profile">{{ 'tabs.labels.profile' | transloco }}</button>
+          <button
+            kuiTab
+            value="payment"
+            [hasError]="paymentError()"
+            [errorLabel]="'tabs.error.accessibleLabel' | transloco"
+          >
+            {{ 'tabs.labels.payment' | transloco }}
+          </button>
+          <div kuiTabPanel value="profile" tabindex="0">
+            {{ 'tabs.panels.profile' | transloco }}
+          </div>
+          <div kuiTabPanel value="payment" tabindex="0">
+            {{ 'tabs.panels.payment' | transloco }}
+          </div>
+        </kui-tabs>
+
+        <button
+          kuiButton
+          shape="outline"
+          type="button"
+          [attr.aria-pressed]="paymentError()"
+          (click)="togglePaymentError()"
+        >
+          {{ 'tabs.actions.toggleError' | transloco }}
+        </button>
+      </section>
+    </app-playground-example-card>
+
+    <app-playground-example-card [heading]="'tabs.examples.router' | transloco">
+      <section
+        class="tabs-example"
+        role="group"
+        [attr.aria-label]="'tabs.accessibility.router' | transloco"
+      >
+        <kui-tabs [(value)]="routerValue" [controlsPanels]="false">
+          <button kuiTab value="/overview">{{ 'tabs.labels.overview' | transloco }}</button>
+          <button kuiTab value="/activity">{{ 'tabs.labels.activity' | transloco }}</button>
+          <button kuiTab value="/settings">{{ 'tabs.labels.settings' | transloco }}</button>
+        </kui-tabs>
+        <p class="tabs-example__note">{{ 'tabs.notes.router' | transloco }}</p>
+      </section>
+    </app-playground-example-card>
+
+    <app-playground-example-card [heading]="'tabs.examples.overflow' | transloco">
+      <section
+        class="tabs-example tabs-example--overflow"
+        role="group"
+        [attr.aria-label]="'tabs.accessibility.overflow' | transloco"
+      >
+        <kui-tabs value="overview">
+          <button kuiTab value="overview">{{ 'tabs.labels.overviewLong' | transloco }}</button>
+          <button kuiTab value="activity">{{ 'tabs.labels.activityLong' | transloco }}</button>
+          <button kuiTab value="settings">{{ 'tabs.labels.settingsLong' | transloco }}</button>
+          <button kuiTab value="members">{{ 'tabs.labels.membersLong' | transloco }}</button>
+          <button kuiTab value="integrations">
+            {{ 'tabs.labels.integrationsLong' | transloco }}
+          </button>
+          <button kuiTab value="billing">{{ 'tabs.labels.billingLong' | transloco }}</button>
+          <button kuiTab value="security">{{ 'tabs.labels.securityLong' | transloco }}</button>
+          <button kuiTab value="audit">{{ 'tabs.labels.auditLong' | transloco }}</button>
+          <div kuiTabPanel value="overview" tabindex="0">
+            {{ 'tabs.panels.overview' | transloco }}
+          </div>
+          <div kuiTabPanel value="activity" tabindex="0">
+            {{ 'tabs.panels.activity' | transloco }}
+          </div>
+          <div kuiTabPanel value="settings" tabindex="0">
+            {{ 'tabs.panels.settings' | transloco }}
+          </div>
+          <div kuiTabPanel value="members" tabindex="0">
+            {{ 'tabs.panels.members' | transloco }}
+          </div>
+          <div kuiTabPanel value="integrations" tabindex="0">
+            {{ 'tabs.panels.integrations' | transloco }}
+          </div>
+          <div kuiTabPanel value="billing" tabindex="0">
+            {{ 'tabs.panels.billing' | transloco }}
+          </div>
+          <div kuiTabPanel value="security" tabindex="0">
+            {{ 'tabs.panels.security' | transloco }}
+          </div>
+          <div kuiTabPanel value="audit" tabindex="0">
+            {{ 'tabs.panels.audit' | transloco }}
+          </div>
+        </kui-tabs>
+      </section>
+    </app-playground-example-card>
+  </div>
+</main>

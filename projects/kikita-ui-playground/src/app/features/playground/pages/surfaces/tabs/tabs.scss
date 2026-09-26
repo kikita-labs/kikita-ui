@@ -1,0 +1,40 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .tabs-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .tabs-playground h1 {
+    margin: 0;
+  }
+
+  .tabs-playground__catalogue,
+  .tabs-example {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .tabs-matrix {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+  }
+
+  .tabs-example__note {
+    margin: 0;
+  }
+
+  @media (width < 48rem) {
+    .tabs-playground {
+      padding: var(--kui-space-6);
+    }
+  }
+}
