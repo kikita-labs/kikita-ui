@@ -1,0 +1,24 @@
+@layer app.components {
+  .tree-size-examples__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .tree-size-examples__item {
+    display: grid;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .tree-size-examples__item h3 {
+    margin: 0;
+  }
+
+  @media (width < 40rem) {
+    .tree-size-examples__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

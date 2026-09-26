@@ -1,0 +1,28 @@
+@let mobileTargets = mobile();
+
+<div class="tree-size-examples__grid">
+  @for (size of sizes(); track size) {
+    <section
+      class="tree-size-examples__item"
+      role="group"
+      [attr.aria-label]="
+        (mobileTargets ? 'tree.accessibility.mobileSize' : 'tree.accessibility.size')
+          | transloco: { size: size }
+      "
+    >
+      <h3 kuiText variant="heading-sm">
+        {{ 'tree.labels.size' | transloco: { size: size } }}
+      </h3>
+
+      <kui-tree
+        [mobile]="mobileTargets"
+        [ariaLabel]="
+          (mobileTargets ? 'tree.accessibility.mobileTree' : 'tree.accessibility.sizeTree')
+            | transloco: { size: size }
+        "
+        [data]="data()"
+        [size]="size"
+      />
+    </section>
+  }
+</div>
