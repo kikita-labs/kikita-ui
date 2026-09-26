@@ -1,0 +1,23 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .progress-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .progress-playground h1 {
+    margin: 0;
+  }
+
+  @media (width < 48rem) {
+    .progress-playground {
+      padding: var(--kui-space-6);
+    }
+  }
+}

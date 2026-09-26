@@ -1,0 +1,54 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .progress-variant-matrix {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .progress-variant-matrix__size {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .progress-variant-matrix__size-label {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--kui-space-2);
+    margin: 0;
+  }
+
+  .progress-variant-matrix__fallback,
+  .progress-variant-matrix__color {
+    color: var(--kui-color-text-secondary);
+  }
+
+  .progress-variant-matrix__samples {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--kui-space-16)), 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .progress-variant-matrix__sample {
+    display: grid;
+    align-content: start;
+    justify-items: center;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .progress-variant-matrix[data-shape='linear'] .progress-variant-matrix__sample kui-progress {
+    inline-size: 100%;
+  }
+
+  .progress-variant-matrix__color {
+    text-align: center;
+  }
+}

@@ -1,0 +1,35 @@
+<app-playground-example-card [heading]="'progress.examples.live' | transloco">
+  @let value = currentValue();
+
+  <div
+    class="progress-live-demo"
+    role="group"
+    [attr.aria-label]="'progress.accessibility.liveGroup' | transloco"
+  >
+    <div class="progress-live-demo__control">
+      <label for="progress-live-value" kuiText variant="body-sm">
+        {{ 'progress.labels.range' | transloco }}
+      </label>
+      <span kuiText variant="body-sm">
+        {{ 'progress.labels.percent' | transloco: { value } }}
+      </span>
+      <input
+        id="progress-live-value"
+        type="range"
+        kuiSlider
+        min="0"
+        max="100"
+        step="5"
+        [value]="value"
+        (input)="updateValue($event)"
+      />
+    </div>
+
+    <kui-progress
+      size="md"
+      color="primary"
+      [value]="value"
+      [attr.aria-label]="'progress.accessibility.liveProgress' | transloco: { value }"
+    />
+  </div>
+</app-playground-example-card>

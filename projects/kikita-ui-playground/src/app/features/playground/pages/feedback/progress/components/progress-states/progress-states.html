@@ -1,0 +1,76 @@
+<app-playground-example-card [heading]="'progress.examples.values' | transloco">
+  <div
+    class="progress-states__values"
+    role="group"
+    [attr.aria-label]="'progress.accessibility.values' | transloco"
+  >
+    @for (value of values; track value) {
+      @let reportedValue = clampedValue(value);
+
+      <div
+        class="progress-states__value"
+        role="group"
+        [attr.aria-label]="
+          'progress.accessibility.valueCase' | transloco: { input: value, reported: reportedValue }
+        "
+      >
+        <span kuiText variant="caption">
+          {{ 'progress.labels.valueCase' | transloco: { input: value, reported: reportedValue } }}
+        </span>
+        <kui-progress
+          [value]="value"
+          [attr.aria-label]="
+            'progress.accessibility.valueProgress' | transloco: { value: reportedValue }
+          "
+        />
+      </div>
+    }
+
+    <div
+      class="progress-states__value"
+      role="group"
+      [attr.aria-label]="'progress.accessibility.invalidValue' | transloco"
+    >
+      <span kuiText variant="caption">{{ 'progress.labels.invalidValue' | transloco }}</span>
+      <kui-progress
+        value="not-a-number"
+        [attr.aria-label]="'progress.accessibility.invalidProgress' | transloco"
+      />
+    </div>
+  </div>
+</app-playground-example-card>
+
+<app-playground-example-card [heading]="'progress.examples.indeterminate' | transloco">
+  <div
+    class="progress-states__indeterminate"
+    role="group"
+    [attr.aria-label]="'progress.accessibility.indeterminateExamples' | transloco"
+  >
+    <div
+      class="progress-states__indeterminate-item"
+      role="group"
+      [attr.aria-label]="'progress.accessibility.indeterminateLinear' | transloco"
+    >
+      <span kuiText variant="caption">{{ 'progress.labels.linear' | transloco }}</span>
+      <kui-progress
+        size="lg"
+        color="success"
+        [attr.aria-label]="'progress.accessibility.loading' | transloco"
+      />
+    </div>
+
+    <div
+      class="progress-states__indeterminate-item"
+      role="group"
+      [attr.aria-label]="'progress.accessibility.indeterminateCircular' | transloco"
+    >
+      <span kuiText variant="caption">{{ 'progress.labels.circular' | transloco }}</span>
+      <kui-progress
+        type="circular"
+        size="lg"
+        color="warning"
+        [attr.aria-label]="'progress.accessibility.loading' | transloco"
+      />
+    </div>
+  </div>
+</app-playground-example-card>

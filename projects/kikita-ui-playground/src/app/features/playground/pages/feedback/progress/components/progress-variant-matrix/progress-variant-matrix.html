@@ -1,0 +1,57 @@
+@let shape = type();
+
+<app-playground-example-card [heading]="'progress.examples.' + shape + 'Matrix' | transloco">
+  <div
+    class="progress-variant-matrix"
+    [attr.data-shape]="shape"
+    role="group"
+    [attr.aria-label]="'progress.accessibility.' + shape + 'Matrix' | transloco"
+  >
+    @for (size of sizes; track size) {
+      @let translatedSize = 'progress.labels.sizes.' + size | transloco;
+
+      <section
+        class="progress-variant-matrix__size"
+        role="group"
+        [attr.aria-label]="'progress.accessibility.sizeRow' | transloco: { size: translatedSize }"
+      >
+        <h3 class="progress-variant-matrix__size-label" kuiText variant="title">
+          {{ translatedSize }}
+          @if (shape === 'linear' && size === 'xl') {
+            <span class="progress-variant-matrix__fallback" kuiText variant="caption">
+              ({{ 'progress.labels.linearXlFallback' | transloco }})
+            </span>
+          }
+          @if (shape === 'circular' && size === 'xs') {
+            <span class="progress-variant-matrix__fallback" kuiText variant="caption">
+              ({{ 'progress.labels.circularXsFallback' | transloco }})
+            </span>
+          }
+        </h3>
+
+        <div class="progress-variant-matrix__samples">
+          @for (color of colors; track color) {
+            @let translatedColor = 'progress.labels.colors.' + color | transloco;
+
+            <div class="progress-variant-matrix__sample">
+              <span class="progress-variant-matrix__color" kuiText variant="caption">
+                {{ translatedColor }}
+              </span>
+
+              <kui-progress
+                [type]="shape"
+                [size]="size"
+                [color]="color"
+                [value]="60"
+                [attr.aria-label]="
+                  'progress.accessibility.matrixProgress'
+                    | transloco: { color: translatedColor, size: translatedSize }
+                "
+              />
+            </div>
+          }
+        </div>
+      </section>
+    }
+  </div>
+</app-playground-example-card>
