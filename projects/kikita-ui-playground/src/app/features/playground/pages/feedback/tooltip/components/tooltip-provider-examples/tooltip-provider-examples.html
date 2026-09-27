@@ -1,0 +1,14 @@
+<div class="tooltip-provider-examples">
+  <button kuiButton type="button" [kuiTooltip]="'tooltip.messages.inherited' | transloco">
+    {{ 'tooltip.provider.inherited' | transloco }}
+  </button>
+
+  <button
+    kuiButton
+    type="button"
+    triggerType="click"
+    [kuiTooltip]="'tooltip.messages.localOverride' | transloco"
+  >
+    {{ 'tooltip.provider.localOverride' | transloco }}
+  </button>
+</div>

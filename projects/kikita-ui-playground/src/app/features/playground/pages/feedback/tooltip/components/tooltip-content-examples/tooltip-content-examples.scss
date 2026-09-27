@@ -1,0 +1,14 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .tooltip-content-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-3);
+    align-items: center;
+    min-inline-size: 0;
+  }
+}

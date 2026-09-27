@@ -1,0 +1,31 @@
+<main class="playground-workspace tooltip-playground" aria-labelledby="tooltip-playground-title">
+  <h1 id="tooltip-playground-title" kuiText variant="heading-lg">
+    {{ 'tooltip.title' | transloco }}
+  </h1>
+
+  <div class="tooltip-playground__catalogue">
+    <section role="group" [attr.aria-label]="'tooltip.accessibility.placements' | transloco">
+      <app-playground-example-card [heading]="'tooltip.examples.placements' | transloco">
+        <app-tooltip-placement-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'tooltip.accessibility.modes' | transloco">
+      <app-playground-example-card [heading]="'tooltip.examples.modes' | transloco">
+        <app-tooltip-trigger-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'tooltip.accessibility.content' | transloco">
+      <app-playground-example-card [heading]="'tooltip.examples.content' | transloco">
+        <app-tooltip-content-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'tooltip.accessibility.providers' | transloco">
+      <app-playground-example-card [heading]="'tooltip.examples.providers' | transloco">
+        <app-tooltip-provider-examples />
+      </app-playground-example-card>
+    </section>
+  </div>
+</main>

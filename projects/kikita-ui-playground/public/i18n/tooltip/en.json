@@ -1,0 +1,51 @@
+{
+  "title": "Tooltip",
+  "examples": {
+    "placements": "Placements",
+    "modes": "Interaction modes",
+    "content": "Content and trigger",
+    "providers": "Scoped defaults"
+  },
+  "accessibility": {
+    "placements": "Tooltip placement examples",
+    "modes": "Tooltip interaction mode examples",
+    "content": "Tooltip content and trigger examples",
+    "providers": "Tooltip scoped default examples",
+    "infoTrigger": "Plan information"
+  },
+  "placement": {
+    "top": "Top (default)",
+    "bottom": "Bottom",
+    "left": "Left",
+    "right": "Right"
+  },
+  "messages": {
+    "top": "Shown above the trigger.",
+    "bottom": "Shown below the trigger.",
+    "left": "Shown to the left of the trigger.",
+    "right": "Shown to the right of the trigger.",
+    "auto": "Hover and keyboard focus, with tap on touch.",
+    "hover": "Hover or keyboard focus opens this tooltip.",
+    "click": "Activate again, click outside, move focus, or press Escape to close.",
+    "none": "This tooltip is disabled by its trigger mode.",
+    "long": "This longer tooltip stays supplemental while wrapping within the component's 280 pixel maximum width. It is intended to show how several short lines remain readable.",
+    "info": "Your plan renews automatically on the date shown here.",
+    "inherited": "This trigger inherits the scoped Hover default.",
+    "localOverride": "This trigger's local Click mode overrides the scoped Hover default."
+  },
+  "mode": {
+    "auto": "Auto (default)",
+    "hover": "Hover",
+    "click": "Click",
+    "none": "None"
+  },
+  "content": {
+    "empty": "Empty text",
+    "whitespace": "Whitespace only",
+    "long": "Long text"
+  },
+  "provider": {
+    "inherited": "Inherits Hover",
+    "localOverride": "Local Click override"
+  }
+}

@@ -1,0 +1,39 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .tooltip-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .tooltip-playground h1 {
+    margin: 0;
+  }
+
+  .tooltip-playground__catalogue {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .tooltip-playground__catalogue > section {
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .tooltip-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .tooltip-playground__catalogue {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

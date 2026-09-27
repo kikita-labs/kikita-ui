@@ -1,0 +1,32 @@
+<div class="tooltip-placement-examples">
+  <button kuiButton type="button" [kuiTooltip]="'tooltip.messages.top' | transloco">
+    {{ 'tooltip.placement.top' | transloco }}
+  </button>
+
+  <button
+    kuiButton
+    type="button"
+    placement="bottom"
+    [kuiTooltip]="'tooltip.messages.bottom' | transloco"
+  >
+    {{ 'tooltip.placement.bottom' | transloco }}
+  </button>
+
+  <button
+    kuiButton
+    type="button"
+    placement="left"
+    [kuiTooltip]="'tooltip.messages.left' | transloco"
+  >
+    {{ 'tooltip.placement.left' | transloco }}
+  </button>
+
+  <button
+    kuiButton
+    type="button"
+    placement="right"
+    [kuiTooltip]="'tooltip.messages.right' | transloco"
+  >
+    {{ 'tooltip.placement.right' | transloco }}
+  </button>
+</div>
