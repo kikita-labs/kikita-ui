@@ -1,0 +1,44 @@
+<div class="kui-dialog-header">
+  @if (ctx.data.showIcon) {
+    <svg class="kui-dialog-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M12 9v4"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M12 17h.01"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  }
+  <h2 class="kui-dialog-title">{{ ctx.data.title }}</h2>
+</div>
+
+<div class="kui-dialog-body">
+  <p>{{ ctx.data.body }}</p>
+  @for (line of ctx.data.bodyLines; track $index) {
+    <p>{{ line }}</p>
+  }
+</div>
+
+<div class="kui-dialog-footer">
+  <button kuiButton shape="outline" type="button" (click)="ctx.close('cancelled')">
+    {{ ctx.data.cancelLabel }}
+  </button>
+  <button kuiButton type="button" (click)="ctx.close('saved')">
+    {{ ctx.data.confirmLabel }}
+  </button>
+</div>

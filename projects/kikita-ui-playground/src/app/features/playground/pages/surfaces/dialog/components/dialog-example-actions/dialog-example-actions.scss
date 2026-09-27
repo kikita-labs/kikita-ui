@@ -1,0 +1,7 @@
+@layer app.components {
+  .dialog-example-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-2);
+  }
+}

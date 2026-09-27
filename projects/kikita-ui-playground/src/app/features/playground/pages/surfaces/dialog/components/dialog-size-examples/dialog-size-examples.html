@@ -1,0 +1,24 @@
+<app-dialog-example-actions>
+  <button kuiButton type="button" (click)="openDefaultDialog()">
+    {{ 'dialog.actions.openDefault' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openAutoDialog()">
+    {{ 'dialog.actions.openAuto' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openSmDialog()">
+    {{ 'dialog.actions.openSm' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openMdDialog()">
+    {{ 'dialog.actions.openMd' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openLgDialog()">
+    {{ 'dialog.actions.openLg' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openFullscreenDialog()">
+    {{ 'dialog.actions.openFullscreen' | transloco }}
+  </button>
+</app-dialog-example-actions>
+
+@if (result(); as message) {
+  <p class="dialog-example-result" role="status">{{ message }}</p>
+}

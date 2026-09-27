@@ -1,0 +1,15 @@
+<app-dialog-example-actions>
+  <button kuiButton type="button" (click)="openDefaultDialog()">
+    {{ 'dialog.actions.openDefaultAppearance' | transloco }}
+  </button>
+  <button kuiButton appearance="danger" type="button" (click)="openDangerDialog()">
+    {{ 'dialog.actions.openDangerAppearance' | transloco }}
+  </button>
+  <button kuiButton appearance="warning" type="button" (click)="openWarningDialog()">
+    {{ 'dialog.actions.openWarningAppearance' | transloco }}
+  </button>
+</app-dialog-example-actions>
+
+@if (result(); as message) {
+  <p class="dialog-example-result" role="status">{{ message }}</p>
+}

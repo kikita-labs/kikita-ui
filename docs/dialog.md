@@ -70,22 +70,27 @@ export class MyDialog implements KuiDialogHost<TResult, TData> {
 
 ## KuiDialogConfig
 
-| Option        | Type                  | Default     | Description                                      |
-| ------------- | --------------------- | ----------- | ------------------------------------------------ |
-| `data`        | `TData`               | `undefined` | Passed into the component via `dialogContext`.   |
-| `size`        | `KuiDialogSize`       | `'md'`      | Panel width preset.                              |
-| `appearance`  | `KuiDialogAppearance` | `'default'` | Colors `.kui-dialog-icon` via CSS variable.      |
-| `dismissable` | `boolean`             | `true`      | Allow Escape and backdrop-click to close.        |
-| `closable`    | `boolean`             | `true`      | Render the close button, top-right of the panel. |
+The public `kuiDialog()` factory excludes `data` from its config argument. Pass typed data to
+the opener it returns, for example `openEditUser({ userId: user.id })`. The `data` option in
+`KuiDialogConfig` is used by the low-level dialog service.
+
+| Option        | Type                  | Default     | Description                                                     |
+| ------------- | --------------------- | ----------- | --------------------------------------------------------------- |
+| `data`        | `TData`               | `undefined` | Low-level service option; not accepted by `kuiDialog()` config. |
+| `size`        | `KuiDialogSize`       | `'md'`      | Panel width preset.                                             |
+| `appearance`  | `KuiDialogAppearance` | `'default'` | Colors `.kui-dialog-icon` via CSS variable.                     |
+| `dismissable` | `boolean`             | `true`      | Allow Escape and backdrop-click to close.                       |
+| `closable`    | `boolean`             | `true`      | Render the close button, top-right of the panel.                |
 
 ## KuiDialogSize
 
-| Value  | Width                      |
-| ------ | -------------------------- |
-| `auto` | `auto`, `min-width: 320px` |
-| `sm`   | 400 px                     |
-| `md`   | 560 px                     |
-| `lg`   | 720 px                     |
+| Value        | Width                                                            |
+| ------------ | ---------------------------------------------------------------- |
+| `auto`       | `auto`, `min-width: 320px`                                       |
+| `sm`         | 400 px                                                           |
+| `md`         | 560 px                                                           |
+| `lg`         | 720 px                                                           |
+| `fullscreen` | Fills the viewport; removes the panel border, radius, and shadow |
 
 ## KuiDialogAppearance
 
