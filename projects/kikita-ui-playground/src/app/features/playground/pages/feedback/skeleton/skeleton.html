@@ -1,0 +1,22 @@
+<main class="playground-workspace skeleton-playground" aria-labelledby="skeleton-playground-title">
+  <h1 id="skeleton-playground-title" kuiText variant="heading-lg">
+    {{ 'skeleton.title' | transloco }}
+  </h1>
+
+  <app-playground-example-card
+    class="skeleton-playground__default-card"
+    [heading]="'skeleton.examples.default' | transloco"
+  >
+    <div
+      class="skeleton-playground__default"
+      role="group"
+      [attr.aria-label]="'skeleton.accessibility.default' | transloco"
+    >
+      <span kuiSkeleton class="skeleton-playground__default-placeholder"></span>
+    </div>
+  </app-playground-example-card>
+
+  <app-skeleton-shape-matrix />
+
+  <app-skeleton-loading-region />
+</main>

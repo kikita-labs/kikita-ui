@@ -1,0 +1,52 @@
+<app-playground-example-card [heading]="'skeleton.examples.loadingRegion' | transloco">
+  <div
+    class="skeleton-loading-region"
+    role="group"
+    [attr.aria-label]="'skeleton.accessibility.consumerLifecycle' | transloco"
+  >
+    <div class="skeleton-loading-region__actions">
+      <button kuiButton type="button" size="lg" (click)="showLoading()">
+        {{ 'skeleton.actions.showLoading' | transloco }}
+      </button>
+
+      <button kuiButton shape="outline" type="button" size="lg" (click)="showContent()">
+        {{ 'skeleton.actions.showContent' | transloco }}
+      </button>
+    </div>
+
+    @let loading = isLoading();
+
+    <section
+      class="skeleton-loading-region__content"
+      role="region"
+      aria-labelledby="skeleton-loading-region-title"
+      [attr.aria-busy]="loading ? 'true' : 'false'"
+    >
+      <h3 id="skeleton-loading-region-title" kuiText variant="heading-sm">
+        {{ 'skeleton.content.heading' | transloco }}
+      </h3>
+
+      @if (loading) {
+        <div class="skeleton-loading-region__preview">
+          <span
+            kuiSkeleton
+            shape="circle"
+            class="skeleton-loading-region__avatar-placeholder"
+          ></span>
+
+          <div class="skeleton-loading-region__text-placeholders">
+            <span
+              kuiSkeleton
+              shape="heading"
+              class="skeleton-loading-region__heading-placeholder"
+            ></span>
+
+            <span kuiSkeleton shape="text" class="skeleton-loading-region__text-placeholder"></span>
+          </div>
+        </div>
+      } @else {
+        <p kuiText variant="body">{{ 'skeleton.content.ready' | transloco }}</p>
+      }
+    </section>
+  </div>
+</app-playground-example-card>

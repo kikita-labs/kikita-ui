@@ -1,0 +1,35 @@
+{
+  "title": "Skeleton",
+  "examples": {
+    "default": "Default",
+    "matrix": "Shape and animation matrix",
+    "loadingRegion": "Consumer-owned busy region"
+  },
+  "accessibility": {
+    "default": "Default Skeleton",
+    "matrix": "Skeleton shape and animation matrix",
+    "consumerLifecycle": "Consumer-controlled loading region"
+  },
+  "shapes": {
+    "text": "Text",
+    "heading": "Heading",
+    "rect": "Rectangle",
+    "circle": "Circle",
+    "square": "Square",
+    "button": "Button",
+    "badge": "Badge"
+  },
+  "animations": {
+    "shimmer": "Shimmer",
+    "pulse": "Pulse",
+    "none": "None"
+  },
+  "actions": {
+    "showLoading": "Show loading",
+    "showContent": "Show ready content"
+  },
+  "content": {
+    "heading": "Workspace summary",
+    "ready": "Workspace details are ready."
+  }
+}

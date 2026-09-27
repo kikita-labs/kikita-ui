@@ -1,0 +1,48 @@
+<app-playground-example-card [heading]="'skeleton.examples.matrix' | transloco">
+  <div
+    class="skeleton-matrix"
+    role="group"
+    [attr.aria-label]="'skeleton.accessibility.matrix' | transloco"
+  >
+    <div class="skeleton-matrix__mobile-headings" aria-hidden="true">
+      <span></span>
+      @for (animation of animations; track animation.value) {
+        <span kuiText variant="caption">{{ animation.label | transloco }}</span>
+      }
+    </div>
+
+    @for (shape of shapes; track shape.value) {
+      <section
+        class="skeleton-matrix__row"
+        role="group"
+        [attr.aria-label]="shape.label | transloco"
+      >
+        <h3 kuiText variant="heading-sm">{{ shape.label | transloco }}</h3>
+
+        <div class="skeleton-matrix__variants">
+          @for (animation of animations; track animation.value) {
+            <div
+              class="skeleton-matrix__variant"
+              role="group"
+              [attr.aria-label]="animation.label | transloco"
+            >
+              <span kuiText variant="caption" class="skeleton-matrix__animation-label">
+                {{ animation.label | transloco }}
+              </span>
+
+              <span
+                kuiSkeleton
+                class="skeleton-matrix__preview"
+                [class.skeleton-matrix__preview--rect]="shape.value === 'rect'"
+                [class.skeleton-matrix__preview--circle]="shape.value === 'circle'"
+                [class.skeleton-matrix__preview--square]="shape.value === 'square'"
+                [shape]="shape.value"
+                [animation]="animation.value"
+              ></span>
+            </div>
+          }
+        </div>
+      </section>
+    }
+  </div>
+</app-playground-example-card>

@@ -1,0 +1,58 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .skeleton-loading-region {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .skeleton-loading-region__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .skeleton-loading-region__content {
+    display: grid;
+    justify-items: start;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .skeleton-loading-region__content h3,
+  .skeleton-loading-region__content p {
+    margin: 0;
+  }
+
+  .skeleton-loading-region__preview {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-3);
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .skeleton-loading-region__avatar-placeholder {
+    flex: 0 0 var(--kui-space-8);
+    inline-size: var(--kui-space-8);
+    block-size: var(--kui-space-8);
+  }
+
+  .skeleton-loading-region__text-placeholders {
+    display: grid;
+    gap: var(--kui-space-2);
+    inline-size: 100%;
+    max-inline-size: var(--kui-space-16);
+    min-inline-size: 0;
+  }
+
+  .skeleton-loading-region__heading-placeholder,
+  .skeleton-loading-region__text-placeholder {
+    inline-size: 100%;
+  }
+}
