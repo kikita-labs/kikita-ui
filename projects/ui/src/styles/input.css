@@ -180,29 +180,29 @@
     font-size: var(--kui-text-base-size, 14px);
   }
 
-  .kui-field[data-kui-size='xs'] .kui-input {
+  .kui-field[data-kui-size='xs'] .kui-input:not([data-kui-size]) {
     min-block-size: var(--kui-control-height-xs, 28px);
     font-size: var(--kui-text-xs-size, 11px);
   }
 
-  .kui-field[data-kui-size='xs'] input.kui-input {
+  .kui-field[data-kui-size='xs'] input.kui-input:not([data-kui-size]) {
     block-size: var(--kui-control-height-xs, 28px);
   }
 
-  .kui-field[data-kui-size='sm'] .kui-input {
+  .kui-field[data-kui-size='sm'] .kui-input:not([data-kui-size]) {
     min-block-size: var(--kui-control-height-sm, 32px);
   }
 
-  .kui-field[data-kui-size='sm'] input.kui-input {
+  .kui-field[data-kui-size='sm'] input.kui-input:not([data-kui-size]) {
     block-size: var(--kui-control-height-sm, 32px);
   }
 
-  .kui-field[data-kui-size='lg'] .kui-input {
+  .kui-field[data-kui-size='lg'] .kui-input:not([data-kui-size]) {
     min-block-size: var(--kui-control-height-lg, 44px);
     font-size: var(--kui-text-base-size, 14px);
   }
 
-  .kui-field[data-kui-size='lg'] input.kui-input {
+  .kui-field[data-kui-size='lg'] input.kui-input:not([data-kui-size]) {
     block-size: var(--kui-control-height-lg, 44px);
   }
 }
