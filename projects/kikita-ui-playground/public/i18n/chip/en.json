@@ -1,0 +1,73 @@
+{
+  "title": "Chip",
+  "examples": {
+    "default": "Default",
+    "appearanceAndSize": "Appearance and size",
+    "removal": "Removal",
+    "states": "States",
+    "composition": "Composition",
+    "interactiveHosts": "Interactive hosts"
+  },
+  "accessibility": {
+    "default": "Default chip example",
+    "appearanceAndSize": "Chip appearance and size variants",
+    "neutral": "Neutral chip sizes",
+    "primary": "Primary chip sizes",
+    "success": "Success chip sizes",
+    "warning": "Warning chip sizes",
+    "danger": "Danger chip sizes",
+    "info": "Info chip sizes",
+    "removal": "Chip removal examples",
+    "generatedRemoveButtons": "Generated remove buttons",
+    "customRemoveButtons": "Custom remove buttons",
+    "removalStatus": "Chip removal status",
+    "removeAngular": "Remove Angular",
+    "removeDesign": "Remove Design",
+    "removeBackend": "Remove Backend",
+    "removeCustomPlain": "Remove custom tag",
+    "removeCustomIconButton": "Remove custom filter",
+    "removeDisabled": "Remove disabled chip",
+    "states": "Chip state examples",
+    "composition": "Chip composition examples",
+    "interactiveHosts": "Chip native interactive host examples"
+  },
+  "appearances": {
+    "neutral": "Neutral",
+    "primary": "Primary",
+    "success": "Success",
+    "warning": "Warning",
+    "danger": "Danger",
+    "info": "Info"
+  },
+  "labels": {
+    "default": "Design",
+    "angular": "Angular",
+    "design": "Design",
+    "backend": "Backend",
+    "customPlain": "Custom tag",
+    "customIconButton": "Custom filter",
+    "disabled": "Disabled",
+    "disabledButton": "Disabled action",
+    "disabledRemovable": "Disabled removable",
+    "removeDisabled": "Remove disabled chip",
+    "invalidStyle": "Invalid style",
+    "disabledInvalid": "Disabled and invalid",
+    "iconComposition": "Role: Admin",
+    "avatarName": "Kikita Runtime",
+    "avatarComposition": "Kikita Runtime",
+    "longLabel": "A longer project label that uses the available chip width",
+    "action": "Filter action",
+    "link": "Jump to default chip"
+  },
+  "actions": {
+    "resetRemoval": "Reset removal examples"
+  },
+  "content": {
+    "allGeneratedRemoved": "All generated-remove examples are cleared.",
+    "allCustomRemoved": "All custom-remove examples are cleared."
+  },
+  "status": {
+    "removedCount": "Removed chips: {{count}}.",
+    "activatedCount": "Filter actions activated: {{count}}."
+  }
+}

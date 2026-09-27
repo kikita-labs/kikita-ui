@@ -1,0 +1,72 @@
+<section role="group" [attr.aria-label]="'chip.accessibility.removal' | transloco">
+  <app-playground-example-card [heading]="'chip.examples.removal' | transloco">
+    <div class="chip-removal-examples__stack">
+      <div
+        id="chip-generated-removal-examples"
+        class="chip-removal-examples__chip-row"
+        role="group"
+        [attr.aria-label]="'chip.accessibility.generatedRemoveButtons' | transloco"
+      >
+        @for (tag of removableTags(); track tag.id) {
+          <span
+            kuiChip
+            size="sm"
+            removable
+            [removeLabel]="tag.removeLabel | transloco"
+            (removed)="removeTag(tag.id)"
+          >
+            <span class="kui-chip-label">{{ tag.label | transloco }}</span>
+          </span>
+        } @empty {
+          <p kuiText>{{ 'chip.content.allGeneratedRemoved' | transloco }}</p>
+        }
+      </div>
+
+      <div
+        id="chip-custom-removal-examples"
+        class="chip-removal-examples__chip-row"
+        role="group"
+        [attr.aria-label]="'chip.accessibility.customRemoveButtons' | transloco"
+      >
+        @for (tag of customRemovers(); track tag.id) {
+          <span kuiChip size="sm" [appearance]="tag.appearance" (removed)="removeCustomTag(tag.id)">
+            <span class="kui-chip-label">{{ tag.label | transloco }}</span>
+            @if (tag.iconButton) {
+              <button
+                kuiChipRemove
+                kuiIconButton
+                type="button"
+                [attr.aria-label]="tag.removeLabel | transloco"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            } @else {
+              <button kuiChipRemove type="button" [attr.aria-label]="tag.removeLabel | transloco">
+                <span aria-hidden="true">×</span>
+              </button>
+            }
+          </span>
+        } @empty {
+          <p kuiText>{{ 'chip.content.allCustomRemoved' | transloco }}</p>
+        }
+      </div>
+
+      <div class="chip-removal-examples__actions">
+        <button kuiButton shape="ghost" size="sm" type="button" (click)="resetRemovalExamples()">
+          {{ 'chip.actions.resetRemoval' | transloco }}
+        </button>
+
+        <output
+          class="chip-removal-examples__status"
+          aria-live="polite"
+          aria-atomic="true"
+          [attr.aria-label]="'chip.accessibility.removalStatus' | transloco"
+        >
+          @if (removalCount() > 0) {
+            {{ 'chip.status.removedCount' | transloco: { count: removalCount() } }}
+          }
+        </output>
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>

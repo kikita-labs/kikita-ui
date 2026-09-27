@@ -1,0 +1,73 @@
+{
+  "title": "Чип",
+  "examples": {
+    "default": "По умолчанию",
+    "appearanceAndSize": "Вид и размер",
+    "removal": "Удаление",
+    "states": "Состояния",
+    "composition": "Состав",
+    "interactiveHosts": "Интерактивные элементы"
+  },
+  "accessibility": {
+    "default": "Пример чипа по умолчанию",
+    "appearanceAndSize": "Варианты вида и размера чипа",
+    "neutral": "Нейтральный чип: размеры",
+    "primary": "Основной чип: размеры",
+    "success": "Успешный чип: размеры",
+    "warning": "Предупреждающий чип: размеры",
+    "danger": "Опасный чип: размеры",
+    "info": "Информационный чип: размеры",
+    "removal": "Примеры удаления чипов",
+    "generatedRemoveButtons": "Созданные кнопки удаления",
+    "customRemoveButtons": "Пользовательские кнопки удаления",
+    "removalStatus": "Статус удаления чипов",
+    "removeAngular": "Удалить Angular",
+    "removeDesign": "Удалить Дизайн",
+    "removeBackend": "Удалить Серверную часть",
+    "removeCustomPlain": "Удалить пользовательскую метку",
+    "removeCustomIconButton": "Удалить пользовательский фильтр",
+    "removeDisabled": "Удалить отключенный чип",
+    "states": "Примеры состояний чипа",
+    "composition": "Примеры состава чипа",
+    "interactiveHosts": "Примеры нативных интерактивных элементов чипа"
+  },
+  "appearances": {
+    "neutral": "Нейтральный",
+    "primary": "Основной",
+    "success": "Успешный",
+    "warning": "Предупреждение",
+    "danger": "Опасный",
+    "info": "Информация"
+  },
+  "labels": {
+    "default": "Дизайн",
+    "angular": "Angular",
+    "design": "Дизайн",
+    "backend": "Серверная часть",
+    "customPlain": "Пользовательская метка",
+    "customIconButton": "Пользовательский фильтр",
+    "disabled": "Отключенный",
+    "disabledButton": "Отключенное действие",
+    "disabledRemovable": "Отключенный с удалением",
+    "removeDisabled": "Удалить отключенный чип",
+    "invalidStyle": "Недопустимый стиль",
+    "disabledInvalid": "Отключенный и недопустимый",
+    "iconComposition": "Роль: Администратор",
+    "avatarName": "Kikita Runtime",
+    "avatarComposition": "Kikita Runtime",
+    "longLabel": "Длинная метка проекта, которая использует всю доступную ширину чипа",
+    "action": "Действие фильтра",
+    "link": "К примеру чипа по умолчанию"
+  },
+  "actions": {
+    "resetRemoval": "Сбросить примеры удаления"
+  },
+  "content": {
+    "allGeneratedRemoved": "Все примеры со встроенной кнопкой удалены.",
+    "allCustomRemoved": "Все примеры с пользовательской кнопкой удалены."
+  },
+  "status": {
+    "removedCount": "Удалено чипов: {{count}}.",
+    "activatedCount": "Выполнено действий фильтра: {{count}}."
+  }
+}

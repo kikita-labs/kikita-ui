@@ -1,0 +1,25 @@
+<app-playground-example-card [heading]="'chip.examples.appearanceAndSize' | transloco">
+  <div
+    class="chip-appearance-matrix__rows"
+    role="group"
+    [attr.aria-label]="'chip.accessibility.appearanceAndSize' | transloco"
+  >
+    @for (appearance of appearances; track appearance.value) {
+      <div
+        class="chip-appearance-matrix__row"
+        role="group"
+        [attr.aria-label]="'chip.accessibility.' + appearance.value | transloco"
+      >
+        <h3 kuiText variant="heading-sm">{{ appearance.label | transloco }}</h3>
+
+        <div class="chip-appearance-matrix__sizes">
+          @for (size of sizes; track size.value) {
+            <span kuiChip [appearance]="appearance.value" [size]="size.value">
+              {{ size.value }}
+            </span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</app-playground-example-card>
