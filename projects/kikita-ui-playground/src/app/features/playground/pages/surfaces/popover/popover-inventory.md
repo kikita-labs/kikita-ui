@@ -56,6 +56,8 @@ defaults but is not consumed by `popover.css`; CDK overlay stacking owns the pan
   dismissal, reduced motion, and no document horizontal overflow at 320 px. Responsive screenshots
   cover named catalogue cards at 1440 × 1000, 768 × 900, and 320 × 844. Axe scans cover the closed
   catalogue and open default and form dialogs, using the playground's existing baseline exclusions.
+  No real screen-reader/assistive-technology, forced-colors, or separate contrast review is recorded;
+  the Axe scans exclude `color-contrast` and do not replace those checks.
 - English and Russian text live in matching `public/i18n/popover/en.json` and `ru.json` scopes. The
   route loads the Popover scope and browser checks switch the persistent shell to Russian.
 
@@ -108,11 +110,14 @@ Interaction screenshots cover all 12 positions, arrow off/on, 24 px offset, forc
 keyboard open, confirmation open and resulting deleted state, saved form outcome, focus-trapped
 form, hover open, and reduced motion. The suite also asserts SSR/hydration, EN/RU labels, ARIA relationships, click/hover
 interactions, focus behavior, offset geometry, viewport repositioning, offscreen-anchor dismissal,
-and narrow-page overflow, plus Axe scans of closed and open dialog states. The full no-update run
-passes all 13 Popover tests on the current production build. The matrix records the current
-`rightStart` and `rightCenter` behaviors and retains strict preferred-side or ordinary-flip
-expectations for all other placements. All 41 owned snapshots pass baseline comparison and were
-visually reviewed.
+and narrow-page overflow, plus Axe scans of closed and open dialog states. The root gate on
+2026-09-28 passed a fresh production SSR build, the shared 43-route SSR/adaptive suite (2/2), and
+the focused Popover E2E suite (13/13). The parent visually reviewed the default and 320px captures,
+all placement groups at desktop/768/320, the documented `rightStart`/`rightCenter` outcomes, forced
+flip, form/focus trap, hover, reduced motion, arrow/offset, and confirmation states; no clipping,
+overlap, or misleading baseline was found. The matrix records the current `rightStart` and
+`rightCenter` behaviors and retains strict preferred-side or ordinary-flip expectations for all
+other placements. All 41 owned snapshots passed comparison.
 
 ## Self-review checklist
 
