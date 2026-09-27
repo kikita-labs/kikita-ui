@@ -91,9 +91,11 @@ the component.
 - A degenerate range with equal bounds is omitted: the source sets fill width to `0%`, and it is not a
   useful control state. Readonly is omitted because native range has no Slider readonly input or
   readonly styling state. Vertical/multi-thumb controls are unsupported by the public selector/API.
-- Server/client generated wrapper structure is covered in the page-local route test; screen-reader
-  review, forced-colors review, browser-specific native key differences, and the shared owner-run build
-  and visual snapshot gate remain outside this static page task.
+- Server/client generated wrapper structure is covered in the page-local route test. Formal
+  assistive-technology review has not been performed with screen readers such as NVDA or VoiceOver;
+  forced-colors/Windows High Contrast behavior and contrast measurements for the thumb, fill, focus
+  treatment, and disabled colors also remain unverified. Native range keyboard behavior is tested in
+  Chromium; browser-specific differences in native range keys are not covered.
 
 ## Evidence Map
 
@@ -134,7 +136,12 @@ the component.
       page-only 44px row is layout spacing, not an interactive target; the native control remains
       below the touch-size guidance and is recorded as an unresolved source limitation.
 - [x] Scoped Prettier and `git diff --check` pass.
-- [ ] Scoped ESLint, Stylelint, and the repository static audit pass.
+- [ ] Scoped ESLint and Stylelint checks pass.
+- [x] Parent-owned repository static audit is clean.
 - [x] Fresh production build, clean Slider browser suite, responsive/interaction screenshot generation
-      and review, and `/components/slider` SSR/hydration route checks pass.
-- [ ] Formal assistive-technology, forced-colors, and contrast review.
+      and review, and `/components/slider` SSR/hydration route checks pass. The root-owned focused
+      Slider run passed 10/10 on 2026-09-27; the parent reviewed desktop variants, mobile variants and
+      states, tablet Signal Forms, keyboard focus, and focused static-tooltip captures without finding
+      clipping or overlap.
+- [ ] Formal screen-reader/assistive-technology, forced-colors/Windows High Contrast, and contrast
+      review; the native range keyboard check is Chromium-only.
