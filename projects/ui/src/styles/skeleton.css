@@ -86,7 +86,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .kui-skeleton,
+    .kui-skeleton[data-kui-animation],
     .kui-skeleton::after {
       animation: none;
     }
