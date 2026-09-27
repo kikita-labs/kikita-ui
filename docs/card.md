@@ -2,13 +2,13 @@
 
 `kuiCard` applies Kikita UI card surface styling to semantic container elements.
 
-## Import
+## Usage
 
 ```ts
 import { KuiCardDirective } from '@kikita-labs/ui';
 ```
 
-## Usage
+Import `@kikita-labs/ui/styles` once in the application stylesheet to load Card's runtime styles.
 
 ```html
 <article kuiCard>
@@ -19,14 +19,36 @@ import { KuiCardDirective } from '@kikita-labs/ui';
 <button kuiCard interactive type="button">Interactive card</button>
 ```
 
-Use real semantic elements: `article`, `section`, `aside`, `button`, or `a` depending on behavior.
+Choose a native host that matches the content and behavior: `article`, `section`, or `aside` for
+content; `button` for an action; and `a` with an `href` for navigation.
 
-## Inputs
+## API
 
-- `appearance`: `surface | elevated | sunken`
-- `interactive`: enables hover and focus-visible affordances
+| Input         | Type                           | Default and behavior                                                                                                      |
+| ------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| `appearance`  | `KuiCardAppearance`            | `surface`. Supports `surface`, `elevated`, and `sunken`; it has no inherited default or input transform.                  |
+| `size`        | `KuiSize \| undefined`         | Explicit local size wins, then `provideKikitaUi({ defaults: { size } })`, then `md`. Supports `xs`, `sm`, `md`, and `lg`. |
+| `interactive` | `boolean` (`booleanAttribute`) | `false`. Enabling it adds pointer cursor, hover, and focus-visible styling to the host.                                   |
 
-## CSS Variables
+The directive has no outputs or models.
+
+## Accessibility
+
+`kuiCard` styles its host; it does not add a role, `tabindex`, activation behavior, or keyboard
+handlers. `interactive` only supplies visual affordances. Use a native `button` for an action or an
+`a` element with an `href` for navigation so the browser provides focus and keyboard activation.
+Card has no disabled, selected, pressed, or form state of its own; native host behavior remains
+owned by the host element.
+
+## Styles and CSS Variables
+
+Import the public styles once in the application stylesheet:
+
+```scss
+@import '@kikita-labs/ui/styles';
+```
+
+The Card-specific variables are:
 
 - `--kui-card-bg`
 - `--kui-card-bg-elevated`

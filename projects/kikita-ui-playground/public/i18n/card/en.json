@@ -1,0 +1,43 @@
+{
+  "title": "Card",
+  "examples": {
+    "default": "Default",
+    "staticMatrix": "Appearance and size · interactive off",
+    "interactiveMatrix": "Appearance, size, and interactive",
+    "semanticHosts": "Semantic hosts and composition"
+  },
+  "appearance": {
+    "surface": "Surface",
+    "elevated": "Elevated",
+    "sunken": "Sunken"
+  },
+  "size": {
+    "extraSmall": "Extra small",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large"
+  },
+  "content": {
+    "defaultHeading": "Grouped content",
+    "defaultBody": "A semantic article using the default surface and medium size.",
+    "buttonAction": "Activate card",
+    "articleBody": "Grouped content with a heading and supporting text.",
+    "sectionBody": "A named section groups related content.",
+    "asideBody": "Supporting content uses an aside host.",
+    "linkAction": "Return to the default example",
+    "activationCount": "Card action activation count: {{count}}"
+  },
+  "host": {
+    "article": "Article host",
+    "section": "Section host",
+    "aside": "Aside host",
+    "link": "Link host",
+    "button": "Button host"
+  },
+  "accessibility": {
+    "default": "Default card example",
+    "staticMatrix": "Non-interactive card appearance and size examples",
+    "interactiveMatrix": "Interactive card appearance and size examples",
+    "semanticHosts": "Card semantic host and composition examples"
+  }
+}

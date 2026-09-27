@@ -1,0 +1,101 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .card-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .card-playground h1 {
+    margin: 0;
+  }
+
+  .card-playground__catalogue {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .card-playground__catalogue > section {
+    min-inline-size: 0;
+  }
+
+  .card-playground__default-card,
+  .card-playground__matrix-card,
+  .card-playground__host-card {
+    display: grid;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .card-playground__default-card h3,
+  .card-playground__default-card p,
+  .card-playground__matrix-card h3,
+  .card-playground__matrix-card p,
+  .card-playground__host-card h3,
+  .card-playground__host-card p {
+    margin: 0;
+  }
+
+  .card-playground__matrix {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .card-playground__matrix-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .card-playground__interactive-card,
+  .card-playground__interactive-host {
+    display: grid;
+    gap: var(--kui-space-2);
+    inline-size: 100%;
+    min-inline-size: 0;
+    text-align: start;
+  }
+
+  .card-playground__hosts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .card-playground__activation-status {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .card-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .card-playground__catalogue {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .card-playground__matrix-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width < 40rem) {
+    .card-playground__matrix-row,
+    .card-playground__hosts {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
