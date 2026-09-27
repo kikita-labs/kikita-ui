@@ -11,5 +11,14 @@
         }
       </kui-dropdown>
     </kui-field>
+
+    <kui-field [label]="'select.fields.localClearableOff' | transloco">
+      <input kuiSelect [clearable]="false" [(value)]="localValue" [kuiLabelFn]="roleLabel" />
+      <kui-dropdown>
+        @for (role of roles; track role.value) {
+          <div kuiOption [value]="role.value">{{ role.label | transloco }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
   </div>
 </app-playground-example-card>

@@ -7,6 +7,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import {
   SelectDefault,
   SelectExplicitId,
+  SelectFieldDefaults,
   SelectKeyboard,
   SelectModes,
   SelectProviderDefaults,
@@ -22,6 +23,7 @@ import {
     KuiTextDirective,
     SelectDefault,
     SelectExplicitId,
+    SelectFieldDefaults,
     SelectKeyboard,
     SelectModes,
     SelectProviderDefaults,

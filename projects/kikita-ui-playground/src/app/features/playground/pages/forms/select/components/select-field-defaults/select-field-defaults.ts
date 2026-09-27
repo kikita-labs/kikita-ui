@@ -6,7 +6,7 @@ import {
   KuiDropdownComponent,
   KuiFieldComponent,
   KuiOptionDirective,
-  kuiProvideSelectOptions,
+  kuiProvideFieldOptions,
   KuiSelectDirective,
 } from '@kikita-labs/ui';
 
@@ -15,9 +15,9 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { SELECT_ROLES } from '../../constants';
 
-/** Shows Select options inherited from a page-private provider scope. */
+/** Shows Select clearability falling back to shared Field options. */
 @Component({
-  selector: 'app-select-provider-defaults',
+  selector: 'app-select-field-defaults',
   imports: [
     KuiDropdownComponent,
     KuiFieldComponent,
@@ -26,13 +26,12 @@ import { SELECT_ROLES } from '../../constants';
     PlaygroundExampleCard,
     TranslocoPipe,
   ],
-  providers: [kuiProvideSelectOptions({ clearable: true, maxVisibleChips: 2 })],
-  templateUrl: './select-provider-defaults.html',
+  providers: [kuiProvideFieldOptions({ clearable: true })],
+  templateUrl: './select-field-defaults.html',
 })
-export class SelectProviderDefaults {
+export class SelectFieldDefaults {
   private readonly transloco = inject(TranslocoService);
 
-  protected readonly roles = SELECT_ROLES;
   private readonly roleLabels = toSignal(
     this.transloco.selectTranslate<string[]>(
       SELECT_ROLES.map(({ value }) => `options.${value}`),
@@ -42,8 +41,8 @@ export class SelectProviderDefaults {
     { initialValue: [] },
   );
 
-  protected readonly value = signal<readonly string[]>(['owner', 'editor', 'reviewer', 'viewer']);
-  protected readonly localValue = signal<string | null>('owner');
+  protected readonly roles = SELECT_ROLES;
+  protected readonly value = signal<string | null>('owner');
 
   protected readonly roleLabel = (value: string): string => {
     const roleIndex = SELECT_ROLES.findIndex((role) => role.value === value);

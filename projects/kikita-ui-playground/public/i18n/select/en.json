@@ -6,6 +6,7 @@
     "sizes": "Sizes",
     "valuesAndModes": "Values and multiple selection",
     "providerDefaults": "Provider defaults",
+    "fieldDefaults": "Field provider fallback",
     "states": "States",
     "keyboard": "Keyboard interaction",
     "validation": "Signal Forms validation"
@@ -16,6 +17,7 @@
     "sizes": "Select sizes",
     "modes": "Select value and multiple-selection modes",
     "providerDefaults": "Select provider defaults",
+    "fieldDefaults": "Select Field provider fallback",
     "states": "Select states",
     "keyboard": "Keyboard interaction example",
     "validation": "Required select validation example"
@@ -28,6 +30,8 @@
     "multipleChips": "Multiple values as chips",
     "multipleText": "Multiple values as text",
     "providerDefaults": "Provider defaults",
+    "fieldClearable": "Field-provided clearability",
+    "localClearableOff": "Local clear disabled",
     "customValues": "Custom selected-value template",
     "disabled": "Disabled",
     "focusTarget": "Focus target",
@@ -41,6 +45,7 @@
     "chooseRole": "Choose one role.",
     "multipleChips": "Choose more than one role. The list stays open after each selection.",
     "providerDefaults": "Clearability and the two-chip limit come from Select provider options.",
+    "fieldDefaults": "Clearability falls back to shared Field options.",
     "keyboard": "Use the arrow keys to navigate, Enter to select, and Escape to close.",
     "validation": "Open and close the select to trigger validation.",
     "disabled": "The value cannot be changed and the list does not open.",

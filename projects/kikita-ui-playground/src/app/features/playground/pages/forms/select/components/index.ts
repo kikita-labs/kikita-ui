@@ -1,5 +1,6 @@
 export { SelectDefault } from './select-default';
 export { SelectExplicitId } from './select-explicit-id';
+export { SelectFieldDefaults } from './select-field-defaults';
 export { SelectKeyboard } from './select-keyboard';
 export { SelectModes } from './select-modes';
 export { SelectProviderDefaults } from './select-provider-defaults';

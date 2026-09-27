@@ -69,6 +69,12 @@ test('captures the Select catalogue groups', async ({ page }) => {
       mobile: 'select-provider-defaults-320.png',
     },
     {
+      name: 'Select Field provider fallback',
+      desktop: 'select-field-defaults.png',
+      tablet: 'select-field-defaults-768.png',
+      mobile: 'select-field-defaults-320.png',
+    },
+    {
       name: 'Select states',
       desktop: 'select-states.png',
       tablet: 'select-states-768.png',
@@ -197,6 +203,7 @@ test('opens the minimal Select with the keyboard and selects an option', async (
 
   await expect(input).toHaveValue('designer');
   await expect(input).toHaveAttribute('aria-expanded', 'false');
+  await expect(input).not.toHaveAttribute('aria-controls');
   await expect(example.getByRole('status')).toHaveText('Selected value: Designer');
   await expect(input).toBeFocused();
   await expect(example).toHaveScreenshot('select-default-selected.png', {
@@ -217,16 +224,18 @@ test('connects the explicit Select id to its native label', async ({ page }) => 
 test('applies each supported Select field size', async ({ page }) => {
   const examples = page.getByRole('group', { name: 'Select sizes', exact: true });
 
-  for (const { label, size } of [
-    { label: 'Extra small', size: 'xs' },
-    { label: 'Small', size: 'sm' },
-    { label: 'Medium', size: 'md' },
-    { label: 'Large', size: 'lg' },
+  for (const { label, size, blockSize } of [
+    { label: 'Extra small', size: 'xs', blockSize: 28 },
+    { label: 'Small', size: 'sm', blockSize: 32 },
+    { label: 'Medium', size: 'md', blockSize: 40 },
+    { label: 'Large', size: 'lg', blockSize: 44 },
   ]) {
-    const field = examples
-      .getByRole('combobox', { name: label, exact: true })
-      .locator('xpath=ancestor::kui-field[1]');
+    const input = examples.getByRole('combobox', { name: label, exact: true });
+    const field = input.locator('xpath=ancestor::kui-field[1]');
     await expect(field).toHaveAttribute('data-kui-size', size);
+    expect(
+      await input.evaluate((element) => Number.parseFloat(getComputedStyle(element).blockSize)),
+    ).toBe(blockSize);
   }
 });
 
@@ -294,6 +303,7 @@ test('opens at the last enabled option with ArrowUp and closes with Escape', asy
   await expect(listbox.getByRole('option', { name: 'Manager', exact: true })).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(input).toHaveAttribute('aria-expanded', 'false');
+  await expect(input).not.toHaveAttribute('aria-controls');
 });
 
 test('opens with Space and selects with a second Space', async ({ page }) => {
@@ -381,10 +391,36 @@ test('uses provider defaults when local Select inputs are omitted', async ({ pag
 
   const clear = example.getByRole('button', { name: 'Clear', exact: true });
   await expect(clear).toBeVisible();
+
+  const localOverride = example.getByRole('combobox', {
+    name: 'Local clear disabled',
+    exact: true,
+  });
+  await expect(localOverride).toHaveValue('Owner');
+  await expect(
+    localOverride
+      .locator('xpath=ancestor::kui-field[1]')
+      .getByRole('button', { name: 'Clear', exact: true }),
+  ).toHaveCount(0);
+
   await clear.click();
 
   await expect(input).toHaveValue('');
   await expect(input).toBeFocused();
+});
+
+test('uses Field clearability when no Select or local default is set', async ({ page }) => {
+  const example = page.getByRole('group', { name: 'Select Field provider fallback', exact: true });
+  const input = example.getByRole('combobox', {
+    name: 'Field-provided clearability',
+    exact: true,
+  });
+  await expect(input).toHaveValue('Owner');
+
+  const clear = example.getByRole('button', { name: 'Clear', exact: true });
+  await expect(clear).toBeVisible();
+  await clear.click();
+  await expect(input).toHaveValue('');
 });
 
 test('removes a custom selected value through its native button', async ({ page }) => {
@@ -451,9 +487,12 @@ test('captures the actual hovered Select control', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Select states', exact: true });
   const input = states.getByRole('combobox', { name: 'Focus target', exact: true });
 
-  await input.scrollIntoViewIfNeeded();
+  await states.scrollIntoViewIfNeeded();
   await input.hover();
   expect(await input.evaluate((element) => element.matches(':hover'))).toBe(true);
+  await expect(states.getByRole('combobox', { name: 'Disabled', exact: true })).toHaveValue(
+    'manager',
+  );
   await expect(states).toHaveScreenshot('select-hovered.png', { animations: 'disabled' });
 });
 
@@ -530,6 +569,7 @@ test('switches the Select examples and generated labels to Russian', async ({ pa
   const russian = (await localeResponse.json()) as {
     accessibility: {
       default: string;
+      fieldDefaults: string;
       modes: string;
       providerDefaults: string;
       validation: string;
@@ -539,12 +579,14 @@ test('switches the Select examples and generated labels to Russian', async ({ pa
       role: string;
       objectValue: string;
       multipleText: string;
+      fieldClearable: string;
+      localClearableOff: string;
       customValues: string;
       providerDefaults: string;
       requiredRole: string;
     };
     errors: { required: string };
-    options: { designer: string; editor: string; viewer: string; owner: string };
+    options: { designer: string; editor: string; viewer: string; owner: string; reviewer: string };
     teams: { engineering: string };
     status: { selected: string };
     title: string;
@@ -595,6 +637,23 @@ test('switches the Select examples and generated labels to Russian', async ({ pa
     ].join(', '),
   );
   await expect(providerDefaults.getByText('+2', { exact: true })).toBeVisible();
+
+  const fieldDefaults = page.getByRole('group', {
+    name: russian.accessibility.fieldDefaults,
+    exact: true,
+  });
+  const fieldClearable = fieldDefaults.getByRole('combobox', {
+    name: russian.fields.fieldClearable,
+    exact: true,
+  });
+  await expect(fieldDefaults.getByRole('button', { name: 'Clear', exact: true })).toBeVisible();
+  await expect(
+    providerDefaults
+      .getByRole('combobox', { name: russian.fields.localClearableOff, exact: true })
+      .locator('xpath=ancestor::kui-field[1]')
+      .getByRole('button', { name: 'Clear', exact: true }),
+  ).toHaveCount(0);
+  await expect(fieldClearable).toHaveValue(russian.options.owner);
 
   const objectSelect = modes.getByRole('combobox', { name: russian.fields.objectValue });
   await objectSelect.focus();
