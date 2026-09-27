@@ -120,8 +120,11 @@ and cleared states, sticky-header scroll ownership, locale scope loading, and do
 overflow. At phone width, selection and sticky-header screenshots isolate their intentional first
 viewport column crops, show the localized scroll hint, and verify region-local `ArrowRight` scrolling.
 It declares deterministic screenshots for each named catalogue group and relevant focus,
-sort, selection, and sticky states; image baselines are created and visually approved by the parent
-integrator.
+sort, selection, and sticky states. On 2026-09-28, the parent-owned fresh production build and
+focused Table browser suite passed 9/9. The parent reviewed the default desktop/320px captures, all
+four sizes, sorting, selection/focus, and sticky-header default/scrolled/mobile captures; no page
+clipping appeared, and horizontal scrolling remained inside the named mobile region. The shared
+SSR/adaptive route suite passed 2/2 across 43 routes.
 
 ## Self-review checklist
 
@@ -135,4 +138,4 @@ integrator.
 - [x] Phone-width selection and sticky-header captures show the localized horizontal-scroll hint; E2E confirms focused arrow-key scrolling stays inside each named region without document overflow.
 - [x] Inputs, outputs, defaults/resolution, semantics, keyboard behavior, accessibility, responsive scroll regions, and SSR/hydration are accounted for.
 - [x] Source/docs discrepancies, English-only generated sort action phrases, and the missing design-provenance record are recorded.
-- [x] The focused Playground build, Table visual update/clean runs, and final mobile capture review pass; broader rollout checks remain with the parent integrator.
+- [x] Parent-owned fresh production build and focused Table browser suite passed 9/9; desktop/320px screenshots were reviewed, and shared SSR/adaptive checks passed 2/2 across 43 routes.
