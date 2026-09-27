@@ -156,7 +156,8 @@ no arbitrary-props editor is added.
 - [x] Reduced-motion screenshots use an explicit Playwright media preference; page code uses no browser globals or time-dependent state.
 - [x] All visible copy has matching English and Russian scope keys; catalogues are structurally identical.
 - [x] Page styles arrange layout with Kikita tokens and do not restyle Progress.
-- [x] Production build, direct-route SSR/hydration browser coverage, and all Progress E2E cases pass.
-- [x] Snapshot baselines were generated and every capture was visually inspected at its recorded viewport.
+- [x] Root-owned fresh production SSR build and focused Progress browser suite passed for the shared worktree on 2026-09-28; all 10 E2E cases passed, including direct-route SSR/hydration.
+- [x] Root reviewed the current default dark/light/320 captures, full linear/circular color-size matrices, documented size fallbacks, composition, reduced motion, and live keyboard state; no visual clipping was found.
+- [x] Scoped Prettier, `git diff --check`, and static audit passed. Local ESLint could not run because the installed ESLint dependency tree is missing `debug`; no ESLint pass is claimed.
 - [ ] Parent-owned route integration remains outside this page task.
 - [ ] No real assistive-technology review was performed; the page verifies DOM semantics and keyboard operation only.
