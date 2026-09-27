@@ -140,6 +140,7 @@ test('shows the default, all four sizes, native states, and representative input
         .evaluate((element) => Number.parseFloat(getComputedStyle(element).blockSize)),
     ),
   );
+  expect(explicitSizeHeights).toEqual([28, 32, 40, 44]);
   expect(explicitSizeHeights).toEqual(
     [...explicitSizeHeights].sort((first, second) => first - second),
   );
