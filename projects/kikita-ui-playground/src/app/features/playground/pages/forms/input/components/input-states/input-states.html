@@ -1,0 +1,23 @@
+<app-playground-example-card [heading]="'input.examples.states' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'input.accessibility.statesGroup' | transloco"
+    class="input-states__examples"
+  >
+    <kui-field [label]="'input.fields.interactive' | transloco">
+      <input kuiInput [placeholder]="'input.placeholders.interactive' | transloco" />
+    </kui-field>
+
+    <kui-field [label]="'input.fields.readonly' | transloco">
+      <input kuiInput readonly [value]="'input.values.readonly' | transloco" />
+    </kui-field>
+
+    <kui-field [label]="'input.fields.disabled' | transloco">
+      <input kuiInput disabled [value]="'input.values.disabled' | transloco" />
+    </kui-field>
+
+    <kui-field [label]="'input.fields.invalid' | transloco">
+      <input kuiInput invalid [value]="'input.values.invalid' | transloco" />
+    </kui-field>
+  </div>
+</app-playground-example-card>

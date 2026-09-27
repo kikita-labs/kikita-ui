@@ -1,0 +1,35 @@
+<app-playground-example-card [heading]="'input.examples.sizes' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'input.accessibility.sizesGroup' | transloco"
+    class="input-sizes__catalogue"
+  >
+    <div class="input-sizes__examples">
+      <kui-field [label]="'input.sizes.xs' | transloco">
+        <input kuiInput size="xs" [placeholder]="'input.placeholders.projectName' | transloco" />
+      </kui-field>
+
+      <kui-field [label]="'input.sizes.sm' | transloco">
+        <input kuiInput size="sm" [placeholder]="'input.placeholders.projectName' | transloco" />
+      </kui-field>
+
+      <kui-field [label]="'input.sizes.md' | transloco">
+        <input kuiInput size="md" [placeholder]="'input.placeholders.projectName' | transloco" />
+      </kui-field>
+
+      <kui-field [label]="'input.sizes.lg' | transloco">
+        <input kuiInput size="lg" [placeholder]="'input.placeholders.projectName' | transloco" />
+      </kui-field>
+    </div>
+
+    <div
+      role="group"
+      [attr.aria-label]="'input.accessibility.fieldSizeGroup' | transloco"
+      class="input-sizes__inheritance"
+    >
+      <kui-field [label]="'input.fields.inheritedSize' | transloco" size="lg">
+        <input kuiInput [placeholder]="'input.placeholders.projectName' | transloco" />
+      </kui-field>
+    </div>
+  </div>
+</app-playground-example-card>
