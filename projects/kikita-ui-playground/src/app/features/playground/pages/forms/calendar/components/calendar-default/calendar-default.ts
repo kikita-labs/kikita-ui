@@ -10,6 +10,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
   selector: 'app-calendar-default',
   imports: [KuiCalendarComponent, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './calendar-default.html',
+  styleUrl: './calendar-default.scss',
 })
 export class CalendarDefault {
   protected readonly viewDate = signal(new Date(2026, 4, 1));

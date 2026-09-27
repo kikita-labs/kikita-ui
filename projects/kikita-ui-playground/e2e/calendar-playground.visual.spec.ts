@@ -41,6 +41,15 @@ test('captures compact and flat calendar examples', async ({ page }) => {
   await expect(
     page.getByRole('group', { name: 'Flat calendar example', exact: true }),
   ).toHaveScreenshot('calendar-flat.png');
+
+  const compactFlatExample = page.getByRole('group', {
+    name: 'Compact flat calendar example',
+    exact: true,
+  });
+  const compactFlatCalendar = compactFlatExample.locator('kui-calendar');
+  await expect(compactFlatCalendar).toHaveAttribute('data-kui-size', 'sm');
+  await expect(compactFlatCalendar).toHaveAttribute('data-kui-flat', '');
+  await expect(compactFlatExample).toHaveScreenshot('calendar-compact-flat.png');
 });
 
 test('captures the calendar footer and constrained date states', async ({ page }) => {
@@ -69,6 +78,32 @@ test('captures the calendar footer and constrained date states', async ({ page }
     await expect(endpoint).not.toHaveAttribute('aria-disabled', 'true');
   }
   await expect(example).toHaveScreenshot('calendar-constraints.png');
+});
+
+test('moves the footer calendar to the frozen current day without changing its selected value', async ({
+  page,
+}) => {
+  const example = page.getByRole('group', { name: 'Calendar footer example', exact: true });
+  const calendar = example.locator('kui-calendar');
+  const grid = calendar.getByRole('grid');
+  const footerValue = calendar.locator('.kui-calendar-value');
+
+  await expect(footerValue).toHaveText('2026-05-25');
+  await calendar.getByRole('button', { name: 'Today', exact: true }).click();
+
+  await expect(calendar.getByRole('button', { name: 'January 2026', exact: true })).toBeVisible();
+  await expect(grid.locator('button[tabindex="0"]')).toHaveText('14');
+  await expect(grid.locator('[aria-current="date"]')).toHaveText('14');
+  await expect(grid.locator('[aria-selected="true"]')).toHaveCount(0);
+  await expect(footerValue).toHaveText('2026-05-25');
+  await expect(example).toHaveScreenshot('calendar-footer-today-view.png', {
+    animations: 'disabled',
+  });
+
+  const today = grid.getByRole('button', { name: '14', exact: true });
+  await today.click();
+  await expect(today).toHaveAttribute('aria-selected', 'true');
+  await expect(footerValue).toHaveText('2026-01-14');
 });
 
 test('captures explicit English and Russian locale examples', async ({ page }) => {
@@ -187,10 +222,37 @@ test('keeps a disabled date unselected when activated', async ({ page }) => {
   await expect(disabledDate).toHaveAttribute('aria-disabled', 'true');
   const selectedDateLabel = await selectedDate.textContent();
 
-  await disabledDate.evaluate((element) => (element as HTMLButtonElement).click());
+  const bounds = await disabledDate.boundingBox();
+  if (!bounds) throw new Error('The disabled Calendar day should have a visible bounding box.');
+  await page.mouse.click(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
 
-  await expect(selectedDate).toHaveCount(1);
+  await expect(selectedDate).toHaveAttribute('aria-selected', 'true');
   await expect(selectedDate).toHaveText(selectedDateLabel ?? '');
+  await expect(disabledDate).not.toHaveAttribute('aria-selected', 'true');
+});
+
+test('does not select a disabled date through keyboard activation', async ({ page }) => {
+  const example = page.getByRole('group', {
+    name: 'Calendar date limits and disabled date example',
+    exact: true,
+  });
+  const grid = example.getByRole('grid');
+  const selectedDate = grid.getByRole('button', { name: '14', exact: true });
+  const dayBeforeDisabled = grid.getByRole('button', { name: '17', exact: true });
+  const disabledDate = grid.getByRole('button', { name: '18', exact: true });
+
+  await expect(selectedDate).toHaveAttribute('aria-selected', 'true');
+  await dayBeforeDisabled.focus();
+  await dayBeforeDisabled.press('ArrowRight');
+
+  await expect(disabledDate).toBeFocused();
+  await expect(disabledDate).toHaveAttribute('aria-disabled', 'true');
+  await disabledDate.press('Enter');
+  await expect(selectedDate).toHaveAttribute('aria-selected', 'true');
+  await expect(disabledDate).not.toHaveAttribute('aria-selected', 'true');
+
+  await disabledDate.press('Space');
+  await expect(selectedDate).toHaveAttribute('aria-selected', 'true');
   await expect(disabledDate).not.toHaveAttribute('aria-selected', 'true');
 });
 
@@ -287,12 +349,24 @@ test('keeps the calendar catalogue inside tablet and 320px layouts', async ({ pa
       for (const calendar of calendars) {
         const calendarBounds = await calendar.boundingBox();
         const cardBounds = await calendar.locator('xpath=ancestor::article[1]').boundingBox();
-        expect(calendarBounds).not.toBeNull();
-        expect(cardBounds).not.toBeNull();
-        expect(calendarBounds!.x).toBeGreaterThanOrEqual(cardBounds!.x);
-        expect(calendarBounds!.x + calendarBounds!.width).toBeLessThanOrEqual(
-          cardBounds!.x + cardBounds!.width,
+        const exampleName = await calendar.evaluate(
+          (element) =>
+            element.closest<HTMLElement>('[role="group"]')?.getAttribute('aria-label') ??
+            'unnamed Calendar example',
         );
+
+        if (!calendarBounds || !cardBounds) {
+          throw new Error(`${exampleName}: Calendar or example card has no visible bounds.`);
+        }
+
+        const calendarRight = calendarBounds.x + calendarBounds.width;
+        const cardRight = cardBounds.x + cardBounds.width;
+        const boundsMessage =
+          `${exampleName}: Calendar bounds [${calendarBounds.x}, ${calendarRight}] ` +
+          `must fit example card bounds [${cardBounds.x}, ${cardRight}].`;
+
+        expect(calendarBounds.x, boundsMessage).toBeGreaterThanOrEqual(cardBounds.x);
+        expect(calendarRight, boundsMessage).toBeLessThanOrEqual(cardRight);
       }
     }
     await expect(main).toHaveScreenshot(`calendar-page-${viewport.name}.png`, {

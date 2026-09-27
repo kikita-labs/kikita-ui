@@ -1,11 +1,33 @@
 <section role="group" [attr.aria-label]="'calendar.accessibility.compact' | transloco">
   <app-playground-example-card [heading]="'calendar.examples.compact' | transloco">
-    <kui-calendar size="sm" [(value)]="compactValue" [(viewDate)]="compactViewDate" />
+    <kui-calendar
+      class="calendar-appearance__calendar"
+      size="sm"
+      [(value)]="compactValue"
+      [(viewDate)]="compactViewDate"
+    />
   </app-playground-example-card>
 </section>
 
 <section role="group" [attr.aria-label]="'calendar.accessibility.flat' | transloco">
   <app-playground-example-card [heading]="'calendar.examples.flat' | transloco">
-    <kui-calendar flat [(value)]="flatValue" [(viewDate)]="flatViewDate" />
+    <kui-calendar
+      class="calendar-appearance__calendar"
+      flat
+      [(value)]="flatValue"
+      [(viewDate)]="flatViewDate"
+    />
+  </app-playground-example-card>
+</section>
+
+<section role="group" [attr.aria-label]="'calendar.accessibility.compactFlat' | transloco">
+  <app-playground-example-card [heading]="'calendar.examples.compactFlat' | transloco">
+    <kui-calendar
+      class="calendar-appearance__calendar"
+      size="sm"
+      flat
+      [(value)]="compactFlatValue"
+      [(viewDate)]="compactFlatViewDate"
+    />
   </app-playground-example-card>
 </section>

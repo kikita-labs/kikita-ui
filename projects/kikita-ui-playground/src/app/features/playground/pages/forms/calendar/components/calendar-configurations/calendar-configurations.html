@@ -1,13 +1,19 @@
 <div class="calendar-configurations__catalogue">
   <section role="group" [attr.aria-label]="'calendar.accessibility.footer' | transloco">
     <app-playground-example-card [heading]="'calendar.examples.footer' | transloco">
-      <kui-calendar showFooter [(value)]="footerValue" [(viewDate)]="footerViewDate" />
+      <kui-calendar
+        class="calendar-configurations__calendar"
+        showFooter
+        [(value)]="footerValue"
+        [(viewDate)]="footerViewDate"
+      />
     </app-playground-example-card>
   </section>
 
   <section role="group" [attr.aria-label]="'calendar.accessibility.constraints' | transloco">
     <app-playground-example-card [heading]="'calendar.examples.constraints' | transloco">
       <kui-calendar
+        class="calendar-configurations__calendar"
         [minDate]="minSelectableDate"
         [maxDate]="maxSelectableDate"
         [disabledDates]="disabledDates"
@@ -33,7 +39,12 @@
           <p kuiText variant="body-sm" tone="muted">
             {{ 'calendar.locales.english' | transloco }}
           </p>
-          <kui-calendar locale="en-US" [(value)]="englishValue" [(viewDate)]="englishViewDate" />
+          <kui-calendar
+            class="calendar-configurations__calendar"
+            locale="en-US"
+            [(value)]="englishValue"
+            [(viewDate)]="englishViewDate"
+          />
         </div>
 
         <div
@@ -44,7 +55,12 @@
           <p kuiText variant="body-sm" tone="muted">
             {{ 'calendar.locales.russian' | transloco }}
           </p>
-          <kui-calendar locale="ru-RU" [(value)]="russianValue" [(viewDate)]="russianViewDate" />
+          <kui-calendar
+            class="calendar-configurations__calendar"
+            locale="ru-RU"
+            [(value)]="russianValue"
+            [(viewDate)]="russianViewDate"
+          />
         </div>
       </div>
     </app-playground-example-card>

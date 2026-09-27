@@ -1,4 +1,10 @@
 @layer app.components {
+  .calendar-configurations__calendar {
+    display: block;
+
+    --kui-calendar-width: min(100%, 296px);
+  }
+
   .calendar-configurations__catalogue {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

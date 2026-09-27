@@ -4,6 +4,7 @@
     "default": "Default",
     "compact": "Compact size",
     "flat": "Flat composition",
+    "compactFlat": "Compact flat composition",
     "footer": "Footer",
     "constraints": "Date limits and disabled date",
     "locales": "Locales"
@@ -16,6 +17,7 @@
     "default": "Default calendar example",
     "compact": "Compact calendar example",
     "flat": "Flat calendar example",
+    "compactFlat": "Compact flat calendar example",
     "footer": "Calendar footer example",
     "constraints": "Calendar date limits and disabled date example",
     "locales": "Calendar locale examples"
