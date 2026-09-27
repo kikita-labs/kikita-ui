@@ -27,6 +27,10 @@
       [attr.aria-label]="'input.accessibility.fieldSizeGroup' | transloco"
       class="input-sizes__inheritance"
     >
+      <kui-field [label]="'input.fields.localSizeInField' | transloco" size="lg">
+        <input kuiInput size="xs" [placeholder]="'input.placeholders.projectName' | transloco" />
+      </kui-field>
+
       <kui-field [label]="'input.fields.inheritedSize' | transloco" size="lg">
         <input kuiInput [placeholder]="'input.placeholders.projectName' | transloco" />
       </kui-field>

@@ -16,6 +16,7 @@
     "disabled": "Недоступно",
     "invalid": "Некорректное значение",
     "requiredEmail": "Обязательный адрес эл. почты",
+    "localSizeInField": "Локальный xs внутри поля lg",
     "inheritedSize": "Размер, унаследованный от поля (lg)"
   },
   "hints": {
@@ -54,7 +55,7 @@
     "defaultGroup": "Поле ввода по умолчанию",
     "explicitIdGroup": "Поле с явным идентификатором",
     "sizesGroup": "Размеры поля ввода",
-    "fieldSizeGroup": "Размер поля ввода, унаследованный от поля",
+    "fieldSizeGroup": "Наследование и приоритет размера поля ввода",
     "statesGroup": "Состояния обычного поля ввода",
     "typesGroup": "Типы полей ввода",
     "validationGroup": "Проверка Signal Forms"

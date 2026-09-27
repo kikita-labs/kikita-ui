@@ -16,6 +16,7 @@
     "disabled": "Disabled",
     "invalid": "Invalid",
     "requiredEmail": "Required email",
+    "localSizeInField": "Local xs inside lg Field",
     "inheritedSize": "Inherited from Field (lg)"
   },
   "hints": {
@@ -54,7 +55,7 @@
     "defaultGroup": "Default input example",
     "explicitIdGroup": "Explicit input ID",
     "sizesGroup": "Input sizes",
-    "fieldSizeGroup": "Input size inherited from Field",
+    "fieldSizeGroup": "Input size inheritance and precedence",
     "statesGroup": "Input native states",
     "typesGroup": "Native input types",
     "validationGroup": "Signal Forms validation"

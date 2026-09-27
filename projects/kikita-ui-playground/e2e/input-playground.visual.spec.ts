@@ -1,4 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect, type Locator, test } from '@playwright/test';
+
+interface InputFieldReferenceState {
+  inputId: string;
+  hintId: string | null;
+  errorId: string | null;
+  describedBy: string | null;
+}
 
 const catalogueExamples = [
   ['Default input example', 'input-default-desktop.png', 'input-default-320.png'],
@@ -8,6 +15,44 @@ const catalogueExamples = [
   ['Native input types', 'input-types-desktop.png', 'input-types-320.png'],
   ['Signal Forms validation', 'input-validation-desktop.png', 'input-validation-320.png'],
 ] as const;
+
+async function readInputFieldReferences(input: Locator): Promise<InputFieldReferenceState> {
+  return input.evaluate((element) => {
+    const nativeInput = element as HTMLInputElement;
+    const hintId = nativeInput.id ? `${nativeInput.id}-hint` : null;
+    const errorId = nativeInput.id ? `${nativeInput.id}-error` : null;
+
+    return {
+      inputId: nativeInput.id,
+      hintId: hintId && document.getElementById(hintId) ? hintId : null,
+      errorId: errorId && document.getElementById(errorId) ? errorId : null,
+      describedBy: nativeInput.getAttribute('aria-describedby'),
+    };
+  });
+}
+
+async function waitForStableInputFieldReferences(
+  input: Locator,
+): Promise<InputFieldReferenceState> {
+  let previousState = '';
+  let stablePolls = 0;
+
+  await expect
+    .poll(
+      async () => {
+        const state = await readInputFieldReferences(input);
+        const serializedState = JSON.stringify(state);
+        stablePolls = serializedState === previousState ? stablePolls + 1 : 0;
+        previousState = serializedState;
+
+        return stablePolls >= 1;
+      },
+      { intervals: [50, 100, 250] },
+    )
+    .toBe(true);
+
+  return readInputFieldReferences(input);
+}
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
@@ -87,13 +132,36 @@ test('shows the default, all four sizes, native states, and representative input
       size,
     );
   }
+  const explicitSizeNames = ['Extra small', 'Small', 'Medium', 'Large'] as const;
+  const explicitSizeHeights = await Promise.all(
+    explicitSizeNames.map((name) =>
+      sizes
+        .getByRole('textbox', { name, exact: true })
+        .evaluate((element) => Number.parseFloat(getComputedStyle(element).blockSize)),
+    ),
+  );
+  expect(explicitSizeHeights).toEqual(
+    [...explicitSizeHeights].sort((first, second) => first - second),
+  );
+  expect(new Set(explicitSizeHeights).size).toBe(explicitSizeNames.length);
+
   const fieldSize = sizes.getByRole('group', {
-    name: 'Input size inherited from Field',
+    name: 'Input size inheritance and precedence',
     exact: true,
   });
-  await expect(
-    fieldSize.getByRole('textbox', { name: 'Inherited from Field (lg)' }),
-  ).toHaveAttribute('data-kui-size', 'lg');
+  const localXs = fieldSize.getByRole('textbox', { name: 'Local xs inside lg Field', exact: true });
+  await expect(localXs).toHaveAttribute('data-kui-size', 'xs');
+  const localXsHeight = await localXs.evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).blockSize),
+  );
+  expect(localXsHeight).toBe(explicitSizeHeights[0]);
+
+  const inheritedLg = fieldSize.getByRole('textbox', { name: 'Inherited from Field (lg)' });
+  await expect(inheritedLg).toHaveAttribute('data-kui-size', 'lg');
+  const inheritedLgHeight = await inheritedLg.evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).blockSize),
+  );
+  expect(inheritedLgHeight).toBe(explicitSizeHeights[3]);
 
   const states = page.getByRole('group', { name: 'Input native states', exact: true });
   await expect(states.getByRole('textbox', { name: 'Interactive' })).toBeEnabled();
@@ -196,17 +264,10 @@ test('moves a required Signal Forms input from untouched to invalid and correcte
   const hint = validation.getByText('Required. Leave empty, then enter an email address.', {
     exact: true,
   });
-  const hintId = await hint.getAttribute('id');
-
-  if (!hintId) throw new Error('The required email hint is missing its id.');
-
-  expect(hintId).toMatch(/^kui-field-\d+-hint$/);
 
   await expect(email).toHaveJSProperty('required', true);
   await expect(email).not.toHaveAttribute('aria-invalid', 'true');
   await expect(validation.getByRole('alert')).toHaveCount(0);
-  await expect(email).toHaveAttribute('aria-describedby', hintId);
-  await expect(email).not.toHaveAttribute('aria-describedby', /-error/);
   expect(
     await email.evaluate((input) =>
       (input as HTMLInputElement).labels?.[0]?.querySelector('[aria-hidden="true"]'),
@@ -219,12 +280,20 @@ test('moves a required Signal Forms input from untouched to invalid and correcte
   await expect(email).toHaveAttribute('aria-invalid', 'true');
   const error = validation.getByRole('alert');
   await expect(error).toHaveText('Email is required.');
-  const errorId = await error.getAttribute('id');
+  const references = await waitForStableInputFieldReferences(email);
 
-  if (!errorId) throw new Error('The required email alert is missing its id.');
+  if (!references.hintId) throw new Error('The required email hint is missing its hydrated id.');
+  if (!references.errorId) throw new Error('The required email alert is missing its hydrated id.');
 
-  expect(errorId).toMatch(/^kui-field-\d+-error$/);
-  await expect(email).toHaveAttribute('aria-describedby', `${hintId} ${errorId}`);
+  expect(references.hintId).toMatch(/^kui-field-\d+-hint$/);
+  expect(references.errorId).toMatch(/^kui-field-\d+-error$/);
+  await expect(hint).toHaveAttribute('id', references.hintId);
+  await expect(error).toHaveAttribute('id', references.errorId);
+  expect(references.describedBy?.split(/\s+/)).toEqual([references.hintId, references.errorId]);
+  await expect(email).toHaveAttribute(
+    'aria-describedby',
+    `${references.hintId} ${references.errorId}`,
+  );
   await expect(validation).toHaveScreenshot('input-validation-invalid.png', {
     animations: 'disabled',
   });
@@ -234,7 +303,7 @@ test('moves a required Signal Forms input from untouched to invalid and correcte
 
   await expect(email).not.toHaveAttribute('aria-invalid', 'true');
   await expect(validation.getByRole('alert')).toHaveCount(0);
-  await expect(email).toHaveAttribute('aria-describedby', hintId);
+  await expect(email).toHaveAttribute('aria-describedby', references.hintId);
   await expect(email).not.toHaveAttribute('aria-describedby', /-error/);
   await expect(validation).toHaveScreenshot('input-validation-corrected.png', {
     animations: 'disabled',
