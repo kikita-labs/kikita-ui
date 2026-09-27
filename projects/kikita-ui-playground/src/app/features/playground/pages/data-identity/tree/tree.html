@@ -41,6 +41,14 @@
           [(checkedIds)]="checkedIds"
           [(expandedIds)]="checkedExpandedIds"
         />
+
+        <output
+          class="tree-playground__status"
+          role="status"
+          [attr.aria-label]="'tree.accessibility.expansionStatus' | transloco"
+        >
+          {{ checkedGroupExpansionStatus() }}
+        </output>
       </app-playground-example-card>
     </section>
 

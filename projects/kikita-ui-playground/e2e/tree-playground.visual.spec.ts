@@ -66,6 +66,16 @@ test('server-renders the localized Tree catalogue and captures its desktop secti
   });
 });
 
+test('captures the real row hover state', async ({ page }) => {
+  const example = getGroup(page, 'Default tree example');
+  const tree = getTree(example, 'Workspace tree');
+
+  await getTreeItem(tree, 'Workspace').hover();
+  await expect(example).toHaveScreenshot('tree-hover-desktop.png', {
+    animations: 'disabled',
+  });
+});
+
 test('uses display-tree keyboard navigation and the value model', async ({ page }) => {
   const example = getGroup(page, 'Default tree example');
   const tree = getTree(example, 'Workspace tree');
@@ -99,6 +109,10 @@ test('uses display-tree keyboard navigation and the value model', async ({ page 
   await page.keyboard.press('Enter');
   await expect(workspace).toHaveAttribute('aria-selected', 'true');
   await expect(example.getByRole('status')).toHaveText('Selected: Workspace');
+  expect(await workspace.evaluate((element) => element.matches(':focus-visible'))).toBe(true);
+  await expect(example).toHaveScreenshot('tree-selected-focus-visible-desktop.png', {
+    animations: 'disabled',
+  });
 
   await page.keyboard.press('Space');
   await expect(workspace).toHaveAttribute('aria-expanded', 'false');
@@ -114,14 +128,27 @@ test('supports checkable mixed state, keyboard cascade, and a disabled leaf', as
   const openLeaf = getTreeItem(tree, /Roadmap/);
   const disabledLeaf = getTreeItem(tree, /Archived file/);
   const disabledCheckbox = tree.locator('input.kui-checkbox[aria-label="Archived file"]');
+  const expansionStatus = example.getByRole('status', {
+    name: 'Expanded branch status',
+    exact: true,
+  });
 
   await expect(parent).toHaveAttribute('aria-checked', 'mixed');
+  await expect(parent).toHaveAttribute('aria-expanded', 'true');
+  await expect(expansionStatus).toHaveText('Project files branch expanded.');
   await expect(checkedLeaf).toHaveAttribute('aria-checked', 'true');
   await expect(openLeaf).toHaveAttribute('aria-checked', 'false');
   await expect(disabledLeaf).toHaveAttribute('aria-disabled', 'true');
   await expect(disabledCheckbox).toBeDisabled();
 
   await tabTo(page, parent);
+  await page.keyboard.press('ArrowLeft');
+  await expect(parent).toHaveAttribute('aria-expanded', 'false');
+  await expect(expansionStatus).toHaveText('Project files branch collapsed.');
+  await page.keyboard.press('ArrowRight');
+  await expect(parent).toHaveAttribute('aria-expanded', 'true');
+  await expect(expansionStatus).toHaveText('Project files branch expanded.');
+
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('ArrowDown');
   await expect(openLeaf).toBeFocused();
@@ -145,8 +172,13 @@ test('loads seeded lazy children once and reports the resolved state', async ({ 
   await expect(folder).toHaveAttribute('aria-expanded', 'false');
   await tabTo(page, folder);
   await page.keyboard.press('ArrowRight');
-  await expect(tree.getByRole('status', { name: 'Loading', exact: true })).toBeVisible();
-  await page.clock.fastForward(120);
+  const loadingStatus = tree.getByRole('status', { name: 'Loading', exact: true });
+  await expect(loadingStatus).toBeVisible();
+  await page.clock.pauseAt(new Date());
+  await expect(example).toHaveScreenshot('tree-lazy-loading-desktop.png', {
+    animations: 'disabled',
+  });
+  await page.clock.runFor(120);
   const firstLoadedChild = getTreeItem(tree, 'Generated report');
   await expect(firstLoadedChild).toBeVisible();
   await expect(firstLoadedChild.locator('.kui-tree-label')).toHaveText('Generated report');
@@ -161,6 +193,7 @@ test('loads seeded lazy children once and reports the resolved state', async ({ 
     animations: 'disabled',
   });
 
+  await page.clock.resume();
   await page.keyboard.press('ArrowLeft');
   await expect(folder).toHaveAttribute('aria-expanded', 'false');
   await page.keyboard.press('ArrowRight');
@@ -195,12 +228,15 @@ test('shows localized labels in Russian and records the untranslated loading nam
     accessibility: {
       default: string;
       defaultTree: string;
+      checkable: string;
+      checkableTree: string;
       lazy: string;
       lazyTree: string;
       lazyStatus: string;
+      expansionStatus: string;
     };
-    nodes: { workspace: string; lazyFolder: string; lazyChildOne: string };
-    status: { lazyLoaded: string };
+    nodes: { workspace: string; checkGroup: string; lazyFolder: string; lazyChildOne: string };
+    status: { lazyLoaded: string; checkGroupExpanded: string; checkGroupCollapsed: string };
   };
 
   await page
@@ -213,6 +249,20 @@ test('shows localized labels in Russian and records the untranslated loading nam
   const defaultTree = getTree(defaultExample, russian.accessibility.defaultTree);
   const workspace = getTreeItem(defaultTree, russian.nodes.workspace);
   await expect(workspace.locator('.kui-tree-label')).toHaveText(russian.nodes.workspace);
+
+  const checkableExample = getGroup(page, russian.accessibility.checkable);
+  const checkableTree = getTree(checkableExample, russian.accessibility.checkableTree);
+  const checkGroup = getTreeItem(checkableTree, new RegExp(russian.nodes.checkGroup));
+  const expansionStatus = checkableExample.getByRole('status', {
+    name: russian.accessibility.expansionStatus,
+    exact: true,
+  });
+  await expect(expansionStatus).toHaveText(russian.status.checkGroupExpanded);
+  await tabTo(page, checkGroup);
+  await page.keyboard.press('ArrowLeft');
+  await expect(expansionStatus).toHaveText(russian.status.checkGroupCollapsed);
+  await page.keyboard.press('ArrowRight');
+  await expect(expansionStatus).toHaveText(russian.status.checkGroupExpanded);
 
   const lazyExample = getGroup(page, russian.accessibility.lazy);
   const lazyTree = getTree(lazyExample, russian.accessibility.lazyTree);

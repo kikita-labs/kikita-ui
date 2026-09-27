@@ -41,6 +41,16 @@ export class Tree {
   protected readonly checkedExpandedIds = signal<string[]>(['check-group']);
   protected readonly lazyLoadComplete = signal(false);
 
+  protected readonly checkedGroupExpansionStatus = computed(() => {
+    this.trackTranslationChanges();
+
+    return this.transloco.translate(
+      this.checkedExpandedIds().includes('check-group')
+        ? 'tree.status.checkGroupExpanded'
+        : 'tree.status.checkGroupCollapsed',
+    );
+  });
+
   protected readonly displayNodes = computed<readonly KuiTreeNode[]>(() => [
     {
       id: 'workspace',

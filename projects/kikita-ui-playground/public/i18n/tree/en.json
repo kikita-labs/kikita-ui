@@ -18,6 +18,7 @@
     "lazy": "Lazy loading tree example",
     "lazyTree": "Lazy loading tree",
     "lazyStatus": "Lazy loading status",
+    "expansionStatus": "Expanded branch status",
     "mobile": "Mobile target examples",
     "mobileSize": "Mobile size {{size}} example",
     "mobileTree": "Mobile size {{size}} tree"
@@ -43,6 +44,8 @@
     "noSelection": "No node selected",
     "selected": "Selected: {{label}}",
     "lazyReady": "Expand the folder to load its children.",
-    "lazyLoaded": "Children loaded."
+    "lazyLoaded": "Children loaded.",
+    "checkGroupExpanded": "Project files branch expanded.",
+    "checkGroupCollapsed": "Project files branch collapsed."
   }
 }
