@@ -101,21 +101,14 @@ on a clickable upcoming step in non-linear mode so the shipped hover border and 
 visible. The completed step's border already has the hover color, so hovering it produces no visible
 difference. Non-button steps have no hover treatment or interactive target.
 
-The parent-owned surface route fragment already lazy-loads `/components/stepper` with the
-`stepper` translation scope. This page change does not edit routing or shared registries. The
-static audit passed on 2026-09-27 for the current uncommitted worktree
-(`node scripts/verify-static-audit.mjs`); it does not exercise page rendering. Fresh SSR/build and
-browser verification ran on 2026-09-27 for this current uncommitted worktree. The Angular 22.0.7
-local CLI production/SSR build (`ng build kikita-ui-playground`) passed and produced browser and
-server bundles; it prerendered zero static routes. The focused Stepper Playwright suite passed
-7/7 both with `--update-snapshots` and in a clean run without snapshot updates. The update run
-refreshed `stepper-linear-keyboard-focus-win32.png` and `stepper-error-cleared-win32.png`. All 15
-current captures were reviewed for clipping, overlap, and text readability across desktop, tablet,
-and 320px layouts; the focus ring is visible in its padded-card capture and the cleared error
-example no longer shows its description. The spec checks page-level overflow at 320px, including
-after switching to Russian. The `pnpm.cmd` build wrapper could not fetch `@pnpm/exe` from npm in
-this environment; the installed local Angular CLI was used for the successful build. Real
-assistive-technology review was not performed.
+The parent-owned surface route fragment lazy-loads `/components/stepper` with the `stepper`
+translation scope. The fresh root gate on 2026-09-28 passed the production build, the shared
+43-route SSR/adaptive suite (2/2), and the focused Stepper Playwright suite (7/7). Root reviewed all
+15 captures across desktop, 768px, and 320px, including themes, error/disabled states, focus,
+compact mode, and linear/non-linear interactions. The suite also checks page-level overflow at
+320px, including after switching to Russian. Scoped Prettier and static audit passed. Local ESLint
+could not run because the installed ESLint dependency tree is missing `debug`; no ESLint pass is
+claimed. Real assistive-technology review was not performed.
 
 ## Source audit
 
@@ -153,11 +146,9 @@ assistive-technology review was not performed.
       visual changes.
 - [x] Invalid indices, multi-error precedence, compact error, missing provider configuration, and
       full-wizard content have explicit omission reasons.
-- [x] Root static audit passed on 2026-09-27 for the current uncommitted worktree; it does not
-      verify page rendering.
-- [x] Current-worktree SSR/build and focused Stepper Playwright passed on 2026-09-27; both snapshot
-      updates were visually reviewed, followed by a clean 7/7 run without updates.
-- [x] All 15 current captures were reviewed for clipping, overlap, and readability at desktop,
-      tablet, and 320px; page-level overflow checks pass at 320px, including after switching to
-      Russian.
+- [x] Root-owned production build, 43-route SSR/adaptive suite (2/2), and focused Stepper Playwright
+      suite (7/7) passed for the shared worktree on 2026-09-28.
+- [x] Root visually reviewed all 15 current captures across desktop, 768px, and 320px, covering
+      themes, error/disabled states, focus, compact, and linear/non-linear behavior.
+- [x] The E2E suite checks page-level overflow at 320px, including after switching to Russian.
 - [ ] Real assistive-technology review was not performed.
