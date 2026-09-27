@@ -1,0 +1,52 @@
+{
+  "title": "Stepper",
+  "examples": {
+    "default": "Default",
+    "linear": "Linear navigation",
+    "vertical": "Vertical with descriptions",
+    "sizes": "Sizes",
+    "states": "Disabled and error",
+    "compact": "Compact",
+    "nonlinear": "Non-linear navigation"
+  },
+  "steps": {
+    "account": "Account",
+    "workspace": "Workspace",
+    "review": "Review",
+    "accountDetails": "Account details",
+    "workspaceSetup": "Workspace setup",
+    "inviteTeam": "Invite team",
+    "payment": "Payment",
+    "confirm": "Confirm"
+  },
+  "descriptions": {
+    "accountDetails": "Name, email, and password",
+    "workspaceSetup": "Team name and logo",
+    "inviteTeam": "Colleague emails",
+    "cardDeclined": "Card declined"
+  },
+  "sizes": {
+    "small": "Small (sm)",
+    "medium": "Medium (md)",
+    "large": "Large (lg)"
+  },
+  "actions": {
+    "back": "Back",
+    "next": "Next",
+    "toggleError": "Toggle payment error"
+  },
+  "accessibility": {
+    "progress": "Progress",
+    "default": "Default horizontal stepper",
+    "linear": "Linear navigation stepper",
+    "vertical": "Vertical stepper with descriptions",
+    "sizeRow": "{{size}} size stepper",
+    "disabled": "Stepper with an explicitly disabled step",
+    "error": "Stepper with an error step",
+    "compact": "Compact step progress",
+    "compactAccount": "Account step",
+    "compactWorkspace": "Workspace step",
+    "compactReview": "Review step",
+    "nonlinear": "Non-linear navigation stepper"
+  }
+}

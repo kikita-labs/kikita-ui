@@ -1,0 +1,29 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .stepper-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .stepper-playground h1 {
+    margin: 0;
+  }
+
+  .stepper-playground__catalogue {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  @media (width < 48rem) {
+    .stepper-playground {
+      padding: var(--kui-space-6);
+    }
+  }
+}

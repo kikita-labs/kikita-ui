@@ -1,0 +1,12 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .stepper-example,
+  .stepper-state-list {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+}
