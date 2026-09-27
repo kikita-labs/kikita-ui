@@ -1,0 +1,37 @@
+{
+  "title": "Сегментированный переключатель",
+  "examples": {
+    "default": "Выбор и события касания",
+    "sizes": "Размеры элемента",
+    "disabled": "Отключённые состояния",
+    "validation": "Проверка Signal Forms"
+  },
+  "accessibility": {
+    "defaultGroup": "Вид страницы",
+    "sizeGroup": "Размер сегментированного переключателя",
+    "oneDisabledGroup": "Вид страницы с одним отключённым вариантом",
+    "groupDisabled": "Отключённый вид страницы",
+    "validationGroup": "Предпочитаемый вид"
+  },
+  "options": {
+    "list": "Список",
+    "grid": "Сетка",
+    "calendar": "Календарь"
+  },
+  "sizes": {
+    "xs": "XS",
+    "sm": "SM",
+    "md": "MD",
+    "lg": "LG"
+  },
+  "states": {
+    "oneDisabled": "Один сегмент отключён",
+    "groupDisabled": "Вся группа отключена"
+  },
+  "forms": {
+    "label": "Предпочитаемый вид",
+    "invalidMessage": "Выберите список."
+  },
+  "value": "Выбранное значение: {{value}}",
+  "touchCount": "События касания: {{count}}"
+}

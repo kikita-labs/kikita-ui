@@ -1,0 +1,42 @@
+@layer app.components {
+  .segmented-playground {
+    &__example-group {
+      inline-size: fit-content;
+      max-inline-size: 100%;
+    }
+
+    &__catalogue {
+      display: grid;
+      gap: var(--kui-space-5);
+    }
+
+    &__size-list,
+    &__disabled-list {
+      display: grid;
+      gap: var(--kui-space-4);
+      inline-size: fit-content;
+      max-inline-size: 100%;
+    }
+
+    &__size-row,
+    &__disabled-row {
+      display: grid;
+      place-items: center start;
+      gap: var(--kui-space-2);
+    }
+
+    &__status {
+      display: block;
+      margin-block-start: var(--kui-space-2);
+      color: var(--kui-color-text-secondary);
+    }
+
+    @media (min-width: 48rem) {
+      &__size-row,
+      &__disabled-row {
+        grid-template-columns: minmax(8rem, max-content) max-content;
+        align-items: center;
+      }
+    }
+  }
+}

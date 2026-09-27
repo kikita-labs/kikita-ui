@@ -1,0 +1,126 @@
+<main class="playground-workspace segmented-playground">
+  <h1 kuiText variant="heading-lg">{{ 'segmented.title' | transloco }}</h1>
+
+  <div class="segmented-playground__catalogue">
+    <app-playground-example-card [heading]="'segmented.examples.default' | transloco">
+      <div
+        class="segmented-playground__example-group"
+        role="group"
+        [attr.aria-label]="'segmented.examples.default' | transloco"
+      >
+        <kui-segmented
+          aria-label="{{ 'segmented.accessibility.defaultGroup' | transloco }}"
+          [(value)]="standaloneValue"
+          (touch)="recordStandaloneTouch()"
+        >
+          <button kuiSegment value="list">{{ 'segmented.options.list' | transloco }}</button>
+          <button kuiSegment value="grid">{{ 'segmented.options.grid' | transloco }}</button>
+          <button kuiSegment value="calendar">
+            {{ 'segmented.options.calendar' | transloco }}
+          </button>
+        </kui-segmented>
+        <output class="segmented-playground__status" aria-live="polite">
+          {{ 'segmented.value' | transloco: { value: standaloneValue() } }}
+        </output>
+        <output class="segmented-playground__status" aria-live="polite">
+          {{ 'segmented.touchCount' | transloco: { count: standaloneTouchCount() } }}
+        </output>
+      </div>
+    </app-playground-example-card>
+
+    <app-playground-example-card [heading]="'segmented.examples.sizes' | transloco">
+      <div
+        class="segmented-playground__example-group"
+        role="group"
+        [attr.aria-label]="'segmented.examples.sizes' | transloco"
+      >
+        <div class="segmented-playground__size-list">
+          @for (size of sizeOptions; track size.value) {
+            <div class="segmented-playground__size-row">
+              <p kuiText>{{ size.label | transloco }}</p>
+              <kui-segmented
+                [size]="size.value"
+                [value]="'grid'"
+                aria-label="{{ 'segmented.accessibility.sizeGroup' | transloco }} {{ size.value }}"
+              >
+                <button kuiSegment value="list">{{ 'segmented.options.list' | transloco }}</button>
+                <button kuiSegment value="grid">{{ 'segmented.options.grid' | transloco }}</button>
+                <button kuiSegment value="calendar">
+                  {{ 'segmented.options.calendar' | transloco }}
+                </button>
+              </kui-segmented>
+            </div>
+          }
+        </div>
+      </div>
+    </app-playground-example-card>
+
+    <app-playground-example-card [heading]="'segmented.examples.disabled' | transloco">
+      <div
+        class="segmented-playground__example-group"
+        role="group"
+        [attr.aria-label]="'segmented.examples.disabled' | transloco"
+      >
+        <div class="segmented-playground__disabled-list">
+          <div class="segmented-playground__disabled-row">
+            <p kuiText>{{ 'segmented.states.oneDisabled' | transloco }}</p>
+            <kui-segmented
+              value="list"
+              aria-label="{{ 'segmented.accessibility.oneDisabledGroup' | transloco }}"
+            >
+              <button kuiSegment value="list">{{ 'segmented.options.list' | transloco }}</button>
+              <button kuiSegment value="grid" [disabled]="true">
+                {{ 'segmented.options.grid' | transloco }}
+              </button>
+              <button kuiSegment value="calendar">
+                {{ 'segmented.options.calendar' | transloco }}
+              </button>
+            </kui-segmented>
+          </div>
+          <div class="segmented-playground__disabled-row">
+            <p kuiText>{{ 'segmented.states.groupDisabled' | transloco }}</p>
+            <kui-segmented
+              value="grid"
+              [disabled]="true"
+              aria-label="{{ 'segmented.accessibility.groupDisabled' | transloco }}"
+            >
+              <button kuiSegment value="list">{{ 'segmented.options.list' | transloco }}</button>
+              <button kuiSegment value="grid">{{ 'segmented.options.grid' | transloco }}</button>
+              <button kuiSegment value="calendar">
+                {{ 'segmented.options.calendar' | transloco }}
+              </button>
+            </kui-segmented>
+          </div>
+        </div>
+      </div>
+    </app-playground-example-card>
+
+    <app-playground-example-card [heading]="'segmented.examples.validation' | transloco">
+      <div
+        class="segmented-playground__example-group"
+        role="group"
+        [attr.aria-label]="'segmented.examples.validation' | transloco"
+      >
+        <kui-field [label]="'segmented.forms.label' | transloco">
+          <kui-segmented
+            [formField]="viewForm.view"
+            aria-label="{{ 'segmented.accessibility.validationGroup' | transloco }}"
+            (touch)="recordFormTouch()"
+          >
+            <button kuiSegment value="list">{{ 'segmented.options.list' | transloco }}</button>
+            <button kuiSegment value="grid">{{ 'segmented.options.grid' | transloco }}</button>
+            <button kuiSegment value="calendar">
+              {{ 'segmented.options.calendar' | transloco }}
+            </button>
+          </kui-segmented>
+        </kui-field>
+        <output class="segmented-playground__status" aria-live="polite">
+          {{ 'segmented.value' | transloco: { value: viewForm.view().value() } }}
+        </output>
+        <output class="segmented-playground__status" aria-live="polite">
+          {{ 'segmented.touchCount' | transloco: { count: formTouchCount() } }}
+        </output>
+      </div>
+    </app-playground-example-card>
+  </div>
+</main>

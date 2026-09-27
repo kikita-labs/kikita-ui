@@ -48,6 +48,11 @@ import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
 - `disabled`: `boolean` - disables every segment. Set by `[formField]` or directly.
 - `invalid`, `errors`, `touched`: set by `[formField]`.
 
+## Outputs
+
+- `touch`: emitted whenever an enabled segment is selected, including when it was already
+  selected. Focus and blur alone do not emit it.
+
 ## Inputs - `[kuiSegment]`
 
 - `value`: `string` - identifier for this segment
@@ -58,6 +63,7 @@ import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
 | Key                        | Action                      |
 | -------------------------- | --------------------------- |
 | `ArrowLeft` / `ArrowRight` | Move focus between segments |
+| `ArrowUp` / `ArrowDown`    | Move focus between segments |
 | `Home`                     | Focus first segment         |
 | `End`                      | Focus last segment          |
 | `Enter` / `Space`          | Select focused segment      |
