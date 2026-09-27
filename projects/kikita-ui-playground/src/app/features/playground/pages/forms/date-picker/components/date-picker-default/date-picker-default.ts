@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 
 import {
   KuiCalendarComponent,
@@ -24,8 +24,8 @@ import { createDatePickerCalendarLocale } from '../date-picker-calendar-locale';
     TranslocoPipe,
   ],
   templateUrl: './date-picker-default.html',
+  styleUrl: '../date-picker-calendar.scss',
 })
 export class DatePickerDefault {
   protected readonly calendarLocale = createDatePickerCalendarLocale();
-  protected readonly viewDate = signal(new Date(2026, 5, 1));
 }

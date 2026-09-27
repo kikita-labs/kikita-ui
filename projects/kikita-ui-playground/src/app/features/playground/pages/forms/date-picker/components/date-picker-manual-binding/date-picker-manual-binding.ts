@@ -24,6 +24,7 @@ import { createDatePickerCalendarLocale } from '../date-picker-calendar-locale';
     TranslocoPipe,
   ],
   templateUrl: './date-picker-manual-binding.html',
+  styleUrl: '../date-picker-calendar.scss',
 })
 export class DatePickerManualBinding {
   protected readonly calendarLocale = createDatePickerCalendarLocale();

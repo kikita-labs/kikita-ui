@@ -45,7 +45,7 @@ test('server-renders the Date Picker route and hydrates its combobox interaction
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
   await expect(dialog).toHaveAttribute('role', 'dialog');
-  await expect(dialog.getByRole('button', { name: 'June 2026', exact: true })).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'May 2026', exact: true })).toBeVisible();
   await expect(input).toHaveAttribute('aria-expanded', 'true');
   await input.press('Escape');
   await expect(dialog).toBeHidden();
@@ -106,7 +106,7 @@ test('captures the default and compact date picker at desktop, tablet, and 320px
   await defaultInput.click();
   const panel = page.getByRole('dialog');
   await expect(panel).toBeVisible();
-  await expect(panel.getByRole('button', { name: 'June 2026', exact: true })).toBeVisible();
+  await expect(panel.getByRole('button', { name: 'May 2026', exact: true })).toBeVisible();
   const panelId = await panel.getAttribute('id');
   expect(panelId).toBeTruthy();
   await expect(defaultInput).toHaveAttribute('aria-controls', panelId!);
@@ -231,6 +231,7 @@ test('keeps the dropdown keyboard-accessible and returns focus on Escape', async
   await input.press('Escape');
   await expect(page.getByRole('dialog')).toBeHidden();
   await expect(input).toHaveAttribute('aria-expanded', 'false');
+  await expect(input).not.toHaveAttribute('aria-controls', /.+/);
   await expect(input).toBeFocused();
 
   await input.press('ArrowDown');
@@ -367,6 +368,7 @@ test('preserves native disabled and readonly semantics and exposes clear setting
   await expect(disabled).toBeDisabled();
   await expect(disabled).toHaveAttribute('aria-expanded', 'false');
   await expect(readonly).toHaveAttribute('readonly', '');
+  await expect(readonly).toHaveValue('20.05.2026');
   await expect(readonly).toHaveAttribute('aria-expanded', 'false');
   expect(await localClearFalse.getAttribute('id')).toBeTruthy();
   expect(
@@ -381,6 +383,11 @@ test('preserves native disabled and readonly semantics and exposes clear setting
   await readonly.press('ArrowDown');
   await expect(readonly).toHaveAttribute('aria-expanded', 'false');
   await expect(page.getByRole('dialog')).toHaveCount(0);
+  await readonly.focus();
+  await expect(readonly).toBeFocused();
+  await readonly.press('End');
+  await readonly.pressSequentially('31.12.2030');
+  await expect(readonly).toHaveValue('20.05.2026');
 
   await expect(examples).toHaveScreenshot('date-picker-field-states-desktop.png');
 
@@ -528,11 +535,11 @@ test('keeps the page labels and field names translated in Russian', async ({ pag
   const englishInput = page.getByRole('combobox', { name: 'Meeting date' });
   await englishInput.press('ArrowDown');
   const calendarPanel = page.getByRole('dialog');
-  await expect(calendarPanel.getByRole('button', { name: 'June 2026', exact: true })).toBeVisible();
+  await expect(calendarPanel.getByRole('button', { name: 'May 2026', exact: true })).toBeVisible();
   const englishWeekdays = await page.evaluate(() =>
     Array.from({ length: 7 }, (_, index) =>
       new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: 'UTC' }).format(
-        new Date(Date.UTC(2026, 5, 7 + index)),
+        new Date(Date.UTC(2026, 4, 3 + index)),
       ),
     ),
   );
@@ -563,7 +570,7 @@ test('keeps the page labels and field names translated in Russian', async ({ pag
   await russianInput.press('ArrowDown');
   const russianMonth = await page.evaluate(() =>
     new Intl.DateTimeFormat('ru-RU', { month: 'long', timeZone: 'UTC' }).format(
-      new Date(Date.UTC(2026, 5, 1)),
+      new Date(Date.UTC(2026, 4, 1)),
     ),
   );
   await expect(
@@ -572,7 +579,7 @@ test('keeps the page labels and field names translated in Russian', async ({ pag
   const russianWeekdays = await page.evaluate(() =>
     Array.from({ length: 7 }, (_, index) =>
       new Intl.DateTimeFormat('ru-RU', { weekday: 'short', timeZone: 'UTC' }).format(
-        new Date(Date.UTC(2026, 5, 1 + index)),
+        new Date(Date.UTC(2026, 4, 4 + index)),
       ),
     ),
   );

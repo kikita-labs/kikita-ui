@@ -150,6 +150,13 @@ Also implements the Angular Signal Forms `FormValueControl<Date | null>` contrac
 Import `@kikita-labs/ui/styles` (which includes `date-picker.css`) once in your application
 styles.
 
+## CSS Variables
+
+| Variable                            | Default | Purpose                                      |
+| ----------------------------------- | ------- | -------------------------------------------- |
+| `--kui-date-picker-suffix-gap`      | `2px`   | Gap between the clear and calendar controls. |
+| `--kui-date-picker-affordance-size` | `20px`  | Size of the clear and calendar controls.     |
+
 ## Known Gaps
 
 - Range picking (pairing with `kui-calendar-range`, either "one field" or "two fields" layouts)

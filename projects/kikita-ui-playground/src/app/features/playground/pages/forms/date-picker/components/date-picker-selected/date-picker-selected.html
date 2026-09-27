@@ -3,11 +3,7 @@
     <kui-field [label]="'datePicker.fields.preselectedDate' | transloco">
       <input kuiDatePicker [(value)]="selectedDate" [(viewDate)]="viewDate" />
       <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-        <kui-calendar
-          flat
-          [locale]="calendarLocale()"
-          style="--kui-calendar-width: min(296px, calc(100vw - 48px))"
-        />
+        <kui-calendar flat [locale]="calendarLocale()" class="date-picker-calendar" />
       </kui-dropdown>
     </kui-field>
   </app-playground-example-card>

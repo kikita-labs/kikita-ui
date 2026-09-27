@@ -11,6 +11,10 @@
     min-inline-size: 0;
   }
 
+  .date-picker-calendar {
+    max-inline-size: calc(100vw - var(--kui-space-12));
+  }
+
   @media (width < 48rem) {
     .date-picker-field-states__grid {
       grid-template-columns: minmax(0, 1fr);

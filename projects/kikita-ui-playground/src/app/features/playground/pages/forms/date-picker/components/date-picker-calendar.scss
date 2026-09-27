@@ -1,0 +1,5 @@
+@layer app.components {
+  .date-picker-calendar {
+    max-inline-size: calc(100vw - var(--kui-space-12));
+  }
+}

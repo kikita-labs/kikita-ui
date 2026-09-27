@@ -24,6 +24,7 @@ import { createDatePickerCalendarLocale } from '../date-picker-calendar-locale';
     TranslocoPipe,
   ],
   templateUrl: './date-picker-selected.html',
+  styleUrl: '../date-picker-calendar.scss',
 })
 export class DatePickerSelected {
   protected readonly calendarLocale = createDatePickerCalendarLocale();

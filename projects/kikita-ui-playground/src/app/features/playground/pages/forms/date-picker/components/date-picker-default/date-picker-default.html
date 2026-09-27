@@ -1,13 +1,9 @@
 <section role="group" [attr.aria-label]="'datePicker.accessibility.default' | transloco">
   <app-playground-example-card [heading]="'datePicker.examples.default' | transloco">
     <kui-field [label]="'datePicker.fields.meetingDate' | transloco">
-      <input kuiDatePicker [(viewDate)]="viewDate" />
+      <input kuiDatePicker />
       <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
-        <kui-calendar
-          flat
-          [locale]="calendarLocale()"
-          style="--kui-calendar-width: min(296px, calc(100vw - 48px))"
-        />
+        <kui-calendar flat [locale]="calendarLocale()" class="date-picker-calendar" />
       </kui-dropdown>
     </kui-field>
   </app-playground-example-card>

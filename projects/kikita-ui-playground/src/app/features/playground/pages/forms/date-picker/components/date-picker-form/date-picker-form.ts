@@ -30,6 +30,7 @@ import { datePickerFormSchema } from './helpers';
     TranslocoPipe,
   ],
   templateUrl: './date-picker-form.html',
+  styleUrl: '../date-picker-calendar.scss',
 })
 export class DatePickerForm {
   protected readonly calendarLocale = createDatePickerCalendarLocale();
