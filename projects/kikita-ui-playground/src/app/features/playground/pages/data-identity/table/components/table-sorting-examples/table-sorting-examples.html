@@ -1,0 +1,34 @@
+<section role="group" [attr.aria-label]="'table.accessibility.sorting' | transloco">
+  <app-playground-example-card [heading]="'table.examples.sorting' | transloco">
+    <div
+      class="table-sorting-examples__region"
+      role="region"
+      tabindex="0"
+      [attr.aria-label]="'table.regions.sorting' | transloco"
+    >
+      <table kuiTable #table="kuiTable" [data]="members">
+        <caption>{{ 'table.captions.sorting' | transloco }}</caption>
+        <thead>
+          <tr kuiThGroup>
+            <th kuiTh>{{ 'table.columns.name' | transloco }}</th>
+            <th kuiTh sortKey="email">{{ 'table.columns.email' | transloco }}</th>
+            <th kuiTh sortKey="statusKey" [comparator]="compareStatus">
+              {{ 'table.columns.status' | transloco }}
+            </th>
+            <th kuiTh sortKey="score">{{ 'table.columns.score' | transloco }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (member of table.sortedData(); track member.id) {
+            <tr kuiRow [value]="member">
+              <td kuiCell>{{ member.nameKey | transloco }}</td>
+              <td kuiCell>{{ member.email }}</td>
+              <td kuiCell>{{ member.statusKey | transloco }}</td>
+              <td kuiCell>{{ member.score | number }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </app-playground-example-card>
+</section>

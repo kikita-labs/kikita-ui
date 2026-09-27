@@ -1,0 +1,26 @@
+@layer app.components {
+  :host,
+  section {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .table-controlled-sorting-examples__stack {
+    display: grid;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .table-controlled-sorting-examples__region {
+    min-inline-size: 0;
+    overflow: auto;
+  }
+
+  .table-controlled-sorting-examples__region caption {
+    text-align: start;
+  }
+
+  .table-controlled-sorting-examples__status {
+    margin: 0;
+  }
+}

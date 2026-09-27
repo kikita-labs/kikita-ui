@@ -1,0 +1,54 @@
+<section role="group" [attr.aria-label]="'table.accessibility.default' | transloco">
+  <app-playground-example-card [heading]="'table.examples.default' | transloco">
+    <div
+      class="table-default-examples__region"
+      role="region"
+      tabindex="0"
+      [attr.aria-label]="'table.regions.default' | transloco"
+    >
+      <table kuiTable [data]="members">
+        <caption>{{ 'table.captions.members' | transloco }}</caption>
+        <thead>
+          <tr kuiThGroup>
+            <th kuiTh>{{ 'table.columns.name' | transloco }}</th>
+            <th kuiTh>{{ 'table.columns.role' | transloco }}</th>
+            <th kuiTh>{{ 'table.columns.status' | transloco }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (member of members; track member.id) {
+            <tr kuiRow [value]="member">
+              <td kuiCell>{{ member.nameKey | transloco }}</td>
+              <td kuiCell>{{ member.roleKey | transloco }}</td>
+              <td kuiCell>{{ member.statusKey | transloco }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div
+      class="table-default-examples__empty"
+      role="group"
+      [attr.aria-label]="'table.accessibility.emptyData' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'table.examples.emptyData' | transloco }}</h3>
+      <div
+        class="table-default-examples__region"
+        role="region"
+        tabindex="0"
+        [attr.aria-label]="'table.regions.emptyData' | transloco"
+      >
+        <table kuiTable>
+          <caption>{{ 'table.captions.emptyData' | transloco }}</caption>
+          <thead>
+            <tr kuiThGroup>
+              <th kuiTh>{{ 'table.columns.name' | transloco }}</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>

@@ -1,0 +1,35 @@
+<section role="group" [attr.aria-label]="'table.accessibility.stickyHeader' | transloco">
+  <app-playground-example-card [heading]="'table.examples.stickyHeader' | transloco">
+    <p class="table-sticky-header-examples__scroll-hint">
+      {{ 'table.hints.horizontalScroll' | transloco }}
+    </p>
+    <div
+      class="table-sticky-header-examples__region"
+      role="region"
+      tabindex="0"
+      [attr.aria-label]="'table.regions.stickyHeader' | transloco"
+    >
+      <table class="table-sticky-header-examples__table" kuiTable [data]="members">
+        <caption>{{ 'table.captions.stickyHeader' | transloco }}</caption>
+        <thead>
+          <tr kuiThGroup sticky>
+            <th kuiTh>{{ 'table.columns.name' | transloco }}</th>
+            <th kuiTh>{{ 'table.columns.department' | transloco }}</th>
+            <th kuiTh>{{ 'table.columns.email' | transloco }}</th>
+            <th kuiTh>{{ 'table.columns.score' | transloco }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (member of members; track member.id) {
+            <tr kuiRow [value]="member">
+              <td kuiCell>{{ member.nameKey | transloco }}</td>
+              <td kuiCell>{{ member.departmentKey | transloco }}</td>
+              <td kuiCell>{{ member.email }}</td>
+              <td kuiCell>{{ member.score | number }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </app-playground-example-card>
+</section>

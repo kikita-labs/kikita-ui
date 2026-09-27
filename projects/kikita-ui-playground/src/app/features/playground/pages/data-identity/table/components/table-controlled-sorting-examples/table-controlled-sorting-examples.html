@@ -1,0 +1,35 @@
+<section role="group" [attr.aria-label]="'table.accessibility.controlledSorting' | transloco">
+  <app-playground-example-card [heading]="'table.examples.controlledSorting' | transloco">
+    <div class="table-controlled-sorting-examples__stack">
+      <div
+        class="table-controlled-sorting-examples__region"
+        role="region"
+        tabindex="0"
+        [attr.aria-label]="'table.regions.controlledSorting' | transloco"
+      >
+        @let sortedRows = sortedMembers();
+        <table kuiTable [data]="sortedRows" (sortChange)="onSortChange($event)">
+          <caption>{{ 'table.captions.controlledSorting' | transloco }}</caption>
+          <thead>
+            <tr kuiThGroup>
+              <th kuiTh>{{ 'table.columns.name' | transloco }}</th>
+              <th kuiTh sortKey="score">{{ 'table.columns.score' | transloco }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (member of sortedRows; track member.id) {
+              <tr kuiRow [value]="member">
+                <td kuiCell>{{ member.nameKey | transloco }}</td>
+                <td kuiCell>{{ member.score | number }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <p class="table-controlled-sorting-examples__status" role="status" aria-live="polite">
+        {{ sortStateLabelKey() | transloco }}
+      </p>
+    </div>
+  </app-playground-example-card>
+</section>

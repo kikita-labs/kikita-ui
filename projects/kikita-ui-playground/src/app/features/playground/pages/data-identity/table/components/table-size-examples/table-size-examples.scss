@@ -1,0 +1,39 @@
+@layer app.components {
+  :host,
+  section {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .table-size-examples__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .table-size-examples__item {
+    display: grid;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .table-size-examples__item h3 {
+    margin: 0;
+  }
+
+  .table-size-examples__region {
+    min-inline-size: 0;
+    overflow: auto;
+  }
+
+  .table-size-examples__region caption {
+    text-align: start;
+  }
+
+  @media (width < 40rem) {
+    .table-size-examples__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

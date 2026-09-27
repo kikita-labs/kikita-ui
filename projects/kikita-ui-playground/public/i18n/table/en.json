@@ -1,0 +1,94 @@
+{
+  "title": "Table",
+  "examples": {
+    "default": "Default table",
+    "sizes": "Table sizes",
+    "emptyData": "Empty data default",
+    "sorting": "Local sorting and custom comparator",
+    "controlledSorting": "Parent-controlled sorting",
+    "selection": "Selection",
+    "defaultSelectionLabels": "Default selection labels",
+    "stickyHeader": "Sticky header"
+  },
+  "accessibility": {
+    "default": "Default table example",
+    "sizes": "Table size examples",
+    "emptyData": "Empty data default example",
+    "sorting": "Local sorting and custom comparator",
+    "controlledSorting": "Parent-controlled sorting",
+    "selection": "Table selection",
+    "defaultSelectionLabels": "Default selection label example",
+    "stickyHeader": "Sticky header example"
+  },
+  "captions": {
+    "members": "Team members",
+    "size": "Table size comparison",
+    "emptyData": "Empty team table",
+    "sorting": "Sortable team members",
+    "controlledSorting": "Parent-sorted team members",
+    "selection": "Selectable team members",
+    "defaultSelectionLabels": "Rows using default selection labels",
+    "stickyHeader": "Team members with a sticky header"
+  },
+  "columns": {
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "department": "Department",
+    "status": "Status",
+    "score": "Score"
+  },
+  "regions": {
+    "default": "Default team table",
+    "emptyData": "Empty data default table",
+    "size": "{{size}} table example",
+    "sorting": "Locally sorted team table",
+    "controlledSorting": "Parent-controlled sorted team table",
+    "selection": "Selectable team table",
+    "defaultSelectionLabels": "Table with default selection labels",
+    "stickyHeader": "Scrollable sticky-header table"
+  },
+  "hints": {
+    "horizontalScroll": "Swipe to see more columns, or focus this region and use the arrow keys."
+  },
+  "sizes": {
+    "xs": "Extra small (xs)",
+    "sm": "Small (sm)",
+    "md": "Medium (md)",
+    "lg": "Large (lg)"
+  },
+  "members": {
+    "ava": "Ava",
+    "liam": "Liam",
+    "noor": "Noor",
+    "priya": "Priya",
+    "tomas": "Tomas"
+  },
+  "roles": {
+    "designer": "Designer",
+    "engineer": "Engineer",
+    "productManager": "Product manager",
+    "support": "Support specialist"
+  },
+  "departments": {
+    "operations": "Operations",
+    "platform": "Platform",
+    "product": "Product"
+  },
+  "statuses": {
+    "active": "Active",
+    "invited": "Invited",
+    "suspended": "Suspended"
+  },
+  "selection": {
+    "selectAll": "Select all team members",
+    "selectMember": "Select {{name}}",
+    "summary": "Selected {{selected}} of {{total}} team members.",
+    "defaultLabelSummary": "Default-label rows selected: {{selected}}."
+  },
+  "sorting": {
+    "parentCleared": "Parent order: original",
+    "parentAscending": "Parent order: score ascending",
+    "parentDescending": "Parent order: score descending"
+  }
+}

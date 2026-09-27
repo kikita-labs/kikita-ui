@@ -1,0 +1,54 @@
+@layer app.components {
+  :host,
+  section {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .table-selection-examples__stack {
+    display: grid;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .table-selection-examples__main-example {
+    display: grid;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .table-selection-examples__scroll-hint {
+    display: none;
+    margin: 0;
+  }
+
+  .table-selection-examples__default-labels {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .table-selection-examples__default-labels h3,
+  .table-selection-examples__default-label-status {
+    margin: 0;
+  }
+
+  .table-selection-examples__region {
+    min-inline-size: 0;
+    overflow: auto;
+  }
+
+  .table-selection-examples__region caption {
+    text-align: start;
+  }
+
+  .table-selection-examples__status {
+    display: block;
+  }
+
+  @media (max-width: 600px) {
+    .table-selection-examples__scroll-hint {
+      display: block;
+    }
+  }
+}

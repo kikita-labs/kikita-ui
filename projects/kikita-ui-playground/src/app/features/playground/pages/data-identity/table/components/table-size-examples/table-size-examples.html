@@ -1,0 +1,36 @@
+<section role="group" [attr.aria-label]="'table.accessibility.sizes' | transloco">
+  <app-playground-example-card [heading]="'table.examples.sizes' | transloco">
+    <div class="table-size-examples__grid">
+      @for (size of sizes; track size.value) {
+        @let sizeLabel = size.labelKey | transloco;
+        <div class="table-size-examples__item" role="group" [attr.aria-label]="sizeLabel">
+          <h3 kuiText variant="heading-sm">{{ sizeLabel }}</h3>
+          <div
+            class="table-size-examples__region"
+            role="region"
+            tabindex="0"
+            [attr.aria-label]="'table.regions.size' | transloco: { size: sizeLabel }"
+          >
+            <table kuiTable [size]="size.value" [data]="members">
+              <caption>{{ 'table.captions.size' | transloco }}</caption>
+              <thead>
+                <tr kuiThGroup>
+                  <th kuiTh>{{ 'table.columns.name' | transloco }}</th>
+                  <th kuiTh>{{ 'table.columns.score' | transloco }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (member of members; track member.id) {
+                  <tr kuiRow [value]="member">
+                    <td kuiCell>{{ member.nameKey | transloco }}</td>
+                    <td kuiCell>{{ member.score | number }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    </div>
+  </app-playground-example-card>
+</section>

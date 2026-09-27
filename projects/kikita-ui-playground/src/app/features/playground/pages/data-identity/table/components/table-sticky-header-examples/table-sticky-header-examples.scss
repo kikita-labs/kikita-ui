@@ -1,0 +1,32 @@
+@layer app.components {
+  :host,
+  section {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .table-sticky-header-examples__region {
+    max-block-size: calc(var(--kui-space-16) * 4);
+    min-inline-size: 0;
+    overflow: auto;
+  }
+
+  .table-sticky-header-examples__region caption {
+    text-align: start;
+  }
+
+  .table-sticky-header-examples__table {
+    min-inline-size: max-content;
+  }
+
+  .table-sticky-header-examples__scroll-hint {
+    display: none;
+    margin: 0;
+  }
+
+  @media (max-width: 600px) {
+    .table-sticky-header-examples__scroll-hint {
+      display: block;
+    }
+  }
+}
