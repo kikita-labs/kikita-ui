@@ -59,6 +59,5 @@ This inventory is a retrospective source audit of the Calendar page and its brow
 - [x] Calendar examples remain split into page-private default, appearance, and configuration components; the appearance catalogue includes the documented compact-flat composition without explanatory prose.
 - [x] Fixed month/value data and browser time make Calendar states reproducible; no page behavior reads an unseeded `new Date()`.
 - [x] E2E evidence includes native buttons/grid ARIA, keyboard/focus, hover, bounds, locale, route-level SSR, Today behavior, and 320/tablet layouts; disabled pointer rejection uses a real mouse click.
-- [x] The prior 14-test Calendar browser suite passed, including SSR/hydration, keyboard, locale, and responsive assertions; the two added Today and disabled-keyboard tests plus the compact-flat screenshot await the parent's serialized browser gate.
-- [ ] Parent gate must generate/review `calendar-footer-today-view.png` and `calendar-compact-flat.png`, and refresh/review `calendar-page-tablet-768.png` and `calendar-page-mobile-320.png` after the added catalogue example.
-- [ ] Build/lint/test verification remains with root's serialized slot.
+- [x] Root's fresh production/SSR build and focused Calendar browser suite passed 16/16 in both snapshot-update and clean comparison runs; the shared SSR/adaptive route suite for all 43 routes passed 2/2.
+- [x] Root independently reviewed the four changed Calendar captures: `calendar-compact-flat.png`, `calendar-footer-today-view.png`, `calendar-page-tablet-768.png`, and `calendar-page-mobile-320.png`.
