@@ -31,3 +31,11 @@ There are no Badge outputs or models. Every appearance × size combination is sh
 - The host-element examples do not repeat all 24 combinations because host semantics do not alter the directive's appearance/size contract.
 - A root-provider size override is omitted because this app uses no root size default. The example shows the actual fallback, and provider precedence is owned by the shared defaults contract.
 - Disabled, invalid, loading, selected, and other component states are omitted because `KuiBadgeDirective` exposes only `appearance` and `size` and defines no interaction or state selectors.
+
+## Self-review checklist
+
+- [x] A minimally configured default and the full 6 × 4 appearance/size matrix are visible.
+- [x] Host semantics, native link activation, defaults, and documented omissions are mapped to examples or browser checks.
+- [x] English and Russian Badge catalogues contain matching key sets.
+- [x] Desktop and 320px screenshot baselines were reviewed; the mobile browser check confirms there is no document-level horizontal overflow.
+- [x] Independent review, quality checks, and the page-only commit are recorded in the rollout tracker.
