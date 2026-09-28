@@ -97,4 +97,7 @@ Status definitions: `Queued` means the page has not been assigned; `In progress`
 - [x] Tracker covers every entry in the sidebar catalog exactly once (43 unique entries matched the current sidebar enum values).
 - [x] Owners, statuses, and evidence links reflect the current worktree.
 - [x] No page is marked done before independent visual and code review.
-- [ ] Parent integration checks pass after each batch.
+- [x] Parent integration checks pass after each batch. Final gate passed on 2026-09-29: unit
+      678/678, Playground unit 5/5, Playground SSR/visual 498/498, legacy SSR 11/11, and legacy
+      browser 51/51; format, lint, static audit, script checks, and builds all passed. `release/2.x`
+      was pushed through `ca40fd7`.
