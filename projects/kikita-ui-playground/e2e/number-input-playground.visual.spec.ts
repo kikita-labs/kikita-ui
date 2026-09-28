@@ -116,7 +116,9 @@ test('server-renders the native input and hydrates its Number Input wrapper', as
   expect(runtimeErrorsByPage.get(page)).toEqual([]);
 });
 
-test('shows both layouts and all four supported sizes', async ({ page }) => {
+test('shows both layouts, supported sizes, and local size precedence over Field', async ({
+  page,
+}) => {
   const variants = page.getByRole('group', { name: 'Number Input variants', exact: true });
   const splitInput = variants.getByRole('spinbutton', { name: 'Split layout' });
   const stackedInput = variants.getByRole('spinbutton', { name: 'Stacked layout' });
@@ -132,6 +134,7 @@ test('shows both layouts and all four supported sizes', async ({ page }) => {
     ['Medium', 'md'],
     ['Large', 'lg'],
     ['Large inherited from Field', 'lg'],
+    ['Small overrides large Field', 'sm'],
   ] as const;
 
   for (const [label, size] of sizeCases) {
@@ -139,6 +142,15 @@ test('shows both layouts and all four supported sizes', async ({ page }) => {
       sizes.getByRole('spinbutton', { name: label, exact: true }).locator('xpath=..'),
     ).toHaveAttribute('data-kui-size', size);
   }
+
+  const localSizeOverride = sizes.getByRole('spinbutton', {
+    name: 'Small overrides large Field',
+    exact: true,
+  });
+  await expect(localSizeOverride.locator('xpath=ancestor::kui-field')).toHaveAttribute(
+    'data-kui-size',
+    'lg',
+  );
 
   const xsHeight = await sizes
     .getByRole('spinbutton', { name: 'Extra small (md appearance)' })
@@ -298,6 +310,48 @@ test('captures real stepper hover and keyboard focus states', async ({ page }) =
   });
 });
 
+test('captures the real pressed state for split and stacked steppers', async ({ page }) => {
+  const variants = page.getByRole('group', { name: 'Number Input variants', exact: true });
+  const examples = [
+    {
+      inputName: 'Split layout',
+      screenshots: [
+        'number-input-split-stepper-pressed-desktop.png',
+        'number-input-split-stepper-pressed-320.png',
+      ],
+    },
+    {
+      inputName: 'Stacked layout',
+      screenshots: [
+        'number-input-stacked-stepper-pressed-desktop.png',
+        'number-input-stacked-stepper-pressed-320.png',
+      ],
+    },
+  ] as const;
+
+  for (const [viewport, screenshotIndex] of [
+    [{ width: 1440, height: 1000 }, 0],
+    [{ width: 320, height: 844 }, 1],
+  ] as const) {
+    await page.setViewportSize(viewport);
+
+    for (const example of examples) {
+      const input = variants.getByRole('spinbutton', { name: example.inputName, exact: true });
+      const numberInput = input.locator('xpath=..');
+      const increase = numberInput.getByRole('button', { name: 'Increase value', exact: true });
+
+      await input.fill('4');
+      await increase.hover();
+      await page.mouse.down();
+      expect(await increase.evaluate((element) => element.matches(':active'))).toBe(true);
+      await expect(numberInput).toHaveScreenshot(example.screenshots[screenshotIndex], {
+        animations: 'disabled',
+      });
+      await page.mouse.up();
+    }
+  }
+});
+
 test('moves Signal Forms validation from untouched through bounds to corrected', async ({
   page,
 }) => {
@@ -444,8 +498,10 @@ test('captures each Number Input catalogue group at desktop and 320px', async ({
     );
   }
 
-  await page.setViewportSize({ width: 320, height: 844 });
   for (const [name, , mobileScreenshot] of catalogueExamples) {
+    // The sizes catalogue has six stacked examples, so give its 320px capture
+    // enough viewport height to include the final Field precedence example.
+    await page.setViewportSize({ width: 320, height: name === 'Number Input sizes' ? 1200 : 844 });
     await expect(page.getByRole('group', { name, exact: true })).toHaveScreenshot(
       mobileScreenshot,
       { animations: 'disabled' },

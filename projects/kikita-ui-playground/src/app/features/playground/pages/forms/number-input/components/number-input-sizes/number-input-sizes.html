@@ -23,5 +23,9 @@
     <kui-field [label]="'numberInput.fields.fieldInherited' | transloco" size="lg">
       <input type="number" kuiNumberInput value="4" />
     </kui-field>
+
+    <kui-field [label]="'numberInput.fields.localSizeOverride' | transloco" size="lg">
+      <input type="number" kuiNumberInput [size]="'sm'" value="4" />
+    </kui-field>
   </div>
 </app-playground-example-card>

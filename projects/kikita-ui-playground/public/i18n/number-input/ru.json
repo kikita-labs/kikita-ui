@@ -25,6 +25,7 @@
     "medium": "Средний",
     "large": "Большой",
     "fieldInherited": "Большой, унаследован от Field",
+    "localSizeOverride": "Маленький переопределяет большой Field",
     "bounded": "От 0 до 10",
     "atMinimum": "На минимуме",
     "atMaximum": "На максимуме",
