@@ -55,9 +55,43 @@
   toggling and Field ARIA wiring rather than adding a second form-model scenario. The directive has
   no Checkbox-specific model or output.
 - There is no Checkbox `readonly` state: native checkbox inputs do not support read-only behavior,
-  and a CSS appearance alone would not make one read-only.
+  and a CSS appearance alone would not make one read-only. The shared selector CSS does dim a
+  checkbox carrying a literal `[readonly]` attribute, but that attribute does not block native
+  checkbox interaction; it is not a supported Checkbox state.
 - The page does not claim a screen-reader, forced-colors, or color-contrast audit; those require
   separate accessibility evidence.
+
+## Verification evidence
+
+- 2026-09-28, working tree based on `cdc82c0`: `node_modules/.bin/playwright.cmd test
+--config=playwright.kikita-ui-playground.config.ts
+projects/kikita-ui-playground/e2e/checkbox-playground.visual.spec.ts --update-snapshots` passed
+  9/9 tests. Refreshed artifacts: `checkbox-states-win32.png`, `checkbox-focused-win32.png`, and
+  `checkbox-states-320-win32.png` in the colocated snapshot directory.
+- 2026-09-28, same working tree: the same focused command without `--update-snapshots` passed
+  9/9 tests with no screenshot diffs.
+- Opened the three refreshed PNGs at full resolution. The desktop state/focus captures and 320px
+  state capture include the full focus-visible outline with card padding; no clipping or overlap was
+  visible. The existing default-320 and sizes-320 baselines were retained unchanged.
+- Independent review note (2026-09-28): the parent verified the current desktop states PNG from a
+  fresh copy; the `Focused` row is present. The earlier conflicting preview was stale.
+- The parent integration build/SSR/browser/adaptive run remains pending; this evidence-only
+  follow-up did not run the shared suite.
+
+## Audit limitations retained
+
+- No matching approved Checkbox visual design record is tracked. The Checkbox entry in
+  `docs/design-brief.md` is a requested board, not approval; this page records current
+  implementation evidence only.
+- `docs/checkbox.md` does not enumerate accessibility/keyboard guidance or the Checkbox CSS hooks;
+  the `--kui-checkbox-*` variables in `selection.css` are also absent from `docs/tokens.md`. The
+  source docs were outside this evidence-only follow-up.
+- The Playground does not set a root `defaults.size`, and the shared root-default integration spec
+  does not include Checkbox. The page therefore has no example or Checkbox-specific test for that
+  fallback branch. The size matrix sets local values; the Field unit test covers a non-default
+  inherited Field size.
+- The screenshots use the shell's default dark theme. Checkbox has no light-theme screenshot or
+  forced-colors, contrast, or screen-reader evidence from this run.
 
 ## Self-review checklist
 
@@ -66,7 +100,7 @@
 - [x] Checkbox text and accessible names use the English/Russian route scope; runtime switching is
       asserted by the page E2E.
 - [x] Desktop and 320px catalogue screenshot scenarios are defined with stable accessible names.
-- [ ] The updated browser suite passes, new 320px snapshots are generated, and all new captures are
-      visually reviewed.
-- [ ] The parent independently verifies the refreshed page evidence and records the separate
-      Checkbox commit.
+- [x] The updated browser suite passes, the 320px state snapshot is refreshed, and all changed
+      captures are visually reviewed.
+- [x] The parent independently reviewed the refreshed Checkbox evidence.
+- [ ] The parent integration build/SSR/browser/adaptive run is pending.

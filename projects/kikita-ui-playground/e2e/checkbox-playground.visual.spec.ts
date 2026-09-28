@@ -64,7 +64,8 @@ test('captures checked, disabled, invalid, and indeterminate states', async ({ p
   await expect(
     states.getByRole('checkbox', { name: 'Indeterminate', exact: true }),
   ).toHaveJSProperty('indeterminate', true);
-  await expect(states).toHaveScreenshot('checkbox-states.png');
+  const stateCard = page.getByRole('article').filter({ has: states });
+  await expect(stateCard).toHaveScreenshot('checkbox-states.png');
 });
 
 test('captures the focus-visible checkbox example', async ({ page }) => {
@@ -73,7 +74,8 @@ test('captures the focus-visible checkbox example', async ({ page }) => {
 
   await expect(focused).toBeFocused();
   expect(await focused.evaluate((checkbox) => checkbox.matches(':focus-visible'))).toBe(true);
-  await expect(states).toHaveScreenshot('checkbox-focused.png', { animations: 'disabled' });
+  const stateCard = page.getByRole('article').filter({ has: states });
+  await expect(stateCard).toHaveScreenshot('checkbox-focused.png', { animations: 'disabled' });
 });
 
 test('keeps the focused checkbox example visible after sidebar navigation', async ({ page }) => {
@@ -130,7 +132,10 @@ test('captures each Checkbox catalogue section at 320px', async ({ page }) => {
     ['Checkbox sizes', 'checkbox-sizes-320.png'],
     ['Checkbox states', 'checkbox-states-320.png'],
   ] as const) {
-    await expect(page.getByRole('group', { name, exact: true })).toHaveScreenshot(screenshot, {
+    const section = page.getByRole('group', { name, exact: true });
+    const target =
+      name === 'Checkbox states' ? page.getByRole('article').filter({ has: section }) : section;
+    await expect(target).toHaveScreenshot(screenshot, {
       animations: 'disabled',
     });
   }
