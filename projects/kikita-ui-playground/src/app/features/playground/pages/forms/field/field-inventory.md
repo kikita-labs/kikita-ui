@@ -79,7 +79,9 @@ The dedicated Field browser spec checks server output, accessible associations a
 - `e2e/field-playground.visual.spec.ts-snapshots/field-affixes-before-keyboard-clear.png`
 - `e2e/field-playground.visual.spec.ts-snapshots/field-affixes-after-keyboard-clear.png`
 
-The parent verification pass owns snapshot generation and visual review; no baseline images are checked in by this page implementation.
+Win32 baselines for these states and for each catalogue group at desktop and 320px are checked in beside the spec.
+
+Verification note (2026-09-28): the full playground gate failed deterministically on `field-affixes-before-prefix-click` (17 px, search prefix only) because the `search` icon resolves asynchronously from the jsDelivr `lucide-static@1` CDN and the capture raced that fetch, rendering an empty prefix. No library or page rendering change was involved. The spec now fulfils that CDN request with the verbatim `lucide-static@1` search SVG and waits for the rendered `kui-icon svg` in the affix group before the affix and catalogue captures. Existing baselines were visually re-checked and left unchanged. The whole Field spec passed 8/8, then 24/24 with `--repeat-each=3 --workers=1`, and the affix test passed 3/3 in serial repeats.
 
 ## Self-review checklist
 

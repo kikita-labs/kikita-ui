@@ -10,7 +10,14 @@ const catalogueExamples = [
   ['Field affixes and actions', 'field-affixes-desktop.png', 'field-affixes-320.png'],
 ] as const;
 
+/** Verbatim `lucide-static@1` search icon, served locally so captures never race the CDN. */
+const LUCIDE_SEARCH_ICON =
+  '<svg class="lucide lucide-search" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg>';
+
 test.beforeEach(async ({ page }) => {
+  await page.route('https://cdn.jsdelivr.net/npm/lucide-static@1/icons/search.svg', (route) =>
+    route.fulfill({ contentType: 'image/svg+xml', body: LUCIDE_SEARCH_ICON }),
+  );
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto('/components/field');
   await expect(page.getByRole('heading', { level: 1, name: 'Field', exact: true })).toBeVisible();
@@ -174,6 +181,7 @@ test('uses the affix click-to-focus behavior and keyboard-operable clear action'
   const affixes = page.getByRole('group', { name: 'Field affixes and actions', exact: true });
   const website = affixes.getByRole('textbox', { name: 'Website' });
 
+  await expect(affixes.locator('kui-icon svg')).toBeVisible();
   await expect(affixes).toHaveScreenshot('field-affixes-before-prefix-click.png', {
     animations: 'disabled',
   });
@@ -217,6 +225,12 @@ test('fits the Field catalogue without page overflow at desktop, tablet, and 320
 });
 
 test('captures each labelled Field catalogue group at desktop and 320px', async ({ page }) => {
+  await expect(
+    page
+      .getByRole('group', { name: 'Field affixes and actions', exact: true })
+      .locator('kui-icon svg'),
+  ).toBeVisible();
+
   for (const [name, desktopScreenshot] of catalogueExamples) {
     await expect(page.getByRole('group', { name, exact: true })).toHaveScreenshot(
       desktopScreenshot,
