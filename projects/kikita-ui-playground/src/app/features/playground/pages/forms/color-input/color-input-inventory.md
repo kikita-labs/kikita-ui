@@ -36,3 +36,4 @@
 - [x] Interaction tests target public/native semantics or source-owned picker controls and use deterministic values; no library visual/API change is proposed.
 - [x] EN/RU key parity and runtime switching, desktop captures, 320px capture bounds, and touch-size limitations are recorded.
 - [x] Parent gate passed: the production/SSR build and focused Playwright suite passed; all 17 desktop, interaction, and 320px captures were visually inspected, and the no-update rerun passed 17/17.
+- [x] 2026-09-28 stabilization: the edited-value and parser-invalid tests typed into the server-rendered input before hydration and before the directive moved it into its browser-only wrapper, which failed intermittently in the full serial gate. Both tests now wait for the generated wrapper and the localized swatch name before `fill`. The edited-value test passed 10/10 with `--repeat-each=10 --workers=1`, and the full spec passed 17/17 with no capture changes.

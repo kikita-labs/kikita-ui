@@ -113,19 +113,23 @@ test('captures keyboard focus on the color picker trigger', async ({ page }) => 
 test('updates the swatch label when a text color value changes', async ({ page }) => {
   const sizes = page.getByRole('group', { name: 'Color input sizes', exact: true });
   const input = sizes.getByRole('textbox', { name: 'Medium' });
+  const swatch = getGeneratedSwatch(input);
 
+  await expectBrowserEnhanced(input, 'Choose color: #5b4fe0');
   await input.fill('#27ae60');
 
   await expect(input).toHaveValue('#27ae60');
-  await expect(sizes.getByRole('button', { name: 'Choose color: #27ae60' })).toBeVisible();
+  await expect(swatch).toHaveAccessibleName('Choose color: #27ae60');
+  await expect(sizes.getByRole('button', { name: 'Choose color: #27ae60' })).toHaveCount(1);
   await expect(sizes).toHaveScreenshot('color-input-edited-value.png', { animations: 'disabled' });
 });
 
 test('marks unsupported text invalid while preserving the last valid swatch', async ({ page }) => {
   const values = getGroup(page, 'Color input value formats');
   const input = values.getByRole('textbox').first();
-  const swatch = values.getByRole('button', { name: 'Choose color: #5b4fe0' }).first();
+  const swatch = getGeneratedSwatch(input);
 
+  await expectBrowserEnhanced(input, 'Choose color: #5b4fe0');
   await input.fill('not-a-color');
 
   await expect(input).toHaveAttribute('aria-invalid', 'true');
@@ -276,6 +280,25 @@ test('keeps all catalogue groups within a 320px viewport', async ({ page }) => {
 
 function getGroup(page: Page, accessibleName: string): Locator {
   return page.getByRole('group', { name: accessibleName, exact: true });
+}
+
+/**
+ * Returns the swatch button the directive generates next to a native input in the browser.
+ * The server-rendered input has no swatch, so this resolves only after hydration and enhancement.
+ */
+function getGeneratedSwatch(input: Locator): Locator {
+  return input.locator('..').locator('.kui-color-input__swatch');
+}
+
+/**
+ * Waits until the server-rendered native input is hydrated and wrapped by the browser-only
+ * picker controls, with the localized swatch name already applied. Typing before this point can
+ * target the server markup while the directive moves the input into its wrapper, which drops
+ * focus mid-fill and leaves the swatch label unsynchronized.
+ */
+async function expectBrowserEnhanced(input: Locator, swatchName: string): Promise<void> {
+  await expect(input.locator('..')).toHaveClass(/\bkui-color-input\b/);
+  await expect(getGeneratedSwatch(input)).toHaveAccessibleName(swatchName);
 }
 
 async function captureMobile(page: Page, group: Locator, screenshotName: string): Promise<void> {
