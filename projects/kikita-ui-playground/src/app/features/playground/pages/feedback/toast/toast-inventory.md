@@ -22,7 +22,7 @@ symbols.
 | `persistent`                                   | Optional `boolean` or `Signal<boolean>`, default false. `true` pauses auto-dismiss; a signal can release into the configured timer.                                                                                                                                                     | Signal lifecycle opens persistent, releases persistence, then updates to a timed success toast. `duration: Infinity` is used for eviction samples.                                                                                                                                                                    |
 | `closable`                                     | Optional `boolean`, default true.                                                                                                                                                                                                                                                       | Default/appearance samples keep the close button; the no-close sample sets `false` and exposes a separate reference-close button.                                                                                                                                                                                     |
 | `showIcon`                                     | Optional `boolean`, default true. Neutral has no icon even when true.                                                                                                                                                                                                                   | Appearance samples show source-owned icons where supported; success without icon demonstrates `false`. Neutral with `true` is omitted because it is visually identical to the default.                                                                                                                                |
-| `showProgress`                                 | Optional `boolean`, default false. It renders only for a non-persistent toast.                                                                                                                                                                                                          | Timed progress example plus signal release/update show the bar. Hovering the timed toast pauses/resumes the actual timer and bar. Persistent with progress is omitted because the bar is hidden while persistent.                                                                                                     |
+| `showProgress`                                 | Optional `boolean`, default false. It renders only for a non-persistent toast.                                                                                                                                                                                                          | Timed progress example plus signal release/update show the bar. E2E asserts the Signal-backed toast has no bar while persistent and shows it after release. Hovering the timed toast pauses/resumes the actual timer and bar. Persistent with progress is omitted because the bar is hidden while persistent.         |
 | `position`                                     | Global `KuiToastOptions` value; six combinations of `top` or `bottom` with `start`, `center`, or `end`; default `bottom-center`. `setPosition()` updates the running region.                                                                                                            | Position controls use the public service method and open one persistent toast at each location. The default shows bottom-center.                                                                                                                                                                                      |
 | `duration` option                              | Global default duration, default 5000ms; per-call `config.duration` wins.                                                                                                                                                                                                               | Minimal sample omits it; timed examples supply per-call durations. Provider-only overrides are not configured by this page.                                                                                                                                                                                           |
 | `maxVisible` option                            | Maximum active toasts, default 3; adding another dismisses the oldest active toast.                                                                                                                                                                                                     | Four-toasts scenario confirms the first item leaves and the last three remain. A larger simultaneous appearance matrix is omitted because it would change the default being demonstrated.                                                                                                                             |
@@ -56,13 +56,15 @@ symbols.
   delay. The progress example uses a real hover interaction and fake-clock assertions that a full
   duration does not dismiss while hovered, then the toast expires after its remaining duration
   following pointer leave. The page does not simulate hover or focus using custom styles.
-- Stack order depends on position: top stacks downward; bottom stacks upward, placing the newest
-  item nearest the viewport edge. The position catalogue opens one toast at a time. A dense stack
-  of all appearances is omitted because the default cap is three.
+- Stack order depends on position: top stacks downward and bottom stacks upward. Because new
+  items append to the list, the oldest still-visible toast stays nearest the viewport edge in both
+  cases. The position catalogue opens one toast at a time. A dense stack of all appearances is
+  omitted because the default cap is three.
 - At widths up to 480px the Toast region is inset on both horizontal sides and stretches cards.
   Its selected vertical edge remains in effect (`top` stays at the top and `bottom` stays at the
-  bottom); only horizontal alignment collapses. The visual spec checks all six positions on desktop
-  and deterministically asserts top-versus-bottom placement at 320px, alongside page overflow.
+  bottom); only horizontal alignment collapses. The visual spec captures all six positions on
+  desktop and captures the distinct top and bottom mobile placements at 320px, alongside toast
+  bounds and page-overflow assertions.
 - Toast has no browser DOM in server markup. `open()` on the server returns id `-1`, no-op methods,
   and empty observables. This page does not call `open()` during server rendering, so the SSR check
   does not exercise that server-only return value. It asserts that the server response has the page
@@ -97,6 +99,10 @@ symbols.
 - `docs/toast.md` says mobile ignores the position side and aligns at the bottom. Shipped CSS only
   overrides horizontal alignment at 480px and preserves the selected top/bottom edge; the page
   tests that source behavior rather than repeating the stale documentation claim.
+- `docs/toast.md` says the newest toast is closest to the viewport edge for bottom positions. The
+  region appends notifications and uses `column-reverse`, so the oldest still-visible toast remains
+  closest to the bottom edge; the capacity scenario asserts the rendered order through accessible
+  status roles and their geometry. This page records shipped behavior without changing library code.
 - `KuiToastService.setPosition()` is a public JSDoc method (`kui-toast.service.ts`) but is absent
   from the API tables in `docs/toast.md`. Position controls use it as shipped.
 - The `KuiToastRef.action$` JSDoc/docs describe a single emission; source calls `next()` on every
@@ -112,6 +118,21 @@ symbols.
 parent-approved scope: preserve the already shipped Toast appearance and use the agreed
 `PlaygroundExampleCard` layout without changing or inventing Toast styling.
 
+## Browser evidence coverage
+
+| Catalogue section   | Desktop evidence                                                   | 320px evidence                                                                                                   |
+| ------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| Default             | Neutral toast in dark and light themes                             | Minimal neutral toast                                                                                            |
+| Appearances         | Neutral, success, warning, danger, and info                        | Each of the five appearances                                                                                     |
+| Content and options | Message, action, hidden icon, no close button, timed progress      | The same five states; progress is paused by real hover                                                           |
+| Positions           | All six positions                                                  | Viewport captures show top and bottom placements; horizontal alignment is intentionally collapsed by shipped CSS |
+| Lifecycle           | Signal-persistent state, update, and three-visible eviction result | Signal-persistent state, update, and the full page viewport with the three-toast stack                           |
+
+The spec also exercises the mobile position controls and asserts the Toast region remains inside
+the 16px viewport insets with no document-level horizontal overflow. Browser execution and visual
+inspection for the newly added 320px snapshots are pending the parent-owned Playwright gate; do
+not infer them from this coverage map.
+
 ## Self-review checklist
 
 - [x] Every public config field, option, service method, reference member, type domain, and default is mapped above.
@@ -123,5 +144,7 @@ parent-approved scope: preserve the already shipped Toast appearance and use the
 - [x] Parent added the Feedback Toast route, scope provider, and shared SSR route registration.
 - [x] Route teardown dismisses page-owned notifications and restores the global position example;
       the navigation behavior has a dedicated E2E scenario.
-- [x] The visual spec passes 12/12; all 21 desktop/mobile captures were generated and inspected. The SSR/hydration assertion and route teardown checks pass.
+- [x] The 12-test visual spec, including the new 320px captures for every named catalogue section, passes in the parent-owned Playwright gate.
+- [x] The generated desktop and 320px screenshots have been opened and visually inspected for clipping, overlap, overflow, and stale baselines.
+- [x] SSR/hydration and route teardown checks have been rerun and pass in the parent-owned browser gate.
 - [ ] Independent accessibility/assistive-technology review remains pending; this page checks DOM roles and keyboard interaction only.

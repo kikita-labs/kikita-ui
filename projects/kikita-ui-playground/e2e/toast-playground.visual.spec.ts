@@ -50,6 +50,40 @@ function getToast(page: Page, role: 'status' | 'alert', title: string) {
     .filter({ hasText: title });
 }
 
+async function expectMobileToastScreenshot(
+  page: Page,
+  toast: ReturnType<typeof getToast>,
+  screenshotName: string,
+): Promise<void> {
+  expect(page.viewportSize()?.width).toBe(mobileViewport.width);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => document.documentElement.scrollWidth <= document.documentElement.clientWidth,
+      ),
+    )
+    .toBe(true);
+
+  const box = await toast.boundingBox();
+  if (box === null)
+    throw new Error(`Toast is not visible for mobile screenshot: ${screenshotName}`);
+  expect(box.x).toBeGreaterThanOrEqual(16);
+  expect(box.x + box.width).toBeLessThanOrEqual(mobileViewport.width - 16);
+  await expect(toast).toHaveScreenshot(screenshotName);
+}
+
+async function expectMobilePageScreenshot(page: Page, screenshotName: string): Promise<void> {
+  expect(page.viewportSize()?.width).toBe(mobileViewport.width);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => document.documentElement.scrollWidth <= document.documentElement.clientWidth,
+      ),
+    )
+    .toBe(true);
+  await expect(page).toHaveScreenshot(screenshotName);
+}
+
 test.beforeEach(async ({ page }) => {
   const errors: string[] = [];
   browserErrors.set(page, errors);
@@ -199,6 +233,9 @@ test('renders every supported appearance with its current live role', async ({ p
     await expect(toast).toHaveAttribute('data-kui-appearance', example.value);
     await expect(toast).toHaveAttribute('aria-live', example.live);
     await expect(toast).toHaveScreenshot(`toast-appearance-${example.value}.png`);
+    await page.setViewportSize(mobileViewport);
+    await expectMobileToastScreenshot(page, toast, `toast-appearance-${example.value}-320.png`);
+    await page.setViewportSize(desktopViewport);
   }
 });
 
@@ -214,7 +251,9 @@ test('uses a native keyboard action and keeps the action toast open', async ({ p
 
   await expect(actionCase.getByRole('status')).toHaveText(copy.labels.actionReceived);
   await expect(toast).toBeVisible();
-  await expect(page).toHaveScreenshot('toast-action-activated.png');
+  await expect(toast).toHaveScreenshot('toast-action-activated.png');
+  await page.setViewportSize(mobileViewport);
+  await expectMobileToastScreenshot(page, toast, 'toast-action-activated-320.png');
 });
 
 test('supports a wrapping message and hides an appearance icon on request', async ({ page }) => {
@@ -228,7 +267,10 @@ test('supports a wrapping message and hides an appearance icon on request', asyn
   const messageToast = getToast(page, 'status', copy.labels.messageTitle);
   await expect(messageToast).toContainText(copy.labels.longMessage);
   await expect(messageToast).toHaveScreenshot('toast-message.png');
+  await page.setViewportSize(mobileViewport);
+  await expectMobileToastScreenshot(page, messageToast, 'toast-message-320.png');
 
+  await page.setViewportSize(desktopViewport);
   await page.reload();
   const noIconCase = page.getByRole('group', { name: copy.accessibility.noIconCase, exact: true });
   await noIconCase.getByRole('button', { name: copy.actions.showNoIcon, exact: true }).click();
@@ -236,6 +278,8 @@ test('supports a wrapping message and hides an appearance icon on request', asyn
   await expect(noIconToast).toBeVisible();
   await expect(noIconToast).toHaveAttribute('data-kui-appearance', 'success');
   await expect(noIconToast).toHaveScreenshot('toast-icon-hidden.png');
+  await page.setViewportSize(mobileViewport);
+  await expectMobileToastScreenshot(page, noIconToast, 'toast-icon-hidden-320.png');
 });
 
 test('closes a non-closable toast through its returned reference', async ({ page }) => {
@@ -250,7 +294,10 @@ test('closes a non-closable toast through its returned reference', async ({ page
   await expect(toast).toBeVisible();
   await expect(toast.getByRole('button')).toHaveCount(0);
   await expect(toast).toHaveScreenshot('toast-no-close-button.png');
+  await page.setViewportSize(mobileViewport);
+  await expectMobileToastScreenshot(page, toast, 'toast-no-close-button-320.png');
 
+  await page.setViewportSize(desktopViewport);
   await noCloseCase.getByRole('button', { name: copy.actions.closeByRef, exact: true }).click();
   await page.clock.fastForward(250);
   await expect(toast).toHaveCount(0);
@@ -273,6 +320,12 @@ test('pauses and resumes the actual timed progress toast on hover', async ({ pag
     .poll(() => progress.evaluate((element) => getComputedStyle(element).animationPlayState))
     .toBe('paused');
   await expect(toast).toHaveScreenshot('toast-progress-hover-paused.png');
+  await page.setViewportSize(mobileViewport);
+  await toast.hover();
+  await expect
+    .poll(() => progress.evaluate((element) => getComputedStyle(element).animationPlayState))
+    .toBe('paused');
+  await expectMobileToastScreenshot(page, toast, 'toast-progress-hover-paused-320.png');
 
   await page.clock.fastForward(60_000);
   await expect(toast).toBeVisible();
@@ -301,6 +354,10 @@ test('updates and dismisses a signal-controlled toast and enforces the three-toa
   await signalCase.getByRole('button', { name: copy.actions.openTracked, exact: true }).click();
   const syncing = getToast(page, 'status', copy.labels.syncTitle);
   await expect(syncing).toBeVisible();
+  await expect(syncing.locator('.kui-toast-progress')).toHaveCount(0);
+  await page.setViewportSize(mobileViewport);
+  await expectMobileToastScreenshot(page, syncing, 'toast-persistent-signal-320.png');
+  await page.setViewportSize(desktopViewport);
   await signalCase
     .getByRole('button', { name: copy.actions.releasePersistence, exact: true })
     .click();
@@ -312,6 +369,9 @@ test('updates and dismisses a signal-controlled toast and enforces the three-toa
   await expect(updated).toHaveAttribute('aria-live', 'polite');
   await expect(updated).toContainText(copy.labels.updatedMessage);
   await expect(page).toHaveScreenshot('toast-reference-update.png');
+  await page.setViewportSize(mobileViewport);
+  await expectMobileToastScreenshot(page, updated, 'toast-reference-update-320.png');
+  await page.setViewportSize(desktopViewport);
 
   await signalCase.getByRole('button', { name: copy.actions.closeTracked, exact: true }).click();
   await page.clock.fastForward(250);
@@ -337,7 +397,24 @@ test('updates and dismisses a signal-controlled toast and enforces the three-toa
   for (const title of [copy.labels.stackSecond, copy.labels.stackThird, copy.labels.stackFourth]) {
     await expect(getToast(page, 'status', title)).toBeVisible();
   }
+
+  const bottomToTopYs = await Promise.all(
+    [copy.labels.stackSecond, copy.labels.stackThird, copy.labels.stackFourth].map(
+      async (title) => {
+        const box = await getToast(page, 'status', title).boundingBox();
+        if (box === null) throw new Error(`Expected visible stack item: ${title}`);
+        return box.y;
+      },
+    ),
+  );
+  expect(bottomToTopYs[0]).toBeGreaterThan(bottomToTopYs[1]);
+  expect(bottomToTopYs[1]).toBeGreaterThan(bottomToTopYs[2]);
+
   await expect(page).toHaveScreenshot('toast-capacity-three.png');
+  await page.setViewportSize(mobileViewport);
+  await capacity.scrollIntoViewIfNeeded();
+  await expectMobilePageScreenshot(page, 'toast-capacity-three-320.png');
+  await page.setViewportSize(desktopViewport);
 
   await capacity.getByRole('button', { name: copy.actions.dismissAll, exact: true }).click();
   await page.clock.fastForward(250);
@@ -408,6 +485,7 @@ test('preserves vertical Toast placement on mobile while collapsing horizontal a
   expect(topBox?.y ?? mobileViewport.height).toBeLessThan(mobileViewport.height / 2);
   expect(topBox?.x ?? 0).toBeGreaterThanOrEqual(16);
   expect((topBox?.x ?? 0) + (topBox?.width ?? 0)).toBeLessThanOrEqual(mobileViewport.width - 16);
+  await expectMobilePageScreenshot(page, 'toast-position-top-320.png');
 
   await positionButton(copy.positions.bottomEnd).click();
   await expect(region).toHaveAttribute('data-position', 'bottom-end');
@@ -418,6 +496,7 @@ test('preserves vertical Toast placement on mobile while collapsing horizontal a
   expect((bottomBox?.x ?? 0) + (bottomBox?.width ?? 0)).toBeLessThanOrEqual(
     mobileViewport.width - 16,
   );
+  await expectMobilePageScreenshot(page, 'toast-position-bottom-320.png');
 });
 
 test('dismisses page-owned toasts and restores the region position on navigation', async ({
