@@ -149,6 +149,11 @@ test('server-renders and hydrates Empty State on its routed page', async ({ page
 test('server-renders and hydrates Select with a closed, named default combobox', async ({
   page,
 }) => {
+  for (let requestIndex = 0; requestIndex < 2; requestIndex++) {
+    const priorResponse = await page.request.get('/components/select');
+    expect(priorResponse.status()).toBe(200);
+  }
+
   const consoleErrors: string[] = [];
   page.on('console', (message) => {
     if (message.type() === 'error') consoleErrors.push(message.text());
@@ -156,6 +161,25 @@ test('server-renders and hydrates Select with a closed, named default combobox',
 
   const response = await page.goto('/components/select');
   expect(response?.status()).toBe(200);
+  const serverMarkup = await response?.text();
+  expect(serverMarkup).toBeDefined();
+
+  const serverFieldIds = await page.evaluate((markup) => {
+    const serverDocument = new DOMParser().parseFromString(markup, 'text/html');
+    const field = Array.from(serverDocument.querySelectorAll('kui-field')).find((candidate) =>
+      candidate.querySelector('input[role="combobox"]'),
+    );
+    const label = field?.querySelector('label');
+    const control = field?.querySelector<HTMLInputElement>('input[role="combobox"]');
+
+    return {
+      labelFor: label?.getAttribute('for') ?? null,
+      controlId: control?.id ?? null,
+    };
+  }, serverMarkup ?? '');
+
+  expect(serverFieldIds.controlId).toMatch(/^kui-field-\d+$/);
+  expect(serverFieldIds.labelFor).toBe(serverFieldIds.controlId);
   await expect(page.getByRole('heading', { level: 1, name: 'Select' })).toBeVisible();
 
   const input = page
@@ -164,6 +188,12 @@ test('server-renders and hydrates Select with a closed, named default combobox',
   await expect(input).toHaveAttribute('role', 'combobox');
   await expect(input).toHaveAttribute('aria-expanded', 'false');
   await expect(input).toHaveAttribute('aria-haspopup', 'listbox');
+  const hydratedFieldIds = await input.evaluate((element) => ({
+    controlId: (element as HTMLInputElement).id,
+    labelFor: (element as HTMLInputElement).labels?.[0]?.htmlFor ?? null,
+  }));
+  expect(hydratedFieldIds.controlId).toBe(serverFieldIds.controlId);
+  expect(hydratedFieldIds.labelFor).toBe(hydratedFieldIds.controlId);
   await expect(page.getByRole('listbox')).toHaveCount(0);
 
   await page.reload();
