@@ -27,6 +27,13 @@
     align-items: start;
   }
 
+  .checkbox-playground__standalone-invalid {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
   @media (width < 48rem) {
     .checkbox-playground {
       padding: var(--kui-space-6);

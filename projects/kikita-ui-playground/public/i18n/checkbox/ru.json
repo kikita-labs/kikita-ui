@@ -20,6 +20,7 @@
     "disabled": "Отключён",
     "disabledChecked": "Отключён и отмечен",
     "invalid": "Обязательная настройка",
+    "standaloneInvalid": "Отдельное состояние ошибки",
     "indeterminate": "Неопределённое состояние",
     "focused": "В фокусе"
   },

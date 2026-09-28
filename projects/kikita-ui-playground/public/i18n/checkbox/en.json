@@ -20,6 +20,7 @@
     "disabled": "Disabled",
     "disabledChecked": "Disabled and checked",
     "invalid": "Required preference",
+    "standaloneInvalid": "Standalone invalid",
     "indeterminate": "Indeterminate",
     "focused": "Focused"
   },

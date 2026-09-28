@@ -9,9 +9,10 @@ test('captures the default checkbox example', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'Checkbox' })).toBeVisible();
 
   const example = page.getByRole('group', { name: 'Default checkbox example', exact: true });
-  await expect(
-    example.getByRole('checkbox', { name: 'Receive product updates' }),
-  ).not.toBeChecked();
+  const checkbox = example.getByRole('checkbox', { name: 'Receive product updates' });
+  await expect(checkbox).not.toBeChecked();
+  await expect(checkbox).toHaveAttribute('data-kui-size', 'md');
+  await expect(checkbox).toHaveAttribute('id', /kui-field-\d+/);
   await expect(example).toHaveScreenshot('checkbox-default.png');
 });
 
@@ -19,10 +20,18 @@ test('captures every supported checkbox size', async ({ page }) => {
   const sizes = page.getByRole('group', { name: 'Checkbox sizes', exact: true });
 
   await expect(sizes.getByRole('checkbox')).toHaveCount(4);
-  await expect(sizes.getByRole('checkbox', { name: 'Extra small', exact: true })).not.toBeChecked();
-  await expect(sizes.getByRole('checkbox', { name: 'Small', exact: true })).toBeChecked();
-  await expect(sizes.getByRole('checkbox', { name: 'Medium', exact: true })).toBeChecked();
-  await expect(sizes.getByRole('checkbox', { name: 'Large', exact: true })).not.toBeChecked();
+
+  for (const [name, size, checked] of [
+    ['Extra small', 'xs', false],
+    ['Small', 'sm', true],
+    ['Medium', 'md', true],
+    ['Large', 'lg', false],
+  ] as const) {
+    const checkbox = sizes.getByRole('checkbox', { name, exact: true });
+    await expect(checkbox).toHaveAttribute('data-kui-size', size);
+    await expect(checkbox).toHaveJSProperty('checked', checked);
+  }
+
   await expect(sizes).toHaveScreenshot('checkbox-sizes.png');
 });
 
@@ -42,6 +51,15 @@ test('captures checked, disabled, invalid, and indeterminate states', async ({ p
   await expect(invalid).toHaveAttribute('aria-invalid', 'true');
   await expect(invalid).toHaveAttribute('aria-describedby', /kui-field-\d+-error/);
   await expect(states.getByText('Select this preference to continue.')).toBeVisible();
+
+  const standaloneInvalid = states.getByRole('checkbox', {
+    name: 'Standalone invalid',
+    exact: true,
+  });
+  await expect(standaloneInvalid).toHaveAttribute('id', 'checkbox-standalone-invalid');
+  await expect(standaloneInvalid).toHaveAttribute('data-kui-invalid', '');
+  await expect(standaloneInvalid).toHaveAttribute('aria-invalid', 'true');
+  await expect(standaloneInvalid).not.toHaveAttribute('aria-describedby', /.+/);
 
   await expect(
     states.getByRole('checkbox', { name: 'Indeterminate', exact: true }),
@@ -69,6 +87,27 @@ test('keeps the focused checkbox example visible after sidebar navigation', asyn
   expect(await focused.evaluate((checkbox) => checkbox.matches(':focus-visible'))).toBe(true);
 });
 
+test('updates Checkbox labels when the shell language changes to Russian', async ({ page }) => {
+  const localeResponse = await page.request.get('/i18n/checkbox/ru.json');
+  expect(localeResponse.ok()).toBeTruthy();
+  const russian = await localeResponse.json();
+
+  await page
+    .getByRole('banner')
+    .getByRole('button', { name: 'Switch language to Russian', exact: true })
+    .click();
+
+  await expect(
+    page.getByRole('heading', { level: 1, name: russian.title, exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('group', { name: russian.accessibility.states, exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('checkbox', { name: russian.labels.standaloneInvalid, exact: true }),
+  ).toBeVisible();
+});
+
 test('captures pointer hover and pressed checkbox states', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default checkbox example', exact: true });
   const checkbox = example.getByRole('checkbox', { name: 'Receive product updates' });
@@ -81,6 +120,20 @@ test('captures pointer hover and pressed checkbox states', async ({ page }) => {
   expect(await checkbox.evaluate((element) => element.matches(':active'))).toBe(true);
   await expect(checkbox).toHaveScreenshot('checkbox-pressed.png', { animations: 'disabled' });
   await page.mouse.up();
+});
+
+test('captures each Checkbox catalogue section at 320px', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 2048 });
+
+  for (const [name, screenshot] of [
+    ['Default checkbox example', 'checkbox-default-320.png'],
+    ['Checkbox sizes', 'checkbox-sizes-320.png'],
+    ['Checkbox states', 'checkbox-states-320.png'],
+  ] as const) {
+    await expect(page.getByRole('group', { name, exact: true })).toHaveScreenshot(screenshot, {
+      animations: 'disabled',
+    });
+  }
 });
 
 test('toggles the native default checkbox with pointer and keyboard input', async ({ page }) => {

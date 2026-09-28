@@ -49,6 +49,12 @@
           >
             <input kuiCheckbox type="checkbox" />
           </kui-field>
+          <label class="checkbox-playground__standalone-invalid">
+            <input kuiCheckbox type="checkbox" id="checkbox-standalone-invalid" invalid />
+            <span kuiText variant="body-sm">
+              {{ 'checkbox.labels.standaloneInvalid' | transloco }}
+            </span>
+          </label>
           <kui-field [label]="'checkbox.labels.indeterminate' | transloco">
             <input kuiCheckbox type="checkbox" [indeterminate]="true" />
           </kui-field>
