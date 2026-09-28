@@ -48,8 +48,11 @@
 
 - Keep `TranslocoHttpLoader` as the single root loader. Request the catalogue path Transloco
   supplies: a root catalogue uses `<language>`, while a lazy scope uses `<scope>/<language>`
-  (for example, `calendar/en`). Browser requests use a relative URL; SSR requests use the
-  current `REQUEST` origin to create an absolute URL.
+  (for example, `calendar/en`). Use the same relative URL on both platforms: Angular's server
+  HTTP interceptor resolves it against the incoming request, and the identical URL is the HTTP
+  transfer cache key, so the browser reuses the server-loaded catalogue instead of downloading it
+  again during hydration. An absolute server URL misses that cache, briefly blanks translated
+  text after hydration, and shifts layout under browser interactions and captures.
 - Keep English as the default and fallback language until a product decision changes both.
 - Enable `reRenderOnLangChange` because this playground changes language at runtime.
 - Add a server-rendered assertion for initial text and a browser assertion for language changes
