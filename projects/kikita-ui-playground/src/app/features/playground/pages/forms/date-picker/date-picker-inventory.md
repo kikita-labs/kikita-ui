@@ -114,3 +114,21 @@ open Default panel capture is expected to change because its displayed month mov
 - [x] Browser evidence declared: the spec fixes its May 2026 clock and names the exact states and viewport captures recorded in the Visual states row; Russian behavior is interactive evidence, not a localized screenshot.
 - [x] Focused root verification: the Date Picker page suite and serial SSR/build checks passed in the fresh root gate (14/14 page checks).
 - [x] Visual review: the regenerated `date-picker-default-open-320.png` and full contact sheet were reviewed; the Calendar remains unclipped and closed Default baselines stay unchanged.
+
+## Verification notes
+
+- 2026-09-28: the Russian labels check failed 1/5 in isolated repeats and once in the full
+  serial playground gate. Running the unchanged spec with `--repeat-each=20 --workers=1`
+  reproduced it 2/20, both at the final weekday poll. The traces show the observed cause: the
+  English panel was closed with Escape and the Russian ArrowDown followed about 135ms later.
+  `KuiDropdownComponent.close()` only starts the 120ms `kui-dropdown-out` animation and keeps
+  `isOpen()` true until `animationend`, so `KuiDatePickerDirective` treated the ArrowDown as
+  "focus the grid" instead of "open". The closing panel already rendered the Russian month, so the
+  month check passed, then the overlay detached and the weekday row was never found. The spec now
+  waits for the English dialog to be hidden and `aria-expanded="false"` after Escape, and for
+  `aria-expanded="true"` plus a visible dialog after the Russian ArrowDown. As documented
+  hardening, matching the Dropdown page, `beforeEach` also waits for the client re-fetch of
+  `/i18n/date-picker/en.json` before interacting; that scope-reload race was not observed in the
+  failing traces. With the fix the check passed 20/20 in serial repeats and the whole Date Picker
+  spec passed 14/14 with no capture changes. The library behavior (ArrowDown ignored as an open
+  request while the panel is closing) is reported to the library owners rather than changed here.

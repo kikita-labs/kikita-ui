@@ -1,3 +1,4 @@
+import type { Page } from '@playwright/test';
 import { expect, test } from '@playwright/test';
 
 const desktopViewport = { width: 1440, height: 1000 };
@@ -8,8 +9,7 @@ const fixedBrowserTime = new Date('2026-05-14T12:00:00.000Z');
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize(desktopViewport);
   await page.clock.install({ time: fixedBrowserTime });
-  await page.goto('/components/date-picker');
-  await expect(page.getByRole('heading', { level: 1, name: 'Date Picker' })).toBeVisible();
+  await gotoDatePickerWithClientTranslations(page);
 });
 
 test('server-renders the Date Picker route and hydrates its combobox interaction', async ({
@@ -549,6 +549,11 @@ test('keeps the page labels and field names translated in Russian', async ({ pag
       .evaluate((row) => Array.from(row.children, (child) => child.textContent?.trim() ?? ''));
   expect(await renderedWeekdays()).toEqual(englishWeekdays);
   await englishInput.press('Escape');
+  // Escape only starts the 120ms `kui-dropdown-out` animation; the Dropdown stays open until
+  // `animationend` detaches it. An ArrowDown before then focuses the closing grid instead of
+  // reopening the panel, which already shows the Russian month and is detached moments later.
+  await expect(calendarPanel).toBeHidden();
+  await expect(englishInput).toHaveAttribute('aria-expanded', 'false');
 
   await page.getByRole('button', { name: 'Switch language to Russian', exact: true }).click();
 
@@ -568,6 +573,8 @@ test('keeps the page labels and field names translated in Russian', async ({ pag
 
   const russianInput = page.getByRole('combobox', { name: russian.fields.meetingDate });
   await russianInput.press('ArrowDown');
+  await expect(russianInput).toHaveAttribute('aria-expanded', 'true');
+  await expect(calendarPanel).toBeVisible();
   const russianMonth = await page.evaluate(() =>
     new Intl.DateTimeFormat('ru-RU', { month: 'long', timeZone: 'UTC' }).format(
       new Date(Date.UTC(2026, 4, 1)),
@@ -585,3 +592,21 @@ test('keeps the page labels and field names translated in Russian', async ({ pag
   );
   await expect.poll(renderedWeekdays).toEqual(russianWeekdays);
 });
+
+/**
+ * Opens the Date Picker route and waits until the browser has applied its own copy of the page's
+ * translation scope.
+ *
+ * The server-rendered heading is not proof of a hydrated page: after hydration the client fetches
+ * `/i18n/date-picker/en.json` again, and until that response renders the field labels are empty.
+ * Waiting for the scope response and then for the translated heading keeps the first keyboard
+ * interaction out of the pre-hydration and empty-label windows.
+ */
+async function gotoDatePickerWithClientTranslations(page: Page): Promise<void> {
+  const scopeResponse = page.waitForResponse(
+    (response) => new URL(response.url()).pathname === '/i18n/date-picker/en.json' && response.ok(),
+  );
+  await page.goto('/components/date-picker');
+  await scopeResponse;
+  await expect(page.getByRole('heading', { level: 1, name: 'Date Picker' })).toBeVisible();
+}
