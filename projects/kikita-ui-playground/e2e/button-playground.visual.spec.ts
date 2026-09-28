@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, type Locator, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1200 });
@@ -36,6 +36,10 @@ for (const [sectionName, fileName] of [
     const card = page.getByRole('article').filter({ has: examples });
     await card.scrollIntoViewIfNeeded();
     await expect(card).toBeVisible();
+
+    if (sectionName === 'Button composition examples') {
+      await expectCompositionIcons(examples);
+    }
 
     const bounds = await card.boundingBox();
     expect(bounds, `${sectionName} should have visible bounds at 320px`).not.toBeNull();
@@ -90,10 +94,13 @@ test('captures pointer hover and pressed button states', async ({ page }) => {
 });
 
 test('captures button composition examples', async ({ page }) => {
-  await expect(page.getByRole('group', { name: 'Button composition examples' })).toHaveScreenshot(
-    'button-composition.png',
-    { animations: 'disabled' },
-  );
+  const composition = page.getByRole('group', {
+    name: 'Button composition examples',
+    exact: true,
+  });
+
+  await expectCompositionIcons(composition);
+  await expect(composition).toHaveScreenshot('button-composition.png', { animations: 'disabled' });
 });
 
 test('captures the interactive loading state', async ({ page }) => {
@@ -105,3 +112,15 @@ test('captures the interactive loading state', async ({ page }) => {
   await expect(loadingButton).toHaveAttribute('aria-busy', 'true');
   await expect(states).toHaveScreenshot('button-interactive-loading.png');
 });
+
+async function expectCompositionIcons(composition: Locator): Promise<void> {
+  const leadingIcon = composition
+    .getByRole('button', { name: 'Save with leading icon', exact: true })
+    .locator('kui-icon svg');
+  const trailingIcon = composition
+    .getByRole('button', { name: 'Continue with trailing icon', exact: true })
+    .locator('kui-icon svg');
+
+  await expect(leadingIcon).toHaveCount(1);
+  await expect(trailingIcon).toHaveCount(1);
+}
