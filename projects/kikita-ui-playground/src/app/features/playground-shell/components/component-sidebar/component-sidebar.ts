@@ -13,9 +13,9 @@ import {
   KuiTextDirective,
 } from '@kikita-labs/ui';
 
+import { PlaygroundRoute } from '@app/enums';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
-import { PlaygroundShellRoute } from '../../enums';
 import { COMPONENT_GROUPS } from './constants';
 
 @Component({
@@ -39,7 +39,7 @@ export class ComponentSidebar {
 
   private readonly transloco = inject(TranslocoService);
 
-  protected readonly componentsRoute = PlaygroundShellRoute.Components;
+  protected readonly componentsRoute = PlaygroundRoute.Components;
   protected readonly groups = COMPONENT_GROUPS;
 
   protected readonly expandedCategories = signal(['actions']);

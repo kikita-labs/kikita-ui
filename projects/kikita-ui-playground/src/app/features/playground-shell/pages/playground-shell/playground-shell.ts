@@ -11,6 +11,7 @@ import {
   Renderer2,
   signal,
 } from '@angular/core';
+import type { ActivatedRouteSnapshot } from '@angular/router';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -48,17 +49,10 @@ export class PlaygroundShell {
   protected readonly selectedComponentId = toSignal(
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-      map(() => {
-        const activeRoute = this.route.firstChild?.snapshot;
-
-        return activeRoute?.paramMap.get('componentId') ?? activeRoute?.data['componentId'] ?? null;
-      }),
+      map(() => this.getSelectedComponentId()),
     ),
     {
-      initialValue:
-        this.route.firstChild?.snapshot?.paramMap.get('componentId') ??
-        this.route.firstChild?.snapshot?.data['componentId'] ??
-        null,
+      initialValue: this.getSelectedComponentId(),
     },
   );
 
@@ -103,5 +97,15 @@ export class PlaygroundShell {
   /** Applies validated seed values from the app header. */
   protected setSeedColors(colors: KuiThemeColorSeeds): void {
     this.seedColors.set(colors);
+  }
+
+  private getSelectedComponentId(): string | null {
+    let activeRoute: ActivatedRouteSnapshot = this.route.snapshot;
+
+    while (activeRoute.firstChild) {
+      activeRoute = activeRoute.firstChild;
+    }
+
+    return activeRoute.paramMap.get('componentId') ?? activeRoute.data['componentId'] ?? null;
   }
 }

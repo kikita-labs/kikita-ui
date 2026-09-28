@@ -22,6 +22,8 @@ For nonvisual entities, show a focused consumer scenario instead of inventing a 
 
 Make the page a fixed visual catalogue that shows as many supported looks and states as practical. It is a source for reviewed reference screenshots as well as a place to inspect the entity during development; a generic editable-props sandbox is not required.
 
+- **Research gate — no implementation before review.** The assigned agent first audits the complete local component contract: source documentation, public inputs/models/outputs and defaults, implementation/types, component tests, and relevant styles/tokens. Submit the audit to the parent integrator and wait for its review before editing the page. The audit lists every public input/model/output with its type, default or resolution rule, and observed behavior; every meaningful visual, interaction, validation, accessibility, and lifecycle state; relevant edge cases; and source references. Map each item to a planned visible example or real interaction, or give a specific omission reason. Call out discrepancies between docs, implementation, tests, and public types. Do not rely on source docs alone when implementation or tests expose additional behavior.
+- After the audit is reviewed, implement the page from that map. Keep the per-page inventory as the durable record of the accepted contract-to-example mapping and update it if implementation review finds new behavior.
 - Cover supported values and useful combinations across size, appearance, shape, density, composition, and visual states. Prefer broad visual coverage over a minimal pairwise sample.
 - Split large catalogues into labelled sub-matrices and screenshot meaningful sections independently, rather than shrinking everything into one unreadable image.
 - Omit a combination only when it is unsupported, inapplicable, visually identical, or not meaningful for the entity; record the reason in the page inventory.
@@ -39,7 +41,7 @@ Do not add an arbitrary-props editor or interactive sandbox to the standard enti
 - Use Kikita UI primitives for page structure and typography when available. Component-page styles control layout, not the entity's visual identity.
 - Group related variants in `PlaygroundExampleCard` (`app-playground-example-card`): it accepts a required `heading` input, renders an `<article kuiCard size="sm">` with an `<h2 kuiText variant="heading-md">`, and projects the live examples. Keep several related examples in each card instead of wrapping every individual example. Do not name the input `title`; that name conflicts with the native tooltip attribute.
 - Keep Playground wrappers private to the app; use Kikita UI primitives such as `kuiCard` for their visual building blocks instead of reimplementing the library's card styling.
-- Keep page-private presentation components under `pages/<page-name>/components/`; promote a component to the feature-level `components/` only when another page uses it. Use `src/app/shared/ui/` only when multiple features need it. Document shared UI pieces in the app's shared registry and follow its component documentation rules.
+- Keep Playground entity pages under `pages/<catalog-group>/<page-name>/`, matching the sidebar's category groups. Keep page-private presentation components under that entity page's `components/`; promote a component to the feature-level `components/` only when another page in the Playground feature uses it. Use `src/app/shared/ui/` only when multiple features need it. Document shared UI pieces in the app's shared registry and follow its component documentation rules.
 - Extract an example wrapper after repeated use establishes a stable need. Do not introduce a generic page or scenario framework speculatively.
 - Keep interactive scenarios truly interactive. Use a static preview only when the state cannot reasonably be reached through the entity's supported public API, and label that limitation.
 - Follow the app's page-folder, decomposition, route, i18n, accessibility, and SSR rules. Do not create a generic page framework until multiple approved pages demonstrate a real shared need.
@@ -61,8 +63,11 @@ If a pilot proves that a rule does not fit a class of entities, document the exc
 - [ ] The page presents one entity in a compact, card-like showcase with only its name, examples, and concise labels.
 - [ ] Each page has a visible, minimally configured default instance.
 - [ ] Every displayed variant/state is supported by the entity contract or explicitly labelled as a static limitation.
+- [ ] The page inventory accounts for every public input/model/output and default, and maps meaningful behavior/states to examples or explains why they are omitted.
+- [ ] Each state label matches the actual rendered state. Focus, hover, and pressed states are produced with real browser interaction in their evidence; never label an idle control as focused or fake a pseudo-state with page CSS.
 - [ ] The visual catalogue covers every supported variant and as many meaningful combinations and states as practical; every omitted combination has a recorded reason.
 - [ ] Reference E2E screenshots cover each named, deterministic catalogue section and the important before/after outcomes of relevant interactions.
+- [ ] Open and visually inspect the generated screenshots at desktop and 320px widths; check for clipping, overlap, unexpected scroll ownership, unreadable density, and stale or misleading baselines. A passing pixel comparison alone is not visual review.
 - [ ] Scenarios use stable names, accessible locators, seeded data, and controlled time where relevant.
 - [ ] No examples are hidden behind accordions, tabs, or expand-on-demand controls.
 - [ ] Repeated example layouts reuse a small Playground-owned component at the correct feature/shared scope and compose Kikita UI primitives instead of restyling them.

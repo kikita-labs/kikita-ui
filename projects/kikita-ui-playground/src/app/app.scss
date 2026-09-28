@@ -1,6 +1,10 @@
 @layer app.components {
   :host {
     display: block;
-    min-block-size: 100%;
+    position: fixed;
+    inset: 0;
+    block-size: 100%;
+    min-block-size: 0;
+    overflow: hidden;
   }
 }

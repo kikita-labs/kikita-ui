@@ -3,8 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { WorkspacePlaceholder } from '@features/playground-shell/components';
-import { COMPONENT_GROUPS } from '@features/playground-shell/components/component-sidebar/constants';
+import { WorkspacePlaceholder } from '@features/playground/components';
 
 @Component({
   selector: 'app-component-playground',
@@ -23,11 +22,8 @@ export class ComponentPlayground {
     const id = this.componentId().get('componentId');
     if (!id) return null;
 
-    for (const group of COMPONENT_GROUPS) {
-      const component = group.components.find((item) => item.id === id);
-      if (component) return component.label;
-    }
+    const componentKey = id.replace(/-([a-z])/g, (_match, letter: string) => letter.toUpperCase());
 
-    return null;
+    return `playground.components.${componentKey}`;
   });
 }

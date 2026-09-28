@@ -144,6 +144,48 @@ utilities` import-boundary story. The pattern isn't limited to mixins: any group
   of indirection nobody needs. If it turns out another _feature_ needs it too, that's a
   `shared/` promotion (with a doc entry), not a feature-root one — feature-root subfolders
   are for intra-feature reuse only, never a way to dodge the `shared/` registry.
+- In the Playground app, keep the persistent frame and the component catalogue in sibling
+  features. `features/playground-shell/` owns only the header, sidebar, palette, shell layout,
+  and the shell route that hosts the content outlet. `features/playground/` owns the home
+  workspace and routed entity examples. Do not place entity pages or their route tables under
+  `playground-shell/`.
+- Use this Playground-specific structure:
+
+  ```text
+  features/
+    playground-shell/
+      playground-shell.routes.ts
+      components/                  # Header, sidebar, theme palette
+      pages/playground-shell/
+    playground/
+      playground.routes.ts
+      components/                  # Example card, workspace placeholder
+      pages/
+        actions/
+          actions.routes.ts
+          button/
+          icon-button/
+          menu/
+        forms/
+          forms.routes.ts
+          calendar/
+          checkbox/
+        surfaces/
+          surfaces.routes.ts
+  ```
+
+- Group Playground entity pages under `features/playground/pages/<catalog-group>/<entity>/`,
+  using the same group IDs as the sidebar (`actions`, `forms`, `surfaces`, `feedback`, and
+  `data-identity`). This extra category level organizes pages without making each sidebar
+  category a separate Angular feature.
+- The Playground feature owns `playground.routes.ts`. It composes route fragments from
+  `pages/<catalog-group>/<catalog-group>.routes.ts`; each fragment points to its group's
+  entity pages through lazy `loadComponent` imports. Category folders may have an `index.ts`
+  barrel for their route fragment, but `pages/` itself must not aggregate entity pages into
+  one eager import.
+- Keep `PlaygroundExampleCard` and other catalogue-only reusable pieces in
+  `features/playground/components/`. Keep the header, sidebar, and theme controls in
+  `features/playground-shell/components/`.
 - `core/` is for things that exist exactly once for the whole app (auth interceptor, root
   error handler) — not a dumping ground for "things that didn't fit elsewhere". Split by
   kind, same reasoning as the `shared/ui`/`shared/utilities` split: `guards/`,
@@ -169,6 +211,8 @@ utilities` import-boundary story. The pattern isn't limited to mixins: any group
       `<feature-name>.routes.ts`.
 - [ ] Feature with its own routes has `<feature-name>.routes.ts` inside its folder — see
       `routing.md` — not routes inlined in `app.routes.ts`.
+- [ ] Playground shell code contains only persistent shell UI; entity pages and catalogue
+      components live under `features/playground/` and mirror the sidebar groups.
 - [ ] Every component in a feature — including the one(s) loaded by its routes — has its own
       `<name>/` folder; no component's files sit flat directly under the feature root.
 - [ ] Routed entry components live under `pages/<page-name>/`; page-private presentation

@@ -32,13 +32,24 @@
 - Store an HTTP-loaded scope at `public/i18n/<scope>/<language>.json` and provide it on the
   lazy route with `provideTranslocoScope('<scope>')`. Transloco loads the scope when that route
   becomes active and exposes it below the scope namespace.
+- Transloco's default lookup alias camel-cases a kebab-case scope. For example,
+  `provideTranslocoScope('number-input')` loads from `public/i18n/number-input/<language>.json`,
+  while template keys that include the namespace use `numberInput.title`, not
+  `number-input.title`. Keep the on-disk scope path kebab-case and use the resolved alias in
+  dotted template keys.
+- A `TranslocoService` call does not inherit the pipe's route scope automatically. For a scoped
+  `selectTranslate`, pass the scope explicitly and use keys relative to that scope, for example
+  `selectTranslate('errors.required', {}, { scope: 'number-input' })`. This also makes the service
+  load the scoped catalogue before emitting its translation.
 - Use an inline scope loader only when translations belong to a separately built library and
   must ship next to that library. Do not use inline loaders for ordinary playground routes.
 
 ## Loading, fallback, and SSR
 
-- Keep `TranslocoHttpLoader` as the single root loader. Browser requests use a relative URL;
-  SSR requests use the current `REQUEST` origin to create an absolute URL.
+- Keep `TranslocoHttpLoader` as the single root loader. Request the catalogue path Transloco
+  supplies: a root catalogue uses `<language>`, while a lazy scope uses `<scope>/<language>`
+  (for example, `calendar/en`). Browser requests use a relative URL; SSR requests use the
+  current `REQUEST` origin to create an absolute URL.
 - Keep English as the default and fallback language until a product decision changes both.
 - Enable `reRenderOnLangChange` because this playground changes language at runtime.
 - Add a server-rendered assertion for initial text and a browser assertion for language changes
@@ -64,5 +75,6 @@
 
 - [ ] Root catalogues use the configured language identifiers and have matching key paths.
 - [ ] New lazy-route copy uses a scope when it would otherwise make the root catalogue broad.
+- [ ] Dotted template keys use the Transloco scope alias; direct service calls specify the scope.
 - [ ] JSON contains only text values and semantic interpolation parameters.
 - [ ] SSR, fallback, and runtime language-switch behavior are verified after loader changes.

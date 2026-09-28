@@ -99,6 +99,16 @@ tends to grow, and a routing file for every feature is one less thing to restruc
 - `app.routes.ts` stays a thin top-level map of feature entry points, each one a
   `loadChildren` pointer; it never grows to contain a feature's internal sub-routes — those
   belong in that feature's own `<feature-name>.routes.ts`.
+- Keep a route enum at feature scope when one feature owns and consumes its route paths. If
+  sibling features must share a path contract (for example, the Playground shell's sidebar
+  links to pages owned by the Playground catalogue feature), put that shared enum in
+  `app/enums/`; neither feature may import the other's internals to reach its route enum.
+- The Playground shell feature owns only its shell component and a route wrapper. Its wrapper
+  lazy-loads `features/playground/playground.routes.ts` beneath the shell's `RouterOutlet`.
+  The Playground feature owns `/` workspace content and `/components/<entity>` routes. It
+  composes category route fragments from `pages/<catalog-group>/`; those fragments use the
+  shared Playground route enum and lazy-load each entity page. Keep component routes and their
+  translation scopes out of `playground-shell.routes.ts`.
 
 ## Review Checklist
 
@@ -109,3 +119,7 @@ tends to grow, and a routing file for every feature is one less thing to restruc
 - [ ] Every feature under `features/<feature-name>/` — including a single-route one — has
       its own `<feature-name>.routes.ts`, referenced from `app.routes.ts` via `loadChildren`.
       `app.routes.ts` never calls `loadComponent` on a feature's page directly.
+- [ ] Cross-feature route enums live in `app/enums/`; one feature never imports another
+      feature's route enum or page module.
+- [ ] The Playground shell route hosts `features/playground/playground.routes.ts`; category
+      route fragments and entity routes stay in the Playground feature.

@@ -12,6 +12,7 @@ for a given task; this file is the flat map of everything that exists under `.ag
 - [testing-and-quality.md](./testing-and-quality.md) — lint/format/test gate.
 - [refactoring.md](./refactoring.md) — refactor policy.
 - [progress.md](./progress.md) — dated status log.
+- [component-page-rollout.md](./component-page-rollout.md) — per-component assignment, completion, and independent review tracker.
 - [accessibility.md](./accessibility.md) — a11y and responsive rules.
 - [component-page-authoring.md](./component-page-authoring.md) — agreed contract for component entity pages and reusable example groups.
 

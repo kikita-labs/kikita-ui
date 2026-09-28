@@ -73,6 +73,40 @@ test('keeps the header fixed while the sidebar and workspace scroll independentl
   expect(scrollState.documentScrollTop).toBe(0);
 });
 
+test('keeps the desktop document viewport-bound while the workspace owns page scrolling', async ({
+  page,
+}) => {
+  for (const viewport of [
+    { width: 1280, height: 800 },
+    { width: 1920, height: 776 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/components/calendar');
+
+    const scrollState = await page.evaluate(() => {
+      window.scrollTo(0, 1000);
+
+      return {
+        documentClientHeight: document.documentElement.clientHeight,
+        documentScrollHeight: document.documentElement.scrollHeight,
+        documentOverflowY: getComputedStyle(document.documentElement).overflowY,
+        documentScrollTop: document.documentElement.scrollTop,
+        windowScrollY: window.scrollY,
+        workspaceClientHeight: document.querySelector('.playground-shell__workspace')?.clientHeight,
+        workspaceScrollHeight: document.querySelector('.playground-shell__workspace')?.scrollHeight,
+      };
+    });
+
+    expect(scrollState.documentScrollHeight).toBeLessThanOrEqual(scrollState.documentClientHeight);
+    expect(scrollState.documentOverflowY).toBe('hidden');
+    expect(scrollState.documentScrollTop).toBe(0);
+    expect(scrollState.windowScrollY).toBe(0);
+    expect(scrollState.workspaceScrollHeight).toBeGreaterThan(
+      scrollState.workspaceClientHeight ?? 0,
+    );
+  }
+});
+
 test('opens component routes from the sidebar and reloads them directly', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: 'Button', exact: true }).click();
@@ -86,6 +120,55 @@ test('opens component routes from the sidebar and reloads them directly', async 
 
   await page.reload();
   await expect(page.getByRole('heading', { name: 'Button' })).toBeVisible();
+});
+
+test('server-renders and hydrates Empty State on its routed page', async ({ page }) => {
+  const consoleErrors: string[] = [];
+  page.on('console', (message) => {
+    if (message.type() === 'error') {
+      consoleErrors.push(message.text());
+    }
+  });
+
+  const response = await page.goto('/components/empty-state');
+
+  expect(response?.status()).toBe(200);
+  await expect(page.getByRole('heading', { level: 1, name: 'Empty State' })).toBeVisible();
+  await expect(page.locator('kui-empty-state').first()).toHaveAttribute(
+    'data-kui-context',
+    'no-data',
+  );
+
+  await page.reload();
+
+  await expect(page.getByRole('heading', { level: 1, name: 'Empty State' })).toBeVisible();
+  await expect(page.locator('kui-empty-state').first()).toHaveAttribute('data-kui-size', 'md');
+  expect(consoleErrors).toEqual([]);
+});
+
+test('server-renders and hydrates Select with a closed, named default combobox', async ({
+  page,
+}) => {
+  const consoleErrors: string[] = [];
+  page.on('console', (message) => {
+    if (message.type() === 'error') consoleErrors.push(message.text());
+  });
+
+  const response = await page.goto('/components/select');
+  expect(response?.status()).toBe(200);
+  await expect(page.getByRole('heading', { level: 1, name: 'Select' })).toBeVisible();
+
+  const input = page
+    .getByRole('group', { name: 'Default select example', exact: true })
+    .getByRole('combobox', { name: 'Role', exact: true });
+  await expect(input).toHaveAttribute('role', 'combobox');
+  await expect(input).toHaveAttribute('aria-expanded', 'false');
+  await expect(input).toHaveAttribute('aria-haspopup', 'listbox');
+  await expect(page.getByRole('listbox')).toHaveCount(0);
+
+  await page.reload();
+  await expect(input).toHaveAttribute('aria-expanded', 'false');
+  expect(consoleErrors).toEqual([]);
 });
 
 test('matches the documentation palette width without overflowing its panel', async ({ page }) => {

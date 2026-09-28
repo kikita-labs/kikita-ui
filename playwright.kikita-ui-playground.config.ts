@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const baseURL = 'http://127.0.0.1:4300';
+const testPort = process.env['KIKITA_UI_PLAYGROUND_TEST_PORT'] ?? '4310';
+const baseURL = `http://127.0.0.1:${testPort}`;
 
 export default defineConfig({
   testDir: './projects/kikita-ui-playground/e2e',
@@ -17,9 +18,9 @@ export default defineConfig({
   },
   webServer: {
     command: 'node dist/kikita-ui-playground/server/server.mjs',
-    env: { PORT: '4300' },
+    env: { PORT: testPort },
     url: baseURL,
-    reuseExistingServer: !process.env['CI'],
+    reuseExistingServer: false,
     timeout: 30_000,
   },
 });
