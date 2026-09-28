@@ -7,3 +7,11 @@
 | Disabled, loading, and interaction states | Disabled and loading native buttons, a disabled anchor, an interactive loading toggle with reset, keyboard focus, pointer hover, and pressed state.                      | Hover, pressed, and focus are shown on representative controls rather than crossed with all 80 visual combinations. Disabled/loading are not crossed with the matrix: the disabled treatment uses the same host-level opacity and semantics, while the loader inherits `currentColor`. |
 | Content composition                       | Leading icon, trailing icon, styled anchor navigation, and a long label with wrapping enabled.                                                                           | Icon position and wrapping are shown as representative compositions, not crossed with every size, shape, and appearance; those inputs do not change their composition behavior.                                                                                                        |
 | Native form behavior                      | Examples use `type="button"` to avoid submitting an enclosing form.                                                                                                      | Submit/reset behavior is omitted because it belongs to a consumer form scenario, not the button's visual catalogue.                                                                                                                                                                    |
+
+## Self-review checklist
+
+- [x] The page has a minimally configured default and a complete 4 × 4 × 5 supported visual matrix.
+- [x] Labels, native semantics, content compositions, disabled/loading states, focus, hover, and pressed behavior match the public contract.
+- [x] Omitted combinations have specific reasons, and examples remain a compact Playground catalogue.
+- [x] Focused browser evidence covers the desktop catalogue and real keyboard-focus, pointer-hover, pressed, and loading interactions; the independent audit and page commit `220c61e` are recorded in the rollout tracker.
+- [x] Generated and visually inspected seven 320 × 1280 reference captures: the minimal default, all four size matrices, states, and composition. Each capture asserts that its card stays within the viewport and that the document has no horizontal overflow.

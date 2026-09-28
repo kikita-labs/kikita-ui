@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test';
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1200 });
   await page.goto('/components/button');
+  await page.mouse.move(0, 0);
 });
 
 for (const [size, fileName] of [
@@ -15,6 +16,37 @@ for (const [size, fileName] of [
     const matrix = page.getByRole('group', { name: `${size} button variants`, exact: true });
     await matrix.scrollIntoViewIfNeeded();
     await expect(matrix).toHaveScreenshot(fileName, { animations: 'disabled' });
+  });
+}
+
+for (const [sectionName, fileName] of [
+  ['Default button example', 'button-default-320.png'],
+  ['Extra small button variants', 'button-size-xs-320.png'],
+  ['Small button variants', 'button-size-sm-320.png'],
+  ['Medium button variants', 'button-size-md-320.png'],
+  ['Large button variants', 'button-size-lg-320.png'],
+  ['Button states', 'button-states-320.png'],
+  ['Button composition examples', 'button-composition-320.png'],
+] as const) {
+  test(`captures ${sectionName.toLowerCase()} at 320px`, async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 1280 });
+    await page.goto('/components/button');
+
+    const examples = page.getByRole('group', { name: sectionName, exact: true });
+    const card = page.getByRole('article').filter({ has: examples });
+    await card.scrollIntoViewIfNeeded();
+    await expect(card).toBeVisible();
+
+    const bounds = await card.boundingBox();
+    expect(bounds, `${sectionName} should have visible bounds at 320px`).not.toBeNull();
+    expect(bounds!.x).toBeGreaterThanOrEqual(0);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(320);
+    expect(bounds!.y).toBeGreaterThanOrEqual(0);
+    expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(1280);
+
+    const documentWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+    expect(documentWidth).toBeLessThanOrEqual(320);
+    await expect(card).toHaveScreenshot(fileName, { animations: 'disabled' });
   });
 }
 
@@ -60,6 +92,7 @@ test('captures pointer hover and pressed button states', async ({ page }) => {
 test('captures button composition examples', async ({ page }) => {
   await expect(page.getByRole('group', { name: 'Button composition examples' })).toHaveScreenshot(
     'button-composition.png',
+    { animations: 'disabled' },
   );
 });
 
