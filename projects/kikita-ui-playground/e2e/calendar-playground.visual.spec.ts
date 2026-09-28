@@ -235,6 +235,7 @@ test('keeps a disabled date unselected when activated', async ({ page }) => {
     name: 'Calendar date limits and disabled date example',
     exact: true,
   });
+  await expectBrowserLocaleWeek(example);
   const grid = example.getByRole('grid');
   const selectedDate = grid.getByRole('button', { name: '14', exact: true });
   const disabledDate = grid.getByRole('button', { name: '18', exact: true });
@@ -284,6 +285,7 @@ test('allows both inclusive date-limit endpoints to be selected', async ({ page 
     name: 'Calendar date limits and disabled date example',
     exact: true,
   });
+  await expectBrowserLocaleWeek(example);
   const grid = example.getByRole('grid');
 
   for (const day of ['8', '24']) {
