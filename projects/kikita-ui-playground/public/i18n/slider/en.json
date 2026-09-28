@@ -21,6 +21,7 @@
     "minimum": "At minimum",
     "withEndpointLabels": "Endpoint labels",
     "maximum": "At maximum",
+    "zeroMaximum": "Zero maximum",
     "rangeStart": "0",
     "rangeEnd": "100",
     "disabled": "Disabled slider",

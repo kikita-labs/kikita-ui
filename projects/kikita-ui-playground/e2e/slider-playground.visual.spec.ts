@@ -20,6 +20,57 @@ async function expectValidDescribedBy(input: Locator): Promise<void> {
   ).toBe(true);
 }
 
+async function captureSliderAndTooltip(
+  page: Page,
+  slider: Locator,
+  tooltip: Locator,
+  screenshotName: string,
+): Promise<void> {
+  await page.evaluate(async () => document.fonts.ready.then(() => undefined));
+  await tooltip.evaluate(async (element) => {
+    await Promise.all(
+      element.getAnimations().map((animation) => animation.finished.catch(() => undefined)),
+    );
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+  });
+
+  const wrapper = slider.locator('xpath=..');
+  const [wrapperBounds, thumbBounds, tooltipBounds] = await Promise.all([
+    wrapper.boundingBox(),
+    wrapper.locator('.kui-slider-thumb').boundingBox(),
+    tooltip.boundingBox(),
+  ]);
+  const viewport = page.viewportSize();
+
+  if (!wrapperBounds || !thumbBounds || !tooltipBounds || !viewport) {
+    throw new Error('The Slider, thumb, tooltip, and viewport need visible bounds.');
+  }
+  expect(tooltipBounds.y + tooltipBounds.height).toBeLessThan(
+    thumbBounds.y + thumbBounds.height / 2,
+  );
+
+  const x = Math.max(0, Math.floor(Math.min(wrapperBounds.x, tooltipBounds.x) - 8));
+  const y = Math.max(0, Math.floor(Math.min(wrapperBounds.y, tooltipBounds.y) - 8));
+  const right = Math.min(
+    viewport.width,
+    Math.ceil(
+      Math.max(wrapperBounds.x + wrapperBounds.width, tooltipBounds.x + tooltipBounds.width) + 8,
+    ),
+  );
+  const bottom = Math.min(
+    viewport.height,
+    Math.ceil(
+      Math.max(wrapperBounds.y + wrapperBounds.height, tooltipBounds.y + tooltipBounds.height) + 8,
+    ),
+  );
+
+  await expect(page).toHaveScreenshot(screenshotName, {
+    clip: { x, y, width: right - x, height: bottom - y },
+    animations: 'disabled',
+  });
+}
+
 test.beforeEach(async ({ page }) => {
   const runtimeErrors: string[] = [];
   runtimeErrorsByPage.set(page, runtimeErrors);
@@ -153,6 +204,23 @@ test('shows native endpoints, endpoint labels, disabled state, and Field invalid
   ).toBe('slider-explicit-invalid');
 });
 
+test('fills a native range to 100% when max is zero', async ({ page }) => {
+  const endpoints = page.getByRole('group', { name: 'Slider range endpoints', exact: true });
+  const zeroMaximum = endpoints.getByRole('slider', { name: 'Zero maximum' });
+
+  await expect(zeroMaximum).toHaveAttribute('min', '-100');
+  await expect(zeroMaximum).toHaveAttribute('max', '0');
+  await expect(zeroMaximum).toHaveValue('0');
+  await expect
+    .poll(() =>
+      zeroMaximum
+        .locator('xpath=..')
+        .locator('.kui-slider-fill')
+        .evaluate((element) => (element as HTMLElement).style.width),
+    )
+    .toBe('100%');
+});
+
 test('uses native range keyboard behavior inside a Signal Forms field', async ({ page }) => {
   const formExample = page.getByRole('group', {
     name: 'Slider Signal Forms example',
@@ -188,9 +256,7 @@ test('shows the value tooltip on hover and static tooltip on hover and keyboard 
   await valueSlider.hover();
   await expect(valueTooltip).toHaveText('40');
   await expect(valueSlider).not.toHaveAttribute('aria-describedby');
-  await expect(page).toHaveScreenshot('slider-value-tooltip-hover.png', {
-    animations: 'disabled',
-  });
+  await captureSliderAndTooltip(page, valueSlider, valueTooltip, 'slider-value-tooltip-hover.png');
 
   await page.mouse.move(0, 0);
   await expect(valueTooltip).toHaveCount(0);
@@ -203,9 +269,12 @@ test('shows the value tooltip on hover and static tooltip on hover and keyboard 
   expect(await staticTooltip.getAttribute('id')).toBe(
     await staticSlider.getAttribute('aria-describedby'),
   );
-  await expect(page).toHaveScreenshot('slider-static-tooltip-hover.png', {
-    animations: 'disabled',
-  });
+  await captureSliderAndTooltip(
+    page,
+    staticSlider,
+    staticTooltip,
+    'slider-static-tooltip-hover.png',
+  );
 
   await page.mouse.move(0, 0);
   await expect(staticTooltip).toHaveCount(0);
@@ -217,9 +286,12 @@ test('shows the value tooltip on hover and static tooltip on hover and keyboard 
   await expect(staticTooltip).toHaveText('Playback speed');
   await expect(staticSlider).toHaveAttribute('aria-describedby', /kui-tooltip-\d+/);
   await expectValidDescribedBy(staticSlider);
-  await expect(page).toHaveScreenshot('slider-static-tooltip-keyboard-focus.png', {
-    animations: 'disabled',
-  });
+  await captureSliderAndTooltip(
+    page,
+    staticSlider,
+    staticTooltip,
+    'slider-static-tooltip-keyboard-focus.png',
+  );
 });
 
 test('keeps Slider catalogue copy and consumer-provided tooltip in the active locale', async ({
@@ -325,7 +397,7 @@ test('records that the native range remains below the touch target size at 320px
     const touchPage = await touchContext.newPage();
     await touchPage.goto(new URL('/components/slider', page.url()).toString());
     const sliders = touchPage.getByRole('slider');
-    await expect(sliders).toHaveCount(22);
+    await expect(sliders).toHaveCount(23);
     const defaultControlRow = touchPage.locator('.slider-default__control-row');
     await expect(defaultControlRow).toHaveCSS('min-block-size', '44px');
     await expect

@@ -21,6 +21,7 @@
     "minimum": "Минимум",
     "withEndpointLabels": "Подписи границ",
     "maximum": "Максимум",
+    "zeroMaximum": "Верхняя граница 0",
     "rangeStart": "0",
     "rangeEnd": "100",
     "disabled": "Отключённый ползунок",
