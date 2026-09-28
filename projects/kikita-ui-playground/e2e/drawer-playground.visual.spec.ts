@@ -1,9 +1,22 @@
 import { expect, type Locator, test } from '@playwright/test';
 
-async function waitForAnimations(element: Locator): Promise<void> {
-  await element.evaluate(async (node) => {
+/**
+ * Waits until the Drawer panel and its backdrop finish their entrance animations.
+ *
+ * `animations: 'disabled'` fast-forwards a running animation with `Animation.finish()`.
+ * When that happens in the first frames of the composited slide-in, Chromium can keep
+ * painting the panel at its early transform even though layout already reports the final
+ * box, so the capture shows a half-entered panel. Letting the finite entrance animations
+ * complete naturally keeps the painted state and the layout state in sync.
+ */
+async function waitForDrawerEntrance(drawer: Locator): Promise<void> {
+  await drawer.evaluate(async (panel) => {
+    const container = panel.parentElement ?? panel;
     await Promise.all(
-      node.getAnimations().map((animation) => animation.finished.catch(() => undefined)),
+      container
+        .getAnimations({ subtree: true })
+        .filter((animation) => Number.isFinite(animation.effect?.getComputedTiming().endTime))
+        .map((animation) => animation.finished.catch(() => undefined)),
     );
   });
 }
@@ -71,6 +84,7 @@ test('opens the minimal default Drawer with dialog semantics and context data', 
   await expect(drawer.getByText('Close button: Shown', { exact: true })).toBeVisible();
   await expect(drawer.getByRole('button', { name: 'Close', exact: true })).toBeVisible();
   expect(await drawer.evaluate((element) => element.contains(document.activeElement))).toBe(true);
+  await waitForDrawerEntrance(drawer);
   await expect(drawer).toHaveScreenshot('drawer-default-open.png', { animations: 'disabled' });
 
   await drawer.getByRole('button', { name: 'Close', exact: true }).click();
@@ -100,6 +114,7 @@ test('opens each Drawer side from its configured edge', async ({ page }) => {
     const drawer = page.getByRole('dialog', { name: side.title, exact: true });
     await expect(drawer).toHaveAttribute('data-kui-side', side.value);
     await expect(drawer).toHaveAttribute('data-kui-size', 'md');
+    await waitForDrawerEntrance(drawer);
     await expect(drawer).toHaveScreenshot('drawer-side-' + side.value + '.png', {
       animations: 'disabled',
     });
@@ -172,6 +187,7 @@ test('opens every size preset on horizontal and vertical edges', async ({ page }
         item.side === 'right' ? 320 : 200,
       );
     }
+    await waitForDrawerEntrance(drawer);
     await expect(drawer).toHaveScreenshot('drawer-size-' + item.side + '-' + item.size + '.png', {
       animations: 'disabled',
     });
@@ -212,6 +228,7 @@ test('keeps close-button, Escape, and backdrop settings independent', async ({ p
   let drawer = page.getByRole('dialog', { name: 'Close button hidden', exact: true });
   await expect(drawer.getByRole('button', { name: 'Close', exact: true })).toHaveCount(0);
   await expect(drawer.getByText('Close button: Hidden', { exact: true })).toBeVisible();
+  await waitForDrawerEntrance(drawer);
   await expect(drawer).toHaveScreenshot('drawer-closable-false.png', {
     animations: 'disabled',
   });
@@ -257,6 +274,7 @@ test('keeps the locked Drawer open until its action resolves the result', async 
   await trigger.click();
   const drawer = page.getByRole('dialog', { name: 'Required action', exact: true });
   await expect(drawer.getByRole('button', { name: 'Close', exact: true })).toHaveCount(0);
+  await waitForDrawerEntrance(drawer);
   await expect(drawer).toHaveScreenshot('drawer-locked.png', { animations: 'disabled' });
   await page.keyboard.press('Escape');
   await expect(drawer).toBeVisible();
@@ -308,6 +326,7 @@ test('keeps long titles clear of the close button and scrolls long content inter
     };
   });
   expect(titleGeometry.titleRight).toBeLessThan(titleGeometry.closeLeft);
+  await waitForDrawerEntrance(longTitleDrawer);
   await expect(longTitleDrawer).toHaveScreenshot('drawer-long-title.png', {
     animations: 'disabled',
   });
@@ -322,6 +341,7 @@ test('keeps long titles clear of the close button and scrolls long content inter
     scrollHeight: element.scrollHeight,
   }));
   expect(metrics.scrollHeight).toBeGreaterThan(metrics.clientHeight);
+  await waitForDrawerEntrance(scrollDrawer);
   await expect(scrollDrawer).toHaveScreenshot('drawer-long-body.png', {
     animations: 'disabled',
   });
@@ -344,6 +364,7 @@ test('uses the library accessible-name fallback for untitled content', async ({ 
   await expect(
     drawer.getByText('This drawer has no visible title', { exact: false }),
   ).toBeVisible();
+  await waitForDrawerEntrance(drawer);
   await expect(drawer).toHaveScreenshot('drawer-untitled.png', { animations: 'disabled' });
   await page.keyboard.press('Escape');
   await expect(drawer).toHaveCount(0);
@@ -483,7 +504,7 @@ test('keeps the Drawer catalogue and open panels within 768px and 320px layouts'
     const trigger = placement.getByRole('button', { name: 'Open default', exact: true });
     await trigger.click();
     const drawer = page.getByRole('dialog', { name: 'Profile details', exact: true });
-    await waitForAnimations(drawer);
+    await waitForDrawerEntrance(drawer);
     const bounds = await drawer.boundingBox();
     expect(bounds, viewport.name + ': default Drawer should have bounds').not.toBeNull();
     expect(bounds!.x).toBeGreaterThanOrEqual(0);
@@ -497,7 +518,7 @@ test('keeps the Drawer catalogue and open panels within 768px and 320px layouts'
     const sizes = page.getByRole('group', { name: 'Drawer size examples', exact: true });
     await sizes.getByRole('button', { name: 'Open right full', exact: true }).click();
     const full = page.getByRole('dialog', { name: 'Size preset', exact: true });
-    await waitForAnimations(full);
+    await waitForDrawerEntrance(full);
     const fullBounds = await full.boundingBox();
     expect(fullBounds, viewport.name + ': full Drawer should have bounds').not.toBeNull();
     expect(fullBounds!.x).toBeGreaterThanOrEqual(0);
@@ -511,7 +532,7 @@ test('keeps the Drawer catalogue and open panels within 768px and 320px layouts'
 
     await sizes.getByRole('button', { name: 'Open bottom full', exact: true }).click();
     const bottomFull = page.getByRole('dialog', { name: 'Size preset', exact: true });
-    await waitForAnimations(bottomFull);
+    await waitForDrawerEntrance(bottomFull);
     await expect(bottomFull).toHaveAttribute('data-kui-side', 'bottom');
     await expect(bottomFull).toHaveAttribute('data-kui-size', 'full');
     const bottomFullBounds = await bottomFull.boundingBox();

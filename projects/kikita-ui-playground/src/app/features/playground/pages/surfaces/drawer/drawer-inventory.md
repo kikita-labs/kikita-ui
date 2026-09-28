@@ -94,6 +94,17 @@ mobile, and open-panel screenshot baselines have passed comparison and visual re
 locale scope, and SSR integration are verified by the page-owned browser suite. This page does not
 modify the Surfaces route fragment, sidebar, global page registry, SSR registry, or state tracker.
 
+Verification 2026-09-28: the side-placement capture failed once in the full serial Playground gate.
+The trace showed the left panel captured about 20ms after its click, while the composited 280ms
+slide-in was still running. Playwright's `animations: 'disabled'` finished the animation, and the
+layout box used for the crop was already final (480px at x=0). However, Chromium kept painting the
+panel about 323px to the left, and two captures 230ms apart were identical. Icons, locale loading,
+and the previous drawer were ruled out: the close icon is inline SVG, the text matched, and the
+previous dialog was detached before the click. The spec now waits for every finite panel and
+backdrop entrance animation to finish naturally before each open-panel capture. The original
+test did not reproduce in isolation (20/20 passed); the fixed test passed 20/20 with
+`--repeat-each=20 --workers=1`, and the whole Drawer suite passed 14/14 without baseline changes.
+
 ## Self-review checklist
 
 - [x] Parent reviewed the source-backed Drawer audit before implementation.
