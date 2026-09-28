@@ -36,7 +36,7 @@ variables, and an explicit child size can override that inherited size.
 - Horizontal and vertical collapsed controls, both rounded and square-ended.
 - All Group sizes, using direct `kuiInput` and `kuiIconButton` children.
 - Text input + button, mixed icon buttons and text buttons using supported shapes and appearances,
-  and Field + button composition.
+  including every icon-button shape (ghost, outline, solid, soft), and Field + button composition.
 - Every Field label/hint/error presence combination (none, each alone, each pair, and all three).
   Each Field stays a direct child so the horizontal three-row grid and Field subgrid are exercised.
 - Two equally growing Field columns and an interleaved icon-button / Field / Field / icon-button
