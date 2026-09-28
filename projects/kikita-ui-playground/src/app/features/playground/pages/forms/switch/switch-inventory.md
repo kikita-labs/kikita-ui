@@ -1,6 +1,6 @@
 # Switch Component Page Contract Audit
 
-Status: the source audit was approved before implementation. The page, EN/RU catalogues, Forms route/scope, and shared SSR/adaptive registry are integrated in the working tree. Angular SSR build passed; all 7 Switch E2E tests and the 24-test integration suite passed. Desktop and 320px screenshots were visually inspected. A separate page commit remains pending.
+Status: the source audit was approved before implementation. The page, EN/RU catalogues, Forms route/scope, and shared SSR/adaptive registry are integrated in the working tree. Angular SSR build passed; all 7 Switch E2E tests and the 24-test integration suite passed. Desktop and 320px screenshots were visually inspected. The page-only implementation is committed as `49c3a03`.
 
 ## Design gate and current page status
 
@@ -52,7 +52,7 @@ The visual tokens are the public `--kui-*` theming contract. `selection.css` def
 - The Switch unit spec checks standalone class/role/size/invalid and field-generated ID/hint/error wiring. It does not exercise native toggling, disabled behavior, keyboard input, explicit IDs, root defaults, Signal Forms, SSR, or the CSS state matrix. The legacy page shows basic states, but fakes hover/focus with page CSS; its state coverage is not interaction evidence.
 - The 1.6.1 changelog records a fix for Signal Forms overwriting the control's `invalid` input before the field's touched gate. Preserve that behavior in the live form scenario.
 
-No screen-reader/assistive-technology review or fresh Switch browser/SSR verification is present in the inspected sources. Do not describe accessibility or visual review as complete based on the unit spec or inherited state table alone.
+No separate screen-reader/assistive-technology review is recorded. The SSR build, E2E results, and screenshot review described in Status are the current browser/SSR evidence; they do not constitute an assistive-technology review or an approved Switch-specific visual record. Do not describe assistive-technology review as complete based only on DOM and keyboard assertions.
 
 ## Proposed page and browser evidence
 
