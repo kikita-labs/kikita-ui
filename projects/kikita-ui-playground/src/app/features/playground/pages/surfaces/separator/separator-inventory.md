@@ -23,3 +23,9 @@ the component's documented `aria-orientation="vertical"` attribute.
 Screenshots use the English shell locale and a fixed browser viewport. The examples contain no
 clock-dependent or random content. The E2E spec captures each named example group at desktop
 and 320px widths.
+
+## Self-review checklist
+
+- [x] The minimally configured separator and all supported appearance, spacing, and orientation values are visible.
+- [x] Native rule semantics and vertical `aria-orientation` are preserved; non-applicable interaction/form states are explicitly omitted.
+- [x] Responsive browser evidence, independent audit, quality checks, and page commit are recorded in the rollout tracker.
