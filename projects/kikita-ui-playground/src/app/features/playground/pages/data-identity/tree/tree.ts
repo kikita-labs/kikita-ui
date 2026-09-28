@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 
 import { toSignal } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs';
+import { asapScheduler, filter, observeOn } from 'rxjs';
 
 import { KuiTextDirective, KuiTreeComponent } from '@kikita-labs/ui';
 
@@ -37,7 +37,10 @@ export class Tree {
   });
 
   private readonly translationLoad = toSignal(
-    this.transloco.events$.pipe(filter((event) => event.type === 'translationLoadSuccess')),
+    this.transloco.events$.pipe(
+      filter((event) => event.type === 'translationLoadSuccess'),
+      observeOn(asapScheduler),
+    ),
     { initialValue: null },
   );
 

@@ -52,6 +52,8 @@ Re-verified on 2026-09-28 against the current Tree source, docs, styles, and uni
 - Follow-up fixes: page member order (signals before `toSignal` fields), a blank line before the `selectedSummary` guard, removed unused `tree-playground__size-*` and unreachable `h3` rules from `tree.scss`, retitled the mobile card to "Mobile targets" because it shows only `md`, and added real hover assertions to the spec.
 - Fresh production SSR build (`pnpm run build:kikita-ui-playground`) passed after deleting the previous output.
 - Focused Tree Playwright: a clean pass before changes (8/8, no baseline diff), a snapshot-update pass (8/8; only the three `tree-mobile-md-*` captures changed, for the heading), and a final clean pass (8/8).
+- After adding `observeOn(asapScheduler)` to defer Transloco `translationLoadSuccess` signal updates, the focused Tree Playwright CLI suite passed cleanly again (8/8); all existing screenshots matched and no baselines changed. The route test verified server-returned Tree markup, and the browser assertions covered runtime locale loading and page interactions. This is evidence against the observed NG0600 regression, but this spec does not directly assert hydration or the absence of every console error; the fresh post-change production SSR build and shared route/hydration integration remain parent-owned and pending.
+- The parent integrator independently reviewed and accepted the source-backed Tree contract/state audit on 2026-09-28 before this follow-up.
 - Shared `component-pages.spec.ts` (all-route SSR/hydration and adaptive layouts) passed 2/2. In `ssr-hydration.spec.ts`, 9 of 10 passed; the Select test (`select-default` role `combobox`) failed and is outside the Tree page.
 - Scoped ESLint (TypeScript, templates, E2E spec) passed with zero warnings, Stylelint and Prettier passed, Tree EN/RU key parity passed (39/39), `git diff --check`, the Cyrillic scan of non-locale Tree files, and `pnpm run audit:static` passed.
 - All 15 captures were opened and reviewed at desktop, 768px, and 320px: no clipping, overlap, horizontal overflow, or unreadable density. The hover capture is visually identical to the default capture (discrepancy 7).
@@ -73,5 +75,6 @@ Re-verified on 2026-09-28 against the current Tree source, docs, styles, and uni
 - [x] The page demonstrates Tree interactions rather than duplicating the docs API reference.
 - [x] The page composes public Kikita UI primitives and uses tokens only for layout; Tree visuals are not restyled.
 - [x] Parent integration is present in the shared route, route enum, sidebar entry, and generic SSR route list; this page implementation did not edit those files.
-- [x] Fresh production SSR build, Tree snapshot-update and clean Playwright runs (8/8 each), shared route SSR/adaptive checks (2/2), scoped ESLint/Stylelint/Prettier, locale parity, static audit, and visual review of all 15 captures completed on 2026-09-28.
+- [x] The focused Tree Playwright suite passed after the Transloco scheduling change (8/8) with no snapshot differences; root-level fresh build and shared route/SSR integration still require the parent final gate.
+- [ ] Parent final integration: fresh production SSR build and shared route/hydration suite after the Transloco scheduling change.
 - [ ] Real assistive-technology review with a screen reader remains pending.
