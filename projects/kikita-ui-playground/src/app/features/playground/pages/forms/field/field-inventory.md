@@ -70,7 +70,7 @@ No Field outputs or models are declared. The separate `kuiFieldAffix` directive 
 | Providers         | Static scoped size/hide-error defaults with local `size` and `hideErrors` overrides.                                                                   |
 | Affixes           | Text prefix/suffix, leading icon, strong text, loader status, native action button, input-group focus delegation, and clear via Enter.                 |
 
-The dedicated Field browser spec checks server output, accessible associations and validation, runtime English-to-Russian scope switching, real affix/button interaction, and page width at desktop, tablet, and 320px. Its accessible validation-group locator captures both untouched and touched-error states; its accessible affix-group locator captures the pre/post prefix-focus and keyboard-clear states. The expected interaction snapshots are:
+The dedicated Field browser spec checks server output, accessible associations and validation, runtime English-to-Russian scope switching, real affix/button interaction, and page width at desktop, tablet, and 320px. Its accessible validation-group locator captures both untouched and touched-error states; its accessible affix-group locator captures the pre/post prefix-focus and keyboard-clear states. Catalogue screenshots are captured at desktop and 320px as required by the shared authoring checklist; the 768px tablet viewport has a separate page-overflow assertion and does not require a screenshot. The expected interaction snapshots are:
 
 - `e2e/field-playground.visual.spec.ts-snapshots/field-validation-before-touch.png`
 - `e2e/field-playground.visual.spec.ts-snapshots/field-validation-after-touch.png`
@@ -81,7 +81,7 @@ The dedicated Field browser spec checks server output, accessible associations a
 
 Win32 baselines for these states and for each catalogue group at desktop and 320px are checked in beside the spec.
 
-Verification note (2026-09-28): the full playground gate failed deterministically on `field-affixes-before-prefix-click` (17 px, search prefix only) because the `search` icon resolves asynchronously from the jsDelivr `lucide-static@1` CDN and the capture raced that fetch, rendering an empty prefix. No library or page rendering change was involved. The spec now fulfils that CDN request with the verbatim `lucide-static@1` search SVG and waits for the rendered `kui-icon svg` in the affix group before the affix and catalogue captures. Existing baselines were visually re-checked and left unchanged. The whole Field spec passed 8/8, then 24/24 with `--repeat-each=3 --workers=1`, and the affix test passed 3/3 in serial repeats.
+Verification note (2026-09-28): the full playground gate failed deterministically on `field-affixes-before-prefix-click` (17 px, search prefix only) because the `search` icon resolves asynchronously from the jsDelivr `lucide-static@1` CDN and the capture raced that fetch, rendering an empty prefix. No library or page rendering change was involved. The spec now fulfils that CDN request with the verbatim `lucide-static@1` search SVG and waits for the rendered `kui-icon svg` in the affix group before the affix and catalogue captures. Existing desktop and 320px baselines were visually re-checked and left unchanged. The whole Field spec passed 8/8, then 24/24 with `--repeat-each=3 --workers=1`, and the affix test passed 3/3 in serial repeats. These are focused page checks, including its server-render and hydration assertions; the coordinator's final shared build/SSR/browser/adaptive integration run remains pending.
 
 ## Self-review checklist
 
@@ -91,5 +91,10 @@ Verification note (2026-09-28): the full playground gate failed deterministicall
 - [x] Labels, hints, errors, size/provider defaults, and consumer interactions are mapped to actual public behavior.
 - [x] Route, locale scope, and shared SSR registry are present; local implementation inventory and E2E assertions are authored.
 - [x] E2E asserts before/after screenshots for touched validation, prefix click-to-focus, and keyboard clear using labelled accessible group locators.
-- [ ] Parent browser/SSR checks pass and desktop, tablet, and 320px screenshots are generated and visually reviewed.
-- [ ] Independent review and a clean page-scoped commit are complete.
+- [x] Focused Field browser checks passed 8/8 and 24/24 repeated, including server-rendered markup, hydration-time ARIA wiring, validation, EN/RU scope behavior, affix focus/clear interactions, and page overflow checks at 1440px, 768px, and 320px.
+- [x] Desktop and 320px baselines for all seven catalogue groups and six interaction states are checked in and were visually re-checked; tablet responsive coverage is the separate 768px overflow assertion above.
+- [ ] The coordinator's final shared build/SSR/browser/adaptive integration run after the latest fixes is pending; record its command, date, revision, and result when complete.
+- [ ] Independent post-implementation review is pending; record the reviewer and reviewed revision after code, API fidelity, translations, accessibility, SSR, and screenshot evidence are checked.
+- [x] The page implementation has a page-scoped commit (`1d051c4`), followed by the Field-only capture stabilization and evidence commit (`1374f04`).
+
+Assistive-technology note: no external screen-reader or assistive-technology review has been performed; the browser assertions above do not establish AT verification.
