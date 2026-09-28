@@ -247,6 +247,17 @@ screenshots. Snapshot refresh and the clean run both pass; all nine changed or a
 visually inspected, including the complete 320px sizes catalogue and real pressed states. The parent
 owns shared route and SSR registry integration.
 
+## Independent audit
+
+On 2026-09-28, an independent read-only audit checked the public API/defaults, implementation,
+tests, styles, page-to-contract map, and the nine captures changed or added by the coverage follow-up.
+Page commit `32897b1579180264ba0d6b5907363f528d432baf` contains 57 paths, all within the Number Input
+page, its EN/RU locale scope, and its E2E spec/snapshots. Coverage follow-up commit
+`304b460a33b77b32f25cd7a4bfbd406631e618e5` contains 14 paths within the same scope. Both allowlists
+have zero out-of-scope paths, and `git show --check` reported no whitespace errors. The reviewed
+captures show no visible clipping or overlap. This audit did not rerun the recorded 13/13 focused
+Playwright result. Parent-owned shared route/SSR registry and final integration checks remain pending.
+
 ## Reasoned omissions
 
 - Do not duplicate the complete Field anatomy or provider-precedence catalogue; those belong on the
@@ -301,5 +312,5 @@ owns shared route and SSR registry integration.
       hydration, interaction, responsive, and screenshot checks.
 - [x] Refresh the size screenshots and four split/stacked pressed captures; inspect all nine changed
       or added images at desktop and 320px for clipping, overlap, and a visible real `:active` state.
-- [ ] Parent independent review of the final Number Input-only file allowlist before its isolated
-      commit.
+- [x] Independent review confirmed that the final Number Input-only allowlists for page commit
+      `32897b1` and coverage follow-up `304b460` contain no out-of-scope files.
