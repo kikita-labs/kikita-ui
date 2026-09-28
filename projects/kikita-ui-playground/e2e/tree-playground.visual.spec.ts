@@ -69,8 +69,16 @@ test('server-renders the localized Tree catalogue and captures its desktop secti
 test('captures the real row hover state', async ({ page }) => {
   const example = getGroup(page, 'Default tree example');
   const tree = getTree(example, 'Workspace tree');
+  const workspace = getTreeItem(tree, 'Workspace');
+  const idleBackground = await workspace.evaluate(
+    (element) => getComputedStyle(element).backgroundColor,
+  );
 
-  await getTreeItem(tree, 'Workspace').hover();
+  await workspace.hover();
+  expect(await workspace.evaluate((element) => element.matches(':hover'))).toBe(true);
+  await expect
+    .poll(() => workspace.evaluate((element) => getComputedStyle(element).backgroundColor))
+    .not.toBe(idleBackground);
   await expect(example).toHaveScreenshot('tree-hover-desktop.png', {
     animations: 'disabled',
   });

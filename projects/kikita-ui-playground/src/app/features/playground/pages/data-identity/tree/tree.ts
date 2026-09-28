@@ -27,6 +27,11 @@ import { TreeSizeExamples } from './components';
 export class Tree {
   private readonly transloco = inject(TranslocoService);
 
+  protected readonly value = signal<string | null>(null);
+  protected readonly checkedIds = signal<string[]>(['checked-leaf']);
+  protected readonly checkedExpandedIds = signal<string[]>(['check-group']);
+  protected readonly lazyLoadComplete = signal(false);
+
   private readonly language = toSignal(this.transloco.langChanges$, {
     initialValue: this.transloco.getActiveLang(),
   });
@@ -35,11 +40,6 @@ export class Tree {
     this.transloco.events$.pipe(filter((event) => event.type === 'translationLoadSuccess')),
     { initialValue: null },
   );
-
-  protected readonly value = signal<string | null>(null);
-  protected readonly checkedIds = signal<string[]>(['checked-leaf']);
-  protected readonly checkedExpandedIds = signal<string[]>(['check-group']);
-  protected readonly lazyLoadComplete = signal(false);
 
   protected readonly checkedGroupExpansionStatus = computed(() => {
     this.trackTranslationChanges();
@@ -91,6 +91,7 @@ export class Tree {
     this.trackTranslationChanges();
 
     const selectedId = this.value();
+
     if (!selectedId) return this.transloco.translate('tree.status.noSelection');
 
     return this.transloco.translate('tree.status.selected', {

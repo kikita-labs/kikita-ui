@@ -21,7 +21,7 @@ This page maps the public Tree contract in [Tree docs](../../../../../../../../.
 
 ## Visual catalogue and behavior
 
-- **Default and keyboard:** the default `display`/effective-`md`/non-mobile instance has localized data and name, a null initial value, and a live selected summary. Page-owned node labels refresh after both the active-language event and Transloco's `translationLoadSuccess`, so lazy scope data is translated before Tree computes its accessible item names. E2E captures a pointer-hovered row, tabs to the first treeitem, uses Right/Down/Left/End/Home and letter type-ahead, selects with Enter, and expands/collapses with Space. It captures the real keyboard-selected `:focus-visible` row and updated summary; no pseudo-state is simulated with page CSS.
+- **Default and keyboard:** the default `display`/effective-`md`/non-mobile instance has localized data and name, a null initial value, and a live selected summary. Page-owned node labels refresh after both the active-language event and Transloco's `translationLoadSuccess`, so lazy scope data is translated before Tree computes its accessible item names. E2E captures a pointer-hovered row (see discrepancy 7), tabs to the first treeitem, uses Right/Down/Left/End/Home and letter type-ahead, selects with Enter, and expands/collapses with Space. It captures the real keyboard-selected `:focus-visible` row and updated summary; no pseudo-state is simulated with page CSS.
 - **Sizes:** `sm`, `md`, and `lg` use the same short tree so typography, row density, and icons can be compared without changing content. Only one component input changes within each example.
 - **Checkable:** the visible `check-group` starts mixed (`checked-leaf` checked, `open-leaf` unchecked). Its localized live status reflects the consumer-bound `expandedIds` model; Left/Right collapse and expand the parent and update the status. Space on the unchecked leaf makes the parent checked. The disabled leaf is an independent sibling, so it does not confound the parent state; its treeitem is disabled and its native checkbox cannot be toggled.
 - **Lazy loading:** the display-mode lazy folder starts collapsed and loads two fixed children after a fixed 120ms delay. E2E installs the browser clock after the page is ready, captures the idle state, expands it with ArrowRight, waits for the spinner status to render, pauses time, and captures that pending state before running the clock for 120ms. It then verifies the localized child labels and page-owned localized completion status before capturing the resolved state, resumes the clock, collapses the folder, and reopens it to verify cached children do not trigger another loader. It does not seed a checked parent or represent loader failure.
@@ -38,6 +38,8 @@ The effective size can inherit a root size provider when local `size` is omitted
 3. **Checked lazy parents:** `checkedState` changes from the lazy node's own id to its descendants after loading and does not cascade an existing parent check to new children. This state transition is intentionally omitted; the lazy example is display mode and has no checked model.
 4. **Loader rejection:** `loadNode` has a `finally` block but no rejection handler or error UI, so a rejected callback leaves the tree without a recoverable error state. Failed loading is intentionally omitted.
 5. **Spinner localization:** the recursive node template labels its loading status with hardcoded English `Loading`. The Russian E2E interaction asserts this observed string as an unresolved library-source discrepancy.
+6. **Enter on lazy nodes:** `docs/tree.md` lists Enter among the keys that trigger the first lazy load, but `onKeydown` handles Enter only as display-mode selection; Space, ArrowRight, and toggle click load children. The page exercises ArrowRight only.
+7. **Hover contrast inside cards:** `--kui-tree-row-bg-hover` resolves to `--kui-color-surface`, the same token `kuiCard` uses for its default background, so a hovered row inside the example card is visually indistinguishable from an idle row in both themes. The hover E2E proves the real `:hover` match and a computed background change from the idle transparent row; `tree-hover-desktop.png` therefore looks identical to the default capture and is kept as evidence of this library-token gap, not as proof of a visible hover treatment.
 
 ## E2E scope
 
@@ -45,9 +47,14 @@ The effective size can inherit a root size provider when local `size` is omitted
 
 ## Verification status
 
-- Scoped Prettier, Tree EN/RU JSON parsing/key parity, `git diff --check`, and the repository static audit pass.
-- ESLint could not run because the installed ESLint dependency tree is missing `debug`; no lint pass is claimed. Stylelint was not run because this update changes no stylesheets.
-- A fresh production SSR build succeeded. Tree snapshot-update and clean Playwright runs passed 8/8 each; the shared 43-route SSR/adaptive suite passed 2/2. All 15 current Tree captures were visually inspected, including all six changed or new captures; default, hover, keyboard focus/selection, lazy spinner/resolved states, checkable states, and tablet/mobile captures were verified.
+Re-verified on 2026-09-28 against the current Tree source, docs, styles, and unit spec; all five earlier discrepancies still hold, and discrepancies 6 and 7 were added.
+
+- Follow-up fixes: page member order (signals before `toSignal` fields), a blank line before the `selectedSummary` guard, removed unused `tree-playground__size-*` and unreachable `h3` rules from `tree.scss`, retitled the mobile card to "Mobile targets" because it shows only `md`, and added real hover assertions to the spec.
+- Fresh production SSR build (`pnpm run build:kikita-ui-playground`) passed after deleting the previous output.
+- Focused Tree Playwright: a clean pass before changes (8/8, no baseline diff), a snapshot-update pass (8/8; only the three `tree-mobile-md-*` captures changed, for the heading), and a final clean pass (8/8).
+- Shared `component-pages.spec.ts` (all-route SSR/hydration and adaptive layouts) passed 2/2. In `ssr-hydration.spec.ts`, 9 of 10 passed; the Select test (`select-default` role `combobox`) failed and is outside the Tree page.
+- Scoped ESLint (TypeScript, templates, E2E spec) passed with zero warnings, Stylelint and Prettier passed, Tree EN/RU key parity passed (39/39), `git diff --check`, the Cyrillic scan of non-locale Tree files, and `pnpm run audit:static` passed.
+- All 15 captures were opened and reviewed at desktop, 768px, and 320px: no clipping, overlap, horizontal overflow, or unreadable density. The hover capture is visually identical to the default capture (discrepancy 7).
 - Manual assistive-technology review has not been performed; automated DOM and keyboard evidence does not substitute for a screen-reader review.
 
 ## Self-review checklist
@@ -59,12 +66,12 @@ The effective size can inherit a root size provider when local `size` is omitted
 - [x] Native/ARIA semantics expose the accessible tree/item roles, names, and states; E2E exercises real keyboard focus and navigation/selection paths (Tab, arrows, Home/End, type-ahead, Enter, and Space) and asserts the supported 44px `md` mobile targets. This automated evidence is not a full accessibility claim.
 - [x] The fixed catalogue covers the practical supported modes, sizes, mixed/disabled states, lazy success, and the passing mobile-target combination; defective or nonvisual combinations have recorded reasons.
 - [x] The E2E spec declares screenshots for each named desktop catalogue section, lazy-load before/after, and responsive size/checkable/mobile sections.
-- [x] Root visually inspected all 15 current captures at desktop, tablet, and 320px widths, including the checkable status, real hover/focus states, and the corrected lazy spinner frame; no clipping, overlap, or misleading baseline remains.
+- [x] All 15 current captures were visually inspected at desktop, tablet, and 320px widths on 2026-09-28; no clipping or overlap remains, and the visually unchanged hover capture is explained by discrepancy 7.
 - [x] E2E scenarios use accessible Tree/item names, seeded data, and a controlled browser clock for the lazy-load delay.
 - [x] All examples are visible in the page; none are hidden behind tabs, accordions, or expand-on-demand page UI.
 - [x] Repeated size examples reuse the small page-local `TreeSizeExamples` component.
 - [x] The page demonstrates Tree interactions rather than duplicating the docs API reference.
 - [x] The page composes public Kikita UI primitives and uses tokens only for layout; Tree visuals are not restyled.
 - [x] Parent integration is present in the shared route, route enum, sidebar entry, and generic SSR route list; this page implementation did not edit those files.
-- [x] Fresh production SSR build, Tree snapshot-update and clean Playwright runs (8/8 each), shared route SSR/adaptive checks (2/2), and visual review of all 15 captures completed.
+- [x] Fresh production SSR build, Tree snapshot-update and clean Playwright runs (8/8 each), shared route SSR/adaptive checks (2/2), scoped ESLint/Stylelint/Prettier, locale parity, static audit, and visual review of all 15 captures completed on 2026-09-28.
 - [ ] Real assistive-technology review with a screen reader remains pending.
