@@ -175,14 +175,16 @@ test('loads seeded lazy children once and reports the resolved state', async ({ 
   const example = getGroup(page, 'Lazy loading tree example');
   const tree = getTree(example, 'Lazy loading tree');
   const folder = getTreeItem(tree, 'Loaded on demand');
-  await page.clock.install();
+  const clockStart = new Date('2026-01-01T00:00:00.000Z');
+  await page.clock.install({ time: clockStart });
 
   await expect(folder).toHaveAttribute('aria-expanded', 'false');
   await tabTo(page, folder);
   await page.keyboard.press('ArrowRight');
   const loadingStatus = tree.getByRole('status', { name: 'Loading', exact: true });
   await expect(loadingStatus).toBeVisible();
-  await page.clock.pauseAt(new Date());
+  const pauseTime = await page.evaluate(() => Date.now() + 20);
+  await page.clock.pauseAt(new Date(pauseTime));
   await expect(example).toHaveScreenshot('tree-lazy-loading-desktop.png', {
     animations: 'disabled',
   });
