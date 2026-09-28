@@ -10,6 +10,7 @@ import {
   ComboboxFieldStates,
   ComboboxFiltering,
   ComboboxModes,
+  ComboboxSignalForms,
 } from './components';
 
 @Component({
@@ -20,6 +21,7 @@ import {
     ComboboxFieldStates,
     ComboboxFiltering,
     ComboboxModes,
+    ComboboxSignalForms,
     KuiTextDirective,
     TranslocoPipe,
   ],

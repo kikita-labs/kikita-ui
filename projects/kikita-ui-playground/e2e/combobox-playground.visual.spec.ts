@@ -56,6 +56,7 @@ test('captures free-input and async-filtering modes', async ({ page }) => {
 test('free mode stores typed text as its value', async ({ page }) => {
   const input = page.getByRole('combobox', { name: 'Tag' });
 
+  await expect(input).toHaveAttribute('aria-autocomplete', 'both');
   await input.fill('Custom tag');
 
   await expect(input).toHaveValue('Custom tag');
@@ -68,6 +69,7 @@ test('async mode filters consumer-provided results', async ({ page }) => {
   });
   const input = examples.getByRole('combobox', { name: 'Reviewer' });
 
+  await expect(input).toHaveAttribute('aria-autocomplete', 'list');
   await input.fill('Ravi');
 
   await expect(page.getByRole('listbox').getByRole('option', { name: 'Ravi Patel' })).toBeVisible();
@@ -164,10 +166,82 @@ test('exposes native field labeling, validation, disabled, and readonly semantic
   expect(describedText).toContain('Choose an owner');
 
   await expect(page.getByRole('combobox', { name: 'Disabled', exact: true })).toBeDisabled();
-  await expect(page.getByRole('combobox', { name: 'Readonly', exact: true })).toHaveAttribute(
-    'readonly',
-    '',
-  );
+  const readonlyInput = page.getByRole('combobox', { name: 'Readonly', exact: true });
+  await expect(readonlyInput).toHaveAttribute('readonly', '');
+  await readonlyInput.focus();
+  await expect(readonlyInput).toBeFocused();
+  await readonlyInput.press('End');
+  await readonlyInput.pressSequentially(' changed');
+  await expect(readonlyInput).toHaveValue('Amelia Novak');
+});
+
+test('gates required Signal Forms errors until touched and clears them after selection', async ({
+  page,
+}) => {
+  const example = page.getByRole('group', {
+    name: 'Signal Forms required validation example',
+    exact: true,
+  });
+  const input = example.getByRole('combobox', { name: 'Required assignee', exact: true });
+
+  await expect(input).toHaveValue('');
+  await expect(input).not.toHaveAttribute('aria-invalid');
+  await expect(input).not.toHaveAttribute('data-has-clear');
+  await expect(example.getByText('Choose an owner', { exact: true })).toHaveCount(0);
+  await expect(example).toHaveScreenshot('combobox-signal-forms-untouched.png', {
+    animations: 'disabled',
+  });
+
+  await input.click();
+  await expect(page.getByRole('listbox')).toBeVisible();
+  await input.press('Escape');
+
+  await expect(input).toHaveAttribute('aria-invalid', 'true');
+  const error = example.getByText('Choose an owner', { exact: true });
+  await expect(error).toBeVisible();
+  const errorId = await error.getAttribute('id');
+  const describedBy = (await input.getAttribute('aria-describedby'))?.split(/\s+/) ?? [];
+  expect(errorId).toBeTruthy();
+  expect(describedBy).toContain(errorId);
+  await expect(example).toHaveScreenshot('combobox-signal-forms-required-error.png', {
+    animations: 'disabled',
+  });
+
+  await input.click();
+  const listbox = page.getByRole('listbox');
+  await expect(listbox).toBeVisible();
+  await listbox.getByRole('option', { name: 'Available', exact: true }).click();
+
+  await expect(input).toHaveValue('Available');
+  await expect(input).not.toHaveAttribute('aria-invalid');
+  await expect(error).toHaveCount(0);
+  await expect(page.getByRole('listbox')).toBeHidden();
+  await expect(example).toHaveScreenshot('combobox-signal-forms-selected.png', {
+    animations: 'disabled',
+  });
+
+  const localeResponse = await page.request.get('/i18n/combobox/ru.json');
+  expect(localeResponse.ok()).toBeTruthy();
+  const russian = await localeResponse.json();
+  await page
+    .getByRole('banner')
+    .getByRole('button', { name: 'Switch language to Russian', exact: true })
+    .click();
+
+  const russianExample = page.getByRole('group', {
+    name: russian.accessibility.signalForms,
+    exact: true,
+  });
+  const russianInput = russianExample.getByRole('combobox', {
+    name: russian.fields.requiredAssignee,
+    exact: true,
+  });
+  await russianExample.getByRole('button', { name: 'Clear', exact: true }).click();
+  await expect(russianInput).toHaveValue('');
+  await expect(russianInput).toHaveAttribute('aria-invalid', 'true');
+  await expect(
+    russianExample.getByText(russian.states.requiredOwner, { exact: true }),
+  ).toBeVisible();
 });
 
 test('shows no-match and disabled-option results in filtering mode', async ({ page }) => {
@@ -187,7 +261,10 @@ test('clears a selected value and keeps the explicitly non-clearable field witho
   await expect(clearable).toHaveValue('Daniel Kowalski');
   await expect(clearable).toHaveAttribute('data-has-clear', '');
 
-  await page.getByRole('button', { name: 'Clear', exact: true }).click();
+  await page
+    .getByRole('group', { name: 'Loading and clear action examples', exact: true })
+    .getByRole('button', { name: 'Clear', exact: true })
+    .click();
   await expect(clearable).toHaveValue('');
   await expect(clearable).toBeFocused();
   await expect(clearable).not.toHaveAttribute('data-has-clear');
@@ -195,6 +272,26 @@ test('clears a selected value and keeps the explicitly non-clearable field witho
   const notClearable = page.getByRole('combobox', { name: 'Clear action hidden', exact: true });
   await expect(notClearable).toHaveValue('Amelia Novak');
   await expect(notClearable).not.toHaveAttribute('data-has-clear');
+});
+
+test('clears an active search query and closes its filtered options', async ({ page }) => {
+  const example = page.getByRole('group', {
+    name: 'Local filtering combobox example',
+    exact: true,
+  });
+  const input = example.getByRole('combobox', { name: 'Search people' });
+
+  await input.fill('Ravi');
+  await expect(input).toHaveAttribute('data-has-clear', '');
+  await expect(page.getByRole('option', { name: 'Ravi Patel', exact: true })).toBeVisible();
+
+  await example.getByRole('button', { name: 'Clear', exact: true }).click();
+
+  await expect(input).toHaveValue('');
+  await expect(input).not.toHaveAttribute('data-has-clear');
+  await expect(input).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.getByRole('listbox')).toBeHidden();
+  await expect(input).toBeFocused();
 });
 
 test('opens to the last enabled option with ArrowUp', async ({ page }) => {
@@ -215,6 +312,7 @@ test('closes the options list with Escape and keeps focus on the input', async (
 
   await expect(page.getByRole('listbox')).toBeHidden();
   await expect(input).toHaveAttribute('aria-expanded', 'false');
+  await expect(input).not.toHaveAttribute('aria-controls');
   await expect(input).toBeFocused();
 });
 
@@ -278,6 +376,8 @@ test('server renders the Combobox route and its translated heading', async ({ pa
 
   expect(response.status()).toBe(200);
   const serverMarkup = await response.text();
+  expect(serverMarkup).toMatch(/<input\b[^>]*role="combobox"/);
+  expect(serverMarkup).toMatch(/<input\b[^>]*aria-haspopup="listbox"/);
   const serverHeadings = [...serverMarkup.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)].map(
     ([, text]) => text.replace(/<[^>]+>/g, '').trim(),
   );
@@ -290,23 +390,88 @@ test('server renders the Combobox route and its translated heading', async ({ pa
 test('keeps the Combobox catalogue within tablet and 320px layouts', async ({ page }) => {
   for (const viewport of [
     { width: 768, height: 1024, name: 'tablet-768' },
-    { width: 320, height: 640, name: 'mobile-320' },
+    { width: 320, height: 1440, name: 'mobile-320' },
   ]) {
     await page.setViewportSize(viewport);
     await page.goto('/components/combobox');
 
     const main = page.getByRole('main');
     await expect(main).toBeVisible();
-    const dimensions = await main.evaluate((element) => ({
-      clientWidth: element.clientWidth,
-      scrollWidth: element.scrollWidth,
+    const dimensions = await page.evaluate(() => ({
+      document: {
+        clientWidth: document.documentElement.clientWidth,
+        scrollWidth: document.documentElement.scrollWidth,
+      },
+      main: {
+        clientWidth: document.querySelector('main')?.clientWidth ?? 0,
+        scrollWidth: document.querySelector('main')?.scrollWidth ?? 0,
+      },
     }));
     expect(
-      dimensions.scrollWidth,
-      `${viewport.name}: ${JSON.stringify(dimensions)}`,
-    ).toBeLessThanOrEqual(dimensions.clientWidth);
-    await expect(main).toHaveScreenshot(`combobox-page-${viewport.name}.png`, {
-      animations: 'disabled',
-    });
+      dimensions.document.scrollWidth,
+      `${viewport.name} document: ${JSON.stringify(dimensions.document)}`,
+    ).toBeLessThanOrEqual(dimensions.document.clientWidth);
+    expect(
+      dimensions.main.scrollWidth,
+      `${viewport.name} catalogue: ${JSON.stringify(dimensions.main)}`,
+    ).toBeLessThanOrEqual(dimensions.main.clientWidth);
+
+    const sections = [
+      {
+        locator: page.getByRole('group', { name: 'Default combobox example', exact: true }),
+        name: 'default',
+      },
+      {
+        locator: page.getByRole('group', {
+          name: 'Local filtering combobox example',
+          exact: true,
+        }),
+        name: 'filtering',
+      },
+      {
+        locator: page.getByRole('group', {
+          name: 'Free input and async filtering examples',
+          exact: true,
+        }),
+        name: 'modes',
+      },
+      {
+        locator: page.getByRole('group', { name: 'Field sizes and states', exact: true }),
+        name: 'field-states',
+      },
+      {
+        locator: page.getByRole('group', {
+          name: 'Signal Forms required validation example',
+          exact: true,
+        }),
+        name: 'signal-forms',
+      },
+      {
+        locator: page.getByRole('group', {
+          name: 'Loading and clear action examples',
+          exact: true,
+        }),
+        name: 'affordances',
+      },
+    ];
+
+    for (const section of sections) {
+      await expect(section.locator).toBeVisible();
+      await section.locator.scrollIntoViewIfNeeded();
+      const bounds = await section.locator.boundingBox();
+      if (!bounds) throw new Error(`${section.name} section has no rendered bounds`);
+      expect(bounds.x, `${section.name} section starts inside viewport`).toBeGreaterThanOrEqual(0);
+      expect(
+        bounds.x + bounds.width,
+        `${section.name} section ends inside viewport`,
+      ).toBeLessThanOrEqual(viewport.width);
+      expect(bounds.height, `${section.name} section fits review viewport`).toBeLessThanOrEqual(
+        viewport.height,
+      );
+      await expect(section.locator).toHaveScreenshot(
+        `combobox-${section.name}-${viewport.name}.png`,
+        { animations: 'disabled' },
+      );
+    }
   }
 });

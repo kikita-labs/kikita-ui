@@ -8,6 +8,7 @@
     "sizes": "Field sizes",
     "states": "States",
     "affordances": "Loading and clear action",
+    "signalForms": "Signal Forms",
     "clearable": "Clear action"
   },
   "modes": {
@@ -24,7 +25,8 @@
     "invalid": "Invalid",
     "focused": "Focus example",
     "clearable": "Clearable",
-    "notClearable": "Clear action hidden"
+    "notClearable": "Clear action hidden",
+    "requiredAssignee": "Required assignee"
   },
   "hints": {
     "filtering": "Type to filter local options",
@@ -67,6 +69,7 @@
     "filtering": "Local filtering combobox example",
     "modes": "Free input and async filtering examples",
     "fieldStates": "Field sizes and states",
-    "affordances": "Loading and clear action examples"
+    "affordances": "Loading and clear action examples",
+    "signalForms": "Signal Forms required validation example"
   }
 }
