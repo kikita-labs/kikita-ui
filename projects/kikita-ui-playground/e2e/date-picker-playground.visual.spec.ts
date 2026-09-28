@@ -1,4 +1,3 @@
-import type { Page } from '@playwright/test';
 import { expect, test } from '@playwright/test';
 
 const desktopViewport = { width: 1440, height: 1000 };
@@ -9,7 +8,8 @@ const fixedBrowserTime = new Date('2026-05-14T12:00:00.000Z');
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize(desktopViewport);
   await page.clock.install({ time: fixedBrowserTime });
-  await gotoDatePickerWithClientTranslations(page);
+  await page.goto('/components/date-picker');
+  await expect(page.getByRole('heading', { level: 1, name: 'Date Picker' })).toBeVisible();
 });
 
 test('server-renders the Date Picker route and hydrates its combobox interaction', async ({
@@ -592,21 +592,3 @@ test('keeps the page labels and field names translated in Russian', async ({ pag
   );
   await expect.poll(renderedWeekdays).toEqual(russianWeekdays);
 });
-
-/**
- * Opens the Date Picker route and waits until the browser has applied its own copy of the page's
- * translation scope.
- *
- * The server-rendered heading is not proof of a hydrated page: after hydration the client fetches
- * `/i18n/date-picker/en.json` again, and until that response renders the field labels are empty.
- * Waiting for the scope response and then for the translated heading keeps the first keyboard
- * interaction out of the pre-hydration and empty-label windows.
- */
-async function gotoDatePickerWithClientTranslations(page: Page): Promise<void> {
-  const scopeResponse = page.waitForResponse(
-    (response) => new URL(response.url()).pathname === '/i18n/date-picker/en.json' && response.ok(),
-  );
-  await page.goto('/components/date-picker');
-  await scopeResponse;
-  await expect(page.getByRole('heading', { level: 1, name: 'Date Picker' })).toBeVisible();
-}

@@ -126,9 +126,14 @@ open Default panel capture is expected to change because its displayed month mov
   "focus the grid" instead of "open". The closing panel already rendered the Russian month, so the
   month check passed, then the overlay detached and the weekday row was never found. The spec now
   waits for the English dialog to be hidden and `aria-expanded="false"` after Escape, and for
-  `aria-expanded="true"` plus a visible dialog after the Russian ArrowDown. As documented
-  hardening, matching the Dropdown page, `beforeEach` also waits for the client re-fetch of
-  `/i18n/date-picker/en.json` before interacting; that scope-reload race was not observed in the
-  failing traces. With the fix the check passed 20/20 in serial repeats and the whole Date Picker
-  spec passed 14/14 with no capture changes. The library behavior (ArrowDown ignored as an open
+  `aria-expanded="true"` plus a visible dialog after the Russian ArrowDown. With the fix the
+  check passed 20/20 in serial repeats and the whole Date Picker spec passed 14/14 with no capture
+  changes. That first fix also added scope-reload hardening in `beforeEach`, a wait for the client
+  re-fetch of `/i18n/date-picker/en.json`; that race was never observed in the failing traces.
+  The re-fetch itself was then removed at the source in `91ec517` (the shared loader now uses a
+  relative URL on both platforms, so hydration reuses the server-loaded catalogues and boot makes
+  no `/i18n/` requests). The hardening wait could no longer resolve and was removed;
+  `beforeEach` now opens the route and waits for the translated heading, and the closing-animation
+  waits stay. Re-verified against a build of `91ec517`: the check passed 20/20 in serial repeats
+  and the whole Date Picker spec passed 14/14 with no capture changes. The library behavior (ArrowDown ignored as an open
   request while the panel is closing) is reported to the library owners rather than changed here.
