@@ -27,6 +27,19 @@ import {
 class StaticRequiredHost {}
 
 @Component({
+  imports: [KuiFieldComponent, KuiInputDirective],
+  template: `
+    <kui-field label="First field">
+      <input kuiInput />
+    </kui-field>
+    <kui-field label="Second field">
+      <input kuiInput />
+    </kui-field>
+  `,
+})
+class MultipleGeneratedFieldIdsHost {}
+
+@Component({
   imports: [FormField, KuiFieldComponent, KuiInputDirective],
   template: `
     <kui-field label="Email">
@@ -185,6 +198,27 @@ function errorMessage(fixture: ComponentFixture<unknown>): HTMLElement | null {
 }
 
 describe('KuiFieldComponent', () => {
+  it('generates unique control ids and associates each label with its control', async () => {
+    await TestBed.configureTestingModule({
+      imports: [MultipleGeneratedFieldIdsHost],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(MultipleGeneratedFieldIdsHost);
+    fixture.detectChanges();
+
+    const fields = fixture.nativeElement.querySelectorAll('kui-field') as NodeListOf<HTMLElement>;
+    const ids = Array.from(fields, (field) => {
+      const label = field.querySelector('label') as HTMLLabelElement;
+      const input = field.querySelector('input') as HTMLInputElement;
+
+      expect(label.htmlFor).toBe(input.id);
+
+      return input.id;
+    });
+
+    expect(ids).toHaveLength(2);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
   it('shows the required marker when required is set explicitly', async () => {
     await TestBed.configureTestingModule({ imports: [StaticRequiredHost] }).compileComponents();
     const fixture = TestBed.createComponent(StaticRequiredHost);

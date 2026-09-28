@@ -32,13 +32,12 @@ import {
   KuiFieldAffixDirective,
   KuiFieldAffixIconDirective,
 } from './kui-field-affix.directive';
+import { KuiFieldIdGenerator } from './kui-field-id-generator.service';
 import {
   KuiErrorDirective,
   KuiHintDirective,
   KuiLabelDirective,
 } from './kui-field-markers.directive';
-
-let nextFieldId = 0;
 
 /** Wraps a form control with Kikita UI label, hint, error, and required state semantics. */
 @Component({
@@ -56,6 +55,8 @@ let nextFieldId = 0;
   },
 })
 export class KuiFieldComponent implements KuiOptionContext {
+  private readonly idGenerator = inject(KuiFieldIdGenerator);
+
   /** Field size, adjusting control slot height and spacing. Defaults to md. */
   readonly size = input<KuiSize | undefined>();
 
@@ -79,7 +80,7 @@ export class KuiFieldComponent implements KuiOptionContext {
   });
 
   /** Stable id used by descendant controls for label association. */
-  readonly controlId = `kui-field-${nextFieldId++}`;
+  readonly controlId = this.idGenerator.nextControlId();
 
   /** Stable id for hint text. */
   readonly hintId = `${this.controlId}-hint`;
