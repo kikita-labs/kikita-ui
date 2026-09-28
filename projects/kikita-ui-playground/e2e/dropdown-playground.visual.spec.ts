@@ -1,9 +1,9 @@
+import type { Page } from '@playwright/test';
 import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1200 });
-  await page.goto('/components/dropdown');
-  await expect(page.getByRole('heading', { name: 'Dropdown', level: 1 })).toBeVisible();
+  await gotoDropdownWithClientTranslations(page);
 });
 
 test('server-renders Dropdown closed and hydrates its keyboard opening', async ({
@@ -37,7 +37,7 @@ test('server-renders Dropdown closed and hydrates its keyboard opening', async (
   });
   page.on('pageerror', (error) => runtimeErrors.push(error.message));
 
-  await page.goto('/components/dropdown');
+  await gotoDropdownWithClientTranslations(page);
   const example = page.getByRole('group', { name: 'Default listbox example', exact: true });
   const trigger = example.getByRole('button', { name: 'Options', exact: true });
   await trigger.press('ArrowDown');
@@ -526,3 +526,22 @@ test('uses the Russian Dropdown scope for the trigger and option labels', async 
     russian.status.selected.replace('{{value}}', 'duplicate'),
   );
 });
+
+/**
+ * Opens the Dropdown route and waits until the browser has applied its own copy of the page's
+ * translation scope.
+ *
+ * The server-rendered labels are not proof of a ready page: after hydration the client fetches
+ * `/i18n/dropdown/en.json` again, and until that response is rendered every translated label,
+ * including each trigger's text, is briefly empty. A Dropdown opened in that window copies the
+ * empty trigger text into the panel's `aria-label` once, so the listbox stays unnamed. Waiting for
+ * the scope response and then for the translated heading proves the labels are live.
+ */
+async function gotoDropdownWithClientTranslations(page: Page): Promise<void> {
+  const scopeResponse = page.waitForResponse(
+    (response) => new URL(response.url()).pathname === '/i18n/dropdown/en.json' && response.ok(),
+  );
+  await page.goto('/components/dropdown');
+  await scopeResponse;
+  await expect(page.getByRole('heading', { name: 'Dropdown', level: 1 })).toBeVisible();
+}

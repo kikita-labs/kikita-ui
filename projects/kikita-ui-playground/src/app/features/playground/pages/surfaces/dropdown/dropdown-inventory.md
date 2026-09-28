@@ -40,3 +40,18 @@ This inventory records the reviewed public Dropdown contract against the example
 - The generated UI MCP metadata describes `closeOnSelect` as a model although the public source declares it as an input. The page follows the source API.
 
 The source audit is grounded in `projects/ui/src/lib/components/dropdown/kui-dropdown.component.ts` (inputs and overlay behavior), `kui-dropdown-for.directive.ts` (trigger and ARIA wiring), `kui-option.directive.ts` (option semantics), `projects/ui/src/styles/dropdown.css`, `projects/ui/src/styles/listbox.css`, and the Dropdown component unit tests.
+
+## Verification notes
+
+- 2026-09-28: the keep-open keyboard check failed once inside the full serial playground gate.
+  Diagnostics under 20x CPU throttling reproduced it every time. After hydration, the browser
+  fetches `/i18n/dropdown/en.json` again even though the server serialized it in transfer state.
+  Until that response renders, every translated label, including each trigger's text, is empty. An
+  ArrowDown press in that window opens the correct panel and focuses its first option, but
+  `KuiDropdownComponent` copies the empty trigger text into the panel `aria-label` only once when
+  it opens. The listbox therefore stays unnamed and name-based locators never match it. The spec
+  now opens the route through a helper that waits for the client scope response and the
+  translated heading before any interaction. With that wait, the throttled reproduction passed
+  4/4, the check passed 10/10 in serial repeats, and the whole Dropdown spec passed 16/16 with no
+  capture changes. The client re-fetch (shared Transloco loader and transfer cache) and the
+  one-time accessible-name snapshot are reported to the parent owners rather than changed here.
