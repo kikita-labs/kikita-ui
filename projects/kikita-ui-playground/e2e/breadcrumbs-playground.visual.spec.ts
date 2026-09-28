@@ -41,6 +41,38 @@ test('server-renders and hydrates the Breadcrumbs page without browser errors', 
   expect(runtimeErrors).toEqual([]);
 });
 
+test('switches the Breadcrumbs scope to Russian at runtime', async ({ page }) => {
+  const localeResponse = await page.request.get('/i18n/breadcrumbs/ru.json');
+  expect(localeResponse.ok()).toBeTruthy();
+  const russian = (await localeResponse.json()) as {
+    title: string;
+    accessibility: { default: string; navigation: string };
+    items: { playground: string; current: string };
+  };
+
+  await page
+    .getByRole('banner')
+    .getByRole('button', { name: 'Switch language to Russian', exact: true })
+    .click();
+
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
+  await expect(
+    page.getByRole('heading', { level: 1, name: russian.title, exact: true }),
+  ).toBeVisible();
+
+  const example = page.getByRole('group', { name: russian.accessibility.default, exact: true });
+  const navigation = example.getByRole('navigation', {
+    name: russian.accessibility.navigation,
+    exact: true,
+  });
+  const trail = navigation.getByRole('list');
+
+  await expect(
+    navigation.getByRole('link', { name: russian.items.playground, exact: true }),
+  ).toHaveAttribute('href', '/');
+  await expect(trail.locator('span[kuiBreadcrumbItem][current]')).toHaveText(russian.items.current);
+});
+
 test('renders a minimally configured default trail and captures desktop and 320px views', async ({
   page,
 }) => {

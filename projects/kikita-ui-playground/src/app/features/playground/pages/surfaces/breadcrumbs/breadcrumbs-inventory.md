@@ -17,6 +17,7 @@ This page demonstrates the currently shipped Breadcrumbs contract. The component
 | `.kui-breadcrumb-ellipsis`                  | CSS-only visual building block; menu and hidden-level behavior belong to the consumer.                                                                    | A labelled static slot preview only. Its entire list item is hidden from assistive technology; it is not an interactive button or a working menu.                                                                         |
 | First-and-last pattern                      | Consumers remove hidden middle crumbs and their separators. Breadcrumbs does not collapse items itself.                                                   | Narrow-layout example includes only the first link, separator, and current item.                                                                                                                                          |
 | Theme                                       | Breadcrumbs colors use generated semantic `--kui-*` variables; mode is owned by the persistent shell.                                                     | E2E captures the default dark view and toggles the shell to light for a second default example capture. No component-specific colors are overridden.                                                                      |
+| Runtime locale                              | The page uses the shell-provided `breadcrumbs` Transloco scope; locale switching is not a Breadcrumbs input or state.                                     | E2E loads the Russian scope, switches through the shell, and checks the translated page title, group/navigation labels, link, and current crumb.                                                                          |
 
 ## States and edge cases
 
@@ -45,10 +46,10 @@ This page demonstrates the currently shipped Breadcrumbs contract. The component
 - [x] Composition, size, and narrow-layout sections live in page-private components under `components/`, keeping each template within the app's size budget.
 - [x] The `current`-on-anchor mismatch and missing component-specific design provenance are recorded; neither is used to invent an example.
 - [x] The ellipsis pattern is labelled as static consumer wiring and has no nonfunctional button or menu behavior.
-- [x] English and Russian scope files have the same nested keys.
-- [x] Local Prettier and scoped locale key-parity checks pass.
+- [x] English and Russian scope files have matching nested keys, and E2E checks the Russian scope after a runtime switch.
+- [x] Scoped ESLint, Prettier, and EN/RU leaf-key parity checks pass (30 matching keys).
 - [x] E2E cases use named accessible groups, named links, deterministic viewport sizes, real pointer/keyboard interaction, and SSR markup assertions.
+- [x] Parent production/SSR build passed; the focused 9-test E2E suite passed with snapshot updates enabled and disabled after adding the runtime locale-switch scenario.
 - [x] Parent route, translation scope, and shared SSR route registration are integrated.
-- [x] Parent build/SSR/browser verification is complete; the production/SSR build and focused 8-test suite passed with snapshot updates enabled and disabled.
 - [x] Generated desktop, tablet, and 320px screenshots have been opened and visually reviewed for overflow, clipping, wrapping, and accurate labels; the independent reviewer approved the refreshed narrow-layout captures.
 - [x] An independent reviewer has audited page anatomy, translations, accessibility, and this contract map.
