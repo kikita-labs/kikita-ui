@@ -45,13 +45,18 @@ The source audit is grounded in `projects/ui/src/lib/components/dropdown/kui-dro
 
 - 2026-09-28: the keep-open keyboard check failed once inside the full serial playground gate.
   Diagnostics under 20x CPU throttling reproduced it every time. After hydration, the browser
-  fetches `/i18n/dropdown/en.json` again even though the server serialized it in transfer state.
-  Until that response renders, every translated label, including each trigger's text, is empty. An
-  ArrowDown press in that window opens the correct panel and focuses its first option, but
-  `KuiDropdownComponent` copies the empty trigger text into the panel `aria-label` only once when
-  it opens. The listbox therefore stays unnamed and name-based locators never match it. The spec
-  now opens the route through a helper that waits for the client scope response and the
-  translated heading before any interaction. With that wait, the throttled reproduction passed
-  4/4, the check passed 10/10 in serial repeats, and the whole Dropdown spec passed 16/16 with no
-  capture changes. The client re-fetch (shared Transloco loader and transfer cache) and the
-  one-time accessible-name snapshot are reported to the parent owners rather than changed here.
+  downloaded `/i18n/dropdown/en.json` again because the Transloco loader built different URLs on
+  the server and in the browser, so the HTTP transfer cache never matched. Until that response
+  rendered, every translated label, including each trigger's text, was empty. An ArrowDown press
+  in that window opened the correct panel and focused its first option, but
+  `KuiDropdownComponent` copies the trigger text into the panel `aria-label` only once when it
+  opens, so the listbox stayed unnamed and name-based locators never matched it.
+- The cause is fixed at the source in shared commit `91ec517`: the loader uses the same relative
+  URL on both platforms, so the browser reuses the server-loaded catalogues and the server text
+  stays intact through hydration. The temporary spec wait for the client catalogue response from
+  `3973a0f` is removed; the spec again opens the route and waits for the translated heading.
+  Against a production build of `91ec517`, the keep-open keyboard check passed 20/20 in serial
+  repeats and the whole Dropdown spec passed 16/16 with no capture changes.
+- The one-time accessible-name snapshot in `KuiDropdownComponent` remains a library concern: a
+  trigger whose text changes while its panel is open keeps a stale panel name. It is reported to
+  the library owners rather than changed here.
