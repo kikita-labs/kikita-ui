@@ -1,4 +1,23 @@
+import type { Locator } from '@playwright/test';
 import { expect, test } from '@playwright/test';
+
+/**
+ * Waits until an example without an explicit locale renders the browser's en-US week.
+ *
+ * The server resolves `KUI_LOCALE` from the Node process locale, so the day grid can start
+ * on a different weekday until hydration re-renders it. Keyboard steps must start after
+ * that re-render, or a focused server-rendered day can resolve to a different date.
+ */
+async function expectBrowserLocaleWeek(example: Locator): Promise<void> {
+  const weekdayFormatter = new Intl.DateTimeFormat('en-US', { weekday: 'short' });
+  const weekdays = Array.from({ length: 7 }, (_, index) =>
+    weekdayFormatter.format(new Date(2026, 4, 3 + index)),
+  );
+
+  await expect(example.getByRole('row').first()).toHaveText(
+    new RegExp(`^\\s*${weekdays.join('\\s*')}\\s*$`),
+  );
+}
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1200 });
@@ -145,7 +164,9 @@ test('moves keyboard focus through week, week edges, month, and year boundaries'
   const grid = example.getByRole('grid');
   const selectedDay = grid.getByRole('button', { name: '14', exact: true });
 
+  await expectBrowserLocaleWeek(example);
   await selectedDay.focus();
+  await expect(selectedDay).toHaveAttribute('tabindex', '0');
   await selectedDay.press('ArrowRight');
   const day15 = grid.getByRole('button', { name: '15', exact: true });
   await expect(day15).toBeFocused();
@@ -242,7 +263,9 @@ test('does not select a disabled date through keyboard activation', async ({ pag
   const disabledDate = grid.getByRole('button', { name: '18', exact: true });
 
   await expect(selectedDate).toHaveAttribute('aria-selected', 'true');
+  await expectBrowserLocaleWeek(example);
   await dayBeforeDisabled.focus();
+  await expect(dayBeforeDisabled).toHaveAttribute('tabindex', '0');
   await dayBeforeDisabled.press('ArrowRight');
 
   await expect(disabledDate).toBeFocused();
