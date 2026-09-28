@@ -129,9 +129,20 @@ parent-approved scope: preserve the already shipped Toast appearance and use the
 | Lifecycle           | Signal-persistent state, update, and three-visible eviction result | Signal-persistent state, update, and the full page viewport with the three-toast stack                           |
 
 The spec also exercises the mobile position controls and asserts the Toast region remains inside
-the 16px viewport insets with no document-level horizontal overflow. Browser execution and visual
-inspection for the newly added 320px snapshots are pending the parent-owned Playwright gate; do
-not infer them from this coverage map.
+the 16px viewport insets with no document-level horizontal overflow.
+
+Verification 2026-09-28: the mobile placement test was flaky for two reasons. The shell header
+theme icon is fetched from the jsDelivr CDN at runtime and raced page-level captures, and a click
+on a not-yet-stable button retried with Playwright's forced scroll alignments, leaving the shell
+workspace at an arbitrary offset. The spec now serves the shell's Lucide icons from verbatim
+`lucide-static@1` fixtures, waits for every `kui-icon` to render before page captures, and pins
+the workspace scroll before every capture. The `toast-persistent-signal-320` and
+`toast-reference-update-320` baselines were regenerated after a pixel diff showed only the single
+page row behind each toast's fractional box changed; the toast content is identical. With a fresh
+`dist/kikita-ui-playground` build, the mobile placement test passed 10/10 with `--repeat-each=10`
+and the full Toast spec passed 60/60 with `--repeat-each=5 --workers=1`. Only the changed captures
+and the failing `toast-position-bottom-320` artifacts were visually inspected in that pass; this
+does not replace the parent-owned full Playground gate.
 
 ## Self-review checklist
 

@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import { expect, test } from '@playwright/test';
 
 interface ToastLocale {
@@ -35,6 +35,21 @@ const mobileViewport = { width: 320, height: 844 };
 const fixedTime = new Date('2026-09-24T00:00:00.000Z');
 const browserErrors = new WeakMap<Page, string[]>();
 
+/**
+ * Verbatim `lucide-static@1` (v1.48.0) icons requested by the playground shell on the Toast
+ * route, served locally so page-level captures never race the jsDelivr CDN.
+ */
+const LUCIDE_TEST_ICONS: Record<string, string> = {
+  moon: '<svg class="lucide lucide-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></svg>',
+  palette:
+    '<svg class="lucide lucide-palette" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg>',
+  'rotate-ccw':
+    '<svg class="lucide lucide-rotate-ccw" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>',
+  search:
+    '<svg class="lucide lucide-search" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg>',
+  sun: '<svg class="lucide lucide-sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></svg>',
+};
+
 async function readToastLocale(page: Page, language: 'en' | 'ru'): Promise<ToastLocale> {
   const response = await page.request.get(
     new URL(`/i18n/toast/${language}.json`, page.url()).toString(),
@@ -50,12 +65,29 @@ function getToast(page: Page, role: 'status' | 'alert', title: string) {
     .filter({ hasText: title });
 }
 
+/**
+ * Pins the shell workspace scroll before a capture. A click on a not-yet-stable element retries
+ * with forced scroll alignments, so the offset a click leaves behind is not deterministic. Page
+ * captures show that offset directly, and a toast's fractional box includes one row behind it.
+ */
+async function pinWorkspaceScroll(page: Page, target: 'top' | 'bottom' | Locator): Promise<void> {
+  if (typeof target !== 'string') {
+    await target.evaluate((element) => element.scrollIntoView({ block: 'center' }));
+    return;
+  }
+
+  await page.locator('.playground-shell__workspace').evaluate((element, edge) => {
+    element.scrollTop = edge === 'top' ? 0 : element.scrollHeight;
+  }, target);
+}
+
 async function expectMobileToastScreenshot(
   page: Page,
   toast: ReturnType<typeof getToast>,
   screenshotName: string,
 ): Promise<void> {
   expect(page.viewportSize()?.width).toBe(mobileViewport.width);
+  await pinWorkspaceScroll(page, 'top');
   await expect
     .poll(() =>
       page.evaluate(
@@ -72,7 +104,26 @@ async function expectMobileToastScreenshot(
   await expect(toast).toHaveScreenshot(screenshotName);
 }
 
-async function expectMobilePageScreenshot(page: Page, screenshotName: string): Promise<void> {
+/** Waits until every decorative `kui-icon` on the page has resolved its inline SVG. */
+async function expectIconsRendered(page: Page): Promise<void> {
+  await expect(page.locator('kui-icon:not(:has(svg))')).toHaveCount(0);
+}
+
+async function expectPageScreenshot(
+  page: Page,
+  screenshotName: string,
+  scroll: 'top' | 'bottom' | Locator,
+): Promise<void> {
+  await pinWorkspaceScroll(page, scroll);
+  await expectIconsRendered(page);
+  await expect(page).toHaveScreenshot(screenshotName);
+}
+
+async function expectMobilePageScreenshot(
+  page: Page,
+  screenshotName: string,
+  scroll: 'top' | 'bottom' | Locator,
+): Promise<void> {
   expect(page.viewportSize()?.width).toBe(mobileViewport.width);
   await expect
     .poll(() =>
@@ -81,7 +132,7 @@ async function expectMobilePageScreenshot(page: Page, screenshotName: string): P
       ),
     )
     .toBe(true);
-  await expect(page).toHaveScreenshot(screenshotName);
+  await expectPageScreenshot(page, screenshotName, scroll);
 }
 
 test.beforeEach(async ({ page }) => {
@@ -91,6 +142,15 @@ test.beforeEach(async ({ page }) => {
     if (message.type() === 'error') errors.push(message.text());
   });
   page.on('pageerror', (error) => errors.push(error.message));
+  await page.route('https://cdn.jsdelivr.net/npm/lucide-static@1/icons/*.svg', async (route) => {
+    const iconName = new URL(route.request().url()).pathname.split('/').at(-1)?.replace('.svg', '');
+    const svg = iconName ? LUCIDE_TEST_ICONS[iconName] : undefined;
+
+    // Icons outside the Toast route (for example after navigating away) are never captured.
+    if (!svg) return route.continue();
+
+    return route.fulfill({ contentType: 'image/svg+xml', body: svg });
+  });
   await page.setViewportSize(desktopViewport);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/components/toast');
@@ -368,7 +428,7 @@ test('updates and dismisses a signal-controlled toast and enforces the three-toa
   await expect(updated).toHaveAttribute('data-kui-appearance', 'success');
   await expect(updated).toHaveAttribute('aria-live', 'polite');
   await expect(updated).toContainText(copy.labels.updatedMessage);
-  await expect(page).toHaveScreenshot('toast-reference-update.png');
+  await expectPageScreenshot(page, 'toast-reference-update.png', 'bottom');
   await page.setViewportSize(mobileViewport);
   await expectMobileToastScreenshot(page, updated, 'toast-reference-update-320.png');
   await page.setViewportSize(desktopViewport);
@@ -410,10 +470,10 @@ test('updates and dismisses a signal-controlled toast and enforces the three-toa
   expect(bottomToTopYs[0]).toBeGreaterThan(bottomToTopYs[1]);
   expect(bottomToTopYs[1]).toBeGreaterThan(bottomToTopYs[2]);
 
-  await expect(page).toHaveScreenshot('toast-capacity-three.png');
+  await expectPageScreenshot(page, 'toast-capacity-three.png', 'bottom');
   await page.setViewportSize(mobileViewport);
   await capacity.scrollIntoViewIfNeeded();
-  await expectMobilePageScreenshot(page, 'toast-capacity-three-320.png');
+  await expectMobilePageScreenshot(page, 'toast-capacity-three-320.png', 'bottom');
   await page.setViewportSize(desktopViewport);
 
   await capacity.getByRole('button', { name: copy.actions.dismissAll, exact: true }).click();
@@ -446,7 +506,7 @@ test('moves the live Toast region to each supported position', async ({ page }) 
     await expect(toast).toBeVisible();
     await expect(toast).toHaveCSS('opacity', '1');
     await page.mouse.move(265, 500);
-    await expect(page).toHaveScreenshot(`toast-position-${value}.png`);
+    await expectPageScreenshot(page, `toast-position-${value}.png`, 'top');
   }
 
   const controls = page.getByRole('group', {
@@ -485,7 +545,11 @@ test('preserves vertical Toast placement on mobile while collapsing horizontal a
   expect(topBox?.y ?? mobileViewport.height).toBeLessThan(mobileViewport.height / 2);
   expect(topBox?.x ?? 0).toBeGreaterThanOrEqual(16);
   expect((topBox?.x ?? 0) + (topBox?.width ?? 0)).toBeLessThanOrEqual(mobileViewport.width - 16);
-  await expectMobilePageScreenshot(page, 'toast-position-top-320.png');
+  await expectMobilePageScreenshot(
+    page,
+    'toast-position-top-320.png',
+    positionButton(copy.positions.topStart),
+  );
 
   await positionButton(copy.positions.bottomEnd).click();
   await expect(region).toHaveAttribute('data-position', 'bottom-end');
@@ -496,7 +560,11 @@ test('preserves vertical Toast placement on mobile while collapsing horizontal a
   expect((bottomBox?.x ?? 0) + (bottomBox?.width ?? 0)).toBeLessThanOrEqual(
     mobileViewport.width - 16,
   );
-  await expectMobilePageScreenshot(page, 'toast-position-bottom-320.png');
+  await expectMobilePageScreenshot(
+    page,
+    'toast-position-bottom-320.png',
+    positionButton(copy.positions.topStart),
+  );
 });
 
 test('dismisses page-owned toasts and restores the region position on navigation', async ({
