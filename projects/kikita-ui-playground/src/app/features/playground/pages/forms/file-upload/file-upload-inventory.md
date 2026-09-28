@@ -50,7 +50,8 @@ it with Enter.
 - The validation group selects real files through the native picker. It covers
   MIME rejection, size rejection, max count, clear-on-remove, picker Enter and
   Space, the absence of a third row after exceeding `maxCount`, and the
-  consumer-owned pending → uploading → success lifecycle.
+  consumer-owned pending → uploading → success lifecycle. The E2E captures
+  both the max-count error and its cleared state after a file is removed.
 - The wildcard group separately records that `accept=['image/*']` does not
   match `image/png` in the current exact-membership implementation. This is
   verified by a file-selection E2E assertion, not only by the hint text.
@@ -58,7 +59,8 @@ it with Enter.
   that `maxCount` limits single mode; the source ignores that input there.
 - The validation dropzone uses real browser `DragEvent`/`DataTransfer` objects
   to cover valid `over`, invalid drag, leave/drop reset, one accepted dropped
-  file, and a rejected dropped file. The accepted entry is removed before the
+  file, and a rejected dropped file. Screenshot assertions cover valid `over`,
+  invalid drag, and rejected drop. The accepted entry is removed before the
   rejected-drop assertion so the scenarios stay deterministic.
 - The state group covers image preview, PDF/DOC/ZIP/other file kinds, and all
   four consumer-owned statuses. Progress is fixed at 68% for the seeded image;
@@ -87,15 +89,18 @@ it with Enter.
   “Drag files here”, “Choose file”, “Attach file”, “Queued”, “Done”, “Retry”,
   and validation messages; the page does not present those library-owned
   strings as translated.
-- Desktop and full-height 320px catalogue screenshots cover each named
-  section. Tablet (768px) and ordinary-height 320×844 checks assert that the
-  document has no horizontal overflow. The long mobile captures keep all
+- The page evidence contains 18 catalogue captures (nine named sections at
+  desktop and 320px) plus eight interaction captures, for 26 snapshots. The
+  768px tablet and ordinary-height 320×844 cases are responsive overflow
+  assertions, not screenshot requirements. The long mobile captures keep all
   example content in frame without changing the Playground workspace scroll.
-  Separate visual assertions cover true pointer hover, invalid drag, rejected
-  drop, and keyboard focus. The SSR check loads the page with JavaScript
-  disabled and confirms the seeded preview file is absent from server HTML;
-  after browser hydration it waits for the seeded upload progressbar and checks
-  for runtime errors.
+  The added valid-drag, max-count-error, and max-count-cleared captures were
+  generated from the named live interactions and visually reviewed at full
+  resolution. The focused SSR/browser spec then passed cleanly: 17/17, without
+  snapshot updates. The SSR check loads the page with JavaScript disabled and
+  confirms the seeded preview file is absent from server HTML; after browser
+  hydration it waits for the seeded upload progressbar and checks for runtime
+  errors.
 
 ## Source limitations and deliberate omissions
 
@@ -106,6 +111,13 @@ it with Enter.
 - Removing a file does not restore focus to the dropzone or another row
   control. The keyboard test verifies removal and focus before removal; it does
   not present the missing restoration as supported behavior.
+- No external assistive-technology or screen-reader review is recorded for this
+  page. E2E role and live-region assertions do not establish the behavior of a
+  supported browser/screen-reader combination.
+- The component source revokes cached preview object URLs on removal and
+  destroy, but the component tests do not assert that lifecycle cleanup. The
+  page only seeds a preview after client rendering; its SSR check does not
+  verify object-URL revocation.
 - The Field label, hint, and error are not programmatically associated with the
   File Upload control. `kui-field` points its label at its generated `controlId`,
   but File Upload exposes no matching ID or `aria-describedby` wiring for its
@@ -153,16 +165,20 @@ it with Enter.
 - Page-owned browser behavior and screenshot assertions:
   `projects/kikita-ui-playground/e2e/file-upload-playground.visual.spec.ts`.
 
-The page-owned E2E spec names screenshot baselines but does not generate them.
-The parent integrated the Forms route, translation scope, and shared SSR route
-registration; serial browser execution, snapshot generation, and visual review
-remain with the parent integrator.
+The page-owned E2E spec currently contains 26 screenshot expectations. This
+follow-up adds three interaction captures; the clean focused SSR/browser run
+passed 17/17, and all 26 captures were visually reviewed. The rollout tracker
+records commit `13ef266` as the original page commit. The parent integrated the
+Forms route, translation scope, and shared SSR route registration; the final
+shared SSR/browser integration gate remains with the parent integrator.
 
 ## Self-review checklist
 
 - [x] The page has a minimal default and decomposed examples for variants, selection modes, validation, lifecycle states, sizes, disabled behavior, and Field composition.
 - [x] Inputs, defaults, model/output behavior, picker attributes/reset, accepted/rejected drag-drop, keyboard/pointer states, accessibility limits, SSR boundaries, and source discrepancies are mapped or explicitly omitted.
 - [x] The route, locale scope, shared SSR registry, real file-selection/drag/keyboard E2E scenarios, and matching locale keys are present.
-- [x] Local formatting and locale/static-key checks passed.
-- [ ] Parent browser/SSR checks pass; desktop and 320px screenshots are generated and visually reviewed.
-- [ ] Independent review and a clean page-scoped commit are complete.
+- [x] The original page inventory records local formatting/locale checks, and the rollout tracker records the original 17/17 focused E2E run for page commit `13ef266`; these historical checks do not validate the subsequently edited spec.
+- [x] The focused E2E spec passes 17/17; all 26 desktop/320px catalogue and interaction captures are present and visually reviewed, including the three added interaction captures.
+- [ ] Independent review of the current page and its screenshots is complete.
+- [ ] Parent SSR/browser integration checks pass after the updated page evidence is reviewed.
+- [ ] A clean page-scoped follow-up commit is complete.

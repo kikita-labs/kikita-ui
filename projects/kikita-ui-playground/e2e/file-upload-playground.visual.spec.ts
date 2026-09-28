@@ -271,6 +271,7 @@ test('shows real valid and invalid drag states and rejects an invalid dropped fi
     );
   });
   await expect(dropzone).toHaveAttribute('data-kui-drag', 'over');
+  await expect(validation).toHaveScreenshot('file-upload-valid-drag.png');
   await dropzone.evaluate((element) => {
     element.dispatchEvent(new DragEvent('dragleave', { bubbles: true, cancelable: true }));
   });
@@ -350,9 +351,11 @@ test('enforces multiple-mode maxCount and clears its live error after removal', 
   await expect(validation.getByText('Maximum 2 files', { exact: true })).toBeVisible();
   await expect(validation.getByRole('button', { name: 'Remove first.png' })).toBeVisible();
   await expect(validation.getByRole('button', { name: 'Remove third.png' })).toHaveCount(0);
+  await expect(validation).toHaveScreenshot('file-upload-max-count-error.png');
   await validation.getByRole('button', { name: 'Remove first.png' }).click();
   await expect(validation.getByText('Maximum 2 files', { exact: true })).toHaveCount(0);
   await expect(validation.getByRole('button', { name: 'Remove second.png' })).toBeVisible();
+  await expect(validation).toHaveScreenshot('file-upload-max-count-cleared.png');
 });
 
 test('single mode replaces the current file and ignores maxCount', async ({ page }) => {
