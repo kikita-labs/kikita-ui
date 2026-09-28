@@ -81,14 +81,16 @@ KUI Tabs sizes xs/sm/md use 28px/32px/40px minimum block sizes; only lg is 44px.
 keeps the full size matrix visible at 320px and does not enlarge the library controls with page CSS.
 The sub-44px sizes are a library-level touch-target limitation, not a verified accessible target.
 
-The overflow example uses eight real triggers and matched panels. In the production Chromium run at
-320px, the horizontal scroller has a 246px client width and 1044px of tab content, but the initial
-render does not expose the library's right scroll button. This differs from the docs statement that
-accessible scroll buttons appear at narrow widths; the page does not style around the discrepancy.
-The E2E captures the initial clipped list, uses the real `End` key to focus/select the final tab and
-scroll it into view, then exercises the library controls that appear after scrolling. The library
-control names (“Scroll tabs left/right”) are currently hard-coded English, so they do not change
-with the runtime locale. English and Russian are LTR; this page does not claim RTL coverage.
+The overflow example uses eight real triggers and matched panels. At 320px the horizontal scroller
+is constrained to 246px while its tab content is 1044px wide. `canScrollRight` starts false, then
+`afterNextRender` measures the scroll element; `ResizeObserver` and the scroll handler refresh both
+direction signals as its size and position change. Once that first client-side measurement detects
+overflow, the initial settled state exposes the right scroll button, matching the docs statement.
+The E2E waits for that button to be visible before capturing the clipped initial list. It then uses
+the real `End` key to focus/select the final tab and let native focus scrolling bring it into view,
+and exercises the exposed library buttons in both directions. The library control names (“Scroll
+tabs left/right”) are currently hard-coded English, so they do not change with the runtime locale.
+English and Russian are LTR; this page does not claim RTL coverage.
 Implementation uses physical left/right arrow keys and `scrollBy({ left })`, and the stylesheet
 uses physical edges, so RTL navigation and scroll direction remain unverified.
 
@@ -108,25 +110,24 @@ and screenshot review await the parent verification slot.
 
 ## Contract-to-example and E2E map
 
-| Example                  | Visible state or real interaction                                                                                                             | Planned browser evidence                                                                                                                                        |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Default                  | Minimal horizontal `line`, `md`, non-inverted Tabs; omits size, orientation, variant, inverted, value, and panel values where defaults apply. | Assert `md`, `line`, horizontal `aria-orientation`, default edge, roving tab index, selected panel, and ID relationship; capture dark, hover, light, and 320px. |
-| Horizontal combinations  | All `line`/`pill` × `xs`/`sm`/`md`/`lg` × normal/inverted combinations.                                                                       | Assert all 16 host configurations and horizontal orientation; capture the full desktop matrix plus a named tile at 768px and 320px.                             |
-| Vertical combinations    | Same complete size/variant/edge coverage in vertical orientation.                                                                             | Assert all 16 host configurations and vertical orientation; drive Arrow Down/Up; capture the full desktop matrix plus a named tile at 768px and 320px.          |
-| Keyboard navigation      | Three local tab/panel pairs; selected model updates when using arrow keys; Tab reaches the text-only active panel; wrap, Home, and End.       | Assert actual focus on the active panel after Tab, then focus, selection, and visible panel after navigation; capture a keyboard-focused selected tab.          |
-| Error label              | Consumer signal toggles `hasError`; localized `errorLabel` changes the accessible name with the dot state.                                    | Assert accessible name and pressed state before/after; capture enabled and cleared states.                                                                      |
-| Router-style navigation  | `controlsPanels=false`, controlled string route values, no local panels.                                                                      | Assert no `aria-controls`, click selection, and no panel; capture the changed selection.                                                                        |
-| Overflow                 | Eight tabs in a constrained component at 320px; initial right scroll control is absent despite horizontal overflow.                           | Assert page width and initial clipping, use End to reach the final tab, then use exposed accessible controls to verify both ends; capture start and end states. |
-| SSR and runtime language | Server-rendered default markers, hydrated tab/panel relationship, runtime Russian then English scope switch, reload.                          | Check raw server HTML markers separately from hydrated ID relationships, `lang`, translations, and no console errors or uncaught `pageerror`.                   |
+| Example                  | Visible state or real interaction                                                                                                             | Planned browser evidence                                                                                                                                                 |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Default                  | Minimal horizontal `line`, `md`, non-inverted Tabs; omits size, orientation, variant, inverted, value, and panel values where defaults apply. | Assert `md`, `line`, horizontal `aria-orientation`, default edge, roving tab index, selected panel, and ID relationship; capture dark, hover, light, and 320px.          |
+| Horizontal combinations  | All `line`/`pill` × `xs`/`sm`/`md`/`lg` × normal/inverted combinations.                                                                       | Assert all 16 host configurations and horizontal orientation; capture the full desktop matrix plus a named tile at 768px and 320px.                                      |
+| Vertical combinations    | Same complete size/variant/edge coverage in vertical orientation.                                                                             | Assert all 16 host configurations and vertical orientation; drive Arrow Down/Up; capture the full desktop matrix plus a named tile at 768px and 320px.                   |
+| Keyboard navigation      | Three local tab/panel pairs; selected model updates when using arrow keys; Tab reaches the text-only active panel; wrap, Home, and End.       | Assert actual focus on the active panel after Tab, then focus, selection, and visible panel after navigation; capture a keyboard-focused selected tab.                   |
+| Error label              | Consumer signal toggles `hasError`; localized `errorLabel` changes the accessible name with the dot state.                                    | Assert accessible name and pressed state before/after; capture enabled and cleared states.                                                                               |
+| Router-style navigation  | `controlsPanels=false`, controlled string route values, no local panels.                                                                      | Assert no `aria-controls`, click selection, and no panel; capture the changed selection.                                                                                 |
+| Overflow                 | Eight tabs in a constrained component at 320px; the initial settled state exposes a right scroll control when overflow is measured.           | Assert page width and clipping, wait for the right control, use End to reach the final tab, then use exposed controls to verify both ends; capture start and end states. |
+| SSR and runtime language | Server-rendered default markers, hydrated tab/panel relationship, runtime Russian then English scope switch, reload.                          | Check raw server HTML markers separately from hydrated ID relationships, `lang`, translations, and no console errors or uncaught `pageerror`.                            |
 
 Omissions: disabled triggers are unsupported and deliberately not shown; deprecated `selected` is
 not used because the page demonstrates the current `value` model; invalid/duplicate/normalization-
 colliding values are outside the documented unique-ID contract; direct root-size provider editing
 is outside the fixed component catalogue; `aria-label` forwarding to the internal tablist, live
-error announcements, initial overflow-control visibility, RTL, and localized built-in scroll-control
-names require library/API work; hover and keyboard focus are captured through browser interaction,
-while their colors and token values remain owned by the existing stylesheet and are not overridden
-by the page.
+error announcements, RTL, and localized built-in scroll-control names require library/API work;
+hover and keyboard focus are captured through browser interaction, while their colors and token
+values remain owned by the existing stylesheet and are not overridden by the page.
 
 ## Source audit
 
@@ -171,10 +172,19 @@ by the page.
 - [x] Production build and both snapshot-update and clean production browser runs pass (6/6 each).
 - [x] All owned captures were inspected; desktop matrices and representative narrower viewport
       tiles are legible and exclude surrounding shell chrome.
-- [ ] No assistive-technology session was performed.
+- [ ] External assistive-technology review has not been performed.
+- [ ] The parent's full shared build/SSR/browser/adaptive integration gate remains pending.
 
 Production browser evidence: the desktop captures include all 16 examples per orientation; the
 768px and 320px captures show the named horizontal and vertical representative tiles in the
-workspace without shell chrome. The initial 320px overflow screenshot confirms clipped tabs and no
-visible right control; the keyboard `End` capture confirms the final tab is focused, selected, and
-scrolled into view.
+workspace without shell chrome. The initial 320px overflow screenshot confirms clipped tabs with a
+visible right scroll control; the keyboard `End` capture confirms the final tab is focused, selected,
+and scrolled into view.
+
+Focused verification note (2026-09-28): `node_modules/.bin/playwright.cmd test
+--config=playwright.kikita-ui-playground.config.ts
+projects/kikita-ui-playground/e2e/tabs-playground.visual.spec.ts` passed 6/6 with no snapshot diffs.
+The existing changed `tabs-overflow-320-start-win32.png` baseline already matched the clean run and
+was retained. At full resolution, the desktop default, 320px default, overflow-start, and
+overflow-end captures were reviewed; the start image shows the clipped trailing tabs and visible
+right control, while the end image shows the selected, focused final tab and visible left control.

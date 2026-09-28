@@ -346,7 +346,7 @@ test('documents initial overflow controls and scrolls with keyboard and exposed 
     .toBe(true);
   await expect(first).toBeInViewport();
   await expect(last).not.toBeInViewport();
-  await expect(scrollRight).toHaveCount(0);
+  await expect(scrollRight).toBeVisible();
   await expect(example).toHaveScreenshot('tabs-overflow-320-start.png', {
     animations: 'disabled',
   });
