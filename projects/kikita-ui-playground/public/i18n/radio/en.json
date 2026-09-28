@@ -9,15 +9,19 @@
     "plan": "Billing plan",
     "selection": "Selection",
     "disabled": "Disabled options",
+    "explicitSizes": "Explicit sizes",
+    "fieldSize": "Field size precedence",
     "standaloneInvalid": "Standalone invalid options",
-    "payment": "Payment method"
+    "payment": "Payment method",
+    "signalPayment": "Signal Forms payment"
   },
   "hints": {
     "plan": "Choose one plan.",
     "payment": "Choose one payment method."
   },
   "errors": {
-    "paymentRequired": "Select a payment method to continue."
+    "paymentRequired": "Select a payment method to continue.",
+    "signalPaymentRequired": "Choose a payment option to continue."
   },
   "labels": {
     "starter": "Starter",
@@ -28,7 +32,9 @@
     "disabled": "Disabled",
     "disabledChecked": "Disabled and selected",
     "card": "Card",
-    "transfer": "Bank transfer"
+    "transfer": "Bank transfer",
+    "inheritedSize": "Inherited from Field (lg)",
+    "localOverride": "Local size override (sm)"
   },
   "sizes": {
     "xs": "Extra small",

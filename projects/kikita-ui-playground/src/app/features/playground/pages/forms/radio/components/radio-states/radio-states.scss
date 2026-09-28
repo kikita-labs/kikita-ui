@@ -35,9 +35,19 @@
     min-inline-size: 0;
   }
 
+  .radio-states__signal-frame {
+    min-inline-size: 0;
+  }
+
   @media (width < 40rem) {
     .radio-states__examples {
       grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (width < 32rem) {
+    .radio-states__signal-frame {
+      padding-inline: var(--kui-space-2);
     }
   }
 }

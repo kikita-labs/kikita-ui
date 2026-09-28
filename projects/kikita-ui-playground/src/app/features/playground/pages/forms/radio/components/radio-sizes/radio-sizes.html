@@ -1,6 +1,10 @@
 <section role="group" [attr.aria-label]="'radio.accessibility.sizes' | transloco">
   <app-playground-example-card [heading]="'radio.examples.sizes' | transloco">
-    <div class="radio-sizes__options">
+    <div
+      class="radio-sizes__options"
+      role="group"
+      [attr.aria-label]="'radio.groups.explicitSizes' | transloco"
+    >
       <label class="radio-option">
         <input kuiRadio type="radio" name="radio-size-xs" id="radio-size-xs" size="xs" checked />
         <span kuiText>{{ 'radio.sizes.xs' | transloco }}</span>
@@ -21,5 +25,39 @@
         <span kuiText>{{ 'radio.sizes.lg' | transloco }}</span>
       </label>
     </div>
+
+    <fieldset class="radio-sizes__fieldset">
+      <legend kuiText variant="body">{{ 'radio.groups.fieldSize' | transloco }}</legend>
+
+      <div class="radio-sizes__options radio-sizes__options--inheritance">
+        <kui-field size="lg">
+          <label class="radio-option">
+            <input
+              kuiRadio
+              type="radio"
+              name="radio-field-size-precedence"
+              id="radio-field-size-inherited"
+              value="inherited"
+              checked
+            />
+            <span kuiText>{{ 'radio.labels.inheritedSize' | transloco }}</span>
+          </label>
+        </kui-field>
+
+        <kui-field size="lg">
+          <label class="radio-option">
+            <input
+              kuiRadio
+              type="radio"
+              name="radio-field-size-precedence"
+              id="radio-field-size-local"
+              value="local"
+              size="sm"
+            />
+            <span kuiText>{{ 'radio.labels.localOverride' | transloco }}</span>
+          </label>
+        </kui-field>
+      </div>
+    </fieldset>
   </app-playground-example-card>
 </section>
