@@ -120,8 +120,10 @@ export class KuiComboboxDirective<T = unknown>
   );
   protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
-  protected readonly effectiveInvalid = computed(
-    () => this.invalid() || Boolean(this.field?.invalid()),
+  protected readonly effectiveInvalid = computed(() =>
+    this.field?.hasSignalFormField()
+      ? Boolean(this.field.invalid())
+      : this.invalid() || Boolean(this.field?.invalid()),
   );
   protected readonly hasValue = computed(() => this.value() != null || this.query().length > 0);
   protected readonly effectiveClearable = computed(() => {

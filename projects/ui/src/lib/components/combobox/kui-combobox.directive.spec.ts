@@ -1,6 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
+import { form, FormField, required } from '@angular/forms/signals';
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
@@ -95,6 +96,30 @@ class TestStateComboboxHost {
   readonly value = signal<string | null>('Alpha');
   readonly disabled = signal(false);
   readonly readonly = signal(false);
+}
+
+@Component({
+  template: `
+    <kui-field label="Assignee">
+      <input kuiCombobox [formField]="assigneeForm.assignee" />
+      <kui-dropdown>
+        <button kuiOption value="Ravi">Ravi</button>
+      </kui-dropdown>
+    </kui-field>
+  `,
+  imports: [
+    FormField,
+    KuiFieldComponent,
+    KuiDropdownComponent,
+    KuiOptionDirective,
+    KuiComboboxDirective,
+  ],
+})
+class TestSignalFormsComboboxHost {
+  readonly model = signal({ assignee: '' });
+  readonly assigneeForm = form(this.model, (path) => {
+    required(path.assignee, { message: 'Choose an assignee' });
+  });
 }
 
 function clickComboboxInput(input: HTMLInputElement): void {
@@ -269,5 +294,41 @@ describe('KuiComboboxDirective', () => {
     expect(clear).toBeNull();
     expect(document.querySelector('.kui-dropdown')).toBeNull();
     expect(stateFixture.componentInstance.value()).toBe('Alpha');
+  });
+
+  it('gates Signal Forms invalid state until touched and clears it after selection', async () => {
+    await TestBed.resetTestingModule()
+      .configureTestingModule({ imports: [TestSignalFormsComboboxHost] })
+      .compileComponents();
+
+    const signalFormsFixture = TestBed.createComponent(TestSignalFormsComboboxHost);
+    signalFormsFixture.detectChanges();
+
+    const input = signalFormsFixture.nativeElement.querySelector('input') as HTMLInputElement;
+    const field = signalFormsFixture.nativeElement.querySelector('kui-field') as HTMLElement;
+
+    expect(input.getAttribute('aria-invalid')).toBeNull();
+    expect(field.hasAttribute('data-kui-invalid')).toBe(false);
+    expect(field.querySelector('.kui-field__error')).toBeNull();
+
+    signalFormsFixture.componentInstance.assigneeForm.assignee().markAsTouched();
+    signalFormsFixture.detectChanges();
+
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+    expect(field.hasAttribute('data-kui-invalid')).toBe(true);
+    expect(field.querySelector('.kui-field__error')?.textContent?.trim()).toBe(
+      'Choose an assignee',
+    );
+
+    clickComboboxInput(input);
+    signalFormsFixture.detectChanges();
+    (document.querySelector('.kui-listbox-option') as HTMLButtonElement).click();
+    signalFormsFixture.detectChanges();
+
+    expect(signalFormsFixture.componentInstance.model().assignee).toBe('Ravi');
+    expect(input.value).toBe('Ravi');
+    expect(input.getAttribute('aria-invalid')).toBeNull();
+    expect(field.hasAttribute('data-kui-invalid')).toBe(false);
+    expect(field.querySelector('.kui-field__error')).toBeNull();
   });
 });

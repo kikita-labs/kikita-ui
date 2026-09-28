@@ -10,6 +10,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- `kuiCombobox` now respects `kui-field`'s touched-gated invalid state when used with Signal Forms.
 - `kuiInput` now preserves a local size when its parent Field has a different size.
 - `kui-skeleton` now disables its host-level pulse animation when reduced motion is preferred.
 - `kui-menu` now applies `minWidth` to the visible panel as well as its CDK overlay pane.

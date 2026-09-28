@@ -70,7 +70,8 @@ filteredPeople = computed(() => {
 ```
 
 Inside `kui-field`, Combobox inherits field id, label association, `aria-describedby`,
-invalid state, and field size.
+invalid state, and field size. With Angular Signal Forms, the field gates the required error and
+`aria-invalid` state until the control is touched; selecting a valid option clears that state.
 
 ## API Search
 
