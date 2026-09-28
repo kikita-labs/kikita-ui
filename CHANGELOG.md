@@ -10,6 +10,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- `kuiSlider` now renders initially configured endpoint labels, handles a native range maximum of `0`, and reflects its `disabled` input to the native control and wrapper.
 - `kuiCombobox` now respects `kui-field`'s touched-gated invalid state when used with Signal Forms.
 - `kuiInput` now preserves a local size when its parent Field has a different size.
 - `kui-skeleton` now disables its host-level pulse animation when reduced motion is preferred.

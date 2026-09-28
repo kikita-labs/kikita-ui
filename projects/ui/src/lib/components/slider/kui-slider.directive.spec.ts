@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
-import { form, FormField, max, min } from '@angular/forms/signals';
+import { disabled, form, FormField, max, min } from '@angular/forms/signals';
 
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -18,7 +18,7 @@ import { KuiSliderDirective } from './kui-slider.directive';
       [value]="value()"
       [color]="color()"
       [size]="size()"
-      [disabled]="disabled() || null"
+      [disabled]="disabled()"
       [minLabel]="minLabel()"
       [maxLabel]="maxLabel()"
     />
@@ -37,6 +37,18 @@ class TestHostComponent {
 }
 
 @Component({
+  template: '<input type="range" kuiSlider minLabel="0" maxLabel="100" />',
+  imports: [KuiSliderDirective],
+})
+class InitiallyLabeledTestHostComponent {}
+
+@Component({
+  template: '<input type="range" kuiSlider value="75" />',
+  imports: [KuiSliderDirective],
+})
+class DefaultRangeTestHostComponent {}
+
+@Component({
   template: `
     <kui-field label="Volume">
       <input type="range" kuiSlider [formField]="settingsForm.volume" />
@@ -46,9 +58,11 @@ class TestHostComponent {
 })
 class SignalFormsHostComponent {
   readonly model = signal({ volume: 60 });
+  readonly disabled = signal(false);
   readonly settingsForm = form(this.model, (path) => {
     min(path.volume, 0);
     max(path.volume, 100);
+    disabled(path.volume, { when: () => this.disabled() });
   });
 }
 
@@ -84,7 +98,11 @@ describe('KuiSliderDirective', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent],
+      imports: [
+        TestHostComponent,
+        InitiallyLabeledTestHostComponent,
+        DefaultRangeTestHostComponent,
+      ],
     }).compileComponents();
     fixture = TestBed.createComponent(TestHostComponent);
     host = fixture.componentInstance;
@@ -127,7 +145,45 @@ describe('KuiSliderDirective', () => {
     expect(fill().style.width).toBe('100%');
   });
 
-  it('no data-kui-disabled when enabled', () => {
+  it('fills the full track when the native maximum is zero', () => {
+    host.min.set(-100);
+    host.max.set(0);
+    host.value.set(0);
+    fixture.detectChanges();
+
+    expect(fill().style.width).toBe('100%');
+    expect(thumb().style.left).toBe('100%');
+  });
+
+  it('uses the native 0–100 range defaults when min and max are omitted', () => {
+    const defaultFixture = TestBed.createComponent(DefaultRangeTestHostComponent);
+
+    defaultFixture.detectChanges();
+
+    const input = defaultFixture.nativeElement.querySelector('input') as HTMLInputElement;
+    const fill = defaultFixture.nativeElement.querySelector('.kui-slider-fill') as HTMLElement;
+
+    expect(input.getAttribute('min')).toBeNull();
+    expect(input.getAttribute('max')).toBeNull();
+    expect(input.min).toBe('');
+    expect(input.max).toBe('');
+    expect(fill.style.width).toBe('75%');
+  });
+
+  it('reflects dynamic disabled input to the native control and wrapper', () => {
+    expect(native().disabled).toBe(false);
+    expect(container().hasAttribute('data-kui-disabled')).toBe(false);
+
+    host.disabled.set(true);
+    fixture.detectChanges();
+
+    expect(native().disabled).toBe(true);
+    expect(container().getAttribute('data-kui-disabled')).toBe('true');
+
+    host.disabled.set(false);
+    fixture.detectChanges();
+
+    expect(native().disabled).toBe(false);
     expect(container().hasAttribute('data-kui-disabled')).toBe(false);
   });
 
@@ -141,6 +197,16 @@ describe('KuiSliderDirective', () => {
     fixture.detectChanges();
     const labels = fixture.nativeElement.querySelector('.kui-slider-labels');
     expect(labels).not.toBeNull();
+  });
+
+  it('renders initially provided endpoint labels after building the browser wrapper', async () => {
+    const labeledFixture = TestBed.createComponent(InitiallyLabeledTestHostComponent);
+
+    labeledFixture.detectChanges();
+
+    expect(labeledFixture.nativeElement.querySelector('.kui-slider-labels')?.textContent).toBe(
+      '0100',
+    );
   });
 
   it('changes color attribute when input changes', () => {
@@ -176,6 +242,32 @@ describe('KuiSliderDirective with Angular Signal Forms', () => {
 
     expect(fixture.componentInstance.model().volume).toBe(80);
     expect(fill.style.width).toBe('80%');
+  });
+
+  it('reflects Signal Forms disabled state to the native range and generated wrapper', async () => {
+    await TestBed.configureTestingModule({
+      imports: [SignalFormsHostComponent],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(SignalFormsHostComponent);
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('.kui-slider-native') as HTMLInputElement;
+    const container = fixture.nativeElement.querySelector('.kui-slider') as HTMLElement;
+
+    expect(input.disabled).toBe(false);
+    expect(container.hasAttribute('data-kui-disabled')).toBe(false);
+
+    fixture.componentInstance.disabled.set(true);
+    fixture.detectChanges();
+
+    expect(input.disabled).toBe(true);
+    expect(container.getAttribute('data-kui-disabled')).toBe('true');
+
+    fixture.componentInstance.disabled.set(false);
+    fixture.detectChanges();
+
+    expect(input.disabled).toBe(false);
+    expect(container.hasAttribute('data-kui-disabled')).toBe(false);
   });
 });
 

@@ -22,18 +22,26 @@ import { KuiTooltipDirective } from '../tooltip/kui-tooltip.directive';
 
 const KUI_SLIDER_SIZES = ['sm', 'md', 'lg'] as const;
 
+function readRangeBound(value: string, fallback: number): number {
+  if (!value.trim()) return fallback;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
 /** Semantic color used by `kuiSlider`. */
 export type KuiSliderColor = 'primary' | 'success' | 'danger' | 'neutral';
 
 /** Size token used by `kuiSlider`. */
 export type KuiSliderSize = 'sm' | 'md' | 'lg';
 
+/** Enhances a native range input with Kikita UI Slider visuals and state synchronization. */
 @Directive({
   selector: 'input[type=range][kuiSlider]',
   host: {
     '[attr.id]': 'hostId()',
     '[attr.aria-describedby]': 'describedBy()',
     '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
+    '[disabled]': 'disabled()',
     '(input)': 'updateFill()',
     '(mouseenter)': 'onMouseEnter()',
     '(mouseleave)': 'onMouseLeave()',
@@ -61,7 +69,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   /** Optional label rendered below the maximum side of the slider. */
   readonly maxLabel = input<string>('');
 
-  /** Mirrors disabled state onto the generated slider container. */
+  /** Applies native disabled semantics and mirrors the state onto the generated slider container. */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /** Marks the slider as invalid outside a `kui-field` error state. */
@@ -105,38 +113,45 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
       const color = this.color();
       const size = this.effectiveSize();
       const invalid = this.effectiveInvalid();
+      const disabled = this.disabled();
       if (!this.containerEl) return;
       this.syncContainerState(color, size, invalid);
+      this.syncDisabled(disabled);
     });
 
     effect(() => {
       const min = this.minLabel();
       const max = this.maxLabel();
       if (!this.containerEl) return;
-      if ((min || max) && !this.labelsEl) {
-        this.labelsEl = this.renderer.createElement('div');
-        this.renderer.addClass(this.labelsEl, 'kui-slider-labels');
-        const spanMin: HTMLElement = this.renderer.createElement('span');
-        const spanMax: HTMLElement = this.renderer.createElement('span');
-        spanMin.textContent = min;
-        spanMax.textContent = max;
-        this.renderer.appendChild(this.labelsEl, spanMin);
-        this.renderer.appendChild(this.labelsEl, spanMax);
-        this.renderer.appendChild(this.containerEl, this.labelsEl);
-      } else if (!min && !max && this.labelsEl) {
-        this.renderer.removeChild(this.containerEl, this.labelsEl);
-        this.labelsEl = null;
-      } else if (this.labelsEl) {
-        const spans = this.labelsEl.querySelectorAll('span');
-        if (spans[0]) spans[0].textContent = min;
-        if (spans[1]) spans[1].textContent = max;
-      }
+      this.syncLabels(min, max);
     });
+  }
+
+  private syncLabels(min: string, max: string): void {
+    if ((min || max) && !this.labelsEl) {
+      this.labelsEl = this.renderer.createElement('div');
+      this.renderer.addClass(this.labelsEl, 'kui-slider-labels');
+      const spanMin: HTMLElement = this.renderer.createElement('span');
+      const spanMax: HTMLElement = this.renderer.createElement('span');
+      spanMin.textContent = min;
+      spanMax.textContent = max;
+      this.renderer.appendChild(this.labelsEl, spanMin);
+      this.renderer.appendChild(this.labelsEl, spanMax);
+      this.renderer.appendChild(this.containerEl, this.labelsEl);
+    } else if (!min && !max && this.labelsEl) {
+      this.renderer.removeChild(this.containerEl, this.labelsEl);
+      this.labelsEl = null;
+    } else if (this.labelsEl) {
+      const spans = this.labelsEl.querySelectorAll('span');
+      if (spans[0]) spans[0].textContent = min;
+      if (spans[1]) spans[1].textContent = max;
+    }
   }
 
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
     this.buildDOM();
+    this.syncLabels(this.minLabel(), this.maxLabel());
     this.updateFill();
   }
 
@@ -184,9 +199,9 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   protected updateFill(): void {
     if (!this.fillEl) return;
     const native = this.el.nativeElement;
-    const min = Number(native.min) || 0;
-    const max = Number(native.max) || 100;
-    const val = Number(native.value) || 0;
+    const min = readRangeBound(native.min, 0);
+    const max = readRangeBound(native.max, 100);
+    const val = Number(native.value);
     const pct = max === min ? '0%' : `${((val - min) / (max - min)) * 100}%`;
     this.renderer.setStyle(this.fillEl, 'width', pct);
     this.renderer.setStyle(this.thumbEl, 'left', pct);
@@ -277,10 +292,16 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
     const color = this.color();
     const size = this.effectiveSize();
     this.syncContainerState(color, size, this.effectiveInvalid());
-    if (native.disabled) {
-      this.renderer.setAttribute(this.containerEl, 'data-kui-disabled', 'true');
-    }
+    this.syncDisabled(this.disabled());
     this.lastNativeState = `${native.min}|${native.max}|${native.value}|${native.disabled}`;
+  }
+
+  private syncDisabled(disabled: boolean): void {
+    if (disabled) {
+      this.renderer.setAttribute(this.containerEl, 'data-kui-disabled', 'true');
+    } else {
+      this.renderer.removeAttribute(this.containerEl, 'data-kui-disabled');
+    }
   }
 
   private syncContainerState(color: KuiSliderColor, size: KuiSliderSize, invalid: boolean): void {
