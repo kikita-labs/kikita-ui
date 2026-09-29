@@ -147,15 +147,17 @@ sweep. Only Dialog and Select have the held-script hydration check.
 Ownership is stated only where an existing plan or document confirms it. Each item uses one of three
 labels: **Owner** (a plan whose scope names the work, with its source), **Tracked at** (a place that
 records the item without assigning it), or **No confirmed owner**. A plan that is merely nearby is
-not an owner. Items 1-7 and 9-11 need a maintainer decision; they are not harness work.
+not an owner. Items 2-7 and 9-11 still need a maintainer decision; item 1 is decided (Plan 10.2). None is harness work.
 
 1. **Replacement pages missing** for Alert, Calendar Range, Carousel, Link, Media Viewer, OTP Input,
    Pagination, Splitter, Time Picker and Typography. This is a Playground catalogue gap, not a harness
    gap: the replacement Playground's rollout tracker covers 43 sidebar entries and none of these ten
-   appears in it, and no document records why they were left out. Plan 10 is marked verified for those
-   43 entries. No confirmed owner. Until a decision is made the library suite is their only browser
-   evidence and none has a visual baseline. The legacy Playground stays; it is the surface that suite
-   runs against.
+   appears in it, and Plan 10 is marked verified for those 43. Tracked at: Plan 10.2, "Playground
+   parity and legacy retirement" (recorded in `.local-notes/v2/PLAN.md` and `playground.md`). Decided:
+   it starts after Plan 11 closes and before Plan 12 is completed. Until then the library suite is
+   their only browser evidence and none has a visual baseline. The legacy Playground stays; Plan 10.2
+   retires it only after its test, build, server, tooling and documentation dependencies are migrated
+   or explicitly resolved.
 2. **Automated axe violations.** Both suites assert exact rule ids per route. Library routes with
    known violations: Calendar, Calendar Range, Splitter, Menu, File Upload (critical) and Tokens,
    Field, Input, Table, OTP Input, Pagination, Time Picker, Carousel, Tabs, Checkbox, Radio, Switch,
