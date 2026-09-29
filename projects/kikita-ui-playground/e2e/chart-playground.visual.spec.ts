@@ -66,6 +66,24 @@ test('renders the minimal line chart with defaults and captures it', async ({ pa
   await expect(example).toHaveScreenshot('chart-minimal-desktop.png', { animations: 'disabled' });
 });
 
+test('renders the minimal Chart example in the light theme', async ({ page }) => {
+  const example = getGroup(page, 'Minimal chart');
+  const chart = getChart(example, 'Sessions per weekday');
+
+  await expect(page.locator('html')).toHaveAttribute('data-kui-theme', 'dark');
+  await page
+    .getByRole('banner')
+    .getByRole('button', { name: 'Switch to light theme', exact: true })
+    .click();
+
+  await expect(page.locator('html')).toHaveAttribute('data-kui-theme', 'light');
+  await expect(chart).toBeVisible();
+  await expect(chart.locator('[role="graphics-symbol img"]')).toHaveCount(7);
+  await expect(example).toHaveScreenshot('chart-minimal-light-desktop.png', {
+    animations: 'disabled',
+  });
+});
+
 test('renders line and area variants and toggles series through the legend', async ({ page }) => {
   const example = getGroup(page, 'Line and area');
   const three = getGroup(example, 'Line, three series');
