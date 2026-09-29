@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/checkbox');
 });
 
-test('captures the default checkbox example', async ({ page }) => {
+test('captures the default checkbox example @visual', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'Checkbox' })).toBeVisible();
 
   const example = page.getByRole('group', { name: 'Default checkbox example', exact: true });
@@ -16,7 +16,7 @@ test('captures the default checkbox example', async ({ page }) => {
   await expect(example).toHaveScreenshot('checkbox-default.png');
 });
 
-test('captures every supported checkbox size', async ({ page }) => {
+test('captures every supported checkbox size @visual', async ({ page }) => {
   const sizes = page.getByRole('group', { name: 'Checkbox sizes', exact: true });
 
   await expect(sizes.getByRole('checkbox')).toHaveCount(4);
@@ -35,7 +35,7 @@ test('captures every supported checkbox size', async ({ page }) => {
   await expect(sizes).toHaveScreenshot('checkbox-sizes.png');
 });
 
-test('captures checked, disabled, invalid, and indeterminate states', async ({ page }) => {
+test('captures checked, disabled, invalid, and indeterminate states @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Checkbox states', exact: true });
 
   await expect(states.getByRole('checkbox', { name: 'Checked', exact: true })).toBeChecked();
@@ -68,7 +68,7 @@ test('captures checked, disabled, invalid, and indeterminate states', async ({ p
   await expect(stateCard).toHaveScreenshot('checkbox-states.png');
 });
 
-test('captures the focus-visible checkbox example', async ({ page }) => {
+test('captures the focus-visible checkbox example @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Checkbox states', exact: true });
   const focused = states.getByRole('checkbox', { name: 'Focused', exact: true });
 
@@ -110,7 +110,7 @@ test('updates Checkbox labels when the shell language changes to Russian', async
   ).toBeVisible();
 });
 
-test('captures pointer hover and pressed checkbox states', async ({ page }) => {
+test('captures pointer hover and pressed checkbox states @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default checkbox example', exact: true });
   const checkbox = example.getByRole('checkbox', { name: 'Receive product updates' });
 
@@ -124,7 +124,7 @@ test('captures pointer hover and pressed checkbox states', async ({ page }) => {
   await page.mouse.up();
 });
 
-test('captures each Checkbox catalogue section at 320px', async ({ page }) => {
+test('captures each Checkbox catalogue section at 320px @visual', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 2048 });
 
   for (const [name, screenshot] of [

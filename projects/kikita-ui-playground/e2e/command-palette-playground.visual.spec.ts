@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/command-palette');
 });
 
-test('captures the default command palette example', async ({ page }) => {
+test('captures the default command palette example @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default command palette example', exact: true });
   await expect(example).toHaveScreenshot('command-palette-default.png');
 
@@ -31,7 +31,7 @@ test('captures the default command palette example', async ({ page }) => {
   await expect(dialog).toHaveScreenshot('command-palette-default-open.png');
 });
 
-test('captures hovered and keyboard-active commands', async ({ page }) => {
+test('captures hovered and keyboard-active commands @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default command palette example', exact: true });
   await example.getByRole('button', { name: 'Open command palette', exact: true }).click();
 
@@ -54,7 +54,7 @@ test('captures hovered and keyboard-active commands', async ({ page }) => {
   });
 });
 
-test('captures command filtering', async ({ page }) => {
+test('captures command filtering @visual', async ({ page }) => {
   const example = page.getByRole('group', {
     name: 'Filtered command palette example',
     exact: true,
@@ -69,7 +69,7 @@ test('captures command filtering', async ({ page }) => {
   await expect(dialog).toHaveScreenshot('command-palette-filtered-open.png');
 });
 
-test('captures loading and empty overlay states', async ({ page }) => {
+test('captures loading and empty overlay states @visual', async ({ page }) => {
   const loadingExample = page.getByRole('group', {
     name: 'Loading command palette example',
     exact: true,
@@ -228,7 +228,9 @@ test('server renders the Command Palette route and its translated heading', asyn
   await expect(page.getByRole('heading', { level: 1, name: 'Command Palette' })).toBeVisible();
 });
 
-test('keeps the catalogue and open palette within tablet and 320px layouts', async ({ page }) => {
+test('keeps the catalogue and open palette within tablet and 320px layouts @visual', async ({
+  page,
+}) => {
   for (const viewport of [
     { width: 768, height: 1024, name: 'tablet-768' },
     { width: 320, height: 640, name: 'mobile-320' },

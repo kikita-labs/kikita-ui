@@ -51,7 +51,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/drawer');
 });
 
-test('captures the Drawer catalogue groups', async ({ page }) => {
+test('captures the Drawer catalogue groups @visual', async ({ page }) => {
   for (const group of [
     { label: 'Drawer placement examples', screenshot: 'drawer-placement-catalogue.png' },
     { label: 'Drawer size examples', screenshot: 'drawer-sizes-catalogue.png' },
@@ -65,7 +65,7 @@ test('captures the Drawer catalogue groups', async ({ page }) => {
   }
 });
 
-test('opens the minimal default Drawer with dialog semantics and context data', async ({
+test('opens the minimal default Drawer with dialog semantics and context data @visual', async ({
   page,
 }) => {
   const group = page.getByRole('group', { name: 'Drawer placement examples', exact: true });
@@ -102,7 +102,7 @@ test('opens the minimal default Drawer with dialog semantics and context data', 
   await expect(trigger).toBeFocused();
 });
 
-test('opens each Drawer side from its configured edge', async ({ page }) => {
+test('opens each Drawer side from its configured edge @visual', async ({ page }) => {
   const group = page.getByRole('group', { name: 'Drawer placement examples', exact: true });
 
   for (const side of [
@@ -126,7 +126,7 @@ test('opens each Drawer side from its configured edge', async ({ page }) => {
   }
 });
 
-test('opens every size preset on horizontal and vertical edges', async ({ page }) => {
+test('opens every size preset on horizontal and vertical edges @visual', async ({ page }) => {
   const group = page.getByRole('group', { name: 'Drawer size examples', exact: true });
   const cases = [
     { label: 'Open right sm', side: 'right', size: 'sm', sideName: 'Right', sizeName: 'Small' },
@@ -218,7 +218,7 @@ test('keeps focus within the Drawer and restores it to the opener', async ({ pag
   await expect(trigger).toBeFocused();
 });
 
-test('keeps close-button, Escape, and backdrop settings independent', async ({ page }) => {
+test('keeps close-button, Escape, and backdrop settings independent @visual', async ({ page }) => {
   const group = page.getByRole('group', { name: 'Drawer dismissal examples', exact: true });
   const backdrop = page.locator('.kui-drawer-backdrop');
 
@@ -269,7 +269,9 @@ test('keeps close-button, Escape, and backdrop settings independent', async ({ p
   await expect(noBackdropTrigger).toBeFocused();
 });
 
-test('keeps the locked Drawer open until its action resolves the result', async ({ page }) => {
+test('keeps the locked Drawer open until its action resolves the result @visual', async ({
+  page,
+}) => {
   const group = page.getByRole('group', { name: 'Drawer dismissal examples', exact: true });
   const trigger = group.getByRole('button', { name: 'Open locked drawer', exact: true });
 
@@ -307,7 +309,7 @@ test('does not dismiss when a pointer drag starts inside the Drawer', async ({ p
   await expect(drawer).toHaveCount(0);
 });
 
-test('keeps long titles clear of the close button and scrolls long content internally', async ({
+test('keeps long titles clear of the close button and scrolls long content internally @visual', async ({
   page,
 }) => {
   const group = page.getByRole('group', { name: 'Drawer content examples', exact: true });
@@ -356,7 +358,7 @@ test('keeps long titles clear of the close button and scrolls long content inter
   await expect(scrollDrawer).toHaveCount(0);
 });
 
-test('uses the library accessible-name fallback for untitled content', async ({ page }) => {
+test('uses the library accessible-name fallback for untitled content @visual', async ({ page }) => {
   const group = page.getByRole('group', { name: 'Drawer content examples', exact: true });
   await group.getByRole('button', { name: 'Open untitled', exact: true }).click();
 
@@ -479,7 +481,7 @@ test('server-renders the closed Drawer route and opens only after hydration', as
   expect(consoleErrors).toEqual([]);
 });
 
-test('keeps the Drawer catalogue and open panels within 768px and 320px layouts', async ({
+test('keeps the Drawer catalogue and open panels within 768px and 320px layouts @visual', async ({
   page,
 }) => {
   for (const viewport of [

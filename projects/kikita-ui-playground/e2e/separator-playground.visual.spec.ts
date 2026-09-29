@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/separator');
 });
 
-test('captures the default separator', async ({ page }) => {
+test('captures the default separator @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default separator example', exact: true });
   const separator = example.getByRole('separator');
 
@@ -27,7 +27,7 @@ test('captures the default separator', async ({ page }) => {
   await expect(example).toHaveScreenshot('separator-default-320.png');
 });
 
-test('captures every horizontal appearance', async ({ page }) => {
+test('captures every horizontal appearance @visual', async ({ page }) => {
   const example = page.getByRole('group', {
     name: 'Separator appearance examples',
     exact: true,
@@ -48,7 +48,7 @@ test('captures every horizontal appearance', async ({ page }) => {
   await expect(example).toHaveScreenshot('separator-appearance-320.png');
 });
 
-test('captures every horizontal spacing value', async ({ page }) => {
+test('captures every horizontal spacing value @visual', async ({ page }) => {
   const example = page.getByRole('group', {
     name: 'Separator spacing examples',
     exact: true,
@@ -69,7 +69,7 @@ test('captures every horizontal spacing value', async ({ page }) => {
   await expect(example).toHaveScreenshot('separator-spacing-320.png');
 });
 
-test('captures vertical separators and their accessible orientation', async ({ page }) => {
+test('captures vertical separators and their accessible orientation @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Vertical separator examples', exact: true });
   const separators = example.getByRole('separator');
 

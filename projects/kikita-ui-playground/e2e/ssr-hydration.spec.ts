@@ -135,15 +135,20 @@ test('server-renders and hydrates Empty State on its routed page', async ({ page
 
   expect(response?.status()).toBe(200);
   await expect(page.getByRole('heading', { level: 1, name: 'Empty State' })).toBeVisible();
-  await expect(page.locator('kui-empty-state').first()).toHaveAttribute(
-    'data-kui-context',
-    'no-data',
-  );
+  await expect(
+    page
+      .getByRole('group', { name: 'Default empty state example', exact: true })
+      .locator('kui-empty-state'),
+  ).toHaveAttribute('data-kui-context', 'no-data');
 
   await page.reload();
 
   await expect(page.getByRole('heading', { level: 1, name: 'Empty State' })).toBeVisible();
-  await expect(page.locator('kui-empty-state').first()).toHaveAttribute('data-kui-size', 'md');
+  await expect(
+    page
+      .getByRole('group', { name: 'Default empty state example', exact: true })
+      .locator('kui-empty-state'),
+  ).toHaveAttribute('data-kui-size', 'md');
   expect(consoleErrors).toEqual([]);
 });
 

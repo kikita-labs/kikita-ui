@@ -53,7 +53,7 @@ test('server-renders Switch semantics and hydrates field descriptions', async ({
   expect(runtimeErrors).toEqual([]);
 });
 
-test('shows the default Switch and every size in both native values', async ({ page }) => {
+test('shows the default Switch and every size in both native values @visual', async ({ page }) => {
   const defaultExample = page.getByRole('group', {
     name: 'Default switch example',
     exact: true,
@@ -85,7 +85,7 @@ test('shows the default Switch and every size in both native values', async ({ p
   await expect(sizes).toHaveScreenshot('switch-sizes-dark-desktop.png');
 });
 
-test('shows standalone invalid and native disabled Switch values', async ({ page }) => {
+test('shows standalone invalid and native disabled Switch values @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Switch states', exact: true });
   const invalid = states.getByRole('group', { name: 'Invalid', exact: true });
   const invalidOff = invalid.getByRole('switch', { name: 'Off', exact: true });
@@ -114,7 +114,7 @@ test('shows standalone invalid and native disabled Switch values', async ({ page
   await expect(states).toHaveScreenshot('switch-states-light-desktop.png');
 });
 
-test('uses native click and Space activation and captures real hover, focus, and pressed states', async ({
+test('uses native click and Space activation and captures real hover, focus, and pressed states @visual', async ({
   page,
 }) => {
   const defaultSwitch = page
@@ -166,7 +166,7 @@ test('uses native click and Space activation and captures real hover, focus, and
   await page.mouse.up();
 });
 
-test('shows field size precedence and the Signal Forms touched-to-valid lifecycle', async ({
+test('shows field size precedence and the Signal Forms touched-to-valid lifecycle @visual', async ({
   page,
 }) => {
   const fields = page.getByRole('group', { name: 'Switch field examples', exact: true });
@@ -223,7 +223,7 @@ test('loads the Switch scope in both languages and localizes the field error', a
   await expect(fields.getByRole('alert')).toHaveText(translations.errors.activationRequired);
 });
 
-test('fits desktop, tablet, and 320px and captures each catalogue section on mobile', async ({
+test('fits desktop, tablet, and 320px and captures each catalogue section on mobile @visual', async ({
   page,
 }) => {
   for (const viewport of [

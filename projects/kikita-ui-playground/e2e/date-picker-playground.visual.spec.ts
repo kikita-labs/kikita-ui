@@ -52,7 +52,7 @@ test('server-renders the Date Picker route and hydrates its combobox interaction
   expect(runtimeErrors).toEqual([]);
 });
 
-test('captures the default and compact date picker at desktop, tablet, and 320px', async ({
+test('captures the default and compact date picker at desktop, tablet, and 320px @visual', async ({
   page,
 }) => {
   const defaultExample = page.getByRole('group', {
@@ -124,7 +124,7 @@ test('captures the default and compact date picker at desktop, tablet, and 320px
   );
 });
 
-test('captures input focus, hover, open, focused-day, hovered-day, and pressed-day states', async ({
+test('captures input focus, hover, open, focused-day, hovered-day, and pressed-day states @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', { name: 'Selected date picker example', exact: true });
@@ -178,7 +178,9 @@ test('captures input focus, hover, open, focused-day, hovered-day, and pressed-d
   await expect(input).toHaveValue('15.05.2026');
 });
 
-test('auto-wires typed values, calendar selection, and the displayed month', async ({ page }) => {
+test('auto-wires typed values, calendar selection, and the displayed month @visual', async ({
+  page,
+}) => {
   const example = page.getByRole('group', { name: 'Selected date picker example', exact: true });
   const input = example.getByRole('combobox', { name: 'Preselected date' });
 
@@ -262,7 +264,7 @@ test('moves focus into the calendar and selects a day with the calendar keyboard
   await expect(nextDay).toHaveAttribute('aria-selected', 'true');
 });
 
-test('captures bounded dates and marks malformed or out-of-range typed values invalid', async ({
+test('captures bounded dates and marks malformed or out-of-range typed values invalid @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', {
@@ -351,7 +353,7 @@ test('captures bounded dates and marks malformed or out-of-range typed values in
   });
 });
 
-test('preserves native disabled and readonly semantics and exposes clear settings', async ({
+test('preserves native disabled and readonly semantics and exposes clear settings @visual', async ({
   page,
 }) => {
   const examples = page.getByRole('group', {
@@ -404,7 +406,7 @@ test('preserves native disabled and readonly semantics and exposes clear setting
   await expect(examples).toHaveScreenshot('date-picker-field-states-tablet.png');
 });
 
-test('captures clear-affordance focus-visible, hover, pressed, and calendar-toggle states', async ({
+test('captures clear-affordance focus-visible, hover, pressed, and calendar-toggle states @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', { name: 'Selected date picker example', exact: true });
@@ -466,7 +468,7 @@ test('clears a selected date and restores focus to its native input', async ({ p
   ).not.toHaveAttribute('aria-selected', 'true');
 });
 
-test('shows Signal Forms required state, touch validation, and recovery after selection', async ({
+test('shows Signal Forms required state, touch validation, and recovery after selection @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', {
@@ -501,7 +503,9 @@ test('shows Signal Forms required state, touch validation, and recovery after se
   await expect(example.getByText('A delivery date is required.', { exact: true })).toBeHidden();
 });
 
-test('keeps the documented manual calendar model bindings synchronized', async ({ page }) => {
+test('keeps the documented manual calendar model bindings synchronized @visual', async ({
+  page,
+}) => {
   const example = page.getByRole('group', {
     name: 'Date picker manual calendar binding example',
     exact: true,

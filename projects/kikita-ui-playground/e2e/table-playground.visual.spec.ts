@@ -49,7 +49,9 @@ test('server-renders Table examples and hydrates one accessible sort button per 
   expect(consoleErrors).toEqual([]);
 });
 
-test('shows the minimally configured Table at the resolved medium size', async ({ page }) => {
+test('shows the minimally configured Table at the resolved medium size @visual', async ({
+  page,
+}) => {
   const example = getGroup(page, 'Default table example');
   const table = example.getByRole('table', { name: 'Team members' });
 
@@ -75,7 +77,7 @@ test('shows the minimally configured Table at the resolved medium size', async (
   await captureMobile(page, example, 'table-default-320.png');
 });
 
-test('shows all four Table sizes without changing the row content', async ({ page }) => {
+test('shows all four Table sizes without changing the row content @visual', async ({ page }) => {
   const catalogue = getGroup(page, 'Table size examples');
 
   for (const size of sizes) {
@@ -97,7 +99,7 @@ test('shows all four Table sizes without changing the row content', async ({ pag
   }
 });
 
-test('cycles local sorting by keyboard and applies the default string and custom comparators', async ({
+test('cycles local sorting by keyboard and applies the default string and custom comparators @visual', async ({
   page,
 }) => {
   const examples = getGroup(page, 'Local sorting and custom comparator');
@@ -178,7 +180,7 @@ test('cycles local sorting by keyboard and applies the default string and custom
   await captureMobile(page, examples, 'table-local-sorting-320.png');
 });
 
-test('uses the sortChange output to let the parent own row ordering', async ({ page }) => {
+test('uses the sortChange output to let the parent own row ordering @visual', async ({ page }) => {
   const examples = getGroup(page, 'Parent-controlled sorting');
   const region = examples.getByRole('region', { name: 'Parent-controlled sorted team table' });
   const scoreButton = region.getByRole('button', { name: 'Sort Score ascending', exact: true });
@@ -216,7 +218,7 @@ test('uses the sortChange output to let the parent own row ordering', async ({ p
   await captureMobile(page, examples, 'table-controlled-sorting-320.png');
 });
 
-test('reports row selection and progresses through indeterminate, all, and cleared states', async ({
+test('reports row selection and progresses through indeterminate, all, and cleared states @visual', async ({
   page,
 }) => {
   const examples = getGroup(page, 'Table selection');
@@ -310,7 +312,7 @@ test('reports row selection and progresses through indeterminate, all, and clear
   });
 });
 
-test('keeps the sticky header at the top of its scroll region and confines horizontal overflow', async ({
+test('keeps the sticky header at the top of its scroll region and confines horizontal overflow @visual', async ({
   page,
 }) => {
   const examples = getGroup(page, 'Sticky header example');

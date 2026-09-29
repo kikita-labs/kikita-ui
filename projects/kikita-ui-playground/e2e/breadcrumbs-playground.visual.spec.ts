@@ -74,7 +74,7 @@ test('switches the Breadcrumbs scope to Russian at runtime', async ({ page }) =>
   await expect(trail.locator('span[kuiBreadcrumbItem][current]')).toHaveText(russian.items.current);
 });
 
-test('renders a minimally configured default trail and captures desktop and 320px views', async ({
+test('renders a minimally configured default trail and captures desktop and 320px views @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', {
@@ -105,7 +105,7 @@ test('renders a minimally configured default trail and captures desktop and 320p
   await captureMobile(page, example, 'breadcrumbs-default-dark-320.png');
 });
 
-test('captures the mixed crumb and leading-icon compositions', async ({ page }) => {
+test('captures the mixed crumb and leading-icon compositions @visual', async ({ page }) => {
   const examples = page.getByRole('group', {
     name: 'Breadcrumb composition examples',
     exact: true,
@@ -132,7 +132,7 @@ test('captures the mixed crumb and leading-icon compositions', async ({ page }) 
   await captureMobile(page, examples, 'breadcrumbs-composition-320.png');
 });
 
-test('renders all supported sizes', async ({ page }) => {
+test('renders all supported sizes @visual', async ({ page }) => {
   const examples = page.getByRole('group', { name: 'Breadcrumb size examples', exact: true });
 
   for (const size of ['sm', 'md', 'lg']) {
@@ -152,7 +152,7 @@ test('renders all supported sizes', async ({ page }) => {
   await captureMobile(page, examples, 'breadcrumbs-sizes-320.png');
 });
 
-test('shows consumer-selected narrow layouts without a built-in collapse menu', async ({
+test('shows consumer-selected narrow layouts without a built-in collapse menu @visual', async ({
   page,
 }) => {
   const examples = page.getByRole('group', {
@@ -201,7 +201,7 @@ test('shows consumer-selected narrow layouts without a built-in collapse menu', 
   await captureMobile(page, examples, 'breadcrumbs-narrow-layouts-320.png');
 });
 
-test('captures the shell-provided light theme for the default trail', async ({ page }) => {
+test('captures the shell-provided light theme for the default trail @visual', async ({ page }) => {
   const example = page.getByRole('group', {
     name: 'Default breadcrumb example',
     exact: true,
@@ -215,7 +215,9 @@ test('captures the shell-provided light theme for the default trail', async ({ p
   });
 });
 
-test('captures keyboard focus-visible and pointer hover on a breadcrumb link', async ({ page }) => {
+test('captures keyboard focus-visible and pointer hover on a breadcrumb link @visual', async ({
+  page,
+}) => {
   const example = page.getByRole('group', {
     name: 'Default breadcrumb example',
     exact: true,

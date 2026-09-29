@@ -97,7 +97,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/tabs');
 });
 
-test('renders the minimal default with the source defaults in dark, light, and mobile layouts', async ({
+test('renders the minimal default with the source defaults in dark, light, and mobile layouts @visual', async ({
   page,
 }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'Tabs', exact: true })).toBeVisible();
@@ -144,7 +144,7 @@ test('renders the minimal default with the source defaults in dark, light, and m
   await expect(example).toHaveScreenshot('tabs-default-320.png', { animations: 'disabled' });
 });
 
-test('covers every supported size, variant, orientation, and inverted-edge combination', async ({
+test('covers every supported size, variant, orientation, and inverted-edge combination @visual', async ({
   page,
 }) => {
   const sizes = ['xs', 'sm', 'md', 'lg'] as const;
@@ -244,7 +244,9 @@ test('covers every supported size, variant, orientation, and inverted-edge combi
   await expect(overview).toHaveAttribute('aria-selected', 'true');
 });
 
-test('moves actual keyboard focus, selects, wraps, and honors Home and End', async ({ page }) => {
+test('moves actual keyboard focus, selects, wraps, and honors Home and End @visual', async ({
+  page,
+}) => {
   const example = page.getByRole('group', { name: 'Keyboard navigation example', exact: true });
   const tablist = example.getByRole('tablist');
   const overview = tablist.getByRole('tab', { name: 'Overview', exact: true });
@@ -281,7 +283,7 @@ test('moves actual keyboard focus, selects, wraps, and honors Home and End', asy
   await expect(settings).toHaveAttribute('aria-selected', 'true');
 });
 
-test('toggles the accessible error label and supports router-style tabs without panels', async ({
+test('toggles the accessible error label and supports router-style tabs without panels @visual', async ({
   page,
 }) => {
   const errorExample = page.getByRole('group', {
@@ -328,7 +330,7 @@ test('toggles the accessible error label and supports router-style tabs without 
   });
 });
 
-test('documents initial overflow controls and scrolls with keyboard and exposed buttons at 320px', async ({
+test('documents initial overflow controls and scrolls with keyboard and exposed buttons at 320px @visual', async ({
   page,
 }) => {
   await page.setViewportSize(mobileViewport);

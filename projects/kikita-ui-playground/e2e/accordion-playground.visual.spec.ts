@@ -114,7 +114,9 @@ test('loads the Accordion scope and switches its accessible names to Russian', a
   );
 });
 
-test('shows the minimally configured default with linked collapsed content', async ({ page }) => {
+test('shows the minimally configured default with linked collapsed content @visual', async ({
+  page,
+}) => {
   const example = page.getByRole('group', {
     name: 'Default accordion example',
     exact: true,
@@ -147,7 +149,7 @@ test('shows the minimally configured default with linked collapsed content', asy
   await captureMobile(page, example, 'accordion-default-320.png');
 });
 
-test('renders every supported appearance and size combination', async ({ page }) => {
+test('renders every supported appearance and size combination @visual', async ({ page }) => {
   const catalogue = page.getByRole('group', {
     name: 'Accordion appearance and size examples',
     exact: true,
@@ -202,7 +204,7 @@ test('renders every supported appearance and size combination', async ({ page })
   await captureAppearanceMatrixMobile(page, catalogue);
 });
 
-test('uses native keyboard activation for exclusive items and exposes model changes', async ({
+test('uses native keyboard activation for exclusive items and exposes model changes @visual', async ({
   page,
 }) => {
   const exclusive = page.getByRole('group', { name: 'Exclusive mode interaction', exact: true });
@@ -241,7 +243,9 @@ test('uses native keyboard activation for exclusive items and exposes model chan
   await expect(status).toHaveText(statusTextPattern('Open items', ['None']));
 });
 
-test('multi mode keeps independent panels open and updates the model output', async ({ page }) => {
+test('multi mode keeps independent panels open and updates the model output @visual', async ({
+  page,
+}) => {
   const multi = page.getByRole('group', { name: 'Multi mode interaction', exact: true });
   const profile = multi.getByRole('button', { name: 'Profile', exact: true });
   const billing = multi.getByRole('button', { name: 'Billing', exact: true });
@@ -271,7 +275,9 @@ test('multi mode keeps independent panels open and updates the model output', as
   await expectWorkspaceScreenshot(page, multi, 'accordion-multi-two-open-320.png');
 });
 
-test('disabled items are named, out of tab order, and visually distinct', async ({ page }) => {
+test('disabled items are named, out of tab order, and visually distinct @visual', async ({
+  page,
+}) => {
   const states = page.getByRole('group', {
     name: 'Accordion item state and icon examples',
     exact: true,
@@ -308,7 +314,9 @@ test('disabled items are named, out of tab order, and visually distinct', async 
   await captureMobile(page, states, 'accordion-item-states-320.png');
 });
 
-test('shows real focus-visible and pointer hover on an Accordion trigger', async ({ page }) => {
+test('shows real focus-visible and pointer hover on an Accordion trigger @visual', async ({
+  page,
+}) => {
   const defaultExample = page.getByRole('group', {
     name: 'Default accordion example',
     exact: true,

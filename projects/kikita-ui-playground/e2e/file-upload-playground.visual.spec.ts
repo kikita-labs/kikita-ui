@@ -255,7 +255,7 @@ test('reports MIME and size errors from actual file selections', async ({ page }
   await expect(validation.getByText('Exceeds max size', { exact: false })).toBeVisible();
 });
 
-test('shows real valid and invalid drag states and rejects an invalid dropped file', async ({
+test('shows real valid and invalid drag states and rejects an invalid dropped file @visual', async ({
   page,
 }) => {
   const validation = page.getByRole('group', {
@@ -331,7 +331,7 @@ test('records literal wildcard MIME validation as a separate behavior check', as
   await expect(wildcard.getByText('Invalid file type', { exact: true })).toBeVisible();
 });
 
-test('enforces multiple-mode maxCount and clears its live error after removal', async ({
+test('enforces multiple-mode maxCount and clears its live error after removal @visual', async ({
   page,
 }) => {
   const validation = page.getByRole('group', {
@@ -388,7 +388,7 @@ test('single mode replaces the current file and ignores maxCount', async ({ page
   await expect(single.getByText('Maximum 1 files', { exact: true })).toHaveCount(0);
 });
 
-test('supports Space, Tab, Delete, and Backspace through the picker and file row', async ({
+test('supports Space, Tab, Delete, and Backspace through the picker and file row @visual', async ({
   page,
 }) => {
   const validation = page.getByRole('group', {
@@ -490,14 +490,18 @@ test('loads the File Upload translation scope in English and Russian', async ({ 
   });
   const englishSizeErrors = englishSizes.getByText(english.errors.network, { exact: true });
   await expect(englishSizeErrors).toHaveCount(3);
-  await expect(englishSizeErrors.first()).toBeVisible();
+  for (const error of await englishSizeErrors.all()) {
+    await expect(error).toBeVisible();
+  }
   const englishDisabled = page.getByRole('group', {
     name: english.accessibility.disabled,
     exact: true,
   });
   const englishDisabledErrors = englishDisabled.getByText(english.errors.network, { exact: true });
   await expect(englishDisabledErrors).toHaveCount(2);
-  await expect(englishDisabledErrors.first()).toBeVisible();
+  for (const error of await englishDisabledErrors.all()) {
+    await expect(error).toBeVisible();
+  }
 
   await page.getByRole('button', { name: 'Switch language to Russian' }).click();
   await expect(
@@ -517,14 +521,18 @@ test('loads the File Upload translation scope in English and Russian', async ({ 
   });
   const russianSizeErrors = russianSizes.getByText(russian.errors.network, { exact: true });
   await expect(russianSizeErrors).toHaveCount(3);
-  await expect(russianSizeErrors.first()).toBeVisible();
+  for (const error of await russianSizeErrors.all()) {
+    await expect(error).toBeVisible();
+  }
   const russianDisabled = page.getByRole('group', {
     name: russian.accessibility.disabled,
     exact: true,
   });
   const russianDisabledErrors = russianDisabled.getByText(russian.errors.network, { exact: true });
   await expect(russianDisabledErrors).toHaveCount(2);
-  await expect(russianDisabledErrors.first()).toBeVisible();
+  for (const error of await russianDisabledErrors.all()) {
+    await expect(error).toBeVisible();
+  }
   await expect(englishStates.getByText(english.errors.network, { exact: true })).toHaveCount(0);
   await expect(englishSizes.getByText(english.errors.network, { exact: true })).toHaveCount(0);
   await expect(englishDisabled.getByText(english.errors.network, { exact: true })).toHaveCount(0);
@@ -545,7 +553,7 @@ test('fits at desktop, tablet, and 320px without page-level horizontal overflow'
   }
 });
 
-test('captures each named File Upload section at desktop and 320px', async ({ page }) => {
+test('captures each named File Upload section at desktop and 320px @visual', async ({ page }) => {
   for (const [name, desktopScreenshot] of catalogueExamples) {
     await expect(page.getByRole('group', { name, exact: true })).toHaveScreenshot(
       desktopScreenshot,
@@ -558,7 +566,7 @@ test('captures each named File Upload section at desktop and 320px', async ({ pa
   }
 });
 
-test('captures the default dropzone focus ring reached by keyboard navigation', async ({
+test('captures the default dropzone focus ring reached by keyboard navigation @visual', async ({
   page,
 }) => {
   const defaultExample = page.getByRole('group', { name: 'Default file upload', exact: true });
@@ -570,7 +578,7 @@ test('captures the default dropzone focus ring reached by keyboard navigation', 
   await expect(defaultExample).toHaveScreenshot('file-upload-focused-dropzone.png');
 });
 
-test('captures the dropzone hover produced by pointer interaction', async ({ page }) => {
+test('captures the dropzone hover produced by pointer interaction @visual', async ({ page }) => {
   const defaultExample = page.getByRole('group', { name: 'Default file upload', exact: true });
   await defaultExample.getByRole('button', { name: /Upload file/ }).hover();
   await expect(defaultExample).toHaveScreenshot('file-upload-hovered-dropzone.png');

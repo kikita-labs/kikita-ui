@@ -61,7 +61,7 @@ test('loads the Tooltip scope and switches its accessible names to Russian', asy
   await expectDescriptionLink(trigger, tooltip);
 });
 
-test('captures every Tooltip catalogue group at desktop and 320px', async ({ page }) => {
+test('captures every Tooltip catalogue group at desktop and 320px @visual', async ({ page }) => {
   const groups = [
     {
       name: 'Tooltip placement examples',
@@ -104,7 +104,9 @@ test('captures every Tooltip catalogue group at desktop and 320px', async ({ pag
   }
 });
 
-test('shows the default placement and captures each supported placement', async ({ page }) => {
+test('shows the default placement and captures each supported placement @visual', async ({
+  page,
+}) => {
   const placements = page.getByRole('group', { name: 'Tooltip placement examples', exact: true });
   const examples = [
     { name: 'Top (default)', placement: 'top', message: 'Shown above the trigger.' },
@@ -131,7 +133,7 @@ test('shows the default placement and captures each supported placement', async 
   }
 });
 
-test('opens adaptive and hover modes on real mouse hover and captures the icon trigger', async ({
+test('opens adaptive and hover modes on real mouse hover and captures the icon trigger @visual', async ({
   page,
 }) => {
   const modes = page.getByRole('group', {
@@ -169,7 +171,7 @@ test('opens adaptive and hover modes on real mouse hover and captures the icon t
   await captureTriggerAndTooltip(page, infoTrigger, tooltip, 'tooltip-icon-trigger.png');
 });
 
-test('opens the default and Hover tooltips on keyboard-visible focus', async ({ page }) => {
+test('opens the default and Hover tooltips on keyboard-visible focus @visual', async ({ page }) => {
   const placements = page.getByRole('group', { name: 'Tooltip placement examples', exact: true });
   const defaultTrigger = placements.getByRole('button', { name: 'Top (default)', exact: true });
   const hoverTrigger = page
@@ -207,7 +209,9 @@ test('opens the default and Hover tooltips on keyboard-visible focus', async ({ 
   await expect(tooltip).toHaveCount(0);
 });
 
-test('click mode toggles by pointer and keyboard while None stays inactive', async ({ page }) => {
+test('click mode toggles by pointer and keyboard while None stays inactive @visual', async ({
+  page,
+}) => {
   const modes = page.getByRole('group', {
     name: 'Tooltip interaction mode examples',
     exact: true,
@@ -255,7 +259,7 @@ test('click mode toggles by pointer and keyboard while None stays inactive', asy
   await expect(tooltip).toHaveCount(0);
 });
 
-test('ignores blank content and wraps long supplemental text', async ({ page }) => {
+test('ignores blank content and wraps long supplemental text @visual', async ({ page }) => {
   const content = page.getByRole('group', {
     name: 'Tooltip content and trigger examples',
     exact: true,
@@ -323,7 +327,7 @@ test('closes a tap-open tooltip on outside click and focus, with reduced motion 
 test.describe('touch-enabled viewport', () => {
   test.use({ hasTouch: true, isMobile: true, viewport: mobileViewport });
 
-  test('opens auto tooltips on tap, ignores inherited Hover taps, and honors local Click', async ({
+  test('opens auto tooltips on tap, ignores inherited Hover taps, and honors local Click @visual', async ({
     page,
   }) => {
     await page.setViewportSize(mobileViewport);

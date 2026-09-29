@@ -145,7 +145,9 @@ test('loads the Textarea scope and switches accessible names at runtime', async 
   ).toBeVisible();
 });
 
-test('captures real pointer hover and keyboard focus on a native textarea', async ({ page }) => {
+test('captures real pointer hover and keyboard focus on a native textarea @visual', async ({
+  page,
+}) => {
   const states = page.getByRole('group', { name: 'Native textarea states', exact: true });
   const interactive = states.getByRole('textbox', { name: 'Interactive' });
 
@@ -164,7 +166,7 @@ test('captures real pointer hover and keyboard focus on a native textarea', asyn
   });
 });
 
-test('moves a required Signal Forms Textarea from untouched to invalid and corrected', async ({
+test('moves a required Signal Forms Textarea from untouched to invalid and corrected @visual', async ({
   page,
 }) => {
   const validation = page.getByRole('group', { name: 'Signal Forms validation', exact: true });
@@ -217,7 +219,7 @@ test('fits the Textarea catalogue without page overflow at desktop, tablet, and 
   }
 });
 
-test('captures each Textarea catalogue group at desktop and 320px', async ({ page }) => {
+test('captures each Textarea catalogue group at desktop and 320px @visual', async ({ page }) => {
   for (const [name, desktopScreenshot] of catalogueExamples) {
     await expect(page.getByRole('group', { name, exact: true })).toHaveScreenshot(
       desktopScreenshot,

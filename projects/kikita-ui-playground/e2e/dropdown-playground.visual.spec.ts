@@ -51,7 +51,7 @@ test('server-renders Dropdown closed and hydrates its keyboard opening', async (
   expect(runtimeErrors).toEqual([]);
 });
 
-test('captures the named Dropdown catalogue groups', async ({ page }) => {
+test('captures the named Dropdown catalogue groups @visual', async ({ page }) => {
   const groups = [
     { name: 'Dropdown options and selection behavior', screenshot: 'dropdown-options.png' },
     { name: 'Dropdown panel width strategies', screenshot: 'dropdown-widths.png' },
@@ -72,7 +72,7 @@ test('captures the named Dropdown catalogue groups', async ({ page }) => {
   }
 });
 
-test('opens the default listbox with its accessible trigger and option semantics', async ({
+test('opens the default listbox with its accessible trigger and option semantics @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', { name: 'Default listbox example', exact: true });
@@ -116,7 +116,7 @@ test('opens the default listbox with its accessible trigger and option semantics
   await expect(trigger).not.toHaveAttribute('aria-controls', /.+/);
 });
 
-test('captures a real pointer hover on an enabled listbox option', async ({ page }) => {
+test('captures a real pointer hover on an enabled listbox option @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default listbox example', exact: true });
   await example.getByRole('button', { name: 'Options', exact: true }).click();
 
@@ -470,7 +470,7 @@ test('dismisses the listbox when its anchor scrolls fully out of view', async ({
   await expect(listbox).toBeHidden();
 });
 
-test('keeps the catalogue within 320px and 768px viewports', async ({ page }) => {
+test('keeps the catalogue within 320px and 768px viewports @visual', async ({ page }) => {
   const example = page.getByRole('group', {
     name: 'Dropdown options and selection behavior',
     exact: true,

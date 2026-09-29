@@ -244,7 +244,9 @@ test('keeps the Group catalogue within desktop, tablet, and 320px layouts', asyn
   }
 });
 
-test('captures each labelled Group catalogue section at desktop and 320px', async ({ page }) => {
+test('captures each labelled Group catalogue section at desktop and 320px @visual', async ({
+  page,
+}) => {
   for (const [name, desktopScreenshot] of catalogueSections) {
     await expect(page.getByRole('group', { name, exact: true })).toHaveScreenshot(
       desktopScreenshot,

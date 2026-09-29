@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/scrollbar');
 });
 
-test('captures local and application-wide native scrolling examples', async ({ page }) => {
+test('captures local and application-wide native scrolling examples @visual', async ({ page }) => {
   await expect(
     page.getByRole('heading', { level: 1, name: 'Scrollbar', exact: true }),
   ).toBeVisible();
@@ -96,7 +96,7 @@ test('scrolls focused native regions with the keyboard', async ({ page }) => {
   await expectNoHorizontalOverflow(page);
 });
 
-test('uses distinct theme tokens and restores system scrollbar colors in forced colors', async ({
+test('uses distinct theme tokens and restores system scrollbar colors in forced colors @visual', async ({
   page,
 }) => {
   const lightRegion = page.getByRole('region', {

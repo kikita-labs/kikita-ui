@@ -54,3 +54,24 @@ test('shows disabled and loading states and lets loading be toggled back', async
   await expect(interactiveButton).toBeEnabled();
   await expect(interactiveButton).not.toHaveAttribute('aria-busy');
 });
+
+test('presses and releases a Button with real pointer input under production motion', async ({
+  page,
+}) => {
+  await page.goto('/components/button');
+
+  const states = page.getByRole('group', { name: 'Button states', exact: true });
+  const button = states.getByRole('button', { name: 'Save', exact: true });
+
+  await expect(button).toBeVisible();
+  await button.hover();
+  await expect(button).toHaveCSS('transform', 'none');
+
+  await page.mouse.down();
+  expect(await button.evaluate((element) => element.matches(':active'))).toBe(true);
+  // The pressed scale exists only with motion allowed; the reduced-motion project removes it.
+  await expect(button).not.toHaveCSS('transform', 'none');
+
+  await page.mouse.up();
+  await expect(button).toHaveCSS('transform', 'none');
+});

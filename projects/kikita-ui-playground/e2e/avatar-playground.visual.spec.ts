@@ -36,7 +36,7 @@ test('server-renders and hydrates the default avatar without browser errors', as
   expect(consoleErrors).toEqual([]);
 });
 
-test('captures the minimum default and content fallbacks', async ({ page }) => {
+test('captures the minimum default and content fallbacks @visual', async ({ page }) => {
   const content = page.getByRole('group', {
     name: 'Avatar default and content examples',
     exact: true,
@@ -61,7 +61,9 @@ test('captures the minimum default and content fallbacks', async ({ page }) => {
   await captureMobile(page, content, 'avatar-content-default-320.png');
 });
 
-test('captures every supported size and shape with stable fallback colors', async ({ page }) => {
+test('captures every supported size and shape with stable fallback colors @visual', async ({
+  page,
+}) => {
   const matrix = page.getByRole('group', { name: 'Avatar shape and size examples', exact: true });
   const avatars = matrix.locator('kui-avatar');
 
@@ -100,7 +102,7 @@ test('captures every supported size and shape with stable fallback colors', asyn
   });
 });
 
-test('captures palette and presence states in both shell themes', async ({ page }) => {
+test('captures palette and presence states in both shell themes @visual', async ({ page }) => {
   const document = page.locator('html');
   const palette = page.getByRole('group', {
     name: 'Avatar fallback palette examples',
@@ -169,7 +171,9 @@ test('captures palette and presence states in both shell themes', async ({ page 
   });
 });
 
-test('captures circle and square loading plus group size and limit behavior', async ({ page }) => {
+test('captures circle and square loading plus group size and limit behavior @visual', async ({
+  page,
+}) => {
   const loading = page.getByRole('group', { name: 'Avatar loading examples', exact: true });
   const skeletons = loading.locator('kui-avatar');
 
@@ -228,7 +232,7 @@ test('captures circle and square loading plus group size and limit behavior', as
   await captureMobile(page, groups, 'avatar-groups-320.png');
 });
 
-test('captures real keyboard and pointer states for the documented button wrapper', async ({
+test('captures real keyboard and pointer states for the documented button wrapper @visual', async ({
   page,
 }) => {
   const interaction = page.getByRole('group', {

@@ -88,7 +88,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/dialog');
 });
 
-test('captures the Dialog catalogue groups', async ({ page }) => {
+test('captures the Dialog catalogue groups @visual', async ({ page }) => {
   const groups = [
     { label: 'Dialog size examples', screenshot: 'dialog-sizes-catalogue.png' },
     { label: 'Dialog appearance examples', screenshot: 'dialog-appearances-catalogue.png' },
@@ -117,7 +117,7 @@ test('captures the Dialog catalogue groups', async ({ page }) => {
   }
 });
 
-test('captures open Dialog surfaces in both shell themes', async ({ page }) => {
+test('captures open Dialog surfaces in both shell themes @visual', async ({ page }) => {
   const group = page.getByRole('group', { name: 'Dialog size examples', exact: true });
   const panelBackgrounds = new Map<DialogShellTheme, string>();
 
@@ -151,7 +151,7 @@ test('captures open Dialog surfaces in both shell themes', async ({ page }) => {
   expect(panelBackgrounds.get('light')).not.toBe(panelBackgrounds.get('dark'));
 });
 
-test('opens the default Dialog and each supported size', async ({ page }) => {
+test('opens the default Dialog and each supported size @visual', async ({ page }) => {
   const group = page.getByRole('group', { name: 'Dialog size examples', exact: true });
   const sizes = [
     { label: 'Open default', suffix: 'md', screenshot: 'default', title: 'Profile details' },
@@ -228,7 +228,7 @@ test('closes through the built-in close button and restores opener focus', async
   await expect(trigger).toBeFocused();
 });
 
-test('captures all Dialog appearances and icon states', async ({ page }) => {
+test('captures all Dialog appearances and icon states @visual', async ({ page }) => {
   const group = page.getByRole('group', { name: 'Dialog appearance examples', exact: true });
   const appearances = [
     { label: 'Open default appearance', title: 'Default appearance', appearance: null },
@@ -262,7 +262,7 @@ test('captures all Dialog appearances and icon states', async ({ page }) => {
   }
 });
 
-test('keeps closability separate from Escape and backdrop dismissal', async ({ page }) => {
+test('keeps closability separate from Escape and backdrop dismissal @visual', async ({ page }) => {
   const group = page.getByRole('group', {
     name: 'Dialog content and dismissal examples',
     exact: true,
@@ -293,7 +293,9 @@ test('keeps closability separate from Escape and backdrop dismissal', async ({ p
   await expect(trigger).toBeFocused();
 });
 
-test('keeps locked dialogs open until an in-dialog action resolves them', async ({ page }) => {
+test('keeps locked dialogs open until an in-dialog action resolves them @visual', async ({
+  page,
+}) => {
   const group = page.getByRole('group', {
     name: 'Dialog content and dismissal examples',
     exact: true,
@@ -318,7 +320,9 @@ test('keeps locked dialogs open until an in-dialog action resolves them', async 
   await expect(trigger).toBeFocused();
 });
 
-test('keeps the example title clear and scrolls long bodies internally', async ({ page }) => {
+test('keeps the example title clear and scrolls long bodies internally @visual', async ({
+  page,
+}) => {
   const group = page.getByRole('group', {
     name: 'Dialog content and dismissal examples',
     exact: true,
@@ -414,7 +418,7 @@ test('uses opacity-only dialog motion when reduced motion is preferred', async (
   await expect(dialog).toHaveCount(0);
 });
 
-test('returns false and true from the locked confirmation actions', async ({ page }) => {
+test('returns false and true from the locked confirmation actions @visual', async ({ page }) => {
   const group = page.getByRole('group', { name: 'Confirmation dialog examples', exact: true });
   const cancelTrigger = group.getByRole('button', { name: 'Open default confirm', exact: true });
 
@@ -521,7 +525,7 @@ test('server renders the Dialog route without opening an overlay', async ({ page
   expect(runtimeErrors).toEqual([]);
 });
 
-test('keeps the catalogue and modal within 768px and 320px layouts', async ({ page }) => {
+test('keeps the catalogue and modal within 768px and 320px layouts @visual', async ({ page }) => {
   for (const theme of ['dark', 'light'] as const) {
     await page.setViewportSize({ width: 1440, height: 1200 });
     await page.goto('/components/dialog');

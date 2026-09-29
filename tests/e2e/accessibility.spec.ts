@@ -1,5 +1,5 @@
-import { expectNoAxeViolations } from './support/axe';
-import { test } from './support/fixtures';
+import { collectAxeViolations, expectNoAxeViolations } from './support/axe';
+import { expect, test } from './support/fixtures';
 import { gotoReady } from './support/page-ready';
 
 /**
@@ -45,19 +45,17 @@ const routes = [
 ];
 
 /**
- * Routes where axe reports a critical violation that is not fixed yet. Each one stays visible as a
- * skipped test with its rule and owner instead of being dropped from the list. To reproduce, remove
- * the entry's `fixme` and run `pnpm.cmd test:a11y -g "<route>"`.
- *
- * Found by Plan 11 on 2026-09-29. Fixing component or demo markup is outside Plan 11; none of these
- * has an owner yet, so each needs a focused accessibility slice.
+ * Routes where axe reports violations that are not fixed yet, with the exact rule ids expected. A
+ * new rule fails the route, and fixing one fails it too until this list is updated, so the list
+ * cannot go stale. Found by Plan 11 on 2026-09-29. Fixing component or demo markup is outside Plan
+ * 11 and none of these has an owner yet; each needs a focused accessibility slice.
  */
-const knownViolations: Record<string, string> = {
-  '/calendar': 'aria-allowed-attr (critical)',
-  '/calendar-range': 'aria-required-children (critical): role="grid" without rows and cells',
-  '/splitter': 'aria-valid-attr-value (critical)',
-  '/menu': 'aria-required-parent (critical)',
-  '/file-upload': 'label (critical): a form element has no accessible label',
+const knownViolations: Record<string, readonly string[]> = {
+  '/calendar': ['aria-allowed-attr', 'aria-required-children', 'aria-required-parent'],
+  '/calendar-range': ['aria-required-children', 'aria-required-parent'],
+  '/splitter': ['aria-valid-attr-value', 'nested-interactive'],
+  '/menu': ['aria-required-parent'],
+  '/file-upload': ['label', 'nested-interactive'],
 };
 
 const excludeRules = [
@@ -75,11 +73,14 @@ for (const route of routes) {
   });
 }
 
-for (const [route, reason] of Object.entries(knownViolations)) {
-  test.fixme(`has no automated accessibility violations on ${route} (${reason})`, async ({
+for (const [route, expectedRules] of Object.entries(knownViolations)) {
+  test(`reports exactly the known automated accessibility violations on ${route}`, async ({
     page,
   }) => {
     await gotoReady(page, route);
-    await expectNoAxeViolations(page, { excludeRules });
+
+    const violations = await collectAxeViolations(page, { excludeRules });
+
+    expect(violations.map((violation) => violation.id).sort()).toEqual(expectedRules);
   });
 }

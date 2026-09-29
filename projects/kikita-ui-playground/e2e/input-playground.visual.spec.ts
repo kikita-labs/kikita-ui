@@ -231,7 +231,9 @@ test('preserves the explicit id and its native label association', async ({ page
   ).toBe('explicit-input-id');
 });
 
-test('captures real pointer hover and keyboard focus on a native input', async ({ page }) => {
+test('captures real pointer hover and keyboard focus on a native input @visual', async ({
+  page,
+}) => {
   const states = page.getByRole('group', { name: 'Input native states', exact: true });
   const interactive = states.getByRole('textbox', { name: 'Interactive' });
   const restingBorder = await interactive.evaluate(
@@ -259,7 +261,7 @@ test('captures real pointer hover and keyboard focus on a native input', async (
   });
 });
 
-test('moves a required Signal Forms input from untouched to invalid and corrected', async ({
+test('moves a required Signal Forms input from untouched to invalid and corrected @visual', async ({
   page,
 }) => {
   const validation = page.getByRole('group', { name: 'Signal Forms validation', exact: true });
@@ -328,7 +330,7 @@ test('fits the Input catalogue without page overflow at desktop, tablet, and 320
   }
 });
 
-test('captures each Input catalogue group at desktop and 320px', async ({ page }) => {
+test('captures each Input catalogue group at desktop and 320px @visual', async ({ page }) => {
   for (const [name, desktopScreenshot] of catalogueExamples) {
     await expect(page.getByRole('group', { name, exact: true })).toHaveScreenshot(
       desktopScreenshot,

@@ -14,7 +14,7 @@ for (const [size, fileName] of [
   ['Medium', 'button-size-md.png'],
   ['Large', 'button-size-lg.png'],
 ] as const) {
-  test(`captures the ${size.toLowerCase()} button matrix`, async ({ page }) => {
+  test(`captures the ${size.toLowerCase()} button matrix @visual`, async ({ page }) => {
     const matrix = page.getByRole('group', { name: `${size} button variants`, exact: true });
     await matrix.scrollIntoViewIfNeeded();
     await expect(matrix).toHaveScreenshot(fileName, { animations: 'disabled' });
@@ -30,7 +30,7 @@ for (const [sectionName, fileName] of [
   ['Button states', 'button-states-320.png'],
   ['Button composition examples', 'button-composition-320.png'],
 ] as const) {
-  test(`captures ${sectionName.toLowerCase()} at 320px`, async ({ page }) => {
+  test(`captures ${sectionName.toLowerCase()} at 320px @visual`, async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 1280 });
     await page.goto('/components/button');
 
@@ -56,18 +56,18 @@ for (const [sectionName, fileName] of [
   });
 }
 
-test('captures the minimally configured default button', async ({ page }) => {
+test('captures the minimally configured default button @visual', async ({ page }) => {
   const defaultExample = page.getByRole('group', { name: 'Default button example', exact: true });
   await expect(defaultExample).toHaveScreenshot('button-default.png');
 });
 
-test('captures button states', async ({ page }) => {
+test('captures button states @visual', async ({ page }) => {
   await expect(page.getByRole('group', { name: 'Button states' })).toHaveScreenshot(
     'button-states.png',
   );
 });
 
-test('captures the keyboard-focused button state', async ({ page }) => {
+test('captures the keyboard-focused button state @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Button states', exact: true });
   const saveButton = states.getByRole('button', { name: 'Save', exact: true });
   const focusedButton = states.getByRole('button', { name: 'Focused', exact: true });
@@ -81,7 +81,7 @@ test('captures the keyboard-focused button state', async ({ page }) => {
   await expect(states).toHaveScreenshot('button-focused.png', { animations: 'disabled' });
 });
 
-test('captures pointer hover and pressed button states', async ({ page }) => {
+test('captures pointer hover and pressed button states @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Button states', exact: true });
   const button = states.getByRole('button', { name: 'Save', exact: true });
 
@@ -95,7 +95,7 @@ test('captures pointer hover and pressed button states', async ({ page }) => {
   await page.mouse.up();
 });
 
-test('captures button composition examples', async ({ page }) => {
+test('captures button composition examples @visual', async ({ page }) => {
   const composition = page.getByRole('group', {
     name: 'Button composition examples',
     exact: true,
@@ -105,7 +105,7 @@ test('captures button composition examples', async ({ page }) => {
   await expect(composition).toHaveScreenshot('button-composition.png', { animations: 'disabled' });
 });
 
-test('captures the interactive loading state', async ({ page }) => {
+test('captures the interactive loading state @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Button states' });
   await states.getByRole('button', { name: 'Simulate loading' }).click();
 

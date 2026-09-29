@@ -23,12 +23,12 @@ screen-reader result has been recorded for any primitive; that gap is unowned an
 
 ## Suites and commands
 
-| Suite                  | Location                             | Runs against                                              | Command                                                 |
-| ---------------------- | ------------------------------------ | --------------------------------------------------------- | ------------------------------------------------------- |
-| Library browser (e2e)  | `tests/e2e/`                         | Library Playground (`dist/playground`), production motion | `pnpm.cmd test:e2e`, `test:a11y`, `test:responsive`     |
-| Library visual         | `tests/e2e/visual.spec.ts`           | Library Playground, reduced motion                        | `pnpm.cmd test:visual`                                  |
-| Library SSR            | `tests/e2e/ssr-hydration.spec.ts`    | Library Playground SSR server                             | `pnpm.cmd test:ssr` (builds first)                      |
-| Replacement Playground | `projects/kikita-ui-playground/e2e/` | Replacement Playground SSR server                         | `pnpm.cmd test:kikita-ui-playground:ssr` (builds first) |
+| Suite                  | Location                             | Runs against                                                                                                                     | Command                                                 |
+| ---------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| Library browser (e2e)  | `tests/e2e/`                         | Library Playground (`dist/playground`), production motion                                                                        | `pnpm.cmd test:e2e`, `test:a11y`, `test:responsive`     |
+| Library visual         | `tests/e2e/visual.spec.ts`           | Library Playground, reduced motion                                                                                               | `pnpm.cmd test:visual`                                  |
+| Library SSR            | `tests/e2e/ssr-hydration.spec.ts`    | Library Playground SSR server                                                                                                    | `pnpm.cmd test:ssr` (builds first)                      |
+| Replacement Playground | `projects/kikita-ui-playground/e2e/` | Replacement Playground SSR server; projects `behavior` (production motion) and `visual` (tests titled `@visual`, reduced motion) | `pnpm.cmd test:kikita-ui-playground:ssr` (builds first) |
 
 Every suite starts with a freshness guard (`tools/assert-playground-build.mjs`). It fails when the
 build output is missing or older than the sources it is built from, and names the newest source.
@@ -42,15 +42,25 @@ The SSR configs never reuse a running server, so a stale process cannot hide a s
   last interaction is still counted.
 - An exception is a `BrowserErrorAllowance` with a message or URL pattern and a written reason.
   The only default one is the Lucide CDN request that the library swallows on purpose. Set others
-  with `test.use({ browserErrorAllowances })` next to the code that owns the exception.
+  with `test.use({ browserErrorAllowances })` next to the code that owns the exception. The collector
+  throws for a missing pattern, a blank reason, a `g` or `y` flag, and an obvious catch-all pattern
+  (one that matches the empty string or every string in `catchAllProbes`). A merely broad pattern such
+  as `/error/i` is not detected and is left to review.
 - `gotoReady` waits for the routed page and web fonts, not for `networkidle`. The Playground exposes
   no hydration marker, so hydration is proved by behavior in the SSR specs, using
   `openWithHeldScripts` to look at the server response before any client script runs.
 - Locale is `en-US` and timezone is `UTC` for every suite. Tests that depend on the current date
   freeze it with `page.clock.setFixedTime`, which freezes `Date` only and leaves timers real.
 - Behavior, accessibility and responsive projects run with production motion. Only the visual
-  project sets `prefers-reduced-motion: reduce`. Use `settleAnimations` before measuring layout or
-  asserting that something did not change.
+  projects set `prefers-reduced-motion: reduce`. In the replacement Playground a test whose title ends
+  with `@visual` takes screenshots and runs in the `visual` project; every other test runs in
+  `behavior`. Add `@visual` to any new test that calls `toHaveScreenshot`, directly or through a
+  helper. A test that verifies a specific motion mode emulates it itself. Use `settleAnimations`
+  before measuring layout or asserting that something did not change.
+- Prefer exact locators. `.first()` is accepted only when the meaning really is "first in document
+  order" inside a uniquely scoped container (first table row, first chart mark, first calendar row) or
+  for a style-only assertion. If several elements share a name, scope to the one that matters. Do not
+  use fixed sleeps; put a timer under test on `page.clock`.
 - `tests/e2e/harness.spec.ts` protects the harness itself, including a `test.fail` case that goes
   red if the teardown assertion is weakened.
 - A failing run keeps a trace (`trace: 'retain-on-failure'`). Open it with
@@ -70,63 +80,64 @@ The SSR configs never reuse a running server, so a stale process cannot hide a s
 `Unit` is the number of unit tests. `Page` is the number of tests in the replacement Playground spec
 for the primitive (all run through the shared error fixture). `Library suite` lists the library
 browser evidence: B behavior, A axe, R responsive, V visual, S SSR; `A!` means axe currently fails
-and the route is tracked as a known violation.
+and the route is tracked as a known violation whose exact rule ids are asserted, so a new rule or
+a fix fails the test until the list is updated.
 
-| Primitive       | Unit | Page | Library suite | Concrete gap                                                                                                                                              |
-| --------------- | ---- | ---- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Accordion       | 12   | 10   | A             | None recorded.                                                                                                                                            |
-| Alert           | 12   | -    | A             | No replacement page. Dismissal is unit-only; no visual.                                                                                                   |
-| Avatar          | 6    | 7    | -             | None recorded.                                                                                                                                            |
-| Badge           | 1    | 4    | -             | Presentational; low risk.                                                                                                                                 |
-| Breadcrumbs     | 5    | 9    | -             | Replacement axe sweep: `landmark-unique` (moderate) on the demo.                                                                                          |
-| Button          | 8    | 10   | A R S V       | None recorded.                                                                                                                                            |
-| Calendar        | 11   | 16   | V, A!         | Critical axe violations (`aria-allowed-attr`, `aria-required-children`, `aria-required-parent`) in both Playgrounds.                                      |
-| Calendar Range  | 10   | -    | B, A!         | No replacement page. Axe `aria-required-children` (critical). No visual, no SSR, no touch.                                                                |
-| Card            | 1    | 13   | -             | None recorded.                                                                                                                                            |
-| Carousel        | 18   | -    | B, A          | No replacement page. Previous/Next covered; swipe, loop wrap and autoplay pause are not browser-tested.                                                   |
-| Chart           | 107  | 18   | A R S         | Focus-on-mark `test.fixme` and library defects belong to Plan 24.                                                                                         |
-| Checkbox        | 2    | 9    | A             | Unit covers host attributes and field ids only; forms and disabled behavior are browser-only.                                                             |
-| Chip            | 5    | 11   | -             | None recorded.                                                                                                                                            |
-| Color Input     | 8    | 17   | -             | None recorded.                                                                                                                                            |
-| Combobox        | 11   | 25   | A             | None recorded.                                                                                                                                            |
-| Command Palette | 8    | 11   | B A           | None recorded.                                                                                                                                            |
-| Date Picker     | 15   | 14   | A R           | No SSR check although "today" is time-zone dependent (Plan 12).                                                                                           |
-| Dialog          | 10   | 14   | B A R V S     | Touch backdrop tap covered; nested dialogs are not covered.                                                                                               |
-| Drawer          | 10   | 14   | A             | Focus trap and backdrop only in the replacement page; no touch backdrop tap.                                                                              |
-| Dropdown        | 16   | 16   | B A R S       | None recorded.                                                                                                                                            |
-| Empty State     | 2    | 7    | -             | None recorded.                                                                                                                                            |
-| Field           | 20   | 8    | B A R V S     | `required` renders only an `aria-hidden` marker; the control gets no `aria-required` (Plan 19B).                                                          |
-| File Upload     | 14   | 17   | A!            | Axe `label` (critical) and `nested-interactive` (serious) in both Playgrounds.                                                                            |
-| Group           | 4    | 9    | -             | None recorded.                                                                                                                                            |
-| Icon Button     | 6    | 13   | -             | None recorded.                                                                                                                                            |
-| Icon            | 12   | 7    | -             | Replacement axe sweep: `scrollable-region-focusable`. Default icons load from a CDN.                                                                      |
-| Input           | 7    | 8    | A R S         | None recorded.                                                                                                                                            |
-| Link            | 10   | -    | B A R         | No replacement page; only line height is browser-tested.                                                                                                  |
-| Loader          | 1    | 7    | -             | None recorded.                                                                                                                                            |
-| Media Viewer    | 16   | -    | B A           | No replacement page. Open, Escape and focus return covered; keyboard next/previous, zoom, swipe are not.                                                  |
-| Menu            | 9    | 19   | A!            | Axe `aria-required-parent` (critical) on the library Playground.                                                                                          |
-| Number Input    | 30   | 13   | S             | None recorded.                                                                                                                                            |
-| OTP Input       | 19   | -    | B A           | No replacement page; no visual, no SSR.                                                                                                                   |
-| Pagination      | 12   | -    | B A R         | No replacement page; no visual.                                                                                                                           |
-| Popover         | 20   | 13   | A S           | None recorded.                                                                                                                                            |
-| Progress        | 14   | 10   | -             | Replacement axe sweep: `landmark-unique` (moderate).                                                                                                      |
-| Radio           | 2    | 9    | A             | Unit covers host attributes and field ids only.                                                                                                           |
-| Segmented       | 8    | 9    | A             | None recorded.                                                                                                                                            |
-| Select          | 26   | 23   | B A R V S     | None recorded.                                                                                                                                            |
-| Separator       | 1    | 4    | -             | Replacement axe sweep: `scrollable-region-focusable`.                                                                                                     |
-| Skeleton        | 1    | 6    | -             | None recorded.                                                                                                                                            |
-| Slider          | 19   | 11   | A             | None recorded.                                                                                                                                            |
-| Splitter        | 13   | -    | B, A!         | No replacement page. Axe `aria-valid-attr-value` (critical). Pointer and touch drag, vertical orientation and the collapse button are not browser-tested. |
-| Stepper         | 7    | 7    | A             | None recorded.                                                                                                                                            |
-| Switch          | 2    | 9    | A             | Unit covers host attributes and field ids only.                                                                                                           |
-| Table           | 5    | 9    | A R V S       | None recorded.                                                                                                                                            |
-| Tabs            | 11   | 6    | A             | None recorded.                                                                                                                                            |
-| Textarea        | 2    | 8    | A             | Unit covers host attributes and field ids only.                                                                                                           |
-| Time Picker     | 32   | -    | B A R         | No replacement page. Escape from inside the open panel drops focus to `<body>` (fixme, unassigned).                                                       |
-| Toast           | 10   | 12   | B A           | None recorded.                                                                                                                                            |
-| Tooltip         | 8    | 10   | B A           | None recorded.                                                                                                                                            |
-| Tree            | 21   | 8    | A             | None recorded.                                                                                                                                            |
-| Typography      | 2    | -    | -             | No page and no browser or axe evidence at all.                                                                                                            |
+| Primitive       | Unit | Page | Library suite | Concrete gap                                                                                                                                                                                                   |
+| --------------- | ---- | ---- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Accordion       | 12   | 10   | A             | None recorded.                                                                                                                                                                                                 |
+| Alert           | 12   | -    | A             | No replacement page. Dismissal is unit-only; no visual.                                                                                                                                                        |
+| Avatar          | 6    | 7    | -             | None recorded.                                                                                                                                                                                                 |
+| Badge           | 1    | 4    | -             | Presentational; low risk.                                                                                                                                                                                      |
+| Breadcrumbs     | 5    | 9    | -             | Replacement axe sweep: `landmark-unique` (moderate) on the demo.                                                                                                                                               |
+| Button          | 8    | 10   | A R S V       | None recorded.                                                                                                                                                                                                 |
+| Calendar        | 11   | 16   | V, A!         | Critical axe violations (`aria-allowed-attr`, `aria-required-children`, `aria-required-parent`) in both Playgrounds; the exact rule list is asserted in both.                                                  |
+| Calendar Range  | 10   | -    | B, A!         | No replacement page. Axe `aria-required-children` and `aria-required-parent` (both critical), asserted exactly. No visual, no SSR, no touch.                                                                   |
+| Card            | 1    | 13   | -             | None recorded.                                                                                                                                                                                                 |
+| Carousel        | 18   | -    | B, A          | No replacement page. Previous/Next covered; swipe, loop wrap and autoplay pause are not browser-tested.                                                                                                        |
+| Chart           | 107  | 18   | A R S         | Focus-on-mark `test.fixme` and library defects belong to Plan 24.                                                                                                                                              |
+| Checkbox        | 2    | 9    | A             | Unit covers host attributes and field ids only; forms and disabled behavior are browser-only.                                                                                                                  |
+| Chip            | 5    | 11   | -             | None recorded.                                                                                                                                                                                                 |
+| Color Input     | 8    | 17   | -             | None recorded.                                                                                                                                                                                                 |
+| Combobox        | 11   | 25   | A             | None recorded.                                                                                                                                                                                                 |
+| Command Palette | 8    | 11   | B A           | None recorded.                                                                                                                                                                                                 |
+| Date Picker     | 15   | 14   | A R           | No SSR check although "today" is time-zone dependent (Plan 12).                                                                                                                                                |
+| Dialog          | 10   | 14   | B A R V S     | Touch backdrop tap covered; nested dialogs are not covered.                                                                                                                                                    |
+| Drawer          | 10   | 14   | A             | Focus trap and backdrop only in the replacement page; no touch backdrop tap.                                                                                                                                   |
+| Dropdown        | 16   | 16   | B A R S       | None recorded.                                                                                                                                                                                                 |
+| Empty State     | 2    | 7    | -             | None recorded.                                                                                                                                                                                                 |
+| Field           | 20   | 8    | B A R V S     | `required` renders only an `aria-hidden` marker; the control gets no `aria-required` (Plan 19B).                                                                                                               |
+| File Upload     | 14   | 17   | A!            | Axe `label` (critical) and `nested-interactive` (serious), asserted exactly in both Playgrounds.                                                                                                               |
+| Group           | 4    | 9    | -             | None recorded.                                                                                                                                                                                                 |
+| Icon Button     | 6    | 13   | -             | None recorded.                                                                                                                                                                                                 |
+| Icon            | 12   | 7    | -             | Replacement axe sweep: `scrollable-region-focusable`. Default icons load from a CDN.                                                                                                                           |
+| Input           | 7    | 8    | A R S         | None recorded.                                                                                                                                                                                                 |
+| Link            | 10   | -    | B A R         | No replacement page; only line height is browser-tested.                                                                                                                                                       |
+| Loader          | 1    | 7    | -             | None recorded.                                                                                                                                                                                                 |
+| Media Viewer    | 16   | -    | B A           | No replacement page. Open, Escape and focus return covered; keyboard next/previous, zoom, swipe are not.                                                                                                       |
+| Menu            | 9    | 19   | A!            | Axe `aria-required-parent` (critical) on the library Playground, asserted exactly.                                                                                                                             |
+| Number Input    | 30   | 13   | S             | None recorded.                                                                                                                                                                                                 |
+| OTP Input       | 19   | -    | B A           | No replacement page; no visual, no SSR.                                                                                                                                                                        |
+| Pagination      | 12   | -    | B A R         | No replacement page; no visual.                                                                                                                                                                                |
+| Popover         | 20   | 13   | A S           | None recorded.                                                                                                                                                                                                 |
+| Progress        | 14   | 10   | -             | Replacement axe sweep: `landmark-unique` (moderate).                                                                                                                                                           |
+| Radio           | 2    | 9    | A             | Unit covers host attributes and field ids only.                                                                                                                                                                |
+| Segmented       | 8    | 9    | A             | None recorded.                                                                                                                                                                                                 |
+| Select          | 26   | 23   | B A R V S     | None recorded.                                                                                                                                                                                                 |
+| Separator       | 1    | 4    | -             | Replacement axe sweep: `scrollable-region-focusable`.                                                                                                                                                          |
+| Skeleton        | 1    | 6    | -             | None recorded.                                                                                                                                                                                                 |
+| Slider          | 19   | 11   | A             | None recorded.                                                                                                                                                                                                 |
+| Splitter        | 13   | -    | B, A!         | No replacement page. Axe `aria-valid-attr-value` (critical) and `nested-interactive` (serious), asserted exactly. Pointer and touch drag, vertical orientation and the collapse button are not browser-tested. |
+| Stepper         | 7    | 7    | A             | None recorded.                                                                                                                                                                                                 |
+| Switch          | 2    | 9    | A             | Unit covers host attributes and field ids only.                                                                                                                                                                |
+| Table           | 5    | 9    | A R V S       | None recorded.                                                                                                                                                                                                 |
+| Tabs            | 11   | 6    | A             | None recorded.                                                                                                                                                                                                 |
+| Textarea        | 2    | 8    | A             | Unit covers host attributes and field ids only.                                                                                                                                                                |
+| Time Picker     | 32   | -    | B A R         | No replacement page. Escape from inside the open panel drops focus to `<body>` (fixme, unassigned).                                                                                                            |
+| Toast           | 10   | 12   | B A           | None recorded.                                                                                                                                                                                                 |
+| Tooltip         | 8    | 10   | B A           | None recorded.                                                                                                                                                                                                 |
+| Tree            | 21   | 8    | A             | None recorded.                                                                                                                                                                                                 |
+| Typography      | 2    | -    | -             | No page and no browser or axe evidence at all.                                                                                                                                                                 |
 
 Every replacement page is also covered by a server-response heading check and, since Plan 11, an axe
 sweep. Only Dialog and Select have the held-script hydration check.
@@ -171,11 +182,7 @@ Each item names an owner or says plainly that there is none.
 13. **Dialog lifecycle on route change**: a dialog opened imperatively stays open after its opening
     route is destroyed, and `docs/dialog.md` does not say whether that is intended. A characterization
     test in `tests/e2e/interaction.spec.ts` only guarantees no error. Owner: Plan 12.
-14. **Replacement Playground motion** is chosen per spec file (13 files call
-    `emulateMedia({ reducedMotion })`), not by a project split as in the library suite. Moving it is
-    deferred because it touches every spec and baseline. Owner: Plan 11 follow-up; no other plan
-    depends on it.
-15. **Legacy SSR server** (`projects/playground/src/server.ts`) serves no client scripts. The SSR gate
+14. **Legacy SSR server** (`projects/playground/src/server.ts`) serves no client scripts. The SSR gate
     uses `tools/serve-playground-ssr.mjs` instead; the app server itself is unchanged. Before Plan 11
     the suite ran against the app server, so its "hydrates without console errors" tests never
     hydrated anything.

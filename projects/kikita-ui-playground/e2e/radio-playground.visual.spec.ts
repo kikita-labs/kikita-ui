@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/radio');
 });
 
-test('captures the default native radio group', async ({ page }) => {
+test('captures the default native radio group @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default radio example', exact: true });
   const plan = example.getByRole('group', { name: 'Billing plan', exact: true });
 
@@ -28,7 +28,7 @@ test('captures the default native radio group', async ({ page }) => {
   await expect(example).toHaveScreenshot('radio-default-desktop.png');
 });
 
-test('captures every supported radio size', async ({ page }) => {
+test('captures every supported radio size @visual', async ({ page }) => {
   const sizes = page.getByRole('group', { name: 'Radio sizes', exact: true });
   const explicitSizes = sizes.getByRole('group', { name: 'Explicit sizes', exact: true });
 
@@ -55,7 +55,7 @@ test('captures every supported radio size', async ({ page }) => {
   await expect(sizes).toHaveScreenshot('radio-sizes-desktop.png');
 });
 
-test('captures selection, disabled, and invalid states', async ({ page }) => {
+test('captures selection, disabled, and invalid states @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Radio states', exact: true });
   const selection = states.getByRole('group', { name: 'Selection', exact: true });
   const disabled = states.getByRole('group', { name: 'Disabled options', exact: true });
@@ -86,7 +86,7 @@ test('captures selection, disabled, and invalid states', async ({ page }) => {
   await expect(states).toHaveScreenshot('radio-states-desktop.png');
 });
 
-test('captures radio examples at 320 pixels', async ({ page }) => {
+test('captures radio examples at 320 pixels @visual', async ({ page }) => {
   const captureWidth = 320;
   const captureHeight = 1280;
   await page.setViewportSize({ width: captureWidth, height: captureHeight });
@@ -167,7 +167,7 @@ test('captures radio examples at 320 pixels', async ({ page }) => {
   }
 });
 
-test('moves the native radio selection with arrow keys', async ({ page }) => {
+test('moves the native radio selection with arrow keys @visual', async ({ page }) => {
   const plan = page
     .getByRole('group', { name: 'Default radio example', exact: true })
     .getByRole('group', { name: 'Billing plan', exact: true });
@@ -183,7 +183,9 @@ test('moves the native radio selection with arrow keys', async ({ page }) => {
   });
 });
 
-test('applies the touched-gated Signal Forms error to a native radio group', async ({ page }) => {
+test('applies the touched-gated Signal Forms error to a native radio group @visual', async ({
+  page,
+}) => {
   const states = page.getByRole('group', { name: 'Radio states', exact: true });
   const signalPayment = states.getByRole('group', { name: 'Signal Forms payment', exact: true });
   const card = signalPayment.getByRole('radio', { name: 'Card', exact: true });
@@ -250,7 +252,7 @@ test('switches Radio labels and Signal Forms errors to Russian at runtime', asyn
   await expect(signalError).toHaveText(russian.errors.signalPaymentRequired);
 });
 
-test('captures the real focus-visible radio state', async ({ page }) => {
+test('captures the real focus-visible radio state @visual', async ({ page }) => {
   const starter = page.getByRole('radio', { name: 'Starter' });
   const pro = page.getByRole('radio', { name: 'Professional' });
 
@@ -265,7 +267,7 @@ test('captures the real focus-visible radio state', async ({ page }) => {
   ).toHaveScreenshot('radio-focus-visible.png', { animations: 'disabled' });
 });
 
-test('captures real hover and pressed radio states', async ({ page }) => {
+test('captures real hover and pressed radio states @visual', async ({ page }) => {
   const pro = page.getByRole('radio', { name: 'Professional' });
   const example = page.getByRole('group', { name: 'Default radio example', exact: true });
 

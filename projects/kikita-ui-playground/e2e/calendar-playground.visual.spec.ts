@@ -43,7 +43,7 @@ test('server renders the Calendar route and hydrates its fixed catalogue', async
   ).toBeVisible();
 });
 
-test('captures the default single-date calendar', async ({ page }) => {
+test('captures the default single-date calendar @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default calendar example', exact: true });
   const grid = example.getByRole('grid');
 
@@ -54,7 +54,7 @@ test('captures the default single-date calendar', async ({ page }) => {
   await expect(example).toHaveScreenshot('calendar-default.png');
 });
 
-test('captures compact and flat calendar examples', async ({ page }) => {
+test('captures compact and flat calendar examples @visual', async ({ page }) => {
   await expect(
     page.getByRole('group', { name: 'Compact calendar example', exact: true }),
   ).toHaveScreenshot('calendar-compact.png');
@@ -72,7 +72,7 @@ test('captures compact and flat calendar examples', async ({ page }) => {
   await expect(compactFlatExample).toHaveScreenshot('calendar-compact-flat.png');
 });
 
-test('captures the calendar footer and constrained date states', async ({ page }) => {
+test('captures the calendar footer and constrained date states @visual', async ({ page }) => {
   await expect(
     page.getByRole('group', { name: 'Calendar footer example', exact: true }),
   ).toHaveScreenshot('calendar-footer.png');
@@ -100,7 +100,7 @@ test('captures the calendar footer and constrained date states', async ({ page }
   await expect(example).toHaveScreenshot('calendar-constraints.png');
 });
 
-test('moves the footer calendar to the frozen current day without changing its selected value', async ({
+test('moves the footer calendar to the frozen current day without changing its selected value @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', { name: 'Calendar footer example', exact: true });
@@ -126,13 +126,13 @@ test('moves the footer calendar to the frozen current day without changing its s
   await expect(footerValue).toHaveText('2026-01-14');
 });
 
-test('captures explicit English and Russian locale examples', async ({ page }) => {
+test('captures explicit English and Russian locale examples @visual', async ({ page }) => {
   await expect(
     page.getByRole('group', { name: 'Calendar locale examples', exact: true }),
   ).toHaveScreenshot('calendar-locales.png');
 });
 
-test('captures a date cell in keyboard focus', async ({ page }) => {
+test('captures a date cell in keyboard focus @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default calendar example', exact: true });
   const nextMonth = example.getByRole('button', { name: 'Next month', exact: true });
   const grid = example.getByRole('grid');
@@ -146,7 +146,7 @@ test('captures a date cell in keyboard focus', async ({ page }) => {
   await expect(example).toHaveScreenshot('calendar-focused-day.png', { animations: 'disabled' });
 });
 
-test('captures a hovered date cell', async ({ page }) => {
+test('captures a hovered date cell @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default calendar example', exact: true });
   const day = example.getByRole('grid').getByRole('button', { name: '15', exact: true });
 
@@ -199,7 +199,7 @@ test('moves keyboard focus through week, week edges, month, and year boundaries'
   await expect(june23PreviousYear).toHaveAttribute('aria-selected', 'true');
 });
 
-test('navigates to the next month and selects a date', async ({ page }) => {
+test('navigates to the next month and selects a date @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default calendar example', exact: true });
   const grid = example.getByRole('grid');
 
@@ -333,7 +333,7 @@ test('updates localized page labels and verifies Russian Calendar month and week
   expect(renderedWeek.replace(/\s+/g, ' ').trim()).toBe(expectedWeekdays.join(' '));
 });
 
-test('keeps the calendar catalogue inside tablet and 320px layouts', async ({ page }) => {
+test('keeps the calendar catalogue inside tablet and 320px layouts @visual', async ({ page }) => {
   for (const viewport of [
     { width: 768, height: 1024, name: 'tablet-768' },
     { width: 320, height: 640, name: 'mobile-320' },

@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/color-input');
 });
 
-test('captures the minimally configured color input', async ({ page }) => {
+test('captures the minimally configured color input @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default color input', exact: true });
   const input = example.locator('input[kuiColorInput]');
 
@@ -22,7 +22,7 @@ test('captures the minimally configured color input', async ({ page }) => {
   await expect(example).toHaveScreenshot('color-input-default.png');
 });
 
-test('captures all supported input sizes', async ({ page }) => {
+test('captures all supported input sizes @visual', async ({ page }) => {
   const sizes = page.getByRole('group', { name: 'Color input sizes', exact: true });
 
   const controls = sizes.locator('.kui-color-input');
@@ -35,7 +35,7 @@ test('captures all supported input sizes', async ({ page }) => {
   await expect(sizes).toHaveScreenshot('color-input-sizes.png', { animations: 'disabled' });
 });
 
-test('captures supported hex and OKLCH values', async ({ page }) => {
+test('captures supported hex and OKLCH values @visual', async ({ page }) => {
   const values = page.getByRole('group', { name: 'Color input value formats', exact: true });
 
   const inputs = values.getByRole('textbox');
@@ -45,7 +45,7 @@ test('captures supported hex and OKLCH values', async ({ page }) => {
   await expect(values).toHaveScreenshot('color-input-values.png', { animations: 'disabled' });
 });
 
-test('captures disabled, read-only, and invalid field states', async ({ page }) => {
+test('captures disabled, read-only, and invalid field states @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Color input field states', exact: true });
 
   await expect(states.getByRole('textbox', { name: 'Disabled' })).toBeDisabled();
@@ -76,7 +76,7 @@ test('keeps generated actions unavailable for disabled and read-only inputs', as
   await expect(readonly.locator('..').locator('.kui-color-input__trigger')).toBeHidden();
 });
 
-test('captures the color input focus state', async ({ page }) => {
+test('captures the color input focus state @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Color input field states', exact: true });
   const focusedInput = states.getByRole('textbox', { name: 'Focused' });
 
@@ -87,7 +87,7 @@ test('captures the color input focus state', async ({ page }) => {
   await expect(states).toHaveScreenshot('color-input-focused.png', { animations: 'disabled' });
 });
 
-test('captures the color input hover state', async ({ page }) => {
+test('captures the color input hover state @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Color input field states', exact: true });
   const input = states.getByRole('textbox', { name: 'Read-only' });
 
@@ -96,9 +96,9 @@ test('captures the color input hover state', async ({ page }) => {
   await expect(states).toHaveScreenshot('color-input-hover.png', { animations: 'disabled' });
 });
 
-test('captures keyboard focus on the color picker trigger', async ({ page }) => {
+test('captures keyboard focus on the color picker trigger @visual', async ({ page }) => {
   const values = page.getByRole('group', { name: 'Color input value formats', exact: true });
-  const trigger = values.getByRole('button', { name: 'Choose color: #5b4fe0' }).first();
+  const trigger = hexField(values).getByRole('button', { name: 'Choose color: #5b4fe0' });
 
   await trigger.focus();
   await page.keyboard.press('Shift+Tab');
@@ -111,7 +111,7 @@ test('captures keyboard focus on the color picker trigger', async ({ page }) => 
   });
 });
 
-test('updates the swatch label when a text color value changes', async ({ page }) => {
+test('updates the swatch label when a text color value changes @visual', async ({ page }) => {
   const sizes = page.getByRole('group', { name: 'Color input sizes', exact: true });
   const input = sizes.getByRole('textbox', { name: 'Medium' });
   const swatch = getGeneratedSwatch(input);
@@ -125,9 +125,11 @@ test('updates the swatch label when a text color value changes', async ({ page }
   await expect(sizes).toHaveScreenshot('color-input-edited-value.png', { animations: 'disabled' });
 });
 
-test('marks unsupported text invalid while preserving the last valid swatch', async ({ page }) => {
+test('marks unsupported text invalid while preserving the last valid swatch @visual', async ({
+  page,
+}) => {
   const values = getGroup(page, 'Color input value formats');
-  const input = values.getByRole('textbox').first();
+  const input = hexField(values).getByRole('textbox');
   const swatch = getGeneratedSwatch(input);
 
   await expectBrowserEnhanced(input, 'Choose color: #5b4fe0');
@@ -142,10 +144,10 @@ test('marks unsupported text invalid while preserving the last valid swatch', as
   });
 });
 
-test('opens and captures the Kikita color picker popover', async ({ page }) => {
+test('opens and captures the Kikita color picker popover @visual', async ({ page }) => {
   const values = getGroup(page, 'Color input value formats');
 
-  await values.getByRole('button', { name: 'Choose color: #5b4fe0' }).first().click();
+  await hexField(values).getByRole('button', { name: 'Choose color: #5b4fe0' }).click();
 
   const picker = page.getByRole('dialog');
   await expect(picker).toBeVisible();
@@ -157,7 +159,7 @@ test('opens and captures the Kikita color picker popover', async ({ page }) => {
 
 test('opens the picker from the chevron trigger', async ({ page }) => {
   const values = getGroup(page, 'Color input value formats');
-  const trigger = values.locator('.kui-color-input__trigger').first();
+  const trigger = hexField(values).locator('.kui-color-input__trigger');
 
   await trigger.click();
 
@@ -167,10 +169,10 @@ test('opens the picker from the chevron trigger', async ({ page }) => {
   await expect(trigger).toHaveAttribute('aria-expanded', 'false');
 });
 
-test('changes the 2D lightness and chroma surface with the keyboard', async ({ page }) => {
+test('changes the 2D lightness and chroma surface with the keyboard @visual', async ({ page }) => {
   const values = getGroup(page, 'Color input value formats');
 
-  await values.getByRole('button', { name: 'Choose color: #5b4fe0' }).first().click();
+  await hexField(values).getByRole('button', { name: 'Choose color: #5b4fe0' }).click();
 
   const picker = page.getByRole('slider', { name: 'Lightness and chroma', exact: true });
   const initialValue = await picker.getAttribute('aria-valuetext');
@@ -184,16 +186,18 @@ test('changes the 2D lightness and chroma surface with the keyboard', async ({ p
   });
 });
 
-test('selects a shipped seed preset and commits a valid hex value', async ({ page }) => {
+test('selects a shipped seed preset and commits a valid hex value @visual', async ({ page }) => {
   const values = getGroup(page, 'Color input value formats');
-  const input = values.getByRole('textbox').first();
+  const input = hexField(values).getByRole('textbox');
 
-  await values.getByRole('button', { name: 'Choose color: #5b4fe0' }).first().click();
+  await hexField(values).getByRole('button', { name: 'Choose color: #5b4fe0' }).click();
   const picker = page.getByRole('dialog');
   await picker.getByRole('button', { name: 'Neutral seed: #74736d', exact: true }).click();
 
   await expect(input).toHaveValue('#74736d');
-  await expect(values.getByRole('button', { name: 'Choose color: #74736d' }).first()).toBeVisible();
+  await expect(
+    hexField(values).getByRole('button', { name: 'Choose color: #74736d' }),
+  ).toBeVisible();
   await expect(picker).toHaveScreenshot('color-input-picker-preset.png', {
     animations: 'disabled',
   });
@@ -203,7 +207,9 @@ test('selects a shipped seed preset and commits a valid hex value', async ({ pag
   await hexEditor.press('Tab');
 
   await expect(input).toHaveValue('#27ae60');
-  await expect(values.getByRole('button', { name: 'Choose color: #27ae60' }).first()).toBeVisible();
+  await expect(
+    hexField(values).getByRole('button', { name: 'Choose color: #27ae60' }),
+  ).toBeVisible();
   await expect(picker).toHaveScreenshot('color-input-picker-hex-committed.png', {
     animations: 'disabled',
   });
@@ -213,7 +219,7 @@ test('copies the currently selected hex value', async ({ page }) => {
   const values = getGroup(page, 'Color input value formats');
   await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
 
-  await values.getByRole('button', { name: 'Choose color: #5b4fe0' }).first().click();
+  await hexField(values).getByRole('button', { name: 'Choose color: #5b4fe0' }).click();
   const picker = page.getByRole('dialog');
   await picker.getByRole('button', { name: 'Copy value', exact: true }).click();
 
@@ -249,7 +255,7 @@ test('switches the page scope from English to Russian and back', async ({ page }
   await expect(
     russianValues.getByRole('button', { name: `${russian.actions.swatch}: #5b4fe0`, exact: true }),
   ).toBeVisible();
-  await expect(russianValues.locator('.kui-color-input__trigger').first()).toHaveAccessibleName(
+  await expect(hexField(russianValues).locator('.kui-color-input__trigger')).toHaveAccessibleName(
     'Open color picker',
   );
 
@@ -262,11 +268,11 @@ test('switches the page scope from English to Russian and back', async ({ page }
   const englishValues = getGroup(page, 'Color input value formats');
   await expect(englishValues).toBeVisible();
   await expect(
-    englishValues.getByRole('button', { name: 'Choose color: #5b4fe0', exact: true }).first(),
+    hexField(englishValues).getByRole('button', { name: 'Choose color: #5b4fe0', exact: true }),
   ).toBeVisible();
 });
 
-test('keeps all catalogue groups within a 320px viewport', async ({ page }) => {
+test('keeps all catalogue groups within a 320px viewport @visual', async ({ page }) => {
   const groups = [
     ['Default color input', 'color-input-default-320.png'],
     ['Color input sizes', 'color-input-sizes-320.png'],
@@ -278,6 +284,14 @@ test('keeps all catalogue groups within a 320px viewport', async ({ page }) => {
     await captureMobile(page, getGroup(page, name), screenshot);
   }
 });
+
+/**
+ * The value-format group holds a Hex field followed by an OKLCH field that show the same colour, so
+ * their swatch buttons share an accessible name. The Hex field is always the first child.
+ */
+function hexField(values: Locator): Locator {
+  return values.locator(':scope > kui-field:first-child');
+}
 
 function getGroup(page: Page, accessibleName: string): Locator {
   return page.getByRole('group', { name: accessibleName, exact: true });

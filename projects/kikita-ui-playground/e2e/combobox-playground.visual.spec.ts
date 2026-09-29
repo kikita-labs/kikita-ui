@@ -6,13 +6,13 @@ test.beforeEach(async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Combobox', level: 1 })).toBeVisible();
 });
 
-test('captures the minimally configured default combobox', async ({ page }) => {
+test('captures the minimally configured default combobox @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default combobox example', exact: true });
 
   await expect(example).toHaveScreenshot('combobox-default.png', { animations: 'disabled' });
 });
 
-test('captures local filtering and selection examples', async ({ page }) => {
+test('captures local filtering and selection examples @visual', async ({ page }) => {
   const example = page.getByRole('group', {
     name: 'Local filtering combobox example',
     exact: true,
@@ -21,7 +21,7 @@ test('captures local filtering and selection examples', async ({ page }) => {
   await expect(example).toHaveScreenshot('combobox-filtering.png', { animations: 'disabled' });
 });
 
-test('filters, highlights, and selects a local option', async ({ page }) => {
+test('filters, highlights, and selects a local option @visual', async ({ page }) => {
   const input = page.getByRole('combobox', { name: 'Search people' });
   await input.fill('an');
 
@@ -44,7 +44,7 @@ test('filters, highlights, and selects a local option', async ({ page }) => {
   await expect(listbox).toBeHidden();
 });
 
-test('captures free-input and async-filtering modes', async ({ page }) => {
+test('captures free-input and async-filtering modes @visual', async ({ page }) => {
   const examples = page.getByRole('group', {
     name: 'Free input and async filtering examples',
     exact: true,
@@ -75,13 +75,13 @@ test('async mode filters consumer-provided results', async ({ page }) => {
   await expect(page.getByRole('listbox').getByRole('option', { name: 'Ravi Patel' })).toBeVisible();
 });
 
-test('captures inherited field sizes and control states', async ({ page }) => {
+test('captures inherited field sizes and control states @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Field sizes and states', exact: true });
 
   await expect(example).toHaveScreenshot('combobox-field-states.png', { animations: 'disabled' });
 });
 
-test('captures the focused combobox field state', async ({ page }) => {
+test('captures the focused combobox field state @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Field sizes and states', exact: true });
   const focused = example.getByRole('combobox', { name: 'Focus example', exact: true });
 
@@ -90,7 +90,7 @@ test('captures the focused combobox field state', async ({ page }) => {
   await expect(example).toHaveScreenshot('combobox-focused.png', { animations: 'disabled' });
 });
 
-test('captures the combobox input hover state', async ({ page }) => {
+test('captures the combobox input hover state @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Field sizes and states', exact: true });
   const input = example.getByRole('combobox', { name: 'Focus example', exact: true });
 
@@ -100,7 +100,7 @@ test('captures the combobox input hover state', async ({ page }) => {
   await expect(example).toHaveScreenshot('combobox-hover.png', { animations: 'disabled' });
 });
 
-test('captures a hovered combobox option', async ({ page }) => {
+test('captures a hovered combobox option @visual', async ({ page }) => {
   const input = page.getByRole('combobox', { name: 'Search people' });
   await input.fill('Dan');
 
@@ -111,7 +111,7 @@ test('captures a hovered combobox option', async ({ page }) => {
   await expect(listbox).toHaveScreenshot('combobox-option-hover.png', { animations: 'disabled' });
 });
 
-test('captures loading and clear-action examples', async ({ page }) => {
+test('captures loading and clear-action examples @visual', async ({ page }) => {
   const example = page.getByRole('group', {
     name: 'Loading and clear action examples',
     exact: true,
@@ -120,7 +120,7 @@ test('captures loading and clear-action examples', async ({ page }) => {
   await expect(example).toHaveScreenshot('combobox-affordances.png', { animations: 'disabled' });
 });
 
-test('shows the loading row when the remote results dropdown opens', async ({ page }) => {
+test('shows the loading row when the remote results dropdown opens @visual', async ({ page }) => {
   const example = page.getByRole('group', {
     name: 'Loading and clear action examples',
     exact: true,
@@ -175,7 +175,7 @@ test('exposes native field labeling, validation, disabled, and readonly semantic
   await expect(readonlyInput).toHaveValue('Amelia Novak');
 });
 
-test('gates required Signal Forms errors until touched and clears them after selection', async ({
+test('gates required Signal Forms errors until touched and clears them after selection @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', {
@@ -387,7 +387,7 @@ test('server renders the Combobox route and its translated heading', async ({ pa
   await expect(page.getByRole('heading', { level: 1, name: 'Combobox' })).toBeVisible();
 });
 
-test('keeps the Combobox catalogue within tablet and 320px layouts', async ({ page }) => {
+test('keeps the Combobox catalogue within tablet and 320px layouts @visual', async ({ page }) => {
   for (const viewport of [
     { width: 768, height: 1024, name: 'tablet-768' },
     { width: 320, height: 1440, name: 'mobile-320' },

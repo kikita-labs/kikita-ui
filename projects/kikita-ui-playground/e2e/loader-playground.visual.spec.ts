@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/loader');
 });
 
-test('renders the minimal default and every supported size', async ({ page }) => {
+test('renders the minimal default and every supported size @visual', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'Loader', exact: true })).toBeVisible();
 
   const defaultExample = page.getByRole('group', { name: 'Default Loader example', exact: true });
@@ -33,7 +33,9 @@ test('renders the minimal default and every supported size', async ({ page }) =>
   await expect(sizes).toHaveScreenshot('loader-sizes.png');
 });
 
-test('preserves Loader status semantics in button and field compositions', async ({ page }) => {
+test('preserves Loader status semantics in button and field compositions @visual', async ({
+  page,
+}) => {
   const compositions = page.getByRole('group', { name: 'Loader compositions', exact: true });
   const savingExample = compositions.getByRole('group', {
     name: 'Disabled saving button with Loader',
@@ -63,7 +65,7 @@ test('preserves Loader status semantics in button and field compositions', async
   await expect(compositions).toHaveScreenshot('loader-compositions.png');
 });
 
-test('adds and removes a consumer-owned status through native keyboard actions', async ({
+test('adds and removes a consumer-owned status through native keyboard actions @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', {
@@ -166,7 +168,7 @@ test('renders and hydrates the direct Loader route without console errors', asyn
   expect(consoleErrors).toEqual([]);
 });
 
-test('keeps every catalogue section within desktop, tablet, and 320px viewports', async ({
+test('keeps every catalogue section within desktop, tablet, and 320px viewports @visual', async ({
   page,
 }) => {
   for (const viewport of [

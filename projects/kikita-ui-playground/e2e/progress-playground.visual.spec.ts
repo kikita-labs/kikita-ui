@@ -8,11 +8,12 @@ const matrixColors = ['primary', 'success', 'warning', 'danger', 'neutral'] as c
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize(desktopViewport);
-  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/components/progress');
 });
 
-test('renders the minimal default with progressbar semantics in both themes', async ({ page }) => {
+test('renders the minimal default with progressbar semantics in both themes @visual', async ({
+  page,
+}) => {
   await expect(
     page.getByRole('heading', { level: 1, name: 'Progress', exact: true }),
   ).toBeVisible();
@@ -47,7 +48,7 @@ test('renders the minimal default with progressbar semantics in both themes', as
   await expect(example).toHaveScreenshot('progress-default-320.png');
 });
 
-test('shows every linear color and size combination with the xl thickness fallback', async ({
+test('shows every linear color and size combination with the xl thickness fallback @visual', async ({
   page,
 }) => {
   const matrix = page.getByRole('group', { name: 'Linear progress variants', exact: true });
@@ -92,7 +93,7 @@ test('shows every linear color and size combination with the xl thickness fallba
   }
 });
 
-test('shows every circular color and size combination with the xs geometry fallback', async ({
+test('shows every circular color and size combination with the xs geometry fallback @visual', async ({
   page,
 }) => {
   const matrix = page.getByRole('group', { name: 'Circular progress variants', exact: true });
@@ -141,7 +142,7 @@ test('shows every circular color and size combination with the xs geometry fallb
   }
 });
 
-test('clamps finite values and treats an invalid static value as indeterminate', async ({
+test('clamps finite values and treats an invalid static value as indeterminate @visual', async ({
   page,
 }) => {
   const examples = page.getByRole('group', { name: 'Progress values', exact: true });
@@ -190,7 +191,7 @@ test('clamps finite values and treats an invalid static value as indeterminate',
   await expect(examples).toHaveScreenshot('progress-values-320.png');
 });
 
-test('records the linear reduced-motion cascade gap and disables circular motion under reduce', async ({
+test('records the linear reduced-motion cascade gap and disables circular motion under reduce @visual', async ({
   page,
 }) => {
   await expect
@@ -290,7 +291,9 @@ test('uses indeterminate animations when reduced motion is not requested', async
     .toBe('kui-progress-spin');
 });
 
-test('composes external linear labels and projected circular center content', async ({ page }) => {
+test('composes external linear labels and projected circular center content @visual', async ({
+  page,
+}) => {
   const external = page.getByRole('group', {
     name: 'External linear label composition',
     exact: true,
@@ -326,7 +329,7 @@ test('composes external linear labels and projected circular center content', as
   await expect(compositions).toHaveScreenshot('progress-compositions-320.png');
 });
 
-test('updates the consumer value through real range keyboard input', async ({ page }) => {
+test('updates the consumer value through real range keyboard input @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Consumer-controlled progress', exact: true });
   const slider = example.getByRole('slider', { name: 'Progress value', exact: true });
   const progress = example.getByRole('progressbar', {

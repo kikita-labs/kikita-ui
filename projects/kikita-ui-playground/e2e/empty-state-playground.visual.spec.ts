@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/empty-state');
 });
 
-test('captures the minimally configured default empty state', async ({ page }) => {
+test('captures the minimally configured default empty state @visual', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'Empty State' })).toBeVisible();
 
   const example = page.getByRole('group', { name: 'Default empty state example', exact: true });
@@ -16,7 +16,9 @@ test('captures the minimally configured default empty state', async ({ page }) =
   await expect(example).toHaveScreenshot('empty-state-default.png');
 });
 
-test('captures all documented contexts and their projected decorative icons', async ({ page }) => {
+test('captures all documented contexts and their projected decorative icons @visual', async ({
+  page,
+}) => {
   const catalogue = page.getByRole('group', { name: 'Empty State context variants', exact: true });
   const contexts = [
     ['No data', 'no-data'],
@@ -38,7 +40,9 @@ test('captures all documented contexts and their projected decorative icons', as
   await expect(catalogue).toHaveScreenshot('empty-state-contexts.png');
 });
 
-test('captures each size and activates the projected link by keyboard', async ({ page }) => {
+test('captures each size and activates the projected link by keyboard @visual', async ({
+  page,
+}) => {
   const catalogue = page.getByRole('group', {
     name: 'Empty State size and slot variants',
     exact: true,
@@ -76,7 +80,7 @@ test('captures each size and activates the projected link by keyboard', async ({
   await expect(liveFilterCard).toBeInViewport();
 });
 
-test('captures optional text and action-only compositions', async ({ page }) => {
+test('captures optional text and action-only compositions @visual', async ({ page }) => {
   const catalogue = page.getByRole('group', {
     name: 'Empty State content combinations',
     exact: true,
@@ -124,7 +128,9 @@ test('captures optional text and action-only compositions', async ({ page }) => 
   await expect(catalogue).toHaveScreenshot('empty-state-content-combinations.png');
 });
 
-test('announces no-results and restores matches through its action button', async ({ page }) => {
+test('announces no-results and restores matches through its action button @visual', async ({
+  page,
+}) => {
   const example = page.getByRole('group', { name: 'Live project filter example', exact: true });
   const filter = example.getByRole('searchbox', { name: 'Filter sample projects', exact: true });
   const projectList = example.getByRole('list', { name: 'Matching sample projects', exact: true });
@@ -151,7 +157,7 @@ test('announces no-results and restores matches through its action button', asyn
   await expect(example).toHaveScreenshot('empty-state-live-filter-restored.png');
 });
 
-test('captures compact 320px sections without document overflow', async ({ page }) => {
+test('captures compact 320px sections without document overflow @visual', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 900 });
 
   for (const category of ['Actions', 'Forms', 'Feedback']) {
@@ -217,7 +223,9 @@ test('captures compact 320px sections without document overflow', async ({ page 
   ).toBe(false);
 });
 
-test('captures the tablet size layout at 768px without document overflow', async ({ page }) => {
+test('captures the tablet size layout at 768px without document overflow @visual', async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 768, height: 900 });
 
   const sizes = page.getByRole('group', {

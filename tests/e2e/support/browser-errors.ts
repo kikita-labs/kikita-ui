@@ -13,8 +13,12 @@ export interface BrowserErrorRecord {
 
 /**
  * A browser error that is known and accepted. Every entry must say why, so the allowlist stays a
- * list of justified exceptions instead of a place to hide failures. A pattern that would match
- * every message of a kind is rejected when the allowance is created.
+ * list of justified exceptions instead of a place to hide failures.
+ *
+ * The collector validates an allowance when it is created and throws for: no pattern at all, a blank
+ * reason, a stateful pattern (`g` or `y` flag), and an obvious catch-all pattern, meaning one that
+ * matches the empty string or every string in {@link catchAllProbes}. That is the whole guarantee.
+ * A merely broad pattern such as `/error/i` is not detected and is left to review.
  */
 export interface BrowserErrorAllowance {
   /** Matches the message text. */
@@ -23,6 +27,50 @@ export interface BrowserErrorAllowance {
   readonly url?: RegExp;
   /** Why this message is acceptable and who owns removing the exception. */
   readonly reason: string;
+}
+
+/**
+ * Strings a catch-all pattern cannot avoid matching: a message, an error, a resource failure, a
+ * framework code and two URLs. A pattern that matches all of them is treated as "match everything".
+ */
+export const catchAllProbes: readonly string[] = [
+  'a',
+  'Error: x',
+  'TypeError: Cannot read properties of undefined',
+  'Failed to load resource: the server responded with a status of 500',
+  'NG0500: During hydration Angular expected a text node',
+  'http://127.0.0.1:4310/main.js',
+  'https://example.com/a.js',
+];
+
+/**
+ * Throws when an allowance is not specific enough to be a justified exception.
+ */
+export function assertValidAllowance(allowance: BrowserErrorAllowance): void {
+  if (!allowance.reason.trim()) {
+    throw new Error('Browser error allowance needs a reason.');
+  }
+  if (!allowance.message && !allowance.url) {
+    throw new Error(`Browser error allowance needs a message or url pattern: ${allowance.reason}`);
+  }
+
+  for (const [kind, pattern] of [
+    ['message', allowance.message],
+    ['url', allowance.url],
+  ] as const) {
+    if (!pattern) continue;
+
+    if (pattern.global || pattern.sticky) {
+      throw new Error(
+        `Browser error allowance ${kind} pattern must not use the g or y flag: ${allowance.reason}`,
+      );
+    }
+    if (pattern.test('') || catchAllProbes.every((probe) => pattern.test(probe))) {
+      throw new Error(
+        `Browser error allowance ${kind} pattern ${pattern} matches everything: ${allowance.reason}`,
+      );
+    }
+  }
 }
 
 /**
@@ -49,16 +97,7 @@ export class BrowserErrorCollector {
     page: Page,
     private readonly allowances: readonly BrowserErrorAllowance[] = [],
   ) {
-    for (const allowance of allowances) {
-      if (!allowance.message && !allowance.url) {
-        throw new Error(
-          `Browser error allowance needs a message or url pattern: ${allowance.reason}`,
-        );
-      }
-      if (!allowance.reason.trim()) {
-        throw new Error('Browser error allowance needs a reason.');
-      }
-    }
+    allowances.forEach(assertValidAllowance);
 
     page.on('console', (message) => {
       if (message.type() !== 'error') return;

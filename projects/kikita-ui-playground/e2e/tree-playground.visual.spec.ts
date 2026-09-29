@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/tree');
 });
 
-test('server-renders the localized Tree catalogue and captures its desktop sections', async ({
+test('server-renders the localized Tree catalogue and captures its desktop sections @visual', async ({
   page,
 }) => {
   const response = await page.request.get('/components/tree');
@@ -67,7 +67,7 @@ test('server-renders the localized Tree catalogue and captures its desktop secti
   });
 });
 
-test('captures the real row hover state', async ({ page }) => {
+test('captures the real row hover state @visual', async ({ page }) => {
   const example = getGroup(page, 'Default tree example');
   const tree = getTree(example, 'Workspace tree');
   const workspace = getTreeItem(tree, 'Workspace');
@@ -85,7 +85,7 @@ test('captures the real row hover state', async ({ page }) => {
   });
 });
 
-test('uses display-tree keyboard navigation and the value model', async ({ page }) => {
+test('uses display-tree keyboard navigation and the value model @visual', async ({ page }) => {
   const example = getGroup(page, 'Default tree example');
   const tree = getTree(example, 'Workspace tree');
   const workspace = getTreeItem(tree, 'Workspace');
@@ -172,7 +172,7 @@ test('supports checkable mixed state, keyboard cascade, and a disabled leaf', as
   await expect(disabledCheckbox).not.toBeChecked();
 });
 
-test('loads seeded lazy children once and reports the resolved state', async ({ page }) => {
+test('loads seeded lazy children once and reports the resolved state @visual', async ({ page }) => {
   const example = getGroup(page, 'Lazy loading tree example');
   const tree = getTree(example, 'Lazy loading tree');
   const folder = getTreeItem(tree, 'Loaded on demand');
@@ -290,7 +290,7 @@ test('shows localized labels in Russian and records the untranslated loading nam
   ).toHaveText(russian.status.lazyLoaded);
 });
 
-test('keeps the named Tree catalogue within tablet and 320px layouts', async ({ page }) => {
+test('keeps the named Tree catalogue within tablet and 320px layouts @visual', async ({ page }) => {
   for (const viewport of [
     { width: 768, height: 1024, name: 'tablet-768' },
     { ...mobileViewport, name: 'mobile-320' },

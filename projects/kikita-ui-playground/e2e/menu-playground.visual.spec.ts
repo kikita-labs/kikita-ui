@@ -23,19 +23,19 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/menu');
 });
 
-test('captures the minimally configured default menu example', async ({ page }) => {
+test('captures the minimally configured default menu example @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default action menu example', exact: true });
   await expect(example).toBeVisible();
   await expect(example).toHaveScreenshot('menu-default.png');
 });
 
-test('captures all eight placement and alignment trigger examples', async ({ page }) => {
+test('captures all eight placement and alignment trigger examples @visual', async ({ page }) => {
   const examples = page.getByRole('group', { name: 'Menu placement examples', exact: true });
   await expect(examples.getByRole('button')).toHaveCount(8);
   await expect(examples).toHaveScreenshot('menu-placement.png');
 });
 
-test('captures menu alignment and spacing examples', async ({ page }) => {
+test('captures menu alignment and spacing examples @visual', async ({ page }) => {
   const examples = page.getByRole('group', {
     name: 'Menu alignment and spacing examples',
     exact: true,
@@ -44,12 +44,12 @@ test('captures menu alignment and spacing examples', async ({ page }) => {
   await expect(examples).toHaveScreenshot('menu-spacing.png');
 });
 
-test('captures menu content and item states', async ({ page }) => {
+test('captures menu content and item states @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Menu content and states example', exact: true });
   await expect(example).toHaveScreenshot('menu-content.png');
 });
 
-test('opens the default menu and closes it after a real action', async ({ page }) => {
+test('opens the default menu and closes it after a real action @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default action menu example', exact: true });
   const trigger = example.getByRole('button', { name: 'Actions', exact: true });
   await expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
@@ -161,7 +161,7 @@ test('respects reduced motion while opening and closing the default menu', async
   await expect(trigger).toHaveAttribute('aria-expanded', 'false');
 });
 
-test('captures real pointer hover and pressed menu item states', async ({ page }) => {
+test('captures real pointer hover and pressed menu item states @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default action menu example', exact: true });
   await example.getByRole('button', { name: 'Actions', exact: true }).click();
 
@@ -193,7 +193,7 @@ for (const placement of [
   'Right start',
   'Right end',
 ] as const) {
-  test(`shows the trigger and panel for the ${placement.toLowerCase()} placement`, async ({
+  test(`shows the trigger and panel for the ${placement.toLowerCase()} placement @visual`, async ({
     page,
   }) => {
     const trigger = page.getByRole('button', { name: placement, exact: true });
@@ -208,7 +208,9 @@ for (const placement of [
   });
 }
 
-test('shows alignment, offset, and minimum-width geometry with each trigger', async ({ page }) => {
+test('shows alignment, offset, and minimum-width geometry with each trigger @visual', async ({
+  page,
+}) => {
   const examples = page.getByRole('group', {
     name: 'Menu alignment and spacing examples',
     exact: true,
@@ -251,7 +253,7 @@ test('shows alignment, offset, and minimum-width geometry with each trigger', as
   }
 });
 
-test('opens the content menu and exposes supported item semantics', async ({ page }) => {
+test('opens the content menu and exposes supported item semantics @visual', async ({ page }) => {
   await page.getByRole('button', { name: 'Row actions', exact: true }).click();
 
   const menu = page.getByRole('menu', { name: 'Row actions', exact: true });
@@ -299,7 +301,7 @@ test('navigates with an enabled anchor item and blocks a disabled anchor', async
   await expect(trigger).toBeFocused();
 });
 
-test('supports keyboard navigation, disabled-item skipping, and Escape focus restoration', async ({
+test('supports keyboard navigation, disabled-item skipping, and Escape focus restoration @visual', async ({
   page,
 }) => {
   await waitForPlaygroundClientInteraction(page);
@@ -370,7 +372,9 @@ for (const viewport of [
   { width: 320, height: 844, name: '320' },
   { width: 768, height: 1024, name: '768' },
 ]) {
-  test(`captures the closed catalogue without overflow at ${viewport.name}px`, async ({ page }) => {
+  test(`captures the closed catalogue without overflow at ${viewport.name}px @visual`, async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     if (viewport.width === 320) await collapseMobileSidebar(page);
 
@@ -392,7 +396,7 @@ for (const viewport of [
   });
 }
 
-test('keeps the open default menu in the viewport at 320px', async ({ page }) => {
+test('keeps the open default menu in the viewport at 320px @visual', async ({ page }) => {
   await page.setViewportSize(mobileViewport);
   await collapseMobileSidebar(page);
   await expectNoHorizontalOverflow(page);

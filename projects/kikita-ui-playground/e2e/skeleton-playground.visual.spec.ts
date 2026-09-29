@@ -21,7 +21,9 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/skeleton');
 });
 
-test('renders the default Skeleton and every shape-animation combination', async ({ page }) => {
+test('renders the default Skeleton and every shape-animation combination @visual', async ({
+  page,
+}) => {
   await expect(
     page.getByRole('heading', { level: 1, name: 'Skeleton', exact: true }),
   ).toBeVisible();
@@ -59,7 +61,7 @@ test('renders the default Skeleton and every shape-animation combination', async
   await expect(matrix).toHaveScreenshot('skeleton-shape-animation-matrix.png');
 });
 
-test('keeps Skeleton decorative while the consumer owns the busy-region lifecycle', async ({
+test('keeps Skeleton decorative while the consumer owns the busy-region lifecycle @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', {
@@ -223,7 +225,7 @@ test('renders and hydrates the direct Skeleton route without console errors', as
   expect(runtimeErrors).toEqual([]);
 });
 
-test('keeps all catalogue sections within desktop, tablet, and 320px viewports', async ({
+test('keeps all catalogue sections within desktop, tablet, and 320px viewports @visual', async ({
   page,
 }) => {
   for (const viewport of [

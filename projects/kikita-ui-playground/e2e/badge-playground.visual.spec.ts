@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/badge');
 });
 
-test('captures the minimally configured default badge', async ({ page }) => {
+test('captures the minimally configured default badge @visual', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'Badge' })).toBeVisible();
 
   const example = page.getByRole('group', { name: 'Default badge example', exact: true });
@@ -16,7 +16,7 @@ test('captures the minimally configured default badge', async ({ page }) => {
   await expect(example).toHaveScreenshot('badge-default.png');
 });
 
-test('captures every supported appearance and size combination', async ({ page }) => {
+test('captures every supported appearance and size combination @visual', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1600 });
 
   const matrix = page.getByRole('group', {
@@ -54,7 +54,9 @@ test('captures every supported appearance and size combination', async ({ page }
   await expect(matrix).toHaveScreenshot('badge-appearance-size.png');
 });
 
-test('captures documented semantic host elements and follows the link host', async ({ page }) => {
+test('captures documented semantic host elements and follows the link host @visual', async ({
+  page,
+}) => {
   const hosts = page.getByRole('group', { name: 'Badge host element examples', exact: true });
   const link = hosts.getByRole('link', { name: 'Open badge link', exact: true });
 
@@ -71,7 +73,7 @@ test('captures documented semantic host elements and follows the link host', asy
   await expect(page).toHaveURL(/#badge-playground-title$/);
 });
 
-test('keeps the appearance and size catalogue readable at 320px', async ({ page }) => {
+test('keeps the appearance and size catalogue readable at 320px @visual', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 1800 });
 
   const matrix = page.getByRole('group', {

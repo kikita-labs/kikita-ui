@@ -116,7 +116,9 @@ test('shows per-segment and whole-group disabled behavior', async ({ page }) => 
   }
 });
 
-test('binds Signal Forms validation without losing the enabled selection', async ({ page }) => {
+test('binds Signal Forms validation without losing the enabled selection @visual', async ({
+  page,
+}) => {
   const validation = page.getByRole('group', { name: 'Signal Forms validation', exact: true });
   const group = validation.getByRole('radiogroup', { name: 'Preferred view', exact: true });
   const grid = group.getByRole('radio', { name: 'Grid', exact: true });
@@ -146,7 +148,7 @@ test('binds Signal Forms validation without losing the enabled selection', async
   });
 });
 
-test('uses actual pointer hover, keyboard focus-visible, and supported keyboard selection', async ({
+test('uses actual pointer hover, keyboard focus-visible, and supported keyboard selection @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', { name: 'Selection and touch', exact: true });
@@ -260,7 +262,7 @@ test('fits the catalogue at desktop, tablet, and 320px widths', async ({ page })
   }
 });
 
-test('captures each Segmented example at desktop and 320px', async ({ page }) => {
+test('captures each Segmented example at desktop and 320px @visual', async ({ page }) => {
   for (const [name, desktopScreenshot] of examples) {
     await expect(page.getByRole('group', { name, exact: true })).toHaveScreenshot(
       desktopScreenshot,

@@ -14,9 +14,12 @@ async function setPlaygroundTheme(page: Page, theme: (typeof themes)[number]): P
   /**
    * The header renders two theme toggles side by side (one wired via legacy [selected], one via
    * [formField]) sharing the same underlying state as a live demo -- both have identically-named
-   * "light"/"dark" radios, so pick the first; either one moves both.
+   * "light"/"dark" radios, so target the first toggle explicitly; either one moves both.
    */
-  await page.getByRole('radio', { name: theme, exact: true }).first().click();
+  await page
+    .locator('.header__theme-toggles > kui-segmented:first-child')
+    .getByRole('radio', { name: theme, exact: true })
+    .click();
   await expect(page.locator('html')).toHaveAttribute('data-kui-theme', theme);
 }
 

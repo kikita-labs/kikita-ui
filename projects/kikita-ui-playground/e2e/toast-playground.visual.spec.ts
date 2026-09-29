@@ -153,12 +153,11 @@ test.beforeEach(async ({ page }) => {
     return route.fulfill({ contentType: 'image/svg+xml', body: svg });
   });
   await page.setViewportSize(desktopViewport);
-  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/components/toast');
   await page.clock.install({ time: fixedTime });
 });
 
-test('renders a minimal default toast with live semantics and a narrow layout', async ({
+test('renders a minimal default toast with live semantics and a narrow layout @visual', async ({
   page,
 }) => {
   const copy = await readToastLocale(page, 'en');
@@ -236,7 +235,7 @@ test('renders a minimal default toast with live semantics and a narrow layout', 
   await expect(toast).toHaveCount(0);
 });
 
-test('renders every supported appearance with its current live role', async ({ page }) => {
+test('renders every supported appearance with its current live role @visual', async ({ page }) => {
   const copy = await readToastLocale(page, 'en');
   const cases = [
     {
@@ -300,7 +299,7 @@ test('renders every supported appearance with its current live role', async ({ p
   }
 });
 
-test('uses a native keyboard action and keeps the action toast open', async ({ page }) => {
+test('uses a native keyboard action and keeps the action toast open @visual', async ({ page }) => {
   const copy = await readToastLocale(page, 'en');
   const actionCase = page.getByRole('group', { name: copy.accessibility.actionCase, exact: true });
   await actionCase.getByRole('button', { name: copy.actions.showAction, exact: true }).click();
@@ -317,7 +316,9 @@ test('uses a native keyboard action and keeps the action toast open', async ({ p
   await expectMobileToastScreenshot(page, toast, 'toast-action-activated-320.png');
 });
 
-test('supports a wrapping message and hides an appearance icon on request', async ({ page }) => {
+test('supports a wrapping message and hides an appearance icon on request @visual', async ({
+  page,
+}) => {
   const copy = await readToastLocale(page, 'en');
   const messageCase = page.getByRole('group', {
     name: copy.accessibility.messageCase,
@@ -343,7 +344,7 @@ test('supports a wrapping message and hides an appearance icon on request', asyn
   await expectMobileToastScreenshot(page, noIconToast, 'toast-icon-hidden-320.png');
 });
 
-test('closes a non-closable toast through its returned reference', async ({ page }) => {
+test('closes a non-closable toast through its returned reference @visual', async ({ page }) => {
   const copy = await readToastLocale(page, 'en');
   const noCloseCase = page.getByRole('group', {
     name: copy.accessibility.noCloseCase,
@@ -365,7 +366,7 @@ test('closes a non-closable toast through its returned reference', async ({ page
   await expect(noCloseCase.getByRole('status')).toHaveText(copy.labels.closedByRef);
 });
 
-test('pauses and resumes the actual timed progress toast on hover', async ({ page }) => {
+test('pauses and resumes the actual timed progress toast on hover @visual', async ({ page }) => {
   const copy = await readToastLocale(page, 'en');
   const progressCase = page.getByRole('group', {
     name: copy.accessibility.progressCase,
@@ -402,7 +403,7 @@ test('pauses and resumes the actual timed progress toast on hover', async ({ pag
   await expect(toast).toHaveCount(0);
 });
 
-test('updates and dismisses a signal-controlled toast and enforces the three-toast cap', async ({
+test('updates and dismisses a signal-controlled toast and enforces the three-toast cap @visual', async ({
   page,
 }) => {
   const copy = await readToastLocale(page, 'en');
@@ -482,7 +483,7 @@ test('updates and dismisses a signal-controlled toast and enforces the three-toa
   await expect(region.getByRole('status')).toHaveCount(0);
 });
 
-test('moves the live Toast region to each supported position', async ({ page }) => {
+test('moves the live Toast region to each supported position @visual', async ({ page }) => {
   const copy = await readToastLocale(page, 'en');
   const positions = [
     ['topStart', 'top-start'],
@@ -525,7 +526,7 @@ test('moves the live Toast region to each supported position', async ({ page }) 
   await expect(positionToast).toBeVisible();
 });
 
-test('preserves vertical Toast placement on mobile while collapsing horizontal alignment', async ({
+test('preserves vertical Toast placement on mobile while collapsing horizontal alignment @visual', async ({
   page,
 }) => {
   const copy = await readToastLocale(page, 'en');

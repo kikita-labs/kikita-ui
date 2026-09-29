@@ -102,7 +102,7 @@ test('shows all sizes and Field-owned accessible states', async ({ page }) => {
   );
 });
 
-test('shows Signal Forms errors after touch and preserves invalid state when messages are hidden', async ({
+test('shows Signal Forms errors after touch and preserves invalid state when messages are hidden @visual', async ({
   page,
 }) => {
   const validation = page.getByRole('group', { name: 'Field validation', exact: true });
@@ -175,7 +175,7 @@ test('loads the Field scope in both languages and updates validation copy', asyn
   await expect(validation.getByRole('alert')).toHaveText(translations.errors.required);
 });
 
-test('uses the affix click-to-focus behavior and keyboard-operable clear action', async ({
+test('uses the affix click-to-focus behavior and keyboard-operable clear action @visual', async ({
   page,
 }) => {
   const affixes = page.getByRole('group', { name: 'Field affixes and actions', exact: true });
@@ -224,7 +224,9 @@ test('fits the Field catalogue without page overflow at desktop, tablet, and 320
   }
 });
 
-test('captures each labelled Field catalogue group at desktop and 320px', async ({ page }) => {
+test('captures each labelled Field catalogue group at desktop and 320px @visual', async ({
+  page,
+}) => {
   await expect(
     page
       .getByRole('group', { name: 'Field affixes and actions', exact: true })

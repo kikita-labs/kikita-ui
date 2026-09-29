@@ -158,7 +158,9 @@ test('has no automated accessibility violations with the catalogue and dialogs o
   await expectNoAxeViolations(page, { excludeRules });
 });
 
-test('captures every Popover catalogue group at desktop, tablet, and 320px', async ({ page }) => {
+test('captures every Popover catalogue group at desktop, tablet, and 320px @visual', async ({
+  page,
+}) => {
   const groups = [
     {
       name: 'Default click popover examples',
@@ -262,7 +264,7 @@ test('keeps every Popover trigger at least 44px by 44px at 320px', async ({ page
   }
 });
 
-test('opens all 12 placement and alignment combinations with linked dialog semantics', async ({
+test('opens all 12 placement and alignment combinations with linked dialog semantics @visual', async ({
   page,
 }) => {
   const localeResponse = await page.request.get('/i18n/popover/en.json');
@@ -342,7 +344,9 @@ test('opens all 12 placement and alignment combinations with linked dialog seman
   }
 });
 
-test('flips the preferred placement when it cannot fit below the trigger', async ({ page }) => {
+test('flips the preferred placement when it cannot fit below the trigger @visual', async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 1024, height: 480 });
 
   const group = page.getByRole('group', {
@@ -376,7 +380,7 @@ test('flips the preferred placement when it cannot fit below the trigger', async
   await captureTriggerAndPanel(page, trigger, panel, 'popover-forced-flip-open.png', 0);
 });
 
-test('uses real keyboard focus, Escape, outside dismissal, and focus restoration', async ({
+test('uses real keyboard focus, Escape, outside dismissal, and focus restoration @visual', async ({
   page,
 }) => {
   const group = page.getByRole('group', {
@@ -414,7 +418,7 @@ test('uses real keyboard focus, Escape, outside dismissal, and focus restoration
   await expect(trigger).toBeFocused();
 });
 
-test('keeps the outer click popover open for its own actions and closes from the action', async ({
+test('keeps the outer click popover open for its own actions and closes from the action @visual', async ({
   page,
 }) => {
   const content = page.getByRole('group', {
@@ -450,7 +454,7 @@ test('keeps the outer click popover open for its own actions and closes from the
   });
 });
 
-test('supports the focus-trapped Signal Forms scenario and closes after submit', async ({
+test('supports the focus-trapped Signal Forms scenario and closes after submit @visual', async ({
   page,
 }) => {
   const group = page.getByRole('group', {
@@ -483,13 +487,16 @@ test('supports the focus-trapped Signal Forms scenario and closes after submit',
   });
 });
 
-test('keeps hover content open during trigger-to-panel travel and closes after its delay', async ({
+test('keeps hover content open during trigger-to-panel travel and closes after its delay @visual', async ({
   page,
 }) => {
   const group = page.getByRole('group', { name: 'Popover hover trigger examples', exact: true });
   const trigger = group.getByRole('button', { name: 'Hover for details', exact: true });
   const panel = page.getByRole('dialog', { name: 'Hover details', exact: true });
 
+  // The close delay is the behavior under test, so its timer runs on a controlled clock instead of
+  // a real 80 ms wait racing a real 100 ms delay.
+  await page.clock.install();
   await trigger.hover();
   await expect(panel).toBeVisible();
   await expect(panel).toContainText(
@@ -501,15 +508,17 @@ test('keeps hover content open during trigger-to-panel travel and closes after i
   await panel.hover();
   await expect(panel).toBeVisible();
   await page.mouse.move(1, 1);
-  await page.waitForTimeout(80);
+  await page.clock.runFor(80);
   await expect(panel).toBeVisible();
+  await page.clock.runFor(40);
   await expect(panel).toHaveCount(0);
 
   await tabTo(page, trigger);
   await expect(trigger).toBeFocused();
   await expect(panel).toBeVisible();
   await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-  await page.waitForTimeout(80);
+  // Longer than the hover delay: focus-opened content must not be closed by a hover timer.
+  await page.clock.runFor(150);
   await expect(panel).toBeVisible();
 
   await page.keyboard.press('Tab');
@@ -539,7 +548,7 @@ test('repositions after viewport changes and closes when its anchor scrolls offs
   await expect(panel).toHaveCount(0);
 });
 
-test('shows arrow clearance, uses the configured offset, and respects reduced motion', async ({
+test('shows arrow clearance, uses the configured offset, and respects reduced motion @visual', async ({
   page,
 }) => {
   const defaultGroup = page.getByRole('group', {

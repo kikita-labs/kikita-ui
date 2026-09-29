@@ -68,7 +68,7 @@ test.beforeEach(async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Select', level: 1 })).toBeVisible();
 });
 
-test('captures the Select catalogue groups', async ({ page }) => {
+test('captures the Select catalogue groups @visual', async ({ page }) => {
   const groups = [
     {
       name: 'Default select example',
@@ -215,7 +215,9 @@ test('checks Select accessibility and records the CDK overlay landmark boundary'
   });
 });
 
-test('opens the minimal Select with the keyboard and selects an option', async ({ page }) => {
+test('opens the minimal Select with the keyboard and selects an option @visual', async ({
+  page,
+}) => {
   const example = page.getByRole('group', { name: 'Default select example', exact: true });
   const input = example.getByRole('combobox', { name: 'Role', exact: true });
   await expect(input).toHaveAttribute('aria-haspopup', 'listbox');
@@ -289,7 +291,7 @@ test('supports pointer opening and selection', async ({ page }) => {
   await expect(input).toHaveAttribute('aria-expanded', 'false');
 });
 
-test('captures a real hovered Select option', async ({ page }) => {
+test('captures a real hovered Select option @visual', async ({ page }) => {
   const input = page
     .getByRole('group', { name: 'Default select example', exact: true })
     .getByRole('combobox', { name: 'Role', exact: true });
@@ -369,7 +371,9 @@ test('closes the Select through the option Tab flow', async ({ page }) => {
   await expect(input).toHaveAttribute('aria-expanded', 'false');
 });
 
-test('keeps a multiple Select open while toggling values and clears them', async ({ page }) => {
+test('keeps a multiple Select open while toggling values and clears them @visual', async ({
+  page,
+}) => {
   const example = page.getByRole('group', {
     name: 'Select value and multiple-selection modes',
     exact: true,
@@ -505,7 +509,7 @@ test('distinguishes readonly and disabled from an enabled clearable Select', asy
   await expect(readonly).toHaveAttribute('aria-expanded', 'false');
 });
 
-test('captures actual keyboard focus on the Select control', async ({ page }) => {
+test('captures actual keyboard focus on the Select control @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Select states', exact: true });
   const input = states.getByRole('combobox', { name: 'Focus target', exact: true });
   const field = input.locator('xpath=ancestor::kui-field[1]');
@@ -519,7 +523,7 @@ test('captures actual keyboard focus on the Select control', async ({ page }) =>
   await expect(states).toHaveScreenshot('select-focused.png', { animations: 'disabled' });
 });
 
-test('captures the actual hovered Select control', async ({ page }) => {
+test('captures the actual hovered Select control @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Select states', exact: true });
   const input = states.getByRole('combobox', { name: 'Focus target', exact: true });
 
@@ -532,7 +536,7 @@ test('captures the actual hovered Select control', async ({ page }) => {
   await expect(states).toHaveScreenshot('select-hovered.png', { animations: 'disabled' });
 });
 
-test('captures the default Select in the shell light theme', async ({ page }) => {
+test('captures the default Select in the shell light theme @visual', async ({ page }) => {
   const example = page.getByRole('group', {
     name: 'Default select example',
     exact: true,
@@ -544,7 +548,7 @@ test('captures the default Select in the shell light theme', async ({ page }) =>
   await expect(example).toHaveScreenshot('select-default-light.png', { animations: 'disabled' });
 });
 
-test('touches a required Select when its opened list closes, then clears the error after selection', async ({
+test('touches a required Select when its opened list closes, then clears the error after selection @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', {

@@ -4,6 +4,7 @@ import { gotoReady } from './support/page-ready';
 test('uses composed typography line height for anchor and button links', async ({ page }) => {
   await gotoReady(page, '/link');
   for (const selector of ['a.kui-link', 'button.kui-link']) {
+    // Style-only assertions: the first link of each kind on the page is as good as any other.
     const link = page.locator(selector).first();
     await link.evaluate((element) => {
       const variant = element.getAttribute('data-kui-text-variant');
@@ -121,7 +122,7 @@ test('clicking a kui-field label focuses the first OTP Input cell', async ({ pag
     has: page.getByText('Code from email', { exact: true }),
   });
   const label = field.getByText('Code from email', { exact: true });
-  const firstCell = field.getByRole('textbox', { name: 'Digit 1 of 6' }).first();
+  const firstCell = field.getByRole('textbox', { name: 'Digit 1 of 6' });
 
   await label.click();
   await expect(firstCell).toBeFocused();
@@ -130,7 +131,7 @@ test('clicking a kui-field label focuses the first OTP Input cell', async ({ pag
 test('OTP Input keyboard navigation and paste distribute across cells', async ({ page }) => {
   await gotoReady(page, '/otp-input');
 
-  const group = page.locator('kui-otp-input').first();
+  const group = page.locator('app-panel[num="01"] kui-otp-input');
   const cells = group.locator('input');
 
   await cells.nth(0).focus();
@@ -151,7 +152,7 @@ test('OTP Input keyboard navigation and paste distribute across cells', async ({
       new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true }),
     );
   });
-  await expect(page.locator('.otp-demo__readout code').first()).toHaveText('654321');
+  await expect(page.locator('app-panel[num="01"] .otp-demo__readout code')).toHaveText('654321');
 });
 
 test('Pagination: page clicks, boundary disabling, and rows-per-page reset to page 1', async ({
@@ -159,7 +160,7 @@ test('Pagination: page clicks, boundary disabling, and rows-per-page reset to pa
 }) => {
   await gotoReady(page, '/pagination');
 
-  const readout = page.locator('.pagination-demo__readout code').first();
+  const readout = page.locator('app-panel[num="01"] .pagination-demo__readout code');
   const nav = page.locator('app-panel[num="01"]').getByRole('navigation');
 
   await expect(readout).toHaveText('1');

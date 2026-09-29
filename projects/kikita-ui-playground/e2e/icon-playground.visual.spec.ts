@@ -45,7 +45,7 @@ test('server-renders and hydrates the local named catalogue icon', async ({ page
   expect(runtimeErrors).toEqual([]);
 });
 
-test('captures the minimally configured local brand icon', async ({ page }) => {
+test('captures the minimally configured local brand icon @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default icon example', exact: true });
   const icon = example.locator('kui-icon');
 
@@ -70,7 +70,7 @@ test('captures the minimally configured local brand icon', async ({ page }) => {
   await expect(example).toHaveScreenshot('icon-default.png', { animations: 'disabled' });
 });
 
-test('shows every preset and preserves numeric and CSS string sizes', async ({ page }) => {
+test('shows every preset and preserves numeric and CSS string sizes @visual', async ({ page }) => {
   const catalogue = page.getByRole('group', { name: 'Icon size catalogue', exact: true });
   const presets = catalogue.getByRole('group', { name: 'Icon preset sizes', exact: true });
   const remSize = await page.evaluate(() =>
@@ -139,7 +139,9 @@ test('shows every preset and preserves numeric and CSS string sizes', async ({ p
   });
 });
 
-test('captures registered, direct, image URL, and projected SVG sources', async ({ page }) => {
+test('captures registered, direct, image URL, and projected SVG sources @visual', async ({
+  page,
+}) => {
   const examples = page.getByRole('group', { name: 'Icon source examples', exact: true });
   const registered = examples.getByRole('group', { name: 'Registered name example', exact: true });
   const direct = examples.getByRole('group', { name: 'Direct SVG source example', exact: true });
@@ -167,7 +169,7 @@ test('captures registered, direct, image URL, and projected SVG sources', async 
   });
 });
 
-test('exposes decorative icons as hidden and labeled icons as images', async ({ page }) => {
+test('exposes decorative icons as hidden and labeled icons as images @visual', async ({ page }) => {
   const examples = page.getByRole('group', {
     name: 'Icon accessible name examples',
     exact: true,
@@ -185,7 +187,7 @@ test('exposes decorative icons as hidden and labeled icons as images', async ({ 
   });
 });
 
-test('keeps currentColor icons visible across the shell themes', async ({ page }) => {
+test('keeps currentColor icons visible across the shell themes @visual', async ({ page }) => {
   const examples = page.getByRole('group', { name: 'Icon source examples', exact: true });
 
   await expect(page.locator('html')).toHaveAttribute('data-kui-theme', 'dark');
@@ -200,7 +202,7 @@ test('keeps currentColor icons visible across the shell themes', async ({ page }
   });
 });
 
-test('keeps the catalogue within a 320px viewport', async ({ page }) => {
+test('keeps the catalogue within a 320px viewport @visual', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 760 });
 
   const examples = page.getByRole('group', { name: 'Icon size catalogue', exact: true });

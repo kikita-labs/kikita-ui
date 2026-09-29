@@ -1,4 +1,4 @@
-import { BrowserErrorCollector } from './support/browser-errors';
+import { BrowserErrorCollector, lucideCdnOfflineAllowance } from './support/browser-errors';
 import { expect, test } from './support/fixtures';
 
 /**
@@ -66,15 +66,57 @@ test.describe('browser error harness', () => {
       .toEqual(['known noisy dependency is not the same as an application failure']);
   });
 
-  test('rejects allowances that match everything or give no reason', async ({ context }) => {
+  test('rejects an allowance with no pattern or no reason', async ({ context }) => {
     const probe = await context.newPage();
 
-    expect(() => new BrowserErrorCollector(probe, [{ reason: 'matches anything' }])).toThrow(
+    expect(() => new BrowserErrorCollector(probe, [{ reason: 'no pattern at all' }])).toThrow(
       /message or url pattern/,
     );
     expect(
-      () => new BrowserErrorCollector(probe, [{ message: /anything/, reason: '   ' }]),
+      () => new BrowserErrorCollector(probe, [{ message: /^specific failure$/, reason: '   ' }]),
     ).toThrow(/needs a reason/);
+  });
+
+  // Each of these has a non-empty reason, so only the catch-all rule can reject them.
+  for (const pattern of [/.*/, /[\s\S]*/, /(?:)/, /^/, /./, /.+/s, /\w|\W/]) {
+    test(`rejects the catch-all pattern ${pattern}`, async ({ context }) => {
+      const probe = await context.newPage();
+
+      expect(
+        () =>
+          new BrowserErrorCollector(probe, [{ message: pattern, reason: 'Probe: a real reason.' }]),
+      ).toThrow(/matches everything/);
+      expect(
+        () => new BrowserErrorCollector(probe, [{ url: pattern, reason: 'Probe: a real reason.' }]),
+      ).toThrow(/matches everything/);
+    });
+  }
+
+  test('rejects stateful patterns', async ({ context }) => {
+    const probe = await context.newPage();
+
+    expect(
+      () =>
+        new BrowserErrorCollector(probe, [
+          { message: /^specific failure$/g, reason: 'Probe: a real reason.' },
+        ]),
+    ).toThrow(/g or y flag/);
+  });
+
+  test('accepts narrow patterns, including the Lucide CDN exception', async ({ context }) => {
+    const probe = await context.newPage();
+
+    expect(
+      () =>
+        new BrowserErrorCollector(probe, [
+          lucideCdnOfflineAllowance,
+          {
+            message: /^known noisy dependency:/,
+            reason: 'Probe: a documented third-party message.',
+          },
+          { url: /^https:\/\/cdn\.example\.com\//, reason: 'Probe: a specific host.' },
+        ]),
+    ).not.toThrow();
   });
 
   // The fixture asserts at teardown. `test.fail()` makes this test pass only when that teardown

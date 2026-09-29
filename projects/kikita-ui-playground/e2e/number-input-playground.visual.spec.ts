@@ -287,7 +287,7 @@ test('repeats generated-button stepping after the hold delay and stops on releas
   await expect(input).toHaveValue('4');
 });
 
-test('captures real stepper hover and keyboard focus states', async ({ page }) => {
+test('captures real stepper hover and keyboard focus states @visual', async ({ page }) => {
   const defaultExample = page.getByRole('group', {
     name: 'Default Number Input example',
     exact: true,
@@ -312,7 +312,7 @@ test('captures real stepper hover and keyboard focus states', async ({ page }) =
   });
 });
 
-test('captures the real pressed state for split and stacked steppers', async ({ page }) => {
+test('captures the real pressed state for split and stacked steppers @visual', async ({ page }) => {
   const variants = page.getByRole('group', { name: 'Number Input variants', exact: true });
   const examples = [
     {
@@ -354,7 +354,7 @@ test('captures the real pressed state for split and stacked steppers', async ({ 
   }
 });
 
-test('moves Signal Forms validation from untouched through bounds to corrected', async ({
+test('moves Signal Forms validation from untouched through bounds to corrected @visual', async ({
   page,
 }) => {
   const validation = page.getByRole('group', {
@@ -492,7 +492,9 @@ test('keeps the complete state grid within the 320px workspace', async ({ page }
   expect(statesHeight).toBeLessThanOrEqual(workspaceHeight);
 });
 
-test('captures each Number Input catalogue group at desktop and 320px', async ({ page }) => {
+test('captures each Number Input catalogue group at desktop and 320px @visual', async ({
+  page,
+}) => {
   for (const [name, desktopScreenshot] of catalogueExamples) {
     await expect(page.getByRole('group', { name, exact: true })).toHaveScreenshot(
       desktopScreenshot,

@@ -223,7 +223,9 @@ test('fills a native range to 100% when max is zero', async ({ page }) => {
     .toBe('100%');
 });
 
-test('uses native range keyboard behavior inside a Signal Forms field', async ({ page }) => {
+test('uses native range keyboard behavior inside a Signal Forms field @visual', async ({
+  page,
+}) => {
   const formExample = page.getByRole('group', {
     name: 'Slider Signal Forms example',
     exact: true,
@@ -247,7 +249,7 @@ test('uses native range keyboard behavior inside a Signal Forms field', async ({
   });
 });
 
-test('shows the value tooltip on hover and static tooltip on hover and keyboard focus', async ({
+test('shows the value tooltip on hover and static tooltip on hover and keyboard focus @visual', async ({
   page,
 }) => {
   const tooltips = page.getByRole('group', { name: 'Slider tooltip examples', exact: true });
@@ -356,7 +358,7 @@ test('respects reduced motion for the thumb and shared tooltip', async ({ page }
     .toBe('none');
 });
 
-test('fits the complete catalogue at desktop, tablet, and 320px', async ({ page }) => {
+test('fits the complete catalogue at desktop, tablet, and 320px @visual', async ({ page }) => {
   for (const [name, width, height] of [
     ['desktop', 1440, 1000],
     ['tablet', 768, 1024],
@@ -419,7 +421,7 @@ test('records that the native range remains below the touch target size at 320px
   }
 });
 
-test('captures the color catalogue in the light shell theme', async ({ page }) => {
+test('captures the color catalogue in the light shell theme @visual', async ({ page }) => {
   await page.getByRole('button', { name: 'Switch to light theme', exact: true }).click();
   await expect(page.locator('html')).toHaveAttribute('data-kui-theme', 'light');
   await expect(

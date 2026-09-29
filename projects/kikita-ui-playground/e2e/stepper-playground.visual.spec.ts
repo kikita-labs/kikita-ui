@@ -9,7 +9,9 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/components/stepper');
 });
 
-test('renders the minimal horizontal default in both themes and at 320px', async ({ page }) => {
+test('renders the minimal horizontal default in both themes and at 320px @visual', async ({
+  page,
+}) => {
   await expect(page.getByRole('heading', { level: 1, name: 'Stepper', exact: true })).toBeVisible();
 
   const example = page.getByRole('group', { name: 'Default horizontal stepper', exact: true });
@@ -37,7 +39,7 @@ test('renders the minimal horizontal default in both themes and at 320px', async
   await expect(example).toHaveScreenshot('stepper-default-320.png', { animations: 'disabled' });
 });
 
-test('changes the controlled linear model with consumer controls and a keyboard step button', async ({
+test('changes the controlled linear model with consumer controls and a keyboard step button @visual', async ({
   page,
 }) => {
   const example = page.getByRole('group', { name: 'Linear navigation stepper', exact: true });
@@ -80,7 +82,7 @@ test('changes the controlled linear model with consumer controls and a keyboard 
   await expect(items.nth(0)).toHaveAttribute('aria-current', 'step');
 });
 
-test('shows vertical descriptions and all supported sizes', async ({ page }) => {
+test('shows vertical descriptions and all supported sizes @visual', async ({ page }) => {
   const vertical = page.getByRole('group', {
     name: 'Vertical stepper with descriptions',
     exact: true,
@@ -120,7 +122,9 @@ test('shows vertical descriptions and all supported sizes', async ({ page }) => 
   await expect(sizes).toHaveScreenshot('stepper-sizes-320.png', { animations: 'disabled' });
 });
 
-test('distinguishes explicit disabled from error-derived disabled steps', async ({ page }) => {
+test('distinguishes explicit disabled from error-derived disabled steps @visual', async ({
+  page,
+}) => {
   const disabled = page.getByRole('group', {
     name: 'Stepper with an explicitly disabled step',
     exact: true,
@@ -148,7 +152,7 @@ test('distinguishes explicit disabled from error-derived disabled steps', async 
   await expect(error).toHaveScreenshot('stepper-error-cleared.png', { animations: 'disabled' });
 });
 
-test('keeps compact step names accessible while showing dots only', async ({ page }) => {
+test('keeps compact step names accessible while showing dots only @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Compact step progress', exact: true });
   const list = example.getByRole('list', { name: 'Progress', exact: true });
 
@@ -172,7 +176,9 @@ test('keeps compact step names accessible while showing dots only', async ({ pag
   await expect(example).toHaveScreenshot('stepper-compact.png', { animations: 'disabled' });
 });
 
-test('allows an upcoming jump and completed-step return in non-linear mode', async ({ page }) => {
+test('allows an upcoming jump and completed-step return in non-linear mode @visual', async ({
+  page,
+}) => {
   const example = page.getByRole('group', {
     name: 'Non-linear navigation stepper',
     exact: true,
@@ -219,7 +225,11 @@ test('server-renders, hydrates, and switches the Stepper translation scope', asy
 
   const heading = page.locator('#stepper-playground-title');
   await expect(heading).toHaveText('Stepper');
-  await expect(page.getByRole('list', { name: 'Progress', exact: true }).first()).toBeVisible();
+  await expect(
+    page
+      .getByRole('group', { name: 'Default horizontal stepper', exact: true })
+      .getByRole('list', { name: 'Progress', exact: true }),
+  ).toBeVisible();
 
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await page.getByRole('button', { name: 'Switch language to Russian', exact: true }).click();

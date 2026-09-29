@@ -77,7 +77,7 @@ test('loads the Chip scope and updates generated remove labels when switching to
   ).toBeVisible();
 });
 
-test('shows the minimally configured default Chip', async ({ page }) => {
+test('shows the minimally configured default Chip @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default chip example', exact: true });
   const chip = example.getByText('Design', { exact: true });
 
@@ -90,7 +90,7 @@ test('shows the minimally configured default Chip', async ({ page }) => {
   await captureMobile(page, example, 'chip-default-320.png');
 });
 
-test('shows every Chip appearance and size combination', async ({ page }) => {
+test('shows every Chip appearance and size combination @visual', async ({ page }) => {
   const matrix = page.getByRole('group', {
     name: 'Chip appearance and size variants',
     exact: true,
@@ -118,7 +118,9 @@ test('shows every Chip appearance and size combination', async ({ page }) => {
   await captureMobile(page, matrix, 'chip-appearance-size-320.png');
 });
 
-test('removes generated and custom Chip actions through consumer state', async ({ page }) => {
+test('removes generated and custom Chip actions through consumer state @visual', async ({
+  page,
+}) => {
   const examples = page.getByRole('group', { name: 'Chip removal examples', exact: true });
   const generated = examples.getByRole('group', { name: 'Generated remove buttons', exact: true });
   const custom = examples.getByRole('group', { name: 'Custom remove buttons', exact: true });
@@ -237,7 +239,9 @@ test('removes generated and custom Chip actions through consumer state', async (
   });
 });
 
-test('shows disabled and invalid states without adding form semantics', async ({ page }) => {
+test('shows disabled and invalid states without adding form semantics @visual', async ({
+  page,
+}) => {
   const states = page.getByRole('group', { name: 'Chip state examples', exact: true });
   const disabledChip = states.getByText('Disabled', { exact: true });
   const disabledButton = states.getByRole('button', { name: 'Disabled action', exact: true });
@@ -255,7 +259,7 @@ test('shows disabled and invalid states without adding form semantics', async ({
   await captureMobile(page, states, 'chip-states-320.png');
 });
 
-test('shows projected icon, avatar, and long-label composition', async ({ page }) => {
+test('shows projected icon, avatar, and long-label composition @visual', async ({ page }) => {
   const composition = page.getByRole('group', {
     name: 'Chip composition examples',
     exact: true,
@@ -308,7 +312,7 @@ test('preserves native button and link behavior for interactive Chips', async ({
   ).toBeInViewport();
 });
 
-test('captures real keyboard focus-visible on an interactive Chip', async ({ page }) => {
+test('captures real keyboard focus-visible on an interactive Chip @visual', async ({ page }) => {
   const examples = page.getByRole('group', {
     name: 'Chip native interactive host examples',
     exact: true,
@@ -333,7 +337,7 @@ test('captures real keyboard focus-visible on an interactive Chip', async ({ pag
   });
 });
 
-test('captures real pointer hover on a generated Chip remove button', async ({ page }) => {
+test('captures real pointer hover on a generated Chip remove button @visual', async ({ page }) => {
   const examples = page.getByRole('group', { name: 'Chip removal examples', exact: true });
   const generated = examples.getByRole('group', { name: 'Generated remove buttons', exact: true });
   const removeButton = generated.getByRole('button', { name: 'Remove Design', exact: true });
@@ -371,7 +375,9 @@ test('captures real pointer hover on a generated Chip remove button', async ({ p
   });
 });
 
-test('captures real pointer hover and pressed states on an interactive Chip', async ({ page }) => {
+test('captures real pointer hover and pressed states on an interactive Chip @visual', async ({
+  page,
+}) => {
   const examples = page.getByRole('group', {
     name: 'Chip native interactive host examples',
     exact: true,

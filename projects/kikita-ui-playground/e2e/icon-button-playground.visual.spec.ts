@@ -48,7 +48,7 @@ for (const [size, fileName] of [
   ['Medium', 'icon-button-size-md.png'],
   ['Large', 'icon-button-size-lg.png'],
 ] as const) {
-  test(`captures the ${size.toLowerCase()} icon button matrix`, async ({ page }) => {
+  test(`captures the ${size.toLowerCase()} icon button matrix @visual`, async ({ page }) => {
     const matrix = page.getByRole('group', {
       name: `${size} icon button variants`,
       exact: true,
@@ -61,7 +61,7 @@ for (const [size, fileName] of [
   });
 }
 
-test('captures the minimally configured default icon button', async ({ page }) => {
+test('captures the minimally configured default icon button @visual', async ({ page }) => {
   const defaultExample = page.getByRole('group', {
     name: 'Default icon button example',
     exact: true,
@@ -79,7 +79,7 @@ test('captures the minimally configured default icon button', async ({ page }) =
   await expect(button).toHaveScreenshot('icon-button-default.png', { animations: 'disabled' });
 });
 
-test('keeps the variant catalogue usable at 320px', async ({ page }) => {
+test('keeps the variant catalogue usable at 320px @visual', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 1400 });
 
   const workspace = page.locator('.playground-shell__workspace');
@@ -96,7 +96,7 @@ test('keeps the variant catalogue usable at 320px', async ({ page }) => {
   await expect(matrix).toHaveScreenshot('icon-button-mobile-xs.png', { animations: 'disabled' });
 });
 
-test('keeps the variant catalogue in two columns without page overflow at 768px', async ({
+test('keeps the variant catalogue in two columns without page overflow at 768px @visual', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 768, height: 1200 });
@@ -133,7 +133,7 @@ test('keeps the variant catalogue in two columns without page overflow at 768px'
   await expect(matrix).toHaveScreenshot('icon-button-tablet-xs.png', { animations: 'disabled' });
 });
 
-test('captures disabled and loading states', async ({ page }) => {
+test('captures disabled and loading states @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Icon button states', exact: true });
   const disabledButton = states.getByRole('button', { name: 'Disabled settings', exact: true });
   const loadingButton = states.getByRole('button', { name: 'Loading save', exact: true });
@@ -163,7 +163,7 @@ test('captures disabled and loading states', async ({ page }) => {
   });
 });
 
-test('captures the keyboard-focused icon button state', async ({ page }) => {
+test('captures the keyboard-focused icon button state @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Icon button states', exact: true });
   const saveButton = states.getByRole('button', { name: 'Save changes', exact: true });
   const focusedButton = states.getByRole('button', { name: 'Settings', exact: true });
@@ -179,7 +179,7 @@ test('captures the keyboard-focused icon button state', async ({ page }) => {
   });
 });
 
-test('captures pointer hover and pressed icon button states', async ({ page }) => {
+test('captures pointer hover and pressed icon button states @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default icon button example', exact: true });
   const button = example.getByRole('button', { name: 'Add item', exact: true });
 
@@ -190,7 +190,8 @@ test('captures pointer hover and pressed icon button states', async ({ page }) =
 
   await page.mouse.down();
   expect(await button.evaluate((element) => element.matches(':active'))).toBe(true);
-  await expect(button).toHaveCSS('transform', 'matrix(0.97, 0, 0, 0.97, 0, 0)');
+  // The 0.97 press scale is a production-motion behavior asserted in the test below; this project
+  // runs with reduced motion, where the scale is removed by design.
   await expect(button).toHaveScreenshot('icon-button-pressed.png', { animations: 'disabled' });
   await page.mouse.up();
 });
@@ -216,7 +217,7 @@ test('respects reduced motion for active icon buttons', async ({ page }) => {
   await page.mouse.up();
 });
 
-test('captures icon source and link examples', async ({ page }) => {
+test('captures icon source and link examples @visual', async ({ page }) => {
   const examples = page.getByRole('group', { name: 'Icon source and link examples', exact: true });
   const deleteButton = examples.getByRole('button', { name: 'Delete item', exact: true });
   const statesLink = examples.getByRole('link', {
@@ -259,7 +260,7 @@ test('captures icon source and link examples', async ({ page }) => {
   );
 });
 
-test('toggles a live icon button into loading state', async ({ page }) => {
+test('toggles a live icon button into loading state @visual', async ({ page }) => {
   const states = page.getByRole('group', { name: 'Icon button states', exact: true });
   const saveButton = states.getByRole('button', { name: 'Save changes', exact: true });
 

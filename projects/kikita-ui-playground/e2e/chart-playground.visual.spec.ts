@@ -51,7 +51,7 @@ test('server-renders the Chart catalogue and hydrates without console errors', a
   expect(consoleErrors).toEqual([]);
 });
 
-test('renders the minimal line chart with defaults and captures it', async ({ page }) => {
+test('renders the minimal line chart with defaults and captures it @visual', async ({ page }) => {
   const example = getGroup(page, 'Minimal chart');
   const chart = getChart(example, 'Sessions per weekday');
 
@@ -67,7 +67,7 @@ test('renders the minimal line chart with defaults and captures it', async ({ pa
   await expect(example).toHaveScreenshot('chart-minimal-desktop.png', { animations: 'disabled' });
 });
 
-test('renders the minimal Chart example in the light theme', async ({ page }) => {
+test('renders the minimal Chart example in the light theme @visual', async ({ page }) => {
   const example = getGroup(page, 'Minimal chart');
   const chart = getChart(example, 'Sessions per weekday');
 
@@ -85,7 +85,9 @@ test('renders the minimal Chart example in the light theme', async ({ page }) =>
   });
 });
 
-test('renders line and area variants and toggles series through the legend', async ({ page }) => {
+test('renders line and area variants and toggles series through the legend @visual', async ({
+  page,
+}) => {
   const example = getGroup(page, 'Line and area');
   const three = getGroup(example, 'Line, three series');
   const chart = getChart(three, 'Sessions, sign-ups, and trials per weekday');
@@ -144,7 +146,7 @@ test('renders line and area variants and toggles series through the legend', asy
   });
 });
 
-test('renders bar orientation and stacking and recomputes only stacked bars on hide', async ({
+test('renders bar orientation and stacking and recomputes only stacked bars on hide @visual', async ({
   page,
 }) => {
   const example = getGroup(page, 'Bar orientation and stacking');
@@ -213,7 +215,7 @@ test('renders bar orientation and stacking and recomputes only stacked bars on h
   );
 });
 
-test('renders scatter and bubble charts', async ({ page }) => {
+test('renders scatter and bubble charts @visual', async ({ page }) => {
   const example = getGroup(page, 'Scatter and bubble');
 
   const scatter = getChart(getGroup(example, 'Scatter, two series'), 'Age and income by plan');
@@ -245,7 +247,7 @@ test('renders scatter and bubble charts', async ({ page }) => {
   });
 });
 
-test('renders donut slices and re-partitions when a slice is hidden', async ({ page }) => {
+test('renders donut slices and re-partitions when a slice is hidden @visual', async ({ page }) => {
   const example = getGroup(page, 'Donut and slices');
 
   const three = getGroup(example, 'Three slices');
@@ -277,7 +279,7 @@ test('renders donut slices and re-partitions when a slice is hidden', async ({ p
   await expect(example).toHaveScreenshot('chart-donut-desktop.png', { animations: 'disabled' });
 });
 
-test('shows axis and grid-line configurations', async ({ page }) => {
+test('shows axis and grid-line configurations @visual', async ({ page }) => {
   const example = getGroup(page, 'Axes and grid lines');
 
   const defaults = getChart(
@@ -320,7 +322,7 @@ test('shows axis and grid-line configurations', async ({ page }) => {
   await expect(example).toHaveScreenshot('chart-axes-desktop.png', { animations: 'disabled' });
 });
 
-test('applies nominal sizes to every chart type', async ({ page }) => {
+test('applies nominal sizes to every chart type @visual', async ({ page }) => {
   const example = getGroup(page, 'Sizes');
   const dimensions = { sm: '0 0 320 200', md: '0 0 480 280', lg: '0 0 640 360' } as const;
   const donutDimensions = { sm: '0 0 200 200', md: '0 0 280 280', lg: '0 0 360 360' } as const;
@@ -346,7 +348,7 @@ test('applies nominal sizes to every chart type', async ({ page }) => {
   await expect(example).toHaveScreenshot('chart-sizes-desktop.png', { animations: 'disabled' });
 });
 
-test('shows loading skeletons and empty compositions for every type', async ({ page }) => {
+test('shows loading skeletons and empty compositions for every type @visual', async ({ page }) => {
   const example = getGroup(page, 'Loading and empty');
   const loadingRow = getGroup(example, 'Charts in loading state');
   const emptyRow = getGroup(example, 'Charts in empty state');
@@ -359,7 +361,7 @@ test('shows loading skeletons and empty compositions for every type', async ({ p
   await expect(example).toHaveScreenshot('chart-states-desktop.png', { animations: 'disabled' });
 });
 
-test('formats values and tooltips with consumer formatters', async ({ page }) => {
+test('formats values and tooltips with consumer formatters @visual', async ({ page }) => {
   const example = getGroup(page, 'Tooltip and value formatting');
 
   const currency = getChart(
@@ -424,7 +426,7 @@ test('shows a shared tooltip on pointer hover and keyboard focus', async ({ page
   await expect(tooltip).toHaveCount(0);
 });
 
-test('enters a chart at its roving tab stop, shows the focus tooltip, and leaves with Tab', async ({
+test('enters a chart at its roving tab stop, shows the focus tooltip, and leaves with Tab @visual', async ({
   page,
 }) => {
   const example = getGroup(page, 'Minimal chart');
@@ -498,7 +500,9 @@ test.fixme('moves DOM focus to the adjacent mark on ArrowRight', async ({ page }
   await expect(marks.nth(1)).toBeFocused();
 });
 
-test('supports automatic, disabled, forced, standalone, and custom legends', async ({ page }) => {
+test('supports automatic, disabled, forced, standalone, and custom legends @visual', async ({
+  page,
+}) => {
   const example = getGroup(page, 'Legend');
 
   await expect(example).toHaveScreenshot('chart-legend-desktop.png', { animations: 'disabled' });
@@ -541,7 +545,7 @@ test('supports automatic, disabled, forced, standalone, and custom legends', asy
   });
 });
 
-test('switches every chart type to its exact-value alternative table and back', async ({
+test('switches every chart type to its exact-value alternative table and back @visual', async ({
   page,
 }) => {
   const example = getGroup(page, 'Alternative table');
@@ -621,12 +625,14 @@ test('shows Russian page copy and translated chart data after a runtime language
 
   // Chart's own built-in strings ("Table", "No data", "Loading chart") are not localizable yet.
   await expect(minimal.getByRole('button', { name: 'Table', exact: true })).toBeVisible();
-  await expect(
-    getGroup(page, russian.examples.states).getByText('No data', { exact: true }).first(),
-  ).toBeVisible();
+  const noData = getGroup(page, russian.examples.states).getByText('No data', { exact: true });
+  await expect(noData).not.toHaveCount(0);
+  for (const label of await noData.all()) {
+    await expect(label).toBeVisible();
+  }
 });
 
-test('keeps the Chart catalogue within tablet and 320px layouts', async ({ page }) => {
+test('keeps the Chart catalogue within tablet and 320px layouts @visual', async ({ page }) => {
   for (const viewport of [
     { ...tabletViewport, name: 'tablet-768' },
     { ...mobileViewport, name: 'mobile-320' },

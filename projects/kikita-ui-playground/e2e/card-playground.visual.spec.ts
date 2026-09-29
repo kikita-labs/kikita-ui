@@ -74,7 +74,7 @@ test('loads the Card scope and switches its accessible names to Russian', async 
   ).toBeVisible();
 });
 
-test('captures the minimally configured default card', async ({ page }) => {
+test('captures the minimally configured default card @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default card example', exact: true });
   const defaultCard = example.getByRole('article', { name: 'Grouped content', exact: true });
 
@@ -115,7 +115,7 @@ test('updates every Card appearance in light theme and restores dark theme', asy
   await expect.poll(readBackgrounds).toEqual(darkBackgrounds);
 });
 
-test('captures all non-interactive appearance and size combinations', async ({ page }) => {
+test('captures all non-interactive appearance and size combinations @visual', async ({ page }) => {
   const matrix = page.getByRole('group', { name: staticMatrixName, exact: true });
   const cards = matrix.getByRole('article', {
     name: /^(?:Surface|Elevated|Sunken) (?:Extra small|Small|Medium|Large)$/,
@@ -150,7 +150,7 @@ test('captures all non-interactive appearance and size combinations', async ({ p
   );
 });
 
-test('captures all interactive appearance and size combinations', async ({ page }) => {
+test('captures all interactive appearance and size combinations @visual', async ({ page }) => {
   const matrix = page.getByRole('group', { name: interactiveMatrixName, exact: true });
   const buttons = matrix.getByRole('button');
 
@@ -194,7 +194,7 @@ test('captures all interactive appearance and size combinations', async ({ page 
   );
 });
 
-test('captures native semantic hosts and composition', async ({ page }) => {
+test('captures native semantic hosts and composition @visual', async ({ page }) => {
   const examples = page.getByRole('group', {
     name: 'Card semantic host and composition examples',
     exact: true,
@@ -273,7 +273,7 @@ test('activates the native button-host card with Enter and Space', async ({ page
   await expect(status).toHaveText('Card action activation count: 2');
 });
 
-test('captures keyboard focus-visible on an interactive card', async ({ page }) => {
+test('captures keyboard focus-visible on an interactive card @visual', async ({ page }) => {
   const matrix = page.getByRole('group', { name: interactiveMatrixName, exact: true });
   const button = matrix.getByRole('button', { name: /Surface Extra small Activate card/ });
 
@@ -296,7 +296,7 @@ test('captures keyboard focus-visible on an interactive card', async ({ page }) 
   });
 });
 
-test('captures pointer hover on an interactive card', async ({ page }) => {
+test('captures pointer hover on an interactive card @visual', async ({ page }) => {
   const matrix = page.getByRole('group', { name: interactiveMatrixName, exact: true });
   const button = matrix.getByRole('button', { name: /Surface Extra small Activate card/ });
   const borderColors = await button.evaluate((element) => {
@@ -357,7 +357,7 @@ test('disables Card transitions when reduced motion is requested', async ({ page
     .toBe('none');
 });
 
-test('activating a button-host card announces the consumer action', async ({ page }) => {
+test('activating a button-host card announces the consumer action @visual', async ({ page }) => {
   const examples = page.getByRole('group', {
     name: 'Card semantic host and composition examples',
     exact: true,
