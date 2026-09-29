@@ -24,6 +24,8 @@ test.describe('Select selection and disabled options', () => {
 
     const disabledOption = listbox.getByRole('option', { name: /Carol Okonkwo/ });
     await expect(disabledOption).toHaveAttribute('aria-disabled', 'true');
+    // `force` skips the stability check, so let the open animation finish before clicking.
+    await settleAnimations(page);
     await disabledOption.click({ force: true });
     await expect(readout).toHaveText('value: null');
     await expect(listbox).toBeVisible();

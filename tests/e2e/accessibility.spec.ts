@@ -1,4 +1,4 @@
-import { collectAxeViolations, expectNoAxeViolations } from './support/axe';
+import { collectAxeViolations } from './support/axe';
 import { expect, test } from './support/fixtures';
 import { gotoReady } from './support/page-ready';
 
@@ -45,12 +45,26 @@ const routes = [
 ];
 
 /**
- * Routes where axe reports violations that are not fixed yet, with the exact rule ids expected. A
- * new rule fails the route, and fixing one fails it too until this list is updated, so the list
- * cannot go stale. Found by Plan 11 on 2026-09-29. Fixing component or demo markup is outside Plan
- * 11 and none of these has an owner yet; each needs a focused accessibility slice.
+ * Rule ids axe reports today, by route. A route that is not listed must report nothing. A new rule
+ * fails its route, and fixing one fails it too until this list is updated, so the list cannot go
+ * stale. Found by Plan 11 on 2026-09-30 by removing the earlier blanket rule exclusions, which had
+ * been hiding these. Fixing component or demo markup is outside Plan 11 and none of these has a
+ * confirmed owner yet (see `docs/browser-test-coverage.md`).
  */
 const knownViolations: Record<string, readonly string[]> = {
+  '/tokens': ['aria-prohibited-attr', 'empty-table-header', 'scrollable-region-focusable'],
+  '/field': ['empty-table-header', 'label-title-only'],
+  '/input': ['empty-table-header'],
+  '/table': ['scrollable-region-focusable'],
+  '/otp-input': ['empty-table-header'],
+  '/pagination': ['empty-table-header'],
+  '/time-picker': ['empty-table-header'],
+  '/carousel': ['scrollable-region-focusable'],
+  '/tabs': ['empty-table-header'],
+  '/checkbox': ['empty-table-header'],
+  '/radio': ['empty-table-header'],
+  '/switch': ['empty-table-header'],
+  '/segmented': ['empty-table-header'],
   '/calendar': ['aria-allowed-attr', 'aria-required-children', 'aria-required-parent'],
   '/calendar-range': ['aria-required-children', 'aria-required-parent'],
   '/splitter': ['aria-valid-attr-value', 'nested-interactive'],
@@ -58,25 +72,22 @@ const knownViolations: Record<string, readonly string[]> = {
   '/file-upload': ['label', 'nested-interactive'],
 };
 
-const excludeRules = [
-  'aria-prohibited-attr',
-  'color-contrast',
-  'empty-table-header',
-  'label-title-only',
-  'scrollable-region-focusable',
-];
+/**
+ * Only color contrast is excluded, because it is measured by the color work (Plan 14 covers contrast
+ * measurement; it does not yet say it will re-enable this rule). Every other rule is asserted.
+ */
+const excludeRules = ['color-contrast'];
 
-for (const route of routes) {
-  test(`has no automated accessibility violations on ${route}`, async ({ page }) => {
-    await gotoReady(page, route);
-    await expectNoAxeViolations(page, { excludeRules });
-  });
-}
+const allRoutes = [...new Set([...routes, ...Object.keys(knownViolations)])];
 
-for (const [route, expectedRules] of Object.entries(knownViolations)) {
-  test(`reports exactly the known automated accessibility violations on ${route}`, async ({
-    page,
-  }) => {
+for (const route of allRoutes) {
+  const expectedRules = knownViolations[route] ?? [];
+  const title =
+    expectedRules.length === 0
+      ? `has no automated accessibility violations on ${route}`
+      : `reports exactly the known automated accessibility violations on ${route}`;
+
+  test(title, async ({ page }) => {
     await gotoReady(page, route);
 
     const violations = await collectAxeViolations(page, { excludeRules });

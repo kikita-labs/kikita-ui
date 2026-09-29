@@ -20,6 +20,9 @@ test.describe('touch input', () => {
     await input.tap();
     await expect(listbox).toBeVisible();
 
+    // `force` skips Playwright's stability check, so let the open animation and any scroll
+    // adjustment finish first; otherwise the tap can land on the wrong element and close the list.
+    await settleAnimations(page);
     await listbox.getByRole('option', { name: /Carol Okonkwo/ }).tap({ force: true });
     await settleAnimations(page);
     await expect(listbox).toBeVisible();

@@ -96,17 +96,19 @@ fixing or closing them; record new evidence in state coverage.
   `@angular/common`, `@angular/compiler`, `@angular/core`, and `@angular/platform-browser` at
   `22.0.7`, while the lockfile has `22.0.1` for those packages.
 
-- Browser test gaps found while building the shared harness (Plan 11, 2026-09-29). Full list with
-  owners is in [browser test coverage](browser-test-coverage.md#known-gaps-and-owners); the
-  items that need a decision are:
-  - Critical axe violations on Calendar, Calendar Range, Splitter, Menu and File Upload, plus lesser
-    findings on Breadcrumbs, Progress, Icon and Separator. Both suites assert the exact list. No
-    owner yet; a focused accessibility slice is proposed.
-  - Time Picker: Escape pressed inside the open panel leaves focus on `<body>`. No owner yet.
-  - `kui-field` `required` is not exposed to assistive technology. Owner: Plan 19B.
-  - No primitive is direction-aware, so right-to-left has a layout smoke only. Needs a product decision.
+- Browser test gaps found while building the shared harness (Plan 11, 2026-09-29/30). Full list with
+  ownership labels is in [browser test coverage](browser-test-coverage.md#known-gaps-and-owners).
+  None of the following has a confirmed owner; each needs a maintainer decision:
+  - Automated axe violations on Calendar, Calendar Range, Splitter, Menu, File Upload and many
+    library demo pages (exact rule ids are asserted per route). A focused accessibility slice is
+    possible under the pull-forward rule in `.local-notes/v2/PLAN.md`, but it is not decided.
+  - Time Picker: Escape pressed inside the open panel leaves focus on `<body>`.
+  - `kui-field` `required` is not exposed to assistive technology.
+  - No primitive is direction-aware, so right-to-left has a layout smoke only.
   - Ten primitives have no replacement Playground page (Alert, Calendar Range, Carousel, Link, Media
-    Viewer, OTP Input, Pagination, Splitter, Time Picker, Typography).
+    Viewer, OTP Input, Pagination, Splitter, Time Picker, Typography); this is a Playground catalogue
+    gap outside Plan 11.
+  - Default Lucide icons depend on the jsDelivr CDN.
 
 ## Deferred Feature Scope
 

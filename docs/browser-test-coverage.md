@@ -106,7 +106,7 @@ a fix fails the test until the list is updated.
 | Drawer          | 10   | 14   | A             | Focus trap and backdrop only in the replacement page; no touch backdrop tap.                                                                                                                                   |
 | Dropdown        | 16   | 16   | B A R S       | None recorded.                                                                                                                                                                                                 |
 | Empty State     | 2    | 7    | -             | None recorded.                                                                                                                                                                                                 |
-| Field           | 20   | 8    | B A R V S     | `required` renders only an `aria-hidden` marker; the control gets no `aria-required` (Plan 19B).                                                                                                               |
+| Field           | 20   | 8    | B A R V S     | `required` renders only an `aria-hidden` marker; the control gets no `aria-required` (no confirmed owner).                                                                                                     |
 | File Upload     | 14   | 17   | A!            | Axe `label` (critical) and `nested-interactive` (serious), asserted exactly in both Playgrounds.                                                                                                               |
 | Group           | 4    | 9    | -             | None recorded.                                                                                                                                                                                                 |
 | Icon Button     | 6    | 13   | -             | None recorded.                                                                                                                                                                                                 |
@@ -144,45 +144,68 @@ sweep. Only Dialog and Select have the held-script hydration check.
 
 ## Known gaps and owners
 
-Each item names an owner or says plainly that there is none.
+Ownership is stated only where an existing plan or document confirms it. Each item uses one of three
+labels: **Owner** (a plan whose scope names the work, with its source), **Tracked at** (a place that
+records the item without assigning it), or **No confirmed owner**. A plan that is merely nearby is
+not an owner. Items 1-7 and 9-11 need a maintainer decision; they are not harness work.
 
 1. **Replacement pages missing** for Alert, Calendar Range, Carousel, Link, Media Viewer, OTP Input,
-   Pagination, Splitter, Time Picker and Typography. Owner: none; needs a Playground follow-up
-   decision. Until then the library suite is their only browser evidence and none has a visual baseline.
-2. **Critical axe violations** on Calendar, Calendar Range, Splitter, Menu and File Upload, plus
-   moderate findings on Breadcrumbs and Progress and `scrollable-region-focusable` on Icon and
-   Separator. Both suites assert the exact list, so a new violation fails and a fix must update it.
-   Owner: none. `.local-notes/v2/PLAN.md` allows a severe accessibility defect to be pulled forward
-   as a focused slice; that decision is open.
-3. **Blanket axe exclusions** in the library suite: `color-contrast` (owner Plan 14),
-   `aria-prohibited-attr`, `empty-table-header`, `label-title-only`, `scrollable-region-focusable`
-   (no owner).
+   Pagination, Splitter, Time Picker and Typography. This is a Playground catalogue gap, not a harness
+   gap: the replacement Playground's rollout tracker covers 43 sidebar entries and none of these ten
+   appears in it, and no document records why they were left out. Plan 10 is marked verified for those
+   43 entries. No confirmed owner. Until a decision is made the library suite is their only browser
+   evidence and none has a visual baseline. The legacy Playground stays; it is the surface that suite
+   runs against.
+2. **Automated axe violations.** Both suites assert exact rule ids per route. Library routes with
+   known violations: Calendar, Calendar Range, Splitter, Menu, File Upload (critical) and Tokens,
+   Field, Input, Table, OTP Input, Pagination, Time Picker, Carousel, Tabs, Checkbox, Radio, Switch,
+   Segmented (`empty-table-header`, `scrollable-region-focusable`, `label-title-only` or
+   `aria-prohibited-attr`). Replacement pages: Breadcrumbs, Calendar, File Upload, Icon, Progress,
+   Separator. A probe on 2026-09-30 also found violations on library routes the sweep does not
+   include (`/icons`, `/card`, `/badge`, `/breadcrumbs`, `/group`). No confirmed owner.
+   `.local-notes/v2/PLAN.md` says a severe accessibility defect may be pulled forward as a focused
+   slice; that is a mechanism, not an assignment, and the decision is open.
+3. **Axe rule exclusion**: only `color-contrast` is excluded, in both suites. The four rules the
+   library suite used to exclude blanket-wide are now asserted per route (item 2), which is what
+   exposed most of the list above. Plan 14 is titled color architecture and contrast, but its note does
+   not say it will re-enable this rule, so re-enabling is No confirmed owner.
 4. **Time Picker Escape from inside the panel** loses focus to `<body>`. `test.fixme` in
-   `tests/e2e/interaction-widgets.spec.ts`. Owner: none; nearest is Plan 19A.
+   `tests/e2e/interaction-widgets.spec.ts`. No confirmed owner. Plan 19A covers autofocus and does not
+   mention focus restoration.
 5. **Field `required`** is not exposed to assistive technology. `test.fixme` in
-   `tests/e2e/interaction.spec.ts`. Owner: Plan 19B.
+   `tests/e2e/interaction.spec.ts`. No confirmed owner. Plan 19B covers size, id, invalid and
+   describedBy wiring and does not mention `required` or `aria-required`; it is the nearest plan.
 6. **Right-to-left**: no primitive has direction-aware behavior (no `rtl`, `dir` or `Directionality`
    use under `projects/ui/src/lib`). Only a layout smoke exists: no overflow and an open Select list
    stays on screen. Arrow-key direction in Tabs, Slider, Segmented, Tree and Splitter is untested
-   because it is unimplemented. Owner: none; needs a product decision on RTL support.
+   because it is unimplemented. Plan 21 (`i18n.md`) lists RTL only for message and placeholder
+   usability, not component direction behavior. No confirmed owner; needs a product decision.
 7. **Touch**: real taps are covered for Select and Dialog (library suite) and Avatar, Slider and
    Tooltip (replacement pages). Drawer, Menu, Popover, Combobox, pickers, Splitter and Carousel swipe
-   have no touch check. Owner: none.
-8. **SSR**: the library suite checks server content and held hydration for 11 routes; the replacement
-   suite checks 44 headings plus two held-hydration flows. Pickers that read the current date, OTP
-   Input and Time Picker have no SSR check. Runtime SSR safety belongs to Plan 12.
+   have no touch check. No confirmed owner.
+8. **SSR of date-dependent primitives**: the library suite checks server content and held hydration
+   for 11 routes; the replacement suite checks 44 headings plus two held-hydration flows. Pickers that
+   read the current date, OTP Input and Time Picker have no SSR check. Owner: Plan 12
+   (`ssr.md` Phase 2, "resolve locale/time/ID seeds consistently per request").
 9. **CDN dependence**: default Lucide icons load from `cdn.jsdelivr.net`. Only three replacement
    specs stub it, so screenshots in the others need internet access. The harness allowance stops the
-   console failure, not the missing pixels. Owner: Plan 20 (synchronous icon defaults).
+   console failure, not the missing pixels. No confirmed owner: Plan 20 covers structural chrome
+   icons and states that a content-icon fast path is a separate optimization.
 10. **No manual accessibility evidence**: no real keyboard-only or screen-reader session is recorded for
-    any primitive. Owner: none. See [Accessibility Review Guide](accessibility.md).
-11. **Chromium only**: Firefox and WebKit are not run. Owner: none.
+    any primitive. Tracked at: the final v2 integration checklist in `PLAN.md` ("documented
+    accessibility evidence at the final commit"); no one is assigned to run the sessions. See
+    [Accessibility Review Guide](accessibility.md).
+11. **Chromium only**: Firefox and WebKit are not run. Tracked at: `PLAN.md` log entry for plan 06
+    (binaries absent). No confirmed owner.
 12. **Hydration readiness** is inferred from behavior because the Playground exposes no marker. A stable
-    readiness attribute would simplify every SSR spec; deciding that belongs to Plan 12.
+    readiness attribute would simplify every SSR spec. Plan 12 covers SSR verification generally but
+    does not name this; the harness works without it. Candidate for Plan 12, unconfirmed.
 13. **Dialog lifecycle on route change**: a dialog opened imperatively stays open after its opening
     route is destroyed, and `docs/dialog.md` does not say whether that is intended. A characterization
-    test in `tests/e2e/interaction.spec.ts` only guarantees no error. Owner: Plan 12.
+    test in `tests/e2e/interaction.spec.ts` only guarantees no error. Plan 12 covers resource cleanup on
+    destroy in general, but whether this dialog should close is a public-contract decision. Candidate
+    for Plan 12, unconfirmed.
 14. **Legacy SSR server** (`projects/playground/src/server.ts`) serves no client scripts. The SSR gate
     uses `tools/serve-playground-ssr.mjs` instead; the app server itself is unchanged. Before Plan 11
     the suite ran against the app server, so its "hydrates without console errors" tests never
-    hydrated anything.
+    hydrated anything. Informational; nothing is owed.
