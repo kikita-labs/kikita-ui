@@ -1,0 +1,10 @@
+<section role="group" [attr.aria-label]="'timePicker.accessibility.default' | transloco">
+  <app-playground-example-card [heading]="'timePicker.examples.default' | transloco">
+    <kui-field [label]="'timePicker.fields.meetingTime' | transloco">
+      <input kuiTimePicker />
+      <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+        <kui-time-picker-panel />
+      </kui-dropdown>
+    </kui-field>
+  </app-playground-example-card>
+</section>

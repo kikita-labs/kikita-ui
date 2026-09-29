@@ -33,6 +33,7 @@ export const COMPONENT_GROUPS = [
       { id: PlaygroundRoute.Slider, label: 'playground.components.slider' },
       { id: PlaygroundRoute.Switch, label: 'playground.components.switch' },
       { id: PlaygroundRoute.Textarea, label: 'playground.components.textarea' },
+      { id: PlaygroundRoute.TimePicker, label: 'playground.components.timePicker' },
     ],
   },
   {

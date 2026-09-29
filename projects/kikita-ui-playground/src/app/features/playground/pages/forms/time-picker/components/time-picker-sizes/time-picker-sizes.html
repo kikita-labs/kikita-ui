@@ -1,0 +1,33 @@
+<section role="group" [attr.aria-label]="'timePicker.accessibility.sizes' | transloco">
+  <app-playground-example-card [heading]="'timePicker.examples.sizes' | transloco">
+    <div class="time-picker-grid">
+      <kui-field size="xs" [label]="'timePicker.fields.sizeXS' | transloco">
+        <input kuiTimePicker [(value)]="sizeTime" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field size="sm" [label]="'timePicker.fields.sizeSM' | transloco">
+        <input kuiTimePicker [(value)]="sizeTime" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field size="md" [label]="'timePicker.fields.sizeMD' | transloco">
+        <input kuiTimePicker [(value)]="sizeTime" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field size="lg" [label]="'timePicker.fields.sizeLG' | transloco">
+        <input kuiTimePicker [(value)]="sizeTime" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+</section>

@@ -100,4 +100,10 @@ export const PLAYGROUND_FORMS_ROUTES: Routes = [
     providers: [provideTranslocoScope('textarea')],
     loadComponent: () => import('./textarea').then((page) => page.Textarea),
   },
+  {
+    path: [PlaygroundRoute.Components, PlaygroundRoute.TimePicker].join('/'),
+    data: { componentId: PlaygroundRoute.TimePicker },
+    providers: [provideTranslocoScope('time-picker')],
+    loadComponent: () => import('./time-picker').then((page) => page.TimePicker),
+  },
 ];

@@ -1,0 +1,35 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .time-picker-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .time-picker-playground h1 {
+    margin: 0;
+  }
+
+  .time-picker-playground__examples {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .time-picker-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .time-picker-playground__examples {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

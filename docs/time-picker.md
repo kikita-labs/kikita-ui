@@ -210,6 +210,7 @@ styles.
 | `--kui-timepicker-cell-text-selected` | `--kui-color-on-fill`        | Selected cell text color.                                                                                                                                          |
 | `--kui-timepicker-cell-bg-hover`      | `--kui-color-surface-sunken` | Hover background for an unselected cell.                                                                                                                           |
 | `--kui-timepicker-affordance-size`    | `20px`                       | Chevron/clear click target — same local override `kuiDatePicker`/`kuiCombobox` apply to the default `24px` `--kui-field-action-size`.                              |
+| `--kui-timepicker-suffix-gap`         | `2px` (fallback)             | Gap between the clear and chevron buttons in the trailing affordance group. Not defined by default; the stylesheet falls back to `2px`.                            |
 
 ## Known Gaps
 

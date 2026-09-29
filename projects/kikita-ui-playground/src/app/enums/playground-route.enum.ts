@@ -24,6 +24,7 @@ export enum PlaygroundRoute {
   Slider = 'slider',
   Switch = 'switch',
   Textarea = 'textarea',
+  TimePicker = 'time-picker',
   Accordion = 'accordion',
   Breadcrumbs = 'breadcrumbs',
   Card = 'card',

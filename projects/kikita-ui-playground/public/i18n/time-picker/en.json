@@ -1,0 +1,65 @@
+{
+  "title": "Time Picker",
+  "examples": {
+    "default": "Default",
+    "formats": "Formats and seconds",
+    "steps": "Hour, minute, and second steps",
+    "bounds": "Time bounds and disabled slots",
+    "fieldStates": "Field states and clear action",
+    "fieldWiring": "Field hint, required marker, and typing",
+    "sizes": "Field sizes",
+    "signalForms": "Signal Forms",
+    "inline": "Inline panel"
+  },
+  "fields": {
+    "meetingTime": "Meeting time",
+    "format24": "24-hour time",
+    "format24Seconds": "24-hour time with seconds",
+    "format12": "12-hour time",
+    "format12Seconds": "12-hour time with seconds",
+    "slots": "15-minute and 15-second slots",
+    "hourSlots": "3-hour slots",
+    "businessHours": "Business hours",
+    "lunchBlocked": "Lunch hour blocked",
+    "quarterBlocked": "Quarter hour blocked",
+    "secondsBlocked": "Seconds blocked",
+    "inheritedClear": "Inherited clear setting",
+    "localClearTrue": "Local clear enabled (provider disabled)",
+    "disabledTime": "Disabled time picker",
+    "readonlyTime": "Readonly time picker",
+    "customPlaceholder": "Custom placeholder",
+    "deliveryTime": "Delivery time",
+    "typedTime": "Typed time",
+    "sizeXS": "Extra small field",
+    "sizeSM": "Small field",
+    "sizeMD": "Medium field",
+    "sizeLG": "Large field",
+    "requiredTime": "Required delivery time"
+  },
+  "hints": {
+    "businessHours": "Available from 09:00 through 18:00.",
+    "lunchBlocked": "The 12:00 hour is unavailable.",
+    "quarterBlocked": "Minutes 00 through 14 are unavailable.",
+    "secondsBlocked": "Seconds 00 through 14 are unavailable.",
+    "deliveryTime": "Business hours 09:00-18:00",
+    "typedTime": "Type 12:3 and stop to see the invalid state.",
+    "requiredTime": "Choose a delivery time."
+  },
+  "placeholders": {
+    "custom": "Enter a time"
+  },
+  "errors": {
+    "required": "A delivery time is required."
+  },
+  "accessibility": {
+    "default": "Default time picker example",
+    "formats": "Time picker formats example",
+    "steps": "Time picker steps example",
+    "bounds": "Time picker bounds example",
+    "fieldStates": "Time picker clearable, disabled, and readonly examples",
+    "fieldWiring": "Time picker field wiring example",
+    "sizes": "Time picker sizes example",
+    "signalForms": "Time picker Signal Forms example",
+    "inline": "Inline time picker panel example"
+  }
+}
