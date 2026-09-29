@@ -33,6 +33,7 @@ Use this skill to deliver a public Kikita UI primitive end to end.
 
 ## Implementation
 
+- For a Playground component page, audit the complete contract before coding: local source docs, public inputs/models/outputs and defaults, implementation/types, component tests, and relevant styles/tokens. Map each public input/default and meaningful state to a visible example or real interaction in the page inventory; record a specific reason for every omission. Do not assume the source doc alone covers all implemented behavior.
 - Prefer native-element directives when native semantics exist.
 - Use components only for projected structure, coordinated state, roving focus,
   overlays, or composite behavior.

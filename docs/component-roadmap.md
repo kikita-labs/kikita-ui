@@ -13,7 +13,7 @@ repository does not establish publication or a passing quality gate. See
 | 2                         | Signal Forms spike; textarea, checkbox, switch, radio, badge, avatar, loader, skeleton, empty state, tooltip, card, tabs, segmented, table                        |
 | 3                         | Select, dropdown, popover, dialog, confirm, toast, accordion, progress, slider, number input, menu, separator, drawer, chip, combobox, command palette, scrollbar |
 | 4                         | Color input (server-native markup with browser-only picker enhancement), stepper, breadcrumbs                                                                     |
-| 5                         | Calendar, calendar range, single-date picker                                                                                                                      |
+| 5                         | Calendar, calendar range, single-date picker (four-digit year parsing and inclusive local-day bounds)                                                             |
 | 6                         | Tree                                                                                                                                                              |
 | 7                         | Controlled file upload                                                                                                                                            |
 | 8                         | Alert, OTP input, pagination, time picker, link, media viewer, carousel, splitter                                                                                 |
