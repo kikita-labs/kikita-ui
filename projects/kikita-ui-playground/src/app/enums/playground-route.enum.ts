@@ -33,6 +33,7 @@ export enum PlaygroundRoute {
   Separator = 'separator',
   Stepper = 'stepper',
   Tabs = 'tabs',
+  Alert = 'alert',
   Badge = 'badge',
   EmptyState = 'empty-state',
   Loader = 'loader',

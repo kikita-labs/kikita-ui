@@ -14,6 +14,7 @@ import {
   KuiAlertActionsDirective,
   KuiAlertIconDirective,
   KuiAlertMessageDirective,
+  KuiAlertTitleDirective,
 } from '@kikita-labs/ui';
 ```
 
@@ -109,7 +110,7 @@ gives each one a shared 1px line between them.
 | ------------- | -------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `appearance`  | `KuiAlertAppearance` | `'neutral'`            | Semantic type. Same five values as `KuiToastAppearance`.                                                                                                               |
 | `shape`       | `KuiAlertShape`      | `'soft'`               | Visual weight. Uses the `KuiButtonShape` vocabulary (`soft`/`outline`/`solid`).                                                                                        |
-| `size`        | `KuiAlertSize`       | `'md'`                 | Padding/gap density.                                                                                                                                                   |
+| `size`        | `KuiAlertSize`       | `'md'`                 | Padding/gap density. Resolves the local input, then the root `defaults.size` (`sm`/`md` only), then `md`.                                                              |
 | `banner`      | `boolean`            | `false`                | Stretches the alert full-width and removes corner radius.                                                                                                              |
 | `title`       | `string`             | -                      | Optional single-line heading. Ignored when `[kuiAlertTitle]` is projected.                                                                                             |
 | `message`     | `string`             | -                      | Optional supporting text below the title. Ignored when `[kuiAlertMessage]` is projected.                                                                               |

@@ -38,6 +38,7 @@
     },
     "components": {
       "accordion": "Accordion",
+      "alert": "Alert",
       "avatar": "Avatar",
       "badge": "Badge",
       "breadcrumbs": "Breadcrumbs",

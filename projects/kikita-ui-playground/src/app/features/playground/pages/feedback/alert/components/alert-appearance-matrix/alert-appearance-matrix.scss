@@ -1,0 +1,24 @@
+@layer app.components {
+  :host {
+    display: block;
+  }
+
+  .alert-appearance-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+  }
+
+  .alert-appearance-matrix__shape,
+  .alert-appearance-matrix__alerts {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .alert-appearance-matrix h3 {
+    margin: 0;
+  }
+}

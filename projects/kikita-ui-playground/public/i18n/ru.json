@@ -38,6 +38,7 @@
     },
     "components": {
       "accordion": "Аккордеон",
+      "alert": "Оповещение",
       "avatar": "Аватар",
       "badge": "Бейдж",
       "breadcrumbs": "Навигационная цепочка",

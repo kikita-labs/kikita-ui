@@ -5,6 +5,12 @@ import { provideTranslocoScope } from '@jsverse/transloco';
 
 export const PLAYGROUND_FEEDBACK_ROUTES: Routes = [
   {
+    path: [PlaygroundRoute.Components, PlaygroundRoute.Alert].join('/'),
+    data: { componentId: PlaygroundRoute.Alert },
+    providers: [provideTranslocoScope('alert')],
+    loadComponent: () => import('./alert').then((page) => page.Alert),
+  },
+  {
     path: [PlaygroundRoute.Components, PlaygroundRoute.Badge].join('/'),
     data: { componentId: PlaygroundRoute.Badge },
     providers: [provideTranslocoScope('badge')],

@@ -54,6 +54,7 @@ export const COMPONENT_GROUPS = [
     id: 'feedback',
     label: 'playground.groups.feedback',
     components: [
+      { id: PlaygroundRoute.Alert, label: 'playground.components.alert' },
       { id: PlaygroundRoute.Badge, label: 'playground.components.badge' },
       { id: PlaygroundRoute.EmptyState, label: 'playground.components.emptyState' },
       { id: PlaygroundRoute.Loader, label: 'playground.components.loader' },

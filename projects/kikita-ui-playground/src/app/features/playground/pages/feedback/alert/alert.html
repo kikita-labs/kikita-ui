@@ -1,0 +1,86 @@
+<main class="playground-workspace alert-playground" aria-labelledby="alert-playground-title">
+  <h1 id="alert-playground-title" kuiText variant="heading-lg">
+    {{ 'alert.title' | transloco }}
+  </h1>
+
+  <app-playground-example-card [heading]="'alert.examples.default' | transloco">
+    <div role="group" [attr.aria-label]="'alert.accessibility.default' | transloco">
+      <kui-alert [message]="'alert.samples.default.message' | transloco" />
+    </div>
+  </app-playground-example-card>
+
+  <app-alert-appearance-matrix />
+
+  <app-alert-size-content />
+
+  <app-playground-example-card [heading]="'alert.examples.banner' | transloco">
+    <div
+      class="alert-playground__banners"
+      role="group"
+      [attr.aria-label]="'alert.accessibility.banner' | transloco"
+    >
+      <kui-alert
+        appearance="neutral"
+        banner
+        [message]="'alert.samples.banner.neutral' | transloco"
+      />
+      <kui-alert appearance="info" banner [message]="'alert.samples.banner.info' | transloco" />
+      <kui-alert
+        appearance="success"
+        banner
+        [message]="'alert.samples.banner.success' | transloco"
+      />
+      <kui-alert
+        appearance="warning"
+        banner
+        [message]="'alert.samples.banner.warning' | transloco"
+      />
+      <kui-alert appearance="danger" banner [message]="'alert.samples.banner.danger' | transloco" />
+      <kui-alert
+        appearance="info"
+        banner
+        [title]="'alert.samples.banner.titleAndMessage.title' | transloco"
+        [message]="'alert.samples.banner.titleAndMessage.message' | transloco"
+      />
+    </div>
+  </app-playground-example-card>
+
+  <app-playground-example-card [heading]="'alert.examples.options' | transloco">
+    <div
+      class="alert-playground__options"
+      role="group"
+      [attr.aria-label]="'alert.accessibility.options' | transloco"
+    >
+      <kui-alert
+        appearance="info"
+        [showIcon]="false"
+        [title]="'alert.samples.options.hiddenIcon.title' | transloco"
+        [message]="'alert.samples.options.hiddenIcon.message' | transloco"
+      />
+      <kui-alert
+        appearance="danger"
+        [closable]="false"
+        [title]="'alert.samples.options.notClosable.title' | transloco"
+        [message]="'alert.samples.options.notClosable.message' | transloco"
+      />
+      <kui-alert
+        appearance="neutral"
+        [showIcon]="true"
+        [title]="'alert.samples.options.neutralIcon.title' | transloco"
+        [message]="'alert.samples.options.neutralIcon.message' | transloco"
+      />
+      <kui-alert
+        appearance="success"
+        [title]="'alert.samples.options.closeLabel.title' | transloco"
+        [message]="'alert.samples.options.closeLabel.message' | transloco"
+        [closeLabel]="'alert.samples.options.closeLabel.label' | transloco"
+      />
+    </div>
+  </app-playground-example-card>
+
+  <app-alert-custom-content />
+
+  <app-alert-action-scenario />
+
+  <app-alert-live-regions />
+</main>

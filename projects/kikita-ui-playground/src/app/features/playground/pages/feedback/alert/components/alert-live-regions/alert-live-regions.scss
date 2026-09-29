@@ -1,0 +1,17 @@
+@layer app.components {
+  :host {
+    display: block;
+  }
+
+  .alert-live-regions {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .alert-live-regions__triggers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-3);
+  }
+}
