@@ -97,8 +97,9 @@ Status definitions: `Queued` means the page has not been assigned; `In progress`
 - [x] Tracker covers every entry in the sidebar catalog exactly once (43 unique entries matched the current sidebar enum values).
 - [x] Owners, statuses, and evidence links reflect the current worktree.
 - [x] No page is marked done before independent visual and code review.
-- [x] Parent integration checks pass after each batch. Final gate passed on 2026-09-29: unit
-      678/678, Playground unit 5/5, Playground SSR/visual 498/498, legacy SSR 11/11, and legacy
-      browser 51/51; format, lint, static audit, script checks, and builds all passed. The final
-      Button icon, Tree clock, and Select axe-readiness follow-ups are isolated in `70ce961`,
-      `5f241d9`, and `7c63201`; `release/2.x` was pushed through `7c63201`.
+- [x] Parent integration checks pass after each batch. Final gate passed on 2026-09-29 at
+      `9b5b4c2`: unit 678/678, Playground unit 5/5, Playground browser 498/498, legacy SSR
+      11/11, and legacy browser 51/51; format, lint (0 errors), static audit, script checks, and
+      builds all passed. The Button icon, Tree clock, Select axe-readiness, and Dialog
+      screenshot-readiness follow-ups are isolated in `70ce961`, `5f241d9`, `7c63201`, and
+      `9b5b4c2`; `release/2.x` was pushed through `9b5b4c2`.
