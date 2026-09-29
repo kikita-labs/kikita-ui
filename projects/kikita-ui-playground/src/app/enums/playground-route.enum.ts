@@ -5,6 +5,7 @@ export enum PlaygroundRoute {
   ComponentId = ':componentId',
   Button = 'button',
   IconButton = 'icon-button',
+  Link = 'link',
   Menu = 'menu',
   CommandPalette = 'command-palette',
   Calendar = 'calendar',

@@ -102,8 +102,10 @@ link text already carries the meaning).
 ```
 
 `<a>` has no native `disabled` attribute, so a disabled anchor gets `aria-disabled="true"` +
-`tabIndex="-1"` + a blocked click handler -- the same convention `[kuiButton]` already applies for
-`as="a"`. A host `<button>` also gets the native `disabled` attribute.
+`tabIndex="-1"` + a click handler that cancels navigation -- the same convention `[kuiButton]`
+already applies for `as="a"`. Pointer input never reaches a disabled link (`pointer-events: none`),
+so the handler only guards keyboard and programmatic activation. A host `<button>` also gets the
+native `disabled` attribute.
 
 ### JS-driven action, no navigation
 

@@ -8,6 +8,7 @@ export const COMPONENT_GROUPS = [
     components: [
       { id: PlaygroundRoute.Button, label: 'playground.components.button' },
       { id: PlaygroundRoute.IconButton, label: 'playground.components.iconButton' },
+      { id: PlaygroundRoute.Link, label: 'playground.components.link' },
       { id: PlaygroundRoute.Menu, label: 'playground.components.menu' },
       { id: PlaygroundRoute.CommandPalette, label: 'playground.components.commandPalette' },
     ],

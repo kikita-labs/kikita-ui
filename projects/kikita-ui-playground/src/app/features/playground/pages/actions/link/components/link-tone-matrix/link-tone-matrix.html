@@ -1,0 +1,32 @@
+<app-playground-example-card [heading]="'link.examples.toneUnderline' | transloco">
+  <div
+    class="link-tone-matrix__examples"
+    role="group"
+    [attr.aria-label]="'link.accessibility.toneUnderline' | transloco"
+  >
+    @for (tone of tones; track tone) {
+      @let toneLabel = 'link.tones.' + tone | transloco;
+
+      <div
+        class="link-tone-matrix__tone"
+        role="group"
+        [attr.aria-label]="'link.accessibility.tone' | transloco: { tone: toneLabel }"
+      >
+        <h3 kuiText variant="heading-sm">{{ toneLabel }}</h3>
+
+        <div class="link-tone-matrix__underlines">
+          @for (underline of underlines; track underline) {
+            <a
+              kuiLink
+              href="/components/link#link-playground-title"
+              [tone]="tone"
+              [underline]="underline"
+            >
+              {{ 'link.underlines.' + underline | transloco }}
+            </a>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</app-playground-example-card>

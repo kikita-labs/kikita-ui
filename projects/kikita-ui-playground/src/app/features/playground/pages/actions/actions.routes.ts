@@ -6,6 +6,7 @@ import { PlaygroundRoute } from '@app/enums';
 import { provideTranslocoScope } from '@jsverse/transloco';
 
 import { BUTTON_ICON_REGISTRY } from './button/constants';
+import { LINK_ICON_REGISTRY } from './link/constants';
 
 export const PLAYGROUND_ACTIONS_ROUTES: Routes = [
   {
@@ -19,6 +20,12 @@ export const PLAYGROUND_ACTIONS_ROUTES: Routes = [
     data: { componentId: PlaygroundRoute.IconButton },
     providers: [provideTranslocoScope('icon-button')],
     loadComponent: () => import('./icon-button').then((page) => page.IconButton),
+  },
+  {
+    path: [PlaygroundRoute.Components, PlaygroundRoute.Link].join('/'),
+    data: { componentId: PlaygroundRoute.Link },
+    providers: [provideTranslocoScope('link'), provideKuiIcons(LINK_ICON_REGISTRY)],
+    loadComponent: () => import('./link').then((page) => page.Link),
   },
   {
     path: [PlaygroundRoute.Components, PlaygroundRoute.Menu].join('/'),

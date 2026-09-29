@@ -1,0 +1,35 @@
+<app-playground-example-card [heading]="'link.examples.disabled' | transloco">
+  <div
+    class="link-disabled__examples"
+    role="group"
+    [attr.aria-label]="'link.accessibility.disabled' | transloco"
+  >
+    <a
+      kuiLink
+      href="/components/link#link-playground-title"
+      disabled
+      (click)="countAnchorHandler()"
+    >
+      {{ 'link.labels.disabledAnchor' | transloco }}
+    </a>
+
+    <button kuiLink type="button" disabled (click)="countButtonHandler()">
+      {{ 'link.labels.disabledButton' | transloco }}
+    </button>
+
+    <a kuiLink href="/components/link#link-playground-title" iconStart="download" disabled>
+      {{ 'link.labels.disabledIcon' | transloco }}
+    </a>
+
+    <a kuiLink href="/components/link#link-playground-title" target="_blank" disabled>
+      {{ 'link.labels.disabledExternal' | transloco }}
+    </a>
+
+    <p kuiText variant="body-sm" role="status">
+      {{
+        'link.labels.handlerCalls'
+          | transloco: { anchor: anchorHandlerCalls(), button: buttonHandlerCalls() }
+      }}
+    </p>
+  </div>
+</app-playground-example-card>

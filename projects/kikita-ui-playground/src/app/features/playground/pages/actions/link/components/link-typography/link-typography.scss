@@ -1,0 +1,15 @@
+@layer app.components {
+  .link-typography__examples {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .link-typography__variant {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--kui-space-3) var(--kui-space-6);
+    min-inline-size: 0;
+  }
+}

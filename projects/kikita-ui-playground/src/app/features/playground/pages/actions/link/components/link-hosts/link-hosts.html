@@ -1,0 +1,19 @@
+<app-playground-example-card [heading]="'link.examples.hosts' | transloco">
+  <div
+    class="link-hosts__examples"
+    role="group"
+    [attr.aria-label]="'link.accessibility.hosts' | transloco"
+  >
+    <a kuiLink href="/components/link#link-playground-title">
+      {{ 'link.labels.anchorHost' | transloco }}
+    </a>
+
+    <button kuiLink type="button" (click)="activate()">
+      {{ 'link.labels.buttonHost' | transloco }}
+    </button>
+
+    <p kuiText variant="body-sm" role="status">
+      {{ 'link.labels.activations' | transloco: { count: activations() } }}
+    </p>
+  </div>
+</app-playground-example-card>

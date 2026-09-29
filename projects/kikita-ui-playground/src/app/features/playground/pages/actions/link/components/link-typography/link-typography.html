@@ -1,0 +1,25 @@
+<app-playground-example-card [heading]="'link.examples.typography' | transloco">
+  <div
+    class="link-typography__examples"
+    role="group"
+    [attr.aria-label]="'link.accessibility.typography' | transloco"
+  >
+    @for (variant of variants; track variant) {
+      @let variantLabel = 'link.variants.' + variant | transloco;
+
+      <div
+        class="link-typography__variant"
+        role="group"
+        [attr.aria-label]="'link.accessibility.variant' | transloco: { variant: variantLabel }"
+      >
+        <a kuiLink href="/components/link#link-playground-title" [variant]="variant">
+          {{ variantLabel }}
+        </a>
+
+        <button kuiLink type="button" [variant]="variant">
+          {{ variantLabel }} {{ 'link.labels.actionSuffix' | transloco }}
+        </button>
+      </div>
+    }
+  </div>
+</app-playground-example-card>
