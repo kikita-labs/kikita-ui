@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../../tests/e2e/support/fixtures';
 
 const catalogueExamples = [
   ['Default textarea example', 'textarea-default-desktop.png', 'textarea-default-320.png'],

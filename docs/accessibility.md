@@ -11,6 +11,11 @@ Record review status in `docs/state-coverage.md` when the result changes public 
 - Assistive-technology review: uses at least one real screen reader or platform accessibility tool to verify names, roles, states, descriptions, announcements, focus order, and interaction feedback.
 - Browser and visual review: checks responsive layout, contrast, forced colors, reduced motion, overlays, and zoom behavior.
 
+The automated axe-core sweeps in `tests/e2e/accessibility.spec.ts` and the replacement Playground's
+`accessibility.spec.ts` are DOM smoke. Their per-route results, known violations and excluded rules are
+listed in [browser test coverage](browser-test-coverage.md). Keyboard-only and screen-reader results are
+recorded separately and none is recorded yet.
+
 Do not mark a primitive as fully accessibility-audited when only DOM smoke or unit tests have run. DOM smoke can catch broken wiring; it cannot confirm what assistive technology announces or whether the interaction model feels usable.
 
 ## Baseline Setup

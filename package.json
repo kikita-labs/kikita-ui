@@ -25,7 +25,7 @@
     "test:visual": "playwright test --project=visual",
     "test:visual:update": "playwright test --project=visual --update-snapshots",
     "test:browser": "playwright test",
-    "test:ssr": "playwright test --config=playwright.ssr.config.ts",
+    "test:ssr": "pnpm run build:playground && playwright test --config=playwright.ssr.config.ts",
     "lint": "ng lint",
     "audit:static": "node scripts/verify-static-audit.mjs",
     "skills:check": "node scripts/sync-agent-skills.mjs --check",

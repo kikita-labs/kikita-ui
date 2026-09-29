@@ -1,4 +1,6 @@
-import { expect, type Locator, test } from '@playwright/test';
+import type { Locator } from '@playwright/test';
+
+import { expect, test } from '../../../tests/e2e/support/fixtures';
 
 /**
  * Waits until the Drawer panel and its backdrop finish their entrance animations.

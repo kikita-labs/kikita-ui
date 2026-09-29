@@ -53,8 +53,20 @@ Update baselines only after reviewing the rendered change and confirming it is i
 pnpm.cmd test:visual:update
 ```
 
-Playwright serves the built playground through `tools/serve-playground-dist.mjs`; run
-`pnpm.cmd build:playground` first when the playground output may be stale.
+Playwright serves the built playground through `tools/serve-playground-dist.mjs`. The run fails
+before any test when `dist/playground` is missing or older than its sources, so a stale build cannot
+produce a baseline; run `pnpm.cmd build:playground` first.
+
+Screenshots are stable because of pinned inputs, not retries: the visual project sets
+`prefers-reduced-motion: reduce`, and every suite pins the `en-US` locale and the `UTC` timezone.
+Behavior, accessibility and responsive projects deliberately keep production motion, so reduced
+motion in a screenshot never hides a broken animation. Dates that a screenshot shows must be frozen
+with `page.clock.setFixedTime`. Default icons load from a CDN, so a baseline that shows icons needs
+either network access or a stubbed request as in the Toast, Field and Icon Button specs; the error
+harness tolerates the failed request but a screenshot would show the missing icon.
+
+Add a scoped screenshot only for a state that is part of the visual contract, and review the actual
+and diff images before accepting a baseline. Plan 11 added no baselines.
 
 ## Review Procedure
 

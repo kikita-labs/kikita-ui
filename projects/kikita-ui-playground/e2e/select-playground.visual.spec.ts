@@ -1,6 +1,7 @@
 import type { Page } from '@playwright/test';
-import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+
+import { expect, test } from '../../../tests/e2e/support/fixtures';
 
 const axeSource = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 

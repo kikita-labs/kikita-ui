@@ -1,5 +1,6 @@
-import { expect, type Page, test } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
+import { expect, test } from './support/fixtures';
 import { gotoReady } from './support/page-ready';
 
 const routes = ['/button', '/field', '/select', '/dialog', '/table', '/calendar'] as const;
@@ -21,6 +22,16 @@ async function setPlaygroundTheme(page: Page, theme: (typeof themes)[number]): P
 
 test.describe('visual baselines', () => {
   test.setTimeout(180_000);
+
+  // Only this project stabilizes motion. Behavior projects run with production motion, so a broken
+  // enter or exit animation cannot hide behind the screenshot setup.
+  test('runs with reduced motion so screenshots are stable', async ({ page }) => {
+    await page.setContent('<p>motion</p>');
+
+    expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(
+      true,
+    );
+  });
 
   for (const route of routes) {
     for (const viewport of viewports) {

@@ -5,6 +5,7 @@ const baseURL = `http://127.0.0.1:${testPort}`;
 
 export default defineConfig({
   testDir: './projects/kikita-ui-playground/e2e',
+  globalSetup: './tools/assert-replacement-playground-build.mjs',
   fullyParallel: false,
   forbidOnly: Boolean(process.env['CI']),
   retries: process.env['CI'] ? 2 : 0,
@@ -13,6 +14,8 @@ export default defineConfig({
   use: {
     ...devices['Desktop Chrome'],
     baseURL,
+    locale: 'en-US',
+    timezoneId: 'UTC',
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
   },

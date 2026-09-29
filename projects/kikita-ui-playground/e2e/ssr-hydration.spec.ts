@@ -1,4 +1,5 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { openWithHeldScripts, readDuplicateIds } from '../../../tests/e2e/support/ssr';
 
 test('renders on the server and changes language after hydration', async ({ page }) => {
   const consoleErrors: string[] = [];
@@ -359,4 +360,83 @@ test('renders the header border edge-to-edge while keeping content centered', as
   expect(geometry.shellBodyLeft).toBe(geometry.headerInnerLeft);
   expect(geometry.shellBodyWidth).toBe(geometry.headerInnerWidth);
   expect(geometry.boxShadow).toContain('inset');
+});
+
+test('shows server-rendered Dialog markup before client JavaScript, then hydrates and stays usable', async ({
+  page,
+}) => {
+  const held = await openWithHeldScripts(page, '/components/dialog');
+  const heading = page.getByRole('heading', { level: 1, name: 'Dialog', exact: true });
+  const openDefault = page
+    .getByRole('group', { name: 'Dialog size examples', exact: true })
+    .getByRole('button', { name: 'Open default', exact: true });
+
+  // Every script is held back, so this content came from the server response alone.
+  expect(held.serverHtml).toContain('ng-server-context="ssr"');
+  await expect(heading).toBeVisible();
+  await expect(openDefault).toBeVisible();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.locator('html')).toHaveAttribute('data-kui-theme', 'dark');
+  await openDefault.evaluate((element) => element.setAttribute('data-server-node', ''));
+
+  held.release();
+
+  // The server renders the dark theme; switching to light is client-only state, so it succeeds only
+  // after hydration attached the handler. The retried action cannot double-toggle: once it works,
+  // the "light" button no longer exists.
+  await expect(async () => {
+    await page
+      .getByRole('banner')
+      .getByRole('button', { name: 'Switch to light theme', exact: true })
+      .click({ timeout: 1_000 });
+    await expect(page.locator('html')).toHaveAttribute('data-kui-theme', 'light', {
+      timeout: 1_000,
+    });
+  }).toPass();
+
+  // Hydration reuses the server nodes; a client re-render would have dropped the marker.
+  await expect(openDefault).toHaveAttribute('data-server-node', '');
+  expect(await readDuplicateIds(page)).toEqual([]);
+
+  await openDefault.click();
+  const dialog = page.getByRole('dialog', { name: 'Profile details', exact: true });
+  await expect(dialog).toBeVisible();
+
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(openDefault).toBeFocused();
+});
+
+test('shows Select markup from the server response and keeps the closed combobox after hydration', async ({
+  page,
+}) => {
+  const held = await openWithHeldScripts(page, '/components/select');
+  const combobox = page
+    .getByRole('group', { name: 'Default select example', exact: true })
+    .getByRole('combobox', { name: 'Role', exact: true });
+
+  await expect(combobox).toBeVisible();
+  await expect(combobox).toHaveAttribute('aria-expanded', 'false');
+  await combobox.evaluate((element) => element.setAttribute('data-server-node', ''));
+
+  held.release();
+
+  await expect(async () => {
+    await page
+      .getByRole('banner')
+      .getByRole('button', { name: 'Switch to light theme', exact: true })
+      .click({ timeout: 1_000 });
+    await expect(page.locator('html')).toHaveAttribute('data-kui-theme', 'light', {
+      timeout: 1_000,
+    });
+  }).toPass();
+
+  await expect(combobox).toHaveAttribute('data-server-node', '');
+  expect(await readDuplicateIds(page)).toEqual([]);
+
+  await combobox.click();
+  await expect(page.getByRole('listbox')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('listbox')).toHaveCount(0);
+  await expect(combobox).toBeFocused();
 });

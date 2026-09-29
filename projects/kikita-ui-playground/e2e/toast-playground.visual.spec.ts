@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
-import { expect, test } from '@playwright/test';
+
+import { expect, test } from '../../../tests/e2e/support/fixtures';
 
 interface ToastLocale {
   title: string;

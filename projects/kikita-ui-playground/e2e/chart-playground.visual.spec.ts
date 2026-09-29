@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
-import { expect, test } from '@playwright/test';
+
+import { expect, test } from '../../../tests/e2e/support/fixtures';
 
 // Tall viewports keep every named group inside the shell's scrolling workspace for capture.
 const desktopViewport = { width: 1440, height: 2400 };

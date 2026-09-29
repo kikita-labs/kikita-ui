@@ -51,6 +51,9 @@ fixing or closing them; record new evidence in state coverage.
   diffs (confirmed unrelated to the Chart work in this phase: reproduces identically with the
   Chart playground nav entry reverted). Needs its own investigation (likely accumulated layout
   drift from unrelated changes) and a baseline re-record, not a quick patch.
+  **Not reproduced 2026-09-29:** at `d640ed9` all 24 of these combinations passed against a fresh
+  build, before and after the Plan 11 harness change (see the evidence row in state coverage).
+  The report is kept as history; it no longer describes the current checkout.
 
 - `KuiTooltipDirective`'s hover/focus display mode is not fully WCAG 1.4.13 (Content on Hover or
   Focus) compliant: Escape does not dismiss the tooltip in hover/focus mode (only the touch-tap
@@ -92,6 +95,18 @@ fixing or closing them; record new evidence in state coverage.
   currently reports that `@angular/platform-server@22.0.7` wants
   `@angular/common`, `@angular/compiler`, `@angular/core`, and `@angular/platform-browser` at
   `22.0.7`, while the lockfile has `22.0.1` for those packages.
+
+- Browser test gaps found while building the shared harness (Plan 11, 2026-09-29). Full list with
+  owners is in [browser test coverage](browser-test-coverage.md#known-gaps-and-owners); the
+  items that need a decision are:
+  - Critical axe violations on Calendar, Calendar Range, Splitter, Menu and File Upload, plus lesser
+    findings on Breadcrumbs, Progress, Icon and Separator. Both suites assert the exact list. No
+    owner yet; a focused accessibility slice is proposed.
+  - Time Picker: Escape pressed inside the open panel leaves focus on `<body>`. No owner yet.
+  - `kui-field` `required` is not exposed to assistive technology. Owner: Plan 19B.
+  - No primitive is direction-aware, so right-to-left has a layout smoke only. Needs a product decision.
+  - Ten primitives have no replacement Playground page (Alert, Calendar Range, Carousel, Link, Media
+    Viewer, OTP Input, Pagination, Splitter, Time Picker, Typography).
 
 ## Deferred Feature Scope
 

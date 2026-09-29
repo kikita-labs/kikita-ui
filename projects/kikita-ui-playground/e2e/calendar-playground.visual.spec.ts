@@ -1,5 +1,6 @@
 import type { Locator } from '@playwright/test';
-import { expect, test } from '@playwright/test';
+
+import { expect, test } from '../../../tests/e2e/support/fixtures';
 
 /**
  * Waits until an example without an explicit locale renders the browser's en-US week.

@@ -34,6 +34,14 @@ Run focused projects when the full browser suite is unnecessary:
 Treat console errors, hydration mismatch messages, broken ARIA references,
 horizontal page overflow, and unexplained visual diffs as blockers.
 
+Browser specs import `test` from `tests/e2e/support/fixtures`, which fails a test
+at teardown for any console or page error. Suites fail on a stale or missing
+build; `test:ssr` and `test:kikita-ui-playground:ssr` rebuild first. Read the
+harness rules in `.agents/testing-and-quality.md` and the coverage map and known
+gaps in `docs/browser-test-coverage.md` before adding or judging a browser test.
+Report automated axe results separately from manual keyboard and screen-reader
+review.
+
 ## Reporting
 
 Report commands run and results. If a command cannot run, include the exact

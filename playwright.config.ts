@@ -4,6 +4,7 @@ const baseURL = 'http://127.0.0.1:4173';
 
 export default defineConfig({
   testDir: './tests/e2e',
+  globalSetup: './tools/assert-playground-build.mjs',
   fullyParallel: false,
   forbidOnly: Boolean(process.env['CI']),
   retries: process.env['CI'] ? 2 : 0,
@@ -20,14 +21,35 @@ export default defineConfig({
     ...devices['Desktop Chrome'],
     baseURL,
     colorScheme: 'light',
+    // Pin what changes text and dates between machines. Motion is set per project below.
+    locale: 'en-US',
+    timezoneId: 'UTC',
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
   },
+  // Behavior, accessibility and responsive projects run with production motion. Only screenshot
+  // baselines stabilize motion, so a broken enter/exit animation is still caught by behavior tests.
   projects: [
-    { name: 'e2e', testMatch: /behavior\.spec\.ts/ },
-    { name: 'a11y', testMatch: /accessibility\.spec\.ts/ },
-    { name: 'responsive', testMatch: /responsive\.spec\.ts/ },
-    { name: 'visual', testMatch: /visual\.spec\.ts/ },
+    {
+      name: 'e2e',
+      testMatch: /(behavior|harness|interaction|interaction-widgets|touch)\.spec\.ts/,
+      use: { contextOptions: { reducedMotion: 'no-preference' } },
+    },
+    {
+      name: 'a11y',
+      testMatch: /accessibility\.spec\.ts/,
+      use: { contextOptions: { reducedMotion: 'no-preference' } },
+    },
+    {
+      name: 'responsive',
+      testMatch: /responsive\.spec\.ts/,
+      use: { contextOptions: { reducedMotion: 'no-preference' } },
+    },
+    {
+      name: 'visual',
+      testMatch: /visual\.spec\.ts/,
+      use: { contextOptions: { reducedMotion: 'reduce' } },
+    },
   ],
   webServer: {
     command: 'node tools/serve-playground-dist.mjs',

@@ -14,6 +14,7 @@ is defined in [the maintenance rules](../.agents/documentation.md).
 - [Avatar](avatar.md)
 - [Badge](badge.md)
 - [Breadcrumbs](breadcrumbs.md)
+- [Browser Test Coverage Map](browser-test-coverage.md)
 - [Button](button.md)
 - [Calendar Range](calendar-range.md)
 - [Calendar](calendar.md)

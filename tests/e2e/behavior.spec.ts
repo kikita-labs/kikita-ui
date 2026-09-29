@@ -1,5 +1,4 @@
-import { expect, test } from '@playwright/test';
-
+import { expect, test } from './support/fixtures';
 import { gotoReady } from './support/page-ready';
 
 test('uses composed typography line height for anchor and button links', async ({ page }) => {
@@ -34,24 +33,30 @@ test('selects a filtered command by keyboard with a valid active descendant', as
   ).toBeFocused();
 });
 
-test('loads representative primitive playground routes', async ({ page }) => {
-  for (const route of ['/tokens', '/button', '/field', '/select', '/dialog', '/table']) {
-    await gotoReady(page, route);
-    await expect(page.locator('body')).toBeVisible();
-  }
-});
-
-test('keeps overlay primitives interactive', async ({ page }) => {
-  await gotoReady(page, '/dialog');
-  await page.getByRole('button', { name: /open/i }).first().click();
-  await expect(page.getByRole('dialog')).toBeVisible();
-  await page.keyboard.press('Escape');
-  await expect(page.getByRole('dialog')).toBeHidden();
-
+test('Dropdown inside a field opens its list, commits a choice and closes on Escape with focus restored', async ({
+  page,
+}) => {
   await gotoReady(page, '/dropdown');
-  await page.getByRole('button').first().click();
-  await expect(page.getByRole('listbox').or(page.getByRole('menu')).first()).toBeVisible();
+
+  const panel = page.locator('app-panel[num="01"]');
+  const input = panel.getByRole('textbox', { name: 'Favourite fruit' });
+  const readout = panel.locator('code', { hasText: /^value:/ });
+
+  await expect(readout).toHaveText('value: null');
+  await input.click();
+
+  const listbox = page.getByRole('listbox');
+  await expect(listbox).toBeVisible();
+  await listbox.getByRole('option', { name: 'Banana' }).click();
+  await expect(listbox).toBeHidden();
+  await expect(readout).toHaveText('value: Banana');
+  await expect(input).toHaveValue('Banana');
+
+  await input.click();
+  await expect(listbox).toBeVisible();
   await page.keyboard.press('Escape');
+  await expect(listbox).toBeHidden();
+  await expect(input).toBeFocused();
 });
 
 test('does not dismiss a dialog when a text-selection drag leaves the panel', async ({ page }) => {

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../../tests/e2e/support/fixtures';
 
 const desktopViewport = { width: 1440, height: 1000 };
 const mobileViewport = { width: 320, height: 844 };

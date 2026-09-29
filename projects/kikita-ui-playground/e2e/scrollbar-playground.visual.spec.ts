@@ -1,4 +1,6 @@
-import { expect, type Page, test } from '@playwright/test';
+import type { Page } from '@playwright/test';
+
+import { expect, test } from '../../../tests/e2e/support/fixtures';
 
 const desktopViewport = { width: 1440, height: 1000 };
 const tabletViewport = { width: 768, height: 1024 };

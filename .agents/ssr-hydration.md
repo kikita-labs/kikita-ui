@@ -32,6 +32,21 @@ The SSR gate must build the playground with server output, serve it, load
 representative routes in Playwright, and fail on hydration mismatch or console
 errors.
 
+An SSR check must prove three separate things, in this order:
+
+1. The server response alone contains the route content (`request.get`, or a page with
+   `javaScriptEnabled: false`).
+2. The same DOM survives hydration. Use `openWithHeldScripts` from `tests/e2e/support/ssr.ts` to hold
+   every client script, mark a server-rendered node, release the scripts, and assert the marked node
+   is still there.
+3. The hydrated page stays interactive. The Playground exposes no hydration marker, so prove it with
+   an idempotent client-only action such as switching the theme.
+
+The library Playground is served for this gate by `tools/serve-playground-ssr.mjs`. Its own
+`server.mjs` renders routes but serves no client scripts, so serving it directly leaves the page
+unhydrated while a load-only test still passes. Both SSR gates rebuild first, refuse a stale build,
+and never reuse an already running server.
+
 Representative routes:
 
 - `/tokens`

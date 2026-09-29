@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../../tests/e2e/support/fixtures';
 
 const catalogueExamples = [
   ['Default field example', 'field-default-desktop.png', 'field-default-320.png'],

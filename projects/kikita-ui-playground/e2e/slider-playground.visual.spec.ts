@@ -1,4 +1,6 @@
-import { expect, type Locator, type Page, test } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
+
+import { expect, test } from '../../../tests/e2e/support/fixtures';
 
 const catalogueSections = [
   ['Default Slider example', 'slider-default'],
