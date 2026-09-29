@@ -99,5 +99,6 @@ Status definitions: `Queued` means the page has not been assigned; `In progress`
 - [x] No page is marked done before independent visual and code review.
 - [x] Parent integration checks pass after each batch. Final gate passed on 2026-09-29: unit
       678/678, Playground unit 5/5, Playground SSR/visual 498/498, legacy SSR 11/11, and legacy
-      browser 51/51; format, lint, static audit, script checks, and builds all passed. `release/2.x`
-      was pushed through `ca40fd7`.
+      browser 51/51; format, lint, static audit, script checks, and builds all passed. The final
+      Button icon and Tree clock follow-ups are isolated in `70ce961` and `5f241d9`; `release/2.x`
+      was pushed through `5f241d9`.
