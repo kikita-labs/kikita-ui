@@ -125,6 +125,7 @@ test('captures open Dialog surfaces in both shell themes', async ({ page }) => {
     await group.getByRole('button', { name: 'Open default', exact: true }).click();
     const dialog = page.getByRole('dialog', { name: 'Profile details', exact: true });
     await expect(dialog).toHaveAttribute('aria-modal', 'true');
+    await waitForDialogEntrance(dialog);
     panelBackgrounds.set(
       theme,
       await dialog.evaluate((element) => getComputedStyle(element).backgroundColor),
@@ -137,6 +138,7 @@ test('captures open Dialog surfaces in both shell themes', async ({ page }) => {
 
     await group.getByRole('button', { name: 'Open fullscreen', exact: true }).click();
     const fullscreen = page.getByRole('dialog', { name: 'Fullscreen dialog', exact: true });
+    await waitForDialogEntrance(fullscreen);
     await expect(fullscreen).toHaveScreenshot('dialog-open-fullscreen-' + theme + '.png', {
       animations: 'disabled',
     });
