@@ -17,6 +17,37 @@ async function getAxeViolations(page: Page, excludeEmptyOverlayMount = false): P
   }, excludeEmptyOverlayMount);
 }
 
+async function waitForStableDarkTheme(page: Page): Promise<void> {
+  const root = page.locator('html');
+
+  await expect(root).toHaveAttribute('data-kui-theme', 'dark');
+  await expect(page.locator('#playground-theme')).toHaveCount(1);
+  await expect
+    .poll(() => page.locator('#playground-theme').textContent())
+    .toContain('--kui-color-primary-soft-text: var(--kui-primary-4);');
+  await expect
+    .poll(() => page.locator('#playground-theme').textContent())
+    .toContain('--kui-color-primary-soft-bg: var(--kui-primary-11);');
+  await expect
+    .poll(() =>
+      root.evaluate((element) => {
+        const styles = getComputedStyle(element);
+        const selectedText = styles.getPropertyValue('--kui-color-primary-soft-text').trim();
+        const selectedBackground = styles.getPropertyValue('--kui-color-primary-soft-bg').trim();
+
+        return {
+          selectedTextReady:
+            selectedText !== '' &&
+            selectedText === styles.getPropertyValue('--kui-primary-4').trim(),
+          selectedBackgroundReady:
+            selectedBackground !== '' &&
+            selectedBackground === styles.getPropertyValue('--kui-primary-11').trim(),
+        };
+      }),
+    )
+    .toEqual({ selectedTextReady: true, selectedBackgroundReady: true });
+}
+
 declare global {
   interface Window {
     axe: {
@@ -155,6 +186,8 @@ test('server-renders and hydrates the Select page without browser errors', async
 test('checks Select accessibility and records the CDK overlay landmark boundary', async ({
   page,
 }) => {
+  await waitForStableDarkTheme(page);
+
   const overlayContainer = page.locator('.cdk-overlay-container');
   const overlayMountExists = (await overlayContainer.count()) > 0;
   if (overlayMountExists) await expect(overlayContainer).toBeEmpty();
@@ -170,6 +203,8 @@ test('checks Select accessibility and records the CDK overlay landmark boundary'
   await input.focus();
   await input.press('ArrowDown');
   await expect(page.getByRole('listbox')).toBeVisible();
+  await waitForStableDarkTheme(page);
+  await expect(page.locator('.cdk-overlay-container .kui-dropdown')).toHaveCSS('opacity', '1');
 
   const openViolations = await getAxeViolations(page);
   expect(openViolations).toHaveLength(1);
