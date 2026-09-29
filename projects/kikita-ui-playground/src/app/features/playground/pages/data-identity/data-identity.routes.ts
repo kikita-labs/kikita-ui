@@ -11,6 +11,12 @@ export const PLAYGROUND_DATA_IDENTITY_ROUTES: Routes = [
     loadComponent: () => import('./avatar').then((page) => page.Avatar),
   },
   {
+    path: [PlaygroundRoute.Components, PlaygroundRoute.Chart].join('/'),
+    data: { componentId: PlaygroundRoute.Chart },
+    providers: [provideTranslocoScope('chart')],
+    loadComponent: () => import('./chart').then((page) => page.Chart),
+  },
+  {
     path: [PlaygroundRoute.Components, PlaygroundRoute.Chip].join('/'),
     data: { componentId: PlaygroundRoute.Chip },
     providers: [provideTranslocoScope('chip')],

@@ -68,6 +68,7 @@ export const COMPONENT_GROUPS = [
     label: 'playground.groups.dataIdentity',
     components: [
       { id: PlaygroundRoute.Avatar, label: 'playground.components.avatar' },
+      { id: PlaygroundRoute.Chart, label: 'playground.components.chart' },
       { id: PlaygroundRoute.Chip, label: 'playground.components.chip' },
       { id: PlaygroundRoute.Icon, label: 'playground.components.icon' },
       { id: PlaygroundRoute.Scrollbar, label: 'playground.components.scrollbar' },

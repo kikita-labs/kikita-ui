@@ -35,6 +35,7 @@ const componentPages = [
   { path: '/components/separator', title: 'Separator' },
   { path: '/components/tooltip', title: 'Tooltip' },
   { path: '/components/avatar', title: 'Avatar' },
+  { path: '/components/chart', title: 'Chart' },
   { path: '/components/chip', title: 'Chip' },
   { path: '/components/icon', title: 'Icon' },
   { path: '/components/scrollbar', title: 'Scrollbar' },

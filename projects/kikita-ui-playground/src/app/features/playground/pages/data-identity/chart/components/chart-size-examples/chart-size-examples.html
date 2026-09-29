@@ -1,0 +1,81 @@
+@let catalogue = data();
+@let lineLabel = 'chart.types.line' | transloco;
+@let barLabel = 'chart.types.bar' | transloco;
+@let scatterLabel = 'chart.types.scatter' | transloco;
+@let donutLabel = 'chart.types.donut' | transloco;
+
+<div
+  class="chart-size-examples__row"
+  role="group"
+  [attr.aria-label]="'chart.accessibility.sizeRow' | transloco: { type: lineLabel }"
+>
+  @for (size of sizes; track size) {
+    <app-chart-example
+      [heading]="'chart.labels.typeSize' | transloco: { type: lineLabel, size: size }"
+    >
+      <kui-line-chart
+        [ariaLabel]="'chart.accessibility.sizeChart' | transloco: { type: lineLabel, size: size }"
+        [series]="catalogue.trafficPair"
+        [categories]="catalogue.weekdays"
+        [size]="size"
+      />
+    </app-chart-example>
+  }
+</div>
+
+<div
+  class="chart-size-examples__row"
+  role="group"
+  [attr.aria-label]="'chart.accessibility.sizeRow' | transloco: { type: barLabel }"
+>
+  @for (size of sizes; track size) {
+    <app-chart-example
+      [heading]="'chart.labels.typeSize' | transloco: { type: barLabel, size: size }"
+    >
+      <kui-bar-chart
+        [ariaLabel]="'chart.accessibility.sizeChart' | transloco: { type: barLabel, size: size }"
+        [series]="catalogue.revenueGrouped"
+        [categories]="catalogue.plans"
+        [size]="size"
+      />
+    </app-chart-example>
+  }
+</div>
+
+<div
+  class="chart-size-examples__row"
+  role="group"
+  [attr.aria-label]="'chart.accessibility.sizeRow' | transloco: { type: scatterLabel }"
+>
+  @for (size of sizes; track size) {
+    <app-chart-example
+      [heading]="'chart.labels.typeSize' | transloco: { type: scatterLabel, size: size }"
+    >
+      <kui-scatter-chart
+        [ariaLabel]="
+          'chart.accessibility.sizeChart' | transloco: { type: scatterLabel, size: size }
+        "
+        [series]="catalogue.scatter"
+        [size]="size"
+      />
+    </app-chart-example>
+  }
+</div>
+
+<div
+  class="chart-size-examples__row"
+  role="group"
+  [attr.aria-label]="'chart.accessibility.sizeRow' | transloco: { type: donutLabel }"
+>
+  @for (size of sizes; track size) {
+    <app-chart-example
+      [heading]="'chart.labels.typeSize' | transloco: { type: donutLabel, size: size }"
+    >
+      <kui-donut-chart
+        [ariaLabel]="'chart.accessibility.sizeChart' | transloco: { type: donutLabel, size: size }"
+        [slices]="catalogue.slices"
+        [size]="size"
+      />
+    </app-chart-example>
+  }
+</div>

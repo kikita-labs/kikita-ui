@@ -1,0 +1,441 @@
+@let catalogue = data();
+
+<main class="playground-workspace chart-playground" aria-labelledby="chart-playground-title">
+  <h1 id="chart-playground-title" kuiText variant="heading-lg">
+    {{ 'chart.title' | transloco }}
+  </h1>
+
+  <div class="chart-playground__catalogue">
+    <section role="group" [attr.aria-label]="'chart.examples.minimal' | transloco">
+      <app-playground-example-card [heading]="'chart.examples.minimal' | transloco">
+        <kui-line-chart
+          [ariaLabel]="'chart.charts.sessions' | transloco"
+          [series]="catalogue.sessions"
+          [categories]="catalogue.weekdays"
+        />
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="chart-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chart.examples.lineArea' | transloco"
+    >
+      <app-playground-example-card [heading]="'chart.examples.lineArea' | transloco">
+        <div class="chart-playground__grid">
+          <app-chart-example [heading]="'chart.labels.lineThree' | transloco">
+            <kui-line-chart
+              [ariaLabel]="'chart.charts.traffic' | transloco"
+              [series]="catalogue.traffic"
+              [categories]="catalogue.weekdays"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.areaTwo' | transloco">
+            <kui-line-chart
+              area
+              [ariaLabel]="'chart.charts.trafficArea' | transloco"
+              [series]="catalogue.trafficPair"
+              [categories]="catalogue.weekdays"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.lineGaps' | transloco">
+            <kui-line-chart
+              [ariaLabel]="'chart.charts.gaps' | transloco"
+              [series]="catalogue.trafficPairWithGaps"
+              [categories]="catalogue.weekdays"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.areaGaps' | transloco">
+            <kui-line-chart
+              area
+              [ariaLabel]="'chart.charts.gapsArea' | transloco"
+              [series]="catalogue.sessionsWithGaps"
+              [categories]="catalogue.weekdays"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.explicitColors' | transloco">
+            <kui-line-chart
+              [ariaLabel]="'chart.charts.colors' | transloco"
+              [series]="catalogue.trafficColored"
+              [categories]="catalogue.weekdays"
+            />
+          </app-chart-example>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="chart-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chart.examples.bars' | transloco"
+    >
+      <app-playground-example-card [heading]="'chart.examples.bars' | transloco">
+        <div class="chart-playground__grid">
+          <app-chart-example [heading]="'chart.labels.barSingle' | transloco">
+            <kui-bar-chart
+              [ariaLabel]="'chart.charts.revenue' | transloco"
+              [series]="catalogue.revenue"
+              [categories]="catalogue.plans"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.barVerticalGrouped' | transloco">
+            <kui-bar-chart
+              [ariaLabel]="'chart.charts.revenueVerticalGrouped' | transloco"
+              [series]="catalogue.revenueGrouped"
+              [categories]="catalogue.plans"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.barHorizontalGrouped' | transloco">
+            <kui-bar-chart
+              orientation="horizontal"
+              [ariaLabel]="'chart.charts.revenueHorizontalGrouped' | transloco"
+              [series]="catalogue.revenueGrouped"
+              [categories]="catalogue.plans"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.barVerticalStacked' | transloco">
+            <kui-bar-chart
+              stacked
+              [ariaLabel]="'chart.charts.revenueVerticalStacked' | transloco"
+              [series]="catalogue.revenueGrouped"
+              [categories]="catalogue.plans"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.barHorizontalStacked' | transloco">
+            <kui-bar-chart
+              stacked
+              orientation="horizontal"
+              [ariaLabel]="'chart.charts.revenueHorizontalStacked' | transloco"
+              [series]="catalogue.revenueGrouped"
+              [categories]="catalogue.plans"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.barDiverging' | transloco">
+            <kui-bar-chart
+              stacked
+              [ariaLabel]="'chart.charts.balance' | transloco"
+              [series]="catalogue.balance"
+              [categories]="catalogue.workdays"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.barGaps' | transloco">
+            <kui-bar-chart
+              [ariaLabel]="'chart.charts.revenueGaps' | transloco"
+              [series]="catalogue.revenueGroupedWithGaps"
+              [categories]="catalogue.plans"
+            />
+          </app-chart-example>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="chart-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chart.examples.scatter' | transloco"
+    >
+      <app-playground-example-card [heading]="'chart.examples.scatter' | transloco">
+        <div class="chart-playground__grid">
+          <app-chart-example [heading]="'chart.labels.scatterTwo' | transloco">
+            <kui-scatter-chart
+              [ariaLabel]="'chart.charts.ageIncome' | transloco"
+              [series]="catalogue.scatter"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.scatterSingle' | transloco">
+            <kui-scatter-chart
+              [ariaLabel]="'chart.charts.ageIncomeSingle' | transloco"
+              [series]="catalogue.scatterSingle"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.bubbleTwo' | transloco">
+            <kui-scatter-chart
+              bubble
+              [ariaLabel]="'chart.charts.ageIncomeBubble' | transloco"
+              [series]="catalogue.bubble"
+            />
+          </app-chart-example>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="chart-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chart.examples.donut' | transloco"
+    >
+      <app-playground-example-card [heading]="'chart.examples.donut' | transloco">
+        <div class="chart-playground__grid">
+          <app-chart-example [heading]="'chart.labels.donutDefault' | transloco">
+            <kui-donut-chart
+              [ariaLabel]="'chart.charts.planMix' | transloco"
+              [slices]="catalogue.slices"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.donutMany' | transloco">
+            <kui-donut-chart
+              [ariaLabel]="'chart.charts.planMixMany' | transloco"
+              [slices]="catalogue.slicesMany"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.donutColors' | transloco">
+            <kui-donut-chart
+              [ariaLabel]="'chart.charts.planMixColors' | transloco"
+              [slices]="catalogue.slicesColored"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.donutSingle' | transloco">
+            <kui-donut-chart
+              [ariaLabel]="'chart.charts.planMixSingle' | transloco"
+              [slices]="catalogue.sliceSingle"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.donutNegative' | transloco">
+            <kui-donut-chart
+              [ariaLabel]="'chart.charts.planMixNegative' | transloco"
+              [slices]="catalogue.slicesNegative"
+            />
+          </app-chart-example>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="chart-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chart.examples.axes' | transloco"
+    >
+      <app-playground-example-card [heading]="'chart.examples.axes' | transloco">
+        <app-chart-axes-examples [data]="catalogue" />
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="chart-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chart.examples.sizes' | transloco"
+    >
+      <app-playground-example-card [heading]="'chart.examples.sizes' | transloco">
+        <app-chart-size-examples [data]="catalogue" />
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="chart-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chart.examples.states' | transloco"
+    >
+      <app-playground-example-card [heading]="'chart.examples.states' | transloco">
+        <app-chart-state-examples [data]="catalogue" />
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="chart-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chart.examples.formatting' | transloco"
+    >
+      <app-playground-example-card [heading]="'chart.examples.formatting' | transloco">
+        <div class="chart-playground__grid">
+          <app-chart-example [heading]="'chart.labels.formatCurrency' | transloco">
+            <kui-line-chart
+              [ariaLabel]="'chart.charts.sessionsCurrency' | transloco"
+              [series]="catalogue.sessions"
+              [categories]="catalogue.weekdays"
+              [valueFormat]="catalogue.currencyFormat"
+              [tooltip]="catalogue.cartesianTooltip"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.formatCompact' | transloco">
+            <kui-line-chart
+              [ariaLabel]="'chart.charts.trafficLarge' | transloco"
+              [series]="catalogue.largeTraffic"
+              [categories]="catalogue.weekdays"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.formatThousands' | transloco">
+            <kui-bar-chart
+              [ariaLabel]="'chart.charts.revenueThousands' | transloco"
+              [series]="catalogue.revenue"
+              [categories]="catalogue.plans"
+              [valueFormat]="catalogue.thousandsFormat"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.formatScatter' | transloco">
+            <kui-scatter-chart
+              [ariaLabel]="'chart.charts.ageIncomeTooltip' | transloco"
+              [series]="catalogue.scatter"
+              [tooltip]="catalogue.scatterTooltip"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.formatDonut' | transloco">
+            <kui-donut-chart
+              [ariaLabel]="'chart.charts.planMixTooltip' | transloco"
+              [slices]="catalogue.slices"
+              [tooltip]="catalogue.donutTooltip"
+            />
+          </app-chart-example>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="chart-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chart.examples.legend' | transloco"
+    >
+      <app-playground-example-card [heading]="'chart.examples.legend' | transloco">
+        <div class="chart-playground__grid">
+          <app-chart-example [heading]="'chart.labels.legendAutomatic' | transloco">
+            <kui-line-chart
+              [ariaLabel]="'chart.charts.legendAutomatic' | transloco"
+              [series]="catalogue.trafficPair"
+              [categories]="catalogue.weekdays"
+              size="sm"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.legendOff' | transloco">
+            <kui-line-chart
+              [ariaLabel]="'chart.charts.legendOff' | transloco"
+              [series]="catalogue.trafficPair"
+              [categories]="catalogue.weekdays"
+              [legend]="false"
+              size="sm"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.legendForced' | transloco">
+            <kui-line-chart
+              [ariaLabel]="'chart.charts.legendForced' | transloco"
+              [series]="catalogue.sessions"
+              [categories]="catalogue.weekdays"
+              [legend]="true"
+              size="sm"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.legendStacked' | transloco">
+            <kui-bar-chart
+              stacked
+              [ariaLabel]="'chart.charts.legendStacked' | transloco"
+              [series]="catalogue.revenueGrouped"
+              [categories]="catalogue.plans"
+              size="sm"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.legendStandalone' | transloco">
+            <kui-scatter-chart
+              #standaloneChart
+              [ariaLabel]="'chart.charts.legendStandalone' | transloco"
+              [series]="catalogue.scatter"
+              [legend]="false"
+              size="sm"
+            />
+            <kui-chart-legend [chart]="standaloneChart" />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.legendCustom' | transloco">
+            <kui-donut-chart
+              #customChart
+              [ariaLabel]="'chart.charts.legendCustom' | transloco"
+              [slices]="catalogue.slices"
+              [legend]="false"
+              size="sm"
+            />
+            <kui-chart-legend [chart]="customChart">
+              <ng-template kuiChartLegendItem let-item let-hovered="hovered">
+                <button
+                  kuiButton
+                  size="xs"
+                  type="button"
+                  [shape]="hovered ? 'soft' : 'outline'"
+                  [attr.aria-pressed]="!item.hidden"
+                  (click)="customChart.toggleLegendItem(item.id)"
+                  (pointerenter)="customChart.setHoveredLegendId(item.id)"
+                  (pointerleave)="customChart.setHoveredLegendId(null)"
+                >
+                  {{ item.label }}
+                </button>
+              </ng-template>
+            </kui-chart-legend>
+          </app-chart-example>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="chart-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chart.examples.altTable' | transloco"
+    >
+      <app-playground-example-card [heading]="'chart.examples.altTable' | transloco">
+        <div class="chart-playground__grid">
+          <app-chart-example [heading]="'chart.labels.tableLine' | transloco">
+            <kui-line-chart
+              [ariaLabel]="'chart.charts.tableLine' | transloco"
+              [series]="catalogue.exactTraffic"
+              [categories]="catalogue.weekdays"
+              size="sm"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.tableBar' | transloco">
+            <kui-bar-chart
+              [ariaLabel]="'chart.charts.tableBar' | transloco"
+              [series]="catalogue.revenueGrouped"
+              [categories]="catalogue.plans"
+              size="sm"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.tableScatter' | transloco">
+            <kui-scatter-chart
+              [ariaLabel]="'chart.charts.tableScatter' | transloco"
+              [series]="catalogue.scatter"
+              size="sm"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.tableBubble' | transloco">
+            <kui-scatter-chart
+              bubble
+              [ariaLabel]="'chart.charts.tableBubble' | transloco"
+              [series]="catalogue.bubble"
+              size="sm"
+            />
+          </app-chart-example>
+
+          <app-chart-example [heading]="'chart.labels.tableDonut' | transloco">
+            <kui-donut-chart
+              [ariaLabel]="'chart.charts.tableDonut' | transloco"
+              [slices]="catalogue.slices"
+              size="sm"
+            />
+          </app-chart-example>
+        </div>
+      </app-playground-example-card>
+    </section>
+  </div>
+</main>

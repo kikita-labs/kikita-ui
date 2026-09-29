@@ -1,0 +1,34 @@
+@let catalogue = data();
+
+<div class="chart-axes-examples__grid">
+  @for (example of examples; track example.id) {
+    <app-chart-example [heading]="'chart.labels.axes.' + example.id | transloco">
+      <kui-line-chart
+        size="sm"
+        [ariaLabel]="'chart.accessibility.axesChart' | transloco"
+        [series]="catalogue.sessions"
+        [categories]="catalogue.weekdays"
+        [axes]="example.axes"
+      />
+    </app-chart-example>
+  }
+
+  <app-chart-example [heading]="'chart.labels.axes.barHideValueAxis' | transloco">
+    <kui-bar-chart
+      size="sm"
+      [ariaLabel]="'chart.accessibility.axesBarChart' | transloco"
+      [series]="catalogue.revenue"
+      [categories]="catalogue.plans"
+      [axes]="{ y: false, gridLines: 'vertical' }"
+    />
+  </app-chart-example>
+
+  <app-chart-example [heading]="'chart.labels.axes.scatterGridNone' | transloco">
+    <kui-scatter-chart
+      size="sm"
+      [ariaLabel]="'chart.accessibility.axesScatterChart' | transloco"
+      [series]="catalogue.scatterSingle"
+      [axes]="{ gridLines: 'none' }"
+    />
+  </app-chart-example>
+</div>

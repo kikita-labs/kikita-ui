@@ -41,6 +41,7 @@ export enum PlaygroundRoute {
   Toast = 'toast',
   Tooltip = 'tooltip',
   Avatar = 'avatar',
+  Chart = 'chart',
   Chip = 'chip',
   Icon = 'icon',
   Scrollbar = 'scrollbar',

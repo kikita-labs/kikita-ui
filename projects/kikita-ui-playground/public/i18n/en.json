@@ -44,6 +44,7 @@
       "button": "Button",
       "calendar": "Calendar",
       "card": "Card",
+      "chart": "Chart",
       "checkbox": "Checkbox",
       "chip": "Chip",
       "colorInput": "Color input",

@@ -1,0 +1,20 @@
+@layer app.components {
+  :host {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .chart-size-examples__row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  @media (width < 48rem) {
+    .chart-size-examples__row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
