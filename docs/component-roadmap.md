@@ -97,19 +97,18 @@ fixing or closing them; record new evidence in state coverage.
   `22.0.7`, while the lockfile has `22.0.1` for those packages.
 
 - Browser test gaps found while building the shared harness (Plan 11, 2026-09-29/30). Full list with
-  ownership labels is in [browser test coverage](browser-test-coverage.md#known-gaps-and-owners).
-  Except for the Playground pages below, which Plan 10.2 covers, none of the following has a confirmed owner; each needs a maintainer decision:
-  - Automated axe violations on Calendar, Calendar Range, Splitter, Menu, File Upload and many
-    library demo pages (exact rule ids are asserted per route). A focused accessibility slice is
-    possible under the pull-forward rule in `.local-notes/v2/PLAN.md`, but it is not decided.
-  - Time Picker: Escape pressed inside the open panel leaves focus on `<body>`.
-  - `kui-field` `required` is not exposed to assistive technology.
-  - No primitive is direction-aware, so right-to-left has a layout smoke only.
+  owners is in [browser test coverage](browser-test-coverage.md#known-gaps-and-owners). Decisions of
+  2026-09-30, recorded in the local v2 plan:
   - Ten primitives have no replacement Playground page (Alert, Calendar Range, Carousel, Link, Media
-    Viewer, OTP Input, Pagination, Splitter, Time Picker, Typography); this is a Playground catalogue
-    gap outside Plan 11. Decided: Plan 10.2 (Playground parity and legacy retirement) covers it, after
-    Plan 11 closes and before Plan 12 is completed.
-  - Default Lucide icons depend on the jsDelivr CDN.
+    Viewer, OTP Input, Pagination, Splitter, Time Picker, Typography). Plan 10.2 covers them and the
+    retirement of the legacy Playground, after Plan 11 and before Plan 12 is completed.
+  - Automated axe violations (Calendar, Calendar Range, Splitter, Menu, File Upload and many library
+    demo pages; exact rule ids are asserted per route) and the Time Picker Escape-focus defect belong
+    to a separate accessibility follow-up after Plan 10.2.
+  - `kui-field` `required` exposure to assistive technology is added to Plan 19B.
+  - Default Lucide icons depending on the jsDelivr CDN is added to Plan 20.
+  - Re-enabling the axe `color-contrast` rule is added to Plan 14.
+  - Hydration-readiness marker and orphan-dialog behavior are added to Plan 12.
 
 ## Deferred Feature Scope
 
@@ -122,6 +121,9 @@ These remain explicit scope limits, not automatic release blockers:
 - Calendar multiple-date selection; single and range selection are separate primitives.
 - Chart long-label/dense-layout handling, scatter non-color distinguishability,
   configurable donut center/geometry, and visual/AT evidence; see [known gaps](chart.md#known-gaps).
+- Right-to-left layout and direction-aware keyboard behavior: unsupported in v2. No primitive reads
+  the document direction, so arrow-key direction in Tabs, Slider, Segmented, Tree and Splitter follows
+  left-to-right order. The browser suite only checks that an RTL document does not overflow.
 
 Move an item into active delivery when a concrete consumer requirement warrants
 it, and update the component contract and state coverage together.
