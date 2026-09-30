@@ -19,6 +19,7 @@ export const COMPONENT_GROUPS = [
     label: 'playground.groups.forms',
     components: [
       { id: PlaygroundRoute.Calendar, label: 'playground.components.calendar' },
+      { id: PlaygroundRoute.CalendarRange, label: 'playground.components.calendarRange' },
       { id: PlaygroundRoute.Checkbox, label: 'playground.components.checkbox' },
       { id: PlaygroundRoute.ColorInput, label: 'playground.components.colorInput' },
       { id: PlaygroundRoute.Combobox, label: 'playground.components.combobox' },

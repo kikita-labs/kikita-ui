@@ -1,0 +1,11 @@
+@layer app.components {
+  .calendar-range-default__calendar {
+    display: block;
+
+    --kui-calendar-width: min(100%, 296px);
+  }
+
+  .calendar-range-default__readout {
+    margin: var(--kui-space-3) 0 0;
+  }
+}

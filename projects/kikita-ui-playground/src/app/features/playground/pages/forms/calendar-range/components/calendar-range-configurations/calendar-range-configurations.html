@@ -1,0 +1,109 @@
+<div class="calendar-range-configurations__catalogue">
+  <section role="group" [attr.aria-label]="'calendarRange.accessibility.footerEmpty' | transloco">
+    <app-playground-example-card [heading]="'calendarRange.examples.footerEmpty' | transloco">
+      <kui-calendar-range
+        class="calendar-range-configurations__calendar"
+        locale="en-US"
+        showFooter
+        [(value)]="footerEmptyValue"
+        [(viewDate)]="footerEmptyViewDate"
+      />
+    </app-playground-example-card>
+  </section>
+
+  <section role="group" [attr.aria-label]="'calendarRange.accessibility.footerOpen' | transloco">
+    <app-playground-example-card [heading]="'calendarRange.examples.footerOpen' | transloco">
+      <kui-calendar-range
+        class="calendar-range-configurations__calendar"
+        locale="en-US"
+        showFooter
+        [(value)]="footerOpenValue"
+        [(viewDate)]="footerOpenViewDate"
+      />
+    </app-playground-example-card>
+  </section>
+
+  <section
+    role="group"
+    [attr.aria-label]="'calendarRange.accessibility.footerCommitted' | transloco"
+  >
+    <app-playground-example-card [heading]="'calendarRange.examples.footerCommitted' | transloco">
+      <kui-calendar-range
+        class="calendar-range-configurations__calendar"
+        locale="en-US"
+        showFooter
+        [(value)]="footerCommittedValue"
+        [(viewDate)]="footerCommittedViewDate"
+      />
+    </app-playground-example-card>
+  </section>
+
+  <section role="group" [attr.aria-label]="'calendarRange.accessibility.constraints' | transloco">
+    <app-playground-example-card [heading]="'calendarRange.examples.constraints' | transloco">
+      <kui-calendar-range
+        class="calendar-range-configurations__calendar"
+        locale="en-US"
+        [minDate]="minSelectableDate"
+        [maxDate]="maxSelectableDate"
+        [disabledDates]="disabledDates"
+        [showWeekend]="false"
+        [(value)]="constrainedValue"
+        [(viewDate)]="constrainedViewDate"
+      />
+    </app-playground-example-card>
+  </section>
+
+  <section role="group" [attr.aria-label]="'calendarRange.accessibility.predicate' | transloco">
+    <app-playground-example-card [heading]="'calendarRange.examples.predicate' | transloco">
+      <kui-calendar-range
+        class="calendar-range-configurations__calendar"
+        locale="en-US"
+        [disabledDates]="isWeekend"
+        [(value)]="predicateValue"
+        [(viewDate)]="predicateViewDate"
+      />
+    </app-playground-example-card>
+  </section>
+
+  <section
+    class="calendar-range-configurations__locales"
+    role="group"
+    [attr.aria-label]="'calendarRange.accessibility.locales' | transloco"
+  >
+    <app-playground-example-card [heading]="'calendarRange.examples.locales' | transloco">
+      <div class="calendar-range-configurations__locale-grid">
+        <div
+          class="calendar-range-configurations__locale-example"
+          role="group"
+          [attr.aria-label]="'calendarRange.locales.english' | transloco"
+        >
+          <p kuiText variant="body-sm" tone="muted">
+            {{ 'calendarRange.locales.english' | transloco }}
+          </p>
+          <kui-calendar-range
+            class="calendar-range-configurations__calendar"
+            locale="en-US"
+            [(value)]="englishValue"
+            [(viewDate)]="englishViewDate"
+          />
+        </div>
+
+        <div
+          class="calendar-range-configurations__locale-example"
+          role="group"
+          [attr.aria-label]="'calendarRange.locales.russian' | transloco"
+        >
+          <p kuiText variant="body-sm" tone="muted">
+            {{ 'calendarRange.locales.russian' | transloco }}
+          </p>
+          <kui-calendar-range
+            class="calendar-range-configurations__calendar"
+            locale="ru-RU"
+            [(value)]="russianValue"
+            [(viewDate)]="russianViewDate"
+          />
+        </div>
+      </div>
+    </app-playground-example-card>
+  </section>
+</div>

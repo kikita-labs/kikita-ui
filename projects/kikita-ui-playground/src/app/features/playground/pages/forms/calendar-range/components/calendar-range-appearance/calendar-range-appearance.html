@@ -1,0 +1,36 @@
+<section role="group" [attr.aria-label]="'calendarRange.accessibility.compact' | transloco">
+  <app-playground-example-card [heading]="'calendarRange.examples.compact' | transloco">
+    <kui-calendar-range
+      class="calendar-range-appearance__calendar"
+      locale="en-US"
+      size="sm"
+      [(value)]="compactValue"
+      [(viewDate)]="compactViewDate"
+    />
+  </app-playground-example-card>
+</section>
+
+<section role="group" [attr.aria-label]="'calendarRange.accessibility.flat' | transloco">
+  <app-playground-example-card [heading]="'calendarRange.examples.flat' | transloco">
+    <kui-calendar-range
+      class="calendar-range-appearance__calendar"
+      locale="en-US"
+      flat
+      [(value)]="flatValue"
+      [(viewDate)]="flatViewDate"
+    />
+  </app-playground-example-card>
+</section>
+
+<section role="group" [attr.aria-label]="'calendarRange.accessibility.compactFlat' | transloco">
+  <app-playground-example-card [heading]="'calendarRange.examples.compactFlat' | transloco">
+    <kui-calendar-range
+      class="calendar-range-appearance__calendar"
+      locale="en-US"
+      size="sm"
+      flat
+      [(value)]="compactFlatValue"
+      [(viewDate)]="compactFlatViewDate"
+    />
+  </app-playground-example-card>
+</section>

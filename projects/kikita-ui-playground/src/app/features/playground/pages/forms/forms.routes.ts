@@ -11,6 +11,12 @@ export const PLAYGROUND_FORMS_ROUTES: Routes = [
     loadComponent: () => import('./calendar').then((page) => page.Calendar),
   },
   {
+    path: [PlaygroundRoute.Components, PlaygroundRoute.CalendarRange].join('/'),
+    data: { componentId: PlaygroundRoute.CalendarRange },
+    providers: [provideTranslocoScope('calendar-range')],
+    loadComponent: () => import('./calendar-range').then((page) => page.CalendarRange),
+  },
+  {
     path: [PlaygroundRoute.Components, PlaygroundRoute.Checkbox].join('/'),
     data: { componentId: PlaygroundRoute.Checkbox },
     providers: [provideTranslocoScope('checkbox')],
