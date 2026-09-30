@@ -493,9 +493,10 @@ test.describe('touch swipe', () => {
 
     // The touch gesture is dispatched through the browser's input pipeline. The final resting
     // position after the synthetic release is not asserted: only that the track moved and the
-    // index model followed it.
+    // index model followed it. The touch fling can carry the track past the first slide, so the
+    // index is only required to have left the initial slide.
     await swipeTrack(page, swipeRegion);
-    await expect(readout(swipeOnly, 1)).toBeVisible();
+    await expect(swipeOnly.getByText(/Current index: [12]/)).toBeVisible();
     await waitForScrollEnd(swipeRegion);
     expect(await scrollLeftOf(swipeRegion)).toBeGreaterThan(swipeStart + 100);
 

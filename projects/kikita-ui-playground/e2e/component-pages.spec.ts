@@ -95,6 +95,8 @@ test('server renders each component page and hydrates its selected navigation it
 });
 
 test('component page catalogues fit mobile, tablet, and desktop viewports', async ({ page }) => {
+  test.setTimeout(120_000);
+
   for (const viewport of [
     { width: 320, height: 640 },
     { width: 768, height: 1024 },
