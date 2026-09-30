@@ -7,9 +7,5 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": [
-    "*.ts",
-    "projects/kikita-ui-playground/e2e/support/**/*.ts",
-    "projects/kikita-ui-playground/e2e/harness.spec.ts"
-  ]
+  "include": ["playwright.config.ts", "projects/kikita-ui-playground/e2e/**/*.ts"]
 }

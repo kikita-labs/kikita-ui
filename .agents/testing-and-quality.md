@@ -11,6 +11,7 @@ Fast local gate:
 
 ```bash
 pnpm.cmd lint
+pnpm.cmd typecheck:e2e
 pnpm.cmd audit:static
 pnpm.cmd test:scripts
 pnpm.cmd test
@@ -21,6 +22,7 @@ Full gate:
 ```bash
 pnpm.cmd format:check
 pnpm.cmd lint
+pnpm.cmd typecheck:e2e
 pnpm.cmd audit:static
 pnpm.cmd skills:check
 pnpm.cmd test:scripts
@@ -42,12 +44,16 @@ Docker (`test:visual`, see `docs/visual-regression.md`) because its baselines ar
 
 `.github/workflows/ci.yml` runs on pull requests and on pushes to `main` and `release/**`:
 
-- `verify`: format, lint, static audit, skills check, script tests, unit tests, and all builds.
+- `verify`: format, lint, e2e type check, static audit, skills check, script tests, unit tests, and all builds.
 - `browser`: the Playground `behavior` project on Chromium, in 3 shards. Shards use `--fully-parallel` so tests, not files, are balanced across them (Playwright sharding guidance).
 - `visual`: the Playground screenshot suite inside the pinned Playwright Docker image, in 4 shards.
 
 CI is the authoritative gate for the heavy suites. Keep the Docker image tag in `ci.yml` equal to
 the installed `@playwright/test` version.
+
+Playwright runs TypeScript without type checking, so a type error in a spec never fails a test.
+`pnpm typecheck:e2e` (`tsc -p tsconfig.tools.json`) type-checks `playwright.config.ts` and every file
+under `projects/kikita-ui-playground/e2e`; CI and `pre-push` run it.
 
 ## Test Layers
 
@@ -97,7 +103,7 @@ characterization test when coverage is missing. Keep refactors small and green.
 - `pre-commit` runs `lint-staged` on staged files: ESLint and Prettier for TypeScript and
   Angular templates; Stylelint and Prettier for SCSS. It also runs the static and skills
   checks from `.husky/pre-commit`.
-- `pre-push` runs the fast checks only: format, lint, static audit, skills check, script tests and
+- `pre-push` runs the fast checks only: format, lint, e2e type check, static audit, skills check, script tests and
   unit tests. Builds, SSR, browser and visual suites run in CI; run them locally when a change
   touches browser behavior or visuals.
 - If a hook fails because of local environment limits, run the same command

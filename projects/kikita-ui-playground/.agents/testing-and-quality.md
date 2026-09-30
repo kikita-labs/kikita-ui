@@ -8,6 +8,7 @@ Tests configured for this project: Vitest unit tests and Playwright browser chec
    unless there's a documented reason.
 2. `pnpm run format:check` — Prettier owns formatting; run
    `pnpm run format` to fix.
+   `pnpm run typecheck:e2e` — type-checks the Playwright specs, which Playwright itself does not.
 3. Run `pnpm run test:kikita-ui-playground` for unit tests.
 
 The Playwright suites run in CI (`.github/workflows/ci.yml`): `test:browser` (the `behavior`

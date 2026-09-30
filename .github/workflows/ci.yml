@@ -38,6 +38,7 @@ jobs:
 
       - run: pnpm format:check
       - run: pnpm lint
+      - run: pnpm typecheck:e2e
       - run: pnpm audit:static
       - run: pnpm skills:check
       - run: pnpm test:scripts

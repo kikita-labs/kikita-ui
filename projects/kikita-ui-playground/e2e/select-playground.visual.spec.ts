@@ -50,19 +50,6 @@ async function waitForStableDarkTheme(page: Page): Promise<void> {
     .toEqual({ selectedTextReady: true, selectedBackgroundReady: true });
 }
 
-declare global {
-  interface Window {
-    axe: {
-      run: (
-        context: Document,
-        options: unknown,
-      ) => Promise<{
-        violations: unknown[];
-      }>;
-    };
-  }
-}
-
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1200 });
   await page.goto('/components/select');

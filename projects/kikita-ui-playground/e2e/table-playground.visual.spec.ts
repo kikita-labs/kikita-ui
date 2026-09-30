@@ -383,7 +383,7 @@ test('loads the Table locale scope and translates consumer labels while sort act
     title: string;
     accessibility: { sorting: string; selection: string };
     captions: { defaultSelectionLabels: string };
-    columns: { score: string };
+    columns: { name: string; score: string };
     hints: { horizontalScroll: string };
     regions: { sorting: string; defaultSelectionLabels: string };
     members: { priya: string };

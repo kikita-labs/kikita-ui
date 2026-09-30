@@ -1,5 +1,6 @@
 pnpm.cmd format:check
 pnpm.cmd lint
+pnpm.cmd typecheck:e2e
 pnpm.cmd audit:static
 pnpm.cmd skills:check
 pnpm.cmd test:scripts

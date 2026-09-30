@@ -218,7 +218,7 @@ test('loads the Segmented locale scope and updates the accessible group name', a
     exact: true,
   });
   await expect(defaultGroup).toBeVisible();
-  for (const option of Object.values(translations.options)) {
+  for (const option of Object.values<string>(translations.options)) {
     await expect(defaultGroup.getByRole('radio', { name: option, exact: true })).toBeVisible();
   }
 

@@ -151,7 +151,9 @@ test('exposes native field labeling, validation, disabled, and readonly semantic
   page,
 }) => {
   const localInput = page.getByRole('combobox', { name: 'Search people' });
-  const nativeLabelCount = await localInput.evaluate((element) => element.labels?.length ?? 0);
+  const nativeLabelCount = await localInput.evaluate(
+    (element) => (element as HTMLInputElement).labels?.length ?? 0,
+  );
   expect(nativeLabelCount).toBeGreaterThan(0);
 
   const invalidInput = page.getByRole('combobox', { name: 'Invalid', exact: true });

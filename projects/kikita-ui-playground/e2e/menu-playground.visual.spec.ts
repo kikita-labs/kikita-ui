@@ -229,7 +229,7 @@ test('shows alignment, offset, and minimum-width geometry with each trigger @vis
     await expect(menu).toBeVisible();
 
     if (label === 'Start' || label === 'End') {
-      await expectBottomAlignment(page, trigger, menu, label.toLowerCase());
+      await expectBottomAlignment(page, trigger, menu, label === 'Start' ? 'start' : 'end');
     } else if (label === 'Zero offset' || label === '12 px offset') {
       const expectedOffset = label === 'Zero offset' ? 0 : 12;
       await expect

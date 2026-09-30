@@ -20,6 +20,7 @@
     "test:visual": "node scripts/visual-docker.mjs playground",
     "test:visual:update": "node scripts/visual-docker.mjs playground --update",
     "lint": "ng lint",
+    "typecheck:e2e": "tsc -p tsconfig.tools.json",
     "audit:static": "node scripts/verify-static-audit.mjs",
     "skills:check": "node scripts/sync-agent-skills.mjs --check",
     "skills:sync": "node scripts/sync-agent-skills.mjs",

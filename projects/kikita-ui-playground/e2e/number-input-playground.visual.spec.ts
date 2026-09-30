@@ -367,7 +367,8 @@ test('moves Signal Forms validation from untouched through bounds to corrected @
   await expect(quantity).toHaveAttribute('required', '');
   expect(
     await quantity.evaluate(
-      (input) => input.labels?.[0]?.querySelector('[aria-hidden="true"]') != null,
+      (input) =>
+        (input as HTMLInputElement).labels?.[0]?.querySelector('[aria-hidden="true"]') != null,
     ),
   ).toBe(true);
   await expect(quantity).not.toHaveAttribute('aria-invalid', 'true');

@@ -178,7 +178,7 @@ test('renders a minimal default toast with live semantics and a narrow layout @v
   await expect(page.locator('html')).toHaveAttribute('data-kui-theme', 'dark');
 
   const example = page.getByRole('group', { name: copy.accessibility.default, exact: true });
-  const trigger = example.getByRole('button', { name: copy.actions.showDefault, exact: true });
+  const trigger = example.getByRole('button', { name: copy.actions['showDefault'], exact: true });
   await trigger.click();
   expect(browserErrors.get(page)).toEqual([]);
   await expect
@@ -194,7 +194,7 @@ test('renders a minimal default toast with live semantics and a narrow layout @v
     )
     .toEqual({ host: true, region: true, toastCount: 1 });
 
-  const toast = getToast(page, 'status', copy.labels.defaultTitle);
+  const toast = getToast(page, 'status', copy.labels['defaultTitle']);
   await expect(toast).toBeVisible();
   await expect(page.getByRole('region', { name: 'Notifications', exact: true })).toHaveAttribute(
     'data-position',
@@ -240,43 +240,43 @@ test('renders every supported appearance with its current live role @visual', as
   const cases = [
     {
       value: 'neutral',
-      label: copy.appearances.neutral,
-      title: copy.labels.defaultTitle,
+      label: copy.appearances['neutral'],
+      title: copy.labels['defaultTitle'],
       role: 'status',
       live: 'polite',
-      action: copy.actions.showNeutral,
+      action: copy.actions['showNeutral'],
     },
     {
       value: 'success',
-      label: copy.appearances.success,
-      title: copy.labels.successTitle,
+      label: copy.appearances['success'],
+      title: copy.labels['successTitle'],
       role: 'status',
       live: 'polite',
-      action: `${copy.actions.show} ${copy.appearances.success}`,
+      action: `${copy.actions['show']} ${copy.appearances['success']}`,
     },
     {
       value: 'warning',
-      label: copy.appearances.warning,
-      title: copy.labels.warningTitle,
+      label: copy.appearances['warning'],
+      title: copy.labels['warningTitle'],
       role: 'status',
       live: 'polite',
-      action: `${copy.actions.show} ${copy.appearances.warning}`,
+      action: `${copy.actions['show']} ${copy.appearances['warning']}`,
     },
     {
       value: 'danger',
-      label: copy.appearances.danger,
-      title: copy.labels.dangerTitle,
+      label: copy.appearances['danger'],
+      title: copy.labels['dangerTitle'],
       role: 'alert',
       live: 'assertive',
-      action: `${copy.actions.show} ${copy.appearances.danger}`,
+      action: `${copy.actions['show']} ${copy.appearances['danger']}`,
     },
     {
       value: 'info',
-      label: copy.appearances.info,
-      title: copy.labels.infoTitle,
+      label: copy.appearances['info'],
+      title: copy.labels['infoTitle'],
       role: 'status',
       live: 'polite',
-      action: `${copy.actions.show} ${copy.appearances.info}`,
+      action: `${copy.actions['show']} ${copy.appearances['info']}`,
     },
   ] as const;
 
@@ -302,14 +302,14 @@ test('renders every supported appearance with its current live role @visual', as
 test('uses a native keyboard action and keeps the action toast open @visual', async ({ page }) => {
   const copy = await readToastLocale(page, 'en');
   const actionCase = page.getByRole('group', { name: copy.accessibility.actionCase, exact: true });
-  await actionCase.getByRole('button', { name: copy.actions.showAction, exact: true }).click();
+  await actionCase.getByRole('button', { name: copy.actions['showAction'], exact: true }).click();
 
-  const toast = getToast(page, 'status', copy.labels.actionTitle);
-  const action = toast.getByRole('button', { name: copy.actions.undo, exact: true });
+  const toast = getToast(page, 'status', copy.labels['actionTitle']);
+  const action = toast.getByRole('button', { name: copy.actions['undo'], exact: true });
   await action.focus();
   await action.press('Enter');
 
-  await expect(actionCase.getByRole('status')).toHaveText(copy.labels.actionReceived);
+  await expect(actionCase.getByRole('status')).toHaveText(copy.labels['actionReceived']);
   await expect(toast).toBeVisible();
   await expect(toast).toHaveScreenshot('toast-action-activated.png');
   await page.setViewportSize(mobileViewport);
@@ -324,10 +324,10 @@ test('supports a wrapping message and hides an appearance icon on request @visua
     name: copy.accessibility.messageCase,
     exact: true,
   });
-  await messageCase.getByRole('button', { name: copy.actions.showMessage, exact: true }).click();
+  await messageCase.getByRole('button', { name: copy.actions['showMessage'], exact: true }).click();
 
-  const messageToast = getToast(page, 'status', copy.labels.messageTitle);
-  await expect(messageToast).toContainText(copy.labels.longMessage);
+  const messageToast = getToast(page, 'status', copy.labels['messageTitle']);
+  await expect(messageToast).toContainText(copy.labels['longMessage']);
   await expect(messageToast).toHaveScreenshot('toast-message.png');
   await page.setViewportSize(mobileViewport);
   await expectMobileToastScreenshot(page, messageToast, 'toast-message-320.png');
@@ -335,8 +335,8 @@ test('supports a wrapping message and hides an appearance icon on request @visua
   await page.setViewportSize(desktopViewport);
   await page.reload();
   const noIconCase = page.getByRole('group', { name: copy.accessibility.noIconCase, exact: true });
-  await noIconCase.getByRole('button', { name: copy.actions.showNoIcon, exact: true }).click();
-  const noIconToast = getToast(page, 'status', copy.labels.noIconTitle);
+  await noIconCase.getByRole('button', { name: copy.actions['showNoIcon'], exact: true }).click();
+  const noIconToast = getToast(page, 'status', copy.labels['noIconTitle']);
   await expect(noIconToast).toBeVisible();
   await expect(noIconToast).toHaveAttribute('data-kui-appearance', 'success');
   await expect(noIconToast).toHaveScreenshot('toast-icon-hidden.png');
@@ -350,9 +350,9 @@ test('closes a non-closable toast through its returned reference @visual', async
     name: copy.accessibility.noCloseCase,
     exact: true,
   });
-  await noCloseCase.getByRole('button', { name: copy.actions.showNoClose, exact: true }).click();
+  await noCloseCase.getByRole('button', { name: copy.actions['showNoClose'], exact: true }).click();
 
-  const toast = getToast(page, 'status', copy.labels.noCloseTitle);
+  const toast = getToast(page, 'status', copy.labels['noCloseTitle']);
   await expect(toast).toBeVisible();
   await expect(toast.getByRole('button')).toHaveCount(0);
   await expect(toast).toHaveScreenshot('toast-no-close-button.png');
@@ -360,10 +360,10 @@ test('closes a non-closable toast through its returned reference @visual', async
   await expectMobileToastScreenshot(page, toast, 'toast-no-close-button-320.png');
 
   await page.setViewportSize(desktopViewport);
-  await noCloseCase.getByRole('button', { name: copy.actions.closeByRef, exact: true }).click();
+  await noCloseCase.getByRole('button', { name: copy.actions['closeByRef'], exact: true }).click();
   await page.clock.fastForward(250);
   await expect(toast).toHaveCount(0);
-  await expect(noCloseCase.getByRole('status')).toHaveText(copy.labels.closedByRef);
+  await expect(noCloseCase.getByRole('status')).toHaveText(copy.labels['closedByRef']);
 });
 
 test('pauses and resumes the actual timed progress toast on hover @visual', async ({ page }) => {
@@ -372,9 +372,11 @@ test('pauses and resumes the actual timed progress toast on hover @visual', asyn
     name: copy.accessibility.progressCase,
     exact: true,
   });
-  await progressCase.getByRole('button', { name: copy.actions.showProgress, exact: true }).click();
+  await progressCase
+    .getByRole('button', { name: copy.actions['showProgress'], exact: true })
+    .click();
 
-  const toast = getToast(page, 'status', copy.labels.progressTitle);
+  const toast = getToast(page, 'status', copy.labels['progressTitle']);
   const progress = toast.locator('.kui-toast-progress');
   await expect(progress).toBeVisible();
   await toast.hover();
@@ -413,36 +415,38 @@ test('updates and dismisses a signal-controlled toast and enforces the three-toa
     exact: true,
   });
 
-  await signalCase.getByRole('button', { name: copy.actions.openTracked, exact: true }).click();
-  const syncing = getToast(page, 'status', copy.labels.syncTitle);
+  await signalCase.getByRole('button', { name: copy.actions['openTracked'], exact: true }).click();
+  const syncing = getToast(page, 'status', copy.labels['syncTitle']);
   await expect(syncing).toBeVisible();
   await expect(syncing.locator('.kui-toast-progress')).toHaveCount(0);
   await page.setViewportSize(mobileViewport);
   await expectMobileToastScreenshot(page, syncing, 'toast-persistent-signal-320.png');
   await page.setViewportSize(desktopViewport);
   await signalCase
-    .getByRole('button', { name: copy.actions.releasePersistence, exact: true })
+    .getByRole('button', { name: copy.actions['releasePersistence'], exact: true })
     .click();
   await expect(syncing.locator('.kui-toast-progress')).toBeVisible();
 
-  await signalCase.getByRole('button', { name: copy.actions.updateTracked, exact: true }).click();
-  const updated = getToast(page, 'status', copy.labels.updatedTitle);
+  await signalCase
+    .getByRole('button', { name: copy.actions['updateTracked'], exact: true })
+    .click();
+  const updated = getToast(page, 'status', copy.labels['updatedTitle']);
   await expect(updated).toHaveAttribute('data-kui-appearance', 'success');
   await expect(updated).toHaveAttribute('aria-live', 'polite');
-  await expect(updated).toContainText(copy.labels.updatedMessage);
+  await expect(updated).toContainText(copy.labels['updatedMessage']);
   await expectPageScreenshot(page, 'toast-reference-update.png', 'bottom');
   await page.setViewportSize(mobileViewport);
   await expectMobileToastScreenshot(page, updated, 'toast-reference-update-320.png');
   await page.setViewportSize(desktopViewport);
 
-  await signalCase.getByRole('button', { name: copy.actions.closeTracked, exact: true }).click();
+  await signalCase.getByRole('button', { name: copy.actions['closeTracked'], exact: true }).click();
   await page.clock.fastForward(250);
   await expect(updated).toHaveCount(0);
-  await expect(signalCase.getByRole('status')).toHaveText(copy.labels.closedByRef);
+  await expect(signalCase.getByRole('status')).toHaveText(copy.labels['closedByRef']);
 
-  await signalCase.getByRole('button', { name: copy.actions.openTracked, exact: true }).click();
-  const byId = getToast(page, 'status', copy.labels.syncTitle);
-  await signalCase.getByRole('button', { name: copy.actions.dismissById, exact: true }).click();
+  await signalCase.getByRole('button', { name: copy.actions['openTracked'], exact: true }).click();
+  const byId = getToast(page, 'status', copy.labels['syncTitle']);
+  await signalCase.getByRole('button', { name: copy.actions['dismissById'], exact: true }).click();
   await page.clock.fastForward(250);
   await expect(byId).toHaveCount(0);
 
@@ -450,18 +454,22 @@ test('updates and dismisses a signal-controlled toast and enforces the three-toa
     name: copy.accessibility.capacityCase,
     exact: true,
   });
-  await capacity.getByRole('button', { name: copy.actions.openFour, exact: true }).click();
+  await capacity.getByRole('button', { name: copy.actions['openFour'], exact: true }).click();
   await page.clock.fastForward(250);
 
   const region = page.getByRole('region', { name: 'Notifications', exact: true });
   await expect(region.getByRole('status')).toHaveCount(3);
-  await expect(getToast(page, 'status', copy.labels.stackFirst)).toHaveCount(0);
-  for (const title of [copy.labels.stackSecond, copy.labels.stackThird, copy.labels.stackFourth]) {
+  await expect(getToast(page, 'status', copy.labels['stackFirst'])).toHaveCount(0);
+  for (const title of [
+    copy.labels['stackSecond'],
+    copy.labels['stackThird'],
+    copy.labels['stackFourth'],
+  ]) {
     await expect(getToast(page, 'status', title)).toBeVisible();
   }
 
   const bottomToTopYs = await Promise.all(
-    [copy.labels.stackSecond, copy.labels.stackThird, copy.labels.stackFourth].map(
+    [copy.labels['stackSecond'], copy.labels['stackThird'], copy.labels['stackFourth']].map(
       async (title) => {
         const box = await getToast(page, 'status', title).boundingBox();
         if (box === null) throw new Error(`Expected visible stack item: ${title}`);
@@ -478,7 +486,7 @@ test('updates and dismisses a signal-controlled toast and enforces the three-toa
   await expectMobilePageScreenshot(page, 'toast-capacity-three-320.png', 'bottom');
   await page.setViewportSize(desktopViewport);
 
-  await capacity.getByRole('button', { name: copy.actions.dismissAll, exact: true }).click();
+  await capacity.getByRole('button', { name: copy.actions['dismissAll'], exact: true }).click();
   await page.clock.fastForward(250);
   await expect(region.getByRole('status')).toHaveCount(0);
 });
@@ -503,7 +511,7 @@ test('moves the live Toast region to each supported position @visual', async ({ 
     await controls.getByRole('button', { name: copy.positions[key], exact: true }).click();
 
     const region = page.getByRole('region', { name: 'Notifications', exact: true });
-    const toast = getToast(page, 'status', copy.labels.positionTitle);
+    const toast = getToast(page, 'status', copy.labels['positionTitle']);
     await expect(region).toHaveAttribute('data-position', value);
     await expect(toast).toBeVisible();
     await expect(toast).toHaveCSS('opacity', '1');
@@ -516,7 +524,7 @@ test('moves the live Toast region to each supported position @visual', async ({ 
     exact: true,
   });
   const region = page.getByRole('region', { name: 'Notifications', exact: true });
-  const positionToast = getToast(page, 'status', copy.labels.positionTitle);
+  const positionToast = getToast(page, 'status', copy.labels['positionTitle']);
   await positionToast.getByRole('button', { name: 'Close', exact: true }).click();
   await page.clock.fastForward(250);
   await expect(positionToast).toHaveCount(0);
@@ -541,7 +549,7 @@ test('preserves vertical Toast placement on mobile while collapsing horizontal a
 
   await positionButton(copy.positions.topStart).click();
   await expect(region).toHaveAttribute('data-position', 'top-start');
-  const toast = getToast(page, 'status', copy.labels.positionTitle);
+  const toast = getToast(page, 'status', copy.labels['positionTitle']);
   const topBox = await toast.boundingBox();
   expect(topBox).not.toBeNull();
   expect(topBox?.y ?? mobileViewport.height).toBeLessThan(mobileViewport.height / 2);
@@ -583,7 +591,7 @@ test('dismisses page-owned toasts and restores the region position on navigation
 
   const region = page.getByRole('region', { name: 'Notifications', exact: true });
   await expect(region).toHaveAttribute('data-position', 'top-start');
-  await expect(getToast(page, 'status', copy.labels.positionTitle)).toBeVisible();
+  await expect(getToast(page, 'status', copy.labels['positionTitle'])).toBeVisible();
 
   await page.getByRole('link', { name: 'Button', exact: true }).click();
   await expect(page).toHaveURL(/\/components\/button$/);
@@ -611,8 +619,8 @@ test('loads the Russian route scope after switching the shell language', async (
     name: russian.accessibility.default,
     exact: true,
   });
-  await example.getByRole('button', { name: russian.actions.showDefault, exact: true }).click();
-  await expect(getToast(page, 'status', russian.labels.defaultTitle)).toBeVisible();
+  await example.getByRole('button', { name: russian.actions['showDefault'], exact: true }).click();
+  await expect(getToast(page, 'status', russian.labels['defaultTitle'])).toBeVisible();
 });
 
 test('server renders and hydrates the Toast route without creating a toast early', async ({
@@ -634,8 +642,8 @@ test('server renders and hydrates the Toast route without creating a toast early
   await expect(page.getByRole('region', { name: 'Notifications', exact: true })).toHaveCount(0);
   await page
     .getByRole('group', { name: copy.accessibility.default, exact: true })
-    .getByRole('button', { name: copy.actions.showDefault, exact: true })
+    .getByRole('button', { name: copy.actions['showDefault'], exact: true })
     .click();
-  await expect(getToast(page, 'status', copy.labels.defaultTitle)).toBeVisible();
+  await expect(getToast(page, 'status', copy.labels['defaultTitle'])).toBeVisible();
   expect(browserErrors.get(page)).toEqual([]);
 });
