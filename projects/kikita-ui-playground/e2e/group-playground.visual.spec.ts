@@ -1,3 +1,5 @@
+import type { Page } from '@playwright/test';
+
 import { expect, test } from '../../../tests/e2e/support/fixtures';
 
 const catalogueSections = [
@@ -244,10 +246,21 @@ test('keeps the Group catalogue within desktop, tablet, and 320px layouts', asyn
   }
 });
 
+/**
+ * Default icons load from a CDN after first render, so a capture taken before they arrive misses
+ * them. Wait until every icon host in the section has rendered its glyph.
+ */
+async function expectIconsResolved(page: Page, groupName: string): Promise<void> {
+  await expect(
+    page.getByRole('group', { name: groupName, exact: true }).locator('kui-icon:not(:has(svg))'),
+  ).toHaveCount(0);
+}
+
 test('captures each labelled Group catalogue section at desktop and 320px @visual', async ({
   page,
 }) => {
   for (const [name, desktopScreenshot] of catalogueSections) {
+    await expectIconsResolved(page, name);
     await expect(page.getByRole('group', { name, exact: true })).toHaveScreenshot(
       desktopScreenshot,
       {
@@ -258,6 +271,7 @@ test('captures each labelled Group catalogue section at desktop and 320px @visua
 
   await page.setViewportSize({ width: 320, height: 2048 });
   for (const [name, , mobileScreenshot] of catalogueSections) {
+    await expectIconsResolved(page, name);
     await expect(page.getByRole('group', { name, exact: true })).toHaveScreenshot(
       mobileScreenshot,
       {

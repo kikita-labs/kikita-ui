@@ -372,6 +372,10 @@ test('operates with the keyboard from the region and from the dot picker', async
   await expect(dot(example, 1, 3)).toBeFocused();
   await expect(dot(example, 2, 3)).toHaveAttribute('tabindex', '-1');
 
+  // The jump back to slide 1 is a smooth scroll. Shift+Tab lands on Next only once the scroll has
+  // ended and Next is enabled again; before that it can still be disabled from the last slide.
+  await waitForScrollEnd(region);
+  await expect(next(region)).toBeEnabled();
   await page.keyboard.press('Shift+Tab');
   await expect(next(region)).toBeFocused();
   await page.keyboard.press('Enter');
