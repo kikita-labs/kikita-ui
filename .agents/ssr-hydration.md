@@ -62,3 +62,13 @@ Representative routes:
 
 Record any intentionally deferred SSR gap in `docs/state-coverage.md` or
 `docs/component-roadmap.md`.
+
+Rules for render-time values:
+
+- Never keep an id counter, clock or locale in module scope. Module state outlives a request, so
+  server ids and dates depend on earlier requests. Use `kuiNextId` / `kuiIdFactory` for ids and
+  `KuiClock` for "today" and initial months.
+- A value that differs between server and browser must render identically first. Hydration does not
+  remove a class or attribute the server set and the browser's first evaluation leaves unset.
+
+The audit register is `docs/ssr-lifecycle-register.md`.

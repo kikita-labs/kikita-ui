@@ -68,3 +68,30 @@ export async function readDuplicateIds(page: Page): Promise<string[]> {
     return [...counts].filter(([, count]) => count > 1).map(([id]) => id);
   });
 }
+
+/**
+ * Proves the replacement Playground has hydrated, then leaves the shell theme as it found it.
+ *
+ * The app exposes no hydration marker and server ids now equal client ids, so neither an id nor a
+ * DOM attribute can show it. Switching the theme is client-only state: it succeeds only once event
+ * handlers are attached. The action is retried until then, and the theme is switched back so a
+ * screenshot taken afterwards keeps the default (dark) theme.
+ */
+export async function waitForShellHydration(page: Page): Promise<void> {
+  const banner = page.getByRole('banner');
+
+  await expect(page.locator('html')).toHaveAttribute('data-kui-theme', 'dark');
+  await expect(async () => {
+    await banner
+      .getByRole('button', { name: 'Switch to light theme', exact: true })
+      .click({ timeout: 1_000 });
+    await expect(page.locator('html')).toHaveAttribute('data-kui-theme', 'light', {
+      timeout: 1_000,
+    });
+  }).toPass();
+  await banner.getByRole('button', { name: 'Switch to dark theme', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-kui-theme', 'dark');
+  // The clicks above switch the input modality to pointer; restore keyboard modality so a
+  // programmatic focus afterwards matches :focus-visible as it does on a fresh keyboard visit.
+  await page.keyboard.press('Shift');
+}

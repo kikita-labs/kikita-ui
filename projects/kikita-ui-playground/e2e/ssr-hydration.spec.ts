@@ -1,5 +1,9 @@
 import { expect, test } from '../../../tests/e2e/support/fixtures';
-import { openWithHeldScripts, readDuplicateIds } from '../../../tests/e2e/support/ssr';
+import {
+  openWithHeldScripts,
+  readDuplicateIds,
+  waitForShellHydration,
+} from '../../../tests/e2e/support/ssr';
 
 test('renders on the server and changes language after hydration', async ({ page }) => {
   const consoleErrors: string[] = [];
@@ -444,4 +448,100 @@ test('shows Select markup from the server response and keeps the closed combobox
   await page.keyboard.press('Escape');
   await expect(page.getByRole('listbox')).toHaveCount(0);
   await expect(combobox).toBeFocused();
+});
+
+const idRoutes = ['/components/carousel', '/components/chart', '/components/select'] as const;
+
+function collectComponentIds(html: string): string[] {
+  return [...html.matchAll(/\bid="(kui-[^"]+)"/g)].map(([, id]) => id).sort();
+}
+
+test.describe('server-generated ids', () => {
+  for (const route of idRoutes) {
+    test(`${route} renders the same ids for every request`, async ({ request }) => {
+      // The first request warms the server so a leaking module-level counter would already be
+      // advanced; the next two must still agree exactly.
+      await request.get(route);
+      const first = collectComponentIds(await (await request.get(route)).text());
+      const second = collectComponentIds(await (await request.get(route)).text());
+
+      expect(first.length).toBeGreaterThan(0);
+      expect(second).toEqual(first);
+    });
+
+    test(`${route} keeps its server ids through hydration`, async ({ page }) => {
+      const held = await openWithHeldScripts(page, route);
+      const readIds = () =>
+        page.evaluate(() =>
+          Array.from(document.querySelectorAll('[id^="kui-"]'), (element) => element.id).sort(),
+        );
+
+      const serverIds = await readIds();
+      expect(serverIds.length).toBeGreaterThan(0);
+
+      held.release();
+      await waitForShellHydration(page);
+
+      expect(await readIds()).toEqual(serverIds);
+    });
+  }
+});
+
+test('server HTML already carries the global scrollbar mode', async ({ request }) => {
+  const html = await (await request.get('/components/button')).text();
+
+  expect(html).toMatch(/<html[^>]*\sdata-kui-scrollbars="styled"/);
+});
+
+test.describe('calendar today marker across time zones', () => {
+  // UTC+14 is a different calendar day from a UTC or UTC-negative server for a large part of
+  // every day, which is exactly when a server-rendered "today" disagrees with the browser's.
+  test.use({ timezoneId: 'Pacific/Kiritimati' });
+
+  test('marks exactly the browser day after hydration, never a stale server day', async ({
+    page,
+  }) => {
+    const held = await openWithHeldScripts(page, '/components/calendar');
+    const readMarked = () =>
+      page.evaluate(() =>
+        Array.from(
+          document.querySelectorAll('kui-calendar .kui-calendar-day--today'),
+          (element) => element.textContent?.trim() ?? '',
+        ),
+      );
+
+    expect((await readMarked()).length).toBeLessThanOrEqual(1);
+
+    held.release();
+    await waitForShellHydration(page);
+
+    const browserDay = await page.evaluate(() => String(new Date().getDate()));
+    const marked = await readMarked();
+
+    // The grid shows the server's month; the marker is on the browser's day, or absent when that
+    // day falls outside the rendered month. It is never duplicated and never left on the server day.
+    expect(marked.length).toBeLessThanOrEqual(1);
+    if (marked.length === 1) expect(marked[0]).toBe(browserDay);
+  });
+});
+
+test.describe('locale consistency between server and browser', () => {
+  test.use({ locale: 'de-DE' });
+
+  // Recorded defect awaiting a contract decision: KUI_LOCALE defaults to navigator.language, and
+  // Node defines navigator, so the server renders in the host locale while the browser hydrates in
+  // its own. Calendar titles and weekday names then differ between the server HTML and the client.
+  test.fixme('renders the same calendar title on the server and in the browser', async ({
+    page,
+  }) => {
+    const held = await openWithHeldScripts(page, '/components/calendar');
+    const readTitle = () => page.locator('kui-calendar .kui-calendar-title').first().textContent();
+
+    const serverTitle = await readTitle();
+
+    held.release();
+    await waitForShellHydration(page);
+
+    expect(await readTitle()).toBe(serverTitle);
+  });
 });

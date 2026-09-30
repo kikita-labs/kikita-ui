@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { waitForShellHydration } from '../../../tests/e2e/support/ssr';
 
 // Tall viewports keep every named group inside the shell's scrolling workspace for capture.
 const desktopViewport = { width: 1440, height: 2400 };
@@ -434,9 +435,10 @@ test('enters a chart at its roving tab stop, shows the focus tooltip, and leaves
   const marks = chart.locator(markSelector);
   const tooltip = page.getByRole('tooltip');
 
-  // Server-rendered mark ids come from a process-wide counter, while the client counter restarts
-  // at 1. The first mark carries the client id only after hydration; pressing keys earlier is
-  // replayed and Chart's keydown handler throws on preventDefault (see the inventory).
+  // Server ids now equal client ids, so they cannot show hydration. Pressing keys before it finishes
+  // is replayed and Chart's keydown handler throws on preventDefault (see the inventory), so wait
+  // for hydration explicitly.
+  await waitForShellHydration(page);
   await expect(marks.nth(0)).toHaveAttribute('id', 'kui-line-chart-1-mark-0');
   await expect(marks.nth(0)).toHaveAttribute('tabindex', '0');
   await expect(marks.nth(1)).toHaveAttribute('tabindex', '-1');
@@ -463,6 +465,7 @@ test('moves the roving tab stop with arrow, Home, and End keys and re-enters the
   const example = getGroup(page, 'Minimal chart');
   const marks = getChart(example, 'Sessions per weekday').locator(markSelector);
 
+  await waitForShellHydration(page);
   await expect(marks.nth(0)).toHaveAttribute('id', 'kui-line-chart-1-mark-0');
   await marks.nth(0).focus();
 
@@ -494,6 +497,7 @@ test.fixme('moves DOM focus to the adjacent mark on ArrowRight', async ({ page }
     markSelector,
   );
 
+  await waitForShellHydration(page);
   await expect(marks.nth(0)).toHaveAttribute('id', 'kui-line-chart-1-mark-0');
   await marks.nth(0).focus();
   await page.keyboard.press('ArrowRight');

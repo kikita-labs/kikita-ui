@@ -10,6 +10,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- Component ids (Accordion, Carousel, Chart, Color Input, Command Palette, Dialog, Drawer, Dropdown, File Upload, Menu, OTP Input, Pagination, Popover, Splitter, Tabs, Time Picker, Tooltip and Field markers) are now numbered per Angular application, so server-rendered ids no longer depend on earlier requests and match the browser's.
+- `provideKikitaUi` now sets the global `data-kui-scrollbars` mode on the server as well, so the server HTML carries it.
+- Calendar, Calendar Range and Date Picker now render the server's date first during hydration and then follow the browser's date, so a server and browser on different days no longer leave two days marked as today.
 - `kuiSlider` now renders initially configured endpoint labels, handles a native range maximum of `0`, and reflects its `disabled` input to the native control and wrapper.
 - `kui-field` now generates control IDs per Angular application so SSR requests and hydration preserve label associations.
 - `kuiCombobox` now respects `kui-field`'s touched-gated invalid state when used with Signal Forms.
