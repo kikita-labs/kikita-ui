@@ -36,17 +36,20 @@ Known limitation of the clock fix: the visible month stays the server's month af
 page rendered just before a month boundary and hydrated just after it keeps showing the old month
 until the user navigates.
 
-## Decisions needed (contract is ambiguous; nothing invented)
+## Decisions taken
 
-1. **Default locale.** `KUI_LOCALE` reads `navigator.language`. Node defines `navigator`, so the
-   server renders in the host locale and the browser hydrates in its own. Reproducer:
-   `test.fixme` "renders the same calendar title on the server and in the browser" in
-   `projects/kikita-ui-playground/e2e/ssr-hydration.spec.ts`. Options: (a) fixed `en-US` default
-   with `kuiProvideLocale` for SSR apps, (b) seed the browser locale through `TransferState` and
-   switch after render, (c) keep the behavior and document it.
-2. **Dialog whose opener is destroyed.** An imperatively opened dialog outlives its route; the
-   characterization test is in `tests/e2e/interaction.spec.ts`. Suggested contract: tie the dialog
-   to the opener's `DestroyRef`, with an opt-out.
-3. **Hydration readiness marker.** The Playground exposes none, so the harness proves hydration by
-   switching the theme (`waitForShellHydration`). A stable marker such as `data-kui-hydrated`
-   would remove that indirection.
+1. **Default locale.** On the server `KUI_LOCALE` is now always `en-US`: Node defines `navigator`, so
+   the previous default made server output depend on the host machine. The browser still follows
+   `navigator.language`. A server-rendered app for other locales must provide the locale with
+   `kuiProvideLocale`; without it, a non-`en-US` browser renders different month and weekday names
+   after hydration. Reproducer: `test.fixme` "renders the same calendar title on the server and in
+   the browser" in `projects/kikita-ui-playground/e2e/ssr-hydration.spec.ts`. A reactive locale
+   that switches after hydration would remove the limitation and is a separate change.
+2. **Dialog whose opener is destroyed.** Kept as is and now documented: a dialog belongs to the
+   application overlay and outlives the component that opened it, because confirmations are
+   commonly opened from route guards and other short-lived callers. Closing is explicit (result,
+   Escape, backdrop, close button). Callers unsubscribe from the result with `takeUntilDestroyed`.
+   The characterization test is in `tests/e2e/interaction.spec.ts`.
+3. **Hydration readiness marker.** Not added. It would be public Playground behavior with no user
+   value; `waitForShellHydration` proves hydration by a client-only action and stays the harness's
+   single readiness check.

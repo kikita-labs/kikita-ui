@@ -10,6 +10,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- `KUI_LOCALE` now defaults to `en-US` on the server instead of the host machine's `navigator.language`, so server output no longer depends on the host. Server-rendered apps for other locales should provide `kuiProvideLocale`.
 - Component ids (Accordion, Carousel, Chart, Color Input, Command Palette, Dialog, Drawer, Dropdown, File Upload, Menu, OTP Input, Pagination, Popover, Splitter, Tabs, Time Picker, Tooltip and Field markers) are now numbered per Angular application, so server-rendered ids no longer depend on earlier requests and match the browser's.
 - `provideKikitaUi` now sets the global `data-kui-scrollbars` mode on the server as well, so the server HTML carries it.
 - Calendar, Calendar Range and Date Picker now render the server's date first during hydration and then follow the browser's date, so a server and browser on different days no longer leave two days marked as today.

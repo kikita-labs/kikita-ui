@@ -528,9 +528,10 @@ test.describe('calendar today marker across time zones', () => {
 test.describe('locale consistency between server and browser', () => {
   test.use({ locale: 'de-DE' });
 
-  // Recorded defect awaiting a contract decision: KUI_LOCALE defaults to navigator.language, and
-  // Node defines navigator, so the server renders in the host locale while the browser hydrates in
-  // its own. Calendar titles and weekday names then differ between the server HTML and the client.
+  // Recorded limitation: the server always renders KUI_LOCALE as en-US (host-independent), while a
+  // browser without kuiProvideLocale hydrates in its own language, so Calendar titles and weekday
+  // names differ between the server HTML and the client. Apps serving other locales must provide
+  // one with kuiProvideLocale; a lasting fix needs a reactive locale and is a separate decision.
   test.fixme('renders the same calendar title on the server and in the browser', async ({
     page,
   }) => {
