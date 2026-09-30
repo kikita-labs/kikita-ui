@@ -72,14 +72,14 @@ queue to return to the baseline.
 
 ### Render-time environment
 
-| Place                       | Phase               | Guard                                             | Hydration                                                                                        | Owner           | Test                                                                                   |
-| --------------------------- | ------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------- | -------------------------------------------------------------------------------------- |
-| `provideKuiTheme`           | app initializer     | injected `DOCUMENT`, so it runs on both platforms | reuses the `<style id>` the server wrote, so no second sheet; `<head>` is outside hydration      | the document    | `provide-kui-theme.spec.ts` (both platforms, style reuse); SSR e2e loads styled routes |
-| Locale token                | first injection     | the server value is a fixed `en-US`               | differs for a non-`en-US` browser without `kuiProvideLocale` (documented limitation, decision 1) | `KUI_LOCALE`    | unit spec; `test.fixme` locale reproducer                                              |
-| Icons and the icon registry | render              | no DOM access                                     | none; the registry data is static                                                                | none            | icon specs; SSR route loads                                                            |
-| Splitter gutters            | `afterNextRender`   | render hook, so browser only                      | gutters are added after hydration; pane `flex-basis` is computed identically on both sides       | `DestroyRef`    | splitter spec; Splitter page SSR                                                       |
-| Link and Button icon slots  | constructor effects | `isBrowser` early return                          | icon markup is inserted after hydration, never during it                                         | view container  | link and button specs; page SSR                                                        |
-| Calendar family "today"     | field initializers  | `KuiClock`                                        | seeded from the server date, then the real date                                                  | `TransferState` | `kui-clock.service.spec.ts`; e2e for Calendar, Calendar Range, Date Picker             |
+| Place                       | Phase               | Guard                                             | Hydration                                                                                   | Owner           | Test                                                                                   |
+| --------------------------- | ------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------------- | -------------------------------------------------------------------------------------- |
+| `provideKuiTheme`           | app initializer     | injected `DOCUMENT`, so it runs on both platforms | reuses the `<style id>` the server wrote, so no second sheet; `<head>` is outside hydration | the document    | `provide-kui-theme.spec.ts` (both platforms, style reuse); SSR e2e loads styled routes |
+| Locale token                | first injection     | request `Accept-Language`, else `en-US`           | the browser reuses the transferred server value, so the first render matches (decision 1)   | `KUI_LOCALE`    | unit spec; `test.fixme` locale reproducer                                              |
+| Icons and the icon registry | render              | no DOM access                                     | none; the registry data is static                                                           | none            | icon specs; SSR route loads                                                            |
+| Splitter gutters            | `afterNextRender`   | render hook, so browser only                      | gutters are added after hydration; pane `flex-basis` is computed identically on both sides  | `DestroyRef`    | splitter spec; Splitter page SSR                                                       |
+| Link and Button icon slots  | constructor effects | `isBrowser` early return                          | icon markup is inserted after hydration, never during it                                    | view container  | link and button specs; page SSR                                                        |
+| Calendar family "today"     | field initializers  | `KuiClock`                                        | seeded from the server date, then the real date                                             | `TransferState` | `kui-clock.service.spec.ts`; e2e for Calendar, Calendar Range, Date Picker             |
 
 ### Findings
 
@@ -111,13 +111,18 @@ version of the clock fix.
 
 ## Decisions taken
 
-1. **Default locale.** On the server `KUI_LOCALE` is now always `en-US`: Node defines `navigator`, so
-   the previous default made server output depend on the host machine. The browser still follows
-   `navigator.language`. A server-rendered app for other locales must provide the locale with
-   `kuiProvideLocale`; without it, a non-`en-US` browser renders different month and weekday names
-   after hydration. Reproducer: `test.fixme` "renders the same calendar title on the server and in
-   the browser" in `projects/kikita-ui-playground/e2e/ssr-hydration.spec.ts`. A reactive locale
-   that switches after hydration would remove the limitation and is a separate change.
+1. **Locale.** `KUI_LOCALE` is resolved from the request's `Accept-Language` header (Angular's
+   `REQUEST` token) on the server, with `en-US` when there is no request (prerendering) or no usable
+   header. It never reads the host's `navigator`, so output does not depend on the machine. The
+   server stores the value in `TransferState` and the browser's first render reuses it, so the
+   server HTML and the hydrated DOM agree for every language; a client-only app still follows
+   `navigator.language`. The header is untrusted, so tags are canonicalized with
+   `Intl.getCanonicalLocales` and malformed ones are ignored. Server responses now vary by
+   `Accept-Language`: a cache in front of the server must send `Vary: Accept-Language`, and an app
+   that wants one fixed locale provides it with `kuiProvideLocale`. Evidence: `kui-locale.token.spec.ts`,
+   `kui-locale-seed.util.spec.ts`, and the e2e "renders the request language on the server and keeps
+   it through hydration" (de-DE). This replaces the earlier interim rule that the server always
+   rendered `en-US`.
 2. **Dialog whose opener is destroyed.** Kept as is and now documented: a dialog belongs to the
    application overlay and outlives the component that opened it, because confirmations are
    commonly opened from route guards and other short-lived callers. Closing is explicit (result,

@@ -182,7 +182,7 @@ in the plan listed.
 8. **SSR of date-dependent primitives**: the library suite checks server content and held hydration
    for 11 routes; the replacement suite checks 44 headings plus the held-hydration flows. Calendar,
    Calendar Range and Date Picker have a UTC+14 time-zone check (`ssr-hydration.spec.ts`); a
-   non-default locale is a recorded `test.fixme` (server renders `en-US`, see
+   de-DE request is checked for the same weekday row on the server and after hydration (see
    `docs/ssr-lifecycle-register.md`). OTP Input and Time Picker read no date at render and have no
    dedicated SSR check beyond the per-page heading test. Owner: Plan 12 until it is closed.
 9. **CDN dependence**: default Lucide icons load from `cdn.jsdelivr.net`. Only three replacement

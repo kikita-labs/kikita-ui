@@ -561,21 +561,23 @@ test.describe('calendar today marker across time zones', () => {
 test.describe('locale consistency between server and browser', () => {
   test.use({ locale: 'de-DE' });
 
-  // Recorded limitation: the server always renders KUI_LOCALE as en-US (host-independent), while a
-  // browser without kuiProvideLocale hydrates in its own language, so Calendar titles and weekday
-  // names differ between the server HTML and the client. Apps serving other locales must provide
-  // one with kuiProvideLocale; a lasting fix needs a reactive locale and is a separate decision.
-  test.fixme('renders the same calendar title on the server and in the browser', async ({
+  // The server resolves KUI_LOCALE from the request's Accept-Language, hands it to the browser
+  // through TransferState, and the browser's first render reuses it.
+  test('renders the request language on the server and keeps it through hydration', async ({
     page,
   }) => {
     const held = await openWithHeldScripts(page, '/components/calendar');
-    const readTitle = () => page.locator('kui-calendar .kui-calendar-title').first().textContent();
+    const readWeekdays = () =>
+      page.locator('kui-calendar .kui-calendar-weekdays').first().textContent();
 
-    const serverTitle = await readTitle();
+    // German weekdays start with "Mo" and never contain the English "Mon" or "Sun".
+    const serverWeekdays = (await readWeekdays()) ?? '';
+    expect(serverWeekdays).toContain('Mo');
+    expect(serverWeekdays).not.toContain('Mon');
 
     held.release();
     await waitForShellHydration(page);
 
-    expect(await readTitle()).toBe(serverTitle);
+    expect(await readWeekdays()).toBe(serverWeekdays);
   });
 });

@@ -99,7 +99,7 @@ but available for custom layouts.
 
 ### Locale
 
-`kui-calendar` resolves month names, weekday names, and the first day of the week purely from `Intl` — there is no bundled locale data to keep in sync. By default it uses the app-wide `KUI_LOCALE` token (which itself defaults to `navigator.language`, falling back to `en-US`).
+`kui-calendar` resolves month names, weekday names, and the first day of the week purely from `Intl` — there is no bundled locale data to keep in sync. By default it uses the app-wide `KUI_LOCALE` token (in the browser `navigator.language`, on the server the request's `Accept-Language`, both falling back to `en-US`; see `KUI_LOCALE` for the server-to-browser hand-off).
 
 Override the locale for the whole app:
 
