@@ -498,30 +498,63 @@ test.describe('calendar today marker across time zones', () => {
   // every day, which is exactly when a server-rendered "today" disagrees with the browser's.
   test.use({ timezoneId: 'Pacific/Kiritimati' });
 
-  test('marks exactly the browser day after hydration, never a stale server day', async ({
-    page,
-  }) => {
-    const held = await openWithHeldScripts(page, '/components/calendar');
-    const readMarked = () =>
-      page.evaluate(() =>
-        Array.from(
-          document.querySelectorAll('kui-calendar .kui-calendar-day--today'),
-          (element) => element.textContent?.trim() ?? '',
-        ),
-      );
+  const todayMarker = '.kui-calendar-day--today';
 
-    expect((await readMarked()).length).toBeLessThanOrEqual(1);
+  for (const [route, host] of [
+    ['/components/calendar', 'kui-calendar'],
+    ['/components/calendar-range', 'kui-calendar-range'],
+  ] as const) {
+    test(`${host} marks exactly the browser day after hydration, never a stale server day`, async ({
+      page,
+    }) => {
+      const held = await openWithHeldScripts(page, route);
+      // One entry per calendar on the page: the days it marks as today.
+      const readMarked = () =>
+        page.evaluate(
+          ([hostSelector, markerSelector]) =>
+            Array.from(document.querySelectorAll(hostSelector), (calendar) =>
+              Array.from(
+                calendar.querySelectorAll(markerSelector),
+                (element) => element.textContent?.trim() ?? '',
+              ),
+            ),
+          [host, todayMarker],
+        );
+
+      const beforeHydration = await readMarked();
+      expect(beforeHydration.length).toBeGreaterThan(0);
+      for (const days of beforeHydration) expect(days.length).toBeLessThanOrEqual(1);
+
+      held.release();
+      await waitForShellHydration(page);
+
+      const browserDay = await page.evaluate(() => String(new Date().getDate()));
+
+      // Each grid shows the server's month; its marker is on the browser's day, or absent when that
+      // day falls outside the rendered month. It is never duplicated and never left on the server day.
+      for (const days of await readMarked()) {
+        expect(days.length).toBeLessThanOrEqual(1);
+        for (const day of days) expect(day).toBe(browserDay);
+      }
+    });
+  }
+
+  test('a Date Picker opened after hydration marks exactly the browser day', async ({ page }) => {
+    const held = await openWithHeldScripts(page, '/components/date-picker');
+
+    // The panel is closed on the server, so the server HTML has no calendar to disagree with.
+    await expect(page.locator(`kui-calendar ${todayMarker}`)).toHaveCount(0);
 
     held.release();
     await waitForShellHydration(page);
 
-    const browserDay = await page.evaluate(() => String(new Date().getDate()));
-    const marked = await readMarked();
+    await page.locator('input[kuiDatePicker]').first().click();
+    await expect(page.locator('kui-calendar').first()).toBeVisible();
 
-    // The grid shows the server's month; the marker is on the browser's day, or absent when that
-    // day falls outside the rendered month. It is never duplicated and never left on the server day.
-    expect(marked.length).toBeLessThanOrEqual(1);
-    if (marked.length === 1) expect(marked[0]).toBe(browserDay);
+    const browserDay = await page.evaluate(() => String(new Date().getDate()));
+    const marked = page.locator(`kui-calendar ${todayMarker}`);
+    await expect(marked).toHaveCount(1);
+    await expect(marked).toHaveText(browserDay);
   });
 });
 

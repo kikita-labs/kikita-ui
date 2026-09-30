@@ -146,4 +146,20 @@ test.describe('hydration', () => {
     await expect(page.getByRole('dialog')).toBeHidden();
     await expect(trigger).toBeFocused();
   });
+
+  test('/dialog replays a click made before hydration and opens once the scripts run', async ({
+    page,
+  }) => {
+    const held = await openWithHeldScripts(page, '/dialog');
+    const trigger = page.getByRole('button', { name: 'Open md', exact: true });
+
+    // No script has run, so this click reaches only the event-replay recorder in the server HTML.
+    await trigger.click();
+    await expect(page.getByRole('dialog')).toHaveCount(0);
+
+    held.release();
+
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await expect(page.getByRole('dialog')).toHaveCount(1);
+  });
 });
