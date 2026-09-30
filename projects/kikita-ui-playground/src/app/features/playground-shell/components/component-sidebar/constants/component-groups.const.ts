@@ -43,6 +43,7 @@ export const COMPONENT_GROUPS = [
       { id: PlaygroundRoute.Accordion, label: 'playground.components.accordion' },
       { id: PlaygroundRoute.Breadcrumbs, label: 'playground.components.breadcrumbs' },
       { id: PlaygroundRoute.Card, label: 'playground.components.card' },
+      { id: PlaygroundRoute.Carousel, label: 'playground.components.carousel' },
       { id: PlaygroundRoute.Dialog, label: 'playground.components.dialog' },
       { id: PlaygroundRoute.Drawer, label: 'playground.components.drawer' },
       { id: PlaygroundRoute.Dropdown, label: 'playground.components.dropdown' },

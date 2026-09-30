@@ -17,6 +17,12 @@ export const PLAYGROUND_SURFACES_ROUTES: Routes = [
     loadComponent: () => import('./card').then((page) => page.Card),
   },
   {
+    path: [PlaygroundRoute.Components, PlaygroundRoute.Carousel].join('/'),
+    data: { componentId: PlaygroundRoute.Carousel },
+    providers: [provideTranslocoScope('carousel')],
+    loadComponent: () => import('./carousel').then((page) => page.Carousel),
+  },
+  {
     path: [PlaygroundRoute.Components, PlaygroundRoute.Breadcrumbs].join('/'),
     data: { componentId: PlaygroundRoute.Breadcrumbs },
     providers: [provideTranslocoScope('breadcrumbs')],

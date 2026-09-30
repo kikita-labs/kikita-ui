@@ -28,6 +28,7 @@ export enum PlaygroundRoute {
   Accordion = 'accordion',
   Breadcrumbs = 'breadcrumbs',
   Card = 'card',
+  Carousel = 'carousel',
   Dialog = 'dialog',
   Drawer = 'drawer',
   Dropdown = 'dropdown',

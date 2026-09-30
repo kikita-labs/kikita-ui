@@ -1,0 +1,52 @@
+<app-playground-example-card [heading]="'carousel.examples.autoplay' | transloco">
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.autoplayLoop' | transloco"
+  >
+    <p class="carousel-example__label" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.labels.autoplayLoop' | transloco }}
+    </p>
+
+    <kui-carousel
+      [ariaLabel]="'carousel.regions.autoplayLoop' | transloco"
+      autoplay
+      loop
+      [autoplayInterval]="autoplayInterval"
+      [(index)]="loopIndex"
+    >
+      @for (slide of threeSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+
+    <p class="carousel-example__readout" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.readout' | transloco: { index: loopIndex() } }}
+    </p>
+  </section>
+
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.autoplayNoLoop' | transloco"
+  >
+    <p class="carousel-example__label" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.labels.autoplayNoLoop' | transloco }}
+    </p>
+
+    <kui-carousel
+      [ariaLabel]="'carousel.regions.autoplayNoLoop' | transloco"
+      autoplay
+      [autoplayInterval]="autoplayInterval"
+      [(index)]="noLoopIndex"
+    >
+      @for (slide of threeSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+
+    <p class="carousel-example__readout" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.readout' | transloco: { index: noLoopIndex() } }}
+    </p>
+  </section>
+</app-playground-example-card>

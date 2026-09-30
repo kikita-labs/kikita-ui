@@ -1,0 +1,124 @@
+<app-playground-example-card [heading]="'carousel.examples.default' | transloco">
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.default' | transloco"
+  >
+    <kui-carousel [ariaLabel]="'carousel.regions.default' | transloco">
+      @for (slide of threeSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+  </section>
+</app-playground-example-card>
+
+<app-playground-example-card [heading]="'carousel.examples.indexModel' | transloco">
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.indexModel' | transloco"
+  >
+    <kui-carousel [ariaLabel]="'carousel.regions.indexModel' | transloco" [(index)]="modelIndex">
+      @for (slide of fiveSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+
+    <p class="carousel-example__readout" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.readout' | transloco: { index: modelIndex() } }}
+    </p>
+
+    <div class="carousel-example__actions">
+      <button kuiButton shape="outline" type="button" (click)="goToThird()">
+        {{ 'carousel.actions.goToThird' | transloco }}
+      </button>
+      <button kuiButton shape="outline" type="button" (click)="reset()">
+        {{ 'carousel.actions.reset' | transloco }}
+      </button>
+    </div>
+  </section>
+</app-playground-example-card>
+
+<app-playground-example-card [heading]="'carousel.examples.loop' | transloco">
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.noLoop' | transloco"
+  >
+    <p class="carousel-example__label" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.labels.noLoop' | transloco }}
+    </p>
+
+    <kui-carousel [ariaLabel]="'carousel.regions.noLoop' | transloco">
+      @for (slide of threeSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+  </section>
+
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.loop' | transloco"
+  >
+    <p class="carousel-example__label" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.labels.loop' | transloco }}
+    </p>
+
+    <kui-carousel [ariaLabel]="'carousel.regions.loop' | transloco" loop>
+      @for (slide of threeSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+  </section>
+</app-playground-example-card>
+
+<app-playground-example-card [heading]="'carousel.examples.itemsPerView' | transloco">
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.itemsPerViewTwo' | transloco"
+  >
+    <p class="carousel-example__label" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.labels.itemsPerViewTwo' | transloco }}
+    </p>
+
+    <kui-carousel [ariaLabel]="'carousel.regions.itemsPerViewTwo' | transloco" [itemsPerView]="2">
+      @for (slide of fiveSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+  </section>
+
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.itemsPerViewThree' | transloco"
+  >
+    <p class="carousel-example__label" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.labels.itemsPerViewThree' | transloco }}
+    </p>
+
+    <kui-carousel [ariaLabel]="'carousel.regions.itemsPerViewThree' | transloco" [itemsPerView]="3">
+      @for (slide of fiveSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+  </section>
+
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.itemsPerViewAll' | transloco"
+  >
+    <p class="carousel-example__label" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.labels.itemsPerViewAll' | transloco }}
+    </p>
+
+    <kui-carousel [ariaLabel]="'carousel.regions.itemsPerViewAll' | transloco" [itemsPerView]="3">
+      @for (slide of threeSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+  </section>
+</app-playground-example-card>
