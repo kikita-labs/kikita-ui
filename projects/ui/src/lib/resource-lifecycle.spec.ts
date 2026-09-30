@@ -287,6 +287,22 @@ describe('resource lifecycle', () => {
     });
   });
 
+  it('popover: a pending hover close never runs after the popover is destroyed', () => {
+    const close = vi.spyOn(KuiPopoverComponent.prototype, 'close');
+    const fixture = mount(HoverPopoverHost);
+    const trigger = fixture.nativeElement.querySelector('#trigger') as HTMLElement;
+    trigger.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    trigger.dispatchEvent(new MouseEvent('mouseleave'));
+
+    fixture.destroy();
+    close.mockClear();
+    vi.advanceTimersByTime(1000);
+
+    expect(close).not.toHaveBeenCalled();
+    close.mockRestore();
+  });
+
   it('popover: destroyed before the focus trap timer fires', () => {
     expectBaseline(TrapPopoverHost, (fixture) => click(fixture));
   });
