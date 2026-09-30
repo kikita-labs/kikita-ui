@@ -124,10 +124,14 @@ test('shrinks the rendered font size across the four inline typography roles', a
 });
 
 test('follows the anchor with Enter but not Space', async ({ page }) => {
-  const anchor = group(page, 'Link host examples').getByRole('link', {
-    name: 'Anchor link',
-    exact: true,
-  });
+  const hosts = group(page, 'Link host examples');
+  const anchor = hosts.getByRole('link', { name: 'Anchor link', exact: true });
+
+  // Keys pressed while the page is still hydrating are captured and replayed out of order, which
+  // leaves the link ignoring Enter. Hydration has no observable end, so use a client-only reaction
+  // as the readiness signal: the button counter only updates once the page is interactive.
+  await hosts.getByRole('button', { name: 'Count action', exact: true }).click();
+  await expect(hosts.getByRole('status')).toHaveText('Activated 1 times');
 
   await anchor.focus();
   await page.keyboard.press('Space');
