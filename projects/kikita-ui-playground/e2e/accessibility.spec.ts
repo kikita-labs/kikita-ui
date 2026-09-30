@@ -1,5 +1,5 @@
-import { collectAxeViolations } from '../../../tests/e2e/support/axe';
-import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { collectAxeViolations } from './support/axe';
+import { expect, test } from './support/fixtures';
 
 /**
  * Automated axe sweep over every routed component page, discovered from the sidebar so a new page
@@ -9,9 +9,7 @@ import { expect, test } from '../../../tests/e2e/support/fixtures';
  * Violations that exist today are listed by route and rule id and are asserted exactly: a new
  * violation fails the sweep, and fixing one fails it too until the entry is removed, so the list
  * cannot go stale. Found by Plan 11 on 2026-09-29. Fixing component or page markup is outside Plan
- * 11 and none of these has an owner yet; each needs a focused accessibility slice. The library
- * Playground sweep (`tests/e2e/accessibility.spec.ts`) tracks the same calendar and file-upload
- * findings.
+ * 11 and none of these has an owner yet; each needs a focused accessibility slice.
  */
 const knownViolations: Record<string, readonly string[]> = {
   '/components/breadcrumbs': ['landmark-unique'],

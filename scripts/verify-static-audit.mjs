@@ -44,7 +44,9 @@ const textExtensions = new Set([
   '.yaml',
   '.yml',
 ]);
-const routeCoverageExclusions = new Set(['/tokens', '/theme', '/forms']);
+const routeCoverageExclusions = new Set();
+const playgroundRouteEnumPath =
+  'projects/kikita-ui-playground/src/app/enums/playground-route.enum.ts';
 const playgroundLocaleDirectory = 'projects/kikita-ui-playground/public/i18n';
 const localeCataloguePathPattern =
   /^projects\/kikita-ui-playground\/public\/i18n\/(?:[^/]+\/)?[a-z]{2,3}(?:-[a-zA-Z0-9]{2,8})*\.json$/u;
@@ -242,18 +244,29 @@ function checkStyleImports(root) {
 }
 
 function checkRouteCoverage(root) {
-  const appPath = join(root, 'projects/playground/src/app/app.ts');
+  const enumPath = join(root, playgroundRouteEnumPath);
   const coveragePath = join(root, 'docs/state-coverage.md');
 
-  if (!existsSync(appPath) || !existsSync(coveragePath)) {
-    return [];
+  if (!existsSync(enumPath)) {
+    return [`${playgroundRouteEnumPath} is missing, so route coverage cannot be checked`];
+  }
+
+  if (!existsSync(coveragePath)) {
+    return ['docs/state-coverage.md is missing, so route coverage cannot be checked'];
   }
 
   const failures = [];
-  const appSource = readFileSync(appPath, 'utf8');
+  const enumSource = readFileSync(enumPath, 'utf8');
   const stateCoverage = readFileSync(coveragePath, 'utf8');
-  const routeMatches = [...appSource.matchAll(/\{\s*path:\s*'([^']+)'/g)];
-  const routes = routeMatches.map((match) => match[1]).filter((route) => route.startsWith('/'));
+  const segments = [...enumSource.matchAll(/^\s+\w+\s*=\s*'([^']*)'/gm)].map((match) => match[1]);
+  const routes = segments
+    .filter((segment) => segment.length > 0 && !segment.startsWith(':'))
+    .filter((segment) => segment !== 'components')
+    .map((segment) => `/components/${segment}`);
+
+  if (routes.length === 0) {
+    return [`${playgroundRouteEnumPath} lists no component routes`];
+  }
 
   for (const route of routes) {
     if (routeCoverageExclusions.has(route)) {

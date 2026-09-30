@@ -134,7 +134,7 @@ no arbitrary-props editor is added.
   The [root defaults integration spec](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-defaults.integration.spec.ts)
   checks that a root `sm` applies to omitted Progress size. Neither test covers the two size geometry
   fallbacks or reduced-motion CSS.
-- The [legacy Progress playground page](../../../../../../../../../projects/playground/src/app/pages/progress/progress.page.html)
+- The legacy Progress playground page (removed legacy file `playground/src/app/pages/progress/progress.page.html`)
   demonstrates color/size matrices, labels, circular center content, indeterminate samples, and a
   live slider. The replacement Playground config has no root size default. [File Upload](../../../../../../../../../projects/ui/src/lib/components/file-upload/kui-file-upload.component.html)
   uses Progress for consumer-owned upload feedback.

@@ -22,7 +22,7 @@ Neither component declares an output, model, or consumer-facing method. `onImage
 - [Avatar types and item interface](../../../../../../../../../projects/ui/src/lib/components/avatar/index.ts), [public component barrel](../../../../../../../../../projects/ui/src/lib/components/index.ts), and [public API barrel](../../../../../../../../../projects/ui/src/public-api.ts).
 - [Avatar unit test](../../../../../../../../../projects/ui/src/lib/components/avatar/kui-avatar.component.spec.ts), [Avatar runtime styles](../../../../../../../../../projects/ui/src/styles/avatar.css), and [theme token source](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.ts) with [theme test](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.spec.ts).
 - [Skeleton directive](../../../../../../../../../projects/ui/src/lib/components/skeleton/kui-skeleton.directive.ts) and [Skeleton styles](../../../../../../../../../projects/ui/src/styles/skeleton.css) for Avatar loading behavior.
-- [Existing Avatar consumer](../../../../../../../../../projects/playground/src/app/pages/avatar/avatar.page.ts) and [consumer template](../../../../../../../../../projects/playground/src/app/pages/avatar/avatar.page.html).
+- Existing Avatar consumer (removed legacy file `playground/src/app/pages/avatar/avatar.page.ts`) and consumer template (removed legacy file `playground/src/app/pages/avatar/avatar.page.html`).
 
 ## Inputs, defaults, and page mapping
 

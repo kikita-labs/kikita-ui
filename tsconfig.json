@@ -35,12 +35,6 @@
       "path": "./projects/ui/tsconfig.spec.json"
     },
     {
-      "path": "./projects/playground/tsconfig.app.json"
-    },
-    {
-      "path": "./projects/playground/tsconfig.spec.json"
-    },
-    {
       "path": "./tsconfig.tools.json"
     },
     {

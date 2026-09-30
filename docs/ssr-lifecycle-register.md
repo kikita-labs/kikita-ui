@@ -68,7 +68,7 @@ queue to return to the baseline.
 | Chart tooltip `window` blur and document dismissal     | constructor, show | `isPlatformBrowser`             | none      | `destroy()` from each chart's `DestroyRef`                                          | RL donut chart (bar, line and scatter share the controller) |
 | Command palette                                        | open              | the overlay exists once opened  | none      | `detachOverlay` in `ngOnDestroy`                                                    | RL command palette; unit specs                              |
 | Color input pointer drag on `window`                   | pointerdown       | handler                         | none      | the drag abort runs in `ngOnDestroy`                                                | color input spec                                            |
-| Dialog and Drawer services                             | imperative open   | `DOCUMENT` only inside handlers | none      | the overlay owns them; a dialog deliberately outlives its opener (decision 2)       | `tests/e2e/interaction.spec.ts`                             |
+| Dialog and Drawer services                             | imperative open   | `DOCUMENT` only inside handlers | none      | the overlay owns them; a dialog deliberately outlives its opener (decision 2)       | `route-teardown.spec.ts`                                    |
 
 ### Render-time environment
 
@@ -127,7 +127,7 @@ version of the clock fix.
    application overlay and outlives the component that opened it, because confirmations are
    commonly opened from route guards and other short-lived callers. Closing is explicit (result,
    Escape, backdrop, close button). Callers unsubscribe from the result with `takeUntilDestroyed`.
-   The characterization test is in `tests/e2e/interaction.spec.ts`.
+   The characterization test is in the Playground's `route-teardown.spec.ts`.
 3. **Hydration readiness marker.** Not added. It would be public Playground behavior with no user
    value; `waitForShellHydration` proves hydration by a client-only action and stays the harness's
    single readiness check.

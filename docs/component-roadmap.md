@@ -46,14 +46,15 @@ original reports, not fresh validation of the current checkout. Reproduce before
 fixing or closing them; record new evidence in state coverage.
 
 - Committed visual-regression baselines for `/button`, `/field`, `/select`, `/dialog`, `/table`,
-  and `/calendar` (`tests/e2e/visual.spec.ts`) are stale on `release/2.x` as of 2026-09-17 --
+  and `/calendar` (the legacy library visual suite) were stale on `release/2.x` as of 2026-09-17 --
   `pnpm.cmd test:browser` fails all 24 desktop/mobile x light/dark combinations with page-height
   diffs (confirmed unrelated to the Chart work in this phase: reproduces identically with the
   Chart playground nav entry reverted). Needs its own investigation (likely accumulated layout
   drift from unrelated changes) and a baseline re-record, not a quick patch.
   **Not reproduced 2026-09-29:** at `d640ed9` all 24 of these combinations passed against a fresh
   build, before and after the Plan 11 harness change (see the evidence row in state coverage).
-  The report is kept as history; it no longer describes the current checkout.
+  The report is kept as history; it no longer describes the current checkout. The legacy suite
+  and its 24 baselines were retired with the legacy Playground on 2026-10-01 (Plan 10.2 Phase B).
 
 - `KuiTooltipDirective`'s hover/focus display mode is not fully WCAG 1.4.13 (Content on Hover or
   Focus) compliant: Escape does not dismiss the tooltip in hover/focus mode (only the touch-tap
@@ -101,7 +102,8 @@ fixing or closing them; record new evidence in state coverage.
   2026-09-30, recorded in the local v2 plan:
   - The ten primitives without a replacement Playground page (Alert, Calendar Range, Carousel, Link,
     Media Viewer, OTP Input, Pagination, Splitter, Time Picker, Typography) now have pages (Plan 10.2,
-    2026-09-30). Retiring the legacy Playground waits for the dependency audit in Plan 10.2 Phase B.
+    2026-09-30). The legacy Playground was retired on 2026-10-01 (Plan 10.2 Phase B; see
+    [browser test coverage](browser-test-coverage.md#legacy-playground-retirement-plan-102-phase-b)).
   - Automated axe violations (Calendar, Calendar Range, Splitter, Menu, File Upload and many library
     demo pages; exact rule ids are asserted per route) and the Time Picker Escape-focus defect belong
     to a separate accessibility follow-up after Plan 10.2.

@@ -1,4 +1,4 @@
-import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { expect, test } from './support/fixtures';
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });

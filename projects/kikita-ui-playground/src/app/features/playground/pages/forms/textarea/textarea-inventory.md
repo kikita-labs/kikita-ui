@@ -31,9 +31,9 @@ the public API, native and Signal Forms behavior, documented caveats, and determ
   [`Field page`](../../../../../../../../../projects/kikita-ui-playground/src/app/features/playground/pages/forms/field/field.html),
   [`Field inventory`](../field/field-inventory.md),
   [`Input inventory`](../input/input-inventory.md),
-  [`legacy Textarea page`](../../../../../../../../../projects/playground/src/app/pages/textarea/textarea.page.html),
-  [`legacy Field page`](../../../../../../../../../projects/playground/src/app/pages/field/field.page.html),
-  and [`Dialog consumer`](../../../../../../../../../projects/playground/src/app/pages/dialog/dialog.page.ts).
+  `legacy Textarea page` (removed legacy file `playground/src/app/pages/textarea/textarea.page.html`),
+  `legacy Field page` (removed legacy file `playground/src/app/pages/field/field.page.html`),
+  and `Dialog consumer` (removed legacy file `playground/src/app/pages/dialog/dialog.page.ts`).
 - Page-authoring and review rules: [`component-page-authoring.md`](../../../../../../../.agents/component-page-authoring.md),
   [`accessibility.md`](../../../../../../../.agents/accessibility.md),
   [`ssr-hydration.md`](../../../../../../../../../.agents/ssr-hydration.md),

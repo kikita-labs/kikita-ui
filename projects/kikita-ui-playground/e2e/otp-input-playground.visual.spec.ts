@@ -1,7 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
-import { expect, test } from '../../../tests/e2e/support/fixtures';
-import { openWithHeldScripts, readDuplicateIds } from '../../../tests/e2e/support/ssr';
+import { expect, test } from './support/fixtures';
+import { openWithHeldScripts, readDuplicateIds } from './support/ssr';
 
 const desktopViewport = { width: 1440, height: 1000 };
 const tabletViewport = { width: 768, height: 1024 };

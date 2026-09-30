@@ -98,6 +98,6 @@ pnpm start
 ## Projects
 
 ```text
-projects/ui         library package
-projects/playground internal playground app
+projects/ui                    library package
+projects/kikita-ui-playground  internal playground app
 ```

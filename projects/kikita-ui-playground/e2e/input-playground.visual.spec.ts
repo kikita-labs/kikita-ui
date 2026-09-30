@@ -1,6 +1,6 @@
 import type { Locator } from '@playwright/test';
 
-import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { expect, test } from './support/fixtures';
 
 interface InputFieldReferenceState {
   inputId: string;

@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 
-import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { expect, test } from './support/fixtures';
 
 const desktopViewport = { width: 1440, height: 1000 };
 const tabletViewport = { width: 768, height: 1024 };
@@ -142,6 +142,15 @@ test('server-renders the Time Picker route and hydrates its combobox interaction
   await expect(column(dialog, 'Seconds')).toHaveCount(0);
   await closeWithEscape(page, input);
   await expect(input).toHaveAttribute('aria-expanded', 'false');
+});
+
+test('focuses the Time Picker input when its Field label is clicked', async ({ page }) => {
+  // jsdom (unit tests) does not implement native label-activation behavior, so this real-browser
+  // check is the only place the `kui-field.controlId` adoption is verified end to end.
+  const input = picker(page, 'Meeting time');
+
+  await fieldOf(input).locator('label').click();
+  await expect(input).toBeFocused();
 });
 
 test('renders each format with its value, placeholder mask, and seconds column', async ({

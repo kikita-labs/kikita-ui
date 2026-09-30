@@ -24,7 +24,7 @@ describe('visual-docker', () => {
   });
 
   it('appends --update-snapshots when updating baselines', () => {
-    const args = buildDockerArgs({ suite: 'library', update: true, version: '1.61.1' });
+    const args = buildDockerArgs({ suite: 'playground', update: true, version: '1.61.1' });
 
     expect(args[args.length - 1]).toMatch(/--project=visual --update-snapshots$/);
   });
@@ -39,6 +39,9 @@ describe('visual-docker', () => {
   it('rejects an unknown suite', () => {
     expect(() => buildDockerArgs({ suite: 'nope', update: false, version: '1.61.1' })).toThrow(
       /Unknown visual suite "nope"/,
+    );
+    expect(() => buildDockerArgs({ suite: 'library', update: false, version: '1.61.1' })).toThrow(
+      /Unknown visual suite "library"/,
     );
   });
 

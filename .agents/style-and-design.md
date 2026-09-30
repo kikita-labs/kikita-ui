@@ -31,12 +31,11 @@
 ## Playground Architecture
 
 - Playground routes are lazy standalone page components under
-  `projects/playground/src/app/pages/<name>/`.
-- Each playground page should keep its template and SCSS next to the page
-  component: `<name>.page.ts`, `<name>.page.html`, `<name>.page.scss`.
-- Keep `projects/playground/src/app/app.scss` for shell/global playground layout
+  `projects/kikita-ui-playground/src/app/features/playground/pages/<catalog-group>/<name>/`.
+  The page structure, inventory and example conventions live in
+  `projects/kikita-ui-playground/.agents/component-page-authoring.md`.
+- Keep `projects/kikita-ui-playground/src/app/app.scss` for shell/global playground layout
   only.
-- Use `projects/playground/src/app/shared/panel` for repeated board panels.
 - Playground is a development/spec board, not the public docs site, but it should
   still expose real component states and catch obvious responsive/theming
   defects.

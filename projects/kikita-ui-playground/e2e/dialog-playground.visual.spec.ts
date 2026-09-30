@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 
-import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { expect, test } from './support/fixtures';
 
 interface DialogPageLocale {
   title: string;
@@ -260,6 +260,32 @@ test('captures all Dialog appearances and icon states @visual', async ({ page })
       await expect(group.getByRole('status')).toHaveText('Dialog result: saved');
     }
   }
+});
+
+test('keeps Tab and Shift+Tab focus inside the dialog and restores the trigger on Escape', async ({
+  page,
+}) => {
+  const trigger = page
+    .getByRole('group', { name: 'Dialog size examples', exact: true })
+    .getByRole('button', { name: 'Open default', exact: true });
+  const dialog = page.getByRole('dialog');
+
+  await trigger.click();
+  await expect(dialog).toBeVisible();
+
+  for (const key of ['Tab', 'Shift+Tab']) {
+    for (let press = 0; press < 8; press++) {
+      await page.keyboard.press(key);
+      expect(
+        await dialog.evaluate((element) => element.contains(document.activeElement)),
+        `after ${key} ${press + 1}`,
+      ).toBe(true);
+    }
+  }
+
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
 });
 
 test('keeps closability separate from Escape and backdrop dismissal @visual', async ({ page }) => {

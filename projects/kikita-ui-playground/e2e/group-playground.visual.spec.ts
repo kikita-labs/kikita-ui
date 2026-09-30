@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test';
 
-import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { expect, test } from './support/fixtures';
 
 const catalogueSections = [
   ['Default group example', 'group-default.png', 'group-default-320.png'],

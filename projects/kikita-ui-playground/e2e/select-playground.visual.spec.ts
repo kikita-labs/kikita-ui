@@ -1,7 +1,8 @@
 import type { Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
-import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { expect, test } from './support/fixtures';
+import { settleAnimations } from './support/page-ready';
 
 const axeSource = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 
@@ -342,6 +343,50 @@ test('opens at the last enabled option with ArrowUp and closes with Escape', asy
   await page.keyboard.press('Escape');
   await expect(input).toHaveAttribute('aria-expanded', 'false');
   await expect(input).not.toHaveAttribute('aria-controls');
+});
+
+test('ignores a click on a disabled option, commits an enabled one and restores focus on Escape', async ({
+  page,
+}) => {
+  const input = page
+    .getByRole('group', { name: 'Keyboard interaction example', exact: true })
+    .getByRole('combobox', { name: 'Keyboard navigation', exact: true });
+  const listbox = page.getByRole('listbox');
+
+  await input.click();
+  await expect(listbox).toBeVisible();
+
+  // `force` skips the stability check, so let the open animation finish before clicking.
+  await settleAnimations(page);
+  await listbox.getByRole('option', { name: 'Manager', exact: true }).click({ force: true });
+  await expect(input).toHaveValue('');
+  await expect(listbox).toBeVisible();
+
+  await listbox.getByRole('option', { name: 'Researcher', exact: true }).click();
+  await expect(listbox).toBeHidden();
+  await expect(input).toHaveValue('researcher');
+
+  await input.click();
+  await expect(listbox).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(listbox).toBeHidden();
+  await expect(input).toBeFocused();
+});
+
+test('commits the focused option with Enter and keeps focus on the input', async ({ page }) => {
+  const input = page
+    .getByRole('group', { name: 'Keyboard interaction example', exact: true })
+    .getByRole('combobox', { name: 'Keyboard navigation', exact: true });
+  const listbox = page.getByRole('listbox');
+
+  await input.focus();
+  await input.press('ArrowDown');
+  await expect(listbox.getByRole('option', { name: 'Designer', exact: true })).toBeFocused();
+
+  await page.keyboard.press('Enter');
+  await expect(listbox).toBeHidden();
+  await expect(input).toHaveValue('designer');
+  await expect(input).toBeFocused();
 });
 
 test('opens with Space and selects with a second Space', async ({ page }) => {

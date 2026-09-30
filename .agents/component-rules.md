@@ -77,15 +77,14 @@ change unless explicitly deferred:
   roadmap, state coverage, and changelog accurate enough for the docs repo to
   generate Markdown mirrors, `llms.txt`, and MCP data from released package
   behavior
-- Playground route: `projects/playground/src/app/pages/<primitive>/`
-- Playground navigation/routes: `projects/playground/src/app/app.ts` and related
-  route/nav files when a new page is added
 - Matching Kikita UI Playground page and inventory under
   `projects/kikita-ui-playground/src/app/features/playground/pages/<catalog-group>/<primitive>/`,
   plus its focused browser checks and reference screenshots whenever a supported public API,
   default, behavior, or state changes. Reconcile them with the current public contract and source:
   add newly supported cases, remove cases that are no longer supported, and revise changed
-  behavior. Do not invent unsupported examples.
+  behavior. Do not invent unsupported examples. Add the route to `PlaygroundRoute` and the new
+  page's rows to `docs/state-coverage.md`; the static audit fails when a routed page is missing
+  there.
 - Focused tests: colocated `*.spec.ts` files for the primitive and any changed
   integration point
 - Theme tokens: `projects/ui/src/lib/theme/create-kui-theme.ts` and token

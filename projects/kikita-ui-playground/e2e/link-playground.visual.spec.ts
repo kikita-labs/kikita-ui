@@ -1,7 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
-import { expect, test } from '../../../tests/e2e/support/fixtures';
-import { openWithHeldScripts, readDuplicateIds } from '../../../tests/e2e/support/ssr';
+import { expect, test } from './support/fixtures';
+import { openWithHeldScripts, readDuplicateIds } from './support/ssr';
 
 const TONES = ['Default', 'Muted', 'Primary', 'Success', 'Warning', 'Danger'] as const;
 
@@ -58,6 +58,25 @@ test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1200 });
   await page.goto(ROUTE);
   await page.mouse.move(0, 0);
+});
+
+test('uses composed typography line height for anchor and button links', async ({ page }) => {
+  const hosts = group(page, 'Link tone and underline variants');
+
+  for (const selector of ['a[kuiLink]', 'button[kuiLink]']) {
+    // Style-only assertions: the first link of each kind on the page is as good as any other.
+    const link = page.locator(selector).first();
+    await link.evaluate((element) => {
+      const variant = element.getAttribute('data-kui-text-variant');
+      (element as HTMLElement).style.setProperty(`--kui-type-${variant}-size`, '20px');
+      (element as HTMLElement).style.setProperty(`--kui-type-${variant}-line-height`, '2');
+      element.parentElement!.style.lineHeight = '64px';
+    });
+    await expect(link).toHaveCSS('font-size', '20px');
+    await expect(link).toHaveCSS('line-height', '40px');
+  }
+
+  await expect(hosts).toBeVisible();
 });
 
 test('renders the heading and a minimal default link', async ({ page }) => {

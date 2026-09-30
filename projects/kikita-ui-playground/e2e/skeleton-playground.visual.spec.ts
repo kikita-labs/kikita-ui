@@ -1,4 +1,4 @@
-import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { expect, test } from './support/fixtures';
 
 const SHAPES = [
   ['text', 'Text'],

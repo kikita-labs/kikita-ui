@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 
-import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { expect, test } from './support/fixtures';
 
 const mobileViewport = { width: 320, height: 844 };
 const mobileCatalogueViewport = { width: 320, height: 2048 };

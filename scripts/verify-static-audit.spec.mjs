@@ -1,15 +1,50 @@
-import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { describe, expect, it } from 'vitest';
 
 import { runStaticAudit } from './verify-static-audit.mjs';
 
+const playgroundRouteEnumPath =
+  'projects/kikita-ui-playground/src/app/enums/playground-route.enum.ts';
+
+function playgroundRouteEnum(components) {
+  const members = components.map((name) => `  ${name} = '${name}',`);
+
+  return [
+    'export enum PlaygroundRoute {',
+    "  Root = '',",
+    "  Components = 'components',",
+    "  ComponentId = ':componentId',",
+    ...members,
+    '}',
+    '',
+  ].join('\n');
+}
+
 describe('verify-static-audit', () => {
   it('accepts a minimal valid repository surface', () => {
     const root = makeValidRepo();
 
     expect(runStaticAudit(root)).toEqual([]);
+  });
+
+  it('reports replacement Playground routes missing from state coverage', () => {
+    const root = makeValidRepo();
+    writeFileSync(join(root, playgroundRouteEnumPath), playgroundRouteEnum(['button', 'select']));
+
+    expect(runStaticAudit(root)).toContain(
+      '/components/select is missing from docs/state-coverage.md',
+    );
+  });
+
+  it('fails instead of skipping route coverage when the route enum is missing', () => {
+    const root = makeValidRepo();
+    rmSync(join(root, playgroundRouteEnumPath));
+
+    expect(runStaticAudit(root)).toContain(
+      `${playgroundRouteEnumPath} is missing, so route coverage cannot be checked`,
+    );
   });
 
   it('reports invalid skills and missing component docs', () => {
@@ -84,7 +119,7 @@ function makeValidRepo() {
   mkdirSync(join(root, 'docs'), { recursive: true });
   mkdirSync(join(root, 'projects/ui/src/styles'), { recursive: true });
   mkdirSync(join(root, 'projects/ui/src/lib/components/button'), { recursive: true });
-  mkdirSync(join(root, 'projects/playground/src/app'), { recursive: true });
+  mkdirSync(join(root, 'projects/kikita-ui-playground/src/app/enums'), { recursive: true });
   writeFileSync(join(root, 'AGENTS.md'), '- `.agents/workflow.md`\n');
   mkdirSync(join(root, '.agents'), { recursive: true });
   writeFileSync(join(root, '.agents', 'workflow.md'), '# Workflow\n');
@@ -93,7 +128,7 @@ function makeValidRepo() {
     '---\nname: kikita-ui-demo\ndescription: Demo skill.\n---\n\n# Demo\n',
   );
   writeFileSync(join(root, 'docs', 'button.md'), '# Button\n');
-  writeFileSync(join(root, 'docs', 'state-coverage.md'), '| `/button` |\n');
+  writeFileSync(join(root, 'docs', 'state-coverage.md'), '| `/components/button` |\n');
   writeFileSync(join(root, 'projects/ui/src/styles/kikita-ui.css'), "@import './button.css';\n");
   writeFileSync(join(root, 'projects/ui/src/styles/button.css'), '.kui-button {}\n');
   writeFileSync(
@@ -108,9 +143,6 @@ function makeValidRepo() {
     join(root, 'projects/ui/src/lib/components/button/index.ts'),
     "export { KuiButtonDirective } from './kui-button.directive';\n",
   );
-  writeFileSync(
-    join(root, 'projects/playground/src/app/app.ts'),
-    "export const nav = [{ path: '/button' }];\n",
-  );
+  writeFileSync(join(root, playgroundRouteEnumPath), playgroundRouteEnum(['button']));
   return root;
 }

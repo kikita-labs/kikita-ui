@@ -74,7 +74,7 @@ Kikita tokens; the library owns Loader color, dimensions, and motion.
   checks explicit `lg`, label, role, and live semantics. The [root-default integration spec](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-defaults.integration.spec.ts)
   checks a bare Loader resolves a configured `sm` default. The [field-affix spec](../../../../../../../../../projects/ui/src/lib/components/field/kui-field-affix.directive.spec.ts)
   checks that field-affix detection preserves the Loader status and does not hide it.
-- The legacy [Loader page](../../../../../../../../../projects/playground/src/app/pages/loader/loader.page.html)
+- The legacy Loader page (removed legacy file `playground/src/app/pages/loader/loader.page.html`)
   shows sizes and button compositions, but belongs to the older `projects/playground` app. The
   replacement Playground's current generic [component-page spec](../../../../../../../../../projects/kikita-ui-playground/e2e/component-pages.spec.ts)
   does not include Loader. Its Feedback catalog and [route fragment](../../../../../../../../../projects/kikita-ui-playground/src/app/features/playground/pages/feedback/feedback.routes.ts)

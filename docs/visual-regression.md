@@ -46,26 +46,19 @@ compares against them in the same image. Screenshots differ between operating sy
 fonts and anti-aliasing (the theme uses a system font stack), so a baseline taken on a developer
 machine would never match CI. Docker must be running locally.
 
-Run the visual baseline check for the library Playground:
+Run the visual baseline check for the Playground:
 
 ```bash
 pnpm.cmd test:visual
-```
-
-Run it for the replacement Playground:
-
-```bash
-pnpm.cmd test:kikita-ui-playground:visual
 ```
 
 Update baselines only after reviewing the rendered change and confirming it is intentional:
 
 ```bash
 pnpm.cmd test:visual:update
-pnpm.cmd test:kikita-ui-playground:visual:update
 ```
 
-All four commands run `scripts/visual-docker.mjs`. It starts the image that matches the installed
+Both commands run `scripts/visual-docker.mjs`. It starts the image that matches the installed
 `@playwright/test` version, installs dependencies into named Docker volumes (the host
 `node_modules` and `dist` are not touched), builds the app and runs the `visual` project. The CI
 `visual` job pins the same image tag, and `scripts/visual-docker.spec.mjs` fails when the tag drifts
@@ -75,13 +68,14 @@ from the installed version. After a Playwright upgrade, update the tag in
 Running the `visual` project directly with `playwright test` on Windows or macOS finds no
 baselines and fails. Use the commands above.
 
-Playwright serves the built playground through `tools/serve-playground-dist.mjs`. The run fails
-before any test when `dist/playground` is missing or older than its sources, so a stale build cannot
+Playwright serves the built Playground through its SSR server
+(`dist/kikita-ui-playground/server/server.mjs`). The run fails before any test when that build is
+missing or older than its sources (`tools/assert-playground-build.mjs`), so a stale build cannot
 produce a baseline; the Docker commands build the app inside the container first.
 
 Screenshots are stable because of pinned inputs, not retries: the visual project sets
 `prefers-reduced-motion: reduce`, and every suite pins the `en-US` locale and the `UTC` timezone.
-Behavior, accessibility and responsive projects deliberately keep production motion, so reduced
+The behavior project deliberately keeps production motion, so reduced
 motion in a screenshot never hides a broken animation. Dates that a screenshot shows must be frozen
 with `page.clock.setFixedTime`. Default icons load from a CDN, so a baseline that shows icons needs
 either network access or a stubbed request as in the Toast, Field and Icon Button specs; the error

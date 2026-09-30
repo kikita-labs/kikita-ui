@@ -27,27 +27,24 @@ pnpm.cmd test:scripts
 pnpm.cmd test
 pnpm.cmd build
 pnpm.cmd build:playground
+pnpm.cmd test:kikita-ui-playground
 pnpm.cmd test:ssr
 pnpm.cmd test:browser
-pnpm.cmd test:kikita-ui-playground
-pnpm.cmd test:kikita-ui-playground:ssr
 pnpm.cmd test:visual
-pnpm.cmd test:kikita-ui-playground:visual
 ```
 
-Run focused Playwright projects with `test:e2e`, `test:a11y`, `test:responsive`, or `test:visual`.
-`test:browser` runs the `e2e`, `a11y` and `responsive` projects; the screenshot projects run through
-Docker (see `docs/visual-regression.md`) because their baselines are Linux captures.
+`test:browser` builds the Playground and runs its `behavior` Playwright project (every test whose
+title does not carry `@visual`, including the SSR, hydration, accessibility and responsive checks).
+`test:ssr` runs only the SSR hydration spec against a fresh build. The `visual` project runs through
+Docker (`test:visual`, see `docs/visual-regression.md`) because its baselines are Linux captures.
 
 ## Continuous Integration
 
 `.github/workflows/ci.yml` runs on pull requests and on pushes to `main` and `release/**`:
 
 - `verify`: format, lint, static audit, skills check, script tests, unit tests, and all builds.
-- `browser`: the replacement Playground `behavior` project on Chromium, in 3 shards. Shards use `--fully-parallel` so tests, not files, are balanced across them (Playwright sharding guidance).
-- `ssr`: the library SSR hydration suite.
-- `visual`: the replacement Playground screenshot suite inside the pinned Playwright Docker image, in 4 shards.
-- `visual-library`: the library screenshot suite in the same image.
+- `browser`: the Playground `behavior` project on Chromium, in 3 shards. Shards use `--fully-parallel` so tests, not files, are balanced across them (Playwright sharding guidance).
+- `visual`: the Playground screenshot suite inside the pinned Playwright Docker image, in 4 shards.
 
 CI is the authoritative gate for the heavy suites. Keep the Docker image tag in `ci.yml` equal to
 the installed `@playwright/test` version.
@@ -66,7 +63,8 @@ the installed `@playwright/test` version.
 The coverage map, risk tiers and known gaps live in `docs/browser-test-coverage.md`. Keep it
 current when a suite, route or scenario changes.
 
-- Import `test` and `expect` from `tests/e2e/support/fixtures`, never from `@playwright/test`. The
+- Import `test` and `expect` from `projects/kikita-ui-playground/e2e/support/fixtures.ts`, never from
+  `@playwright/test`. The
   auto `browserErrors` fixture fails a test at teardown for any console error or uncaught page
   error, including one raised after the last assertion.
 - Allow an error only with a `BrowserErrorAllowance` that has a specific message or URL pattern and a
@@ -77,13 +75,13 @@ current when a suite, route or scenario changes.
   (`tools/assert-playground-build.mjs`); the SSR scripts also rebuild first and never reuse a server.
 - Locale (`en-US`) and timezone (`UTC`) are pinned. Freeze the date with `page.clock.setFixedTime`
   when a test depends on it.
-- Behavior, accessibility and responsive projects use production motion. Only the visual project
+- The behavior project uses production motion. Only the visual project
   reduces motion. Do not add `emulateMedia({ reducedMotion })` to a behavior test.
 - Value math and signal state belong in unit tests; focus, hit-testing, geometry, touch and the
   computed accessibility tree belong in the browser.
 - Automated axe results are not manual keyboard or screen-reader evidence; record them separately.
 - When a harness change is made, prove it can fail: add or keep a case in
-  `tests/e2e/harness.spec.ts`, or inject a temporary error and confirm the run goes red before
+  `projects/kikita-ui-playground/e2e/harness.spec.ts`, or inject a temporary error and confirm the run goes red before
   removing it.
 - A known defect found by a test stays visible as `test.fixme` with its reason and owner, never as a
   deleted or weakened assertion. A retry is not a fix; reproduce with the printed command and keep the

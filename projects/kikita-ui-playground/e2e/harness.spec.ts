@@ -147,4 +147,16 @@ test.describe('browser error harness', () => {
 
     expect(prefersReducedMotion).toBe(false);
   });
+
+  // Only the visual project stabilizes motion. Behavior tests run with production motion, so a
+  // broken enter or exit animation cannot hide behind the screenshot setup.
+  test('runs visual captures with reduced motion @visual', async ({ page }) => {
+    await page.setContent('<p>motion</p>');
+
+    const prefersReducedMotion = await page.evaluate(
+      () => matchMedia('(prefers-reduced-motion: reduce)').matches,
+    );
+
+    expect(prefersReducedMotion).toBe(true);
+  });
 });

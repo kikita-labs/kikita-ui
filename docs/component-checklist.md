@@ -73,7 +73,9 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 
 ## 6. Playground
 
-- Playground route exists under `projects/playground/src/app/pages/<primitive>/`.
+- Playground page and inventory exist under
+  `projects/kikita-ui-playground/src/app/features/playground/pages/<catalog-group>/<primitive>/`, the
+  route is in `PlaygroundRoute`, and the page has rows in `docs/state-coverage.md`.
 - Page demonstrates real component states, not fake one-off styling.
 - Page demonstrates sizes and variants.
 - Page demonstrates light and dark behavior.
@@ -142,10 +144,9 @@ pnpm build
 pnpm build:playground
 ```
 
-For a visual or browser-behavior change also run the matching suites: `pnpm test:e2e`,
-`pnpm test:a11y`, `pnpm test:responsive`, `pnpm test:visual` and, for the replacement Playground,
-`pnpm test:kikita-ui-playground:ssr` and `pnpm test:kikita-ui-playground:visual`. The screenshot
-commands run in Docker. CI runs all of them on every pull request.
+For a visual or browser-behavior change also run the matching suites: `pnpm test:browser` (the
+Playground `behavior` project, which includes the SSR, accessibility and responsive checks) and
+`pnpm test:visual`. The screenshot command runs in Docker. CI runs both on every pull request.
 
 If a command cannot run because of the local sandbox or environment, record the exact reason and rerun outside the sandbox when possible.
 

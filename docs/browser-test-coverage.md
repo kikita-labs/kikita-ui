@@ -5,7 +5,8 @@ that loads is not evidence of behavior. A listed test is not a pass: results are
 command, date and revision in [State Coverage](state-coverage.md).
 
 Facts here were checked against the tests at revision `d640ed9` plus the Plan 11 changes on
-2026-09-29. Counts are `it`/`test` declarations, not pass counts.
+2026-09-29, and updated for the Plan 10.2 Phase B retirement of the legacy Playground on 2026-10-01.
+Counts are `it`/`test` declarations, not pass counts.
 
 ## Evidence levels
 
@@ -23,20 +24,23 @@ screen-reader result has been recorded for any primitive; that gap is unowned an
 
 ## Suites and commands
 
-| Suite                  | Location                             | Runs against                                                                                                                     | Command                                                                                                          |
-| ---------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Library browser (e2e)  | `tests/e2e/`                         | Library Playground (`dist/playground`), production motion                                                                        | `pnpm.cmd test:e2e`, `test:a11y`, `test:responsive`                                                              |
-| Library visual         | `tests/e2e/visual.spec.ts`           | Library Playground, reduced motion                                                                                               | `pnpm.cmd test:visual`                                                                                           |
-| Library SSR            | `tests/e2e/ssr-hydration.spec.ts`    | Library Playground SSR server                                                                                                    | `pnpm.cmd test:ssr` (builds first)                                                                               |
-| Replacement Playground | `projects/kikita-ui-playground/e2e/` | Replacement Playground SSR server; projects `behavior` (production motion) and `visual` (tests titled `@visual`, reduced motion) | `pnpm.cmd test:kikita-ui-playground:ssr` (`behavior`, builds first), `test:kikita-ui-playground:visual` (Docker) |
+The Playground (`projects/kikita-ui-playground`) is the only browser verification surface. Its
+Playwright suite lives in `projects/kikita-ui-playground/e2e/` and runs against the built SSR server
+(`dist/kikita-ui-playground/server/server.mjs`), which serves both the server-rendered HTML and the
+client scripts.
 
-Every suite starts with a freshness guard (`tools/assert-playground-build.mjs`). It fails when the
+| Project    | Runs                                                  | Motion                           | Command                                                                            |
+| ---------- | ----------------------------------------------------- | -------------------------------- | ---------------------------------------------------------------------------------- |
+| `behavior` | Every test whose title does not carry `@visual`       | Production motion                | `pnpm.cmd test:browser` (builds first); `pnpm.cmd test:ssr` runs only the SSR spec |
+| `visual`   | Tests titled `@visual`, which call `toHaveScreenshot` | `prefers-reduced-motion: reduce` | `pnpm.cmd test:visual` (Docker, Linux baselines)                                   |
+
+Every run starts with a freshness guard (`tools/assert-playground-build.mjs`). It fails when the
 build output is missing or older than the sources it is built from, and names the newest source.
-The SSR configs never reuse a running server, so a stale process cannot hide a stale bundle.
+The server is never reused, so a stale process cannot hide a stale bundle.
 
 ## Shared harness rules
 
-- Import `test` and `expect` from `tests/e2e/support/fixtures`, not from `@playwright/test`. The
+- Import `test` and `expect` from `./support/fixtures`, not from `@playwright/test`. The
   `browserErrors` auto fixture records `console.error` and uncaught page errors for the whole test
   and fails it at teardown, after one timer turn and a page round-trip so an error raised by the
   last interaction is still counted.
@@ -51,17 +55,16 @@ The SSR configs never reuse a running server, so a stale process cannot hide a s
   `openWithHeldScripts` to look at the server response before any client script runs.
 - Locale is `en-US` and timezone is `UTC` for every suite. Tests that depend on the current date
   freeze it with `page.clock.setFixedTime`, which freezes `Date` only and leaves timers real.
-- Behavior, accessibility and responsive projects run with production motion. Only the visual
-  projects set `prefers-reduced-motion: reduce`. In the replacement Playground a test whose title ends
-  with `@visual` takes screenshots and runs in the `visual` project; every other test runs in
-  `behavior`. Add `@visual` to any new test that calls `toHaveScreenshot`, directly or through a
+- The behavior project runs with production motion. Only the visual project sets
+  `prefers-reduced-motion: reduce`. A test whose title ends with `@visual` takes screenshots and runs
+  in the `visual` project; every other test runs in `behavior`. Add `@visual` to any new test that calls `toHaveScreenshot`, directly or through a
   helper. A test that verifies a specific motion mode emulates it itself. Use `settleAnimations`
   before measuring layout or asserting that something did not change.
 - Prefer exact locators. `.first()` is accepted only when the meaning really is "first in document
   order" inside a uniquely scoped container (first table row, first chart mark, first calendar row) or
   for a style-only assertion. If several elements share a name, scope to the one that matters. Do not
   use fixed sleeps; put a timer under test on `page.clock`.
-- `tests/e2e/harness.spec.ts` protects the harness itself, including a `test.fail` case that goes
+- `projects/kikita-ui-playground/e2e/harness.spec.ts` protects the harness itself, including a `test.fail` case that goes
   red if the teardown assertion is weakened.
 - A failing run keeps a trace (`trace: 'retain-on-failure'`). Open it with
   `pnpm.cmd exec playwright show-trace <trace.zip>`. Retries do not count as a fix.
@@ -77,70 +80,71 @@ The SSR configs never reuse a running server, so a stale process cannot hide a s
 
 ## Coverage by primitive
 
-`Unit` is the number of unit tests. `Page` is the number of tests in the replacement Playground spec
-for the primitive (all run through the shared error fixture). `Library suite` lists the library
-browser evidence: B behavior, A axe, R responsive, V visual, S SSR; `A!` means axe currently fails
-and the route is tracked as a known violation whose exact rule ids are asserted, so a new rule or
-a fix fails the test until the list is updated.
+`Unit` is the number of unit tests. `Page` is the number of tests in the Playground specs for the
+primitive (all run through the shared error fixture). Axe runs on every routed page in
+`accessibility.spec.ts`; a known violation is tracked by exact rule id, so a new rule or a fix fails
+the sweep until the list is updated.
 
-| Primitive       | Unit | Page | Library suite | Concrete gap                                                                                                                                                                                                                                                                     |
-| --------------- | ---- | ---- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Accordion       | 12   | 10   | A             | None recorded.                                                                                                                                                                                                                                                                   |
-| Alert           | 12   | 17   | A             | Replacement page (10 visual, 7 behavior). Not verified: assistive-technology announcement.                                                                                                                                                                                       |
-| Avatar          | 6    | 7    | -             | None recorded.                                                                                                                                                                                                                                                                   |
-| Badge           | 1    | 4    | -             | Presentational; low risk.                                                                                                                                                                                                                                                        |
-| Breadcrumbs     | 5    | 9    | -             | Replacement axe sweep: `landmark-unique` (moderate) on the demo.                                                                                                                                                                                                                 |
-| Button          | 8    | 10   | A R S V       | None recorded.                                                                                                                                                                                                                                                                   |
-| Calendar        | 11   | 16   | V, A!         | Critical axe violations (`aria-allowed-attr`, `aria-required-children`, `aria-required-parent`) in both Playgrounds; the exact rule list is asserted in both.                                                                                                                    |
-| Calendar Range  | 10   | 32   | B, A!         | Replacement page (29 run, 3 fixme). Fixme: arrow keys lag focus by one press, no tab stop outside today's month, live region only on month pick. Axe on both suites: `aria-allowed-attr`, `aria-required-children`, `aria-required-parent`, asserted exactly.                    |
-| Card            | 1    | 13   | -             | None recorded.                                                                                                                                                                                                                                                                   |
-| Carousel        | 18   | 21   | B, A          | Replacement page (19 run, 2 fixme): mouse drag, wheel, CDP touch swipe, clock-driven autoplay. Fixme: Play/Pause label follows hover/focus; shared pause flag resumes autoplay while focus is inside. Axe `scrollable-region-focusable` asserted exactly.                        |
-| Chart           | 107  | 18   | A R S         | Focus-on-mark `test.fixme` and library defects belong to Plan 24.                                                                                                                                                                                                                |
-| Checkbox        | 2    | 9    | A             | Unit covers host attributes and field ids only; forms and disabled behavior are browser-only.                                                                                                                                                                                    |
-| Chip            | 5    | 11   | -             | None recorded.                                                                                                                                                                                                                                                                   |
-| Color Input     | 8    | 17   | -             | None recorded.                                                                                                                                                                                                                                                                   |
-| Combobox        | 11   | 25   | A             | None recorded.                                                                                                                                                                                                                                                                   |
-| Command Palette | 8    | 11   | B A           | None recorded.                                                                                                                                                                                                                                                                   |
-| Date Picker     | 15   | 14   | A R           | "Today" is seeded from the server (`KuiClock`); SSR checks in UTC+14 cover the Calendar and Calendar Range routes and a Date Picker opened after hydration.                                                                                                                      |
-| Dialog          | 10   | 14   | B A R V S     | Touch backdrop tap covered; nested dialogs are not covered.                                                                                                                                                                                                                      |
-| Drawer          | 10   | 14   | A             | Focus trap and backdrop only in the replacement page; no touch backdrop tap.                                                                                                                                                                                                     |
-| Dropdown        | 16   | 16   | B A R S       | None recorded.                                                                                                                                                                                                                                                                   |
-| Empty State     | 2    | 7    | -             | None recorded.                                                                                                                                                                                                                                                                   |
-| Field           | 20   | 8    | B A R V S     | `required` renders only an `aria-hidden` marker; the control gets no `aria-required` (Plan 19B).                                                                                                                                                                                 |
-| File Upload     | 14   | 17   | A!            | Axe `label` (critical) and `nested-interactive` (serious), asserted exactly in both Playgrounds.                                                                                                                                                                                 |
-| Group           | 4    | 9    | -             | None recorded.                                                                                                                                                                                                                                                                   |
-| Icon Button     | 6    | 13   | -             | None recorded.                                                                                                                                                                                                                                                                   |
-| Icon            | 12   | 7    | -             | Replacement axe sweep: `scrollable-region-focusable`. Default icons load from a CDN.                                                                                                                                                                                             |
-| Input           | 7    | 8    | A R S         | None recorded.                                                                                                                                                                                                                                                                   |
-| Link            | 10   | 37   | B A R         | Replacement page (36 run, 1 fixme). Fixme: a consumer `(click)` handler still runs on a disabled anchor.                                                                                                                                                                         |
-| Loader          | 1    | 7    | -             | None recorded.                                                                                                                                                                                                                                                                   |
-| Media Viewer    | 16   | 32   | B A           | Replacement page (30 run, 2 fixme): keyboard, zoom, pan, wheel, real two-finger pinch. Fixme: focus lost and arrow keys dead after Zoom in disables while focused; light-theme chrome unreadable. Backdrop click is documented but unreachable in fullscreen (docs discrepancy). |
-| Menu            | 9    | 19   | A!            | Axe `aria-required-parent` (critical) on the library Playground, asserted exactly.                                                                                                                                                                                               |
-| Number Input    | 30   | 13   | S             | None recorded.                                                                                                                                                                                                                                                                   |
-| OTP Input       | 19   | 38   | B A           | Replacement page (36 run, 2 fixme). Fixme: every cell is a tab stop although the docs say Tab leaves the group; cells are not square at 320px in a long group. Size is not inherited from the Field (recorded, not asserted).                                                    |
-| Pagination      | 12   | 16   | B A R         | Replacement page (15 run, 1 fixme). Fixme: focus falls to `<body>` when Next reaches the last page.                                                                                                                                                                              |
-| Popover         | 20   | 13   | A S           | None recorded.                                                                                                                                                                                                                                                                   |
-| Progress        | 14   | 10   | -             | Replacement axe sweep: `landmark-unique` (moderate).                                                                                                                                                                                                                             |
-| Radio           | 2    | 9    | A             | Unit covers host attributes and field ids only.                                                                                                                                                                                                                                  |
-| Segmented       | 8    | 9    | A             | None recorded.                                                                                                                                                                                                                                                                   |
-| Select          | 26   | 23   | B A R V S     | None recorded.                                                                                                                                                                                                                                                                   |
-| Separator       | 1    | 4    | -             | Replacement axe sweep: `scrollable-region-focusable`.                                                                                                                                                                                                                            |
-| Skeleton        | 1    | 6    | -             | None recorded.                                                                                                                                                                                                                                                                   |
-| Slider          | 19   | 11   | A             | None recorded.                                                                                                                                                                                                                                                                   |
-| Splitter        | 13   | 27   | B, A!         | Replacement page (24 run, 3 fixme): real mouse and CDP touch drag with geometry assertions, keyboard. Fixme: `collapsed()` desyncs after Home/keyboard, dangling `aria-controls`. Axe `aria-valid-attr-value` and `nested-interactive` asserted exactly.                         |
-| Stepper         | 7    | 7    | A             | None recorded.                                                                                                                                                                                                                                                                   |
-| Switch          | 2    | 9    | A             | Unit covers host attributes and field ids only.                                                                                                                                                                                                                                  |
-| Table           | 5    | 9    | A R V S       | None recorded.                                                                                                                                                                                                                                                                   |
-| Tabs            | 11   | 6    | A             | None recorded.                                                                                                                                                                                                                                                                   |
-| Textarea        | 2    | 8    | A             | Unit covers host attributes and field ids only.                                                                                                                                                                                                                                  |
-| Time Picker     | 32   | 29   | B A R         | Replacement page (28 run, 1 fixme). Fixme: Escape from inside the open panel drops focus to `<body>` (queue item 10.3).                                                                                                                                                          |
-| Toast           | 10   | 12   | B A           | None recorded.                                                                                                                                                                                                                                                                   |
-| Tooltip         | 8    | 10   | B A           | None recorded.                                                                                                                                                                                                                                                                   |
-| Tree            | 21   | 8    | A             | None recorded.                                                                                                                                                                                                                                                                   |
-| Typography      | 2    | 18   | -             | Replacement page: computed size/line-height/weight for all 11 roles, colour for all 7 tones. Axe `scrollable-region-focusable` on the shell workspace scroller.                                                                                                                  |
+| Primitive       | Unit | Page | Concrete gap                                                                                                                                                                                                                                                         |
+| --------------- | ---- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Accordion       | 12   | 10   | None recorded.                                                                                                                                                                                                                                                       |
+| Alert           | 12   | 17   | Page (10 visual, 7 behavior). Not verified: assistive-technology announcement.                                                                                                                                                                                       |
+| Avatar          | 6    | 7    | None recorded.                                                                                                                                                                                                                                                       |
+| Badge           | 1    | 4    | Presentational; low risk.                                                                                                                                                                                                                                            |
+| Breadcrumbs     | 5    | 9    | Axe sweep: `landmark-unique` (moderate) on the demo.                                                                                                                                                                                                                 |
+| Button          | 8    | 10   | None recorded.                                                                                                                                                                                                                                                       |
+| Calendar        | 11   | 16   | Critical axe violations (`aria-allowed-attr`, `aria-required-children`, `aria-required-parent`) asserted exactly by the axe sweep.                                                                                                                                   |
+| Calendar Range  | 10   | 32   | Page (29 run, 3 fixme). Fixme: arrow keys lag focus by one press, no tab stop outside today's month, live region only on month pick. Axe: `aria-allowed-attr`, `aria-required-children`, `aria-required-parent`, asserted exactly.                                   |
+| Card            | 1    | 13   | None recorded.                                                                                                                                                                                                                                                       |
+| Carousel        | 18   | 21   | Page (19 run, 2 fixme): mouse drag, wheel, CDP touch swipe, clock-driven autoplay. Fixme: Play/Pause label follows hover/focus; shared pause flag resumes autoplay while focus is inside. Axe `scrollable-region-focusable` asserted exactly.                        |
+| Chart           | 107  | 18   | Focus-on-mark `test.fixme` and library defects belong to Plan 24.                                                                                                                                                                                                    |
+| Checkbox        | 2    | 9    | Unit covers host attributes and field ids only; forms and disabled behavior are browser-only.                                                                                                                                                                        |
+| Chip            | 5    | 11   | None recorded.                                                                                                                                                                                                                                                       |
+| Color Input     | 8    | 17   | None recorded.                                                                                                                                                                                                                                                       |
+| Combobox        | 11   | 25   | None recorded.                                                                                                                                                                                                                                                       |
+| Command Palette | 8    | 11   | None recorded.                                                                                                                                                                                                                                                       |
+| Date Picker     | 15   | 14   | "Today" is seeded from the server (`KuiClock`); SSR checks in UTC+14 cover the Calendar and Calendar Range routes and a Date Picker opened after hydration.                                                                                                          |
+| Dialog          | 10   | 15   | Touch backdrop tap, locked dialog and an 8-press Tab/Shift+Tab focus cycle covered; nested dialogs are not covered.                                                                                                                                                  |
+| Drawer          | 10   | 14   | No touch backdrop tap.                                                                                                                                                                                                                                               |
+| Dropdown        | 16   | 16   | None recorded.                                                                                                                                                                                                                                                       |
+| Empty State     | 2    | 7    | None recorded.                                                                                                                                                                                                                                                       |
+| Field           | 20   | 10   | `required` renders only an `aria-hidden` marker; the control gets no `aria-required` (Plan 19B).                                                                                                                                                                     |
+| File Upload     | 14   | 17   | Axe `label` (critical) and `nested-interactive` (serious), asserted exactly in both Playgrounds.                                                                                                                                                                     |
+| Group           | 4    | 9    | None recorded.                                                                                                                                                                                                                                                       |
+| Icon Button     | 6    | 13   | None recorded.                                                                                                                                                                                                                                                       |
+| Icon            | 12   | 7    | Axe sweep: `scrollable-region-focusable`. Default icons load from a CDN.                                                                                                                                                                                             |
+| Input           | 7    | 8    | None recorded.                                                                                                                                                                                                                                                       |
+| Link            | 10   | 38   | Page (37 run, 1 fixme). Composed typography line height is asserted for anchor and button hosts. Fixme: a consumer `(click)` handler still runs on a disabled anchor.                                                                                                |
+| Loader          | 1    | 7    | None recorded.                                                                                                                                                                                                                                                       |
+| Media Viewer    | 16   | 32   | Page (30 run, 2 fixme): keyboard, zoom, pan, wheel, real two-finger pinch. Fixme: focus lost and arrow keys dead after Zoom in disables while focused; light-theme chrome unreadable. Backdrop click is documented but unreachable in fullscreen (docs discrepancy). |
+| Menu            | 9    | 19   | None recorded. The legacy demo's `aria-required-parent` finding does not occur on the page.                                                                                                                                                                          |
+| Number Input    | 30   | 13   | None recorded.                                                                                                                                                                                                                                                       |
+| OTP Input       | 19   | 38   | Page (36 run, 2 fixme). Fixme: every cell is a tab stop although the docs say Tab leaves the group; cells are not square at 320px in a long group. Size is not inherited from the Field (recorded, not asserted).                                                    |
+| Pagination      | 12   | 16   | Page (15 run, 1 fixme). Fixme: focus falls to `<body>` when Next reaches the last page.                                                                                                                                                                              |
+| Popover         | 20   | 13   | None recorded.                                                                                                                                                                                                                                                       |
+| Progress        | 14   | 10   | Axe sweep: `landmark-unique` (moderate).                                                                                                                                                                                                                             |
+| Radio           | 2    | 9    | Unit covers host attributes and field ids only.                                                                                                                                                                                                                      |
+| Segmented       | 8    | 9    | None recorded.                                                                                                                                                                                                                                                       |
+| Select          | 26   | 25   | Touch tap, disabled-option click, Enter commit and Escape focus restore covered.                                                                                                                                                                                     |
+| Separator       | 1    | 4    | Axe sweep: `scrollable-region-focusable`.                                                                                                                                                                                                                            |
+| Skeleton        | 1    | 6    | None recorded.                                                                                                                                                                                                                                                       |
+| Slider          | 19   | 11   | None recorded.                                                                                                                                                                                                                                                       |
+| Splitter        | 13   | 27   | Page (24 run, 3 fixme): real mouse and CDP touch drag with geometry assertions, keyboard. Fixme: `collapsed()` desyncs after Home/keyboard, dangling `aria-controls`. Axe `aria-valid-attr-value` and `nested-interactive` asserted exactly.                         |
+| Stepper         | 7    | 7    | None recorded.                                                                                                                                                                                                                                                       |
+| Switch          | 2    | 9    | Unit covers host attributes and field ids only.                                                                                                                                                                                                                      |
+| Table           | 5    | 9    | None recorded.                                                                                                                                                                                                                                                       |
+| Tabs            | 11   | 6    | None recorded.                                                                                                                                                                                                                                                       |
+| Textarea        | 2    | 8    | Unit covers host attributes and field ids only.                                                                                                                                                                                                                      |
+| Time Picker     | 32   | 30   | Page (29 run, 1 fixme). Fixme: Escape from inside the open panel drops focus to `<body>` (queue item 10.3).                                                                                                                                                          |
+| Toast           | 10   | 12   | None recorded.                                                                                                                                                                                                                                                       |
+| Tooltip         | 8    | 10   | None recorded.                                                                                                                                                                                                                                                       |
+| Tree            | 21   | 8    | None recorded.                                                                                                                                                                                                                                                       |
+| Typography      | 2    | 18   | Page: computed size/line-height/weight for all 11 roles, colour for all 7 tones. Axe `scrollable-region-focusable` on the shell workspace scroller.                                                                                                                  |
 
-Every replacement page is also covered by a server-response heading check and, since Plan 11, an axe
-sweep. Only Dialog and Select have the held-script hydration check.
+Every routed page is also covered by a server-response heading check, a hydration check and an axe
+sweep (`component-pages.spec.ts`, `accessibility.spec.ts`), plus no-overflow checks at 320, 390, 768
+and 1440px and a right-to-left layout smoke. Dialog and Select have the held-script hydration check;
+`route-teardown.spec.ts` and `touch-playground.spec.ts` hold the cross-page lifecycle and touch checks.
 
 ## Known gaps and owners
 
@@ -149,38 +153,34 @@ in the local v2 plan (`.local-notes/v2/PLAN.md` and the plan file named per item
 the v2 queue ids. Items 2-7 and 9-11 need no further decision for Plan 11; the work they name happens
 in the plan listed.
 
-1. **Replacement pages** for Alert, Calendar Range, Carousel, Link, Media Viewer, OTP Input,
-   Pagination, Splitter, Time Picker and Typography were added by Plan 10.2 (`.local-notes/v2/PLAN.md`,
-   `playground.md`) and integrated on 2026-09-30. What remains of that plan is Phase B: an audit of every
-   consumer of the legacy `projects/playground` before it can be retired. The legacy Playground stays
-   until that audit is resolved; the library suites (`tests/e2e`) still run against it.
-2. **Automated axe violations.** Both suites assert exact rule ids per route. Library routes with
-   known violations: Calendar, Calendar Range, Splitter, Menu, File Upload (critical) and Tokens,
-   Field, Input, Table, OTP Input, Pagination, Time Picker, Carousel, Tabs, Checkbox, Radio, Switch,
-   Segmented (`empty-table-header`, `scrollable-region-focusable`, `label-title-only` or
-   `aria-prohibited-attr`). Replacement pages: Breadcrumbs, Calendar, Calendar Range, Carousel, File Upload, Icon,
-   Progress, Separator, Splitter, Typography. A probe on 2026-09-30 also found violations on library routes the sweep does not include
-   (`/icons`, `/card`, `/badge`, `/breadcrumbs`, `/group`). Owner: queue item 10.3, an accessibility
-   remediation follow-up after Plan 10.2 (`accessibility-remediation.md`): critical routes first,
-   lesser findings with their component slices. Not part of Plan 11 or 10.2.
-3. **Axe rule exclusion**: only `color-contrast` is excluded, in both suites. The four rules the
-   library suite used to exclude blanket-wide are now asserted per route (item 2). Owner: Plan 14
+1. **Legacy Playground retired.** The ten pages added by Plan 10.2 Phase A (Alert, Calendar Range,
+   Carousel, Link, Media Viewer, OTP Input, Pagination, Splitter, Time Picker, Typography) and the
+   library suites that still ran against the old Playground app were reconciled in Phase B; see
+   [Legacy Playground retirement](#legacy-playground-retirement-plan-102-phase-b).
+2. **Automated axe violations.** The sweep asserts exact rule ids per route. Pages with known
+   violations: Breadcrumbs, Calendar, Calendar Range, Carousel, File Upload, Icon, Progress,
+   Separator, Splitter, Typography. Owner: queue item 10.3, an accessibility remediation follow-up
+   after Plan 10.2 (`accessibility-remediation.md`): critical routes first, lesser findings with
+   their component slices. Not part of Plan 11 or 10.2.
+3. **Axe rule exclusion**: only `color-contrast` is excluded. Every other rule is asserted per
+   route (item 2). Owner: Plan 14
    re-enables `color-contrast` after the contrast work (`solid-shape-contrast-defect.md`).
 4. **Time Picker Escape from inside the panel** loses focus to `<body>`. `test.fixme` in
-   `tests/e2e/interaction-widgets.spec.ts`. Owner: queue item 10.3 (item 2).
+   `time-picker-playground.visual.spec.ts`. Owner: queue item 10.3 (item 2).
 5. **Field `required`** is not exposed to assistive technology. `test.fixme` in
-   `tests/e2e/interaction.spec.ts`. Owner: Plan 19B, Phase B
+   `field-playground.visual.spec.ts`. Owner: Plan 19B, Phase B
    (`autofocus-and-base-input-directive.md`).
 6. **Right-to-left** is unsupported in v2 and is documented as such (see the roadmap's Deferred Feature
    Scope). No primitive has direction-aware behavior (no `rtl`, `dir` or `Directionality` use under
    `projects/ui/src/lib`), so arrow-key direction in Tabs, Slider, Segmented, Tree and Splitter is
-   untested because it is unimplemented. Only a layout smoke exists: no overflow and an open Select
-   list stays on screen. The final v2 checklist confirms the statement is in the release docs.
-7. **Touch**: real taps are covered for Select and Dialog (library suite) and Avatar, Slider and
-   Tooltip (replacement pages). Accepted as representative coverage; Drawer, Menu, Popover, Combobox,
+   untested because it is unimplemented. Only a layout smoke exists (`component-pages.spec.ts`): no
+   overflow on Field, Select, Table and Dialog, and an open Select list stays on screen. The final v2 checklist confirms the statement is in the release docs.
+7. **Touch**: real taps are covered for Select and Dialog (`touch-playground.spec.ts`) and Avatar,
+   Slider and Tooltip (their page specs). Accepted as representative coverage; Drawer, Menu, Popover, Combobox,
    pickers, Splitter and Carousel swipe have no touch check.
-8. **SSR of date-dependent primitives**: the library suite checks server content and held hydration
-   for 11 routes; the replacement suite checks 44 headings plus the held-hydration flows. Calendar,
+8. **SSR of date-dependent primitives**: `component-pages.spec.ts` checks the server heading and
+   hydrated navigation of every routed page, and `ssr-hydration.spec.ts` the held-hydration flows
+   (Dialog, Select, event replay, no-JavaScript Table, server ids). Calendar,
    Calendar Range and Date Picker have a UTC+14 time-zone check (`ssr-hydration.spec.ts`); a
    de-DE request is checked for the same weekday row on the server and after hydration (see
    `docs/ssr-lifecycle-register.md`). OTP Input and Time Picker read no date at render and have no
@@ -198,34 +198,44 @@ in the plan listed.
     Owner: Plan 12 decides whether to add one (`ssr.md`, Phase 3).
 13. **Dialog lifecycle on route change**: a dialog opened imperatively stays open after its opening
     route is destroyed, and `docs/dialog.md` does not say whether that is intended. A characterization
-    test in `tests/e2e/interaction.spec.ts` only guarantees no error. Owner: Plan 12 (`ssr.md`,
+    test in `route-teardown.spec.ts` only guarantees no error. Owner: Plan 12 (`ssr.md`,
     Phase 3); changing the contract needs a decision from Nikita.
-14. **Legacy SSR server** (`projects/playground/src/server.ts`) serves no client scripts. The SSR gate
-    uses `tools/serve-playground-ssr.mjs` instead; the app server itself is unchanged. Before Plan 11
-    the suite ran against the app server, so its "hydrates without console errors" tests never
-    hydrated anything. Informational; Plan 10.2 Phase B accounts for the server and this wrapper when
-    it retires the legacy Playground.
+14. **Dropdown inside a Field** (an input-anchored list committed with a click, closed with Escape and
+    returning focus to the input, shown in `docs/dropdown.md`) has no example on the Dropdown page.
+    The behavior is exercised through Select (`select-playground.visual.spec.ts`), which uses the same
+    primitive. Adding the example needs a page-contract decision.
+15. **Token reference and density demo**: the legacy `/tokens` and `/density` routes had no component
+    page to move to, and a new page needs an approved contract and design record. Their content is
+    not reproduced. Owner: Plan 13 (token boundaries) decides whether a token reference page is wanted.
 
-## Legacy Playground dependency audit (Plan 10.2 Phase B)
+## Legacy Playground retirement (Plan 10.2 Phase B)
 
-Audited 2026-09-30 after the ten missing pages were added. Nothing was removed: `projects/playground`
-still has live consumers, and removing it would drop tested behavior. Each row says what depends on it
-and what would have to happen first.
+Decision D12 (2026-09-30): migrate the library browser suites onto the Playground pages, then delete
+the legacy Playground app. Every library test was compared with the page specs first. A
+behavior the pages already covered was not duplicated; the rest was ported.
 
-| Consumer                       | Where                                                                                                                                                                                                                                                                                                                                        | Depends on the legacy app for                                                                                                                                               | Before it can go                                                                                                                                                   |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Angular workspace              | `angular.json` project `playground`, `tsconfig.json` project references                                                                                                                                                                                                                                                                      | Build, serve and lint targets                                                                                                                                               | Remove the entries together with the last consumer below                                                                                                           |
-| Package scripts                | `package.json`: `start`, `build:playground`, `build:playground:ssr`, `build:all`, `test:ssr`                                                                                                                                                                                                                                                 | Serving and building the legacy app; `test:ssr` builds it                                                                                                                   | Repoint or drop after the suites move                                                                                                                              |
-| Library browser suites         | `tests/e2e/*`: behavior, interaction, interaction-widgets, touch, accessibility (39 routes), responsive, visual (24 baselines), ssr-hydration (25 tests)                                                                                                                                                                                     | About 40 legacy routes, served from `dist/playground`                                                                                                                       | Migrate each suite to replacement pages (or agree to keep them on the legacy app); the 24 visual baselines and the exact axe lists would be re-recorded, not moved |
-| Playwright configs and servers | `playwright.config.ts`, `playwright.ssr.config.ts`, `tools/serve-playground-dist.mjs`, `tools/serve-playground-ssr.mjs`, `tools/assert-playground-build.mjs`                                                                                                                                                                                 | Static and SSR serving, freshness guard for `dist/playground`                                                                                                               | Follow the suites                                                                                                                                                  |
-| Static audit                   | `scripts/verify-static-audit.mjs` (route coverage check)                                                                                                                                                                                                                                                                                     | Reads the legacy route list in `projects/playground/src/app/app.ts` and returns no failures when that file is missing, so deleting the app would silently disable the check | Repoint the check to the replacement app first                                                                                                                     |
-| Git hooks                      | `.husky/pre-push`                                                                                                                                                                                                                                                                                                                            | fast checks only (format, lint, audit, skills, script and unit tests); heavy suites run in `.github/workflows/ci.yml`                                                       | Follow the suites                                                                                                                                                  |
-| Lint config                    | `eslint.config.js` override for `projects/playground/**`                                                                                                                                                                                                                                                                                     | Lint rules for the legacy sources                                                                                                                                           | Drop with the app                                                                                                                                                  |
-| Legacy-only routes             | `/tokens`, `/theme`, `/density`, `/forms`, `/icons`                                                                                                                                                                                                                                                                                          | No replacement page exists; `/tokens` is used by the axe, responsive and SSR suites                                                                                         | Decide per route: add a replacement page, or retire its tests                                                                                                      |
-| Documentation                  | `README.md` project map, `docs/release.md`, `docs/component-checklist.md` (primitive checklist requires a legacy route), `docs/visual-regression.md`, `docs/state-coverage.md` (legacy route rows), `.agents/*` (architecture, component-rules, git-policy, ssr-hydration, style-and-design, testing-and-quality) and the quality-gate skill | Describe the legacy app as the verification surface                                                                                                                         | Rewrite together with the migration                                                                                                                                |
-| Local tooling                  | `.claude/launch.json` (ignored)                                                                                                                                                                                                                                                                                                              | Dev server entry                                                                                                                                                            | Update locally                                                                                                                                                     |
+| Library suite (removed)                      | Disposition                                                                                                                                                                                                                                             |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `behavior.spec.ts` (10)                      | Covered by the Command Palette, Dialog, Toast, Tooltip, OTP Input, Pagination and Time Picker page specs. Ported: Link composed line height (`link-playground`), Time Picker label focus (`time-picker-playground`).                                    |
+| `interaction.spec.ts` (Dialog, Field, route) | Covered: backdrop dismissal and the locked dialog. Ported: 8-press Tab/Shift+Tab cycle (`dialog-playground`), Field label focus (`field-playground`), the `required` fixme (`field-playground`), both route-teardown checks (`route-teardown.spec.ts`). |
+| `interaction-widgets.spec.ts`                | Covered by the Time Picker, Splitter, Calendar Range, Carousel and Media Viewer page specs, including the fixed-clock 12-hour picker and the existing Escape-focus fixme. Ported: Select disabled-option click, Enter commit and Escape focus restore.  |
+| `touch.spec.ts` (3)                          | Ported to `touch-playground.spec.ts`.                                                                                                                                                                                                                   |
+| `accessibility.spec.ts` (39 routes)          | Replaced by the axe sweep over every routed page (`accessibility.spec.ts`). Findings that came from legacy demo markup (`empty-table-header`, `label-title-only`, `aria-prohibited-attr`) do not exist on the pages and are not carried.                |
+| `responsive.spec.ts`                         | Ported to `component-pages.spec.ts`: 390px added to the no-overflow sweep, and the right-to-left layout smoke (Field, Select, Table, Dialog, plus an on-screen Select list).                                                                            |
+| `visual.spec.ts` (24 baselines)              | Retired, not moved. `/button`, `/field`, `/select`, `/dialog`, `/table` and `/calendar` each have section baselines in their own page spec; the legacy full-page captures of demo boards are not reproduced.                                            |
+| `ssr-hydration.spec.ts` (25)                 | Covered by the per-route server heading and hydration check, the Dialog and Select held-script checks and the server-id checks. Ported: event replay of a click made before hydration and the no-JavaScript Table (`ssr-hydration.spec.ts`).            |
+| `harness.spec.ts` and `support/`             | Moved to `projects/kikita-ui-playground/e2e/`. The reduced-motion check of the old visual suite is now an `@visual` case in `harness.spec.ts`.                                                                                                          |
 
-`.github/workflows/publish.yml` runs `pnpm build` (the library) only and does not depend on the legacy
-app. Blocker: the library suites are the only browser evidence for behavior that has no replacement-page
-test yet (for example the 110 library browser tests and their exact axe lists), so deleting the app
-first would remove coverage. The decision needed is recorded in `.local-notes/v2/playground.md`.
+The five legacy-only routes were handled by decision D12b: `/icons` and `/forms` are covered by the
+Icon page and the Field, Input and Select pages; `/theme` by the shell palette and theme switch;
+`/tokens` and `/density` are retired with their tests (gap 15).
+
+Tooling changes: the Playwright config is `playwright.config.ts` (the former
+`playwright.kikita-ui-playground.config.ts`); `playwright.ssr.config.ts`, `tools/serve-playground-dist.mjs`
+and `tools/serve-playground-ssr.mjs` are gone; the freshness guard is `tools/assert-playground-build.mjs`.
+The scripts `build:playground:ssr`, `build:kikita-ui-playground`, `serve:kikita-ui-playground`,
+`test:e2e`, `test:a11y`, `test:responsive` and the `test:kikita-ui-playground:ssr|visual` variants were
+removed; `build:playground`, `test:browser`, `test:ssr` and `test:visual` now target the Playground. The CI `ssr`
+and `visual-library` jobs were removed because the `browser` and `visual` jobs already run the same
+Playground specs. The static audit reads `PlaygroundRoute` and now fails, instead of passing, when
+that file is missing.

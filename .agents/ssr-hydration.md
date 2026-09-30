@@ -36,29 +36,20 @@ An SSR check must prove three separate things, in this order:
 
 1. The server response alone contains the route content (`request.get`, or a page with
    `javaScriptEnabled: false`).
-2. The same DOM survives hydration. Use `openWithHeldScripts` from `tests/e2e/support/ssr.ts` to hold
+2. The same DOM survives hydration. Use `openWithHeldScripts` from `projects/kikita-ui-playground/e2e/support/ssr.ts` to hold
    every client script, mark a server-rendered node, release the scripts, and assert the marked node
    is still there.
 3. The hydrated page stays interactive. The Playground exposes no hydration marker, so prove it with
-   an idempotent client-only action such as switching the theme.
+   an idempotent client-only action such as switching the theme (`waitForShellHydration`).
 
-The library Playground is served for this gate by `tools/serve-playground-ssr.mjs`. Its own
-`server.mjs` renders routes but serves no client scripts, so serving it directly leaves the page
-unhydrated while a load-only test still passes. Both SSR gates rebuild first, refuse a stale build,
-and never reuse an already running server.
+The Playground's own `dist/kikita-ui-playground/server/server.mjs` serves both the server-rendered
+HTML and the client scripts, so the SSR gate runs against it directly. The SSR gate rebuilds first,
+refuses a stale build, and never reuses an already running server.
 
-Representative routes:
-
-- `/tokens`
-- `/button`
-- `/field`
-- `/input`
-- `/select`
-- `/dropdown`
-- `/popover`
-- `/dialog`
-- `/number-input`
-- `/table`
+`projects/kikita-ui-playground/e2e/component-pages.spec.ts` renders every component route on the
+server and hydrates it. `projects/kikita-ui-playground/e2e/ssr-hydration.spec.ts` holds the deeper
+checks (held scripts, event replay, server ids, time zones and locale). Each page spec adds its own
+SSR check for behavior the page owns.
 
 Record any intentionally deferred SSR gap in `docs/state-coverage.md` or
 `docs/component-roadmap.md`.

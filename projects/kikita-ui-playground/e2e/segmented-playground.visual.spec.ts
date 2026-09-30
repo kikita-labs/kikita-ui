@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 
-import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { expect, test } from './support/fixtures';
 
 const examples = [
   ['Selection and touch', 'segmented-default-desktop.png', 'segmented-default-320.png'],

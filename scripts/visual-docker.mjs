@@ -11,10 +11,6 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
  */
 export const visualSuites = {
   playground: {
-    build: 'pnpm run build:kikita-ui-playground',
-    test: 'pnpm exec playwright test --config=playwright.kikita-ui-playground.config.ts --project=visual',
-  },
-  library: {
     build: 'pnpm run build:playground',
     test: 'pnpm exec playwright test --project=visual',
   },

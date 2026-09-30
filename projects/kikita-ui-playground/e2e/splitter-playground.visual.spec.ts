@@ -1,8 +1,8 @@
 import type { Locator, Page } from '@playwright/test';
 
-import { expect, test } from '../../../tests/e2e/support/fixtures';
-import { expectNoDocumentOverflow } from '../../../tests/e2e/support/page-ready';
-import { openWithHeldScripts } from '../../../tests/e2e/support/ssr';
+import { expect, test } from './support/fixtures';
+import { expectNoDocumentOverflow } from './support/page-ready';
+import { openWithHeldScripts } from './support/ssr';
 
 const catalogueSections = [
   ['Default splitter example', 'default'],

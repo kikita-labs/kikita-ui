@@ -1,9 +1,5 @@
-import { expect, test } from '../../../tests/e2e/support/fixtures';
-import {
-  openWithHeldScripts,
-  readDuplicateIds,
-  waitForShellHydration,
-} from '../../../tests/e2e/support/ssr';
+import { expect, test } from './support/fixtures';
+import { openWithHeldScripts, readDuplicateIds, waitForShellHydration } from './support/ssr';
 
 test('renders on the server and changes language after hydration', async ({ page }) => {
   const consoleErrors: string[] = [];
@@ -448,6 +444,38 @@ test('shows Select markup from the server response and keeps the closed combobox
   await page.keyboard.press('Escape');
   await expect(page.getByRole('listbox')).toHaveCount(0);
   await expect(combobox).toBeFocused();
+});
+
+test('replays a click made before hydration and opens the Dialog once the scripts run', async ({
+  page,
+}) => {
+  const held = await openWithHeldScripts(page, '/components/dialog');
+  const openDefault = page
+    .getByRole('group', { name: 'Dialog size examples', exact: true })
+    .getByRole('button', { name: 'Open default', exact: true });
+
+  // No script has run, so this click reaches only the event-replay recorder in the server HTML.
+  await openDefault.click();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+
+  held.release();
+
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.getByRole('dialog')).toHaveCount(1);
+});
+
+test.describe('without client JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+
+  test('renders a readable Table from the server response alone', async ({ page }) => {
+    await page.goto('/components/table');
+
+    const table = page.getByRole('table').first();
+
+    await expect(table).toBeVisible();
+    await expect(table.getByRole('columnheader').first()).toBeVisible();
+    expect(await table.getByRole('row').count()).toBeGreaterThan(1);
+  });
 });
 
 const idRoutes = ['/components/carousel', '/components/chart', '/components/select'] as const;

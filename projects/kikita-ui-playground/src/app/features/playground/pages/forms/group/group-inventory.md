@@ -14,7 +14,7 @@
 - Border merging, orientation, size inheritance, Field subgrid, rounded corners, and invalid
   border stacking: [`group.css`](../../../../../../../../../projects/ui/src/styles/group.css).
 - Group behavior tests: [`kui-group.directive.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/group/kui-group.directive.spec.ts).
-- Existing complete usage catalogue: [`group.page.html`](../../../../../../../../../projects/playground/src/app/pages/group/group.page.html).
+- Existing complete usage catalogue: `group.page.html` (removed legacy file `playground/src/app/pages/group/group.page.html`).
 
 ## Inputs, defaults, and composition
 

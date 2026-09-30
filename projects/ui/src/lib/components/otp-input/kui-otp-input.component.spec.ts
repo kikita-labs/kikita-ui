@@ -247,7 +247,7 @@ describe('KuiOtpInputComponent', () => {
   it('the kui-field label targets the first cell id, so a native label click focuses it', () => {
     // jsdom does not implement native label-activation behavior (clicking a real <label for> in a
     // real browser moves focus to its target), so this only asserts the id/for correspondence a
-    // browser relies on -- verified end to end in tests/e2e/behavior.spec.ts.
+    // browser relies on -- verified end to end by the OTP Input Playground page spec.
     TestBed.configureTestingModule({ imports: [OtpInputFieldHost] });
     const fixture = TestBed.createComponent(OtpInputFieldHost);
     fixture.detectChanges();

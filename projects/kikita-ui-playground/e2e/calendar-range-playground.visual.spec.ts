@@ -1,7 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
-import { expect, test } from '../../../tests/e2e/support/fixtures';
-import { openWithHeldScripts } from '../../../tests/e2e/support/ssr';
+import { expect, test } from './support/fixtures';
+import { openWithHeldScripts } from './support/ssr';
 
 const sections = [
   { key: 'default', name: 'Default calendar range example' },

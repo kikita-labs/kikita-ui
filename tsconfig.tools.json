@@ -7,5 +7,9 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": ["*.ts", "tests/e2e/**/*.ts"]
+  "include": [
+    "*.ts",
+    "projects/kikita-ui-playground/e2e/support/**/*.ts",
+    "projects/kikita-ui-playground/e2e/harness.spec.ts"
+  ]
 }

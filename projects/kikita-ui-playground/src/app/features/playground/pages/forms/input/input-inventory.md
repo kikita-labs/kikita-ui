@@ -31,7 +31,7 @@
 - Playground root configuration:
   [`app.config.ts`](../../../../../../../../../projects/kikita-ui-playground/src/app/app.config.ts).
 - Existing examples and consumers:
-  [`legacy Input page`](../../../../../../../../../projects/playground/src/app/pages/input/input.page.html),
+  `legacy Input page` (removed legacy file `playground/src/app/pages/input/input.page.html`),
   [`Field inventory`](../field/field-inventory.md),
   [`Group inventory`](../group/group-inventory.md), and
   [`OTP Input`](../../../../../../../../../projects/ui/src/lib/components/otp-input/kui-otp-input.component.ts).

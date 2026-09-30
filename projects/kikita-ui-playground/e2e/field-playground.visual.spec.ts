@@ -1,4 +1,4 @@
-import { expect, test } from '../../../tests/e2e/support/fixtures';
+import { expect, test } from './support/fixtures';
 
 const catalogueExamples = [
   ['Default field example', 'field-default-desktop.png', 'field-default-320.png'],
@@ -99,6 +99,31 @@ test('shows all sizes and Field-owned accessible states', async ({ page }) => {
   ]);
   await expect(projected.getByRole('alert')).toHaveText(
     'Use lowercase letters and numbers for your workspace URL.',
+  );
+});
+
+test('names the control from its label and focuses it when the label is clicked', async ({
+  page,
+}) => {
+  const validation = page.getByRole('group', { name: 'Field validation', exact: true });
+  const requiredEmail = validation.getByRole('textbox', { name: 'Required email' });
+
+  await expect(requiredEmail).toHaveAccessibleName(/Required email/);
+
+  await validation.locator('label').first().click();
+  await expect(requiredEmail).toBeFocused();
+});
+
+// Owner: Plan 19B (shared field wiring). `kui-field required` renders only an `aria-hidden` asterisk;
+// the projected input gets neither `required` nor `aria-required`, so assistive technology is not
+// told the field is required. Whether the field should own that attribute is a Plan 19B decision,
+// so this documents the gap instead of asserting an unapproved contract.
+test.fixme('exposes the required state of kui-field to assistive technology', async ({ page }) => {
+  const projected = page.getByRole('group', { name: 'Projected field content', exact: true });
+
+  await expect(projected.getByRole('textbox', { name: 'Domain' })).toHaveAttribute(
+    'aria-required',
+    'true',
   );
 });
 

@@ -1,7 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
-import { expect, test } from '../../../tests/e2e/support/fixtures';
-import { waitForShellHydration } from '../../../tests/e2e/support/ssr';
+import { expect, test } from './support/fixtures';
+import { waitForShellHydration } from './support/ssr';
 
 // Tall viewports keep every named group inside the shell's scrolling workspace for capture.
 const desktopViewport = { width: 1440, height: 2400 };

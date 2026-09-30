@@ -39,8 +39,8 @@ integration.
   [`forms.routes.ts`](../../../../../../../../../projects/kikita-ui-playground/src/app/features/playground/pages/forms/forms.routes.ts),
   and [`component-playground`](../../../../../../../../../projects/kikita-ui-playground/src/app/features/playground/pages/component-playground/component-playground.ts).
 - Existing consumers and coverage notes:
-  [`legacy Number Input page`](../../../../../../../../../projects/playground/src/app/pages/number-input/number-input.page.html),
-  [`legacy Number Input page component`](../../../../../../../../../projects/playground/src/app/pages/number-input/number-input.page.ts),
+  `legacy Number Input page` (removed legacy file `playground/src/app/pages/number-input/number-input.page.html`),
+  `legacy Number Input page component` (removed legacy file `playground/src/app/pages/number-input/number-input.page.ts`),
   [`state coverage`](../../../../../../../../../docs/state-coverage.md), and
   [`visual regression routes`](../../../../../../../../../docs/visual-regression.md).
 - Authoring, accessibility, SSR, and visual rules:
