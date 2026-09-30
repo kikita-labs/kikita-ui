@@ -48,9 +48,13 @@ jobs:
       - run: pnpm build:kikita-ui-playground
 
   browser:
-    name: Playground SSR and browser behavior (Chromium)
+    name: Browser behavior (Chromium, shard ${{ matrix.shard }}/3)
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
     steps:
       - uses: actions/checkout@v4
 
@@ -74,26 +78,31 @@ jobs:
 
       - run: pnpm exec playwright install --with-deps chromium
 
-      # Builds the playground, then runs the SSR hydration suite.
+      # Builds the playground, then runs the SSR hydration suite. One shard is enough for it.
       - run: pnpm test:ssr
+        if: matrix.shard == 1
 
       # Behavior project only: the visual project runs in the `visual` job.
       - run: pnpm build:kikita-ui-playground
-      - run: pnpm exec playwright test --config=playwright.kikita-ui-playground.config.ts --project=behavior
+      - run: pnpm exec playwright test --config=playwright.kikita-ui-playground.config.ts --project=behavior --shard=${{ matrix.shard }}/3
 
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.shard }}
           path: |
             playwright-report/
             test-results/
           retention-days: 7
 
   visual:
-    name: Visual baselines (Playwright Docker image)
+    name: Visual baselines (Playwright Docker image, shard ${{ matrix.shard }}/4)
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     # The committed baselines are *-linux.png captured in this exact image. Keep the tag equal to the
     # installed @playwright/test version; scripts/visual-docker.spec.mjs fails when they drift.
     container:
@@ -111,16 +120,19 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # The library suite is small, so one shard runs it.
       - run: pnpm build:playground
+        if: matrix.shard == 1
       - run: pnpm exec playwright test --project=visual
+        if: matrix.shard == 1
 
       - run: pnpm build:kikita-ui-playground
-      - run: pnpm exec playwright test --config=playwright.kikita-ui-playground.config.ts --project=visual
+      - run: pnpm exec playwright test --config=playwright.kikita-ui-playground.config.ts --project=visual --shard=${{ matrix.shard }}/4
 
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: visual-diffs
+          name: visual-diffs-${{ matrix.shard }}
           path: |
             playwright-report/
             test-results/
