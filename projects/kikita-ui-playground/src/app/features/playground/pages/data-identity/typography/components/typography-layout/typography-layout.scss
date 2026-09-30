@@ -1,0 +1,55 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  section {
+    min-inline-size: 0;
+  }
+
+  .typography-layout__narrow {
+    display: grid;
+    gap: var(--kui-space-3);
+    grid-template-columns: minmax(0, 1fr);
+    inline-size: min(100%, calc(var(--kui-space-16) * 3));
+    min-inline-size: 0;
+  }
+
+  .typography-layout__truncate {
+    display: block;
+    min-inline-size: 0;
+    overflow: clip;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .typography-layout__compositions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--kui-space-16) * 3)), 1fr));
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .typography-layout__block {
+    display: grid;
+    gap: var(--kui-space-2);
+    align-content: start;
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .typography-layout__list {
+    display: grid;
+    gap: var(--kui-space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .typography-layout__list li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-1) var(--kui-space-3);
+    justify-content: space-between;
+  }
+}

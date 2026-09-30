@@ -1,0 +1,122 @@
+{
+  "title": "Typography",
+  "examples": {
+    "default": "Default",
+    "roles": "Type roles",
+    "tones": "Tones",
+    "matrix": "Tones and roles",
+    "hosts": "Semantic host elements",
+    "classes": "Directive and CSS classes",
+    "wrapping": "Wrapping and truncation",
+    "compositions": "Compositions",
+    "scopes": "Theme scopes"
+  },
+  "accessibility": {
+    "default": "Default typography example",
+    "roles": "Type role examples",
+    "tones": "Tone examples",
+    "matrix": "Tone and role combinations",
+    "hosts": "Semantic host examples",
+    "classes": "Directive and CSS class examples",
+    "inherit": "Inherited color examples",
+    "wrapping": "Wrapping and truncation examples",
+    "compositions": "Typography composition examples",
+    "settings": "Settings section",
+    "dialogCopy": "Dialog copy",
+    "invoices": "Recent invoices",
+    "statuses": "Status messages",
+    "scopes": "Theme scope examples",
+    "lightScope": "Light theme scope",
+    "darkScope": "Dark theme scope"
+  },
+  "roles": {
+    "display": "Display role",
+    "headingLg": "Heading large role",
+    "headingMd": "Heading medium role",
+    "headingSm": "Heading small role",
+    "title": "Title role",
+    "bodyLg": "Body large role",
+    "body": "Body role",
+    "bodySm": "Body small role",
+    "caption": "Caption role",
+    "overline": "Overline role",
+    "code": "Code role"
+  },
+  "samples": {
+    "display": "Settings and preferences",
+    "headingLg": "Workspace overview",
+    "headingMd": "Edit team member",
+    "headingSm": "Billing history",
+    "title": "Notification preferences",
+    "bodyLg": "Relaxed paragraph text where space allows.",
+    "body": "Manage members, billing, and integrations.",
+    "bodySm": "Dense description for table rows.",
+    "caption": "Updated 2 minutes ago",
+    "overline": "Group label",
+    "code": "workspace.slug"
+  },
+  "tones": {
+    "default": "Default text",
+    "muted": "Muted text",
+    "disabled": "Disabled text",
+    "primary": "Primary text",
+    "success": "Success text",
+    "warning": "Warning text",
+    "danger": "Danger text",
+    "defaultRow": "Default tone across roles",
+    "mutedRow": "Muted tone across roles",
+    "disabledRow": "Disabled tone across roles",
+    "primaryRow": "Primary tone across roles",
+    "successRow": "Success tone across roles",
+    "warningRow": "Warning tone across roles",
+    "dangerRow": "Danger tone across roles"
+  },
+  "hosts": {
+    "h3": "Heading level 3",
+    "h4": "Heading level 4",
+    "h5": "Heading level 5",
+    "p": "Paragraph element",
+    "small": "Small element",
+    "span": "Span element",
+    "code": "code.element"
+  },
+  "classes": {
+    "directiveBody": "Directive body",
+    "classBody": "Class body",
+    "directiveCaption": "Directive caption",
+    "classCaption": "Class caption",
+    "directiveCode": "directive.code",
+    "classCode": "class.code",
+    "inheritDirective": "Directive inside a muted parent",
+    "inheritClass": "Class inside a muted parent"
+  },
+  "wrapping": {
+    "paragraph": "Long paragraph text wraps cleanly inside a narrow container without any viewport-driven font scaling.",
+    "ownedLabel": "The container owns truncation",
+    "longToken": "a_very_long_environment_variable_name_that_overflows"
+  },
+  "compositions": {
+    "settingsLabel": "Settings page section",
+    "settingsTitle": "Workspace settings",
+    "settingsBody": "Manage members, billing, and integrations for this workspace.",
+    "dialogLabel": "Dialog copy",
+    "dialogTitle": "Delete this project?",
+    "dialogBody": "This permanently removes the project and all related data.",
+    "dialogMeta": "Project ID:",
+    "invoicesTitle": "Recent invoices",
+    "invoiceOne": "Jul 12, 2026 - $240.00",
+    "invoiceTwo": "Jun 12, 2026 - $240.00"
+  },
+  "status": {
+    "success": "Success: backup completed.",
+    "warning": "Warning: storage is almost full.",
+    "danger": "Error: this slug is already taken."
+  },
+  "scopes": {
+    "light": "Light",
+    "dark": "Dark",
+    "title": "Team members",
+    "body": "3 pending invitations",
+    "alert": "2 members need action"
+  }
+}

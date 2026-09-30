@@ -1,0 +1,59 @@
+<section role="group" [attr.aria-label]="'typography.accessibility.hosts' | transloco">
+  <app-playground-example-card [heading]="'typography.examples.hosts' | transloco">
+    <div class="typography-hosts__list">
+      <h3 kuiText variant="heading-md">{{ 'typography.hosts.h3' | transloco }}</h3>
+
+      <h4 kuiText variant="heading-sm">{{ 'typography.hosts.h4' | transloco }}</h4>
+
+      <h5 kuiText variant="title">{{ 'typography.hosts.h5' | transloco }}</h5>
+
+      <p kuiText>{{ 'typography.hosts.p' | transloco }}</p>
+
+      <small kuiText variant="caption" tone="muted">
+        {{ 'typography.hosts.small' | transloco }}
+      </small>
+
+      <span kuiText variant="body-sm">{{ 'typography.hosts.span' | transloco }}</span>
+
+      <code kuiText variant="code">{{ 'typography.hosts.code' | transloco }}</code>
+    </div>
+  </app-playground-example-card>
+</section>
+
+<section role="group" [attr.aria-label]="'typography.accessibility.classes' | transloco">
+  <app-playground-example-card [heading]="'typography.examples.classes' | transloco">
+    <div class="typography-hosts__list">
+      <p kuiText variant="body-lg" tone="muted">
+        {{ 'typography.classes.directiveBody' | transloco }}
+      </p>
+
+      <p class="kui-body-lg kui-text-muted">{{ 'typography.classes.classBody' | transloco }}</p>
+
+      <small kuiText variant="caption" tone="danger">
+        {{ 'typography.classes.directiveCaption' | transloco }}
+      </small>
+
+      <small class="kui-caption kui-text-danger">
+        {{ 'typography.classes.classCaption' | transloco }}
+      </small>
+
+      <code kuiText variant="code" tone="primary">
+        {{ 'typography.classes.directiveCode' | transloco }}
+      </code>
+
+      <code class="kui-code kui-text-primary">
+        {{ 'typography.classes.classCode' | transloco }}
+      </code>
+
+      <div
+        class="kui-text-muted typography-hosts__inherit"
+        role="group"
+        [attr.aria-label]="'typography.accessibility.inherit' | transloco"
+      >
+        <p kuiText>{{ 'typography.classes.inheritDirective' | transloco }}</p>
+
+        <p class="kui-body">{{ 'typography.classes.inheritClass' | transloco }}</p>
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>

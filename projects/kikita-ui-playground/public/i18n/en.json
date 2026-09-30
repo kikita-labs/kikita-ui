@@ -84,7 +84,8 @@
       "timePicker": "Time picker",
       "toast": "Toast",
       "tooltip": "Tooltip",
-      "tree": "Tree"
+      "tree": "Tree",
+      "typography": "Typography"
     },
     "workspace": {
       "selectComponent": "Select a component",

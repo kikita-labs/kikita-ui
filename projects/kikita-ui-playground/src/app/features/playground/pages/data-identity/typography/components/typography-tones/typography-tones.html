@@ -1,0 +1,9 @@
+<section role="group" [attr.aria-label]="'typography.accessibility.tones' | transloco">
+  <app-playground-example-card [heading]="'typography.examples.tones' | transloco">
+    <div class="typography-tones">
+      @for (tone of tones; track tone) {
+        <p kuiText [tone]="tone">{{ 'typography.tones.' + tone | transloco }}</p>
+      }
+    </div>
+  </app-playground-example-card>
+</section>

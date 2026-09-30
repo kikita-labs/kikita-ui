@@ -1,0 +1,32 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .typography-scopes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .typography-scopes__scope {
+    display: grid;
+    gap: var(--kui-space-2);
+    align-content: start;
+    min-inline-size: 0;
+    padding: var(--kui-space-4);
+    border: 1px solid var(--kui-color-border);
+    border-radius: var(--kui-radius-md);
+    background: var(--kui-color-bg);
+    color: var(--kui-color-text);
+    overflow-wrap: anywhere;
+  }
+
+  @media (width < 48rem) {
+    .typography-scopes {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

@@ -46,4 +46,10 @@ export const PLAYGROUND_DATA_IDENTITY_ROUTES: Routes = [
     providers: [provideTranslocoScope('tree')],
     loadComponent: () => import('./tree').then((page) => page.Tree),
   },
+  {
+    path: [PlaygroundRoute.Components, PlaygroundRoute.Typography].join('/'),
+    data: { componentId: PlaygroundRoute.Typography },
+    providers: [provideTranslocoScope('typography')],
+    loadComponent: () => import('./typography').then((page) => page.Typography),
+  },
 ];

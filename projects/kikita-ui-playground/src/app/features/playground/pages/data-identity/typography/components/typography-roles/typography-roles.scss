@@ -1,0 +1,32 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .typography-roles {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .typography-roles__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 4fr);
+    gap: var(--kui-space-4);
+    align-items: baseline;
+    min-inline-size: 0;
+  }
+
+  .typography-roles__row > * {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  @media (width < 48rem) {
+    .typography-roles__row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--kui-space-1);
+    }
+  }
+}

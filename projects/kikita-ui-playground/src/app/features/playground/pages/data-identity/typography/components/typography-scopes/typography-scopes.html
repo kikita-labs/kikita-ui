@@ -1,0 +1,37 @@
+<section role="group" [attr.aria-label]="'typography.accessibility.scopes' | transloco">
+  <app-playground-example-card [heading]="'typography.examples.scopes' | transloco">
+    <div class="typography-scopes">
+      <section
+        class="typography-scopes__scope"
+        data-kui-theme="light"
+        [attr.aria-label]="'typography.accessibility.lightScope' | transloco"
+      >
+        <p kuiText variant="overline" tone="muted">{{ 'typography.scopes.light' | transloco }}</p>
+
+        <h3 kuiText variant="heading-sm">{{ 'typography.scopes.title' | transloco }}</h3>
+
+        <p kuiText variant="body-sm" tone="muted">{{ 'typography.scopes.body' | transloco }}</p>
+
+        <small kuiText variant="caption" tone="danger">
+          {{ 'typography.scopes.alert' | transloco }}
+        </small>
+      </section>
+
+      <section
+        class="typography-scopes__scope"
+        data-kui-theme="dark"
+        [attr.aria-label]="'typography.accessibility.darkScope' | transloco"
+      >
+        <p kuiText variant="overline" tone="muted">{{ 'typography.scopes.dark' | transloco }}</p>
+
+        <h3 kuiText variant="heading-sm">{{ 'typography.scopes.title' | transloco }}</h3>
+
+        <p kuiText variant="body-sm" tone="muted">{{ 'typography.scopes.body' | transloco }}</p>
+
+        <small kuiText variant="caption" tone="danger">
+          {{ 'typography.scopes.alert' | transloco }}
+        </small>
+      </section>
+    </div>
+  </app-playground-example-card>
+</section>

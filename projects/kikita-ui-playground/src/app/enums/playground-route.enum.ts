@@ -51,4 +51,5 @@ export enum PlaygroundRoute {
   Scrollbar = 'scrollbar',
   Table = 'table',
   Tree = 'tree',
+  Typography = 'typography',
 }

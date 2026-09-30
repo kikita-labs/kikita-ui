@@ -84,7 +84,8 @@
       "timePicker": "Выбор времени",
       "toast": "Уведомление",
       "tooltip": "Подсказка",
-      "tree": "Дерево"
+      "tree": "Дерево",
+      "typography": "Типографика"
     },
     "workspace": {
       "selectComponent": "Выберите компонент",

@@ -78,6 +78,7 @@ export const COMPONENT_GROUPS = [
       { id: PlaygroundRoute.Scrollbar, label: 'playground.components.scrollbar' },
       { id: PlaygroundRoute.Table, label: 'playground.components.table' },
       { id: PlaygroundRoute.Tree, label: 'playground.components.tree' },
+      { id: PlaygroundRoute.Typography, label: 'playground.components.typography' },
     ],
   },
 ] as const;

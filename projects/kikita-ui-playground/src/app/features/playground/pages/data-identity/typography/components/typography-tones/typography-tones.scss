@@ -1,0 +1,12 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .typography-tones {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+}
