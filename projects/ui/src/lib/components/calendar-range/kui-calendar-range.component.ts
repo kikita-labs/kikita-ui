@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   booleanAttribute,
   Component,
   computed,
@@ -280,6 +281,13 @@ export class KuiCalendarRangeComponent {
   constructor() {
     const initial = this.value();
     if (initial?.start) this.viewDate.set(startOfMonth(initial.start));
+
+    // A server-rendered page first shows the server's month and day; move to the browser's once
+    // hydrated, unless the value or the visible month was already set.
+    afterNextRender(() => {
+      this.clock.followBrowserDate(this.viewDate, startOfMonth);
+      this.clock.followBrowserDate(this.focusedDate, startOfDay);
+    });
   }
 
   protected readonly localeText = computed(() =>

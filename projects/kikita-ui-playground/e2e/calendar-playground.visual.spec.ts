@@ -5,9 +5,10 @@ import { expect, test } from '../../../tests/e2e/support/fixtures';
 /**
  * Waits until an example without an explicit locale renders the browser's en-US week.
  *
- * The server resolves `KUI_LOCALE` from the Node process locale, so the day grid can start
- * on a different weekday until hydration re-renders it. Keyboard steps must start after
- * that re-render, or a focused server-rendered day can resolve to a different date.
+ * The server always renders `KUI_LOCALE` as `en-US`, while the browser follows its own language,
+ * so the day grid can start on a different weekday until hydration re-renders it. Keyboard steps
+ * must start after that re-render, or a focused server-rendered day can resolve to a different
+ * date.
  */
 async function expectBrowserLocaleWeek(example: Locator): Promise<void> {
   const weekdayFormatter = new Intl.DateTimeFormat('en-US', { weekday: 'short' });

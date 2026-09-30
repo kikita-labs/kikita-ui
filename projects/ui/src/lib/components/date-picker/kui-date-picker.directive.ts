@@ -1,5 +1,6 @@
 import type { ComponentRef, OnDestroy } from '@angular/core';
 import {
+  afterNextRender,
   booleanAttribute,
   computed,
   Directive,
@@ -84,6 +85,8 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
    * on the calendar is optional, not required.
    */
   readonly value = model<Date | null>(null);
+  private readonly clock = inject(KuiClock);
+
   /**
    * First-of-month date a bound `kui-calendar` should display. Defaults to the first day of the
    * current month. Auto-wired (both ways) into a sibling `kui-calendar` inside the same
@@ -91,7 +94,7 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
    * navigates the calendar -- manual `[(viewDate)]` binding on the calendar is optional, not
    * required.
    */
-  readonly viewDate = model<Date>(startOfMonth(inject(KuiClock).initialNow()));
+  readonly viewDate = model<Date>(startOfMonth(this.clock.initialNow()));
 
   /** Whether the control is disabled. Set by `[formField]` or `[disabled]` directly. */
   readonly disabled = input(false, { transform: booleanAttribute });
@@ -175,6 +178,9 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
   );
 
   constructor() {
+    // The server's month is shown first during hydration; follow the browser's once it is settled.
+    afterNextRender(() => this.clock.followBrowserDate(this.viewDate, startOfMonth));
+
     this.affixRef = this.vcr.createComponent(KuiDatePickerInputAffixComponent);
 
     effect(() => {

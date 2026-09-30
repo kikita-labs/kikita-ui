@@ -81,6 +81,26 @@ export class KuiClock {
   initialNow(): Date {
     return this.seed ? new Date(this.seed) : new Date();
   }
+
+  /**
+   * Moves a value that was derived from the seeded server date to the same derivation of the real
+   * date, but only while it is still the untouched seeded value. Call it from `afterNextRender`;
+   * without a seed (a client-only render) it does nothing. A value the user or the app already
+   * changed is never overwritten.
+   */
+  followBrowserDate(
+    state: { (): Date; set(value: Date): void },
+    derive: (now: Date) => Date,
+  ): void {
+    if (!this.seed) return;
+
+    const seeded = derive(this.seed);
+    const current = state();
+    if (current.getTime() !== seeded.getTime()) return;
+
+    const real = derive(new Date());
+    if (real.getTime() !== seeded.getTime()) state.set(real);
+  }
 }
 
 function startOfDay(date: Date): Date {

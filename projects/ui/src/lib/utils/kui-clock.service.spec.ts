@@ -69,20 +69,40 @@ describe('KuiClock', () => {
     });
   });
 
-  it('keeps the seeded month and never leaves the server day marked once the browser has rendered', () => {
+  it('shows the server month first, then follows the browser date once it has rendered', () => {
     seedServerDate(2026, 8, 30);
 
     const fixture = TestBed.createComponent(KuiCalendarComponent);
     fixture.componentRef.setInput('locale', 'en-US');
+
+    // Before the first browser render the calendar holds the server's month and day, which is what
+    // the hydrated markup was rendered from.
+    expect(fixture.componentInstance.viewDate()).toEqual(new Date(2026, 8, 1));
+
     fixture.detectChanges();
     TestBed.inject(ApplicationRef).tick();
     fixture.detectChanges();
 
     const element = fixture.nativeElement as HTMLElement;
+    const title = () => element.querySelector('.kui-calendar-title')?.textContent;
 
-    // The visible month is the server's, so hydrated markup and the first browser render agree.
-    expect(element.querySelector('.kui-calendar-title')?.textContent).toContain('September 2026');
-    // The marker followed the real date (December 5, outside the grid); the 30th is not stale.
-    expect(element.querySelectorAll('.kui-calendar-day--today')).toHaveLength(0);
+    expect(title()).toContain('December 2026');
+    const marked = element.querySelectorAll('.kui-calendar-day--today');
+    expect(marked).toHaveLength(1);
+    expect(marked[0].textContent?.trim()).toBe('5');
+  });
+
+  it('does not move a month the app or user has already changed', () => {
+    seedServerDate(2026, 8, 30);
+
+    const fixture = TestBed.createComponent(KuiCalendarComponent);
+    fixture.componentRef.setInput('locale', 'en-US');
+    fixture.componentRef.setInput('viewDate', new Date(2027, 0, 1));
+    fixture.detectChanges();
+    TestBed.inject(ApplicationRef).tick();
+    fixture.detectChanges();
+
+    const title = (fixture.nativeElement as HTMLElement).querySelector('.kui-calendar-title');
+    expect(title?.textContent).toContain('January 2027');
   });
 });
