@@ -15,11 +15,20 @@ import { expect, test } from '../../../tests/e2e/support/fixtures';
  */
 const knownViolations: Record<string, readonly string[]> = {
   '/components/breadcrumbs': ['landmark-unique'],
+  '/components/calendar-range': [
+    'aria-allowed-attr',
+    'aria-required-children',
+    'aria-required-parent',
+  ],
+  '/components/carousel': ['scrollable-region-focusable'],
+
   '/components/calendar': ['aria-allowed-attr', 'aria-required-children', 'aria-required-parent'],
   '/components/file-upload': ['label', 'nested-interactive'],
   '/components/icon': ['scrollable-region-focusable'],
   '/components/progress': ['landmark-unique'],
   '/components/separator': ['scrollable-region-focusable'],
+  '/components/splitter': ['aria-valid-attr-value', 'nested-interactive'],
+  '/components/typography': ['scrollable-region-focusable'],
 };
 
 test('reports exactly the known automated accessibility violations on component pages', async ({

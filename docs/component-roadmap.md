@@ -99,9 +99,9 @@ fixing or closing them; record new evidence in state coverage.
 - Browser test gaps found while building the shared harness (Plan 11, 2026-09-29/30). Full list with
   owners is in [browser test coverage](browser-test-coverage.md#known-gaps-and-owners). Decisions of
   2026-09-30, recorded in the local v2 plan:
-  - Ten primitives have no replacement Playground page (Alert, Calendar Range, Carousel, Link, Media
-    Viewer, OTP Input, Pagination, Splitter, Time Picker, Typography). Plan 10.2 covers them and the
-    retirement of the legacy Playground, after Plan 11 and before Plan 12 is completed.
+  - The ten primitives without a replacement Playground page (Alert, Calendar Range, Carousel, Link,
+    Media Viewer, OTP Input, Pagination, Splitter, Time Picker, Typography) now have pages (Plan 10.2,
+    2026-09-30). Retiring the legacy Playground waits for the dependency audit in Plan 10.2 Phase B.
   - Automated axe violations (Calendar, Calendar Range, Splitter, Menu, File Upload and many library
     demo pages; exact rule ids are asserted per route) and the Time Picker Escape-focus defect belong
     to a separate accessibility follow-up after Plan 10.2.

@@ -45,6 +45,16 @@ const componentPages = [
   { path: '/components/tree', title: 'Tree' },
   { path: '/components/badge', title: 'Badge' },
   { path: '/components/empty-state', title: 'Empty State' },
+  { path: '/components/alert', title: 'Alert' },
+  { path: '/components/calendar-range', title: 'Calendar Range' },
+  { path: '/components/carousel', title: 'Carousel' },
+  { path: '/components/link', title: 'Link' },
+  { path: '/components/media-viewer', title: 'Media viewer' },
+  { path: '/components/otp-input', title: 'OTP Input' },
+  { path: '/components/pagination', title: 'Pagination' },
+  { path: '/components/splitter', title: 'Splitter' },
+  { path: '/components/time-picker', title: 'Time Picker' },
+  { path: '/components/typography', title: 'Typography' },
 ] as const;
 
 test('server renders each component page and hydrates its selected navigation item', async ({
