@@ -12,6 +12,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
 import {
   KuiCellDirective,
@@ -40,8 +41,6 @@ import {
   thinTicks,
 } from './chart-scale.util';
 import { isTouchPointerType, KuiChartTooltipController } from './chart-tooltip.util';
-
-let nextLineChartId = 0;
 
 /**
  * Nominal SVG viewBox units; CSS preserves the aspect ratio without browser
@@ -151,7 +150,7 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
   /** Accessible name for the chart as a whole (what it shows, not per-point detail). */
   readonly ariaLabel = input('Line chart');
 
-  protected readonly chartId = `kui-line-chart-${++nextLineChartId}`;
+  protected readonly chartId = kuiNextId('kui-line-chart', 1);
   protected readonly loadingWavePoints = computed(() => {
     const { width, height } = SIZE_DIMENSIONS[this.size()];
     const plotWidth = width - PADDING.left - PADDING.right;

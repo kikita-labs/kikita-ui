@@ -13,6 +13,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
 import {
   KuiCellDirective,
@@ -32,8 +33,6 @@ import { computeRovingIndex } from './chart-keyboard-nav.util';
 import { normalizeSlices } from './chart-normalize.util';
 import { computeDonutShares, formatCompact } from './chart-scale.util';
 import { isTouchPointerType, KuiChartTooltipController } from './chart-tooltip.util';
-
-let nextDonutChartId = 0;
 
 /** See the matching constant's JSDoc in `kui-line-chart.component.ts` -- same rationale. Height
  * and width share one value here (a donut is circular, not an axis-driven rectangle). */
@@ -134,7 +133,7 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
   /** Accessible name for the chart as a whole (what it shows, not per-slice detail). */
   readonly ariaLabel = input('Donut chart');
 
-  protected readonly chartId = `kui-donut-chart-${++nextDonutChartId}`;
+  protected readonly chartId = kuiNextId('kui-donut-chart', 1);
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);

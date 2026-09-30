@@ -16,6 +16,7 @@ import {
   KUI_CHEVRONS_RIGHT_D,
 } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { kuiNextId } from '../../utils/kui-id.util';
 import { positiveIntegerAttribute } from '../../utils/kui-input-transform.util';
 import { KuiButtonDirective } from '../button';
 import { KuiDropdownComponent, KuiOptionDirective } from '../dropdown';
@@ -23,8 +24,6 @@ import { KuiFieldComponent } from '../field';
 import { KuiIconButtonDirective } from '../icon-button';
 import { KuiSelectDirective } from '../select';
 import type { KuiPaginationVariant } from './kui-pagination-variant.type';
-
-let nextPaginationId = 0;
 
 function nonNegativeIntegerAttribute(value: unknown): number {
   const parsed = numberAttribute(value, 1);
@@ -287,7 +286,7 @@ export class KuiPaginationComponent {
   /** Accessible name for the `nav` landmark. Defaults to `'Pagination'`. */
   readonly ariaLabel = input('Pagination');
 
-  private readonly instanceId = `kui-pagination-${nextPaginationId++}`;
+  private readonly instanceId = kuiNextId('kui-pagination');
 
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 

@@ -23,11 +23,10 @@ import {
   KUI_PAUSE_D,
   KUI_PLAY_D,
 } from '../../utils/kui-chrome-icon-paths.util';
+import { kuiNextId } from '../../utils/kui-id.util';
 import { positiveIntegerAttribute } from '../../utils/kui-input-transform.util';
 import { KuiIconButtonDirective } from '../icon-button';
 import { KuiCarouselSlideDirective } from './kui-carousel-slide.directive';
-
-let nextCarouselId = 0;
 
 function autoplayIntervalAttribute(value: unknown): number {
   const parsed = Number(value);
@@ -227,7 +226,7 @@ export class KuiCarouselComponent {
   private readonly dotRefs = viewChildren<ElementRef<HTMLButtonElement>>('dotBtn');
   private readonly destroyRef = inject(DestroyRef);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  private readonly idBase = `kui-carousel-${nextCarouselId++}`;
+  private readonly idBase = kuiNextId('kui-carousel');
 
   /** True while the pointer, focus, or a touch interaction is inside the region. */
   protected readonly hoverPaused = signal(false);

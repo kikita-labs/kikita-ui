@@ -24,12 +24,11 @@ import {
   observeViewportResize,
   wireFloatingPanelDismissal,
 } from '../../utils/kui-floating-panel.util';
+import { kuiNextId } from '../../utils/kui-id.util';
 import { standardOverlayOffsetAttribute } from '../../utils/kui-input-transform.util';
 import type { KuiMenuAlign } from './kui-menu-align.type';
 import { KuiMenuItemDirective } from './kui-menu-item.directive';
 import type { KuiMenuPlacement } from './kui-menu-placement.type';
-
-let nextMenuId = 0;
 
 /**
  * Floating action menu rendered in an Angular CDK overlay.
@@ -87,7 +86,7 @@ export class KuiMenuComponent implements OnDestroy {
   readonly isOpen = signal(false);
 
   /** Stable id used by trigger controls for `aria-controls`. */
-  readonly panelId = `kui-menu-${nextMenuId++}`;
+  readonly panelId = kuiNextId('kui-menu');
 
   protected readonly isClosing = signal(false);
   /** @internal Actual rendered side, tracked separately from `placement` since it can flip. */

@@ -25,11 +25,10 @@ import {
   KUI_SEARCH_HANDLE_D,
   KUI_X_D,
 } from '../../utils/kui-chrome-icon-paths.util';
+import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiEmptyStateComponent, KuiEmptyStateIconDirective } from '../empty-state';
 import { KuiSkeletonDirective } from '../skeleton';
 import type { KuiCommandGroup, KuiCommandItem } from './kui-command-palette.types';
-
-let nextCommandPaletteId = 0;
 
 interface KuiCommandEntry {
   readonly group: KuiCommandGroup;
@@ -70,7 +69,7 @@ export class KuiCommandPaletteComponent implements OnDestroy {
   /** Emitted when a command is selected. */
   readonly selected = output<KuiCommandItem>();
 
-  protected readonly paletteId = `kui-command-palette-${nextCommandPaletteId++}`;
+  protected readonly paletteId = kuiNextId('kui-command-palette');
   protected readonly listId = `${this.paletteId}-list`;
   protected readonly activeIndex = signal(0);
   protected readonly paletteTpl = viewChild.required<TemplateRef<void>>('paletteTpl');

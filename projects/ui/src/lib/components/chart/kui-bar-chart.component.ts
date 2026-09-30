@@ -12,6 +12,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
 import { KuiSkeletonDirective } from '../skeleton';
 import {
@@ -41,8 +42,6 @@ import {
   thinTicks,
 } from './chart-scale.util';
 import { isTouchPointerType, KuiChartTooltipController } from './chart-tooltip.util';
-
-let nextBarChartId = 0;
 
 /** See the matching constant's JSDoc in `kui-line-chart.component.ts` -- same rationale. */
 const SIZE_DIMENSIONS = {
@@ -163,7 +162,7 @@ export class KuiBarChartComponent implements KuiChartLegendSource {
   /** Accessible name for the chart as a whole (what it shows, not per-bar detail). */
   readonly ariaLabel = input('Bar chart');
 
-  protected readonly chartId = `kui-bar-chart-${++nextBarChartId}`;
+  protected readonly chartId = kuiNextId('kui-bar-chart', 1);
   protected readonly loadingBarHeights = LOADING_BAR_HEIGHTS;
   protected readonly loadingGridLineOffsets = LOADING_GRID_LINE_OFFSETS;
 

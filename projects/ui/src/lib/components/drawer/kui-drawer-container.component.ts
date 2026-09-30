@@ -14,9 +14,8 @@ import {
 } from '@angular/core';
 
 import { KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
+import { kuiIdFactory } from '../../utils/kui-id.util';
 import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
-
-let nextDrawerTitleId = 0;
 
 /**
  * @internal
@@ -73,6 +72,8 @@ let nextDrawerTitleId = 0;
 })
 /** Renders the modal drawer surface used by the drawer service. */
 export class KuiDrawerContainerComponent {
+  private readonly nextId = kuiIdFactory();
+
   private readonly injector = inject(Injector);
   private readonly portalOutlet = viewChild.required(CdkPortalOutlet);
   private readonly drawerPanel = viewChild.required<ElementRef<HTMLElement>>('drawerPanel');
@@ -142,7 +143,7 @@ export class KuiDrawerContainerComponent {
     if (!title) return;
 
     if (!title.id) {
-      title.id = `kui-drawer-title-${nextDrawerTitleId++}`;
+      title.id = this.nextId('kui-drawer-title');
     }
 
     panel.removeAttribute('aria-label');

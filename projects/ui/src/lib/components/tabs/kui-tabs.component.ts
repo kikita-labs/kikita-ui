@@ -19,6 +19,7 @@ import {
 import type { KuiSize } from '../../types';
 import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiTabDirective } from './kui-tab.directive';
 import type { KuiTabsContext } from './kui-tabs-context.token';
 import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
@@ -27,8 +28,6 @@ import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
 export type KuiTabsVariant = 'line' | 'pill';
 /** Layout direction of the tab list. */
 export type KuiTabsOrientation = 'horizontal' | 'vertical';
-
-let nextTabsId = 0;
 
 /**
  * Tabs container. Manages selected state and keyboard navigation.
@@ -144,7 +143,7 @@ export class KuiTabsComponent implements KuiTabsContext {
   private readonly indicatorRef = viewChild<ElementRef<HTMLSpanElement>>('indicator');
   private readonly destroyRef = inject(DestroyRef);
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
-  private readonly idBase = `kui-tabs-${nextTabsId++}`;
+  private readonly idBase = kuiNextId('kui-tabs');
   private indicatorFirstRender = true;
   private valueEffectSeeded = false;
   private selectedEffectSeeded = false;

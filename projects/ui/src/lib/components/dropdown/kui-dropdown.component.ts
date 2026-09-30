@@ -25,10 +25,9 @@ import {
   observeViewportResize,
   wireFloatingPanelDismissal,
 } from '../../utils/kui-floating-panel.util';
+import { kuiNextId } from '../../utils/kui-id.util';
 import { standardOverlayOffsetAttribute } from '../../utils/kui-input-transform.util';
 import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
-
-let nextDropdownId = 0;
 
 /**
  * Floating listbox panel rendered in an Angular CDK overlay.
@@ -134,7 +133,7 @@ export class KuiDropdownComponent implements OnDestroy {
   readonly isOpen = signal(false);
 
   /** Stable id used by trigger controls for `aria-controls`. */
-  readonly panelId = `kui-dropdown-${nextDropdownId++}`;
+  readonly panelId = kuiNextId('kui-dropdown');
 
   protected readonly isClosing = signal(false);
 

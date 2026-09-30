@@ -10,9 +10,8 @@ import {
   Renderer2,
 } from '@angular/core';
 
+import { kuiNextId } from '../../utils/kui-id.util';
 import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
-
-let nextOptionId = 0;
 
 @Directive({
   selector: '[kuiOption]',
@@ -41,7 +40,7 @@ export class KuiOptionDirective {
 
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly ctx = inject(KUI_OPTION_CONTEXT, { optional: true });
-  protected readonly optionId = `kui-option-${nextOptionId++}`;
+  protected readonly optionId = kuiNextId('kui-option');
 
   constructor() {
     const renderer = inject(Renderer2);

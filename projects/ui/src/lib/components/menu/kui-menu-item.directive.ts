@@ -1,8 +1,7 @@
 import { booleanAttribute, Directive, ElementRef, inject, input } from '@angular/core';
 
+import { kuiNextId } from '../../utils/kui-id.util';
 import type { KuiMenuItemAppearance } from './kui-menu-item-appearance.type';
-
-let nextMenuItemId = 0;
 
 /** Action item inside a `kui-menu` panel. */
 @Directive({
@@ -27,7 +26,7 @@ export class KuiMenuItemDirective {
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /** Stable id used for active descendant and tests. */
-  protected readonly itemId = `kui-menu-item-${nextMenuItemId++}`;
+  protected readonly itemId = kuiNextId('kui-menu-item');
 
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
 

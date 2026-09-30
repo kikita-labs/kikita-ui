@@ -13,13 +13,12 @@ import {
 } from '@angular/core';
 
 import { KUI_TOOLTIP_OPTIONS } from '../../tokens/kui-tooltip-options.token';
+import { kuiNextId } from '../../utils/kui-id.util';
 import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.util';
 import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
 import type { KuiTooltipPlacement } from './kui-tooltip-placement.type';
 import type { KuiTooltipTrigger } from './kui-tooltip-trigger.type';
 import { KuiTooltipTriggerType } from './kui-tooltip-trigger.type';
-
-let tooltipCounter = 0;
 
 /**
  * Shows a text tooltip on hover and keyboard focus, with an adaptive tap trigger for touch
@@ -64,7 +63,7 @@ export class KuiTooltipDirective implements OnDestroy {
   private readonly defaultTrigger =
     inject(KUI_TOOLTIP_OPTIONS).triggerType ?? KuiTooltipTriggerType.Auto;
 
-  protected readonly tooltipId = `kui-tooltip-${++tooltipCounter}`;
+  protected readonly tooltipId = kuiNextId('kui-tooltip', 1);
   private readonly visibleTooltipId = signal<string | null>(null);
   protected readonly describedBy = computed(() => this.visibleTooltipId());
   protected readonly effectiveTrigger = computed(() => this.triggerType() ?? this.defaultTrigger);

@@ -23,6 +23,7 @@ import {
   KUI_COPY_RECT,
 } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { kuiIdFactory } from '../../utils/kui-id.util';
 import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.util';
 import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
@@ -32,8 +33,6 @@ const HEX_COLOR_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
 const OKLCH_COLOR_RE =
   /^oklch\(\s*(?:0|1|0?\.\d+|\d+(?:\.\d+)?%)\s+\d*(?:\.\d+)?\s+\d+(?:\.\d+)?(?:\s*\/\s*(?:0|1|0?\.\d+|\d+(?:\.\d+)?%))?\s*\)$/i;
 const MAX_CHROMA = 0.32;
-
-let nextColorInputTooltipId = 0;
 
 /**
  * Applies Kikita UI color-input styling to a native text input.
@@ -64,6 +63,8 @@ let nextColorInputTooltipId = 0;
   },
 })
 export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy {
+  private readonly nextId = kuiIdFactory();
+
   /** Control height matched to Kikita UI size tokens. */
   readonly size = input<KuiSize | undefined>();
 
@@ -653,7 +654,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     }
 
     this.hideTooltip();
-    const tooltipId = `kui-color-input-tooltip-${++nextColorInputTooltipId}`;
+    const tooltipId = this.nextId('kui-color-input-tooltip', 1);
     this.tooltipOverlay = createKuiTooltipOverlay({
       anchor,
       id: tooltipId,

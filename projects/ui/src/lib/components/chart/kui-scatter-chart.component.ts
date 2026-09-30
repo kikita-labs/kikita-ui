@@ -12,6 +12,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
 import {
   KuiCellDirective,
@@ -38,8 +39,6 @@ import {
   formatCompact,
 } from './chart-scale.util';
 import { isTouchPointerType, KuiChartTooltipController } from './chart-tooltip.util';
-
-let nextScatterChartId = 0;
 
 /** See the matching constant's JSDoc in `kui-line-chart.component.ts` -- same rationale. */
 const SIZE_DIMENSIONS = {
@@ -139,7 +138,7 @@ export class KuiScatterChartComponent implements KuiChartLegendSource {
   /** Accessible name for the chart as a whole (what it shows, not per-point detail). */
   readonly ariaLabel = input('Scatter chart');
 
-  protected readonly chartId = `kui-scatter-chart-${++nextScatterChartId}`;
+  protected readonly chartId = kuiNextId('kui-scatter-chart', 1);
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);

@@ -25,13 +25,12 @@ import {
   observeViewportResize,
   wireFloatingPanelDismissal,
 } from '../../utils/kui-floating-panel.util';
+import { kuiNextId } from '../../utils/kui-id.util';
 import type {
   KuiPopoverAlign,
   KuiPopoverPlacement,
   KuiPopoverTriggerType,
 } from './kui-popover.types';
-
-let nextPopoverId = 0;
 
 function popoverOffsetAttribute(value: unknown): number {
   const parsed = numberAttribute(value, 8);
@@ -118,7 +117,7 @@ export class KuiPopoverComponent implements OnDestroy {
   readonly open = model(false);
 
   /** Stable id used by trigger controls for `aria-controls`. */
-  readonly panelId = `kui-popover-${nextPopoverId++}`;
+  readonly panelId = kuiNextId('kui-popover');
 
   protected readonly _side = signal<KuiPopoverPlacement>('bottom');
   protected readonly _align = signal<KuiPopoverAlign>('center');

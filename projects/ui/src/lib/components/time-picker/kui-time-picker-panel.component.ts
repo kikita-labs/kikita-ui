@@ -10,6 +10,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KuiSegmentDirective, KuiSegmentedComponent } from '../segmented';
@@ -57,8 +58,6 @@ function defaultBaseDate(): Date {
 function timeOfDaySeconds(date: Date): number {
   return date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
 }
-
-let nextTimePickerPanelId = 0;
 
 /**
  * @internal Popup panel content for `input[kuiTimePicker]` — scrollable hour/minute/(second)
@@ -195,7 +194,7 @@ export class KuiTimePickerPanelComponent {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   /** @internal Per-instance id prefix so cell ids stay unique when more than one time picker is open at once. */
-  private readonly instanceId = `kui-timepicker-${nextTimePickerPanelId++}`;
+  private readonly instanceId = kuiNextId('kui-timepicker');
 
   /** @internal Skips the value-effect's first (construction-time) run -- it fires synchronously during construction, before the columns exist in the DOM (querying them then would silently no-op), and the dedicated open/standalone centering below already covers that same first moment once there's actually something to measure. */
   private hasRenderedOnce = false;

@@ -26,13 +26,12 @@ import {
   KUI_X_D,
 } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
 import { KuiFieldActionDirective } from '../field';
 import { KuiLinkDirective } from '../link';
 import { KuiProgressComponent } from '../progress';
 import type { KuiUploadFile, KuiUploadFileStatus } from './kui-upload-file.interface';
-
-let nextInstanceId = 0;
 
 /** Visual layout of `kui-file-upload`. */
 export type KuiFileUploadVariant = 'dropzone' | 'compact';
@@ -165,7 +164,7 @@ export class KuiFileUploadComponent {
 
   private readonly fileInput = viewChild<ElementRef<HTMLInputElement>>('fileInput');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
-  private readonly instanceId = nextInstanceId++;
+  private readonly instanceId = kuiNextId('kui-file-upload');
   private idSeq = 0;
   private dragCounter = 0;
   private readonly previewUrls = new Map<string, string>();
@@ -297,7 +296,7 @@ export class KuiFileUploadComponent {
   }
 
   private nextId(): string {
-    return `kui-file-upload-${this.instanceId}-${this.idSeq++}`;
+    return `${this.instanceId}-${this.idSeq++}`;
   }
 
   private buildEntry(file: File): KuiUploadFile {

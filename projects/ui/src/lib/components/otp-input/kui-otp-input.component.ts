@@ -22,12 +22,11 @@ import { FormField } from '@angular/forms/signals';
 
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { kuiNextId } from '../../utils/kui-id.util';
 import { positiveIntegerAttribute } from '../../utils/kui-input-transform.util';
 import { KuiFieldComponent } from '../field';
 import { KuiInputDirective } from '../input';
 import { KuiLoaderDirective } from '../loader';
-
-let nextOtpInputId = 0;
 
 const INTEGER_CHAR = /^[0-9]$/;
 const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
@@ -168,7 +167,7 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
   /** Emitted exactly once when every cell becomes filled, with the completed value. */
   readonly complete = output<string>();
 
-  private readonly instanceId = `kui-otp-input-${nextOtpInputId++}`;
+  private readonly instanceId = kuiNextId('kui-otp-input');
 
   private readonly chars = signal<string[]>([]);
 

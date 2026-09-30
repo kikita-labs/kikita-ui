@@ -5,9 +5,8 @@ import type { ComponentRef, ElementRef } from '@angular/core';
 import { Component, EventEmitter, signal, viewChild, ViewEncapsulation } from '@angular/core';
 
 import { KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
+import { kuiIdFactory } from '../../utils/kui-id.util';
 import type { KuiDialogAppearance, KuiDialogSize } from './kui-dialog.types';
-
-let nextDialogTitleId = 0;
 
 /**
  * @internal
@@ -69,6 +68,8 @@ let nextDialogTitleId = 0;
 })
 /** Renders the modal dialog surface used by the dialog service. */
 export class KuiDialogContainerComponent {
+  private readonly nextId = kuiIdFactory();
+
   private readonly portalOutlet = viewChild.required(CdkPortalOutlet);
   private readonly dialogPanel = viewChild.required<ElementRef<HTMLElement>>('dialogPanel');
 
@@ -140,7 +141,7 @@ export class KuiDialogContainerComponent {
     if (!title) return;
 
     if (!title.id) {
-      title.id = `kui-dialog-title-${nextDialogTitleId++}`;
+      title.id = this.nextId('kui-dialog-title');
     }
 
     panel.removeAttribute('aria-label');

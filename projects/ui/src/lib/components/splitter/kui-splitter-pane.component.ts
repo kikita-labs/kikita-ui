@@ -8,9 +8,8 @@ import {
   numberAttribute,
 } from '@angular/core';
 
+import { kuiNextId } from '../../utils/kui-id.util';
 import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
-
-let nextPaneId = 0;
 
 /**
  * One resizable pane inside `kui-splitter`. Projects arbitrary content; `kui-splitter` itself owns
@@ -61,7 +60,7 @@ export class KuiSplitterPaneComponent {
   private readonly context = inject(KUI_SPLITTER_CONTEXT);
 
   /** Stable id used for the adjacent gutter's `aria-controls`. */
-  readonly id = `kui-splitter-pane-${nextPaneId++}`;
+  readonly id = kuiNextId('kui-splitter-pane');
 
   private readonly index = computed(() => this.context.panes().indexOf(this));
 

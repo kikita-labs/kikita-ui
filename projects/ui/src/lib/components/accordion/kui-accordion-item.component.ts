@@ -11,10 +11,9 @@ import {
 } from '@angular/core';
 
 import { KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
+import { kuiNextId } from '../../utils/kui-id.util';
 import { KUI_ACCORDION_CONTEXT } from './kui-accordion-context.token';
 import { KuiAccordionIconDirective } from './kui-accordion-icon.directive';
-
-let _nextId = 0;
 
 /**
  * A single expandable section inside `kui-accordion`.
@@ -97,7 +96,7 @@ export class KuiAccordionItemComponent {
   /** TemplateRef from a nested `ng-template[kuiAccordionIcon]`. */
   protected readonly iconTplRef = contentChild(KuiAccordionIconDirective, { read: TemplateRef });
 
-  private readonly _autoId = `kui-accordion-item-${_nextId++}`;
+  private readonly _autoId = kuiNextId('kui-accordion-item');
   protected readonly itemId = computed(() => this.id() || this._autoId);
   protected readonly triggerId = computed(() => `${this.itemId()}-trigger`);
   protected readonly bodyId = computed(() => `${this.itemId()}-body`);
