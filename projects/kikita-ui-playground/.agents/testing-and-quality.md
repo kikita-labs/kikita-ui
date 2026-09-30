@@ -8,8 +8,13 @@ Tests configured for this project: Vitest unit tests and Playwright browser chec
    unless there's a documented reason.
 2. `pnpm run format:check` — Prettier owns formatting; run
    `pnpm run format` to fix.
-3. Run `pnpm run test:kikita-ui-playground` for unit tests and
-   `pnpm run test:kikita-ui-playground:ssr` for the Playwright SSR/hydration flow.
+3. Run `pnpm run test:kikita-ui-playground` for unit tests.
+
+The Playwright suites run in CI (`.github/workflows/ci.yml`): `test:kikita-ui-playground:ssr`
+(the `behavior` project) and the screenshot suite. Run them locally when a change touches browser
+behavior or visuals. Screenshot baselines are Linux captures made in Docker: use
+`pnpm run test:kikita-ui-playground:visual` and `:visual:update` (see the repository
+`docs/visual-regression.md`), never the Playwright `visual` project directly.
 
 Do not push with a failing lint, format check, or test suite. If a check can't pass and you
 don't know why, stop and say so instead of pushing anyway. Husky automates this at the git

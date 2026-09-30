@@ -142,6 +142,11 @@ pnpm build
 pnpm build:playground
 ```
 
+For a visual or browser-behavior change also run the matching suites: `pnpm test:e2e`,
+`pnpm test:a11y`, `pnpm test:responsive`, `pnpm test:visual` and, for the replacement Playground,
+`pnpm test:kikita-ui-playground:ssr` and `pnpm test:kikita-ui-playground:visual`. The screenshot
+commands run in Docker. CI runs all of them on every pull request.
+
 If a command cannot run because of the local sandbox or environment, record the exact reason and rerun outside the sandbox when possible.
 
 ## 12. Final Status

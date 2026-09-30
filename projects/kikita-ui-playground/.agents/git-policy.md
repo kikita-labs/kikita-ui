@@ -23,10 +23,9 @@ commit/push can't land even if the agent forgets to run checks manually.
   until it's fixed by hand. Also runs the non-English content check (see
   `testing-and-quality.md`) — a stray Cyrillic character outside `public/i18n/` in a staged
   file blocks the commit.
-- **pre-push**: runs the full gate — `pnpm run lint`, then
-  `pnpm run format:check`, then the configured test suite(s), all
-  repo-wide. This is the same list as "Before every push" in `testing-and-quality.md`;
-  Husky just makes it non-optional.
+- **pre-push**: runs the fast checks repo-wide (format, lint, static audit, skills check, script
+  and unit tests). Builds, SSR, browser and screenshot suites run in CI. See "Before every push"
+  in `testing-and-quality.md`; Husky just makes it non-optional.
 - Never bypass hooks with `--no-verify`, for any reason, even a hook failure that looks
   unrelated to the change being committed. If a hook is blocking on something unrelated,
   fix it or stop and report it to the user — don't skip it. This applies even with explicit

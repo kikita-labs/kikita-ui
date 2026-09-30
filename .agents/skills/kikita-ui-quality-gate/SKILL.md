@@ -29,7 +29,8 @@ Run focused projects when the full browser suite is unnecessary:
 - `pnpm.cmd test:e2e`
 - `pnpm.cmd test:a11y`
 - `pnpm.cmd test:responsive`
-- `pnpm.cmd test:visual`
+- `pnpm.cmd test:visual` (library screenshots, runs in Docker)
+- `pnpm.cmd test:kikita-ui-playground:visual` (replacement Playground screenshots, runs in Docker)
 
 Treat console errors, hydration mismatch messages, broken ARIA references,
 horizontal page overflow, and unexplained visual diffs as blockers.
