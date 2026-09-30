@@ -44,9 +44,10 @@ Docker (see `docs/visual-regression.md`) because their baselines are Linux captu
 `.github/workflows/ci.yml` runs on pull requests and on pushes to `main` and `release/**`:
 
 - `verify`: format, lint, static audit, skills check, script tests, unit tests, and all builds.
-- `browser`: the replacement Playground `behavior` project on Chromium, in 3 shards.
+- `browser`: the replacement Playground `behavior` project on Chromium, in 3 shards. Shards use `--fully-parallel` so tests, not files, are balanced across them (Playwright sharding guidance).
 - `ssr`: the library SSR hydration suite.
-- `visual`: both screenshot suites inside the pinned Playwright Docker image, in 4 shards.
+- `visual`: the replacement Playground screenshot suite inside the pinned Playwright Docker image, in 4 shards.
+- `visual-library`: the library screenshot suite in the same image.
 
 CI is the authoritative gate for the heavy suites. Keep the Docker image tag in `ci.yml` equal to
 the installed `@playwright/test` version.

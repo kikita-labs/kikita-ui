@@ -80,7 +80,7 @@ jobs:
 
       # Behavior project only: the visual project runs in the `visual` job.
       - run: pnpm build:kikita-ui-playground
-      - run: pnpm exec playwright test --config=playwright.kikita-ui-playground.config.ts --project=behavior --shard=${{ matrix.shard }}/3
+      - run: pnpm exec playwright test --config=playwright.kikita-ui-playground.config.ts --project=behavior --shard=${{ matrix.shard }}/3 --fully-parallel
 
       - uses: actions/upload-artifact@v4
         if: failure()
@@ -155,19 +155,45 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # The library suite is small, so one shard runs it.
-      - run: pnpm build:playground
-        if: matrix.shard == 1
-      - run: pnpm exec playwright test --project=visual
-        if: matrix.shard == 1
-
       - run: pnpm build:kikita-ui-playground
-      - run: pnpm exec playwright test --config=playwright.kikita-ui-playground.config.ts --project=visual --shard=${{ matrix.shard }}/4
+      - run: pnpm exec playwright test --config=playwright.kikita-ui-playground.config.ts --project=visual --shard=${{ matrix.shard }}/4 --fully-parallel
 
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: visual-diffs-${{ matrix.shard }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+  visual-library:
+    name: Visual baselines, library (Playwright Docker image)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Same pinned image as the `visual` job.
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+      options: --ipc=host
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build:playground
+      - run: pnpm exec playwright test --project=visual
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: visual-library-diffs
           path: |
             playwright-report/
             test-results/
