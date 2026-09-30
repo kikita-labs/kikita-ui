@@ -1,0 +1,9 @@
+@layer app.components {
+  .otp-input-validation__content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--kui-space-4);
+    justify-items: start;
+    min-inline-size: 0;
+  }
+}

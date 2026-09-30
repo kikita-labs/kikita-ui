@@ -1,0 +1,22 @@
+<app-playground-example-card [heading]="'otpInput.examples.field' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'otpInput.accessibility.field' | transloco"
+    class="otp-input-field__items"
+  >
+    <kui-field
+      [label]="'otpInput.fields.emailCode' | transloco"
+      [hint]="'otpInput.hints.emailCode' | transloco"
+    >
+      <kui-otp-input [ariaLabel]="'otpInput.fields.emailCode' | transloco" />
+    </kui-field>
+
+    <kui-field
+      [label]="'otpInput.fields.smsCode' | transloco"
+      [hint]="'otpInput.hints.smsCode' | transloco"
+      [error]="'otpInput.errors.rejected' | transloco"
+    >
+      <kui-otp-input [ariaLabel]="'otpInput.fields.smsCode' | transloco" />
+    </kui-field>
+  </div>
+</app-playground-example-card>

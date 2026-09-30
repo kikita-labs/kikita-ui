@@ -1,0 +1,4 @@
+<p kuiText variant="body-sm" class="otp-input-readout">
+  {{ labelKey() | transloco }}
+  <code>{{ hasValue() ? value() : ('otpInput.readout.empty' | transloco) }}</code>
+</p>

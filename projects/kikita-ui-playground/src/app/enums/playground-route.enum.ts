@@ -19,6 +19,7 @@ export enum PlaygroundRoute {
   Group = 'group',
   Input = 'input',
   NumberInput = 'number-input',
+  OtpInput = 'otp-input',
   Radio = 'radio',
   Segmented = 'segmented',
   Select = 'select',

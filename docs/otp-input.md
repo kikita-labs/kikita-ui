@@ -159,10 +159,10 @@ Clearing a cell while later cells stay filled collapses those positions once `va
 matches the Claude Design spec's own reference behavior and is accepted, not fixed, the same way
 industry OTP inputs (e.g. PrimeNG's `InputOtp`) behave.
 
-`kui-field`'s `label[for]` points at a `controlId` that no cell actually carries -- `kui-otp-input`
-is a composite, non-native control, the same case `kui-segmented` already has (see
-`docs/segmented.md`). Clicking the label does not move focus into the group; `hint`/`error` still
-reach the group correctly through `aria-describedby`.
+Inside `kui-field`, the first cell adopts the field's `controlId`, so `kui-field`'s `label[for]`
+targets it and clicking the label focuses (and selects) the first cell. This differs from
+`kui-segmented` (see `docs/segmented.md`), where no single option is the natural target. `hint` and
+`error` reach the group through `aria-describedby`.
 
 ## CSS custom properties
 

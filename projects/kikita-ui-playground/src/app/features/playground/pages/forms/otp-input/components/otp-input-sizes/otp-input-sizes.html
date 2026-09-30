@@ -1,0 +1,20 @@
+<app-playground-example-card [heading]="'otpInput.examples.sizes' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'otpInput.accessibility.sizes' | transloco"
+    class="otp-input-sizes__items"
+  >
+    @for (size of sizes; track size.value) {
+      <div class="otp-input-sizes__item">
+        <p kuiText variant="caption">{{ size.label | transloco }}</p>
+
+        <kui-otp-input
+          [size]="size.value"
+          [length]="4"
+          value="1234"
+          [ariaLabel]="size.label | transloco"
+        />
+      </div>
+    }
+  </div>
+</app-playground-example-card>

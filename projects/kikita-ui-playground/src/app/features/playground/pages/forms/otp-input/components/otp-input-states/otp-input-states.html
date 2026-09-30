@@ -1,0 +1,31 @@
+<app-playground-example-card [heading]="'otpInput.examples.states' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'otpInput.accessibility.states' | transloco"
+    class="otp-input-states__items"
+  >
+    <div class="otp-input-states__item">
+      <p kuiText variant="caption">{{ 'otpInput.states.invalid' | transloco }}</p>
+
+      <kui-otp-input invalid value="482913" [ariaLabel]="'otpInput.states.invalid' | transloco" />
+    </div>
+
+    <div class="otp-input-states__item">
+      <p kuiText variant="caption">{{ 'otpInput.states.disabled' | transloco }}</p>
+
+      <kui-otp-input disabled value="482913" [ariaLabel]="'otpInput.states.disabled' | transloco" />
+    </div>
+
+    <div class="otp-input-states__item">
+      <p kuiText variant="caption">{{ 'otpInput.states.readOnly' | transloco }}</p>
+
+      <kui-otp-input readOnly value="482913" [ariaLabel]="'otpInput.states.readOnly' | transloco" />
+    </div>
+
+    <div class="otp-input-states__item">
+      <p kuiText variant="caption">{{ 'otpInput.states.loading' | transloco }}</p>
+
+      <kui-otp-input loading value="482913" [ariaLabel]="'otpInput.states.loading' | transloco" />
+    </div>
+  </div>
+</app-playground-example-card>

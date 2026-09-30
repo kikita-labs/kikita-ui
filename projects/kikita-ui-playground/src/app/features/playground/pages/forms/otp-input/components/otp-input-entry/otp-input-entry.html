@@ -1,0 +1,11 @@
+<app-playground-example-card [heading]="'otpInput.examples.entry' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'otpInput.accessibility.entry' | transloco"
+    class="otp-input-entry__content"
+  >
+    <kui-otp-input [(value)]="code" [ariaLabel]="'otpInput.labels.entry' | transloco" />
+
+    <app-otp-input-readout [value]="code()" />
+  </div>
+</app-playground-example-card>

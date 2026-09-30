@@ -65,6 +65,12 @@ export const PLAYGROUND_FORMS_ROUTES: Routes = [
     loadComponent: () => import('./number-input').then((page) => page.NumberInput),
   },
   {
+    path: [PlaygroundRoute.Components, PlaygroundRoute.OtpInput].join('/'),
+    data: { componentId: PlaygroundRoute.OtpInput },
+    providers: [provideTranslocoScope('otp-input')],
+    loadComponent: () => import('./otp-input').then((page) => page.OtpInput),
+  },
+  {
     path: [PlaygroundRoute.Components, PlaygroundRoute.Radio].join('/'),
     data: { componentId: PlaygroundRoute.Radio },
     providers: [provideTranslocoScope('radio')],

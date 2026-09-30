@@ -28,6 +28,7 @@ export const COMPONENT_GROUPS = [
       { id: PlaygroundRoute.Group, label: 'playground.components.group' },
       { id: PlaygroundRoute.Input, label: 'playground.components.input' },
       { id: PlaygroundRoute.NumberInput, label: 'playground.components.numberInput' },
+      { id: PlaygroundRoute.OtpInput, label: 'playground.components.otpInput' },
       { id: PlaygroundRoute.Radio, label: 'playground.components.radio' },
       { id: PlaygroundRoute.Segmented, label: 'playground.components.segmented' },
       { id: PlaygroundRoute.Select, label: 'playground.components.select' },
