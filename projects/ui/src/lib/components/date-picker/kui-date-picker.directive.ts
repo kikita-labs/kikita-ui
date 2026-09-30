@@ -20,6 +20,7 @@ import type {
 } from '@angular/forms/signals';
 
 import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
+import { KuiClock } from '../../utils/kui-clock.service';
 import { sameNullableDate } from '../../utils/kui-date-equality.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { startOfDay, startOfMonth } from '../calendar/kui-calendar-date.util';
@@ -90,7 +91,7 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
    * navigates the calendar -- manual `[(viewDate)]` binding on the calendar is optional, not
    * required.
    */
-  readonly viewDate = model<Date>(startOfMonth(new Date()));
+  readonly viewDate = model<Date>(startOfMonth(inject(KuiClock).initialNow()));
 
   /** Whether the control is disabled. Set by `[formField]` or `[disabled]` directly. */
   readonly disabled = input(false, { transform: booleanAttribute });

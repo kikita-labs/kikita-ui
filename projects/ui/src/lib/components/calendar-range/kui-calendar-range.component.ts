@@ -17,6 +17,7 @@ import {
   type KuiCalendarNavigationView,
 } from '../../utils/kui-calendar-navigation.util';
 import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
+import { KuiClock } from '../../utils/kui-clock.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
 import type {
@@ -212,6 +213,8 @@ type KuiCalendarView = KuiCalendarNavigationView;
 })
 /** Displays a navigable calendar grid for selecting a start/end date range. */
 export class KuiCalendarRangeComponent {
+  private readonly clock = inject(KuiClock);
+
   private readonly injectedLocale = inject(KUI_LOCALE);
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiCalendarSize>(KUI_CALENDAR_SIZES);
 
@@ -261,10 +264,10 @@ export class KuiCalendarRangeComponent {
    * consumer can drive the visible month externally — e.g. keeping two calendars a
    * month apart in a range popover.
    */
-  readonly viewDate = model<Date>(startOfMonth(new Date()));
+  readonly viewDate = model<Date>(startOfMonth(this.clock.initialNow()));
 
   protected readonly view = signal<KuiCalendarView>('days');
-  protected readonly focusedDate = signal<Date>(startOfDay(new Date()));
+  protected readonly focusedDate = signal<Date>(startOfDay(this.clock.initialNow()));
   protected readonly hoverDate = signal<Date | null>(null);
   protected readonly liveAnnounce = signal('');
   protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
@@ -272,7 +275,7 @@ export class KuiCalendarRangeComponent {
   protected readonly viewYear = computed(() => this.viewDate().getFullYear());
   protected readonly viewMonth = computed(() => this.viewDate().getMonth());
 
-  private readonly today = startOfDay(new Date());
+  private readonly today = this.clock.today;
 
   constructor() {
     const initial = this.value();
@@ -331,7 +334,7 @@ export class KuiCalendarRangeComponent {
       const date = addDays(gridStart, i);
       const muted = date.getMonth() !== month;
       const weekend = this.showWeekend() && (date.getDay() === 0 || date.getDay() === 6);
-      const isToday = isSameDay(date, this.today);
+      const isToday = isSameDay(date, this.today());
       const disabled = this.isDisabled(date);
 
       let cls = 'kui-calendar-day';
@@ -479,8 +482,8 @@ export class KuiCalendarRangeComponent {
 
   protected goToday(): void {
     this.view.set('days');
-    this.viewDate.set(startOfMonth(this.today));
-    this.focusedDate.set(this.today);
+    this.viewDate.set(startOfMonth(this.today()));
+    this.focusedDate.set(this.today());
   }
 
   private moveFocus(date: Date): void {
