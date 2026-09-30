@@ -1,0 +1,19 @@
+@let example = config();
+@let label = example.labelKey | transloco;
+
+<div class="pagination-example" role="group" [attr.aria-label]="label">
+  <h3 kuiText variant="heading-sm">{{ label }}</h3>
+
+  <kui-pagination
+    [variant]="example.variant ?? 'compact'"
+    [size]="example.size"
+    [totalPages]="example.totalPages"
+    [siblingCount]="example.siblingCount ?? 1"
+    [boundaryCount]="example.boundaryCount ?? 1"
+    [totalItems]="example.totalItems"
+    [disabled]="example.disabled ?? false"
+    [ariaLabel]="'pagination.navigation' | transloco: { label }"
+    [(currentPage)]="page"
+    [(pageSize)]="pageSize"
+  />
+</div>

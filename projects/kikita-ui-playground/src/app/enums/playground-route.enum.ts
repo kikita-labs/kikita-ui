@@ -8,6 +8,7 @@ export enum PlaygroundRoute {
   Link = 'link',
   Menu = 'menu',
   CommandPalette = 'command-palette',
+  Pagination = 'pagination',
   Calendar = 'calendar',
   Checkbox = 'checkbox',
   ColorInput = 'color-input',

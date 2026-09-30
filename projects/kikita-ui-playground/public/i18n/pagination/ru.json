@@ -1,0 +1,72 @@
+{
+  "title": "Пагинация",
+  "navigation": "Пагинация: {{label}}",
+  "examples": {
+    "default": "По умолчанию",
+    "variants": "Варианты",
+    "sizes": "Размеры",
+    "window": "Окно страниц",
+    "boundaries": "Границы диапазона",
+    "rowsPerPage": "Строк на странице и сводка",
+    "disabled": "Отключено",
+    "table": "С таблицей"
+  },
+  "accessibility": {
+    "default": "Пагинация по умолчанию",
+    "variants": "Варианты пагинации",
+    "sizes": "Размеры пагинации",
+    "window": "Окно страниц пагинации",
+    "boundaries": "Границы диапазона пагинации",
+    "rowsPerPage": "Примеры выбора строк на странице",
+    "disabled": "Отключённая пагинация",
+    "table": "Пагинация с таблицей"
+  },
+  "labels": {
+    "compact": "Компактная",
+    "simple": "Простая",
+    "full": "Полная",
+    "extraSmall": "Очень маленький",
+    "small": "Маленький",
+    "medium": "Средний",
+    "large": "Большой",
+    "siblingsNone": "Соседей 0",
+    "siblingsDefault": "Соседей 1 (по умолчанию)",
+    "siblingsTwo": "Соседей 2",
+    "boundariesNone": "Границ 0",
+    "boundariesDefault": "Границ 1 (по умолчанию)",
+    "boundariesTwo": "Границ 2",
+    "atFirstPage": "На первой странице",
+    "atLastPage": "На последней странице",
+    "singlePage": "Единственная страница",
+    "rowsPerPage": "Строк на странице",
+    "summaryFallback": "Без общего числа элементов",
+    "compactDisabled": "Компактная, отключена",
+    "simpleDisabled": "Простая, отключена",
+    "fullDisabled": "Полная, отключена"
+  },
+  "rowsPerPageStatus": "Страница {{page}}, по {{size}} на странице. Смен страницы: {{pageChanges}}. Смен размера: {{sizeChanges}}.",
+  "table": {
+    "region": "Постраничная таблица заказов",
+    "caption": "Заказы",
+    "navigation": "Пагинация заказов",
+    "orderLabel": "Заказ {{number}}",
+    "status": "Страница {{page}} из {{pages}}, заказов: {{total}}",
+    "columns": {
+      "order": "Заказ",
+      "customer": "Клиент",
+      "status": "Статус"
+    },
+    "customers": {
+      "priya": "Прия Рао",
+      "tomas": "Томас Чен",
+      "noor": "Нур Хасан",
+      "liam": "Лиам Фостер",
+      "ava": "Ава Хан"
+    },
+    "statuses": {
+      "paid": "Оплачен",
+      "pending": "Ожидает",
+      "shipped": "Отправлен"
+    }
+  }
+}

@@ -11,6 +11,7 @@ export const COMPONENT_GROUPS = [
       { id: PlaygroundRoute.Link, label: 'playground.components.link' },
       { id: PlaygroundRoute.Menu, label: 'playground.components.menu' },
       { id: PlaygroundRoute.CommandPalette, label: 'playground.components.commandPalette' },
+      { id: PlaygroundRoute.Pagination, label: 'playground.components.pagination' },
     ],
   },
   {

@@ -1,0 +1,82 @@
+<main
+  class="playground-workspace pagination-playground"
+  aria-labelledby="pagination-playground-title"
+>
+  <h1 id="pagination-playground-title" kuiText variant="heading-lg">
+    {{ 'pagination.title' | transloco }}
+  </h1>
+
+  <app-playground-example-card [heading]="'pagination.examples.default' | transloco">
+    <div
+      class="pagination-playground__stack"
+      role="group"
+      [attr.aria-label]="'pagination.accessibility.default' | transloco"
+    >
+      <kui-pagination [totalPages]="10" [(currentPage)]="defaultPage" />
+    </div>
+  </app-playground-example-card>
+
+  <app-playground-example-card [heading]="'pagination.examples.variants' | transloco">
+    <div
+      class="pagination-playground__stack"
+      role="group"
+      [attr.aria-label]="'pagination.accessibility.variants' | transloco"
+    >
+      @for (example of variantExamples; track example.id) {
+        <app-pagination-example [config]="example" />
+      }
+    </div>
+  </app-playground-example-card>
+
+  <app-playground-example-card [heading]="'pagination.examples.sizes' | transloco">
+    <div
+      class="pagination-playground__stack"
+      role="group"
+      [attr.aria-label]="'pagination.accessibility.sizes' | transloco"
+    >
+      @for (example of sizeExamples; track example.id) {
+        <app-pagination-example [config]="example" />
+      }
+    </div>
+  </app-playground-example-card>
+
+  <app-playground-example-card [heading]="'pagination.examples.window' | transloco">
+    <div
+      class="pagination-playground__stack"
+      role="group"
+      [attr.aria-label]="'pagination.accessibility.window' | transloco"
+    >
+      @for (example of windowExamples; track example.id) {
+        <app-pagination-example [config]="example" />
+      }
+    </div>
+  </app-playground-example-card>
+
+  <app-playground-example-card [heading]="'pagination.examples.boundaries' | transloco">
+    <div
+      class="pagination-playground__stack"
+      role="group"
+      [attr.aria-label]="'pagination.accessibility.boundaries' | transloco"
+    >
+      @for (example of boundaryExamples; track example.id) {
+        <app-pagination-example [config]="example" />
+      }
+    </div>
+  </app-playground-example-card>
+
+  <app-pagination-rows-per-page />
+
+  <app-playground-example-card [heading]="'pagination.examples.disabled' | transloco">
+    <div
+      class="pagination-playground__stack"
+      role="group"
+      [attr.aria-label]="'pagination.accessibility.disabled' | transloco"
+    >
+      @for (example of disabledExamples; track example.id) {
+        <app-pagination-example [config]="example" />
+      }
+    </div>
+  </app-playground-example-card>
+
+  <app-pagination-table />
+</main>

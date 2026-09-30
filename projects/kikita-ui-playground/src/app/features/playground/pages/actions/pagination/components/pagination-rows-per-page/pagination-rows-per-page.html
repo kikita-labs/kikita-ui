@@ -1,0 +1,42 @@
+<app-playground-example-card [heading]="'pagination.examples.rowsPerPage' | transloco">
+  <div
+    class="pagination-rows-per-page"
+    role="group"
+    [attr.aria-label]="'pagination.accessibility.rowsPerPage' | transloco"
+  >
+    <div
+      class="pagination-rows-per-page__example"
+      role="group"
+      [attr.aria-label]="'pagination.labels.rowsPerPage' | transloco"
+    >
+      <kui-pagination
+        variant="full"
+        [totalPages]="totalPages()"
+        [totalItems]="itemCount"
+        [ariaLabel]="
+          'pagination.navigation'
+            | transloco: { label: 'pagination.labels.rowsPerPage' | transloco }
+        "
+        [(currentPage)]="page"
+        [(pageSize)]="pageSize"
+        (currentPageChange)="countPageChange()"
+        (pageSizeChange)="countSizeChange()"
+      />
+
+      <output class="pagination-rows-per-page__status">
+        {{
+          'pagination.rowsPerPageStatus'
+            | transloco
+              : {
+                  page: page(),
+                  size: pageSize(),
+                  pageChanges: pageChanges(),
+                  sizeChanges: sizeChanges(),
+                }
+        }}
+      </output>
+    </div>
+
+    <app-pagination-example [config]="fallbackExample" />
+  </div>
+</app-playground-example-card>

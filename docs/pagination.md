@@ -1,7 +1,7 @@
 # Pagination
 
 Navigation between pages of a long list or table: page numbers, step forward/back, jump to
-first/last, and optionally a "Showing X-Y of Z" summary with a rows-per-page picker. Composed
+first/last, and optionally a "Showing X–Y of Z" summary with a rows-per-page picker. Composed
 entirely from existing kit primitives -- `button[kuiButton]` for page numbers, `button[kuiIconButton]`
 for First/Prev/Next/Last, and `input[kuiSelect]` for the rows-per-page picker -- plus one piece of
 markup the kit has no primitive for: a static, non-interactive ellipsis.
@@ -55,7 +55,7 @@ never placed inside `kui-field`.
 
 - `compact` (default): First/Prev/numbers+ellipsis/Next/Last.
 - `simple`: only Prev/"Page X of Y"/Next -- for narrow layouts (e.g. a mobile list).
-- `full`: everything in `compact`, plus the "Showing X-Y of Z" summary and a rows-per-page picker.
+- `full`: everything in `compact`, plus the "Showing X–Y of Z" summary and a rows-per-page picker.
 
 ## Sizes
 

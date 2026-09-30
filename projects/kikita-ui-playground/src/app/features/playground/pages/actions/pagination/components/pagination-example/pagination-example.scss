@@ -1,0 +1,16 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .pagination-example {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .pagination-example h3 {
+    margin: 0;
+  }
+}

@@ -1,0 +1,61 @@
+<app-playground-example-card [heading]="'pagination.examples.table' | transloco">
+  <div
+    class="pagination-table"
+    role="group"
+    [attr.aria-label]="'pagination.accessibility.table' | transloco"
+  >
+    <div
+      class="pagination-table__region"
+      role="region"
+      tabindex="0"
+      [attr.aria-label]="'pagination.table.region' | transloco"
+    >
+      <table kuiTable [data]="orders()">
+        <caption>{{ 'pagination.table.caption' | transloco }}</caption>
+        <thead>
+          <tr kuiThGroup>
+            <th kuiTh>{{ 'pagination.table.columns.order' | transloco }}</th>
+            <th kuiTh>{{ 'pagination.table.columns.customer' | transloco }}</th>
+            <th kuiTh>{{ 'pagination.table.columns.status' | transloco }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (order of orders(); track order.id) {
+            <tr kuiRow [value]="order">
+              <td kuiCell>
+                {{
+                  'pagination.table.orderLabel'
+                    | transloco: { number: order.number | number: '1.0-0' : numberLocale() }
+                }}
+              </td>
+              <td kuiCell>{{ order.customerKey | transloco }}</td>
+              <td kuiCell>{{ order.statusKey | transloco }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <kui-pagination
+      variant="full"
+      [totalPages]="totalPages()"
+      [totalItems]="orderCount"
+      [pageSizeOptions]="pageSizeOptions"
+      [ariaLabel]="'pagination.table.navigation' | transloco"
+      [(currentPage)]="page"
+      [(pageSize)]="pageSize"
+    />
+
+    <output class="pagination-table__status">
+      {{
+        'pagination.table.status'
+          | transloco
+            : {
+                page: page() | number: '1.0-0' : numberLocale(),
+                pages: totalPages() | number: '1.0-0' : numberLocale(),
+                total: orderCount | number: '1.0-0' : numberLocale(),
+              }
+      }}
+    </output>
+  </div>
+</app-playground-example-card>

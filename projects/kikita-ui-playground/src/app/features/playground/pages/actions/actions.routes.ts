@@ -39,4 +39,10 @@ export const PLAYGROUND_ACTIONS_ROUTES: Routes = [
     providers: [provideTranslocoScope('command-palette')],
     loadComponent: () => import('./command-palette').then((page) => page.CommandPalette),
   },
+  {
+    path: [PlaygroundRoute.Components, PlaygroundRoute.Pagination].join('/'),
+    data: { componentId: PlaygroundRoute.Pagination },
+    providers: [provideTranslocoScope('pagination')],
+    loadComponent: () => import('./pagination').then((page) => page.Pagination),
+  },
 ];
