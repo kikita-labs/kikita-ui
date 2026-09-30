@@ -50,23 +50,42 @@ function cell(panel: Locator, columnName: 'Hours' | 'Minutes' | 'Seconds', label
   return column(panel, columnName).getByRole('option', { name: label, exact: true });
 }
 
-/** Resolves once every column has finished scrolling its selected cell to the middle (or the scroll limit). */
+/**
+ * Resolves once every column has scrolled its selected cell to the middle (or the scroll limit)
+ * and stopped moving. A position within one pixel is not enough for a screenshot, so the scroll
+ * offsets must also be identical across several consecutive animation frames.
+ */
 async function expectSelectedCellsCentered(panel: Locator): Promise<void> {
   await expect
     .poll(() =>
-      panel.getByRole('listbox').evaluateAll((columns) =>
-        columns.every((col) => {
-          const selected = col.querySelector('[role="option"][aria-selected="true"]');
-          if (!selected) return true;
-          const columnRect = col.getBoundingClientRect();
-          const cellRect = selected.getBoundingClientRect();
-          const cellTop = col.scrollTop + (cellRect.top - columnRect.top);
-          const wanted = Math.min(
-            Math.max(cellTop - col.clientHeight / 2 + cellRect.height / 2, 0),
-            col.scrollHeight - col.clientHeight,
-          );
-          return Math.abs(col.scrollTop - wanted) <= 1;
-        }),
+      panel.getByRole('listbox').evaluateAll(
+        (columns) =>
+          new Promise<boolean>((resolve) => {
+            const centered = () =>
+              columns.every((col) => {
+                const selected = col.querySelector('[role="option"][aria-selected="true"]');
+                if (!selected) return true;
+                const columnRect = col.getBoundingClientRect();
+                const cellRect = selected.getBoundingClientRect();
+                const cellTop = col.scrollTop + (cellRect.top - columnRect.top);
+                const wanted = Math.min(
+                  Math.max(cellTop - col.clientHeight / 2 + cellRect.height / 2, 0),
+                  col.scrollHeight - col.clientHeight,
+                );
+                return Math.abs(col.scrollTop - wanted) <= 1;
+              });
+            const offsets = () => columns.map((col) => col.scrollTop).join(',');
+            let previous = offsets();
+            let stableFrames = 0;
+            const frame = () => {
+              const current = offsets();
+              stableFrames = current === previous ? stableFrames + 1 : 0;
+              previous = current;
+              if (stableFrames >= 4) resolve(centered());
+              else requestAnimationFrame(frame);
+            };
+            requestAnimationFrame(frame);
+          }),
       ),
     )
     .toBe(true);
@@ -767,6 +786,13 @@ test('captures the input focus and hover states from real input @visual', async 
   });
 });
 
+/**
+ * The panel columns centre the selected cell with a smooth scroll whose last position can land one
+ * pixel apart between runs, moving the text by a pixel (about 3% of this small capture). A wrongly
+ * selected cell changes about 8%, so this ratio still catches a real regression.
+ */
+const sliceTolerance = 0.05;
+
 test('captures the open 24-hour panel with focused and hovered cells @visual', async ({ page }) => {
   const input = group(page, 'formats').getByRole('combobox', {
     name: '24-hour time with seconds',
@@ -778,6 +804,7 @@ test('captures the open 24-hour panel with focused and hovered cells @visual', a
   await expect(panel).toBeVisible();
   await expectSelectedCellsCentered(panel);
   await expect(panel).toHaveScreenshot('time-picker-open-24h-seconds.png', {
+    maxDiffPixelRatio: sliceTolerance,
     animations: 'disabled',
   });
 
@@ -787,6 +814,7 @@ test('captures the open 24-hour panel with focused and hovered cells @visual', a
     await column(panel, 'Hours').evaluate((element) => element.matches(':focus-visible')),
   ).toBe(true);
   await expect(panel).toHaveScreenshot('time-picker-open-column-focused.png', {
+    maxDiffPixelRatio: sliceTolerance,
     animations: 'disabled',
   });
 
@@ -795,6 +823,7 @@ test('captures the open 24-hour panel with focused and hovered cells @visual', a
   await hovered.hover();
   expect(await hovered.evaluate((element) => element.matches(':hover'))).toBe(true);
   await expect(panel).toHaveScreenshot('time-picker-open-cell-hovered.png', {
+    maxDiffPixelRatio: sliceTolerance,
     animations: 'disabled',
   });
 });
