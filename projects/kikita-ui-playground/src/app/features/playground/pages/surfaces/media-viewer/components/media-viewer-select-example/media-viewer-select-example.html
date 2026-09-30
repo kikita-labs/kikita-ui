@@ -1,0 +1,21 @@
+<div class="media-viewer-select-example__grid">
+  @for (index of tileIndexes; track index) {
+    <app-media-viewer-tile
+      [src]="src(index)"
+      [label]="'mediaViewer.actions.openTile' | transloco: { number: index + 1, total }"
+      (opened)="openAt(index)"
+    >
+      <input
+        type="checkbox"
+        kuiCheckbox
+        size="sm"
+        [formField]="selectionForm.selected[index]"
+        [attr.aria-label]="'mediaViewer.actions.selectPhoto' | transloco: { number: index + 1 }"
+      />
+    </app-media-viewer-tile>
+  }
+</div>
+
+<p class="media-viewer-select-example__status" role="status">
+  {{ 'mediaViewer.status.selected' | transloco: { count: selectedCount() } }}
+</p>

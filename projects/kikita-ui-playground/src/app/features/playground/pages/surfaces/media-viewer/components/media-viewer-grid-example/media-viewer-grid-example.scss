@@ -1,0 +1,18 @@
+@layer app.components {
+  .media-viewer-grid-example__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .media-viewer-grid-example__status {
+    margin: var(--kui-space-3) 0 0;
+  }
+
+  @media (width < 30rem) {
+    .media-viewer-grid-example__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}

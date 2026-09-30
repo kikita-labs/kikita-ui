@@ -35,6 +35,12 @@ export const PLAYGROUND_SURFACES_ROUTES: Routes = [
     loadComponent: () => import('./dropdown').then((page) => page.Dropdown),
   },
   {
+    path: [PlaygroundRoute.Components, PlaygroundRoute.MediaViewer].join('/'),
+    data: { componentId: PlaygroundRoute.MediaViewer },
+    providers: [provideTranslocoScope('media-viewer')],
+    loadComponent: () => import('./media-viewer').then((page) => page.MediaViewer),
+  },
+  {
     path: [PlaygroundRoute.Components, PlaygroundRoute.Popover].join('/'),
     data: { componentId: PlaygroundRoute.Popover },
     providers: [provideTranslocoScope('popover')],

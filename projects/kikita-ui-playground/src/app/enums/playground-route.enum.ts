@@ -31,6 +31,7 @@ export enum PlaygroundRoute {
   Dialog = 'dialog',
   Drawer = 'drawer',
   Dropdown = 'dropdown',
+  MediaViewer = 'media-viewer',
   Popover = 'popover',
   Separator = 'separator',
   Splitter = 'splitter',

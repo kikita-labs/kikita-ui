@@ -1,0 +1,39 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .media-viewer-tile {
+    position: relative;
+  }
+
+  .media-viewer-tile__cover {
+    display: block;
+    inline-size: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: var(--kui-radius-md);
+    background: none;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .media-viewer-tile__cover:focus-visible {
+    outline: var(--kui-btn-focus-ring-w) solid var(--kui-btn-focus-ring-color);
+    outline-offset: var(--kui-btn-focus-ring-off);
+  }
+
+  .media-viewer-tile__image {
+    display: block;
+    inline-size: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .media-viewer-tile__extra {
+    position: absolute;
+    inset-block-start: var(--kui-space-2);
+    inset-inline-start: var(--kui-space-2);
+  }
+}

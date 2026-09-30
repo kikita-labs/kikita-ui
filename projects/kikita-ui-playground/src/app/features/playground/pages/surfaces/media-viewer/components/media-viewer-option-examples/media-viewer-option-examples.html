@@ -1,0 +1,24 @@
+<div class="media-viewer-option-examples__actions">
+  <button kuiButton shape="outline" type="button" (click)="openSingle()">
+    {{ 'mediaViewer.actions.openSingle' | transloco }}
+  </button>
+
+  <button kuiButton shape="outline" type="button" (click)="openPastEnd()">
+    {{ 'mediaViewer.actions.openPastEnd' | transloco }}
+  </button>
+
+  <button kuiButton shape="outline" type="button" (click)="openCustomLabel()">
+    {{ 'mediaViewer.actions.openCustomLabel' | transloco }}
+  </button>
+
+  <button kuiButton shape="outline" type="button" (click)="openZoomLimits()">
+    {{ 'mediaViewer.actions.openZoomLimits' | transloco }}
+  </button>
+</div>
+
+@let last = lastViewed();
+@if (last !== null) {
+  <p class="media-viewer-option-examples__status" role="status">
+    {{ 'mediaViewer.status.lastViewed' | transloco: { number: last + 1 } }}
+  </p>
+}

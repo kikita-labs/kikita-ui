@@ -1,0 +1,40 @@
+<main
+  class="playground-workspace media-viewer-playground"
+  aria-labelledby="media-viewer-playground-title"
+>
+  <h1 id="media-viewer-playground-title" kuiText variant="heading-lg">
+    {{ 'mediaViewer.title' | transloco }}
+  </h1>
+
+  <div class="media-viewer-playground__catalogue">
+    <section role="group" [attr.aria-label]="'mediaViewer.accessibility.default' | transloco">
+      <app-playground-example-card [heading]="'mediaViewer.examples.default' | transloco">
+        <app-media-viewer-default-example />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'mediaViewer.accessibility.grid' | transloco">
+      <app-playground-example-card [heading]="'mediaViewer.examples.grid' | transloco">
+        <app-media-viewer-grid-example />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'mediaViewer.accessibility.options' | transloco">
+      <app-playground-example-card [heading]="'mediaViewer.examples.options' | transloco">
+        <app-media-viewer-option-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'mediaViewer.accessibility.states' | transloco">
+      <app-playground-example-card [heading]="'mediaViewer.examples.states' | transloco">
+        <app-media-viewer-state-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'mediaViewer.accessibility.select' | transloco">
+      <app-playground-example-card [heading]="'mediaViewer.examples.select' | transloco">
+        <app-media-viewer-select-example />
+      </app-playground-example-card>
+    </section>
+  </div>
+</main>

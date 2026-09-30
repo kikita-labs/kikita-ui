@@ -1,0 +1,39 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .media-viewer-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .media-viewer-playground h1 {
+    margin: 0;
+  }
+
+  .media-viewer-playground__catalogue {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .media-viewer-playground__catalogue > section {
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .media-viewer-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .media-viewer-playground__catalogue {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
