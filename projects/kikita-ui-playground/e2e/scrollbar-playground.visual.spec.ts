@@ -139,16 +139,14 @@ test('uses distinct theme tokens and restores system scrollbar colors in forced 
     .toBe('auto');
 });
 
-test('server-renders without the browser-only scrollbar marker and applies it after hydration', async ({
-  page,
-}) => {
+test('server-renders the scrollbar marker and keeps it through hydration', async ({ page }) => {
   const response = await page.request.get('/components/scrollbar');
   expect(response.status()).toBe(200);
 
   const serverMarkup = await response.text();
   const serverHtmlElement = serverMarkup.match(/<html\b[^>]*>/i)?.[0];
   if (!serverHtmlElement) throw new Error('SSR response is missing its html element.');
-  expect(serverHtmlElement).not.toMatch(/\bdata-kui-scrollbars(?:=|\s|>)/i);
+  expect(serverHtmlElement).toMatch(/\bdata-kui-scrollbars="styled"/i);
 
   const runtimeErrors: string[] = [];
   page.on('pageerror', (error) => runtimeErrors.push(error.message));

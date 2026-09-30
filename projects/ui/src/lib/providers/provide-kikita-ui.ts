@@ -1,11 +1,6 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import type { EnvironmentProviders } from '@angular/core';
-import {
-  ENVIRONMENT_INITIALIZER,
-  inject,
-  makeEnvironmentProviders,
-  PLATFORM_ID,
-} from '@angular/core';
+import { ENVIRONMENT_INITIALIZER, inject, makeEnvironmentProviders } from '@angular/core';
 
 import { KUI_BRAND_ICONS, KUI_ICONS, resolveLucideIcon } from '../components/icon';
 import { DEFAULT_KUI_THEME, provideKuiTheme } from '../theme';
@@ -29,18 +24,18 @@ export function provideKikitaUi(options: KikitaUiOptions = {}): EnvironmentProvi
       multi: true,
       useFactory: () => {
         const document = inject(DOCUMENT);
-        const platformId = inject(PLATFORM_ID);
 
+        // Runs on the server too: the attribute is a plain attribute on `<html>`, outside the
+        // compiled templates, so writing it during server rendering cannot change the hydrated
+        // DOM shape and makes the first HTML response already carry the scrollbar mode.
         return () => {
-          if (!isPlatformBrowser(platformId)) return;
-
           if (options.scrollbars === 'styled') {
-            document.documentElement.dataset['kuiScrollbars'] = 'styled';
+            document.documentElement.setAttribute('data-kui-scrollbars', 'styled');
             return;
           }
 
           if (options.scrollbars === 'native') {
-            delete document.documentElement.dataset['kuiScrollbars'];
+            document.documentElement.removeAttribute('data-kui-scrollbars');
           }
         };
       },

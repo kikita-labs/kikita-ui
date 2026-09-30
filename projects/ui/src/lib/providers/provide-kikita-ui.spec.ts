@@ -1,4 +1,5 @@
 import { DOCUMENT } from '@angular/common';
+import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { KUI_BRAND_ICONS, KUI_ICONS, resolveLucideIcon } from '../components/icon';
@@ -20,6 +21,19 @@ describe('provideKikitaUi', () => {
     TestBed.inject(DOCUMENT);
 
     expect(document.documentElement.dataset['kuiScrollbars']).toBe('styled');
+  });
+
+  it('applies the scrollbar mode on the server platform so the first HTML already carries it', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: PLATFORM_ID, useValue: 'server' },
+        provideKikitaUi({ scrollbars: 'styled' }),
+      ],
+    });
+
+    TestBed.inject(DOCUMENT);
+
+    expect(document.documentElement.getAttribute('data-kui-scrollbars')).toBe('styled');
   });
 
   it('removes global styled scrollbars when native mode is explicit', () => {
