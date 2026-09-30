@@ -85,18 +85,42 @@ session; an agent cannot do it.
 
 With this in place, the release flow is:
 
-1. Complete the current release line and its fixes on `release/<n>.x`.
-2. Merge `release/<n>.x` into `main`.
-3. On `main`, move the matching `[Unreleased]` entries into a dated release
-   heading, update the comparison link, and bump `projects/ui/package.json` to
-   the same `X.Y.Z` version.
-4. Run the full release gate after the release metadata change.
-5. Merge the finalized `main` into the maintained release branches, including
-   `release/<n+1>.x`, so the current and next release lines stay synchronized.
-6. Push `main`, create the `vX.Y.Z` tag on that `main` commit, and push the tag.
+`main` is protected by a repository ruleset: no direct pushes, no force pushes, no deletion,
+merge commits only, and a pull request whose CI checks (`.github/workflows/ci.yml`) are green.
+Nobody, including maintainers, bypasses it. Tags matching `v*` can only be created by repository
+admins.
 
-The workflow builds, tests, and publishes from that tag. Do not tag a release
-branch directly, even though the workflow trigger accepts any `v*` tag.
+The rulesets are stored in `.github/rulesets/`. A repository admin applies them once (and again
+after the CI job names change, because the required checks are matched by job name):
+
+```bash
+gh api -X POST repos/kikita-labs/kikita-ui/rulesets --input .github/rulesets/protect-main.json
+gh api -X POST repos/kikita-labs/kikita-ui/rulesets --input .github/rulesets/protect-release-tags.json
+```
+
+To change an existing ruleset, use `gh api -X PUT repos/kikita-labs/kikita-ui/rulesets/<id>` with
+the same file (`gh api repos/kikita-labs/kikita-ui/rulesets` lists the ids).
+
+1. Complete the current release line and its fixes on `release/<n>.x`.
+2. On `release/<n>.x`, move the matching `[Unreleased]` entries into a dated release
+   heading, update the comparison link, and bump `projects/ui/package.json` to
+   the same `X.Y.Z` version. Run the full release gate after this metadata change.
+3. Open a pull request from `release/<n>.x` into `main`. Wait for CI to pass and merge it with a
+   merge commit (squash and rebase are disabled, so the release branches can merge `main` back
+   without conflicts).
+4. Create the `vX.Y.Z` tag on the resulting `main` commit and push it:
+
+   ```bash
+   git checkout main && git pull
+   git tag -a vX.Y.Z -m "vX.Y.Z" && git push origin vX.Y.Z
+   ```
+
+5. Merge the updated `main` into the maintained release branches, including
+   `release/<n+1>.x`, so the current and next release lines stay synchronized.
+   Release branches are not protected, so this is a direct push.
+
+The workflow builds, tests, and publishes from that tag. It refuses to publish when the tagged
+commit is not reachable from `main`. Do not tag a release branch directly.
 
 Watch the workflow with:
 

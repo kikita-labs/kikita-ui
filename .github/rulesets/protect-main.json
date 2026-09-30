@@ -1,0 +1,41 @@
+{
+  "name": "Protect main",
+  "target": "branch",
+  "enforcement": "active",
+  "conditions": { "ref_name": { "include": ["refs/heads/main"], "exclude": [] } },
+  "bypass_actors": [],
+  "rules": [
+    { "type": "deletion" },
+    { "type": "non_fast_forward" },
+    {
+      "type": "pull_request",
+      "parameters": {
+        "required_approving_review_count": 0,
+        "dismiss_stale_reviews_on_push": false,
+        "require_code_owner_review": false,
+        "require_last_push_approval": false,
+        "required_review_thread_resolution": false,
+        "allowed_merge_methods": ["merge"]
+      }
+    },
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "strict_required_status_checks_policy": false,
+        "do_not_enforce_on_create": false,
+        "required_status_checks": [
+          { "context": "Static checks, unit tests and builds" },
+          { "context": "Library SSR hydration (Chromium)" },
+          { "context": "Browser behavior (Chromium, shard 1/3)" },
+          { "context": "Browser behavior (Chromium, shard 2/3)" },
+          { "context": "Browser behavior (Chromium, shard 3/3)" },
+          { "context": "Visual baselines (Playwright Docker image, shard 1/4)" },
+          { "context": "Visual baselines (Playwright Docker image, shard 2/4)" },
+          { "context": "Visual baselines (Playwright Docker image, shard 3/4)" },
+          { "context": "Visual baselines (Playwright Docker image, shard 4/4)" },
+          { "context": "Visual baselines, library (Playwright Docker image)" }
+        ]
+      }
+    }
+  ]
+}
