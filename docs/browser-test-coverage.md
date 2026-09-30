@@ -195,7 +195,14 @@ in the plan listed.
 11. **Chromium only**: Firefox and WebKit are not run. Accepted until release; the final v2 checklist
     adds WebKit and Firefox runs at release time.
 12. **Hydration readiness** is inferred from behavior because the Playground exposes no marker.
-    Owner: Plan 12 decides whether to add one (`ssr.md`, Phase 3).
+    Owner: Plan 12 decides whether to add one (`ssr.md`, Phase 3). This caused real CI flakes: a key
+    pressed before hydration finishes is captured by Angular event replay and delivered out of order
+    (`preventDefault called during event replay`), so the control then ignores later input. The Link
+    Enter test and the Select multiple-selection test failed this way and now open with a
+    client-only interaction (the Count action button, the Select toggle) that only works on a live
+    page. The `ngh` marker disappearing from the DOM is not enough: a 500 ms wait after it still
+    changed the outcome. Other specs that press keys straight after `goto` may flake the same way.
+    A marker set after `ApplicationRef.whenStable()` would remove the need for per-test probes.
 13. **Dialog lifecycle on route change**: a dialog opened imperatively stays open after its opening
     route is destroyed, and `docs/dialog.md` does not say whether that is intended. A characterization
     test in `route-teardown.spec.ts` only guarantees no error. Owner: Plan 12 (`ssr.md`,
