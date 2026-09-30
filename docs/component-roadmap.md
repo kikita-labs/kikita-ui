@@ -108,7 +108,7 @@ fixing or closing them; record new evidence in state coverage.
   - `kui-field` `required` exposure to assistive technology is added to Plan 19B.
   - Default Lucide icons depending on the jsDelivr CDN is added to Plan 20.
   - Re-enabling the axe `color-contrast` rule is added to Plan 14.
-  - Hydration-readiness marker and orphan-dialog behavior are added to Plan 12.
+  - Hydration-readiness marker and orphan-dialog behavior are added to Plan 12. Both are decided: no marker, and a dialog outlives its opener (`docs/ssr-lifecycle-register.md`). Still open in Plan 12: a reactive locale so non-`en-US` browsers hydrate without a title or weekday change (recorded as a `test.fixme`).
 
 ## Deferred Feature Scope
 

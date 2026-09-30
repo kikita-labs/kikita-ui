@@ -101,7 +101,7 @@ a fix fails the test until the list is updated.
 | Color Input     | 8    | 17   | -             | None recorded.                                                                                                                                                                                                                                                                   |
 | Combobox        | 11   | 25   | A             | None recorded.                                                                                                                                                                                                                                                                   |
 | Command Palette | 8    | 11   | B A           | None recorded.                                                                                                                                                                                                                                                                   |
-| Date Picker     | 15   | 14   | A R           | "Today" is seeded from the server (`KuiClock`); the Calendar route has an SSR time-zone check, Date Picker itself has none yet (Plan 12).                                                                                                                                        |
+| Date Picker     | 15   | 14   | A R           | "Today" is seeded from the server (`KuiClock`); SSR checks in UTC+14 cover the Calendar and Calendar Range routes and a Date Picker opened after hydration.                                                                                                                      |
 | Dialog          | 10   | 14   | B A R V S     | Touch backdrop tap covered; nested dialogs are not covered.                                                                                                                                                                                                                      |
 | Drawer          | 10   | 14   | A             | Focus trap and backdrop only in the replacement page; no touch backdrop tap.                                                                                                                                                                                                     |
 | Dropdown        | 16   | 16   | B A R S       | None recorded.                                                                                                                                                                                                                                                                   |
@@ -180,9 +180,11 @@ in the plan listed.
    Tooltip (replacement pages). Accepted as representative coverage; Drawer, Menu, Popover, Combobox,
    pickers, Splitter and Carousel swipe have no touch check.
 8. **SSR of date-dependent primitives**: the library suite checks server content and held hydration
-   for 11 routes; the replacement suite checks 44 headings plus two held-hydration flows. Pickers that
-   read the current date, OTP Input and Time Picker have no SSR check. Owner: Plan 12 (`ssr.md`
-   Phase 2, "resolve locale/time/ID seeds consistently per request").
+   for 11 routes; the replacement suite checks 44 headings plus the held-hydration flows. Calendar,
+   Calendar Range and Date Picker have a UTC+14 time-zone check (`ssr-hydration.spec.ts`); a
+   non-default locale is a recorded `test.fixme` (server renders `en-US`, see
+   `docs/ssr-lifecycle-register.md`). OTP Input and Time Picker read no date at render and have no
+   dedicated SSR check beyond the per-page heading test. Owner: Plan 12 until it is closed.
 9. **CDN dependence**: default Lucide icons load from `cdn.jsdelivr.net`. Only three replacement
    specs stub it, so screenshots in the others need internet access. The harness allowance stops the
    console failure, not the missing pixels. Owner: Plan 20, extended to default content icons
