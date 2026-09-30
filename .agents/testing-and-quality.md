@@ -29,10 +29,26 @@ pnpm.cmd build
 pnpm.cmd build:playground
 pnpm.cmd test:ssr
 pnpm.cmd test:browser
+pnpm.cmd test:kikita-ui-playground
+pnpm.cmd test:kikita-ui-playground:ssr
+pnpm.cmd test:visual
+pnpm.cmd test:kikita-ui-playground:visual
 ```
 
-Run focused Playwright projects with `test:e2e`, `test:a11y`,
-`test:responsive`, or `test:visual`.
+Run focused Playwright projects with `test:e2e`, `test:a11y`, `test:responsive`, or `test:visual`.
+`test:browser` runs the `e2e`, `a11y` and `responsive` projects; the screenshot projects run through
+Docker (see `docs/visual-regression.md`) because their baselines are Linux captures.
+
+## Continuous Integration
+
+`.github/workflows/ci.yml` runs on pull requests and on pushes to `main` and `release/**`:
+
+- `verify`: format, lint, static audit, skills check, script tests, unit tests, and all builds.
+- `browser`: library SSR suite and the replacement Playground `behavior` project on Chromium.
+- `visual`: both screenshot suites inside the pinned Playwright Docker image.
+
+CI is the authoritative gate for the heavy suites. Keep the Docker image tag in `ci.yml` equal to
+the installed `@playwright/test` version.
 
 ## Test Layers
 
@@ -81,6 +97,8 @@ characterization test when coverage is missing. Keep refactors small and green.
 - `pre-commit` runs `lint-staged` on staged files: ESLint and Prettier for TypeScript and
   Angular templates; Stylelint and Prettier for SCSS. It also runs the static and skills
   checks from `.husky/pre-commit`.
-- `pre-push` runs the full local gate including browser and SSR checks.
+- `pre-push` runs the fast checks only: format, lint, static audit, skills check, script tests and
+  unit tests. Builds, SSR, browser and visual suites run in CI; run them locally when a change
+  touches browser behavior or visuals.
 - If a hook fails because of local environment limits, run the same command
   manually and record the exact blocker.

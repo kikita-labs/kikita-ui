@@ -41,21 +41,43 @@ stable open/transient state is part of the public visual contract.
 
 ## Commands
 
-Run the visual baseline check:
+Baselines are Linux captures (`*-linux.png`) taken in the official Playwright Docker image. CI
+compares against them in the same image. Screenshots differ between operating systems because of
+fonts and anti-aliasing (the theme uses a system font stack), so a baseline taken on a developer
+machine would never match CI. Docker must be running locally.
+
+Run the visual baseline check for the library Playground:
 
 ```bash
 pnpm.cmd test:visual
+```
+
+Run it for the replacement Playground:
+
+```bash
+pnpm.cmd test:kikita-ui-playground:visual
 ```
 
 Update baselines only after reviewing the rendered change and confirming it is intentional:
 
 ```bash
 pnpm.cmd test:visual:update
+pnpm.cmd test:kikita-ui-playground:visual:update
 ```
+
+All four commands run `scripts/visual-docker.mjs`. It starts the image that matches the installed
+`@playwright/test` version, installs dependencies into named Docker volumes (the host
+`node_modules` and `dist` are not touched), builds the app and runs the `visual` project. The CI
+`visual` job pins the same image tag, and `scripts/visual-docker.spec.mjs` fails when the tag drifts
+from the installed version. After a Playwright upgrade, update the tag in
+`.github/workflows/ci.yml` and regenerate every baseline.
+
+Running the `visual` project directly with `playwright test` on Windows or macOS finds no
+baselines and fails. Use the commands above.
 
 Playwright serves the built playground through `tools/serve-playground-dist.mjs`. The run fails
 before any test when `dist/playground` is missing or older than its sources, so a stale build cannot
-produce a baseline; run `pnpm.cmd build:playground` first.
+produce a baseline; the Docker commands build the app inside the container first.
 
 Screenshots are stable because of pinned inputs, not retries: the visual project sets
 `prefers-reduced-motion: reduce`, and every suite pins the `en-US` locale and the `UTC` timezone.
