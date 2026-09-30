@@ -49,8 +49,10 @@ Docker (see `docs/visual-regression.md`) because their baselines are Linux captu
 - `visual`: the replacement Playground screenshot suite inside the pinned Playwright Docker image, in 4 shards.
 - `visual-library`: the library screenshot suite in the same image.
 
-CI is the authoritative gate for the heavy suites. Keep the Docker image tag in `ci.yml` equal to
-the installed `@playwright/test` version.
+CI is the authoritative gate for the heavy suites. Every Playwright job (`browser`, `ssr`, `visual`,
+`visual-library`) runs in the pinned Playwright Docker image, so browsers and system libraries are
+preinstalled and no job depends on apt mirrors. Keep the image tag in `ci.yml` equal to the installed
+`@playwright/test` version in every job; `scripts/visual-docker.spec.mjs` checks this.
 
 ## Test Layers
 

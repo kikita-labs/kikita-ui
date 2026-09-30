@@ -42,10 +42,15 @@ describe('visual-docker', () => {
     );
   });
 
-  it('uses the same Playwright image in CI as the installed Playwright version', () => {
+  it('uses the same Playwright image in every CI job as the installed Playwright version', () => {
     const workflow = readFileSync(resolve('.github/workflows/ci.yml'), 'utf8');
-    const image = workflow.match(/image:\s*(mcr\.microsoft\.com\/playwright:\S+)/)?.[1];
+    const images = [...workflow.matchAll(/image:\s*(mcr\.microsoft\.com\/playwright:\S+)/g)].map(
+      (match) => match[1],
+    );
 
-    expect(image).toBe(playwrightImage(readPlaywrightVersion()));
+    expect(images.length).toBeGreaterThan(0);
+    for (const image of images) {
+      expect(image).toBe(playwrightImage(readPlaywrightVersion()));
+    }
   });
 });

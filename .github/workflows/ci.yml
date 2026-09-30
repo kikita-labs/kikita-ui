@@ -51,6 +51,12 @@ jobs:
     name: Browser behavior (Chromium, shard ${{ matrix.shard }}/3)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # Runs in the Playwright image: browsers and system libraries are preinstalled, so the job never
+    # depends on apt mirrors. Keep the tag equal to the installed @playwright/test version;
+    # scripts/visual-docker.spec.mjs fails when they drift.
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+      options: --ipc=host
     strategy:
       fail-fast: false
       matrix:
@@ -66,17 +72,6 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
-
-      - name: Resolve Playwright version
-        id: playwright
-        run: echo "version=$(pnpm exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
-
-      - uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
-
-      - run: pnpm exec playwright install --with-deps chromium
 
       # Behavior project only: the visual project runs in the `visual` job.
       - run: pnpm build:kikita-ui-playground
@@ -95,6 +90,12 @@ jobs:
     name: Library SSR hydration (Chromium)
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # Runs in the Playwright image: browsers and system libraries are preinstalled, so the job never
+    # depends on apt mirrors. Keep the tag equal to the installed @playwright/test version;
+    # scripts/visual-docker.spec.mjs fails when they drift.
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+      options: --ipc=host
     steps:
       - uses: actions/checkout@v4
 
@@ -106,17 +107,6 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
-
-      - name: Resolve Playwright version
-        id: playwright
-        run: echo "version=$(pnpm exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
-
-      - uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
-
-      - run: pnpm exec playwright install --with-deps chromium
 
       # Builds the playground, then runs the SSR hydration suite.
       - run: pnpm test:ssr
