@@ -438,9 +438,22 @@ test('keeps a multiple Select open while toggling values and clears them @visual
   );
 
   const input = customLimit;
+  const listbox = page.getByRole('listbox');
+
+  // Keys pressed while the page is still hydrating are captured and replayed out of order. Hydration
+  // has no observable end, so open and close the list once through its toggle button: the list only
+  // opens when the page is live.
+  await input
+    .locator('xpath=ancestor::kui-field[1]')
+    .getByRole('button', { name: 'Open options', exact: true })
+    .click();
+  await expect(listbox).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(listbox).toBeHidden();
+  await page.mouse.move(0, 0);
+
   await input.focus();
   await input.press('ArrowDown');
-  const listbox = page.getByRole('listbox');
   await expect(listbox.getByRole('option', { name: 'Owner', exact: true })).toBeFocused();
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('ArrowDown');
