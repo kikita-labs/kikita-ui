@@ -26,6 +26,10 @@ To publish the current release line:
 `main` is protected: never push to it directly. Changes reach `main` only through a pull
 request with green CI, merged with a merge commit.
 
+Agents perform the pull request and merge with the GitHub CLI; the commands are in
+`docs/release.md`. Agents do not change repository rulesets or settings: a repository admin
+applies `.github/rulesets/*.json`.
+
 1. On `release/<n>.x`, finalize the package version and move the matching changelog
    entries out of `[Unreleased]`.
 2. Run the release gate after the release metadata change.

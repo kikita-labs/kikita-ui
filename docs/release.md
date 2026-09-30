@@ -108,6 +108,14 @@ the same file (`gh api repos/kikita-labs/kikita-ui/rulesets` lists the ids).
 3. Open a pull request from `release/<n>.x` into `main`. Wait for CI to pass and merge it with a
    merge commit (squash and rebase are disabled, so the release branches can merge `main` back
    without conflicts).
+   With the GitHub CLI (this is also how an agent performs the release):
+
+   ```bash
+   gh pr create --base main --head release/<n>.x --title "Release X.Y.Z" --body "Release X.Y.Z"
+   gh pr checks --watch
+   gh pr merge --merge
+   ```
+
 4. Create the `vX.Y.Z` tag on the resulting `main` commit and push it:
 
    ```bash
