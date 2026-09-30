@@ -33,6 +33,7 @@ export enum PlaygroundRoute {
   Dropdown = 'dropdown',
   Popover = 'popover',
   Separator = 'separator',
+  Splitter = 'splitter',
   Stepper = 'stepper',
   Tabs = 'tabs',
   Alert = 'alert',

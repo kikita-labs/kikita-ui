@@ -53,6 +53,12 @@ export const PLAYGROUND_SURFACES_ROUTES: Routes = [
     loadComponent: () => import('./separator').then((page) => page.Separator),
   },
   {
+    path: [PlaygroundRoute.Components, PlaygroundRoute.Splitter].join('/'),
+    data: { componentId: PlaygroundRoute.Splitter },
+    providers: [provideTranslocoScope('splitter')],
+    loadComponent: () => import('./splitter').then((page) => page.Splitter),
+  },
+  {
     path: [PlaygroundRoute.Components, PlaygroundRoute.Stepper].join('/'),
     data: { componentId: PlaygroundRoute.Stepper },
     providers: [provideTranslocoScope('stepper')],

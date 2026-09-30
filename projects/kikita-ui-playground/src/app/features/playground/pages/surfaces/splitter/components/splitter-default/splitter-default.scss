@@ -1,0 +1,12 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .splitter-default__content {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+}

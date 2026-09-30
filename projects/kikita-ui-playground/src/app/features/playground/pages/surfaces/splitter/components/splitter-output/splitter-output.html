@@ -1,0 +1,33 @@
+<app-playground-example-card [heading]="'splitter.examples.output' | transloco">
+  <div
+    class="splitter-output__content"
+    role="group"
+    [attr.aria-label]="'splitter.accessibility.output' | transloco"
+  >
+    <app-splitter-example [heading]="'splitter.variants.lastResize' | transloco">
+      <kui-splitter (sizesChange)="onResize($event)">
+        <kui-splitter-pane>
+          <app-splitter-pane-label>{{ 'splitter.panes.left' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.right' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+      <dl appSplitterStatus class="splitter-output__status">
+        <dt kuiText variant="body-sm">{{ 'splitter.status.lastSizes' | transloco }}</dt>
+        <dd kuiText variant="body-sm">
+          @if (lastSizes().length > 0) {
+            {{ lastSizes()[0] | number: '1.0-1' }} / {{ lastSizes()[1] | number: '1.0-1' }}
+          } @else {
+            {{ 'splitter.status.none' | transloco }}
+          }
+        </dd>
+
+        <dt kuiText variant="body-sm">{{ 'splitter.status.changes' | transloco }}</dt>
+        <dd kuiText variant="body-sm">{{ changes() }}</dd>
+      </dl>
+    </app-splitter-example>
+  </div>
+</app-playground-example-card>

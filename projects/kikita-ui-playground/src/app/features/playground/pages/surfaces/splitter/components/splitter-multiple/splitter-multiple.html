@@ -1,0 +1,38 @@
+<app-playground-example-card [heading]="'splitter.examples.multiple' | transloco">
+  <div
+    class="splitter-multiple__content"
+    role="group"
+    [attr.aria-label]="'splitter.accessibility.multiple' | transloco"
+  >
+    <app-splitter-example [heading]="'splitter.variants.threePanes' | transloco">
+      <kui-splitter>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>{{ 'splitter.panes.a' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>{{ 'splitter.panes.b' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>{{ 'splitter.panes.c' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+    </app-splitter-example>
+
+    <app-splitter-example [heading]="'splitter.variants.fourPanes' | transloco">
+      <kui-splitter>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>{{ 'splitter.panes.a' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>{{ 'splitter.panes.b' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>{{ 'splitter.panes.c' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>{{ 'splitter.panes.d' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+    </app-splitter-example>
+  </div>
+</app-playground-example-card>

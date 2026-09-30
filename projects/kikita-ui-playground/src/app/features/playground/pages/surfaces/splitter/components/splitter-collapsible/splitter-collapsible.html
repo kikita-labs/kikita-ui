@@ -1,0 +1,84 @@
+<app-playground-example-card [heading]="'splitter.examples.collapsible' | transloco">
+  <div
+    class="splitter-collapsible__content"
+    role="group"
+    [attr.aria-label]="'splitter.accessibility.collapsible' | transloco"
+  >
+    <app-splitter-example [heading]="'splitter.variants.firstCollapsible' | transloco">
+      <kui-splitter>
+        <kui-splitter-pane #firstPane [minSize]="15" collapsible [size]="30">
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.files' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.editor' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+      <dl appSplitterStatus class="splitter-collapsible__status">
+        <dt kuiText variant="body-sm">{{ 'splitter.status.size' | transloco }}</dt>
+        <dd kuiText variant="body-sm">{{ firstPane.currentSize() | number: '1.0-1' }}</dd>
+
+        <dt kuiText variant="body-sm">{{ 'splitter.status.collapsed' | transloco }}</dt>
+        <dd kuiText variant="body-sm">
+          {{ (firstPane.collapsed() ? 'splitter.status.yes' : 'splitter.status.no') | transloco }}
+        </dd>
+      </dl>
+    </app-splitter-example>
+
+    <app-splitter-example [heading]="'splitter.variants.lastCollapsible' | transloco">
+      <kui-splitter>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.editor' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane #lastPane [minSize]="15" collapsible [size]="30">
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.files' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+      <dl appSplitterStatus class="splitter-collapsible__status">
+        <dt kuiText variant="body-sm">{{ 'splitter.status.size' | transloco }}</dt>
+        <dd kuiText variant="body-sm">{{ lastPane.currentSize() | number: '1.0-1' }}</dd>
+
+        <dt kuiText variant="body-sm">{{ 'splitter.status.collapsed' | transloco }}</dt>
+        <dd kuiText variant="body-sm">
+          {{ (lastPane.collapsed() ? 'splitter.status.yes' : 'splitter.status.no') | transloco }}
+        </dd>
+      </dl>
+    </app-splitter-example>
+
+    <app-splitter-example [heading]="'splitter.variants.verticalCollapsible' | transloco" size="lg">
+      <kui-splitter orientation="vertical">
+        <kui-splitter-pane>
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.editor' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane [minSize]="15" collapsible [size]="30">
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.terminal' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+    </app-splitter-example>
+
+    <app-splitter-example [heading]="'splitter.variants.middleIgnored' | transloco" size="lg">
+      <kui-splitter>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>{{ 'splitter.panes.a' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane collapsible>
+          <app-splitter-pane-label>{{ 'splitter.panes.b' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>{{ 'splitter.panes.c' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+    </app-splitter-example>
+  </div>
+</app-playground-example-card>

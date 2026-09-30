@@ -1,0 +1,29 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .splitter-collapsible__content {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  @media (width >= 48rem) {
+    .splitter-collapsible__content {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .splitter-collapsible__status {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: var(--kui-space-1) var(--kui-space-3);
+    margin: 0;
+  }
+
+  .splitter-collapsible__status dd {
+    margin: 0;
+  }
+}

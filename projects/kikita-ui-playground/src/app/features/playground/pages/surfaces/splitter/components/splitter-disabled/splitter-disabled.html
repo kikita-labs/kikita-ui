@@ -1,0 +1,24 @@
+<app-playground-example-card [heading]="'splitter.examples.disabled' | transloco">
+  <div
+    class="splitter-disabled__content"
+    role="group"
+    [attr.aria-label]="'splitter.accessibility.disabled' | transloco"
+  >
+    <app-splitter-example [heading]="'splitter.variants.disabled' | transloco">
+      <kui-splitter disabled>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>
+            <button kuiButton type="button" size="sm" (click)="press()">
+              {{ 'splitter.disabled.pressed' | transloco: { count: presses() } }}
+            </button>
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.right' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+    </app-splitter-example>
+  </div>
+</app-playground-example-card>

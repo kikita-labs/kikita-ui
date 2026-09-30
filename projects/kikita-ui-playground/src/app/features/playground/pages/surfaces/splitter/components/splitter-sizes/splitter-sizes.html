@@ -1,0 +1,51 @@
+<app-playground-example-card [heading]="'splitter.examples.sizes' | transloco">
+  <div
+    class="splitter-sizes__content"
+    role="group"
+    [attr.aria-label]="'splitter.accessibility.sizes' | transloco"
+  >
+    <app-splitter-example [heading]="'splitter.variants.explicitSizes' | transloco">
+      <kui-splitter>
+        <kui-splitter-pane [size]="30">
+          <app-splitter-pane-label>{{ 'splitter.panes.left' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane [size]="70">
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.right' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+    </app-splitter-example>
+
+    <app-splitter-example [heading]="'splitter.variants.oneExplicitSize' | transloco">
+      <kui-splitter>
+        <kui-splitter-pane [size]="20">
+          <app-splitter-pane-label>{{ 'splitter.panes.left' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.middle' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.right' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+    </app-splitter-example>
+
+    <app-splitter-example [heading]="'splitter.variants.minSize' | transloco">
+      <kui-splitter>
+        <kui-splitter-pane [minSize]="40">
+          <app-splitter-pane-label>{{ 'splitter.panes.left' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane [minSize]="40">
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.right' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+    </app-splitter-example>
+  </div>
+</app-playground-example-card>

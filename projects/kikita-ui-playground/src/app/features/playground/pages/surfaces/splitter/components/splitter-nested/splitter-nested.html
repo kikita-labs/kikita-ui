@@ -1,0 +1,31 @@
+<app-playground-example-card [heading]="'splitter.examples.nested' | transloco">
+  <div
+    class="splitter-nested__content"
+    role="group"
+    [attr.aria-label]="'splitter.accessibility.nested' | transloco"
+  >
+    <app-splitter-example [heading]="'splitter.variants.nested' | transloco" size="xl">
+      <kui-splitter orientation="vertical">
+        <kui-splitter-pane [size]="70">
+          <kui-splitter>
+            <kui-splitter-pane [size]="30">
+              <app-splitter-pane-label>
+                {{ 'splitter.panes.files' | transloco }}
+              </app-splitter-pane-label>
+            </kui-splitter-pane>
+            <kui-splitter-pane>
+              <app-splitter-pane-label>
+                {{ 'splitter.panes.editor' | transloco }}
+              </app-splitter-pane-label>
+            </kui-splitter-pane>
+          </kui-splitter>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.terminal' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+    </app-splitter-example>
+  </div>
+</app-playground-example-card>

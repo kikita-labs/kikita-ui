@@ -48,6 +48,7 @@ export const COMPONENT_GROUPS = [
       { id: PlaygroundRoute.Dropdown, label: 'playground.components.dropdown' },
       { id: PlaygroundRoute.Popover, label: 'playground.components.popover' },
       { id: PlaygroundRoute.Separator, label: 'playground.components.separator' },
+      { id: PlaygroundRoute.Splitter, label: 'playground.components.splitter' },
       { id: PlaygroundRoute.Stepper, label: 'playground.components.stepper' },
       { id: PlaygroundRoute.Tabs, label: 'playground.components.tabs' },
     ],

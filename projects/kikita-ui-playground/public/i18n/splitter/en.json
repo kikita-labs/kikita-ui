@@ -1,0 +1,66 @@
+{
+  "title": "Splitter",
+  "examples": {
+    "default": "Default",
+    "orientation": "Orientation",
+    "sizes": "Sizes and minimum size",
+    "collapsible": "Collapsible panes",
+    "multiple": "Multiple panes",
+    "nested": "Nested splitters",
+    "disabled": "Disabled",
+    "output": "Resize output"
+  },
+  "accessibility": {
+    "default": "Default splitter example",
+    "orientation": "Splitter orientation examples",
+    "sizes": "Splitter size examples",
+    "collapsible": "Splitter collapsible examples",
+    "multiple": "Splitter multiple pane examples",
+    "nested": "Nested splitter example",
+    "disabled": "Disabled splitter example",
+    "output": "Splitter resize output example"
+  },
+  "variants": {
+    "twoPanes": "Two equal panes",
+    "horizontal": "Horizontal",
+    "vertical": "Vertical",
+    "explicitSizes": "Sizes 30 and 70",
+    "oneExplicitSize": "One explicit size of 20",
+    "minSize": "Minimum size 40",
+    "firstCollapsible": "Collapsible first pane",
+    "lastCollapsible": "Collapsible last pane",
+    "verticalCollapsible": "Collapsible last pane, vertical",
+    "middleIgnored": "Collapsible middle pane is ignored",
+    "threePanes": "Three panes",
+    "fourPanes": "Four panes",
+    "nested": "Vertical outer, horizontal inner",
+    "disabled": "Disabled panes",
+    "lastResize": "Last resize"
+  },
+  "panes": {
+    "a": "A",
+    "b": "B",
+    "c": "C",
+    "d": "D",
+    "left": "Left",
+    "right": "Right",
+    "top": "Top",
+    "bottom": "Bottom",
+    "middle": "Middle",
+    "files": "Files",
+    "editor": "Editor",
+    "terminal": "Terminal"
+  },
+  "status": {
+    "size": "Size",
+    "collapsed": "Collapsed",
+    "yes": "Yes",
+    "no": "No",
+    "lastSizes": "Last sizes",
+    "changes": "Changes",
+    "none": "None yet"
+  },
+  "disabled": {
+    "pressed": "Pressed {{count}} times"
+  }
+}
