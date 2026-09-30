@@ -78,10 +78,6 @@ jobs:
 
       - run: pnpm exec playwright install --with-deps chromium
 
-      # Builds the playground, then runs the SSR hydration suite. One shard is enough for it.
-      - run: pnpm test:ssr
-        if: matrix.shard == 1
-
       # Behavior project only: the visual project runs in the `visual` job.
       - run: pnpm build:kikita-ui-playground
       - run: pnpm exec playwright test --config=playwright.kikita-ui-playground.config.ts --project=behavior --shard=${{ matrix.shard }}/3
@@ -90,6 +86,45 @@ jobs:
         if: failure()
         with:
           name: playwright-report-${{ matrix.shard }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+  ssr:
+    name: Library SSR hydration (Chromium)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Resolve Playwright version
+        id: playwright
+        run: echo "version=$(pnpm exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      - run: pnpm exec playwright install --with-deps chromium
+
+      # Builds the playground, then runs the SSR hydration suite.
+      - run: pnpm test:ssr
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ssr-report
           path: |
             playwright-report/
             test-results/

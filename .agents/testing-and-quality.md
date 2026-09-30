@@ -44,7 +44,8 @@ Docker (see `docs/visual-regression.md`) because their baselines are Linux captu
 `.github/workflows/ci.yml` runs on pull requests and on pushes to `main` and `release/**`:
 
 - `verify`: format, lint, static audit, skills check, script tests, unit tests, and all builds.
-- `browser`: library SSR suite and the replacement Playground `behavior` project on Chromium, in 3 shards.
+- `browser`: the replacement Playground `behavior` project on Chromium, in 3 shards.
+- `ssr`: the library SSR hydration suite.
 - `visual`: both screenshot suites inside the pinned Playwright Docker image, in 4 shards.
 
 CI is the authoritative gate for the heavy suites. Keep the Docker image tag in `ci.yml` equal to
