@@ -135,7 +135,7 @@ test('uses the file picker and consumer-owned model updates for the upload lifec
   await expect(validation.getByText('Done', { exact: true })).toBeVisible();
 });
 
-test('uses the nested Choose file button to open the native picker', async ({ page }) => {
+test('opens the native picker from the presentational Choose file label', async ({ page }) => {
   const variants = page.getByRole('group', {
     name: 'File Upload variants and selection modes',
     exact: true,
@@ -146,7 +146,7 @@ test('uses the nested Choose file button to open the native picker', async ({ pa
   });
   const chooserPromise = page.waitForEvent('filechooser');
 
-  await dropzoneMultiple.getByRole('button', { name: 'Choose file', exact: true }).click();
+  await dropzoneMultiple.getByText('Choose file', { exact: true }).click();
   await (
     await chooserPromise
   ).setFiles({

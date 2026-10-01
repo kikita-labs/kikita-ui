@@ -91,6 +91,26 @@ describe('KuiFileUploadComponent', () => {
     expect(zone.getAttribute('aria-label')).toContain('Upload file');
   });
 
+  it('keeps the dropzone the only interactive control and hides the native input from AT', () => {
+    const zone = dropzone();
+
+    expect(zone.querySelector('button, a[href], input, select, textarea, [tabindex]')).toBeNull();
+    expect(nativeInput().getAttribute('aria-hidden')).toBe('true');
+    expect(nativeInput().tabIndex).toBe(-1);
+  });
+
+  it('opens the picker when the presentational Choose file label is clicked', () => {
+    const click = vi.spyOn(nativeInput(), 'click');
+    const label = dropzone().querySelector<HTMLElement>('.kui-button');
+
+    expect(label?.textContent?.trim()).toBe('Choose file');
+    expect(label?.getAttribute('aria-hidden')).toBe('true');
+
+    label!.click();
+
+    expect(click).toHaveBeenCalledTimes(1);
+  });
+
   it('adds a picked file as a pending entry', () => {
     selectFiles(makeFile('report.pdf', 'application/pdf', 1000));
 

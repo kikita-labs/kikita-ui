@@ -63,6 +63,11 @@
     pointer-events: none;
   }
 
+  /* The presentational "Choose file" look must dim with the zone like the real button it replaced. */
+  .kui-file-upload-dropzone[data-kui-disabled] .kui-button {
+    opacity: var(--kui-btn-disabled-opacity, 0.5);
+  }
+
   .kui-file-upload-dropzone[data-kui-has-files] {
     padding: var(--kui-space-4);
   }

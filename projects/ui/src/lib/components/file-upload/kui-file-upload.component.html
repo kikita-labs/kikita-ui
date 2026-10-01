@@ -3,6 +3,7 @@
   class="kui-file-upload-sr-input"
   type="file"
   tabindex="-1"
+  aria-hidden="true"
   [attr.multiple]="mode() === 'multiple' ? '' : null"
   [attr.accept]="acceptAttr()"
   [disabled]="disabled()"
@@ -59,17 +60,14 @@
         Drag files here or <strong>choose a file</strong>
       </div>
       @if (!hasFiles()) {
-        <button
-          kuiButton
-          shape="outline"
-          size="sm"
-          type="button"
-          tabindex="-1"
-          [disabled]="disabled()"
-          (click)="onTriggerClick($event)"
-        >
+        <!--
+          Looks like a small outline button but is presentational: the dropzone is the one control
+          (role="button"), so a real button here would be an interactive control nested in another.
+          A click on it reaches the dropzone handler.
+        -->
+        <span class="kui-button" aria-hidden="true" data-kui-shape="outline" data-kui-size="sm">
           Choose file
-        </button>
+        </span>
       }
     }
 

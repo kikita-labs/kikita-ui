@@ -117,18 +117,22 @@ contract; it is plain projected content inside `kui-field` (see Known Gaps).
 
 ## Keyboard
 
-| Key                    | Action                                                                                |
-| ---------------------- | ------------------------------------------------------------------------------------- |
-| `Enter` / `Space`      | On the dropzone or "Choose file"/"Attach file" button — opens the native file picker. |
-| `Tab`                  | Moves between the trigger, each file item, and its remove button.                     |
-| `Delete` / `Backspace` | Removes the focused file item.                                                        |
+| Key                    | Action                                                                      |
+| ---------------------- | --------------------------------------------------------------------------- |
+| `Enter` / `Space`      | On the dropzone or the "Attach file" button — opens the native file picker. |
+| `Tab`                  | Moves between the trigger, each file item, and its remove button.           |
+| `Delete` / `Backspace` | Removes the focused file item.                                              |
 
 ## Accessibility
 
 The visible dropzone/button controls a visually hidden native
 `<input type="file">` — drag-and-drop is never the only way to select a
-file. The dropzone is `role="button"` with an `aria-label` that includes
-`acceptLabel` when set. Upload progress reuses `kui-progress`
+file. The native input is `aria-hidden` and out of the tab order; the dropzone
+(or the compact "Attach file" button) is the control. The dropzone is
+`role="button"` with an `aria-label` that includes `acceptLabel` when set. The
+small "Choose file" label inside it is presentational (`aria-hidden`), not a
+second button, so a click on it reaches the dropzone and no interactive control
+is nested inside another. Upload progress reuses `kui-progress`
 (`role="progressbar"`, `aria-valuenow`) with an
 `aria-label="Uploading {name}"`. The file list is wrapped in
 `aria-live="polite"` so additions/removals are announced, and the
