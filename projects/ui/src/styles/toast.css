@@ -168,12 +168,13 @@
       var(--kui-toast-padding-x, var(--kui-space-4));
     background: var(--kui-toast-bg, var(--kui-color-surface-elevated));
     border: var(--kui-border-width-hairline) solid var(--kui-toast-border, var(--kui-color-border));
-    border-left: 3px solid var(--kui-toast-accent-color, var(--kui-color-border-strong));
+    border-left: 3px solid
+      var(--kui-toast-accent-color, var(--_kui-toast-accent-color, var(--kui-color-border-strong)));
     border-radius: var(--kui-toast-radius, var(--kui-radius-md));
     box-shadow: var(--kui-toast-shadow, var(--kui-shadow-lg));
     min-width: var(--kui-toast-min-width, 280px);
     max-width: var(--kui-toast-max-width, 400px);
-    color: var(--kui-color-text);
+    color: var(--kui-toast-color, var(--kui-color-text));
     position: relative;
     overflow: hidden;
   }
@@ -188,35 +189,38 @@
 
   /* Appearance: accent bar + icon colour */
   .kui-toast[data-kui-appearance='neutral'] {
-    --kui-toast-accent-color: var(--kui-color-border-strong);
-    --kui-toast-icon-color: var(--kui-color-text-secondary);
+    --_kui-toast-accent-color: var(--kui-color-border-strong);
+    --_kui-toast-icon-color: var(--kui-color-text-secondary);
   }
 
   .kui-toast[data-kui-appearance='success'] {
-    --kui-toast-accent-color: var(--kui-color-success-fill);
-    --kui-toast-icon-color: var(--kui-color-success-fill);
+    --_kui-toast-accent-color: var(--kui-color-success-fill);
+    --_kui-toast-icon-color: var(--kui-color-success-fill);
   }
 
   .kui-toast[data-kui-appearance='warning'] {
-    --kui-toast-accent-color: var(--kui-color-warning-fill);
-    --kui-toast-icon-color: var(--kui-color-warning-fill);
+    --_kui-toast-accent-color: var(--kui-color-warning-fill);
+    --_kui-toast-icon-color: var(--kui-color-warning-fill);
   }
 
   .kui-toast[data-kui-appearance='danger'] {
-    --kui-toast-accent-color: var(--kui-color-danger-fill);
-    --kui-toast-icon-color: var(--kui-color-danger-fill);
+    --_kui-toast-accent-color: var(--kui-color-danger-fill);
+    --_kui-toast-icon-color: var(--kui-color-danger-fill);
   }
 
   .kui-toast[data-kui-appearance='info'] {
-    --kui-toast-accent-color: var(--kui-color-info-fill);
-    --kui-toast-icon-color: var(--kui-color-info-fill);
+    --_kui-toast-accent-color: var(--kui-color-info-fill);
+    --_kui-toast-icon-color: var(--kui-color-info-fill);
   }
 
   /* ── Card slots ─────────────────────────────────────────────────────────── */
 
   .kui-toast-icon {
     flex: 0 0 auto;
-    color: var(--kui-toast-icon-color, var(--kui-color-text-secondary));
+    color: var(
+      --kui-toast-icon-color,
+      var(--_kui-toast-icon-color, var(--kui-color-text-secondary))
+    );
     margin-top: 1px;
     display: flex;
     align-items: center;
@@ -234,12 +238,12 @@
     font-size: var(--kui-toast-title-size, var(--kui-text-sm-size));
     font-weight: 600;
     line-height: 1.4;
-    color: var(--kui-color-text);
+    color: var(--kui-toast-title-color, var(--kui-color-text));
   }
 
   .kui-toast-message {
     font-size: var(--kui-toast-message-size, var(--kui-text-sm-size));
-    color: var(--kui-color-text-secondary);
+    color: var(--kui-toast-message-color, var(--kui-color-text-secondary));
     line-height: 1.5;
   }
 
@@ -256,8 +260,8 @@
     padding: 0;
     border: none;
     background: transparent;
-    border-radius: var(--kui-radius-xs);
-    color: var(--kui-color-text-secondary);
+    border-radius: var(--kui-toast-close-radius, var(--kui-radius-xs));
+    color: var(--kui-toast-close-color, var(--kui-color-text-secondary));
     cursor: pointer;
     margin-top: -1px;
     transition:
@@ -266,8 +270,8 @@
   }
 
   .kui-toast-close:hover {
-    background: var(--kui-color-surface-sunken);
-    color: var(--kui-color-text);
+    background: var(--kui-toast-close-bg-hover, var(--kui-color-surface-sunken));
+    color: var(--kui-toast-close-color-hover, var(--kui-color-text));
   }
 
   .kui-toast-progress {
@@ -275,6 +279,9 @@
     bottom: 0;
     left: 0;
     height: 2px;
-    background: var(--kui-toast-accent-color, var(--kui-color-primary-fill));
+    background: var(
+      --kui-toast-accent-color,
+      var(--_kui-toast-accent-color, var(--kui-color-primary-fill))
+    );
   }
 }

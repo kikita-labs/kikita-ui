@@ -1,41 +1,42 @@
 @layer kui.components {
   .kui-carousel {
-    --kui-carousel-gap: var(--kui-space-4, 16px);
-    --kui-carousel-radius: var(--kui-radius-lg, 12px);
-    --kui-carousel-slide-radius: var(--kui-radius-md, 8px);
-    --kui-carousel-bg: var(--kui-color-surface);
-    --kui-carousel-border: var(--kui-color-border);
-    --kui-carousel-slide-bg: var(--kui-color-surface-sunken);
-    --kui-carousel-control-bg: var(--kui-color-surface);
-    --kui-carousel-control-shadow: var(--kui-shadow-lg);
-    --kui-carousel-dot-bg: var(--kui-color-border);
-    --kui-carousel-dot-bg-active: var(--kui-color-primary-fill);
-    --kui-carousel-dot-size: var(--kui-space-2, 8px);
+    --_kui-carousel-gap: var(--kui-space-4, 16px);
+    --_kui-carousel-radius: var(--kui-radius-lg, 12px);
+    --_kui-carousel-slide-radius: var(--kui-radius-md, 8px);
+    --_kui-carousel-bg: var(--kui-color-surface);
+    --_kui-carousel-border: var(--kui-color-border);
+    --_kui-carousel-slide-bg: var(--kui-color-surface-sunken);
+    --_kui-carousel-control-bg: var(--kui-color-surface);
+    --_kui-carousel-control-shadow: var(--kui-shadow-lg);
+    --_kui-carousel-dot-bg: var(--kui-color-border);
+    --_kui-carousel-dot-bg-active: var(--kui-color-primary-fill);
+    --_kui-carousel-dot-size: var(--kui-space-2, 8px);
     display: flex;
     flex-direction: column;
-    gap: var(--kui-space-2, 8px);
+    gap: var(--kui-carousel-stack-gap, var(--kui-space-2, 8px));
     max-inline-size: 100%;
   }
 
   .kui-carousel__region {
     position: relative;
-    border-radius: var(--kui-carousel-radius);
+    border-radius: var(--kui-carousel-radius, var(--_kui-carousel-radius));
     overflow: hidden;
-    background: var(--kui-carousel-bg);
-    border: 1px solid var(--kui-carousel-border);
+    background: var(--kui-carousel-bg, var(--_kui-carousel-bg));
+    border: 1px solid var(--kui-carousel-border, var(--_kui-carousel-border));
   }
 
   .kui-carousel__track {
     display: flex;
-    gap: var(--kui-carousel-gap);
+    gap: var(--kui-carousel-gap, var(--_kui-carousel-gap));
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    padding: var(--kui-carousel-gap);
+    padding: var(--kui-carousel-gap, var(--_kui-carousel-gap));
   }
 
   /* A scrollable track must be keyboard focusable; the region's arrow/Home/End keys then move slides. */
   .kui-carousel__track:focus-visible {
-    outline: 2px solid var(--kui-color-primary-focus-ring);
+    outline: 2px solid
+      var(--kui-carousel-track-focus-ring-color, var(--kui-color-primary-focus-ring));
     outline-offset: -2px;
   }
 
@@ -67,13 +68,16 @@
   .kui-carousel__slide {
     flex: 0 0
       calc(
-        (100% - var(--kui-carousel-gap) * (var(--kui-carousel-items-per-view, 1) - 1)) /
+        (
+            100% - var(--kui-carousel-gap, var(--_kui-carousel-gap)) *
+              (var(--kui-carousel-items-per-view, 1) - 1)
+          ) /
           var(--kui-carousel-items-per-view, 1)
       );
     scroll-snap-align: start;
-    border-radius: var(--kui-carousel-slide-radius);
+    border-radius: var(--kui-carousel-slide-radius, var(--_kui-carousel-slide-radius));
     overflow: hidden;
-    background: var(--kui-carousel-slide-bg);
+    background: var(--kui-carousel-slide-bg, var(--_kui-carousel-slide-bg));
   }
 
   /*
@@ -94,9 +98,9 @@
   .kui-carousel__control-slot {
     position: absolute;
     display: inline-flex;
-    border-radius: var(--kui-btn-radius, 8px);
-    background: var(--kui-carousel-control-bg);
-    box-shadow: var(--kui-carousel-control-shadow);
+    border-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
+    background: var(--kui-carousel-control-bg, var(--_kui-carousel-control-bg));
+    box-shadow: var(--kui-carousel-control-shadow, var(--_kui-carousel-control-shadow));
   }
 
   .kui-carousel__control-slot--prev {
@@ -118,26 +122,26 @@
 
   .kui-carousel__dots {
     display: flex;
-    gap: var(--kui-space-2, 8px);
+    gap: var(--kui-carousel-dots-gap, var(--kui-space-2, 8px));
     justify-content: center;
   }
 
   .kui-carousel__dot {
-    inline-size: var(--kui-carousel-dot-size);
-    block-size: var(--kui-carousel-dot-size);
+    inline-size: var(--kui-carousel-dot-size, var(--_kui-carousel-dot-size));
+    block-size: var(--kui-carousel-dot-size, var(--_kui-carousel-dot-size));
     padding: 0;
     border: 0;
-    border-radius: var(--kui-radius-full, 9999px);
+    border-radius: var(--kui-carousel-dot-radius, var(--kui-radius-full, 9999px));
     cursor: pointer;
-    background: var(--kui-carousel-dot-bg);
+    background: var(--kui-carousel-dot-bg, var(--_kui-carousel-dot-bg));
   }
 
   .kui-carousel__dot[data-kui-selected] {
-    background: var(--kui-carousel-dot-bg-active);
+    background: var(--kui-carousel-dot-bg-active, var(--_kui-carousel-dot-bg-active));
   }
 
   .kui-carousel__dot:focus-visible {
-    outline: 2px solid var(--kui-color-primary-fill);
+    outline: 2px solid var(--kui-carousel-dot-focus-ring-color, var(--kui-color-primary-fill));
     outline-offset: 2px;
   }
 }

@@ -16,6 +16,39 @@ Theme mode is selected with `data-kui-theme`:
 <html data-kui-theme="dark"></html>
 ```
 
+## Overriding Tokens
+
+Where you set a token decides how far it reaches:
+
+| Override                                                             | Where it works                                                                                       |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| A seed in `provideKikitaUi({ theme })`                               | The whole theme: palette, semantic roles and literal component tokens are regenerated.               |
+| A semantic token (`--kui-color-danger-fill`) on any element          | That element and everything below it. On `:root` or `<html>` it changes the whole page.              |
+| A component token (`--kui-btn-danger-bg`) on any element             | That element and everything below it, for that one component part.                                   |
+| A palette step (`--kui-danger-6`) or a type role alias on an element | Not reliable: semantic tokens and `--kui-type-*` are resolved from them on `:root`. Set it globally. |
+
+Components read semantic or component tokens, never palette or seed variables; `pnpm audit:static`
+fails when a style under `projects/ui/src` or the Playground reads `--kui-<scale>-<step>` or
+`--kui-seed-*`.
+
+Component tokens are inputs, not outputs. A component states its default in its own CSS, for
+example `var(--kui-card-bg, var(--kui-color-surface))`, and the generated stylesheet does not
+define that token. Setting `--kui-card-bg` on an ancestor therefore wins, and so does changing
+`--kui-color-surface` on the same ancestor, because both are read where the component renders. The
+generated stylesheet defines only literal component tokens (sizes, gaps, durations), the semantic
+`--kui-type-*` roles and the density-dependent `--kui-btn-px`. Do
+not read a component token in your own CSS without a fallback: it has no value unless someone sets
+it.
+
+To restyle one region, set component or semantic tokens on its container:
+
+```css
+.billing-panel {
+  --kui-btn-danger-bg: oklch(0.5 0.2 25);
+  --kui-btn-danger-bg-hov: oklch(0.44 0.2 25);
+}
+```
+
 ## Angular Provider
 
 Use `provideKikitaUi()` for the default Ember theme.

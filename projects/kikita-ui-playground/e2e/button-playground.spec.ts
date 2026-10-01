@@ -75,3 +75,97 @@ test('presses and releases a Button with real pointer input under production mot
   await page.mouse.up();
   await expect(button).toHaveCSS('transform', 'none');
 });
+
+test('honors scoped Button color hooks for every appearance that reads them', async ({ page }) => {
+  await page.goto('/components/button');
+
+  const matrix = page.getByRole('group', { name: 'Medium button variants', exact: true });
+  const variant = (shape: string, appearance: string) =>
+    matrix.getByRole('button', {
+      name: `Medium ${shape} button, ${appearance} appearance`,
+      exact: true,
+    });
+  const scopeHook = (name: string, value: string) =>
+    matrix.evaluate(
+      (element, [property, color]) => element.style.setProperty(property, color),
+      [name, value],
+    );
+
+  await scopeHook('--kui-btn-danger-bg', 'rgb(1, 2, 3)');
+  await scopeHook('--kui-btn-success-bg', 'rgb(4, 5, 6)');
+  await scopeHook('--kui-btn-warning-bg', 'rgb(7, 8, 9)');
+  await scopeHook('--kui-btn-solid-bg', 'rgb(10, 11, 12)');
+  await scopeHook('--kui-btn-danger-fg', 'rgb(13, 14, 15)');
+
+  await expect(variant('Solid', 'Danger')).toHaveCSS('background-color', 'rgb(1, 2, 3)');
+  await expect(variant('Solid', 'Success')).toHaveCSS('background-color', 'rgb(4, 5, 6)');
+  await expect(variant('Solid', 'Warning')).toHaveCSS('background-color', 'rgb(7, 8, 9)');
+  await expect(variant('Solid', 'Primary')).toHaveCSS('background-color', 'rgb(10, 11, 12)');
+  await expect(variant('Solid', 'Default')).toHaveCSS('background-color', 'rgb(10, 11, 12)');
+  await expect(variant('Solid', 'Danger')).toHaveCSS('color', 'rgb(13, 14, 15)');
+});
+
+test('keeps the soft danger hover readable in the light theme', async ({ page }) => {
+  await page.goto('/components/button');
+  await page.locator('html').evaluate((element) => element.setAttribute('data-kui-theme', 'light'));
+
+  const matrix = page.getByRole('group', { name: 'Medium button variants', exact: true });
+  const softDanger = matrix.getByRole('button', {
+    name: 'Medium Soft button, Danger appearance',
+    exact: true,
+  });
+  const backgroundColor = () =>
+    softDanger.evaluate((element) => getComputedStyle(element).backgroundColor);
+
+  const resting = await backgroundColor();
+  await softDanger.hover();
+  await expect.poll(backgroundColor).not.toBe(resting);
+
+  // Resolve the hover color to sRGB; a readable soft hover stays a light tint.
+  const channels = await softDanger.evaluate((element) => {
+    const context = document.createElement('canvas').getContext('2d');
+
+    if (!context) {
+      return [0, 0, 0];
+    }
+
+    context.fillStyle = getComputedStyle(element).backgroundColor;
+    context.fillRect(0, 0, 1, 1);
+
+    return [...context.getImageData(0, 0, 1, 1).data].slice(0, 3);
+  });
+
+  expect(Math.min(...channels)).toBeGreaterThan(128);
+});
+
+test('lets a semantic color token set on an ancestor restyle Button in that scope', async ({
+  page,
+}) => {
+  await page.goto('/components/button');
+
+  const matrix = page.getByRole('group', { name: 'Medium button variants', exact: true });
+  const solid = (appearance: string) =>
+    matrix.getByRole('button', {
+      name: `Medium Solid button, ${appearance} appearance`,
+      exact: true,
+    });
+  const scope = (name: string, value: string) =>
+    matrix.evaluate(
+      (element, [property, color]) => element.style.setProperty(property, color),
+      [name, value],
+    );
+  const outside = page.getByRole('group', { name: 'Small button variants', exact: true });
+  const outsideDanger = outside.getByRole('button', {
+    name: 'Small Solid button, Danger appearance',
+    exact: true,
+  });
+
+  await scope('--kui-color-danger-fill', 'rgb(21, 22, 23)');
+  await scope('--kui-color-primary-fill', 'rgb(31, 32, 33)');
+
+  await expect(solid('Danger')).toHaveCSS('background-color', 'rgb(21, 22, 23)');
+  await expect(solid('Primary')).toHaveCSS('background-color', 'rgb(31, 32, 33)');
+  await expect(solid('Default')).toHaveCSS('background-color', 'rgb(31, 32, 33)');
+  // The override stays inside its scope.
+  await expect(outsideDanger).not.toHaveCSS('background-color', 'rgb(21, 22, 23)');
+});

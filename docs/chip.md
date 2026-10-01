@@ -107,3 +107,40 @@ Core tokens:
 - `--kui-chip-remove-color`
 - `--kui-chip-remove-color-hover`
 - `--kui-chip-disabled-opacity`
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                | Default                             | Controls                  |
+| ------------------------------------ | ----------------------------------- | ------------------------- |
+| `--kui-chip-bg-primary-hover`        | `--kui-color-primary-soft-bg-hover` | Background, primary hover |
+| `--kui-chip-border-active`           | `--kui-color-border-strong`         | Border color, active      |
+| `--kui-chip-border-focus`            | `--kui-color-primary-fill`          | Border color, focus       |
+| `--kui-chip-border-invalid`          | `--kui-color-danger-fill`           | Border color, invalid     |
+| `--kui-chip-counter-color`           | `--kui-color-text-secondary`        | Counter color             |
+| `--kui-chip-focus-ring-color`        | `--kui-color-primary-focus-ring`    | Focus ring color          |
+| `--kui-chip-remove-focus-ring-color` | `--kui-color-primary-focus-ring`    | Remove focus ring color   |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                     | Default             | Controls                      |
+| ----------------------------------------- | ------------------- | ----------------------------- |
+| `--kui-chip-padding-inline-end-removable` | `--kui-space-1`     | Padding, inline end removable |
+| `--kui-chip-padding-inline-xs`            | `--kui-space-1`     | Padding, inline xs            |
+| `--kui-chip-padding-inline-sm`            | `--kui-space-2`     | Padding, inline sm            |
+| `--kui-chip-padding-inline-lg`            | `--kui-space-3`     | Padding, inline lg            |
+| `--kui-chip-avatar-radius`                | `--kui-radius-full` | Avatar corner radius          |
+| `--kui-chip-counter-padding-inline-sm`    | `--kui-space-2`     | Counter padding, inline sm    |
+
+<!-- geometry-tokens:end -->

@@ -75,11 +75,11 @@
   }
 
   .kui-empty[data-kui-size='sm'] .kui-empty__title {
-    font-size: var(--kui-text-sm-size);
+    font-size: var(--kui-empty-title-font-size-sm, var(--kui-text-sm-size));
   }
 
   .kui-empty[data-kui-size='sm'] .kui-empty__description {
-    font-size: var(--kui-text-xs-size);
+    font-size: var(--kui-empty-description-font-size-sm, var(--kui-text-xs-size));
   }
 
   .kui-empty[data-kui-size='sm'] .kui-empty__actions {
@@ -97,18 +97,18 @@
   }
 
   .kui-empty[data-kui-size='lg'] .kui-empty__title {
-    font-size: var(--kui-text-lg-size);
+    font-size: var(--kui-empty-title-font-size-lg, var(--kui-text-lg-size));
   }
 
   .kui-empty[data-kui-context='error'] .kui-empty__icon {
-    color: var(--kui-color-danger-fill);
+    color: var(--kui-empty-icon-color-error, var(--kui-color-danger-fill));
   }
 
   .kui-empty[data-kui-context='success'] .kui-empty__icon {
-    color: var(--kui-color-success-fill);
+    color: var(--kui-empty-icon-color-success, var(--kui-color-success-fill));
   }
 
   .kui-empty[data-kui-context='no-access'] .kui-empty__icon {
-    color: var(--kui-color-warning-fill);
+    color: var(--kui-empty-icon-color-no-access, var(--kui-color-warning-fill));
   }
 }

@@ -94,24 +94,24 @@
     bottom: 0;
     border-radius: inherit;
     pointer-events: none;
-    background: var(--kui-color-primary-fill);
+    background: var(--kui-slider-fill-bg, var(--kui-color-primary-fill));
   }
 
   .kui-slider[data-kui-color='primary'] .kui-slider-fill {
-    background: var(--kui-color-primary-fill);
+    background: var(--kui-slider-fill-bg-primary, var(--kui-color-primary-fill));
   }
   .kui-slider[data-kui-color='success'] .kui-slider-fill {
-    background: var(--kui-color-success-fill);
+    background: var(--kui-slider-fill-bg-success, var(--kui-color-success-fill));
   }
   .kui-slider[data-kui-color='danger'] .kui-slider-fill {
-    background: var(--kui-color-danger-fill);
+    background: var(--kui-slider-fill-bg-danger, var(--kui-color-danger-fill));
   }
   .kui-slider[data-kui-color='neutral'] .kui-slider-fill {
-    background: var(--kui-color-text-secondary);
+    background: var(--kui-slider-fill-bg-neutral, var(--kui-color-text-secondary));
   }
 
   .kui-slider[data-kui-invalid] .kui-slider-fill {
-    background: var(--kui-color-danger-fill);
+    background: var(--kui-slider-fill-bg-invalid, var(--kui-color-danger-fill));
   }
 
   /* Thumb */
@@ -122,7 +122,7 @@
     transform: translate(-50%, -50%);
     border-radius: 50%;
     pointer-events: none;
-    background: var(--kui-color-primary-fill);
+    background: var(--kui-slider-thumb-bg, var(--kui-color-primary-fill));
     box-shadow: var(--kui-slider-thumb-shadow);
     transition:
       width var(--kui-duration-fast) var(--kui-ease),
@@ -146,20 +146,20 @@
   }
 
   .kui-slider[data-kui-color='primary'] .kui-slider-thumb {
-    background: var(--kui-color-primary-fill);
+    background: var(--kui-slider-thumb-bg-primary, var(--kui-color-primary-fill));
   }
   .kui-slider[data-kui-color='success'] .kui-slider-thumb {
-    background: var(--kui-color-success-fill);
+    background: var(--kui-slider-thumb-bg-success, var(--kui-color-success-fill));
   }
   .kui-slider[data-kui-color='danger'] .kui-slider-thumb {
-    background: var(--kui-color-danger-fill);
+    background: var(--kui-slider-thumb-bg-danger, var(--kui-color-danger-fill));
   }
   .kui-slider[data-kui-color='neutral'] .kui-slider-thumb {
-    background: var(--kui-color-text-secondary);
+    background: var(--kui-slider-thumb-bg-neutral, var(--kui-color-text-secondary));
   }
 
   .kui-slider[data-kui-invalid] .kui-slider-thumb {
-    background: var(--kui-color-danger-fill);
+    background: var(--kui-slider-thumb-bg-invalid, var(--kui-color-danger-fill));
   }
 
   /* States: native is sibling of track, so we target track children */
@@ -169,7 +169,11 @@
   }
 
   .kui-slider-native:focus-visible ~ .kui-slider-track .kui-slider-thumb {
-    box-shadow: var(--kui-slider-thumb-shadow-focus);
+    box-shadow: var(
+      --kui-slider-thumb-shadow-focus,
+      0 0 0 3px var(--kui-color-primary-focus-ring),
+      0 1px 2px oklch(0 0 0 / 0.3)
+    );
   }
 
   .kui-slider-native:active ~ .kui-slider-track .kui-slider-thumb {
@@ -197,15 +201,15 @@
   }
 
   .kui-slider[data-kui-disabled] .kui-slider-track {
-    background: var(--kui-color-surface-elevated);
+    background: var(--kui-slider-track-bg-disabled, var(--kui-color-surface-elevated));
   }
 
   .kui-slider[data-kui-disabled] .kui-slider-fill {
-    background: var(--kui-color-text-disabled) !important;
+    background: var(--kui-slider-fill-bg-disabled, var(--kui-color-text-disabled)) !important;
   }
 
   .kui-slider[data-kui-disabled] .kui-slider-thumb {
-    background: var(--kui-color-text-disabled) !important;
+    background: var(--kui-slider-thumb-bg-disabled, var(--kui-color-text-disabled)) !important;
     box-shadow: none !important;
   }
 
@@ -225,9 +229,9 @@
   }
 
   .kui-slider-tooltip-text {
-    background: var(--kui-color-text);
-    color: var(--kui-color-bg);
-    font-size: var(--kui-text-xs-size);
+    background: var(--kui-slider-tooltip-bg, var(--kui-color-text));
+    color: var(--kui-slider-tooltip-color, var(--kui-color-bg));
+    font-size: var(--kui-slider-tooltip-text-font-size, var(--kui-text-xs-size));
     font-weight: 600;
     padding: 3px 8px;
     border-radius: 5px;
@@ -239,7 +243,7 @@
     height: 0;
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-top: 4px solid var(--kui-color-text);
+    border-top: 4px solid var(--kui-slider-tooltip-arrow-color, var(--kui-color-text));
   }
 
   /* Labels */
@@ -248,8 +252,8 @@
     display: flex;
     justify-content: space-between;
     margin-top: 4px;
-    font-size: var(--kui-text-xs-size);
-    color: var(--kui-color-text-secondary);
+    font-size: var(--kui-slider-labels-font-size, var(--kui-text-xs-size));
+    color: var(--kui-slider-labels-color, var(--kui-color-text-secondary));
   }
 
   /* Reduced motion */

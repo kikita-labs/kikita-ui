@@ -225,3 +225,39 @@ must choose. It returns `Observable<boolean>` where `true` means confirmed and
 | `KuiDialogAppearance` | Visual intent union type.               |
 | `KuiConfirmConfig`    | Options passed to `kuiConfirm()`.       |
 | `KuiDialogRef`        | Observable handle for advanced use.     |
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                            | Default                      | Controls                |
+| -------------------------------- | ---------------------------- | ----------------------- |
+| `--kui-dialog-color`             | `--kui-color-text`           | Color                   |
+| `--kui-dialog-header-border`     | `--kui-color-border`         | Header border color     |
+| `--kui-dialog-title-color`       | `--kui-color-text`           | Title color             |
+| `--kui-dialog-close-color`       | `--kui-color-text-secondary` | Close color             |
+| `--kui-dialog-close-bg-hover`    | `--kui-color-surface-sunken` | Close background, hover |
+| `--kui-dialog-close-color-hover` | `--kui-color-text`           | Close color, hover      |
+| `--kui-dialog-body-color`        | `--kui-color-text`           | Body color              |
+| `--kui-dialog-footer-border`     | `--kui-color-border`         | Footer border color     |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                         | Default              | Controls            |
+| ----------------------------- | -------------------- | ------------------- |
+| `--kui-dialog-header-gap`     | `--kui-space-3`      | Header gap          |
+| `--kui-dialog-close-radius`   | `--kui-radius-sm`    | Close corner radius |
+| `--kui-dialog-body-font-size` | `--kui-text-sm-size` | Body font size      |
+| `--kui-dialog-footer-gap`     | `--kui-space-2`      | Footer gap          |
+
+<!-- geometry-tokens:end -->

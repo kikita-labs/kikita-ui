@@ -3,11 +3,12 @@
     display: inline-flex;
     flex-direction: column;
     width: var(--kui-calendar-width, 296px);
-    background: var(--kui-color-surface);
-    border: var(--kui-border-width-hairline) solid var(--kui-color-border);
-    border-radius: var(--kui-radius-lg);
-    padding: var(--kui-space-4);
-    color: var(--kui-color-text);
+    background: var(--kui-calendar-bg, var(--kui-color-surface));
+    border: var(--kui-border-width-hairline) solid
+      var(--kui-calendar-border, var(--kui-color-border));
+    border-radius: var(--kui-calendar-radius, var(--kui-radius-lg));
+    padding: var(--kui-calendar-padding, var(--kui-space-4));
+    color: var(--kui-calendar-color, var(--kui-color-text));
   }
 
   /* Nested inside chrome that already draws a background/border (a dropdown/popover
@@ -29,10 +30,10 @@
   /* Prev/next/title header controls reuse .kui-button (ghost) for hover/focus/disabled —
      this only sets the text styling specific to the month/year title. */
   .kui-calendar-title {
-    font-size: var(--kui-text-sm-size);
+    font-size: var(--kui-calendar-title-font-size, var(--kui-text-sm-size));
     font-weight: 600;
-    color: var(--kui-color-text);
-    padding: 4px var(--kui-space-2);
+    color: var(--kui-calendar-title-color, var(--kui-color-text));
+    padding: 4px var(--kui-calendar-title-padding-inline, var(--kui-space-2));
   }
   /* The decade-range label (`2020–2031`) has no drill-down and renders as a
      non-interactive span instead of a `kuiButton`. */
@@ -43,8 +44,8 @@
      (`showPrevNav`/`showNextNav`) — same footprint as the xs ghost nav button. */
   .kui-calendar-nav-spacer {
     display: inline-block;
-    width: var(--kui-control-height-xs, 28px);
-    height: var(--kui-control-height-xs, 28px);
+    width: var(--kui-calendar-nav-spacer-size, var(--kui-control-height-xs, 28px));
+    height: var(--kui-calendar-nav-spacer-size, var(--kui-control-height-xs, 28px));
   }
 
   .kui-calendar-weekdays {
@@ -54,10 +55,10 @@
   }
   .kui-calendar-weekday {
     text-align: center;
-    font-size: var(--kui-text-xs-size);
+    font-size: var(--kui-calendar-weekday-font-size, var(--kui-text-xs-size));
     font-weight: 600;
     color: var(--kui-calendar-weekday-color, var(--kui-color-text-secondary));
-    padding-bottom: var(--kui-space-2);
+    padding-bottom: var(--kui-calendar-weekday-padding-bottom, var(--kui-space-2));
   }
 
   /* Week rows and cells exist for the ARIA grid structure only; the day buttons lay out in the grid. */
@@ -83,8 +84,8 @@
     background: transparent;
     border-radius: 0;
     padding: 0;
-    font-size: var(--kui-text-sm-size);
-    color: var(--kui-color-text);
+    font-size: var(--kui-calendar-day-font-size, var(--kui-text-sm-size));
+    color: var(--kui-calendar-day-color, var(--kui-color-text));
     cursor: pointer;
     font-family: inherit;
   }
@@ -113,14 +114,15 @@
     background: var(--kui-calendar-day-hover-bg, var(--kui-color-surface-sunken));
   }
   .kui-calendar-day:focus-visible .kui-calendar-day-inner {
-    box-shadow: 0 0 0 2px var(--kui-color-primary-focus-ring);
+    box-shadow: 0 0 0 2px
+      var(--kui-calendar-day-focus-ring-color, var(--kui-color-primary-focus-ring));
   }
 
   .kui-calendar-day--muted {
-    color: var(--kui-color-text-disabled);
+    color: var(--kui-calendar-day-color-muted, var(--kui-color-text-disabled));
   }
   .kui-calendar-day--weekend {
-    color: var(--kui-color-text-secondary);
+    color: var(--kui-calendar-day-color-weekend, var(--kui-color-text-secondary));
   }
   .kui-calendar-day--today .kui-calendar-day-inner {
     box-shadow: inset 0 0 0 var(--kui-border-width-thick)
@@ -128,8 +130,8 @@
     font-weight: 600;
   }
   .kui-calendar-day--selected .kui-calendar-day-inner {
-    background: var(--kui-color-primary-fill);
-    color: var(--kui-color-on-fill);
+    background: var(--kui-calendar-day-bg-selected, var(--kui-color-primary-fill));
+    color: var(--kui-calendar-day-color-selected, var(--kui-color-on-fill));
     font-weight: 600;
     box-shadow: none;
   }
@@ -143,17 +145,17 @@
      cells fuse into one continuous band. Rounded only at the true start/end. */
   .kui-calendar-day--range-middle {
     background: var(--kui-calendar-range-bg, var(--kui-color-primary-soft-bg));
-    color: var(--kui-color-primary-soft-text);
+    color: var(--kui-calendar-day-color-range-middle, var(--kui-color-primary-soft-text));
   }
   .kui-calendar-day--range-start {
-    background: var(--kui-color-primary-fill);
-    color: var(--kui-color-on-fill);
+    background: var(--kui-calendar-day-bg-range-start, var(--kui-color-primary-fill));
+    color: var(--kui-calendar-day-color-range-start, var(--kui-color-on-fill));
     border-radius: var(--kui-calendar-cell-radius, var(--kui-radius-md)) 0 0
       var(--kui-calendar-cell-radius, var(--kui-radius-md));
   }
   .kui-calendar-day--range-end {
-    background: var(--kui-color-primary-fill);
-    color: var(--kui-color-on-fill);
+    background: var(--kui-calendar-day-bg-range-end, var(--kui-color-primary-fill));
+    color: var(--kui-calendar-day-color-range-end, var(--kui-color-on-fill));
     border-radius: 0 var(--kui-calendar-cell-radius, var(--kui-radius-md))
       var(--kui-calendar-cell-radius, var(--kui-radius-md)) 0;
   }
@@ -173,13 +175,16 @@
   }
   .kui-calendar-day--range-start:hover:not(.kui-calendar-day--disabled) .kui-calendar-day-inner,
   .kui-calendar-day--range-end:hover:not(.kui-calendar-day--disabled) .kui-calendar-day-inner {
-    background: var(--kui-color-primary-fill-hover);
+    background: var(--kui-calendar-day-bg-range-edge-hover, var(--kui-color-primary-fill-hover));
   }
   .kui-calendar-day--range-middle:hover:not(.kui-calendar-day--disabled) .kui-calendar-day-inner {
-    background: var(--kui-color-primary-soft-bg-hover);
+    background: var(
+      --kui-calendar-day-bg-range-middle-hover,
+      var(--kui-color-primary-soft-bg-hover)
+    );
   }
   .kui-calendar-day--selected:hover:not(.kui-calendar-day--disabled) .kui-calendar-day-inner {
-    background: var(--kui-color-primary-fill-hover);
+    background: var(--kui-calendar-day-bg-selected-hover, var(--kui-color-primary-fill-hover));
   }
   .kui-calendar-day--today.kui-calendar-day--range-start .kui-calendar-day-inner,
   .kui-calendar-day--today.kui-calendar-day--range-end .kui-calendar-day-inner {
@@ -190,26 +195,27 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: var(--kui-space-2);
+    gap: var(--kui-calendar-footer-gap, var(--kui-space-2));
   }
   .kui-calendar-value {
-    font-size: var(--kui-text-xs-size);
-    color: var(--kui-color-text-secondary);
+    font-size: var(--kui-calendar-value-font-size, var(--kui-text-xs-size));
+    color: var(--kui-calendar-value-color, var(--kui-color-text-secondary));
     font-family: var(--kui-font-mono);
   }
 
   .kui-calendar-picker-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--kui-space-2);
+    gap: var(--kui-calendar-picker-grid-gap, var(--kui-space-2));
   }
   .kui-calendar-picker-cell {
-    padding: var(--kui-space-3) var(--kui-space-2);
+    padding: var(--kui-calendar-picker-cell-padding-block, var(--kui-space-3))
+      var(--kui-calendar-picker-cell-padding-inline, var(--kui-space-2));
     border: none;
     background: transparent;
-    border-radius: var(--kui-radius-sm);
-    font-size: var(--kui-text-sm-size);
-    color: var(--kui-color-text);
+    border-radius: var(--kui-calendar-picker-cell-radius, var(--kui-radius-sm));
+    font-size: var(--kui-calendar-picker-cell-font-size, var(--kui-text-sm-size));
+    color: var(--kui-calendar-picker-cell-color, var(--kui-color-text));
     cursor: pointer;
     text-align: center;
     font-family: inherit;
@@ -219,26 +225,27 @@
   }
   .kui-calendar-picker-cell:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--kui-color-primary-focus-ring);
+    box-shadow: 0 0 0 2px
+      var(--kui-calendar-picker-cell-focus-ring-color, var(--kui-color-primary-focus-ring));
   }
   .kui-calendar-picker-cell--active {
-    background: var(--kui-color-primary-fill);
-    color: var(--kui-color-on-fill);
+    background: var(--kui-calendar-picker-cell-bg-active, var(--kui-color-primary-fill));
+    color: var(--kui-calendar-picker-cell-color-active, var(--kui-color-on-fill));
     font-weight: 600;
   }
   .kui-calendar-picker-cell--muted {
-    color: var(--kui-color-text-disabled);
+    color: var(--kui-calendar-picker-cell-color-muted, var(--kui-color-text-disabled));
   }
 
   .kui-calendar[data-kui-size='sm'] {
     width: 252px;
-    padding: var(--kui-space-3);
+    padding: var(--kui-calendar-padding-sm, var(--kui-space-3));
   }
   .kui-calendar[data-kui-size='sm'] .kui-calendar-day {
-    font-size: var(--kui-text-xs-size);
+    font-size: var(--kui-calendar-day-font-size-sm, var(--kui-text-xs-size));
   }
   .kui-calendar[data-kui-size='sm'] .kui-calendar-weekday {
-    font-size: var(--kui-text-2xs-size);
+    font-size: var(--kui-calendar-weekday-font-size-sm, var(--kui-text-2xs-size));
   }
   .kui-calendar[data-kui-size='sm'][data-kui-flat] {
     padding: 0;

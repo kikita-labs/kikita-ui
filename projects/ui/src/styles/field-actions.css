@@ -5,9 +5,9 @@
     flex: 0 0 auto;
     max-inline-size: var(--kui-field-affix-max-inline-size);
     overflow-x: hidden;
-    color: var(--kui-field-affix-text-muted);
+    color: var(--kui-field-affix-text-muted, var(--kui-color-text-secondary));
     font: inherit;
-    font-size: var(--kui-text-sm-size);
+    font-size: var(--kui-field-affix-font-size, var(--kui-text-sm-size));
     /*
      * `line-height: 1` here (matching `.kui-input-group > .kui-input`'s old value, input.css)
      * was supposed to pixel-match the affix to the grouped <input>'s height -- it never did:
@@ -26,7 +26,7 @@
 
   .kui-field-affix[data-kui-emphasis='strong'],
   .kui-affix[data-kui-emphasis='strong'] {
-    color: var(--kui-field-affix-text);
+    color: var(--kui-field-affix-text, var(--kui-color-text));
   }
 
   .kui-field-affix-icon,
@@ -37,7 +37,7 @@
     justify-content: center;
     inline-size: var(--kui-field-affix-icon-size);
     block-size: var(--kui-field-affix-icon-size);
-    color: var(--kui-field-affix-text-muted);
+    color: var(--kui-field-affix-text-muted, var(--kui-color-text-secondary));
     pointer-events: none;
   }
 
@@ -54,9 +54,10 @@
     flex: 0 0 auto;
     inline-size: var(--kui-field-spinner-size);
     block-size: var(--kui-field-spinner-size);
-    border: var(--kui-field-spinner-border-width) solid var(--kui-field-spinner-border);
-    border-block-start-color: var(--kui-field-spinner-border-active);
-    border-radius: var(--kui-radius-full);
+    border: var(--kui-field-spinner-border-width) solid
+      var(--kui-field-spinner-border, var(--kui-color-border));
+    border-block-start-color: var(--kui-field-spinner-border-active, var(--kui-color-primary-fill));
+    border-radius: var(--kui-field-spinner-radius, var(--kui-radius-full));
     animation: kui-field-spinner var(--kui-field-spinner-duration) linear infinite;
   }
 
@@ -71,9 +72,9 @@
     block-size: var(--kui-field-action-size);
     padding: 0;
     border: 0;
-    border-radius: var(--kui-field-action-radius);
+    border-radius: var(--kui-field-action-radius, var(--kui-radius-sm));
     background: transparent;
-    color: var(--kui-field-action-color);
+    color: var(--kui-field-action-color, var(--kui-color-text-secondary));
     cursor: pointer;
     font: inherit;
     transition:
@@ -90,21 +91,21 @@
 
   .kui-field-action:hover {
     outline: 0;
-    background: var(--kui-field-action-bg-hover);
-    color: var(--kui-field-action-color-hover);
+    background: var(--kui-field-action-bg-hover, var(--kui-color-surface-elevated));
+    color: var(--kui-field-action-color-hover, var(--kui-color-text));
   }
 
   .kui-field-action:active {
-    background: var(--kui-field-action-bg-active);
-    color: var(--kui-field-action-color-active);
+    background: var(--kui-field-action-bg-active, var(--kui-color-surface-sunken));
+    color: var(--kui-field-action-color-active, var(--kui-color-text));
   }
 
   .kui-field-action:focus-visible {
     outline: 0;
-    background: var(--kui-field-action-bg-hover);
-    color: var(--kui-field-action-color-hover);
+    background: var(--kui-field-action-bg-hover, var(--kui-color-surface-elevated));
+    color: var(--kui-field-action-color-hover, var(--kui-color-text));
     box-shadow: 0 0 0 var(--kui-field-action-focus-ring-width)
-      var(--kui-field-action-focus-ring-color);
+      var(--kui-field-action-focus-ring-color, var(--kui-color-primary-focus-ring));
   }
 
   .kui-field-action:disabled,
@@ -117,7 +118,7 @@
   .kui-field__message {
     display: inline-flex;
     align-items: flex-start;
-    gap: var(--kui-field-message-gap);
+    gap: var(--kui-field-message-gap, var(--kui-space-1));
     min-block-size: var(--kui-field-message-min-height, 0);
     margin: 0;
     font-size: var(--kui-field-hint-size, var(--kui-text-xs-size));

@@ -78,10 +78,10 @@
     box-shadow: var(--kui-dialog-shadow, var(--kui-shadow-lg));
     display: flex;
     flex-direction: column;
-    width: var(--kui-dialog-width, 560px);
+    width: var(--kui-dialog-width, var(--_kui-dialog-width, 560px));
     max-width: calc(100vw - 32px);
     max-height: 85vh;
-    color: var(--kui-color-text);
+    color: var(--kui-dialog-color, var(--kui-color-text));
     animation: kui-dialog-in var(--kui-duration-normal) var(--kui-ease) both;
   }
 
@@ -90,13 +90,13 @@
   }
 
   .kui-dialog--sm {
-    --kui-dialog-width: 400px;
+    --_kui-dialog-width: 400px;
   }
   .kui-dialog--md {
-    --kui-dialog-width: 560px;
+    --_kui-dialog-width: 560px;
   }
   .kui-dialog--lg {
-    --kui-dialog-width: 720px;
+    --_kui-dialog-width: 720px;
   }
   .kui-dialog--auto {
     width: auto;
@@ -116,10 +116,10 @@
 
   /* Appearance colors .kui-dialog-icon */
   .kui-dialog[data-kui-appearance='danger'] {
-    --kui-dialog-icon-color: var(--kui-color-danger-fill);
+    --_kui-dialog-icon-color: var(--kui-color-danger-fill);
   }
   .kui-dialog[data-kui-appearance='warning'] {
-    --kui-dialog-icon-color: var(--kui-color-warning-fill);
+    --_kui-dialog-icon-color: var(--kui-color-warning-fill);
   }
 
   /* Icon slot: place inside .kui-dialog-header before the title */
@@ -127,16 +127,17 @@
     flex: 0 0 auto;
     width: 20px;
     height: 20px;
-    color: var(--kui-dialog-icon-color, currentColor);
+    color: var(--kui-dialog-icon-color, var(--_kui-dialog-icon-color, currentColor));
   }
 
   .kui-dialog-header {
     display: flex;
     align-items: center;
-    gap: var(--kui-space-3);
+    gap: var(--kui-dialog-header-gap, var(--kui-space-3));
     padding: var(--kui-dialog-padding-y, var(--kui-space-4))
       var(--kui-dialog-padding-x, var(--kui-space-6));
-    border-bottom: var(--kui-border-width-hairline) solid var(--kui-color-border);
+    border-bottom: var(--kui-border-width-hairline) solid
+      var(--kui-dialog-header-border, var(--kui-color-border));
     flex: 0 0 auto;
   }
 
@@ -146,7 +147,7 @@
     font-weight: 600;
     flex: 1;
     min-width: 0;
-    color: var(--kui-color-text);
+    color: var(--kui-dialog-title-color, var(--kui-color-text));
     line-height: 1.3;
   }
 
@@ -162,8 +163,8 @@
     height: 28px;
     border: none;
     background: transparent;
-    border-radius: var(--kui-radius-sm);
-    color: var(--kui-color-text-secondary);
+    border-radius: var(--kui-dialog-close-radius, var(--kui-radius-sm));
+    color: var(--kui-dialog-close-color, var(--kui-color-text-secondary));
     cursor: pointer;
     transition:
       background var(--kui-duration-fast) var(--kui-ease),
@@ -171,8 +172,8 @@
   }
 
   .kui-dialog-close:hover {
-    background: var(--kui-color-surface-sunken);
-    color: var(--kui-color-text);
+    background: var(--kui-dialog-close-bg-hover, var(--kui-color-surface-sunken));
+    color: var(--kui-dialog-close-color-hover, var(--kui-color-text));
   }
 
   /* Reserve room in the header so a long title doesn't run under the close button. */
@@ -188,19 +189,20 @@
     overflow-y: auto;
     overscroll-behavior: contain;
     padding: var(--kui-dialog-padding-x, var(--kui-space-6));
-    font-size: var(--kui-text-sm-size);
+    font-size: var(--kui-dialog-body-font-size, var(--kui-text-sm-size));
     line-height: 1.65;
-    color: var(--kui-color-text);
+    color: var(--kui-dialog-body-color, var(--kui-color-text));
   }
 
   .kui-dialog-footer {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: var(--kui-space-2);
+    gap: var(--kui-dialog-footer-gap, var(--kui-space-2));
     padding: var(--kui-dialog-padding-y, var(--kui-space-4))
       var(--kui-dialog-padding-x, var(--kui-space-6));
-    border-top: var(--kui-border-width-hairline) solid var(--kui-color-border);
+    border-top: var(--kui-border-width-hairline) solid
+      var(--kui-dialog-footer-border, var(--kui-color-border));
     flex: 0 0 auto;
   }
 }

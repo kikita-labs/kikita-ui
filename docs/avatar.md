@@ -141,3 +141,16 @@ Avatar styles consume `--kui-*` variables only. Key component tokens:
 
 Avatar loading uses the shared Skeleton primitive and `--kui-skeleton-*` tokens instead of
 avatar-specific loading colors.
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                        | Default             | Controls             |
+| ---------------------------- | ------------------- | -------------------- |
+| `--kui-avatar-status-radius` | `--kui-radius-full` | Status corner radius |
+
+<!-- geometry-tokens:end -->

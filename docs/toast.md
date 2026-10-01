@@ -206,3 +206,34 @@ KuiToastService        - @Service(), root-provided
   -> KuiToastRegionComponent  - internal, created via createComponent()
        -> InternalToastItem[] - signal<>, per-item closing signal for exit animation
 ```
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                           | Default                      | Controls                |
+| ------------------------------- | ---------------------------- | ----------------------- |
+| `--kui-toast-color`             | `--kui-color-text`           | Color                   |
+| `--kui-toast-title-color`       | `--kui-color-text`           | Title color             |
+| `--kui-toast-message-color`     | `--kui-color-text-secondary` | Message color           |
+| `--kui-toast-close-color`       | `--kui-color-text-secondary` | Close color             |
+| `--kui-toast-close-bg-hover`    | `--kui-color-surface-sunken` | Close background, hover |
+| `--kui-toast-close-color-hover` | `--kui-color-text`           | Close color, hover      |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                      | Default           | Controls            |
+| -------------------------- | ----------------- | ------------------- |
+| `--kui-toast-close-radius` | `--kui-radius-xs` | Close corner radius |
+
+<!-- geometry-tokens:end -->

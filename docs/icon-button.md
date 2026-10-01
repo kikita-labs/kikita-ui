@@ -92,3 +92,18 @@ bindings.
 ## Styles
 
 Import `@kikita-labs/ui/styles` once in the consumer application.
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                       | Default                   | Controls |
+| --------------------------- | ------------------------- | -------- |
+| `--kui-icon-button-size-xs` | `--kui-control-height-xs` | Size xs  |
+| `--kui-icon-button-size-sm` | `--kui-control-height-sm` | Size sm  |
+| `--kui-icon-button-size-lg` | `--kui-control-height-lg` | Size lg  |
+
+<!-- geometry-tokens:end -->

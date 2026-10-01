@@ -29,6 +29,127 @@ describe('verify-static-audit', () => {
     expect(runStaticAudit(root)).toEqual([]);
   });
 
+  it('reports a component style that reads a raw palette step', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '.kui-button \n  --_fill-hover: var(--kui-success-4);\n}\n',
+    );
+
+    expect(runStaticAudit(root)).toContain(
+      'projects/ui/src/styles/button.css:2 reads --kui-success-4 directly; use a semantic or component token',
+    );
+  });
+
+  it('reports a component style that reads a raw seed variable', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '.kui-button { color: var(--kui-seed-primary); }\n',
+    );
+
+    expect(runStaticAudit(root)).toContain(
+      'projects/ui/src/styles/button.css:1 reads --kui-seed-primary directly; use a semantic or component token',
+    );
+  });
+
+  it('allows palette steps inside the theme generator and in comments or specs', () => {
+    const root = makeValidRepo();
+    mkdirSync(join(root, 'projects/ui/src/lib/theme'), { recursive: true });
+    writeFileSync(
+      join(root, 'projects/ui/src/lib/theme/create-kui-theme.ts'),
+      "export const x = { '--kui-color-primary-fill': 'var(--kui-primary-6)' };\n",
+    );
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '/* --kui-primary-6 is the seed step */\n.kui-button { color: var(--kui-button-color, var(--kui-color-text)); }\n',
+    );
+    writeFileSync(
+      join(root, 'projects/ui/src/lib/components/button/kui-button.directive.spec.ts'),
+      "import { describe, it } from 'vitest';\n\ndescribe('button', () => { it('reads var(--kui-primary-6)', () => {}); });\n",
+    );
+
+    expect(runStaticAudit(root)).toEqual([]);
+  });
+
+  it('does not flag longer variable names that merely start with a palette scale', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '.kui-button { color: var(--kui-primary-fill-token); }\n',
+    );
+
+    expect(runStaticAudit(root)).toEqual([]);
+  });
+
+  it('reports a colour role read without a component token', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '.kui-button {\n  color: var(--kui-color-text);\n}\n',
+    );
+
+    expect(runStaticAudit(root)).toContain(
+      'projects/ui/src/styles/button.css:2 reads --kui-color-text without a component token; use var(--kui-<component>-<part>-<property>, var(--kui-color-text))',
+    );
+  });
+
+  it('accepts a colour role read as the default of a component token', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '.kui-button {\n  color: var(--kui-button-color, var(--kui-color-text, CanvasText));\n  border: 1px solid var(--kui-button-border, var(--kui-color-border-strong, var(--kui-color-border)));\n}\n',
+    );
+
+    expect(runStaticAudit(root)).toEqual([]);
+  });
+
+  it('reports every role in a chain that has no component token', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '.kui-button { color: var(--kui-color-text-secondary, var(--kui-color-text)); }\n',
+    );
+
+    expect(runStaticAudit(root)).toHaveLength(2);
+  });
+
+  it('allows the typography layer to read colour roles directly', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/typography.css'),
+      '.kui-text-muted { color: var(--kui-color-text-secondary); }\n',
+    );
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/kikita-ui.css'),
+      "@import './button.css';\n@import './typography.css';\n",
+    );
+
+    expect(runStaticAudit(root)).toEqual([]);
+  });
+
+  it('reports a component that defines a public token on its own element', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '.kui-button {\n  --kui-button-radius: 8px;\n  border-radius: var(--kui-button-radius);\n}\n',
+    );
+
+    expect(runStaticAudit(root)).toContain(
+      'projects/ui/src/styles/button.css:2 defines the public token --kui-button-radius on a component; define a private --_kui-button-radius default and read var(--kui-button-radius, var(--_kui-button-radius))',
+    );
+  });
+
+  it('accepts a private default behind a public token and parent-assigned tokens', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '.kui-button {\n  --_kui-button-radius: 8px;\n  border-radius: var(--kui-button-radius, var(--_kui-button-radius));\n}\n.kui-group { --kui-btn-height: 28px; }\n',
+    );
+
+    expect(runStaticAudit(root)).toEqual([]);
+  });
+
   it('reports replacement Playground routes missing from state coverage', () => {
     const root = makeValidRepo();
     writeFileSync(join(root, playgroundRouteEnumPath), playgroundRouteEnum(['button', 'select']));

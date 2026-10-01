@@ -1,32 +1,35 @@
 @layer kui.components {
   .kui-alert {
-    --kui-alert-radius: var(--kui-radius-md);
-    --kui-alert-padding-y: var(--kui-space-3);
-    --kui-alert-padding-x: var(--kui-space-4);
-    --kui-alert-gap: var(--kui-space-3);
+    --_kui-alert-radius: var(--kui-radius-md);
+    --_kui-alert-padding-y: var(--kui-space-3);
+    --_kui-alert-padding-x: var(--kui-space-4);
+    --_kui-alert-gap: var(--kui-space-3);
     display: flex;
     align-items: flex-start;
-    gap: var(--kui-alert-gap);
-    padding: var(--kui-alert-padding-y) var(--kui-alert-padding-x);
-    border-radius: var(--kui-alert-radius);
-    background: var(--kui-alert-bg);
-    border: var(--kui-border-width-hairline, 1px) solid var(--kui-alert-border);
-    color: var(--kui-alert-fg, var(--kui-color-text));
+    gap: var(--kui-alert-gap, var(--_kui-alert-gap));
+    padding: var(--kui-alert-padding-y, var(--_kui-alert-padding-y))
+      var(--kui-alert-padding-x, var(--_kui-alert-padding-x));
+    border-radius: var(--kui-alert-radius, var(--_kui-alert-radius));
+    background: var(--kui-alert-bg, var(--_kui-alert-bg));
+    border: var(--kui-border-width-hairline, 1px) solid
+      var(--kui-alert-border, var(--_kui-alert-border));
+    color: var(--kui-alert-fg, var(--_kui-alert-fg, var(--kui-color-text)));
   }
 
   .kui-alert[data-kui-size='sm'] {
-    --kui-alert-padding-y: var(--kui-space-2);
-    --kui-alert-padding-x: var(--kui-space-3);
-    --kui-alert-gap: var(--kui-space-2);
+    --_kui-alert-padding-y: var(--kui-space-2);
+    --_kui-alert-padding-x: var(--kui-space-3);
+    --_kui-alert-gap: var(--kui-space-2);
   }
 
   .kui-alert[data-kui-banner] {
-    --kui-alert-radius: var(--kui-radius-none);
-    --kui-alert-padding-x: var(--kui-space-6);
+    --_kui-alert-radius: var(--kui-radius-none);
+    --_kui-alert-padding-x: var(--kui-space-6);
     /* Banner is a full-width system bar, not a boxed card -- a thin seam under it, not a border
        box around it. Consumers stacking several banners get a shared 1px line between each. */
     border: none;
-    border-bottom: var(--kui-border-width-hairline, 1px) solid var(--kui-alert-border);
+    border-bottom: var(--kui-border-width-hairline, 1px) solid
+      var(--kui-alert-border, var(--_kui-alert-border));
   }
 
   /*
@@ -50,91 +53,91 @@
   /* ── Appearance x shape: background / border / icon colour ───────────────── */
 
   .kui-alert[data-kui-appearance='neutral'][data-kui-shape='soft'] {
-    --kui-alert-bg: var(--kui-color-surface-sunken);
-    --kui-alert-border: var(--kui-color-border);
+    --_kui-alert-bg: var(--kui-color-surface-sunken);
+    --_kui-alert-border: var(--kui-color-border);
   }
 
   .kui-alert[data-kui-appearance='neutral'][data-kui-shape='outline'] {
-    --kui-alert-bg: transparent;
-    --kui-alert-border: var(--kui-color-border-strong);
+    --_kui-alert-bg: transparent;
+    --_kui-alert-border: var(--kui-color-border-strong);
   }
 
   .kui-alert[data-kui-appearance='neutral'][data-kui-shape='solid'] {
-    --kui-alert-bg: var(--kui-color-border-strong);
-    --kui-alert-border: transparent;
-    --kui-alert-fg: var(--kui-color-on-fill);
+    --_kui-alert-bg: var(--kui-color-border-strong);
+    --_kui-alert-border: transparent;
+    --_kui-alert-fg: var(--kui-color-on-fill);
   }
 
   .kui-alert[data-kui-appearance='info'][data-kui-shape='soft'] {
-    --kui-alert-bg: var(--kui-color-info-soft-bg);
-    --kui-alert-border: var(--kui-color-info-soft-border);
-    --kui-alert-icon-color: var(--kui-color-info-fill);
+    --_kui-alert-bg: var(--kui-color-info-soft-bg);
+    --_kui-alert-border: var(--kui-color-info-soft-border);
+    --_kui-alert-icon-color: var(--kui-color-info-fill);
   }
 
   .kui-alert[data-kui-appearance='info'][data-kui-shape='outline'] {
-    --kui-alert-bg: transparent;
-    --kui-alert-border: var(--kui-color-info-fill);
-    --kui-alert-icon-color: var(--kui-color-info-fill);
+    --_kui-alert-bg: transparent;
+    --_kui-alert-border: var(--kui-color-info-fill);
+    --_kui-alert-icon-color: var(--kui-color-info-fill);
   }
 
   .kui-alert[data-kui-appearance='info'][data-kui-shape='solid'] {
-    --kui-alert-bg: var(--kui-color-info-fill);
-    --kui-alert-border: transparent;
-    --kui-alert-fg: var(--kui-color-on-fill);
+    --_kui-alert-bg: var(--kui-color-info-fill);
+    --_kui-alert-border: transparent;
+    --_kui-alert-fg: var(--kui-color-on-fill);
   }
 
   .kui-alert[data-kui-appearance='success'][data-kui-shape='soft'] {
-    --kui-alert-bg: var(--kui-color-success-soft-bg);
-    --kui-alert-border: var(--kui-color-success-soft-border);
-    --kui-alert-icon-color: var(--kui-color-success-fill);
+    --_kui-alert-bg: var(--kui-color-success-soft-bg);
+    --_kui-alert-border: var(--kui-color-success-soft-border);
+    --_kui-alert-icon-color: var(--kui-color-success-fill);
   }
 
   .kui-alert[data-kui-appearance='success'][data-kui-shape='outline'] {
-    --kui-alert-bg: transparent;
-    --kui-alert-border: var(--kui-color-success-fill);
-    --kui-alert-icon-color: var(--kui-color-success-fill);
+    --_kui-alert-bg: transparent;
+    --_kui-alert-border: var(--kui-color-success-fill);
+    --_kui-alert-icon-color: var(--kui-color-success-fill);
   }
 
   .kui-alert[data-kui-appearance='success'][data-kui-shape='solid'] {
-    --kui-alert-bg: var(--kui-color-success-fill);
-    --kui-alert-border: transparent;
-    --kui-alert-fg: var(--kui-color-on-fill);
+    --_kui-alert-bg: var(--kui-color-success-fill);
+    --_kui-alert-border: transparent;
+    --_kui-alert-fg: var(--kui-color-on-fill);
   }
 
   .kui-alert[data-kui-appearance='warning'][data-kui-shape='soft'] {
-    --kui-alert-bg: var(--kui-color-warning-soft-bg);
-    --kui-alert-border: var(--kui-color-warning-soft-border);
-    --kui-alert-icon-color: var(--kui-color-warning-fill);
+    --_kui-alert-bg: var(--kui-color-warning-soft-bg);
+    --_kui-alert-border: var(--kui-color-warning-soft-border);
+    --_kui-alert-icon-color: var(--kui-color-warning-fill);
   }
 
   .kui-alert[data-kui-appearance='warning'][data-kui-shape='outline'] {
-    --kui-alert-bg: transparent;
-    --kui-alert-border: var(--kui-color-warning-fill);
-    --kui-alert-icon-color: var(--kui-color-warning-fill);
+    --_kui-alert-bg: transparent;
+    --_kui-alert-border: var(--kui-color-warning-fill);
+    --_kui-alert-icon-color: var(--kui-color-warning-fill);
   }
 
   .kui-alert[data-kui-appearance='warning'][data-kui-shape='solid'] {
-    --kui-alert-bg: var(--kui-color-warning-fill);
-    --kui-alert-border: transparent;
-    --kui-alert-fg: var(--kui-color-on-fill);
+    --_kui-alert-bg: var(--kui-color-warning-fill);
+    --_kui-alert-border: transparent;
+    --_kui-alert-fg: var(--kui-color-on-fill);
   }
 
   .kui-alert[data-kui-appearance='danger'][data-kui-shape='soft'] {
-    --kui-alert-bg: var(--kui-color-danger-soft-bg);
-    --kui-alert-border: var(--kui-color-danger-soft-border);
-    --kui-alert-icon-color: var(--kui-color-danger-fill);
+    --_kui-alert-bg: var(--kui-color-danger-soft-bg);
+    --_kui-alert-border: var(--kui-color-danger-soft-border);
+    --_kui-alert-icon-color: var(--kui-color-danger-fill);
   }
 
   .kui-alert[data-kui-appearance='danger'][data-kui-shape='outline'] {
-    --kui-alert-bg: transparent;
-    --kui-alert-border: var(--kui-color-danger-fill);
-    --kui-alert-icon-color: var(--kui-color-danger-fill);
+    --_kui-alert-bg: transparent;
+    --_kui-alert-border: var(--kui-color-danger-fill);
+    --_kui-alert-icon-color: var(--kui-color-danger-fill);
   }
 
   .kui-alert[data-kui-appearance='danger'][data-kui-shape='solid'] {
-    --kui-alert-bg: var(--kui-color-danger-fill);
-    --kui-alert-border: transparent;
-    --kui-alert-fg: var(--kui-color-on-fill);
+    --_kui-alert-bg: var(--kui-color-danger-fill);
+    --_kui-alert-border: transparent;
+    --_kui-alert-fg: var(--kui-color-on-fill);
   }
 
   /* Action button reads in the appearance's own soft-text tone instead of the generic ghost
@@ -194,21 +197,24 @@
   }
 
   .kui-alert__title {
-    font-size: var(--kui-text-sm-size);
+    font-size: var(--kui-alert-title-font-size, var(--kui-text-sm-size));
     font-weight: 600;
     line-height: 1.4;
   }
 
   .kui-alert__message {
-    font-size: var(--kui-text-sm-size);
+    font-size: var(--kui-alert-message-font-size, var(--kui-text-sm-size));
     line-height: 1.5;
-    color: var(--kui-alert-message-fg, var(--kui-color-text-secondary));
+    color: var(
+      --kui-alert-message-fg,
+      var(--_kui-alert-message-fg, var(--kui-color-text-secondary))
+    );
   }
 
   /* Solid shape: message reads at full on-fill contrast, same as the title -- a dimmed
      secondary tone is not guaranteed 4.5:1 on a saturated fill. */
   .kui-alert[data-kui-shape='solid'] .kui-alert__message {
-    --kui-alert-message-fg: var(--kui-color-on-fill);
+    --_kui-alert-message-fg: var(--kui-color-on-fill);
   }
 
   .kui-alert__action {
@@ -222,7 +228,7 @@
   .kui-alert__actions {
     display: flex;
     align-items: center;
-    gap: var(--kui-space-3);
+    gap: var(--kui-alert-actions-gap, var(--kui-space-3));
     margin-top: var(--kui-space-1);
   }
 
@@ -247,12 +253,12 @@
   .kui-alert__close {
     --kui-btn-ghost-bg-hov: color-mix(
       in oklch,
-      var(--kui-alert-fg, var(--kui-color-text)) 12%,
+      var(--kui-alert-fg, var(--_kui-alert-fg, var(--kui-color-text))) 12%,
       transparent
     );
     --kui-btn-ghost-bg-act: color-mix(
       in oklch,
-      var(--kui-alert-fg, var(--kui-color-text)) 20%,
+      var(--kui-alert-fg, var(--_kui-alert-fg, var(--kui-color-text))) 20%,
       transparent
     );
   }

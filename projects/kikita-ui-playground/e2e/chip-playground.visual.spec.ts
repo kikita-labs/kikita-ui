@@ -344,7 +344,7 @@ test('captures real pointer hover on a generated Chip remove button @visual', as
 
   const colors = await removeButton.evaluate((element) => {
     const probe = document.createElement('span');
-    probe.style.color = 'var(--kui-chip-remove-color-hover)';
+    probe.style.color = 'var(--kui-chip-remove-color-hover, var(--kui-color-text))';
     element.parentElement?.append(probe);
     const hover = getComputedStyle(probe).color;
     probe.remove();

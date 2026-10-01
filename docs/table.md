@@ -124,3 +124,39 @@ on matching body cells.
 - `--kui-table-row-selected-accent`
 - `--kui-table-sort-active-color`
 - `--kui-table-bg`
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                           | Default                          | Controls                           |
+| ----------------------------------------------- | -------------------------------- | ---------------------------------- |
+| `--kui-table-color`                             | `--kui-color-text`               | Color                              |
+| `--kui-table-sort-color-hover`                  | `--kui-color-text`               | Sort color, hover                  |
+| `--kui-table-checkbox-border`                   | `--kui-color-border-strong`      | Checkbox border color              |
+| `--kui-table-checkbox-border-hover`             | `--kui-color-primary-fill`       | Checkbox border color, hover       |
+| `--kui-table-checkbox-bg-checked`               | `--kui-color-primary-fill`       | Checkbox background, checked       |
+| `--kui-table-checkbox-border-checked`           | `--kui-color-primary-fill`       | Checkbox border color, checked     |
+| `--kui-table-checkbox-mark-color`               | `--kui-color-on-fill`            | Checkbox mark color                |
+| `--kui-table-checkbox-mark-color-indeterminate` | `--kui-color-on-fill`            | Checkbox mark color, indeterminate |
+| `--kui-table-sort-focus-ring-color`             | `--kui-color-primary-focus-ring` | Sort focus ring color              |
+| `--kui-table-checkbox-focus-ring-color`         | `--kui-color-primary-focus-ring` | Checkbox focus ring color          |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                | Default               | Controls                     |
+| ------------------------------------ | --------------------- | ---------------------------- |
+| `--kui-table-th-sort-button-radius`  | `--kui-radius-xs`     | Th sort button corner radius |
+| `--kui-table-th-sort-icon-font-size` | `--kui-text-2xs-size` | Th sort icon font size       |
+
+<!-- geometry-tokens:end -->

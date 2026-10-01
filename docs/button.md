@@ -120,3 +120,38 @@ Import the Kikita UI style entrypoint once:
 ```scss
 @import '@kikita-labs/ui/styles';
 ```
+
+## Color Tokens
+
+Each appearance reads its own component tokens, so an override set on any ancestor restyles the
+buttons below it:
+
+| Appearance         | Fill / hover / active                                                          | Label                 |
+| ------------------ | ------------------------------------------------------------------------------ | --------------------- |
+| default, `primary` | `--kui-btn-solid-bg`, `--kui-btn-solid-bg-hov`, `--kui-btn-solid-bg-act`       | `--kui-btn-solid-fg`  |
+| `danger`           | `--kui-btn-danger-bg`, `--kui-btn-danger-bg-hov`, `--kui-btn-danger-bg-act`    | `--kui-btn-danger-fg` |
+| `success`          | `--kui-btn-success-bg`, `--kui-btn-success-bg-hov`, `--kui-btn-success-bg-act` | `--kui-btn-solid-fg`  |
+| `warning`          | `--kui-btn-warning-bg`, `--kui-btn-warning-bg-hov`, `--kui-btn-warning-bg-act` | `--kui-btn-solid-fg`  |
+
+The soft, outline and ghost shapes read `--kui-btn-soft-*`, `--kui-btn-outline-*` and
+`--kui-btn-ghost-*` for the default appearance, and the matching `--kui-color-<status>-soft-*`
+semantic tokens for status appearances. See [tokens.md](tokens.md#removed-in-20) for the
+removed `--kui-btn-bg`, `--kui-btn-color` and related aliases.
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                         | Default                   | Controls           |
+| ----------------------------- | ------------------------- | ------------------ |
+| `--kui-btn-height-xs`         | `--kui-control-height-xs` | Height, xs         |
+| `--kui-btn-padding-inline-xs` | `--kui-space-2`           | Padding, inline xs |
+| `--kui-btn-height-sm`         | `--kui-control-height-sm` | Height, sm         |
+| `--kui-btn-padding-inline-sm` | `--kui-space-3`           | Padding, inline sm |
+| `--kui-btn-height-lg`         | `--kui-control-height-lg` | Height, lg         |
+| `--kui-btn-padding-inline-lg` | `--kui-space-5`           | Padding, inline lg |
+
+<!-- geometry-tokens:end -->

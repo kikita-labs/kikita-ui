@@ -50,6 +50,41 @@ const playgroundRouteEnumPath =
 const playgroundLocaleDirectory = 'projects/kikita-ui-playground/public/i18n';
 const localeCataloguePathPattern =
   /^projects\/kikita-ui-playground\/public\/i18n\/(?:[^/]+\/)?[a-z]{2,3}(?:-[a-zA-Z0-9]{2,8})*\.json$/u;
+const paletteTokenConsumerRoots = ['projects/ui/src', 'projects/kikita-ui-playground/src'];
+const paletteTokenGeneratorDirectory = 'projects/ui/src/lib/theme/';
+const paletteTokenExtensions = new Set(['.css', '.html', '.scss', '.ts']);
+// Reviewed exceptions: repository-relative path -> reason. Keep this empty unless a consumer
+// genuinely needs a raw palette step; document the owner and follow-up in the reason.
+const paletteTokenExceptions = new Map();
+const palettePattern =
+  /--kui-(?:(?:primary|neutral|success|warning|danger|info)-\d+|seed-[a-z]+)(?![\w-])/u;
+// Style files that are themselves the semantic layer and may read colour roles directly.
+const colorHookExceptions = new Map([
+  ['projects/ui/src/styles/typography.css', 'tone classes are the semantic text-colour API'],
+]);
+const colorRolePattern =
+  /^--kui-color-(?:bg|surface(?:-[a-z]+)?|border(?:-[a-z]+)?|text(?:-[a-z]+)?|on-fill|(?:primary|success|warning|danger|info)-[a-z-]+)$/u;
+// Public tokens that a component or a layout deliberately assigns to the elements it contains (parent
+// to child APIs, density and group size maps). Every other component default must be private.
+const parentAssignedTokens = new Set([
+  '--kui-btn-ghost-bg-act',
+  '--kui-btn-ghost-bg-hov',
+  '--kui-btn-ghost-fg',
+  '--kui-btn-height',
+  '--kui-btn-px',
+  '--kui-checkbox-size',
+  '--kui-field-action-size',
+  '--kui-field-grid-rows',
+  '--kui-field-hint-size',
+  '--kui-input-height',
+  '--kui-input-px',
+  '--kui-loader-fill',
+  '--kui-loader-track',
+  '--kui-skeleton-radius',
+  '--kui-skeleton-radius-pill',
+  '--kui-splitter-gutter-size',
+  '--kui-type-caption-weight',
+]);
 const disallowedTopLevelGlobals =
   /(?:=\s*(window|document|navigator|localStorage|sessionStorage)\b|\b(window|document|navigator|localStorage|sessionStorage)\.)/;
 
@@ -94,6 +129,17 @@ export function runStaticAudit(root = defaultRoot) {
   runCheck(failures, 'public exports have nearby JSDoc', () => checkPublicJSDoc(root));
   runCheck(failures, 'library files avoid top-level browser globals', () =>
     checkTopLevelBrowserGlobals(root),
+  );
+  runCheck(failures, 'components keep their defaults in private variables', () =>
+    checkPublicTokenDefinitions(root),
+  );
+  runCheck(failures, 'component colours are read through a component token', () =>
+    checkComponentColorHooks(root),
+  );
+  runCheck(
+    failures,
+    'styles consume semantic tokens instead of raw palette or seed variables',
+    () => checkNoRawPaletteConsumption(root),
   );
   return failures;
 }
@@ -565,6 +611,181 @@ function checkTopLevelBrowserGlobals(root) {
   }
 
   return failures;
+}
+
+function checkNoRawPaletteConsumption(root) {
+  const failures = [];
+  const files = collectTextFiles(
+    root,
+    paletteTokenConsumerRoots.map((entry) => join(root, entry)),
+  ).filter(
+    (file) =>
+      paletteTokenExtensions.has(file.slice(file.lastIndexOf('.'))) &&
+      !/\.spec\.(?:ts|mjs)$/u.test(file),
+  );
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (
+      repoPath.startsWith(paletteTokenGeneratorDirectory) ||
+      paletteTokenExceptions.has(repoPath)
+    ) {
+      continue;
+    }
+
+    const lines = readFileSync(file, 'utf8').split(/\r?\n/);
+
+    for (let index = 0; index < lines.length; index += 1) {
+      const line = lines[index].trim();
+
+      if (/^(?:\/\/|\/\*|\*)/u.test(line)) {
+        continue;
+      }
+
+      const match = palettePattern.exec(line);
+
+      if (match) {
+        failures.push(
+          `${repoPath}:${index + 1} reads ${match[0]} directly; use a semantic or component token`,
+        );
+      }
+    }
+  }
+
+  return failures;
+}
+
+function checkPublicTokenDefinitions(root) {
+  const failures = [];
+  const stylesRoot = join(root, 'projects/ui/src');
+  const files = collectTextFiles(root, [stylesRoot]).filter((file) => file.endsWith('.css'));
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+    const text = readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//gu, (comment) =>
+      comment.replace(/[^\n]/gu, ' '),
+    );
+    const definition = /(?:^|[;{}\s])(--kui-[\w-]+)\s*:/gu;
+    let match;
+
+    while ((match = definition.exec(text))) {
+      const name = match[1];
+
+      if (parentAssignedTokens.has(name)) {
+        continue;
+      }
+
+      const line = text.slice(0, match.index + match[0].indexOf(name)).split('\n').length;
+
+      failures.push(
+        `${repoPath}:${line} defines the public token ${name} on a component; define a private --_${name.slice(2)} default and read var(${name}, var(--_${name.slice(2)}))`,
+      );
+    }
+  }
+
+  return failures;
+}
+
+function checkComponentColorHooks(root) {
+  const failures = [];
+  const stylesRoot = join(root, 'projects/ui/src');
+  const files = collectTextFiles(root, [stylesRoot]).filter((file) => file.endsWith('.css'));
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (colorHookExceptions.has(repoPath)) {
+      continue;
+    }
+
+    const text = readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//gu, (comment) =>
+      comment.replace(/[^\n]/gu, ' '),
+    );
+    const declaration = /([\w-]+)\s*:\s*([^;{}]+);/gu;
+    let match;
+
+    while ((match = declaration.exec(text))) {
+      if (match[1].startsWith('--')) {
+        continue;
+      }
+
+      const valueStart = match.index + match[0].indexOf(match[2]);
+
+      for (const read of bareColorRoleReads(match[2])) {
+        const line = text.slice(0, valueStart + read.index).split('\n').length;
+
+        failures.push(
+          `${repoPath}:${line} reads ${read.name} without a component token; use var(--kui-<component>-<part>-<property>, var(${read.name}))`,
+        );
+      }
+    }
+  }
+
+  return failures;
+}
+
+// Returns reads of colour roles that are not inside the fallback of a component token.
+function bareColorRoleReads(value, insideHook = false, offset = 0, reads = []) {
+  let index = 0;
+
+  while (index < value.length) {
+    const start = value.indexOf('var(', index);
+
+    if (start === -1) {
+      break;
+    }
+
+    let depth = 0;
+    let end = start + 3;
+
+    for (; end < value.length; end += 1) {
+      if (value[end] === '(') {
+        depth += 1;
+      } else if (value[end] === ')') {
+        depth -= 1;
+
+        if (depth === 0) {
+          break;
+        }
+      }
+    }
+
+    const body = value.slice(start + 4, end);
+    const comma = firstTopLevelComma(body);
+    const name = (comma === -1 ? body : body.slice(0, comma)).trim();
+    const isRole = colorRolePattern.test(name);
+
+    if (isRole && !insideHook) {
+      reads.push({ name, index: offset + start });
+    }
+
+    if (comma !== -1) {
+      const hook = insideHook || (name.startsWith('--kui-') && !isRole);
+
+      bareColorRoleReads(body.slice(comma + 1), hook, offset + start + 4 + comma + 1, reads);
+    }
+
+    index = end + 1;
+  }
+
+  return reads;
+}
+
+function firstTopLevelComma(text) {
+  let depth = 0;
+
+  for (let index = 0; index < text.length; index += 1) {
+    if (text[index] === '(') {
+      depth += 1;
+    } else if (text[index] === ')') {
+      depth -= 1;
+    } else if (text[index] === ',' && depth === 0) {
+      return index;
+    }
+  }
+
+  return -1;
 }
 
 function collectTextFiles(root, entries) {

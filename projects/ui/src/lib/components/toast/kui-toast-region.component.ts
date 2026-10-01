@@ -180,7 +180,7 @@ function readPersistent(value: PersistentConfig): boolean {
                 data-kui-shape="ghost"
                 data-kui-size="xs"
                 type="button"
-                style="align-self:flex-start;margin-top:var(--kui-space-1);--kui-btn-ghost-fg:var(--kui-toast-accent-color)"
+                style="align-self:flex-start;margin-top:var(--kui-space-1);--kui-btn-ghost-fg:var(--kui-toast-accent-color, var(--_kui-toast-accent-color))"
                 (click)="onAction(toast)"
               >
                 {{ toast.config.actionLabel }}

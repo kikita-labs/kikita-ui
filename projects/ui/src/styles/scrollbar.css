@@ -50,7 +50,7 @@
   :root[data-kui-scrollbars='styled'] *::-webkit-scrollbar-thumb {
     min-block-size: var(--kui-scrollbar-thumb-min);
     border: var(--kui-scrollbar-thumb-inset) solid transparent;
-    border-radius: var(--kui-scrollbar-radius);
+    border-radius: var(--kui-scrollbar-radius, var(--kui-radius-full));
     background-color: var(--kui-color-scrollbar-thumb);
     background-clip: padding-box;
   }

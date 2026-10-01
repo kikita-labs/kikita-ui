@@ -167,3 +167,29 @@ styles.
   viewport size.
 - No locale-aware display format (`format` input); the mask is always `dd.MM.yyyy`, matching
   the design brief's explicit non-goal for this iteration.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                      | Default                    | Controls                |
+| ------------------------------------------ | -------------------------- | ----------------------- |
+| `--kui-date-picker-chevron-color-expanded` | `--kui-color-primary-fill` | Chevron color, expanded |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                              | Default         | Controls                        |
+| -------------------------------------------------- | --------------- | ------------------------------- |
+| `--kui-date-picker-control-overlay-padding-inline` | `--kui-space-3` | Control overlay padding, inline |
+
+<!-- geometry-tokens:end -->

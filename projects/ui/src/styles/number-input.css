@@ -4,10 +4,10 @@
     align-items: stretch;
     inline-size: 100%;
     border: var(--kui-input-border-width, 1px) solid
-      var(--kui-number-input-border, var(--kui-input-border, ButtonBorder));
-    border-radius: var(--kui-input-radius, 8px);
-    background-color: var(--kui-input-bg, Field);
-    color: var(--kui-input-color, FieldText);
+      var(--kui-number-input-border, var(--kui-input-border, var(--kui-color-border, ButtonBorder)));
+    border-radius: var(--kui-input-radius, var(--kui-radius-md, 8px));
+    background-color: var(--kui-input-bg, var(--kui-color-surface, Field));
+    color: var(--kui-input-color, var(--kui-input-text, var(--kui-color-text, FieldText)));
     overflow: hidden;
     transition:
       border-color var(--kui-duration-base) var(--kui-ease),
@@ -31,12 +31,12 @@
   }
 
   .kui-number-input:hover:not([data-kui-disabled]):not([data-kui-readonly]) {
-    border-color: var(--kui-input-border-hover, ButtonBorder);
+    border-color: var(--kui-input-border-hover, var(--kui-color-border-strong, ButtonBorder));
   }
 
   .kui-number-input:focus-within:not([data-kui-disabled]) {
-    border-color: var(--kui-input-border-focus, Highlight);
-    box-shadow: var(--kui-input-focus-ring, 0 0 0 3px Highlight);
+    border-color: var(--kui-input-border-focus, var(--kui-color-primary-fill, Highlight));
+    box-shadow: var(--kui-input-focus-ring, 0 0 0 3px var(--kui-color-primary-focus-ring));
   }
 
   .kui-number-input__btn--dec {
@@ -71,16 +71,16 @@
 
   .kui-number-input__btn:hover:not([aria-disabled='true']):not([disabled]) {
     background: var(--kui-number-input-btn-bg-hover, var(--kui-color-surface-elevated));
-    color: var(--kui-color-text);
+    color: var(--kui-number-input-btn-color-hover, var(--kui-color-text));
   }
 
   .kui-number-input__btn:active:not([aria-disabled='true']):not([disabled]) {
-    background: var(--kui-color-border);
-    color: var(--kui-color-text);
+    background: var(--kui-number-input-btn-bg-active, var(--kui-color-border));
+    color: var(--kui-number-input-btn-color-active, var(--kui-color-text));
   }
 
   .kui-number-input__btn[aria-disabled='true'] {
-    color: var(--kui-color-text-disabled);
+    color: var(--kui-number-input-btn-color-disabled, var(--kui-color-text-disabled));
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -90,11 +90,11 @@
     min-width: 0;
     border: none;
     background: transparent;
-    color: var(--kui-input-color, FieldText);
+    color: var(--kui-input-color, var(--kui-input-text, var(--kui-color-text, FieldText)));
     font: inherit;
     font-size: var(--_fs);
     height: var(--_h);
-    padding: 0 var(--kui-space-3);
+    padding: 0 var(--kui-number-input-field-padding-inline, var(--kui-space-3));
     text-align: center;
     -moz-appearance: textfield;
     appearance: textfield;
@@ -109,12 +109,15 @@
   }
 
   .kui-number-input__input::placeholder {
-    color: var(--kui-input-placeholder-color, GrayText);
+    color: var(
+      --kui-input-placeholder-color,
+      var(--kui-input-placeholder, var(--kui-color-text-disabled, GrayText))
+    );
   }
 
   .kui-number-input--stacked .kui-number-input__input {
     text-align: left;
-    padding: 0 var(--kui-space-3);
+    padding: 0 var(--kui-number-input-field-padding-inline, var(--kui-space-3));
   }
 
   .kui-number-input--stacked .kui-number-input__arrows {
@@ -146,17 +149,17 @@
   .kui-number-input--stacked
     .kui-number-input__arrow:hover:not([aria-disabled='true']):not([disabled]) {
     background: var(--kui-number-input-btn-bg-hover, var(--kui-color-surface-elevated));
-    color: var(--kui-color-text);
+    color: var(--kui-number-input-arrow-color-hover, var(--kui-color-text));
   }
 
   .kui-number-input--stacked
     .kui-number-input__arrow:active:not([aria-disabled='true']):not([disabled]) {
-    background: var(--kui-color-border);
-    color: var(--kui-color-text);
+    background: var(--kui-number-input-arrow-bg-active, var(--kui-color-border));
+    color: var(--kui-number-input-arrow-color-active, var(--kui-color-text));
   }
 
   .kui-number-input--stacked .kui-number-input__arrow[aria-disabled='true'] {
-    color: var(--kui-color-text-disabled);
+    color: var(--kui-number-input-arrow-color-disabled, var(--kui-color-text-disabled));
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -167,23 +170,23 @@
   }
 
   .kui-number-input[data-kui-disabled] {
-    background-color: var(--kui-input-bg-disabled, var(--kui-input-bg, Field));
+    background-color: var(--kui-input-bg-disabled, var(--kui-color-surface-sunken));
     opacity: 0.6;
     pointer-events: none;
   }
 
   .kui-number-input[data-kui-readonly] {
-    background-color: var(--kui-input-bg-disabled, var(--kui-input-bg, Field));
+    background-color: var(--kui-input-bg-disabled, var(--kui-color-surface-sunken));
   }
 
   .kui-number-input[data-kui-readonly] .kui-number-input__btn,
   .kui-number-input[data-kui-readonly] .kui-number-input__arrow {
-    color: var(--kui-color-text-disabled);
+    color: var(--kui-number-input-btn-color-readonly, var(--kui-color-text-disabled));
     pointer-events: none;
   }
 
   .kui-number-input[data-kui-invalid],
   .kui-field[data-kui-invalid] .kui-number-input {
-    border-color: var(--kui-input-border-error, var(--kui-input-border-invalid, Mark));
+    border-color: var(--kui-input-border-error, var(--kui-color-danger-fill));
   }
 }

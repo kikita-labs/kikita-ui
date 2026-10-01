@@ -118,8 +118,8 @@
     box-sizing: border-box;
     position: relative;
     display: inline-block;
-    inline-size: var(--kui-radio-size, 18px);
-    block-size: var(--kui-radio-size, 18px);
+    inline-size: var(--kui-radio-size, var(--_kui-radio-size, 18px));
+    block-size: var(--kui-radio-size, var(--_kui-radio-size, 18px));
     flex: 0 0 auto;
     border: var(--kui-radio-border-width, var(--kui-border-width-hairline)) solid
       var(--kui-radio-border, var(--kui-color-border));
@@ -141,8 +141,8 @@
     inset: 0;
     margin: auto;
     /* Rounded down to an even pixel count -- see .kui-checkbox::before comment above. */
-    inline-size: round(down, calc(var(--kui-radio-size, 18px) * 0.5), 2px);
-    block-size: round(down, calc(var(--kui-radio-size, 18px) * 0.5), 2px);
+    inline-size: round(down, calc(var(--kui-radio-size, var(--_kui-radio-size, 18px)) * 0.5), 2px);
+    block-size: round(down, calc(var(--kui-radio-size, var(--_kui-radio-size, 18px)) * 0.5), 2px);
     border-radius: 50%;
     background-color: var(--kui-radio-dot, var(--kui-color-on-fill));
     opacity: 0;
@@ -191,15 +191,15 @@
   }
 
   .kui-radio[data-kui-size='xs'] {
-    --kui-radio-size: 14px;
+    --_kui-radio-size: 14px;
   }
 
   .kui-radio[data-kui-size='sm'] {
-    --kui-radio-size: 16px;
+    --_kui-radio-size: 16px;
   }
 
   .kui-radio[data-kui-size='lg'] {
-    --kui-radio-size: 22px;
+    --_kui-radio-size: 22px;
   }
 
   .kui-switch {
@@ -207,8 +207,8 @@
     box-sizing: border-box;
     position: relative;
     display: inline-block;
-    inline-size: var(--kui-switch-width, 38px);
-    block-size: var(--kui-switch-height, 22px);
+    inline-size: var(--kui-switch-width, var(--_kui-switch-width, 38px));
+    block-size: var(--kui-switch-height, var(--_kui-switch-height, 22px));
     flex: 0 0 auto;
     border: var(--kui-switch-border-width, var(--kui-border-width-hairline)) solid
       var(--kui-switch-border, var(--kui-color-border));
@@ -229,8 +229,8 @@
     position: absolute;
     inset-block-start: var(--kui-switch-thumb-offset, 2px);
     inset-inline-start: var(--kui-switch-thumb-offset, 2px);
-    inline-size: var(--kui-switch-thumb-size, 16px);
-    block-size: var(--kui-switch-thumb-size, 16px);
+    inline-size: var(--kui-switch-thumb-size, var(--_kui-switch-thumb-size, 16px));
+    block-size: var(--kui-switch-thumb-size, var(--_kui-switch-thumb-size, 16px));
     border-radius: 50%;
     background-color: var(--kui-switch-thumb-bg, var(--kui-color-text-secondary));
     box-shadow: var(--kui-switch-thumb-shadow, 0 1px 2px oklch(0 0 0 / 0.22));
@@ -250,7 +250,9 @@
 
   .kui-switch:checked::before {
     background-color: var(--kui-switch-checked-thumb-bg, var(--kui-color-on-fill));
-    transform: translateX(var(--kui-switch-thumb-translate, 16px));
+    transform: translateX(
+      var(--kui-switch-thumb-translate, var(--_kui-switch-thumb-translate, 16px))
+    );
   }
 
   .kui-switch:active {
@@ -278,23 +280,23 @@
   }
 
   .kui-switch[data-kui-size='xs'] {
-    --kui-switch-width: 30px;
-    --kui-switch-height: 18px;
-    --kui-switch-thumb-size: 12px;
-    --kui-switch-thumb-translate: 12px;
+    --_kui-switch-width: 30px;
+    --_kui-switch-height: 18px;
+    --_kui-switch-thumb-size: 12px;
+    --_kui-switch-thumb-translate: 12px;
   }
 
   .kui-switch[data-kui-size='sm'] {
-    --kui-switch-width: 34px;
-    --kui-switch-height: 20px;
-    --kui-switch-thumb-size: 14px;
-    --kui-switch-thumb-translate: 14px;
+    --_kui-switch-width: 34px;
+    --_kui-switch-height: 20px;
+    --_kui-switch-thumb-size: 14px;
+    --_kui-switch-thumb-translate: 14px;
   }
 
   .kui-switch[data-kui-size='lg'] {
-    --kui-switch-width: 46px;
-    --kui-switch-height: 26px;
-    --kui-switch-thumb-size: 20px;
-    --kui-switch-thumb-translate: 20px;
+    --_kui-switch-width: 46px;
+    --_kui-switch-height: 26px;
+    --_kui-switch-thumb-size: 20px;
+    --_kui-switch-thumb-translate: 20px;
   }
 }

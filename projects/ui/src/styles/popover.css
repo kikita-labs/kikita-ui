@@ -158,7 +158,7 @@
       var(--kui-popover-padding-x, var(--kui-space-4));
     min-width: var(--kui-popover-min-width, 160px);
     max-width: var(--kui-popover-max-width, 320px);
-    color: var(--kui-color-text);
+    color: var(--kui-popover-color, var(--kui-color-text));
     position: relative;
   }
   /* Entry animations */
@@ -266,15 +266,15 @@
   /* Content helpers (opt-in class names) */
 
   .kui-popover-title {
-    font-size: var(--kui-text-sm-size);
+    font-size: var(--kui-popover-title-font-size, var(--kui-text-sm-size));
     font-weight: 600;
     margin-bottom: var(--kui-space-2);
-    color: var(--kui-color-text);
+    color: var(--kui-popover-title-color, var(--kui-color-text));
   }
 
   .kui-popover-desc {
-    font-size: var(--kui-text-sm-size);
-    color: var(--kui-color-text-secondary);
+    font-size: var(--kui-popover-desc-font-size, var(--kui-text-sm-size));
+    color: var(--kui-popover-desc-color, var(--kui-color-text-secondary));
     line-height: 1.55;
   }
 }

@@ -131,3 +131,51 @@ included through `@kikita-labs/ui/styles`.
 | `--kui-color-input-preview-swatch-size` | `48px`                       | Picker preview swatch     |
 | `--kui-color-input-thumb-size`          | `16px`                       | 2D thumb diameter         |
 | `--kui-color-input-hue-track-height`    | `12px`                       | Hue slider track height   |
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                       | Default                          | Controls                  |
+| ------------------------------------------- | -------------------------------- | ------------------------- |
+| `--kui-color-input-trigger-color-expanded`  | `--kui-color-primary-fill`       | Trigger color, expanded   |
+| `--kui-color-input-popover-color`           | `--kui-color-text`               | Popover color             |
+| `--kui-color-input-picker-focus-ring-color` | `--kui-color-primary-focus-ring` | Picker focus ring color   |
+| `--kui-color-input-hue-thumb-bg`            | `--kui-color-on-fill`            | Hue thumb background      |
+| `--kui-color-input-hue-thumb-ring-color`    | `--kui-color-surface`            | Hue thumb ring color      |
+| `--kui-color-input-num-label-color`         | `--kui-color-text-secondary`     | Num label color           |
+| `--kui-color-input-field-color`             | `--kui-color-text`               | Field color               |
+| `--kui-color-input-field-border-focus`      | `--kui-color-primary-fill`       | Field border color, focus |
+| `--kui-color-input-field-focus-ring-color`  | `--kui-color-primary-focus-ring` | Field focus ring color    |
+| `--kui-color-input-preset-border`           | `--kui-color-border`             | Preset border color       |
+| `--kui-color-input-preset-focus-ring-color` | `--kui-color-primary-focus-ring` | Preset focus ring color   |
+| `--kui-color-input-checker-bg`              | `--kui-color-surface`            | Checker background        |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                   | Default              | Controls                 |
+| --------------------------------------- | -------------------- | ------------------------ |
+| `--kui-color-input-popover-padding`     | `--kui-space-3`      | Popover padding          |
+| `--kui-color-input-thumb-radius`        | `--kui-radius-full`  | Thumb corner radius      |
+| `--kui-color-input-hue-track-radius`    | `--kui-radius-full`  | Hue track corner radius  |
+| `--kui-color-input-hue-thumb-radius`    | `--kui-radius-full`  | Hue thumb corner radius  |
+| `--kui-color-input-nums-gap`            | `--kui-space-2`      | Nums gap                 |
+| `--kui-color-input-num-label-font-size` | `--kui-text-xs-size` | Num label font size      |
+| `--kui-color-input-field-font-size`     | `--kui-text-xs-size` | Field font size          |
+| `--kui-color-input-field-radius`        | `--kui-radius-sm`    | Field corner radius      |
+| `--kui-color-input-preview-row-gap`     | `--kui-space-3`      | Preview row gap          |
+| `--kui-color-input-swatch-radius-lg`    | `--kui-radius-md`    | Swatch corner radius, lg |
+| `--kui-color-input-presets-gap`         | `--kui-space-2`      | Presets gap              |
+| `--kui-color-input-preset-radius`       | `--kui-radius-sm`    | Preset corner radius     |
+
+<!-- geometry-tokens:end -->

@@ -139,3 +139,39 @@ Drawer styles consume public Kikita CSS variables:
 - `--kui-drawer-close-offset-y` (default `var(--kui-drawer-header-padding-y)`)
 
 See `projects/ui/src/styles/drawer.css` for the full token list.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                            | Default                      | Controls                |
+| -------------------------------- | ---------------------------- | ----------------------- |
+| `--kui-drawer-color`             | `--kui-color-text`           | Color                   |
+| `--kui-drawer-title-color`       | `--kui-color-text`           | Title color             |
+| `--kui-drawer-subtitle-color`    | `--kui-color-text-secondary` | Subtitle color          |
+| `--kui-drawer-close-color`       | `--kui-color-text-secondary` | Close color             |
+| `--kui-drawer-close-bg-hover`    | `--kui-color-surface-sunken` | Close background, hover |
+| `--kui-drawer-close-color-hover` | `--kui-color-text`           | Close color, hover      |
+| `--kui-drawer-body-color`        | `--kui-color-text-secondary` | Body color              |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                             | Default              | Controls            |
+| --------------------------------- | -------------------- | ------------------- |
+| `--kui-drawer-header-gap`         | `--kui-space-3`      | Header gap          |
+| `--kui-drawer-subtitle-font-size` | `--kui-text-sm-size` | Subtitle font size  |
+| `--kui-drawer-close-radius`       | `--kui-radius-sm`    | Close corner radius |
+| `--kui-drawer-body-font-size`     | `--kui-text-sm-size` | Body font size      |
+| `--kui-drawer-footer-gap`         | `--kui-space-2`      | Footer gap          |
+
+<!-- geometry-tokens:end -->

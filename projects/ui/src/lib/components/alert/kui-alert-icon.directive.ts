@@ -22,7 +22,7 @@ import { Directive } from '@angular/core';
     // Inline style wins over any stylesheet rule regardless of CSS layers, so a projected
     // <kui-icon>'s own unlayered `:host { color: inherit }` never shadows the intended tint --
     // see kui-alert.component.ts's built-in icon for the same fix on the same root cause.
-    '[style.color]': "'var(--kui-alert-icon-color, currentColor)'",
+    '[style.color]': "'var(--kui-alert-icon-color, var(--_kui-alert-icon-color, currentColor))'",
   },
 })
 export class KuiAlertIconDirective {}

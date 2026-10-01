@@ -40,7 +40,9 @@ Generated palette names:
 --kui-info-1 ... --kui-info-12
 ```
 
-Step 6 is the seed. Components do not consume these directly.
+Step 6 is the seed. Components do not consume these directly: a style under `projects/ui/src`
+that reads a palette step or a `--kui-seed-*` variable fails `pnpm audit:static`. Add or reuse a
+semantic token instead (see [theming.md](theming.md#overriding-tokens) for override scopes).
 
 ## Semantic Tokens
 
@@ -80,8 +82,17 @@ Status:
 
 ```css
 --kui-color-success-fill
+--kui-color-success-fill-hover
+--kui-color-success-fill-active
 --kui-color-warning-fill
+--kui-color-warning-fill-hover
+--kui-color-warning-fill-active
 --kui-color-danger-fill
+--kui-color-danger-fill-hover
+--kui-color-danger-fill-active
+--kui-color-danger-soft-bg
+--kui-color-danger-soft-bg-hover
+--kui-color-danger-soft-bg-active
 --kui-color-info-fill
 ```
 
@@ -180,6 +191,29 @@ controls height; `data-kui-density` controls padding only (see Button tokens bel
 
 ## Component Tokens
 
+Component tokens are inputs: set them on an element or its ancestors to restyle one component part.
+Each component declares the default in its own CSS as a fallback chain that ends at a semantic or
+base token, so the generated stylesheet does not define alias tokens such as `--kui-card-bg`. The
+lists below name the available tokens; they are not variables that exist on `:root`.
+The generated stylesheet defines only literal component tokens (for example `--kui-btn-gap`),
+the semantic `--kui-type-*` roles and the density-dependent `--kui-btn-px`. Read a component token in your own CSS only with a fallback.
+
+Every color part of a public component has its own component token whose default is the semantic
+role the part used before. Names follow `--kui-<component>-<part>-<property>[-<state>]`, where the
+property is `bg`, `color` (text or icon), `border` or `focus-ring-color`, and the state is a suffix
+such as `hover`, `selected` or `invalid`. Each component page lists its tokens in a "Color Tokens"
+section; `pnpm audit:static` fails when a style reads a semantic color role without one.
+
+Radius, font size, height, gap and padding of a component part follow the same pattern, for example
+`--kui-calendar-radius` and `--kui-file-upload-dropzone-gap`, and are listed in each component's
+"Geometry Tokens" section. A size variant (`xs`, `sm`, `lg`) has its own suffixed token, such as
+`--kui-input-height-lg`; a square control uses one `-size` token for width and height.
+
+A component keeps its per-variant defaults in private variables (`--_kui-*`) and reads the public token
+first, so a value set on any ancestor wins over the variant default. `pnpm audit:static` fails when a
+component style defines a public `--kui-*` token itself, except for the tokens a component deliberately
+assigns to the controls it contains (Button Group sizes, density, parent-to-child assignments).
+
 `--kui-btn-height` resolves to `--kui-control-height-md` and is overridden per instance by
 `[data-kui-size='xs'|'sm'|'lg']` (see Control Height below). `data-kui-density` only rebinds
 `--kui-btn-px`/`--kui-input-px`; it does not affect height.
@@ -215,11 +249,21 @@ Button tokens:
 --kui-btn-danger-bg-hov
 --kui-btn-danger-bg-act
 --kui-btn-danger-fg
+--kui-btn-success-bg
+--kui-btn-success-bg-hov
+--kui-btn-success-bg-act
+--kui-btn-warning-bg
+--kui-btn-warning-bg-hov
+--kui-btn-warning-bg-act
 --kui-btn-disabled-opacity
 --kui-btn-focus-ring-w
 --kui-btn-focus-ring-off
 --kui-btn-focus-ring-color
 ```
+
+`appearance="primary"` and the default appearance read `--kui-btn-solid-*` and `--kui-btn-soft-*`;
+`danger`, `success` and `warning` read the matching `--kui-btn-<appearance>-bg*` token (and
+`--kui-btn-danger-fg` for the solid label). Icon Button reads the same tokens.
 
 Skeleton tokens:
 
@@ -337,21 +381,6 @@ Select tokens:
 --kui-select-chip-layer-gap
 ```
 
-Deprecated Select chrome tokens:
-
-These tokens are deprecated in 1.x and planned for removal in v2. They remain
-emitted for compatibility, but current `input[kuiSelect]` styles do not consume
-them. Use the shared input tokens instead.
-
-| Deprecated token            | Replacement                |
-| --------------------------- | -------------------------- |
-| `--kui-select-bg`           | `--kui-input-bg`           |
-| `--kui-select-border`       | `--kui-input-border`       |
-| `--kui-select-border-hover` | `--kui-input-border-hover` |
-| `--kui-select-border-focus` | `--kui-input-border-focus` |
-| `--kui-select-border-error` | `--kui-input-border-error` |
-| `--kui-select-radius`       | `--kui-input-radius`       |
-
 Combobox tokens:
 
 ```css
@@ -400,3 +429,28 @@ Slider tokens:
 --kui-slider-thumb-shadow-focus
 --kui-slider-thumb-shadow-active
 ```
+
+## Removed In 2.0
+
+These generated tokens are gone. Nothing in Kikita UI read them any more; set the replacement.
+
+| Removed token                  | Replacement                                                |
+| ------------------------------ | ---------------------------------------------------------- |
+| `--kui-btn-bg`                 | `--kui-btn-solid-bg`                                       |
+| `--kui-btn-bg-hover`           | `--kui-btn-solid-bg-hov`                                   |
+| `--kui-btn-bg-active`          | `--kui-btn-solid-bg-act`                                   |
+| `--kui-btn-color`              | `--kui-btn-solid-fg`                                       |
+| `--kui-btn-secondary-bg`       | `--kui-btn-soft-bg`                                        |
+| `--kui-btn-secondary-bg-hover` | `--kui-btn-soft-bg-hov`                                    |
+| `--kui-btn-secondary-color`    | `--kui-btn-soft-fg`                                        |
+| `--kui-btn-outline-bg-hover`   | `--kui-btn-outline-bg-hov`                                 |
+| `--kui-btn-ghost-bg-hover`     | `--kui-btn-ghost-bg-hov`                                   |
+| `--kui-btn-focus-ring-width`   | `--kui-btn-focus-ring-w`                                   |
+| `--kui-btn-focus-ring-offset`  | `--kui-btn-focus-ring-off`                                 |
+| `--kui-btn-focus-ring`         | `outline` built from `--kui-btn-focus-ring-w` and `-color` |
+| `--kui-select-bg`              | `--kui-input-bg`                                           |
+| `--kui-select-border`          | `--kui-input-border`                                       |
+| `--kui-select-border-hover`    | `--kui-input-border-hover`                                 |
+| `--kui-select-border-focus`    | `--kui-input-border-focus`                                 |
+| `--kui-select-border-error`    | `--kui-input-border-error`                                 |
+| `--kui-select-radius`          | `--kui-input-radius`                                       |

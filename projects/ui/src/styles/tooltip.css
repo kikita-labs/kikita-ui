@@ -11,7 +11,7 @@
     color: var(--kui-tooltip-fg, var(--kui-color-bg));
     box-shadow: var(--kui-tooltip-shadow, var(--kui-shadow-lg));
     font-family: var(--kui-font-sans);
-    font-size: var(--kui-text-sm-size, 13px);
+    font-size: var(--kui-tooltip-font-size, var(--kui-text-sm-size, 13px));
     line-height: 1.4;
     pointer-events: none;
     white-space: normal;

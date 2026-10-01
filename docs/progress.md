@@ -61,3 +61,16 @@ Import the Kikita UI style entrypoint once:
 
 Progress styles live in `projects/ui/src/styles/progress.css` and are included
 through `@kikita-labs/ui/styles`.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                 | Default            | Controls             |
+| ------------------------------------- | ------------------ | -------------------- |
+| `--kui-progress-circular-label-color` | `--kui-color-text` | Circular label color |
+
+<!-- color-tokens:end -->

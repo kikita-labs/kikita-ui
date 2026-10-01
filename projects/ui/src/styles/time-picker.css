@@ -19,9 +19,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-inline: var(--kui-space-3);
+    padding-inline: var(--kui-timepicker-control-overlay-padding-inline, var(--kui-space-3));
     pointer-events: none;
-    color: var(--kui-timepicker-icon-color);
+    color: var(--kui-timepicker-icon-color, var(--kui-color-text-secondary));
   }
 
   .kui-timepicker-suffix {
@@ -53,7 +53,7 @@
   }
 
   .kui-timepicker-chevron[aria-expanded='true'] {
-    color: var(--kui-color-primary-fill);
+    color: var(--kui-timepicker-chevron-color-expanded, var(--kui-color-primary-fill));
   }
 
   .kui-timepicker-chevron[aria-expanded='true'] svg {
@@ -63,14 +63,15 @@
   .kui-timepicker-panel {
     display: flex;
     flex-direction: column;
-    gap: var(--kui-space-3);
-    padding: var(--kui-space-3);
+    gap: var(--kui-timepicker-panel-gap, var(--kui-space-3));
+    padding: var(--kui-timepicker-panel-padding, var(--kui-space-3));
     /* Own chrome by default, same as kui-calendar -- dropped via [data-kui-flat] (auto-detected
        from an ancestor kui-dropdown, see the component's host binding) when nested inside a
        dropdown/popover panel that already draws a background/border of its own. */
-    background: var(--kui-color-surface);
-    border: var(--kui-border-width-hairline) solid var(--kui-color-border);
-    border-radius: var(--kui-radius-lg);
+    background: var(--kui-timepicker-panel-bg, var(--kui-color-surface));
+    border: var(--kui-border-width-hairline) solid
+      var(--kui-timepicker-panel-border, var(--kui-color-border));
+    border-radius: var(--kui-timepicker-panel-radius, var(--kui-radius-lg));
   }
 
   .kui-timepicker-panel[data-kui-flat] {
@@ -81,7 +82,7 @@
 
   .kui-timepicker-columns {
     display: flex;
-    gap: var(--kui-timepicker-col-gap);
+    gap: var(--kui-timepicker-col-gap, var(--kui-space-2));
   }
 
   .kui-timepicker-col {
@@ -102,17 +103,17 @@
        panel (not just an individual column) to scroll even when a column itself had empty
        space below its last item. Matches the Claude Design spec's own sizing for its busier
        (seconds + AM/PM) example. */
-    max-block-size: calc(var(--kui-control-height-sm, 32px) * 5);
+    max-block-size: calc(var(--kui-timepicker-opt-size, var(--kui-control-height-sm, 32px)) * 5);
     padding: 4px;
     gap: 2px;
-    border-radius: var(--kui-radius-sm);
+    border-radius: var(--kui-timepicker-col-radius, var(--kui-radius-sm));
     outline: none;
     background: transparent;
     scroll-behavior: smooth;
   }
 
   .kui-timepicker-col:focus-visible {
-    outline: 2px solid var(--kui-color-primary-fill);
+    outline: 2px solid var(--kui-timepicker-col-focus-ring-color, var(--kui-color-primary-fill));
     outline-offset: -2px;
   }
 
@@ -125,8 +126,8 @@
    * every column's right edge. Fixed width sidesteps both: it never depends on overflow state.
    */
   .kui-timepicker-opt {
-    inline-size: var(--kui-control-height-sm, 32px);
-    block-size: var(--kui-control-height-sm, 32px);
+    inline-size: var(--kui-timepicker-opt-size, var(--kui-control-height-sm, 32px));
+    block-size: var(--kui-timepicker-opt-size, var(--kui-control-height-sm, 32px));
     /* A plain div (not a button -- see docs/time-picker.md's accessibility rationale) is
        text-selectable by default; a native button wouldn't be. Clicking/dragging across cells
        to pick a value shouldn't paint a text selection over them. */
@@ -134,21 +135,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--kui-radius-sm);
+    border-radius: var(--kui-timepicker-opt-radius, var(--kui-radius-sm));
     cursor: pointer;
     font-variant-numeric: tabular-nums;
-    font-size: var(--kui-text-sm-size);
+    font-size: var(--kui-timepicker-opt-font-size, var(--kui-text-sm-size));
     flex: none;
-    color: var(--kui-color-text);
+    color: var(--kui-timepicker-opt-color, var(--kui-color-text));
   }
 
   .kui-timepicker-opt:hover {
-    background: var(--kui-timepicker-cell-bg-hover);
+    background: var(--kui-timepicker-cell-bg-hover, var(--kui-color-surface-sunken));
   }
 
   /* Matches .kui-calendar-day--disabled -- min/max time bounds out-of-range cell. */
   .kui-timepicker-opt--disabled {
-    color: var(--kui-color-text-disabled);
+    color: var(--kui-timepicker-opt-color-disabled, var(--kui-color-text-disabled));
     opacity: 0.4;
     cursor: not-allowed;
   }
@@ -158,8 +159,8 @@
   }
 
   .kui-timepicker-opt--selected {
-    background: var(--kui-timepicker-cell-bg-selected);
-    color: var(--kui-timepicker-cell-text-selected);
+    background: var(--kui-timepicker-cell-bg-selected, var(--kui-color-primary-fill));
+    color: var(--kui-timepicker-cell-text-selected, var(--kui-color-on-fill));
     font-weight: 600;
   }
 
@@ -167,7 +168,7 @@
      (var(--kui-color-primary-fill-hover), the same fill-hover token Button/Calendar use),
      it just never falls back to the plain hover background of an unselected cell. */
   .kui-timepicker-opt--selected:hover {
-    background: var(--kui-color-primary-fill-hover);
+    background: var(--kui-timepicker-opt-bg-selected-hover, var(--kui-color-primary-fill-hover));
   }
 
   /* Stretch AM/PM to fill the panel width like the columns row/footer above and below it --
@@ -185,8 +186,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: var(--kui-space-2);
-    border-top: var(--kui-border-width-hairline) solid var(--kui-color-border);
-    padding-top: var(--kui-space-2);
+    gap: var(--kui-timepicker-footer-gap, var(--kui-space-2));
+    border-top: var(--kui-border-width-hairline) solid
+      var(--kui-timepicker-footer-border, var(--kui-color-border));
+    padding-top: var(--kui-timepicker-footer-padding-top, var(--kui-space-2));
   }
 }

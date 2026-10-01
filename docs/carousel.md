@@ -219,3 +219,32 @@ prop -- just slide content that is 100px tall.
   NVDA/JAWS/VoiceOver, which was not available in the review environment. DOM smoke (roles,
   labels, no stale ARIA refs) and a full keyboard-only walkthrough have been done; AT review is a
   genuine open gap, not merely undocumented.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                   | Default                          | Controls               |
+| --------------------------------------- | -------------------------------- | ---------------------- |
+| `--kui-carousel-track-focus-ring-color` | `--kui-color-primary-focus-ring` | Track focus ring color |
+| `--kui-carousel-dot-focus-ring-color`   | `--kui-color-primary-fill`       | Dot focus ring color   |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                       | Default             | Controls          |
+| --------------------------- | ------------------- | ----------------- |
+| `--kui-carousel-stack-gap`  | `--kui-space-2`     | Stack gap         |
+| `--kui-carousel-dots-gap`   | `--kui-space-2`     | Dots gap          |
+| `--kui-carousel-dot-radius` | `--kui-radius-full` | Dot corner radius |
+
+<!-- geometry-tokens:end -->

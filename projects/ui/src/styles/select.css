@@ -37,10 +37,11 @@
   .kui-select-chip-layer {
     position: absolute;
     inset-block-start: 50%;
-    inset-inline: var(--kui-select-chip-layer-inline-start) var(--kui-select-chip-layer-inline-end);
+    inset-inline: var(--kui-select-chip-layer-inline-start, var(--kui-space-2))
+      var(--kui-select-chip-layer-inline-end);
     display: flex;
     align-items: center;
-    gap: var(--kui-select-chip-layer-gap);
+    gap: var(--kui-select-chip-layer-gap, var(--kui-space-1));
     min-inline-size: 0;
     overflow: hidden;
     transform: translateY(-50%);
@@ -70,7 +71,7 @@
     transform: translateY(-50%);
     display: flex;
     align-items: center;
-    gap: var(--kui-select-suffix-gap);
+    gap: var(--kui-select-suffix-gap, var(--kui-space-1));
     pointer-events: none;
   }
 
@@ -93,7 +94,7 @@
   }
 
   .kui-select-chevron[aria-expanded='true'] {
-    color: var(--kui-color-primary-fill);
+    color: var(--kui-select-chevron-color-expanded, var(--kui-color-primary-fill));
   }
 
   .kui-select-chevron[aria-expanded='true'] > svg {

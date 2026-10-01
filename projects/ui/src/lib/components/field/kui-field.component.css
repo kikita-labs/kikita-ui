@@ -11,7 +11,8 @@
    */
   grid-template-rows: var(
     --kui-field-grid-rows,
-    var(--kui-field-label-row, auto) var(--kui-field-control-row, auto)
+    var(--kui-field-label-row, auto)
+      var(--kui-field-control-row, var(--_kui-field-control-row, auto))
       var(--kui-field-message-row, auto)
   );
 }
@@ -19,10 +20,10 @@
 .kui-field__label {
   display: inline-flex;
   grid-row: 1;
-  gap: var(--kui-space-1, 4px);
-  margin-block-end: var(--kui-field-gap, 4px);
+  gap: var(--kui-field-label-gap, var(--kui-space-1, 4px));
+  margin-block-end: var(--kui-field-gap, var(--_kui-field-gap, var(--kui-space-1, 4px)));
   color: var(--kui-field-label-color, var(--kui-color-text));
-  font-size: var(--kui-field-label-size, var(--kui-text-sm-size, 13px));
+  font-size: var(--kui-field-label-size, var(--_kui-field-label-size, var(--kui-text-sm-size)));
   font-weight: var(--kui-field-label-weight, 600);
   line-height: 1.3;
 }
@@ -31,8 +32,8 @@
   display: inline-flex;
   grid-row: 1;
   align-items: baseline;
-  gap: var(--kui-space-1, 4px);
-  margin-block-end: var(--kui-field-gap, 4px);
+  gap: var(--kui-field-label-row-gap, var(--kui-space-1, 4px));
+  margin-block-end: var(--kui-field-gap, var(--_kui-field-gap, var(--kui-space-1, 4px)));
 }
 
 .kui-field__error {
@@ -40,18 +41,15 @@
 }
 
 .kui-field__required {
-  color: var(
-    --kui-field-required-color,
-    var(--kui-field-error-color, var(--kui-color-danger-fill))
-  );
+  color: var(--kui-field-required-color, var(--kui-color-danger-fill));
 }
 
 .kui-field__hint,
 .kui-field__error {
   min-block-size: var(--kui-field-message-min-height, 0);
   margin: 0;
-  margin-block-start: var(--kui-field-gap, 4px);
-  font-size: var(--kui-field-hint-size, var(--kui-text-xs-size, 11px));
+  margin-block-start: var(--kui-field-gap, var(--_kui-field-gap, var(--kui-space-1, 4px)));
+  font-size: var(--kui-field-hint-size, var(--kui-text-xs-size));
   line-height: 1.4;
 }
 
@@ -84,18 +82,18 @@
 }
 
 :host([data-kui-size='xs']) {
-  --kui-field-gap: var(--kui-field-gap-xs, 2px);
-  --kui-field-control-row: var(--kui-control-height-xs, 28px);
-  --kui-field-label-size: var(--kui-text-xs-size, 11px);
+  --_kui-field-gap: var(--kui-field-gap-xs, 2px);
+  --_kui-field-control-row: var(--kui-control-height-xs, 28px);
+  --_kui-field-label-size: var(--kui-text-xs-size, 11px);
   --kui-field-hint-size: var(--kui-text-xs-size, 11px);
 }
 
 :host([data-kui-size='sm']) {
-  --kui-field-gap: var(--kui-field-gap-sm, 3px);
-  --kui-field-control-row: var(--kui-control-height-sm, 32px);
+  --_kui-field-gap: var(--kui-field-gap-sm, 3px);
+  --_kui-field-control-row: var(--kui-control-height-sm, 32px);
 }
 
 :host([data-kui-size='lg']) {
-  --kui-field-gap: var(--kui-field-gap-lg, 6px);
-  --kui-field-control-row: var(--kui-control-height-lg, 44px);
+  --_kui-field-gap: var(--kui-field-gap-lg, 6px);
+  --_kui-field-control-row: var(--kui-control-height-lg, 44px);
 }

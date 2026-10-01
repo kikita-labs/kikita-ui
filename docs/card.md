@@ -63,3 +63,16 @@ The Card-specific variables are:
 - `--kui-card-shadow-elevated`
 - `--kui-card-shadow-sunken`
 - `--kui-card-shadow-hover`
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token              | Default            | Controls |
+| ------------------ | ------------------ | -------- |
+| `--kui-card-color` | `--kui-color-text` | Color    |
+
+<!-- color-tokens:end -->

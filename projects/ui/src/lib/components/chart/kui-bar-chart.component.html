@@ -229,7 +229,9 @@
                 [attr.y]="bar.y"
                 [attr.width]="bar.width"
                 [attr.height]="bar.height"
-                [attr.rx]="bar.roundsFarEnd ? 'var(--kui-chart-bar-radius)' : null"
+                [attr.rx]="
+                  bar.roundsFarEnd ? 'var(--kui-chart-bar-radius, var(--kui-radius-xs))' : null
+                "
                 class="kui-chart__bar"
                 [style.fill]="bar.seriesColor"
                 [class.kui-chart__bar--hovered]="hoveredBarKey() === barKey(bar)"

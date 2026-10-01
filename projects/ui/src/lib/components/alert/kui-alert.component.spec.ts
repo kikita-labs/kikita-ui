@@ -153,7 +153,9 @@ describe('KuiAlertComponent', () => {
     const icons = fixture.nativeElement.querySelectorAll('.kui-alert__icon');
     expect(icons.length).toBe(2);
     for (const icon of icons) {
-      expect((icon as HTMLElement).style.color).toBe('var(--kui-alert-icon-color, currentColor)');
+      expect((icon as HTMLElement).style.color).toBe(
+        'var(--kui-alert-icon-color, var(--_kui-alert-icon-color, currentColor))',
+      );
     }
   });
 

@@ -223,15 +223,52 @@ the shared `--kui-field-action-*` tokens and select-specific suffix/chip-layer t
 
 ## Migration Notes
 
-The legacy Select chrome tokens below are deprecated in 1.x and planned for
-removal in v2. They are still emitted for compatibility, but current
-`input[kuiSelect]` styles use the shared input tokens.
+The legacy Select chrome tokens (`--kui-select-bg`, `--kui-select-border`,
+`--kui-select-border-hover`, `--kui-select-border-focus`, `--kui-select-border-error` and
+`--kui-select-radius`) were removed in 2.0. `input[kuiSelect]` uses the shared input tokens: see
+[tokens.md](tokens.md#removed-in-20) for the replacements.
 
-| Deprecated token            | Use instead                |
-| --------------------------- | -------------------------- |
-| `--kui-select-bg`           | `--kui-input-bg`           |
-| `--kui-select-border`       | `--kui-input-border`       |
-| `--kui-select-border-hover` | `--kui-input-border-hover` |
-| `--kui-select-border-focus` | `--kui-input-border-focus` |
-| `--kui-select-border-error` | `--kui-input-border-error` |
-| `--kui-select-radius`       | `--kui-input-radius`       |
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                    | Default                             | Controls                                |
+| ---------------------------------------- | ----------------------------------- | --------------------------------------- |
+| `--kui-listbox-option-color`             | `--kui-color-text`                  | Stbox option color                      |
+| `--kui-listbox-option-focus-ring-color`  | `--kui-color-primary-focus-ring`    | Stbox option focus ring color           |
+| `--kui-listbox-option-bg-selected`       | `--kui-color-primary-soft-bg`       | Stbox option background, selected       |
+| `--kui-listbox-option-color-selected`    | `--kui-color-primary-soft-text`     | Stbox option color, selected            |
+| `--kui-listbox-option-bg-selected-hover` | `--kui-color-primary-soft-bg-hover` | Stbox option background, selected hover |
+| `--kui-listbox-group-label-color`        | `--kui-color-text-secondary`        | Stbox group label color                 |
+| `--kui-listbox-separator-bg`             | `--kui-color-border`                | Stbox separator background              |
+| `--kui-listbox-empty-color`              | `--kui-color-text-secondary`        | Stbox empty color                       |
+| `--kui-select-chevron-color-expanded`    | `--kui-color-primary-fill`          | Lect chevron color, expanded            |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                           | Default              | Controls                         |
+| ----------------------------------------------- | -------------------- | -------------------------------- |
+| `--kui-listbox-option-gap`                      | `--kui-space-2`      | Option gap                       |
+| `--kui-listbox-option-padding-block`            | `--kui-space-2`      | Option padding, block            |
+| `--kui-listbox-option-padding-inline`           | `--kui-space-3`      | Option padding, inline           |
+| `--kui-listbox-option-radius`                   | `--kui-radius-sm`    | Option corner radius             |
+| `--kui-listbox-option-font-size`                | `--kui-text-sm-size` | Option font size                 |
+| `--kui-listbox-group-label-font-size`           | `--kui-text-xs-size` | Group label font size            |
+| `--kui-listbox-group-label-padding-block-start` | `--kui-space-2`      | Group label padding, block start |
+| `--kui-listbox-group-label-padding-inline`      | `--kui-space-3`      | Group label padding, inline      |
+| `--kui-listbox-group-label-padding-block-end`   | `--kui-space-1`      | Group label padding, block end   |
+| `--kui-listbox-empty-padding-block`             | `--kui-space-4`      | Empty padding, block             |
+| `--kui-listbox-empty-padding-inline`            | `--kui-space-3`      | Empty padding, inline            |
+| `--kui-listbox-empty-font-size`                 | `--kui-text-sm-size` | Empty font size                  |
+
+<!-- geometry-tokens:end -->

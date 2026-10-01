@@ -178,3 +178,37 @@ click); it carries no result value.
 
 Import `@kikita-labs/ui/styles` (which includes `media-viewer.css`) once in your application
 styles.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                       | Default                    | Controls               |
+| ------------------------------------------- | -------------------------- | ---------------------- |
+| `--kui-media-viewer-thumb-focus-ring-color` | `--kui-color-primary-fill` | Thumb focus ring color |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                     | Default              | Controls              |
+| ----------------------------------------- | -------------------- | --------------------- |
+| `--kui-media-viewer-toolbar-padding`      | `--kui-space-4`      | Toolbar padding       |
+| `--kui-media-viewer-counter-font-size`    | `--kui-text-sm-size` | Counter font size     |
+| `--kui-media-viewer-toolbar-actions-gap`  | `--kui-space-2`      | Toolbar actions gap   |
+| `--kui-media-viewer-stage-padding-inline` | `--kui-space-16`     | Stage padding, inline |
+| `--kui-media-viewer-frame-radius`         | `--kui-radius-md`    | Frame corner radius   |
+| `--kui-media-viewer-strip-gap`            | `--kui-space-2`      | Strip gap             |
+| `--kui-media-viewer-strip-padding-block`  | `--kui-space-3`      | Strip padding, block  |
+| `--kui-media-viewer-strip-padding-inline` | `--kui-space-4`      | Strip padding, inline |
+| `--kui-media-viewer-thumb-radius`         | `--kui-radius-sm`    | Thumb corner radius   |
+
+<!-- geometry-tokens:end -->

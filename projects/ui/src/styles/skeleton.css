@@ -39,12 +39,12 @@
 
   .kui-skeleton[data-kui-shape='text'] {
     block-size: var(--kui-skeleton-line-height, 12px);
-    border-radius: var(--kui-radius-xs);
+    border-radius: var(--kui-skeleton-radius-text, var(--kui-radius-xs));
   }
 
   .kui-skeleton[data-kui-shape='heading'] {
     block-size: var(--kui-skeleton-heading-height, 22px);
-    border-radius: var(--kui-radius-xs);
+    border-radius: var(--kui-skeleton-radius-heading, var(--kui-radius-xs));
   }
 
   .kui-skeleton[data-kui-shape='circle'] {
@@ -59,8 +59,8 @@
   }
 
   .kui-skeleton[data-kui-shape='button'] {
-    block-size: var(--kui-btn-height, 40px);
-    border-radius: var(--kui-radius-md);
+    block-size: var(--kui-btn-height, var(--kui-control-height-md, 40px));
+    border-radius: var(--kui-skeleton-radius-button, var(--kui-radius-md));
   }
 
   .kui-skeleton[data-kui-shape='badge'] {

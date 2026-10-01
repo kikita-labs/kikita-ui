@@ -226,3 +226,45 @@ styles.
   new static chrome glyph (`KUI_CLOCK_CIRCLE`/`KUI_CLOCK_D` in `kui-chrome-icon-paths.util`), not
   yet routed through the async `kui-icon` registry, matching how `KUI_CALENDAR_D` is handled for
   `kuiDatePicker`.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                     | Default                          | Controls                       |
+| ----------------------------------------- | -------------------------------- | ------------------------------ |
+| `--kui-timepicker-chevron-color-expanded` | `--kui-color-primary-fill`       | Chevron color, expanded        |
+| `--kui-timepicker-panel-bg`               | `--kui-color-surface`            | Panel background               |
+| `--kui-timepicker-panel-border`           | `--kui-color-border`             | Panel border color             |
+| `--kui-timepicker-col-focus-ring-color`   | `--kui-color-primary-fill`       | Col focus ring color           |
+| `--kui-timepicker-opt-color`              | `--kui-color-text`               | Opt color                      |
+| `--kui-timepicker-opt-color-disabled`     | `--kui-color-text-disabled`      | Opt color, disabled            |
+| `--kui-timepicker-opt-bg-selected-hover`  | `--kui-color-primary-fill-hover` | Opt background, selected hover |
+| `--kui-timepicker-footer-border`          | `--kui-color-border`             | Footer border color            |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                             | Default                   | Controls                        |
+| ------------------------------------------------- | ------------------------- | ------------------------------- |
+| `--kui-timepicker-control-overlay-padding-inline` | `--kui-space-3`           | Control overlay padding, inline |
+| `--kui-timepicker-panel-gap`                      | `--kui-space-3`           | Panel gap                       |
+| `--kui-timepicker-panel-padding`                  | `--kui-space-3`           | Panel padding                   |
+| `--kui-timepicker-panel-radius`                   | `--kui-radius-lg`         | Panel corner radius             |
+| `--kui-timepicker-col-radius`                     | `--kui-radius-sm`         | Col corner radius               |
+| `--kui-timepicker-opt-size`                       | `--kui-control-height-sm` | Opt size                        |
+| `--kui-timepicker-opt-radius`                     | `--kui-radius-sm`         | Opt corner radius               |
+| `--kui-timepicker-opt-font-size`                  | `--kui-text-sm-size`      | Opt font size                   |
+| `--kui-timepicker-footer-gap`                     | `--kui-space-2`           | Footer gap                      |
+| `--kui-timepicker-footer-padding-top`             | `--kui-space-2`           | Footer padding, top             |
+
+<!-- geometry-tokens:end -->

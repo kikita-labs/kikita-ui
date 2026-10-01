@@ -96,7 +96,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    --kui-pc: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
+    --_kui-pc: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
   }
 
   .kui-progress-circular > svg {
@@ -109,7 +109,7 @@
   }
 
   .kui-progress-circular-fill {
-    stroke: var(--kui-pc);
+    stroke: var(--kui-pc, var(--_kui-pc));
   }
 
   .kui-progress-circular-label {
@@ -119,26 +119,26 @@
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    color: var(--kui-color-text);
+    color: var(--kui-progress-circular-label-color, var(--kui-color-text));
     line-height: 1;
     pointer-events: none;
   }
 
   /* colors */
   .kui-progress-circular[data-kui-color='primary'] {
-    --kui-pc: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
+    --_kui-pc: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
   }
   .kui-progress-circular[data-kui-color='success'] {
-    --kui-pc: var(--kui-progress-fill-success, var(--kui-color-success-fill));
+    --_kui-pc: var(--kui-progress-fill-success, var(--kui-color-success-fill));
   }
   .kui-progress-circular[data-kui-color='warning'] {
-    --kui-pc: var(--kui-progress-fill-warning, var(--kui-color-warning-fill));
+    --_kui-pc: var(--kui-progress-fill-warning, var(--kui-color-warning-fill));
   }
   .kui-progress-circular[data-kui-color='danger'] {
-    --kui-pc: var(--kui-progress-fill-danger, var(--kui-color-danger-fill));
+    --_kui-pc: var(--kui-progress-fill-danger, var(--kui-color-danger-fill));
   }
   .kui-progress-circular[data-kui-color='neutral'] {
-    --kui-pc: var(--kui-progress-fill-neutral, var(--kui-color-text-secondary));
+    --_kui-pc: var(--kui-progress-fill-neutral, var(--kui-color-text-secondary));
   }
 
   /* indeterminate circular */

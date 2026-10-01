@@ -5,13 +5,13 @@
     max-block-size: calc(100vh - var(--kui-menu-viewport-margin, 32px));
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding-block: var(--kui-menu-padding-y);
-    padding-inline: var(--kui-menu-padding-x);
-    border: var(--kui-menu-border-width) solid var(--kui-menu-border);
-    border-radius: var(--kui-menu-radius);
-    background: var(--kui-menu-bg);
-    box-shadow: var(--kui-menu-shadow);
-    color: var(--kui-menu-item-text);
+    padding-block: var(--kui-menu-padding-y, var(--kui-space-1));
+    padding-inline: var(--kui-menu-padding-x, var(--kui-space-1));
+    border: var(--kui-menu-border-width) solid var(--kui-menu-border, var(--kui-color-border));
+    border-radius: var(--kui-menu-radius, var(--kui-radius-md));
+    background: var(--kui-menu-bg, var(--kui-color-surface-elevated));
+    box-shadow: var(--kui-menu-shadow, var(--kui-shadow-lg));
+    color: var(--kui-menu-item-text, var(--kui-color-text));
     font-family: var(--kui-font-sans);
     animation: kui-menu-in var(--kui-duration-fast) var(--kui-ease);
     z-index: var(--kui-z-menu);
@@ -28,16 +28,16 @@
     inline-size: 100%;
     min-inline-size: 0;
     block-size: var(--kui-menu-item-height);
-    gap: var(--kui-menu-item-gap);
+    gap: var(--kui-menu-item-gap, var(--kui-space-2));
     padding-block: 0;
-    padding-inline: var(--kui-menu-item-padding-x);
+    padding-inline: var(--kui-menu-item-padding-x, var(--kui-space-3));
     border: 0;
-    border-radius: var(--kui-menu-item-radius);
+    border-radius: var(--kui-menu-item-radius, var(--kui-radius-sm));
     background: transparent;
-    color: var(--kui-menu-item-text);
+    color: var(--kui-menu-item-text, var(--kui-color-text));
     cursor: pointer;
     font: inherit;
-    font-size: var(--kui-menu-item-font-size);
+    font-size: var(--kui-menu-item-font-size, var(--kui-text-sm-size));
     font-weight: var(--kui-menu-item-font-weight);
     letter-spacing: 0;
     line-height: 1;
@@ -51,20 +51,20 @@
   .kui-menu-item:hover,
   .kui-menu-item:focus-visible {
     outline: 0;
-    background: var(--kui-menu-item-bg-hover);
+    background: var(--kui-menu-item-bg-hover, var(--kui-color-surface-sunken));
   }
 
   .kui-menu-item:active {
-    background: var(--kui-menu-item-bg-active);
+    background: var(--kui-menu-item-bg-active, var(--kui-color-surface-sunken));
   }
 
   .kui-menu-item[data-kui-appearance='destructive'] {
-    color: var(--kui-menu-item-text-destructive);
+    color: var(--kui-menu-item-text-destructive, var(--kui-color-danger-fill));
   }
 
   .kui-menu-item--disabled,
   .kui-menu-item[aria-disabled='true'] {
-    color: var(--kui-menu-item-text-disabled);
+    color: var(--kui-menu-item-text-disabled, var(--kui-color-text-disabled));
     cursor: default;
     pointer-events: none;
   }
@@ -76,7 +76,7 @@
     justify-content: center;
     inline-size: var(--kui-menu-item-icon-size);
     block-size: var(--kui-menu-item-icon-size);
-    color: var(--kui-menu-item-icon-color);
+    color: var(--kui-menu-item-icon-color, var(--kui-color-text-secondary));
   }
 
   .kui-menu-item[data-kui-appearance='destructive'] .kui-menu-item__icon {
@@ -99,17 +99,18 @@
 
   .kui-menu-item__shortcut {
     flex: 0 0 auto;
-    color: var(--kui-menu-item-shortcut-text);
-    font-size: var(--kui-text-xs-size);
+    color: var(--kui-menu-item-shortcut-text, var(--kui-color-text-secondary));
+    font-size: var(--kui-menu-item-shortcut-font-size, var(--kui-text-xs-size));
     line-height: 1;
   }
 
   .kui-menu-group-header {
     box-sizing: border-box;
-    padding-block: var(--kui-menu-group-header-py-start) var(--kui-menu-group-header-py-end);
-    padding-inline: var(--kui-menu-item-padding-x);
-    color: var(--kui-menu-group-header-text);
-    font-size: var(--kui-menu-group-header-font-size);
+    padding-block: var(--kui-menu-group-header-py-start, var(--kui-space-2))
+      var(--kui-menu-group-header-py-end, var(--kui-space-1));
+    padding-inline: var(--kui-menu-item-padding-x, var(--kui-space-3));
+    color: var(--kui-menu-group-header-text, var(--kui-color-text-secondary));
+    font-size: var(--kui-menu-group-header-font-size, var(--kui-text-xs-size));
     font-weight: var(--kui-menu-group-header-font-weight);
     letter-spacing: 0;
     line-height: 1;

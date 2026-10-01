@@ -218,3 +218,19 @@ See `docs/di-defaults.md` before adding or changing field-control provider defau
 - `.kui-field-message-icon` / `.kui-field__message-icon`: icon inside a rich message
 - `.kui-field-message--hint` / `.kui-field__message--hint`: hint-colored rich message
 - `.kui-field-message--error` / `.kui-field__message--error`: error-colored rich message
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                         | Default              | Controls              |
+| ----------------------------- | -------------------- | --------------------- |
+| `--kui-field-label-gap`       | `--kui-space-1`      | Label gap             |
+| `--kui-field-label-row-gap`   | `--kui-space-1`      | Label row gap         |
+| `--kui-field-affix-font-size` | `--kui-text-sm-size` | Affix font size       |
+| `--kui-field-spinner-radius`  | `--kui-radius-full`  | Spinner corner radius |
+
+<!-- geometry-tokens:end -->

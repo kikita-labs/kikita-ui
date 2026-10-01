@@ -69,7 +69,10 @@ const KUI_ALERT_SIZES: readonly KuiAlertSize[] = ['sm', 'md'];
   template: `
     <ng-content select="[kuiAlertIcon]" />
     @if (!hasProjectedIcon() && showIconResolved()) {
-      <span class="kui-alert__icon" style="color: var(--kui-alert-icon-color, currentColor)">
+      <span
+        class="kui-alert__icon"
+        style="color: var(--kui-alert-icon-color, var(--_kui-alert-icon-color, currentColor))"
+      >
         @switch (appearance()) {
           @case ('info') {
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">

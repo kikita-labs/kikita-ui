@@ -1,23 +1,23 @@
 @layer kui.components {
   .kui-link {
-    --kui-link-color-default: var(--kui-color-text);
-    --kui-link-color-muted: var(--kui-color-text-secondary);
-    --kui-link-color-primary: var(--kui-color-primary-soft-text);
-    --kui-link-color-success: var(--kui-color-success-soft-text);
-    --kui-link-color-warning: var(--kui-color-warning-soft-text);
-    --kui-link-color-danger: var(--kui-color-danger-soft-text);
-    --kui-link-color-disabled: var(--kui-color-text-disabled);
-    --kui-link-focus-ring: var(--kui-color-primary-focus-ring);
-    --kui-link-decoration-thickness-rest: var(--kui-border-width-hairline);
-    --kui-link-decoration-thickness-active: var(--kui-border-width-thick);
-    --kui-link-gap: var(--kui-space-1);
-    --kui-link-radius-focus: var(--kui-radius-xs);
+    --_kui-link-color-default: var(--kui-color-text);
+    --_kui-link-color-muted: var(--kui-color-text-secondary);
+    --_kui-link-color-primary: var(--kui-color-primary-soft-text);
+    --_kui-link-color-success: var(--kui-color-success-soft-text);
+    --_kui-link-color-warning: var(--kui-color-warning-soft-text);
+    --_kui-link-color-danger: var(--kui-color-danger-soft-text);
+    --_kui-link-color-disabled: var(--kui-color-text-disabled);
+    --_kui-link-focus-ring: var(--kui-color-primary-focus-ring);
+    --_kui-link-decoration-thickness-rest: var(--kui-border-width-hairline);
+    --_kui-link-decoration-thickness-active: var(--kui-border-width-thick);
+    --_kui-link-gap: var(--kui-space-1);
+    --_kui-link-radius-focus: var(--kui-radius-xs);
 
     display: inline-flex;
     align-items: center;
-    gap: var(--kui-link-gap);
+    gap: var(--kui-link-gap, var(--_kui-link-gap));
     position: relative;
-    color: var(--kui-link-color-primary);
+    color: var(--kui-link-color-primary, var(--_kui-link-color-primary));
     background: none;
     border: none;
     padding: 0;
@@ -28,9 +28,12 @@
     font-family: inherit;
     text-decoration-line: none;
     text-decoration-color: currentcolor;
-    text-decoration-thickness: var(--kui-link-decoration-thickness-rest);
+    text-decoration-thickness: var(
+      --kui-link-decoration-thickness-rest,
+      var(--_kui-link-decoration-thickness-rest)
+    );
     text-underline-offset: 2px;
-    border-radius: var(--kui-link-radius-focus);
+    border-radius: var(--kui-link-radius-focus, var(--_kui-link-radius-focus));
     outline: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -39,27 +42,27 @@
   /* ── Tone (rest color; unchanged by hover/focus/active) ───────────────────── */
 
   .kui-link[data-kui-tone='default'] {
-    color: var(--kui-link-color-default);
+    color: var(--kui-link-color-default, var(--_kui-link-color-default));
   }
 
   .kui-link[data-kui-tone='muted'] {
-    color: var(--kui-link-color-muted);
+    color: var(--kui-link-color-muted, var(--_kui-link-color-muted));
   }
 
   .kui-link[data-kui-tone='primary'] {
-    color: var(--kui-link-color-primary);
+    color: var(--kui-link-color-primary, var(--_kui-link-color-primary));
   }
 
   .kui-link[data-kui-tone='success'] {
-    color: var(--kui-link-color-success);
+    color: var(--kui-link-color-success, var(--_kui-link-color-success));
   }
 
   .kui-link[data-kui-tone='warning'] {
-    color: var(--kui-link-color-warning);
+    color: var(--kui-link-color-warning, var(--_kui-link-color-warning));
   }
 
   .kui-link[data-kui-tone='danger'] {
-    color: var(--kui-link-color-danger);
+    color: var(--kui-link-color-danger, var(--_kui-link-color-danger));
   }
 
   /* ── Underline modes ───────────────────────────────────────────────────────
@@ -85,16 +88,19 @@
    * below instead -- the two states are not meant to look identical. */
   .kui-link:hover,
   .kui-link:active {
-    text-decoration-thickness: var(--kui-link-decoration-thickness-active);
+    text-decoration-thickness: var(
+      --kui-link-decoration-thickness-active,
+      var(--_kui-link-decoration-thickness-active)
+    );
   }
 
   .kui-link:focus-visible {
-    box-shadow: 0 0 0 3px var(--kui-link-focus-ring);
+    box-shadow: 0 0 0 3px var(--kui-link-focus-ring, var(--_kui-link-focus-ring));
   }
 
   /* ── Disabled ── higher specificity than the plain tone rules above, so it always wins. */
   .kui-link[aria-disabled='true'] {
-    color: var(--kui-link-color-disabled);
+    color: var(--kui-link-color-disabled, var(--_kui-link-color-disabled));
     text-decoration-line: none;
     box-shadow: none;
     cursor: not-allowed;

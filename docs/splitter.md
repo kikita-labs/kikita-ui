@@ -203,3 +203,17 @@ inject or query the component directly if you need these outside a template).
 - Not reviewed in a real browser yet; the automated document-overflow check, committed visual
   regression baselines, and a formal assistive-technology pass are still pending, same as other
   recently added primitives.
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                    | Default             | Controls                       |
+| ---------------------------------------- | ------------------- | ------------------------------ |
+| `--kui-splitter-gutter-thumb-radius`     | `--kui-radius-full` | Gutter thumb corner radius     |
+| `--kui-splitter-gutter-thumb-btn-radius` | `--kui-radius-full` | Gutter thumb btn corner radius |
+
+<!-- geometry-tokens:end -->

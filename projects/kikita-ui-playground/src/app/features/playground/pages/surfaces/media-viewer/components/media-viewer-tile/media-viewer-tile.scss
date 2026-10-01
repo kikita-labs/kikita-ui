@@ -20,7 +20,8 @@
   }
 
   .media-viewer-tile__cover:focus-visible {
-    outline: var(--kui-btn-focus-ring-w) solid var(--kui-btn-focus-ring-color);
+    outline: var(--kui-btn-focus-ring-w) solid
+      var(--kui-btn-focus-ring-color, var(--kui-color-primary-focus-ring));
     outline-offset: var(--kui-btn-focus-ring-off);
   }
 

@@ -127,3 +127,32 @@ All other layout (buttons, forms, images) is developer-provided via `<ng-content
 ## Architecture
 
 `KuiPopoverComponent` lazily creates a CDK overlay on `openFor()` and disposes it after the exit animation completes. The `[kuiPopoverFor]` directive wires click/hover events on the trigger element and passes `element.nativeElement` to `openFor()`. Position changes from CDK update `data-side`/`data-align` attributes driving animation and arrow direction.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                       | Default                      | Controls    |
+| --------------------------- | ---------------------------- | ----------- |
+| `--kui-popover-color`       | `--kui-color-text`           | Color       |
+| `--kui-popover-title-color` | `--kui-color-text`           | Title color |
+| `--kui-popover-desc-color`  | `--kui-color-text-secondary` | Desc color  |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                           | Default              | Controls        |
+| ------------------------------- | -------------------- | --------------- |
+| `--kui-popover-title-font-size` | `--kui-text-sm-size` | Title font size |
+| `--kui-popover-desc-font-size`  | `--kui-text-sm-size` | Desc font size  |
+
+<!-- geometry-tokens:end -->

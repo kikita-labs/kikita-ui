@@ -28,6 +28,32 @@
 - Playground SCSS may arrange demos, grids, and state simulations, but it must
   not become the source of component styling.
 
+## Component Token Pattern
+
+Palette -> semantic -> component is the only direction tokens flow. These rules are enforced by
+`pnpm audit:static` and described for consumers in `docs/tokens.md` and `docs/theming.md`.
+
+- Component CSS never reads palette steps (`--kui-<scale>-<step>`) or seeds (`--kui-seed-*`).
+- Every color part reads a component token whose default is the semantic role:
+  `color: var(--kui-card-color, var(--kui-color-text))`. Name it
+  `--kui-<component>-<part>-<property>[-<state>]` (`bg`, `color`, `border`, `focus-ring-color`).
+- Radius, font size, height, gap and padding of a component part follow the same pattern with the
+  scale token as the default. A square control uses one `-size` token for width and height. Margin,
+  positional offsets, motion, border width, fonts, z-index and shadows read their global tokens directly.
+- A component states its default in its CSS. The generated stylesheet defines only literal component
+  tokens (and the `--kui-type-*` roles, `--kui-btn-px`), never an alias such as `--kui-card-bg:
+var(--kui-color-surface)`: an alias on `:root` is resolved there and descendants inherit the finished
+  value, so a token set on a subtree would not reach the component.
+- A component never defines a public `--kui-*` token on its own element. Variant defaults (size,
+  appearance, state) go in private `--_kui-*` variables, read as
+  `var(--kui-x, var(--_kui-x, <fallback>))`, so a value set on any ancestor wins. The only public
+  tokens a component may assign are parent-to-child APIs, listed in `parentAssignedTokens` in
+  `scripts/verify-static-audit.mjs`.
+- When two parts share a hook name they must share a default; add the state or part to the name
+  otherwise. After adding hooks, check that no new name collides with an existing token.
+- Typography classes and tones (`typography.css`) are the semantic layer and may read colour roles
+  directly.
+
 ## Playground Architecture
 
 - Playground routes are lazy standalone page components under

@@ -418,3 +418,46 @@ replace its default `<button>` markup.
   all orientations/stacking/bubble, default colors, donut hide-recompute behavior) -- but committed
   visual-regression baselines and a formal assistive-technology pass are still pending, same as
   other recently added primitives.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                  | Default                      | Controls                       |
+| -------------------------------------- | ---------------------------- | ------------------------------ |
+| `--kui-chart-mark-stroke`              | `--kui-color-surface`        | Mark stroke                    |
+| `--kui-chart-empty-border`             | `--kui-color-border`         | Empty border color             |
+| `--kui-chart-empty-color`              | `--kui-color-text-secondary` | Empty color                    |
+| `--kui-chart-legend-item-bg-active`    | `--kui-color-surface-sunken` | Legend item background, active |
+| `--kui-chart-legend-item-color-active` | `--kui-color-text`           | Legend item color, active      |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                    | Default              | Controls                    |
+| ---------------------------------------- | -------------------- | --------------------------- |
+| `--kui-chart-gap`                        | `--kui-space-3`      | Gap                         |
+| `--kui-chart-axis-text-font-size`        | `--kui-text-xs-size` | Axis text font size         |
+| `--kui-chart-loading-bars-gap`           | `--kui-space-3`      | Loading bars gap            |
+| `--kui-chart-loading-bars-padding`       | `--kui-space-4`      | Loading bars padding        |
+| `--kui-chart-empty-gap`                  | `--kui-space-3`      | Empty gap                   |
+| `--kui-chart-empty-radius`               | `--kui-radius-md`    | Empty corner radius         |
+| `--kui-chart-empty-text-font-size`       | `--kui-text-sm-size` | Empty text font size        |
+| `--kui-chart-toolbar-gap`                | `--kui-space-3`      | Toolbar gap                 |
+| `--kui-chart-legend-gap`                 | `--kui-space-3`      | Legend gap                  |
+| `--kui-chart-legend-item-gap`            | `--kui-space-2`      | Legend item gap             |
+| `--kui-chart-legend-item-radius`         | `--kui-radius-sm`    | Legend item corner radius   |
+| `--kui-chart-legend-item-padding-inline` | `--kui-space-1`      | Legend item padding, inline |
+| `--kui-chart-legend-item-font-size`      | `--kui-text-sm-size` | Legend item font size       |
+| `--kui-chart-legend-swatch-radius`       | `--kui-radius-full`  | Legend swatch corner radius |
+
+<!-- geometry-tokens:end -->

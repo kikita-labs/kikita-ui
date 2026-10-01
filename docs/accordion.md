@@ -81,3 +81,41 @@ Import the Kikita UI style entrypoint once:
 
 Accordion styles live in `projects/ui/src/styles/accordion.css` and are included
 through `@kikita-labs/ui/styles`.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                      | Default                      | Controls                 |
+| ------------------------------------------ | ---------------------------- | ------------------------ |
+| `--kui-accordion-trigger-focus-ring-color` | `--kui-color-primary-fill`   | Trigger focus ring color |
+| `--kui-accordion-icon-color`               | `--kui-color-text-secondary` | Icon color               |
+| `--kui-accordion-chevron-color`            | `--kui-color-text-secondary` | Chevron color            |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                              | Default                | Controls                          |
+| -------------------------------------------------- | ---------------------- | --------------------------------- |
+| `--kui-accordion-trigger-gap`                      | `--kui-space-2`        | Trigger gap                       |
+| `--kui-accordion-trigger-font-size`                | `--kui-text-base-size` | Trigger font size                 |
+| `--kui-accordion-trigger-radius-focus`             | `--kui-radius-xs`      | Trigger corner radius, focus      |
+| `--kui-accordion-body-content-font-size`           | `--kui-text-sm-size`   | Body content font size            |
+| `--kui-accordion-trigger-font-size-sm`             | `--kui-text-sm-size`   | Trigger font size, sm             |
+| `--kui-accordion-trigger-font-size-lg`             | `--kui-text-md-size`   | Trigger font size, lg             |
+| `--kui-accordion-body-content-padding-bottom-sm`   | `--kui-space-3`        | Body content padding, bottom sm   |
+| `--kui-accordion-body-content-padding-top-lg`      | `--kui-space-3`        | Body content padding, top lg      |
+| `--kui-accordion-body-content-padding-bottom-lg`   | `--kui-space-5`        | Body content padding, bottom lg   |
+| `--kui-accordion-body-content-padding-block-start` | `--kui-space-1`        | Body content padding, block start |
+| `--kui-accordion-body-content-padding-block-end`   | `--kui-space-4`        | Body content padding, block end   |
+
+<!-- geometry-tokens:end -->

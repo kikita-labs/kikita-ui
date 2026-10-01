@@ -82,7 +82,8 @@ export class KuiDropdownComponent implements OnDestroy {
    * actually rendered into -- a template binding would fight that direct style write.
    */
   protected readonly effectiveMaxHeight = computed(() => {
-    const viewportCap = 'calc(100vh - var(--kui-dropdown-viewport-margin, 32px))';
+    const viewportCap =
+      'calc(100vh - var(--kui-dropdown-viewport-margin, var(--_kui-dropdown-viewport-margin, 32px)))';
     const intrinsic = this.maxHeight();
     return intrinsic ? `min(${intrinsic}, ${viewportCap})` : viewportCap;
   });

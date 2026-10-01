@@ -160,3 +160,69 @@ Import `@kikita-labs/ui/styles` (which includes `calendar.css`) once in your app
 
 - Arbitrary multi-date selection is not implemented; the design spec marks it low priority until a concrete use case appears.
 - `kui-calendar` is inline-only; a popover-based date picker that wraps it is not yet built (see [Date Picker](./date-picker.md) for the current pairing pattern with `input[kuiDatePicker]`).
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                         | Default                          | Controls                           |
+| --------------------------------------------- | -------------------------------- | ---------------------------------- |
+| `--kui-calendar-bg`                           | `--kui-color-surface`            | Background                         |
+| `--kui-calendar-border`                       | `--kui-color-border`             | Border color                       |
+| `--kui-calendar-color`                        | `--kui-color-text`               | Color                              |
+| `--kui-calendar-title-color`                  | `--kui-color-text`               | Title color                        |
+| `--kui-calendar-day-color`                    | `--kui-color-text`               | Day color                          |
+| `--kui-calendar-day-focus-ring-color`         | `--kui-color-primary-focus-ring` | Day focus ring color               |
+| `--kui-calendar-day-color-muted`              | `--kui-color-text-disabled`      | Day color, muted                   |
+| `--kui-calendar-day-color-weekend`            | `--kui-color-text-secondary`     | Day color, weekend                 |
+| `--kui-calendar-day-bg-selected`              | `--kui-color-primary-fill`       | Day background, selected           |
+| `--kui-calendar-day-color-selected`           | `--kui-color-on-fill`            | Day color, selected                |
+| `--kui-calendar-day-color-range-middle`       | `--kui-color-primary-soft-text`  | Day color, range middle            |
+| `--kui-calendar-day-bg-range-start`           | `--kui-color-primary-fill`       | Day background, range start        |
+| `--kui-calendar-day-color-range-start`        | `--kui-color-on-fill`            | Day color, range start             |
+| `--kui-calendar-day-bg-range-end`             | `--kui-color-primary-fill`       | Day background, range end          |
+| `--kui-calendar-day-color-range-end`          | `--kui-color-on-fill`            | Day color, range end               |
+| `--kui-calendar-day-bg-range-edge-hover`      | `--kui-color-primary-fill-hover` | Day background, range edge hover   |
+| `--kui-calendar-day-bg-range-middle-hover`    | `?`                              | Day background, range middle hover |
+| `--kui-calendar-day-bg-selected-hover`        | `--kui-color-primary-fill-hover` | Day background, selected hover     |
+| `--kui-calendar-value-color`                  | `--kui-color-text-secondary`     | Value color                        |
+| `--kui-calendar-picker-cell-color`            | `--kui-color-text`               | Picker cell color                  |
+| `--kui-calendar-picker-cell-focus-ring-color` | `--kui-color-primary-focus-ring` | Picker cell focus ring color       |
+| `--kui-calendar-picker-cell-bg-active`        | `--kui-color-primary-fill`       | Picker cell background, active     |
+| `--kui-calendar-picker-cell-color-active`     | `--kui-color-on-fill`            | Picker cell color, active          |
+| `--kui-calendar-picker-cell-color-muted`      | `--kui-color-text-disabled`      | Picker cell color, muted           |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                       | Default                   | Controls                    |
+| ------------------------------------------- | ------------------------- | --------------------------- |
+| `--kui-calendar-radius`                     | `--kui-radius-lg`         | Corner radius               |
+| `--kui-calendar-padding`                    | `--kui-space-4`           | Padding                     |
+| `--kui-calendar-title-font-size`            | `--kui-text-sm-size`      | Title font size             |
+| `--kui-calendar-title-padding-inline`       | `--kui-space-2`           | Title padding, inline       |
+| `--kui-calendar-nav-spacer-size`            | `--kui-control-height-xs` | Nav spacer size             |
+| `--kui-calendar-weekday-font-size`          | `--kui-text-xs-size`      | Weekday font size           |
+| `--kui-calendar-weekday-padding-bottom`     | `--kui-space-2`           | Weekday padding, bottom     |
+| `--kui-calendar-day-font-size`              | `--kui-text-sm-size`      | Day font size               |
+| `--kui-calendar-footer-gap`                 | `--kui-space-2`           | Footer gap                  |
+| `--kui-calendar-value-font-size`            | `--kui-text-xs-size`      | Value font size             |
+| `--kui-calendar-picker-grid-gap`            | `--kui-space-2`           | Picker grid gap             |
+| `--kui-calendar-picker-cell-padding-block`  | `--kui-space-3`           | Picker cell padding, block  |
+| `--kui-calendar-picker-cell-padding-inline` | `--kui-space-2`           | Picker cell padding, inline |
+| `--kui-calendar-picker-cell-radius`         | `--kui-radius-sm`         | Picker cell corner radius   |
+| `--kui-calendar-picker-cell-font-size`      | `--kui-text-sm-size`      | Picker cell font size       |
+| `--kui-calendar-padding-sm`                 | `--kui-space-3`           | Padding, sm                 |
+| `--kui-calendar-day-font-size-sm`           | `--kui-text-xs-size`      | Day font size, sm           |
+| `--kui-calendar-weekday-font-size-sm`       | `--kui-text-2xs-size`     | Weekday font size, sm       |
+
+<!-- geometry-tokens:end -->

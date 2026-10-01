@@ -116,3 +116,21 @@ Input styles consume the shared public variables documented in [Tokens](tokens.m
 The Input page should use these library styles and variables without redefining the control's
 visual identity. `.kui-input-group` styles are for Field/group composition, not an additional
 `kuiInput` input or variant.
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                      | Default                   | Controls      |
+| -------------------------- | ------------------------- | ------------- |
+| `--kui-input-font-size`    | `--kui-text-sm-size`      | Font size     |
+| `--kui-input-height-xs`    | `--kui-control-height-xs` | Height, xs    |
+| `--kui-input-font-size-xs` | `--kui-text-xs-size`      | Font size, xs |
+| `--kui-input-height-sm`    | `--kui-control-height-sm` | Height, sm    |
+| `--kui-input-height-lg`    | `--kui-control-height-lg` | Height, lg    |
+| `--kui-input-font-size-lg` | `--kui-text-base-size`    | Font size, lg |
+
+<!-- geometry-tokens:end -->

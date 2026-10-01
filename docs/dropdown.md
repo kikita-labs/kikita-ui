@@ -172,3 +172,17 @@ is internal and is not part of the public dropdown API.
   panel with no visible trigger is confusing and easy to lose track of.
 - Uses a document capture click listener for outside click.
 - Detaches the overlay after the `kui-dropdown-out` animation finishes.
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                      | Default              | Controls  |
+| -------------------------- | -------------------- | --------- |
+| `--kui-dropdown-font-size` | `--kui-text-sm-size` | Font size |
+| `--kui-dropdown-padding`   | `--kui-space-1`      | Padding   |
+
+<!-- geometry-tokens:end -->

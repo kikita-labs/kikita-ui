@@ -4,16 +4,16 @@
      scoped to `.kui-chart` itself. */
   .kui-chart,
   .kui-chart-legend {
-    --kui-chart-focus-ring: var(--kui-color-primary-focus-ring);
-    --kui-chart-legend-text: var(--kui-color-text-secondary);
-    --kui-chart-legend-text-hidden: var(--kui-color-text-disabled);
-    --kui-chart-slice-sep: var(--kui-color-surface);
+    --_kui-chart-focus-ring: var(--kui-color-primary-focus-ring);
+    --_kui-chart-legend-text: var(--kui-color-text-secondary);
+    --_kui-chart-legend-text-hidden: var(--kui-color-text-disabled);
+    --_kui-chart-slice-sep: var(--kui-color-surface);
   }
 
   .kui-chart {
     display: flex;
     flex-direction: column;
-    gap: var(--kui-space-3, 12px);
+    gap: var(--kui-chart-gap, var(--kui-space-3, 12px));
     width: 100%;
   }
 
@@ -49,7 +49,7 @@
 
   .kui-chart__axis-text {
     fill: var(--kui-chart-axis-label-color);
-    font-size: var(--kui-text-xs-size, 11px);
+    font-size: var(--kui-chart-axis-text-font-size, var(--kui-text-xs-size, 11px));
     font-family: var(--kui-font-sans);
   }
 
@@ -92,7 +92,7 @@
   .kui-chart__mark {
     cursor: pointer;
     outline: none;
-    stroke: var(--kui-color-surface);
+    stroke: var(--kui-chart-mark-stroke, var(--kui-color-surface));
     stroke-width: 2;
     /* `fill-box`/`center` -- scales around the circle's own center regardless of where its
        `cx`/`cy` sit in the SVG's coordinate space, instead of the default `view-box` origin
@@ -111,7 +111,7 @@
   }
 
   .kui-chart__mark:focus-visible {
-    stroke: var(--kui-chart-focus-ring);
+    stroke: var(--kui-chart-focus-ring, var(--_kui-chart-focus-ring));
     stroke-width: 2;
   }
 
@@ -124,7 +124,7 @@
   }
 
   .kui-chart__mark-hit:focus-visible {
-    stroke: var(--kui-chart-focus-ring);
+    stroke: var(--kui-chart-focus-ring, var(--_kui-chart-focus-ring));
     stroke-width: 2;
   }
 
@@ -145,7 +145,7 @@
 
   .kui-chart__slice {
     pointer-events: none;
-    stroke: var(--kui-chart-slice-sep);
+    stroke: var(--kui-chart-slice-sep, var(--_kui-chart-slice-sep));
     stroke-width: 2;
     /*
      * Only the hover pop-out (`[style.transform]`, a `translate()`) lives on this element's own
@@ -172,7 +172,7 @@
   /* The hit path (first sibling) carries real keyboard focus; the ring paints on its visible
      cosmetic twin (second sibling) so it traces the actual colored shape, not an invisible one. */
   .kui-chart__slice-hit:focus-visible + .kui-chart__slice {
-    stroke: var(--kui-chart-focus-ring);
+    stroke: var(--kui-chart-focus-ring, var(--_kui-chart-focus-ring));
     stroke-width: 3;
   }
 
@@ -199,7 +199,7 @@
   }
 
   .kui-chart__bar:focus-visible {
-    stroke: var(--kui-chart-focus-ring);
+    stroke: var(--kui-chart-focus-ring, var(--_kui-chart-focus-ring));
     stroke-width: 2;
   }
 
@@ -259,8 +259,8 @@
     position: relative;
     display: flex;
     align-items: flex-end;
-    gap: var(--kui-space-3, 12px);
-    padding: var(--kui-space-4, 16px);
+    gap: var(--kui-chart-loading-bars-gap, var(--kui-space-3, 12px));
+    padding: var(--kui-chart-loading-bars-padding, var(--kui-space-4, 16px));
     box-sizing: border-box;
   }
 
@@ -304,7 +304,7 @@
 
   .kui-chart__loading-ring-wedge {
     fill: var(--kui-color-skeleton-highlight);
-    stroke: var(--kui-chart-slice-sep);
+    stroke: var(--kui-chart-slice-sep, var(--_kui-chart-slice-sep));
     stroke-width: 2;
   }
 
@@ -336,10 +336,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--kui-space-3, 12px);
-    border: 1px dashed var(--kui-color-border);
-    border-radius: var(--kui-radius-md, 8px);
-    color: var(--kui-color-text-secondary);
+    gap: var(--kui-chart-empty-gap, var(--kui-space-3, 12px));
+    border: 1px dashed var(--kui-chart-empty-border, var(--kui-color-border));
+    border-radius: var(--kui-chart-empty-radius, var(--kui-radius-md, 8px));
+    color: var(--kui-chart-empty-color, var(--kui-color-text-secondary));
   }
 
   .kui-chart__empty svg {
@@ -347,54 +347,54 @@
   }
 
   .kui-chart__empty span {
-    font-size: var(--kui-text-sm-size, 0.875rem);
+    font-size: var(--kui-chart-empty-text-font-size, var(--kui-text-sm-size, 0.875rem));
   }
 
   .kui-chart__toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--kui-space-3, 12px);
+    gap: var(--kui-chart-toolbar-gap, var(--kui-space-3, 12px));
     flex-wrap: wrap;
   }
 
   .kui-chart__legend {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--kui-space-3, 12px);
+    gap: var(--kui-chart-legend-gap, var(--kui-space-3, 12px));
   }
 
   .kui-chart__legend-item {
     display: inline-flex;
     align-items: center;
-    gap: var(--kui-space-2, 8px);
+    gap: var(--kui-chart-legend-item-gap, var(--kui-space-2, 8px));
     background: none;
     border: none;
-    border-radius: var(--kui-radius-sm, 6px);
-    padding: 2px var(--kui-space-1, 4px);
-    font-size: var(--kui-text-sm-size, 0.875rem);
-    color: var(--kui-chart-legend-text);
+    border-radius: var(--kui-chart-legend-item-radius, var(--kui-radius-sm, 6px));
+    padding: 2px var(--kui-chart-legend-item-padding-inline, var(--kui-space-1, 4px));
+    font-size: var(--kui-chart-legend-item-font-size, var(--kui-text-sm-size, 0.875rem));
+    color: var(--kui-chart-legend-text, var(--_kui-chart-legend-text));
     cursor: pointer;
     transition: background var(--kui-duration-quick, 120ms) var(--kui-ease, ease);
   }
 
   .kui-chart__legend-item--hidden {
-    color: var(--kui-chart-legend-text-hidden);
+    color: var(--kui-chart-legend-text-hidden, var(--_kui-chart-legend-text-hidden));
   }
 
   /* Cross-highlight: hovering a mark/slice highlights its legend entry too, matching the design's
      donut hover section -- not just slice/mark -> legend, but legend -> slice/mark (already wired
      via the legend item's own `pointerenter`). */
   .kui-chart__legend-item--active {
-    background: var(--kui-color-surface-sunken);
-    color: var(--kui-color-text);
+    background: var(--kui-chart-legend-item-bg-active, var(--kui-color-surface-sunken));
+    color: var(--kui-chart-legend-item-color-active, var(--kui-color-text));
   }
 
   .kui-chart__legend-swatch {
     display: inline-block;
     width: 10px;
     height: 10px;
-    border-radius: var(--kui-radius-full, 999px);
+    border-radius: var(--kui-chart-legend-swatch-radius, var(--kui-radius-full, 999px));
   }
 
   .kui-chart__table {

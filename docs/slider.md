@@ -78,3 +78,48 @@ Import the Kikita UI style entrypoint once:
 ```
 
 Slider styles live in `projects/ui/src/styles/slider.css` and are included through `@kikita-labs/ui/styles`.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                              | Default                        | Controls                   |
+| ---------------------------------- | ------------------------------ | -------------------------- |
+| `--kui-slider-fill-bg`             | `--kui-color-primary-fill`     | Fill background            |
+| `--kui-slider-fill-bg-primary`     | `--kui-color-primary-fill`     | Fill background, primary   |
+| `--kui-slider-fill-bg-success`     | `--kui-color-success-fill`     | Fill background, success   |
+| `--kui-slider-fill-bg-danger`      | `--kui-color-danger-fill`      | Fill background, danger    |
+| `--kui-slider-fill-bg-neutral`     | `--kui-color-text-secondary`   | Fill background, neutral   |
+| `--kui-slider-fill-bg-invalid`     | `--kui-color-danger-fill`      | Fill background, invalid   |
+| `--kui-slider-thumb-bg`            | `--kui-color-primary-fill`     | Thumb background           |
+| `--kui-slider-thumb-bg-primary`    | `--kui-color-primary-fill`     | Thumb background, primary  |
+| `--kui-slider-thumb-bg-success`    | `--kui-color-success-fill`     | Thumb background, success  |
+| `--kui-slider-thumb-bg-danger`     | `--kui-color-danger-fill`      | Thumb background, danger   |
+| `--kui-slider-thumb-bg-neutral`    | `--kui-color-text-secondary`   | Thumb background, neutral  |
+| `--kui-slider-thumb-bg-invalid`    | `--kui-color-danger-fill`      | Thumb background, invalid  |
+| `--kui-slider-track-bg-disabled`   | `--kui-color-surface-elevated` | Track background, disabled |
+| `--kui-slider-fill-bg-disabled`    | `--kui-color-text-disabled`    | Fill background, disabled  |
+| `--kui-slider-thumb-bg-disabled`   | `--kui-color-text-disabled`    | Thumb background, disabled |
+| `--kui-slider-tooltip-bg`          | `--kui-color-text`             | Tooltip background         |
+| `--kui-slider-tooltip-color`       | `--kui-color-bg`               | Tooltip color              |
+| `--kui-slider-tooltip-arrow-color` | `--kui-color-text`             | Tooltip arrow color        |
+| `--kui-slider-labels-color`        | `--kui-color-text-secondary`   | Labels color               |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                 | Default              | Controls               |
+| ------------------------------------- | -------------------- | ---------------------- |
+| `--kui-slider-tooltip-text-font-size` | `--kui-text-xs-size` | Tooltip text font size |
+| `--kui-slider-labels-font-size`       | `--kui-text-xs-size` | Labels font size       |
+
+<!-- geometry-tokens:end -->

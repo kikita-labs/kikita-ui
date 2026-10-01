@@ -97,3 +97,16 @@ Sliding thumb repositions via `afterEveryRender` using `offsetLeft` / `offsetWid
 - `--kui-seg-font-size`
 - `--kui-seg-font-weight`
 - `--kui-seg-font-weight-active`
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                        | Default                          | Controls         |
+| ---------------------------- | -------------------------------- | ---------------- |
+| `--kui-seg-focus-ring-color` | `--kui-color-primary-focus-ring` | Focus ring color |
+
+<!-- color-tokens:end -->

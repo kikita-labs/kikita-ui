@@ -38,3 +38,18 @@ region, not on every skeleton block.
 
 Import `@kikita-labs/ui/styles` once in the app. Skeleton uses `--kui-skeleton-*` tokens for
 geometry and animation and `--kui-color-skeleton-*` semantic tokens for theme colors.
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                           | Default           | Controls               |
+| ------------------------------- | ----------------- | ---------------------- |
+| `--kui-skeleton-radius-text`    | `--kui-radius-xs` | Corner radius, text    |
+| `--kui-skeleton-radius-heading` | `--kui-radius-xs` | Corner radius, heading |
+| `--kui-skeleton-radius-button`  | `--kui-radius-md` | Corner radius, button  |
+
+<!-- geometry-tokens:end -->

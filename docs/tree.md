@@ -130,3 +130,36 @@ Tree styles live in `projects/ui/src/styles/tree.css` and are included through
 `@kikita-labs/ui/styles`. Tree rows reuse the existing `.kui-field-action`
 (toggle button) and `.kui-checkbox` (checkable mode) styling — no new tokens
 are introduced for either.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                             | Default                      | Controls             |
+| --------------------------------- | ---------------------------- | -------------------- |
+| `--kui-tree-row-color`            | `--kui-color-text`           | Row color            |
+| `--kui-tree-row-focus-ring-color` | `--kui-color-primary-fill`   | Row focus ring color |
+| `--kui-tree-spinner-track-color`  | `--kui-color-surface-sunken` | Spinner track color  |
+| `--kui-tree-spinner-color`        | `--kui-color-primary-fill`   | Spinner color        |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                           | Default                | Controls            |
+| ------------------------------- | ---------------------- | ------------------- |
+| `--kui-tree-row-gap`            | `--kui-space-2`        | Row gap             |
+| `--kui-tree-row-padding-inline` | `--kui-space-2`        | Row padding, inline |
+| `--kui-tree-label-font-size`    | `--kui-text-sm-size`   | Label font size     |
+| `--kui-tree-label-font-size-sm` | `--kui-text-xs-size`   | Label font size, sm |
+| `--kui-tree-label-font-size-lg` | `--kui-text-base-size` | Label font size, lg |
+
+<!-- geometry-tokens:end -->

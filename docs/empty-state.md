@@ -59,3 +59,33 @@ import {
 
 Import `@kikita-labs/ui/styles` once in the app. Empty State uses `--kui-empty-*` tokens for
 spacing, sizing, and text treatment. Context only changes the icon accent.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                              | Default                    | Controls              |
+| ---------------------------------- | -------------------------- | --------------------- |
+| `--kui-empty-icon-color-error`     | `--kui-color-danger-fill`  | Icon color, error     |
+| `--kui-empty-icon-color-success`   | `--kui-color-success-fill` | Icon color, success   |
+| `--kui-empty-icon-color-no-access` | `--kui-color-warning-fill` | Icon color, no access |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                  | Default              | Controls                  |
+| -------------------------------------- | -------------------- | ------------------------- |
+| `--kui-empty-title-font-size-sm`       | `--kui-text-sm-size` | Title font size, sm       |
+| `--kui-empty-description-font-size-sm` | `--kui-text-xs-size` | Description font size, sm |
+| `--kui-empty-title-font-size-lg`       | `--kui-text-lg-size` | Title font size, lg       |
+
+<!-- geometry-tokens:end -->

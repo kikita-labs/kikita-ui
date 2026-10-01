@@ -3,14 +3,18 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    font-size: var(--kui-table-font-size, var(--kui-text-sm-size, 13px));
-    color: var(--kui-color-text);
+    font-size: var(
+      --kui-table-font-size,
+      var(--_kui-table-font-size, var(--kui-text-sm-size, 13px))
+    );
+    color: var(--kui-table-color, var(--kui-color-text));
   }
 
   /* Header */
 
   .kui-th {
-    padding: var(--kui-table-th-py, 10px) var(--kui-table-cell-px, 14px);
+    padding: var(--kui-table-th-py, var(--_kui-table-th-py, 10px))
+      var(--kui-table-cell-px, var(--_kui-table-cell-px, 14px));
     font-size: 10px;
     font-weight: 600;
     color: var(--kui-table-th-fg, var(--kui-color-text-secondary));
@@ -56,7 +60,7 @@
     gap: 3px;
     padding: 0;
     border: 0;
-    border-radius: var(--kui-radius-xs, 4px);
+    border-radius: var(--kui-table-th-sort-button-radius, var(--kui-radius-xs, 4px));
     color: inherit;
     font: inherit;
     letter-spacing: inherit;
@@ -67,17 +71,18 @@
   }
 
   .kui-th__sort-button:hover {
-    color: var(--kui-color-text);
+    color: var(--kui-table-sort-color-hover, var(--kui-color-text));
   }
 
   .kui-th__sort-button:focus-visible {
-    outline: var(--kui-btn-focus-ring-w, 3px) solid var(--kui-color-primary-focus-ring);
+    outline: var(--kui-btn-focus-ring-w, 3px) solid
+      var(--kui-table-sort-focus-ring-color, var(--kui-color-primary-focus-ring));
     outline-offset: 2px;
   }
 
   .kui-th__sort-button::after {
     content: ' \2195';
-    font-size: var(--kui-text-2xs-size);
+    font-size: var(--kui-table-th-sort-icon-font-size, var(--kui-text-2xs-size));
     opacity: 0.35;
   }
 
@@ -136,7 +141,8 @@
   /* Cells */
 
   .kui-cell {
-    padding: var(--kui-table-row-py, 11px) var(--kui-table-cell-px, 14px);
+    padding: var(--kui-table-row-py, var(--_kui-table-row-py, 11px))
+      var(--kui-table-cell-px, var(--_kui-table-cell-px, 14px));
     vertical-align: middle;
   }
 
@@ -159,7 +165,8 @@
   /* Select column */
 
   .kui-table__select-cell {
-    padding: var(--kui-table-row-py, 11px) var(--kui-table-cell-px, 14px);
+    padding: var(--kui-table-row-py, var(--_kui-table-row-py, 11px))
+      var(--kui-table-cell-px, var(--_kui-table-cell-px, 14px));
     width: 40px;
     text-align: center;
     vertical-align: middle;
@@ -170,7 +177,7 @@
     height: 15px;
     border-radius: 3px;
     border: var(--kui-border-width-thick) solid
-      var(--kui-color-border-strong, var(--kui-color-border));
+      var(--kui-table-checkbox-border, var(--kui-color-border-strong, var(--kui-color-border)));
     background: transparent;
     appearance: none;
     -webkit-appearance: none;
@@ -184,13 +191,13 @@
   }
 
   .kui-table__cb:hover {
-    border-color: var(--kui-color-primary-fill);
+    border-color: var(--kui-table-checkbox-border-hover, var(--kui-color-primary-fill));
   }
 
   .kui-table__cb:checked,
   .kui-table__cb:indeterminate {
-    background: var(--kui-color-primary-fill);
-    border-color: var(--kui-color-primary-fill);
+    background: var(--kui-table-checkbox-bg-checked, var(--kui-color-primary-fill));
+    border-color: var(--kui-table-checkbox-border-checked, var(--kui-color-primary-fill));
   }
 
   .kui-table__cb:checked::after {
@@ -200,7 +207,8 @@
     left: 3px;
     width: 5px;
     height: 8px;
-    border: var(--kui-border-width-thick) solid var(--kui-color-on-fill);
+    border: var(--kui-border-width-thick) solid
+      var(--kui-table-checkbox-mark-color, var(--kui-color-on-fill));
     border-top: none;
     border-left: none;
     transform: rotate(42deg);
@@ -213,35 +221,36 @@
     left: 2px;
     width: 7px;
     height: var(--kui-border-width-thick);
-    background: var(--kui-color-on-fill);
+    background: var(--kui-table-checkbox-mark-color-indeterminate, var(--kui-color-on-fill));
     border-radius: 1px;
   }
 
   .kui-table__cb:focus-visible {
-    outline: var(--kui-btn-focus-ring-w, 3px) solid var(--kui-color-primary-focus-ring);
+    outline: var(--kui-btn-focus-ring-w, 3px) solid
+      var(--kui-table-checkbox-focus-ring-color, var(--kui-color-primary-focus-ring));
     outline-offset: 2px;
   }
 
   /* Size variants */
 
   .kui-table[data-kui-size='xs'] {
-    --kui-table-cell-px: 8px;
-    --kui-table-row-py: 4px;
-    --kui-table-th-py: 5px;
-    --kui-table-font-size: var(--kui-text-xs-size, 11px);
+    --_kui-table-cell-px: 8px;
+    --_kui-table-row-py: 4px;
+    --_kui-table-th-py: 5px;
+    --_kui-table-font-size: var(--kui-text-xs-size, 11px);
   }
 
   .kui-table[data-kui-size='sm'] {
-    --kui-table-cell-px: 10px;
-    --kui-table-row-py: 7px;
-    --kui-table-th-py: 7px;
-    --kui-table-font-size: var(--kui-text-xs-size, 11px);
+    --_kui-table-cell-px: 10px;
+    --_kui-table-row-py: 7px;
+    --_kui-table-th-py: 7px;
+    --_kui-table-font-size: var(--kui-text-xs-size, 11px);
   }
 
   .kui-table[data-kui-size='lg'] {
-    --kui-table-cell-px: 18px;
-    --kui-table-row-py: 16px;
-    --kui-table-th-py: 13px;
+    --_kui-table-cell-px: 18px;
+    --_kui-table-row-py: 16px;
+    --_kui-table-th-py: 13px;
   }
 
   @media (prefers-reduced-motion: reduce) {

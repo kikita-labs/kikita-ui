@@ -104,3 +104,37 @@ number-specific tokens below are only for the increment/decrement control chrome
 | `--kui-number-input-btn-bg`       | `transparent`                  | Button background in default state                |
 | `--kui-number-input-btn-bg-hover` | `--kui-color-surface-elevated` | Button background on hover                        |
 | `--kui-number-input-btn-text`     | `--kui-color-text-secondary`   | Button icon color                                 |
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                     | Default                     | Controls                 |
+| ----------------------------------------- | --------------------------- | ------------------------ |
+| `--kui-number-input-btn-color-hover`      | `--kui-color-text`          | Btn color, hover         |
+| `--kui-number-input-btn-bg-active`        | `--kui-color-border`        | Btn background, active   |
+| `--kui-number-input-btn-color-active`     | `--kui-color-text`          | Btn color, active        |
+| `--kui-number-input-btn-color-disabled`   | `--kui-color-text-disabled` | Btn color, disabled      |
+| `--kui-number-input-arrow-color-hover`    | `--kui-color-text`          | Arrow color, hover       |
+| `--kui-number-input-arrow-bg-active`      | `--kui-color-border`        | Arrow background, active |
+| `--kui-number-input-arrow-color-active`   | `--kui-color-text`          | Arrow color, active      |
+| `--kui-number-input-arrow-color-disabled` | `--kui-color-text-disabled` | Arrow color, disabled    |
+| `--kui-number-input-btn-color-readonly`   | `--kui-color-text-disabled` | Btn color, readonly      |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                     | Default         | Controls              |
+| ----------------------------------------- | --------------- | --------------------- |
+| `--kui-number-input-field-padding-inline` | `--kui-space-3` | Field padding, inline |
+
+<!-- geometry-tokens:end -->

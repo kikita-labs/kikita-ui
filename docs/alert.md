@@ -205,3 +205,18 @@ of `{appearance}-soft-*`:
 - `/alert` has been reviewed in the browser at desktop width in both light and dark theme with no
   console errors; committed visual regression baselines and a formal assistive-technology review
   are not yet run.
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                           | Default              | Controls          |
+| ------------------------------- | -------------------- | ----------------- |
+| `--kui-alert-title-font-size`   | `--kui-text-sm-size` | Title font size   |
+| `--kui-alert-message-font-size` | `--kui-text-sm-size` | Message font size |
+| `--kui-alert-actions-gap`       | `--kui-space-3`      | Actions gap       |
+
+<!-- geometry-tokens:end -->

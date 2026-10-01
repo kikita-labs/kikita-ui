@@ -51,7 +51,7 @@
   }
 
   .kui-combobox-chevron[aria-expanded='true'] {
-    color: var(--kui-color-primary-fill);
+    color: var(--kui-combobox-chevron-color-expanded, var(--kui-color-primary-fill));
   }
 
   .kui-combobox-chevron[aria-expanded='true'] svg {
@@ -61,9 +61,10 @@
   .kui-combobox-loader {
     inline-size: var(--kui-combobox-loader-size);
     block-size: var(--kui-combobox-loader-size);
-    border: var(--kui-combobox-loader-border-width) solid var(--kui-color-border);
-    border-block-start-color: var(--kui-color-primary-fill);
-    border-radius: var(--kui-radius-full);
+    border: var(--kui-combobox-loader-border-width) solid
+      var(--kui-combobox-loader-track-color, var(--kui-color-border));
+    border-block-start-color: var(--kui-combobox-loader-color, var(--kui-color-primary-fill));
+    border-radius: var(--kui-combobox-loader-radius, var(--kui-radius-full));
     animation: kui-combobox-spin var(--kui-combobox-loader-duration) linear infinite;
   }
 
@@ -73,7 +74,7 @@
 
   .kui-combobox-match-label > span,
   .kui-combobox-match-label > mark {
-    font-size: var(--kui-text-sm-size);
+    font-size: var(--kui-combobox-match-label-font-size, var(--kui-text-sm-size));
     line-height: inherit;
   }
 
@@ -92,9 +93,10 @@
 
   .kui-combobox-empty,
   .kui-combobox-loading-row {
-    padding: var(--kui-space-4) var(--kui-space-3);
-    color: var(--kui-color-text-secondary);
-    font-size: var(--kui-text-sm-size);
+    padding: var(--kui-combobox-empty-padding-block, var(--kui-space-4))
+      var(--kui-combobox-empty-padding-inline, var(--kui-space-3));
+    color: var(--kui-combobox-empty-color, var(--kui-color-text-secondary));
+    font-size: var(--kui-combobox-empty-font-size, var(--kui-text-sm-size));
     text-align: center;
   }
 
@@ -102,7 +104,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--kui-space-2);
+    gap: var(--kui-combobox-loading-row-gap, var(--kui-space-2));
   }
 
   @keyframes kui-combobox-spin {

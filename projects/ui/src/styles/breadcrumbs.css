@@ -7,7 +7,7 @@
     margin: 0;
     padding: 0;
     gap: var(--kui-breadcrumbs-gap, var(--kui-space-2));
-    font-size: var(--kui-text-sm-size);
+    font-size: var(--kui-breadcrumb-font-size, var(--kui-text-sm-size));
     min-width: 0;
   }
 
@@ -20,13 +20,13 @@
   .kui-breadcrumb-link {
     color: var(--kui-breadcrumb-fg, var(--kui-color-text-secondary));
     text-decoration: none;
-    border-radius: var(--kui-radius-sm);
+    border-radius: var(--kui-breadcrumb-link-radius, var(--kui-radius-sm));
     padding: 2px 4px;
     margin: -2px -4px;
     transition: color var(--kui-duration-fast, 100ms) var(--kui-ease);
     display: inline-flex;
     align-items: center;
-    gap: var(--kui-space-1);
+    gap: var(--kui-breadcrumb-link-gap, var(--kui-space-1));
     max-width: 100%;
   }
   .kui-breadcrumb-link:hover {
@@ -35,14 +35,15 @@
   .kui-breadcrumb-link:focus-visible {
     outline: none;
     color: var(--kui-breadcrumb-fg-hover, var(--kui-color-text));
-    box-shadow: 0 0 0 2px var(--kui-color-primary-focus-ring);
+    box-shadow: 0 0 0 2px
+      var(--kui-breadcrumb-link-focus-ring-color, var(--kui-color-primary-focus-ring));
   }
 
   .kui-breadcrumb-plain {
     color: var(--kui-breadcrumb-fg, var(--kui-color-text-secondary));
     display: inline-flex;
     align-items: center;
-    gap: var(--kui-space-1);
+    gap: var(--kui-breadcrumb-plain-gap, var(--kui-space-1));
   }
 
   .kui-breadcrumb-current {
@@ -50,7 +51,7 @@
     font-weight: var(--kui-breadcrumb-font-weight-current, 600);
     display: inline-flex;
     align-items: center;
-    gap: var(--kui-space-1);
+    gap: var(--kui-breadcrumb-current-gap, var(--kui-space-1));
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -60,7 +61,7 @@
   .kui-breadcrumb-sep {
     display: flex;
     align-items: center;
-    color: var(--kui-color-text-secondary);
+    color: var(--kui-breadcrumb-sep-color, var(--kui-color-text-secondary));
     opacity: 0.55;
     flex-shrink: 0;
   }
@@ -77,17 +78,17 @@
     align-items: center;
     justify-content: center;
     height: 22px;
-    padding: 0 var(--kui-space-1);
-    border-radius: var(--kui-radius-sm);
-    color: var(--kui-color-text-secondary);
+    padding: 0 var(--kui-breadcrumb-ellipsis-padding-inline, var(--kui-space-1));
+    border-radius: var(--kui-breadcrumb-ellipsis-radius, var(--kui-radius-sm));
+    color: var(--kui-breadcrumb-ellipsis-color, var(--kui-color-text-secondary));
     background: transparent;
     border: none;
     font: inherit;
     cursor: pointer;
   }
   .kui-breadcrumb-ellipsis:hover {
-    background: var(--kui-color-surface-elevated);
-    color: var(--kui-color-text);
+    background: var(--kui-breadcrumb-ellipsis-bg-hover, var(--kui-color-surface-elevated));
+    color: var(--kui-breadcrumb-ellipsis-color-hover, var(--kui-color-text));
   }
 
   .kui-breadcrumb-truncate {
@@ -99,8 +100,8 @@
 
   /* sizes */
   .kui-breadcrumbs[data-kui-size='sm'] {
-    font-size: var(--kui-text-xs-size);
-    gap: var(--kui-breadcrumbs-gap, var(--kui-space-1));
+    font-size: var(--kui-breadcrumb-font-size-sm, var(--kui-text-xs-size));
+    gap: var(--kui-breadcrumbs-gap, var(--kui-space-2));
   }
   .kui-breadcrumbs[data-kui-size='sm'] .kui-breadcrumb-sep svg,
   .kui-breadcrumbs[data-kui-size='sm'] .kui-breadcrumb-icon svg {
@@ -111,8 +112,8 @@
     height: 18px;
   }
   .kui-breadcrumbs[data-kui-size='lg'] {
-    font-size: var(--kui-text-md-size);
-    gap: var(--kui-breadcrumbs-gap, var(--kui-space-3));
+    font-size: var(--kui-breadcrumb-font-size-lg, var(--kui-text-md-size));
+    gap: var(--kui-breadcrumbs-gap, var(--kui-space-2));
   }
   .kui-breadcrumbs[data-kui-size='lg'] .kui-breadcrumb-sep svg,
   .kui-breadcrumbs[data-kui-size='lg'] .kui-breadcrumb-icon svg {

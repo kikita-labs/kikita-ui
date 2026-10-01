@@ -110,3 +110,16 @@ Per the Claude Design brief, these are not part of the first Menu primitive:
 - nested submenus
 - checkbox/radio menu items
 - right-click context menu helper
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                | Default              | Controls                |
+| ------------------------------------ | -------------------- | ----------------------- |
+| `--kui-menu-item-shortcut-font-size` | `--kui-text-xs-size` | Item shortcut font size |
+
+<!-- geometry-tokens:end -->

@@ -215,3 +215,34 @@ them from tab order.
 - `/pagination` has been reviewed in the browser at desktop width in both light and dark theme with
   no console errors, and is covered by the automated document-overflow check at 320/390/768/1440px;
   committed visual regression baselines and a formal assistive-technology review are not yet run.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                 | Default            | Controls           |
+| ------------------------------------- | ------------------ | ------------------ |
+| `--kui-pagination-simple-label-color` | `--kui-color-text` | Simple label color |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                          | Default              | Controls                     |
+| ---------------------------------------------- | -------------------- | ---------------------------- |
+| `--kui-pagination-summary-font-size`           | `--kui-text-xs-size` | Summary font size            |
+| `--kui-pagination-ellipsis-font-size`          | `--kui-text-sm-size` | Ellipsis font size           |
+| `--kui-pagination-simple-label-font-size`      | `--kui-text-sm-size` | Simple label font size       |
+| `--kui-pagination-simple-label-padding-inline` | `--kui-space-2`      | Simple label padding, inline |
+| `--kui-pagination-page-size-gap`               | `--kui-space-2`      | Page size gap                |
+| `--kui-pagination-page-size-label-font-size`   | `--kui-text-xs-size` | Page size label font size    |
+
+<!-- geometry-tokens:end -->

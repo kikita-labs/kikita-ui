@@ -37,3 +37,16 @@ marker and first error message from Angular Signal Forms metadata.
   `provideKikitaUi({ defaults.size })`, then `md`
 - `invalid`: marks the textarea invalid outside a field error state
 - `id`: explicit id override
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                          | Default         | Controls       |
+| ------------------------------ | --------------- | -------------- |
+| `--kui-textarea-padding-block` | `--kui-space-3` | Padding, block |
+
+<!-- geometry-tokens:end -->

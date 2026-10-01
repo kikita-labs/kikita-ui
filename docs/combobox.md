@@ -183,3 +183,37 @@ Combobox inherits shared clearable semantics from `KuiFieldControlOptions`. See
 Combobox uses `--kui-combobox-*` variables for suffix affordances, loader, and highlight treatment.
 Field geometry, border, radius, focus ring, invalid state, label, hint, and error rendering come from
 `kui-field` and `kui-input` tokens.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                   | Default                      | Controls                |
+| --------------------------------------- | ---------------------------- | ----------------------- |
+| `--kui-combobox-chevron-color-expanded` | `--kui-color-primary-fill`   | Chevron color, expanded |
+| `--kui-combobox-loader-color`           | `--kui-color-primary-fill`   | Loader color            |
+| `--kui-combobox-empty-color`            | `--kui-color-text-secondary` | Empty color             |
+| `--kui-combobox-loader-track-color`     | `--kui-color-border`         | Loader track color      |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                  | Default              | Controls              |
+| -------------------------------------- | -------------------- | --------------------- |
+| `--kui-combobox-loader-radius`         | `--kui-radius-full`  | Loader corner radius  |
+| `--kui-combobox-match-label-font-size` | `--kui-text-sm-size` | Match label font size |
+| `--kui-combobox-empty-padding-block`   | `--kui-space-4`      | Empty padding, block  |
+| `--kui-combobox-empty-padding-inline`  | `--kui-space-3`      | Empty padding, inline |
+| `--kui-combobox-empty-font-size`       | `--kui-text-sm-size` | Empty font size       |
+| `--kui-combobox-loading-row-gap`       | `--kui-space-2`      | Loading row gap       |
+
+<!-- geometry-tokens:end -->

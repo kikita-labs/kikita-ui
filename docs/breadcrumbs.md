@@ -108,3 +108,41 @@ create competing visual contracts. Keep navigable crumbs as native anchors with
 ## Style Import
 
 Import `@kikita-labs/ui/styles` (which includes `breadcrumbs.css`) once in your application styles.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                    | Default                          | Controls                   |
+| ---------------------------------------- | -------------------------------- | -------------------------- |
+| `--kui-breadcrumb-link-focus-ring-color` | `--kui-color-primary-focus-ring` | Link focus ring color      |
+| `--kui-breadcrumb-sep-color`             | `--kui-color-text-secondary`     | Sep color                  |
+| `--kui-breadcrumb-ellipsis-color`        | `--kui-color-text-secondary`     | Ellipsis color             |
+| `--kui-breadcrumb-ellipsis-bg-hover`     | `--kui-color-surface-elevated`   | Ellipsis background, hover |
+| `--kui-breadcrumb-ellipsis-color-hover`  | `--kui-color-text`               | Ellipsis color, hover      |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                      | Default              | Controls                 |
+| ------------------------------------------ | -------------------- | ------------------------ |
+| `--kui-breadcrumb-font-size`               | `--kui-text-sm-size` | Font size                |
+| `--kui-breadcrumb-link-radius`             | `--kui-radius-sm`    | Link corner radius       |
+| `--kui-breadcrumb-link-gap`                | `--kui-space-1`      | Link gap                 |
+| `--kui-breadcrumb-plain-gap`               | `--kui-space-1`      | Plain gap                |
+| `--kui-breadcrumb-current-gap`             | `--kui-space-1`      | Current gap              |
+| `--kui-breadcrumb-ellipsis-padding-inline` | `--kui-space-1`      | Ellipsis padding, inline |
+| `--kui-breadcrumb-ellipsis-radius`         | `--kui-radius-sm`    | Ellipsis corner radius   |
+| `--kui-breadcrumb-font-size-sm`            | `--kui-text-xs-size` | Font size, sm            |
+| `--kui-breadcrumb-font-size-lg`            | `--kui-text-md-size` | Font size, lg            |
+
+<!-- geometry-tokens:end -->

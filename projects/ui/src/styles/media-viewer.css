@@ -6,23 +6,25 @@
    * content.
    */
   .kui-media-viewer {
-    --kui-media-viewer-scrim-bg: oklch(0 0 0 / 0.92);
-    --kui-media-viewer-fg: var(--kui-color-on-fill);
-    --kui-media-viewer-fg-muted: color-mix(in oklch, var(--kui-color-on-fill) 65%, transparent);
-    --kui-media-viewer-hover-bg: color-mix(in oklch, var(--kui-color-on-fill) 16%, transparent);
-    --kui-media-viewer-strip-thumb-size: calc(var(--kui-space-16, 64px) + var(--kui-space-4, 16px));
-    --kui-media-viewer-strip-active-border: var(--kui-color-primary-fill);
+    --_kui-media-viewer-scrim-bg: oklch(0 0 0 / 0.92);
+    --_kui-media-viewer-fg: var(--kui-color-on-fill);
+    --_kui-media-viewer-fg-muted: color-mix(in oklch, var(--kui-color-on-fill) 65%, transparent);
+    --_kui-media-viewer-hover-bg: color-mix(in oklch, var(--kui-color-on-fill) 16%, transparent);
+    --_kui-media-viewer-strip-thumb-size: calc(
+      var(--kui-space-16, 64px) + var(--kui-space-4, 16px)
+    );
+    --_kui-media-viewer-strip-active-border: var(--kui-color-primary-fill);
 
     /* Ghost icon buttons (Close/Zoom/Prev/Next) stay legible on the dark scrim. */
-    --kui-btn-ghost-fg: var(--kui-media-viewer-fg);
-    --kui-btn-ghost-bg-hov: var(--kui-media-viewer-hover-bg);
+    --kui-btn-ghost-fg: var(--kui-media-viewer-fg, var(--_kui-media-viewer-fg));
+    --kui-btn-ghost-bg-hov: var(--kui-media-viewer-hover-bg, var(--_kui-media-viewer-hover-bg));
 
     flex: 1 1 auto;
     min-height: 0;
     display: flex;
     flex-direction: column;
-    background: var(--kui-media-viewer-scrim-bg);
-    color: var(--kui-media-viewer-fg);
+    background: var(--kui-media-viewer-scrim-bg, var(--_kui-media-viewer-scrim-bg));
+    color: var(--kui-media-viewer-fg, var(--_kui-media-viewer-fg));
     /* App-like chrome (counter, thumbnails, the photo itself), not a text surface -- the same
        treatment `button[kuiIconButton]` already applies to itself in icon-button.css. Without it
        a mouse drag anywhere in the lightbox (including a pan drag on the photo) starts a native
@@ -44,19 +46,19 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--kui-space-4);
+    padding: var(--kui-media-viewer-toolbar-padding, var(--kui-space-4));
   }
 
   .kui-media-viewer__counter {
-    font-size: var(--kui-text-sm-size);
+    font-size: var(--kui-media-viewer-counter-font-size, var(--kui-text-sm-size));
     font-variant-numeric: tabular-nums;
-    color: var(--kui-media-viewer-fg);
+    color: var(--kui-media-viewer-fg, var(--_kui-media-viewer-fg));
   }
 
   .kui-media-viewer__toolbar-actions {
     display: flex;
     align-items: center;
-    gap: var(--kui-space-2);
+    gap: var(--kui-media-viewer-toolbar-actions-gap, var(--kui-space-2));
   }
 
   .kui-media-viewer__close {
@@ -71,7 +73,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding-inline: var(--kui-space-16, 64px);
+    padding-inline: var(--kui-media-viewer-stage-padding-inline, var(--kui-space-16, 64px));
     /*
      * Opts the whole stage out of the browser's native touch gestures (page pinch-zoom,
      * two-finger pan), not just `.kui-media-viewer__image` below -- a real pinch's second finger
@@ -113,7 +115,7 @@
     max-width: 100%;
     max-height: 100%;
     overflow: hidden;
-    border-radius: var(--kui-radius-md);
+    border-radius: var(--kui-media-viewer-frame-radius, var(--kui-radius-md));
     /* Panning is a pointerdown/move/up drag on this element -- without this, a mouse drag
        starts a native text/element selection instead (the frame has no text of its own, but the
        browser still starts a selection drag from any pointerdown inside it). */
@@ -170,8 +172,9 @@
      */
     justify-content: center;
     justify-content: safe center;
-    gap: var(--kui-space-2);
-    padding: var(--kui-space-3) var(--kui-space-4);
+    gap: var(--kui-media-viewer-strip-gap, var(--kui-space-2));
+    padding: var(--kui-media-viewer-strip-padding-block, var(--kui-space-3))
+      var(--kui-media-viewer-strip-padding-inline, var(--kui-space-4));
     overflow-x: auto;
     /*
      * Required alongside `overflow-x: auto` -- a flex item's default `min-inline-size` is `auto`,
@@ -185,24 +188,27 @@
 
   .kui-media-viewer__thumb {
     flex-shrink: 0;
-    width: var(--kui-media-viewer-strip-thumb-size);
-    height: var(--kui-media-viewer-strip-thumb-size);
+    width: var(--kui-media-viewer-strip-thumb-size, var(--_kui-media-viewer-strip-thumb-size));
+    height: var(--kui-media-viewer-strip-thumb-size, var(--_kui-media-viewer-strip-thumb-size));
     padding: 0;
     border: 2px solid transparent;
-    border-radius: var(--kui-radius-sm);
+    border-radius: var(--kui-media-viewer-thumb-radius, var(--kui-radius-sm));
     overflow: hidden;
     background: transparent;
     cursor: pointer;
-    color: var(--kui-media-viewer-fg);
+    color: var(--kui-media-viewer-fg, var(--_kui-media-viewer-fg));
   }
 
   .kui-media-viewer__thumb:focus-visible {
-    outline: 2px solid var(--kui-color-primary-fill);
+    outline: 2px solid var(--kui-media-viewer-thumb-focus-ring-color, var(--kui-color-primary-fill));
     outline-offset: 2px;
   }
 
   .kui-media-viewer__thumb--active {
-    border-color: var(--kui-media-viewer-strip-active-border);
+    border-color: var(
+      --kui-media-viewer-strip-active-border,
+      var(--_kui-media-viewer-strip-active-border)
+    );
   }
 
   .kui-media-viewer__thumb img {
