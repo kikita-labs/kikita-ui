@@ -3,6 +3,11 @@ import type { Locator, Page } from '@playwright/test';
 import { expect, test } from './support/fixtures';
 import { openWithHeldScripts } from './support/ssr';
 
+/** The gridcell that owns a day button: `aria-selected` lives on the cell, not on the button. */
+function gridcellOf(day: Locator): Locator {
+  return day.locator('xpath=ancestor::*[@role="gridcell"]');
+}
+
 const sections = [
   { key: 'default', name: 'Default calendar range example' },
   { key: 'selection', name: 'Calendar range selection example' },
@@ -118,7 +123,7 @@ test('builds, reverses, and restarts a range across real clicks', async ({ page 
 
   await grid.getByRole('button', { name: '12', exact: true }).click();
   await expect(example.getByText('Start 2026-05-12, end open', { exact: true })).toBeVisible();
-  await expect(grid.getByRole('button', { name: '12', exact: true })).toHaveAttribute(
+  await expect(gridcellOf(grid.getByRole('button', { name: '12', exact: true }))).toHaveAttribute(
     'aria-selected',
     'true',
   );
@@ -128,14 +133,13 @@ test('builds, reverses, and restarts a range across real clicks', async ({ page 
     example.getByText('Selected 2026-05-12 to 2026-05-20', { exact: true }),
   ).toBeVisible();
   await expect(grid.locator('[aria-selected="true"]')).toHaveCount(2);
-  await expect(grid.getByRole('button', { name: '20', exact: true })).toHaveAttribute(
+  await expect(gridcellOf(grid.getByRole('button', { name: '20', exact: true }))).toHaveAttribute(
     'aria-selected',
     'true',
   );
-  await expect(grid.getByRole('button', { name: '15', exact: true })).not.toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
+  await expect(
+    gridcellOf(grid.getByRole('button', { name: '15', exact: true })),
+  ).not.toHaveAttribute('aria-selected', 'true');
 
   await grid.getByRole('button', { name: '8', exact: true }).click();
   await expect(example.getByText('Start 2026-05-08, end open', { exact: true })).toBeVisible();
@@ -338,15 +342,15 @@ test('disables dates outside the limits and the listed exception', async ({ page
   await moveMouseTo(page, disabled);
   await page.mouse.down();
   await page.mouse.up();
-  await expect(grid.getByRole('button', { name: '12', exact: true })).toHaveAttribute(
+  await expect(gridcellOf(grid.getByRole('button', { name: '12', exact: true }))).toHaveAttribute(
     'aria-selected',
     'true',
   );
-  await expect(grid.getByRole('button', { name: '20', exact: true })).toHaveAttribute(
+  await expect(gridcellOf(grid.getByRole('button', { name: '20', exact: true }))).toHaveAttribute(
     'aria-selected',
     'true',
   );
-  await expect(disabled).not.toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(disabled)).not.toHaveAttribute('aria-selected', 'true');
 });
 
 test('rejects a disabled date from the keyboard but commits a range across it', async ({
@@ -363,24 +367,24 @@ test('rejects a disabled date from the keyboard but commits a range across it', 
   await expect(day18).toHaveAttribute('tabindex', '0');
   await page.keyboard.press('Enter');
   await page.keyboard.press('Space');
-  await expect(grid.getByRole('button', { name: '12', exact: true })).toHaveAttribute(
+  await expect(gridcellOf(grid.getByRole('button', { name: '12', exact: true }))).toHaveAttribute(
     'aria-selected',
     'true',
   );
-  await expect(day18).not.toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(day18)).not.toHaveAttribute('aria-selected', 'true');
 
   await grid.getByRole('button', { name: '15', exact: true }).click();
   await grid.getByRole('button', { name: '20', exact: true }).click();
-  await expect(grid.getByRole('button', { name: '15', exact: true })).toHaveAttribute(
+  await expect(gridcellOf(grid.getByRole('button', { name: '15', exact: true }))).toHaveAttribute(
     'aria-selected',
     'true',
   );
-  await expect(grid.getByRole('button', { name: '20', exact: true })).toHaveAttribute(
+  await expect(gridcellOf(grid.getByRole('button', { name: '20', exact: true }))).toHaveAttribute(
     'aria-selected',
     'true',
   );
   await expect(day18).toHaveAttribute('aria-disabled', 'true');
-  await expect(day18).not.toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(day18)).not.toHaveAttribute('aria-selected', 'true');
 });
 
 test('disables weekend days through the predicate', async ({ page }) => {
@@ -424,14 +428,12 @@ test('keeps a linked pair one month apart with one navigation button each', asyn
   await expectBrowserLocaleWeek(example);
   await leading.getByRole('button', { name: '12', exact: true }).click();
   await trailing.getByRole('button', { name: '20', exact: true }).click();
-  await expect(leading.getByRole('button', { name: '12', exact: true })).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
-  await expect(trailing.getByRole('button', { name: '20', exact: true })).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
+  await expect(
+    gridcellOf(leading.getByRole('button', { name: '12', exact: true })),
+  ).toHaveAttribute('aria-selected', 'true');
+  await expect(
+    gridcellOf(trailing.getByRole('button', { name: '20', exact: true })),
+  ).toHaveAttribute('aria-selected', 'true');
 });
 
 test('updates page labels and verifies the Russian calendar month and week', async ({ page }) => {

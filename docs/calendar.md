@@ -131,8 +131,8 @@ Or override it for a single instance with the `locale` input, which takes preced
 
 ## Accessibility
 
-- `role="grid"` on the day grid, `role="row"` on the weekday header row.
-- `aria-selected` on the selected cell, `aria-current="date"` on today, `aria-disabled` on disabled dates.
+- The day grid is a complete ARIA grid: `role="grid"` containing the weekday header `role="row"` (with `role="columnheader"` cells that carry the full weekday name as `abbr`) and a `role="rowgroup"` of six `role="row"` week rows, each holding seven `role="gridcell"` elements. Each gridcell wraps one day `<button>`.
+- `aria-selected` on the selected gridcell (not on the button), `aria-current="date"` on today, `aria-disabled` on disabled dates.
 - Roving tabindex: one day cell is in the tab order at a time (the focused date). On initial render, the selected date receives focus when it is in the displayed month; otherwise today is used when visible, then the first day of the displayed month. Arrow keys, `Home`/`End`, and `PageUp`/`PageDown` move DOM focus to the new roving cell without leaving the grid.
 - Month/year changes are announced through an `aria-live="polite"` region.
 

@@ -104,8 +104,8 @@ Same `Intl`-driven locale resolution as `kui-calendar` — see [Calendar > Local
 
 ## Accessibility
 
-- `role="grid"` on the day grid, `role="row"` on the weekday header row.
-- `aria-selected` on the range endpoints (and any single committed day), `aria-current="date"` on today, `aria-disabled` on disabled dates.
+- The day grid is a complete ARIA grid, structured as in `kui-calendar`: `role="grid"`, a weekday header row of `role="columnheader"` cells, and a `role="rowgroup"` of six week `role="row"`s holding seven `role="gridcell"`s, each wrapping one day `<button>`.
+- `aria-selected` on the gridcells of the range endpoints (and any single committed day), `aria-current="date"` on today, `aria-disabled` on disabled dates.
 - Roving tabindex: one day cell is in the tab order at a time (the focused date); arrow keys, `Home`/`End`, `PageUp`/`PageDown` move focus without leaving the grid.
 - Month/year changes are announced through an `aria-live="polite"` region.
 

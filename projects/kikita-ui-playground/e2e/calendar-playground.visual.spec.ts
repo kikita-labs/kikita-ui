@@ -2,6 +2,11 @@ import type { Locator } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
 
+/** The gridcell that owns a day button: `aria-selected` lives on the cell, not on the button. */
+function gridcellOf(day: Locator): Locator {
+  return day.locator('xpath=ancestor::*[@role="gridcell"]');
+}
+
 /**
  * Waits until an example without an explicit locale renders the browser's en-US week.
  *
@@ -123,7 +128,7 @@ test('moves the footer calendar to the frozen current day without changing its s
 
   const today = grid.getByRole('button', { name: '14', exact: true });
   await today.click();
-  await expect(today).toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(today)).toHaveAttribute('aria-selected', 'true');
   await expect(footerValue).toHaveText('2026-01-14');
 });
 
@@ -197,7 +202,7 @@ test('moves keyboard focus through week, week edges, month, and year boundaries'
   await expect(june23PreviousYear).toHaveAttribute('tabindex', '0');
   await june23PreviousYear.focus();
   await june23PreviousYear.press('Enter');
-  await expect(june23PreviousYear).toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(june23PreviousYear)).toHaveAttribute('aria-selected', 'true');
 });
 
 test('navigates to the next month and selects a date @visual', async ({ page }) => {
@@ -209,7 +214,7 @@ test('navigates to the next month and selects a date @visual', async ({ page }) 
 
   const selectedDay = grid.getByRole('button', { name: '20', exact: true });
   await selectedDay.click();
-  await expect(selectedDay).toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(selectedDay)).toHaveAttribute('aria-selected', 'true');
   await expect(example).toHaveScreenshot('calendar-date-selected.png', { animations: 'disabled' });
 });
 
@@ -250,9 +255,9 @@ test('keeps a disabled date unselected when activated', async ({ page }) => {
   if (!bounds) throw new Error('The disabled Calendar day should have a visible bounding box.');
   await page.mouse.click(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
 
-  await expect(selectedDate).toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(selectedDate)).toHaveAttribute('aria-selected', 'true');
   await expect(selectedDate).toHaveText(selectedDateLabel ?? '');
-  await expect(disabledDate).not.toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(disabledDate)).not.toHaveAttribute('aria-selected', 'true');
 });
 
 test('does not select a disabled date through keyboard activation', async ({ page }) => {
@@ -265,7 +270,7 @@ test('does not select a disabled date through keyboard activation', async ({ pag
   const dayBeforeDisabled = grid.getByRole('button', { name: '17', exact: true });
   const disabledDate = grid.getByRole('button', { name: '18', exact: true });
 
-  await expect(selectedDate).toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(selectedDate)).toHaveAttribute('aria-selected', 'true');
   await expectBrowserLocaleWeek(example);
   await dayBeforeDisabled.focus();
   await expect(dayBeforeDisabled).toHaveAttribute('tabindex', '0');
@@ -274,12 +279,12 @@ test('does not select a disabled date through keyboard activation', async ({ pag
   await expect(disabledDate).toBeFocused();
   await expect(disabledDate).toHaveAttribute('aria-disabled', 'true');
   await disabledDate.press('Enter');
-  await expect(selectedDate).toHaveAttribute('aria-selected', 'true');
-  await expect(disabledDate).not.toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(selectedDate)).toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(disabledDate)).not.toHaveAttribute('aria-selected', 'true');
 
   await disabledDate.press('Space');
-  await expect(selectedDate).toHaveAttribute('aria-selected', 'true');
-  await expect(disabledDate).not.toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(selectedDate)).toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(disabledDate)).not.toHaveAttribute('aria-selected', 'true');
 });
 
 test('allows both inclusive date-limit endpoints to be selected', async ({ page }) => {
@@ -294,7 +299,7 @@ test('allows both inclusive date-limit endpoints to be selected', async ({ page 
     const endpoint = grid.getByRole('button', { name: day, exact: true });
     await expect(endpoint).not.toHaveAttribute('aria-disabled', 'true');
     await endpoint.click();
-    await expect(endpoint).toHaveAttribute('aria-selected', 'true');
+    await expect(gridcellOf(endpoint)).toHaveAttribute('aria-selected', 'true');
   }
 });
 

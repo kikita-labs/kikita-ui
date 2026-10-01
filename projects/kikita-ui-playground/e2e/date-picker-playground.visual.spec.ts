@@ -1,4 +1,11 @@
+import type { Locator } from '@playwright/test';
+
 import { expect, test } from './support/fixtures';
+
+/** The gridcell that owns a day button: `aria-selected` lives on the cell, not on the button. */
+function gridcellOf(day: Locator): Locator {
+  return day.locator('xpath=ancestor::*[@role="gridcell"]');
+}
 
 const desktopViewport = { width: 1440, height: 1000 };
 const mobileViewport = { width: 320, height: 844 };
@@ -190,7 +197,7 @@ test('auto-wires typed values, calendar selection, and the displayed month @visu
 
   await expect(input).toHaveValue('20.06.2026');
   await expect(panel.getByRole('button', { name: 'June 2026', exact: true })).toBeVisible();
-  await expect(grid.getByRole('button', { name: '20', exact: true })).toHaveAttribute(
+  await expect(gridcellOf(grid.getByRole('button', { name: '20', exact: true }))).toHaveAttribute(
     'aria-selected',
     'true',
   );
@@ -216,6 +223,22 @@ test('preserves four-digit years below 0100 while parsing typed dates', async ({
   await input.fill('29.02.0001');
   await expect(input).toHaveValue('29.02.0001');
   await expect(input).toHaveAttribute('aria-invalid', 'true');
+});
+
+test('returns focus to the input when Escape closes the panel from inside the calendar', async ({
+  page,
+}) => {
+  const example = page.getByRole('group', { name: 'Selected date picker example', exact: true });
+  const input = example.getByRole('combobox', { name: 'Preselected date' });
+
+  await input.press('ArrowDown');
+  await input.press('ArrowDown');
+  await expect(page.getByRole('dialog').getByRole('grid')).toBeVisible();
+  await expect(page.locator('.kui-calendar-grid button:focus')).toHaveCount(1);
+
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toBeHidden();
+  await expect(input).toBeFocused();
 });
 
 test('keeps the dropdown keyboard-accessible and returns focus on Escape', async ({ page }) => {
@@ -261,7 +284,7 @@ test('moves focus into the calendar and selects a day with the calendar keyboard
   await page.keyboard.press('Enter');
 
   await expect(input).toHaveValue('15.05.2026');
-  await expect(nextDay).toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(nextDay)).toHaveAttribute('aria-selected', 'true');
 });
 
 test('captures bounded dates and marks malformed or out-of-range typed values invalid @visual', async ({
@@ -305,7 +328,7 @@ test('captures bounded dates and marks malformed or out-of-range typed values in
   await input.fill('32.13.2026');
   await expect(input).toHaveAttribute('aria-invalid', 'true');
   await expect(input).toHaveAttribute('data-kui-invalid', '');
-  await expect(grid.getByRole('button', { name: '24', exact: true })).toHaveAttribute(
+  await expect(gridcellOf(grid.getByRole('button', { name: '24', exact: true }))).toHaveAttribute(
     'aria-selected',
     'true',
   );
@@ -316,7 +339,7 @@ test('captures bounded dates and marks malformed or out-of-range typed values in
   await input.fill('');
   await expect(input).toHaveValue('');
   await expect(input).not.toHaveAttribute('aria-invalid', 'true');
-  await expect(grid.getByRole('button', { name: '24', exact: true })).toHaveAttribute(
+  await expect(gridcellOf(grid.getByRole('button', { name: '24', exact: true }))).toHaveAttribute(
     'aria-selected',
     'true',
   );
@@ -332,7 +355,7 @@ test('captures bounded dates and marks malformed or out-of-range typed values in
     .locator('.kui-calendar-day:not(.kui-calendar-day--muted)')
     .filter({ hasText: /^1$/ });
   await expect(firstOfMay).toHaveCount(1);
-  await expect(firstOfMay).toHaveAttribute('aria-selected', 'true');
+  await expect(gridcellOf(firstOfMay)).toHaveAttribute('aria-selected', 'true');
   await expect(firstOfMay).toHaveAttribute('aria-disabled', 'true');
   await expect(example).toHaveScreenshot('date-picker-out-of-range.png', {
     animations: 'disabled',
@@ -340,7 +363,7 @@ test('captures bounded dates and marks malformed or out-of-range typed values in
 
   await input.fill('31.05.2026');
   await expect(input).toHaveAttribute('aria-invalid', 'true');
-  await expect(grid.getByRole('button', { name: '31', exact: true })).toHaveAttribute(
+  await expect(gridcellOf(grid.getByRole('button', { name: '31', exact: true }))).toHaveAttribute(
     'aria-selected',
     'true',
   );
@@ -464,7 +487,9 @@ test('clears a selected date and restores focus to its native input', async ({ p
 
   await input.press('ArrowDown');
   await expect(
-    page.getByRole('dialog').getByRole('grid').getByRole('button', { name: '14', exact: true }),
+    gridcellOf(
+      page.getByRole('dialog').getByRole('grid').getByRole('button', { name: '14', exact: true }),
+    ),
   ).not.toHaveAttribute('aria-selected', 'true');
 });
 
@@ -516,7 +541,7 @@ test('keeps the documented manual calendar model bindings synchronized @visual',
   const panel = page.getByRole('dialog');
   const grid = panel.getByRole('grid');
 
-  await expect(grid.getByRole('button', { name: '17', exact: true })).toHaveAttribute(
+  await expect(gridcellOf(grid.getByRole('button', { name: '17', exact: true }))).toHaveAttribute(
     'aria-selected',
     'true',
   );
@@ -550,6 +575,7 @@ test('keeps the page labels and field names translated in Russian', async ({ pag
   const renderedWeekdays = () =>
     calendarPanel
       .getByRole('row')
+      .first()
       .evaluate((row) => Array.from(row.children, (child) => child.textContent?.trim() ?? ''));
   expect(await renderedWeekdays()).toEqual(englishWeekdays);
   await englishInput.press('Escape');

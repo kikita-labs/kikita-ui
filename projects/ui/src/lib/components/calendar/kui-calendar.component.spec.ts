@@ -87,7 +87,7 @@ describe('KuiCalendarComponent', () => {
 
     expect(tabStops).toHaveLength(1);
     expect(tabStops[0].textContent?.trim()).toBe('14');
-    expect(tabStops[0].getAttribute('aria-selected')).toBe('true');
+    expect(tabStops[0].closest('[role="gridcell"]')?.getAttribute('aria-selected')).toBe('true');
   });
 
   it('marks today with aria-current="date"', () => {
@@ -103,7 +103,25 @@ describe('KuiCalendarComponent', () => {
     expect(host.value()).not.toBeNull();
     expect(host.value()?.getDate()).toBe(15);
     expect(cell.classList.contains('kui-calendar-day--selected')).toBe(true);
-    expect(cell.getAttribute('aria-selected')).toBe('true');
+    expect(cell.closest('[role="gridcell"]')?.getAttribute('aria-selected')).toBe('true');
+    expect(cell.hasAttribute('aria-selected')).toBe(false);
+  });
+
+  it('renders a complete ARIA grid: header row, then six rows of seven gridcells', () => {
+    const root = fixture.nativeElement as HTMLElement;
+    const grid = root.querySelector('[role="grid"]')!;
+    const headerRow = grid.querySelector(':scope > .kui-calendar-weekdays')!;
+    const weekRows = grid.querySelectorAll('[role="rowgroup"] > [role="row"]');
+
+    expect(headerRow.getAttribute('role')).toBe('row');
+    expect(headerRow.querySelectorAll('[role="columnheader"]')).toHaveLength(7);
+    expect(weekRows).toHaveLength(6);
+    weekRows.forEach((row) => {
+      expect(row.querySelectorAll(':scope > [role="gridcell"]')).toHaveLength(7);
+    });
+    // Every day button sits in a gridcell and none of them carries a role-less selection state.
+    expect(root.querySelectorAll('[role="gridcell"] > .kui-calendar-day')).toHaveLength(42);
+    expect(root.querySelectorAll('button[aria-selected]')).toHaveLength(0);
   });
 
   it('disables dates before minDate and blocks selection', () => {

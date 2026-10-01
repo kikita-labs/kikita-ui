@@ -60,6 +60,12 @@
     padding-bottom: var(--kui-space-2);
   }
 
+  /* Week rows and cells exist for the ARIA grid structure only; the day buttons lay out in the grid. */
+  .kui-calendar-week,
+  .kui-calendar-cell {
+    display: contents;
+  }
+
   .kui-calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);

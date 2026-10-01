@@ -143,27 +143,43 @@ type KuiCalendarView = KuiCalendarNavigationView;
     <div aria-live="polite" class="sr-only">{{ liveAnnounce() }}</div>
 
     @if (view() === 'days') {
-      <div class="kui-calendar-weekdays" role="row">
-        @for (name of localeText().weekdaysShort; track name) {
-          <span class="kui-calendar-weekday">{{ name }}</span>
-        }
-      </div>
-      <div class="kui-calendar-grid" role="grid" aria-label="Calendar">
-        @for (cell of dayCells(); track cell.date.getTime()) {
-          <button
-            class="{{ cell.cls }}"
-            type="button"
-            [tabIndex]="cell.tabIndex"
-            [attr.aria-selected]="cell.ariaSelected"
-            [attr.aria-current]="cell.ariaCurrent"
-            [attr.aria-disabled]="cell.ariaDisabled"
-            (keydown)="onGridKeyDown($event)"
-            (click)="!cell.disabled && selectDate(cell.date)"
-            (focus)="focusedDate.set(cell.date)"
-          >
-            <span class="kui-calendar-day-inner">{{ cell.label }}</span>
-          </button>
-        }
+      <div class="kui-calendar-table" role="grid" aria-label="Calendar">
+        <div class="kui-calendar-weekdays" role="row">
+          @for (name of localeText().weekdaysShort; track name; let i = $index) {
+            <span
+              class="kui-calendar-weekday"
+              role="columnheader"
+              [attr.abbr]="localeText().weekdaysLong[i]"
+              >{{ name }}</span
+            >
+          }
+        </div>
+        <div class="kui-calendar-grid" role="rowgroup">
+          @for (week of dayWeeks(); track week[0].date.getTime()) {
+            <div class="kui-calendar-week" role="row">
+              @for (cell of week; track cell.date.getTime()) {
+                <div
+                  class="kui-calendar-cell"
+                  role="gridcell"
+                  [attr.aria-selected]="cell.ariaSelected"
+                >
+                  <button
+                    class="{{ cell.cls }}"
+                    type="button"
+                    [tabIndex]="cell.tabIndex"
+                    [attr.aria-current]="cell.ariaCurrent"
+                    [attr.aria-disabled]="cell.ariaDisabled"
+                    (keydown)="onGridKeyDown($event)"
+                    (click)="!cell.disabled && selectDate(cell.date)"
+                    (focus)="focusedDate.set(cell.date)"
+                  >
+                    <span class="kui-calendar-day-inner">{{ cell.label }}</span>
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        </div>
       </div>
     }
 
@@ -359,6 +375,12 @@ export class KuiCalendarComponent implements OnInit {
       });
     }
     return cells;
+  });
+
+  /** The 42 day cells grouped into six week rows, as the ARIA grid structure requires. */
+  protected readonly dayWeeks = computed<KuiCalendarDayCell[][]>(() => {
+    const cells = this.dayCells();
+    return Array.from({ length: 6 }, (_, week) => cells.slice(week * 7, week * 7 + 7));
   });
 
   protected readonly monthCells = computed<KuiCalendarPickerCell[]>(() => {

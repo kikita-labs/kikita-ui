@@ -56,6 +56,28 @@ describe('KuiCalendarRangeComponent', () => {
     expect(el().querySelectorAll('.kui-calendar-day').length).toBe(42);
   });
 
+  it('renders a complete ARIA grid and puts the range endpoints in selected gridcells', () => {
+    const grid = el().querySelector('[role="grid"]')!;
+    const weekRows = grid.querySelectorAll('[role="rowgroup"] > [role="row"]');
+
+    expect(
+      grid.querySelectorAll(':scope > .kui-calendar-weekdays [role="columnheader"]'),
+    ).toHaveLength(7);
+    expect(weekRows).toHaveLength(6);
+    weekRows.forEach((row) => {
+      expect(row.querySelectorAll(':scope > [role="gridcell"]')).toHaveLength(7);
+    });
+
+    dayButton('10').click();
+    fixture.detectChanges();
+    dayButton('14').click();
+    fixture.detectChanges();
+
+    const selected = Array.from(el().querySelectorAll('[role="gridcell"][aria-selected="true"]'));
+    expect(selected.map((cell) => cell.textContent?.trim())).toEqual(['10', '14']);
+    expect(el().querySelectorAll('button[aria-selected]')).toHaveLength(0);
+  });
+
   it('marks today with aria-current="date"', () => {
     const today = new Date();
     const cell = dayButton(String(today.getDate()));
