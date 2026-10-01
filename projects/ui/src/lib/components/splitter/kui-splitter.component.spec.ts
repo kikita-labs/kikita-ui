@@ -180,6 +180,34 @@ describe('KuiSplitterComponent', () => {
     expect(fixture.nativeElement.querySelector('.kui-splitter-gutter__thumb-btn')).toBeFalsy();
   });
 
+  it('keeps the collapse button outside the focusable separator', () => {
+    const fixture = createFixture(TwoPaneHost);
+    fixture.componentInstance.collapsibleA.set(true);
+    fixture.detectChanges();
+
+    const gutter: HTMLElement = fixture.nativeElement.querySelector('kui-splitter-gutter');
+    const separator = getGutters(fixture)[0];
+    const button = gutter.querySelector('.kui-splitter-gutter__thumb-btn');
+
+    expect(gutter.getAttribute('role')).toBeNull();
+    expect(button).toBeTruthy();
+    expect(separator.contains(button)).toBe(false);
+    expect(separator.querySelector('button, a[href], input, select, textarea')).toBeNull();
+  });
+
+  it('points aria-controls at an existing pane element', () => {
+    const fixture = createFixture(ThreePaneHost);
+
+    for (const [index, gutter] of getGutters(fixture).entries()) {
+      const controlled = gutter.getAttribute('aria-controls');
+      const target = fixture.nativeElement.querySelector(`[id="${controlled}"]`);
+
+      expect(controlled).toBeTruthy();
+      expect(target?.localName).toBe('kui-splitter-pane');
+      expect(target).toBe(fixture.nativeElement.querySelectorAll('kui-splitter-pane')[index]);
+    }
+  });
+
   it('removes gutters from tab order and ignores keyboard resize when disabled', () => {
     const fixture = createFixture(TwoPaneHost);
     const host = fixture.componentInstance;

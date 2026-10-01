@@ -29,6 +29,7 @@ import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
   template: `<ng-content />`,
   host: {
     class: 'kui-splitter-pane',
+    '[attr.id]': 'id',
   },
 })
 /** A single resizable pane. See the class-level example above. */
@@ -59,7 +60,10 @@ export class KuiSplitterPaneComponent {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly context = inject(KUI_SPLITTER_CONTEXT);
 
-  /** Stable id used for the adjacent gutter's `aria-controls`. */
+  /**
+   * Stable id, rendered on the pane element so the adjacent gutter's `aria-controls` resolves to it.
+   * It replaces any `id` set on the pane in a template.
+   */
   readonly id = kuiNextId('kui-splitter-pane');
 
   private readonly index = computed(() => this.context.panes().indexOf(this));

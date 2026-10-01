@@ -240,9 +240,9 @@ test('drags a horizontal gutter with the mouse and clamps at the minimum size', 
   const deltaPx = 80;
 
   await dragGutter(page, gutter, { x: deltaPx, y: 0 }, false);
-  await expect(gutter).toHaveAttribute('data-kui-dragging', '');
+  await expect(gutter.locator('xpath=..')).toHaveAttribute('data-kui-dragging', '');
   await page.mouse.up();
-  await expect(gutter).not.toHaveAttribute('data-kui-dragging');
+  await expect(gutter.locator('xpath=..')).not.toHaveAttribute('data-kui-dragging');
 
   const expected = 50 + (deltaPx / before.availablePx) * 100;
 
@@ -279,7 +279,7 @@ test('cancels a mouse drag with Escape and restores the starting layout', async 
   await expect.poll(() => valueNow(gutter)).toBeGreaterThan(55);
   await page.keyboard.press('Escape');
   await expectLayout(splitter, 'x', [50, 50]);
-  await expect(gutter).not.toHaveAttribute('data-kui-dragging');
+  await expect(gutter.locator('xpath=..')).not.toHaveAttribute('data-kui-dragging');
   await page.mouse.move(600, 300);
   await page.mouse.up();
   await expectLayout(splitter, 'x', [50, 50]);
@@ -429,10 +429,7 @@ test.fixme('leaves the collapsed state when the pane grows back with the keyboar
   await expect(readout).toHaveText(['25', 'No']);
 });
 
-// Library defect (not fixed here): the gutter's `aria-controls` names `pane.id`, which is a TypeScript
-// field never bound to a host attribute, so no element carries that id. Reproduced on 2026-09-30
-// before marking fixme: zero elements matched. Owner: Kikita UI library.
-test.fixme('points the gutter at an existing pane through aria-controls', async ({ page }) => {
+test('points the gutter at an existing pane through aria-controls', async ({ page }) => {
   const gutter = group(page, 'Two equal panes').getByRole('separator');
   const controlled = await gutter.getAttribute('aria-controls');
 
@@ -680,7 +677,7 @@ test('captures the hovered, focused, and dragging gutter with real input @visual
   });
 
   await dragGutter(page, gutter, { x: 90, y: 0 }, false);
-  await expect(gutter).toHaveAttribute('data-kui-dragging', '');
+  await expect(gutter.locator('xpath=..')).toHaveAttribute('data-kui-dragging', '');
   await expect(example).toHaveScreenshot('splitter-default-gutter-dragging.png', {
     animations: 'disabled',
   });

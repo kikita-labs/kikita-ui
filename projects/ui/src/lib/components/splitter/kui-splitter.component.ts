@@ -206,15 +206,6 @@ export class KuiSplitterComponent implements KuiSplitterContext {
   onGutterPointerDown(gutterIndex: number, event: PointerEvent): void {
     if (this.disabled()) return;
 
-    const gutterEl = this.gutterRefs[gutterIndex]?.location.nativeElement as
-      | HTMLElement
-      | undefined;
-    if (!gutterEl) return;
-
-    event.preventDefault();
-    gutterEl.setPointerCapture?.(event.pointerId);
-    gutterEl.focus();
-
     this.dragStartSizes = [...this.sizes()];
     this.dragStartClientPos = this.orientation() === 'horizontal' ? event.clientX : event.clientY;
     this.dragAvailablePx = this.measureAvailablePx();

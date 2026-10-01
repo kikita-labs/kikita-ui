@@ -51,6 +51,11 @@
     position: relative;
     flex: 0 0 var(--kui-splitter-gutter-size);
     touch-action: none;
+  }
+
+  .kui-splitter-gutter__separator {
+    position: absolute;
+    inset: 0;
     outline: none;
   }
 
@@ -62,12 +67,12 @@
     cursor: row-resize;
   }
 
-  .kui-splitter-gutter[aria-disabled='true'] {
+  .kui-splitter-gutter[data-kui-disabled] {
     cursor: not-allowed;
     pointer-events: none;
   }
 
-  .kui-splitter-gutter:focus-visible {
+  .kui-splitter-gutter__separator:focus-visible {
     box-shadow: 0 0 0 2px var(--kui-splitter-focus-ring);
   }
 
@@ -100,7 +105,7 @@
     background: var(--kui-splitter-gutter-line-active);
   }
 
-  .kui-splitter-gutter[aria-disabled='true'] .kui-splitter-gutter__line {
+  .kui-splitter-gutter[data-kui-disabled] .kui-splitter-gutter__line {
     background: var(--kui-splitter-gutter-line-disabled);
   }
 

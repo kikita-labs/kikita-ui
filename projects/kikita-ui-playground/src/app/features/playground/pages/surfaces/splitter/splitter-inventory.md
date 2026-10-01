@@ -1,6 +1,6 @@
 # Splitter Contract Inventory
 
-This inventory maps the public Splitter contract to the page examples and browser checks. `kui-splitter` lays out two or more `kui-splitter-pane` children and generates one `role="separator"` gutter between each adjacent pair (after `afterNextRender`, so the server response contains panes but no gutters). The audit was reviewed by the parent integrator before implementation; questions answered in review are recorded under "Review decisions".
+This inventory maps the public Splitter contract to the page examples and browser checks. `kui-splitter` lays out two or more `kui-splitter-pane` children and generates one gutter (an inner `role="separator"` element plus an optional collapse button) between each adjacent pair (after `afterNextRender`, so the server response contains panes but no gutters). The audit was reviewed by the parent integrator before implementation; questions answered in review are recorded under "Review decisions".
 
 ## Public inputs, outputs, and members
 
@@ -38,7 +38,7 @@ There are no models. `KuiSplitterOrientation` is the only exported type. The pag
 | `Escape`                                    | While a drag is active, reverts to the drag-start sizes and ends the drag; does not emit `sizesChange`.                            | Real mouse drag, `Escape`, release: geometry returns to the start; the readout stays at drag values. |
 | `Tab`                                       | Each gutter in order; the collapse button is `tabindex="-1"`.                                                                      | Three-pane example visits both gutters in order; the disabled gutter is skipped.                     |
 
-Pointer: `pointerdown` captures the pointer, focuses the gutter, records start sizes and the available pixels (splitter `clientWidth` or `clientHeight` minus gutter pixels); `pointermove` applies `(deltaPx / availablePx) * 100` from the drag start; `pointerup` and `lostpointercapture` end the drag. `touch-action: none` on the gutter lets touch events reach the same handlers. The collapse button stops `pointerdown` propagation.
+Pointer: `pointerdown` captures the pointer, focuses the gutter, records start sizes and the available pixels (splitter `clientWidth` or `clientHeight` minus gutter pixels); `pointermove` applies `(deltaPx / availablePx) * 100` from the drag start; `pointerup` and `lostpointercapture` end the drag. `touch-action: none` on the gutter lets touch events reach the same handlers. The collapse button is a sibling of the separator, so its `pointerdown` never reaches the separator's handlers.
 
 Browser evidence with real input: `page.mouse` drags (horizontal, vertical, nested inner) with geometry assertions in percentages computed from measured pane pixels; a touch drag through Chromium CDP `Input.dispatchTouchEvent` in a `hasTouch` context asserting geometry and that the page did not scroll; a separate `tap()` on the collapse button (a tap after a CDP touch drag in the same page produced pointer events without a click in Chromium, so the two run in separate contexts); real `Tab`, arrow, Home, End, Enter, and Escape presses.
 
@@ -52,7 +52,7 @@ Browser evidence with real input: `page.mouse` drags (horizontal, vertical, nest
 
 ## Source audit
 
-- [Docs](../../../../../../../../../docs/splitter.md), [splitter](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter.component.ts), [pane](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter-pane.component.ts), [gutter](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter-gutter.component.ts), [context token](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter-context.token.ts), [unit spec](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter.component.spec.ts) (12 tests), and [stylesheet](../../../../../../../../../projects/ui/src/styles/splitter.css).
+- [Docs](../../../../../../../../../docs/splitter.md), [splitter](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter.component.ts), [pane](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter-pane.component.ts), [gutter](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter-gutter.component.ts), [context token](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter-context.token.ts), [unit spec](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter.component.spec.ts) (15 tests), and [stylesheet](../../../../../../../../../projects/ui/src/styles/splitter.css).
 - Legacy scenarios (reference only): default, vertical, collapsible first pane, three panes, nested IDE layout, disabled, and a sizes readout.
 
 ## Discrepancies and findings
@@ -60,8 +60,8 @@ Browser evidence with real input: `page.mouse` drags (horizontal, vertical, nest
 1. **No `maxSize` input.** The effective maximum is `100 - after.minSize` (`aria-valuemax`). The page covers `minSize` only.
 2. **`collapsed()` and the button label desync (defect, reproduced).** `collapsed()` and the label change only in `toggleCollapse()`. Reproduced in the browser: after `Home` on the collapsible first pane the pane is at 15 but the readout says `15 / No`; after a button collapse followed by `Shift+ArrowRight` the pane is at 25 but the readout says `25 / Yes`. The `pane.collapsed` JSDoc says it follows Enter/Home/End. Recorded as two `test.fixme` tests.
 3. **Collapse does not hide the pane.** It moves the pane to its `minSize`. Documented, not a defect.
-4. **`aria-controls` dangles (defect, reproduced).** The gutter sets `aria-controls` to `pane.id`, but no element carries that id (the pane declares `id` as a TypeScript field and never binds it). Recorded as a `test.fixme` test. This is the source of the axe rule `aria-valid-attr-value`.
-5. **`nested-interactive` (library markup).** The collapse `button` sits inside the focusable `role="separator"`. The axe sweep shows exactly `aria-valid-attr-value` and `nested-interactive` for `/components/splitter`, and nothing else; page markup adds no violation.
+4. **`aria-controls` dangled (defect, fixed in Plan 10.3).** The gutter set `aria-controls` to `pane.id`, but the pane never bound `id` to its element, which produced the axe rule `aria-valid-attr-value`. The pane now renders `id`, and the regression is a normal test.
+5. **`nested-interactive` (library markup, fixed in Plan 10.3).** The collapse `button` sat inside the focusable `role="separator"`. The separator is now an inner element of `kui-splitter-gutter` and the button is its sibling. The axe sweep reports no violation for `/components/splitter`.
 6. **`Escape` revert emits no `sizesChange` (open contract question).** The consumer's last emitted sizes stay at the abandoned drag values while the layout returns to the start. Docs do not say. Recorded as observed behavior by a normal test, not fixme.
 7. **`sizesChange` JSDoc** says "drag or keyboard"; it also fires for collapse and expand. Not a defect.
 8. **Docs/types mismatch on `size`.** `docs/splitter.md` and the class JSDoc show `size="30"`, but the input is declared `input<number | undefined>(undefined, { transform })`, so the accepted template type is `number | undefined` and a string attribute fails strict template checking (`TS2322`). The page uses `[size]="30"`.
@@ -106,7 +106,7 @@ Screenshots (`@visual`): every group at desktop and 320px (16), gutter hover, fo
 
 - [x] Every public input, output, and documented member of `kui-splitter` and `kui-splitter-pane` is accounted for with type, default, and observed behavior.
 - [x] Docs, implementation, unit spec, types, and the legacy scenarios were compared and discrepancies listed.
-- [x] Findings 2 and 4 were reproduced in the browser before being marked `test.fixme`.
+- [x] Finding 2 was reproduced in the browser before being marked `test.fixme`; finding 4 was too, and was fixed in Plan 10.3.
 - [x] English and Russian catalogues have identical key sets.
 - [x] Desktop and 320px screenshots were opened and inspected; the mobile checks confirm no document-level horizontal overflow.
 - [ ] Independent review and the page-only commit are recorded in the rollout tracker by the parent.

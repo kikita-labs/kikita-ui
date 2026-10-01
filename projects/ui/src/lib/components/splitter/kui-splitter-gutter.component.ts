@@ -1,4 +1,5 @@
-import { Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
+import type { ElementRef } from '@angular/core';
+import { Component, computed, inject, input, viewChild, ViewEncapsulation } from '@angular/core';
 
 import { KUI_CHEVRON_LEFT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
@@ -13,16 +14,36 @@ import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
 @Component({
   selector: 'kui-splitter-gutter',
   template: `
-    <div aria-hidden="true" class="kui-splitter-gutter__line"></div>
-    @if (collapseTarget() === null) {
-      <div aria-hidden="true" class="kui-splitter-gutter__thumb"></div>
-    } @else {
+    <div
+      #separator
+      class="kui-splitter-gutter__separator"
+      role="separator"
+      [attr.aria-orientation]="ariaOrientation()"
+      [attr.aria-valuenow]="ariaValueNow()"
+      [attr.aria-valuemin]="ariaValueMin()"
+      [attr.aria-valuemax]="ariaValueMax()"
+      [attr.aria-controls]="beforePaneId()"
+      [attr.aria-disabled]="disabled() ? 'true' : null"
+      [attr.tabindex]="disabled() ? -1 : 0"
+      (pointerdown)="onPointerDown($event)"
+      (pointermove)="onPointerMove($event)"
+      (pointerup)="onPointerUp()"
+      (lostpointercapture)="onPointerUp()"
+      (contextmenu)="$event.preventDefault()"
+      (keydown)="onKeyDown($event)"
+    >
+      <div aria-hidden="true" class="kui-splitter-gutter__line"></div>
+      @if (collapseTarget() === null) {
+        <div aria-hidden="true" class="kui-splitter-gutter__thumb"></div>
+      }
+    </div>
+    @if (collapseTarget() !== null) {
+      <!-- A sibling of the separator, not a child: a focusable separator must not contain a control. -->
       <button
         type="button"
         class="kui-splitter-gutter__thumb-btn"
         tabindex="-1"
         [attr.aria-label]="collapseLabel()"
-        (pointerdown)="$event.stopPropagation()"
         (click)="onCollapseClick()"
       >
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -40,22 +61,9 @@ import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
   `,
   host: {
     class: 'kui-splitter-gutter',
-    role: 'separator',
-    '[attr.aria-orientation]': 'ariaOrientation()',
-    '[attr.aria-valuenow]': 'ariaValueNow()',
-    '[attr.aria-valuemin]': 'ariaValueMin()',
-    '[attr.aria-valuemax]': 'ariaValueMax()',
-    '[attr.aria-controls]': 'beforePaneId()',
-    '[attr.aria-disabled]': 'disabled() ? "true" : null',
-    '[attr.tabindex]': 'disabled() ? -1 : 0',
     '[attr.data-kui-orientation]': 'ariaOrientation()',
+    '[attr.data-kui-disabled]': 'disabled() ? "" : null',
     '[attr.data-kui-dragging]': 'isDragging() ? "" : null',
-    '(pointerdown)': 'onPointerDown($event)',
-    '(pointermove)': 'onPointerMove($event)',
-    '(pointerup)': 'onPointerUp()',
-    '(lostpointercapture)': 'onPointerUp()',
-    '(contextmenu)': '$event.preventDefault()',
-    '(keydown)': 'onKeyDown($event)',
   },
   encapsulation: ViewEncapsulation.None,
 })
@@ -65,6 +73,8 @@ export class KuiSplitterGutterComponent {
   readonly index = input.required<number>();
 
   private readonly context = inject(KUI_SPLITTER_CONTEXT);
+
+  private readonly separator = viewChild.required<ElementRef<HTMLElement>>('separator');
 
   /** True while this specific gutter has the active pointer drag. */
   protected readonly isDragging = computed(() => this.context.draggingIndex() === this.index());
@@ -139,6 +149,11 @@ export class KuiSplitterGutterComponent {
 
   protected onPointerDown(event: PointerEvent): void {
     if (this.disabled()) return;
+
+    const separator = this.separator().nativeElement;
+    event.preventDefault();
+    separator.setPointerCapture?.(event.pointerId);
+    separator.focus();
     this.context.onGutterPointerDown(this.index(), event);
   }
 

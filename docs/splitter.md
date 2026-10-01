@@ -152,16 +152,20 @@ inject or query the component directly if you need these outside a template).
 
 ## Accessibility
 
-- Each gutter is `role="separator"`, focusable (`tabIndex="0"` unless `disabled`), following the
-  W3C ARIA APG Window Splitter Pattern.
+- Each gutter renders an inner `role="separator"` element, focusable (`tabIndex="0"` unless
+  `disabled`), following the W3C ARIA APG Window Splitter Pattern. The `kui-splitter-gutter` host
+  carries no role; it only positions the separator and the optional collapse button.
 - `aria-orientation` describes the gutter's own line, not the panes' layout: panes laid out
   horizontally have a _vertical_ line, so `aria-orientation="vertical"`, and vice versa.
 - `aria-valuenow`/`aria-valuemin`/`aria-valuemax` track the size of the pane _before_ the gutter in
   DOM order, recalculated on every resize from the same value that drives the visual `flex-basis` --
   they can never drift out of sync with what's on screen.
-- `aria-controls` points at the id of that same before-pane.
+- `aria-controls` points at the id of that same before-pane. Each `kui-splitter-pane` renders a
+  generated `id` on its element for this, replacing any `id` set on the pane in a template.
 - The one-touch collapse button has its own `aria-label` ("Collapse pane" / "Expand pane"), not
-  relying on the chevron icon alone.
+  relying on the chevron icon alone. It is a sibling of the separator, not a child, because a
+  focusable separator must not contain an interactive control. It stays out of the tab order; the
+  keyboard equivalent is `Enter` on the separator.
 - `disabled` sets `aria-disabled="true"` and `tabIndex="-1"`, removing the gutter from the tab
   order, not just dimming it.
 
