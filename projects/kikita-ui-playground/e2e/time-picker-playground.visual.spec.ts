@@ -327,13 +327,7 @@ test('toggles the input panel with Enter and closes it with Escape or Tab', asyn
   await expect(clearButton(input)).toBeFocused();
 });
 
-// Owner: queue item 10.3 (overlay focus handling). Reproduced on this page with the fixed clock:
-// ArrowDown twice moves focus into the Hours column, and Escape then closes the panel but leaves
-// `document.activeElement` on <body> instead of the input, so keyboard users lose their place. The
-// input-level Escape path above restores focus correctly. Not fixed here (library code).
-test.fixme('returns focus to the input when Escape closes the panel from inside it', async ({
-  page,
-}) => {
+test('returns focus to the input when Escape closes the panel from inside it', async ({ page }) => {
   const input = picker(page, 'Meeting time');
 
   await input.focus();

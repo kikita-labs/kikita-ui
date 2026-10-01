@@ -184,7 +184,7 @@ Also implements the Angular Signal Forms `FormValueControl<Date | null>` contrac
   column.
 - `Enter` (in the input): opens the popover if closed, closes it if open.
 - `Enter` (in a column): closes the popover, keeping the current selection.
-- `Escape` (anywhere in the field): closes the popover, focus stays in the field.
+- `Escape` (anywhere in the field or panel): closes the popover; focus stays in the field, or returns to it when it was inside the panel.
 - `Tab` (in the input): closes the popover, focus moves to the next tabbable element.
 - `ArrowUp` / `ArrowDown` (in a column): cyclic move to the previous/next value, applied
   immediately.

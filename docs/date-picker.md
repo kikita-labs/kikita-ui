@@ -141,7 +141,7 @@ Also implements the Angular Signal Forms `FormValueControl<Date | null>` contrac
 
 - `ArrowDown`: opens the popover
 - `Enter`: opens the popover if closed, closes it if open
-- `Escape`: closes the popover, focus stays in the field
+- `Escape`: closes the popover; focus stays in the field, or returns to it when it was inside the calendar
 - `Tab`: closes the popover, focus moves to the next tabbable element
 - Inside the popover: calendar keyboard navigation applies (see Calendar docs)
 

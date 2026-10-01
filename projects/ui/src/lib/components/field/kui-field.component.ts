@@ -226,7 +226,11 @@ export class KuiFieldComponent implements KuiOptionContext {
       const dropdown = this.dropdown();
       const control = this.controlSlot();
       if (dropdown && control) {
-        dropdown.setAnchor(control.nativeElement, this.hostEl.nativeElement);
+        dropdown.setAnchor(control.nativeElement, this.hostEl.nativeElement, () =>
+          (this.hostEl.nativeElement as HTMLElement).querySelector<HTMLElement>(
+            `[id="${this.controlId}"]`,
+          ),
+        );
       }
     });
 

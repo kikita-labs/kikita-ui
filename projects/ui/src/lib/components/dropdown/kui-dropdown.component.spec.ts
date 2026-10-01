@@ -135,6 +135,47 @@ describe('KuiDropdownComponent', () => {
     expect(document.querySelector('.kui-dropdown--closing')).not.toBeNull();
   });
 
+  it('returns focus to the anchor when Escape closes a panel that held focus', async () => {
+    const fixture = createCalendarFixture();
+    const host = fixture.componentInstance;
+
+    host.open.set(true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const day = document.querySelector<HTMLElement>('.kui-dropdown .kui-calendar-grid button');
+    expect(day).not.toBeNull();
+    day!.focus();
+    expect(document.activeElement).toBe(day);
+
+    day!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    fixture.detectChanges();
+
+    expect(host.open()).toBe(false);
+    expect(document.activeElement).toBe(fixture.nativeElement.querySelector('#trigger'));
+  });
+
+  it('leaves focus alone when Escape closes a panel that never held it', async () => {
+    const fixture = createCalendarFixture();
+    const host = fixture.componentInstance;
+    const other = document.createElement('button');
+    document.body.append(other);
+
+    host.open.set(true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    other.focus();
+    other.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    fixture.detectChanges();
+
+    expect(host.open()).toBe(false);
+    expect(document.activeElement).toBe(other);
+    other.remove();
+  });
+
   it('closes after picking a day in a single-date calendar panel', async () => {
     const fixture = createCalendarFixture();
     const host = fixture.componentInstance;

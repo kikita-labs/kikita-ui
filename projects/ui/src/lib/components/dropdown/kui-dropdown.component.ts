@@ -147,6 +147,7 @@ export class KuiDropdownComponent implements OnDestroy {
 
   private _anchorEl: HTMLElement | null = null;
   private _outsideClickIgnoreEl: HTMLElement | null = null;
+  private _focusReturnTarget: (() => HTMLElement | null) | null = null;
   private overlayRef: OverlayRef | null = null;
   private openSubs: { unsubscribe: () => void }[] = [];
 
@@ -170,10 +171,17 @@ export class KuiDropdownComponent implements OnDestroy {
    * Called by KuiFieldComponent to wire up the anchor element.
    * @param positionEl element used for overlay positioning and minWidth (e.g. the control slot)
    * @param outsideClickIgnoreEl element that should not close the overlay on document capture click
+   * @param focusReturnTarget resolves the element that receives focus when Escape closes a panel
+   * that held focus; defaults to `positionEl`, which only works when that element is focusable
    */
-  setAnchor(positionEl: HTMLElement, outsideClickIgnoreEl?: HTMLElement): void {
+  setAnchor(
+    positionEl: HTMLElement,
+    outsideClickIgnoreEl?: HTMLElement,
+    focusReturnTarget?: () => HTMLElement | null,
+  ): void {
     this._anchorEl = positionEl;
     this._outsideClickIgnoreEl = outsideClickIgnoreEl ?? null;
+    this._focusReturnTarget = focusReturnTarget ?? null;
 
     if (this.openState() && !this.isOpen()) this.open();
   }
@@ -252,7 +260,14 @@ export class KuiDropdownComponent implements OnDestroy {
       this._outsideClickIgnoreEl,
       {
         watchFocusin: true,
-        onEscape: () => this.close(),
+        onEscape: () => {
+          // Closing removes the panel, which drops focus to <body> when it was inside the panel
+          // (for example a Time Picker unit column). Hand it back to the control so keyboard users
+          // keep their place; a panel opened from the control never took focus, so nothing to restore.
+          const focusWasInPanel = overlayEl.contains(this.document.activeElement);
+          this.close();
+          if (focusWasInPanel) (this._focusReturnTarget?.() ?? anchor).focus();
+        },
         onOutside: () => this.close(),
         onAnchorOffscreen: () => this.close(),
         onReposition: clampPanel,
