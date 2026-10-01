@@ -149,6 +149,9 @@ documented open question in the design spec, not an oversight.
   both focus and selection between dots).
 - The region itself also responds to `ArrowLeft`/`ArrowRight`/`Home`/`End` to move the current
   slide, independent of dot focus.
+- While `draggable` is `true` the slide track is a scrollable region, so it is a keyboard tab stop
+  (`tabindex="0"`) with a visible focus ring; the arrow keys above then move slides even when the
+  arrows and dots are hidden. With `draggable=false` the track does not scroll and is not a tab stop.
 - Prev/Next/Play/Pause are `button[kuiIconButton]` with a required `aria-label`, no visible text.
 - Range boundaries (when `loop` is `false`) use the native `disabled` attribute on Prev/Next,
   removing them from tab order, not just dimming them.

@@ -69,6 +69,7 @@ function autoplayIntervalAttribute(value: unknown): number {
         #track
         class="kui-carousel__track"
         [attr.data-kui-locked]="draggable() ? null : ''"
+        [attr.tabindex]="draggable() ? 0 : null"
         [style.--kui-carousel-items-per-view]="itemsPerView()"
         [style.cursor]="trackCursor()"
         [style.user-select]="dragging() ? 'none' : null"

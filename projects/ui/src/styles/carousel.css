@@ -33,6 +33,12 @@
     padding: var(--kui-carousel-gap);
   }
 
+  /* A scrollable track must be keyboard focusable; the region's arrow/Home/End keys then move slides. */
+  .kui-carousel__track:focus-visible {
+    outline: 2px solid var(--kui-color-primary-focus-ring);
+    outline-offset: -2px;
+  }
+
   /*
    * This track is the carousel's own viewport chrome, not a scrollable content pane like a
    * dropdown listbox or dialog body -- it must never show scrollbar chrome, including under the
