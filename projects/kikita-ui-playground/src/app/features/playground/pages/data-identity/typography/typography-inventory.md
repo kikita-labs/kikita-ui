@@ -136,7 +136,7 @@ nowrap`) on a container-owned row and is labelled as container-owned. `overflow:
 6. Visual captures use tall viewports (1440x1600 and 320x2600) because the shell workspace owns
    scrolling and would otherwise clip tall groups.
 
-Axe finding recorded, not fixed: `/components/typography` reports `scrollable-region-focusable` on `.playground-shell__workspace` (the shell scroller, the same finding as Separator and Icon); no page element is flagged.
+Axe finding fixed in Plan 10.3: the page root `<main>` is a keyboard tab stop (`tabindex="0"`) with a visible focus ring, because the page scrolls inside the shell workspace and has no focusable content of its own. `/components/typography` reports no violations.
 
 Library observations recorded, not fixed: discrepancies 2 (undocumented data attributes), 3 (`kuiText`
 without `tone` overrides an inherited parent color; asserted in the Directive and CSS classes card),

@@ -6,7 +6,12 @@
           {{ 'breadcrumbs.examples.plainText' | transloco }}
         </h3>
 
-        <nav [attr.aria-label]="'breadcrumbs.accessibility.navigation' | transloco">
+        <nav
+          [attr.aria-label]="
+            'breadcrumbs.accessibility.navigationFor'
+              | transloco: { example: ('breadcrumbs.examples.plainText' | transloco) }
+          "
+        >
           <ol kuiBreadcrumbs>
             <li>
               <a kuiBreadcrumbItem href="/">{{ 'breadcrumbs.items.playground' | transloco }}</a>
@@ -30,7 +35,12 @@
           {{ 'breadcrumbs.examples.leadingIcon' | transloco }}
         </h3>
 
-        <nav [attr.aria-label]="'breadcrumbs.accessibility.navigation' | transloco">
+        <nav
+          [attr.aria-label]="
+            'breadcrumbs.accessibility.navigationFor'
+              | transloco: { example: ('breadcrumbs.examples.leadingIcon' | transloco) }
+          "
+        >
           <ol kuiBreadcrumbs>
             <li>
               <a

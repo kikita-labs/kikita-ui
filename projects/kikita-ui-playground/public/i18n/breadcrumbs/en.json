@@ -13,6 +13,7 @@
   },
   "accessibility": {
     "navigation": "Breadcrumb",
+    "navigationFor": "Breadcrumb: {{example}}",
     "default": "Default breadcrumb example",
     "composition": "Breadcrumb composition examples",
     "plainText": "Plain-text grouping crumb example",

@@ -10,7 +10,12 @@
             {{ 'breadcrumbs.size.' + size.key | transloco }}
           </h3>
 
-          <nav [attr.aria-label]="'breadcrumbs.accessibility.navigation' | transloco">
+          <nav
+            [attr.aria-label]="
+              'breadcrumbs.accessibility.navigationFor'
+                | transloco: { example: ('breadcrumbs.size.' + size.key | transloco) }
+            "
+          >
             <ol kuiBreadcrumbs [size]="size.value">
               <li>
                 <a kuiBreadcrumbItem href="/">

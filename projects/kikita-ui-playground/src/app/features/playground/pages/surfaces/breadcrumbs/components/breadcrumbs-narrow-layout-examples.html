@@ -14,7 +14,12 @@
           {{ 'breadcrumbs.examples.truncate' | transloco }}
         </h3>
 
-        <nav [attr.aria-label]="'breadcrumbs.accessibility.navigation' | transloco">
+        <nav
+          [attr.aria-label]="
+            'breadcrumbs.accessibility.navigationFor'
+              | transloco: { example: ('breadcrumbs.examples.truncate' | transloco) }
+          "
+        >
           <ol kuiBreadcrumbs class="breadcrumbs-playground__nonwrapping">
             <li>
               <a kuiBreadcrumbItem href="/">{{ 'breadcrumbs.items.playground' | transloco }}</a>
@@ -44,7 +49,12 @@
           {{ 'breadcrumbs.examples.ellipsis' | transloco }}
         </h3>
 
-        <nav [attr.aria-label]="'breadcrumbs.accessibility.navigation' | transloco">
+        <nav
+          [attr.aria-label]="
+            'breadcrumbs.accessibility.navigationFor'
+              | transloco: { example: ('breadcrumbs.examples.ellipsis' | transloco) }
+          "
+        >
           <ol kuiBreadcrumbs>
             <li>
               <a kuiBreadcrumbItem href="/">{{ 'breadcrumbs.items.playground' | transloco }}</a>
@@ -70,7 +80,12 @@
           {{ 'breadcrumbs.examples.firstAndLast' | transloco }}
         </h3>
 
-        <nav [attr.aria-label]="'breadcrumbs.accessibility.navigation' | transloco">
+        <nav
+          [attr.aria-label]="
+            'breadcrumbs.accessibility.navigationFor'
+              | transloco: { example: ('breadcrumbs.examples.firstAndLast' | transloco) }
+          "
+        >
           <ol kuiBreadcrumbs>
             <li>
               <a kuiBreadcrumbItem href="/">{{ 'breadcrumbs.items.playground' | transloco }}</a>

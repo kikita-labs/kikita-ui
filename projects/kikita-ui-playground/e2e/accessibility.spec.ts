@@ -6,30 +6,14 @@ import { expect, test } from './support/fixtures';
  * is covered without editing this list. It is automated evidence only; manual keyboard and
  * screen-reader review is recorded separately in `docs/state-coverage.md`.
  *
- * Violations that exist today are listed by route and rule id and are asserted exactly: a new
- * violation fails the sweep, and fixing one fails it too until the entry is removed, so the list
- * cannot go stale. Found by Plan 11 on 2026-09-29. Fixing component or page markup is outside Plan
- * 11 and none of these has an owner yet; each needs a focused accessibility slice.
+ * Every component page is expected to be free of automated violations. A violation that cannot be
+ * fixed yet goes in `knownViolations` by route and rule id with a reason and an owner; it is asserted
+ * exactly, so a new violation fails the sweep and fixing a listed one fails it too until the entry is
+ * removed, and the list cannot go stale. The list was emptied by Plan 10.3 on 2026-10-01.
  */
-const knownViolations: Record<string, readonly string[]> = {
-  '/components/breadcrumbs': ['landmark-unique'],
-  '/components/calendar-range': [
-    'aria-allowed-attr',
-    'aria-required-children',
-    'aria-required-parent',
-  ],
-  '/components/carousel': ['scrollable-region-focusable'],
+const knownViolations: Record<string, readonly string[]> = {};
 
-  '/components/calendar': ['aria-allowed-attr', 'aria-required-children', 'aria-required-parent'],
-  '/components/file-upload': ['label', 'nested-interactive'],
-  '/components/icon': ['scrollable-region-focusable'],
-  '/components/progress': ['landmark-unique'],
-  '/components/separator': ['scrollable-region-focusable'],
-  '/components/splitter': ['aria-valid-attr-value', 'nested-interactive'],
-  '/components/typography': ['scrollable-region-focusable'],
-};
-
-test('reports exactly the known automated accessibility violations on component pages', async ({
+test('reports no automated accessibility violations on component pages beyond the known list', async ({
   page,
 }) => {
   test.setTimeout(240_000);

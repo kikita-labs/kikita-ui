@@ -10,7 +10,7 @@
     @for (size of sizes; track size) {
       @let translatedSize = 'progress.labels.sizes.' + size | transloco;
 
-      <section
+      <div
         class="progress-variant-matrix__size"
         role="group"
         [attr.aria-label]="'progress.accessibility.sizeRow' | transloco: { size: translatedSize }"
@@ -51,7 +51,7 @@
             </div>
           }
         </div>
-      </section>
+      </div>
     }
   </div>
 </app-playground-example-card>

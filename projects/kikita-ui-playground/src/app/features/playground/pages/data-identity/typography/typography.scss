@@ -3,6 +3,13 @@
     display: contents;
   }
 
+  /* The page scrolls inside the shell workspace and has no focusable content of its own, so the page
+     root is the keyboard tab stop (axe scrollable-region-focusable). */
+  .typography-playground:focus-visible {
+    outline: 2px solid var(--kui-color-primary-focus-ring);
+    outline-offset: -2px;
+  }
+
   .typography-playground {
     display: grid;
     gap: var(--kui-space-6);
