@@ -74,7 +74,7 @@ export class KuiStepperComponent implements KuiStepperContext {
 
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiStepperSize>(KUI_STEPPER_SIZES);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   /** @internal */
   goTo(index: number): void {

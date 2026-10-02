@@ -90,7 +90,7 @@ export class KuiSegmentedComponent implements KuiSegmentedContext, FormValueCont
   private valueEffectSeeded = false;
   private selectedEffectSeeded = false;
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   readonly groupDisabled = computed(() => this.disabled());
 

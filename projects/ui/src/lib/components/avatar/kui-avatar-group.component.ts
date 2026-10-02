@@ -44,7 +44,7 @@ export class KuiAvatarGroupComponent {
 
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiAvatarSize>();
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   protected readonly visibleAvatars = computed(() => {
     const max = Math.max(1, Math.floor(this.max()));

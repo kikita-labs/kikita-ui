@@ -11,8 +11,8 @@ import {
 
 import { EMPTY } from 'rxjs';
 
-import { KUI_TOAST_OPTIONS } from './kui-toast.token';
-import type { KuiToastConfig, KuiToastOptions, KuiToastRef } from './kui-toast.types';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
+import type { KuiToastConfig, KuiToastRef } from './kui-toast.types';
 import { KuiToastRegionComponent } from './kui-toast-region.component';
 
 const noop = (): void => undefined;
@@ -31,13 +31,13 @@ export class KuiToastService {
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
-  private readonly options: KuiToastOptions = inject(KUI_TOAST_OPTIONS, { optional: true }) ?? {};
+  private readonly toastDefaults = inject(KuiDefaults).get('toast');
 
   private regionRef: ComponentRef<KuiToastRegionComponent> | null = null;
 
   /**
    * Programmatically change the toast region position.
-   * Useful for interactive demos; prefer `provideKuiToastOptions` for app-level configuration.
+   * Useful for interactive demos; prefer `provideKikitaUi({ defaults: { toast } })` for app-level configuration.
    */
   setPosition(position: import('./kui-toast.types').KuiToastPosition): void {
     this.getRegion()?._position.set(position);
@@ -63,12 +63,13 @@ export class KuiToastService {
       return { id: -1, close: noop, update: noop, closed$: EMPTY, action$: EMPTY };
     }
 
+    const options = this.toastDefaults() ?? {};
     const merged: KuiToastConfig = {
       appearance: 'neutral',
-      duration: this.options.duration ?? 5000,
-      closable: this.options.closable ?? true,
-      showIcon: this.options.showIcon ?? true,
-      showProgress: this.options.showProgress ?? false,
+      duration: options.duration ?? 5000,
+      closable: options.closable ?? true,
+      showIcon: options.showIcon ?? true,
+      showProgress: options.showProgress ?? false,
       ...config,
     };
 
@@ -79,11 +80,12 @@ export class KuiToastService {
     if (!isPlatformBrowser(this.platformId)) return null;
 
     if (!this.regionRef) {
+      const options = this.toastDefaults() ?? {};
       this.regionRef = createComponent(KuiToastRegionComponent, {
         environmentInjector: this.environmentInjector,
       });
-      this.regionRef.instance._position.set(this.options.position ?? 'bottom-center');
-      this.regionRef.instance._maxVisible.set(this.options.maxVisible ?? 3);
+      this.regionRef.instance._position.set(options.position ?? 'bottom-center');
+      this.regionRef.instance._maxVisible.set(options.maxVisible ?? 3);
       this.appRef.attachView(this.regionRef.hostView);
       this.document.body.appendChild(this.regionRef.location.nativeElement);
     }

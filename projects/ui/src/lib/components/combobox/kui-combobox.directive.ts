@@ -17,8 +17,7 @@ import type {
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
 
-import { KUI_COMBOBOX_OPTIONS } from '../../tokens/kui-combobox-options.token';
-import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KuiFieldComponent } from '../field/kui-field.component';
@@ -108,8 +107,8 @@ export class KuiComboboxDirective<T = unknown>
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly vcr = inject(ViewContainerRef);
   private readonly field = inject(KuiFieldComponent, { optional: true });
-  private readonly fieldOpts = inject(KUI_FIELD_OPTIONS, { optional: true });
-  private readonly comboboxOpts = inject(KUI_COMBOBOX_OPTIONS, { optional: true });
+  private readonly fieldDefaults = inject(KuiDefaults).get('field');
+  private readonly comboboxDefaults = inject(KuiDefaults).get('combobox');
   private readonly suffixRef: ComponentRef<KuiComboboxInputSuffixComponent>;
   private wasOpen = false;
   private pointerStartedOnInput = false;
@@ -129,8 +128,9 @@ export class KuiComboboxDirective<T = unknown>
   protected readonly effectiveClearable = computed(() => {
     const own = this.clearable();
     if (own !== undefined) return own;
-    if (this.comboboxOpts?.clearable !== undefined) return this.comboboxOpts.clearable!;
-    if (this.fieldOpts?.clearable !== undefined) return this.fieldOpts.clearable!;
+    if (this.comboboxDefaults()?.clearable !== undefined)
+      return this.comboboxDefaults()!.clearable!;
+    if (this.fieldDefaults()?.clearable !== undefined) return this.fieldDefaults()!.clearable!;
     return true;
   });
   protected readonly showClear = computed(

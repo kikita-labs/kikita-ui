@@ -105,7 +105,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
         : this.invalidInput() || Boolean(this.field?.invalid())) || this.invalidValue(),
   );
   protected readonly effectiveSize = computed(
-    () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize ?? 'md',
+    () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize() ?? 'md',
   );
 
   private containerEl!: HTMLElement;

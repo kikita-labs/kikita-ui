@@ -301,7 +301,7 @@ export class KuiCalendarComponent implements OnInit {
   protected readonly view = signal<KuiCalendarView>('days');
   protected readonly focusedDate = signal<Date>(startOfDay(this.clock.initialNow()));
   protected readonly liveAnnounce = signal('');
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   protected readonly viewYear = computed(() => this.viewDate().getFullYear());
   protected readonly viewMonth = computed(() => this.viewDate().getMonth());

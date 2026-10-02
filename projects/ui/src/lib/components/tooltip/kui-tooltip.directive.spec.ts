@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach, vi } from 'vitest';
 
-import { kuiProvideTooltipOptions } from '../../tokens/kui-tooltip-options.token';
+import { kuiProvideTooltipOptions } from '../../tokens';
 import { KuiTooltipDirective } from './kui-tooltip.directive';
 import { KuiTooltipTriggerType } from './kui-tooltip-trigger.type';
 

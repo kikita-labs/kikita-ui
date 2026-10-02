@@ -4,12 +4,16 @@ import { ENVIRONMENT_INITIALIZER, inject, makeEnvironmentProviders } from '@angu
 
 import { KUI_BRAND_ICONS, KUI_ICONS, resolveLucideIcon } from '../components/icon';
 import { DEFAULT_KUI_THEME, provideKuiTheme } from '../theme';
-import { KUI_TOOLTIP_OPTIONS } from '../tokens/kui-tooltip-options.token';
 import type { KikitaUiOptions } from './kikita-ui-options.interface';
 import { KIKITA_UI_OPTIONS } from './kikita-ui-options.token';
+import type { KuiDefaultsSource } from './kui-defaults.interface';
+import { KuiDefaults } from './kui-defaults.service';
+import { KUI_DEFAULTS_SEED } from './kui-defaults.token';
 
 /** Provides root Kikita UI configuration for an Angular application. */
 export function provideKikitaUi(options: KikitaUiOptions = {}): EnvironmentProviders {
+  const seed = createDefaultsSeed(options);
+
   return makeEnvironmentProviders([
     provideKuiTheme(options.theme ?? DEFAULT_KUI_THEME),
     ...(options.icons === false
@@ -18,7 +22,6 @@ export function provideKikitaUi(options: KikitaUiOptions = {}): EnvironmentProvi
           { provide: KUI_ICONS, multi: true, useValue: resolveLucideIcon },
           { provide: KUI_ICONS, multi: true, useValue: KUI_BRAND_ICONS },
         ]),
-    ...(options.tooltip ? [{ provide: KUI_TOOLTIP_OPTIONS, useValue: options.tooltip }] : []),
     {
       provide: ENVIRONMENT_INITIALIZER,
       multi: true,
@@ -40,9 +43,29 @@ export function provideKikitaUi(options: KikitaUiOptions = {}): EnvironmentProvi
         };
       },
     },
+    KuiDefaults,
+    ...(seed ? [{ provide: KUI_DEFAULTS_SEED, multi: true, useValue: seed }] : []),
     {
       provide: KIKITA_UI_OPTIONS,
       useValue: options,
     },
   ]);
+}
+
+/**
+ * Builds the root defaults seed. The deprecated root `tooltip` option becomes the `tooltip` key
+ * unless `defaults.tooltip` is set, which wins.
+ */
+function createDefaultsSeed(options: KikitaUiOptions): KuiDefaultsSource | undefined {
+  const { defaults, tooltip } = options;
+
+  if (!tooltip) {
+    return defaults;
+  }
+
+  return () => {
+    const layer = typeof defaults === 'function' ? defaults() : (defaults ?? {});
+
+    return layer.tooltip === undefined ? { ...layer, tooltip } : layer;
+  };
 }

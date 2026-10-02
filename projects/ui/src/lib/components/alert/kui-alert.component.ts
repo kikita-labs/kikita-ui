@@ -284,7 +284,7 @@ export class KuiAlertComponent {
 
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiAlertSize>(KUI_ALERT_SIZES);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   protected readonly showIconResolved = computed(
     () => this.showIcon() && this.appearance() !== 'neutral',

@@ -25,7 +25,7 @@ This inventory maps the complete local public Alert contract to the Playground e
 | `[kuiAlertMessage]` | Directive, class `kui-alert__message`.                                                                                                                               | Replaces the `message` string with markup (link, inline code); title still renders.                                                                                                                                                                                | Slot example with a real anchor.                                                                                                                                                                              |
 | `[kuiAlertActions]` | Directive, class `kui-alert__actions`.                                                                                                                               | Replaces the single action button with any number of controls; `kuiButton` children inherit the appearance ghost tint and hover tokens.                                                                                                                            | Slot example with two ghost `xs` buttons (Retry, Dismiss); scenario asserts each runs its own handler and `(action)` does not fire.                                                                           |
 
-There are no models. `KuiAlertAppearance`, `KuiAlertShape`, and `KuiAlertSize` are exported types; no provider or token is Alert-specific (root size comes from the shared `KIKITA_UI_OPTIONS` defaults).
+There are no models. `KuiAlertAppearance`, `KuiAlertShape`, and `KuiAlertSize` are exported types; no provider or token is Alert-specific (root size comes from the shared `KuiDefaults` global `size`).
 
 ## States and semantics
 
@@ -70,7 +70,7 @@ Browser evidence: real hover, keyboard focus on the action and close buttons, Ta
 
 ## Omitted combinations
 
-- Root `defaults.size` provider: the Playground provides no `KIKITA_UI_OPTIONS`; adding a provider only for this page would change page scope. The fallback and local override (`sm`, `md`) are shown; precedence is owned by the shared defaults contract (as Badge records).
+- Root `defaults.size` provider: the Playground sets no `defaults`; adding a provider only for this page would change page scope. The fallback and local override (`sm`, `md`) are shown; precedence is owned by the shared defaults contract (as Badge records).
 - Full cross product (5 appearances x 3 shapes x 2 sizes x content variants): omitted beyond the 15-cell appearance/shape matrix and the size/content matrix, because size and content variants do not alter appearance tokens; this is stated here rather than shown as 90 near-duplicate alerts.
 - `showIcon` x every appearance: `neutral` and one non-neutral appearance cover both branches of the contract.
 - Auto-dismiss, timers, overlay, Escape close: not part of the contract (the page asserts Escape is inert).

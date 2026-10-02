@@ -8,8 +8,7 @@ are opened by named native buttons so the initial server render remains safe.
 
 There are no Toast component inputs, outputs, or models. The public API is `kuiToast()`,
 `KuiToastService`, `provideKuiToastOptions()`, and the `KuiToastAppearance`, `KuiToastConfig`,
-`KuiToastOptions`, `KuiToastPosition`, and `KuiToastRef` types. `KuiToastRegionComponent` and
-`KUI_TOAST_OPTIONS` are internal. The public component and root barrels re-export the supported
+`KuiToastOptions`, `KuiToastPosition`, and `KuiToastRef` types. `KuiToastRegionComponent` is internal. The public component and root barrels re-export the supported
 symbols.
 
 | Contract item                                  | Type and resolution                                                                                                                                                                                                                                                                     | Visible page coverage                                                                                                                                                                                                                                                                                                 |

@@ -290,7 +290,7 @@ export class KuiPaginationComponent {
 
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   /** `currentPage()` clamped to `[1, totalPages()]`, defensive against an out-of-range binding. */
   protected readonly clampedCurrentPage = computed(() =>

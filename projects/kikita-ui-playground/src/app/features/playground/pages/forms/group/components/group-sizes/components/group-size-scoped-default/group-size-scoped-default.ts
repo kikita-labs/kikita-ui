@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 import {
-  KIKITA_UI_OPTIONS,
   KuiGroupDirective,
   KuiIconButtonDirective,
   KuiInputDirective,
+  kuiProvideDefaults,
   KuiTextDirective,
 } from '@kikita-labs/ui';
 
@@ -13,7 +13,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows a group resolving its size from a component-scoped Kikita UI default. */
 @Component({
   selector: 'app-group-size-scoped-default',
-  providers: [{ provide: KIKITA_UI_OPTIONS, useValue: { defaults: { size: 'lg' } } }],
+  providers: [kuiProvideDefaults({ size: 'lg' })],
   imports: [
     KuiGroupDirective,
     KuiIconButtonDirective,

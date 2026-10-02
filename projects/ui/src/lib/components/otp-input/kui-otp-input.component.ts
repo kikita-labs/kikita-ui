@@ -198,7 +198,7 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
    */
   private readonly hasSignalFormField = !!inject(FormField, { optional: true, self: true });
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   /** Forwards the ancestor `kui-field`'s hint/error ids so screen readers announce them for the group. */
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);

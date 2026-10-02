@@ -41,7 +41,7 @@ export class KuiGroupDirective {
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private readonly elementRef = inject(ElementRef<HTMLElement>);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   /**
    * Explicit column track list for the horizontal field-mode grid (see `group.css`), covering any

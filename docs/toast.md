@@ -5,7 +5,7 @@ Non-blocking notifications displayed over the interface. Imperatively opened via
 ## Import
 
 ```ts
-import { kuiToast, provideKuiToastOptions } from '@kikita-labs/ui';
+import { kuiToast, provideKikitaUi } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:
@@ -75,10 +75,8 @@ ref.action$.pipe(takeUntilDestroyed()).subscribe(() => this.undoDelete());
 // app.config.ts
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideKuiToastOptions({
-      position: 'top-end',
-      duration: 4000,
-      maxVisible: 5,
+    provideKikitaUi({
+      defaults: { toast: { position: 'top-end', duration: 4000, maxVisible: 5 } },
     }),
   ],
 };

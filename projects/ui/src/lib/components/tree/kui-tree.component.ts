@@ -128,7 +128,7 @@ export class KuiTreeComponent implements KuiTreeContext {
 
   private readonly activeId = computed(() => this.focusedId() ?? this.index().flat[0]?.id ?? null);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   constructor() {
     /**

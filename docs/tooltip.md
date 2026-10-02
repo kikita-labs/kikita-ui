@@ -9,10 +9,9 @@ import {
   KuiButtonDirective,
   KuiIconButtonDirective,
   KuiIconComponent,
-  KUI_TOOLTIP_OPTIONS,
   KuiTooltipDirective,
   KuiTooltipTriggerType,
-  kuiProvideTooltipOptions,
+  kuiProvideDefaults,
   provideKikitaUi,
 } from '@kikita-labs/ui';
 ```
@@ -45,16 +44,17 @@ Configure the default at application or component scope. The local `triggerType`
 
 ```ts
 // app.config.ts
-providers: [provideKikitaUi({ tooltip: { triggerType: KuiTooltipTriggerType.Auto } })];
+providers: [
+  provideKikitaUi({ defaults: { tooltip: { triggerType: KuiTooltipTriggerType.Auto } } }),
+];
 
 // A component or route subtree
-providers: [kuiProvideTooltipOptions({ triggerType: KuiTooltipTriggerType.Hover })];
+providers: [kuiProvideDefaults({ tooltip: { triggerType: KuiTooltipTriggerType.Hover } })];
 ```
 
 Use `providers` when the default should apply to the component's subtree and projected content.
-Use `viewProviders` when it should apply only to the component's own view. The helper merges with
-the nearest parent tooltip options; a direct `KUI_TOOLTIP_OPTIONS` provider replaces the complete
-options object at that injector level.
+Use `viewProviders` when it should apply only to the component's own view. A nested level merges with
+the parent per property, so it can change `triggerType` without resetting other tooltip defaults.
 
 ## API
 
@@ -78,9 +78,9 @@ options object at that injector level.
 - `prefers-reduced-motion` disables both animations.
 - SSR-safe: tooltip DOM is created only in a browser context.
 
-`KUI_TOOLTIP_OPTIONS` defaults to `{ triggerType: KuiTooltipTriggerType.Auto }`. Override it globally with
-`provideKikitaUi({ tooltip: { triggerType: ... } })`, or in a component provider with
-`kuiProvideTooltipOptions(...)`. A local `triggerType` input is the narrowest override.
+`defaults.tooltip.triggerType` falls back to `KuiTooltipTriggerType.Auto`. Override it globally with
+`provideKikitaUi({ defaults: { tooltip: { triggerType: ... } } })`, or in a component provider with
+`kuiProvideDefaults({ tooltip: { triggerType: ... } })`. A local `triggerType` input is the narrowest override.
 
 ## Migration
 

@@ -69,7 +69,7 @@ export class KuiChipDirective {
 
   private removeButtonEl: HTMLButtonElement | null = null;
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   protected readonly disabledAttr = computed(() => {
     const tag = this.elementRef.nativeElement.tagName.toLowerCase();

@@ -17,8 +17,7 @@ import type {
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
 
-import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
-import { KUI_SELECT_OPTIONS } from '../../tokens/kui-select-options.token';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import type { KuiSelectChipItem } from './kui-select-input-suffix.component';
@@ -121,15 +120,15 @@ export class KuiSelectDirective<T = unknown>
   readonly placeholder = input('');
   /**
    * Shows a clear button when a value is selected.
-   * Falls back to {@link KUI_SELECT_OPTIONS} then {@link KUI_FIELD_OPTIONS} when undefined.
+   * Falls back to the `select` defaults, then the `field` defaults, when undefined.
    */
   readonly clearable = input<boolean | undefined>();
 
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly vcr = inject(ViewContainerRef);
   private readonly field = inject(KuiFieldComponent, { optional: true });
-  private readonly fieldOpts = inject(KUI_FIELD_OPTIONS, { optional: true });
-  private readonly selectOpts = inject(KUI_SELECT_OPTIONS, { optional: true });
+  private readonly fieldDefaults = inject(KuiDefaults).get('field');
+  private readonly selectDefaults = inject(KuiDefaults).get('select');
 
   protected readonly dropdownOpen = computed(() => this.field?.getDropdown()?.isOpen() ?? false);
   protected readonly dropdownPanelId = computed(() =>
@@ -144,8 +143,8 @@ export class KuiSelectDirective<T = unknown>
   protected readonly effectiveClearable = computed(() => {
     const own = this.clearable();
     if (own !== undefined) return own;
-    if (this.selectOpts?.clearable !== undefined) return this.selectOpts.clearable!;
-    if (this.fieldOpts?.clearable !== undefined) return this.fieldOpts.clearable!;
+    if (this.selectDefaults()?.clearable !== undefined) return this.selectDefaults()!.clearable!;
+    if (this.fieldDefaults()?.clearable !== undefined) return this.fieldDefaults()!.clearable!;
     return false;
   });
 
@@ -171,7 +170,8 @@ export class KuiSelectDirective<T = unknown>
   protected readonly effectiveMaxVisibleChips = computed(() => {
     const own = this.maxVisibleChips();
     if (own !== undefined) return own;
-    if (this.selectOpts?.maxVisibleChips !== undefined) return this.selectOpts.maxVisibleChips;
+    const configured = this.selectDefaults()?.maxVisibleChips;
+    if (configured !== undefined) return configured;
     return 3;
   });
 

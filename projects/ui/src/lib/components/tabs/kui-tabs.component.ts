@@ -150,7 +150,7 @@ export class KuiTabsComponent implements KuiTabsContext {
 
   protected readonly canScrollLeft = signal(false);
   protected readonly canScrollRight = signal(false);
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   constructor() {
     afterNextRender(() => {

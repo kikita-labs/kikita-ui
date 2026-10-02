@@ -32,7 +32,7 @@ export class KuiTextareaDirective {
   protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
 
   protected readonly effectiveSize = computed(
-    () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize ?? 'md',
+    () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize() ?? 'md',
   );
 
   /**

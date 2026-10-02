@@ -152,7 +152,7 @@ export class KuiFileUploadComponent {
   protected readonly dragState = signal<KuiFileUploadDragState>('none');
   protected readonly formError = signal<string | null>(null);
   protected readonly hasFiles = computed(() => this.files().length > 0);
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   protected readonly dropzoneAriaLabel = computed(() => {
     const base = 'Upload file. Drag and drop or click to browse.';

@@ -13,7 +13,7 @@
 - Input ARIA/size wiring:
   [`kui-input.directive.ts`](../../../../../../../../../projects/ui/src/lib/components/input/kui-input.directive.ts).
 - Scoped field options and provider:
-  [`kui-field-options.token.ts`](../../../../../../../../../projects/ui/src/lib/tokens/kui-field-options.token.ts).
+  [`kui-field-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/tokens/kui-field-options.interface.ts).
 - Field behavior coverage:
   [`kui-field.component.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.spec.ts)
   and [`kui-field-affix.directive.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field-affix.directive.spec.ts).
@@ -25,9 +25,9 @@
 | `label?: string`       | Omitted by default. When present, Field renders a native `<label>` associated with its generated control id.                                                                                                                                          | Default, anatomy, validation, and provider examples.                                         |
 | `hint?: string`        | Omitted by default. When present, renders a paragraph and adds its generated id to the control's `aria-describedby`.                                                                                                                                  | Anatomy and affix examples.                                                                  |
 | `error?: string`       | Omitted by default. A truthy explicit error takes precedence over the first message-bearing Signal Forms error; it marks the field invalid immediately.                                                                                               | Hidden-error and provider examples.                                                          |
-| `hideErrors?: boolean` | Omitted means `false`; optional boolean-attribute coercion preserves omission for inheritance. Effective order is local input, `KUI_FIELD_OPTIONS`, then `false`.                                                                                     | Hidden error and provider examples; an explicit local `false` overrides the scoped provider. |
+| `hideErrors?: boolean` | Omitted means `false`; optional boolean-attribute coercion preserves omission for inheritance. Effective order is local input, `defaults.field`, then `false`.                                                                                        | Hidden error and provider examples; an explicit local `false` overrides the scoped provider. |
 | `required?: boolean`   | Omitted means infer the required state from a projected Angular Signal Forms field, otherwise `false`. Optional boolean-attribute coercion preserves omission. An explicit `true` or `false` overrides inference. It controls the visual marker only. | Projected marker and required-marker-override examples.                                      |
-| `size?: KuiSize`       | `xs`, `sm`, `md`, or `lg`; omitted resolves local field input, `KUI_FIELD_OPTIONS.size`, root KUI default size, then `md`.                                                                                                                            | Every size and scoped provider/local override are shown.                                     |
+| `size?: KuiSize`       | `xs`, `sm`, `md`, or `lg`; omitted resolves local field input, `defaults.field.size`, root KUI default size, then `md`.                                                                                                                               | Every size and scoped provider/local override are shown.                                     |
 
 No Field outputs or models are declared. The separate `kuiFieldAffix` directive input `emphasis` accepts `default | strong`; its default is muted text. Its rendered kind is inferred from a `<button>` host (action), `kui-icon` or `kuiLoader` host (icon), or other host (text). All three looks are shown. The loader retains its own accessible status semantics.
 

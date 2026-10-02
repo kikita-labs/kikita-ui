@@ -22,5 +22,5 @@ export class KuiBadgeDirective {
 
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 }

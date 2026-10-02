@@ -81,8 +81,7 @@ thin the minute/second columns to only every Nth value (e.g. `15` → `00, 15, 3
 ```
 
 `clearable` defaults to `true` and shows a clear button once there's a value. Falls back to
-`kuiProvideFieldOptions({ clearable })` when not set locally, same as `kuiDatePicker`/
-`kuiCombobox`/`kuiSelect`.
+`defaults.timePicker.clearable`, then `defaults.field.clearable`, when not set locally.
 
 ## Disabled / Readonly
 

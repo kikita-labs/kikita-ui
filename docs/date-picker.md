@@ -89,7 +89,7 @@ them on the calendar too.
 ```
 
 `clearable` defaults to `true` and shows a clear button once there's a value. Falls back to
-`kuiProvideFieldOptions({ clearable })` when not set locally, same as `kuiCombobox`/`kuiSelect`.
+`defaults.datePicker.clearable`, then `defaults.field.clearable`, when not set locally.
 
 ## Disabled / Readonly
 

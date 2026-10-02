@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
 
-import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
@@ -131,12 +131,12 @@ export class KuiFieldComponent implements KuiOptionContext {
 
   /** Effective field size after local input and provider defaults are applied. */
   readonly effectiveSize = computed(
-    () => this.size() ?? this.fieldOpts?.size ?? this.rootDefaultSize ?? 'md',
+    () => this.size() ?? this.fieldDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
   );
 
   /** Effective auto-error visibility after local input and provider defaults are applied. */
   readonly effectiveHideErrors = computed(
-    () => this.hideErrors() ?? this.fieldOpts?.hideErrors ?? false,
+    () => this.hideErrors() ?? this.fieldDefaults()?.hideErrors ?? false,
   );
 
   /** Space-separated ids that describe the descendant control. */
@@ -211,7 +211,7 @@ export class KuiFieldComponent implements KuiOptionContext {
   private readonly projectedHint = contentChild(KuiHintDirective);
   private readonly projectedError = contentChild(KuiErrorDirective);
   private readonly hostEl = inject(ElementRef<HTMLElement>);
-  private readonly fieldOpts = inject(KUI_FIELD_OPTIONS, { optional: true });
+  private readonly fieldDefaults = inject(KuiDefaults).get('field');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private readonly controlSlot = viewChild<ElementRef<HTMLElement>>('controlSlot');
   private readonly _selectCtx = signal<KuiOptionContext | null>(null);

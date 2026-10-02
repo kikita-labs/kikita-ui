@@ -38,5 +38,5 @@ export class KuiBreadcrumbsDirective {
   private readonly rootDefaultSize =
     injectKuiRootSizeDefault<KuiBreadcrumbsSize>(KUI_BREADCRUMBS_SIZES);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 }

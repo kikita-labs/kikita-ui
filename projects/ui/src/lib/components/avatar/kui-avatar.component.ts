@@ -78,7 +78,7 @@ export class KuiAvatarComponent {
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiAvatarSize>();
   private readonly failedImageSrc = signal<string | undefined>(undefined);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   protected readonly imageSrc = computed(() => {
     const src = this.src();

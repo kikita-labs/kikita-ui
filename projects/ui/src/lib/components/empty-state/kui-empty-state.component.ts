@@ -44,5 +44,5 @@ export class KuiEmptyStateComponent {
   private readonly rootDefaultSize =
     injectKuiRootSizeDefault<KuiEmptyStateSize>(KUI_EMPTY_STATE_SIZES);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 }

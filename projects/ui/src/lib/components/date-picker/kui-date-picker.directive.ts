@@ -20,7 +20,7 @@ import type {
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
 
-import { KUI_FIELD_OPTIONS } from '../../tokens/kui-field-options.token';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiClock } from '../../utils/kui-clock.service';
 import { sameNullableDate } from '../../utils/kui-date-equality.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
@@ -125,7 +125,8 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly vcr = inject(ViewContainerRef);
   private readonly field = inject(KuiFieldComponent, { optional: true });
-  private readonly fieldOpts = inject(KUI_FIELD_OPTIONS, { optional: true });
+  private readonly fieldDefaults = inject(KuiDefaults).get('field');
+  private readonly datePickerDefaults = inject(KuiDefaults).get('datePicker');
   private readonly affixRef: ComponentRef<KuiDatePickerInputAffixComponent>;
   private wasOpen = false;
   private pointerStartedOnInput = false;
@@ -142,7 +143,9 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
   protected readonly effectiveClearable = computed(() => {
     const own = this.clearable();
     if (own !== undefined) return own;
-    if (this.fieldOpts?.clearable !== undefined) return this.fieldOpts.clearable!;
+    if (this.datePickerDefaults()?.clearable !== undefined)
+      return this.datePickerDefaults()!.clearable!;
+    if (this.fieldDefaults()?.clearable !== undefined) return this.fieldDefaults()!.clearable!;
     return true;
   });
   protected readonly showClear = computed(

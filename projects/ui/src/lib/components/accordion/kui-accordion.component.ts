@@ -58,7 +58,7 @@ export class KuiAccordionComponent implements KuiAccordionContext {
 
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   /** @internal */
   toggle(id: string): void {

@@ -1,136 +1,183 @@
 # DI Defaults
 
-Kikita UI uses dependency injection defaults only for repeated design-system decisions that consumers would otherwise copy into many templates.
+Kikita UI lets an application set defaults once, for the whole app or for a subtree, instead of
+repeating them in every template. Defaults cover preferences shared by many instances (size, shape,
+clearable, toast placement). Data, instance state and forms state are never defaults.
 
-Do not add a provider default for every input. Prefer local inputs for one-off behavior.
+Customization has several levers; defaults are only one of them:
 
-## Layers
+| What you want to change                    | Use                                  |
+| ------------------------------------------ | ------------------------------------ |
+| Colour, radius, spacing, type              | Theme seeds and CSS variables        |
+| Variant or behaviour shared across the app | Defaults (this page)                 |
+| Density                                    | Theme seeds (`seeds.density`)        |
+| Texts and accessible names                 | Per-instance inputs; i18n is planned |
 
-```text
-local input > scoped component provider > field provider > root provider > component default
-```
-
-Use the narrowest layer that matches the consumer need:
-
-- `provideKikitaUi({ defaults: { size } })`: broad application default for size-enabled primitives.
-- `provideKikitaUi({ tooltip: { triggerType } })` or `kuiProvideTooltipOptions(...)`: global or
-  scoped interaction defaults for `kuiTooltip`.
-- `kuiProvideFieldOptions(...)`: scoped defaults for `kui-field` and input-like field controls.
-- Component providers such as `kuiProvideButtonOptions(...)`: repeated defaults for one primitive family.
-- Local inputs: one-off behavior in a specific template.
-
-Density is not a root component default. Configure density through theme seeds because it affects
-generated CSS variables:
+## Setting defaults
 
 ```ts
+// app.config.ts
 provideKikitaUi({
-  theme: {
-    seeds: {
-      density: 'compact',
-      // other required seeds...
-    },
+  defaults: {
+    size: 'sm',
+    button: { shape: 'ghost', size: 'md' },
+    select: { clearable: true, maxVisibleChips: 2 },
+    toast: { position: 'top-end', duration: 4000 },
   },
 });
 ```
 
-## Root Size Defaults
-
-`provideKikitaUi({ defaults: { size } })` applies to public primitives with a `size` input when the local `size` input is omitted.
-
-Components whose size type is narrower than `KuiSize` apply only supported values. For example, `kui-calendar` supports `sm | md`, so a root `size: 'sm'` applies, while `xs` or `lg` is ignored and the calendar keeps `md`.
-
-Do not use root defaults for `kui-icon` because its `size` input is a raw CSS/icon size (`string | number`), not a Kikita control-size preset.
-
-## Tooltip Trigger Defaults
-
-`kuiTooltip` uses the `KUI_TOOLTIP_OPTIONS` token. Its default is
-`{ triggerType: KuiTooltipTriggerType.Auto }`, which shows tooltips on mouse hover and keyboard
-focus and toggles them on touch tap. Use
-`provideKikitaUi({ tooltip: { triggerType } })` for the application default,
-`kuiProvideTooltipOptions(...)` for a scoped subtree, or the local `triggerType` input for one
-trigger.
-
-Precedence:
-
-```text
-local triggerType > scoped KUI_TOOLTIP_OPTIONS > provideKikitaUi({ tooltip.triggerType }) > auto
+```ts
+// A component, route or environment injector: applies to that subtree only
+providers: [kuiProvideDefaults({ button: { size: 'lg' } })];
 ```
 
-`Hover` preserves desktop hover/focus behavior and disables touch taps. `Click` uses click or
-keyboard activation on all input devices. `None` disables the directive entirely. Tooltip content
-must remain supplemental and non-interactive; use `kuiPopover` for links, buttons, or richer content.
+`defaults` is a flat map with one key per primitive plus the global control `size`. Every key points
+to a named options interface (`KuiButtonOptions`, `KuiIconButtonOptions`, `KuiFieldOptions`,
+`KuiSelectOptions`, `KuiComboboxOptions`, `KuiDatePickerOptions`, `KuiTimePickerOptions`,
+`KuiTooltipOptions`, `KuiToastOptions`). `KuiComponentDefaults` lists every key. Interfaces that share
+a meaning share a base (`KuiButtonBaseOptions`, `KuiFieldControlOptions`).
 
-## Field Controls
+## Layers and merging
 
-`KuiFieldControlOptions` is the shared base for input-like controls that expose a clear affordance.
+```text
+local input > nearest level > parent levels > provideKikitaUi defaults > component default
+```
+
+Each injector level adds a layer. A level is merged over the defaults it inherits **per component
+key and per property**:
+
+- an omitted or `undefined` property inherits from the parent;
+- `false`, `0`, `''` and `null` are real values and override;
+- arrays and functions are replaced as a whole;
+- a level never changes its parent.
+
+Several `kuiProvideDefaults` or `provideKikitaUi` providers on one level combine in provider order,
+the later one winning per property.
+
+## Reactive values
+
+Every property accepts a plain value or a `Signal`. The whole `defaults` value may also be a function
+that runs in an injection context, which is how defaults depend on a service:
 
 ```ts
-kuiProvideFieldOptions({ size: 'sm', clearable: true, hideErrors: true });
-kuiProvideSelectOptions({ clearable: false, maxVisibleChips: 2 });
-kuiProvideComboboxOptions({ clearable: false });
-```
+@Service()
+class ThemeState {
+  readonly shape = signal<KuiButtonShape>('solid');
+}
 
-Precedence for field and field-control size:
-
-```text
-local control size > parent kui-field size > KUI_FIELD_OPTIONS.size > root defaults.size > md
-```
-
-Precedence for clearable controls:
-
-```text
-local clearable input > component options > KUI_FIELD_OPTIONS.clearable > component default
-```
-
-`input[kuiSelect]` and `input[kuiCombobox]` intentionally do not have their own `size` input. They inherit visual size through the parent `kui-field`.
-
-`input[kuiDatePicker]` uses `KUI_FIELD_OPTIONS.clearable` for its clear affordance. Do not add a date-picker-specific provider unless it gains date-picker-specific repeated defaults.
-
-`input[kuiNumberInput]`, `input[kuiColorInput]`, and `input[type=range][kuiSlider]` inherit parent field size when used inside `kui-field`, then fall back to root size defaults. They do not need component-specific provider tokens today.
-
-## Button Primitives
-
-Use one provider for the button family, with separate branches for ordinary buttons and icon-only buttons:
-
-```ts
-kuiProvideButtonOptions({
-  button: { shape: 'ghost', appearance: 'primary', size: 'sm' },
-  iconButton: { shape: 'outline', size: 'sm' },
+provideKikitaUi({
+  defaults: () => ({ button: { shape: inject(ThemeState).shape } }),
 });
 ```
 
-Precedence:
+Components read the effective value in `computed`, so changing the signal updates every affected
+component. A component's `providers` array cannot read `this` (a decorator cannot see the
+instance); put the state in a service and read it in a function.
 
-```text
-local input > KUI_BUTTON_OPTIONS.button/iconButton > root defaults.size > component default
+To change defaults at runtime without a signal, inject `KuiDefaults`:
+
+```ts
+const defaults = inject(KuiDefaults);
+
+defaults.set('button', { shape: 'outline' }); // merges into this level's own layer
+defaults.update('select', (current) => ({ clearable: !current?.clearable }));
+defaults.get('button'); // Signal of the effective button options
 ```
 
-Keep the branches separate. `kuiButton` and `kuiIconButton` are both button primitives, but their default shapes are different for good reason (`solid` for ordinary buttons, `ghost` for icon-only buttons).
+`set` and `update` write to the nearest level only. `KuiDefaults` never exposes a writable signal.
 
-## Adding A New DI Default
+Some options are read once. Toast `position` and `maxVisible` apply when the toast region is first
+created and do not react afterwards; every other toast option is read each time a toast opens.
 
-Before adding a provider token or option:
+## Server rendering
 
-1. Confirm the input represents a repeated design-system choice, not a one-off state.
-2. Prefer adding to an existing options interface when the behavior belongs to that family.
-3. Keep option interfaces `readonly`.
-4. Preserve local-input precedence.
-5. Add focused tests for provider precedence.
-6. Update the component docs, this page, `docs/architecture.md`, and `CHANGELOG.md`.
+Defaults live in the injector of each application instance, so concurrent server requests never
+share them. Do not keep a module-level `signal` in an application config shared by requests; create
+it inside a function default or a service.
 
-Good candidates:
+## Global control size
 
-- control size;
-- clear affordance defaults;
-- button shape/appearance defaults;
-- overlay/service defaults such as toast placement or duration.
+`defaults.size` applies to every primitive with a `size` input when the local input and the
+component key do not set one. A primitive whose size type is narrower than `KuiSize` ignores
+unsupported values; `kui-calendar` supports `sm | md`, so a global `size: 'xs'` leaves it at `md`.
+`kui-icon` is excluded because its `size` is a raw CSS size.
 
-Poor candidates:
+Precedence for control size:
 
-- current selected value;
-- loading state;
-- disabled/readonly state;
-- validation/error state;
-- density, which belongs to theme seeds and CSS scopes;
-- labels, placeholder text, and accessible names;
-- arbitrary visual one-offs better expressed as CSS variables or local inputs.
+```text
+local input > defaults.<component>.size > defaults.size > md
+```
+
+Field controls (`kuiInput`, `kuiTextarea`, `kuiNumberInput`, `kuiColorInput`, `kuiCheckbox`,
+`kuiRadio`, `kuiSwitch`) inherit the size of their parent `kui-field` before the global size.
+`kui-field` itself resolves `local size > defaults.field.size > defaults.size > md`. `kuiSelect`,
+`kuiCombobox`, `kuiDatePicker` and `kuiTimePicker` have no `size` input and follow the parent field.
+
+## Clearable controls
+
+```text
+local clearable > defaults.<select|combobox|datePicker|timePicker> > defaults.field > component default
+```
+
+Select defaults to `false`; Combobox, Date Picker and Time Picker default to `true`.
+
+## Tooltip
+
+```text
+local triggerType > defaults.tooltip.triggerType > auto
+```
+
+`auto` shows tooltips on mouse hover and keyboard focus and toggles them on touch tap. `hover`
+disables touch taps. `click` uses click or keyboard activation on every input device. `none`
+disables the directive. Tooltip content stays supplemental and non-interactive; use `kuiPopover`
+for links, buttons or richer content.
+
+## Button primitives
+
+`kuiButton` and `kuiIconButton` use separate keys because their default shapes differ on purpose
+(`solid` for ordinary buttons, `ghost` for icon-only buttons):
+
+```text
+local input > defaults.button / defaults.iconButton > defaults.size > component default
+```
+
+## Migration from the token-based API
+
+The injection tokens `KUI_BUTTON_OPTIONS`, `KUI_FIELD_OPTIONS`, `KUI_SELECT_OPTIONS`,
+`KUI_COMBOBOX_OPTIONS`, `KUI_TOOLTIP_OPTIONS` and `KUI_TOAST_OPTIONS` are removed. The provider
+functions remain as deprecated wrappers (removal in 3.0):
+
+| Before                                            | After                                        |
+| ------------------------------------------------- | -------------------------------------------- |
+| `kuiProvideButtonOptions({ button, iconButton })` | `kuiProvideDefaults({ button, iconButton })` |
+| `kuiProvideFieldOptions(options)`                 | `kuiProvideDefaults({ field: options })`     |
+| `kuiProvideSelectOptions(options)`                | `kuiProvideDefaults({ select: options })`    |
+| `kuiProvideComboboxOptions(options)`              | `kuiProvideDefaults({ combobox: options })`  |
+| `kuiProvideTooltipOptions(options)`               | `kuiProvideDefaults({ tooltip: options })`   |
+| `provideKuiToastOptions(options)`                 | `kuiProvideDefaults({ toast: options })`     |
+| `provideKikitaUi({ tooltip })`                    | `provideKikitaUi({ defaults: { tooltip } })` |
+| `KuiButtonOptions { button, iconButton }`         | `KuiButtonProviderOptions` (deprecated)      |
+| `KuiButtonPrimitiveOptions`                       | `KuiButtonBaseOptions`                       |
+| `KikitaUiDefaults`                                | `KuiComponentDefaults`                       |
+
+`KuiButtonOptions` now describes the options of one button (`shape`, `appearance`, `size`). Two
+behaviour changes: a nested level now merges with its parent per property (before, a nested field
+provider replaced the whole parent object), and `kuiDatePicker` and `kuiTimePicker` read their own
+`datePicker` and `timePicker` keys before the `field` key.
+
+## Adding a new default
+
+Before adding an option to the map:
+
+1. Confirm it is a preference shared by many instances, not data or per-instance state.
+2. Add it to the options interface of the primitive, or to a shared base when two or more
+   primitives use the same name, meaning and type.
+3. Read it in the component inside a `computed`, after the local input and before the built-in
+   default, through `inject(KuiDefaults).get('<key>')`.
+4. Add a spec for precedence and for a nested level, update the component page, this page and
+   `CHANGELOG.md`.
+
+Poor candidates: current value, open or loading state, disabled, readonly or validation state,
+density (theme seeds), labels and accessible names, and one-off visual tweaks better expressed as
+CSS variables or local inputs.

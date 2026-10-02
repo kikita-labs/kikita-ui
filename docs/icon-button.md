@@ -55,11 +55,11 @@ Use `loading` to show a spinner in place of the icon while an action is pending:
 
 ## Provider Defaults
 
-Use `kuiProvideButtonOptions` to configure repeated icon-button defaults:
+Use `kuiProvideDefaults` to configure repeated icon-button defaults:
 
 ```ts
 providers: [
-  kuiProvideButtonOptions({
+  kuiProvideDefaults({
     iconButton: { shape: 'outline', appearance: 'primary', size: 'sm' },
   }),
 ];

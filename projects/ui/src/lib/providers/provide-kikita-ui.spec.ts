@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { KUI_BRAND_ICONS, KUI_ICONS, resolveLucideIcon } from '../components/icon';
 import { KuiTooltipTriggerType } from '../components/tooltip';
-import { KUI_TOOLTIP_OPTIONS } from '../tokens/kui-tooltip-options.token';
+import { KuiDefaults } from './kui-defaults.service';
 import { provideKikitaUi } from './provide-kikita-ui';
 
 describe('provideKikitaUi', () => {
@@ -97,6 +97,8 @@ describe('provideKikitaUi', () => {
       providers: [provideKikitaUi({ tooltip: { triggerType: KuiTooltipTriggerType.Hover } })],
     });
 
-    expect(TestBed.inject(KUI_TOOLTIP_OPTIONS).triggerType).toBe(KuiTooltipTriggerType.Hover);
+    expect(TestBed.inject(KuiDefaults).effective().tooltip?.triggerType).toBe(
+      KuiTooltipTriggerType.Hover,
+    );
   });
 });

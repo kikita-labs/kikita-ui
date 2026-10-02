@@ -103,7 +103,7 @@ export class KuiProgressComponent {
 
   protected readonly isIndeterminate = computed(() => this.value() === null);
   protected readonly clampedValue = computed(() => Math.max(0, Math.min(100, this.value() ?? 0)));
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   protected readonly fillWidth = computed(() => {
     if (this.isIndeterminate()) return null;

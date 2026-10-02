@@ -13,7 +13,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
-import { KUI_BUTTON_OPTIONS } from '../../tokens/kui-button-options.token';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiIconComponent, type KuiIconName } from '../icon';
@@ -66,7 +66,7 @@ export class KuiButtonDirective {
   private readonly renderer = inject(Renderer2);
   private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  private readonly buttonOpts = inject(KUI_BUTTON_OPTIONS, { optional: true });
+  private readonly buttonDefaults = inject(KuiDefaults).get('button');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   private contentEl: HTMLElement | null = null;
@@ -78,17 +78,17 @@ export class KuiButtonDirective {
   protected readonly isDisabled = computed(() => this.disabled() || this.loading());
 
   protected readonly effectiveShape = computed(
-    () => this.shape() ?? this.buttonOpts?.button?.shape ?? 'solid',
+    () => this.shape() ?? this.buttonDefaults()?.shape ?? 'solid',
   );
 
   protected readonly effectiveAppearance = computed(() => {
     const appearance = this.appearance();
 
-    return appearance !== undefined ? appearance : (this.buttonOpts?.button?.appearance ?? null);
+    return appearance !== undefined ? appearance : (this.buttonDefaults()?.appearance ?? null);
   });
 
   protected readonly effectiveSize = computed(
-    () => this.size() ?? this.buttonOpts?.button?.size ?? this.rootDefaultSize ?? 'md',
+    () => this.size() ?? this.buttonDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
   );
 
   protected readonly nativeDisabledAttribute = computed(() =>

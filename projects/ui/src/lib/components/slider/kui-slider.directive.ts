@@ -99,7 +99,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
 
   /** @internal */
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   private containerEl!: HTMLElement;
   private fillEl!: HTMLElement;

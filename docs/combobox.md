@@ -15,7 +15,7 @@ import {
   KuiDropdownComponent,
   KuiFieldComponent,
   KuiOptionDirective,
-  kuiProvideComboboxOptions,
+  kuiProvideDefaults,
 } from '@kikita-labs/ui';
 ```
 
@@ -161,18 +161,18 @@ clears the selected value until the user selects a projected `kuiOption`.
 
 ## Provider Defaults
 
-Use `kuiProvideComboboxOptions` for app-wide combobox defaults:
+Use `kuiProvideDefaults` (or `provideKikitaUi({ defaults })`) for combobox defaults:
 
 ```ts
 providers: [
-  kuiProvideComboboxOptions({
-    clearable: true,
+  kuiProvideDefaults({
+    combobox: { clearable: true },
   }),
 ];
 ```
 
 ```text
-clearable: local input > KUI_COMBOBOX_OPTIONS > KUI_FIELD_OPTIONS > true
+clearable: local input > defaults.combobox > defaults.field > true
 ```
 
 Combobox inherits shared clearable semantics from `KuiFieldControlOptions`. See

@@ -9,7 +9,7 @@ import {
   KuiFieldComponent,
   KuiInputDirective,
   KuiInputGroupDirective,
-  kuiProvideFieldOptions,
+  kuiProvideDefaults,
 } from '@kikita-labs/ui';
 ```
 
@@ -184,10 +184,10 @@ Error messages are still part of `aria-describedby` when projected with `kuiErro
 
 ## Provider Defaults
 
-Use `kuiProvideFieldOptions` for app-wide field defaults:
+Use `kuiProvideDefaults` (or `provideKikitaUi({ defaults })`) for field defaults:
 
 ```ts
-providers: [kuiProvideFieldOptions({ size: 'sm', hideErrors: true })];
+providers: [kuiProvideDefaults({ field: { size: 'sm', hideErrors: true } })];
 ```
 
 Use root `provideKikitaUi({ defaults: { size: 'sm' } })` when the whole application should prefer
@@ -197,12 +197,11 @@ unless a field-specific provider or local `size` input overrides it.
 Local inputs always win over provider defaults:
 
 ```text
-local input > KUI_FIELD_OPTIONS > provideKikitaUi defaults > component default
+local input > defaults.field > defaults.size > component default
 ```
 
-`KUI_FIELD_OPTIONS` is intentionally static configuration. Do not pass writable signals to it.
-Runtime density/size switching should be implemented as a dedicated runtime API rather than by
-mutating provider option objects.
+Every property of `defaults.field` accepts a plain value or a `Signal`, and `KuiDefaults.set('field', ...)`
+changes it at runtime. See [DI defaults](di-defaults.md#reactive-values).
 
 See `docs/di-defaults.md` before adding or changing field-control provider defaults.
 

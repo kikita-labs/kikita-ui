@@ -46,7 +46,7 @@ export class KuiTableDirective<T = unknown> {
 
   readonly sortState: Signal<KuiSortState> = this._sortState.asReadonly();
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize ?? 'md');
+  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
 
   readonly sortedData = computed<T[]>(() => {
     const state = this._sortState();

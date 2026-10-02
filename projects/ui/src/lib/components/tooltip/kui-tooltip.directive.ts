@@ -12,7 +12,7 @@ import {
   signal,
 } from '@angular/core';
 
-import { KUI_TOOLTIP_OPTIONS } from '../../tokens/kui-tooltip-options.token';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.util';
 import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
@@ -50,8 +50,8 @@ export class KuiTooltipDirective implements OnDestroy {
   readonly placement = input<KuiTooltipPlacement>('top');
 
   /**
-   * Local interaction mode override. When omitted, the nearest `KUI_TOOLTIP_OPTIONS` provider
-   * applies; its default `auto` mode uses hover/focus for mouse input and tap for touch input.
+   * Local interaction mode override. When omitted, the nearest `tooltip` defaults
+   * apply; its default `auto` mode uses hover/focus for mouse input and tap for touch input.
    */
   readonly triggerType = input<KuiTooltipTrigger | undefined>(undefined);
 
@@ -60,13 +60,14 @@ export class KuiTooltipDirective implements OnDestroy {
   private readonly renderer = inject(Renderer2);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
-  private readonly defaultTrigger =
-    inject(KUI_TOOLTIP_OPTIONS).triggerType ?? KuiTooltipTriggerType.Auto;
+  private readonly tooltipDefaults = inject(KuiDefaults).get('tooltip');
 
   protected readonly tooltipId = kuiNextId('kui-tooltip', 1);
   private readonly visibleTooltipId = signal<string | null>(null);
   protected readonly describedBy = computed(() => this.visibleTooltipId());
-  protected readonly effectiveTrigger = computed(() => this.triggerType() ?? this.defaultTrigger);
+  protected readonly effectiveTrigger = computed(
+    () => this.triggerType() ?? this.tooltipDefaults()?.triggerType ?? KuiTooltipTriggerType.Auto,
+  );
   private tooltipOverlay: KuiTooltipOverlayHandle | null = null;
   private pointerType: string | null = null;
   private tapDismissalCleanup: (() => void) | null = null;

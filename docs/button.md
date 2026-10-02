@@ -9,7 +9,7 @@ import {
   KuiButtonAppearance,
   KuiButtonDirective,
   KuiButtonShape,
-  kuiProvideButtonOptions,
+  kuiProvideDefaults,
 } from '@kikita-labs/ui';
 ```
 
@@ -65,11 +65,12 @@ Project `kui-icon` directly when the icon needs `source` or `src` instead of a r
 
 ## Provider Defaults
 
-Use `kuiProvideButtonOptions` when an application section needs repeated button defaults:
+Use `kuiProvideDefaults` when an application section needs repeated button defaults, or the
+`defaults` option of `provideKikitaUi` for the whole application:
 
 ```ts
 providers: [
-  kuiProvideButtonOptions({
+  kuiProvideDefaults({
     button: { shape: 'ghost', appearance: 'primary', size: 'sm' },
     iconButton: { shape: 'outline', size: 'sm' },
   }),
@@ -81,11 +82,11 @@ a different default control size. Button-specific options win over root defaults
 always win over providers:
 
 ```text
-local input > KUI_BUTTON_OPTIONS.button/iconButton > provideKikitaUi defaults > component default
+local input > defaults.button / defaults.iconButton > defaults.size > component default
 ```
 
-`kuiButton` and `kuiIconButton` share one provider because they are both button primitives, but
-their defaults are configured through separate `button` and `iconButton` branches so one does not
+`kuiButton` and `kuiIconButton` are both button primitives, but their defaults are configured
+through separate `button` and `iconButton` keys so one does not
 accidentally restyle the other.
 
 ## Migration from 0.1.4
