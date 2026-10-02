@@ -133,7 +133,7 @@ export class KuiStepComponent {
 
   protected readonly clickable = computed(() => {
     const s = this.state();
-    return s === 'done' || (s === 'upcoming' && !this.ctx.linear());
+    return s === 'done' || (s === 'upcoming' && !this.ctx.effectiveLinear());
   });
 
   protected readonly circleLabel = computed(() =>

@@ -1,5 +1,6 @@
-import { computed, Directive, input } from '@angular/core';
+import { computed, Directive, inject, input } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiBadgeAppearance } from './kui-badge-appearance.type';
@@ -17,10 +18,13 @@ export class KuiBadgeDirective {
   /** Visual badge treatment mapped to Kikita UI status tokens. */
   readonly appearance = input<KuiBadgeAppearance>('neutral');
 
-  /** Badge size mapped to Kikita UI text and spacing tokens. */
+  /** Badge size. Defaults to `defaults.badge.size`, then the global `defaults.size`, then md. */
   readonly size = input<KuiSize | undefined>();
 
+  private readonly badgeDefaults = inject(KuiDefaults).get('badge');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.badgeDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
 }

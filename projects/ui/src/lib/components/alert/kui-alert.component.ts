@@ -3,11 +3,13 @@ import {
   Component,
   computed,
   contentChild,
+  inject,
   input,
   output,
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import {
   KUI_CIRCLE_CHECK_CIRCLE,
   KUI_CIRCLE_CHECK_D,
@@ -20,6 +22,7 @@ import {
   KUI_X_D,
 } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { KuiButtonDirective } from '../button';
 import { KuiIconButtonDirective } from '../icon-button';
 import { KuiAlertActionsDirective } from './kui-alert-actions.directive';
@@ -191,7 +194,7 @@ const KUI_ALERT_SIZES: readonly KuiAlertSize[] = ['sm', 'md'];
       }
     </div>
 
-    @if (closable()) {
+    @if (effectiveClosable()) {
       <button
         kuiIconButton
         shape="ghost"
@@ -217,7 +220,7 @@ const KUI_ALERT_SIZES: readonly KuiAlertSize[] = ['sm', 'md'];
     // `PlaygroundPanelComponent` uses for its own `title` input.
     '[attr.title]': 'null',
     '[attr.data-kui-appearance]': 'appearance()',
-    '[attr.data-kui-shape]': 'shape()',
+    '[attr.data-kui-shape]': 'effectiveShape()',
     '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-banner]': 'banner() ? "" : null',
     '[attr.data-kui-single-line]': 'singleLineBody() ? "" : null',
@@ -232,10 +235,13 @@ export class KuiAlertComponent {
   /** Semantic type of the message. `neutral` never shows the built-in icon. Defaults to `'neutral'`. */
   readonly appearance = input<KuiAlertAppearance>('neutral');
 
-  /** Visual weight. Uses the `KuiButtonShape` vocabulary. Defaults to `'soft'`. */
-  readonly shape = input<KuiAlertShape>('soft');
+  /**
+   * Visual weight. Uses the `KuiButtonShape` vocabulary. Defaults to `defaults.alert.shape`, then
+   * `'soft'`.
+   */
+  readonly shape = input<KuiAlertShape | undefined>();
 
-  /** Padding/gap density. Defaults to `'md'`. */
+  /** Padding/gap density. Defaults to `defaults.alert.size`, then the root size, then `'md'`. */
   readonly size = input<KuiAlertSize | undefined>();
 
   /** Stretches the alert full-width and removes its corner radius. Defaults to `false`. */
@@ -253,12 +259,19 @@ export class KuiAlertComponent {
   /**
    * Shows the built-in appearance icon. `neutral` never shows one regardless of this value.
    * Ignored when `[kuiAlertIcon]` is projected -- a projected icon always renders. Defaults to
-   * `true`.
+   * `defaults.alert.showIcon`, then `true`.
    */
-  readonly showIcon = input(true, { transform: booleanAttribute });
+  readonly showIcon = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
-  /** Shows the close button and enables the `(closed)` output. Defaults to `true`. */
-  readonly closable = input(true, { transform: booleanAttribute });
+  /**
+   * Shows the close button and enables the `(closed)` output. Defaults to
+   * `defaults.alert.closable`, then `true`.
+   */
+  readonly closable = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   /** Accessible label for the close button. Defaults to `'Close notification'`. */
   readonly closeLabel = input('Close notification');
@@ -284,10 +297,23 @@ export class KuiAlertComponent {
 
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiAlertSize>(KUI_ALERT_SIZES);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  private readonly alertDefaults = inject(KuiDefaults).get('alert');
+
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.alertDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
+  protected readonly effectiveShape = computed(
+    () => this.shape() ?? this.alertDefaults()?.shape ?? 'soft',
+  );
+  protected readonly effectiveShowIcon = computed(
+    () => this.showIcon() ?? this.alertDefaults()?.showIcon ?? true,
+  );
+  protected readonly effectiveClosable = computed(
+    () => this.closable() ?? this.alertDefaults()?.closable ?? true,
+  );
 
   protected readonly showIconResolved = computed(
-    () => this.showIcon() && this.appearance() !== 'neutral',
+    () => this.effectiveShowIcon() && this.appearance() !== 'neutral',
   );
 
   /**

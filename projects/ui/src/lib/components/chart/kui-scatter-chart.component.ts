@@ -12,6 +12,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
 import {
@@ -117,13 +118,13 @@ export class KuiScatterChartComponent implements KuiChartLegendSource {
    * `KuiChartScatterPoint.r` JSDoc). Not a separate chart type. */
   readonly bubble = input(false, { transform: booleanAttribute });
 
-  /** Canvas height: 200 / 280 / 360px for sm / md / lg. */
-  readonly size = input<'sm' | 'md' | 'lg'>('md');
+  /** Canvas height: 200 / 280 / 360px for sm / md / lg. Defaults to `defaults.scatterChart.size`, then `'md'`. */
+  readonly size = input<'sm' | 'md' | 'lg' | undefined>();
 
   /** Shows a loading placeholder instead of the chart. */
   readonly loading = input(false, { transform: booleanAttribute });
 
-  /** Shows the legend. Defaults to `true` when there is more than one series. */
+  /** Shows the legend. Defaults to `defaults.scatterChart.legend`, then `true` when there is more than one series. */
   readonly legend = input<boolean | undefined>(undefined);
 
   /** Axis visibility and grid line configuration. */
@@ -140,6 +141,7 @@ export class KuiScatterChartComponent implements KuiChartLegendSource {
 
   protected readonly chartId = kuiNextId('kui-scatter-chart', 1);
 
+  private readonly scatterChartDefaults = inject(KuiDefaults).get('scatterChart');
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
   private readonly tooltipController = new KuiChartTooltipController(
@@ -157,7 +159,11 @@ export class KuiScatterChartComponent implements KuiChartLegendSource {
   protected readonly focusedMarkIndex = signal(0);
   protected readonly showTable = signal(false);
 
-  protected readonly dimensions = computed(() => SIZE_DIMENSIONS[this.size()]);
+  private readonly effectiveSize = computed(
+    () => this.size() ?? this.scatterChartDefaults()?.size ?? 'md',
+  );
+
+  protected readonly dimensions = computed(() => SIZE_DIMENSIONS[this.effectiveSize()]);
 
   protected readonly paddingLeft = PADDING.left;
   protected readonly paddingRight = PADDING.right;
@@ -182,7 +188,9 @@ export class KuiScatterChartComponent implements KuiChartLegendSource {
     this.normalizedSeries().some((s) => s.points.length > 0),
   );
 
-  protected readonly legendEnabled = computed(() => this.legend() ?? this.series().length > 1);
+  protected readonly legendEnabled = computed(
+    () => this.legend() ?? this.scatterChartDefaults()?.legend ?? this.series().length > 1,
+  );
 
   /** Domains are computed from every series, including hidden ones -- hiding a series through
    * the legend must not recompute the scale (see `kui-line-chart`'s matching doc). */

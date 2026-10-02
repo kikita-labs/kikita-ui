@@ -1,5 +1,6 @@
 import { booleanAttribute, computed, Directive, inject, input } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiFieldComponent } from '../field';
@@ -18,7 +19,7 @@ import { KuiFieldComponent } from '../field';
   },
 })
 export class KuiSwitchDirective {
-  /** Switch size mapped to Kikita UI switch tokens. */
+  /** Switch size mapped to Kikita UI switch tokens. Defaults to `defaults.switch.size`, then the parent field, then the global `defaults.size`, then `'md'`. */
   readonly size = input<KuiSize | undefined>();
 
   /** Marks the switch as invalid outside a `kui-field` error state. */
@@ -28,12 +29,18 @@ export class KuiSwitchDirective {
   readonly id = input<string | undefined>();
 
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
+  private readonly switchDefaults = inject(KuiDefaults).get('switch');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
 
   protected readonly effectiveSize = computed(
-    () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize() ?? 'md',
+    () =>
+      this.size() ??
+      this.switchDefaults()?.size ??
+      this.field?.effectiveSize() ??
+      this.rootDefaultSize() ??
+      'md',
   );
 
   /**

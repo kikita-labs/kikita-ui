@@ -11,6 +11,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiTreeCheckedState, KuiTreeContext } from './kui-tree-context.token';
@@ -53,7 +54,7 @@ interface KuiTreeIndex {
     class: 'kui-tree-container',
     role: 'tree',
     '[attr.aria-label]': 'ariaLabel()',
-    '[attr.aria-multiselectable]': "mode() === 'checkable' ? 'true' : null",
+    '[attr.aria-multiselectable]': "effectiveMode() === 'checkable' ? 'true' : null",
     '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-mobile]': "mobile() ? '' : null",
   },
@@ -62,10 +63,10 @@ interface KuiTreeIndex {
 })
 /** Renders hierarchical data with roving focus, selection, and optional checkbox state. */
 export class KuiTreeComponent implements KuiTreeContext {
-  /** Selection/toggle behavior. */
-  readonly mode = input<KuiTreeMode>('display');
+  /** Selection/toggle behavior. Defaults to `defaults.tree.mode`, then `display`. */
+  readonly mode = input<KuiTreeMode | undefined>();
 
-  /** Row height and text size. */
+  /** Row height and text size. Defaults to `defaults.tree.size`, then the root size, then `md`. */
   readonly size = input<KuiSize | undefined>();
 
   /** Root nodes of the tree. */
@@ -101,6 +102,7 @@ export class KuiTreeComponent implements KuiTreeContext {
 
   private readonly hostEl = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
+  private readonly treeDefaults = inject(KuiDefaults).get('tree');
 
   private readonly loadedChildren = signal<ReadonlyMap<string, readonly KuiTreeNode[]>>(new Map());
   private readonly loadingIds = signal<ReadonlySet<string>>(new Set());
@@ -128,7 +130,12 @@ export class KuiTreeComponent implements KuiTreeContext {
 
   private readonly activeId = computed(() => this.focusedId() ?? this.index().flat[0]?.id ?? null);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.treeDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
+
+  /** @internal */
+  readonly effectiveMode = computed(() => this.mode() ?? this.treeDefaults()?.mode ?? 'display');
 
   constructor() {
     /**
@@ -183,7 +190,7 @@ export class KuiTreeComponent implements KuiTreeContext {
   }
 
   isSelected(id: string): boolean {
-    return this.mode() === 'display' && this.value() === id;
+    return this.effectiveMode() === 'display' && this.value() === id;
   }
 
   isActive(id: string): boolean {
@@ -204,7 +211,7 @@ export class KuiTreeComponent implements KuiTreeContext {
   onRowClick(node: KuiTreeNode): void {
     if (node.disabled) return;
     this.focusedId.set(node.id);
-    if (this.mode() === 'display') {
+    if (this.effectiveMode() === 'display') {
       this.value.set(node.id);
     } else {
       this.toggleCheck(node);
@@ -266,12 +273,12 @@ export class KuiTreeComponent implements KuiTreeContext {
         break;
       }
       case 'Enter':
-        if (this.mode() === 'display' && !node.disabled) this.value.set(node.id);
+        if (this.effectiveMode() === 'display' && !node.disabled) this.value.set(node.id);
         break;
       case ' ':
         event.preventDefault();
         if (node.disabled) break;
-        if (this.mode() === 'checkable') this.toggleCheck(node);
+        if (this.effectiveMode() === 'checkable') this.toggleCheck(node);
         else if (hasKids) this.expandOrLoad(node);
         break;
       default:

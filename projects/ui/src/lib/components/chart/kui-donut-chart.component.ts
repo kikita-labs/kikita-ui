@@ -13,6 +13,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
 import {
@@ -115,13 +116,13 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
    * `value` is dropped during normalization (donut shares cannot be negative). */
   readonly slices = input.required<readonly KuiChartSlice[]>();
 
-  /** Canvas size: 200 / 280 / 360px square for sm / md / lg. */
-  readonly size = input<'sm' | 'md' | 'lg'>('md');
+  /** Canvas size: 200 / 280 / 360px square for sm / md / lg. Defaults to `defaults.donutChart.size`, then `'md'`. */
+  readonly size = input<'sm' | 'md' | 'lg' | undefined>();
 
   /** Shows a loading placeholder instead of the chart. */
   readonly loading = input(false, { transform: booleanAttribute });
 
-  /** Shows the legend. Defaults to `true` when there is more than one slice. */
+  /** Shows the legend. Defaults to `defaults.donutChart.legend`, then `true` when there is more than one slice. */
   readonly legend = input<boolean | undefined>(undefined);
 
   /** Formats the default tooltip/legend number formatting. Defaults to a compact `1.2K` format. */
@@ -135,6 +136,7 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
 
   protected readonly chartId = kuiNextId('kui-donut-chart', 1);
 
+  private readonly donutChartDefaults = inject(KuiDefaults).get('donutChart');
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
   private readonly tooltipController = new KuiChartTooltipController(
@@ -147,13 +149,19 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
   protected readonly focusedMarkIndex = signal(0);
   protected readonly showTable = signal(false);
 
-  protected readonly dimensions = computed(() => SIZE_DIMENSIONS[this.size()]);
+  private readonly effectiveSize = computed(
+    () => this.size() ?? this.donutChartDefaults()?.size ?? 'md',
+  );
+
+  protected readonly dimensions = computed(() => SIZE_DIMENSIONS[this.effectiveSize()]);
 
   private readonly normalizedSlices = computed(() => normalizeSlices(this.slices()));
 
   protected readonly hasData = computed(() => this.normalizedSlices().length > 0);
 
-  protected readonly legendEnabled = computed(() => this.legend() ?? this.slices().length > 1);
+  protected readonly legendEnabled = computed(
+    () => this.legend() ?? this.donutChartDefaults()?.legend ?? this.slices().length > 1,
+  );
 
   /** Visible slices' shares, recomputed with hidden slices excluded from the total -- see class
    * doc and `computeDonutShares`'s JSDoc. Does not include hidden slices at all (unlike

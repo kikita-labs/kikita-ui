@@ -2,11 +2,13 @@ import {
   booleanAttribute,
   Component,
   computed,
+  inject,
   input,
   numberAttribute,
   signal,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiSkeletonShape } from '../skeleton';
 import { KuiSkeletonDirective } from '../skeleton';
@@ -36,7 +38,7 @@ function numberOrUndefinedAttribute(value: unknown): number | undefined {
   host: {
     class: 'kui-avatar',
     '[attr.data-kui-size]': 'effectiveSize()',
-    '[attr.data-kui-shape]': 'shape()',
+    '[attr.data-kui-shape]': 'effectiveShape()',
     '[attr.data-kui-status]': 'status()',
     '[attr.data-kui-palette]': 'paletteSlot()',
     '[attr.data-kui-loading]': 'loading() ? "" : null',
@@ -58,11 +60,11 @@ export class KuiAvatarComponent {
   /** Optional image alt override. Defaults to `name`. */
   readonly alt = input<string | undefined>();
 
-  /** Avatar size. */
+  /** Avatar size. Defaults to `defaults.avatar.size`, then the root size default, then `md`. */
   readonly size = input<KuiAvatarSize | undefined>();
 
-  /** Avatar shape. */
-  readonly shape = input<KuiAvatarShape>('circle');
+  /** Avatar shape. Defaults to `defaults.avatar.shape`, then `circle`. */
+  readonly shape = input<KuiAvatarShape | undefined>();
 
   /** Optional presence status. */
   readonly status = input<KuiAvatarStatus | undefined>();
@@ -75,10 +77,17 @@ export class KuiAvatarComponent {
   /** Shows the skeleton/shimmer loading state and hides avatar content. */
   readonly loading = input(false, { transform: booleanAttribute });
 
+  private readonly avatarDefaults = inject(KuiDefaults).get('avatar');
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiAvatarSize>();
   private readonly failedImageSrc = signal<string | undefined>(undefined);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.avatarDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
+
+  protected readonly effectiveShape = computed<KuiAvatarShape>(
+    () => this.shape() ?? this.avatarDefaults()?.shape ?? 'circle',
+  );
 
   protected readonly imageSrc = computed(() => {
     const src = this.src();
@@ -118,7 +127,7 @@ export class KuiAvatarComponent {
   });
 
   protected readonly skeletonShape = computed<KuiSkeletonShape>(() =>
-    this.shape() === 'circle' ? 'circle' : 'square',
+    this.effectiveShape() === 'circle' ? 'circle' : 'square',
   );
 
   protected onImageError(): void {

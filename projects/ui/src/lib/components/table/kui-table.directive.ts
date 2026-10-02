@@ -1,9 +1,10 @@
 import type { Signal } from '@angular/core';
-import { computed, Directive, InjectionToken, input, signal } from '@angular/core';
+import { computed, Directive, inject, InjectionToken, input, signal } from '@angular/core';
 
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiActiveSortState, KuiSortState } from './types';
@@ -30,8 +31,10 @@ function defaultCompare(a: unknown, b: unknown): number {
 })
 export class KuiTableDirective<T = unknown> {
   readonly data = input<T[]>([]);
+  /** Table size. Defaults to `defaults.table.size`, then the global `defaults.size`, then md. */
   readonly size = input<KuiSize | undefined>();
 
+  private readonly tableDefaults = inject(KuiDefaults).get('table');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   private readonly _selectionChange$ = new Subject<T[]>();
@@ -46,7 +49,9 @@ export class KuiTableDirective<T = unknown> {
 
   readonly sortState: Signal<KuiSortState> = this._sortState.asReadonly();
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.tableDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
 
   readonly sortedData = computed<T[]>(() => {
     const state = this._sortState();

@@ -13,6 +13,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiIconComponent, type KuiIconName } from '../icon';
 import { KuiTextDirective } from '../typography';
 import { KuiLinkExternalIconComponent } from './kui-link-external-icon.component';
@@ -34,8 +35,8 @@ type KuiLinkEndSlot =
   hostDirectives: [{ directive: KuiTextDirective, inputs: ['variant'] }],
   host: {
     class: 'kui-link',
-    '[attr.data-kui-tone]': 'tone()',
-    '[attr.data-kui-underline]': 'underline()',
+    '[attr.data-kui-tone]': 'effectiveTone()',
+    '[attr.data-kui-underline]': 'effectiveUnderline()',
     '[attr.target]': 'target()',
     '[attr.rel]': 'effectiveRel()',
     '[attr.aria-disabled]': 'disabled() ? "true" : null',
@@ -45,13 +46,13 @@ type KuiLinkEndSlot =
   },
 })
 export class KuiLinkDirective {
-  /** Semantic color intent. Unaffected by hover/focus/active -- only underline thickness and the
+  /** Semantic color intent. Defaults to `defaults.link.tone`, then `primary`. Unaffected by hover/focus/active -- only underline thickness and the
    * focus ring change between those states and rest. */
-  readonly tone = input<KuiLinkTone>('primary');
+  readonly tone = input<KuiLinkTone | undefined>();
 
-  /** Underline behavior. Use `always` for a link inside a paragraph of body text, since color
+  /** Underline behavior. Defaults to `defaults.link.underline`, then `hover`. Use `always` for a link inside a paragraph of body text, since color
    * alone is not a sufficient signal. */
-  readonly underline = input<KuiLinkUnderline>('hover');
+  readonly underline = input<KuiLinkUnderline | undefined>();
 
   /** Decorative icon rendered before the link's projected content. */
   readonly iconStart = input<KuiIconName | undefined>();
@@ -77,6 +78,7 @@ export class KuiLinkDirective {
    * `as="a"`; a host `<button>` also gets the native `disabled` attribute. */
   readonly disabled = input(false, { transform: booleanAttribute });
 
+  private readonly linkDefaults = inject(KuiDefaults).get('link');
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly renderer = inject(Renderer2);
   private readonly viewContainerRef = inject(ViewContainerRef);
@@ -85,6 +87,14 @@ export class KuiLinkDirective {
   private iconStartRef: ComponentRef<KuiIconComponent> | null = null;
   private endSlot: KuiLinkEndSlot | null = null;
   private externalHintEl: HTMLElement | null = null;
+
+  protected readonly effectiveTone = computed<KuiLinkTone>(
+    () => this.tone() ?? this.linkDefaults()?.tone ?? 'primary',
+  );
+
+  protected readonly effectiveUnderline = computed<KuiLinkUnderline>(
+    () => this.underline() ?? this.linkDefaults()?.underline ?? 'hover',
+  );
 
   protected readonly isExternal = computed(() => this.external() ?? this.target() === '_blank');
 

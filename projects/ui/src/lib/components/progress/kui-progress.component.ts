@@ -1,5 +1,13 @@
-import { Component, computed, input, numberAttribute, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  numberAttribute,
+  ViewEncapsulation,
+} from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 
 /** Visual shape used by `kui-progress`. */
@@ -77,7 +85,7 @@ function numberOrNullAttribute(value: unknown): number | null {
     '[class.kui-progress-linear]': 'type() === "linear"',
     '[class.kui-progress-circular]': 'type() === "circular"',
     '[attr.data-kui-size]': 'effectiveSize()',
-    '[attr.data-kui-color]': 'color()',
+    '[attr.data-kui-color]': 'effectiveColor()',
     '[attr.data-kui-indeterminate]': 'isIndeterminate() ? "true" : null',
     role: 'progressbar',
     '[attr.aria-valuenow]': 'isIndeterminate() ? null : clampedValue()',
@@ -93,17 +101,24 @@ export class KuiProgressComponent {
   /** Progress value from 0 to 100, or null for an indeterminate indicator. Invalid values are indeterminate. */
   readonly value = input<number | null, unknown>(null, { transform: numberOrNullAttribute });
 
-  /** Semantic color applied to the filled portion of the indicator. */
-  readonly color = input<KuiProgressColor>('primary');
+  /** Semantic color applied to the filled portion of the indicator. Defaults to `defaults.progress.color`, then `primary`. */
+  readonly color = input<KuiProgressColor | undefined>();
 
-  /** Visual size of the progress indicator. */
+  /** Visual size of the progress indicator. Defaults to `defaults.progress.size`, then the root size default, then `md`. */
   readonly size = input<KuiProgressSize | undefined>();
 
+  private readonly progressDefaults = inject(KuiDefaults).get('progress');
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiProgressSize>(KUI_PROGRESS_SIZES);
 
   protected readonly isIndeterminate = computed(() => this.value() === null);
   protected readonly clampedValue = computed(() => Math.max(0, Math.min(100, this.value() ?? 0)));
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.progressDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
+
+  protected readonly effectiveColor = computed<KuiProgressColor>(
+    () => this.color() ?? this.progressDefaults()?.color ?? 'primary',
+  );
 
   protected readonly fillWidth = computed(() => {
     if (this.isIndeterminate()) return null;

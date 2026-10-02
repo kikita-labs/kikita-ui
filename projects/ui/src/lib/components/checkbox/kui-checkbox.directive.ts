@@ -1,5 +1,6 @@
 import { booleanAttribute, computed, Directive, inject, input } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiFieldComponent } from '../field';
@@ -17,7 +18,7 @@ import { KuiFieldComponent } from '../field';
   },
 })
 export class KuiCheckboxDirective {
-  /** Checkbox size mapped to Kikita UI checkbox tokens. */
+  /** Checkbox size mapped to Kikita UI checkbox tokens. Defaults to `defaults.checkbox.size`, then the parent field, then the global `defaults.size`, then `'md'`. */
   readonly size = input<KuiSize | undefined>();
 
   /** Marks the checkbox as invalid outside a `kui-field` error state. */
@@ -27,12 +28,18 @@ export class KuiCheckboxDirective {
   readonly id = input<string | undefined>();
 
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
+  private readonly checkboxDefaults = inject(KuiDefaults).get('checkbox');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
 
   protected readonly effectiveSize = computed(
-    () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize() ?? 'md',
+    () =>
+      this.size() ??
+      this.checkboxDefaults()?.size ??
+      this.field?.effectiveSize() ??
+      this.rootDefaultSize() ??
+      'md',
   );
 
   /**

@@ -20,10 +20,14 @@ import type {
 } from '@angular/forms/signals';
 import { FormField } from '@angular/forms/signals';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { kuiNextId } from '../../utils/kui-id.util';
-import { positiveIntegerAttribute } from '../../utils/kui-input-transform.util';
+import {
+  optionalBooleanAttribute,
+  positiveIntegerAttribute,
+} from '../../utils/kui-input-transform.util';
 import { KuiFieldComponent } from '../field';
 import { KuiInputDirective } from '../input';
 import { KuiLoaderDirective } from '../loader';
@@ -72,8 +76,8 @@ const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
         kuiInput
         #cellEl
         [id]="cellId($index)"
-        [type]="mask() ? 'password' : 'text'"
-        [attr.inputmode]="integerOnly() ? 'numeric' : 'text'"
+        [type]="effectiveMask() ? 'password' : 'text'"
+        [attr.inputmode]="effectiveIntegerOnly() ? 'numeric' : 'text'"
         [attr.autocomplete]="$index === 0 ? 'one-time-code' : 'off'"
         [attr.maxlength]="1"
         [attr.aria-label]="cellLabel($index)"
@@ -104,7 +108,7 @@ const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
     '[attr.aria-label]': 'ariaLabel()',
     '[attr.aria-describedby]': 'describedBy()',
     '[attr.data-kui-size]': 'effectiveSize()',
-    '[attr.data-kui-alpha]': 'integerOnly() ? null : ""',
+    '[attr.data-kui-alpha]': 'effectiveIntegerOnly() ? null : ""',
     '[attr.data-kui-invalid]': 'effectiveInvalid() ? "" : null',
     '[attr.data-kui-disabled]': 'disabled() ? "" : null',
     '[attr.data-kui-loading]': 'loading() ? "" : null',
@@ -116,18 +120,25 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
   /** Number of cells. Defaults to `6`, the most common SMS/email code length. */
   readonly length = input(6, { transform: positiveIntegerAttribute });
 
-  /** Control size. Defaults to md. */
+  /** Control size. Defaults to `defaults.otpInput.size`, then the root size default, then `md`. */
   readonly size = input<KuiSize | undefined>();
 
-  /** Hides entered characters, rendering each cell as `type="password"`. Defaults to `false`. */
-  readonly mask = input(false, { transform: booleanAttribute });
+  /**
+   * Hides entered characters, rendering each cell as `type="password"`. Defaults to
+   * `defaults.otpInput.mask`, then `false`.
+   */
+  readonly mask = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   /**
    * Restricts input to digits and switches to a numeric keyboard on mobile. Set to `false` for
    * letter-and-digit codes (e.g. backup/recovery codes), which are also uppercased. Defaults to
-   * `true`.
+   * `defaults.otpInput.integerOnly`, then `true`.
    */
-  readonly integerOnly = input(true, { transform: booleanAttribute });
+  readonly integerOnly = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   /** Focuses the first cell after the component mounts. Defaults to `false`. */
   readonly autoFocus = input(false, { transform: booleanAttribute });
@@ -173,6 +184,7 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
 
   private readonly cellRefs = viewChildren<ElementRef<HTMLInputElement>>('cellEl');
 
+  private readonly otpInputDefaults = inject(KuiDefaults).get('otpInput');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   /**
@@ -198,7 +210,17 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
    */
   private readonly hasSignalFormField = !!inject(FormField, { optional: true, self: true });
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.otpInputDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
+
+  protected readonly effectiveMask = computed(
+    () => this.mask() ?? this.otpInputDefaults()?.mask ?? false,
+  );
+
+  protected readonly effectiveIntegerOnly = computed(
+    () => this.integerOnly() ?? this.otpInputDefaults()?.integerOnly ?? true,
+  );
 
   /** Forwards the ancestor `kui-field`'s hint/error ids so screen readers announce them for the group. */
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
@@ -269,12 +291,12 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
     let char = target.value.slice(-1);
 
     if (char) {
-      const allowed = this.integerOnly() ? INTEGER_CHAR : ALPHANUMERIC_CHAR;
+      const allowed = this.effectiveIntegerOnly() ? INTEGER_CHAR : ALPHANUMERIC_CHAR;
       if (!allowed.test(char)) {
         target.value = this.chars()[i] ?? '';
         return;
       }
-      if (!this.integerOnly()) char = char.toUpperCase();
+      if (!this.effectiveIntegerOnly()) char = char.toUpperCase();
     }
 
     const next = this.chars().slice();
@@ -326,9 +348,9 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
     if (this.readOnly()) return;
 
     const raw = event.clipboardData?.getData('text') ?? '';
-    const allowedOut = this.integerOnly() ? /[^0-9]/g : /[^a-zA-Z0-9]/g;
+    const allowedOut = this.effectiveIntegerOnly() ? /[^0-9]/g : /[^a-zA-Z0-9]/g;
     let cleaned = raw.replace(/\s+/g, '').replace(allowedOut, '');
-    if (!this.integerOnly()) cleaned = cleaned.toUpperCase();
+    if (!this.effectiveIntegerOnly()) cleaned = cleaned.toUpperCase();
 
     const text = cleaned.slice(0, this.length());
     if (!text) return;

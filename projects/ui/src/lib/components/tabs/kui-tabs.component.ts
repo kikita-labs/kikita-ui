@@ -16,6 +16,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
@@ -69,7 +70,7 @@ export type KuiTabsOrientation = 'horizontal' | 'vertical';
         <div
           class="kui-tabs__list"
           role="tablist"
-          [attr.aria-orientation]="orientation()"
+          [attr.aria-orientation]="effectiveOrientation()"
           (keydown)="onKeydown($event)"
         >
           <span class="kui-tab-indicator" #indicator></span>
@@ -99,9 +100,9 @@ export type KuiTabsOrientation = 'horizontal' | 'vertical';
   `,
   host: {
     class: 'kui-tabs',
-    '[attr.data-kui-variant]': 'variant()',
+    '[attr.data-kui-variant]': 'effectiveVariant()',
     '[attr.data-kui-size]': 'effectiveSize()',
-    '[attr.data-kui-orientation]': "orientation() === 'vertical' ? 'vertical' : null",
+    '[attr.data-kui-orientation]': "effectiveOrientation() === 'vertical' ? 'vertical' : null",
     '[attr.data-kui-inverted]': 'inverted() ? "" : null',
   },
   providers: [
@@ -114,12 +115,17 @@ export type KuiTabsOrientation = 'horizontal' | 'vertical';
 })
 /** Coordinates tab triggers and tab panels with accessible selection state. */
 export class KuiTabsComponent implements KuiTabsContext {
-  /** Tab visual style: underline indicator (line) or pill background (pill). */
-  readonly variant = input<KuiTabsVariant>('line');
-  /** Tab size. Defaults to md. */
+  /**
+   * Tab visual style: underline indicator (line) or pill background (pill). Defaults to
+   * `defaults.tabs.variant`, then `line`.
+   */
+  readonly variant = input<KuiTabsVariant | undefined>();
+  /** Tab size. Defaults to `defaults.tabs.size`, then the root size, then md. */
   readonly size = input<KuiSize | undefined>();
-  /** Layout direction of the tab list. Defaults to horizontal. */
-  readonly orientation = input<KuiTabsOrientation>('horizontal');
+  /**
+   * Layout direction of the tab list. Defaults to `defaults.tabs.orientation`, then horizontal.
+   */
+  readonly orientation = input<KuiTabsOrientation | undefined>();
   /**
    * Flips the tab list edge: horizontal tabs render panels above and the indicator on top;
    * vertical tabs render panels before the list and the indicator on the start edge.
@@ -143,6 +149,7 @@ export class KuiTabsComponent implements KuiTabsContext {
   private readonly indicatorRef = viewChild<ElementRef<HTMLSpanElement>>('indicator');
   private readonly destroyRef = inject(DestroyRef);
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
+  private readonly tabsDefaults = inject(KuiDefaults).get('tabs');
   private readonly idBase = kuiNextId('kui-tabs');
   private indicatorFirstRender = true;
   private valueEffectSeeded = false;
@@ -150,7 +157,16 @@ export class KuiTabsComponent implements KuiTabsContext {
 
   protected readonly canScrollLeft = signal(false);
   protected readonly canScrollRight = signal(false);
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.tabsDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
+  protected readonly effectiveVariant = computed(
+    () => this.variant() ?? this.tabsDefaults()?.variant ?? 'line',
+  );
+  protected readonly effectiveOrientation = computed(
+    () => this.orientation() ?? this.tabsDefaults()?.orientation ?? 'horizontal',
+  );
 
   constructor() {
     afterNextRender(() => {
@@ -225,7 +241,7 @@ export class KuiTabsComponent implements KuiTabsContext {
     const indicator = this.indicatorRef()?.nativeElement;
     if (!indicator) return;
 
-    if (this.variant() !== 'line') {
+    if (this.effectiveVariant() !== 'line') {
       indicator.style.opacity = '0';
       return;
     }
@@ -237,7 +253,7 @@ export class KuiTabsComponent implements KuiTabsContext {
     }
 
     const el = item.elementRef.nativeElement;
-    const vertical = this.orientation() === 'vertical';
+    const vertical = this.effectiveOrientation() === 'vertical';
     const size = vertical ? el.offsetHeight : el.offsetWidth;
     const offset = vertical ? el.offsetTop : el.offsetLeft;
 
@@ -275,8 +291,8 @@ export class KuiTabsComponent implements KuiTabsContext {
     if (!tabs.length) return;
 
     const idx = tabs.findIndex((t) => t.value() === this.value());
-    const nextKey = this.orientation() === 'vertical' ? 'ArrowDown' : 'ArrowRight';
-    const prevKey = this.orientation() === 'vertical' ? 'ArrowUp' : 'ArrowLeft';
+    const nextKey = this.effectiveOrientation() === 'vertical' ? 'ArrowDown' : 'ArrowRight';
+    const prevKey = this.effectiveOrientation() === 'vertical' ? 'ArrowUp' : 'ArrowLeft';
 
     switch (event.key) {
       case nextKey:

@@ -1,6 +1,5 @@
 import {
   afterRenderEffect,
-  booleanAttribute,
   computed,
   Directive,
   ElementRef,
@@ -9,8 +8,10 @@ import {
   signal,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import type { KuiGroupOrientation } from './kui-group-orientation.type';
 
 /** Groups adjacent Kikita UI controls and can collapse their shared borders. */
@@ -18,30 +19,56 @@ import type { KuiGroupOrientation } from './kui-group-orientation.type';
   selector: '[kuiGroup]',
   host: {
     class: 'kui-group',
-    '[attr.data-kui-orientation]': 'orientation()',
+    '[attr.data-kui-orientation]': 'effectiveOrientation()',
     '[attr.data-kui-size]': 'effectiveSize()',
-    '[attr.data-kui-collapsed]': 'collapsed() ? "" : null',
-    '[attr.data-kui-rounded]': 'rounded() ? "" : null',
+    '[attr.data-kui-collapsed]': 'effectiveCollapsed() ? "" : null',
+    '[attr.data-kui-rounded]': 'effectiveRounded() ? "" : null',
     '[style.grid-template-columns]': 'fieldColumns()',
   },
 })
 export class KuiGroupDirective {
-  /** Group layout direction. */
-  readonly orientation = input<KuiGroupOrientation>('horizontal');
+  /** Group layout direction. Defaults to `defaults.group.orientation`, then `horizontal`. */
+  readonly orientation = input<KuiGroupOrientation | undefined>();
 
-  /** Size inherited by grouped controls through CSS variables. */
+  /**
+   * Size inherited by grouped controls through CSS variables. Defaults to `defaults.group.size`,
+   * then the root size, then `md`.
+   */
   readonly size = input<KuiSize | undefined>();
 
-  /** Collapses adjacent control borders into a single visual group. */
-  readonly collapsed = input(false, { transform: booleanAttribute });
+  /**
+   * Collapses adjacent control borders into a single visual group. Defaults to
+   * `defaults.group.collapsed`, then `false`.
+   */
+  readonly collapsed = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
-  /** Keeps outer group corners rounded when controls are collapsed. */
-  readonly rounded = input(true, { transform: booleanAttribute });
+  /**
+   * Keeps outer group corners rounded when controls are collapsed. Defaults to
+   * `defaults.group.rounded`, then `true`.
+   */
+  readonly rounded = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private readonly elementRef = inject(ElementRef<HTMLElement>);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  private readonly groupDefaults = inject(KuiDefaults).get('group');
+
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.groupDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
+  protected readonly effectiveOrientation = computed(
+    () => this.orientation() ?? this.groupDefaults()?.orientation ?? 'horizontal',
+  );
+  protected readonly effectiveCollapsed = computed(
+    () => this.collapsed() ?? this.groupDefaults()?.collapsed ?? false,
+  );
+  protected readonly effectiveRounded = computed(
+    () => this.rounded() ?? this.groupDefaults()?.rounded ?? true,
+  );
 
   /**
    * Explicit column track list for the horizontal field-mode grid (see `group.css`), covering any

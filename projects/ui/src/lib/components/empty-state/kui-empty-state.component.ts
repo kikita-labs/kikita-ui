@@ -1,5 +1,6 @@
-import { Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiEmptyStateContext } from './kui-empty-state-context.type';
 import type { KuiEmptyStateSize } from './kui-empty-state-size.type';
@@ -38,11 +39,20 @@ export class KuiEmptyStateComponent {
   /** Semantic context that changes the icon accent only. */
   readonly context = input<KuiEmptyStateContext>('no-data');
 
-  /** Empty-state layout size. Small uses a compact horizontal layout. */
+  /** Empty-state layout size. Small uses a compact horizontal layout. Defaults to `defaults.emptyState.size`, then the global `defaults.size`, then md. */
   readonly size = input<KuiEmptyStateSize | undefined>();
 
+  private readonly emptyStateDefaults = inject(KuiDefaults).get('emptyState');
   private readonly rootDefaultSize =
     injectKuiRootSizeDefault<KuiEmptyStateSize>(KUI_EMPTY_STATE_SIZES);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  private readonly configuredSize = computed(() => {
+    const size = this.emptyStateDefaults()?.size;
+
+    return size && KUI_EMPTY_STATE_SIZES.includes(size) ? size : undefined;
+  });
+
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.configuredSize() ?? this.rootDefaultSize() ?? 'md',
+  );
 }

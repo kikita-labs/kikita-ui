@@ -14,9 +14,11 @@ import {
   PLATFORM_ID,
   Renderer2,
   signal,
+  untracked,
   ViewContainerRef,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { DEFAULT_KUI_THEME } from '../../theme/default-kui-theme.const';
 import type { KuiSize } from '../../types';
 import {
@@ -67,7 +69,7 @@ const MAX_CHROMA = 0.32;
 export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy {
   private readonly nextId = kuiIdFactory();
 
-  /** Control height matched to Kikita UI size tokens. */
+  /** Control height matched to Kikita UI size tokens. Defaults to `defaults.colorInput.size`, then the parent field, then the global `defaults.size`, then `'md'`. */
   readonly size = input<KuiSize | undefined>();
 
   /** Applies error border. Also inherited from a parent `kui-field` with an error. */
@@ -86,6 +88,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private readonly injector = inject(Injector);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
+  private readonly colorInputDefaults = inject(KuiDefaults).get('colorInput');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
@@ -105,7 +108,12 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
         : this.invalidInput() || Boolean(this.field?.invalid())) || this.invalidValue(),
   );
   protected readonly effectiveSize = computed(
-    () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize() ?? 'md',
+    () =>
+      this.size() ??
+      this.colorInputDefaults()?.size ??
+      this.field?.effectiveSize() ??
+      this.rootDefaultSize() ??
+      'md',
   );
 
   private containerEl!: HTMLElement;
@@ -135,6 +143,15 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private tooltipAnchor: HTMLElement | null = null;
   private readonly unlisten: (() => void)[] = [];
   private readonly pickerUnlisten: (() => void)[] = [];
+
+  constructor() {
+    // ngDoCheck only runs when the parent view is checked, so a size change that comes from a
+    // signal (for example a runtime defaults update) must also resync the generated container.
+    effect(() => {
+      this.effectiveSize();
+      if (this.containerEl) untracked(() => this.syncState());
+    });
+  }
 
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;

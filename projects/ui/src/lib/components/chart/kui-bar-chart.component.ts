@@ -12,6 +12,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
 import { KuiSkeletonDirective } from '../skeleton';
@@ -141,13 +142,13 @@ export class KuiBarChartComponent implements KuiChartLegendSource {
    * with more than one series. */
   readonly stacked = input(false, { transform: booleanAttribute });
 
-  /** Canvas height: 200 / 280 / 360px for sm / md / lg. */
-  readonly size = input<'sm' | 'md' | 'lg'>('md');
+  /** Canvas height: 200 / 280 / 360px for sm / md / lg. Defaults to `defaults.barChart.size`, then `'md'`. */
+  readonly size = input<'sm' | 'md' | 'lg' | undefined>();
 
   /** Shows a loading placeholder instead of the chart. */
   readonly loading = input(false, { transform: booleanAttribute });
 
-  /** Shows the legend. Defaults to `true` when there is more than one series. */
+  /** Shows the legend. Defaults to `defaults.barChart.legend`, then `true` when there is more than one series. */
   readonly legend = input<boolean | undefined>(undefined);
 
   /** Axis visibility and grid line configuration. */
@@ -166,6 +167,7 @@ export class KuiBarChartComponent implements KuiChartLegendSource {
   protected readonly loadingBarHeights = LOADING_BAR_HEIGHTS;
   protected readonly loadingGridLineOffsets = LOADING_GRID_LINE_OFFSETS;
 
+  private readonly barChartDefaults = inject(KuiDefaults).get('barChart');
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
   private readonly tooltipController = new KuiChartTooltipController(
@@ -181,7 +183,11 @@ export class KuiBarChartComponent implements KuiChartLegendSource {
   protected readonly focusedMarkIndex = signal(0);
   protected readonly showTable = signal(false);
 
-  protected readonly dimensions = computed(() => SIZE_DIMENSIONS[this.size()]);
+  private readonly effectiveSize = computed(
+    () => this.size() ?? this.barChartDefaults()?.size ?? 'md',
+  );
+
+  protected readonly dimensions = computed(() => SIZE_DIMENSIONS[this.effectiveSize()]);
 
   protected readonly isVertical = computed(() => this.orientation() === 'vertical');
 
@@ -199,7 +205,9 @@ export class KuiBarChartComponent implements KuiChartLegendSource {
     this.normalizedSeries().some((s) => s.slots.some((slot) => slot !== null)),
   );
 
-  protected readonly legendEnabled = computed(() => this.legend() ?? this.series().length > 1);
+  protected readonly legendEnabled = computed(
+    () => this.legend() ?? this.barChartDefaults()?.legend ?? this.series().length > 1,
+  );
 
   /** Stacking only applies with more than one series -- a single series stacked on itself is a
    * no-op that should just render as a normal (grouped-of-one) bar, not a special case. */

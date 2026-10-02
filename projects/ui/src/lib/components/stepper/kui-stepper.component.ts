@@ -1,5 +1,4 @@
 import {
-  booleanAttribute,
   Component,
   computed,
   contentChildren,
@@ -9,7 +8,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { KuiStepComponent } from './kui-step.component';
 import type { KuiStepperContext } from './kui-stepper-context.token';
 import { KUI_STEPPER_CONTEXT } from './kui-stepper-context.token';
@@ -41,9 +42,9 @@ const KUI_STEPPER_SIZES = ['sm', 'md', 'lg'] as const;
   host: {
     class: 'kui-stepper',
     role: 'list',
-    '[attr.data-kui-orientation]': "orientation() === 'vertical' ? 'vertical' : null",
+    '[attr.data-kui-orientation]': "effectiveOrientation() === 'vertical' ? 'vertical' : null",
     '[attr.data-kui-size]': 'effectiveSize()',
-    '[attr.data-kui-compact]': "compact() ? '' : null",
+    '[attr.data-kui-compact]': "effectiveCompact() ? '' : null",
   },
   providers: [
     {
@@ -55,30 +56,58 @@ const KUI_STEPPER_SIZES = ['sm', 'md', 'lg'] as const;
 })
 /** Coordinates a sequence of Kikita UI steps and exposes stepper context. */
 export class KuiStepperComponent implements KuiStepperContext {
-  /** Layout direction of the step list. Defaults to horizontal. */
-  readonly orientation = input<KuiStepperOrientation>('horizontal');
-  /** Circle size and label font scale. Defaults to md. */
+  /**
+   * Layout direction of the step list. Defaults to `defaults.stepper.orientation`, then
+   * horizontal.
+   */
+  readonly orientation = input<KuiStepperOrientation | undefined>();
+  /**
+   * Circle size and label font scale. Defaults to `defaults.stepper.size`, then the root size,
+   * then md.
+   */
   readonly size = input<KuiStepperSize | undefined>();
   /** Index of the currently active step. Supports two-way binding. */
   readonly currentIndex = model(0);
   /**
-   * When true (default), only completed steps can be clicked to go back;
+   * When true, only completed steps can be clicked to go back;
    * upcoming steps cannot be jumped to. Set to false to allow clicking
-   * upcoming steps to jump forward.
+   * upcoming steps to jump forward. Defaults to `defaults.stepper.linear`, then `true`.
    */
-  readonly linear = input(true, { transform: booleanAttribute });
-  /** Shows only step circles/dots without labels or descriptions. */
-  readonly compact = input(false, { transform: booleanAttribute });
+  readonly linear = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
+  /**
+   * Shows only step circles/dots without labels or descriptions. Defaults to
+   * `defaults.stepper.compact`, then `false`.
+   */
+  readonly compact = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   readonly steps = contentChildren(KuiStepComponent);
 
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiStepperSize>(KUI_STEPPER_SIZES);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  private readonly stepperDefaults = inject(KuiDefaults).get('stepper');
+
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.stepperDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
+  protected readonly effectiveOrientation = computed(
+    () => this.orientation() ?? this.stepperDefaults()?.orientation ?? 'horizontal',
+  );
+  protected readonly effectiveCompact = computed(
+    () => this.compact() ?? this.stepperDefaults()?.compact ?? false,
+  );
+
+  /** @internal */
+  readonly effectiveLinear = computed(
+    () => this.linear() ?? this.stepperDefaults()?.linear ?? true,
+  );
 
   /** @internal */
   goTo(index: number): void {
-    if (index < this.currentIndex() || (!this.linear() && index > this.currentIndex())) {
+    if (index < this.currentIndex() || (!this.effectiveLinear() && index > this.currentIndex())) {
       this.currentIndex.set(index);
     }
   }

@@ -1,5 +1,6 @@
 import { booleanAttribute, computed, Directive, inject, input } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiFieldComponent } from '../field';
@@ -17,7 +18,7 @@ import { KuiFieldComponent } from '../field';
   },
 })
 export class KuiTextareaDirective {
-  /** Textarea size mapped to Kikita UI control height and spacing tokens. */
+  /** Textarea size mapped to Kikita UI control height and spacing tokens. Defaults to `defaults.textarea.size`, then the parent field, then the global `defaults.size`, then `'md'`. */
   readonly size = input<KuiSize | undefined>();
 
   /** Marks the textarea as invalid outside a `kui-field` error state. */
@@ -27,12 +28,18 @@ export class KuiTextareaDirective {
   readonly id = input<string | undefined>();
 
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
+  private readonly textareaDefaults = inject(KuiDefaults).get('textarea');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
 
   protected readonly effectiveSize = computed(
-    () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize() ?? 'md',
+    () =>
+      this.size() ??
+      this.textareaDefaults()?.size ??
+      this.field?.effectiveSize() ??
+      this.rootDefaultSize() ??
+      'md',
   );
 
   /**

@@ -8,7 +8,8 @@ export type KuiTreeCheckedState = 'true' | 'false' | 'mixed';
 
 /** Shared context provided by KuiTreeComponent to recursive KuiTreeNodeComponent children. */
 export interface KuiTreeContext {
-  readonly mode: Signal<KuiTreeMode>;
+  /** Effective mode: the `mode` input, then `defaults.tree.mode`, then `display`. */
+  readonly effectiveMode: Signal<KuiTreeMode>;
   hasChildren(node: KuiTreeNode): boolean;
   childrenFor(node: KuiTreeNode): readonly KuiTreeNode[];
   isExpanded(id: string): boolean;

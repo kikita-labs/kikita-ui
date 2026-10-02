@@ -19,6 +19,7 @@ import type {
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiSegmentDirective } from './kui-segment.directive';
@@ -67,7 +68,7 @@ export class KuiSegmentedComponent implements KuiSegmentedContext, FormValueCont
    */
   readonly selected = model<string>('');
 
-  /** Control size. Defaults to md. */
+  /** Control size. Defaults to `defaults.segmented.size`, then the global `defaults.size`, then md. */
   readonly size = input<KuiSize | undefined>();
 
   /** Whether every segment is disabled. Set by `[formField]` or `[disabled]` directly. */
@@ -85,12 +86,15 @@ export class KuiSegmentedComponent implements KuiSegmentedContext, FormValueCont
   private readonly thumbRef!: ElementRef<HTMLSpanElement>;
 
   private readonly segmentItems = contentChildren(KuiSegmentDirective);
+  private readonly segmentedDefaults = inject(KuiDefaults).get('segmented');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private firstRender = true;
   private valueEffectSeeded = false;
   private selectedEffectSeeded = false;
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.segmentedDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
 
   readonly groupDisabled = computed(() => this.disabled());
 

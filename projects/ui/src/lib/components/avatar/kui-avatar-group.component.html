@@ -7,7 +7,7 @@
     [status]="avatar.status"
     [paletteIndex]="avatar.paletteIndex"
     [size]="effectiveSize()"
-    [shape]="shape()"
+    [shape]="effectiveShape()"
     [style.z-index]="visibleAvatars().length - $index + (overflowCount() ? 1 : 0)"
   />
 }
@@ -16,7 +16,7 @@
   <span
     class="kui-avatar kui-avatar--overflow"
     [attr.data-kui-size]="effectiveSize()"
-    [attr.data-kui-shape]="shape()"
+    [attr.data-kui-shape]="effectiveShape()"
     role="img"
     [attr.aria-label]="overflowLabel()"
     style="z-index: 1"

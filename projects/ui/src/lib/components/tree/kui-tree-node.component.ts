@@ -38,8 +38,8 @@ import type { KuiTreeNode } from './kui-tree-node.interface';
       [attr.aria-setsize]="setSize()"
       [attr.aria-posinset]="posInset()"
       [attr.aria-expanded]="hasChildren() ? expanded() : null"
-      [attr.aria-selected]="ctx.mode() === 'display' ? selected() : null"
-      [attr.aria-checked]="ctx.mode() === 'checkable' ? checkedState() : null"
+      [attr.aria-selected]="ctx.effectiveMode() === 'display' ? selected() : null"
+      [attr.aria-checked]="ctx.effectiveMode() === 'checkable' ? checkedState() : null"
       [attr.aria-disabled]="node().disabled ? 'true' : null"
       (click)="onRowClick()"
       (keydown)="onKeydown($event)"
@@ -71,7 +71,7 @@ import type { KuiTreeNode } from './kui-tree-node.interface';
         <span class="kui-tree-toggle-spacer" aria-hidden="true"></span>
       }
 
-      @if (ctx.mode() === 'checkable') {
+      @if (ctx.effectiveMode() === 'checkable') {
         <input
           #checkbox
           class="kui-checkbox"

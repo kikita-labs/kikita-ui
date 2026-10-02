@@ -13,6 +13,7 @@ import {
   Renderer2,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiFieldComponent } from '../field';
@@ -55,11 +56,14 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
   },
 })
 export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestroy {
-  /** Control height matched to `--kui-control-height-*` tokens. */
+  /** Control height matched to `--kui-control-height-*` tokens. Defaults to `defaults.numberInput.size`, then the parent field, then the global `defaults.size`, then `'md'`. */
   readonly size = input<KuiSize | undefined>();
 
-  /** Button layout: `split` = minus/plus on sides (recommended), `stacked` = arrows stacked on the right. */
-  readonly variant = input<KuiNumberInputVariant>('split');
+  /**
+   * Button layout: `split` = minus/plus on sides (recommended), `stacked` = arrows stacked on the right.
+   * Defaults to `defaults.numberInput.variant`, then `'split'`.
+   */
+  readonly variant = input<KuiNumberInputVariant | undefined>();
 
   /** Applies error border. Also inherited from a parent `kui-field` with an error. */
   readonly invalidInput = input(false, { alias: 'invalid', transform: booleanAttribute });
@@ -72,6 +76,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
   private readonly doc = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
+  private readonly numberInputDefaults = inject(KuiDefaults).get('numberInput');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   /** @internal */
@@ -92,8 +97,17 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
 
   /** @internal */
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
+  protected readonly effectiveVariant = computed(
+    () => this.variant() ?? this.numberInputDefaults()?.variant ?? 'split',
+  );
+
   protected readonly effectiveSize = computed(
-    () => this.size() ?? this.field?.effectiveSize() ?? this.rootDefaultSize() ?? 'md',
+    () =>
+      this.size() ??
+      this.numberInputDefaults()?.size ??
+      this.field?.effectiveSize() ??
+      this.rootDefaultSize() ??
+      'md',
   );
 
   private containerEl!: HTMLElement;
@@ -161,14 +175,14 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
 
     this.containerEl = this.renderer.createElement('div');
     this.renderer.addClass(this.containerEl, 'kui-number-input');
-    if (this.variant() === 'stacked') {
+    if (this.effectiveVariant() === 'stacked') {
       this.renderer.addClass(this.containerEl, 'kui-number-input--stacked');
     }
     this.renderer.setAttribute(this.containerEl, 'data-kui-size', this.effectiveSize());
 
     this.renderer.insertBefore(parent, this.containerEl, native);
 
-    if (this.variant() === 'split') {
+    if (this.effectiveVariant() === 'split') {
       this._buildVariantSplit(native);
     } else {
       this._buildVariantStacked(native);

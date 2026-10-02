@@ -12,6 +12,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
 import {
@@ -129,13 +130,13 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
   /** Fills the area under each line when `true`. Not a separate chart type. */
   readonly area = input(false, { transform: booleanAttribute });
 
-  /** Canvas height: 200 / 280 / 360px for sm / md / lg. */
-  readonly size = input<'sm' | 'md' | 'lg'>('md');
+  /** Canvas height: 200 / 280 / 360px for sm / md / lg. Defaults to `defaults.lineChart.size`, then `'md'`. */
+  readonly size = input<'sm' | 'md' | 'lg' | undefined>();
 
   /** Shows a skeleton placeholder instead of the chart. */
   readonly loading = input(false, { transform: booleanAttribute });
 
-  /** Shows the legend. Defaults to `true` when there is more than one series. */
+  /** Shows the legend. Defaults to `defaults.lineChart.legend`, then `true` when there is more than one series. */
   readonly legend = input<boolean | undefined>(undefined);
 
   /** Axis visibility and grid line configuration. */
@@ -152,7 +153,7 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
 
   protected readonly chartId = kuiNextId('kui-line-chart', 1);
   protected readonly loadingWavePoints = computed(() => {
-    const { width, height } = SIZE_DIMENSIONS[this.size()];
+    const { width, height } = SIZE_DIMENSIONS[this.effectiveSize()];
     const plotWidth = width - PADDING.left - PADDING.right;
     const plotHeight = height - PADDING.top - PADDING.bottom;
     return LOADING_WAVE_RATIOS.map((p) => ({
@@ -166,10 +167,11 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
       .join(' '),
   );
   protected readonly loadingGridLines = computed(() => {
-    const { height } = SIZE_DIMENSIONS[this.size()];
+    const { height } = SIZE_DIMENSIONS[this.effectiveSize()];
     return computeLoadingGridLines(PADDING.top, height - PADDING.bottom);
   });
 
+  private readonly lineChartDefaults = inject(KuiDefaults).get('lineChart');
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -183,7 +185,11 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
   protected readonly focusedMarkIndex = signal(0);
   protected readonly showTable = signal(false);
 
-  protected readonly dimensions = computed(() => SIZE_DIMENSIONS[this.size()]);
+  private readonly effectiveSize = computed(
+    () => this.size() ?? this.lineChartDefaults()?.size ?? 'md',
+  );
+
+  protected readonly dimensions = computed(() => SIZE_DIMENSIONS[this.effectiveSize()]);
 
   protected readonly paddingLeft = PADDING.left;
   protected readonly paddingRight = PADDING.right;
@@ -197,7 +203,9 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
     this.normalizedSeries().some((s) => s.slots.some((slot) => slot !== null)),
   );
 
-  protected readonly legendEnabled = computed(() => this.legend() ?? this.series().length > 1);
+  protected readonly legendEnabled = computed(
+    () => this.legend() ?? this.lineChartDefaults()?.legend ?? this.series().length > 1,
+  );
 
   /** Axis domain includes hidden series so legend toggles do not move the scale. */
   private readonly domain = computed(() => computeGroupedDomain(this.normalizedSeries()));

@@ -14,6 +14,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import {
   KUI_CHECK_D,
@@ -99,7 +100,7 @@ function detectKind(name: string): KuiFileKind | null {
   host: {
     class: 'kui-file-upload',
     '[attr.data-kui-size]': 'effectiveSize()',
-    '[attr.data-kui-variant]': 'variant()',
+    '[attr.data-kui-variant]': 'effectiveVariant()',
     '[attr.data-kui-disabled]': 'disabled() ? "" : null',
   },
   encapsulation: ViewEncapsulation.None,
@@ -115,11 +116,17 @@ export class KuiFileUploadComponent {
   protected readonly _fileD = KUI_FILE_D;
   protected readonly _xD = KUI_X_D;
 
-  /** Full drag-and-drop dropzone, or a compact button-only trigger. Defaults to dropzone. */
-  readonly variant = input<KuiFileUploadVariant>('dropzone');
+  /**
+   * Full drag-and-drop dropzone, or a compact button-only trigger. Defaults to
+   * `defaults.fileUpload.variant`, then `dropzone`.
+   */
+  readonly variant = input<KuiFileUploadVariant | undefined>();
 
-  /** Whether re-selecting replaces the current file (`single`) or appends (`multiple`). */
-  readonly mode = input<KuiFileUploadMode>('multiple');
+  /**
+   * Whether re-selecting replaces the current file (`single`) or appends (`multiple`). Defaults to
+   * `defaults.fileUpload.mode`, then `multiple`.
+   */
+  readonly mode = input<KuiFileUploadMode | undefined>();
 
   /** Allowed MIME types. Omit to accept any file type. */
   readonly accept = input<readonly string[] | undefined>();
@@ -137,7 +144,10 @@ export class KuiFileUploadComponent {
     transform: positiveLimitAttribute,
   });
 
-  /** Row height and thumbnail size. Only `sm`/`md`/`lg` have dedicated styling. */
+  /**
+   * Row height and thumbnail size. Only `sm`/`md`/`lg` have dedicated styling. Defaults to
+   * `defaults.fileUpload.size`, then the root size default, then `md`.
+   */
   readonly size = input<KuiSize | undefined>();
 
   /** Disables the dropzone/trigger and stops it from reacting to drag/click/keyboard. */
@@ -152,7 +162,17 @@ export class KuiFileUploadComponent {
   protected readonly dragState = signal<KuiFileUploadDragState>('none');
   protected readonly formError = signal<string | null>(null);
   protected readonly hasFiles = computed(() => this.files().length > 0);
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.fileUploadDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
+
+  protected readonly effectiveVariant = computed<KuiFileUploadVariant>(
+    () => this.variant() ?? this.fileUploadDefaults()?.variant ?? 'dropzone',
+  );
+
+  protected readonly effectiveMode = computed<KuiFileUploadMode>(
+    () => this.mode() ?? this.fileUploadDefaults()?.mode ?? 'multiple',
+  );
 
   protected readonly dropzoneAriaLabel = computed(() => {
     const base = 'Upload file. Drag and drop or click to browse.';
@@ -163,6 +183,7 @@ export class KuiFileUploadComponent {
   protected readonly acceptAttr = computed(() => this.accept()?.join(',') ?? null);
 
   private readonly fileInput = viewChild<ElementRef<HTMLInputElement>>('fileInput');
+  private readonly fileUploadDefaults = inject(KuiDefaults).get('fileUpload');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private readonly instanceId = kuiNextId('kui-file-upload');
   private idSeq = 0;
@@ -329,7 +350,7 @@ export class KuiFileUploadComponent {
     const picked = fileList ? Array.from(fileList) : [];
     if (!picked.length) return;
 
-    if (this.mode() === 'single') {
+    if (this.effectiveMode() === 'single') {
       this.formError.set(null);
       this.files.set([this.buildEntry(picked[0])]);
       return;

@@ -1,5 +1,6 @@
-import { computed, Directive, input } from '@angular/core';
+import { computed, Directive, inject, input } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 
 /** Size of the breadcrumb trail. */
@@ -32,11 +33,20 @@ const KUI_BREADCRUMBS_SIZES = ['sm', 'md', 'lg'] as const;
   },
 })
 export class KuiBreadcrumbsDirective {
-  /** Font size and icon/gap scale of the trail. Defaults to md. */
+  /** Font size and icon/gap scale of the trail. Defaults to `defaults.breadcrumbs.size`, then the global `defaults.size`, then md. */
   readonly size = input<KuiBreadcrumbsSize | undefined>();
 
+  private readonly breadcrumbsDefaults = inject(KuiDefaults).get('breadcrumbs');
   private readonly rootDefaultSize =
     injectKuiRootSizeDefault<KuiBreadcrumbsSize>(KUI_BREADCRUMBS_SIZES);
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  private readonly configuredSize = computed(() => {
+    const size = this.breadcrumbsDefaults()?.size;
+
+    return size && KUI_BREADCRUMBS_SIZES.includes(size) ? size : undefined;
+  });
+
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.configuredSize() ?? this.rootDefaultSize() ?? 'md',
+  );
 }

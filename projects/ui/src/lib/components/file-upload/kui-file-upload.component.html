@@ -4,13 +4,13 @@
   type="file"
   tabindex="-1"
   aria-hidden="true"
-  [attr.multiple]="mode() === 'multiple' ? '' : null"
+  [attr.multiple]="effectiveMode() === 'multiple' ? '' : null"
   [attr.accept]="acceptAttr()"
   [disabled]="disabled()"
   (change)="onInputChange($event)"
 />
 
-@if (variant() === 'dropzone') {
+@if (effectiveVariant() === 'dropzone') {
   <div
     class="kui-file-upload-dropzone"
     role="button"

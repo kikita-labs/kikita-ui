@@ -6,7 +6,8 @@ import type { KuiStepComponent } from './kui-step.component';
 /** Shared context provided by KuiStepperComponent to projected `kui-step` children. */
 export interface KuiStepperContext {
   readonly currentIndex: Signal<number>;
-  readonly linear: Signal<boolean>;
+  /** Effective linear flag: the `linear` input, then `defaults.stepper.linear`, then `true`. */
+  readonly effectiveLinear: Signal<boolean>;
   readonly steps: Signal<readonly KuiStepComponent[]>;
   goTo(index: number): void;
 }

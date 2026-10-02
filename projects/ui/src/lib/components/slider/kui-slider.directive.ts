@@ -14,6 +14,7 @@ import {
   Renderer2,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.util';
 import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
@@ -60,10 +61,10 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   // If user adds [kuiTooltip]="'static text'", we defer to it; empty = value mode.
   private readonly kuiTooltip = inject(KuiTooltipDirective, { optional: true, self: true });
 
-  /** Semantic color applied to the generated slider fill and thumb. */
-  readonly color = input<KuiSliderColor>('primary');
+  /** Semantic color applied to the generated slider fill and thumb. Defaults to `defaults.slider.color`, then `'primary'`. */
+  readonly color = input<KuiSliderColor | undefined>();
 
-  /** Visual size of the generated slider control. */
+  /** Visual size of the generated slider control. Defaults to `defaults.slider.size`, then the global `defaults.size` when supported, then `'md'`. */
   readonly size = input<KuiSliderSize | undefined>();
 
   /** Optional label rendered below the minimum side of the slider. */
@@ -99,7 +100,13 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
 
   /** @internal */
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  protected readonly effectiveColor = computed(
+    () => this.color() ?? this.sliderDefaults()?.color ?? 'primary',
+  );
+
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.sliderDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
 
   private containerEl!: HTMLElement;
   private fillEl!: HTMLElement;
@@ -111,11 +118,12 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   private keyboardFocused = false;
   private lastNativeState = '';
   private scrollUnlisten: (() => void) | null = null;
+  private readonly sliderDefaults = inject(KuiDefaults).get('slider');
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiSliderSize>(KUI_SLIDER_SIZES);
 
   constructor() {
     effect(() => {
-      const color = this.color();
+      const color = this.effectiveColor();
       const size = this.effectiveSize();
       const invalid = this.effectiveInvalid();
       const disabled = this.disabled();
@@ -323,7 +331,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
     this.renderer.appendChild(this.containerEl, native);
     this.renderer.appendChild(this.containerEl, trackEl);
 
-    const color = this.color();
+    const color = this.effectiveColor();
     const size = this.effectiveSize();
     this.syncContainerState(color, size, this.effectiveInvalid());
     this.syncDisabled(this.disabled());

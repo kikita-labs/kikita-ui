@@ -12,6 +12,7 @@ import {
   Renderer2,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiChipAppearance } from './kui-chip-appearance.type';
@@ -36,7 +37,7 @@ export class KuiChipDirective {
   /** Visual chip treatment mapped to Kikita UI semantic tokens. */
   readonly appearance = input<KuiChipAppearance>('neutral');
 
-  /** Chip size preset. Use `sm` inside Select and Combobox controls. */
+  /** Chip size preset. Use `sm` inside Select and Combobox controls. Defaults to `defaults.chip.size`, then the global `defaults.size`, then md. */
   readonly size = input<KuiChipSize | undefined>();
 
   /** Marks the chip disabled and makes its remove action inert. */
@@ -63,13 +64,16 @@ export class KuiChipDirective {
   /** Emitted when the default remove button or a nested `button[kuiChipRemove]` is activated. */
   readonly removed = output<void>();
 
+  private readonly chipDefaults = inject(KuiDefaults).get('chip');
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiChipSize>();
   private readonly renderer = inject(Renderer2);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   private removeButtonEl: HTMLButtonElement | null = null;
 
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.chipDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
 
   protected readonly disabledAttr = computed(() => {
     const tag = this.elementRef.nativeElement.tagName.toLowerCase();

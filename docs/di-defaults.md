@@ -112,7 +112,13 @@ local input > defaults.<component>.size > defaults.size > md
 ```
 
 Field controls (`kuiInput`, `kuiTextarea`, `kuiNumberInput`, `kuiColorInput`, `kuiCheckbox`,
-`kuiRadio`, `kuiSwitch`) inherit the size of their parent `kui-field` before the global size.
+`kuiRadio`, `kuiSwitch`, `kuiSlider`) have their own key. Their key wins over the size of the parent
+`kui-field`, which in turn wins over the global size:
+
+```text
+local size > defaults.<control>.size > parent kui-field size > defaults.size > md
+```
+
 `kui-field` itself resolves `local size > defaults.field.size > defaults.size > md`. `kuiSelect`,
 `kuiCombobox`, `kuiDatePicker` and `kuiTimePicker` have no `size` input and follow the parent field.
 
@@ -175,6 +181,37 @@ local input > defaults.<key> > built-in default
 A date picker renders a calendar inside its panel, so a `defaults.calendar` entry reaches it
 unless the panel sets the input itself. For the time picker, set the defaults on the `timePicker`
 key: the directive pushes them into its panel.
+
+## Other primitives
+
+Every remaining primitive has a key. Each option resolves as `local input > defaults.<key>.<option> > built-in default`.
+`size` follows the size chain above.
+
+| Key                                                                          | Options                                       |
+| ---------------------------------------------------------------------------- | --------------------------------------------- |
+| `badge`, `breadcrumbs`, `chip`, `emptyState`, `loader`, `segmented`, `table` | `size`                                        |
+| `input`, `textarea`, `checkbox`, `radio`, `switch`, `colorInput`             | `size`                                        |
+| `numberInput`                                                                | `size`, `variant`                             |
+| `slider`, `progress`                                                         | `size`, `color`                               |
+| `accordion`                                                                  | `size`, `mode`, `appearance`                  |
+| `alert`                                                                      | `size`, `shape`, `showIcon`, `closable`       |
+| `card`                                                                       | `size`, `appearance`                          |
+| `tabs`                                                                       | `size`, `variant`, `orientation`              |
+| `stepper`                                                                    | `size`, `orientation`, `linear`, `compact`    |
+| `tree`                                                                       | `size`, `mode`                                |
+| `group`                                                                      | `size`, `orientation`, `collapsed`, `rounded` |
+| `avatar`                                                                     | `size`, `shape`                               |
+| `avatarGroup`                                                                | `size`, `shape`, `max`                        |
+| `link`                                                                       | `tone`, `underline`                           |
+| `separator`                                                                  | `appearance`, `orientation`, `spacing`        |
+| `skeleton`                                                                   | `shape`, `animation`                          |
+| `fileUpload`                                                                 | `size`, `variant`, `mode`                     |
+| `otpInput`                                                                   | `size`, `mask`, `integerOnly`                 |
+| `barChart`, `lineChart`, `donutChart`, `scatterChart`                        | `size` (`sm`, `md`, `lg`), `legend`           |
+
+Not configurable on purpose: values, open and loading state, `disabled`, `readonly`, validation state,
+data inputs (`series`, `data`, `groups`), ids, accessible names and library message text, and
+per-instance structure such as `Select.multiple`, `Chip.removable` or `OTP length`.
 
 ## Button primitives
 
