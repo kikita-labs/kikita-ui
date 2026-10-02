@@ -35,7 +35,8 @@ providers: [kuiProvideDefaults({ button: { size: 'lg' } })];
 `defaults` is a flat map with one key per primitive plus the global control `size`. Every key points
 to a named options interface (`KuiButtonOptions`, `KuiIconButtonOptions`, `KuiFieldOptions`,
 `KuiSelectOptions`, `KuiComboboxOptions`, `KuiDatePickerOptions`, `KuiTimePickerOptions`,
-`KuiTooltipOptions`, `KuiToastOptions`). `KuiComponentDefaults` lists every key. Interfaces that share
+`KuiTooltipOptions`, `KuiToastOptions`, `KuiPopoverOptions`, `KuiMenuOptions`, `KuiDropdownOptions`,
+`KuiDialogOptions`, `KuiDrawerOptions`). `KuiComponentDefaults` lists every key. Interfaces that share
 a meaning share a base (`KuiButtonBaseOptions`, `KuiFieldControlOptions`).
 
 ## Layers and merging
@@ -132,6 +133,28 @@ local triggerType > defaults.tooltip.triggerType > auto
 disables touch taps. `click` uses click or keyboard activation on every input device. `none`
 disables the directive. Tooltip content stays supplemental and non-interactive; use `kuiPopover`
 for links, buttons or richer content.
+
+## Overlays
+
+Anchored overlays share `KuiOverlayPositionOptions` (`placement`, `offset`); each adds its own options:
+
+| Key        | Options                                                                | Built-in default                                 |
+| ---------- | ---------------------------------------------------------------------- | ------------------------------------------------ |
+| `popover`  | `placement`, `offset`, `align`, `arrow`, `triggerType`, `hoverDelay`   | `bottom`, `8`, `center`, `false`, `click`, `100` |
+| `menu`     | `placement`, `offset`, `menuAlign`, `minWidth`                         | `bottom`, `4`, `start`, none                     |
+| `dropdown` | `maxHeight`, `offset`, `closeOnSelect`, `panelWidth`                   | `240px`, `4`, `true`, `anchor`                   |
+| `tooltip`  | `triggerType`, `placement`                                             | `auto`, `top`                                    |
+| `dialog`   | `size`, `appearance`, `dismissable`, `closable` (per `kuiDialog` call) | `md`, `default`, `true`, `true`                  |
+| `drawer`   | `side`, `size`, `closeOnBackdropClick`, `closeOnEscape`, `closable`    | `right`, `md`, `true`, `true`, `true`            |
+
+```text
+local input or call config > defaults.<overlay> > built-in default
+```
+
+`kui-dropdown` is also the panel of `kuiSelect`, `kuiCombobox`, `kuiDatePicker` and
+`kuiTimePicker`, so `defaults.dropdown` reaches those panels unless the control sets the input itself.
+`kuiDialog` and `kuiDrawer` read the defaults of the injector they are called from, so a nested
+`kuiProvideDefaults` applies to dialogs opened inside it.
 
 ## Button primitives
 

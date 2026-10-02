@@ -32,14 +32,14 @@ export class KuiPopoverForDirective {
   @HostListener('click')
   protected onClick(): void {
     const p = this.popover();
-    if (!p || p.triggerType() !== 'click') return;
+    if (!p || p.effectiveTriggerType() !== 'click') return;
     p.toggleFor(this.el.nativeElement);
   }
 
   @HostListener('keydown', ['$event'])
   protected onKeydown(event: KeyboardEvent): void {
     const p = this.popover();
-    if (!p || p.triggerType() !== 'click') return;
+    if (!p || p.effectiveTriggerType() !== 'click') return;
     if (this.el.nativeElement.tagName === 'BUTTON') return;
     if (event.key !== 'Enter' && event.key !== ' ') return;
 
@@ -50,28 +50,28 @@ export class KuiPopoverForDirective {
   @HostListener('mouseenter')
   protected onMouseEnter(): void {
     const p = this.popover();
-    if (!p || p.triggerType() !== 'hover') return;
+    if (!p || p.effectiveTriggerType() !== 'hover') return;
     p.openFor(this.el.nativeElement);
   }
 
   @HostListener('focusin')
   protected onFocusIn(): void {
     const p = this.popover();
-    if (!p || p.triggerType() !== 'hover') return;
+    if (!p || p.effectiveTriggerType() !== 'hover') return;
     p.openFor(this.el.nativeElement);
   }
 
   @HostListener('mouseleave')
   protected onMouseLeave(): void {
     const p = this.popover();
-    if (!p || p.triggerType() !== 'hover') return;
-    p.scheduleClose(p.hoverDelay());
+    if (!p || p.effectiveTriggerType() !== 'hover') return;
+    p.scheduleClose(p.effectiveHoverDelay());
   }
 
   @HostListener('focusout')
   protected onFocusOut(): void {
     const p = this.popover();
-    if (!p || p.triggerType() !== 'hover') return;
-    p.scheduleClose(p.hoverDelay());
+    if (!p || p.effectiveTriggerType() !== 'hover') return;
+    p.scheduleClose(p.effectiveHoverDelay());
   }
 }

@@ -46,8 +46,8 @@ export class KuiTooltipDirective implements OnDestroy {
   /** Tooltip text content. Empty string disables the tooltip. */
   readonly kuiTooltip = input<string>('');
 
-  /** Preferred placement relative to the trigger element. */
-  readonly placement = input<KuiTooltipPlacement>('top');
+  /** Preferred placement relative to the trigger element. Defaults to `defaults.tooltip.placement`, then `top`. */
+  readonly placement = input<KuiTooltipPlacement | undefined>();
 
   /**
    * Local interaction mode override. When omitted, the nearest `tooltip` defaults
@@ -165,7 +165,7 @@ export class KuiTooltipDirective implements OnDestroy {
       anchor: this.el.nativeElement,
       id: this.tooltipId,
       overlay: this.overlay,
-      placement: this.placement(),
+      placement: this.placement() ?? this.tooltipDefaults()?.placement ?? 'top',
       text,
       touchEnabled:
         this.effectiveTrigger() === KuiTooltipTriggerType.Auto ||

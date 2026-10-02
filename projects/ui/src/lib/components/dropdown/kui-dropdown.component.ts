@@ -19,6 +19,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import {
   clampPanelToAvailableSpace,
   createFloatingPositionStrategy,
@@ -26,7 +27,10 @@ import {
   wireFloatingPanelDismissal,
 } from '../../utils/kui-floating-panel.util';
 import { kuiNextId } from '../../utils/kui-id.util';
-import { standardOverlayOffsetAttribute } from '../../utils/kui-input-transform.util';
+import {
+  optionalBooleanAttribute,
+  optionalOverlayOffsetAttribute,
+} from '../../utils/kui-input-transform.util';
 import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
 
 /**
@@ -67,13 +71,15 @@ import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
 })
 /** Renders an anchored selectable dropdown panel. */
 export class KuiDropdownComponent implements OnDestroy {
+  private readonly dropdownDefaults = inject(KuiDefaults).get('dropdown');
+
   /**
    * Preferred maximum height of the panel before scrolling activates. This is always
    * additionally clamped to the viewport (`calc(100vh - <margin>)`) so the panel can never
    * render taller than the screen with no way to reach its overflowing content — see
-   * `--kui-dropdown-viewport-margin`.
+   * `--kui-dropdown-viewport-margin`. Defaults to `defaults.dropdown.maxHeight`, then `240px`.
    */
-  readonly maxHeight = input<string | null>('240px');
+  readonly maxHeight = input<string | null | undefined>();
 
   /**
    * @internal Actual max-height applied to the panel: `maxHeight`, clamped to the viewport.
@@ -84,15 +90,30 @@ export class KuiDropdownComponent implements OnDestroy {
   protected readonly effectiveMaxHeight = computed(() => {
     const viewportCap =
       'calc(100vh - var(--kui-dropdown-viewport-margin, var(--_kui-dropdown-viewport-margin, 32px)))';
-    const intrinsic = this.maxHeight();
+    const local = this.maxHeight();
+    const intrinsic = local !== undefined ? local : (this.dropdownDefaults()?.maxHeight ?? '240px');
     return intrinsic ? `min(${intrinsic}, ${viewportCap})` : viewportCap;
   });
 
-  /** Gap in px between the anchor and the panel edge. */
-  readonly offset = input(4, { transform: standardOverlayOffsetAttribute });
+  private readonly effectiveOffset = computed(
+    () => this.offset() ?? this.dropdownDefaults()?.offset ?? 4,
+  );
+  private readonly effectiveCloseOnSelect = computed(
+    () => this.closeOnSelect() ?? this.dropdownDefaults()?.closeOnSelect ?? true,
+  );
+  private readonly effectivePanelWidth = computed(
+    () => this.panelWidth() ?? this.dropdownDefaults()?.panelWidth ?? 'anchor',
+  );
 
-  /** Close the panel when a selectable option is clicked. */
-  readonly closeOnSelect = input(true, { transform: booleanAttribute });
+  /** Gap in px between the anchor and the panel edge. Defaults to `defaults.dropdown.offset`, then `4`. */
+  readonly offset = input<number | undefined, unknown>(undefined, {
+    transform: optionalOverlayOffsetAttribute,
+  });
+
+  /** Close the panel when a selectable option is clicked. Defaults to `defaults.dropdown.closeOnSelect`, then `true`. */
+  readonly closeOnSelect = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   /**
    * Controlled open state exposed as the `open` model input.
@@ -119,7 +140,7 @@ export class KuiDropdownComponent implements OnDestroy {
    *   that are their own small self-contained widget regardless of how wide the trigger is
    *   (e.g. `kui-color-input`'s picker).
    */
-  readonly panelWidth = input<'anchor' | 'content' | 'auto'>('anchor');
+  readonly panelWidth = input<'anchor' | 'content' | 'auto' | undefined>();
 
   /**
    * Explicit panel width (any valid CSS width, e.g. `'320px'`, `'20rem'`). When set, this
@@ -205,7 +226,7 @@ export class KuiDropdownComponent implements OnDestroy {
     const anchor = this._anchorEl;
     if (!anchor || this.isOpen()) return;
 
-    const gap = this.offset();
+    const gap = this.effectiveOffset();
     const positionStrategy = createFloatingPositionStrategy(this.overlay, anchor, [
       { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: gap },
       { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -gap },
@@ -218,9 +239,9 @@ export class KuiDropdownComponent implements OnDestroy {
       scrollStrategy: this.overlay.scrollStrategies.noop(),
       ...(explicitWidth
         ? { width: explicitWidth }
-        : this.panelWidth() === 'anchor'
+        : this.effectivePanelWidth() === 'anchor'
           ? { width: anchor.offsetWidth }
-          : this.panelWidth() === 'content'
+          : this.effectivePanelWidth() === 'content'
             ? { minWidth: anchor.offsetWidth }
             : {}),
     });
@@ -331,13 +352,13 @@ export class KuiDropdownComponent implements OnDestroy {
   protected handlePanelClick(e: MouseEvent): void {
     const target = e.target as Element;
     if (
-      (this.optionContext?.shouldCloseOnSelect?.() ?? this.closeOnSelect()) &&
+      (this.optionContext?.shouldCloseOnSelect?.() ?? this.effectiveCloseOnSelect()) &&
       target.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
     ) {
       this.closeRestoringFocus();
       return;
     }
-    if (this.closeOnSelect() && this.isCalendarDayClick(target)) {
+    if (this.effectiveCloseOnSelect() && this.isCalendarDayClick(target)) {
       this.closeRestoringFocus();
     }
   }
@@ -348,13 +369,13 @@ export class KuiDropdownComponent implements OnDestroy {
     const target = e.target as HTMLElement | null;
     // The same rule as a click: a multiple Select keeps the panel open, whatever `closeOnSelect` says.
     if (
-      (this.optionContext?.shouldCloseOnSelect?.() ?? this.closeOnSelect()) &&
+      (this.optionContext?.shouldCloseOnSelect?.() ?? this.effectiveCloseOnSelect()) &&
       target?.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
     ) {
       this.closeRestoringFocus();
       return;
     }
-    if (this.closeOnSelect() && target && this.isCalendarDayClick(target)) {
+    if (this.effectiveCloseOnSelect() && target && this.isCalendarDayClick(target)) {
       this.closeRestoringFocus();
     }
   }

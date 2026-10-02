@@ -18,6 +18,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import {
   clampPanelToAvailableSpace,
   createFloatingPositionStrategy,
@@ -25,7 +26,7 @@ import {
   wireFloatingPanelDismissal,
 } from '../../utils/kui-floating-panel.util';
 import { kuiNextId } from '../../utils/kui-id.util';
-import { standardOverlayOffsetAttribute } from '../../utils/kui-input-transform.util';
+import { optionalOverlayOffsetAttribute } from '../../utils/kui-input-transform.util';
 import type { KuiMenuAlign } from './kui-menu-align.type';
 import { KuiMenuItemDirective } from './kui-menu-item.directive';
 import type { KuiMenuPlacement } from './kui-menu-placement.type';
@@ -65,25 +66,44 @@ export class KuiMenuComponent implements OnDestroy {
 
   /**
    * Preferred side of the trigger the menu opens on. Auto-flips to the opposite side if there
-   * isn't enough room. Defaults to `bottom`, matching every existing usage.
+   * isn't enough room. Defaults to `defaults.menu.placement`, then `bottom`.
    */
-  readonly placement = input<KuiMenuPlacement>('bottom');
+  readonly placement = input<KuiMenuPlacement | undefined>();
 
   /**
    * Alignment along the trigger edge. For `top`/`bottom` placement this is horizontal
    * (`start` = left-aligned, `end` = right-aligned); for `left`/`right` it's vertical
    * (`start` = top-aligned, `end` = bottom-aligned).
    */
-  readonly menuAlign = input<KuiMenuAlign>('start');
+  readonly menuAlign = input<KuiMenuAlign | undefined>();
 
-  /** Gap in px between the trigger and menu panel. */
-  readonly offset = input(4, { transform: standardOverlayOffsetAttribute });
+  /** Gap in px between the trigger and menu panel. Defaults to `defaults.menu.offset`, then `4`. */
+  readonly offset = input<number | undefined, unknown>(undefined, {
+    transform: optionalOverlayOffsetAttribute,
+  });
 
-  /** Minimum panel width. */
-  readonly minWidth = input<string | null>(null);
+  /** Minimum panel width. Defaults to `defaults.menu.minWidth`, then none. */
+  readonly minWidth = input<string | null | undefined>();
 
   /** Whether the menu is currently open. */
   readonly isOpen = signal(false);
+
+  private readonly menuDefaults = inject(KuiDefaults).get('menu');
+
+  private readonly effectivePlacement = computed(
+    () => this.placement() ?? this.menuDefaults()?.placement ?? 'bottom',
+  );
+  private readonly effectiveMenuAlign = computed(
+    () => this.menuAlign() ?? this.menuDefaults()?.menuAlign ?? 'start',
+  );
+  private readonly effectiveOffset = computed(
+    () => this.offset() ?? this.menuDefaults()?.offset ?? 4,
+  );
+  private readonly effectiveMinWidth = computed(() => {
+    const local = this.minWidth();
+
+    return local !== undefined ? local : (this.menuDefaults()?.minWidth ?? null);
+  });
 
   /** Stable id used by trigger controls for `aria-controls`. */
   readonly panelId = kuiNextId('kui-menu');
@@ -211,9 +231,9 @@ export class KuiMenuComponent implements OnDestroy {
   }
 
   private doOpen(anchor: HTMLElement): void {
-    const gap = this.offset();
-    const pref = this.placement();
-    const align = this.menuAlign();
+    const gap = this.effectiveOffset();
+    const pref = this.effectivePlacement();
+    const align = this.effectiveMenuAlign();
     this.renderedSide.set(pref);
     this.renderedAlign.set(align);
 
@@ -224,7 +244,7 @@ export class KuiMenuComponent implements OnDestroy {
     );
 
     this.overlayRef = this.overlay.create({
-      minWidth: this.minWidth() ?? undefined,
+      minWidth: this.effectiveMinWidth() ?? undefined,
       positionStrategy,
       scrollStrategy: this.overlay.scrollStrategies.noop(),
     });
@@ -236,7 +256,7 @@ export class KuiMenuComponent implements OnDestroy {
       const panel = overlayEl.querySelector<HTMLElement>('.kui-menu');
       if (!panel) return;
       panel.style.maxHeight = 'calc(100vh - var(--kui-menu-viewport-margin, var(--kui-space-6)))';
-      panel.style.minInlineSize = this.minWidth() ?? '';
+      panel.style.minInlineSize = this.effectiveMinWidth() ?? '';
       clampPanelToAvailableSpace(panel, this.document.documentElement.clientHeight);
     };
     clampPanel();

@@ -5,7 +5,12 @@ import type {
 } from '../tokens/kui-button-options.interface';
 import type { KuiComboboxOptions } from '../tokens/kui-combobox-options.interface';
 import type { KuiDatePickerOptions } from '../tokens/kui-date-picker-options.interface';
+import type { KuiDialogOptions } from '../tokens/kui-dialog-options.interface';
+import type { KuiDrawerOptions } from '../tokens/kui-drawer-options.interface';
+import type { KuiDropdownOptions } from '../tokens/kui-dropdown-options.interface';
 import type { KuiFieldOptions } from '../tokens/kui-field-options.interface';
+import type { KuiMenuOptions } from '../tokens/kui-menu-options.interface';
+import type { KuiPopoverOptions } from '../tokens/kui-popover-options.interface';
 import type { KuiSelectOptions } from '../tokens/kui-select-options.interface';
 import type { KuiTimePickerOptions } from '../tokens/kui-time-picker-options.interface';
 import type { KuiTooltipOptions } from '../tokens/kui-tooltip-options.interface';
@@ -40,6 +45,21 @@ export interface KuiComponentDefaults {
 
   /** Defaults for `kuiCombobox`. */
   readonly combobox?: KuiComboboxOptions;
+
+  /** Defaults for dialogs opened with `kuiDialog`. */
+  readonly dialog?: KuiDialogOptions;
+
+  /** Defaults for drawers opened with `kuiDrawer`. */
+  readonly drawer?: KuiDrawerOptions;
+
+  /** Defaults for `kui-popover`. */
+  readonly popover?: KuiPopoverOptions;
+
+  /** Defaults for `kui-menu`. */
+  readonly menu?: KuiMenuOptions;
+
+  /** Defaults for `kui-dropdown`. */
+  readonly dropdown?: KuiDropdownOptions;
 
   /** Defaults for `kuiDatePicker`. */
   readonly datePicker?: KuiDatePickerOptions;

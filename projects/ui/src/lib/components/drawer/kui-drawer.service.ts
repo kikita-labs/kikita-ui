@@ -6,6 +6,7 @@ import { inject, Injector, Service } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { getFocusableElement } from '../../utils/kui-focusable-element.util';
 import type { KuiDrawerConfig } from './kui-drawer.types';
 import { KuiDrawerContainerComponent } from './kui-drawer-container.component';
@@ -33,11 +34,13 @@ export class KuiDrawerService {
     config: KuiDrawerConfig<TData> & { injector?: Injector },
   ): Observable<TResult | undefined> {
     const ref = new KuiDrawerRef<TResult>();
-    const side = config.side ?? 'right';
-    const size = config.size ?? 'md';
-    const closeOnBackdropClick = config.closeOnBackdropClick ?? true;
-    const closeOnEscape = config.closeOnEscape ?? true;
-    const closable = config.closable ?? true;
+    const defaults = (config.injector ?? this.injector).get(KuiDefaults).effective().drawer;
+    const side = config.side ?? defaults?.side ?? 'right';
+    const size = config.size ?? defaults?.size ?? 'md';
+    const closeOnBackdropClick =
+      config.closeOnBackdropClick ?? defaults?.closeOnBackdropClick ?? true;
+    const closeOnEscape = config.closeOnEscape ?? defaults?.closeOnEscape ?? true;
+    const closable = config.closable ?? defaults?.closable ?? true;
     const previouslyFocused = getFocusableElement(this.document.activeElement);
 
     const overlayRef = this.overlay.create({

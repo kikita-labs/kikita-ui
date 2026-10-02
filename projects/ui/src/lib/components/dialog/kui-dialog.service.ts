@@ -6,6 +6,7 @@ import { inject, Injector, Service } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { getFocusableElement } from '../../utils/kui-focusable-element.util';
 import type { KuiDialogConfig } from './kui-dialog.types';
 import { KuiDialogContainerComponent } from './kui-dialog-container.component';
@@ -33,10 +34,11 @@ export class KuiDialogService {
     config: KuiDialogConfig<TData> & { injector?: Injector },
   ): Observable<TResult | undefined> {
     const ref = new KuiDialogRef<TResult>();
-    const size = config.size ?? 'md';
-    const appearance = config.appearance ?? 'default';
-    const dismissable = config.dismissable ?? true;
-    const closable = config.closable ?? true;
+    const defaults = (config.injector ?? this.injector).get(KuiDefaults).effective().dialog;
+    const size = config.size ?? defaults?.size ?? 'md';
+    const appearance = config.appearance ?? defaults?.appearance ?? 'default';
+    const dismissable = config.dismissable ?? defaults?.dismissable ?? true;
+    const closable = config.closable ?? defaults?.closable ?? true;
     const previouslyFocused = getFocusableElement(this.document.activeElement);
 
     const overlayRef = this.overlay.create({

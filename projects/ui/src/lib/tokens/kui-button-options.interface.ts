@@ -15,10 +15,10 @@ export interface KuiButtonBaseOptions {
 }
 
 /** Defaults for `button[kuiButton]`, set under the `button` key of the component defaults. */
-export interface KuiButtonOptions extends KuiButtonBaseOptions {}
+export type KuiButtonOptions = KuiButtonBaseOptions;
 
 /** Defaults for `button[kuiIconButton]`, set under the `iconButton` key of the component defaults. */
-export interface KuiIconButtonOptions extends KuiButtonBaseOptions {}
+export type KuiIconButtonOptions = KuiButtonBaseOptions;
 
 /**
  * Defaults for button-like primitives.

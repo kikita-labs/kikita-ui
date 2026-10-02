@@ -21,3 +21,8 @@ export function standardOverlayOffsetAttribute(value: unknown): number {
   const parsed = numberAttribute(value, 4);
   return Number.isFinite(parsed) ? parsed : 4;
 }
+
+/** Like {@link standardOverlayOffsetAttribute}, but keeps an omitted value as `undefined` so defaults can apply. */
+export function optionalOverlayOffsetAttribute(value: unknown): number | undefined {
+  return value === undefined || value === null ? undefined : standardOverlayOffsetAttribute(value);
+}

@@ -20,24 +20,28 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import {
   createFloatingPositionStrategy,
   observeViewportResize,
   wireFloatingPanelDismissal,
 } from '../../utils/kui-floating-panel.util';
 import { kuiNextId } from '../../utils/kui-id.util';
+import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import type {
   KuiPopoverAlign,
   KuiPopoverPlacement,
   KuiPopoverTriggerType,
 } from './kui-popover.types';
 
-function popoverOffsetAttribute(value: unknown): number {
+function popoverOffsetAttribute(value: unknown): number | undefined {
+  if (value === undefined || value === null) return undefined;
   const parsed = numberAttribute(value, 8);
   return Number.isFinite(parsed) ? parsed : 8;
 }
 
-function hoverDelayAttribute(value: unknown): number {
+function hoverDelayAttribute(value: unknown): number | undefined {
+  if (value === undefined || value === null) return undefined;
   const parsed = numberAttribute(value, 100);
   return Number.isFinite(parsed) && parsed >= 0 ? Math.floor(parsed) : 100;
 }
@@ -77,7 +81,7 @@ function hoverDelayAttribute(value: unknown): number {
           (mouseenter)="onPanelMouseEnter()"
           (mouseleave)="onPanelMouseLeave()"
         >
-          @if (arrow()) {
+          @if (effectiveArrow()) {
             <div class="kui-popover-arrow" aria-hidden="true"></div>
           }
           <ng-content />
@@ -89,26 +93,32 @@ function hoverDelayAttribute(value: unknown): number {
 })
 /** Renders an anchored popover surface with configurable trigger behavior. */
 export class KuiPopoverComponent implements OnDestroy {
-  /** Preferred side of the anchor. Auto-flips to fit in viewport. */
-  readonly placement = input<KuiPopoverPlacement>('bottom');
+  /** Preferred side of the anchor. Auto-flips to fit in viewport. Defaults to `defaults.popover.placement`, then `bottom`. */
+  readonly placement = input<KuiPopoverPlacement | undefined>();
 
-  /** Alignment along the anchor edge. */
-  readonly align = input<KuiPopoverAlign>('center');
+  /** Alignment along the anchor edge. Defaults to `defaults.popover.align`, then `center`. */
+  readonly align = input<KuiPopoverAlign | undefined>();
 
-  /** Show the arrow caret pointing to the anchor. */
-  readonly arrow = input(false, { transform: booleanAttribute });
+  /** Show the arrow caret pointing to the anchor. Defaults to `defaults.popover.arrow`, then `false`. */
+  readonly arrow = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
-  /** `click` toggles on click and closes on outside click / ESC. `hover` opens on mouseenter and closes on mouseleave. */
-  readonly triggerType = input<KuiPopoverTriggerType>('click');
+  /** `click` toggles on click and closes on outside click / ESC. `hover` opens on mouseenter and closes on mouseleave. Defaults to `defaults.popover.triggerType`, then `click`. */
+  readonly triggerType = input<KuiPopoverTriggerType | undefined>();
 
   /** Accessible name for the popover dialog panel. Override with content-specific text when possible. */
   readonly ariaLabel = input('Popover');
 
   /** Delay before closing on mouseleave (ms). Allows mouse to travel from trigger to panel. */
-  readonly hoverDelay = input(100, { transform: hoverDelayAttribute });
+  readonly hoverDelay = input<number | undefined, unknown>(undefined, {
+    transform: hoverDelayAttribute,
+  });
 
   /** Gap in px between anchor and panel (arrow adds extra offset automatically). */
-  readonly offset = input(8, { transform: popoverOffsetAttribute });
+  readonly offset = input<number | undefined, unknown>(undefined, {
+    transform: popoverOffsetAttribute,
+  });
 
   /** Trap focus inside the panel and auto-focus the first focusable element on open. */
   readonly trapFocus = input(false, { transform: booleanAttribute });
@@ -118,6 +128,30 @@ export class KuiPopoverComponent implements OnDestroy {
 
   /** Stable id used by trigger controls for `aria-controls`. */
   readonly panelId = kuiNextId('kui-popover');
+
+  private readonly popoverDefaults = inject(KuiDefaults).get('popover');
+
+  protected readonly effectiveArrow = computed(
+    () => this.arrow() ?? this.popoverDefaults()?.arrow ?? false,
+  );
+
+  private readonly effectivePlacement = computed(
+    () => this.placement() ?? this.popoverDefaults()?.placement ?? 'bottom',
+  );
+  private readonly effectiveAlign = computed(
+    () => this.align() ?? this.popoverDefaults()?.align ?? 'center',
+  );
+  /** @internal Trigger type after local input and defaults, read by `kuiPopoverFor`. */
+  readonly effectiveTriggerType = computed(
+    () => this.triggerType() ?? this.popoverDefaults()?.triggerType ?? 'click',
+  );
+  /** @internal Hover close delay after local input and defaults, read by `kuiPopoverFor`. */
+  readonly effectiveHoverDelay = computed(
+    () => this.hoverDelay() ?? this.popoverDefaults()?.hoverDelay ?? 100,
+  );
+  private readonly effectiveOffset = computed(
+    () => this.offset() ?? this.popoverDefaults()?.offset ?? 8,
+  );
 
   protected readonly _side = signal<KuiPopoverPlacement>('bottom');
   protected readonly _align = signal<KuiPopoverAlign>('center');
@@ -208,11 +242,11 @@ export class KuiPopoverComponent implements OnDestroy {
   }
 
   protected onPanelMouseEnter(): void {
-    if (this.triggerType() === 'hover') this.cancelClose();
+    if (this.effectiveTriggerType() === 'hover') this.cancelClose();
   }
 
   protected onPanelMouseLeave(): void {
-    if (this.triggerType() === 'hover') this.scheduleClose(this.hoverDelay());
+    if (this.effectiveTriggerType() === 'hover') this.scheduleClose(this.effectiveHoverDelay());
   }
 
   protected onAnimationEnd(event: AnimationEvent): void {
@@ -226,14 +260,15 @@ export class KuiPopoverComponent implements OnDestroy {
       // trigger listens for `focusin` to reopen on hover -- focusing it here would immediately
       // reopen the popover that just closed, permanently stuck open until the pointer leaves
       // and re-enters the trigger.
-      if (trigger instanceof HTMLElement && this.triggerType() !== 'hover') trigger.focus();
+      if (trigger instanceof HTMLElement && this.effectiveTriggerType() !== 'hover')
+        trigger.focus();
     }
   }
 
   private _doOpen(anchor: Element): void {
-    const pref = this.placement();
-    const aln = this.align();
-    const gap = this.offset() + (this.arrow() ? 6 : 0);
+    const pref = this.effectivePlacement();
+    const aln = this.effectiveAlign();
+    const gap = this.effectiveOffset() + (this.effectiveArrow() ? 6 : 0);
 
     const posStrategy = createFloatingPositionStrategy(
       this.overlay,
