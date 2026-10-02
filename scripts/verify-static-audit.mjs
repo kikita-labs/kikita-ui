@@ -700,6 +700,44 @@ function checkNoColorLiterals(root) {
     }
   }
 
+  failures.push(...checkNoGeneratorColorLiterals(root));
+
+  return failures;
+}
+
+// The generator may write black and white, the categorical avatar and chart palettes, which are
+// independent of the seeds on purpose, and the fixed fallback seed. Any other literal is a colour
+// that ignores the seeds.
+function checkNoGeneratorColorLiterals(root) {
+  const failures = [];
+  const repoPath = 'projects/ui/src/lib/theme/create-kui-theme.ts';
+  const file = join(root, repoPath);
+
+  if (!existsSync(file)) {
+    return failures;
+  }
+
+  const lines = readFileSync(file, 'utf8').split('\n');
+  const allowedLine =
+    /--kui-(?:avatar-p\d+-(?:bg|fg)|chart-series-\d+)'|^const FALLBACK_[A-Z_]*SEED\b/u;
+
+  lines.forEach((line, index) => {
+    if (allowedLine.test(line.trim()) || /^\s*(?:\/\/|\/?\*)/u.test(line)) {
+      return;
+    }
+
+    for (const literal of line.matchAll(colorLiteralPattern)) {
+      // Format strings in the seed parser, not colours.
+      if (literal[0].includes('${') || literal[0] === 'oklch()') {
+        continue;
+      }
+
+      failures.push(
+        `${repoPath}:${index + 1} writes the colour literal ${literal[0]}; derive it from a seed, or use black or white`,
+      );
+    }
+  });
+
   return failures;
 }
 

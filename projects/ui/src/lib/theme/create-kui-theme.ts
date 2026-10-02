@@ -530,10 +530,6 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-avatar-focus-ring-w': '3px',
     '--kui-avatar-focus-ring-off': '2px',
     '--kui-slider-thumb-shadow': '0 1px 3px oklch(0 0 0 / 0.45), 0 0 0 1.5px oklch(0 0 0 / 0.12)',
-    '--kui-slider-thumb-shadow-hover':
-      '0 0 0 5px oklch(0.67 0.2125 285 / 0.22), 0 1px 3px oklch(0 0 0 / 0.30)',
-    '--kui-slider-thumb-shadow-active':
-      '0 2px 8px oklch(0 0 0 / 0.50), 0 0 0 4px oklch(0.67 0.2125 285 / 0.15)',
     '--kui-card-shadow': 'none',
     '--kui-card-shadow-elevated': '0 10px 28px oklch(0 0 0 / 0.18)',
     '--kui-card-shadow-sunken': 'none',

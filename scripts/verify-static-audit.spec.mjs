@@ -117,6 +117,25 @@ describe('verify-static-audit', () => {
     expect(runStaticAudit(root)).toEqual([]);
   });
 
+  it('reports a colour literal in the theme generator but allows black, white and the palettes', () => {
+    const root = makeValidRepo();
+    mkdirSync(join(root, 'projects/ui/src/lib/theme'), { recursive: true });
+    writeFileSync(
+      join(root, 'projects/ui/src/lib/theme/create-kui-theme.ts'),
+      [
+        "const FALLBACK_INFO_SEED = 'oklch(0.58 0.16 215)';",
+        "const a = { '--kui-avatar-p1-bg': 'oklch(0.87 0.08 285)' };",
+        "const b = { '--kui-x': '0 0 0 1px oklch(0 0 0 / 0.2)' };",
+        "const c = { '--kui-slider-halo': '0 0 0 5px oklch(0.67 0.2125 285 / 0.22)' };",
+        '',
+      ].join('\n'),
+    );
+
+    expect(runStaticAudit(root)).toEqual([
+      'projects/ui/src/lib/theme/create-kui-theme.ts:4 writes the colour literal oklch(0.67 0.2125 285 / 0.22); derive it from a seed, or use black or white',
+    ]);
+  });
+
   it('skips the generated default theme in the token checks', () => {
     const root = makeValidRepo();
     writeFileSync(

@@ -43,6 +43,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- The Slider thumb hover and active halo followed a hard-coded purple instead of the primary seed. It now mixes `--kui-color-primary-indicator`; the default moved from the generated `--kui-slider-thumb-shadow-hover` and `--kui-slider-thumb-shadow-active` values into the Slider style sheet, and both tokens still override it.
+- The static audit now also rejects colour literals in the theme generator, except black, white, the categorical avatar and chart palettes and the fallback seed.
 - The soft `danger` Button hover and active backgrounds in the light theme no longer render near-black (they read dark-theme palette steps in both themes); they now follow the same light tints as the `primary` appearance. Dark-theme values are unchanged.
 - `KUI_LOCALE` on the server now follows the request's `Accept-Language` (falling back to `en-US`) instead of the host machine's `navigator.language`, and the browser's first render reuses that value through `TransferState`, so server HTML and hydrated DOM agree for every language. Responses now vary by `Accept-Language`; a cache in front of the server must send `Vary: Accept-Language`, or the app can pin a locale with `kuiProvideLocale`.
 - Component ids (Accordion, Carousel, Chart, Color Input, Command Palette, Dialog, Drawer, Dropdown, File Upload, Menu, OTP Input, Pagination, Popover, Splitter, Tabs, Time Picker, Tooltip and Field markers) are now numbered per Angular application, so server-rendered ids no longer depend on earlier requests and match the browser's.
