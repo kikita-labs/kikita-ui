@@ -272,7 +272,7 @@
   .kui-drawer-close:hover,
   .kui-drawer-close:focus-visible {
     outline: 0;
-    background: var(--kui-drawer-close-bg-hover, var(--kui-color-surface-sunken));
+    background: var(--kui-drawer-close-bg-hover, var(--kui-color-state-hover));
     color: var(--kui-drawer-close-color-hover, var(--kui-color-text));
   }
 

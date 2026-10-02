@@ -71,7 +71,7 @@ const colorHookExceptions = new Map([
   ['projects/ui/src/styles/typography.css', 'tone classes are the semantic text-colour API'],
 ]);
 const colorRolePattern =
-  /^--kui-color-(?:bg|surface(?:-[a-z]+)?|border(?:-[a-z]+)*|text(?:-[a-z]+)?|on-fill|on-scrim|focus|neutral-(?:fill|on-fill)|(?:primary|success|warning|danger|info)-[a-z-]+)$/u;
+  /^--kui-color-(?:bg|surface(?:-[a-z]+)?|border(?:-[a-z]+)*|text(?:-[a-z]+)?|on-fill|on-scrim|focus|state-(?:hover|active)|neutral-(?:fill|on-fill)|(?:primary|success|warning|danger|info)-[a-z-]+)$/u;
 // Public tokens that a component or a layout deliberately assigns to the elements it contains (parent
 // to child APIs, density and group size maps). Every other component default must be private.
 const parentAssignedTokens = new Set([

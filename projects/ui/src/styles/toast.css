@@ -270,7 +270,7 @@
   }
 
   .kui-toast-close:hover {
-    background: var(--kui-toast-close-bg-hover, var(--kui-color-surface-sunken));
+    background: var(--kui-toast-close-bg-hover, var(--kui-color-state-hover));
     color: var(--kui-toast-close-color-hover, var(--kui-color-text));
   }
 

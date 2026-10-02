@@ -153,7 +153,7 @@ is not set, the part uses the semantic role in the Default column.
 | `--kui-drawer-title-color`       | `--kui-color-text`           | Title color             |
 | `--kui-drawer-subtitle-color`    | `--kui-color-text-secondary` | Subtitle color          |
 | `--kui-drawer-close-color`       | `--kui-color-text-secondary` | Close color             |
-| `--kui-drawer-close-bg-hover`    | `--kui-color-surface-sunken` | Close background, hover |
+| `--kui-drawer-close-bg-hover`    | `--kui-color-state-hover`    | Close background, hover |
 | `--kui-drawer-close-color-hover` | `--kui-color-text`           | Close color, hover      |
 | `--kui-drawer-body-color`        | `--kui-color-text-secondary` | Body color              |
 

@@ -239,7 +239,7 @@ is not set, the part uses the semantic role in the Default column.
 | `--kui-dialog-header-border`     | `--kui-color-border`         | Header border color     |
 | `--kui-dialog-title-color`       | `--kui-color-text`           | Title color             |
 | `--kui-dialog-close-color`       | `--kui-color-text-secondary` | Close color             |
-| `--kui-dialog-close-bg-hover`    | `--kui-color-surface-sunken` | Close background, hover |
+| `--kui-dialog-close-bg-hover`    | `--kui-color-state-hover`    | Close background, hover |
 | `--kui-dialog-close-color-hover` | `--kui-color-text`           | Close color, hover      |
 | `--kui-dialog-body-color`        | `--kui-color-text`           | Body color              |
 | `--kui-dialog-footer-border`     | `--kui-color-border`         | Footer border color     |

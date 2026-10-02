@@ -22,6 +22,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 ### Changed
 
 - Components adopt the new colour roles (Plan 14). Text and icons coloured by an accent read `--kui-color-<role>-text`; borders, outlines, bars and marks read `--kui-color-<role>-indicator`; text on a solid fill reads `--kui-color-<role>-on-fill`; interactive controls draw their rest border with `--kui-color-border-control` and their hover border with `--kui-color-border-control-hover`; placeholders read `--kui-color-text-placeholder`; text over overlays reads `--kui-color-on-scrim`. The Playground axe sweep runs `color-contrast` in the light and dark theme with no exclusion and no known violation.
+- Added `--kui-color-state-hover` and `--kui-color-state-active`, translucent layers of the text colour. Hover and pressed fills of list options, menu items, calendar days, picker cells, tabs, ghost buttons and close buttons read them instead of `--kui-color-surface-sunken`, which is darker than the surface in dark mode and made a hovered item look like a hole. A menu item with keyboard focus draws the same inset focus frame as a listbox option.
+- The Playground demo seeds for `success` and `info` are darker (`#267e4f`, `#23709b`), so white text reaches 4.5:1 on their solid fills; seeds are the consumer's choice, the generator only picks the better text colour.
 - Added forced-colors support (`@media (forced-colors: active)`, new `forced-colors.css`, imported last by `kikita-ui.css`): checked and indeterminate Checkbox, Radio and Switch, Slider track, fill and thumb, Progress, selected Calendar and Time Picker cells, Tabs indicator and pill, Segmented thumb, pressed Chip and Stepper states use system colours (`Highlight`, `HighlightText`, `ButtonText`, `GrayText`), so state no longer disappears in Windows High Contrast. Accent roles all map to `Highlight` there.
 - **Behavior:** focus is a solid 2px `outline` in `--kui-color-focus` on every focusable part; rings drawn only with `box-shadow` are gone. `--kui-input-focus-ring` now defaults to `none` (an optional halo). New tokens: `--kui-input-focus-ring-color`, `--kui-slider-thumb-focus-ring-color` and `--kui-tab-panel-focus-ring-color`; `.kui-tab-panel:focus-visible` gets an outline.
 - **Behavior (visual):** text on solid fills is white on primary, success and danger and near-black on the lighter warning and info seeds, in light and dark mode alike (the dark-mode fill is the same brand colour, not a lighter step); interactive control borders are stronger at rest; disabled and placeholder text use dedicated roles.
@@ -43,6 +45,12 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- Calendar and Calendar Range always have one Tab stop on a day: after the month changes, or when today is not in the open month, the grid used to have none and Tab skipped it.
+- Calendar and Calendar Range months and years views move with the arrow keys, Home and End, and keep focus when a month or year is chosen.
+- Color Input: a click anywhere on the field, including the padding around the text, focuses the text input and opens the picker.
+- Slider shows its value while it has keyboard focus or is adjusted with the keyboard, not only on hover.
+- A loading Button and Icon Button keep full opacity instead of being dimmed like a disabled one.
+- Chip examples use the `removable` icon or `kuiIconButton`, not a text cross.
 - Calendar keeps keyboard focus on the day when an arrow key moves into another month; before, focus was lost to the page.
 - Calendar Range moves focus one day per arrow key (it lagged one key behind) and previews the range while the keyboard moves.
 - Color Input moves focus into the picker panel when it is opened from the keyboard, and returns it to the trigger on Escape; the panel was unreachable with Tab. The hue slider shows its focus on the thumb.
@@ -50,7 +58,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 - Number Input step buttons that reach the minimum or maximum stay focusable (`aria-disabled`) instead of becoming natively disabled and dropping focus to the page.
 - Text fields show one 2px focus frame: the border and a flush outline replace the border plus a detached outline, and a control inside a field group draws no frame of its own.
 - The Color Input swatch no longer shows slivers of its checker background in the corners.
-- The clear button of `type="search"` fields is a thin themed cross instead of the browser default; colour tokens `--kui-input-clear-color` and `--kui-input-clear-color-hover`.
+- `type="number"` fields built with `kuiInput` no longer show the browser's own up and down arrows; use `kuiNumberInput` for step buttons. Keyboard arrows still step.
+- `type="search"` fields no longer show the browser's own clear cross, which differed between engines; add a `kuiFieldAffix` button when a field needs a clear control.
 - The Slider thumb hover and active halo followed a hard-coded purple instead of the primary seed. It now mixes `--kui-color-primary-indicator`; the default moved from the generated `--kui-slider-thumb-shadow-hover` and `--kui-slider-thumb-shadow-active` values into the Slider style sheet, and both tokens still override it.
 - The static audit now also rejects colour literals in the theme generator, except black, white, the categorical avatar and chart palettes and the fallback seed.
 - The soft `danger` Button hover and active backgrounds in the light theme no longer render near-black (they read dark-theme palette steps in both themes); they now follow the same light tints as the `primary` appearance. Dark-theme values are unchanged.

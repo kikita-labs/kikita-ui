@@ -111,7 +111,7 @@
      against it. Sunken stays visible against both the standalone calendar's own
      --kui-color-surface and the elevated panel it's nested in when flat. */
   .kui-calendar-day:hover:not(.kui-calendar-day--disabled) .kui-calendar-day-inner {
-    background: var(--kui-calendar-day-hover-bg, var(--kui-color-surface-sunken));
+    background: var(--kui-calendar-day-hover-bg, var(--kui-color-state-hover));
   }
   .kui-calendar-day:focus-visible .kui-calendar-day-inner {
     outline: 2px solid var(--kui-calendar-day-focus-ring-color, var(--kui-color-focus));
@@ -221,7 +221,7 @@
     font-family: inherit;
   }
   .kui-calendar-picker-cell:hover {
-    background: var(--kui-calendar-day-hover-bg, var(--kui-color-surface-sunken));
+    background: var(--kui-calendar-day-hover-bg, var(--kui-color-state-hover));
   }
   .kui-calendar-picker-cell:focus-visible {
     outline: 2px solid var(--kui-calendar-picker-cell-focus-ring-color, var(--kui-color-focus));

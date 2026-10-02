@@ -6,6 +6,7 @@ import {
   KuiChipDirective,
   KuiChipRemoveDirective,
   KuiIconButtonDirective,
+  KuiIconComponent,
   KuiTextDirective,
 } from '@kikita-labs/ui';
 
@@ -20,6 +21,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
     KuiChipDirective,
     KuiChipRemoveDirective,
     KuiIconButtonDirective,
+    KuiIconComponent,
     KuiTextDirective,
     PlaygroundExampleCard,
     TranslocoPipe,

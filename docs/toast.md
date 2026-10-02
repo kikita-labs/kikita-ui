@@ -220,7 +220,7 @@ is not set, the part uses the semantic role in the Default column.
 | `--kui-toast-title-color`       | `--kui-color-text`           | Title color             |
 | `--kui-toast-message-color`     | `--kui-color-text-secondary` | Message color           |
 | `--kui-toast-close-color`       | `--kui-color-text-secondary` | Close color             |
-| `--kui-toast-close-bg-hover`    | `--kui-color-surface-sunken` | Close background, hover |
+| `--kui-toast-close-bg-hover`    | `--kui-color-state-hover`    | Close background, hover |
 | `--kui-toast-close-color-hover` | `--kui-color-text`           | Close color, hover      |
 
 <!-- color-tokens:end -->

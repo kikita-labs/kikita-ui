@@ -144,7 +144,7 @@
   }
 
   .kui-timepicker-opt:hover {
-    background: var(--kui-timepicker-cell-bg-hover, var(--kui-color-surface-sunken));
+    background: var(--kui-timepicker-cell-bg-hover, var(--kui-color-state-hover));
   }
 
   /* Matches .kui-calendar-day--disabled -- min/max time bounds out-of-range cell. */

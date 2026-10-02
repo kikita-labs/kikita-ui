@@ -35,14 +35,14 @@
               <button
                 kuiChipRemove
                 kuiIconButton
+                icon="x"
+                size="xs"
                 type="button"
                 [attr.aria-label]="tag.removeLabel | transloco"
-              >
-                <span aria-hidden="true">×</span>
-              </button>
+              ></button>
             } @else {
               <button kuiChipRemove type="button" [attr.aria-label]="tag.removeLabel | transloco">
-                <span aria-hidden="true">×</span>
+                <kui-icon name="x" size="2xs" />
               </button>
             }
           </span>

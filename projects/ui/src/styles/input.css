@@ -58,31 +58,30 @@
   }
 
   /*
-   * The browser draws its own clear button in search fields. Restyle it as a thin themed cross
-   * instead of the heavy native glyph; Firefox has no such button, so nothing changes there.
+   * Chrome and Safari draw their own clear cross in search fields, Firefox does not, and the glyph
+   * differs per engine. The library hides it so a search field looks the same everywhere; add a
+   * field action (`kuiFieldAffix` button) when the field needs a clear control.
    */
-  .kui-input[type='search']::-webkit-search-cancel-button {
+  .kui-input[type='search']::-webkit-search-cancel-button,
+  .kui-input[type='search']::-webkit-search-decoration {
     -webkit-appearance: none;
     appearance: none;
-    inline-size: 1em;
-    block-size: 1em;
-    margin-inline-start: var(--kui-space-1);
-    background-color: var(--kui-input-clear-color, var(--kui-color-text-secondary));
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E")
-      center / contain no-repeat;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E")
-      center / contain no-repeat;
-    cursor: pointer;
+    display: none;
   }
 
-  .kui-input[type='search']::-webkit-search-cancel-button:hover {
-    background-color: var(--kui-input-clear-color-hover, var(--kui-color-text));
+  /*
+   * The native up and down arrows of a number field differ per engine and clash with the field
+   * chrome. Use `kuiNumberInput` when a field needs step buttons; the keyboard arrows still step.
+   */
+  .kui-input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
   }
 
-  @media (forced-colors: active) {
-    .kui-input[type='search']::-webkit-search-cancel-button {
-      background-color: ButtonText;
-    }
+  .kui-input[type='number']::-webkit-inner-spin-button,
+  .kui-input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   .kui-input[data-kui-size='xs'] {

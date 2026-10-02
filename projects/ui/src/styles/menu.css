@@ -51,11 +51,17 @@
   .kui-menu-item:hover,
   .kui-menu-item:focus-visible {
     outline: 0;
-    background: var(--kui-menu-item-bg-hover, var(--kui-color-surface-sunken));
+    background: var(--kui-menu-item-bg-hover, var(--kui-color-state-hover));
+  }
+
+  /* Keyboard focus adds the same inset frame the listbox option draws, so both read alike. */
+  .kui-menu-item:focus-visible {
+    outline: 2px solid var(--kui-menu-item-focus-ring-color, var(--kui-color-focus));
+    outline-offset: -2px;
   }
 
   .kui-menu-item:active {
-    background: var(--kui-menu-item-bg-active, var(--kui-color-surface-sunken));
+    background: var(--kui-menu-item-bg-active, var(--kui-color-state-active));
   }
 
   .kui-menu-item[data-kui-appearance='destructive'] {

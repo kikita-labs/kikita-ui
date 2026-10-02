@@ -45,6 +45,9 @@ export type KuiSliderSize = 'sm' | 'md' | 'lg';
     '(input)': 'updateFill()',
     '(mouseenter)': 'onMouseEnter()',
     '(mouseleave)': 'onMouseLeave()',
+    '(focus)': 'onFocus()',
+    '(blur)': 'onBlur()',
+    '(keydown)': 'onKeyDown()',
   },
 })
 export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
@@ -104,6 +107,8 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   private labelsEl: HTMLElement | null = null;
   private tooltipOverlay: KuiTooltipOverlayHandle | null = null;
   private tooltipVisible = false;
+  private hovered = false;
+  private keyboardFocused = false;
   private lastNativeState = '';
   private scrollUnlisten: (() => void) | null = null;
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiSliderSize>(KUI_SLIDER_SIZES);
@@ -175,6 +180,35 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   }
 
   protected onMouseEnter(): void {
+    this.hovered = true;
+    this.showValueTooltip();
+  }
+
+  protected onMouseLeave(): void {
+    this.hovered = false;
+    if (!this.keyboardFocused) this.hideValueTooltip();
+  }
+
+  /** Keyboard focus shows the value too, so arrow-key users see what they set. */
+  protected onFocus(): void {
+    if (!this.isBrowser || !this.el.nativeElement.matches(':focus-visible')) return;
+    this.keyboardFocused = true;
+    this.showValueTooltip();
+  }
+
+  /** Adjusting with the keyboard shows the value even when focus arrived by pointer or script. */
+  protected onKeyDown(): void {
+    if (this.keyboardFocused) return;
+    this.keyboardFocused = true;
+    this.showValueTooltip();
+  }
+
+  protected onBlur(): void {
+    this.keyboardFocused = false;
+    if (!this.hovered) this.hideValueTooltip();
+  }
+
+  private showValueTooltip(): void {
     // If kuiTooltip has static text, let it handle display and skip value tooltip.
     if (!this.isBrowser) return;
     if (this.kuiTooltip?.kuiTooltip()) return;
@@ -183,7 +217,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
     this.ensureTooltip();
   }
 
-  protected onMouseLeave(): void {
+  private hideValueTooltip(): void {
     this.tooltipVisible = false;
     this.stopScrollTracking();
     this.destroyTooltip();

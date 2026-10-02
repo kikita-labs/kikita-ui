@@ -140,7 +140,7 @@
 
   .kui-tab:hover:not([data-kui-selected]) {
     color: var(--kui-tab-fg-hover, var(--kui-color-text));
-    background-color: var(--kui-tab-bg-hover, var(--kui-color-surface-sunken));
+    background-color: var(--kui-tab-bg-hover, var(--kui-color-state-hover));
   }
 
   .kui-tab[data-kui-selected] {
@@ -247,7 +247,7 @@
   }
 
   .kui-tabs[data-kui-variant='pill'] .kui-tab:hover:not([data-kui-selected]) {
-    background-color: var(--kui-tab-pill-bg-hover, var(--kui-color-surface-sunken));
+    background-color: var(--kui-tab-pill-bg-hover, var(--kui-color-state-hover));
     color: var(--kui-tab-fg-hover, var(--kui-color-text));
   }
 

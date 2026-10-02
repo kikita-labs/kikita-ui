@@ -25,11 +25,12 @@
   }
 
   .kui-listbox-option:hover {
-    background: var(--kui-select-option-hover-bg, var(--kui-color-surface-sunken));
+    background: var(--kui-select-option-hover-bg, var(--kui-color-state-hover));
   }
 
-  .kui-listbox-option--active {
-    background: var(--kui-select-option-hover-bg, var(--kui-color-surface-sunken));
+  .kui-listbox-option--active,
+  .kui-listbox-option:focus-visible {
+    background: var(--kui-select-option-hover-bg, var(--kui-color-state-hover));
     outline: 2px solid var(--kui-listbox-option-focus-ring-color, var(--kui-color-focus));
     outline-offset: -2px;
   }

@@ -221,7 +221,7 @@
   .kui-button[data-kui-shape='outline']:active {
     background-color: var(
       --_kui-btn-soft-bg-active,
-      var(--kui-btn-outline-bg-act, var(--kui-color-surface-sunken))
+      var(--kui-btn-outline-bg-act, var(--kui-color-state-active))
     );
   }
 
@@ -233,7 +233,7 @@
   .kui-button[data-kui-shape='ghost']:hover {
     background-color: var(
       --_kui-btn-soft-bg,
-      var(--kui-btn-ghost-bg-hov, var(--kui-color-surface-sunken))
+      var(--kui-btn-ghost-bg-hov, var(--kui-color-state-hover))
     );
   }
 
@@ -248,5 +248,11 @@
     cursor: not-allowed;
     opacity: var(--kui-btn-disabled-opacity, 0.5);
     pointer-events: none;
+  }
+
+  /* A busy button is not unavailable: it keeps full colour so the spinner reads clearly. */
+  .kui-button[data-kui-loading]:is(:disabled, [disabled], [aria-disabled='true']) {
+    cursor: progress;
+    opacity: 1;
   }
 }

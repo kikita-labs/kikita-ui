@@ -112,3 +112,138 @@ test('Number Input keeps focus on a step button that reached its limit', async (
   await expect(decrease).toHaveAttribute('aria-disabled', 'true');
   await expectFocusIn(page, decrease, 'focus stays on the step button');
 });
+
+test('Calendar Range has a Tab stop on a day even when the open month hides today', async ({
+  page,
+}) => {
+  await open(page, '/components/calendar-range');
+
+  const grid = page.locator('.kui-calendar').first();
+
+  await expect(grid.locator('button.kui-calendar-day[tabindex="0"]')).toHaveCount(1);
+
+  await grid.getByRole('button', { name: /next/i }).first().click();
+  await expect(grid.locator('button.kui-calendar-day[tabindex="0"]')).toHaveCount(1);
+});
+
+test('Calendar months and years move with the arrow keys', async ({ page }) => {
+  await open(page, '/components/calendar');
+
+  const calendar = page.locator('.kui-calendar').first();
+
+  await calendar.locator('button.kui-calendar-title').click();
+  await expect(calendar.locator('.kui-calendar-picker-grid')).toBeVisible();
+  await expect(calendar.locator('.kui-calendar-picker-cell[tabindex="0"]')).toHaveCount(1);
+
+  await calendar.locator('.kui-calendar-picker-cell--active').focus();
+  await page.keyboard.press('ArrowRight');
+
+  const afterRight = await focusedText(page);
+  const active = (
+    await calendar.locator('.kui-calendar-picker-cell--active').textContent()
+  )?.trim();
+
+  expect(afterRight).not.toBe(active);
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Home');
+  await expect(calendar.locator('.kui-calendar-picker-cell').first()).toBeFocused();
+  await page.keyboard.press('End');
+  await expect(calendar.locator('.kui-calendar-picker-cell').last()).toBeFocused();
+
+  await page.keyboard.press('Enter');
+  await expect(calendar.locator('.kui-calendar-grid')).toBeVisible();
+  await expect(calendar.locator('button.kui-calendar-day:focus')).toHaveCount(1);
+});
+
+test('Color Input focuses the text field and opens the picker from its padding', async ({
+  page,
+}) => {
+  await open(page, '/components/color-input');
+
+  const field = page.locator('.kui-color-input').first();
+  const box = await field.boundingBox();
+
+  if (!box) throw new Error('Color Input is not visible');
+
+  // The strip between the border and the text input, away from the swatch and the chevron.
+  await page.mouse.click(box.x + box.width / 2, box.y + 3);
+
+  await expect(field.locator('input')).toBeFocused();
+  await expect(page.locator('.kui-color-input-picker')).toBeVisible();
+});
+
+test('Slider shows its value while it has keyboard focus', async ({ page }) => {
+  await open(page, '/components/slider');
+
+  await page.locator('input.kui-slider-native').first().focus();
+  await page.keyboard.press('ArrowRight');
+
+  await expect(page.locator('.kui-tooltip--overlay')).toBeVisible();
+
+  await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
+  await expect(page.locator('.kui-tooltip--overlay')).toHaveCount(0);
+});
+
+test('Calendar hover is visible against the surface in both themes', async ({ page }) => {
+  await open(page, '/components/calendar');
+
+  for (const theme of ['light', 'dark']) {
+    await page.locator('html').evaluate((element, mode) => {
+      element.setAttribute('data-kui-theme', mode);
+    }, theme);
+
+    const day = page
+      .locator('.kui-calendar')
+      .first()
+      .locator(
+        'button.kui-calendar-day:not(.kui-calendar-day--muted):not(.kui-calendar-day--selected)',
+      )
+      .nth(3);
+    const inner = day.locator('.kui-calendar-day-inner');
+
+    await day.hover();
+    await settleAnimations(page);
+
+    const colours = await inner.evaluate((element) => {
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = 1;
+      const context = canvas.getContext('2d', { willReadFrequently: true });
+
+      if (!context) throw new Error('2D canvas is not available');
+
+      const rgb = (css: string): number[] => {
+        context.clearRect(0, 0, 1, 1);
+        context.fillStyle = '#000';
+        context.fillStyle = css;
+        context.fillRect(0, 0, 1, 1);
+        return Array.from(context.getImageData(0, 0, 1, 1).data);
+      };
+      const behind = (node: Element | null): string => {
+        for (let current = node; current; current = current.parentElement) {
+          const colour = getComputedStyle(current).backgroundColor;
+          if (rgb(colour)[3] === 255) return colour;
+        }
+        return 'rgb(0, 0, 0)';
+      };
+      const hover = getComputedStyle(element).backgroundColor;
+      const surface = behind(element.parentElement);
+      const over = rgb(hover);
+      const base = rgb(surface);
+      const alpha = over[3] / 255;
+      const composite = over
+        .slice(0, 3)
+        .map((value, index) => Math.round(value * alpha + base[index] * (1 - alpha)));
+
+      return { composite, base: base.slice(0, 3) };
+    });
+
+    const lightness = (rgb: number[]): number =>
+      rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
+    const delta = lightness(colours.composite) - lightness(colours.base);
+
+    // Dark mode lightens the surface, light mode darkens it; either way the change must be visible.
+    expect(Math.abs(delta), `${theme} hover step`).toBeGreaterThan(6);
+    expect(delta > 0, `${theme} hover direction`).toBe(theme === 'dark');
+  }
+});

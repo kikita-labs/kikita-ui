@@ -4,7 +4,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import {
   KuiChipDirective,
-  KuiChipRemoveDirective,
   KuiDropdownComponent,
   KuiFieldComponent,
   KuiOptionDirective,
@@ -24,7 +23,6 @@ import type { SelectPerson } from './interfaces';
   selector: 'app-select-modes',
   imports: [
     KuiChipDirective,
-    KuiChipRemoveDirective,
     KuiDropdownComponent,
     KuiFieldComponent,
     KuiOptionDirective,

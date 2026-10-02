@@ -51,6 +51,8 @@ interface KuiCalendarDayCell {
 
 interface KuiCalendarPickerCell {
   label: string;
+  /** The month or year that is currently shown; it holds the Tab stop of its grid. */
+  active: boolean;
   cls: string;
   onClick: () => void;
 }
@@ -187,7 +189,13 @@ type KuiCalendarView = KuiCalendarNavigationView;
     @if (view() === 'months') {
       <div class="kui-calendar-picker-grid">
         @for (cell of monthCells(); track cell.label) {
-          <button class="{{ cell.cls }}" type="button" (click)="cell.onClick()">
+          <button
+            class="{{ cell.cls }}"
+            type="button"
+            [tabIndex]="cell.active ? 0 : -1"
+            (click)="cell.onClick()"
+            (keydown)="onPickerKeyDown($event)"
+          >
             {{ cell.label }}
           </button>
         }
@@ -197,7 +205,13 @@ type KuiCalendarView = KuiCalendarNavigationView;
     @if (view() === 'years') {
       <div class="kui-calendar-picker-grid">
         @for (cell of yearCells(); track cell.label) {
-          <button class="{{ cell.cls }}" type="button" (click)="cell.onClick()">
+          <button
+            class="{{ cell.cls }}"
+            type="button"
+            [tabIndex]="cell.active ? 0 : -1"
+            (click)="cell.onClick()"
+            (keydown)="onPickerKeyDown($event)"
+          >
             {{ cell.label }}
           </button>
         }
@@ -334,11 +348,27 @@ export class KuiCalendarComponent implements OnInit {
     return `${this.localeText().monthsLong[this.viewMonth()]} ${year}`;
   });
 
+  /**
+   * The day that holds the roving tab stop. It is the focused day while that day is visible; after
+   * the month changes it falls back to the selected day, today or the first of the month, so the
+   * grid always has exactly one Tab stop.
+   */
+  private readonly tabStop = computed<Date>(() => {
+    const inView = (date: Date): boolean =>
+      date.getFullYear() === this.viewYear() && date.getMonth() === this.viewMonth();
+    const focused = this.focusedDate();
+    if (inView(focused)) return focused;
+    const selected = this.value();
+    if (selected && inView(selected)) return selected;
+    if (inView(this.today())) return this.today();
+    return new Date(this.viewYear(), this.viewMonth(), 1);
+  });
+
   protected readonly dayCells = computed<KuiCalendarDayCell[]>(() => {
     const year = this.viewYear();
     const month = this.viewMonth();
     const firstDayOfWeek = this.localeText().firstDayOfWeek;
-    const focused = this.focusedDate();
+    const focused = this.tabStop();
     const single = this.value();
 
     const firstOfMonth = new Date(year, month, 1);
@@ -389,12 +419,14 @@ export class KuiCalendarComponent implements OnInit {
     const activeMonth = this.viewMonth();
     return this.localeText().monthsShort.map((label, idx) => ({
       label,
+      active: idx === activeMonth,
       cls:
         'kui-calendar-picker-cell' +
         (idx === activeMonth ? ' kui-calendar-picker-cell--active' : ''),
       onClick: () => {
         this.viewDate.set(new Date(this.viewYear(), idx, 1));
         this.view.set('days');
+        this.focusActiveDay();
         this.liveAnnounce.set(`${this.localeText().monthsLong[idx]} ${this.viewYear()}`);
       },
     }));
@@ -405,6 +437,7 @@ export class KuiCalendarComponent implements OnInit {
     const start = decadeStart(activeYear) - 1;
     return Array.from({ length: 12 }, (_, i) => start + i).map((year) => ({
       label: String(year),
+      active: year === activeYear,
       cls:
         'kui-calendar-picker-cell' +
         (year === activeYear ? ' kui-calendar-picker-cell--active' : '') +
@@ -412,6 +445,7 @@ export class KuiCalendarComponent implements OnInit {
       onClick: () => {
         this.viewDate.set(new Date(year, this.viewMonth(), 1));
         this.view.set('months');
+        this.focusActiveDay();
       },
     }));
   });
@@ -449,6 +483,7 @@ export class KuiCalendarComponent implements OnInit {
 
   protected drillUp(): void {
     this.view.set(this.view() === 'days' ? 'months' : 'years');
+    this.focusActiveDay();
   }
 
   protected navPrev(): void {
@@ -526,6 +561,39 @@ export class KuiCalendarComponent implements OnInit {
   }
 
   /**
+   * Arrow keys move between the months or years of the three-column picker grid, Home and End jump to
+   * its ends. Enter and Space activate the focused button natively.
+   */
+  protected onPickerKeyDown(event: KeyboardEvent): void {
+    const steps: Record<string, number> = {
+      ArrowLeft: -1,
+      ArrowRight: 1,
+      ArrowUp: -3,
+      ArrowDown: 3,
+    };
+    const button = event.currentTarget as HTMLButtonElement;
+    const cells = Array.from(
+      button.parentElement?.querySelectorAll<HTMLButtonElement>('.kui-calendar-picker-cell') ?? [],
+    );
+    const current = cells.indexOf(button);
+
+    if (current < 0) return;
+
+    let next: number;
+
+    if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = cells.length - 1;
+    else if (event.key in steps)
+      next = Math.min(cells.length - 1, Math.max(0, current + steps[event.key]));
+    else return;
+
+    event.preventDefault();
+    cells[current].tabIndex = -1;
+    cells[next].tabIndex = 0;
+    cells[next].focus();
+  }
+
+  /**
    * Moves DOM focus to the day that holds the roving tab stop once it has rendered. The grid can be
    * replaced when the month changes, so the day is looked up from the host, not from the old grid.
    */
@@ -534,7 +602,9 @@ export class KuiCalendarComponent implements OnInit {
       {
         write: () => {
           this.host.nativeElement
-            .querySelector<HTMLButtonElement>('.kui-calendar-grid .kui-calendar-day[tabindex="0"]')
+            .querySelector<HTMLButtonElement>(
+              '.kui-calendar-grid .kui-calendar-day[tabindex="0"], .kui-calendar-picker-grid .kui-calendar-picker-cell[tabindex="0"]',
+            )
             ?.focus();
         },
       },

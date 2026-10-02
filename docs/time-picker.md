@@ -208,7 +208,7 @@ styles.
 | `--kui-timepicker-icon-color`         | `--kui-color-text-secondary`  | Leading clock icon color.                                                                                                                                          |
 | `--kui-timepicker-cell-bg-selected`   | `--kui-color-primary-fill`    | Selected cell background — solid fill, matching `kui-calendar`'s selected day (not a soft tone), so the trigger and panel read as one family with `kuiDatePicker`. |
 | `--kui-timepicker-cell-text-selected` | `--kui-color-primary-on-fill` | Selected cell text color.                                                                                                                                          |
-| `--kui-timepicker-cell-bg-hover`      | `--kui-color-surface-sunken`  | Hover background for an unselected cell.                                                                                                                           |
+| `--kui-timepicker-cell-bg-hover`      | `--kui-color-state-hover`     | Hover background for an unselected cell.                                                                                                                           |
 | `--kui-timepicker-affordance-size`    | `20px`                        | Chevron/clear click target — same local override `kuiDatePicker`/`kuiCombobox` apply to the default `24px` `--kui-field-action-size`.                              |
 | `--kui-timepicker-suffix-gap`         | `2px` (fallback)              | Gap between the clear and chevron buttons in the trailing affordance group. Not defined by default; the stylesheet falls back to `2px`.                            |
 

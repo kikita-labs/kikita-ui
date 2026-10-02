@@ -99,7 +99,7 @@
   }
 
   .kui-field-action:active {
-    background: var(--kui-field-action-bg-active, var(--kui-color-surface-sunken));
+    background: var(--kui-field-action-bg-active, var(--kui-color-state-active));
     color: var(--kui-field-action-color-active, var(--kui-color-text));
   }
 

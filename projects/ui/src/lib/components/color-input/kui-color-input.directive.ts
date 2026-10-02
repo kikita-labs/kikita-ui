@@ -206,6 +206,9 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.unlisten.push(
       this.renderer.listen(native, 'input', () => this.syncState()),
       this.renderer.listen(native, 'change', () => this.syncState()),
+      this.renderer.listen(this.containerEl, 'click', (event: MouseEvent) =>
+        this.handleFieldClick(event),
+      ),
       this.renderer.listen(this.swatchBtn, 'click', (event: MouseEvent) =>
         this.togglePicker(this.swatchBtn, event),
       ),
@@ -317,6 +320,21 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     );
 
     return dropdownRef;
+  }
+
+  /**
+   * A click anywhere on the field that is not the swatch or the chevron, including the padding
+   * around the text, focuses the text input and opens the picker, like the other picker fields. It
+   * never closes the picker, so the caret can be placed while typing a value.
+   */
+  private handleFieldClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+    const native = this.el.nativeElement;
+
+    if (!target || target.closest('button') || native.disabled || native.readOnly) return;
+
+    native.focus();
+    if (!this.open()) this.openPicker();
   }
 
   private togglePicker(trigger: HTMLElement, event: MouseEvent): void {

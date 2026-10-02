@@ -257,6 +257,10 @@ function createSemanticVariables(
   const modeIndex = mode === 'light' ? 0 : 1;
   const variables: Record<`--kui-${string}`, string> = {
     '--kui-color-on-scrim': WHITE_TEXT,
+    // A translucent layer of the text colour: lighter than the surface in dark mode and darker in light
+    // mode, on any surface, so a hover or pressed fill never disappears or turns into a hole.
+    '--kui-color-state-hover': 'color-mix(in oklab, var(--kui-color-text) 8%, transparent)',
+    '--kui-color-state-active': 'color-mix(in oklab, var(--kui-color-text) 14%, transparent)',
     '--kui-color-neutral-on-fill': WHITE_TEXT,
     '--kui-color-focus': 'var(--kui-color-primary-indicator)',
     /** @deprecated Translucent halo kept for 2.x consumers. Use `--kui-color-focus`. Removed in 3.0. */

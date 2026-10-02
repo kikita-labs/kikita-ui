@@ -72,6 +72,8 @@
     --kui-info-11: oklch(0.1231 0.0352 215);
     --kui-info-12: oklch(0.0787 0.0192 215);
     --kui-color-on-scrim: oklch(1 0 0);
+    --kui-color-state-hover: color-mix(in oklab, var(--kui-color-text) 8%, transparent);
+    --kui-color-state-active: color-mix(in oklab, var(--kui-color-text) 14%, transparent);
     --kui-color-neutral-on-fill: oklch(1 0 0);
     --kui-color-focus: var(--kui-color-primary-indicator);
     --kui-color-primary-focus-ring: oklch(0.52 0.25 285 / 0.4);
@@ -572,6 +574,8 @@
     --kui-info-11: oklch(0.1231 0.0352 215);
     --kui-info-12: oklch(0.0787 0.0192 215);
     --kui-color-on-scrim: oklch(1 0 0);
+    --kui-color-state-hover: color-mix(in oklab, var(--kui-color-text) 8%, transparent);
+    --kui-color-state-active: color-mix(in oklab, var(--kui-color-text) 14%, transparent);
     --kui-color-neutral-on-fill: oklch(1 0 0);
     --kui-color-focus: var(--kui-color-primary-indicator);
     --kui-color-primary-focus-ring: oklch(0.65 0.22 285 / 0.5);

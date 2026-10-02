@@ -143,6 +143,8 @@ Neutral and shared roles:
 --kui-color-border-control-hover
 --kui-color-text-placeholder
 --kui-color-on-scrim
+--kui-color-state-hover
+--kui-color-state-active
 --kui-color-focus
 ```
 
@@ -151,6 +153,9 @@ surface); `--kui-color-border-control-hover` is its hover colour; `--kui-color-b
 `--kui-color-border-strong` stay for dividers and cards.
 `--kui-color-text-placeholder` reaches 4.5:1 on every surface; `--kui-color-text-disabled` is only for
 disabled controls. `--kui-color-on-scrim` is white in both modes for text over overlays.
+`--kui-color-state-hover` and `--kui-color-state-active` are translucent layers of the text colour (8% and
+14%) for the hover and pressed fill of list items, menu items, calendar days, tabs and ghost buttons: they
+lighten the surface in dark mode and darken it in light mode, on any surface, so a hover never disappears.
 `--kui-color-focus` is the colour of the 2px focus outline and defaults to the primary indicator.
 
 A fill is a background colour only: text and icons read `-text`, borders and marks read `-indicator`.
@@ -434,8 +439,6 @@ Field and input tokens:
 --kui-input-placeholder
 --kui-input-focus-ring
 --kui-input-focus-ring-color
---kui-input-clear-color
---kui-input-clear-color-hover
 ```
 
 Select tokens:

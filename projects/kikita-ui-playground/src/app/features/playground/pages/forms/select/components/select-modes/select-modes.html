@@ -71,16 +71,14 @@
         [maxVisibleChips]="2"
       />
       <ng-template kuiSelectValue let-label="label" let-remove="remove">
-        <span kuiChip size="sm">
+        <span
+          kuiChip
+          size="sm"
+          removable
+          [removeLabel]="'select.actions.remove' | transloco: { value: label }"
+          (removed)="remove()"
+        >
           <span class="kui-chip-label">{{ label }}</span>
-          <button
-            kuiChipRemove
-            type="button"
-            [attr.aria-label]="'select.actions.remove' | transloco: { value: label }"
-            (click)="remove()"
-          >
-            ×
-          </button>
         </span>
       </ng-template>
       <kui-dropdown>
