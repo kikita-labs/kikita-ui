@@ -23,7 +23,7 @@ import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { sameNullableDate } from '../../utils/kui-date-equality.util';
 import {
   optionalBooleanAttribute,
-  positiveIntegerAttribute,
+  optionalPositiveIntegerAttribute,
 } from '../../utils/kui-input-transform.util';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import {
@@ -92,19 +92,27 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
   readonly value = model<Date | null>(null);
 
   /** Display/parse format. Auto-wired (push-only) into a sibling `kui-time-picker-panel`. */
-  readonly format = input<KuiTimePickerFormat>('24h');
+  readonly format = input<KuiTimePickerFormat | undefined>();
   /**
    * Hour column step. Not in the Claude Design spec's own API table (which only lists
    * `minuteStep`/`secondStep`), added for naming/behavior parity with those two. Auto-wired
    * (push-only) into a sibling `kui-time-picker-panel`.
    */
-  readonly hourStep = input(1, { transform: positiveIntegerAttribute });
+  readonly hourStep = input<number | undefined, unknown>(undefined, {
+    transform: optionalPositiveIntegerAttribute,
+  });
   /** Minute column step. Auto-wired (push-only) into a sibling `kui-time-picker-panel`. */
-  readonly minuteStep = input(1, { transform: positiveIntegerAttribute });
+  readonly minuteStep = input<number | undefined, unknown>(undefined, {
+    transform: optionalPositiveIntegerAttribute,
+  });
   /** Second column step, used only when `showSeconds` is true. Auto-wired (push-only). */
-  readonly secondStep = input(1, { transform: positiveIntegerAttribute });
+  readonly secondStep = input<number | undefined, unknown>(undefined, {
+    transform: optionalPositiveIntegerAttribute,
+  });
   /** Shows a seconds column/field. Defaults to false. Auto-wired (push-only). */
-  readonly showSeconds = input(false, { transform: booleanAttribute });
+  readonly showSeconds = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
   /**
    * Earliest selectable time-of-day (inclusive; only the hours/minutes/seconds fields are read).
    * Typing/selecting an earlier time is invalid, the same convention `kuiDatePicker`'s `minDate`
@@ -156,6 +164,22 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
   private readonly field = inject(KuiFieldComponent, { optional: true });
   private readonly fieldDefaults = inject(KuiDefaults).get('field');
   private readonly timePickerDefaults = inject(KuiDefaults).get('timePicker');
+
+  protected readonly effectiveFormat = computed(
+    () => this.format() ?? this.timePickerDefaults()?.format ?? '24h',
+  );
+  protected readonly effectiveHourStep = computed(
+    () => this.hourStep() ?? this.timePickerDefaults()?.hourStep ?? 1,
+  );
+  protected readonly effectiveMinuteStep = computed(
+    () => this.minuteStep() ?? this.timePickerDefaults()?.minuteStep ?? 1,
+  );
+  protected readonly effectiveSecondStep = computed(
+    () => this.secondStep() ?? this.timePickerDefaults()?.secondStep ?? 1,
+  );
+  protected readonly effectiveShowSeconds = computed(
+    () => this.showSeconds() ?? this.timePickerDefaults()?.showSeconds ?? false,
+  );
   private readonly affixRef: ComponentRef<KuiTimePickerInputAffixComponent>;
   private wasOpen = false;
   private pointerStartedOnInput = false;
@@ -182,13 +206,14 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
   );
   /** Max typed length for the current `format`/`showSeconds` (e.g. `hh:mm:ss AM/PM` = 12). */
   protected readonly effectiveMaxLength = computed(() =>
-    maxTimeInputLength(this.format(), this.showSeconds()),
+    maxTimeInputLength(this.effectiveFormat(), this.effectiveShowSeconds()),
   );
   protected readonly effectivePlaceholder = computed(() => {
     const own = this.placeholder();
     if (own !== undefined) return own;
-    if (this.format() === '12h') return this.showSeconds() ? 'hh:mm:ss AM/PM' : 'hh:mm AM/PM';
-    return this.showSeconds() ? 'hh:mm:ss' : 'hh:mm';
+    if (this.effectiveFormat() === '12h')
+      return this.effectiveShowSeconds() ? 'hh:mm:ss AM/PM' : 'hh:mm AM/PM';
+    return this.effectiveShowSeconds() ? 'hh:mm:ss' : 'hh:mm';
   });
 
   /**
@@ -213,7 +238,10 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
     const minute = value.getMinutes();
     if (this.disabledHours()?.().includes(hour)) return true;
     if (this.disabledMinutes()?.(hour).includes(minute)) return true;
-    if (this.showSeconds() && this.disabledSeconds()?.(hour, minute).includes(value.getSeconds())) {
+    if (
+      this.effectiveShowSeconds() &&
+      this.disabledSeconds()?.(hour, minute).includes(value.getSeconds())
+    ) {
       return true;
     }
     return false;
@@ -244,7 +272,7 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
       const value = this.value();
       this.parseFailed.set(false);
       this.writeNativeValue(
-        value ? formatDisplayTime(value, this.format(), this.showSeconds()) : '',
+        value ? formatDisplayTime(value, this.effectiveFormat(), this.effectiveShowSeconds()) : '',
       );
     });
 
@@ -290,35 +318,35 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
     effect(() => {
       const panel = this.field?.getTimePickerPanel();
       if (!panel) return;
-      const format = this.format();
+      const format = this.effectiveFormat();
       if (untracked(panel.format) !== format) panel.format.set(format);
     });
 
     effect(() => {
       const panel = this.field?.getTimePickerPanel();
       if (!panel) return;
-      const hourStep = this.hourStep();
+      const hourStep = this.effectiveHourStep();
       if (untracked(panel.hourStep) !== hourStep) panel.hourStep.set(hourStep);
     });
 
     effect(() => {
       const panel = this.field?.getTimePickerPanel();
       if (!panel) return;
-      const minuteStep = this.minuteStep();
+      const minuteStep = this.effectiveMinuteStep();
       if (untracked(panel.minuteStep) !== minuteStep) panel.minuteStep.set(minuteStep);
     });
 
     effect(() => {
       const panel = this.field?.getTimePickerPanel();
       if (!panel) return;
-      const secondStep = this.secondStep();
+      const secondStep = this.effectiveSecondStep();
       if (untracked(panel.secondStep) !== secondStep) panel.secondStep.set(secondStep);
     });
 
     effect(() => {
       const panel = this.field?.getTimePickerPanel();
       if (!panel) return;
-      const showSeconds = this.showSeconds();
+      const showSeconds = this.effectiveShowSeconds();
       if (untracked(panel.showSeconds) !== showSeconds) panel.showSeconds.set(showSeconds);
     });
 
@@ -380,18 +408,22 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
     // Auto-inserts `:` as digits are typed (and strips anything that could never be part of a
     // valid value -- stray/pasted/mashed-keyboard text, including non-Latin characters, never
     // piles up in the field either way).
-    const text = autoMaskTimeInputText(target.value, this.format(), this.showSeconds());
+    const text = autoMaskTimeInputText(
+      target.value,
+      this.effectiveFormat(),
+      this.effectiveShowSeconds(),
+    );
     if (target.value !== text) target.value = text;
 
     this.rawText.set(text);
     const parsed = parseDisplayTime(
       text,
-      this.format(),
-      this.showSeconds(),
+      this.effectiveFormat(),
+      this.effectiveShowSeconds(),
       this.value() ?? new Date(),
-      this.hourStep(),
-      this.minuteStep(),
-      this.secondStep(),
+      this.effectiveHourStep(),
+      this.effectiveMinuteStep(),
+      this.effectiveSecondStep(),
     );
 
     if (parsed) {

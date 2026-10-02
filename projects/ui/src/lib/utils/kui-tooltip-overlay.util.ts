@@ -10,7 +10,8 @@ import type { ComponentRef } from '@angular/core';
 import type { KuiTooltipPlacement } from '../components/tooltip/kui-tooltip-placement.type';
 import { KuiTooltipSurfaceComponent } from '../components/tooltip/kui-tooltip-surface.component';
 
-const TOOLTIP_GAP = 6;
+/** Gap in px between the anchor and the tooltip when no offset is given. */
+export const KUI_TOOLTIP_DEFAULT_OFFSET = 6;
 
 interface KuiTooltipOverlayOptions {
   /**
@@ -25,6 +26,8 @@ interface KuiTooltipOverlayOptions {
   readonly id?: string;
   readonly overlay: Overlay;
   readonly placement: KuiTooltipPlacement;
+  /** Gap in px between the anchor and the tooltip. Defaults to {@link KUI_TOOLTIP_DEFAULT_OFFSET}. */
+  readonly offset?: number;
   readonly text: string;
   readonly touchEnabled?: boolean;
 }
@@ -50,11 +53,12 @@ export function createKuiTooltipOverlay(
   options: KuiTooltipOverlayOptions,
 ): KuiTooltipOverlayHandle {
   const { anchor, id, overlay, placement, text, touchEnabled } = options;
+  const offset = options.offset ?? KUI_TOOLTIP_DEFAULT_OFFSET;
   const positionStrategy = overlay
     .position()
     .flexibleConnectedTo(anchor)
     .withPush(false)
-    .withPositions(getTooltipPositions(placement));
+    .withPositions(getTooltipPositions(placement, offset));
   const overlayRef = overlay.create({
     hasBackdrop: false,
     panelClass: 'kui-tooltip-pane',
@@ -89,7 +93,11 @@ function setTooltipText(
   componentRef.changeDetectorRef.detectChanges();
 }
 
-function getTooltipPositions(placement: KuiTooltipPlacement): ConnectedPosition[] {
+/** @internal */
+export function getTooltipPositions(
+  placement: KuiTooltipPlacement,
+  gap: number = KUI_TOOLTIP_DEFAULT_OFFSET,
+): ConnectedPosition[] {
   switch (placement) {
     case 'bottom':
       return [
@@ -98,7 +106,7 @@ function getTooltipPositions(placement: KuiTooltipPlacement): ConnectedPosition[
           originY: 'bottom',
           overlayX: 'center',
           overlayY: 'top',
-          offsetY: TOOLTIP_GAP,
+          offsetY: gap,
         },
       ];
     case 'left':
@@ -108,7 +116,7 @@ function getTooltipPositions(placement: KuiTooltipPlacement): ConnectedPosition[
           originY: 'center',
           overlayX: 'end',
           overlayY: 'center',
-          offsetX: -TOOLTIP_GAP,
+          offsetX: -gap,
         },
       ];
     case 'right':
@@ -118,7 +126,7 @@ function getTooltipPositions(placement: KuiTooltipPlacement): ConnectedPosition[
           originY: 'center',
           overlayX: 'start',
           overlayY: 'center',
-          offsetX: TOOLTIP_GAP,
+          offsetX: gap,
         },
       ];
     default:
@@ -128,7 +136,7 @@ function getTooltipPositions(placement: KuiTooltipPlacement): ConnectedPosition[
           originY: 'top',
           overlayX: 'center',
           overlayY: 'bottom',
-          offsetY: -TOOLTIP_GAP,
+          offsetY: -gap,
         },
       ];
   }

@@ -2,12 +2,13 @@ import {
   booleanAttribute,
   Component,
   computed,
+  inject,
   input,
   model,
-  numberAttribute,
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import {
   KUI_CHEVRON_LEFT_D,
@@ -17,18 +18,16 @@ import {
 } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { kuiNextId } from '../../utils/kui-id.util';
-import { positiveIntegerAttribute } from '../../utils/kui-input-transform.util';
+import {
+  optionalNonNegativeIntegerAttribute,
+  positiveIntegerAttribute,
+} from '../../utils/kui-input-transform.util';
 import { KuiButtonDirective } from '../button';
 import { KuiDropdownComponent, KuiOptionDirective } from '../dropdown';
 import { KuiFieldComponent } from '../field';
 import { KuiIconButtonDirective } from '../icon-button';
 import { KuiSelectDirective } from '../select';
 import type { KuiPaginationVariant } from './kui-pagination-variant.type';
-
-function nonNegativeIntegerAttribute(value: unknown): number {
-  const parsed = numberAttribute(value, 1);
-  return Number.isFinite(parsed) ? Math.max(0, Math.floor(parsed)) : 1;
-}
 
 /** One rendered slot in the page-number row: either a page button or a static ellipsis. */
 interface KuiPaginationPageItem {
@@ -228,7 +227,7 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
               aria-label="Rows per page"
             />
             <kui-dropdown>
-              @for (option of pageSizeOptions(); track option) {
+              @for (option of effectivePageSizeOptions(); track option) {
                 <div kuiOption [value]="option">{{ option }}</div>
               }
             </kui-dropdown>
@@ -239,7 +238,7 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
   `,
   host: {
     class: 'kui-pagination',
-    '[attr.data-kui-variant]': 'variant()',
+    '[attr.data-kui-variant]': 'effectiveVariant()',
     '[attr.data-kui-size]': 'effectiveSize()',
   },
   encapsulation: ViewEncapsulation.None,
@@ -251,7 +250,7 @@ export class KuiPaginationComponent {
    * `compact` is First/Prev/numbers+ellipsis/Next/Last; `simple` is only Prev/"Page X of Y"/Next,
    * for narrow layouts. Defaults to `compact`.
    */
-  readonly variant = input<KuiPaginationVariant>('compact');
+  readonly variant = input<KuiPaginationVariant | undefined>();
 
   /** Control size, the same scale as `Button`/`IconButton`. Defaults to md. */
   readonly size = input<KuiSize | undefined>();
@@ -263,16 +262,20 @@ export class KuiPaginationComponent {
   readonly currentPage = model(1);
 
   /** How many page numbers to show beside the current page before an ellipsis appears. */
-  readonly siblingCount = input(1, { transform: nonNegativeIntegerAttribute });
+  readonly siblingCount = input<number | undefined, unknown>(undefined, {
+    transform: optionalNonNegativeIntegerAttribute,
+  });
 
   /** How many page numbers to always show at each edge before an ellipsis appears. */
-  readonly boundaryCount = input(1, { transform: nonNegativeIntegerAttribute });
+  readonly boundaryCount = input<number | undefined, unknown>(undefined, {
+    transform: optionalNonNegativeIntegerAttribute,
+  });
 
   /** Rows shown per page. Only used by `variant="full"`. Two-way bindable. Defaults to `25`. */
   readonly pageSize = model(25);
 
   /** Choices offered by the rows-per-page picker. Only used by `variant="full"`. */
-  readonly pageSizeOptions = input<readonly number[]>([10, 25, 50, 100]);
+  readonly pageSizeOptions = input<readonly number[] | undefined>();
 
   /**
    * Total item count across every page, for the "Showing X-Y of Z" summary text. Only used by
@@ -297,11 +300,26 @@ export class KuiPaginationComponent {
     Math.min(Math.max(this.currentPage(), 1), Math.max(this.totalPages(), 1)),
   );
 
-  protected readonly showEnds = computed(() => this.variant() !== 'simple');
-  protected readonly showNumbers = computed(() => this.variant() !== 'simple');
-  protected readonly showSimple = computed(() => this.variant() === 'simple');
-  protected readonly showSummary = computed(() => this.variant() === 'full');
-  protected readonly showPageSize = computed(() => this.variant() === 'full');
+  private readonly paginationDefaults = inject(KuiDefaults).get('pagination');
+
+  protected readonly effectiveVariant = computed(
+    () => this.variant() ?? this.paginationDefaults()?.variant ?? 'compact',
+  );
+  private readonly effectiveSiblingCount = computed(
+    () => this.siblingCount() ?? this.paginationDefaults()?.siblingCount ?? 1,
+  );
+  private readonly effectiveBoundaryCount = computed(
+    () => this.boundaryCount() ?? this.paginationDefaults()?.boundaryCount ?? 1,
+  );
+  protected readonly effectivePageSizeOptions = computed(
+    () => this.pageSizeOptions() ?? this.paginationDefaults()?.pageSizeOptions ?? [10, 25, 50, 100],
+  );
+
+  protected readonly showEnds = computed(() => this.effectiveVariant() !== 'simple');
+  protected readonly showNumbers = computed(() => this.effectiveVariant() !== 'simple');
+  protected readonly showSimple = computed(() => this.effectiveVariant() === 'simple');
+  protected readonly showSummary = computed(() => this.effectiveVariant() === 'full');
+  protected readonly showPageSize = computed(() => this.effectiveVariant() === 'full');
 
   protected readonly firstDisabled = computed(
     () => this.disabled() || this.clampedCurrentPage() <= 1,
@@ -317,8 +335,8 @@ export class KuiPaginationComponent {
     const raw = computePageWindow(
       page,
       this.totalPages(),
-      this.siblingCount(),
-      this.boundaryCount(),
+      this.effectiveSiblingCount(),
+      this.effectiveBoundaryCount(),
     );
 
     return raw.map((it, i) => {

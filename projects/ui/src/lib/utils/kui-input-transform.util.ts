@@ -26,3 +26,17 @@ export function standardOverlayOffsetAttribute(value: unknown): number {
 export function optionalOverlayOffsetAttribute(value: unknown): number | undefined {
   return value === undefined || value === null ? undefined : standardOverlayOffsetAttribute(value);
 }
+
+/** Like {@link positiveIntegerAttribute}, but keeps an omitted value as `undefined` so defaults can apply. */
+export function optionalPositiveIntegerAttribute(value: unknown): number | undefined {
+  return value === undefined || value === null ? undefined : positiveIntegerAttribute(value);
+}
+
+/** Coerces an input to a non-negative integer and keeps an omitted value as `undefined` so defaults can apply. */
+export function optionalNonNegativeIntegerAttribute(value: unknown): number | undefined {
+  if (value === undefined || value === null) return undefined;
+
+  const parsed = numberAttribute(value, 1);
+
+  return Number.isFinite(parsed) ? Math.max(0, Math.floor(parsed)) : 1;
+}

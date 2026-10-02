@@ -8,4 +8,7 @@ export interface KuiTooltipOptions {
 
   /** Preferred side of the trigger. */
   readonly placement?: KuiTooltipPlacement;
+
+  /** Gap in px between the trigger and the tooltip. */
+  readonly offset?: number;
 }

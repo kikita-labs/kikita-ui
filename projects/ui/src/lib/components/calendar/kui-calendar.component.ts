@@ -1,6 +1,5 @@
 import {
   afterNextRender,
-  booleanAttribute,
   Component,
   computed,
   ElementRef,
@@ -15,6 +14,7 @@ import {
 
 import { getKuiCalendarLocaleText } from '../../i18n/kui-calendar-locale-text.util';
 import { KUI_LOCALE } from '../../i18n/kui-locale.token';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import {
   KUI_CALENDAR_NAVIGATION_LABELS,
   KUI_CALENDAR_SIZES,
@@ -23,6 +23,7 @@ import {
 import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { KuiClock } from '../../utils/kui-clock.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
 import { KuiSeparatorDirective } from '../separator/kui-separator.directive';
 import type { KuiCalendarDisabledPredicate, KuiCalendarSize } from './kui-calendar.types';
@@ -77,7 +78,7 @@ type KuiCalendarView = KuiCalendarNavigationView;
   template: `
     <ng-content select="[kuiCalendarHeader]">
       <div class="kui-calendar-header">
-        @if (showPrevNav()) {
+        @if (effectiveShowPrevNav()) {
           <button
             kuiButton
             shape="ghost"
@@ -115,7 +116,7 @@ type KuiCalendarView = KuiCalendarNavigationView;
         } @else {
           <span class="kui-calendar-title">{{ headerLabel() }}</span>
         }
-        @if (showNextNav()) {
+        @if (effectiveShowNextNav()) {
           <button
             kuiButton
             shape="ghost"
@@ -219,7 +220,7 @@ type KuiCalendarView = KuiCalendarNavigationView;
     }
 
     <ng-content select="[kuiCalendarFooter]">
-      @if (showFooter()) {
+      @if (effectiveShowFooter()) {
         <hr kuiSeparator />
         <div class="kui-calendar-footer">
           <span class="kui-calendar-value">{{ valueLabel() }}</span>
@@ -231,7 +232,7 @@ type KuiCalendarView = KuiCalendarNavigationView;
   host: {
     class: 'kui-calendar',
     '[attr.data-kui-size]': "effectiveSize() === 'sm' ? 'sm' : null",
-    '[attr.data-kui-flat]': "flat() ? '' : null",
+    '[attr.data-kui-flat]': "effectiveFlat() ? '' : null",
   },
   imports: [KuiButtonDirective, KuiSeparatorDirective],
   encapsulation: ViewEncapsulation.None,
@@ -252,14 +253,20 @@ export class KuiCalendarComponent implements OnInit {
    * chrome that already provides those — e.g. a `kui-dropdown`/`kui-popover` in a date
    * picker — so the two don't stack into a double frame.
    */
-  readonly flat = input(false, { transform: booleanAttribute });
+  readonly flat = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
   /** Shows Saturday/Sunday in a muted color. Defaults to true. */
-  readonly showWeekend = input(true, { transform: booleanAttribute });
+  readonly showWeekend = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
   /**
    * Shows a footer with the current value and a "Today" shortcut button. Defaults to
    * false — most inline placements (sidebars, filter panels) render the calendar bare.
    */
-  readonly showFooter = input(false, { transform: booleanAttribute });
+  readonly showFooter = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
   /**
    * Earliest selectable date (inclusive). Dates before it are disabled. A `model` (not a
    * plain `input`) so `input[kuiDatePicker]` can auto-wire it from its own `minDate`, the
@@ -280,9 +287,13 @@ export class KuiCalendarComponent implements OnInit {
    * pairing two linked calendars (e.g. a range popover showing month N and N+1) so only
    * the leading calendar can navigate backward.
    */
-  readonly showPrevNav = input(true, { transform: booleanAttribute });
+  readonly showPrevNav = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
   /** Shows the "next" nav control in the header. Defaults to true. See {@link showPrevNav}. */
-  readonly showNextNav = input(true, { transform: booleanAttribute });
+  readonly showNextNav = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   /**
    * Selected date. Supports two-way binding. When this calendar is a sibling of
@@ -301,7 +312,26 @@ export class KuiCalendarComponent implements OnInit {
   protected readonly view = signal<KuiCalendarView>('days');
   protected readonly focusedDate = signal<Date>(startOfDay(this.clock.initialNow()));
   protected readonly liveAnnounce = signal('');
-  protected readonly effectiveSize = computed(() => this.size() ?? this.rootDefaultSize() ?? 'md');
+  private readonly calendarDefaults = inject(KuiDefaults).get('calendar');
+
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.calendarDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
+  protected readonly effectiveFlat = computed(
+    () => this.flat() ?? this.calendarDefaults()?.flat ?? false,
+  );
+  protected readonly effectiveShowWeekend = computed(
+    () => this.showWeekend() ?? this.calendarDefaults()?.showWeekend ?? true,
+  );
+  protected readonly effectiveShowFooter = computed(
+    () => this.showFooter() ?? this.calendarDefaults()?.showFooter ?? false,
+  );
+  protected readonly effectiveShowPrevNav = computed(
+    () => this.showPrevNav() ?? this.calendarDefaults()?.showPrevNav ?? true,
+  );
+  protected readonly effectiveShowNextNav = computed(
+    () => this.showNextNav() ?? this.calendarDefaults()?.showNextNav ?? true,
+  );
 
   protected readonly viewYear = computed(() => this.viewDate().getFullYear());
   protected readonly viewMonth = computed(() => this.viewDate().getMonth());
@@ -379,7 +409,7 @@ export class KuiCalendarComponent implements OnInit {
     for (let i = 0; i < 42; i++) {
       const date = addDays(gridStart, i);
       const muted = date.getMonth() !== month;
-      const weekend = this.showWeekend() && (date.getDay() === 0 || date.getDay() === 6);
+      const weekend = this.effectiveShowWeekend() && (date.getDay() === 0 || date.getDay() === 6);
       const isToday = isSameDay(date, this.today());
       const disabled = this.isDisabled(date);
 

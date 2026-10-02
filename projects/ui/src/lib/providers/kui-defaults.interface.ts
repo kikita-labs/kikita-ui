@@ -3,6 +3,11 @@ import type {
   KuiButtonOptions,
   KuiIconButtonOptions,
 } from '../tokens/kui-button-options.interface';
+import type {
+  KuiCalendarOptions,
+  KuiCalendarRangeOptions,
+} from '../tokens/kui-calendar-options.interface';
+import type { KuiCarouselOptions } from '../tokens/kui-carousel-options.interface';
 import type { KuiComboboxOptions } from '../tokens/kui-combobox-options.interface';
 import type { KuiDatePickerOptions } from '../tokens/kui-date-picker-options.interface';
 import type { KuiDialogOptions } from '../tokens/kui-dialog-options.interface';
@@ -10,6 +15,7 @@ import type { KuiDrawerOptions } from '../tokens/kui-drawer-options.interface';
 import type { KuiDropdownOptions } from '../tokens/kui-dropdown-options.interface';
 import type { KuiFieldOptions } from '../tokens/kui-field-options.interface';
 import type { KuiMenuOptions } from '../tokens/kui-menu-options.interface';
+import type { KuiPaginationOptions } from '../tokens/kui-pagination-options.interface';
 import type { KuiPopoverOptions } from '../tokens/kui-popover-options.interface';
 import type { KuiSelectOptions } from '../tokens/kui-select-options.interface';
 import type { KuiTimePickerOptions } from '../tokens/kui-time-picker-options.interface';
@@ -60,6 +66,18 @@ export interface KuiComponentDefaults {
 
   /** Defaults for `kui-dropdown`. */
   readonly dropdown?: KuiDropdownOptions;
+
+  /** Defaults for `kui-calendar`. */
+  readonly calendar?: KuiCalendarOptions;
+
+  /** Defaults for `kui-calendar-range`. */
+  readonly calendarRange?: KuiCalendarRangeOptions;
+
+  /** Defaults for `kui-carousel`. */
+  readonly carousel?: KuiCarouselOptions;
+
+  /** Defaults for `kui-pagination`. */
+  readonly pagination?: KuiPaginationOptions;
 
   /** Defaults for `kuiDatePicker`. */
   readonly datePicker?: KuiDatePickerOptions;

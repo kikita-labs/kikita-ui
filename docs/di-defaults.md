@@ -36,7 +36,8 @@ providers: [kuiProvideDefaults({ button: { size: 'lg' } })];
 to a named options interface (`KuiButtonOptions`, `KuiIconButtonOptions`, `KuiFieldOptions`,
 `KuiSelectOptions`, `KuiComboboxOptions`, `KuiDatePickerOptions`, `KuiTimePickerOptions`,
 `KuiTooltipOptions`, `KuiToastOptions`, `KuiPopoverOptions`, `KuiMenuOptions`, `KuiDropdownOptions`,
-`KuiDialogOptions`, `KuiDrawerOptions`). `KuiComponentDefaults` lists every key. Interfaces that share
+`KuiDialogOptions`, `KuiDrawerOptions`, `KuiCalendarOptions`, `KuiCalendarRangeOptions`,
+`KuiCarouselOptions`, `KuiPaginationOptions`). `KuiComponentDefaults` lists every key. Interfaces that share
 a meaning share a base (`KuiButtonBaseOptions`, `KuiFieldControlOptions`).
 
 ## Layers and merging
@@ -155,6 +156,25 @@ local input or call config > defaults.<overlay> > built-in default
 `kuiTimePicker`, so `defaults.dropdown` reaches those panels unless the control sets the input itself.
 `kuiDialog` and `kuiDrawer` read the defaults of the injector they are called from, so a nested
 `kuiProvideDefaults` applies to dialogs opened inside it.
+
+## Calendars, time, carousel and pagination
+
+| Key             | Options                                                                                       | Built-in default                                      |
+| --------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `calendar`      | `size`, `flat`, `showWeekend`, `showFooter`, `showPrevNav`, `showNextNav`                     | global size, `false`, `true`, `false`, `true`, `true` |
+| `calendarRange` | the same as `calendar`                                                                        | the same as `calendar`                                |
+| `timePicker`    | `clearable`, `format`, `hourStep`, `minuteStep`, `secondStep`, `showSeconds`                  | `true`, `24h`, `1`, `1`, `1`, `false`                 |
+| `carousel`      | `itemsPerView`, `loop`, `autoplay`, `autoplayInterval`, `showArrows`, `showDots`, `draggable` | `1`, `false`, `false`, `4000`, `true`, `true`, `true` |
+| `pagination`    | `variant`, `siblingCount`, `boundaryCount`, `pageSizeOptions`                                 | `compact`, `1`, `1`, `[10, 25, 50, 100]`              |
+
+```text
+local input > defaults.<key> > built-in default
+```
+
+`calendar` and `calendarRange` are separate keys and share the interface `KuiCalendarViewOptions`.
+A date picker renders a calendar inside its panel, so a `defaults.calendar` entry reaches it
+unless the panel sets the input itself. For the time picker, set the defaults on the `timePicker`
+key: the directive pushes them into its panel.
 
 ## Button primitives
 

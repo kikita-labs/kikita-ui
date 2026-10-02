@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   input,
+  numberAttribute,
   PLATFORM_ID,
   Renderer2,
   signal,
@@ -19,6 +20,12 @@ import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
 import type { KuiTooltipPlacement } from './kui-tooltip-placement.type';
 import type { KuiTooltipTrigger } from './kui-tooltip-trigger.type';
 import { KuiTooltipTriggerType } from './kui-tooltip-trigger.type';
+
+function optionalTooltipOffset(value: unknown): number | undefined {
+  const parsed = numberAttribute(value, Number.NaN);
+
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
 
 /**
  * Shows a text tooltip on hover and keyboard focus, with an adaptive tap trigger for touch
@@ -48,6 +55,11 @@ export class KuiTooltipDirective implements OnDestroy {
 
   /** Preferred placement relative to the trigger element. Defaults to `defaults.tooltip.placement`, then `top`. */
   readonly placement = input<KuiTooltipPlacement | undefined>();
+
+  /** Gap in px between the trigger and the tooltip. Defaults to `defaults.tooltip.offset`, then `6`. */
+  readonly offset = input<number | undefined, unknown>(undefined, {
+    transform: optionalTooltipOffset,
+  });
 
   /**
    * Local interaction mode override. When omitted, the nearest `tooltip` defaults
@@ -166,6 +178,7 @@ export class KuiTooltipDirective implements OnDestroy {
       id: this.tooltipId,
       overlay: this.overlay,
       placement: this.placement() ?? this.tooltipDefaults()?.placement ?? 'top',
+      offset: this.offset() ?? this.tooltipDefaults()?.offset,
       text,
       touchEnabled:
         this.effectiveTrigger() === KuiTooltipTriggerType.Auto ||

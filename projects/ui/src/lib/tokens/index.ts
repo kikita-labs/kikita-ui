@@ -1,4 +1,6 @@
 export * from './kui-button-options.interface';
+export * from './kui-calendar-options.interface';
+export * from './kui-carousel-options.interface';
 export * from './kui-combobox-options.interface';
 export * from './kui-date-picker-options.interface';
 export * from './kui-deprecated-provide-options';
@@ -9,6 +11,7 @@ export * from './kui-field-options.interface';
 export * from './kui-menu-options.interface';
 export * from './kui-modal-options.interface';
 export * from './kui-overlay-options.interface';
+export * from './kui-pagination-options.interface';
 export * from './kui-popover-options.interface';
 export * from './kui-select-options.interface';
 export * from './kui-time-picker-options.interface';

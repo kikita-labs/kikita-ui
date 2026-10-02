@@ -1,7 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import type { ElementRef } from '@angular/core';
 import {
-  booleanAttribute,
   Component,
   computed,
   contentChildren,
@@ -17,6 +16,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import {
   KUI_CHEVRON_LEFT_D,
   KUI_CHEVRON_RIGHT_D,
@@ -24,11 +24,15 @@ import {
   KUI_PLAY_D,
 } from '../../utils/kui-chrome-icon-paths.util';
 import { kuiNextId } from '../../utils/kui-id.util';
-import { positiveIntegerAttribute } from '../../utils/kui-input-transform.util';
+import {
+  optionalBooleanAttribute,
+  optionalPositiveIntegerAttribute,
+} from '../../utils/kui-input-transform.util';
 import { KuiIconButtonDirective } from '../icon-button';
 import { KuiCarouselSlideDirective } from './kui-carousel-slide.directive';
 
-function autoplayIntervalAttribute(value: unknown): number {
+function autoplayIntervalAttribute(value: unknown): number | undefined {
+  if (value === undefined || value === null) return undefined;
   const parsed = Number(value);
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 4000;
 }
@@ -68,9 +72,9 @@ function autoplayIntervalAttribute(value: unknown): number {
       <div
         #track
         class="kui-carousel__track"
-        [attr.data-kui-locked]="draggable() ? null : ''"
-        [attr.tabindex]="draggable() ? 0 : null"
-        [style.--kui-carousel-items-per-view]="itemsPerView()"
+        [attr.data-kui-locked]="effectiveDraggable() ? null : ''"
+        [attr.tabindex]="effectiveDraggable() ? 0 : null"
+        [style.--kui-carousel-items-per-view]="effectiveItemsPerView()"
         [style.cursor]="trackCursor()"
         [style.user-select]="dragging() ? 'none' : null"
         [attr.aria-live]="effectivePlaying() ? 'off' : 'polite'"
@@ -86,7 +90,7 @@ function autoplayIntervalAttribute(value: unknown): number {
         <ng-content select="[kuiCarouselSlide]" />
       </div>
 
-      @if (showArrows()) {
+      @if (effectiveShowArrows()) {
         <span class="kui-carousel__control-slot kui-carousel__control-slot--prev">
           <button
             kuiIconButton
@@ -127,7 +131,7 @@ function autoplayIntervalAttribute(value: unknown): number {
         </span>
       }
 
-      @if (autoplay()) {
+      @if (effectiveAutoplay()) {
         <span class="kui-carousel__control-slot kui-carousel__control-slot--play">
           <button
             kuiIconButton
@@ -150,7 +154,7 @@ function autoplayIntervalAttribute(value: unknown): number {
       }
     </div>
 
-    @if (showDots()) {
+    @if (effectiveShowDots()) {
       <div
         class="kui-carousel__dots"
         role="tablist"
@@ -182,25 +186,37 @@ function autoplayIntervalAttribute(value: unknown): number {
 /** Slide strip with Prev/Next, a dot picker, and optional autoplay. See the class-level example above. */
 export class KuiCarouselComponent {
   /** How many slides are visible at once. Defaults to `1`. */
-  readonly itemsPerView = input(1, { transform: positiveIntegerAttribute });
+  readonly itemsPerView = input<number | undefined, unknown>(undefined, {
+    transform: optionalPositiveIntegerAttribute,
+  });
 
   /** Wraps navigation at the edges instead of disabling Prev/Next there. Defaults to `false`. */
-  readonly loop = input(false, { transform: booleanAttribute });
+  readonly loop = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   /**
    * Advances automatically on a timer. Always renders a visible Play/Pause control and pauses
    * while the pointer or focus is inside the carousel. Defaults to `false`.
    */
-  readonly autoplay = input(false, { transform: booleanAttribute });
+  readonly autoplay = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   /** Autoplay delay between slides, in milliseconds. Defaults to `4000`. */
-  readonly autoplayInterval = input(4000, { transform: autoplayIntervalAttribute });
+  readonly autoplayInterval = input<number | undefined, unknown>(undefined, {
+    transform: autoplayIntervalAttribute,
+  });
 
   /** Shows the Prev/Next arrow controls. Defaults to `true`. Swipe/scroll works regardless. */
-  readonly showArrows = input(true, { transform: booleanAttribute });
+  readonly showArrows = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   /** Shows the dot picker below the track. Defaults to `true`. Swipe/scroll works regardless. */
-  readonly showDots = input(true, { transform: booleanAttribute });
+  readonly showDots = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
 
   /**
    * Enables dragging the track: native touch swipe (always native `overflow-x` scroll -- this
@@ -211,7 +227,33 @@ export class KuiCarouselComponent {
    * `false` also switches the track to `overflow-x: hidden`, since blocking the drag gesture alone
    * still leaves wheel/trackpad scroll able to move it.
    */
-  readonly draggable = input(true, { transform: booleanAttribute });
+  readonly draggable = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
+
+  private readonly carouselDefaults = inject(KuiDefaults).get('carousel');
+
+  protected readonly effectiveItemsPerView = computed(
+    () => this.itemsPerView() ?? this.carouselDefaults()?.itemsPerView ?? 1,
+  );
+  protected readonly effectiveLoop = computed(
+    () => this.loop() ?? this.carouselDefaults()?.loop ?? false,
+  );
+  protected readonly effectiveAutoplay = computed(
+    () => this.autoplay() ?? this.carouselDefaults()?.autoplay ?? false,
+  );
+  protected readonly effectiveAutoplayInterval = computed(
+    () => this.autoplayInterval() ?? this.carouselDefaults()?.autoplayInterval ?? 4000,
+  );
+  protected readonly effectiveShowArrows = computed(
+    () => this.showArrows() ?? this.carouselDefaults()?.showArrows ?? true,
+  );
+  protected readonly effectiveShowDots = computed(
+    () => this.showDots() ?? this.carouselDefaults()?.showDots ?? true,
+  );
+  protected readonly effectiveDraggable = computed(
+    () => this.draggable() ?? this.carouselDefaults()?.draggable ?? true,
+  );
 
   /**
    * Accessible name for the carousel region. Defaults to `Slides`; use a content-specific name
@@ -247,24 +289,26 @@ export class KuiCarouselComponent {
 
   /** Highest reachable `index` -- `slideCount - itemsPerView`, clamped to `>= 0`. */
   protected readonly maxIndex = computed(() =>
-    Math.max(0, this.slideCount() - Math.max(1, this.itemsPerView())),
+    Math.max(0, this.slideCount() - Math.max(1, this.effectiveItemsPerView())),
   );
 
   protected readonly clampedIndex = computed(() =>
     Math.min(Math.max(this.index(), 0), this.maxIndex()),
   );
 
-  protected readonly prevDisabled = computed(() => !this.loop() && this.clampedIndex() <= 0);
+  protected readonly prevDisabled = computed(
+    () => !this.effectiveLoop() && this.clampedIndex() <= 0,
+  );
   protected readonly nextDisabled = computed(
-    () => !this.loop() && this.clampedIndex() >= this.maxIndex(),
+    () => !this.effectiveLoop() && this.clampedIndex() >= this.maxIndex(),
   );
 
   protected readonly effectivePlaying = computed(
-    () => this.autoplay() && !this.manuallyPaused() && !this.hoverPaused(),
+    () => this.effectiveAutoplay() && !this.manuallyPaused() && !this.hoverPaused(),
   );
 
   protected readonly trackCursor = computed(() => {
-    if (!this.draggable()) return 'default';
+    if (!this.effectiveDraggable()) return 'default';
     return this.dragging() ? 'grabbing' : 'grab';
   });
 
@@ -305,7 +349,7 @@ export class KuiCarouselComponent {
         return;
       }
 
-      this.autoplayTimer = setInterval(() => this.goNext(), this.autoplayInterval());
+      this.autoplayTimer = setInterval(() => this.goNext(), this.effectiveAutoplayInterval());
       onCleanup(() => this.stopAutoplayTimer());
     });
 
@@ -326,7 +370,7 @@ export class KuiCarouselComponent {
 
   protected goTo(target: number): void {
     const max = this.maxIndex();
-    const next = this.loop()
+    const next = this.effectiveLoop()
       ? ((target % (max + 1)) + (max + 1)) % (max + 1)
       : Math.min(Math.max(target, 0), max);
 
@@ -446,7 +490,7 @@ export class KuiCarouselComponent {
    * duration so the browser doesn't fight the drag by snapping back mid-drag.
    */
   protected onTrackPointerDown(event: PointerEvent): void {
-    if (!this.isBrowser || !this.draggable() || event.pointerType === 'touch') return;
+    if (!this.isBrowser || !this.effectiveDraggable() || event.pointerType === 'touch') return;
 
     const track = this.trackRef()?.nativeElement;
     if (!track) return;

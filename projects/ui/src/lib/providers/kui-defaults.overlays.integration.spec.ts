@@ -1,4 +1,4 @@
-import { OverlayContainer } from '@angular/cdk/overlay';
+import { FlexibleConnectedPositionStrategy, OverlayContainer } from '@angular/cdk/overlay';
 import {
   Component,
   createEnvironmentInjector,
@@ -23,6 +23,7 @@ import { KuiMenuForDirective } from '../components/menu/kui-menu-for.directive';
 import { KuiMenuItemDirective } from '../components/menu/kui-menu-item.directive';
 import { KuiPopoverComponent } from '../components/popover/kui-popover.component';
 import { KuiPopoverForDirective } from '../components/popover/kui-popover-for.directive';
+import { KuiTooltipDirective } from '../components/tooltip/kui-tooltip.directive';
 import { KuiDefaults } from './kui-defaults.service';
 import { provideKikitaUi } from './provide-kikita-ui';
 import { kuiProvideDefaults } from './provide-kui-defaults';
@@ -269,5 +270,55 @@ describe('KuiDefaults read by overlays', () => {
 
       expect(fixture.componentInstance.pop().effectiveTriggerType()).toBe('hover');
     });
+  });
+});
+
+@Component({
+  imports: [KuiTooltipDirective],
+  template: `
+    <button id="default" [kuiTooltip]="'Info'">Default</button>
+    <button id="local" [kuiTooltip]="'Info'" placement="left" [offset]="2">Local</button>
+  `,
+})
+class TooltipHost {}
+
+describe('KuiDefaults read by the tooltip placement and offset', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+    TestBed.resetTestingModule();
+  });
+
+  function hover(button: HTMLElement): void {
+    button.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse', bubbles: true }));
+  }
+
+  it('uses the placement and offset from the defaults and lets local inputs win', () => {
+    vi.useFakeTimers();
+    const withPositions = vi.spyOn(FlexibleConnectedPositionStrategy.prototype, 'withPositions');
+
+    TestBed.configureTestingModule({
+      providers: [provideKikitaUi({ defaults: { tooltip: { placement: 'bottom', offset: 20 } } })],
+    });
+    const fixture = TestBed.createComponent(TooltipHost);
+    fixture.detectChanges();
+    const host = fixture.nativeElement as HTMLElement;
+
+    hover(host.querySelector<HTMLElement>('#default')!);
+    fixture.detectChanges();
+
+    const tooltip = document.querySelector('.kui-tooltip');
+
+    expect(tooltip?.getAttribute('data-kui-placement')).toBe('bottom');
+    expect(withPositions.mock.lastCall?.[0][0]?.offsetY).toBe(20);
+
+    host
+      .querySelector<HTMLElement>('#default')!
+      .dispatchEvent(new PointerEvent('pointerleave', { pointerType: 'mouse', bubbles: true }));
+    vi.runAllTimers();
+    hover(host.querySelector<HTMLElement>('#local')!);
+    fixture.detectChanges();
+
+    expect(withPositions.mock.lastCall?.[0][0]?.offsetX).toBe(-2);
   });
 });
