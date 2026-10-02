@@ -147,7 +147,7 @@ describe('createKuiTheme', () => {
 
     expect(stylesheet).toContain(':root, [data-kui-theme="light"]');
     expect(stylesheet).toContain('[data-kui-theme="dark"]');
-    expect(stylesheet).toContain('--kui-seed-info: oklch(0.58 0.16 215);');
+    expect(stylesheet).toContain('--kui-seed-info: oklch(0.53 0.14 215);');
     expect(stylesheet).toContain('--kui-btn-gap: 6px;');
     expect(stylesheet).not.toContain('--kui-btn-solid-bg:');
   });
@@ -171,6 +171,6 @@ describe('createKuiTheme', () => {
     expect(theme.palettes.primary[5]).toMatch(/^oklch\(/);
     expect(theme.component['--kui-radius-md']).toBe('10px');
     expect(theme.component['--kui-btn-px']).toBe('var(--kui-btn-px-compact)');
-    expect(theme.seeds['--kui-seed-info']).toBe('oklch(0.58 0.16 215)');
+    expect(theme.seeds['--kui-seed-info']).toBe('oklch(0.53 0.14 215)');
   });
 });

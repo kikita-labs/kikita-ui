@@ -23,9 +23,9 @@ Required color seeds:
 | `--kui-seed-primary` | `oklch(0.52 0.25 285)` | Brand/action color         |
 | `--kui-seed-neutral` | `oklch(0.5 0.01 80)`   | Surface, border, text base |
 | `--kui-seed-success` | `oklch(0.54 0.16 145)` | Positive state             |
-| `--kui-seed-warning` | `oklch(0.74 0.16 75)`  | Caution state              |
+| `--kui-seed-warning` | `oklch(0.56 0.15 65)`  | Caution state              |
 | `--kui-seed-danger`  | `oklch(0.54 0.22 25)`  | Error/destructive state    |
-| `--kui-seed-info`    | `oklch(0.58 0.16 215)` | Informational state        |
+| `--kui-seed-info`    | `oklch(0.53 0.14 215)` | Informational state        |
 
 ## Palette Tokens
 

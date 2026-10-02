@@ -38,6 +38,12 @@
     overflow-wrap: anywhere;
   }
 
+  /* A spinner placed inside a button takes the button text colour, like the built-in loading state. */
+  .kui-button .kui-loader {
+    --kui-loader-track: color-mix(in oklch, currentColor 25%, transparent);
+    --kui-loader-fill: currentColor;
+  }
+
   .kui-button__loader {
     position: absolute;
     inset-block-start: 50%;

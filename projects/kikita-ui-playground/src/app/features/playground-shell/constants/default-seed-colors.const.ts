@@ -5,7 +5,7 @@ export const DEFAULT_PLAYGROUND_SEED_COLORS = {
   primary: '#5b4fe0',
   neutral: '#8f8a80',
   success: '#267e4f',
-  warning: '#9a7b2c',
+  warning: '#ae5d00',
   danger: '#c4443f',
   info: '#23709b',
 } as const satisfies KuiThemeColorSeeds;

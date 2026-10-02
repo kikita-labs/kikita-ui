@@ -52,7 +52,7 @@ const SCALE_NAMES: readonly KuiColorScaleName[] = [
   'info',
 ];
 const ACCENT_NAMES: readonly KuiAccentName[] = ['primary', 'success', 'warning', 'danger', 'info'];
-const FALLBACK_INFO_SEED = 'oklch(0.58 0.16 215)';
+const FALLBACK_INFO_SEED = 'oklch(0.53 0.14 215)';
 
 const WHITE: KuiOklchColor = { lightness: 1, chroma: 0, hue: 0 };
 const NEAR_BLACK: KuiOklchColor = { lightness: 0.15, chroma: 0, hue: 0 };

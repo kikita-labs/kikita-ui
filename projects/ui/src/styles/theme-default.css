@@ -8,9 +8,9 @@
     --kui-seed-primary: oklch(0.52 0.25 285);
     --kui-seed-neutral: oklch(0.5 0.01 80);
     --kui-seed-success: oklch(0.54 0.16 145);
-    --kui-seed-warning: oklch(0.74 0.16 75);
+    --kui-seed-warning: oklch(0.56 0.15 65);
     --kui-seed-danger: oklch(0.54 0.22 25);
-    --kui-seed-info: oklch(0.58 0.16 215);
+    --kui-seed-info: oklch(0.53 0.14 215);
     --kui-primary-1: oklch(0.9764 0.02 285);
     --kui-primary-2: oklch(0.9336 0.0375 285);
     --kui-primary-3: oklch(0.8806 0.0875 285);
@@ -35,18 +35,18 @@
     --kui-success-10: oklch(0.1575 0.056 145);
     --kui-success-11: oklch(0.1268 0.0352 145);
     --kui-success-12: oklch(0.0801 0.0192 145);
-    --kui-warning-1: oklch(0.9744 0.0128 75);
-    --kui-warning-2: oklch(0.9316 0.024 75);
-    --kui-warning-3: oklch(0.8722 0.056 75);
-    --kui-warning-4: oklch(0.7791 0.096 75);
-    --kui-warning-5: oklch(0.678 0.136 75);
-    --kui-warning-6: oklch(0.74 0.16 75);
-    --kui-warning-7: oklch(0.4266 0.144 75);
-    --kui-warning-8: oklch(0.3312 0.12 75);
-    --kui-warning-9: oklch(0.2354 0.088 75);
-    --kui-warning-10: oklch(0.1659 0.056 75);
-    --kui-warning-11: oklch(0.1315 0.0352 75);
-    --kui-warning-12: oklch(0.0828 0.0192 75);
+    --kui-warning-1: oklch(0.9747 0.012 65);
+    --kui-warning-2: oklch(0.932 0.0225 65);
+    --kui-warning-3: oklch(0.8732 0.0525 65);
+    --kui-warning-4: oklch(0.7807 0.09 65);
+    --kui-warning-5: oklch(0.68 0.1275 65);
+    --kui-warning-6: oklch(0.56 0.15 65);
+    --kui-warning-7: oklch(0.4294 0.135 65);
+    --kui-warning-8: oklch(0.3334 0.1125 65);
+    --kui-warning-9: oklch(0.237 0.0825 65);
+    --kui-warning-10: oklch(0.1669 0.0525 65);
+    --kui-warning-11: oklch(0.1322 0.033 65);
+    --kui-warning-12: oklch(0.0832 0.018 65);
     --kui-danger-1: oklch(0.9796 0.0176 25);
     --kui-danger-2: oklch(0.9348 0.033 25);
     --kui-danger-3: oklch(0.8884 0.077 25);
@@ -59,18 +59,18 @@
     --kui-danger-10: oklch(0.1667 0.077 25);
     --kui-danger-11: oklch(0.1362 0.0484 25);
     --kui-danger-12: oklch(0.0853 0.0264 25);
-    --kui-info-1: oklch(0.9729 0.0128 215);
-    --kui-info-2: oklch(0.9287 0.024 215);
-    --kui-info-3: oklch(0.8654 0.056 215);
-    --kui-info-4: oklch(0.7671 0.096 215);
-    --kui-info-5: oklch(0.6535 0.136 215);
-    --kui-info-6: oklch(0.58 0.16 215);
-    --kui-info-7: oklch(0.3887 0.144 215);
-    --kui-info-8: oklch(0.2989 0.12 215);
-    --kui-info-9: oklch(0.2116 0.088 215);
-    --kui-info-10: oklch(0.1511 0.056 215);
-    --kui-info-11: oklch(0.1231 0.0352 215);
-    --kui-info-12: oklch(0.0787 0.0192 215);
+    --kui-info-1: oklch(0.9731 0.0112 215);
+    --kui-info-2: oklch(0.929 0.021 215);
+    --kui-info-3: oklch(0.8661 0.049 215);
+    --kui-info-4: oklch(0.7682 0.084 215);
+    --kui-info-5: oklch(0.6611 0.119 215);
+    --kui-info-6: oklch(0.53 0.14 215);
+    --kui-info-7: oklch(0.3947 0.126 215);
+    --kui-info-8: oklch(0.3036 0.105 215);
+    --kui-info-9: oklch(0.215 0.077 215);
+    --kui-info-10: oklch(0.1534 0.049 215);
+    --kui-info-11: oklch(0.1248 0.0308 215);
+    --kui-info-12: oklch(0.0797 0.0168 215);
     --kui-color-on-scrim: oklch(1 0 0);
     --kui-color-state-hover: color-mix(in oklab, var(--kui-color-text) 8%, transparent);
     --kui-color-state-active: color-mix(in oklab, var(--kui-color-text) 14%, transparent);
@@ -174,8 +174,8 @@
     --kui-color-success-soft-border: var(--kui-success-4);
     --kui-color-success-text: var(--kui-success-8);
     --kui-color-warning-fill: var(--kui-warning-6);
-    --kui-color-warning-on-fill: oklch(0.15 0 0);
-    --kui-color-warning-fill-away: oklch(1 0 0);
+    --kui-color-warning-on-fill: oklch(1 0 0);
+    --kui-color-warning-fill-away: oklch(0 0 0);
     --kui-color-warning-fill-hover: color-mix(
       in oklab,
       var(--kui-color-warning-fill) 82%,
@@ -186,7 +186,7 @@
       var(--kui-color-warning-fill) 64%,
       var(--kui-color-warning-fill-away)
     );
-    --kui-color-warning-indicator: var(--kui-warning-7);
+    --kui-color-warning-indicator: var(--kui-color-warning-fill);
     --kui-color-warning-soft-bg: var(--kui-warning-1);
     --kui-color-warning-soft-text: var(--kui-warning-8);
     --kui-color-warning-soft-border: var(--kui-warning-4);
@@ -212,8 +212,8 @@
     --kui-color-danger-soft-bg-hover: var(--kui-danger-2);
     --kui-color-danger-soft-bg-active: var(--kui-danger-3);
     --kui-color-info-fill: var(--kui-info-6);
-    --kui-color-info-on-fill: oklch(0.15 0 0);
-    --kui-color-info-fill-away: oklch(1 0 0);
+    --kui-color-info-on-fill: oklch(1 0 0);
+    --kui-color-info-fill-away: oklch(0 0 0);
     --kui-color-info-fill-hover: color-mix(
       in oklab,
       var(--kui-color-info-fill) 82%,
@@ -510,9 +510,9 @@
     --kui-seed-primary: oklch(0.52 0.25 285);
     --kui-seed-neutral: oklch(0.5 0.01 80);
     --kui-seed-success: oklch(0.54 0.16 145);
-    --kui-seed-warning: oklch(0.74 0.16 75);
+    --kui-seed-warning: oklch(0.56 0.15 65);
     --kui-seed-danger: oklch(0.54 0.22 25);
-    --kui-seed-info: oklch(0.58 0.16 215);
+    --kui-seed-info: oklch(0.53 0.14 215);
     --kui-primary-1: oklch(0.9764 0.02 285);
     --kui-primary-2: oklch(0.9336 0.0375 285);
     --kui-primary-3: oklch(0.8806 0.0875 285);
@@ -537,18 +537,18 @@
     --kui-success-10: oklch(0.1575 0.056 145);
     --kui-success-11: oklch(0.1268 0.0352 145);
     --kui-success-12: oklch(0.0801 0.0192 145);
-    --kui-warning-1: oklch(0.9744 0.0128 75);
-    --kui-warning-2: oklch(0.9316 0.024 75);
-    --kui-warning-3: oklch(0.8722 0.056 75);
-    --kui-warning-4: oklch(0.7791 0.096 75);
-    --kui-warning-5: oklch(0.678 0.136 75);
-    --kui-warning-6: oklch(0.74 0.16 75);
-    --kui-warning-7: oklch(0.4266 0.144 75);
-    --kui-warning-8: oklch(0.3312 0.12 75);
-    --kui-warning-9: oklch(0.2354 0.088 75);
-    --kui-warning-10: oklch(0.1659 0.056 75);
-    --kui-warning-11: oklch(0.1315 0.0352 75);
-    --kui-warning-12: oklch(0.0828 0.0192 75);
+    --kui-warning-1: oklch(0.9747 0.012 65);
+    --kui-warning-2: oklch(0.932 0.0225 65);
+    --kui-warning-3: oklch(0.8732 0.0525 65);
+    --kui-warning-4: oklch(0.7807 0.09 65);
+    --kui-warning-5: oklch(0.68 0.1275 65);
+    --kui-warning-6: oklch(0.56 0.15 65);
+    --kui-warning-7: oklch(0.4294 0.135 65);
+    --kui-warning-8: oklch(0.3334 0.1125 65);
+    --kui-warning-9: oklch(0.237 0.0825 65);
+    --kui-warning-10: oklch(0.1669 0.0525 65);
+    --kui-warning-11: oklch(0.1322 0.033 65);
+    --kui-warning-12: oklch(0.0832 0.018 65);
     --kui-danger-1: oklch(0.9796 0.0176 25);
     --kui-danger-2: oklch(0.9348 0.033 25);
     --kui-danger-3: oklch(0.8884 0.077 25);
@@ -561,18 +561,18 @@
     --kui-danger-10: oklch(0.1667 0.077 25);
     --kui-danger-11: oklch(0.1362 0.0484 25);
     --kui-danger-12: oklch(0.0853 0.0264 25);
-    --kui-info-1: oklch(0.9729 0.0128 215);
-    --kui-info-2: oklch(0.9287 0.024 215);
-    --kui-info-3: oklch(0.8654 0.056 215);
-    --kui-info-4: oklch(0.7671 0.096 215);
-    --kui-info-5: oklch(0.6535 0.136 215);
-    --kui-info-6: oklch(0.58 0.16 215);
-    --kui-info-7: oklch(0.3887 0.144 215);
-    --kui-info-8: oklch(0.2989 0.12 215);
-    --kui-info-9: oklch(0.2116 0.088 215);
-    --kui-info-10: oklch(0.1511 0.056 215);
-    --kui-info-11: oklch(0.1231 0.0352 215);
-    --kui-info-12: oklch(0.0787 0.0192 215);
+    --kui-info-1: oklch(0.9731 0.0112 215);
+    --kui-info-2: oklch(0.929 0.021 215);
+    --kui-info-3: oklch(0.8661 0.049 215);
+    --kui-info-4: oklch(0.7682 0.084 215);
+    --kui-info-5: oklch(0.6611 0.119 215);
+    --kui-info-6: oklch(0.53 0.14 215);
+    --kui-info-7: oklch(0.3947 0.126 215);
+    --kui-info-8: oklch(0.3036 0.105 215);
+    --kui-info-9: oklch(0.215 0.077 215);
+    --kui-info-10: oklch(0.1534 0.049 215);
+    --kui-info-11: oklch(0.1248 0.0308 215);
+    --kui-info-12: oklch(0.0797 0.0168 215);
     --kui-color-on-scrim: oklch(1 0 0);
     --kui-color-state-hover: color-mix(in oklab, var(--kui-color-text) 8%, transparent);
     --kui-color-state-active: color-mix(in oklab, var(--kui-color-text) 14%, transparent);
@@ -676,8 +676,8 @@
     --kui-color-success-soft-border: var(--kui-success-8);
     --kui-color-success-text: var(--kui-success-4);
     --kui-color-warning-fill: var(--kui-warning-6);
-    --kui-color-warning-on-fill: oklch(0.15 0 0);
-    --kui-color-warning-fill-away: oklch(1 0 0);
+    --kui-color-warning-on-fill: oklch(1 0 0);
+    --kui-color-warning-fill-away: oklch(0 0 0);
     --kui-color-warning-fill-hover: color-mix(
       in oklab,
       var(--kui-color-warning-fill) 72%,
@@ -714,8 +714,8 @@
     --kui-color-danger-soft-bg-hover: var(--kui-danger-10);
     --kui-color-danger-soft-bg-active: var(--kui-danger-9);
     --kui-color-info-fill: var(--kui-info-6);
-    --kui-color-info-on-fill: oklch(0.15 0 0);
-    --kui-color-info-fill-away: oklch(1 0 0);
+    --kui-color-info-on-fill: oklch(1 0 0);
+    --kui-color-info-fill-away: oklch(0 0 0);
     --kui-color-info-fill-hover: color-mix(
       in oklab,
       var(--kui-color-info-fill) 72%,

@@ -17,9 +17,9 @@ describe('createKuiTheme solid fill roles', () => {
     const expected = {
       primary: [WHITE, WHITE],
       success: [WHITE, WHITE],
-      warning: [NEAR_BLACK, NEAR_BLACK],
+      warning: [WHITE, WHITE],
       danger: [WHITE, WHITE],
-      info: [NEAR_BLACK, NEAR_BLACK],
+      info: [WHITE, WHITE],
     } as const;
 
     for (const [accent, [light, dark]] of Object.entries(expected)) {
@@ -28,11 +28,18 @@ describe('createKuiTheme solid fill roles', () => {
     }
   });
 
+  it('picks near-black text and a lighter hover for a light seed', () => {
+    const light = createKuiTheme(withPrimary('oklch(0.8 0.15 85)'));
+
+    for (const mode of ['light', 'dark'] as const) {
+      expect(light[mode]['--kui-color-primary-on-fill'], mode).toBe(NEAR_BLACK);
+      expect(light[mode]['--kui-color-primary-fill-away'], mode).toBe(WHITE);
+    }
+  });
+
   it('moves hover and active away from the text colour', () => {
     expect(theme.light['--kui-color-primary-fill-away']).toBe('oklch(0 0 0)');
-    expect(theme.light['--kui-color-warning-fill-away']).toBe(WHITE);
     expect(theme.dark['--kui-color-primary-fill-away']).toBe('oklch(0 0 0)');
-    expect(theme.dark['--kui-color-warning-fill-away']).toBe(WHITE);
     expect(theme.light['--kui-color-primary-fill-hover']).toBe(
       'color-mix(in oklab, var(--kui-color-primary-fill) 82%, var(--kui-color-primary-fill-away))',
     );
@@ -62,7 +69,9 @@ describe('createKuiTheme solid fill roles', () => {
 
   it('uses the accent fill as an indicator only when it reaches 3:1 on light surfaces', () => {
     expect(theme.light['--kui-color-primary-indicator']).toBe('var(--kui-color-primary-fill)');
-    expect(theme.light['--kui-color-warning-indicator']).toBe('var(--kui-warning-7)');
+    expect(
+      createKuiTheme(withPrimary('oklch(0.8 0.15 85)')).light['--kui-color-primary-indicator'],
+    ).toBe('var(--kui-primary-7)');
 
     for (const accent of ['primary', 'success', 'warning', 'danger', 'info']) {
       expect(theme.dark[`--kui-color-${accent}-indicator`]).toBe(`var(--kui-color-${accent}-fill)`);

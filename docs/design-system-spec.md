@@ -37,9 +37,9 @@ Ember starts with six color seeds:
   --kui-seed-primary: oklch(0.52 0.25 285);
   --kui-seed-neutral: oklch(0.5 0.01 80);
   --kui-seed-success: oklch(0.54 0.16 145);
-  --kui-seed-warning: oklch(0.74 0.16 75);
+  --kui-seed-warning: oklch(0.56 0.15 65);
   --kui-seed-danger: oklch(0.54 0.22 25);
-  --kui-seed-info: oklch(0.58 0.16 215);
+  --kui-seed-info: oklch(0.53 0.14 215);
 }
 ```
 
@@ -191,9 +191,9 @@ provideKikitaUi({
         primary: 'oklch(0.52 0.25 285)',
         neutral: 'oklch(0.5 0.01 80)',
         success: 'oklch(0.54 0.16 145)',
-        warning: 'oklch(0.74 0.16 75)',
+        warning: 'oklch(0.56 0.15 65)',
         danger: 'oklch(0.54 0.22 25)',
-        info: 'oklch(0.58 0.16 215)',
+        info: 'oklch(0.53 0.14 215)',
       },
       radius: 8,
       density: 'regular',
