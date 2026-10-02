@@ -101,18 +101,18 @@ All other layout (buttons, forms, images) is developer-provided via `<ng-content
 
 ## CSS custom properties
 
-| Token                      | Default                        | Description                                   |
-| -------------------------- | ------------------------------ | --------------------------------------------- |
-| `--kui-popover-bg`         | `--kui-color-surface-elevated` | Panel background                              |
-| `--kui-popover-border`     | `--kui-color-border`           | Border colour                                 |
-| `--kui-popover-radius`     | `--kui-radius-lg`              | Corner radius                                 |
-| `--kui-popover-shadow`     | `--kui-shadow-lg`              | Drop shadow                                   |
-| `--kui-popover-padding-x`  | `--kui-space-4`                | Horizontal padding                            |
-| `--kui-popover-padding-y`  | `--kui-space-4`                | Vertical padding                              |
-| `--kui-popover-min-width`  | `160px`                        | Minimum panel width                           |
-| `--kui-popover-max-width`  | `320px`                        | Maximum panel width                           |
-| `--kui-popover-arrow-size` | `10px`                         | Arrow caret size                              |
-| `--kui-z-popover`          | `400`                          | z-index (between Dropdown 300 and Dialog 500) |
+| Token                      | Default                        | Description                                 |
+| -------------------------- | ------------------------------ | ------------------------------------------- |
+| `--kui-popover-bg`         | `--kui-color-surface-elevated` | Panel background                            |
+| `--kui-popover-border`     | `--kui-color-border`           | Border colour                               |
+| `--kui-popover-radius`     | `--kui-radius-lg`              | Corner radius                               |
+| `--kui-popover-shadow`     | `--kui-shadow-lg`              | Drop shadow                                 |
+| `--kui-popover-padding-x`  | `--kui-space-4`                | Horizontal padding                          |
+| `--kui-popover-padding-y`  | `--kui-space-4`                | Vertical padding                            |
+| `--kui-popover-min-width`  | `160px`                        | Minimum panel width                         |
+| `--kui-popover-max-width`  | `320px`                        | Maximum panel width                         |
+| `--kui-popover-arrow-size` | `10px`                         | Arrow caret size                            |
+| `--kui-z-popover`          | `400`                          | z-index in browsers without the Popover API |
 
 ## Behaviour
 

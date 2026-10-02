@@ -118,9 +118,16 @@ is not set, the part uses the semantic role in the Default column.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the scale token in the Default column.
 
-| Token                                 | Default              | Controls               |
-| ------------------------------------- | -------------------- | ---------------------- |
-| `--kui-slider-tooltip-text-font-size` | `--kui-text-xs-size` | Tooltip text font size |
-| `--kui-slider-labels-font-size`       | `--kui-text-xs-size` | Labels font size       |
+| Token                                 | Default                    | Controls                                                   |
+| ------------------------------------- | -------------------------- | ---------------------------------------------------------- |
+| `--kui-slider-tooltip-text-font-size` | `--kui-text-xs-size`       | Tooltip text font size                                     |
+| `--kui-slider-labels-font-size`       | `--kui-text-xs-size`       | Labels font size                                           |
+| `--kui-slider-thumb-size`             | `18px (sm 14px, lg 22px)`  | Thumb diameter; sets the track inset and the block padding |
+| `--kui-slider-thumb-size-active`      | `thumb size + 4px`         | Thumb diameter while pressed                               |
+| `--kui-slider-track-size`             | `4px (sm 2px, lg 6px)`     | Track thickness                                            |
+| `--kui-slider-thumb-shadow`           | none                       | Thumb shadow at rest                                       |
+| `--kui-slider-thumb-shadow-hover`     | halo and 1px 3px black 30% | Thumb shadow on hover                                      |
+| `--kui-slider-thumb-shadow-focus`     | 1px 2px black 30%          | Thumb shadow on keyboard focus                             |
+| `--kui-slider-thumb-shadow-active`    | 2px 8px black 50% and halo | Thumb shadow while pressed                                 |
 
 <!-- geometry-tokens:end -->

@@ -58,7 +58,7 @@
   .kui-dialog-backdrop {
     position: fixed;
     inset: 0;
-    z-index: 100;
+    z-index: var(--kui-z-dialog);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -100,7 +100,7 @@
   }
   .kui-dialog--auto {
     width: auto;
-    min-width: 320px;
+    min-width: var(--kui-dialog-min-width-auto);
   }
 
   /* Fills the entire viewport for content that owns its own full layout (see KuiDialogSize). */
@@ -125,8 +125,8 @@
   /* Icon slot: place inside .kui-dialog-header before the title */
   .kui-dialog-icon {
     flex: 0 0 auto;
-    width: 20px;
-    height: 20px;
+    width: var(--kui-dialog-icon-size);
+    height: var(--kui-dialog-icon-size);
     color: var(--kui-dialog-icon-color, var(--_kui-dialog-icon-color, currentColor));
   }
 
@@ -159,8 +159,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: var(--kui-dialog-close-size);
+    height: var(--kui-dialog-close-size);
     border: none;
     background: transparent;
     border-radius: var(--kui-dialog-close-radius, var(--kui-radius-sm));

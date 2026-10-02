@@ -148,12 +148,12 @@
   /* ── Sizes ──────────────────────────────────────────────────────────────── */
 
   .kui-accordion[data-kui-size='sm'] .kui-accordion-trigger {
-    min-height: 36px;
+    min-height: var(--kui-accordion-trigger-min-height-sm, 36px);
     font-size: var(--kui-accordion-trigger-font-size-sm, var(--kui-text-sm-size));
   }
 
   .kui-accordion[data-kui-size='lg'] .kui-accordion-trigger {
-    min-height: 52px;
+    min-height: var(--kui-accordion-trigger-min-height-lg, 52px);
     font-size: var(--kui-accordion-trigger-font-size-lg, var(--kui-text-md-size));
   }
 

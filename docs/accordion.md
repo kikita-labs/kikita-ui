@@ -117,5 +117,7 @@ is not set, the part uses the scale token in the Default column.
 | `--kui-accordion-body-content-padding-bottom-lg`   | `--kui-space-5`        | Body content padding, bottom lg   |
 | `--kui-accordion-body-content-padding-block-start` | `--kui-space-1`        | Body content padding, block start |
 | `--kui-accordion-body-content-padding-block-end`   | `--kui-space-4`        | Body content padding, block end   |
+| `--kui-accordion-trigger-min-height-sm`            | `36px`                 | Trigger minimum height, sm        |
+| `--kui-accordion-trigger-min-height-lg`            | `52px`                 | Trigger minimum height, lg        |
 
 <!-- geometry-tokens:end -->

@@ -93,9 +93,22 @@
 
   /* ── Region ─────────────────────────────────────────────────────────────── */
 
+  /* The region is a manual popover while toasts are visible, which puts it in the top layer above
+     open dialogs and drawers. The UA popover styles (inset, margin, border, padding, background,
+     overflow, size) are reset here; z-index is only the fallback for browsers without the
+     Popover API. */
   .kui-toast-region {
     position: fixed;
     z-index: var(--kui-z-toast, 1100);
+    inset: auto;
+    inline-size: auto;
+    block-size: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: visible;
+    background: transparent;
+    color: inherit;
     display: flex;
     gap: var(--kui-toast-stack-gap, var(--kui-space-2));
     pointer-events: none;

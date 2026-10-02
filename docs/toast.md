@@ -201,6 +201,8 @@ bottom-start bottom-center bottom-end   <- default
 
 `KuiToastService` lazily creates a single `KuiToastRegionComponent` on the first `open()` call and appends it to `document.body`. The region lives for the lifetime of the app and manages the toast stack as an Angular signal list.
 
+While toasts are visible the region is a manual popover, so it is shown in the browser top layer, where Dialog, Drawer, Menu and the other library overlays live. A toast added while an overlay is open, or an overlay opened while a toast is visible, raises the region above it (`z-index` has no effect between top-layer elements). `--kui-z-toast` only orders the region in a browser without the Popover API.
+
 ```
 KuiToastService        - @Service(), root-provided
   -> KuiToastRegionComponent  - internal, created via createComponent()

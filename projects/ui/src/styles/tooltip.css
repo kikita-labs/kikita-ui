@@ -2,7 +2,7 @@
   .kui-tooltip {
     box-sizing: border-box;
     position: fixed;
-    z-index: 9000;
+    z-index: var(--kui-z-tooltip);
     max-inline-size: 280px;
     padding-block: var(--kui-tooltip-py, 5px);
     padding-inline: var(--kui-tooltip-px, 9px);

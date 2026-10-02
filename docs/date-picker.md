@@ -188,8 +188,11 @@ is not set, the part uses the semantic role in the Default column.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the scale token in the Default column.
 
-| Token                                              | Default         | Controls                        |
-| -------------------------------------------------- | --------------- | ------------------------------- |
-| `--kui-date-picker-control-overlay-padding-inline` | `--kui-space-3` | Control overlay padding, inline |
+| Token                                              | Default         | Controls                                                       |
+| -------------------------------------------------- | --------------- | -------------------------------------------------------------- |
+| `--kui-date-picker-control-overlay-padding-inline` | `--kui-space-3` | Control overlay padding, inline                                |
+| `--kui-date-picker-padding-inline-start`           | `34px`          | Input start padding that clears the calendar icon              |
+| `--kui-date-picker-padding-inline-end`             | `34px`          | Input end padding that clears the chevron                      |
+| `--kui-date-picker-padding-inline-end-clearable`   | `56px`          | Input end padding that clears the clear button and the chevron |
 
 <!-- geometry-tokens:end -->

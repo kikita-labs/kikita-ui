@@ -235,7 +235,7 @@ export class KuiMenuComponent implements OnDestroy {
     const clampPanel = (): void => {
       const panel = overlayEl.querySelector<HTMLElement>('.kui-menu');
       if (!panel) return;
-      panel.style.maxHeight = 'calc(100vh - var(--kui-menu-viewport-margin, 32px))';
+      panel.style.maxHeight = 'calc(100vh - var(--kui-menu-viewport-margin, var(--kui-space-6)))';
       panel.style.minInlineSize = this.minWidth() ?? '';
       clampPanelToAvailableSpace(panel, this.document.documentElement.clientHeight);
     };

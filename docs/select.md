@@ -256,19 +256,22 @@ is not set, the part uses the semantic role in the Default column.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the scale token in the Default column.
 
-| Token                                           | Default              | Controls                         |
-| ----------------------------------------------- | -------------------- | -------------------------------- |
-| `--kui-listbox-option-gap`                      | `--kui-space-2`      | Option gap                       |
-| `--kui-listbox-option-padding-block`            | `--kui-space-2`      | Option padding, block            |
-| `--kui-listbox-option-padding-inline`           | `--kui-space-3`      | Option padding, inline           |
-| `--kui-listbox-option-radius`                   | `--kui-radius-sm`    | Option corner radius             |
-| `--kui-listbox-option-font-size`                | `--kui-text-sm-size` | Option font size                 |
-| `--kui-listbox-group-label-font-size`           | `--kui-text-xs-size` | Group label font size            |
-| `--kui-listbox-group-label-padding-block-start` | `--kui-space-2`      | Group label padding, block start |
-| `--kui-listbox-group-label-padding-inline`      | `--kui-space-3`      | Group label padding, inline      |
-| `--kui-listbox-group-label-padding-block-end`   | `--kui-space-1`      | Group label padding, block end   |
-| `--kui-listbox-empty-padding-block`             | `--kui-space-4`      | Empty padding, block             |
-| `--kui-listbox-empty-padding-inline`            | `--kui-space-3`      | Empty padding, inline            |
-| `--kui-listbox-empty-font-size`                 | `--kui-text-sm-size` | Empty font size                  |
+| Token                                           | Default              | Controls                                                       |
+| ----------------------------------------------- | -------------------- | -------------------------------------------------------------- |
+| `--kui-listbox-option-gap`                      | `--kui-space-2`      | Option gap                                                     |
+| `--kui-listbox-option-padding-block`            | `--kui-space-2`      | Option padding, block                                          |
+| `--kui-listbox-option-padding-inline`           | `--kui-space-3`      | Option padding, inline                                         |
+| `--kui-listbox-option-radius`                   | `--kui-radius-sm`    | Option corner radius                                           |
+| `--kui-listbox-option-font-size`                | `--kui-text-sm-size` | Option font size                                               |
+| `--kui-listbox-group-label-font-size`           | `--kui-text-xs-size` | Group label font size                                          |
+| `--kui-listbox-group-label-padding-block-start` | `--kui-space-2`      | Group label padding, block start                               |
+| `--kui-listbox-group-label-padding-inline`      | `--kui-space-3`      | Group label padding, inline                                    |
+| `--kui-listbox-group-label-padding-block-end`   | `--kui-space-1`      | Group label padding, block end                                 |
+| `--kui-listbox-empty-padding-block`             | `--kui-space-4`      | Empty padding, block                                           |
+| `--kui-listbox-empty-padding-inline`            | `--kui-space-3`      | Empty padding, inline                                          |
+| `--kui-listbox-empty-font-size`                 | `--kui-text-sm-size` | Empty font size                                                |
+| `--kui-select-padding-inline-end`               | `34px`               | Input end padding that clears the chevron                      |
+| `--kui-select-padding-inline-end-clearable`     | `56px`               | Input end padding that clears the clear button and the chevron |
+| `--kui-field-clear-icon-size`                   | `12px`               | Clear button icon size (Select, Combobox, Date Picker)         |
 
 <!-- geometry-tokens:end -->

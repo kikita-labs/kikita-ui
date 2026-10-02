@@ -41,20 +41,22 @@
     overflow: hidden;
     border-radius: var(--kui-progress-radius, var(--kui-radius-full));
     background: var(--kui-progress-track, var(--kui-color-border));
-    height: 6px;
+
+    --_kui-progress-height: 6px;
+    height: var(--kui-progress-height, var(--_kui-progress-height));
   }
 
   .kui-progress-linear[data-kui-size='xs'] {
-    height: 2px;
+    --_kui-progress-height: 2px;
   }
   .kui-progress-linear[data-kui-size='sm'] {
-    height: 4px;
+    --_kui-progress-height: 4px;
   }
   .kui-progress-linear[data-kui-size='md'] {
-    height: 6px;
+    --_kui-progress-height: 6px;
   }
   .kui-progress-linear[data-kui-size='lg'] {
-    height: 8px;
+    --_kui-progress-height: 8px;
   }
 
   .kui-progress-linear-fill {
@@ -96,6 +98,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
+
     --_kui-pc: var(--kui-progress-fill-primary, var(--kui-color-primary-indicator));
   }
 

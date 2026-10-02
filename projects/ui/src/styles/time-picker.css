@@ -1,12 +1,12 @@
 @layer kui.components {
   input.kui-input.kui-timepicker-input {
-    padding-inline-start: 34px;
-    padding-inline-end: 34px;
+    padding-inline-start: var(--kui-timepicker-padding-inline-start, 34px);
+    padding-inline-end: var(--kui-timepicker-padding-inline-end, 34px);
     font-variant-numeric: tabular-nums;
   }
 
   input.kui-input.kui-timepicker-input[data-has-clear] {
-    padding-inline-end: 56px;
+    padding-inline-end: var(--kui-timepicker-padding-inline-end-clearable, 56px);
   }
 
   input.kui-input.kui-timepicker-input:disabled {

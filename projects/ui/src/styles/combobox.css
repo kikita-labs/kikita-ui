@@ -1,11 +1,11 @@
 @layer kui.components {
   /* input[kuiCombobox] directive styles */
   input.kui-input[kuiCombobox] {
-    padding-inline-end: 34px;
+    padding-inline-end: var(--kui-combobox-padding-inline-end, 34px);
   }
 
   input.kui-input[kuiCombobox][data-has-clear] {
-    padding-inline-end: 56px;
+    padding-inline-end: var(--kui-combobox-padding-inline-end-clearable, 56px);
   }
 
   input.kui-input[kuiCombobox]:disabled {
@@ -40,8 +40,8 @@
   }
 
   .kui-combobox-clear > svg {
-    inline-size: 12px;
-    block-size: 12px;
+    inline-size: var(--kui-field-clear-icon-size);
+    block-size: var(--kui-field-clear-icon-size);
   }
 
   .kui-combobox-chevron svg {

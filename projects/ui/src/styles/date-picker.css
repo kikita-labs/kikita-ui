@@ -1,11 +1,11 @@
 @layer kui.components {
   input.kui-input[kuiDatePicker] {
-    padding-inline-start: 34px;
-    padding-inline-end: 34px;
+    padding-inline-start: var(--kui-date-picker-padding-inline-start, 34px);
+    padding-inline-end: var(--kui-date-picker-padding-inline-end, 34px);
   }
 
   input.kui-input[kuiDatePicker][data-has-clear] {
-    padding-inline-end: 56px;
+    padding-inline-end: var(--kui-date-picker-padding-inline-end-clearable, 56px);
   }
 
   input.kui-input[kuiDatePicker]:disabled {
@@ -40,8 +40,8 @@
   }
 
   .kui-date-picker-clear > svg {
-    inline-size: 12px;
-    block-size: 12px;
+    inline-size: var(--kui-field-clear-icon-size);
+    block-size: var(--kui-field-clear-icon-size);
   }
 
   .kui-date-picker-chevron svg {

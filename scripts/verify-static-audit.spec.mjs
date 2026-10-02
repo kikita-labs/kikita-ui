@@ -107,6 +107,18 @@ describe('verify-static-audit', () => {
     ]);
   });
 
+  it('reports a layer z-index literal but allows local stacking and token reads', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '.kui-button {\n  z-index: 1000;\n}\n.kui-button:focus-visible {\n  z-index: 2;\n}\n.kui-button--x {\n  z-index: var(--kui-z-dropdown);\n}\n',
+    );
+
+    expect(runStaticAudit(root)).toEqual([
+      'projects/ui/src/styles/button.css:2 writes the layer z-index 1000; read a --kui-z-* token',
+    ]);
+  });
+
   it('allows black and white, with alpha, as a colour literal', () => {
     const root = makeValidRepo();
     writeFileSync(

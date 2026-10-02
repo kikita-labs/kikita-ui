@@ -160,6 +160,7 @@
     max-width: var(--kui-popover-max-width, 320px);
     color: var(--kui-popover-color, var(--kui-color-text));
     position: relative;
+    z-index: var(--kui-z-popover);
   }
   /* Entry animations */
 

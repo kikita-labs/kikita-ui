@@ -74,3 +74,16 @@ is not set, the part uses the semantic role in the Default column.
 | `--kui-progress-circular-label-color` | `--kui-color-text` | Circular label color |
 
 <!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the size default in the Default column.
+
+| Token                   | Default                                        | Controls               |
+| ----------------------- | ---------------------------------------------- | ---------------------- |
+| `--kui-progress-height` | `6px` (xs `2px`, sm `4px`, md `6px`, lg `8px`) | Linear track thickness |
+
+<!-- geometry-tokens:end -->

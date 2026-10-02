@@ -253,11 +253,14 @@ is not set, the part uses the semantic role in the Default column.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the scale token in the Default column.
 
-| Token                         | Default              | Controls            |
-| ----------------------------- | -------------------- | ------------------- |
-| `--kui-dialog-header-gap`     | `--kui-space-3`      | Header gap          |
-| `--kui-dialog-close-radius`   | `--kui-radius-sm`    | Close corner radius |
-| `--kui-dialog-body-font-size` | `--kui-text-sm-size` | Body font size      |
-| `--kui-dialog-footer-gap`     | `--kui-space-2`      | Footer gap          |
+| Token                         | Default              | Controls                               |
+| ----------------------------- | -------------------- | -------------------------------------- |
+| `--kui-dialog-header-gap`     | `--kui-space-3`      | Header gap                             |
+| `--kui-dialog-close-radius`   | `--kui-radius-sm`    | Close corner radius                    |
+| `--kui-dialog-body-font-size` | `--kui-text-sm-size` | Body font size                         |
+| `--kui-dialog-footer-gap`     | `--kui-space-2`      | Footer gap                             |
+| `--kui-dialog-min-width-auto` | `320px`              | Minimum width of the auto-sized dialog |
+| `--kui-dialog-icon-size`      | `20px`               | Header icon slot size                  |
+| `--kui-dialog-close-size`     | `28px`               | Close button size                      |
 
 <!-- geometry-tokens:end -->

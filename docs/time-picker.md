@@ -254,17 +254,20 @@ is not set, the part uses the semantic role in the Default column.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the scale token in the Default column.
 
-| Token                                             | Default                   | Controls                        |
-| ------------------------------------------------- | ------------------------- | ------------------------------- |
-| `--kui-timepicker-control-overlay-padding-inline` | `--kui-space-3`           | Control overlay padding, inline |
-| `--kui-timepicker-panel-gap`                      | `--kui-space-3`           | Panel gap                       |
-| `--kui-timepicker-panel-padding`                  | `--kui-space-3`           | Panel padding                   |
-| `--kui-timepicker-panel-radius`                   | `--kui-radius-lg`         | Panel corner radius             |
-| `--kui-timepicker-col-radius`                     | `--kui-radius-sm`         | Col corner radius               |
-| `--kui-timepicker-opt-size`                       | `--kui-control-height-sm` | Opt size                        |
-| `--kui-timepicker-opt-radius`                     | `--kui-radius-sm`         | Opt corner radius               |
-| `--kui-timepicker-opt-font-size`                  | `--kui-text-sm-size`      | Opt font size                   |
-| `--kui-timepicker-footer-gap`                     | `--kui-space-2`           | Footer gap                      |
-| `--kui-timepicker-footer-padding-top`             | `--kui-space-2`           | Footer padding, top             |
+| Token                                             | Default                   | Controls                                                       |
+| ------------------------------------------------- | ------------------------- | -------------------------------------------------------------- |
+| `--kui-timepicker-control-overlay-padding-inline` | `--kui-space-3`           | Control overlay padding, inline                                |
+| `--kui-timepicker-panel-gap`                      | `--kui-space-3`           | Panel gap                                                      |
+| `--kui-timepicker-panel-padding`                  | `--kui-space-3`           | Panel padding                                                  |
+| `--kui-timepicker-panel-radius`                   | `--kui-radius-lg`         | Panel corner radius                                            |
+| `--kui-timepicker-col-radius`                     | `--kui-radius-sm`         | Col corner radius                                              |
+| `--kui-timepicker-opt-size`                       | `--kui-control-height-sm` | Opt size                                                       |
+| `--kui-timepicker-opt-radius`                     | `--kui-radius-sm`         | Opt corner radius                                              |
+| `--kui-timepicker-opt-font-size`                  | `--kui-text-sm-size`      | Opt font size                                                  |
+| `--kui-timepicker-footer-gap`                     | `--kui-space-2`           | Footer gap                                                     |
+| `--kui-timepicker-footer-padding-top`             | `--kui-space-2`           | Footer padding, top                                            |
+| `--kui-timepicker-padding-inline-start`           | `34px`                    | Input start padding that clears the clock icon                 |
+| `--kui-timepicker-padding-inline-end`             | `34px`                    | Input end padding that clears the chevron                      |
+| `--kui-timepicker-padding-inline-end-clearable`   | `56px`                    | Input end padding that clears the clear button and the chevron |
 
 <!-- geometry-tokens:end -->

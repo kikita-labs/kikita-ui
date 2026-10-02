@@ -207,13 +207,15 @@ is not set, the part uses the semantic role in the Default column.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the scale token in the Default column.
 
-| Token                                  | Default              | Controls              |
-| -------------------------------------- | -------------------- | --------------------- |
-| `--kui-combobox-loader-radius`         | `--kui-radius-full`  | Loader corner radius  |
-| `--kui-combobox-match-label-font-size` | `--kui-text-sm-size` | Match label font size |
-| `--kui-combobox-empty-padding-block`   | `--kui-space-4`      | Empty padding, block  |
-| `--kui-combobox-empty-padding-inline`  | `--kui-space-3`      | Empty padding, inline |
-| `--kui-combobox-empty-font-size`       | `--kui-text-sm-size` | Empty font size       |
-| `--kui-combobox-loading-row-gap`       | `--kui-space-2`      | Loading row gap       |
+| Token                                         | Default              | Controls                                                       |
+| --------------------------------------------- | -------------------- | -------------------------------------------------------------- |
+| `--kui-combobox-loader-radius`                | `--kui-radius-full`  | Loader corner radius                                           |
+| `--kui-combobox-match-label-font-size`        | `--kui-text-sm-size` | Match label font size                                          |
+| `--kui-combobox-empty-padding-block`          | `--kui-space-4`      | Empty padding, block                                           |
+| `--kui-combobox-empty-padding-inline`         | `--kui-space-3`      | Empty padding, inline                                          |
+| `--kui-combobox-empty-font-size`              | `--kui-text-sm-size` | Empty font size                                                |
+| `--kui-combobox-loading-row-gap`              | `--kui-space-2`      | Loading row gap                                                |
+| `--kui-combobox-padding-inline-end`           | `34px`               | Input end padding that clears the chevron                      |
+| `--kui-combobox-padding-inline-end-clearable` | `56px`               | Input end padding that clears the clear button and the chevron |
 
 <!-- geometry-tokens:end -->

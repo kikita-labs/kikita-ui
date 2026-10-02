@@ -1,6 +1,7 @@
-import { isPlatformBrowser } from '@angular/common';
-import type { EffectRef, OnDestroy, Signal } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import type { EffectRef, ElementRef, OnDestroy, Signal } from '@angular/core';
 import {
+  afterNextRender,
   Component,
   computed,
   effect,
@@ -8,6 +9,7 @@ import {
   Injector,
   PLATFORM_ID,
   signal,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -50,13 +52,17 @@ function readPersistent(value: PersistentConfig): boolean {
  * @internal
  * Fixed region that renders the toast stack.
  * Created lazily by {@link KuiToastService} and appended to `document.body`.
+ * While toasts are visible the region is a manual popover, so it sits in the browser top layer
+ * and is raised above any dialog, drawer or other overlay that is open when a toast is added.
  * Not part of the public API.
  */
 @Component({
   selector: 'kui-toast-region',
   template: `
     <div
+      #region
       class="kui-toast-region"
+      popover="manual"
       [attr.data-position]="_position()"
       role="region"
       aria-label="Notifications"
@@ -229,6 +235,8 @@ function readPersistent(value: PersistentConfig): boolean {
 export class KuiToastRegionComponent implements OnDestroy {
   private readonly injector = inject(Injector);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
+  private readonly regionEl = viewChild<ElementRef<HTMLElement>>('region');
 
   /** @internal Set by the service after creation. */
   readonly _position = signal<KuiToastPosition>('bottom-center');
@@ -245,6 +253,7 @@ export class KuiToastRegionComponent implements OnDestroy {
     this._isTop() ? 'kui-toast-out-t 160ms ease-in both' : 'kui-toast-out-b 160ms ease-in both',
   );
 
+  private topLayerListener: ((event: Event) => void) | null = null;
   private nextId = 0;
   private readonly timers = new Map<number, ReturnType<typeof setTimeout>>();
   private readonly remaining = new Map<number, number>();
@@ -284,6 +293,7 @@ export class KuiToastRegionComponent implements OnDestroy {
     }
 
     this.trackPersistentSignal(id, config.persistent);
+    this.raiseToTopLayer();
 
     return {
       id,
@@ -330,6 +340,7 @@ export class KuiToastRegionComponent implements OnDestroy {
     toast.closing.set(true);
     setTimeout(() => {
       this._toasts.update((list) => list.filter((t) => t.id !== id));
+      if (this._toasts().length === 0) this.leaveTopLayer();
       toast.closedSubject.next();
       toast.closedSubject.complete();
       toast.actionSubject.complete();
@@ -377,6 +388,53 @@ export class KuiToastRegionComponent implements OnDestroy {
 
   protected isPersistent(toast: InternalToastItem): boolean {
     return this.isPersistentConfig(toast.config);
+  }
+
+  /**
+   * Overlays opened by the library (dialog, drawer, menu, tooltip) live in the top layer, where
+   * `z-index` has no effect and the last element shown is on top. Show the region as a popover
+   * after any other top-layer element so toasts are never hidden behind an overlay, whether the
+   * overlay was open when the toast was added or opened while the toast was visible. Without
+   * another open top-layer element nothing can cover the region, so the existing toasts keep their
+   * enter animation.
+   */
+  private raiseToTopLayer(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    afterNextRender(
+      () => {
+        this.stackOnTop();
+        if (this.topLayerListener) return;
+        this.topLayerListener = (event: Event) => {
+          const toggle = event as ToggleEvent;
+          if (toggle.newState === 'open' && event.target !== this.regionEl()?.nativeElement) {
+            queueMicrotask(() => this.stackOnTop());
+          }
+        };
+        this.document.addEventListener('toggle', this.topLayerListener, true);
+      },
+      { injector: this.injector },
+    );
+  }
+
+  private stackOnTop(): void {
+    const region = this.regionEl()?.nativeElement;
+    if (!region || typeof region.showPopover !== 'function' || this._toasts().length === 0) return;
+    if (region.matches(':popover-open')) {
+      if (!this.document.querySelector(':popover-open:not(.kui-toast-region), :modal')) return;
+      region.hidePopover();
+    }
+    region.showPopover();
+  }
+
+  private leaveTopLayer(): void {
+    if (this.topLayerListener) {
+      this.document.removeEventListener('toggle', this.topLayerListener, true);
+      this.topLayerListener = null;
+    }
+    const region = this.regionEl()?.nativeElement;
+    if (region && typeof region.hidePopover === 'function' && region.matches(':popover-open')) {
+      region.hidePopover();
+    }
   }
 
   private startTimerFor(id: number, duration: number): void {
@@ -449,6 +507,7 @@ export class KuiToastRegionComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.leaveTopLayer();
     this.timers.forEach((t) => clearTimeout(t));
     this.persistentEffects.forEach((ref) => ref.destroy());
   }

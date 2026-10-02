@@ -492,6 +492,26 @@ Command Palette tokens:
 --kui-z-command-palette
 ```
 
+Layering tokens:
+
+Library overlays (Dialog, Drawer, Command Palette, Dropdown, Menu, Popover, Tooltip) are shown in the
+browser top layer, where `z-index` has no effect and the overlay opened last is on top. The Toast
+region joins the top layer too and is raised above any open overlay, so a toast is never hidden
+behind a dialog. The `--kui-z-*` tokens only order the layers in a browser without the Popover API:
+
+```css
+--kui-z-command-palette /* 460 */
+--kui-z-popover         /* 400 */
+--kui-z-menu            /* 420 */
+--kui-z-drawer-backdrop /* 500 */
+--kui-z-drawer          /* 510 */
+--kui-z-dialog          /* 520 */
+--kui-z-dropdown        /* 1000 */
+--kui-z-overlay         /* 1000, the CDK overlay container */
+--kui-z-toast           /* 1100 */
+--kui-z-tooltip         /* 9000 */
+```
+
 Slider tokens:
 
 ```css

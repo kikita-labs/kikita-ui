@@ -192,11 +192,11 @@ test('selects a shipped seed preset and commits a valid hex value @visual', asyn
 
   await hexField(values).getByRole('button', { name: 'Choose color: #5b4fe0' }).click();
   const picker = page.getByRole('dialog');
-  await picker.getByRole('button', { name: 'Neutral seed: #74736d', exact: true }).click();
+  await picker.getByRole('button', { name: 'Neutral seed: #66635d', exact: true }).click();
 
-  await expect(input).toHaveValue('#74736d');
+  await expect(input).toHaveValue('#66635d');
   await expect(
-    hexField(values).getByRole('button', { name: 'Choose color: #74736d' }),
+    hexField(values).getByRole('button', { name: 'Choose color: #66635d' }),
   ).toBeVisible();
   await expect(picker).toHaveScreenshot('color-input-picker-preset.png', {
     animations: 'disabled',

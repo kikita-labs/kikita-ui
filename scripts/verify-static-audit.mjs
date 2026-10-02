@@ -63,6 +63,9 @@ const palettePattern =
 const generatedThemeFiles = new Set(['projects/ui/src/styles/theme-default.css']);
 // Reviewed exceptions: repository-relative path -> reason. Component styles may only write black
 // or white (with or without alpha) as a colour literal: overlays, scrims and shadows.
+// A literal z-index at or above this value is a layer between components, not local stacking inside
+// one component (the 1 to 3 that keep a focus outline or a sticky cell above its neighbours).
+const layerZIndexThreshold = 100;
 const colorLiteralExceptions = new Map();
 const colorLiteralPattern =
   /#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\([^)]*\)|\boklch\((?!\s*[01]\s+0\s+0\s*(?:\)|\/))[^)]*\)/gu;
@@ -151,6 +154,9 @@ export function runStaticAudit(root = defaultRoot) {
   );
   runCheck(failures, 'component styles write no colour literal other than black or white', () =>
     checkNoColorLiterals(root),
+  );
+  runCheck(failures, 'overlay layers read a --kui-z-* token instead of a z-index literal', () =>
+    checkNoLayerZIndexLiterals(root),
   );
   return failures;
 }
@@ -663,6 +669,35 @@ function checkNoRawPaletteConsumption(root) {
         );
       }
     }
+  }
+
+  return failures;
+}
+
+function checkNoLayerZIndexLiterals(root) {
+  const failures = [];
+  const files = collectTextFiles(root, [join(root, 'projects/ui/src')]).filter((file) =>
+    file.endsWith('.css'),
+  );
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (generatedThemeFiles.has(repoPath)) {
+      continue;
+    }
+
+    const lines = readFileSync(file, 'utf8').split(/\r?\n/u);
+
+    lines.forEach((line, index) => {
+      const match = /^\s*z-index\s*:\s*(-?\d+)\s*;/u.exec(line);
+
+      if (match && Math.abs(Number(match[1])) >= layerZIndexThreshold) {
+        failures.push(
+          `${repoPath}:${index + 1} writes the layer z-index ${match[1]}; read a --kui-z-* token`,
+        );
+      }
+    });
   }
 
   return failures;

@@ -17,6 +17,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
+import { DEFAULT_KUI_THEME } from '../../theme/default-kui-theme.const';
 import type { KuiSize } from '../../types';
 import {
   KUI_CHEVRON_DOWN_D,
@@ -530,17 +531,21 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   }
 
   private renderPresets(panel: HTMLElement): void {
-    // Matches the seed roles createKuiTheme() expects (primary/neutral/success/
-    // warning/danger/info) -- named here so the swatches read as theme-seed shortcuts,
-    // not just an arbitrary color palette.
-    const presets: readonly [name: string, hex: string][] = [
-      ['Primary', '#5b4fe0'],
-      ['Neutral', '#74736d'],
-      ['Success', '#168a35'],
-      ['Warning', '#eea000'],
-      ['Danger', '#de0029'],
-      ['Info', '#1298b8'],
-    ];
+    // The default theme seeds (primary/neutral/success/warning/danger/info), so the swatches read
+    // as theme-seed shortcuts and follow DEFAULT_KUI_THEME instead of a second copy of its colors.
+    const seeds = DEFAULT_KUI_THEME.seeds.color;
+    const presets: readonly [name: string, hex: string][] = (
+      [
+        ['Primary', seeds.primary],
+        ['Neutral', seeds.neutral],
+        ['Success', seeds.success],
+        ['Warning', seeds.warning],
+        ['Danger', seeds.danger],
+        ['Info', seeds.info],
+      ] as const
+    ).flatMap(([name, seed]) =>
+      seed ? [[name, parseColor(seed)?.hex ?? seed] as [string, string]] : [],
+    );
     const row = this.renderer.createElement('div');
     this.renderer.addClass(row, 'kui-color-input-presets');
     for (const [name, preset] of presets) {

@@ -1,12 +1,12 @@
 @layer kui.components {
   /* input[kuiSelect] directive styles */
   input.kui-input[kuiSelect] {
-    padding-inline-end: 34px;
+    padding-inline-end: var(--kui-select-padding-inline-end, 34px);
     cursor: pointer;
   }
 
   input.kui-input[kuiSelect][data-has-clear] {
-    padding-inline-end: 56px;
+    padding-inline-end: var(--kui-select-padding-inline-end-clearable, 56px);
   }
 
   input.kui-input[kuiSelect]:disabled {
@@ -81,8 +81,8 @@
   }
 
   .kui-select-clear > svg {
-    inline-size: 12px;
-    block-size: 12px;
+    inline-size: var(--kui-field-clear-icon-size);
+    block-size: var(--kui-field-clear-icon-size);
   }
 
   .kui-select-chevron > svg {

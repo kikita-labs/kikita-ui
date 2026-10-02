@@ -62,11 +62,34 @@ const cases = [
     property: 'fontSize',
     value: '22px',
   },
+  {
+    route: 'progress',
+    selector: '.kui-progress-linear',
+    hook: '--kui-progress-height',
+    property: 'height',
+    value: '13px',
+  },
+  {
+    route: 'slider',
+    selector: '.kui-slider-thumb',
+    hook: '--kui-slider-thumb-size',
+    property: 'width',
+    value: '31px',
+  },
+  {
+    route: 'select',
+    selector: 'input.kui-input[kuiSelect]',
+    hook: '--kui-select-padding-inline-end',
+    property: 'paddingRight',
+    value: '41px',
+  },
 ] as const;
 
 for (const { route, selector, hook, property, value } of cases) {
   test(`${hook} reaches ${selector} on the ${route} page`, async ({ page }) => {
     await page.goto(`/components/${route}`);
+    // Some parts (the Slider thumb) are created by the directive after hydration.
+    await page.locator(selector).first().waitFor({ state: 'attached' });
 
     const read = () =>
       page.evaluate(

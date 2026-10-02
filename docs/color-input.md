@@ -146,6 +146,8 @@ is not set, the part uses the semantic role in the Default column.
 | `--kui-color-input-picker-focus-ring-color` | `--kui-color-focus`          | Picker focus ring color    |
 | `--kui-color-input-hue-thumb-bg`            | `--kui-color-on-scrim`       | Hue thumb background       |
 | `--kui-color-input-hue-thumb-ring-color`    | `--kui-color-surface`        | Hue thumb ring color       |
+| `--kui-color-input-thumb-shadow`            | ring and 1px 3px black 45%   | Color field thumb shadow   |
+| `--kui-color-input-hue-thumb-shadow`        | 1px 3px black 45% and ring   | Hue thumb shadow           |
 | `--kui-color-input-num-label-color`         | `--kui-color-text-secondary` | Num label color            |
 | `--kui-color-input-field-color`             | `--kui-color-text`           | Field color                |
 | `--kui-color-input-field-border-focus`      | `--kui-color-primary-fill`   | Field border color, focus  |

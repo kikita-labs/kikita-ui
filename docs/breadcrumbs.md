@@ -133,16 +133,22 @@ is not set, the part uses the semantic role in the Default column.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the scale token in the Default column.
 
-| Token                                      | Default              | Controls                 |
-| ------------------------------------------ | -------------------- | ------------------------ |
-| `--kui-breadcrumb-font-size`               | `--kui-text-sm-size` | Font size                |
-| `--kui-breadcrumb-link-radius`             | `--kui-radius-sm`    | Link corner radius       |
-| `--kui-breadcrumb-link-gap`                | `--kui-space-1`      | Link gap                 |
-| `--kui-breadcrumb-plain-gap`               | `--kui-space-1`      | Plain gap                |
-| `--kui-breadcrumb-current-gap`             | `--kui-space-1`      | Current gap              |
-| `--kui-breadcrumb-ellipsis-padding-inline` | `--kui-space-1`      | Ellipsis padding, inline |
-| `--kui-breadcrumb-ellipsis-radius`         | `--kui-radius-sm`    | Ellipsis corner radius   |
-| `--kui-breadcrumb-font-size-sm`            | `--kui-text-xs-size` | Font size, sm            |
-| `--kui-breadcrumb-font-size-lg`            | `--kui-text-md-size` | Font size, lg            |
+| Token                                      | Default              | Controls                          |
+| ------------------------------------------ | -------------------- | --------------------------------- |
+| `--kui-breadcrumb-font-size`               | `--kui-text-sm-size` | Font size                         |
+| `--kui-breadcrumb-link-radius`             | `--kui-radius-sm`    | Link corner radius                |
+| `--kui-breadcrumb-link-gap`                | `--kui-space-1`      | Link gap                          |
+| `--kui-breadcrumb-plain-gap`               | `--kui-space-1`      | Plain gap                         |
+| `--kui-breadcrumb-current-gap`             | `--kui-space-1`      | Current gap                       |
+| `--kui-breadcrumb-ellipsis-padding-inline` | `--kui-space-1`      | Ellipsis padding, inline          |
+| `--kui-breadcrumb-ellipsis-radius`         | `--kui-radius-sm`    | Ellipsis corner radius            |
+| `--kui-breadcrumb-font-size-sm`            | `--kui-text-xs-size` | Font size, sm                     |
+| `--kui-breadcrumb-font-size-lg`            | `--kui-text-md-size` | Font size, lg                     |
+| `--kui-breadcrumb-ellipsis-height`         | `22px`               | Ellipsis button height            |
+| `--kui-breadcrumb-ellipsis-height-sm`      | `18px`               | Ellipsis button height, sm        |
+| `--kui-breadcrumb-ellipsis-height-lg`      | `26px`               | Ellipsis button height, lg        |
+| `--kui-breadcrumb-icon-size-sm`            | `12px`               | Separator and icon size, sm       |
+| `--kui-breadcrumb-icon-size-lg`            | `16px`               | Separator and icon size, lg       |
+| `--kui-breadcrumb-truncate-max-width`      | `140px`              | Maximum width of a truncated item |
 
 <!-- geometry-tokens:end -->

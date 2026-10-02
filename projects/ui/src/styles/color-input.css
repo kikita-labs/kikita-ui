@@ -166,9 +166,11 @@
     background: var(--kui-color-input-hue-thumb-bg, var(--kui-color-on-scrim));
     border-radius: var(--kui-color-input-hue-thumb-radius, var(--kui-radius-full));
     transform: translate(-50%, -50%);
-    box-shadow:
+    box-shadow: var(
+      --kui-color-input-hue-thumb-shadow,
       0 1px 3px oklch(0 0 0 / 0.45),
-      inset 0 0 0 2px var(--kui-color-input-hue-thumb-ring-color, var(--kui-color-surface));
+      inset 0 0 0 2px var(--kui-color-input-hue-thumb-ring-color, var(--kui-color-surface))
+    );
   }
 
   .kui-color-input-hue-native {
