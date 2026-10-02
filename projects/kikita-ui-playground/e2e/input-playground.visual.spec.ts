@@ -254,8 +254,8 @@ test('captures real pointer hover and keyboard focus on a native input @visual',
   await expect(interactive).toBeFocused();
   expect(await interactive.evaluate((element) => element.matches(':focus-visible'))).toBe(true);
   await expect
-    .poll(() => interactive.evaluate((element) => getComputedStyle(element).boxShadow))
-    .not.toBe('none');
+    .poll(() => interactive.evaluate((element) => getComputedStyle(element).outlineStyle))
+    .toBe('solid');
   await expect(states).toHaveScreenshot('input-keyboard-focused.png', {
     animations: 'disabled',
   });

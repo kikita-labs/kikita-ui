@@ -162,7 +162,8 @@ test('captures palette and presence states in both shell themes @visual', async 
     .evaluate((element) => getComputedStyle(element).backgroundColor);
 
   expect(lightPaletteColor).not.toBe(darkPaletteColor);
-  expect(lightStatusColor).not.toBe(darkStatusColor);
+  // The online dot is the success indicator, one brand colour in both themes.
+  expect(lightStatusColor).toBe(darkStatusColor);
   await expect(palette).toHaveScreenshot('avatar-palette-light-desktop.png', {
     animations: 'disabled',
   });

@@ -65,6 +65,14 @@ Both commands run `scripts/visual-docker.mjs`. It starts the image that matches 
 from the installed version. After a Playwright upgrade, update the tag in
 `.github/workflows/ci.yml` and regenerate every baseline.
 
+The project runs with one worker. For a review pass after a broad change, running the suite with
+`--workers=4` in the same image finishes in about four minutes instead of fifteen and gives the same
+screenshots, because fonts, locale, timezone and reduced motion are pinned. A handful of tests that
+open overlays or press keys right after load (for example the Time Picker panel and some Select and
+Calendar Range captures) are sensitive to that load and can fail with a timing error or a spurious
+diff. Treat a failure that disappears when the test is rerun alone with one worker as load, not as a
+regression, and update baselines from a serial run of only the tests you reviewed.
+
 Running the `visual` project directly with `playwright test` on Windows or macOS finds no
 baselines and fails. Use the commands above.
 
