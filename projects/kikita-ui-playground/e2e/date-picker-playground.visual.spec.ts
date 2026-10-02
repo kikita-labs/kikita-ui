@@ -191,11 +191,14 @@ test('auto-wires typed values, calendar selection, and the displayed month @visu
   const example = page.getByRole('group', { name: 'Selected date picker example', exact: true });
   const input = example.getByRole('combobox', { name: 'Preselected date' });
 
-  await input.fill(' 20.06.2026 ');
+  // Hydration replaces a value typed into the server-rendered input, and it has no observable end,
+  // so type again until the value holds.
+  await expect(async () => {
+    await input.fill(' 20.06.2026 ');
+    await expect(input).toHaveValue('20.06.2026', { timeout: 1000 });
+  }).toPass();
   const panel = page.getByRole('dialog');
   const grid = panel.getByRole('grid');
-
-  await expect(input).toHaveValue('20.06.2026');
   await expect(panel.getByRole('button', { name: 'June 2026', exact: true })).toBeVisible();
   await expect(gridcellOf(grid.getByRole('button', { name: '20', exact: true }))).toHaveAttribute(
     'aria-selected',

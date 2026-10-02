@@ -335,14 +335,18 @@ export class KuiDropdownComponent implements OnDestroy {
   }
 
   protected handlePanelKeydown(e: KeyboardEvent): void {
-    if (!this.closeOnSelect() || (e.key !== 'Enter' && e.key !== ' ')) return;
+    if (e.key !== 'Enter' && e.key !== ' ') return;
 
     const target = e.target as HTMLElement | null;
-    if (target?.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')) {
+    // The same rule as a click: a multiple Select keeps the panel open, whatever `closeOnSelect` says.
+    if (
+      (this.optionContext?.shouldCloseOnSelect?.() ?? this.closeOnSelect()) &&
+      target?.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
+    ) {
       this.close();
       return;
     }
-    if (target && this.isCalendarDayClick(target)) {
+    if (this.closeOnSelect() && target && this.isCalendarDayClick(target)) {
       this.close();
     }
   }

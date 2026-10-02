@@ -45,6 +45,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- A multiple Select keeps its panel open when an option is chosen with Enter or Space, as it already did for a click. The keyboard path ignored the Select rule and closed the panel whenever `closeOnSelect` was left at its default.
 - Calendar and Calendar Range always have one Tab stop on a day: after the month changes, or when today is not in the open month, the grid used to have none and Tab skipped it.
 - Calendar and Calendar Range months and years views move with the arrow keys, Home and End, and keep focus when a month or year is chosen.
 - Color Input: a click anywhere on the field, including the padding around the text, focuses the text input and opens the picker.
