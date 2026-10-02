@@ -261,7 +261,7 @@ export class KuiDropdownComponent implements OnDestroy {
       this._outsideClickIgnoreEl,
       {
         watchFocusin: true,
-        onEscape: () => this.close(),
+        onEscape: () => this.closeRestoringFocus(),
         onOutside: () => this.close(),
         onAnchorOffscreen: () => this.close(),
         onReposition: clampPanel,
@@ -276,15 +276,23 @@ export class KuiDropdownComponent implements OnDestroy {
 
   close(): void {
     if (!this.isOpen() && !this.isClosing()) return;
-    // Closing removes the panel, which drops focus to <body> when it was inside the panel (a Time
-    // Picker unit column, or an option the user just chose with the keyboard). Hand it back to the
-    // control so keyboard users keep their place; a panel opened from the control never took focus,
-    // so there is nothing to restore.
-    const panel = this.overlayRef?.overlayElement;
-    const focusWasInPanel = !!panel && panel.contains(this.document.activeElement);
     this.openState.set(false);
     this._cleanup();
     this.isClosing.set(true);
+  }
+
+  /**
+   * Closes the panel after the user finished with it (Escape, or a value chosen inside it). Closing
+   * removes the panel, which drops focus to <body> when it was inside the panel (a Time Picker unit
+   * column, or an option chosen with the keyboard), so focus goes back to the control and keyboard
+   * users keep their place. A panel opened from the control never took focus, so nothing moves.
+   * An outside click or an anchor scrolled away use plain `close()`: focus must stay where the user
+   * put it, and moving it would also scroll the page back to the control.
+   */
+  private closeRestoringFocus(): void {
+    const panel = this.overlayRef?.overlayElement;
+    const focusWasInPanel = !!panel && panel.contains(this.document.activeElement);
+    this.close();
     if (focusWasInPanel) (this._focusReturnTarget?.() ?? this._anchorEl)?.focus();
   }
 
@@ -326,11 +334,11 @@ export class KuiDropdownComponent implements OnDestroy {
       (this.optionContext?.shouldCloseOnSelect?.() ?? this.closeOnSelect()) &&
       target.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
     ) {
-      this.close();
+      this.closeRestoringFocus();
       return;
     }
     if (this.closeOnSelect() && this.isCalendarDayClick(target)) {
-      this.close();
+      this.closeRestoringFocus();
     }
   }
 
@@ -343,11 +351,11 @@ export class KuiDropdownComponent implements OnDestroy {
       (this.optionContext?.shouldCloseOnSelect?.() ?? this.closeOnSelect()) &&
       target?.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
     ) {
-      this.close();
+      this.closeRestoringFocus();
       return;
     }
     if (this.closeOnSelect() && target && this.isCalendarDayClick(target)) {
-      this.close();
+      this.closeRestoringFocus();
     }
   }
 

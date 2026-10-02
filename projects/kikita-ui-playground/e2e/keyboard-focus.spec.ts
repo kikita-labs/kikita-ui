@@ -86,7 +86,8 @@ test('Combobox keeps focus on its input after a keyboard selection', async ({ pa
 
   await input.focus();
   await page.keyboard.press('ArrowDown');
-  await expect(page.locator('.kui-listbox-option').first()).toBeVisible();
+  // Focus moves to the first option a tick after the list opens; wait for it before the next key.
+  await expect(page.locator('.kui-listbox-option').first()).toBeFocused();
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
 
