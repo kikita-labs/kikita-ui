@@ -133,11 +133,12 @@ At narrow widths, the tablist scrolls horizontally and exposes accessible scroll
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the semantic role in the Default column.
 
-| Token                               | Default                          | Controls                  |
-| ----------------------------------- | -------------------------------- | ------------------------- |
-| `--kui-tabs-scroll-btn-color`       | `--kui-color-text-secondary`     | S scroll btn color        |
-| `--kui-tabs-scroll-btn-color-hover` | `--kui-color-text`               | S scroll btn color, hover |
-| `--kui-tabs-scroll-fade-color`      | `--kui-color-bg`                 | S scroll fade color       |
-| `--kui-tab-focus-ring-color`        | `--kui-color-primary-focus-ring` | focus ring color          |
+| Token                               | Default                      | Controls                  |
+| ----------------------------------- | ---------------------------- | ------------------------- |
+| `--kui-tabs-scroll-btn-color`       | `--kui-color-text-secondary` | S scroll btn color        |
+| `--kui-tabs-scroll-btn-color-hover` | `--kui-color-text`           | S scroll btn color, hover |
+| `--kui-tabs-scroll-fade-color`      | `--kui-color-bg`             | S scroll fade color       |
+| `--kui-tab-focus-ring-color`        | `--kui-color-focus`          | focus ring color          |
+| `--kui-tab-panel-focus-ring-color`  | `--kui-color-focus`          | panel focus outline color |
 
 <!-- color-tokens:end -->

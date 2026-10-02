@@ -12,16 +12,19 @@ export interface KuiGeneratedTheme {
   /** Seed CSS variables. */
   readonly seeds: KuiCssVariableMap;
 
-  /** Generated OKLCH palette steps keyed by scale name. */
+  /**
+   * Generated OKLCH palette steps keyed by scale name. Accent scales have a fixed tone per step;
+   * `neutral` is the light-mode scale, the dark scale is part of `dark`.
+   */
   readonly palettes: KuiPaletteMap;
 
-  /** Palette CSS variables. */
+  /** Accent palette CSS variables; the neutral scales differ per mode and are part of `light` and `dark`. */
   readonly paletteVariables: KuiCssVariableMap;
 
-  /** Light semantic CSS variables. */
+  /** Light-mode neutral scale and semantic CSS variables. */
   readonly light: KuiCssVariableMap;
 
-  /** Dark semantic CSS variables. */
+  /** Dark-mode neutral scale and semantic CSS variables. */
   readonly dark: KuiCssVariableMap;
 
   /** Component and base scale CSS variables shared by light and dark themes. */

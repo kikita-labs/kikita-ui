@@ -71,7 +71,7 @@
   }
 
   .kui-command__input::placeholder {
-    color: var(--kui-command-input-placeholder-color, var(--kui-color-text-disabled));
+    color: var(--kui-command-input-placeholder-color, var(--kui-color-text-placeholder));
   }
 
   .kui-command__clear {
@@ -140,7 +140,7 @@
   .kui-command__item--active {
     background: var(--kui-command-item-bg-active, var(--kui-color-primary-soft-bg));
     box-shadow: inset 2px 0 0 0
-      var(--kui-command-item-indicator-color, var(--kui-color-primary-fill));
+      var(--kui-command-item-indicator-color, var(--kui-color-primary-indicator));
   }
 
   .kui-command__item--active .kui-command__item-label {
@@ -153,7 +153,7 @@
   }
 
   .kui-command__item--danger {
-    color: var(--kui-command-item-text-danger, var(--kui-color-danger-fill));
+    color: var(--kui-command-item-text-danger, var(--kui-color-danger-text));
   }
 
   .kui-command__item--danger:hover,

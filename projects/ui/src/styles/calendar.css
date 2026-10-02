@@ -114,24 +114,24 @@
     background: var(--kui-calendar-day-hover-bg, var(--kui-color-surface-sunken));
   }
   .kui-calendar-day:focus-visible .kui-calendar-day-inner {
-    box-shadow: 0 0 0 2px
-      var(--kui-calendar-day-focus-ring-color, var(--kui-color-primary-focus-ring));
+    outline: 2px solid var(--kui-calendar-day-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 2px;
   }
 
   .kui-calendar-day--muted {
-    color: var(--kui-calendar-day-color-muted, var(--kui-color-text-disabled));
+    color: var(--kui-calendar-day-color-muted, var(--kui-color-text-secondary));
   }
   .kui-calendar-day--weekend {
     color: var(--kui-calendar-day-color-weekend, var(--kui-color-text-secondary));
   }
   .kui-calendar-day--today .kui-calendar-day-inner {
     box-shadow: inset 0 0 0 var(--kui-border-width-thick)
-      var(--kui-calendar-today-marker, var(--kui-color-primary-fill));
+      var(--kui-calendar-today-marker, var(--kui-color-primary-indicator));
     font-weight: 600;
   }
   .kui-calendar-day--selected .kui-calendar-day-inner {
     background: var(--kui-calendar-day-bg-selected, var(--kui-color-primary-fill));
-    color: var(--kui-calendar-day-color-selected, var(--kui-color-on-fill));
+    color: var(--kui-calendar-day-color-selected, var(--kui-color-primary-on-fill));
     font-weight: 600;
     box-shadow: none;
   }
@@ -149,13 +149,13 @@
   }
   .kui-calendar-day--range-start {
     background: var(--kui-calendar-day-bg-range-start, var(--kui-color-primary-fill));
-    color: var(--kui-calendar-day-color-range-start, var(--kui-color-on-fill));
+    color: var(--kui-calendar-day-color-range-start, var(--kui-color-primary-on-fill));
     border-radius: var(--kui-calendar-cell-radius, var(--kui-radius-md)) 0 0
       var(--kui-calendar-cell-radius, var(--kui-radius-md));
   }
   .kui-calendar-day--range-end {
     background: var(--kui-calendar-day-bg-range-end, var(--kui-color-primary-fill));
-    color: var(--kui-calendar-day-color-range-end, var(--kui-color-on-fill));
+    color: var(--kui-calendar-day-color-range-end, var(--kui-color-primary-on-fill));
     border-radius: 0 var(--kui-calendar-cell-radius, var(--kui-radius-md))
       var(--kui-calendar-cell-radius, var(--kui-radius-md)) 0;
   }
@@ -224,17 +224,16 @@
     background: var(--kui-calendar-day-hover-bg, var(--kui-color-surface-sunken));
   }
   .kui-calendar-picker-cell:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px
-      var(--kui-calendar-picker-cell-focus-ring-color, var(--kui-color-primary-focus-ring));
+    outline: 2px solid var(--kui-calendar-picker-cell-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 2px;
   }
   .kui-calendar-picker-cell--active {
     background: var(--kui-calendar-picker-cell-bg-active, var(--kui-color-primary-fill));
-    color: var(--kui-calendar-picker-cell-color-active, var(--kui-color-on-fill));
+    color: var(--kui-calendar-picker-cell-color-active, var(--kui-color-primary-on-fill));
     font-weight: 600;
   }
   .kui-calendar-picker-cell--muted {
-    color: var(--kui-calendar-picker-cell-color-muted, var(--kui-color-text-disabled));
+    color: var(--kui-calendar-picker-cell-color-muted, var(--kui-color-text-secondary));
   }
 
   .kui-calendar[data-kui-size='sm'] {

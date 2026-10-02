@@ -157,14 +157,17 @@ in the plan listed.
    Carousel, Link, Media Viewer, OTP Input, Pagination, Splitter, Time Picker, Typography) and the
    library suites that still ran against the old Playground app were reconciled in Phase B; see
    [Legacy Playground retirement](#legacy-playground-retirement-plan-102-phase-b).
-2. **Automated axe violations.** The sweep asserts exact rule ids per route, and the known list is
-   empty: every routed page is free of automated violations except `color-contrast` (item 3).
+2. **Automated axe violations.** The sweep asserts exact rule ids per route in the light and the dark
+   theme, and the known list is empty: every routed page is free of automated violations, colour
+   contrast included (item 3).
    Closed by queue item 10.3 on 2026-10-01 (`accessibility-remediation.md`). Automated results are not
    assistive-technology evidence; manual keyboard and screen-reader sessions remain part of the
    final v2 checklist.
-3. **Axe rule exclusion**: only `color-contrast` is excluded. Every other rule is asserted per
-   route (item 2). Owner: Plan 14
-   re-enables `color-contrast` after the contrast work (`solid-shape-contrast-defect.md`).
+3. **Axe rule exclusion**: none. Plan 14 re-enabled `color-contrast` in the Playground sweep (both
+   themes) and in the Popover dialog check on 2026-10-02; the axe helper waits for finite animations
+   before it measures, because contrast is computed from the colours on screen. Axe does not test
+   borders, focus indicators or placeholders; the unit contract in
+   `create-kui-theme.contrast.spec.ts` covers those pairs for any seed.
 4. **Time Picker Escape from inside the panel** returned no focus to the input. Fixed in queue item
    10.3: `kui-dropdown` hands focus back to the field control when Escape closes a panel that held
    focus (regression tests in the Dropdown unit spec and the Time Picker and Date Picker pages).

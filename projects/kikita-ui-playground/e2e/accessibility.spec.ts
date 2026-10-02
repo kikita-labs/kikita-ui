@@ -36,12 +36,21 @@ test('reports no automated accessibility violations on component pages beyond th
       route,
     );
 
-    const violations = await collectAxeViolations(page, {
-      // Contrast is measured by the color plan, not by this sweep.
-      excludeRules: ['color-contrast'],
-    });
+    // Both themes: colour contrast is part of the contract (Plan 14), so a theme that fails shows
+    // up here with its own key.
+    for (const theme of ['light', 'dark']) {
+      await page.locator('html').evaluate((element, mode) => {
+        element.setAttribute('data-kui-theme', mode);
+      }, theme);
 
-    if (violations.length > 0) found[route] = violations.map((violation) => violation.id).sort();
+      const violations = await collectAxeViolations(page);
+
+      if (violations.length > 0) {
+        found[theme === 'light' ? route : `${route} (dark)`] = violations
+          .map((violation) => violation.id)
+          .sort();
+      }
+    }
   }
 
   expect(found).toEqual(knownViolations);

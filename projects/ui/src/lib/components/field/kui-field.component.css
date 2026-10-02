@@ -37,11 +37,11 @@
 }
 
 .kui-field__error {
-  color: var(--kui-field-error-color, var(--kui-color-danger-fill));
+  color: var(--kui-field-error-color, var(--kui-color-danger-text));
 }
 
 .kui-field__required {
-  color: var(--kui-field-required-color, var(--kui-color-danger-fill));
+  color: var(--kui-field-required-color, var(--kui-color-danger-text));
 }
 
 .kui-field__hint,

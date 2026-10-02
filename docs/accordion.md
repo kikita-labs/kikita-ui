@@ -91,7 +91,7 @@ is not set, the part uses the semantic role in the Default column.
 
 | Token                                      | Default                      | Controls                 |
 | ------------------------------------------ | ---------------------------- | ------------------------ |
-| `--kui-accordion-trigger-focus-ring-color` | `--kui-color-primary-fill`   | Trigger focus ring color |
+| `--kui-accordion-trigger-focus-ring-color` | `--kui-color-focus`          | Trigger focus ring color |
 | `--kui-accordion-icon-color`               | `--kui-color-text-secondary` | Icon color               |
 | `--kui-accordion-chevron-color`            | `--kui-color-text-secondary` | Chevron color            |
 

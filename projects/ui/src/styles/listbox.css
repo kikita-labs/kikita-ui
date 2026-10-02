@@ -30,8 +30,7 @@
 
   .kui-listbox-option--active {
     background: var(--kui-select-option-hover-bg, var(--kui-color-surface-sunken));
-    outline: 2px solid
-      var(--kui-listbox-option-focus-ring-color, var(--kui-color-primary-focus-ring));
+    outline: 2px solid var(--kui-listbox-option-focus-ring-color, var(--kui-color-focus));
     outline-offset: -2px;
   }
 

@@ -13,19 +13,30 @@ describe('createKuiTheme', () => {
     expect(theme.palettes.primary).toHaveLength(12);
     expect(theme.palettes.primary[5]).toBe('oklch(0.52 0.25 285)');
     expect(theme.paletteVariables['--kui-primary-6']).toBe('oklch(0.52 0.25 285)');
-    expect(theme.light['--kui-color-bg']).toBe('oklch(0.97 0.01 80)');
-    expect(theme.light['--kui-color-surface-sunken']).toBe('oklch(0.95 0.01 80)');
+    expect(theme.light['--kui-color-bg']).toBe('var(--kui-neutral-2)');
+    expect(theme.light['--kui-neutral-2']).toBe('oklch(0.97 0.01 80)');
+    expect(theme.light['--kui-color-surface-sunken']).toBe('var(--kui-neutral-3)');
+    expect(theme.light['--kui-neutral-3']).toBe('oklch(0.95 0.01 80)');
     expect(theme.light['--kui-color-primary-fill']).toBe('var(--kui-primary-6)');
-    expect(theme.dark['--kui-color-surface']).toBe('oklch(0.14 0.01 80)');
-    expect(theme.dark['--kui-color-surface-elevated']).toBe('oklch(0.18 0.01 80)');
-    expect(theme.dark['--kui-color-surface-sunken']).toBe('oklch(0.08 0.01 80)');
+    expect(theme.dark['--kui-color-surface']).toBe('var(--kui-neutral-3)');
+    expect(theme.dark['--kui-neutral-3']).toBe('oklch(0.14 0.01 80)');
+    expect(theme.dark['--kui-color-surface-elevated']).toBe('var(--kui-neutral-4)');
+    expect(theme.dark['--kui-neutral-4']).toBe('oklch(0.18 0.01 80)');
+    expect(theme.dark['--kui-color-surface-sunken']).toBe('var(--kui-neutral-1)');
+    expect(theme.dark['--kui-neutral-1']).toBe('oklch(0.08 0.01 80)');
     expect(theme.dark['--kui-color-primary-fill']).toBe('var(--kui-primary-5)');
-    expect(theme.dark['--kui-color-primary-fill-active']).toBe('var(--kui-primary-6)');
+    expect(theme.dark['--kui-color-primary-fill-active']).toBe(
+      'color-mix(in oklab, var(--kui-color-primary-fill) 92%, oklch(0 0 0))',
+    );
     expect(theme.dark['--kui-color-primary-soft-bg-active']).toBe('var(--kui-primary-9)');
     expect(theme.dark['--kui-color-success-soft-bg']).toBe('var(--kui-success-11)');
     expect(theme.dark['--kui-color-info-soft-bg']).toBe('var(--kui-info-11)');
-    expect(theme.light['--kui-color-danger-fill-hover']).toBe('var(--kui-danger-7)');
-    expect(theme.dark['--kui-color-danger-fill-active']).toBe('var(--kui-danger-6)');
+    expect(theme.light['--kui-color-danger-fill-hover']).toBe(
+      'color-mix(in oklab, var(--kui-color-danger-fill) 82%, var(--kui-color-danger-fill-away))',
+    );
+    expect(theme.dark['--kui-color-danger-fill-active']).toBe(
+      'color-mix(in oklab, var(--kui-color-danger-fill) 92%, oklch(0 0 0))',
+    );
     expect(theme.component['--kui-btn-gap']).toBe('6px');
     expect(theme.component['--kui-font-weight-semibold']).toBe('600');
     expect(theme.component['--kui-type-heading-md-size']).toBe('var(--kui-text-xl-size)');
@@ -47,11 +58,11 @@ describe('createKuiTheme', () => {
     expect(theme.dark['--kui-color-danger-soft-bg-hover']).toBe('var(--kui-danger-10)');
     expect(theme.dark['--kui-color-danger-soft-bg-active']).toBe('var(--kui-danger-9)');
 
-    for (const mode of [theme.light, theme.dark]) {
-      expect(mode['--kui-color-success-fill-hover']).toBe('var(--kui-success-4)');
-      expect(mode['--kui-color-success-fill-active']).toBe('var(--kui-success-6)');
-      expect(mode['--kui-color-warning-fill-hover']).toBe('var(--kui-warning-4)');
-      expect(mode['--kui-color-warning-fill-active']).toBe('var(--kui-warning-7)');
+    for (const accent of ['success', 'warning', 'info']) {
+      expect(theme.light[`--kui-color-${accent}-fill-hover`]).toContain('color-mix(in oklab');
+      expect(theme.light[`--kui-color-${accent}-fill-active`]).toContain('color-mix(in oklab');
+      expect(theme.dark[`--kui-color-${accent}-fill-hover`]).toContain('color-mix(in oklab');
+      expect(theme.dark[`--kui-color-${accent}-fill-active`]).toContain('color-mix(in oklab');
     }
   });
 
@@ -120,8 +131,10 @@ describe('createKuiTheme', () => {
     const lightVariables = createKuiThemeVariableMap(theme, 'light');
     const darkVariables = createKuiThemeVariableMap(theme, 'dark');
 
-    expect(lightVariables['--kui-color-bg']).toBe('oklch(0.97 0.01 80)');
-    expect(darkVariables['--kui-color-bg']).toBe('oklch(0.10 0.01 80)');
+    expect(lightVariables['--kui-color-bg']).toBe('var(--kui-neutral-2)');
+    expect(lightVariables['--kui-neutral-2']).toBe('oklch(0.97 0.01 80)');
+    expect(darkVariables['--kui-color-bg']).toBe('var(--kui-neutral-2)');
+    expect(darkVariables['--kui-neutral-2']).toBe('oklch(0.1 0.01 80)');
     expect(lightVariables['--kui-avatar-p1-bg']).toBe('oklch(0.87 0.08 285)');
     expect(darkVariables['--kui-avatar-p1-bg']).toBe('oklch(0.28 0.16 285)');
     expect(lightVariables['--kui-btn-gap']).toBe('6px');

@@ -491,7 +491,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   }
 
   private renderPresets(panel: HTMLElement): void {
-    // Matches the semantic seed roles createKuiTheme() expects (primary/gray/success/
+    // Matches the seed roles createKuiTheme() expects (primary/neutral/success/
     // warning/danger/info) -- named here so the swatches read as theme-seed shortcuts,
     // not just an arbitrary color palette.
     const presets: readonly [name: string, hex: string][] = [

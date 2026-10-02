@@ -177,7 +177,7 @@ is not set, the part uses the semantic role in the Default column.
 
 | Token                                      | Default                    | Controls                |
 | ------------------------------------------ | -------------------------- | ----------------------- |
-| `--kui-date-picker-chevron-color-expanded` | `--kui-color-primary-fill` | Chevron color, expanded |
+| `--kui-date-picker-chevron-color-expanded` | `--kui-color-primary-text` | Chevron color, expanded |
 
 <!-- color-tokens:end -->
 

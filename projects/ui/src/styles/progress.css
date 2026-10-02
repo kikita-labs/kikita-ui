@@ -60,21 +60,21 @@
   .kui-progress-linear-fill {
     height: 100%;
     border-radius: inherit;
-    background: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
+    background: var(--kui-progress-fill-primary, var(--kui-color-primary-indicator));
     transition: width var(--kui-duration-normal) var(--kui-ease);
   }
 
   .kui-progress-linear[data-kui-color='primary'] .kui-progress-linear-fill {
-    background: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
+    background: var(--kui-progress-fill-primary, var(--kui-color-primary-indicator));
   }
   .kui-progress-linear[data-kui-color='success'] .kui-progress-linear-fill {
-    background: var(--kui-progress-fill-success, var(--kui-color-success-fill));
+    background: var(--kui-progress-fill-success, var(--kui-color-success-indicator));
   }
   .kui-progress-linear[data-kui-color='warning'] .kui-progress-linear-fill {
-    background: var(--kui-progress-fill-warning, var(--kui-color-warning-fill));
+    background: var(--kui-progress-fill-warning, var(--kui-color-warning-indicator));
   }
   .kui-progress-linear[data-kui-color='danger'] .kui-progress-linear-fill {
-    background: var(--kui-progress-fill-danger, var(--kui-color-danger-fill));
+    background: var(--kui-progress-fill-danger, var(--kui-color-danger-indicator));
   }
   .kui-progress-linear[data-kui-color='neutral'] .kui-progress-linear-fill {
     background: var(--kui-progress-fill-neutral, var(--kui-color-text-secondary));
@@ -96,7 +96,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    --_kui-pc: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
+    --_kui-pc: var(--kui-progress-fill-primary, var(--kui-color-primary-indicator));
   }
 
   .kui-progress-circular > svg {
@@ -126,16 +126,16 @@
 
   /* colors */
   .kui-progress-circular[data-kui-color='primary'] {
-    --_kui-pc: var(--kui-progress-fill-primary, var(--kui-color-primary-fill));
+    --_kui-pc: var(--kui-progress-fill-primary, var(--kui-color-primary-indicator));
   }
   .kui-progress-circular[data-kui-color='success'] {
-    --_kui-pc: var(--kui-progress-fill-success, var(--kui-color-success-fill));
+    --_kui-pc: var(--kui-progress-fill-success, var(--kui-color-success-indicator));
   }
   .kui-progress-circular[data-kui-color='warning'] {
-    --_kui-pc: var(--kui-progress-fill-warning, var(--kui-color-warning-fill));
+    --_kui-pc: var(--kui-progress-fill-warning, var(--kui-color-warning-indicator));
   }
   .kui-progress-circular[data-kui-color='danger'] {
-    --_kui-pc: var(--kui-progress-fill-danger, var(--kui-color-danger-fill));
+    --_kui-pc: var(--kui-progress-fill-danger, var(--kui-color-danger-indicator));
   }
   .kui-progress-circular[data-kui-color='neutral'] {
     --_kui-pc: var(--kui-progress-fill-neutral, var(--kui-color-text-secondary));

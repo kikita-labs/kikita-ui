@@ -46,7 +46,7 @@
   }
 
   .kui-accordion-trigger:focus-visible {
-    outline: 2px solid var(--kui-accordion-trigger-focus-ring-color, var(--kui-color-primary-fill));
+    outline: 2px solid var(--kui-accordion-trigger-focus-ring-color, var(--kui-color-focus));
     outline-offset: -2px;
     border-radius: var(--kui-accordion-trigger-radius-focus, var(--kui-radius-xs));
     z-index: 1;

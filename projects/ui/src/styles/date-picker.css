@@ -51,7 +51,7 @@
   }
 
   .kui-date-picker-chevron[aria-expanded='true'] {
-    color: var(--kui-date-picker-chevron-color-expanded, var(--kui-color-primary-fill));
+    color: var(--kui-date-picker-chevron-color-expanded, var(--kui-color-primary-text));
   }
 
   .kui-date-picker-chevron[aria-expanded='true'] svg {

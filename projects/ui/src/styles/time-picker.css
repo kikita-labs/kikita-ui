@@ -53,7 +53,7 @@
   }
 
   .kui-timepicker-chevron[aria-expanded='true'] {
-    color: var(--kui-timepicker-chevron-color-expanded, var(--kui-color-primary-fill));
+    color: var(--kui-timepicker-chevron-color-expanded, var(--kui-color-primary-text));
   }
 
   .kui-timepicker-chevron[aria-expanded='true'] svg {
@@ -113,7 +113,7 @@
   }
 
   .kui-timepicker-col:focus-visible {
-    outline: 2px solid var(--kui-timepicker-col-focus-ring-color, var(--kui-color-primary-fill));
+    outline: 2px solid var(--kui-timepicker-col-focus-ring-color, var(--kui-color-focus));
     outline-offset: -2px;
   }
 
@@ -160,7 +160,7 @@
 
   .kui-timepicker-opt--selected {
     background: var(--kui-timepicker-cell-bg-selected, var(--kui-color-primary-fill));
-    color: var(--kui-timepicker-cell-text-selected, var(--kui-color-on-fill));
+    color: var(--kui-timepicker-cell-text-selected, var(--kui-color-primary-on-fill));
     font-weight: 600;
   }
 

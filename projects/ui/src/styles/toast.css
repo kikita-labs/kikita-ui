@@ -194,23 +194,23 @@
   }
 
   .kui-toast[data-kui-appearance='success'] {
-    --_kui-toast-accent-color: var(--kui-color-success-fill);
-    --_kui-toast-icon-color: var(--kui-color-success-fill);
+    --_kui-toast-accent-color: var(--kui-color-success-indicator);
+    --_kui-toast-icon-color: var(--kui-color-success-text);
   }
 
   .kui-toast[data-kui-appearance='warning'] {
-    --_kui-toast-accent-color: var(--kui-color-warning-fill);
-    --_kui-toast-icon-color: var(--kui-color-warning-fill);
+    --_kui-toast-accent-color: var(--kui-color-warning-indicator);
+    --_kui-toast-icon-color: var(--kui-color-warning-text);
   }
 
   .kui-toast[data-kui-appearance='danger'] {
-    --_kui-toast-accent-color: var(--kui-color-danger-fill);
-    --_kui-toast-icon-color: var(--kui-color-danger-fill);
+    --_kui-toast-accent-color: var(--kui-color-danger-indicator);
+    --_kui-toast-icon-color: var(--kui-color-danger-text);
   }
 
   .kui-toast[data-kui-appearance='info'] {
-    --_kui-toast-accent-color: var(--kui-color-info-fill);
-    --_kui-toast-icon-color: var(--kui-color-info-fill);
+    --_kui-toast-accent-color: var(--kui-color-info-indicator);
+    --_kui-toast-icon-color: var(--kui-color-info-text);
   }
 
   /* ── Card slots ─────────────────────────────────────────────────────────── */
@@ -281,7 +281,7 @@
     height: 2px;
     background: var(
       --kui-toast-accent-color,
-      var(--_kui-toast-accent-color, var(--kui-color-primary-fill))
+      var(--_kui-toast-accent-color, var(--kui-color-primary-indicator))
     );
   }
 }

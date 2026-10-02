@@ -227,10 +227,10 @@ prop -- just slide content that is 100px tall.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the semantic role in the Default column.
 
-| Token                                   | Default                          | Controls               |
-| --------------------------------------- | -------------------------------- | ---------------------- |
-| `--kui-carousel-track-focus-ring-color` | `--kui-color-primary-focus-ring` | Track focus ring color |
-| `--kui-carousel-dot-focus-ring-color`   | `--kui-color-primary-fill`       | Dot focus ring color   |
+| Token                                   | Default             | Controls               |
+| --------------------------------------- | ------------------- | ---------------------- |
+| `--kui-carousel-track-focus-ring-color` | `--kui-color-focus` | Track focus ring color |
+| `--kui-carousel-dot-focus-ring-color`   | `--kui-color-focus` | Dot focus ring color   |
 
 <!-- color-tokens:end -->
 

@@ -238,14 +238,14 @@ is not set, the part uses the semantic role in the Default column.
 | Token                                    | Default                             | Controls                                |
 | ---------------------------------------- | ----------------------------------- | --------------------------------------- |
 | `--kui-listbox-option-color`             | `--kui-color-text`                  | Stbox option color                      |
-| `--kui-listbox-option-focus-ring-color`  | `--kui-color-primary-focus-ring`    | Stbox option focus ring color           |
+| `--kui-listbox-option-focus-ring-color`  | `--kui-color-focus`                 | Stbox option focus ring color           |
 | `--kui-listbox-option-bg-selected`       | `--kui-color-primary-soft-bg`       | Stbox option background, selected       |
 | `--kui-listbox-option-color-selected`    | `--kui-color-primary-soft-text`     | Stbox option color, selected            |
 | `--kui-listbox-option-bg-selected-hover` | `--kui-color-primary-soft-bg-hover` | Stbox option background, selected hover |
 | `--kui-listbox-group-label-color`        | `--kui-color-text-secondary`        | Stbox group label color                 |
 | `--kui-listbox-separator-bg`             | `--kui-color-border`                | Stbox separator background              |
 | `--kui-listbox-empty-color`              | `--kui-color-text-secondary`        | Stbox empty color                       |
-| `--kui-select-chevron-color-expanded`    | `--kui-color-primary-fill`          | Lect chevron color, expanded            |
+| `--kui-select-chevron-color-expanded`    | `--kui-color-primary-text`          | Lect chevron color, expanded            |
 
 <!-- color-tokens:end -->
 

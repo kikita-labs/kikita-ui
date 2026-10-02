@@ -86,27 +86,28 @@ Slider styles live in `projects/ui/src/styles/slider.css` and are included throu
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the semantic role in the Default column.
 
-| Token                              | Default                        | Controls                   |
-| ---------------------------------- | ------------------------------ | -------------------------- |
-| `--kui-slider-fill-bg`             | `--kui-color-primary-fill`     | Fill background            |
-| `--kui-slider-fill-bg-primary`     | `--kui-color-primary-fill`     | Fill background, primary   |
-| `--kui-slider-fill-bg-success`     | `--kui-color-success-fill`     | Fill background, success   |
-| `--kui-slider-fill-bg-danger`      | `--kui-color-danger-fill`      | Fill background, danger    |
-| `--kui-slider-fill-bg-neutral`     | `--kui-color-text-secondary`   | Fill background, neutral   |
-| `--kui-slider-fill-bg-invalid`     | `--kui-color-danger-fill`      | Fill background, invalid   |
-| `--kui-slider-thumb-bg`            | `--kui-color-primary-fill`     | Thumb background           |
-| `--kui-slider-thumb-bg-primary`    | `--kui-color-primary-fill`     | Thumb background, primary  |
-| `--kui-slider-thumb-bg-success`    | `--kui-color-success-fill`     | Thumb background, success  |
-| `--kui-slider-thumb-bg-danger`     | `--kui-color-danger-fill`      | Thumb background, danger   |
-| `--kui-slider-thumb-bg-neutral`    | `--kui-color-text-secondary`   | Thumb background, neutral  |
-| `--kui-slider-thumb-bg-invalid`    | `--kui-color-danger-fill`      | Thumb background, invalid  |
-| `--kui-slider-track-bg-disabled`   | `--kui-color-surface-elevated` | Track background, disabled |
-| `--kui-slider-fill-bg-disabled`    | `--kui-color-text-disabled`    | Fill background, disabled  |
-| `--kui-slider-thumb-bg-disabled`   | `--kui-color-text-disabled`    | Thumb background, disabled |
-| `--kui-slider-tooltip-bg`          | `--kui-color-text`             | Tooltip background         |
-| `--kui-slider-tooltip-color`       | `--kui-color-bg`               | Tooltip color              |
-| `--kui-slider-tooltip-arrow-color` | `--kui-color-text`             | Tooltip arrow color        |
-| `--kui-slider-labels-color`        | `--kui-color-text-secondary`   | Labels color               |
+| Token                                 | Default                         | Controls                   |
+| ------------------------------------- | ------------------------------- | -------------------------- |
+| `--kui-slider-fill-bg`                | `--kui-color-primary-indicator` | Fill background            |
+| `--kui-slider-fill-bg-primary`        | `--kui-color-primary-indicator` | Fill background, primary   |
+| `--kui-slider-fill-bg-success`        | `--kui-color-success-indicator` | Fill background, success   |
+| `--kui-slider-fill-bg-danger`         | `--kui-color-danger-indicator`  | Fill background, danger    |
+| `--kui-slider-fill-bg-neutral`        | `--kui-color-text-secondary`    | Fill background, neutral   |
+| `--kui-slider-fill-bg-invalid`        | `--kui-color-danger-indicator`  | Fill background, invalid   |
+| `--kui-slider-thumb-bg`               | `--kui-color-primary-indicator` | Thumb background           |
+| `--kui-slider-thumb-bg-primary`       | `--kui-color-primary-indicator` | Thumb background, primary  |
+| `--kui-slider-thumb-bg-success`       | `--kui-color-success-indicator` | Thumb background, success  |
+| `--kui-slider-thumb-bg-danger`        | `--kui-color-danger-indicator`  | Thumb background, danger   |
+| `--kui-slider-thumb-bg-neutral`       | `--kui-color-text-secondary`    | Thumb background, neutral  |
+| `--kui-slider-thumb-bg-invalid`       | `--kui-color-danger-indicator`  | Thumb background, invalid  |
+| `--kui-slider-thumb-focus-ring-color` | `--kui-color-focus`             | Thumb focus outline color  |
+| `--kui-slider-track-bg-disabled`      | `--kui-color-surface-elevated`  | Track background, disabled |
+| `--kui-slider-fill-bg-disabled`       | `--kui-color-text-disabled`     | Fill background, disabled  |
+| `--kui-slider-thumb-bg-disabled`      | `--kui-color-text-disabled`     | Thumb background, disabled |
+| `--kui-slider-tooltip-bg`             | `--kui-color-text`              | Tooltip background         |
+| `--kui-slider-tooltip-color`          | `--kui-color-bg`                | Tooltip color              |
+| `--kui-slider-tooltip-arrow-color`    | `--kui-color-text`              | Tooltip arrow color        |
+| `--kui-slider-labels-color`           | `--kui-color-text-secondary`    | Labels color               |
 
 <!-- color-tokens:end -->
 

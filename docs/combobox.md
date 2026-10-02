@@ -191,12 +191,12 @@ Field geometry, border, radius, focus ring, invalid state, label, hint, and erro
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the semantic role in the Default column.
 
-| Token                                   | Default                      | Controls                |
-| --------------------------------------- | ---------------------------- | ----------------------- |
-| `--kui-combobox-chevron-color-expanded` | `--kui-color-primary-fill`   | Chevron color, expanded |
-| `--kui-combobox-loader-color`           | `--kui-color-primary-fill`   | Loader color            |
-| `--kui-combobox-empty-color`            | `--kui-color-text-secondary` | Empty color             |
-| `--kui-combobox-loader-track-color`     | `--kui-color-border`         | Loader track color      |
+| Token                                   | Default                         | Controls                |
+| --------------------------------------- | ------------------------------- | ----------------------- |
+| `--kui-combobox-chevron-color-expanded` | `--kui-color-primary-text`      | Chevron color, expanded |
+| `--kui-combobox-loader-color`           | `--kui-color-primary-indicator` | Loader color            |
+| `--kui-combobox-empty-color`            | `--kui-color-text-secondary`    | Empty color             |
+| `--kui-combobox-loader-track-color`     | `--kui-color-border`            | Loader track color      |
 
 <!-- color-tokens:end -->
 

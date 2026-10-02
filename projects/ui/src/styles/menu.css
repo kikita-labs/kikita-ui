@@ -59,7 +59,7 @@
   }
 
   .kui-menu-item[data-kui-appearance='destructive'] {
-    color: var(--kui-menu-item-text-destructive, var(--kui-color-danger-fill));
+    color: var(--kui-menu-item-text-destructive, var(--kui-color-danger-text));
   }
 
   .kui-menu-item--disabled,

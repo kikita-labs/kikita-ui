@@ -116,6 +116,7 @@ Review dropdown, select, tooltip, popover, dialog, toast, and any future overlay
 - Focus, selected, invalid, disabled, and loading states remain distinguishable without relying on color alone.
 - Text and icon contrast meet WCAG AA where practical for the component size.
 - Forced-colors or high-contrast mode preserves visible boundaries, focus, and state indicators.
+- The library ships these rules in `forced-colors.css` using system colours; `e2e/forced-colors.spec.ts` (Chromium forced-colors emulation) checks the checked, selected, filled and focus states. WebKit emulation does not apply the forced palette, so it is not evidence. New state-bearing components add their rule there and a case to the spec.
 - Semi-transparent overlays and shadows are not the only way to communicate depth or modality.
 
 ## Per-Component Review Template

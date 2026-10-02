@@ -186,9 +186,9 @@ styles.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the semantic role in the Default column.
 
-| Token                                       | Default                    | Controls               |
-| ------------------------------------------- | -------------------------- | ---------------------- |
-| `--kui-media-viewer-thumb-focus-ring-color` | `--kui-color-primary-fill` | Thumb focus ring color |
+| Token                                       | Default             | Controls               |
+| ------------------------------------------- | ------------------- | ---------------------- |
+| `--kui-media-viewer-thumb-focus-ring-color` | `--kui-color-focus` | Thumb focus ring color |
 
 <!-- color-tokens:end -->
 

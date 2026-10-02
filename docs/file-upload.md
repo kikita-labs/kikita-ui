@@ -177,22 +177,22 @@ is not set, the part uses the semantic role in the Default column.
 | Token                                            | Default                         | Controls                       |
 | ------------------------------------------------ | ------------------------------- | ------------------------------ |
 | `--kui-file-upload-dropzone-bg-hover`            | `--kui-color-surface`           | Dropzone background, hover     |
-| `--kui-file-upload-dropzone-focus-ring-color`    | `--kui-color-primary-fill`      | Dropzone focus ring color      |
-| `--kui-file-upload-dropzone-border-over`         | `--kui-color-primary-fill`      | Dropzone border color, over    |
+| `--kui-file-upload-dropzone-focus-ring-color`    | `--kui-color-focus`             | Dropzone focus ring color      |
+| `--kui-file-upload-dropzone-border-over`         | `--kui-color-primary-indicator` | Dropzone border color, over    |
 | `--kui-file-upload-dropzone-bg-over`             | `--kui-color-primary-soft-bg`   | Dropzone background, over      |
-| `--kui-file-upload-dropzone-border-invalid`      | `--kui-color-danger-fill`       | Dropzone border color, invalid |
+| `--kui-file-upload-dropzone-border-invalid`      | `--kui-color-danger-indicator`  | Dropzone border color, invalid |
 | `--kui-file-upload-dropzone-bg-invalid`          | `--kui-color-danger-soft-bg`    | Dropzone background, invalid   |
 | `--kui-file-upload-dropzone-icon-color`          | `--kui-color-text-secondary`    | Dropzone icon color            |
-| `--kui-file-upload-dropzone-icon-color-over`     | `--kui-color-primary-fill`      | Dropzone icon color, over      |
-| `--kui-file-upload-dropzone-icon-color-invalid`  | `--kui-color-danger-fill`       | Dropzone icon color, invalid   |
+| `--kui-file-upload-dropzone-icon-color-over`     | `--kui-color-primary-text`      | Dropzone icon color, over      |
+| `--kui-file-upload-dropzone-icon-color-invalid`  | `--kui-color-danger-text`       | Dropzone icon color, invalid   |
 | `--kui-file-upload-dropzone-text-color`          | `--kui-color-text`              | Dropzone text color            |
 | `--kui-file-upload-dropzone-text-emphasis-color` | `--kui-color-primary-soft-text` | Dropzone text emphasis color   |
 | `--kui-file-upload-dropzone-hint-color`          | `--kui-color-text-secondary`    | Dropzone hint color            |
 | `--kui-file-upload-compact-hint-color`           | `--kui-color-text-secondary`    | Compact hint color             |
-| `--kui-file-upload-form-error-color`             | `--kui-color-danger-fill`       | Form error color               |
+| `--kui-file-upload-form-error-color`             | `--kui-color-danger-text`       | Form error color               |
 | `--kui-file-upload-item-border`                  | `--kui-color-border`            | Item border color              |
 | `--kui-file-upload-item-bg`                      | `--kui-color-surface`           | Item background                |
-| `--kui-file-upload-item-focus-ring-color`        | `--kui-color-primary-fill`      | Item focus ring color          |
+| `--kui-file-upload-item-focus-ring-color`        | `--kui-color-focus`             | Item focus ring color          |
 | `--kui-file-upload-item-preview-bg`              | `--kui-color-surface-elevated`  | Item preview background        |
 | `--kui-file-upload-item-preview-color`           | `--kui-color-text-secondary`    | Item preview color             |
 | `--kui-file-upload-item-preview-bg-pdf`          | `--kui-color-danger-soft-bg`    | Item preview background, pdf   |
@@ -203,7 +203,7 @@ is not set, the part uses the semantic role in the Default column.
 | `--kui-file-upload-item-preview-color-zip`       | `--kui-color-warning-soft-text` | Item preview color, zip        |
 | `--kui-file-upload-item-name-color`              | `--kui-color-text`              | Item name color                |
 | `--kui-file-upload-item-meta-color`              | `--kui-color-text-secondary`    | Item meta color                |
-| `--kui-file-upload-item-success-color`           | `--kui-color-success-fill`      | Item success color             |
+| `--kui-file-upload-item-success-color`           | `--kui-color-success-text`      | Item success color             |
 
 <!-- color-tokens:end -->
 

@@ -112,17 +112,17 @@ number-specific tokens below are only for the increment/decrement control chrome
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the semantic role in the Default column.
 
-| Token                                     | Default                     | Controls                 |
-| ----------------------------------------- | --------------------------- | ------------------------ |
-| `--kui-number-input-btn-color-hover`      | `--kui-color-text`          | Btn color, hover         |
-| `--kui-number-input-btn-bg-active`        | `--kui-color-border`        | Btn background, active   |
-| `--kui-number-input-btn-color-active`     | `--kui-color-text`          | Btn color, active        |
-| `--kui-number-input-btn-color-disabled`   | `--kui-color-text-disabled` | Btn color, disabled      |
-| `--kui-number-input-arrow-color-hover`    | `--kui-color-text`          | Arrow color, hover       |
-| `--kui-number-input-arrow-bg-active`      | `--kui-color-border`        | Arrow background, active |
-| `--kui-number-input-arrow-color-active`   | `--kui-color-text`          | Arrow color, active      |
-| `--kui-number-input-arrow-color-disabled` | `--kui-color-text-disabled` | Arrow color, disabled    |
-| `--kui-number-input-btn-color-readonly`   | `--kui-color-text-disabled` | Btn color, readonly      |
+| Token                                     | Default                      | Controls                 |
+| ----------------------------------------- | ---------------------------- | ------------------------ |
+| `--kui-number-input-btn-color-hover`      | `--kui-color-text`           | Btn color, hover         |
+| `--kui-number-input-btn-bg-active`        | `--kui-color-border`         | Btn background, active   |
+| `--kui-number-input-btn-color-active`     | `--kui-color-text`           | Btn color, active        |
+| `--kui-number-input-btn-color-disabled`   | `--kui-color-text-disabled`  | Btn color, disabled      |
+| `--kui-number-input-arrow-color-hover`    | `--kui-color-text`           | Arrow color, hover       |
+| `--kui-number-input-arrow-bg-active`      | `--kui-color-border`         | Arrow background, active |
+| `--kui-number-input-arrow-color-active`   | `--kui-color-text`           | Arrow color, active      |
+| `--kui-number-input-arrow-color-disabled` | `--kui-color-text-disabled`  | Arrow color, disabled    |
+| `--kui-number-input-btn-color-readonly`   | `--kui-color-text-secondary` | Btn color, readonly      |
 
 <!-- color-tokens:end -->
 

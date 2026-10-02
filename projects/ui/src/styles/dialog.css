@@ -116,10 +116,10 @@
 
   /* Appearance colors .kui-dialog-icon */
   .kui-dialog[data-kui-appearance='danger'] {
-    --_kui-dialog-icon-color: var(--kui-color-danger-fill);
+    --_kui-dialog-icon-color: var(--kui-color-danger-text);
   }
   .kui-dialog[data-kui-appearance='warning'] {
-    --_kui-dialog-icon-color: var(--kui-color-warning-fill);
+    --_kui-dialog-icon-color: var(--kui-color-warning-text);
   }
 
   /* Icon slot: place inside .kui-dialog-header before the title */

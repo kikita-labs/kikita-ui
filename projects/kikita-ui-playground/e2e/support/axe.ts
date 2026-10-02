@@ -25,6 +25,18 @@ export async function collectAxeViolations(
   page: Page,
   options: AxeOptions = {},
 ): Promise<AxeViolationSummary[]> {
+  // Colour contrast is computed from the colours on screen, so wait until the finite transitions and
+  // animations of a theme switch or an opening overlay have ended; looping ones never finish.
+  await page.evaluate(async () => {
+    const finite = document
+      .getAnimations()
+      .filter((animation) => animation.effect?.getComputedTiming().iterations !== Infinity);
+
+    await Promise.race([
+      Promise.allSettled(finite.map((animation) => animation.finished)),
+      new Promise((resolve) => setTimeout(resolve, 2000)),
+    ]);
+  });
   await page.addScriptTag({ content: axeSource });
   const result = await page.evaluate(async (excludedRules) => {
     return await window.axe.run(document, {

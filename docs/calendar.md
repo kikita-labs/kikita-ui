@@ -175,25 +175,25 @@ is not set, the part uses the semantic role in the Default column.
 | `--kui-calendar-color`                        | `--kui-color-text`               | Color                              |
 | `--kui-calendar-title-color`                  | `--kui-color-text`               | Title color                        |
 | `--kui-calendar-day-color`                    | `--kui-color-text`               | Day color                          |
-| `--kui-calendar-day-focus-ring-color`         | `--kui-color-primary-focus-ring` | Day focus ring color               |
-| `--kui-calendar-day-color-muted`              | `--kui-color-text-disabled`      | Day color, muted                   |
+| `--kui-calendar-day-focus-ring-color`         | `--kui-color-focus`              | Day focus ring color               |
+| `--kui-calendar-day-color-muted`              | `--kui-color-text-secondary`     | Day color, muted                   |
 | `--kui-calendar-day-color-weekend`            | `--kui-color-text-secondary`     | Day color, weekend                 |
 | `--kui-calendar-day-bg-selected`              | `--kui-color-primary-fill`       | Day background, selected           |
-| `--kui-calendar-day-color-selected`           | `--kui-color-on-fill`            | Day color, selected                |
+| `--kui-calendar-day-color-selected`           | `--kui-color-primary-on-fill`    | Day color, selected                |
 | `--kui-calendar-day-color-range-middle`       | `--kui-color-primary-soft-text`  | Day color, range middle            |
 | `--kui-calendar-day-bg-range-start`           | `--kui-color-primary-fill`       | Day background, range start        |
-| `--kui-calendar-day-color-range-start`        | `--kui-color-on-fill`            | Day color, range start             |
+| `--kui-calendar-day-color-range-start`        | `--kui-color-primary-on-fill`    | Day color, range start             |
 | `--kui-calendar-day-bg-range-end`             | `--kui-color-primary-fill`       | Day background, range end          |
-| `--kui-calendar-day-color-range-end`          | `--kui-color-on-fill`            | Day color, range end               |
+| `--kui-calendar-day-color-range-end`          | `--kui-color-primary-on-fill`    | Day color, range end               |
 | `--kui-calendar-day-bg-range-edge-hover`      | `--kui-color-primary-fill-hover` | Day background, range edge hover   |
 | `--kui-calendar-day-bg-range-middle-hover`    | `?`                              | Day background, range middle hover |
 | `--kui-calendar-day-bg-selected-hover`        | `--kui-color-primary-fill-hover` | Day background, selected hover     |
 | `--kui-calendar-value-color`                  | `--kui-color-text-secondary`     | Value color                        |
 | `--kui-calendar-picker-cell-color`            | `--kui-color-text`               | Picker cell color                  |
-| `--kui-calendar-picker-cell-focus-ring-color` | `--kui-color-primary-focus-ring` | Picker cell focus ring color       |
+| `--kui-calendar-picker-cell-focus-ring-color` | `--kui-color-focus`              | Picker cell focus ring color       |
 | `--kui-calendar-picker-cell-bg-active`        | `--kui-color-primary-fill`       | Picker cell background, active     |
-| `--kui-calendar-picker-cell-color-active`     | `--kui-color-on-fill`            | Picker cell color, active          |
-| `--kui-calendar-picker-cell-color-muted`      | `--kui-color-text-disabled`      | Picker cell color, muted           |
+| `--kui-calendar-picker-cell-color-active`     | `--kui-color-primary-on-fill`    | Picker cell color, active          |
+| `--kui-calendar-picker-cell-color-muted`      | `--kui-color-text-secondary`     | Picker cell color, muted           |
 
 <!-- color-tokens:end -->
 

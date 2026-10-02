@@ -129,19 +129,18 @@
     cursor: pointer;
   }
   button.kui-step-circle:hover {
-    border-color: var(--kui-stepper-fg-current, var(--kui-color-primary-fill));
+    border-color: var(--kui-stepper-fg-current, var(--kui-color-primary-indicator));
   }
   button.kui-step-circle:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px
-      var(--kui-stepper-circle-focus-ring-color, var(--kui-color-primary-focus-ring));
+    outline: 2px solid var(--kui-stepper-circle-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 2px;
   }
   .kui-step-line {
     background: var(--kui-stepper-connector-color, var(--kui-color-border));
     flex-shrink: 0;
   }
   .kui-step-line[data-kui-done] {
-    background: var(--kui-stepper-connector-color-done, var(--kui-color-primary-fill));
+    background: var(--kui-stepper-connector-color-done, var(--kui-color-primary-indicator));
   }
   .kui-step-body {
     display: block;
@@ -163,16 +162,16 @@
   /* states */
   .kui-step[data-kui-state='done'] .kui-step-circle {
     background: var(--kui-stepper-fg-done, var(--kui-color-primary-fill));
-    border-color: var(--kui-stepper-fg-done, var(--kui-color-primary-fill));
-    color: var(--kui-stepper-circle-color-done, var(--kui-color-on-fill));
+    border-color: var(--kui-stepper-fg-done, var(--kui-color-primary-indicator));
+    color: var(--kui-stepper-circle-color-done, var(--kui-color-primary-on-fill));
   }
   .kui-step[data-kui-state='done'] .kui-step-label {
     color: var(--kui-stepper-label-color-done, var(--kui-color-text));
   }
 
   .kui-step[data-kui-state='current'] .kui-step-circle {
-    border-color: var(--kui-stepper-fg-current, var(--kui-color-primary-fill));
-    color: var(--kui-stepper-fg-current, var(--kui-color-primary-fill));
+    border-color: var(--kui-stepper-fg-current, var(--kui-color-primary-indicator));
+    color: var(--kui-stepper-fg-current, var(--kui-color-primary-text));
     background: var(--kui-stepper-circle-bg-current, var(--kui-color-surface));
   }
   .kui-step[data-kui-state='current'] .kui-step-label {
@@ -182,7 +181,7 @@
 
   .kui-step[data-kui-state='upcoming'] .kui-step-circle {
     background: var(--kui-stepper-circle-bg-upcoming, var(--kui-color-surface-elevated));
-    border-color: var(--kui-stepper-circle-border-upcoming, var(--kui-color-border));
+    border-color: var(--kui-stepper-circle-border-upcoming, var(--kui-color-border-control));
     color: var(--kui-stepper-fg-upcoming, var(--kui-color-text-secondary));
   }
   .kui-step[data-kui-state='upcoming'] .kui-step-label {
@@ -200,15 +199,15 @@
 
   .kui-step[data-kui-state='error'] .kui-step-circle {
     background: var(--kui-stepper-fg-error, var(--kui-color-danger-fill));
-    border-color: var(--kui-stepper-fg-error, var(--kui-color-danger-fill));
-    color: var(--kui-stepper-circle-color-error, var(--kui-color-on-fill));
+    border-color: var(--kui-stepper-fg-error, var(--kui-color-danger-indicator));
+    color: var(--kui-stepper-circle-color-error, var(--kui-color-danger-on-fill));
   }
   .kui-step[data-kui-state='error'] .kui-step-label {
-    color: var(--kui-stepper-fg-error, var(--kui-color-danger-fill));
+    color: var(--kui-stepper-fg-error, var(--kui-color-danger-text));
     font-weight: 600;
   }
   .kui-step[data-kui-state='error'] .kui-step-description {
-    color: var(--kui-stepper-fg-error, var(--kui-color-danger-fill));
+    color: var(--kui-stepper-fg-error, var(--kui-color-danger-text));
   }
 
   /* sizes */

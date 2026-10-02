@@ -9,7 +9,7 @@
     --_kui-carousel-control-bg: var(--kui-color-surface);
     --_kui-carousel-control-shadow: var(--kui-shadow-lg);
     --_kui-carousel-dot-bg: var(--kui-color-border);
-    --_kui-carousel-dot-bg-active: var(--kui-color-primary-fill);
+    --_kui-carousel-dot-bg-active: var(--kui-color-primary-indicator);
     --_kui-carousel-dot-size: var(--kui-space-2, 8px);
     display: flex;
     flex-direction: column;
@@ -35,8 +35,7 @@
 
   /* A scrollable track must be keyboard focusable; the region's arrow/Home/End keys then move slides. */
   .kui-carousel__track:focus-visible {
-    outline: 2px solid
-      var(--kui-carousel-track-focus-ring-color, var(--kui-color-primary-focus-ring));
+    outline: 2px solid var(--kui-carousel-track-focus-ring-color, var(--kui-color-focus));
     outline-offset: -2px;
   }
 
@@ -141,7 +140,7 @@
   }
 
   .kui-carousel__dot:focus-visible {
-    outline: 2px solid var(--kui-carousel-dot-focus-ring-color, var(--kui-color-primary-fill));
+    outline: 2px solid var(--kui-carousel-dot-focus-ring-color, var(--kui-color-focus));
     outline-offset: 2px;
   }
 }

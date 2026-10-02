@@ -69,9 +69,9 @@ is not set, the part uses the semantic role in the Default column.
 
 | Token                              | Default                    | Controls              |
 | ---------------------------------- | -------------------------- | --------------------- |
-| `--kui-empty-icon-color-error`     | `--kui-color-danger-fill`  | Icon color, error     |
-| `--kui-empty-icon-color-success`   | `--kui-color-success-fill` | Icon color, success   |
-| `--kui-empty-icon-color-no-access` | `--kui-color-warning-fill` | Icon color, no access |
+| `--kui-empty-icon-color-error`     | `--kui-color-danger-text`  | Icon color, error     |
+| `--kui-empty-icon-color-success`   | `--kui-color-success-text` | Icon color, success   |
+| `--kui-empty-icon-color-no-access` | `--kui-color-warning-text` | Icon color, no access |
 
 <!-- color-tokens:end -->
 

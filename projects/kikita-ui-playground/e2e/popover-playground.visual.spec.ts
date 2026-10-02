@@ -130,7 +130,6 @@ test('has no automated accessibility violations with the catalogue and dialogs o
 }) => {
   const excludeRules = [
     'aria-prohibited-attr',
-    'color-contrast',
     'empty-table-header',
     'label-title-only',
     'scrollable-region-focusable',

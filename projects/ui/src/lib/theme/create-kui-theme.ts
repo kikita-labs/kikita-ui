@@ -1,5 +1,6 @@
 import { DEFAULT_KUI_THEME } from './default-kui-theme.const';
 import type { KuiOklchColor } from './kui-theme-color.interface';
+import { contrastRatio, lightnessForTone } from './kui-theme-color-math';
 import type { KuiThemeMode } from './kui-theme-mode.type';
 import type { KuiThemeOptions } from './kui-theme-options.interface';
 import type {
@@ -9,21 +10,39 @@ import type {
   KuiPaletteMap,
 } from './kui-theme-tokens.interface';
 
-const LIGHTNESS_STOPS = [
-  0.97,
-  0.93,
-  0.87,
-  0.78,
-  0.67,
-  null,
-  0.42,
-  0.32,
-  0.23,
-  0.16,
-  0.12,
-  0.08,
-] as const;
+type KuiAccentName = Exclude<KuiColorScaleName, 'neutral'>;
+type KuiParsedSeeds = Record<KuiColorScaleName, KuiOklchColor>;
+
+/** Tone (CIE L*) of accent steps 1-12; step 6 is the seed itself. */
+const ACCENT_TONES = [97, 92, 85, 74, 62, null, 33, 22, 11, 4, 2, 0.5] as const;
 const CHROMA_SCALE = [0.08, 0.15, 0.35, 0.6, 0.85, 1, 0.9, 0.75, 0.55, 0.35, 0.22, 0.12] as const;
+/** OKLCH lightness of the twelve neutral steps in each mode; step 1 of light is pure white. */
+const NEUTRAL_LIGHTNESS = {
+  light: [1, 0.97, 0.95, 0.92, 0.88, 0.78, 0.75, 0.7, 0.66, 0.6, 0.46, 0.18],
+  dark: [0.08, 0.1, 0.14, 0.18, 0.22, 0.27, 0.32, 0.35, 0.42, 0.52, 0.6, 0.93],
+} as const;
+/** Neutral step read by each neutral role: [light, dark]. */
+const NEUTRAL_ROLE_STEPS = {
+  surface: [1, 3],
+  'surface-elevated': [1, 4],
+  bg: [2, 2],
+  'surface-sunken': [3, 1],
+  'skeleton-highlight': [3, 6],
+  'border-subtle': [4, 4],
+  'skeleton-bg': [4, 4],
+  border: [5, 5],
+  'scrollbar-thumb': [6, 7],
+  'border-strong': [7, 7],
+  'text-disabled': [8, 8],
+  'scrollbar-thumb-hover': [9, 9],
+  'scrollbar-thumb-active': [10, 10],
+  'border-control': [10, 10],
+  'border-control-hover': [11, 11],
+  'text-secondary': [11, 11],
+  'text-placeholder': [11, 11],
+  text: [12, 12],
+  'neutral-fill': [11, 7],
+} as const satisfies Record<string, readonly [number, number]>;
 const SCALE_NAMES: readonly KuiColorScaleName[] = [
   'primary',
   'neutral',
@@ -32,12 +51,34 @@ const SCALE_NAMES: readonly KuiColorScaleName[] = [
   'danger',
   'info',
 ];
+const ACCENT_NAMES: readonly KuiAccentName[] = ['primary', 'success', 'warning', 'danger', 'info'];
 const FALLBACK_INFO_SEED = 'oklch(0.58 0.16 215)';
 
-/** Creates a generated Kikita UI theme from seed tokens. */
+const WHITE: KuiOklchColor = { lightness: 1, chroma: 0, hue: 0 };
+const NEAR_BLACK: KuiOklchColor = { lightness: 0.15, chroma: 0, hue: 0 };
+const BLACK_TEXT = 'oklch(0 0 0)';
+const WHITE_TEXT = 'oklch(1 0 0)';
+const MIN_TEXT_CONTRAST = 4.5;
+const MIN_NON_TEXT_CONTRAST = 3;
+/** Share of the away colour mixed into a solid fill for hover and pressed states, by mode. */
+const STATE_MIX = {
+  light: { hover: 18, active: 36 },
+  dark: { hover: 28, active: 8 },
+} as const;
+
+/**
+ * Creates a generated Kikita UI theme from seed tokens.
+ *
+ * @remarks
+ * Accent steps 1 to 5 and 7 to 12 sit at fixed tones, so contrast between steps does not depend on
+ * the hue; step 6 is the seed. Neutral steps are two scales, one per mode, tinted with the neutral
+ * seed. Every pair of roles the library draws meets WCAG 2.x (4.5:1 text, 3:1 non-text) for any
+ * seed: the solid-fill text colour is chosen by measured contrast, and a seed that neither white
+ * nor near-black text reaches 4.5:1 on gets a slightly corrected solid fill.
+ */
 export function createKuiTheme(options: KuiThemeOptions = DEFAULT_KUI_THEME): KuiGeneratedTheme {
   const colorSeeds = options.seeds.color;
-  const parsedSeeds: Record<KuiColorScaleName, KuiOklchColor> = {
+  const parsedSeeds: KuiParsedSeeds = {
     primary: parseKuiColor(colorSeeds.primary),
     neutral: parseKuiColor(colorSeeds.neutral),
     success: parseKuiColor(colorSeeds.success),
@@ -46,16 +87,24 @@ export function createKuiTheme(options: KuiThemeOptions = DEFAULT_KUI_THEME): Ku
     info: parseKuiColor(colorSeeds.info ?? FALLBACK_INFO_SEED),
   };
 
-  const palettes = Object.fromEntries(
-    SCALE_NAMES.map((scaleName) => [scaleName, createPalette(parsedSeeds[scaleName])]),
-  ) as KuiPaletteMap;
+  const ramps = Object.fromEntries(
+    ACCENT_NAMES.map((name) => [name, createAccentRamp(parsedSeeds[name])]),
+  ) as Record<KuiAccentName, readonly KuiOklchColor[]>;
+  const neutral = {
+    light: createNeutralScale(parsedSeeds.neutral, 'light'),
+    dark: createNeutralScale(parsedSeeds.neutral, 'dark'),
+  };
+  const palettes = Object.fromEntries([
+    ...ACCENT_NAMES.map((name) => [name, ramps[name].map((color) => formatOklch(color))]),
+    ['neutral', neutral.light.map((color) => formatOklch(color))],
+  ]) as KuiPaletteMap;
 
   return {
     seeds: createSeedVariables(parsedSeeds),
     palettes,
     paletteVariables: createPaletteVariables(palettes),
-    light: createLightSemanticVariables(parsedSeeds),
-    dark: createDarkSemanticVariables(parsedSeeds),
+    light: createSemanticVariables('light', parsedSeeds, ramps, neutral),
+    dark: createSemanticVariables('dark', parsedSeeds, ramps, neutral),
     component: createComponentVariables(options),
   };
 }
@@ -87,25 +136,45 @@ export function createKuiThemeCssText(
   return `${selector} {\n${declarations}\n}`;
 }
 
-/** Serializes both default light and attribute-driven dark theme CSS. */
+/**
+ * Serializes both default light and attribute-driven dark theme CSS inside the `kui.tokens` cascade
+ * layer, so a declaration of the same variable that a consumer writes outside any layer always wins,
+ * whatever the order of the style sheets.
+ */
 export function createKuiThemeStyleSheet(theme: KuiGeneratedTheme): string {
-  return [
+  const rules = [
     createKuiThemeCssText(theme, ':root, [data-kui-theme="light"]', 'light'),
     createKuiThemeCssText(theme, '[data-kui-theme="dark"]', 'dark'),
   ].join('\n\n');
+
+  return `@layer kui.tokens {\n${rules.replace(/^(?=.)/gm, '  ')}\n}`;
 }
 
-function createPalette(seed: KuiOklchColor): readonly string[] {
-  return LIGHTNESS_STOPS.map((lightness, index) =>
-    formatOklch({
-      lightness: lightness ?? seed.lightness,
-      chroma: seed.chroma * CHROMA_SCALE[index],
-      hue: seed.hue,
-    }),
-  );
+/**
+ * Twelve steps of an accent: each step has a fixed tone, so contrast between steps does not depend
+ * on the hue. Step 6 is the seed.
+ */
+function createAccentRamp(seed: KuiOklchColor): readonly KuiOklchColor[] {
+  return ACCENT_TONES.map((tone, index) => {
+    if (tone === null) {
+      return seed;
+    }
+
+    const chroma = seed.chroma * CHROMA_SCALE[index];
+    return { lightness: lightnessForTone(chroma, seed.hue, tone), chroma, hue: seed.hue };
+  });
 }
 
-function createSeedVariables(seeds: Record<KuiColorScaleName, KuiOklchColor>): KuiCssVariableMap {
+/** Twelve neutral steps for one mode, tinted with the neutral seed's hue and chroma. */
+function createNeutralScale(seed: KuiOklchColor, mode: KuiThemeMode): readonly KuiOklchColor[] {
+  return NEUTRAL_LIGHTNESS[mode].map((lightness, index) => ({
+    lightness,
+    chroma: mode === 'light' && index === 0 ? 0 : seed.chroma,
+    hue: seed.hue,
+  }));
+}
+
+function createSeedVariables(seeds: KuiParsedSeeds): KuiCssVariableMap {
   return Object.fromEntries(
     SCALE_NAMES.map((scaleName) => [`--kui-seed-${scaleName}`, formatOklch(seeds[scaleName])]),
   );
@@ -113,63 +182,15 @@ function createSeedVariables(seeds: Record<KuiColorScaleName, KuiOklchColor>): K
 
 function createPaletteVariables(palettes: KuiPaletteMap): KuiCssVariableMap {
   return Object.fromEntries(
-    SCALE_NAMES.flatMap((scaleName) =>
+    ACCENT_NAMES.flatMap((scaleName) =>
       palettes[scaleName].map((value, index) => [`--kui-${scaleName}-${index + 1}`, value]),
     ),
   );
 }
 
-function createLightSemanticVariables(
-  seeds: Record<KuiColorScaleName, KuiOklchColor>,
-): KuiCssVariableMap {
-  return {
-    '--kui-color-bg': 'oklch(0.97 0.01 80)',
-    '--kui-color-surface': 'oklch(1 0 0)',
-    '--kui-color-surface-elevated': 'oklch(0.99 0.005 80)',
-    '--kui-color-surface-sunken': 'oklch(0.95 0.01 80)',
-    '--kui-color-border-subtle': 'oklch(0.92 0.008 80)',
-    '--kui-color-border': 'oklch(0.88 0.01 80)',
-    '--kui-color-border-strong': 'oklch(0.75 0.015 80)',
-    '--kui-color-text': 'oklch(0.18 0.01 80)',
-    '--kui-color-text-secondary': 'oklch(0.46 0.01 80)',
-    '--kui-color-text-disabled': 'oklch(0.70 0.01 80)',
-    '--kui-color-primary-fill': 'var(--kui-primary-6)',
-    '--kui-color-primary-fill-hover': 'var(--kui-primary-7)',
-    '--kui-color-primary-fill-active': 'var(--kui-primary-8)',
-    '--kui-color-primary-soft-bg': 'var(--kui-primary-1)',
-    '--kui-color-primary-soft-bg-hover': 'var(--kui-primary-2)',
-    '--kui-color-primary-soft-bg-active': 'var(--kui-primary-3)',
-    '--kui-color-primary-soft-text': 'var(--kui-primary-8)',
-    '--kui-color-primary-focus-ring': formatOklch({ ...seeds.primary, alpha: 0.4 }),
-    '--kui-color-success-fill': 'var(--kui-success-6)',
-    '--kui-color-success-fill-hover': 'var(--kui-success-4)',
-    '--kui-color-success-fill-active': 'var(--kui-success-6)',
-    '--kui-color-success-soft-bg': 'var(--kui-success-1)',
-    '--kui-color-success-soft-text': 'var(--kui-success-8)',
-    '--kui-color-success-soft-border': 'var(--kui-success-4)',
-    '--kui-color-warning-fill': 'var(--kui-warning-6)',
-    '--kui-color-warning-fill-hover': 'var(--kui-warning-4)',
-    '--kui-color-warning-fill-active': 'var(--kui-warning-7)',
-    '--kui-color-warning-soft-bg': 'var(--kui-warning-1)',
-    '--kui-color-warning-soft-text': 'var(--kui-warning-8)',
-    '--kui-color-warning-soft-border': 'var(--kui-warning-4)',
-    '--kui-color-danger-fill': 'var(--kui-danger-6)',
-    '--kui-color-danger-fill-hover': 'var(--kui-danger-7)',
-    '--kui-color-danger-fill-active': 'var(--kui-danger-8)',
-    '--kui-color-danger-soft-bg': 'var(--kui-danger-1)',
-    '--kui-color-danger-soft-bg-hover': 'var(--kui-danger-2)',
-    '--kui-color-danger-soft-bg-active': 'var(--kui-danger-3)',
-    '--kui-color-danger-soft-text': 'var(--kui-danger-8)',
-    '--kui-color-danger-soft-border': 'var(--kui-danger-4)',
-    '--kui-color-info-fill': 'var(--kui-info-6)',
-    '--kui-color-info-soft-bg': 'var(--kui-info-1)',
-    '--kui-color-info-soft-text': 'var(--kui-info-8)',
-    '--kui-color-info-soft-border': 'var(--kui-info-4)',
-    '--kui-color-skeleton-bg': 'oklch(0.90 0.01 80)',
-    '--kui-color-skeleton-highlight': 'oklch(0.955 0.005 80)',
-    '--kui-color-scrollbar-thumb': 'oklch(0.78 0.01 80)',
-    '--kui-color-scrollbar-thumb-hover': 'oklch(0.66 0.01 80)',
-    '--kui-color-scrollbar-thumb-active': 'oklch(0.60 0.01 80)',
+/** Categorical palettes: avatar tints and chart series are deliberately independent of the seeds. */
+const CATEGORICAL_VARIABLES = {
+  light: {
     '--kui-avatar-p1-bg': 'oklch(0.87 0.08 285)',
     '--kui-avatar-p1-fg': 'oklch(0.25 0.14 285)',
     '--kui-avatar-p2-bg': 'oklch(0.87 0.07 15)',
@@ -192,70 +213,8 @@ function createLightSemanticVariables(
     '--kui-chart-series-6': 'oklch(0.62 0.15 75)',
     '--kui-chart-series-7': 'oklch(0.54 0.14 215)',
     '--kui-chart-series-8': 'oklch(0.64 0.15 55)',
-    '--kui-chart-grid-color': 'var(--kui-color-border)',
-    '--kui-chart-axis-label-color': 'var(--kui-color-text-secondary)',
-    '--kui-chart-tooltip-bg': 'var(--kui-color-surface-elevated)',
-    '--kui-chart-tooltip-text': 'var(--kui-color-text)',
-    '--kui-chart-tooltip-border': 'var(--kui-color-border)',
-  };
-}
-
-function createDarkSemanticVariables(
-  seeds: Record<KuiColorScaleName, KuiOklchColor>,
-): KuiCssVariableMap {
-  return {
-    '--kui-color-bg': 'oklch(0.10 0.01 80)',
-    '--kui-color-surface': 'oklch(0.14 0.01 80)',
-    '--kui-color-surface-elevated': 'oklch(0.18 0.01 80)',
-    '--kui-color-surface-sunken': 'oklch(0.08 0.01 80)',
-    '--kui-color-border-subtle': 'oklch(0.18 0.01 80)',
-    '--kui-color-border': 'oklch(0.22 0.01 80)',
-    '--kui-color-border-strong': 'oklch(0.32 0.01 80)',
-    '--kui-color-text': 'oklch(0.93 0.01 80)',
-    '--kui-color-text-secondary': 'oklch(0.60 0.01 80)',
-    '--kui-color-text-disabled': 'oklch(0.35 0.01 80)',
-    '--kui-color-primary-fill': 'var(--kui-primary-5)',
-    '--kui-color-primary-fill-hover': 'var(--kui-primary-4)',
-    '--kui-color-primary-fill-active': 'var(--kui-primary-6)',
-    '--kui-color-primary-soft-bg': 'var(--kui-primary-11)',
-    '--kui-color-primary-soft-bg-hover': 'var(--kui-primary-10)',
-    '--kui-color-primary-soft-bg-active': 'var(--kui-primary-9)',
-    '--kui-color-primary-soft-text': 'var(--kui-primary-4)',
-    '--kui-color-primary-focus-ring': formatOklch({
-      ...seeds.primary,
-      lightness: 0.65,
-      chroma: seeds.primary.chroma * 0.88,
-      alpha: 0.5,
-    }),
-    '--kui-color-success-fill': 'var(--kui-success-5)',
-    '--kui-color-success-fill-hover': 'var(--kui-success-4)',
-    '--kui-color-success-fill-active': 'var(--kui-success-6)',
-    '--kui-color-success-soft-bg': 'var(--kui-success-11)',
-    '--kui-color-success-soft-text': 'var(--kui-success-4)',
-    '--kui-color-success-soft-border': 'var(--kui-success-8)',
-    '--kui-color-warning-fill': 'var(--kui-warning-5)',
-    '--kui-color-warning-fill-hover': 'var(--kui-warning-4)',
-    '--kui-color-warning-fill-active': 'var(--kui-warning-7)',
-    '--kui-color-warning-soft-bg': 'var(--kui-warning-11)',
-    '--kui-color-warning-soft-text': 'var(--kui-warning-4)',
-    '--kui-color-warning-soft-border': 'var(--kui-warning-8)',
-    '--kui-color-danger-fill': 'var(--kui-danger-5)',
-    '--kui-color-danger-fill-hover': 'var(--kui-danger-4)',
-    '--kui-color-danger-fill-active': 'var(--kui-danger-6)',
-    '--kui-color-danger-soft-bg': 'var(--kui-danger-11)',
-    '--kui-color-danger-soft-bg-hover': 'var(--kui-danger-10)',
-    '--kui-color-danger-soft-bg-active': 'var(--kui-danger-9)',
-    '--kui-color-danger-soft-text': 'var(--kui-danger-4)',
-    '--kui-color-danger-soft-border': 'var(--kui-danger-8)',
-    '--kui-color-info-fill': 'var(--kui-info-5)',
-    '--kui-color-info-soft-bg': 'var(--kui-info-11)',
-    '--kui-color-info-soft-text': 'var(--kui-info-4)',
-    '--kui-color-info-soft-border': 'var(--kui-info-8)',
-    '--kui-color-skeleton-bg': 'oklch(0.20 0.01 80)',
-    '--kui-color-skeleton-highlight': 'oklch(0.27 0.012 80)',
-    '--kui-color-scrollbar-thumb': 'oklch(0.32 0.01 80)',
-    '--kui-color-scrollbar-thumb-hover': 'oklch(0.42 0.01 80)',
-    '--kui-color-scrollbar-thumb-active': 'oklch(0.48 0.01 80)',
+  },
+  dark: {
     '--kui-avatar-p1-bg': 'oklch(0.28 0.16 285)',
     '--kui-avatar-p1-fg': 'oklch(0.87 0.08 285)',
     '--kui-avatar-p2-bg': 'oklch(0.28 0.14 15)',
@@ -278,12 +237,133 @@ function createDarkSemanticVariables(
     '--kui-chart-series-6': 'oklch(0.75 0.15 75)',
     '--kui-chart-series-7': 'oklch(0.70 0.13 215)',
     '--kui-chart-series-8': 'oklch(0.78 0.15 55)',
-    '--kui-chart-grid-color': 'var(--kui-color-border)',
-    '--kui-chart-axis-label-color': 'var(--kui-color-text-secondary)',
-    '--kui-chart-tooltip-bg': 'var(--kui-color-surface-elevated)',
-    '--kui-chart-tooltip-text': 'var(--kui-color-text)',
-    '--kui-chart-tooltip-border': 'var(--kui-color-border)',
+  },
+} as const satisfies Record<KuiThemeMode, KuiCssVariableMap>;
+
+const CHART_ROLE_ALIASES = {
+  '--kui-chart-grid-color': 'var(--kui-color-border)',
+  '--kui-chart-axis-label-color': 'var(--kui-color-text-secondary)',
+  '--kui-chart-tooltip-bg': 'var(--kui-color-surface-elevated)',
+  '--kui-chart-tooltip-text': 'var(--kui-color-text)',
+  '--kui-chart-tooltip-border': 'var(--kui-color-border)',
+} as const satisfies KuiCssVariableMap;
+
+function createSemanticVariables(
+  mode: KuiThemeMode,
+  seeds: KuiParsedSeeds,
+  ramps: Record<KuiAccentName, readonly KuiOklchColor[]>,
+  neutral: Record<KuiThemeMode, readonly KuiOklchColor[]>,
+): KuiCssVariableMap {
+  const modeIndex = mode === 'light' ? 0 : 1;
+  const variables: Record<`--kui-${string}`, string> = {
+    '--kui-color-on-scrim': WHITE_TEXT,
+    '--kui-color-neutral-on-fill': WHITE_TEXT,
+    '--kui-color-focus': 'var(--kui-color-primary-indicator)',
+    /** @deprecated Translucent halo kept for 2.x consumers. Use `--kui-color-focus`. Removed in 3.0. */
+    '--kui-color-primary-focus-ring': formatOklch(
+      mode === 'light'
+        ? { ...seeds.primary, alpha: 0.4 }
+        : {
+            ...seeds.primary,
+            lightness: 0.65,
+            chroma: seeds.primary.chroma * 0.88,
+            alpha: 0.5,
+          },
+    ),
+    ...CATEGORICAL_VARIABLES[mode],
+    ...CHART_ROLE_ALIASES,
   };
+
+  neutral[mode].forEach((color, index) => {
+    variables[`--kui-neutral-${index + 1}`] = formatOklch(color);
+  });
+
+  for (const [role, steps] of Object.entries(NEUTRAL_ROLE_STEPS)) {
+    variables[`--kui-color-${role}`] = `var(--kui-neutral-${steps[modeIndex]})`;
+  }
+
+  for (const name of ACCENT_NAMES) {
+    Object.assign(variables, createAccentVariables(mode, name, ramps[name], neutral.light));
+  }
+
+  return variables;
+}
+
+/** Best contrast either text colour reaches on a solid fill. */
+function bestOnFillContrast(fill: KuiOklchColor): number {
+  return Math.max(contrastRatio(WHITE, fill), contrastRatio(NEAR_BLACK, fill));
+}
+
+/** White or near-black, whichever reads better on the fill. */
+function chooseOnFill(fill: KuiOklchColor): KuiOklchColor {
+  return contrastRatio(WHITE, fill) >= contrastRatio(NEAR_BLACK, fill) ? WHITE : NEAR_BLACK;
+}
+
+/**
+ * Moves the lightness of a seed by the smallest amount that lets white or near-black text reach
+ * 4.5:1 on it. Seeds around OKLCH lightness 0.57 are the only ones that need it.
+ */
+function correctSolidFill(fill: KuiOklchColor): KuiOklchColor {
+  if (bestOnFillContrast(fill) >= MIN_TEXT_CONTRAST) {
+    return fill;
+  }
+
+  for (let step = 1; step <= 300; step += 1) {
+    const darker = { ...fill, lightness: Math.max(0, fill.lightness - step / 1000) };
+    const lighter = { ...fill, lightness: Math.min(1, fill.lightness + step / 1000) };
+    const darkerPasses = bestOnFillContrast(darker) >= MIN_TEXT_CONTRAST;
+    const lighterPasses = bestOnFillContrast(lighter) >= MIN_TEXT_CONTRAST;
+
+    if (darkerPasses || lighterPasses) {
+      const preferDarker =
+        darkerPasses &&
+        (!lighterPasses || bestOnFillContrast(darker) >= bestOnFillContrast(lighter));
+      return preferDarker ? darker : lighter;
+    }
+  }
+
+  return fill;
+}
+
+function createAccentVariables(
+  mode: KuiThemeMode,
+  name: KuiAccentName,
+  ramp: readonly KuiOklchColor[],
+  lightNeutral: readonly KuiOklchColor[],
+): KuiCssVariableMap {
+  const prefix = `--kui-color-${name}` as const;
+  const step = (index: number): string => `var(--kui-${name}-${index})`;
+  const light = mode === 'light';
+  const seed = ramp[5];
+  const solid = light ? correctSolidFill(seed) : ramp[4];
+  const onFill = chooseOnFill(solid);
+  const away = onFill === WHITE ? BLACK_TEXT : WHITE_TEXT;
+  const share = STATE_MIX[mode];
+  const mix = (percent: number, toward: string): string =>
+    `color-mix(in oklab, var(${prefix}-fill) ${100 - percent}%, ${toward})`;
+  const surfaces = [lightNeutral[0], lightNeutral[1], lightNeutral[2]];
+  const fillIsIndicator =
+    !light || surfaces.every((surface) => contrastRatio(solid, surface) >= MIN_NON_TEXT_CONTRAST);
+
+  const variables: Record<`--kui-${string}`, string> = {
+    [`${prefix}-fill`]: light ? (solid === seed ? step(6) : formatOklch(solid)) : step(5),
+    [`${prefix}-on-fill`]: formatOklch(onFill),
+    [`${prefix}-fill-away`]: away,
+    [`${prefix}-fill-hover`]: mix(share.hover, `var(${prefix}-fill-away)`),
+    [`${prefix}-fill-active`]: mix(share.active, light ? `var(${prefix}-fill-away)` : BLACK_TEXT),
+    [`${prefix}-indicator`]: fillIsIndicator ? `var(${prefix}-fill)` : step(7),
+    [`${prefix}-soft-bg`]: step(light ? 1 : 11),
+    [`${prefix}-soft-text`]: step(light ? 8 : 4),
+    [`${prefix}-soft-border`]: step(light ? 4 : 8),
+    [`${prefix}-text`]: step(light ? 8 : 4),
+  };
+
+  if (name === 'primary' || name === 'danger') {
+    variables[`${prefix}-soft-bg-hover`] = step(light ? 2 : 10);
+    variables[`${prefix}-soft-bg-active`] = step(light ? 3 : 9);
+  }
+
+  return variables;
 }
 
 function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
@@ -301,6 +381,7 @@ function createComponentVariables(options: KuiThemeOptions): KuiCssVariableMap {
     '--kui-radius-lg': `${options.seeds.radius + 2}px`,
     '--kui-radius-xl': `${options.seeds.radius + 6}px`,
     '--kui-radius-full': '9999px',
+    /** @deprecated Constant white kept for 2.x consumers. Use `--kui-color-<role>-on-fill`. Removed in 3.0. */
     '--kui-color-on-fill': 'oklch(1 0 0)',
     '--kui-border-width-hairline': '1px',
     '--kui-border-width-thick': '1.5px',

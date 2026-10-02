@@ -44,18 +44,17 @@
   }
 
   .kui-file-upload-dropzone:focus-visible {
-    outline: 2px solid
-      var(--kui-file-upload-dropzone-focus-ring-color, var(--kui-color-primary-fill));
+    outline: 2px solid var(--kui-file-upload-dropzone-focus-ring-color, var(--kui-color-focus));
     outline-offset: 2px;
   }
 
   .kui-file-upload-dropzone[data-kui-drag='over'] {
-    border-color: var(--kui-file-upload-dropzone-border-over, var(--kui-color-primary-fill));
+    border-color: var(--kui-file-upload-dropzone-border-over, var(--kui-color-primary-indicator));
     background: var(--kui-file-upload-dropzone-bg-over, var(--kui-color-primary-soft-bg));
   }
 
   .kui-file-upload-dropzone[data-kui-drag='invalid'] {
-    border-color: var(--kui-file-upload-dropzone-border-invalid, var(--kui-color-danger-fill));
+    border-color: var(--kui-file-upload-dropzone-border-invalid, var(--kui-color-danger-indicator));
     background: var(--kui-file-upload-dropzone-bg-invalid, var(--kui-color-danger-soft-bg));
   }
 
@@ -80,11 +79,11 @@
   }
 
   .kui-file-upload-dropzone[data-kui-drag='over'] .kui-file-upload-dropzone-icon {
-    color: var(--kui-file-upload-dropzone-icon-color-over, var(--kui-color-primary-fill));
+    color: var(--kui-file-upload-dropzone-icon-color-over, var(--kui-color-primary-text));
   }
 
   .kui-file-upload-dropzone[data-kui-drag='invalid'] .kui-file-upload-dropzone-icon {
-    color: var(--kui-file-upload-dropzone-icon-color-invalid, var(--kui-color-danger-fill));
+    color: var(--kui-file-upload-dropzone-icon-color-invalid, var(--kui-color-danger-text));
   }
 
   .kui-file-upload-dropzone-text {
@@ -122,7 +121,7 @@
     align-items: center;
     gap: 6px;
     font-size: var(--kui-file-upload-form-error-font-size, var(--kui-text-xs-size));
-    color: var(--kui-file-upload-form-error-color, var(--kui-color-danger-fill));
+    color: var(--kui-file-upload-form-error-color, var(--kui-color-danger-text));
   }
 
   /* ── File list ─────────────────────────────────────────────────────────── */
@@ -147,12 +146,12 @@
   }
 
   .kui-file-upload-item:focus-visible {
-    outline: 2px solid var(--kui-file-upload-item-focus-ring-color, var(--kui-color-primary-fill));
+    outline: 2px solid var(--kui-file-upload-item-focus-ring-color, var(--kui-color-focus));
     outline-offset: -2px;
   }
 
   .kui-file-upload-item[data-kui-status='error'] {
-    border-color: var(--kui-file-upload-error-color, var(--kui-color-danger-fill));
+    border-color: var(--kui-file-upload-error-color, var(--kui-color-danger-indicator));
   }
 
   .kui-file-upload-item-preview {
@@ -238,14 +237,14 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    color: var(--kui-file-upload-item-success-color, var(--kui-color-success-fill));
+    color: var(--kui-file-upload-item-success-color, var(--kui-color-success-text));
   }
 
   .kui-file-upload-item-error {
     display: flex;
     align-items: center;
     gap: var(--kui-file-upload-item-error-gap, var(--kui-space-2));
-    color: var(--kui-file-upload-error-color, var(--kui-color-danger-fill));
+    color: var(--kui-file-upload-error-color, var(--kui-color-danger-text));
     min-width: 0;
   }
 

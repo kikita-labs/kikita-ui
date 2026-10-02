@@ -139,20 +139,20 @@ included through `@kikita-labs/ui/styles`.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the semantic role in the Default column.
 
-| Token                                       | Default                          | Controls                  |
-| ------------------------------------------- | -------------------------------- | ------------------------- |
-| `--kui-color-input-trigger-color-expanded`  | `--kui-color-primary-fill`       | Trigger color, expanded   |
-| `--kui-color-input-popover-color`           | `--kui-color-text`               | Popover color             |
-| `--kui-color-input-picker-focus-ring-color` | `--kui-color-primary-focus-ring` | Picker focus ring color   |
-| `--kui-color-input-hue-thumb-bg`            | `--kui-color-on-fill`            | Hue thumb background      |
-| `--kui-color-input-hue-thumb-ring-color`    | `--kui-color-surface`            | Hue thumb ring color      |
-| `--kui-color-input-num-label-color`         | `--kui-color-text-secondary`     | Num label color           |
-| `--kui-color-input-field-color`             | `--kui-color-text`               | Field color               |
-| `--kui-color-input-field-border-focus`      | `--kui-color-primary-fill`       | Field border color, focus |
-| `--kui-color-input-field-focus-ring-color`  | `--kui-color-primary-focus-ring` | Field focus ring color    |
-| `--kui-color-input-preset-border`           | `--kui-color-border`             | Preset border color       |
-| `--kui-color-input-preset-focus-ring-color` | `--kui-color-primary-focus-ring` | Preset focus ring color   |
-| `--kui-color-input-checker-bg`              | `--kui-color-surface`            | Checker background        |
+| Token                                       | Default                      | Controls                  |
+| ------------------------------------------- | ---------------------------- | ------------------------- |
+| `--kui-color-input-trigger-color-expanded`  | `--kui-color-primary-fill`   | Trigger color, expanded   |
+| `--kui-color-input-popover-color`           | `--kui-color-text`           | Popover color             |
+| `--kui-color-input-picker-focus-ring-color` | `--kui-color-focus`          | Picker focus ring color   |
+| `--kui-color-input-hue-thumb-bg`            | `--kui-color-on-scrim`       | Hue thumb background      |
+| `--kui-color-input-hue-thumb-ring-color`    | `--kui-color-surface`        | Hue thumb ring color      |
+| `--kui-color-input-num-label-color`         | `--kui-color-text-secondary` | Num label color           |
+| `--kui-color-input-field-color`             | `--kui-color-text`           | Field color               |
+| `--kui-color-input-field-border-focus`      | `--kui-color-primary-fill`   | Field border color, focus |
+| `--kui-color-input-field-focus-ring-color`  | `--kui-color-focus`          | Field focus ring color    |
+| `--kui-color-input-preset-border`           | `--kui-color-border`         | Preset border color       |
+| `--kui-color-input-preset-focus-ring-color` | `--kui-color-focus`          | Preset focus ring color   |
+| `--kui-color-input-checker-bg`              | `--kui-color-surface`        | Checker background        |
 
 <!-- color-tokens:end -->
 

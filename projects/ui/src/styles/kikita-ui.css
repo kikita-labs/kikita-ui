@@ -1,4 +1,6 @@
-﻿@import './base.css';
+﻿@layer kui.tokens, kui.base, kui.components;
+@import './theme-default.css';
+@import './base.css';
 @import './typography.css';
 @import './cdk-overlay.css';
 @import './density.css';
@@ -51,3 +53,4 @@
 @import './carousel.css';
 @import './splitter.css';
 @import './chart.css';
+@import './forced-colors.css';

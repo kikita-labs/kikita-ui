@@ -7,7 +7,7 @@
     min-inline-size: 0;
     min-block-size: var(--kui-input-height, var(--kui-control-height-md, 40px));
     border: var(--kui-input-border-width, 1px) solid
-      var(--kui-input-border, var(--kui-color-border, ButtonBorder));
+      var(--kui-input-border, var(--kui-color-border-control, ButtonBorder));
     border-radius: var(--kui-input-radius, var(--kui-radius-md, 8px));
     background-color: var(--kui-input-bg, var(--kui-color-surface, Field));
     color: var(--kui-input-color, var(--kui-input-text, var(--kui-color-text, FieldText)));
@@ -38,18 +38,22 @@
   .kui-input::placeholder {
     color: var(
       --kui-input-placeholder-color,
-      var(--kui-input-placeholder, var(--kui-color-text-disabled, GrayText))
+      var(--kui-input-placeholder, var(--kui-color-text-placeholder, GrayText))
     );
   }
 
   .kui-input:hover {
-    border-color: var(--kui-input-border-hover, var(--kui-color-border-strong, ButtonBorder));
+    border-color: var(
+      --kui-input-border-hover,
+      var(--kui-color-border-control-hover, ButtonBorder)
+    );
   }
 
   .kui-input:focus {
-    border-color: var(--kui-input-border-focus, var(--kui-color-primary-fill, Highlight));
-    outline: 0;
-    box-shadow: var(--kui-input-focus-ring, 0 0 0 3px var(--kui-color-primary-focus-ring));
+    border-color: var(--kui-input-border-focus, var(--kui-color-focus, Highlight));
+    outline: 2px solid var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline-offset: 2px;
+    box-shadow: var(--kui-input-focus-ring, none);
   }
 
   .kui-input[data-kui-size='xs'] {
@@ -80,7 +84,7 @@
 
   .kui-input[data-kui-invalid],
   .kui-field[data-kui-invalid] .kui-input {
-    border-color: var(--kui-input-border-error, var(--kui-color-danger-fill));
+    border-color: var(--kui-input-border-error, var(--kui-color-danger-indicator));
   }
 
   .kui-input:disabled {
@@ -106,7 +110,7 @@
     padding-block: 0;
     padding-inline: var(--kui-input-padding-inline, var(--kui-input-px, var(--kui-space-4, 12px)));
     border: var(--kui-input-border-width, 1px) solid
-      var(--kui-input-border, var(--kui-color-border, ButtonBorder));
+      var(--kui-input-border, var(--kui-color-border-control, ButtonBorder));
     border-radius: var(--kui-input-radius, var(--kui-radius-md, 8px));
     background-color: var(--kui-input-bg, var(--kui-color-surface, Field));
     color: var(--kui-input-color, var(--kui-input-text, var(--kui-color-text, FieldText)));
@@ -127,17 +131,22 @@
   }
 
   .kui-input-group:hover {
-    border-color: var(--kui-input-border-hover, var(--kui-color-border-strong, ButtonBorder));
+    border-color: var(
+      --kui-input-border-hover,
+      var(--kui-color-border-control-hover, ButtonBorder)
+    );
   }
 
   .kui-input-group:focus-within {
-    border-color: var(--kui-input-border-focus, var(--kui-color-primary-fill, Highlight));
-    box-shadow: var(--kui-input-focus-ring, 0 0 0 3px var(--kui-color-primary-focus-ring));
+    border-color: var(--kui-input-border-focus, var(--kui-color-focus, Highlight));
+    outline: 2px solid var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline-offset: 2px;
+    box-shadow: var(--kui-input-focus-ring, none);
   }
 
   .kui-input-group[data-kui-invalid],
   .kui-field[data-kui-invalid] .kui-input-group {
-    border-color: var(--kui-input-border-error, var(--kui-color-danger-fill));
+    border-color: var(--kui-input-border-error, var(--kui-color-danger-indicator));
   }
 
   .kui-input-group[data-kui-disabled] {

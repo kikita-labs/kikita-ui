@@ -138,12 +138,12 @@ are introduced for either.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the semantic role in the Default column.
 
-| Token                             | Default                      | Controls             |
-| --------------------------------- | ---------------------------- | -------------------- |
-| `--kui-tree-row-color`            | `--kui-color-text`           | Row color            |
-| `--kui-tree-row-focus-ring-color` | `--kui-color-primary-fill`   | Row focus ring color |
-| `--kui-tree-spinner-track-color`  | `--kui-color-surface-sunken` | Spinner track color  |
-| `--kui-tree-spinner-color`        | `--kui-color-primary-fill`   | Spinner color        |
+| Token                             | Default                         | Controls             |
+| --------------------------------- | ------------------------------- | -------------------- |
+| `--kui-tree-row-color`            | `--kui-color-text`              | Row color            |
+| `--kui-tree-row-focus-ring-color` | `--kui-color-focus`             | Row focus ring color |
+| `--kui-tree-spinner-track-color`  | `--kui-color-surface-sunken`    | Spinner track color  |
+| `--kui-tree-spinner-color`        | `--kui-color-primary-indicator` | Spinner color        |
 
 <!-- color-tokens:end -->
 

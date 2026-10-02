@@ -18,7 +18,7 @@
     overflow: hidden;
     padding: 0;
     border: var(--kui-color-input-swatch-border-width, 1px) solid
-      var(--kui-color-input-swatch-border, var(--kui-color-border));
+      var(--kui-color-input-swatch-border, var(--kui-color-border-control));
     border-radius: var(--kui-color-input-swatch-radius, var(--kui-radius-sm));
     background:
       conic-gradient(
@@ -38,13 +38,13 @@
   }
 
   .kui-color-input__swatch:hover {
-    border-color: var(--kui-color-input-swatch-border-hover, var(--kui-color-border-strong));
+    border-color: var(--kui-color-input-swatch-border-hover, var(--kui-color-border-control-hover));
   }
 
   .kui-color-input__swatch:focus-visible {
-    outline: 0;
-    box-shadow: 0 0 0 var(--kui-field-action-focus-ring-width)
-      var(--kui-field-action-focus-ring-color, var(--kui-color-primary-focus-ring));
+    outline: var(--kui-field-action-focus-ring-width) solid
+      var(--kui-field-action-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 2px;
   }
 
   .kui-color-input__swatch:disabled {
@@ -70,7 +70,7 @@
   }
 
   .kui-color-input__trigger[aria-expanded='true'] {
-    color: var(--kui-color-input-trigger-color-expanded, var(--kui-color-primary-fill));
+    color: var(--kui-color-input-trigger-color-expanded, var(--kui-color-primary-text));
   }
 
   .kui-color-input__trigger[aria-expanded='true'] > svg {
@@ -113,9 +113,8 @@
   }
 
   .kui-color-input-picker:focus-visible {
-    outline: 0;
-    box-shadow: 0 0 0 2px
-      var(--kui-color-input-picker-focus-ring-color, var(--kui-color-primary-focus-ring));
+    outline: 2px solid var(--kui-color-input-picker-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 2px;
   }
 
   .kui-color-input-thumb {
@@ -127,7 +126,7 @@
     transform: translate(-50%, -50%);
     box-shadow: var(
       --kui-color-input-thumb-shadow,
-      0 0 0 2px var(--kui-color-on-fill),
+      0 0 0 2px var(--kui-color-on-scrim),
       0 1px 3px oklch(0 0 0 / 0.45)
     );
     transition:
@@ -164,7 +163,7 @@
     inline-size: calc(var(--kui-color-input-hue-track-height, 12px) + 6px);
     block-size: calc(var(--kui-color-input-hue-track-height, 12px) + 6px);
     pointer-events: none;
-    background: var(--kui-color-input-hue-thumb-bg, var(--kui-color-on-fill));
+    background: var(--kui-color-input-hue-thumb-bg, var(--kui-color-on-scrim));
     border-radius: var(--kui-color-input-hue-thumb-radius, var(--kui-radius-full));
     transform: translate(-50%, -50%);
     box-shadow:
@@ -213,16 +212,17 @@
     font-family: var(--kui-font-mono);
     font-size: var(--kui-color-input-field-font-size, var(--kui-text-xs-size));
     background: var(--kui-input-bg, var(--kui-color-surface));
-    border: var(--kui-border-width-hairline) solid var(--kui-input-border, var(--kui-color-border));
+    border: var(--kui-border-width-hairline) solid
+      var(--kui-input-border, var(--kui-color-border-control));
     border-radius: var(--kui-color-input-field-radius, var(--kui-radius-sm));
     outline: 0;
   }
 
   .kui-color-input-num > input:focus,
   .kui-color-input-hex:focus {
-    border-color: var(--kui-color-input-field-border-focus, var(--kui-color-primary-fill));
-    box-shadow: 0 0 0 2px
-      var(--kui-color-input-field-focus-ring-color, var(--kui-color-primary-focus-ring));
+    border-color: var(--kui-color-input-field-border-focus, var(--kui-color-focus));
+    outline: 2px solid var(--kui-color-input-field-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 2px;
   }
 
   .kui-color-input-preview-row {
@@ -240,7 +240,7 @@
     overflow: hidden;
     padding: 0;
     border: var(--kui-border-width-hairline) solid
-      var(--kui-color-input-swatch-border, var(--kui-color-border));
+      var(--kui-color-input-swatch-border, var(--kui-color-border-control));
     border-radius: var(--kui-color-input-swatch-radius, var(--kui-radius-sm));
     background:
       conic-gradient(
@@ -277,14 +277,13 @@
     padding: 0;
     cursor: pointer;
     border: var(--kui-border-width-hairline) solid
-      var(--kui-color-input-preset-border, var(--kui-color-border));
+      var(--kui-color-input-preset-border, var(--kui-color-border-control));
     border-radius: var(--kui-color-input-preset-radius, var(--kui-radius-sm));
   }
 
   .kui-color-input-preset:focus-visible {
-    outline: 0;
-    box-shadow: 0 0 0 2px
-      var(--kui-color-input-preset-focus-ring-color, var(--kui-color-primary-focus-ring));
+    outline: 2px solid var(--kui-color-input-preset-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 2px;
   }
 
   .kui-color-input-copy-btn {

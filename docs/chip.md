@@ -118,12 +118,12 @@ is not set, the part uses the semantic role in the Default column.
 | Token                                | Default                             | Controls                  |
 | ------------------------------------ | ----------------------------------- | ------------------------- |
 | `--kui-chip-bg-primary-hover`        | `--kui-color-primary-soft-bg-hover` | Background, primary hover |
-| `--kui-chip-border-active`           | `--kui-color-border-strong`         | Border color, active      |
-| `--kui-chip-border-focus`            | `--kui-color-primary-fill`          | Border color, focus       |
-| `--kui-chip-border-invalid`          | `--kui-color-danger-fill`           | Border color, invalid     |
+| `--kui-chip-border-active`           | `--kui-color-border-control-hover`  | Border color, active      |
+| `--kui-chip-border-focus`            | `--kui-color-focus`                 | Border color, focus       |
+| `--kui-chip-border-invalid`          | `--kui-color-danger-indicator`      | Border color, invalid     |
 | `--kui-chip-counter-color`           | `--kui-color-text-secondary`        | Counter color             |
-| `--kui-chip-focus-ring-color`        | `--kui-color-primary-focus-ring`    | Focus ring color          |
-| `--kui-chip-remove-focus-ring-color` | `--kui-color-primary-focus-ring`    | Remove focus ring color   |
+| `--kui-chip-focus-ring-color`        | `--kui-color-focus`                 | Focus ring color          |
+| `--kui-chip-remove-focus-ring-color` | `--kui-color-focus`                 | Remove focus ring color   |
 
 <!-- color-tokens:end -->
 

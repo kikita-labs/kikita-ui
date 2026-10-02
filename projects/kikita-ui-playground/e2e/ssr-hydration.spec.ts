@@ -521,6 +521,13 @@ test('server HTML already carries the global scrollbar mode', async ({ request }
   expect(html).toMatch(/<html[^>]*\sdata-kui-scrollbars="styled"/);
 });
 
+test('server HTML already carries the density and the layered theme', async ({ request }) => {
+  const html = await (await request.get('/components/button')).text();
+
+  expect(html).toMatch(/<html[^>]*\sdata-kui-density="regular"/);
+  expect(html).toMatch(/<style id="kui-theme">[^<]*@layer kui\.tokens/);
+});
+
 test.describe('calendar today marker across time zones', () => {
   // UTC+14 is a different calendar day from a UTC or UTC-negative server for a large part of
   // every day, which is exactly when a server-rendered "today" disagrees with the browser's.

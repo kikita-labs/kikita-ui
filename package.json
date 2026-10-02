@@ -22,6 +22,7 @@
     "lint": "ng lint",
     "typecheck:e2e": "tsc -p tsconfig.tools.json",
     "audit:static": "node scripts/verify-static-audit.mjs",
+    "generate:theme-css": "node scripts/generate-theme-css.mjs",
     "skills:check": "node scripts/sync-agent-skills.mjs --check",
     "skills:sync": "node scripts/sync-agent-skills.mjs",
     "format": "prettier --write .",

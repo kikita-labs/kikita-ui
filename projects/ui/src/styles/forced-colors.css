@@ -1,0 +1,133 @@
+﻿@layer kui.components {
+  /*
+   * Forced colors (Windows High Contrast and similar). The browser replaces author colours with a
+   * fixed palette and drops box-shadow, so every state that is only a colour or a shadow would
+   * disappear. These rules state the state with system colours, which the browser keeps.
+   * Selectors start with :root so they win over the component rules without changing layer order.
+   */
+  @media (forced-colors: active) {
+    /* Checkbox, radio and switch: checked is a filled control. */
+    :root .kui-checkbox:is(:checked, :indeterminate),
+    :root .kui-radio:checked,
+    :root .kui-switch:checked {
+      border-color: Highlight;
+      background-color: Highlight;
+      color: HighlightText;
+    }
+
+    :root .kui-radio::before {
+      background-color: HighlightText;
+    }
+
+    :root .kui-switch::before {
+      background-color: ButtonText;
+      box-shadow: none;
+    }
+
+    :root .kui-switch:checked::before {
+      background-color: HighlightText;
+    }
+
+    :root :is(.kui-checkbox, .kui-radio, .kui-switch):is(:disabled, [readonly]) {
+      border-color: GrayText;
+      opacity: 1;
+    }
+
+    /* Slider */
+    :root .kui-slider .kui-slider-track {
+      background-color: GrayText;
+    }
+
+    :root .kui-slider .kui-slider-fill {
+      background-color: Highlight;
+    }
+
+    :root .kui-slider .kui-slider-thumb {
+      background-color: ButtonText;
+      box-shadow: none;
+    }
+
+    :root .kui-slider[data-kui-disabled] .kui-slider-fill,
+    :root .kui-slider[data-kui-disabled] .kui-slider-thumb {
+      background-color: GrayText !important;
+    }
+
+    /* Progress */
+    :root .kui-progress-linear {
+      background-color: GrayText;
+    }
+
+    :root .kui-progress-linear .kui-progress-linear-fill {
+      background-color: Highlight;
+    }
+
+    :root .kui-progress-circular .kui-progress-circular-track {
+      stroke: GrayText;
+    }
+
+    :root .kui-progress-circular .kui-progress-circular-fill {
+      stroke: Highlight;
+    }
+
+    /* Selected cells and items */
+    :root .kui-calendar-day--selected .kui-calendar-day-inner,
+    :root
+      .kui-calendar-day--selected:hover:not(.kui-calendar-day--disabled)
+      .kui-calendar-day-inner,
+    :root .kui-timepicker-opt--selected,
+    :root .kui-timepicker-opt--selected:hover {
+      background-color: Highlight;
+      color: HighlightText;
+    }
+
+    :root .kui-calendar-day--today .kui-calendar-day-inner {
+      text-decoration: underline;
+    }
+
+    /* Tabs */
+    :root .kui-tabs .kui-tab-indicator {
+      background-color: Highlight;
+    }
+
+    :root .kui-tabs[data-kui-variant='pill'] .kui-tab[data-kui-selected] {
+      background-color: Highlight;
+      color: HighlightText;
+    }
+
+    /* Segmented */
+    :root .kui-segmented .kui-segmented__thumb {
+      background-color: Highlight;
+    }
+
+    :root .kui-segment[data-kui-selected] {
+      color: HighlightText;
+    }
+
+    /* Chip pressed */
+    :root .kui-chip--active {
+      border-color: Highlight;
+      background-color: Highlight;
+      color: HighlightText;
+    }
+
+    /* Stepper */
+    :root .kui-step-line {
+      background-color: GrayText;
+    }
+
+    :root .kui-step-line[data-kui-done] {
+      background-color: Highlight;
+    }
+
+    :root .kui-step[data-kui-state='done'] .kui-step-circle {
+      border-color: Highlight;
+      background-color: Highlight;
+      color: HighlightText;
+    }
+
+    :root .kui-step[data-kui-state='current'] .kui-step-circle {
+      border-color: Highlight;
+      color: Highlight;
+    }
+  }
+}

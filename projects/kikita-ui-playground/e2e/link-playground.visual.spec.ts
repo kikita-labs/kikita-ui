@@ -305,7 +305,7 @@ test('produces no color change on hover, focus, or press', async ({ page }) => {
   await expect(link).toBeFocused();
   expect(await link.evaluate((node) => node.matches(':focus-visible'))).toBe(true);
   await expect(link).toHaveCSS('color', rest);
-  await expect(link).not.toHaveCSS('box-shadow', 'none');
+  await expect(link).toHaveCSS('outline-style', 'solid');
 });
 
 test('switches the Link scope to Russian at runtime', async ({ page }) => {

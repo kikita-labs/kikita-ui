@@ -183,17 +183,17 @@ of `{appearance}-soft-*`:
 
 ## CSS custom properties
 
-| Token                    | Default (varies by appearance x shape x size)                    | Description                      |
-| ------------------------ | ---------------------------------------------------------------- | -------------------------------- |
-| `--kui-alert-bg`         | `--kui-color-{appearance}-soft-bg` / `-fill` / `transparent`     | Background, depends on `shape`.  |
-| `--kui-alert-border`     | `--kui-color-{appearance}-soft-border` / `-fill` / `transparent` | Border, depends on `shape`.      |
-| `--kui-alert-icon-color` | `--kui-color-{appearance}-fill`                                  | Icon color for `soft`/`outline`. |
-| `--kui-alert-fg`         | `--kui-color-on-fill` on `solid`, unset otherwise                | Text color override for `solid`. |
-| `--kui-alert-radius`     | `--kui-radius-md` (`--kui-radius-none` when `banner`)            | Corner radius.                   |
-| `--kui-alert-padding-y`  | `--kui-space-3` (`--kui-space-2` on `sm`)                        | Vertical padding.                |
-| `--kui-alert-padding-x`  | `--kui-space-4` (`--kui-space-3` on `sm`)                        | Horizontal padding.              |
-| `--kui-alert-gap`        | `--kui-space-3` (`--kui-space-2` on `sm`)                        | Gap between icon / body / close. |
-| `--kui-alert-message-fg` | `--kui-color-text-secondary` (`on-fill` on `solid`)              | Message text color.              |
+| Token                    | Default (varies by appearance x shape x size)                                                                | Description                      |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------ | -------------------------------- |
+| `--kui-alert-bg`         | `--kui-color-{appearance}-soft-bg` / `-fill` / `transparent`                                                 | Background, depends on `shape`.  |
+| `--kui-alert-border`     | `--kui-color-{appearance}-soft-border` / `-fill` / `transparent`                                             | Border, depends on `shape`.      |
+| `--kui-alert-icon-color` | `--kui-color-{appearance}-fill`                                                                              | Icon color for `soft`/`outline`. |
+| `--kui-alert-fg`         | `--kui-color-<appearance>-on-fill` on `solid` (`--kui-color-neutral-on-fill` for `neutral`), unset otherwise | Text color override for `solid`. |
+| `--kui-alert-radius`     | `--kui-radius-md` (`--kui-radius-none` when `banner`)                                                        | Corner radius.                   |
+| `--kui-alert-padding-y`  | `--kui-space-3` (`--kui-space-2` on `sm`)                                                                    | Vertical padding.                |
+| `--kui-alert-padding-x`  | `--kui-space-4` (`--kui-space-3` on `sm`)                                                                    | Horizontal padding.              |
+| `--kui-alert-gap`        | `--kui-space-3` (`--kui-space-2` on `sm`)                                                                    | Gap between icon / body / close. |
+| `--kui-alert-message-fg` | `--kui-color-text-secondary` (`on-fill` on `solid`)                                                          | Message text color.              |
 
 ## Known gaps
 

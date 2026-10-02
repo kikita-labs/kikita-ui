@@ -37,7 +37,7 @@
   .kui-badge[data-kui-appearance='primary'] {
     --_kui-badge-bg: var(--kui-badge-primary-bg, var(--kui-color-primary-soft-bg));
     --_kui-badge-fg: var(--kui-badge-primary-fg, var(--kui-color-primary-soft-text));
-    --_kui-badge-border: var(--kui-badge-primary-border, var(--kui-color-primary-fill));
+    --_kui-badge-border: var(--kui-badge-primary-border, var(--kui-color-primary-indicator));
   }
 
   .kui-badge[data-kui-appearance='success'] {

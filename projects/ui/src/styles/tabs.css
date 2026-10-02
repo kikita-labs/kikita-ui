@@ -52,7 +52,7 @@
     left: 0;
     background: linear-gradient(
       to right,
-      var(--kui-tabs-scroll-fade-color, var(--kui-color-bg, oklch(0.97 0.01 80))) 50%,
+      var(--kui-tabs-scroll-fade-color, var(--kui-color-bg, Canvas)) 50%,
       transparent
     );
     padding-inline-end: 16px;
@@ -62,7 +62,7 @@
     right: 0;
     background: linear-gradient(
       to left,
-      var(--kui-tabs-scroll-fade-color, var(--kui-color-bg, oklch(0.97 0.01 80))) 50%,
+      var(--kui-tabs-scroll-fade-color, var(--kui-color-bg, Canvas)) 50%,
       transparent
     );
     padding-inline-start: 16px;
@@ -97,7 +97,7 @@
     bottom: -1px;
     height: 2px;
     width: 0;
-    background: var(--kui-tab-indicator, var(--kui-color-primary-fill));
+    background: var(--kui-tab-indicator, var(--kui-color-primary-indicator));
     border-radius: 1px 1px 0 0;
     opacity: 0;
     pointer-events: none;
@@ -150,7 +150,7 @@
 
   .kui-tab:focus-visible {
     outline: var(--kui-btn-focus-ring-w, 3px) solid
-      var(--kui-tab-focus-ring-color, var(--kui-color-primary-focus-ring));
+      var(--kui-tab-focus-ring-color, var(--kui-color-focus));
     outline-offset: var(--kui-btn-focus-ring-off, 2px);
     border-radius: var(--kui-tab-radius, var(--kui-radius-sm));
   }
@@ -170,7 +170,7 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--kui-tab-error-color, var(--kui-color-danger-fill));
+    background: var(--kui-tab-error-color, var(--kui-color-danger-indicator));
     flex-shrink: 0;
   }
 
@@ -188,6 +188,11 @@
 
   .kui-tab-panel {
     outline: none;
+  }
+
+  .kui-tab-panel:focus-visible {
+    outline: 2px solid var(--kui-tab-panel-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 2px;
   }
 
   .kui-tab-panel[hidden] {

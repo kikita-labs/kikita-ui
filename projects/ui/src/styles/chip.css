@@ -12,7 +12,7 @@
     padding-block: 0;
     padding-inline: var(--kui-chip-padding-x);
     border: var(--kui-chip-border-width) solid
-      var(--kui-chip-border, var(--_kui-chip-border, var(--kui-color-border)));
+      var(--kui-chip-border, var(--_kui-chip-border, var(--kui-color-border-control)));
     border-radius: var(--kui-chip-radius, var(--kui-radius-sm));
     background: var(--kui-chip-bg, var(--_kui-chip-bg, var(--kui-color-surface-elevated)));
     color: var(--kui-chip-text, var(--_kui-chip-text, var(--kui-color-text)));
@@ -62,7 +62,7 @@
 
   .kui-chip[data-kui-appearance='primary'] {
     --_kui-chip-bg: var(--kui-color-primary-soft-bg);
-    --_kui-chip-border: var(--kui-color-primary-fill);
+    --_kui-chip-border: var(--kui-color-primary-indicator);
     --_kui-chip-text: var(--kui-color-primary-soft-text);
   }
 
@@ -105,16 +105,16 @@
   a.kui-chip:active:not(.kui-chip--disabled),
   .kui-chip--active {
     background: var(--kui-chip-bg-hover, var(--kui-color-border));
-    border-color: var(--kui-chip-border-active, var(--kui-color-border-strong));
+    border-color: var(--kui-chip-border-active, var(--kui-color-border-control-hover));
   }
 
   button.kui-chip:focus-visible:not(:disabled),
   a.kui-chip:focus-visible:not(.kui-chip--disabled),
   .kui-chip--focus {
-    outline: 0;
-    border-color: var(--kui-chip-border-focus, var(--kui-color-primary-fill));
-    box-shadow: 0 0 0 var(--kui-chip-focus-ring-width)
-      var(--kui-chip-focus-ring-color, var(--kui-color-primary-focus-ring));
+    border-color: var(--kui-chip-border-focus, var(--kui-color-focus));
+    outline: var(--kui-chip-focus-ring-width) solid
+      var(--kui-chip-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 2px;
   }
 
   .kui-chip--disabled {
@@ -124,7 +124,7 @@
   }
 
   .kui-chip--invalid {
-    border-color: var(--kui-chip-border-invalid, var(--kui-color-danger-fill));
+    border-color: var(--kui-chip-border-invalid, var(--kui-color-danger-indicator));
   }
 
   .kui-chip-label {
@@ -196,8 +196,9 @@
 
   .kui-chip-remove:focus-visible,
   .kui-chip-remove--focus {
-    box-shadow: 0 0 0 var(--kui-chip-remove-focus-ring-width)
-      var(--kui-chip-remove-focus-ring-color, var(--kui-color-primary-focus-ring));
+    outline: var(--kui-chip-remove-focus-ring-width) solid
+      var(--kui-chip-remove-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 2px;
   }
 
   .kui-chip-counter {
@@ -207,7 +208,7 @@
     block-size: var(--kui-chip-height-md);
     padding-inline: var(--kui-chip-padding-x);
     border: var(--kui-chip-border-width) solid
-      var(--kui-chip-border, var(--_kui-chip-border, var(--kui-color-border)));
+      var(--kui-chip-border, var(--_kui-chip-border, var(--kui-color-border-control)));
     border-radius: var(--kui-chip-radius, var(--kui-radius-sm));
     background: var(--kui-chip-bg, var(--_kui-chip-bg, var(--kui-color-surface-elevated)));
     color: var(--kui-chip-counter-color, var(--kui-color-text-secondary));

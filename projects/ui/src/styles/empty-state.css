@@ -101,14 +101,14 @@
   }
 
   .kui-empty[data-kui-context='error'] .kui-empty__icon {
-    color: var(--kui-empty-icon-color-error, var(--kui-color-danger-fill));
+    color: var(--kui-empty-icon-color-error, var(--kui-color-danger-text));
   }
 
   .kui-empty[data-kui-context='success'] .kui-empty__icon {
-    color: var(--kui-empty-icon-color-success, var(--kui-color-success-fill));
+    color: var(--kui-empty-icon-color-success, var(--kui-color-success-text));
   }
 
   .kui-empty[data-kui-context='no-access'] .kui-empty__icon {
-    color: var(--kui-empty-icon-color-no-access, var(--kui-color-warning-fill));
+    color: var(--kui-empty-icon-color-no-access, var(--kui-color-warning-text));
   }
 }

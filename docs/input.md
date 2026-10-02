@@ -106,12 +106,13 @@ so an explicitly sized Input keeps its local size inside a differently sized Fie
 
 Input styles consume the shared public variables documented in [Tokens](tokens.md):
 
-| Variable                                                                                                 | Purpose                                          |
-| -------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
-| `--kui-input-height`, `--kui-input-px`, `--kui-input-radius`                                             | Control height, horizontal padding, and corners. |
-| `--kui-input-bg`, `--kui-input-text`, `--kui-input-placeholder`                                          | Surface, text, and placeholder colors.           |
-| `--kui-input-border`, `--kui-input-border-hover`, `--kui-input-border-focus`, `--kui-input-border-error` | Resting and state border colors.                 |
-| `--kui-input-bg-disabled`, `--kui-input-focus-ring`                                                      | Disabled surface and focus indicator.            |
+| Variable                                                                                                 | Purpose                                                                                 |
+| -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `--kui-input-height`, `--kui-input-px`, `--kui-input-radius`                                             | Control height, horizontal padding, and corners.                                        |
+| `--kui-input-bg`, `--kui-input-text`, `--kui-input-placeholder`                                          | Surface, text, and placeholder colors.                                                  |
+| `--kui-input-border`, `--kui-input-border-hover`, `--kui-input-border-focus`, `--kui-input-border-error` | Resting and state border colors.                                                        |
+| `--kui-input-bg-disabled`                                                                                | Disabled surface.                                                                       |
+| `--kui-input-focus-ring-color`, `--kui-input-focus-ring`                                                 | Focus outline color (`--kui-color-focus`) and an optional halo shadow (default `none`). |
 
 The Input page should use these library styles and variables without redefining the control's
 visual identity. `.kui-input-group` styles are for Field/group composition, not an additional

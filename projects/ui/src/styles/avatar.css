@@ -181,24 +181,24 @@
     border-radius: var(--kui-avatar-status-radius, var(--kui-radius-full));
     background: var(
       --kui-avatar-status-bg,
-      var(--_kui-avatar-status-bg, var(--kui-color-text-disabled))
+      var(--_kui-avatar-status-bg, var(--kui-color-text-secondary))
     );
   }
 
   .kui-avatar__status[data-kui-status='online'] {
-    --_kui-avatar-status-bg: var(--kui-color-success-fill);
+    --_kui-avatar-status-bg: var(--kui-color-success-indicator);
   }
 
   .kui-avatar__status[data-kui-status='away'] {
-    --_kui-avatar-status-bg: var(--kui-color-warning-fill);
+    --_kui-avatar-status-bg: var(--kui-color-warning-indicator);
   }
 
   .kui-avatar__status[data-kui-status='busy'] {
-    --_kui-avatar-status-bg: var(--kui-color-danger-fill);
+    --_kui-avatar-status-bg: var(--kui-color-danger-indicator);
   }
 
   .kui-avatar__status[data-kui-status='offline'] {
-    --_kui-avatar-status-bg: var(--kui-color-text-disabled);
+    --_kui-avatar-status-bg: var(--kui-color-text-secondary);
   }
 
   .kui-avatar-group {
@@ -282,7 +282,7 @@
 
   .kui-avatar-action:focus-visible {
     outline: var(--kui-avatar-focus-ring-w) solid
-      var(--kui-avatar-focus-ring-color, var(--kui-color-primary-focus-ring));
+      var(--kui-avatar-focus-ring-color, var(--kui-color-focus));
     outline-offset: var(--kui-avatar-focus-ring-off);
   }
 }

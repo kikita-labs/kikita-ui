@@ -7,7 +7,7 @@
     block-size: var(--kui-loader-size, var(--_kui-loader-size, 20px));
     border: var(--kui-loader-border-width, var(--_kui-loader-border-width, 2px)) solid
       var(--kui-loader-track, var(--kui-color-surface-sunken));
-    border-block-start-color: var(--kui-loader-fill, var(--kui-color-primary-fill));
+    border-block-start-color: var(--kui-loader-fill, var(--kui-color-primary-indicator));
     border-radius: 50%;
     animation: kui-loader-spin var(--kui-loader-duration, 800ms) linear infinite;
     vertical-align: middle;

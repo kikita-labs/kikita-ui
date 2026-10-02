@@ -7,7 +7,7 @@
     --_kui-link-color-warning: var(--kui-color-warning-soft-text);
     --_kui-link-color-danger: var(--kui-color-danger-soft-text);
     --_kui-link-color-disabled: var(--kui-color-text-disabled);
-    --_kui-link-focus-ring: var(--kui-color-primary-focus-ring);
+    --_kui-link-focus-ring: var(--kui-color-focus);
     --_kui-link-decoration-thickness-rest: var(--kui-border-width-hairline);
     --_kui-link-decoration-thickness-active: var(--kui-border-width-thick);
     --_kui-link-gap: var(--kui-space-1);
@@ -95,7 +95,8 @@
   }
 
   .kui-link:focus-visible {
-    box-shadow: 0 0 0 3px var(--kui-link-focus-ring, var(--_kui-link-focus-ring));
+    outline: 2px solid var(--kui-link-focus-ring, var(--_kui-link-focus-ring));
+    outline-offset: 2px;
   }
 
   /* ── Disabled ── higher specificity than the plain tone rules above, so it always wins. */

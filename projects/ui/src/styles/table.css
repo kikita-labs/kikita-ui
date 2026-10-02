@@ -76,7 +76,7 @@
 
   .kui-th__sort-button:focus-visible {
     outline: var(--kui-btn-focus-ring-w, 3px) solid
-      var(--kui-table-sort-focus-ring-color, var(--kui-color-primary-focus-ring));
+      var(--kui-table-sort-focus-ring-color, var(--kui-color-focus));
     outline-offset: 2px;
   }
 
@@ -88,19 +88,19 @@
 
   .kui-th--sort-asc .kui-th__sort-button::after {
     content: ' \2191';
-    color: var(--kui-table-sort-active-color, var(--kui-color-primary-fill));
+    color: var(--kui-table-sort-active-color, var(--kui-color-primary-text));
     opacity: 1;
   }
 
   .kui-th--sort-desc .kui-th__sort-button::after {
     content: ' \2193';
-    color: var(--kui-table-sort-active-color, var(--kui-color-primary-fill));
+    color: var(--kui-table-sort-active-color, var(--kui-color-primary-text));
     opacity: 1;
   }
 
   .kui-th--sort-asc,
   .kui-th--sort-desc {
-    color: var(--kui-table-sort-active-color, var(--kui-color-primary-fill));
+    color: var(--kui-table-sort-active-color, var(--kui-color-primary-text));
     position: relative;
   }
 
@@ -113,7 +113,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: var(--kui-table-sort-active-color, var(--kui-color-primary-fill));
+    background: var(--kui-table-sort-active-color, var(--kui-color-primary-indicator));
     border-radius: 1px;
   }
 
@@ -135,7 +135,8 @@
 
   .kui-row--selected {
     background: var(--kui-table-row-selected-bg, var(--kui-color-primary-soft-bg));
-    box-shadow: inset 2px 0 0 var(--kui-table-row-selected-accent, var(--kui-color-primary-fill));
+    box-shadow: inset 2px 0 0
+      var(--kui-table-row-selected-accent, var(--kui-color-primary-indicator));
   }
 
   /* Cells */
@@ -177,7 +178,7 @@
     height: 15px;
     border-radius: 3px;
     border: var(--kui-border-width-thick) solid
-      var(--kui-table-checkbox-border, var(--kui-color-border-strong, var(--kui-color-border)));
+      var(--kui-table-checkbox-border, var(--kui-color-border-control));
     background: transparent;
     appearance: none;
     -webkit-appearance: none;
@@ -191,13 +192,13 @@
   }
 
   .kui-table__cb:hover {
-    border-color: var(--kui-table-checkbox-border-hover, var(--kui-color-primary-fill));
+    border-color: var(--kui-table-checkbox-border-hover, var(--kui-color-primary-indicator));
   }
 
   .kui-table__cb:checked,
   .kui-table__cb:indeterminate {
     background: var(--kui-table-checkbox-bg-checked, var(--kui-color-primary-fill));
-    border-color: var(--kui-table-checkbox-border-checked, var(--kui-color-primary-fill));
+    border-color: var(--kui-table-checkbox-border-checked, var(--kui-color-primary-indicator));
   }
 
   .kui-table__cb:checked::after {
@@ -208,7 +209,7 @@
     width: 5px;
     height: 8px;
     border: var(--kui-border-width-thick) solid
-      var(--kui-table-checkbox-mark-color, var(--kui-color-on-fill));
+      var(--kui-table-checkbox-mark-color, var(--kui-color-primary-on-fill));
     border-top: none;
     border-left: none;
     transform: rotate(42deg);
@@ -221,13 +222,16 @@
     left: 2px;
     width: 7px;
     height: var(--kui-border-width-thick);
-    background: var(--kui-table-checkbox-mark-color-indeterminate, var(--kui-color-on-fill));
+    background: var(
+      --kui-table-checkbox-mark-color-indeterminate,
+      var(--kui-color-primary-on-fill)
+    );
     border-radius: 1px;
   }
 
   .kui-table__cb:focus-visible {
     outline: var(--kui-btn-focus-ring-w, 3px) solid
-      var(--kui-table-checkbox-focus-ring-color, var(--kui-color-primary-focus-ring));
+      var(--kui-table-checkbox-focus-ring-color, var(--kui-color-focus));
     outline-offset: 2px;
   }
 

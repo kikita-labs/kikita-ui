@@ -94,7 +94,7 @@
   }
 
   .kui-select-chevron[aria-expanded='true'] {
-    color: var(--kui-select-chevron-color-expanded, var(--kui-color-primary-fill));
+    color: var(--kui-select-chevron-color-expanded, var(--kui-color-primary-text));
   }
 
   .kui-select-chevron[aria-expanded='true'] > svg {

@@ -85,6 +85,43 @@ The provider generates CSS variables and installs them into a single runtime sty
 }
 ```
 
+## Defaults, Layers And Density
+
+`@kikita-labs/ui/styles` includes `theme-default.css`, generated from `DEFAULT_KUI_THEME` (`pnpm
+generate:theme-css`; a test keeps it in sync), so the default theme works from CSS alone and the first
+paint does not wait for a script. `provideKikitaUi()` adds the theme of custom seeds on top of it.
+
+The generated variables live in the `kui.tokens` cascade layer, declared before `kui.base` and
+`kui.components`. A variable that you write outside any layer, for example `:root { --kui-color-bg: ...
+}`, always wins over the generated one, whatever the order of the style sheets.
+
+`provideKikitaUi()` sets `data-kui-density` on `<html>` from `seeds.density`, on the server too, unless
+the page already set it; `styles/density.css` turns it into the horizontal padding.
+
+The neutral seed tints the neutral scales of both modes, so surfaces, borders, text, skeletons and
+scrollbars follow `seeds.neutral`. Contrast is part of the contract: for any seed, every pair of roles
+the library draws reaches 4.5:1 (text) or 3:1 (non-text); the generator picks white or near-black text for
+each solid fill and corrects a seed that neither reaches 4.5:1 on.
+
+## Migrating To The Colour Roles
+
+The 2.x colour system keeps every public token name, so an existing theme keeps working. Move to the
+new roles when you next touch a custom component:
+
+| Before                                                      | After                                                                    | Why                                                        |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| `--kui-color-on-fill` on a solid fill                       | `--kui-color-<role>-on-fill`                                             | White or near-black, whichever reaches 4.5:1 on that fill. |
+| `--kui-color-<role>-fill` as text or an icon colour         | `--kui-color-<role>-text`                                                | 4.5:1 on every surface.                                    |
+| `--kui-color-<role>-fill` as a border, outline, bar or mark | `--kui-color-<role>-indicator`                                           | 3:1 on every light surface.                                |
+| `--kui-color-border` on an interactive control              | `--kui-color-border-control` (hover: `--kui-color-border-control-hover`) | 3:1 boundary at rest.                                      |
+| `--kui-color-primary-focus-ring` or a `box-shadow` ring     | a 2px `outline` in `--kui-color-focus`                                   | Visible in forced-colors mode and 3:1.                     |
+| `--kui-color-text-disabled` on placeholders                 | `--kui-color-text-placeholder`                                           | 4.5:1; disabled text stays for disabled controls.          |
+
+Other changes to know about: `--kui-neutral-1` to `--kui-neutral-12` are one scale per mode, accent
+steps sit at fixed tones, and `--kui-input-focus-ring` defaults to `none`. `--kui-color-on-fill` and
+`--kui-color-primary-focus-ring` are deprecated and removed in 3.0. The full list is in
+`CHANGELOG.md`.
+
 ## Custom Seeds
 
 ```ts

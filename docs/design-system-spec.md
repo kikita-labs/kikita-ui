@@ -47,13 +47,9 @@ The library API should accept these through typed theme seeds, not by requiring 
 
 ## Palette Generation
 
-Each chromatic seed generates a 12-step OKLCH ramp.
-
-Default lightness stops:
-
-```ts
-const lightness = [0.97, 0.93, 0.87, 0.78, 0.67, seed.l, 0.42, 0.32, 0.23, 0.16, 0.12, 0.08];
-```
+Each chromatic seed generates a 12-step OKLCH ramp. Steps are placed by tone (CIE L\* of the
+luminance, 97, 92, 85, 74, 62, the seed, 33, 22, 11, 4, 2, 0.5) instead of by OKLCH lightness, so the
+contrast between steps does not depend on the hue; each step's OKLCH lightness is solved for its tone.
 
 Default chroma multipliers:
 
@@ -61,7 +57,9 @@ Default chroma multipliers:
 const chromaScale = [0.08, 0.15, 0.35, 0.6, 0.85, 1, 0.9, 0.75, 0.55, 0.35, 0.22, 0.12];
 ```
 
-Step 6 is the seed value. The neutral ramp keeps chroma intentionally low.
+Step 6 is the seed value. The neutral palette is two twelve-step scales, one per mode, with the chroma
+and hue of the neutral seed on every step; it drives the surface, border, text, skeleton and scrollbar
+roles.
 
 ## Semantic Colors
 

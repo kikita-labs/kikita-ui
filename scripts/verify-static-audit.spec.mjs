@@ -82,6 +82,55 @@ describe('verify-static-audit', () => {
     expect(runStaticAudit(root)).toEqual([]);
   });
 
+  it('reports a colour literal in a component style', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '.kui-button {\n  background: var(--kui-button-bg, oklch(0.97 0.01 80));\n}\n',
+    );
+
+    expect(runStaticAudit(root)).toContain(
+      'projects/ui/src/styles/button.css:2 writes the colour literal oklch(0.97 0.01 80); read a colour role, or use black or white',
+    );
+  });
+
+  it('reports hex and rgb colour literals in a component style', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '.kui-button {\n  color: #fff;\n  border-color: rgb(1 2 3);\n}\n',
+    );
+
+    expect(runStaticAudit(root)).toEqual([
+      'projects/ui/src/styles/button.css:2 writes the colour literal #fff; read a colour role, or use black or white',
+      'projects/ui/src/styles/button.css:3 writes the colour literal rgb(1 2 3); read a colour role, or use black or white',
+    ]);
+  });
+
+  it('allows black and white, with alpha, as a colour literal', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/button.css'),
+      '.kui-button {\n  box-shadow: 0 1px 2px oklch(0 0 0 / 0.22), inset 0 0 0 1px oklch(1 0 0 / 0.6);\n  --_kui-button-scrim: oklch(0 0 0);\n  color: oklch(1 0 0);\n}\n',
+    );
+
+    expect(runStaticAudit(root)).toEqual([]);
+  });
+
+  it('skips the generated default theme in the token checks', () => {
+    const root = makeValidRepo();
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/kikita-ui.css'),
+      "@import './theme-default.css';\n@import './button.css';\n",
+    );
+    writeFileSync(
+      join(root, 'projects/ui/src/styles/theme-default.css'),
+      '@layer kui.tokens {\n  :root {\n    --kui-primary-6: oklch(0.52 0.25 285);\n    --kui-color-primary-fill: var(--kui-primary-6);\n  }\n}\n',
+    );
+
+    expect(runStaticAudit(root)).toEqual([]);
+  });
+
   it('reports a colour role read without a component token', () => {
     const root = makeValidRepo();
     writeFileSync(

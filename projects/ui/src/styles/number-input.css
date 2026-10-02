@@ -4,7 +4,10 @@
     align-items: stretch;
     inline-size: 100%;
     border: var(--kui-input-border-width, 1px) solid
-      var(--kui-number-input-border, var(--kui-input-border, var(--kui-color-border, ButtonBorder)));
+      var(
+        --kui-number-input-border,
+        var(--kui-input-border, var(--kui-color-border-control, ButtonBorder))
+      );
     border-radius: var(--kui-input-radius, var(--kui-radius-md, 8px));
     background-color: var(--kui-input-bg, var(--kui-color-surface, Field));
     color: var(--kui-input-color, var(--kui-input-text, var(--kui-color-text, FieldText)));
@@ -31,12 +34,17 @@
   }
 
   .kui-number-input:hover:not([data-kui-disabled]):not([data-kui-readonly]) {
-    border-color: var(--kui-input-border-hover, var(--kui-color-border-strong, ButtonBorder));
+    border-color: var(
+      --kui-input-border-hover,
+      var(--kui-color-border-control-hover, ButtonBorder)
+    );
   }
 
   .kui-number-input:focus-within:not([data-kui-disabled]) {
-    border-color: var(--kui-input-border-focus, var(--kui-color-primary-fill, Highlight));
-    box-shadow: var(--kui-input-focus-ring, 0 0 0 3px var(--kui-color-primary-focus-ring));
+    border-color: var(--kui-input-border-focus, var(--kui-color-focus, Highlight));
+    outline: 2px solid var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline-offset: 2px;
+    box-shadow: var(--kui-input-focus-ring, none);
   }
 
   .kui-number-input__btn--dec {
@@ -111,7 +119,7 @@
   .kui-number-input__input::placeholder {
     color: var(
       --kui-input-placeholder-color,
-      var(--kui-input-placeholder, var(--kui-color-text-disabled, GrayText))
+      var(--kui-input-placeholder, var(--kui-color-text-placeholder, GrayText))
     );
   }
 
@@ -181,12 +189,12 @@
 
   .kui-number-input[data-kui-readonly] .kui-number-input__btn,
   .kui-number-input[data-kui-readonly] .kui-number-input__arrow {
-    color: var(--kui-number-input-btn-color-readonly, var(--kui-color-text-disabled));
+    color: var(--kui-number-input-btn-color-readonly, var(--kui-color-text-secondary));
     pointer-events: none;
   }
 
   .kui-number-input[data-kui-invalid],
   .kui-field[data-kui-invalid] .kui-number-input {
-    border-color: var(--kui-input-border-error, var(--kui-color-danger-fill));
+    border-color: var(--kui-input-border-error, var(--kui-color-danger-indicator));
   }
 }

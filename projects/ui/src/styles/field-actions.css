@@ -56,7 +56,10 @@
     block-size: var(--kui-field-spinner-size);
     border: var(--kui-field-spinner-border-width) solid
       var(--kui-field-spinner-border, var(--kui-color-border));
-    border-block-start-color: var(--kui-field-spinner-border-active, var(--kui-color-primary-fill));
+    border-block-start-color: var(
+      --kui-field-spinner-border-active,
+      var(--kui-color-primary-indicator)
+    );
     border-radius: var(--kui-field-spinner-radius, var(--kui-radius-full));
     animation: kui-field-spinner var(--kui-field-spinner-duration) linear infinite;
   }
@@ -101,11 +104,11 @@
   }
 
   .kui-field-action:focus-visible {
-    outline: 0;
     background: var(--kui-field-action-bg-hover, var(--kui-color-surface-elevated));
     color: var(--kui-field-action-color-hover, var(--kui-color-text));
-    box-shadow: 0 0 0 var(--kui-field-action-focus-ring-width)
-      var(--kui-field-action-focus-ring-color, var(--kui-color-primary-focus-ring));
+    outline: var(--kui-field-action-focus-ring-width) solid
+      var(--kui-field-action-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 2px;
   }
 
   .kui-field-action:disabled,
@@ -154,7 +157,7 @@
 
   .kui-field-message--error,
   .kui-field__message--error {
-    color: var(--kui-field-error-color, var(--kui-color-danger-fill));
+    color: var(--kui-field-error-color, var(--kui-color-danger-text));
   }
 
   @keyframes kui-field-spinner {

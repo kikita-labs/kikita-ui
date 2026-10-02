@@ -58,12 +58,20 @@ const paletteTokenExtensions = new Set(['.css', '.html', '.scss', '.ts']);
 const paletteTokenExceptions = new Map();
 const palettePattern =
   /--kui-(?:(?:primary|neutral|success|warning|danger|info)-\d+|seed-[a-z]+)(?![\w-])/u;
+// Style files generated from the theme generator; they define the tokens that every other check
+// protects, so the token checks skip them. A test keeps them in sync with the generator.
+const generatedThemeFiles = new Set(['projects/ui/src/styles/theme-default.css']);
+// Reviewed exceptions: repository-relative path -> reason. Component styles may only write black
+// or white (with or without alpha) as a colour literal: overlays, scrims and shadows.
+const colorLiteralExceptions = new Map();
+const colorLiteralPattern =
+  /#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\([^)]*\)|\boklch\((?!\s*[01]\s+0\s+0\s*(?:\)|\/))[^)]*\)/gu;
 // Style files that are themselves the semantic layer and may read colour roles directly.
 const colorHookExceptions = new Map([
   ['projects/ui/src/styles/typography.css', 'tone classes are the semantic text-colour API'],
 ]);
 const colorRolePattern =
-  /^--kui-color-(?:bg|surface(?:-[a-z]+)?|border(?:-[a-z]+)?|text(?:-[a-z]+)?|on-fill|(?:primary|success|warning|danger|info)-[a-z-]+)$/u;
+  /^--kui-color-(?:bg|surface(?:-[a-z]+)?|border(?:-[a-z]+)*|text(?:-[a-z]+)?|on-fill|on-scrim|focus|neutral-(?:fill|on-fill)|(?:primary|success|warning|danger|info)-[a-z-]+)$/u;
 // Public tokens that a component or a layout deliberately assigns to the elements it contains (parent
 // to child APIs, density and group size maps). Every other component default must be private.
 const parentAssignedTokens = new Set([
@@ -140,6 +148,9 @@ export function runStaticAudit(root = defaultRoot) {
     failures,
     'styles consume semantic tokens instead of raw palette or seed variables',
     () => checkNoRawPaletteConsumption(root),
+  );
+  runCheck(failures, 'component styles write no colour literal other than black or white', () =>
+    checkNoColorLiterals(root),
   );
   return failures;
 }
@@ -629,6 +640,7 @@ function checkNoRawPaletteConsumption(root) {
 
     if (
       repoPath.startsWith(paletteTokenGeneratorDirectory) ||
+      generatedThemeFiles.has(repoPath) ||
       paletteTokenExceptions.has(repoPath)
     ) {
       continue;
@@ -656,6 +668,41 @@ function checkNoRawPaletteConsumption(root) {
   return failures;
 }
 
+function checkNoColorLiterals(root) {
+  const failures = [];
+  const files = collectTextFiles(root, [join(root, 'projects/ui/src')]).filter((file) =>
+    file.endsWith('.css'),
+  );
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (generatedThemeFiles.has(repoPath) || colorLiteralExceptions.has(repoPath)) {
+      continue;
+    }
+
+    const text = readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//gu, (comment) =>
+      comment.replace(/[^\n]/gu, ' '),
+    );
+    const declaration = /([\w-]+)\s*:\s*([^;{}]+);/gu;
+    let match;
+
+    while ((match = declaration.exec(text))) {
+      const valueStart = match.index + match[0].indexOf(match[2]);
+
+      for (const literal of match[2].matchAll(colorLiteralPattern)) {
+        const line = text.slice(0, valueStart + literal.index).split('\n').length;
+
+        failures.push(
+          `${repoPath}:${line} writes the colour literal ${literal[0]}; read a colour role, or use black or white`,
+        );
+      }
+    }
+  }
+
+  return failures;
+}
+
 function checkPublicTokenDefinitions(root) {
   const failures = [];
   const stylesRoot = join(root, 'projects/ui/src');
@@ -663,6 +710,11 @@ function checkPublicTokenDefinitions(root) {
 
   for (const file of files) {
     const repoPath = toRepoPath(root, file);
+
+    if (generatedThemeFiles.has(repoPath)) {
+      continue;
+    }
+
     const text = readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//gu, (comment) =>
       comment.replace(/[^\n]/gu, ' '),
     );

@@ -4,9 +4,9 @@
      scoped to `.kui-chart` itself. */
   .kui-chart,
   .kui-chart-legend {
-    --_kui-chart-focus-ring: var(--kui-color-primary-focus-ring);
+    --_kui-chart-focus-ring: var(--kui-color-focus);
     --_kui-chart-legend-text: var(--kui-color-text-secondary);
-    --_kui-chart-legend-text-hidden: var(--kui-color-text-disabled);
+    --_kui-chart-legend-text-hidden: var(--kui-color-text-secondary);
     --_kui-chart-slice-sep: var(--kui-color-surface);
   }
 

@@ -40,7 +40,30 @@ Generated palette names:
 --kui-info-1 ... --kui-info-12
 ```
 
-Step 6 is the seed. Components do not consume these directly: a style under `projects/ui/src`
+Step 6 is the seed. Steps 1 to 5 and 7 to 12 of an accent sit at fixed tones (CIE L\*: 97, 92, 85, 74,
+62, the seed, 33, 22, 11, 4, 2, 0.5), so the contrast between two steps depends on their distance and
+not on the hue: steps whose tones differ by at least 51 reach 4.5:1, by at least 40 reach 3:1.
+
+The neutral palette is two scales of twelve steps, one per mode, tinted with the hue and chroma of
+`--kui-seed-neutral`. `--kui-neutral-1` to `--kui-neutral-12` are defined in the light and in the
+dark block and differ between them; the light scale runs from white (step 1) to the text step (12),
+the dark scale from the deepest surface (1) to the text step (12). `theme.palettes.neutral` is the
+light scale.
+
+| Step | Light-mode job                       | Dark-mode job                         |
+| ---- | ------------------------------------ | ------------------------------------- |
+| 1    | soft background                      | -                                     |
+| 2    | soft background hover                | -                                     |
+| 3    | soft background active               | -                                     |
+| 4    | soft border                          | -                                     |
+| 5    | -                                    | solid fill (tone 62 for every seed)   |
+| 6    | solid fill (the seed)                | -                                     |
+| 7    | indicator when the fill is too light | -                                     |
+| 8    | soft text, text and icons            | soft border                           |
+| 9-11 | -                                    | soft background (active, hover, rest) |
+| 12   | spare                                | spare                                 |
+
+Components do not consume these directly: a style under `projects/ui/src`
 that reads a palette step or a `--kui-seed-*` variable fails `pnpm audit:static`. Add or reuse a
 semantic token instead (see [theming.md](theming.md#overriding-tokens) for override scopes).
 
@@ -95,6 +118,48 @@ Status:
 --kui-color-danger-soft-bg-active
 --kui-color-info-fill
 ```
+
+## Solid Fill, Indicator And Text Roles
+
+Every accent (`primary`, `success`, `warning`, `danger`, `info`) has these roles; the ones marked
+generated depend on the seed, the others are references to ramp steps:
+
+| Role                                                       | Meaning                                                                                                                                |
+| ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `--kui-color-<role>-fill`                                  | Solid background: the seed in light mode (slightly corrected when no text colour reaches 4.5:1 on it), step 5 in dark mode.            |
+| `--kui-color-<role>-on-fill` (generated)                   | White or near-black text and icons on the fill, whichever reads better (at least 4.5:1).                                               |
+| `--kui-color-<role>-fill-away` (generated)                 | Black when the on-fill is light, white when it is dark.                                                                                |
+| `--kui-color-<role>-fill-hover`, `-fill-active`            | The fill mixed with the away colour (light 18% and 36%, dark 28% toward the away colour and 8% toward black), so contrast never drops. |
+| `--kui-color-<role>-indicator` (generated)                 | Border, outline, mark, spinner or status dot: the fill when it reaches 3:1 on every light surface, step 7 otherwise.                   |
+| `--kui-color-<role>-text`                                  | Text and icon colour on a surface (at least 4.5:1): step 8 in light mode, step 4 in dark mode.                                         |
+| `--kui-color-<role>-soft-bg`, `-soft-text`, `-soft-border` | Tinted background with its text and border.                                                                                            |
+
+Neutral and shared roles:
+
+```css
+--kui-color-neutral-fill
+--kui-color-neutral-on-fill
+--kui-color-border-control
+--kui-color-border-control-hover
+--kui-color-text-placeholder
+--kui-color-on-scrim
+--kui-color-focus
+```
+
+`--kui-color-border-control` is the boundary of an interactive control at rest (at least 3:1 on every
+surface); `--kui-color-border-control-hover` is its hover colour; `--kui-color-border` and
+`--kui-color-border-strong` stay for dividers and cards.
+`--kui-color-text-placeholder` reaches 4.5:1 on every surface; `--kui-color-text-disabled` is only for
+disabled controls. `--kui-color-on-scrim` is white in both modes for text over overlays.
+`--kui-color-focus` is the colour of the 2px focus outline and defaults to the primary indicator.
+
+A fill is a background colour only: text and icons read `-text`, borders and marks read `-indicator`.
+To recolour a solid inside a subtree, override the fill together with `-on-fill`, `-fill-away` and
+`-indicator`, or set a different seed through the provider.
+
+Deprecated: `--kui-color-on-fill` (a constant white; use `--kui-color-<role>-on-fill`) and
+`--kui-color-primary-focus-ring` (a translucent halo; use `--kui-color-focus`). Both are removed in
+3.0.
 
 ## Radius
 
@@ -368,6 +433,7 @@ Field and input tokens:
 --kui-input-text
 --kui-input-placeholder
 --kui-input-focus-ring
+--kui-input-focus-ring-color
 ```
 
 Select tokens:
@@ -427,6 +493,7 @@ Slider tokens:
 --kui-slider-thumb-shadow
 --kui-slider-thumb-shadow-hover
 --kui-slider-thumb-shadow-focus
+--kui-slider-thumb-focus-ring-color
 --kui-slider-thumb-shadow-active
 ```
 

@@ -104,8 +104,8 @@ is not set, the part uses the semantic role in the Default column.
 
 | Token                                   | Default                         | Controls                 |
 | --------------------------------------- | ------------------------------- | ------------------------ |
-| `--kui-command-input-placeholder-color` | `--kui-color-text-disabled`     | Input placeholder color  |
-| `--kui-command-item-indicator-color`    | `--kui-color-primary-fill`      | Item indicator color     |
+| `--kui-command-input-placeholder-color` | `--kui-color-text-placeholder`  | Input placeholder color  |
+| `--kui-command-item-indicator-color`    | `--kui-color-primary-indicator` | Item indicator color     |
 | `--kui-command-item-label-color-active` | `--kui-color-primary-soft-text` | Item label color, active |
 | `--kui-command-item-color-disabled`     | `--kui-color-text-disabled`     | Item color, disabled     |
 | `--kui-command-item-bg-danger`          | `--kui-color-danger-soft-bg`    | Item background, danger  |

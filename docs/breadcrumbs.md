@@ -116,13 +116,13 @@ Import `@kikita-labs/ui/styles` (which includes `breadcrumbs.css`) once in your 
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the semantic role in the Default column.
 
-| Token                                    | Default                          | Controls                   |
-| ---------------------------------------- | -------------------------------- | -------------------------- |
-| `--kui-breadcrumb-link-focus-ring-color` | `--kui-color-primary-focus-ring` | Link focus ring color      |
-| `--kui-breadcrumb-sep-color`             | `--kui-color-text-secondary`     | Sep color                  |
-| `--kui-breadcrumb-ellipsis-color`        | `--kui-color-text-secondary`     | Ellipsis color             |
-| `--kui-breadcrumb-ellipsis-bg-hover`     | `--kui-color-surface-elevated`   | Ellipsis background, hover |
-| `--kui-breadcrumb-ellipsis-color-hover`  | `--kui-color-text`               | Ellipsis color, hover      |
+| Token                                    | Default                        | Controls                   |
+| ---------------------------------------- | ------------------------------ | -------------------------- |
+| `--kui-breadcrumb-link-focus-ring-color` | `--kui-color-focus`            | Link focus ring color      |
+| `--kui-breadcrumb-sep-color`             | `--kui-color-text-secondary`   | Sep color                  |
+| `--kui-breadcrumb-ellipsis-color`        | `--kui-color-text-secondary`   | Ellipsis color             |
+| `--kui-breadcrumb-ellipsis-bg-hover`     | `--kui-color-surface-elevated` | Ellipsis background, hover |
+| `--kui-breadcrumb-ellipsis-color-hover`  | `--kui-color-text`             | Ellipsis color, hover      |
 
 <!-- color-tokens:end -->
 

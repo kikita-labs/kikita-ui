@@ -9,7 +9,7 @@
     border: var(--kui-border-width-hairline) solid transparent;
     border-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
     background-color: var(--_kui-btn-fill, var(--kui-btn-solid-bg, var(--kui-color-primary-fill)));
-    color: var(--_kui-btn-fg, var(--kui-btn-solid-fg, var(--kui-color-on-fill, Canvas)));
+    color: var(--_kui-btn-fg, var(--kui-btn-solid-fg, var(--kui-color-primary-on-fill, Canvas)));
     cursor: pointer;
     font: inherit;
     font-size: var(--kui-btn-font-size, var(--kui-text-sm-size, 13px));
@@ -102,7 +102,7 @@
 
   .kui-button:focus-visible {
     outline: var(--kui-btn-focus-ring-w, 3px) solid
-      var(--kui-btn-focus-ring-color, var(--kui-color-primary-focus-ring, Highlight));
+      var(--kui-btn-focus-ring-color, var(--kui-color-focus, Highlight));
     outline-offset: var(--kui-btn-focus-ring-off, 2px);
   }
 
@@ -133,16 +133,16 @@
     --_kui-btn-soft-bg-hover: var(--kui-btn-soft-bg-hov, var(--kui-color-primary-soft-bg-hover));
     --_kui-btn-soft-bg-active: var(--kui-btn-soft-bg-act, var(--kui-color-primary-soft-bg-active));
     --_kui-btn-soft-fg: var(--kui-btn-soft-fg, var(--kui-color-primary-soft-text));
-    --_kui-btn-outline-border: var(--kui-color-primary-fill);
-    --_kui-btn-outline-fg: var(--kui-color-primary-fill);
-    --_kui-btn-ghost-fg: var(--kui-color-primary-fill);
+    --_kui-btn-outline-border: var(--kui-color-primary-indicator);
+    --_kui-btn-outline-fg: var(--kui-color-primary-text);
+    --_kui-btn-ghost-fg: var(--kui-color-primary-text);
   }
 
   :is(.kui-button, .kui-icon-button)[data-kui-appearance='danger'] {
     --_kui-btn-fill: var(--kui-btn-danger-bg, var(--kui-color-danger-fill));
     --_kui-btn-fill-hover: var(--kui-btn-danger-bg-hov, var(--kui-color-danger-fill-hover));
     --_kui-btn-fill-active: var(--kui-btn-danger-bg-act, var(--kui-color-danger-fill-active));
-    --_kui-btn-fg: var(--kui-btn-danger-fg, var(--kui-color-on-fill));
+    --_kui-btn-fg: var(--kui-btn-danger-fg, var(--kui-color-danger-on-fill));
     --_kui-btn-soft-bg: var(--kui-color-danger-soft-bg);
     --_kui-btn-soft-bg-hover: var(--kui-color-danger-soft-bg-hover);
     --_kui-btn-soft-bg-active: var(--kui-color-danger-soft-bg-active);
@@ -156,6 +156,7 @@
     --_kui-btn-fill: var(--kui-btn-success-bg, var(--kui-color-success-fill));
     --_kui-btn-fill-hover: var(--kui-btn-success-bg-hov, var(--kui-color-success-fill-hover));
     --_kui-btn-fill-active: var(--kui-btn-success-bg-act, var(--kui-color-success-fill-active));
+    --_kui-btn-fg: var(--kui-btn-solid-fg, var(--kui-color-success-on-fill));
     --_kui-btn-soft-bg: var(--kui-color-success-soft-bg);
     --_kui-btn-soft-bg-hover: color-mix(in oklch, var(--kui-color-success-soft-bg), white 10%);
     --_kui-btn-soft-bg-active: color-mix(in oklch, var(--kui-color-success-soft-bg), white 18%);
@@ -169,6 +170,7 @@
     --_kui-btn-fill: var(--kui-btn-warning-bg, var(--kui-color-warning-fill));
     --_kui-btn-fill-hover: var(--kui-btn-warning-bg-hov, var(--kui-color-warning-fill-hover));
     --_kui-btn-fill-active: var(--kui-btn-warning-bg-act, var(--kui-color-warning-fill-active));
+    --_kui-btn-fg: var(--kui-btn-solid-fg, var(--kui-color-warning-on-fill));
     --_kui-btn-soft-bg: var(--kui-color-warning-soft-bg);
     --_kui-btn-soft-bg-hover: color-mix(in oklch, var(--kui-color-warning-soft-bg), white 10%);
     --_kui-btn-soft-bg-active: color-mix(in oklch, var(--kui-color-warning-soft-bg), white 18%);
@@ -203,7 +205,7 @@
   .kui-button[data-kui-shape='outline'] {
     border-color: var(
       --_kui-btn-outline-border,
-      var(--kui-btn-outline-border, var(--kui-color-border))
+      var(--kui-btn-outline-border, var(--kui-color-border-control))
     );
     background-color: transparent;
     color: var(--_kui-btn-outline-fg, var(--kui-btn-outline-fg, var(--kui-color-text)));

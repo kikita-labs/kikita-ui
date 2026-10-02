@@ -187,7 +187,7 @@ inject or query the component directly if you need these outside a template).
 | `--kui-splitter-gutter-line` / `-line-hover` / `-line-active` / `-line-disabled` | `--kui-color-border` / `--kui-color-border-strong` / `--kui-color-primary-fill` / `--kui-color-border-subtle` | Gutter line color by state.                   |
 | `--kui-splitter-thumb-bg` / `-thumb-bg-hover` / `-thumb-bg-active`               | `--kui-color-border-strong` / `--kui-color-primary-fill-hover` / `--kui-color-primary-fill-active`            | Default grip color by state.                  |
 | `--kui-splitter-collapse-btn-bg` / `-collapse-btn-fg`                            | `--kui-splitter-thumb-bg` / `--kui-color-surface`                                                             | One-touch collapse button.                    |
-| `--kui-splitter-focus-ring`                                                      | `--kui-color-primary-focus-ring`                                                                              | Focus-visible ring on a gutter.               |
+| `--kui-splitter-focus-ring`                                                      | `--kui-color-focus`                                                                                           | Focus-visible ring on a gutter.               |
 
 ## Known gaps
 

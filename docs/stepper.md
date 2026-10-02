@@ -96,24 +96,24 @@ Import `@kikita-labs/ui/styles` (which includes `stepper.css`) once in your appl
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the semantic role in the Default column.
 
-| Token                                   | Default                          | Controls                      |
-| --------------------------------------- | -------------------------------- | ----------------------------- |
-| `--kui-stepper-label-color-hover`       | `--kui-color-text`               | Label color, hover            |
-| `--kui-stepper-circle-focus-ring-color` | `--kui-color-primary-focus-ring` | Circle focus ring color       |
-| `--kui-stepper-label-color`             | `--kui-color-text-secondary`     | Label color                   |
-| `--kui-stepper-description-color`       | `--kui-color-text-secondary`     | Description color             |
-| `--kui-stepper-circle-color-done`       | `--kui-color-on-fill`            | Circle color, done            |
-| `--kui-stepper-label-color-done`        | `--kui-color-text`               | Label color, done             |
-| `--kui-stepper-circle-bg-current`       | `--kui-color-surface`            | Circle background, current    |
-| `--kui-stepper-label-color-current`     | `--kui-color-text`               | Label color, current          |
-| `--kui-stepper-circle-bg-upcoming`      | `--kui-color-surface-elevated`   | Circle background, upcoming   |
-| `--kui-stepper-circle-border-upcoming`  | `--kui-color-border`             | Circle border color, upcoming |
-| `--kui-stepper-circle-bg-disabled`      | `--kui-color-surface-elevated`   | Circle background, disabled   |
-| `--kui-stepper-circle-border-disabled`  | `--kui-color-border`             | Circle border color, disabled |
-| `--kui-stepper-circle-color-disabled`   | `--kui-color-text-disabled`      | Circle color, disabled        |
-| `--kui-stepper-label-color-disabled`    | `--kui-color-text-disabled`      | Label color, disabled         |
-| `--kui-stepper-circle-color-error`      | `--kui-color-on-fill`            | Circle color, error           |
-| `--kui-stepper-circle-bg-compact`       | `--kui-color-border`             | Circle background, compact    |
+| Token                                   | Default                        | Controls                      |
+| --------------------------------------- | ------------------------------ | ----------------------------- |
+| `--kui-stepper-label-color-hover`       | `--kui-color-text`             | Label color, hover            |
+| `--kui-stepper-circle-focus-ring-color` | `--kui-color-focus`            | Circle focus ring color       |
+| `--kui-stepper-label-color`             | `--kui-color-text-secondary`   | Label color                   |
+| `--kui-stepper-description-color`       | `--kui-color-text-secondary`   | Description color             |
+| `--kui-stepper-circle-color-done`       | `--kui-color-primary-on-fill`  | Circle color, done            |
+| `--kui-stepper-label-color-done`        | `--kui-color-text`             | Label color, done             |
+| `--kui-stepper-circle-bg-current`       | `--kui-color-surface`          | Circle background, current    |
+| `--kui-stepper-label-color-current`     | `--kui-color-text`             | Label color, current          |
+| `--kui-stepper-circle-bg-upcoming`      | `--kui-color-surface-elevated` | Circle background, upcoming   |
+| `--kui-stepper-circle-border-upcoming`  | `--kui-color-border-control`   | Circle border color, upcoming |
+| `--kui-stepper-circle-bg-disabled`      | `--kui-color-surface-elevated` | Circle background, disabled   |
+| `--kui-stepper-circle-border-disabled`  | `--kui-color-border`           | Circle border color, disabled |
+| `--kui-stepper-circle-color-disabled`   | `--kui-color-text-disabled`    | Circle color, disabled        |
+| `--kui-stepper-label-color-disabled`    | `--kui-color-text-disabled`    | Label color, disabled         |
+| `--kui-stepper-circle-color-error`      | `--kui-color-danger-on-fill`   | Circle color, error           |
+| `--kui-stepper-circle-bg-compact`       | `--kui-color-border`           | Circle background, compact    |
 
 <!-- color-tokens:end -->
 

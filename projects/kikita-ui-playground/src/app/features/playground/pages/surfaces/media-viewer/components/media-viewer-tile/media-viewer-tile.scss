@@ -21,7 +21,7 @@
 
   .media-viewer-tile__cover:focus-visible {
     outline: var(--kui-btn-focus-ring-w) solid
-      var(--kui-btn-focus-ring-color, var(--kui-color-primary-focus-ring));
+      var(--kui-btn-focus-ring-color, var(--kui-color-focus));
     outline-offset: var(--kui-btn-focus-ring-off);
   }
 

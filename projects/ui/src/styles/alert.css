@@ -63,81 +63,81 @@
   }
 
   .kui-alert[data-kui-appearance='neutral'][data-kui-shape='solid'] {
-    --_kui-alert-bg: var(--kui-color-border-strong);
+    --_kui-alert-bg: var(--kui-color-neutral-fill);
     --_kui-alert-border: transparent;
-    --_kui-alert-fg: var(--kui-color-on-fill);
+    --_kui-alert-fg: var(--kui-color-neutral-on-fill);
   }
 
   .kui-alert[data-kui-appearance='info'][data-kui-shape='soft'] {
     --_kui-alert-bg: var(--kui-color-info-soft-bg);
     --_kui-alert-border: var(--kui-color-info-soft-border);
-    --_kui-alert-icon-color: var(--kui-color-info-fill);
+    --_kui-alert-icon-color: var(--kui-color-info-text);
   }
 
   .kui-alert[data-kui-appearance='info'][data-kui-shape='outline'] {
     --_kui-alert-bg: transparent;
-    --_kui-alert-border: var(--kui-color-info-fill);
-    --_kui-alert-icon-color: var(--kui-color-info-fill);
+    --_kui-alert-border: var(--kui-color-info-indicator);
+    --_kui-alert-icon-color: var(--kui-color-info-text);
   }
 
   .kui-alert[data-kui-appearance='info'][data-kui-shape='solid'] {
     --_kui-alert-bg: var(--kui-color-info-fill);
     --_kui-alert-border: transparent;
-    --_kui-alert-fg: var(--kui-color-on-fill);
+    --_kui-alert-fg: var(--kui-color-info-on-fill);
   }
 
   .kui-alert[data-kui-appearance='success'][data-kui-shape='soft'] {
     --_kui-alert-bg: var(--kui-color-success-soft-bg);
     --_kui-alert-border: var(--kui-color-success-soft-border);
-    --_kui-alert-icon-color: var(--kui-color-success-fill);
+    --_kui-alert-icon-color: var(--kui-color-success-text);
   }
 
   .kui-alert[data-kui-appearance='success'][data-kui-shape='outline'] {
     --_kui-alert-bg: transparent;
-    --_kui-alert-border: var(--kui-color-success-fill);
-    --_kui-alert-icon-color: var(--kui-color-success-fill);
+    --_kui-alert-border: var(--kui-color-success-indicator);
+    --_kui-alert-icon-color: var(--kui-color-success-text);
   }
 
   .kui-alert[data-kui-appearance='success'][data-kui-shape='solid'] {
     --_kui-alert-bg: var(--kui-color-success-fill);
     --_kui-alert-border: transparent;
-    --_kui-alert-fg: var(--kui-color-on-fill);
+    --_kui-alert-fg: var(--kui-color-success-on-fill);
   }
 
   .kui-alert[data-kui-appearance='warning'][data-kui-shape='soft'] {
     --_kui-alert-bg: var(--kui-color-warning-soft-bg);
     --_kui-alert-border: var(--kui-color-warning-soft-border);
-    --_kui-alert-icon-color: var(--kui-color-warning-fill);
+    --_kui-alert-icon-color: var(--kui-color-warning-text);
   }
 
   .kui-alert[data-kui-appearance='warning'][data-kui-shape='outline'] {
     --_kui-alert-bg: transparent;
-    --_kui-alert-border: var(--kui-color-warning-fill);
-    --_kui-alert-icon-color: var(--kui-color-warning-fill);
+    --_kui-alert-border: var(--kui-color-warning-indicator);
+    --_kui-alert-icon-color: var(--kui-color-warning-text);
   }
 
   .kui-alert[data-kui-appearance='warning'][data-kui-shape='solid'] {
     --_kui-alert-bg: var(--kui-color-warning-fill);
     --_kui-alert-border: transparent;
-    --_kui-alert-fg: var(--kui-color-on-fill);
+    --_kui-alert-fg: var(--kui-color-warning-on-fill);
   }
 
   .kui-alert[data-kui-appearance='danger'][data-kui-shape='soft'] {
     --_kui-alert-bg: var(--kui-color-danger-soft-bg);
     --_kui-alert-border: var(--kui-color-danger-soft-border);
-    --_kui-alert-icon-color: var(--kui-color-danger-fill);
+    --_kui-alert-icon-color: var(--kui-color-danger-text);
   }
 
   .kui-alert[data-kui-appearance='danger'][data-kui-shape='outline'] {
     --_kui-alert-bg: transparent;
-    --_kui-alert-border: var(--kui-color-danger-fill);
-    --_kui-alert-icon-color: var(--kui-color-danger-fill);
+    --_kui-alert-border: var(--kui-color-danger-indicator);
+    --_kui-alert-icon-color: var(--kui-color-danger-text);
   }
 
   .kui-alert[data-kui-appearance='danger'][data-kui-shape='solid'] {
     --_kui-alert-bg: var(--kui-color-danger-fill);
     --_kui-alert-border: transparent;
-    --_kui-alert-fg: var(--kui-color-on-fill);
+    --_kui-alert-fg: var(--kui-color-danger-on-fill);
   }
 
   /* Action button reads in the appearance's own soft-text tone instead of the generic ghost
@@ -214,7 +214,7 @@
   /* Solid shape: message reads at full on-fill contrast, same as the title -- a dimmed
      secondary tone is not guaranteed 4.5:1 on a saturated fill. */
   .kui-alert[data-kui-shape='solid'] .kui-alert__message {
-    --_kui-alert-message-fg: var(--kui-color-on-fill);
+    --_kui-alert-message-fg: var(--_kui-alert-fg);
   }
 
   .kui-alert__action {
@@ -267,8 +267,8 @@
   .kui-alert[data-kui-shape='solid'] .kui-alert__action,
   .kui-alert[data-kui-shape='solid'] .kui-alert__actions,
   .kui-alert[data-kui-shape='solid'] .kui-alert__close {
-    --kui-btn-ghost-fg: var(--kui-color-on-fill);
-    --kui-btn-ghost-bg-hov: color-mix(in oklch, var(--kui-color-on-fill) 22%, transparent);
-    --kui-btn-ghost-bg-act: color-mix(in oklch, var(--kui-color-on-fill) 32%, transparent);
+    --kui-btn-ghost-fg: var(--_kui-alert-fg);
+    --kui-btn-ghost-bg-hov: color-mix(in oklch, var(--_kui-alert-fg) 22%, transparent);
+    --kui-btn-ghost-bg-act: color-mix(in oklch, var(--_kui-alert-fg) 32%, transparent);
   }
 }

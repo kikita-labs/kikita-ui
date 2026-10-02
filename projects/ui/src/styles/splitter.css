@@ -6,7 +6,7 @@
     --kui-splitter-gutter-size: var(--kui-space-2, 8px);
     --_kui-splitter-gutter-line: var(--kui-color-border);
     --_kui-splitter-gutter-line-hover: var(--kui-color-border-strong);
-    --_kui-splitter-gutter-line-active: var(--kui-color-primary-fill);
+    --_kui-splitter-gutter-line-active: var(--kui-color-primary-indicator);
     --_kui-splitter-gutter-line-disabled: var(--kui-color-border-subtle);
     --_kui-splitter-thumb-bg: var(--kui-color-border-strong);
     --_kui-splitter-thumb-bg-hover: var(--kui-color-primary-fill-hover);
@@ -16,7 +16,7 @@
     --_kui-splitter-collapse-btn-size: 20px;
     --_kui-splitter-collapse-btn-bg: var(--kui-splitter-thumb-bg, var(--_kui-splitter-thumb-bg));
     --_kui-splitter-collapse-btn-fg: var(--kui-color-surface);
-    --_kui-splitter-focus-ring: var(--kui-color-primary-focus-ring);
+    --_kui-splitter-focus-ring: var(--kui-color-focus);
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
@@ -73,7 +73,8 @@
   }
 
   .kui-splitter-gutter__separator:focus-visible {
-    box-shadow: 0 0 0 2px var(--kui-splitter-focus-ring, var(--_kui-splitter-focus-ring));
+    outline: 2px solid var(--kui-splitter-focus-ring, var(--_kui-splitter-focus-ring));
+    outline-offset: 2px;
   }
 
   .kui-splitter-gutter__line {

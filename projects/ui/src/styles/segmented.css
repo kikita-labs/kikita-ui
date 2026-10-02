@@ -7,7 +7,8 @@
     gap: var(--kui-seg-gap, 2px);
     padding: var(--kui-seg-padding, 2px);
     background-color: var(--kui-seg-bg, var(--kui-color-surface-sunken));
-    border: var(--kui-border-width-hairline) solid var(--kui-seg-border, var(--kui-color-border));
+    border: var(--kui-border-width-hairline) solid
+      var(--kui-seg-border, var(--kui-color-border-control));
     border-radius: var(--kui-seg-radius, var(--kui-radius-md));
   }
 
@@ -61,14 +62,14 @@
   }
 
   .kui-segment[data-kui-selected] {
-    color: var(--kui-seg-fg-active, var(--kui-btn-solid-fg, var(--kui-color-on-fill)));
+    color: var(--kui-seg-fg-active, var(--kui-btn-solid-fg, var(--kui-color-primary-on-fill)));
     font-weight: var(--kui-seg-font-weight-active, 600);
     cursor: default;
   }
 
   .kui-segment:focus-visible {
     outline: var(--kui-btn-focus-ring-w, 3px) solid
-      var(--kui-seg-focus-ring-color, var(--kui-color-primary-focus-ring));
+      var(--kui-seg-focus-ring-color, var(--kui-color-focus));
     outline-offset: var(--kui-btn-focus-ring-off, 2px);
   }
 
