@@ -124,15 +124,15 @@ Status:
 Every accent (`primary`, `success`, `warning`, `danger`, `info`) has these roles; the ones marked
 generated depend on the seed, the others are references to ramp steps:
 
-| Role                                                       | Meaning                                                                                                                                |
-| ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `--kui-color-<role>-fill`                                  | Solid background: the seed in light mode (slightly corrected when no text colour reaches 4.5:1 on it), step 5 in dark mode.            |
-| `--kui-color-<role>-on-fill` (generated)                   | White or near-black text and icons on the fill, whichever reads better (at least 4.5:1).                                               |
-| `--kui-color-<role>-fill-away` (generated)                 | Black when the on-fill is light, white when it is dark.                                                                                |
-| `--kui-color-<role>-fill-hover`, `-fill-active`            | The fill mixed with the away colour (light 18% and 36%, dark 28% toward the away colour and 8% toward black), so contrast never drops. |
-| `--kui-color-<role>-indicator` (generated)                 | Border, outline, mark, spinner or status dot: the fill when it reaches 3:1 on every light surface, step 7 otherwise.                   |
-| `--kui-color-<role>-text`                                  | Text and icon colour on a surface (at least 4.5:1): step 8 in light mode, step 4 in dark mode.                                         |
-| `--kui-color-<role>-soft-bg`, `-soft-text`, `-soft-border` | Tinted background with its text and border.                                                                                            |
+| Role                                                       | Meaning                                                                                                                                             |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--kui-color-<role>-fill`                                  | Solid background: the seed in both modes (slightly corrected when no text colour reaches 4.5:1 on it).                                              |
+| `--kui-color-<role>-on-fill` (generated)                   | White or near-black text and icons on the fill, whichever reads better (at least 4.5:1).                                                            |
+| `--kui-color-<role>-fill-away` (generated)                 | Black when the on-fill is light, white when it is dark.                                                                                             |
+| `--kui-color-<role>-fill-hover`, `-fill-active`            | The fill mixed with the away colour (light 18% and 36%, dark 28% toward the away colour and 8% toward black), so contrast never drops.              |
+| `--kui-color-<role>-indicator` (generated)                 | Border, outline, mark, spinner or status dot: the fill when it reaches 3:1 on every surface of the mode, step 7 (light) or step 5 (dark) otherwise. |
+| `--kui-color-<role>-text`                                  | Text and icon colour on a surface (at least 4.5:1): step 8 in light mode, step 4 in dark mode.                                                      |
+| `--kui-color-<role>-soft-bg`, `-soft-text`, `-soft-border` | Tinted background with its text and border.                                                                                                         |
 
 Neutral and shared roles:
 
@@ -434,6 +434,8 @@ Field and input tokens:
 --kui-input-placeholder
 --kui-input-focus-ring
 --kui-input-focus-ring-color
+--kui-input-clear-color
+--kui-input-clear-color-hover
 ```
 
 Select tokens:

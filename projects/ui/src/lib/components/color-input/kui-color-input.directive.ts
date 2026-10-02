@@ -2,6 +2,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { isPlatformBrowser } from '@angular/common';
 import type { AfterViewInit, ComponentRef, DoCheck, OnDestroy } from '@angular/core';
 import {
+  afterNextRender,
   booleanAttribute,
   computed,
   Directive,
@@ -113,6 +114,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private dropdownRef: ComponentRef<KuiDropdownComponent> | null = null;
   private panelEl: HTMLElement | null = null;
   private pickerEl: HTMLElement | null = null;
+  private focusReturnTarget: HTMLElement | null = null;
   private thumbEl: HTMLElement | null = null;
   private hueThumbEl: HTMLElement | null = null;
   private hueInputEl: HTMLInputElement | null = null;
@@ -204,8 +206,12 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.unlisten.push(
       this.renderer.listen(native, 'input', () => this.syncState()),
       this.renderer.listen(native, 'change', () => this.syncState()),
-      this.renderer.listen(this.swatchBtn, 'click', () => this.togglePicker()),
-      this.renderer.listen(this.chevronBtn, 'click', () => this.togglePicker()),
+      this.renderer.listen(this.swatchBtn, 'click', (event: MouseEvent) =>
+        this.togglePicker(this.swatchBtn, event),
+      ),
+      this.renderer.listen(this.chevronBtn, 'click', (event: MouseEvent) =>
+        this.togglePicker(this.chevronBtn, event),
+      ),
       this.renderer.listen(this.swatchBtn, 'mouseenter', () =>
         this.showTooltip(this.swatchBtn, this.swatchTooltipText),
       ),
@@ -313,20 +319,35 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     return dropdownRef;
   }
 
-  private togglePicker(): void {
-    this.open() ? this.closePicker() : this.openPicker();
+  private togglePicker(trigger: HTMLElement, event: MouseEvent): void {
+    // A click with no pointer (`detail` 0) comes from Enter or Space on the trigger.
+    this.open() ? this.closePicker() : this.openPicker(trigger, event.detail === 0);
   }
 
-  private openPicker(): void {
+  /**
+   * Opens the picker. A pointer user keeps the caret in the text field; a keyboard user is moved
+   * into the panel, because it is rendered in an overlay that Tab from the field never reaches.
+   * Escape or choosing a value returns focus to the trigger that opened it.
+   */
+  private openPicker(trigger: HTMLElement | null = null, focusPanel = false): void {
     const native = this.el.nativeElement;
     if (native.disabled || native.readOnly || this.open()) return;
     this.el.nativeElement.focus();
+    this.focusReturnTarget = focusPanel && trigger ? trigger : this.el.nativeElement;
 
     const dropdownRef = this.ensureDropdown();
-    dropdownRef.instance.setAnchor(this.containerEl, this.containerEl);
+    dropdownRef.instance.setAnchor(
+      this.containerEl,
+      this.containerEl,
+      () => this.focusReturnTarget,
+    );
     dropdownRef.instance.open();
     this.open.set(true);
     this.syncState();
+
+    if (focusPanel) {
+      afterNextRender({ write: () => this.pickerEl?.focus() }, { injector: this.injector });
+    }
   }
 
   private closePicker(): void {

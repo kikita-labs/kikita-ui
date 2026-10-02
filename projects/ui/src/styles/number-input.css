@@ -42,8 +42,9 @@
 
   .kui-number-input:focus-within:not([data-kui-disabled]) {
     border-color: var(--kui-input-border-focus, var(--kui-color-focus, Highlight));
-    outline: 2px solid var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
-    outline-offset: 2px;
+    /* One 2px frame: the border takes the focus colour and the outline sits flush against it. */
+    outline: 1px solid var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline-offset: 0;
     box-shadow: var(--kui-input-focus-ring, none);
   }
 

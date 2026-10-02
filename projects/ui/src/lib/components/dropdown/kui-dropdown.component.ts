@@ -261,14 +261,7 @@ export class KuiDropdownComponent implements OnDestroy {
       this._outsideClickIgnoreEl,
       {
         watchFocusin: true,
-        onEscape: () => {
-          // Closing removes the panel, which drops focus to <body> when it was inside the panel
-          // (for example a Time Picker unit column). Hand it back to the control so keyboard users
-          // keep their place; a panel opened from the control never took focus, so nothing to restore.
-          const focusWasInPanel = overlayEl.contains(this.document.activeElement);
-          this.close();
-          if (focusWasInPanel) (this._focusReturnTarget?.() ?? anchor).focus();
-        },
+        onEscape: () => this.close(),
         onOutside: () => this.close(),
         onAnchorOffscreen: () => this.close(),
         onReposition: clampPanel,
@@ -283,9 +276,16 @@ export class KuiDropdownComponent implements OnDestroy {
 
   close(): void {
     if (!this.isOpen() && !this.isClosing()) return;
+    // Closing removes the panel, which drops focus to <body> when it was inside the panel (a Time
+    // Picker unit column, or an option the user just chose with the keyboard). Hand it back to the
+    // control so keyboard users keep their place; a panel opened from the control never took focus,
+    // so there is nothing to restore.
+    const panel = this.overlayRef?.overlayElement;
+    const focusWasInPanel = !!panel && panel.contains(this.document.activeElement);
     this.openState.set(false);
     this._cleanup();
     this.isClosing.set(true);
+    if (focusWasInPanel) (this._focusReturnTarget?.() ?? this._anchorEl)?.focus();
   }
 
   private _cleanup(): void {

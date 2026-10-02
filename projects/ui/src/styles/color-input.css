@@ -52,9 +52,9 @@
     opacity: var(--kui-field-action-disabled-opacity);
   }
 
+  /* The swatch clips its own corners; a rounded fill would leave slivers of the checker behind. */
   .kui-color-input__swatch-fill {
     display: block;
-    border-radius: inherit;
   }
 
   .kui-color-input__trigger > svg {
@@ -182,6 +182,12 @@
     opacity: 0;
   }
 
+  /* The native range input is transparent, so its focus is shown on the visible thumb. */
+  .kui-color-input-hue:has(.kui-color-input-hue-native:focus-visible) .kui-color-input-hue-thumb {
+    outline: 2px solid var(--kui-color-input-hue-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 2px;
+  }
+
   .kui-color-input-nums {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -221,8 +227,8 @@
   .kui-color-input-num > input:focus,
   .kui-color-input-hex:focus {
     border-color: var(--kui-color-input-field-border-focus, var(--kui-color-focus));
-    outline: 2px solid var(--kui-color-input-field-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline: 1px solid var(--kui-color-input-field-focus-ring-color, var(--kui-color-focus));
+    outline-offset: 0;
   }
 
   .kui-color-input-preview-row {
@@ -255,7 +261,6 @@
 
   .kui-color-input-swatch__fill {
     display: block;
-    border-radius: inherit;
   }
 
   .kui-color-input-swatch--lg {

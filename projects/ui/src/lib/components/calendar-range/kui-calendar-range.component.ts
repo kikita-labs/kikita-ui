@@ -3,7 +3,9 @@ import {
   booleanAttribute,
   Component,
   computed,
+  ElementRef,
   inject,
+  Injector,
   input,
   model,
   signal,
@@ -172,7 +174,7 @@ type KuiCalendarView = KuiCalendarNavigationView;
                     [attr.aria-disabled]="cell.ariaDisabled"
                     (click)="!cell.disabled && selectDate(cell.date)"
                     (mouseenter)="onDayHover(cell.date)"
-                    (focus)="focusedDate.set(cell.date)"
+                    (focus)="focusedDate.set(cell.date); onDayHover(cell.date)"
                   >
                     <span class="kui-calendar-day-inner">{{ cell.label }}</span>
                   </button>
@@ -226,6 +228,8 @@ type KuiCalendarView = KuiCalendarNavigationView;
 /** Displays a navigable calendar grid for selecting a start/end date range. */
 export class KuiCalendarRangeComponent {
   private readonly clock = inject(KuiClock);
+  private readonly injector = inject(Injector);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   private readonly injectedLocale = inject(KUI_LOCALE);
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiCalendarSize>(KUI_CALENDAR_SIZES);
@@ -557,11 +561,23 @@ export class KuiCalendarRangeComponent {
     }
     event.preventDefault();
     this.moveFocus(date);
-    queueMicrotask(() => {
-      const grid = (event.currentTarget as HTMLElement | null)?.querySelector<HTMLButtonElement>(
-        '.kui-calendar-day[tabindex="0"]',
-      );
-      grid?.focus();
-    });
+    this.focusActiveDay();
+  }
+
+  /**
+   * Moves DOM focus to the day that holds the roving tab stop once it has rendered. The grid can be
+   * replaced when the month changes, so the day is looked up from the host, not from the old grid.
+   */
+  private focusActiveDay(): void {
+    afterNextRender(
+      {
+        write: () => {
+          this.host.nativeElement
+            .querySelector<HTMLButtonElement>('.kui-calendar-grid .kui-calendar-day[tabindex="0"]')
+            ?.focus();
+        },
+      },
+      { injector: this.injector },
+    );
   }
 }

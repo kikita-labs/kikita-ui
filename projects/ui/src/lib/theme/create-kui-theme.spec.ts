@@ -24,9 +24,9 @@ describe('createKuiTheme', () => {
     expect(theme.dark['--kui-neutral-4']).toBe('oklch(0.18 0.01 80)');
     expect(theme.dark['--kui-color-surface-sunken']).toBe('var(--kui-neutral-1)');
     expect(theme.dark['--kui-neutral-1']).toBe('oklch(0.08 0.01 80)');
-    expect(theme.dark['--kui-color-primary-fill']).toBe('var(--kui-primary-5)');
+    expect(theme.dark['--kui-color-primary-fill']).toBe('var(--kui-primary-6)');
     expect(theme.dark['--kui-color-primary-fill-active']).toBe(
-      'color-mix(in oklab, var(--kui-color-primary-fill) 92%, oklch(0 0 0))',
+      'color-mix(in oklab, var(--kui-color-primary-fill) 92%, var(--kui-color-primary-fill-away))',
     );
     expect(theme.dark['--kui-color-primary-soft-bg-active']).toBe('var(--kui-primary-9)');
     expect(theme.dark['--kui-color-success-soft-bg']).toBe('var(--kui-success-11)');
@@ -35,7 +35,7 @@ describe('createKuiTheme', () => {
       'color-mix(in oklab, var(--kui-color-danger-fill) 82%, var(--kui-color-danger-fill-away))',
     );
     expect(theme.dark['--kui-color-danger-fill-active']).toBe(
-      'color-mix(in oklab, var(--kui-color-danger-fill) 92%, oklch(0 0 0))',
+      'color-mix(in oklab, var(--kui-color-danger-fill) 92%, var(--kui-color-danger-fill-away))',
     );
     expect(theme.component['--kui-btn-gap']).toBe('6px');
     expect(theme.component['--kui-font-weight-semibold']).toBe('600');

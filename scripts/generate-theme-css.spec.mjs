@@ -22,6 +22,6 @@ describe('generate-theme-css', () => {
     expect(css).toContain("[data-kui-theme='dark']");
     expect(css).toContain('--kui-neutral-12:');
     expect(css).toContain('--kui-color-primary-on-fill:');
-    expect(css).toContain('color-mix(in oklab');
+    expect(css).toContain('color-mix(');
   });
 });

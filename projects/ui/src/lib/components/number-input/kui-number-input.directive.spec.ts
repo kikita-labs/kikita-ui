@@ -151,10 +151,17 @@ describe('KuiNumberInputDirective', () => {
     expect(incBtn().getAttribute('aria-disabled')).toBe('true');
   });
 
-  it('inc button has disabled attribute at max', () => {
-    host.value.set(10);
+  it('keeps the inc button focusable at max so a keyboard user does not lose focus', () => {
+    host.value.set(9);
     fixture.detectChanges();
-    expect(incBtn().hasAttribute('disabled')).toBe(true);
+    incBtn().focus();
+    incBtn().dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+    fixture.detectChanges();
+
+    expect(nativeInput().value).toBe('10');
+    expect(incBtn().getAttribute('aria-disabled')).toBe('true');
+    expect(incBtn().hasAttribute('disabled')).toBe(false);
+    expect(document.activeElement).toBe(incBtn());
   });
 
   it('no aria-disabled on dec when not at min', () => {
@@ -240,7 +247,6 @@ describe('KuiNumberInputDirective', () => {
     fireMousedown(incBtn());
     expect(nativeInput().value).toBe('10');
     expect(incBtn().getAttribute('aria-disabled')).toBe('true');
-    expect(incBtn().hasAttribute('disabled')).toBe(true);
   });
 
   it('syncs button state after native input changes', () => {
@@ -248,7 +254,6 @@ describe('KuiNumberInputDirective', () => {
     nativeInput().dispatchEvent(new Event('input', { bubbles: true }));
     fixture.detectChanges();
     expect(incBtn().getAttribute('aria-disabled')).toBe('true');
-    expect(incBtn().hasAttribute('disabled')).toBe(true);
   });
 
   it('steps immediately on mousedown before interval starts', () => {

@@ -218,9 +218,12 @@ test('every focusable element keeps a visible outline', async ({ page }) => {
           ? element.parentElement?.querySelector('.kui-slider-thumb')
           : null;
 
+        const group = element.closest('.kui-input-group, .kui-number-input, .kui-color-input');
+
         if (
           (thumb && visible(thumb)) ||
           visible(element) ||
+          (group && visible(group)) ||
           (element.firstElementChild && visible(element.firstElementChild))
         ) {
           return null;

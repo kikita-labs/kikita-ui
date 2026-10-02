@@ -15,10 +15,10 @@ describe('createKuiTheme solid fill roles', () => {
 
   it('chooses white or near-black text by measured contrast on each default fill', () => {
     const expected = {
-      primary: [WHITE, NEAR_BLACK],
-      success: [WHITE, NEAR_BLACK],
+      primary: [WHITE, WHITE],
+      success: [WHITE, WHITE],
       warning: [NEAR_BLACK, NEAR_BLACK],
-      danger: [WHITE, NEAR_BLACK],
+      danger: [WHITE, WHITE],
       info: [NEAR_BLACK, NEAR_BLACK],
     } as const;
 
@@ -31,7 +31,8 @@ describe('createKuiTheme solid fill roles', () => {
   it('moves hover and active away from the text colour', () => {
     expect(theme.light['--kui-color-primary-fill-away']).toBe('oklch(0 0 0)');
     expect(theme.light['--kui-color-warning-fill-away']).toBe(WHITE);
-    expect(theme.dark['--kui-color-primary-fill-away']).toBe(WHITE);
+    expect(theme.dark['--kui-color-primary-fill-away']).toBe('oklch(0 0 0)');
+    expect(theme.dark['--kui-color-warning-fill-away']).toBe(WHITE);
     expect(theme.light['--kui-color-primary-fill-hover']).toBe(
       'color-mix(in oklab, var(--kui-color-primary-fill) 82%, var(--kui-color-primary-fill-away))',
     );
@@ -42,13 +43,13 @@ describe('createKuiTheme solid fill roles', () => {
       'color-mix(in oklab, var(--kui-color-primary-fill) 72%, var(--kui-color-primary-fill-away))',
     );
     expect(theme.dark['--kui-color-primary-fill-active']).toBe(
-      'color-mix(in oklab, var(--kui-color-primary-fill) 92%, oklch(0 0 0))',
+      'color-mix(in oklab, var(--kui-color-primary-fill) 92%, var(--kui-color-primary-fill-away))',
     );
   });
 
-  it('reads the seed at step 6 in light mode and the fixed-tone step 5 in dark mode', () => {
+  it('reads the seed at step 6 in both modes', () => {
     expect(theme.light['--kui-color-primary-fill']).toBe('var(--kui-primary-6)');
-    expect(theme.dark['--kui-color-primary-fill']).toBe('var(--kui-primary-5)');
+    expect(theme.dark['--kui-color-primary-fill']).toBe('var(--kui-primary-6)');
   });
 
   it('corrects a mid-lightness seed that neither text colour reaches 4.5:1 on', () => {

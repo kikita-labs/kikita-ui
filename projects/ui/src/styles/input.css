@@ -51,9 +51,38 @@
 
   .kui-input:focus {
     border-color: var(--kui-input-border-focus, var(--kui-color-focus, Highlight));
-    outline: 2px solid var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
-    outline-offset: 2px;
+    /* One 2px frame: the border takes the focus colour and the outline sits flush against it. */
+    outline: 1px solid var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline-offset: 0;
     box-shadow: var(--kui-input-focus-ring, none);
+  }
+
+  /*
+   * The browser draws its own clear button in search fields. Restyle it as a thin themed cross
+   * instead of the heavy native glyph; Firefox has no such button, so nothing changes there.
+   */
+  .kui-input[type='search']::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    inline-size: 1em;
+    block-size: 1em;
+    margin-inline-start: var(--kui-space-1);
+    background-color: var(--kui-input-clear-color, var(--kui-color-text-secondary));
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+    cursor: pointer;
+  }
+
+  .kui-input[type='search']::-webkit-search-cancel-button:hover {
+    background-color: var(--kui-input-clear-color-hover, var(--kui-color-text));
+  }
+
+  @media (forced-colors: active) {
+    .kui-input[type='search']::-webkit-search-cancel-button {
+      background-color: ButtonText;
+    }
   }
 
   .kui-input[data-kui-size='xs'] {
@@ -139,8 +168,9 @@
 
   .kui-input-group:focus-within {
     border-color: var(--kui-input-border-focus, var(--kui-color-focus, Highlight));
-    outline: 2px solid var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
-    outline-offset: 2px;
+    /* One 2px frame: the border takes the focus colour and the outline sits flush against it. */
+    outline: 1px solid var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline-offset: 0;
     box-shadow: var(--kui-input-focus-ring, none);
   }
 
@@ -178,6 +208,11 @@
   .kui-field[data-kui-invalid] .kui-input-group > .kui-input {
     border-color: transparent;
     box-shadow: none;
+  }
+
+  /* The group draws the focus frame, so the control inside it draws none of its own. */
+  .kui-input-group > .kui-input:focus {
+    outline: 0;
   }
 
   .kui-input-group[data-kui-size='xs'] {

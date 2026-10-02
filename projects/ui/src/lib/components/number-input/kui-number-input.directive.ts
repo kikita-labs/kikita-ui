@@ -277,8 +277,8 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
 
     const controlDisabled = native.disabled || native.readOnly;
 
-    this._setButtonDisabled(this.decBtn, controlDisabled || atMin);
-    this._setButtonDisabled(this.incBtn, controlDisabled || atMax);
+    this._setButtonDisabled(this.decBtn, atMin, controlDisabled);
+    this._setButtonDisabled(this.incBtn, atMax, controlDisabled);
 
     // Reflect native disabled/readonly to container.
     if (native.disabled) {
@@ -294,12 +294,21 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
     }
   }
 
-  private _setButtonDisabled(btn: HTMLElement, disabled: boolean): void {
-    if (disabled) {
+  /**
+   * A step button that reached its limit is only marked `aria-disabled`, so a keyboard user who
+   * pressed it keeps focus; a natively disabled button would drop focus to the document body. The
+   * whole control being disabled or read-only still disables the buttons natively.
+   */
+  private _setButtonDisabled(btn: HTMLElement, atLimit: boolean, controlDisabled: boolean): void {
+    if (atLimit || controlDisabled) {
       this.renderer.setAttribute(btn, 'aria-disabled', 'true');
-      this.renderer.setAttribute(btn, 'disabled', '');
     } else {
       this.renderer.removeAttribute(btn, 'aria-disabled');
+    }
+
+    if (controlDisabled) {
+      this.renderer.setAttribute(btn, 'disabled', '');
+    } else {
       this.renderer.removeAttribute(btn, 'disabled');
     }
   }

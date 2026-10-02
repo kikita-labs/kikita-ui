@@ -283,7 +283,7 @@ function createSemanticVariables(
   }
 
   for (const name of ACCENT_NAMES) {
-    Object.assign(variables, createAccentVariables(mode, name, ramps[name], neutral.light));
+    Object.assign(variables, createAccentVariables(mode, name, ramps[name], neutral[mode]));
   }
 
   return variables;
@@ -329,29 +329,32 @@ function createAccentVariables(
   mode: KuiThemeMode,
   name: KuiAccentName,
   ramp: readonly KuiOklchColor[],
-  lightNeutral: readonly KuiOklchColor[],
+  modeNeutral: readonly KuiOklchColor[],
 ): KuiCssVariableMap {
   const prefix = `--kui-color-${name}` as const;
   const step = (index: number): string => `var(--kui-${name}-${index})`;
   const light = mode === 'light';
   const seed = ramp[5];
-  const solid = light ? correctSolidFill(seed) : ramp[4];
+  // The fill is the same brand colour in both modes; its text colour is chosen by measured contrast.
+  const solid = correctSolidFill(seed);
   const onFill = chooseOnFill(solid);
   const away = onFill === WHITE ? BLACK_TEXT : WHITE_TEXT;
   const share = STATE_MIX[mode];
   const mix = (percent: number, toward: string): string =>
     `color-mix(in oklab, var(${prefix}-fill) ${100 - percent}%, ${toward})`;
-  const surfaces = [lightNeutral[0], lightNeutral[1], lightNeutral[2]];
-  const fillIsIndicator =
-    !light || surfaces.every((surface) => contrastRatio(solid, surface) >= MIN_NON_TEXT_CONTRAST);
+  // Steps the surface roles read: 1 to 3 in light mode, 1 to 4 in dark mode.
+  const surfaces = modeNeutral.slice(0, light ? 3 : 4);
+  const fillIsIndicator = surfaces.every(
+    (surface) => contrastRatio(solid, surface) >= MIN_NON_TEXT_CONTRAST,
+  );
 
   const variables: Record<`--kui-${string}`, string> = {
-    [`${prefix}-fill`]: light ? (solid === seed ? step(6) : formatOklch(solid)) : step(5),
+    [`${prefix}-fill`]: solid === seed ? step(6) : formatOklch(solid),
     [`${prefix}-on-fill`]: formatOklch(onFill),
     [`${prefix}-fill-away`]: away,
     [`${prefix}-fill-hover`]: mix(share.hover, `var(${prefix}-fill-away)`),
-    [`${prefix}-fill-active`]: mix(share.active, light ? `var(${prefix}-fill-away)` : BLACK_TEXT),
-    [`${prefix}-indicator`]: fillIsIndicator ? `var(${prefix}-fill)` : step(7),
+    [`${prefix}-fill-active`]: mix(share.active, `var(${prefix}-fill-away)`),
+    [`${prefix}-indicator`]: fillIsIndicator ? `var(${prefix}-fill)` : step(light ? 7 : 5),
     [`${prefix}-soft-bg`]: step(light ? 1 : 11),
     [`${prefix}-soft-text`]: step(light ? 8 : 4),
     [`${prefix}-soft-border`]: step(light ? 4 : 8),

@@ -633,9 +633,9 @@
     --kui-color-text-placeholder: var(--kui-neutral-11);
     --kui-color-text: var(--kui-neutral-12);
     --kui-color-neutral-fill: var(--kui-neutral-7);
-    --kui-color-primary-fill: var(--kui-primary-5);
-    --kui-color-primary-on-fill: oklch(0.15 0 0);
-    --kui-color-primary-fill-away: oklch(1 0 0);
+    --kui-color-primary-fill: var(--kui-primary-6);
+    --kui-color-primary-on-fill: oklch(1 0 0);
+    --kui-color-primary-fill-away: oklch(0 0 0);
     --kui-color-primary-fill-hover: color-mix(
       in oklab,
       var(--kui-color-primary-fill) 72%,
@@ -644,7 +644,7 @@
     --kui-color-primary-fill-active: color-mix(
       in oklab,
       var(--kui-color-primary-fill) 92%,
-      oklch(0 0 0)
+      var(--kui-color-primary-fill-away)
     );
     --kui-color-primary-indicator: var(--kui-color-primary-fill);
     --kui-color-primary-soft-bg: var(--kui-primary-11);
@@ -653,9 +653,9 @@
     --kui-color-primary-text: var(--kui-primary-4);
     --kui-color-primary-soft-bg-hover: var(--kui-primary-10);
     --kui-color-primary-soft-bg-active: var(--kui-primary-9);
-    --kui-color-success-fill: var(--kui-success-5);
-    --kui-color-success-on-fill: oklch(0.15 0 0);
-    --kui-color-success-fill-away: oklch(1 0 0);
+    --kui-color-success-fill: var(--kui-success-6);
+    --kui-color-success-on-fill: oklch(1 0 0);
+    --kui-color-success-fill-away: oklch(0 0 0);
     --kui-color-success-fill-hover: color-mix(
       in oklab,
       var(--kui-color-success-fill) 72%,
@@ -664,14 +664,14 @@
     --kui-color-success-fill-active: color-mix(
       in oklab,
       var(--kui-color-success-fill) 92%,
-      oklch(0 0 0)
+      var(--kui-color-success-fill-away)
     );
     --kui-color-success-indicator: var(--kui-color-success-fill);
     --kui-color-success-soft-bg: var(--kui-success-11);
     --kui-color-success-soft-text: var(--kui-success-4);
     --kui-color-success-soft-border: var(--kui-success-8);
     --kui-color-success-text: var(--kui-success-4);
-    --kui-color-warning-fill: var(--kui-warning-5);
+    --kui-color-warning-fill: var(--kui-warning-6);
     --kui-color-warning-on-fill: oklch(0.15 0 0);
     --kui-color-warning-fill-away: oklch(1 0 0);
     --kui-color-warning-fill-hover: color-mix(
@@ -682,16 +682,16 @@
     --kui-color-warning-fill-active: color-mix(
       in oklab,
       var(--kui-color-warning-fill) 92%,
-      oklch(0 0 0)
+      var(--kui-color-warning-fill-away)
     );
     --kui-color-warning-indicator: var(--kui-color-warning-fill);
     --kui-color-warning-soft-bg: var(--kui-warning-11);
     --kui-color-warning-soft-text: var(--kui-warning-4);
     --kui-color-warning-soft-border: var(--kui-warning-8);
     --kui-color-warning-text: var(--kui-warning-4);
-    --kui-color-danger-fill: var(--kui-danger-5);
-    --kui-color-danger-on-fill: oklch(0.15 0 0);
-    --kui-color-danger-fill-away: oklch(1 0 0);
+    --kui-color-danger-fill: var(--kui-danger-6);
+    --kui-color-danger-on-fill: oklch(1 0 0);
+    --kui-color-danger-fill-away: oklch(0 0 0);
     --kui-color-danger-fill-hover: color-mix(
       in oklab,
       var(--kui-color-danger-fill) 72%,
@@ -700,7 +700,7 @@
     --kui-color-danger-fill-active: color-mix(
       in oklab,
       var(--kui-color-danger-fill) 92%,
-      oklch(0 0 0)
+      var(--kui-color-danger-fill-away)
     );
     --kui-color-danger-indicator: var(--kui-color-danger-fill);
     --kui-color-danger-soft-bg: var(--kui-danger-11);
@@ -709,7 +709,7 @@
     --kui-color-danger-text: var(--kui-danger-4);
     --kui-color-danger-soft-bg-hover: var(--kui-danger-10);
     --kui-color-danger-soft-bg-active: var(--kui-danger-9);
-    --kui-color-info-fill: var(--kui-info-5);
+    --kui-color-info-fill: var(--kui-info-6);
     --kui-color-info-on-fill: oklch(0.15 0 0);
     --kui-color-info-fill-away: oklch(1 0 0);
     --kui-color-info-fill-hover: color-mix(
@@ -717,7 +717,11 @@
       var(--kui-color-info-fill) 72%,
       var(--kui-color-info-fill-away)
     );
-    --kui-color-info-fill-active: color-mix(in oklab, var(--kui-color-info-fill) 92%, oklch(0 0 0));
+    --kui-color-info-fill-active: color-mix(
+      in oklab,
+      var(--kui-color-info-fill) 92%,
+      var(--kui-color-info-fill-away)
+    );
     --kui-color-info-indicator: var(--kui-color-info-fill);
     --kui-color-info-soft-bg: var(--kui-info-11);
     --kui-color-info-soft-text: var(--kui-info-4);

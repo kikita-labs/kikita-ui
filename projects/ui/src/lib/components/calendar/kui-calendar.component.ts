@@ -3,6 +3,7 @@ import {
   booleanAttribute,
   Component,
   computed,
+  ElementRef,
   inject,
   Injector,
   input,
@@ -226,6 +227,7 @@ export class KuiCalendarComponent implements OnInit {
   private readonly clock = inject(KuiClock);
 
   private readonly injector = inject(Injector);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly injectedLocale = inject(KUI_LOCALE);
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiCalendarSize>(KUI_CALENDAR_SIZES);
 
@@ -520,12 +522,20 @@ export class KuiCalendarComponent implements OnInit {
     }
     event.preventDefault();
     this.moveFocus(date);
-    const currentTarget = event.currentTarget as HTMLElement | null;
+    this.focusActiveDay();
+  }
+
+  /**
+   * Moves DOM focus to the day that holds the roving tab stop once it has rendered. The grid can be
+   * replaced when the month changes, so the day is looked up from the host, not from the old grid.
+   */
+  private focusActiveDay(): void {
     afterNextRender(
       {
         write: () => {
-          const grid = currentTarget?.closest('.kui-calendar-grid');
-          grid?.querySelector<HTMLButtonElement>('.kui-calendar-day[tabindex="0"]')?.focus();
+          this.host.nativeElement
+            .querySelector<HTMLButtonElement>('.kui-calendar-grid .kui-calendar-day[tabindex="0"]')
+            ?.focus();
         },
       },
       { injector: this.injector },

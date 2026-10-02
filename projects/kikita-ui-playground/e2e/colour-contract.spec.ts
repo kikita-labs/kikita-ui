@@ -146,9 +146,12 @@ function probe({ mode, query }: { mode: string; query: string }): ProbeResult {
   const thumb = element.matches('.kui-slider-native')
     ? element.parentElement?.querySelector('.kui-slider-thumb')
     : null;
+  const group = element.closest('.kui-input-group, .kui-number-input, .kui-color-input');
   const style =
     (thumb ? outlineOf(thumb) : null) ??
     outlineOf(element) ??
+    // A control inside a field group leaves the focus frame to the group.
+    (group ? outlineOf(group) : null) ??
     (element.firstElementChild ? outlineOf(element.firstElementChild) : null);
   const label = `${element.tagName.toLowerCase()}.${String(element.className)
     .split(' ')
