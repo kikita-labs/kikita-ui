@@ -1,40 +1,70 @@
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import prettier from 'prettier';
 import ts from 'typescript';
 
 const defaultRoot = fileURLToPath(new URL('..', import.meta.url));
-const themeDirectory = 'projects/ui/src/lib/theme';
-const themeModules = ['create-kui-theme', 'default-kui-theme.const', 'kui-theme-color-math'];
+const libDirectory = 'projects/ui/src/lib';
+const themeEntries = ['theme/create-kui-theme.ts', 'theme/default-kui-theme.const.ts'];
 
 export const defaultThemeCssPath = 'projects/ui/src/styles/theme-default.css';
 
-/** Transpiles the value modules of the theme generator and imports them, without a library build. */
+/** Resolves a relative import of a library file to the `.ts` file it names. */
+function resolveSource(from, specifier) {
+  const base = join(dirname(from), specifier);
+
+  for (const candidate of [`${base}.ts`, join(base, 'index.ts')]) {
+    if (existsSync(candidate)) return candidate;
+  }
+
+  throw new Error(`Cannot resolve "${specifier}" imported by ${from}`);
+}
+
+/**
+ * Transpiles the theme generator and every library module it reaches at runtime, keeping their
+ * folder layout, and imports the result, without a library build.
+ */
 async function loadThemeGenerator(root) {
+  const lib = join(root, libDirectory);
   const directory = mkdtempSync(join(tmpdir(), 'kui-theme-'));
+  const queue = themeEntries.map((entry) => join(lib, entry));
+  const done = new Set();
 
   try {
-    for (const name of themeModules) {
-      const source = readFileSync(join(root, themeDirectory, `${name}.ts`), 'utf8');
-      const { outputText } = ts.transpileModule(source, {
+    while (queue.length > 0) {
+      const file = queue.shift();
+
+      if (done.has(file)) continue;
+      done.add(file);
+
+      const { outputText } = ts.transpileModule(readFileSync(file, 'utf8'), {
         compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
       });
+      const output = join(directory, relative(lib, file).replace(/\.ts$/u, '.mjs'));
 
+      mkdirSync(dirname(output), { recursive: true });
       writeFileSync(
-        join(directory, `${name}.mjs`),
-        outputText.replace(/from '(\.\/[^']+)'/gu, "from '$1.mjs'"),
+        output,
+        outputText.replace(/from '(\.\.?\/[^']+)'/gu, (_match, specifier) => {
+          const source = resolveSource(file, specifier);
+
+          queue.push(source);
+
+          const target = join(directory, relative(lib, source).replace(/\.ts$/u, '.mjs'));
+          const path = relative(dirname(output), target).replaceAll(String.fromCharCode(92), '/');
+
+          return `from '${path.startsWith('.') ? path : `./${path}`}'`;
+        }),
       );
     }
 
-    return await import(pathToFileURL(join(directory, 'create-kui-theme.mjs')).href).then(
-      async (generator) => ({
-        ...generator,
-        ...(await import(pathToFileURL(join(directory, 'default-kui-theme.const.mjs')).href)),
-      }),
-    );
+    const load = (entry) =>
+      import(pathToFileURL(join(directory, entry.replace(/\.ts$/u, '.mjs'))).href);
+
+    return { ...(await load(themeEntries[0])), ...(await load(themeEntries[1])) };
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }

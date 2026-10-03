@@ -18,6 +18,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
+import { hexToOklch, oklchToRgb8, rgbToHex } from '../../foundation/color/kui-color-math';
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import type { KuiColorInputMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
@@ -154,7 +155,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private pickerBuilt = false;
   private readonly invalidValue = signal(false);
   private readonly open = signal(false);
-  private lastValid = hexToOklch('#5b4fe0')!;
+  private lastValid = hexToParsed('#5b4fe0')!;
   private dragAbort: (() => void) | null = null;
   private lastState = '';
   private swatchTooltipText = '';
@@ -834,7 +835,7 @@ interface KuiParsedColor {
 function parseColor(value: string): KuiParsedColor | null {
   const trimmed = value.trim();
   const hex = normalizeHexForPicker(trimmed);
-  if (hex) return hexToOklch(hex);
+  if (hex) return hexToParsed(hex);
   return parseOklch(trimmed);
 }
 
@@ -853,60 +854,15 @@ function normalizeOklch(l: number, c: number, h: number): KuiParsedColor {
   const nextL = Math.min(1, Math.max(0, l));
   const nextC = Math.min(MAX_CHROMA, Math.max(0, c));
   const nextH = h === 360 ? 360 : ((h % 360) + 360) % 360;
-  const [r, g, b] = oklchToRgb(nextL, nextC, nextH);
+  const [r, g, b] = oklchToRgb8({ lightness: nextL, chroma: nextC, hue: nextH });
   return { hex: rgbToHex(r, g, b), l: nextL, c: nextC, h: nextH };
 }
 
-function hexToOklch(hex: string): KuiParsedColor | null {
+function hexToParsed(hex: string): KuiParsedColor | null {
   const normalized = normalizeHexForPicker(hex);
-  if (!normalized) return null;
-  const r = parseInt(normalized.slice(1, 3), 16) / 255;
-  const g = parseInt(normalized.slice(3, 5), 16) / 255;
-  const b = parseInt(normalized.slice(5, 7), 16) / 255;
-  const lin = (channel: number) =>
-    channel <= 0.04045 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
-  const rl = lin(r);
-  const gl = lin(g);
-  const bl = lin(b);
-  const l = 0.4122214708 * rl + 0.5363325363 * gl + 0.0514459929 * bl;
-  const m = 0.2119034982 * rl + 0.6806995451 * gl + 0.1073969566 * bl;
-  const s = 0.0883024619 * rl + 0.2817188376 * gl + 0.6299787005 * bl;
-  const lRoot = Math.cbrt(l);
-  const mRoot = Math.cbrt(m);
-  const sRoot = Math.cbrt(s);
-  const L = 0.2104542553 * lRoot + 0.793617785 * mRoot - 0.0040720468 * sRoot;
-  const A = 1.9779984951 * lRoot - 2.428592205 * mRoot + 0.4505937099 * sRoot;
-  const B = 0.0259040371 * lRoot + 0.7827717662 * mRoot - 0.808675766 * sRoot;
-  const C = Math.sqrt(A * A + B * B);
-  let H = (Math.atan2(B, A) * 180) / Math.PI;
-  if (H < 0) H += 360;
-  return { hex: normalized, l: L, c: C, h: H };
-}
+  const oklch = normalized ? hexToOklch(normalized) : null;
 
-function oklchToRgb(l: number, c: number, h: number): [number, number, number] {
-  const hRad = (h * Math.PI) / 180;
-  const a = c * Math.cos(hRad);
-  const b = c * Math.sin(hRad);
-  const lPrime = l + 0.3963377774 * a + 0.2158037573 * b;
-  const mPrime = l - 0.1055613458 * a - 0.0638541728 * b;
-  const sPrime = l - 0.0894841775 * a - 1.291485548 * b;
-  const lCube = lPrime * lPrime * lPrime;
-  const mCube = mPrime * mPrime * mPrime;
-  const sCube = sPrime * sPrime * sPrime;
-  const r = 4.0767416621 * lCube - 3.3077115913 * mCube + 0.2309699292 * sCube;
-  const g = -1.2684380046 * lCube + 2.6097574011 * mCube - 0.3413193965 * sCube;
-  const blue = -0.0041960863 * lCube - 0.7034186147 * mCube + 1.707614701 * sCube;
-  return [encodeRgb(r), encodeRgb(g), encodeRgb(blue)];
-}
-
-function encodeRgb(channel: number): number {
-  const encoded =
-    channel <= 0.0031308
-      ? 12.92 * channel
-      : 1.055 * Math.pow(Math.max(channel, 0), 1 / 2.4) - 0.055;
-  return Math.round(Math.min(1, Math.max(0, encoded)) * 255);
-}
-
-function rgbToHex(r: number, g: number, b: number): string {
-  return `#${[r, g, b].map((value) => value.toString(16).padStart(2, '0')).join('')}`;
+  return normalized && oklch
+    ? { hex: normalized, l: oklch.lightness, c: oklch.chroma, h: oklch.hue }
+    : null;
 }

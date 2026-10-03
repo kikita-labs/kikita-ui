@@ -89,8 +89,13 @@ change unless explicitly deferred:
   there.
 - Focused tests: colocated `*.spec.ts` files for the primitive and any changed
   integration point
-- Theme tokens: `projects/ui/src/lib/theme/create-kui-theme.ts` and token
-  interfaces/types when new `--kui-*` variables are introduced
+- Theme tokens: a literal component token goes into the matching file under
+  `projects/ui/src/lib/theme/component-tokens/` (foundation, field, content, picker or overlay; the files
+  are consecutive slices of one table, so the order of the generated CSS stays stable), a seed-derived
+  role into `theme/semantic/` or `theme/palette/`, plus the token interfaces/types, when new
+  `--kui-*` variables are introduced. `create-kui-theme.golden.spec.ts` pins the generator output;
+  update its hashes and `theme-default.css` (`pnpm generate:theme-css`) in the same commit as a
+  deliberate theme change.
 - Local progress notes: `.local-notes/PROGRESS.md` for current-session progress
   only; this file is ignored and must not be required for package correctness
 

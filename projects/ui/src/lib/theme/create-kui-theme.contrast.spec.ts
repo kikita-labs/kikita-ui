@@ -1,7 +1,7 @@
+import { contrastRatio, oklchToRgb8, toneOf } from '../foundation/color/kui-color-math';
 import { createKuiTheme, createKuiThemeVariableMap } from './create-kui-theme';
 import { DEFAULT_KUI_THEME } from './default-kui-theme.const';
 import type { KuiOklchColor } from './kui-theme-color.interface';
-import { contrastRatio, oklchToRgb8, toneOf } from './kui-theme-color-math';
 import type { KuiThemeMode } from './kui-theme-mode.type';
 import type { KuiThemeOptions } from './kui-theme-options.interface';
 import type { KuiThemeColorSeeds } from './kui-theme-seeds.interface';
