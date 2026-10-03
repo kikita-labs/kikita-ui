@@ -13,6 +13,7 @@ import {
   Renderer2,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
@@ -78,6 +79,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
   private readonly platformId = inject(PLATFORM_ID);
   private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
   private readonly numberInputDefaults = inject(KuiDefaults).get('numberInput');
+  private readonly t = injectKuiMessages('numberInput');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   private readonly wiring = createKuiFieldWiring({
@@ -120,6 +122,13 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
   private readonly _isBrowser = isPlatformBrowser(this.platformId);
 
   constructor() {
+    // The step buttons are built once after the view exists; keep their names in step with the messages.
+    effect(() => {
+      const t = this.t();
+      if (this.decBtn) this.renderer.setAttribute(this.decBtn, 'aria-label', t.decrease);
+      if (this.incBtn) this.renderer.setAttribute(this.incBtn, 'aria-label', t.increase);
+    });
+
     // Read signals before the guard so they are tracked as dependencies
     // even on the first run when containerEl is not yet built (same pattern as kuiSlider).
     effect(() => {
@@ -213,7 +222,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
   private _buildVariantSplit(native: HTMLElement): void {
     this.decBtn = this._createBtn(
       ['kui-number-input__btn', 'kui-number-input__btn--dec'],
-      'Decrease value',
+      this.t().decrease,
       this._createMinusIcon(),
     );
     this.renderer.appendChild(this.containerEl, this.decBtn);
@@ -221,7 +230,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
 
     this.incBtn = this._createBtn(
       ['kui-number-input__btn', 'kui-number-input__btn--inc'],
-      'Increase value',
+      this.t().increase,
       this._createPlusIcon(),
     );
     this.renderer.appendChild(this.containerEl, this.incBtn);
@@ -238,14 +247,14 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
 
     this.incBtn = this._createBtn(
       ['kui-number-input__arrow', 'kui-number-input__arrow--inc'],
-      'Increase value',
+      this.t().increase,
       this._createChevronIcon('up'),
     );
     this.renderer.appendChild(arrowsEl, this.incBtn);
 
     this.decBtn = this._createBtn(
       ['kui-number-input__arrow', 'kui-number-input__arrow--dec'],
-      'Decrease value',
+      this.t().decrease,
       this._createChevronIcon('down'),
     );
     this.renderer.appendChild(arrowsEl, this.decBtn);

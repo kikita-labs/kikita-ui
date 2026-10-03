@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 import { waitForShellHydration } from './support/ssr';
 
 // Tall viewports keep every named group inside the shell's scrolling workspace for capture.
@@ -589,6 +590,7 @@ test('switches every chart type to its exact-value alternative table and back @v
 test('shows Russian page copy and translated chart data after a runtime language switch', async ({
   page,
 }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const russianResponse = await page.request.get('/i18n/chart/ru.json');
   expect(russianResponse.ok()).toBe(true);
   const russian = (await russianResponse.json()) as {
@@ -628,8 +630,13 @@ test('shows Russian page copy and translated chart data after a runtime language
   );
 
   // Chart's own built-in strings ("Table", "No data", "Loading chart") are not localizable yet.
-  await expect(minimal.getByRole('button', { name: 'Table', exact: true })).toBeVisible();
-  const noData = getGroup(page, russian.examples.states).getByText('No data', { exact: true });
+  await expect(
+    minimal.getByRole('button', { name: kuiMessage(kui, 'chart', 'viewTable'), exact: true }),
+  ).toBeVisible();
+  const noData = getGroup(page, russian.examples.states).getByText(
+    kuiMessage(kui, 'chart', 'noData'),
+    { exact: true },
+  );
   await expect(noData).not.toHaveCount(0);
   for (const label of await noData.all()) {
     await expect(label).toBeVisible();

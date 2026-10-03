@@ -84,17 +84,18 @@ contract; it is plain projected content inside `kui-field` (see Known Gaps).
 
 ## Inputs
 
-| Input         | Type                       | Default      | Notes                                                                                                                     |
-| ------------- | -------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| `variant`     | `'dropzone' \| 'compact'`  | `'dropzone'` | `dropzone`: full drag-and-drop zone. `compact`: trigger button only.                                                      |
-| `mode`        | `'single' \| 'multiple'`   | `'multiple'` | `single`: re-selecting replaces the current file.                                                                         |
-| `accept`      | `readonly string[]`        | `undefined`  | Allowed MIME types. Omit to accept any file type.                                                                         |
-| `acceptLabel` | `string`                   | `undefined`  | Format/limit hint text rendered under the dropzone or compact trigger.                                                    |
-| `maxSize`     | `number` (bytes)           | `undefined`  | Maximum file size. Static numeric values are coerced; invalid/non-positive values omit the limit.                         |
-| `maxCount`    | `number`                   | `undefined`  | Maximum file count (`multiple` mode only). Static numeric values are coerced; invalid/non-positive values omit the limit. |
-| `size`        | `KuiSize`                  | `'md'`       | Row height/thumbnail size; only `sm`/`md`/`lg` have dedicated styling.                                                    |
-| `disabled`    | `boolean`                  | `false`      | Dropzone/trigger stop reacting to drag, click, and keyboard.                                                              |
-| `files`       | `readonly KuiUploadFile[]` | `[]`         | Controlled file list. Two-way (`filesChange`).                                                                            |
+| Input         | Type                             | Default      | Notes                                                                                                                                                                                |
+| ------------- | -------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `variant`     | `'dropzone' \| 'compact'`        | `'dropzone'` | `dropzone`: full drag-and-drop zone. `compact`: trigger button only.                                                                                                                 |
+| `mode`        | `'single' \| 'multiple'`         | `'multiple'` | `single`: re-selecting replaces the current file.                                                                                                                                    |
+| `accept`      | `readonly string[]`              | `undefined`  | Allowed MIME types. Omit to accept any file type.                                                                                                                                    |
+| `acceptLabel` | `string`                         | `undefined`  | Format/limit hint text rendered under the dropzone or compact trigger.                                                                                                               |
+| `maxSize`     | `number` (bytes)                 | `undefined`  | Maximum file size. Static numeric values are coerced; invalid/non-positive values omit the limit.                                                                                    |
+| `maxCount`    | `number`                         | `undefined`  | Maximum file count (`multiple` mode only). Static numeric values are coerced; invalid/non-positive values omit the limit.                                                            |
+| `size`        | `KuiSize`                        | `'md'`       | Row height/thumbnail size; only `sm`/`md`/`lg` have dedicated styling.                                                                                                               |
+| `disabled`    | `boolean`                        | `false`      | Dropzone/trigger stop reacting to drag, click, and keyboard.                                                                                                                         |
+| `files`       | `readonly KuiUploadFile[]`       | `[]`         | Controlled file list. Two-way (`filesChange`).                                                                                                                                       |
+| `messages`    | `Partial<KuiFileUploadMessages>` | `undefined`  | Text overrides for this instance (prompt, buttons, statuses, errors). Sizes and percentages are formatted with the locale (`2.5 MB`, `340 kB`). See [Internationalization](i18n.md). |
 
 ## Outputs
 
@@ -104,16 +105,17 @@ contract; it is plain projected content inside `kui-field` (see Known Gaps).
 
 ### `KuiUploadFile`
 
-| Field      | Type                                               | Notes                                                                  |
-| ---------- | -------------------------------------------------- | ---------------------------------------------------------------------- |
-| `id`       | `string`                                           | Stable id, unique within the component instance.                       |
-| `file`     | `File`                                             | The native `File`, so the consumer can actually read/upload its bytes. |
-| `name`     | `string`                                           | Mirrors `file.name`.                                                   |
-| `size`     | `number`                                           | Mirrors `file.size` in bytes.                                          |
-| `type`     | `string`                                           | Mirrors `file.type`.                                                   |
-| `status`   | `'pending' \| 'uploading' \| 'success' \| 'error'` | Owned by the consumer past the initial `pending`/`error` from picking. |
-| `progress` | `number` (0-100)                                   | Only meaningful while `status` is `uploading`.                         |
-| `errorMsg` | `string`                                           | Only meaningful while `status` is `error`.                             |
+| Field       | Type                                               | Notes                                                                                                                                                      |
+| ----------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`        | `string`                                           | Stable id, unique within the component instance.                                                                                                           |
+| `file`      | `File`                                             | The native `File`, so the consumer can actually read/upload its bytes.                                                                                     |
+| `name`      | `string`                                           | Mirrors `file.name`.                                                                                                                                       |
+| `size`      | `number`                                           | Mirrors `file.size` in bytes.                                                                                                                              |
+| `type`      | `string`                                           | Mirrors `file.type`.                                                                                                                                       |
+| `status`    | `'pending' \| 'uploading' \| 'success' \| 'error'` | Owned by the consumer past the initial `pending`/`error` from picking.                                                                                     |
+| `progress`  | `number` (0-100)                                   | Only meaningful while `status` is `uploading`.                                                                                                             |
+| `errorMsg`  | `string`                                           | Only meaningful while `status` is `error`.                                                                                                                 |
+| `errorKind` | `'type' \| 'size'`                                 | Set by the component when client-side validation rejects a file. The displayed text then follows the active messages. Omit it for errors you set yourself. |
 
 ## Keyboard
 

@@ -90,7 +90,7 @@ test('captures the calendar footer and constrained date states @visual', async (
   const grid = example.getByRole('grid');
 
   for (const day of ['5', '18', '25']) {
-    const dates = grid.getByRole('button', { name: day, exact: true });
+    const dates = grid.locator('.kui-calendar-day').filter({ hasText: new RegExp(`^${day}$`) });
     await expect(dates).not.toHaveCount(0);
 
     for (const date of await dates.all()) {
@@ -99,7 +99,7 @@ test('captures the calendar footer and constrained date states @visual', async (
   }
 
   for (const day of ['8', '24']) {
-    const endpoint = grid.getByRole('button', { name: day, exact: true });
+    const endpoint = grid.locator('.kui-calendar-day').filter({ hasText: new RegExp(`^${day}$`) });
     await expect(endpoint).toBeVisible();
     await expect(endpoint).not.toHaveAttribute('aria-disabled', 'true');
   }
@@ -126,7 +126,7 @@ test('moves the footer calendar to the frozen current day without changing its s
     animations: 'disabled',
   });
 
-  const today = grid.getByRole('button', { name: '14', exact: true });
+  const today = grid.locator('.kui-calendar-day').filter({ hasText: /^14$/ });
   await today.click();
   await expect(gridcellOf(today)).toHaveAttribute('aria-selected', 'true');
   await expect(footerValue).toHaveText('2026-01-14');
@@ -154,7 +154,7 @@ test('captures a date cell in keyboard focus @visual', async ({ page }) => {
 
 test('captures a hovered date cell @visual', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default calendar example', exact: true });
-  const day = example.getByRole('grid').getByRole('button', { name: '15', exact: true });
+  const day = example.getByRole('grid').locator('.kui-calendar-day').filter({ hasText: /^15$/ });
 
   await day.scrollIntoViewIfNeeded();
   const bounds = await day.boundingBox();
@@ -169,36 +169,36 @@ test('moves keyboard focus through week, week edges, month, and year boundaries'
 }) => {
   const example = page.getByRole('group', { name: 'Default calendar example', exact: true });
   const grid = example.getByRole('grid');
-  const selectedDay = grid.getByRole('button', { name: '14', exact: true });
+  const selectedDay = grid.locator('.kui-calendar-day').filter({ hasText: /^14$/ });
 
   await expectBrowserLocaleWeek(example);
   await selectedDay.focus();
   await expect(selectedDay).toHaveAttribute('tabindex', '0');
   await selectedDay.press('ArrowRight');
-  const day15 = grid.getByRole('button', { name: '15', exact: true });
+  const day15 = grid.locator('.kui-calendar-day').filter({ hasText: /^15$/ });
   await expect(day15).toBeFocused();
 
   await day15.press('ArrowDown');
-  const day22 = grid.getByRole('button', { name: '22', exact: true });
+  const day22 = grid.locator('.kui-calendar-day').filter({ hasText: /^22$/ });
   await expect(day22).toBeFocused();
 
   await day22.press('Home');
-  const weekStart = grid.getByRole('button', { name: '17', exact: true });
+  const weekStart = grid.locator('.kui-calendar-day').filter({ hasText: /^17$/ });
   await expect(weekStart).toBeFocused();
 
   await weekStart.press('End');
-  const weekEnd = grid.getByRole('button', { name: '23', exact: true });
+  const weekEnd = grid.locator('.kui-calendar-day').filter({ hasText: /^23$/ });
   await expect(weekEnd).toBeFocused();
 
   await weekEnd.press('PageDown');
   await expect(example.getByRole('button', { name: 'June 2026', exact: true })).toBeVisible();
-  const june23 = grid.getByRole('button', { name: '23', exact: true });
+  const june23 = grid.locator('.kui-calendar-day').filter({ hasText: /^23$/ });
   await expect(june23).toHaveAttribute('tabindex', '0');
   await june23.focus();
 
   await june23.press('Shift+PageUp');
   await expect(example.getByRole('button', { name: 'June 2025', exact: true })).toBeVisible();
-  const june23PreviousYear = grid.getByRole('button', { name: '23', exact: true });
+  const june23PreviousYear = grid.locator('.kui-calendar-day').filter({ hasText: /^23$/ });
   await expect(june23PreviousYear).toHaveAttribute('tabindex', '0');
   await june23PreviousYear.focus();
   await june23PreviousYear.press('Enter');
@@ -212,7 +212,7 @@ test('navigates to the next month and selects a date @visual', async ({ page }) 
   await example.getByRole('button', { name: 'Next month', exact: true }).click();
   await expect(example.getByRole('button', { name: 'June 2026', exact: true })).toBeVisible();
 
-  const selectedDay = grid.getByRole('button', { name: '20', exact: true });
+  const selectedDay = grid.locator('.kui-calendar-day').filter({ hasText: /^20$/ });
   await selectedDay.click();
   await expect(gridcellOf(selectedDay)).toHaveAttribute('aria-selected', 'true');
   await expect(example).toHaveScreenshot('calendar-date-selected.png', { animations: 'disabled' });
@@ -244,8 +244,8 @@ test('keeps a disabled date unselected when activated', async ({ page }) => {
   });
   await expectBrowserLocaleWeek(example);
   const grid = example.getByRole('grid');
-  const selectedDate = grid.getByRole('button', { name: '14', exact: true });
-  const disabledDate = grid.getByRole('button', { name: '18', exact: true });
+  const selectedDate = grid.locator('.kui-calendar-day').filter({ hasText: /^14$/ });
+  const disabledDate = grid.locator('.kui-calendar-day').filter({ hasText: /^18$/ });
 
   await expect(selectedDate).toHaveCount(1);
   await expect(disabledDate).toHaveAttribute('aria-disabled', 'true');
@@ -266,9 +266,9 @@ test('does not select a disabled date through keyboard activation', async ({ pag
     exact: true,
   });
   const grid = example.getByRole('grid');
-  const selectedDate = grid.getByRole('button', { name: '14', exact: true });
-  const dayBeforeDisabled = grid.getByRole('button', { name: '17', exact: true });
-  const disabledDate = grid.getByRole('button', { name: '18', exact: true });
+  const selectedDate = grid.locator('.kui-calendar-day').filter({ hasText: /^14$/ });
+  const dayBeforeDisabled = grid.locator('.kui-calendar-day').filter({ hasText: /^17$/ });
+  const disabledDate = grid.locator('.kui-calendar-day').filter({ hasText: /^18$/ });
 
   await expect(gridcellOf(selectedDate)).toHaveAttribute('aria-selected', 'true');
   await expectBrowserLocaleWeek(example);
@@ -296,7 +296,7 @@ test('allows both inclusive date-limit endpoints to be selected', async ({ page 
   const grid = example.getByRole('grid');
 
   for (const day of ['8', '24']) {
-    const endpoint = grid.getByRole('button', { name: day, exact: true });
+    const endpoint = grid.locator('.kui-calendar-day').filter({ hasText: new RegExp(`^${day}$`) });
     await expect(endpoint).not.toHaveAttribute('aria-disabled', 'true');
     await endpoint.click();
     await expect(gridcellOf(endpoint)).toHaveAttribute('aria-selected', 'true');
@@ -324,9 +324,9 @@ test('updates localized page labels and verifies Russian Calendar month and week
     name: russian.locales.russian,
     exact: true,
   });
-  const monthLabel = `${new Intl.DateTimeFormat('ru-RU', { month: 'long' }).format(
+  const monthLabel = new Intl.DateTimeFormat('ru-RU', { month: 'long', year: 'numeric' }).format(
     new Date(2026, 4, 1),
-  )} 2026`;
+  );
   await expect(
     russianCalendar.getByRole('button', { name: monthLabel, exact: true }),
   ).toBeVisible();

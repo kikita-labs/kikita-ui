@@ -20,6 +20,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import {
   createFloatingPositionStrategy,
@@ -75,7 +76,7 @@ function hoverDelayAttribute(value: unknown): number | undefined {
           [attr.data-side]="_side()"
           [attr.data-align]="_align()"
           role="dialog"
-          [attr.aria-label]="ariaLabel()"
+          [attr.aria-label]="ariaLabel() ?? messages().label"
           [cdkTrapFocus]="trapFocus()"
           (animationend)="onAnimationEnd($event)"
           (mouseenter)="onPanelMouseEnter()"
@@ -107,8 +108,13 @@ export class KuiPopoverComponent implements OnDestroy {
   /** `click` toggles on click and closes on outside click / ESC. `hover` opens on mouseenter and closes on mouseleave. Defaults to `defaults.popover.triggerType`, then `click`. */
   readonly triggerType = input<KuiPopoverTriggerType | undefined>();
 
-  /** Accessible name for the popover dialog panel. Override with content-specific text when possible. */
-  readonly ariaLabel = input('Popover');
+  /**
+   * Accessible name for the popover dialog panel. Defaults to the `popover.label` message;
+   * override with content-specific text when possible.
+   */
+  readonly ariaLabel = input<string | undefined>();
+
+  protected readonly messages = injectKuiMessages('popover');
 
   /** Delay before closing on mouseleave (ms). Allows mouse to travel from trigger to panel. */
   readonly hoverDelay = input<number | undefined, unknown>(undefined, {

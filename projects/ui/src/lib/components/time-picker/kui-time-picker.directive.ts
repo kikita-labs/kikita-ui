@@ -19,6 +19,9 @@ import type {
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import { KuiI18n } from '../../i18n/kui-i18n.service';
+import type { KuiTimePickerMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { sameNullableDate } from '../../utils/kui-date-equality.util';
 import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
@@ -156,6 +159,8 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
 
   /** Placeholder text shown when the field is empty. Defaults to a format-appropriate mask. */
   readonly placeholder = input<string | undefined>(undefined);
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiTimePickerMessages> | undefined>(undefined);
   /** Shows a clear button when the picker has a value. */
   readonly clearable = input<boolean | undefined, unknown>(undefined, {
     transform: optionalBooleanAttribute,
@@ -167,8 +172,15 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
   private readonly fieldDefaults = inject(KuiDefaults).get('field');
   private readonly timePickerDefaults = inject(KuiDefaults).get('timePicker');
 
+  private readonly i18n = inject(KuiI18n);
+  protected readonly t = injectKuiMessages('timePicker', () => this.messages());
+  private readonly layout = computed(() => this.i18n.timePattern(this.i18n.locale()));
+
   protected readonly effectiveFormat = computed(
-    () => this.format() ?? this.timePickerDefaults()?.format ?? '24h',
+    () =>
+      this.format() ??
+      this.timePickerDefaults()?.format ??
+      (this.layout().hourCycle12 ? '12h' : '24h'),
   );
   protected readonly effectiveHourStep = computed(
     () => this.hourStep() ?? this.timePickerDefaults()?.hourStep ?? 1,
@@ -213,16 +225,26 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
   protected readonly showClear = computed(
     () => this.effectiveClearable() && this.hasValue() && !this.disabled() && !this.readonly(),
   );
-  /** Max typed length for the current `format`/`showSeconds` (e.g. `hh:mm:ss AM/PM` = 12). */
+  /** Max typed length for the current `format`/`showSeconds` (e.g. `hh:mm:ss AM` = 11). */
   protected readonly effectiveMaxLength = computed(() =>
-    maxTimeInputLength(this.effectiveFormat(), this.effectiveShowSeconds()),
+    maxTimeInputLength(this.effectiveFormat(), this.effectiveShowSeconds(), this.layout()),
   );
   protected readonly effectivePlaceholder = computed(() => {
     const own = this.placeholder();
     if (own !== undefined) return own;
-    if (this.effectiveFormat() === '12h')
-      return this.effectiveShowSeconds() ? 'hh:mm:ss AM/PM' : 'hh:mm AM/PM';
-    return this.effectiveShowSeconds() ? 'hh:mm:ss' : 'hh:mm';
+
+    const t = this.t();
+    const pattern = this.layout();
+    const parts = [t.hourPlaceholder, t.minutePlaceholder];
+    if (this.effectiveShowSeconds()) parts.push(t.secondPlaceholder);
+    const time = parts.join(pattern.separator);
+    if (this.effectiveFormat() !== '12h') return time;
+
+    const period = `${pattern.am}/${pattern.pm}`;
+
+    return pattern.periodBefore
+      ? `${period}${pattern.periodGap}${time}`
+      : `${time}${pattern.periodGap}${period}`;
   });
 
   /**
@@ -270,13 +292,21 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
       this.affixRef.setInput('isOpen', this.dropdownOpen());
       this.affixRef.setInput('disabled', this.disabled());
       this.affixRef.setInput('readonly', this.readonly());
+      this.affixRef.setInput('messages', this.messages());
     });
 
     effect(() => {
       const value = this.value();
       this.parseFailed.set(false);
       this.writeNativeValue(
-        value ? formatDisplayTime(value, this.effectiveFormat(), this.effectiveShowSeconds()) : '',
+        value
+          ? formatDisplayTime(
+              value,
+              this.effectiveFormat(),
+              this.effectiveShowSeconds(),
+              this.layout(),
+            )
+          : '',
       );
     });
 
@@ -416,6 +446,7 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
       target.value,
       this.effectiveFormat(),
       this.effectiveShowSeconds(),
+      this.layout(),
     );
     if (target.value !== text) target.value = text;
 
@@ -425,6 +456,7 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
       this.effectiveFormat(),
       this.effectiveShowSeconds(),
       this.value() ?? new Date(),
+      this.layout(),
       this.effectiveHourStep(),
       this.effectiveMinuteStep(),
       this.effectiveSecondStep(),

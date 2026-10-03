@@ -1,5 +1,10 @@
 @if (loading()) {
-  <div class="kui-chart__loading-ring" role="status" aria-live="polite" aria-label="Loading chart">
+  <div
+    class="kui-chart__loading-ring"
+    role="status"
+    aria-live="polite"
+    [attr.aria-label]="t().loading"
+  >
     <svg
       [attr.viewBox]="'0 0 ' + dimensions().width + ' ' + dimensions().height"
       preserveAspectRatio="xMidYMid meet"
@@ -21,14 +26,14 @@
         stroke-linejoin="round"
       />
     </svg>
-    <span>No data</span>
+    <span>{{ t().noData }}</span>
   </div>
 } @else {
   <div
     class="kui-chart__graphic"
     role="graphics-document"
-    aria-roledescription="donut chart"
-    [attr.aria-label]="ariaLabel()"
+    [attr.aria-roledescription]="t().donutRoleDescription"
+    [attr.aria-label]="effectiveAriaLabel()"
   >
     @if (!showTable()) {
       <svg
@@ -96,8 +101,8 @@
       <table kuiTable class="kui-chart__table">
         <thead>
           <tr kuiThGroup>
-            <th kuiTh>Label</th>
-            <th kuiTh>Value</th>
+            <th kuiTh>{{ t().columnLabel }}</th>
+            <th kuiTh>{{ t().columnValue }}</th>
           </tr>
         </thead>
         <tbody>
@@ -133,7 +138,7 @@
       </div>
     }
     <button kuiButton shape="outline" size="xs" type="button" (click)="showTable.set(!showTable())">
-      {{ showTable() ? 'Chart' : 'Table' }}
+      {{ showTable() ? t().viewChart : t().viewTable }}
     </button>
   </div>
 }

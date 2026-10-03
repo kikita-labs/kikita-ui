@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 
 const desktopViewport = { width: 1440, height: 1000 };
 const mobileViewport = { width: 320, height: 844 };
@@ -227,6 +228,7 @@ test('copies the currently selected hex value', async ({ page }) => {
 });
 
 test('switches the page scope from English to Russian and back', async ({ page }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const localeResponse = await page.request.get('/i18n/color-input/ru.json');
   expect(localeResponse.ok()).toBeTruthy();
   const russian = (await localeResponse.json()) as {
@@ -256,7 +258,7 @@ test('switches the page scope from English to Russian and back', async ({ page }
     russianValues.getByRole('button', { name: `${russian.actions.swatch}: #5b4fe0`, exact: true }),
   ).toBeVisible();
   await expect(hexField(russianValues).locator('.kui-color-input__trigger')).toHaveAccessibleName(
-    'Open color picker',
+    kuiMessage(kui, 'colorInput', 'openPicker'),
   );
 
   await page.getByRole('button', { name: russianShell.playground.language, exact: true }).click();

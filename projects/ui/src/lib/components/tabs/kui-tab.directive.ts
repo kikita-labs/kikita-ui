@@ -9,6 +9,7 @@ import {
   Renderer2,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
 
 /**
@@ -39,10 +40,11 @@ export class KuiTabDirective {
   readonly value = input<string>('');
   /** Shows a small danger dot next to the label without affecting selected state. */
   readonly hasError = input(false, { transform: booleanAttribute });
-  /** Screen-reader text announced alongside the error dot. */
-  readonly errorLabel = input('has error');
+  /** Screen-reader text announced alongside the error dot. Defaults to the `tabs.errorIndicator` message. */
+  readonly errorLabel = input<string | undefined>();
 
   private readonly context = inject(KUI_TABS_CONTEXT);
+  private readonly t = injectKuiMessages('tabs');
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
 
@@ -109,7 +111,11 @@ export class KuiTabDirective {
       extraSr.forEach((sr) => this.renderer.removeChild(button, sr));
     }
 
-    this.renderer.setProperty(this.errorSrEl, 'textContent', this.errorLabel());
+    this.renderer.setProperty(
+      this.errorSrEl,
+      'textContent',
+      this.errorLabel() ?? this.t().errorIndicator,
+    );
   }
 
   private hideErrorDot(): void {

@@ -3,7 +3,7 @@
     class="kui-chart__loading-scatter"
     role="status"
     aria-live="polite"
-    aria-label="Loading chart"
+    [attr.aria-label]="t().loading"
   >
     <svg
       [attr.viewBox]="'0 0 ' + dimensions().width + ' ' + dimensions().height"
@@ -54,14 +54,14 @@
         stroke-linejoin="round"
       />
     </svg>
-    <span>No data</span>
+    <span>{{ t().noData }}</span>
   </div>
 } @else {
   <div
     class="kui-chart__graphic"
     role="graphics-document"
-    aria-roledescription="scatter chart"
-    [attr.aria-label]="ariaLabel()"
+    [attr.aria-roledescription]="t().scatterRoleDescription"
+    [attr.aria-label]="effectiveAriaLabel()"
   >
     @if (!showTable()) {
       <svg
@@ -179,7 +179,7 @@
       <table kuiTable class="kui-chart__table">
         <thead>
           <tr kuiThGroup>
-            <th kuiTh>Series</th>
+            <th kuiTh>{{ t().columnSeries }}</th>
             <th kuiTh>X</th>
             <th kuiTh>Y</th>
             @if (bubble()) {
@@ -224,7 +224,7 @@
       </div>
     }
     <button kuiButton shape="outline" size="xs" type="button" (click)="showTable.set(!showTable())">
-      {{ showTable() ? 'Chart' : 'Table' }}
+      {{ showTable() ? t().viewChart : t().viewTable }}
     </button>
   </div>
 }

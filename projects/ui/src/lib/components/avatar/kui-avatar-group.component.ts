@@ -1,5 +1,6 @@
 import { Component, computed, inject, input } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { optionalPositiveIntegerAttribute } from '../../utils/kui-input-transform.util';
@@ -18,7 +19,7 @@ import type { KuiAvatarSize } from './kui-avatar-size.type';
     '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-shape]': 'effectiveShape()',
     '[attr.role]': '"group"',
-    '[attr.aria-label]': 'label()',
+    '[attr.aria-label]': 'effectiveLabel()',
     '[attr.title]': 'null',
   },
 })
@@ -43,10 +44,13 @@ export class KuiAvatarGroupComponent {
   /** Shape applied to every avatar in the group. Defaults to `defaults.avatarGroup.shape`, then `circle`. */
   readonly shape = input<KuiAvatarShape | undefined>();
 
-  /** Accessible group label. */
-  readonly label = input('Avatar group');
+  /** Accessible group label. Defaults to the `avatarGroup.label` message. */
+  readonly label = input<string | undefined>();
 
   private readonly avatarGroupDefaults = inject(KuiDefaults).get('avatarGroup');
+  private readonly messages = injectKuiMessages('avatarGroup');
+
+  protected readonly effectiveLabel = computed(() => this.label() ?? this.messages().label);
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiAvatarSize>();
 
   protected readonly effectiveSize = computed(
@@ -71,5 +75,7 @@ export class KuiAvatarGroupComponent {
     Math.max(0, this.avatars().length - this.visibleAvatars().length),
   );
 
-  protected readonly overflowLabel = computed(() => `${this.overflowCount()} more`);
+  protected readonly overflowLabel = computed(() =>
+    this.messages().overflow({ count: this.overflowCount() }),
+  );
 }

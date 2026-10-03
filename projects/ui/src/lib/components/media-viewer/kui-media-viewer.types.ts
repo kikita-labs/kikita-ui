@@ -1,3 +1,5 @@
+import type { KuiMediaViewerMessages } from '../../i18n/kui-messages.interface';
+
 /** A single photo shown by {@link kuiMediaViewer}. */
 export interface KuiMediaViewerItem {
   /**
@@ -37,9 +39,11 @@ export interface KuiMediaViewerData {
   readonly zoomStep?: number;
   /**
    * Base accessible name for the lightbox panel. The current position ("2 of 9") is appended
-   * automatically. Defaults to `'Photo viewer'`.
+   * automatically. Defaults to the `mediaViewer.label` message.
    */
   readonly ariaLabel?: string;
+  /** Text overrides for this viewer; they win over the scoped and root messages. */
+  readonly messages?: Partial<KuiMediaViewerMessages>;
   /** Called every time the viewed index changes, including the initial open. */
   onIndexChange?(index: number): void;
 }

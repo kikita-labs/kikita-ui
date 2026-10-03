@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import type { TemplateRef } from '@angular/core';
 import { Component, computed, inject, input, output, ViewEncapsulation } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiChipDirective } from '../chip/kui-chip.directive';
 import { KuiChipRemoveDirective } from '../chip/kui-chip-remove.directive';
@@ -35,7 +36,7 @@ export interface KuiSelectChipItem {
           } @else {
             <span kuiChip size="sm" (removed)="removed.emit(item.value)">
               <span class="kui-chip-label">{{ item.label }}</span>
-              <button kuiChipRemove [attr.aria-label]="'Remove ' + item.label">
+              <button kuiChipRemove [attr.aria-label]="t().removeItem({ label: item.label })">
                 <svg width="10" height="10" [kuiGlyph]="removeGlyph()" [kuiGlyphStroke]="2"></svg>
               </button>
             </span>
@@ -53,7 +54,7 @@ export interface KuiSelectChipItem {
           kuiFieldAction
           type="button"
           class="kui-select-clear"
-          aria-label="Clear"
+          [attr.aria-label]="common().clear"
           [disabled]="disabled() || readonly()"
           (click)="onClear($event)"
         >
@@ -65,7 +66,7 @@ export interface KuiSelectChipItem {
         type="button"
         class="kui-select-chevron"
         [disabled]="disabled() || readonly()"
-        [attr.aria-label]="isOpen() ? 'Close options' : 'Open options'"
+        [attr.aria-label]="isOpen() ? t().closeOptions : t().openOptions"
         [attr.aria-expanded]="isOpen()"
         (click)="onToggle($event)"
       >
@@ -78,6 +79,9 @@ export interface KuiSelectChipItem {
 })
 /** @internal Select visual overlay rendered inside `.kui-field__control`. */
 export class KuiSelectInputSuffixComponent {
+  protected readonly t = injectKuiMessages('select');
+  protected readonly common = injectKuiMessages('common');
+
   readonly clearable = input(false);
   readonly hasValue = input(false);
   readonly isOpen = input(false);

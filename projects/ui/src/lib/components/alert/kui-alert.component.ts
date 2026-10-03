@@ -9,6 +9,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
@@ -110,7 +111,7 @@ const KUI_ALERT_SIZES: readonly KuiAlertSize[] = ['sm', 'md'];
         size="xs"
         type="button"
         class="kui-alert__close"
-        [attr.aria-label]="closeLabel()"
+        [attr.aria-label]="closeLabel() ?? messages().close"
         (click)="closed.emit()"
       >
         <svg width="16" height="16" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.5"></svg>
@@ -179,8 +180,8 @@ export class KuiAlertComponent {
     transform: optionalBooleanAttribute,
   });
 
-  /** Accessible label for the close button. Defaults to `'Close notification'`. */
-  readonly closeLabel = input('Close notification');
+  /** Accessible label for the close button. Defaults to the `alert.close` message. */
+  readonly closeLabel = input<string | undefined>();
 
   /** Label for the inline ghost action button. Ignored when `[kuiAlertActions]` is projected. */
   readonly actionLabel = input<string | undefined>();
@@ -204,6 +205,7 @@ export class KuiAlertComponent {
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiAlertSize>(KUI_ALERT_SIZES);
 
   private readonly alertDefaults = inject(KuiDefaults).get('alert');
+  protected readonly messages = injectKuiMessages('alert');
 
   protected readonly effectiveSize = computed(
     () => this.size() ?? this.alertDefaults()?.size ?? this.rootDefaultSize() ?? 'md',

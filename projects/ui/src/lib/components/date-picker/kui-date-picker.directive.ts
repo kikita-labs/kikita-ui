@@ -20,6 +20,10 @@ import type {
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import { KuiI18n } from '../../i18n/kui-i18n.service';
+import { formatKuiDate, parseKuiDate, parseKuiDatePattern } from '../../i18n/kui-intl.util';
+import type { KuiDatePickerMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiClock } from '../../utils/kui-clock.service';
 import { sameNullableDate } from '../../utils/kui-date-equality.util';
@@ -27,12 +31,11 @@ import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util'
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { startOfDay, startOfMonth } from '../calendar/kui-calendar-date.util';
 import { KuiFieldComponent } from '../field/kui-field.component';
-import { formatDisplayDate, parseDisplayDate } from './kui-date-format.util';
 import { KuiDatePickerInputAffixComponent } from './kui-date-picker-input-affix.component';
 
 /**
  * Converts a native text input into a Kikita UI date picker trigger. Text is parsed/
- * formatted as `dd.MM.yyyy`; pair it with `kui-calendar` inside a sibling `kui-dropdown`
+ * formatted with the layout of the locale (or the `format` input); pair it with `kui-calendar` inside a sibling `kui-dropdown`
  * for the popover grid.
  *
  * When a `kui-calendar` is found as a sibling inside the same `kui-field` (via
@@ -69,7 +72,7 @@ import { KuiDatePickerInputAffixComponent } from './kui-date-picker-input-affix.
     '[attr.aria-required]': 'ariaRequired()',
     '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
     '[attr.data-kui-invalid]': 'effectiveInvalid() ? "" : null',
-    '[attr.placeholder]': 'placeholder()',
+    '[attr.placeholder]': 'effectivePlaceholder()',
     '[attr.disabled]': 'disabled() ? "" : null',
     '[attr.readonly]': 'readonly() ? "" : null',
     '[attr.data-has-clear]': 'showClear() ? "" : null',
@@ -117,8 +120,19 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
   readonly minDate = input<Date | undefined>(undefined);
   /** Latest selectable date (inclusive). Typing/selecting a later date is invalid. */
   readonly maxDate = input<Date | undefined>(undefined);
-  /** Placeholder text shown when the field is empty. */
-  readonly placeholder = input('dd.mm.yyyy');
+  /**
+   * Placeholder text shown when the field is empty. Defaults to the day, month and year tokens of
+   * the `datePicker` messages arranged in the order and separators of the locale.
+   */
+  readonly placeholder = input<string | undefined>(undefined);
+  /**
+   * Layout of the typed date: `'locale'` follows the locale (for example `10/03/2026` in `en-US`,
+   * `03.10.2026` in `ru-RU`), or a pattern of `d`/`dd`, `M`/`MM` and `yyyy` tokens such as
+   * `dd.MM.yyyy`. Defaults to `defaults.datePicker.format`, then `'locale'`.
+   */
+  readonly format = input<string | undefined>(undefined);
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiDatePickerMessages> | undefined>(undefined);
   /** Shows a clear button when the picker has a value. */
   readonly clearable = input<boolean | undefined, unknown>(undefined, {
     transform: optionalBooleanAttribute,
@@ -129,6 +143,27 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
   private readonly field = inject(KuiFieldComponent, { optional: true });
   private readonly fieldDefaults = inject(KuiDefaults).get('field');
   private readonly datePickerDefaults = inject(KuiDefaults).get('datePicker');
+  private readonly i18n = inject(KuiI18n);
+  protected readonly t = injectKuiMessages('datePicker', () => this.messages());
+
+  private readonly layout = computed(
+    () =>
+      parseKuiDatePattern(this.format() ?? this.datePickerDefaults()?.format ?? 'locale') ??
+      this.i18n.datePattern(this.i18n.locale()),
+  );
+
+  protected readonly effectivePlaceholder = computed(() => {
+    const own = this.placeholder();
+    if (own !== undefined) return own;
+
+    const t = this.t();
+    const tokens = { day: t.dayPlaceholder, month: t.monthPlaceholder, year: t.yearPlaceholder };
+
+    return this.layout()
+      .parts.map((part) => (part.type === 'literal' ? part.value : tokens[part.type]))
+      .join('');
+  });
+
   private readonly affixRef: ComponentRef<KuiDatePickerInputAffixComponent>;
   private wasOpen = false;
   private pointerStartedOnInput = false;
@@ -192,12 +227,13 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
       this.affixRef.setInput('isOpen', this.dropdownOpen());
       this.affixRef.setInput('disabled', this.disabled());
       this.affixRef.setInput('readonly', this.readonly());
+      this.affixRef.setInput('messages', this.messages());
     });
 
     effect(() => {
       const value = this.value();
       this.parseFailed.set(false);
-      this.writeNativeValue(value ? formatDisplayDate(value) : '');
+      this.writeNativeValue(value ? formatKuiDate(value, this.layout()) : '');
     });
 
     effect(() => {
@@ -307,7 +343,7 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
 
     const text = (event.target as HTMLInputElement).value;
     this.rawText.set(text);
-    const parsed = parseDisplayDate(text);
+    const parsed = parseKuiDate(text, this.layout());
 
     if (parsed) {
       this.parseFailed.set(false);

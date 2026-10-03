@@ -1,5 +1,6 @@
 import { Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KUI_TABLE_CTX } from './kui-table.directive';
 
 /** Renders a native checkbox header cell for selecting all table rows. */
@@ -15,14 +16,16 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
         [checked]="table.allSelected()"
         [indeterminate]="table.someSelected()"
         (change)="table.toggleAll()"
-        [attr.aria-label]="ariaLabel()"
+        [attr.aria-label]="ariaLabel() ?? t().selectAllRows"
       />
     }
   `,
 })
 export class KuiSelectThComponent {
-  /** Accessible label for the select-all checkbox. */
-  readonly ariaLabel = input('Select all rows');
+  /** Accessible label for the select-all checkbox. Defaults to the `table.selectAllRows` message. */
+  readonly ariaLabel = input<string | undefined>();
+
+  protected readonly t = injectKuiMessages('table');
 
   protected readonly table = inject(KUI_TABLE_CTX);
 

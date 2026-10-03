@@ -12,6 +12,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import { KuiI18n } from '../../i18n/kui-i18n.service';
+import type { KuiChartMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
@@ -37,7 +40,6 @@ import {
   computeLoadingGridLines,
   computeNiceScale,
   computeScatterDomain,
-  formatCompact,
 } from './chart-scale.util';
 import { isTouchPointerType, KuiChartTooltipController } from './chart-tooltip.util';
 
@@ -130,14 +132,35 @@ export class KuiScatterChartComponent implements KuiChartLegendSource {
   /** Axis visibility and grid line configuration. */
   readonly axes = input<KuiChartAxesOptions>({});
 
-  /** Formats axis tick labels and legend/tooltip numbers. Defaults to a compact `1.2K` format. */
-  readonly valueFormat = input<KuiChartValueFormat>(formatCompact);
+  /** Formats axis tick labels and legend/tooltip numbers. Defaults to the locale's compact notation (`1.2K` in English). */
+  readonly valueFormat = input<KuiChartValueFormat | undefined>(undefined);
 
   /** Formats the tooltip text for a point. Defaults to `"<series>: (<x>, <y>)"`. */
   readonly tooltip = input<KuiChartTooltipFormatter | undefined>(undefined);
 
   /** Accessible name for the chart as a whole (what it shows, not per-point detail). */
-  readonly ariaLabel = input('Scatter chart');
+  readonly ariaLabel = input<string | undefined>(undefined);
+
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiChartMessages> | undefined>(undefined);
+
+  private readonly i18n = inject(KuiI18n);
+
+  protected readonly t = injectKuiMessages('chart', () => this.messages());
+
+  protected readonly effectiveAriaLabel = computed(() => this.ariaLabel() ?? this.t().scatterLabel);
+
+  private readonly effectiveValueFormat = computed<KuiChartValueFormat>(() => {
+    const own = this.valueFormat();
+    if (own) return own;
+
+    const format = this.i18n.numberFormat('compact', {
+      notation: 'compact',
+      maximumFractionDigits: 1,
+    });
+
+    return (value) => format.format(value);
+  });
 
   protected readonly chartId = kuiNextId('kui-scatter-chart', 1);
 
@@ -318,8 +341,8 @@ export class KuiScatterChartComponent implements KuiChartLegendSource {
   private formatTooltipText(point: KuiChartPoint): string {
     const formatter = this.tooltip();
     if (formatter) return formatter(point);
-    const value = this.valueFormat()(point.value);
-    return `${point.seriesName}: ${value}`;
+    const value = this.effectiveValueFormat()(point.value);
+    return this.t().point({ series: point.seriesName, value });
   }
 
   protected onMarkEnter(
@@ -409,7 +432,7 @@ export class KuiScatterChartComponent implements KuiChartLegendSource {
   }
 
   protected formatValue(value: number): string {
-    return this.valueFormat()(value);
+    return this.effectiveValueFormat()(value);
   }
 
   constructor() {

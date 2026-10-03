@@ -3,6 +3,8 @@ import type { EnvironmentProviders } from '@angular/core';
 import { ENVIRONMENT_INITIALIZER, inject, makeEnvironmentProviders } from '@angular/core';
 
 import { KUI_BRAND_ICONS, KUI_ICONS, resolveLucideIcon } from '../components/icon';
+import { KuiI18n } from '../i18n/kui-i18n.service';
+import { KUI_I18N_SEED } from '../i18n/kui-i18n.token';
 import { DEFAULT_KUI_THEME, provideKuiTheme } from '../theme';
 import type { KikitaUiOptions } from './kikita-ui-options.interface';
 import { KIKITA_UI_OPTIONS } from './kikita-ui-options.token';
@@ -44,6 +46,16 @@ export function provideKikitaUi(options: KikitaUiOptions = {}): EnvironmentProvi
       },
     },
     KuiDefaults,
+    KuiI18n,
+    ...(options.locale !== undefined || options.messages !== undefined
+      ? [
+          {
+            provide: KUI_I18N_SEED,
+            multi: true,
+            useValue: { locale: options.locale, messages: options.messages },
+          },
+        ]
+      : []),
     ...(seed ? [{ provide: KUI_DEFAULTS_SEED, multi: true, useValue: seed }] : []),
     {
       provide: KIKITA_UI_OPTIONS,

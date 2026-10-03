@@ -86,7 +86,7 @@ values are tracked internally; `isSelected(value)` returns `boolean`.
 
 The selection column appears only when `(selectionChange)` is observed.
 
-Use `ariaLabel` on selection cells when the row has a human-readable name:
+The selection checkboxes are named by the `table.selectRow` and `table.selectAllRows` messages (`Select row`, `Select all rows`) and the sort buttons by `sortAscending`, `sortDescending` and `clearSort`. Use `ariaLabel` on selection cells when the row has a human-readable name:
 
 ```html
 <th kuiSelectTh ariaLabel="Select all users"></th>

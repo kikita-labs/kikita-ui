@@ -5,11 +5,16 @@ import {
   effect,
   ElementRef,
   inject,
+  input,
   model,
   PLATFORM_ID,
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import { KuiI18n } from '../../i18n/kui-i18n.service';
+import type { KuiTimePickerMessages } from '../../i18n/kui-messages.interface';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
@@ -102,23 +107,27 @@ function timeOfDaySeconds(date: Date): number {
       }
     </div>
 
-    @if (format() === '12h') {
+    @if (effectiveFormat() === '12h') {
       <div class="kui-timepicker-period">
         <kui-segmented
           [value]="period()"
           (valueChange)="applyPeriod($event)"
           size="sm"
-          aria-label="AM/PM"
+          [attr.aria-label]="t().period"
         >
-          <button kuiSegment value="AM">AM</button>
-          <button kuiSegment value="PM">PM</button>
+          <button kuiSegment value="AM">{{ pattern().am }}</button>
+          <button kuiSegment value="PM">{{ pattern().pm }}</button>
         </kui-segmented>
       </div>
     }
 
     <div class="kui-timepicker-footer">
-      <button kuiButton shape="ghost" size="xs" type="button" (click)="applyNow()">Now</button>
-      <button kuiButton shape="solid" size="xs" type="button" (click)="done()">Done</button>
+      <button kuiButton shape="ghost" size="xs" type="button" (click)="applyNow()">
+        {{ t().now }}
+      </button>
+      <button kuiButton shape="solid" size="xs" type="button" (click)="done()">
+        {{ t().done }}
+      </button>
     </div>
   `,
   host: {
@@ -146,7 +155,22 @@ export class KuiTimePickerPanelComponent {
    */
   readonly value = model<Date | null>(null);
   /** Display/parse format. Auto-wired (push-only) from a sibling `input[kuiTimePicker]`. */
-  readonly format = model<KuiTimePickerFormat>('24h');
+  readonly format = model<KuiTimePickerFormat | undefined>(undefined);
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiTimePickerMessages> | undefined>(undefined);
+
+  private readonly i18n = inject(KuiI18n);
+  private readonly timePickerDefaults = inject(KuiDefaults).get('timePicker');
+
+  protected readonly t = injectKuiMessages('timePicker', () => this.messages());
+  protected readonly pattern = computed(() => this.i18n.timePattern(this.i18n.locale()));
+
+  protected readonly effectiveFormat = computed(
+    () =>
+      this.format() ??
+      this.timePickerDefaults()?.format ??
+      (this.pattern().hourCycle12 ? '12h' : '24h'),
+  );
   /** Hour column step. Auto-wired (push-only) from a sibling `input[kuiTimePicker]`. */
   readonly hourStep = model(1);
   /** Minute column step. Auto-wired (push-only) from a sibling `input[kuiTimePicker]`. */
@@ -243,7 +267,7 @@ export class KuiTimePickerPanelComponent {
 
   protected readonly columns = computed<KuiTimePickerColumn[]>(() => {
     const current = this.value();
-    const format = this.format();
+    const format = this.effectiveFormat();
     const base = current ?? defaultBaseDate();
     const minSeconds = this.minTime() ? timeOfDaySeconds(this.minTime()!) : undefined;
     const maxSeconds = this.maxTime() ? timeOfDaySeconds(this.maxTime()!) : undefined;
@@ -301,7 +325,7 @@ export class KuiTimePickerPanelComponent {
       : null;
     cols.push({
       key: 'hours',
-      ariaLabel: 'Hours',
+      ariaLabel: this.t().hours,
       cells: hours.map((h) => {
         const h24 = format === '12h' ? (h % 12) + (this.period() === 'PM' ? 12 : 0) : h;
         return {
@@ -319,7 +343,7 @@ export class KuiTimePickerPanelComponent {
     const selectedMinute = current?.getMinutes() ?? null;
     cols.push({
       key: 'minutes',
-      ariaLabel: 'Minutes',
+      ariaLabel: this.t().minutes,
       cells: range(60, minuteStep).map((m) => ({
         value: m,
         label: formatTwoDigits(m),
@@ -335,7 +359,7 @@ export class KuiTimePickerPanelComponent {
       const selectedSecond = current?.getSeconds() ?? null;
       cols.push({
         key: 'seconds',
-        ariaLabel: 'Seconds',
+        ariaLabel: this.t().seconds,
         cells: range(60, secondStep).map((s) => ({
           value: s,
           label: formatTwoDigits(s),
@@ -453,7 +477,7 @@ export class KuiTimePickerPanelComponent {
 
   private applyHour(hour: number): void {
     const isPm = this.period() === 'PM';
-    const hour24 = this.format() === '12h' ? (hour % 12) + (isPm ? 12 : 0) : hour;
+    const hour24 = this.effectiveFormat() === '12h' ? (hour % 12) + (isPm ? 12 : 0) : hour;
     this.applyField('hours', hour24);
   }
 

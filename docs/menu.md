@@ -67,12 +67,12 @@ hints only; they do not bind global keyboard commands.
 
 ### `kui-menu`
 
-| Input       | Type               | Default     | Description                                              |
-| ----------- | ------------------ | ----------- | -------------------------------------------------------- |
-| `ariaLabel` | `string`           | `'Actions'` | Accessible name for the menu panel.                      |
-| `menuAlign` | `'start' \| 'end'` | `'start'`   | Horizontal alignment relative to the trigger.            |
-| `offset`    | `number`           | `4`         | Pixel gap between trigger and menu panel.                |
-| `minWidth`  | `string \| null`   | `null`      | Optional minimum inline size for the visible menu panel. |
+| Input       | Type               | Default              | Description                                              |
+| ----------- | ------------------ | -------------------- | -------------------------------------------------------- |
+| `ariaLabel` | `string`           | `menu.label` message | Accessible name for the menu panel.                      |
+| `menuAlign` | `'start' \| 'end'` | `'start'`            | Horizontal alignment relative to the trigger.            |
+| `offset`    | `number`           | `4`                  | Pixel gap between trigger and menu panel.                |
+| `minWidth`  | `string \| null`   | `null`               | Optional minimum inline size for the visible menu panel. |
 
 ### `[kuiMenuFor]`
 

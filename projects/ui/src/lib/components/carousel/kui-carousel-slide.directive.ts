@@ -1,5 +1,7 @@
 import { Directive, ElementRef, inject, signal } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+
 /**
  * Marks one slide inside `kui-carousel`. Wraps arbitrary consumer content -- the host element
  * carries `role="group"` and `aria-roledescription="slide"` (W3C ARIA APG "grouped carousel"
@@ -19,7 +21,7 @@ import { Directive, ElementRef, inject, signal } from '@angular/core';
   host: {
     class: 'kui-carousel__slide',
     role: 'group',
-    '[attr.aria-roledescription]': "'slide'",
+    '[attr.aria-roledescription]': '_roleDescription() ?? messages().slideRoleDescription',
     '[attr.id]': '_id()',
     '[attr.aria-label]': '_ariaLabel()',
   },
@@ -27,8 +29,13 @@ import { Directive, ElementRef, inject, signal } from '@angular/core';
 export class KuiCarouselSlideDirective {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
+  protected readonly messages = injectKuiMessages('carousel');
+
   /** @internal Set by the parent `kui-carousel`. */
   readonly _id = signal<string | null>(null);
+
+  /** @internal Set by the parent `kui-carousel` so its `messages` input also reaches the slides. */
+  readonly _roleDescription = signal<string | null>(null);
 
   /** @internal Set by the parent `kui-carousel`, e.g. "2 of 5". */
   readonly _ariaLabel = signal<string | null>(null);

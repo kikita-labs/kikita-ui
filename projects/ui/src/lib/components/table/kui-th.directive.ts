@@ -11,6 +11,7 @@ import {
   signal,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KUI_TABLE_CTX } from './kui-table.directive';
 
 @Directive({
@@ -29,6 +30,7 @@ export class KuiThDirective implements AfterViewInit, OnDestroy {
   private readonly table = inject(KUI_TABLE_CTX, { optional: true });
   private readonly el = inject<ElementRef<HTMLTableCellElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
+  private readonly t = injectKuiMessages('table');
 
   readonly sortKey = input<string | undefined>(undefined);
   readonly comparator = input<((a: unknown, b: unknown) => number) | undefined>(undefined);
@@ -52,9 +54,10 @@ export class KuiThDirective implements AfterViewInit, OnDestroy {
   private readonly sortButtonLabel = computed(() => {
     const dir = this.sortDir();
     const label = this.sortColumnLabel();
-    if (dir === 'asc') return `Sort ${label} descending`;
-    if (dir === 'desc') return `Clear ${label} sort`;
-    return `Sort ${label} ascending`;
+    const t = this.t();
+    if (dir === 'asc') return t.sortDescending({ label });
+    if (dir === 'desc') return t.clearSort({ label });
+    return t.sortAscending({ label });
   });
 
   private readonly sortColumnLabel = signal('column');

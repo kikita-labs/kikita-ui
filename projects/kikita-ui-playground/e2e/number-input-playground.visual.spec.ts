@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 
 const catalogueExamples = [
   [
@@ -420,7 +421,10 @@ test('moves Signal Forms validation from untouched through bounds to corrected @
   });
 });
 
-test('loads the Number Input scope and keeps generated stepper names English', async ({ page }) => {
+test('loads the Number Input scope and translates the generated stepper names', async ({
+  page,
+}) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const localeResponse = await page.request.get('/i18n/number-input/ru.json');
   expect(localeResponse.ok()).toBeTruthy();
   const translations = await localeResponse.json();
@@ -437,7 +441,9 @@ test('loads the Number Input scope and keeps generated stepper names English', a
   await expect(
     defaultExample.getByRole('spinbutton', { name: translations.fields.quantity }),
   ).toBeVisible();
-  await expect(defaultExample.getByRole('button', { name: 'Increase value' })).toBeVisible();
+  await expect(
+    defaultExample.getByRole('button', { name: kuiMessage(kui, 'numberInput', 'increase') }),
+  ).toBeVisible();
 
   const validation = page.getByRole('group', {
     name: translations.accessibility.validation,

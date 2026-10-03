@@ -18,6 +18,7 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 - Marker directives stay boolean-like. Visual variants use an explicit
   `appearance` input, not a marker directive value.
 - Public classes, directives, components, providers, services, types, and tokens have JSDoc.
+- Library-owned text (accessible names, visible words, placeholders, hints, announcements) is a message in `KuiMessages` with a JSDoc English default, an entry in `KUI_ENGLISH_MESSAGES`, a reader in the component and an entry in the Playground catalogues; an explicit label input stays `undefined` when omitted and resolves through the message. Dates, numbers and units go through `KuiI18n`, never through string concatenation (`pnpm audit:static` fails on literal text and uncovered messages). See `docs/i18n.md`.
 - Every preference input (size, shape, variant, orientation, display flags) is configurable through
   `defaults.<key>` per `docs/di-defaults.md`: the options interface lives next to the component
   (`kui-<name>-options.interface.ts`, `readonly` members), the key is added to `KuiComponentDefaults`,

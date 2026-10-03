@@ -196,9 +196,11 @@ protected formatTooltip(point: KuiChartPoint): string {
 />
 ```
 
-`tooltip` overrides the default `"<series> · <category>: <value>"` text. `valueFormat` (default: a
-compact `1.2K`/`3.4M` formatter) controls axis tick and default tooltip/legend number formatting --
-it is never used for the alt-table, which always shows exact values.
+`tooltip` overrides the default `"<series> · <category>: <value>"` text. `valueFormat` (default: the
+locale's compact notation, `1.2K`/`3.4M` in English and `1,5 Mio.` in German) controls axis tick and default tooltip/legend number formatting --
+it is never used for the alt-table, which always shows exact values. Accessible names, role descriptions,
+the loading and empty text, the table headers and the point text are `chart` messages; every chart takes a
+`messages` input for one-off overrides (see [Internationalization](i18n.md)).
 
 ## Alt-table
 

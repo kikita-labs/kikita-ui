@@ -99,18 +99,22 @@ but available for custom layouts.
 
 ### Locale
 
-`kui-calendar` resolves month names, weekday names, and the first day of the week purely from `Intl` — there is no bundled locale data to keep in sync. By default it uses the app-wide `KUI_LOCALE` token (in the browser `navigator.language`, on the server the request's `Accept-Language`, both falling back to `en-US`; see `KUI_LOCALE` for the server-to-browser hand-off).
+`kui-calendar` resolves month names, weekday names, the heading, the first day of the week and the weekend purely from `Intl` — there is no bundled locale data to keep in sync. The heading is one `Intl` month-and-year format, so its order follows the locale (`October 2026`, `2026年10月`). The first day and the weekend come from `Intl.Locale#getWeekInfo()` (`he-IL` has a Friday and Saturday weekend), with a static table for engines that lack it. Names use the Gregorian calendar and Latin digits whatever the locale's default is.
 
-Override the locale for the whole app:
+By default it uses the locale of the nearest `KuiI18n` level, which starts from the app-wide `KUI_LOCALE` (in the browser `navigator.language`, on the server the request's `Accept-Language`, both falling back to `en-US`; see `KUI_LOCALE` for the server-to-browser hand-off). See [Internationalization](./i18n.md).
+
+Set the locale for the whole app or a subtree:
 
 ```ts
 // app.config.ts
-import { kuiProvideLocale } from '@kikita-labs/ui';
+import { provideKikitaUi } from '@kikita-labs/ui';
 
-providers: [kuiProvideLocale('ru-RU')];
+provideKikitaUi({ locale: 'ru-RU' });
+
+// a subtree: kuiProvideLocale('ru-RU') in the component's providers
 ```
 
-Or override it for a single instance with the `locale` input, which takes precedence over the token:
+Or override it for a single instance with the `locale` input, which takes precedence over the level:
 
 ```html
 <kui-calendar locale="ru-RU" [(value)]="selectedDate" />
@@ -122,12 +126,13 @@ Or override it for a single instance with the `locale` input, which takes preced
 - `viewDate`: two-way model, first-of-month `Date` driving which month is displayed
 - `size`: `md | sm` (default: `md`)
 - `flat`: `boolean` (default: `false`). Strips the calendar's own background/border/padding.
-- `showWeekend`: `boolean` (default: `true`). Renders Saturday/Sunday in a muted color.
+- `showWeekend`: `boolean` (default: `true`). Renders the weekend days of the locale (Saturday and Sunday in `en-US`) in a muted color.
 - `showFooter`: `boolean` (default: `false`). Renders the built-in value + "Today" footer.
 - `showPrevNav` / `showNextNav`: `boolean` (default: `true`). Hide a header nav button.
 - `minDate` / `maxDate`: `Date | undefined`. Dates outside the range are disabled.
 - `disabledDates`: `Date[] | ((date: Date) => boolean) | undefined`. Individual exceptions.
-- `locale`: `string | undefined`. BCP 47 locale tag overriding `KUI_LOCALE` for this instance.
+- `locale`: `string | undefined`. BCP 47 locale tag overriding the locale of the nearest `KuiI18n` level for this instance.
+- `messages`: `Partial<KuiCalendarMessages> | undefined`. Text overrides for this instance (`label`, `today`, `previousMonth`, ...). They win over the scoped and root messages.
 
 ## Provider Defaults
 

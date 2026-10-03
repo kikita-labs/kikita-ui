@@ -6,12 +6,12 @@ clearable, toast placement). Data, instance state and forms state are never defa
 
 Customization has several levers; defaults are only one of them:
 
-| What you want to change                    | Use                                  |
-| ------------------------------------------ | ------------------------------------ |
-| Colour, radius, spacing, type              | Theme seeds and CSS variables        |
-| Variant or behaviour shared across the app | Defaults (this page)                 |
-| Density                                    | Theme seeds (`seeds.density`)        |
-| Texts and accessible names                 | Per-instance inputs; i18n is planned |
+| What you want to change                    | Use                                        |
+| ------------------------------------------ | ------------------------------------------ |
+| Colour, radius, spacing, type              | Theme seeds and CSS variables              |
+| Variant or behaviour shared across the app | Defaults (this page)                       |
+| Density                                    | Theme seeds (`seeds.density`)              |
+| Texts and accessible names                 | Messages ([Internationalization](i18n.md)) |
 
 ## Setting defaults
 

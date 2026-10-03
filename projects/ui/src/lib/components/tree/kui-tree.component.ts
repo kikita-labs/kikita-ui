@@ -11,6 +11,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
@@ -53,7 +54,7 @@ interface KuiTreeIndex {
   host: {
     class: 'kui-tree-container',
     role: 'tree',
-    '[attr.aria-label]': 'ariaLabel()',
+    '[attr.aria-label]': 'effectiveAriaLabel()',
     '[attr.aria-multiselectable]': "effectiveMode() === 'checkable' ? 'true' : null",
     '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-mobile]': "mobile() ? '' : null",
@@ -72,8 +73,12 @@ export class KuiTreeComponent implements KuiTreeContext {
   /** Root nodes of the tree. */
   readonly data = input<readonly KuiTreeNode[]>([]);
 
-  /** Accessible name for the `role="tree"` container. */
-  readonly ariaLabel = input('Tree');
+  /** Accessible name for the `role="tree"` container. Defaults to the `tree.label` message. */
+  readonly ariaLabel = input<string | undefined>();
+
+  private readonly messages = injectKuiMessages('tree');
+
+  protected readonly effectiveAriaLabel = computed(() => this.ariaLabel() ?? this.messages().label);
 
   /** Enlarges the toggle tap target to 44px for touch/mobile layouts. */
   readonly mobile = input(false, { transform: booleanAttribute });

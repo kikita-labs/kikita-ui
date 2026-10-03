@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 
 const desktopViewport = { width: 1440, height: 1000 };
 const mobileViewport = { width: 320, height: 1024 };
@@ -229,9 +230,8 @@ test('keeps the documented medium mobile toggle target at 44px', async ({ page }
   expect(toggleSize).toEqual({ width: 44, height: 44 });
 });
 
-test('shows localized labels in Russian and records the untranslated loading name', async ({
-  page,
-}) => {
+test('shows localized labels and the translated loading name in Russian', async ({ page }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const localeResponse = await page.request.get('/i18n/tree/ru.json');
   expect(localeResponse.ok()).toBe(true);
   const russian = (await localeResponse.json()) as {
@@ -282,7 +282,9 @@ test('shows localized labels in Russian and records the untranslated loading nam
   await page.clock.install();
   await tabTo(page, lazyFolder);
   await page.keyboard.press('ArrowRight');
-  await expect(lazyTree.getByRole('status', { name: 'Loading', exact: true })).toBeVisible();
+  await expect(
+    lazyTree.getByRole('status', { name: kuiMessage(kui, 'common', 'loading'), exact: true }),
+  ).toBeVisible();
   await page.clock.fastForward(120);
   await expect(getTreeItem(lazyTree, russian.nodes.lazyChildOne)).toBeVisible();
   await expect(

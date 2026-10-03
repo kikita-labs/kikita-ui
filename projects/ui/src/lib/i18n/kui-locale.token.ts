@@ -1,5 +1,4 @@
 import { isPlatformServer } from '@angular/common';
-import type { Provider } from '@angular/core';
 import { inject, InjectionToken, PLATFORM_ID, REQUEST, TransferState } from '@angular/core';
 
 import {
@@ -9,9 +8,10 @@ import {
 } from './kui-locale-seed.util';
 
 /**
- * BCP 47 locale tag (for example `'en-US'`, `'ru-RU'`) used by date-aware Kikita UI
- * components such as `kui-calendar` to resolve month names, weekday names, and the
- * first day of the week.
+ * Root source of the locale (a BCP 47 tag such as `'en-US'` or `'ru-RU'`) that `KuiI18n` uses
+ * when neither `provideKikitaUi({ locale })` nor `kuiProvideLocale` sets one. Components read the
+ * locale through `KuiI18n`, which also supports a subtree locale and runtime changes; provide a
+ * fixed locale with `kuiProvideLocale` rather than this token.
  *
  * On the server it is the most preferred language of the request's `Accept-Language` header
  * (Angular's `REQUEST` token), or `'en-US'` when there is no request, as in prerendering, or no
@@ -21,7 +21,7 @@ import {
  * client-only app) the browser uses `navigator.language`, falling back to `'en-US'`.
  *
  * Server responses now vary by `Accept-Language`: a cache in front of the server must send
- * `Vary: Accept-Language`. Provide a fixed locale with {@link kuiProvideLocale} to opt out.
+ * `Vary: Accept-Language`. Provide a fixed locale with `kuiProvideLocale` to opt out.
  */
 export const KUI_LOCALE = new InjectionToken<string>('KUI_LOCALE', {
   factory: () => {
@@ -41,18 +41,3 @@ export const KUI_LOCALE = new InjectionToken<string>('KUI_LOCALE', {
     return transferState.get(KUI_LOCALE_SEED, null) || browserLocale || KUI_DEFAULT_LOCALE;
   },
 });
-
-/**
- * Overrides the locale used by date-aware Kikita UI components for the whole app, or
- * for a subtree when added to a component's own `providers` array. A component-level
- * `locale` input, where available, takes precedence over this token.
- *
- * @example
- * ```ts
- * // app.config.ts
- * providers: [kuiProvideLocale('ru-RU')]
- * ```
- */
-export function kuiProvideLocale(locale: string): Provider {
-  return { provide: KUI_LOCALE, useValue: locale };
-}

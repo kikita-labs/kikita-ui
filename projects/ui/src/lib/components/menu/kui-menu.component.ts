@@ -18,6 +18,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import {
   clampPanelToAvailableSpace,
@@ -48,7 +49,7 @@ import type { KuiMenuPlacement } from './kui-menu-placement.type';
           class="kui-menu"
           [class.kui-menu--closing]="isClosing()"
           role="menu"
-          [attr.aria-label]="ariaLabel()"
+          [attr.aria-label]="ariaLabel() ?? messages().label"
           (click)="onPanelClick($event)"
           (keydown)="onPanelKeydown($event)"
           (animationend)="onAnimationEnd($event)"
@@ -61,8 +62,10 @@ import type { KuiMenuPlacement } from './kui-menu-placement.type';
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiMenuComponent implements OnDestroy {
-  /** Accessible name for the menu panel. */
-  readonly ariaLabel = input('Actions');
+  /** Accessible name for the menu panel. Defaults to the `menu.label` message. */
+  readonly ariaLabel = input<string | undefined>();
+
+  protected readonly messages = injectKuiMessages('menu');
 
   /**
    * Preferred side of the trigger the menu opens on. Auto-flips to the opposite side if there

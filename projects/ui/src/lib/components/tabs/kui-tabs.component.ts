@@ -16,6 +16,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
@@ -56,7 +57,7 @@ export type KuiTabsOrientation = 'horizontal' | 'vertical';
           class="kui-tabs__scroll-btn kui-tabs__scroll-btn--left"
           type="button"
           (click)="scrollBy(-200)"
-          aria-label="Scroll tabs left"
+          [attr.aria-label]="t().scrollLeft"
         >
           <svg width="16" height="16" [kuiGlyph]="previousGlyph()" [kuiGlyphStroke]="1.5"></svg>
         </button>
@@ -77,7 +78,7 @@ export type KuiTabsOrientation = 'horizontal' | 'vertical';
           class="kui-tabs__scroll-btn kui-tabs__scroll-btn--right"
           type="button"
           (click)="scrollBy(200)"
-          aria-label="Scroll tabs right"
+          [attr.aria-label]="t().scrollRight"
         >
           <svg width="16" height="16" [kuiGlyph]="nextGlyph()" [kuiGlyphStroke]="1.5"></svg>
         </button>
@@ -149,6 +150,7 @@ export class KuiTabsComponent implements KuiTabsContext {
   private readonly destroyRef = inject(DestroyRef);
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private readonly tabsDefaults = inject(KuiDefaults).get('tabs');
+  protected readonly t = injectKuiMessages('tabs');
   private readonly idBase = kuiNextId('kui-tabs');
   private indicatorFirstRender = true;
   private valueEffectSeeded = false;

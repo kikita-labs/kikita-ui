@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 import { expectNoDocumentOverflow } from './support/page-ready';
 import { openWithHeldScripts } from './support/ssr';
 
@@ -670,6 +671,7 @@ test('server-renders the carousels, hydrates them, and stays interactive', async
 });
 
 test('switches the Carousel translation scope without overflow at any width', async ({ page }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const [localeResponse, shellLocaleResponse] = await Promise.all([
     page.request.get('/i18n/carousel/ru.json'),
     page.request.get('/i18n/ru.json'),
@@ -694,7 +696,9 @@ test('switches the Carousel translation scope without overflow at any width', as
   const russianDefault = group(page, translations.groups.default);
   await expect(regionIn(russianDefault, translations.regions.default)).toBeVisible();
   await expect(
-    regionIn(russianDefault, translations.regions.default).getByRole('group', { name: '1 of 3' }),
+    regionIn(russianDefault, translations.regions.default).getByRole('group', {
+      name: kuiMessage(kui, 'carousel', 'slidePosition', { index: 1, total: 3 }),
+    }),
   ).toBeAttached();
   await expectNoOverflow(page, '320px in Russian');
 

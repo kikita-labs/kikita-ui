@@ -1,4 +1,5 @@
 import type { KuiTooltipOptions } from '../components/tooltip/kui-tooltip-options.interface';
+import type { KuiLocaleSource, KuiMessagesSource } from '../i18n/kui-messages.interface';
 import type { KuiThemeOptions } from '../theme';
 import type { KuiComponentDefaults, KuiDefaultsSource } from './kui-defaults.interface';
 
@@ -17,6 +18,21 @@ export interface KikitaUiOptions {
    * levels added with `kuiProvideDefaults` merge over these per component key and per property.
    */
   readonly defaults?: KuiDefaultsSource;
+
+  /**
+   * Locale for dates, numbers and plural rules: a BCP 47 tag, a `Signal` of one, or a function that
+   * runs in an injection context. Defaults to the request's `Accept-Language` on the server and the
+   * browser language on the client, falling back to `en-US`. Use
+   * `locale: () => inject(LOCALE_ID)` to follow Angular's `LOCALE_ID`.
+   */
+  readonly locale?: KuiLocaleSource;
+
+  /**
+   * Overrides for the library's own text (accessible names, visible words, placeholders), merged
+   * over the English defaults per group and per key. Pass a `Signal` to follow the application's
+   * language at runtime. See `KuiMessages`.
+   */
+  readonly messages?: KuiMessagesSource;
 
   /**
    * Default options for `kuiTooltip` instances. Defaults to adaptive `auto` behavior.

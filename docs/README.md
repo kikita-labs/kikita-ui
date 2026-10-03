@@ -45,6 +45,7 @@ is defined in [the maintenance rules](../.agents/documentation.md).
 - [Icon](icon.md)
 - [Input](input.md)
 - [Install](install.md)
+- [Internationalization](i18n.md)
 - [Link](link.md)
 - [Loader](loader.md)
 - [Media Viewer](media-viewer.md)

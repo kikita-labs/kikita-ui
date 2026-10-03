@@ -13,6 +13,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiIdFactory } from '../../utils/kui-id.util';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
@@ -43,7 +44,7 @@ import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
       [attr.data-kui-size]="_size"
       role="dialog"
       aria-modal="true"
-      aria-label="Drawer"
+      [attr.aria-label]="hasTitle() ? null : t().label"
       cdkTrapFocus
       [cdkTrapFocusAutoCapture]="true"
       (click)="$event.stopPropagation()"
@@ -51,7 +52,12 @@ import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
     >
       <ng-template cdkPortalOutlet />
       @if (_closable()) {
-        <button type="button" class="kui-drawer-close" aria-label="Close" (click)="close()">
+        <button
+          type="button"
+          class="kui-drawer-close"
+          [attr.aria-label]="common().close"
+          (click)="close()"
+        >
           <svg width="16" height="16" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.5"></svg>
         </button>
       }
@@ -64,6 +70,11 @@ import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
 export class KuiDrawerContainerComponent {
   private readonly nextId = kuiIdFactory();
   private readonly drawerDefaults = inject(KuiDefaults).get('drawer');
+  protected readonly t = injectKuiMessages('drawer');
+
+  /** Whether a projected title names the panel; the default `label` message applies otherwise. */
+  protected readonly hasTitle = signal(false);
+  protected readonly common = injectKuiMessages('common');
 
   protected readonly closeGlyph = injectKuiGlyph({
     role: 'close',
@@ -143,7 +154,7 @@ export class KuiDrawerContainerComponent {
       title.id = this.nextId('kui-drawer-title');
     }
 
-    panel.removeAttribute('aria-label');
+    this.hasTitle.set(true);
     panel.setAttribute('aria-labelledby', title.id);
   }
 }

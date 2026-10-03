@@ -2,6 +2,7 @@ import type { Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 import { settleAnimations } from './support/page-ready';
 
 const axeSource = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
@@ -649,6 +650,7 @@ test('keeps the catalogue within tablet and 320px viewports', async ({ page }) =
 });
 
 test('switches the Select examples and generated labels to Russian', async ({ page }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const localeResponse = await page.request.get('/i18n/select/ru.json');
   expect(localeResponse.ok()).toBe(true);
   const russian = (await localeResponse.json()) as {
@@ -731,12 +733,14 @@ test('switches the Select examples and generated labels to Russian', async ({ pa
     name: russian.fields.fieldClearable,
     exact: true,
   });
-  await expect(fieldDefaults.getByRole('button', { name: 'Clear', exact: true })).toBeVisible();
+  await expect(
+    fieldDefaults.getByRole('button', { name: kuiMessage(kui, 'common', 'clear'), exact: true }),
+  ).toBeVisible();
   await expect(
     providerDefaults
       .getByRole('combobox', { name: russian.fields.localClearableOff, exact: true })
       .locator('xpath=ancestor::kui-field[1]')
-      .getByRole('button', { name: 'Clear', exact: true }),
+      .getByRole('button', { name: kuiMessage(kui, 'common', 'clear'), exact: true }),
   ).toHaveCount(0);
   await expect(fieldClearable).toHaveValue(russian.options.owner);
 

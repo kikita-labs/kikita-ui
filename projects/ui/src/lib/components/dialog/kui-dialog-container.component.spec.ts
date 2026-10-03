@@ -115,6 +115,27 @@ describe('KuiDialogContainerComponent', () => {
     expect(buttons[0].getAttribute('aria-label')).toBe('Close');
   });
 
+  it('names the panel from the default message until a title exists, then from the title', async () => {
+    const empty = create();
+    empty.detectChanges();
+    expect(empty.nativeElement.querySelector('.kui-dialog').getAttribute('aria-label')).toBe(
+      'Dialog',
+    );
+
+    const fixture = create();
+    fixture.detectChanges();
+    fixture.componentInstance.attachContent(new ComponentPortal(PlainContent));
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const panel: HTMLElement = fixture.nativeElement.querySelector('.kui-dialog');
+    const title = panel.querySelector<HTMLElement>('.kui-dialog-title');
+
+    expect(panel.getAttribute('aria-labelledby')).toBe(title?.id);
+    expect(panel.hasAttribute('aria-label')).toBe(false);
+  });
+
   it('skips the auto close button when projected content already has one', () => {
     const fixture = create();
     fixture.detectChanges();

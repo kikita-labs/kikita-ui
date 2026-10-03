@@ -32,10 +32,11 @@
     </span>
 
     @if (dragState() === 'invalid') {
-      <div class="kui-file-upload-dropzone-text">Invalid file type</div>
+      <div class="kui-file-upload-dropzone-text">{{ t().invalidType }}</div>
     } @else {
       <div class="kui-file-upload-dropzone-text">
-        Drag files here or <strong>choose a file</strong>
+        {{ t().promptBefore }}<strong>{{ t().promptAction }}</strong
+        >{{ t().promptAfter }}
       </div>
       @if (!hasFiles()) {
         <!--
@@ -44,7 +45,7 @@
           A click on it reaches the dropzone handler.
         -->
         <span class="kui-button" aria-hidden="true" data-kui-shape="outline" data-kui-size="sm">
-          Choose file
+          {{ t().chooseFile }}
         </span>
       }
     }
@@ -64,7 +65,7 @@
       (click)="onTriggerClick($event)"
     >
       <svg width="14" height="14" [kuiGlyph]="plusGlyph" [kuiGlyphStroke]="1.5"></svg>
-      Attach file
+      {{ t().attachFile }}
     </button>
     @if (acceptLabel(); as hint) {
       <span class="kui-file-upload-compact-hint">{{ hint }}</span>
@@ -108,17 +109,17 @@
                 <kui-progress
                   type="linear"
                   [value]="progressPct(entry)"
-                  [attr.aria-label]="'Uploading ' + entry.name"
+                  [attr.aria-label]="t().uploading({ name: entry.name })"
                 />
               </span>
-              <span class="kui-file-upload-item-pct">{{ progressPct(entry) }}%</span>
+              <span class="kui-file-upload-item-pct">{{ percentLabel(entry) }}</span>
             </div>
           } @else if (entry.status === 'success') {
             <div class="kui-file-upload-item-meta">
               <span class="kui-file-upload-item-size">{{ sizeLabel(entry) }}</span>
               <span class="kui-file-upload-item-success">
                 <svg width="12" height="12" [kuiGlyph]="checkGlyph()" [kuiGlyphStroke]="2"></svg>
-                Done
+                {{ t().done }}
               </span>
             </div>
           } @else if (entry.status === 'error') {
@@ -130,7 +131,7 @@
                 [kuiGlyph]="alertGlyph"
                 [kuiGlyphStroke]="1.5"
               ></svg>
-              <span>{{ entry.errorMsg }}</span>
+              <span>{{ errorText(entry) }}</span>
               <button
                 class="kui-file-upload-item-retry"
                 kuiLink
@@ -139,13 +140,13 @@
                 type="button"
                 (click)="onRetryClick(entry, $event)"
               >
-                Retry
+                {{ t().retry }}
               </button>
             </div>
           } @else {
             <div class="kui-file-upload-item-meta">
               <span class="kui-file-upload-item-size">{{ sizeLabel(entry) }}</span>
-              <span>Queued</span>
+              <span>{{ t().queued }}</span>
             </div>
           }
         </div>
@@ -154,7 +155,7 @@
           <button
             kuiFieldAction
             type="button"
-            [attr.aria-label]="'Remove ' + entry.name"
+            [attr.aria-label]="t().removeFile({ name: entry.name })"
             (click)="removeFile(entry)"
           >
             <svg width="14" height="14" [kuiGlyph]="removeGlyph()" [kuiGlyphStroke]="1.5"></svg>

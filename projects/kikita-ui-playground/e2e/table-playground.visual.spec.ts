@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 
 const desktopViewport = { width: 1440, height: 1000 };
 const tabletViewport = { width: 768, height: 1024 };
@@ -374,9 +375,10 @@ test('keeps the catalogue responsive at desktop, tablet, and phone widths', asyn
   }
 });
 
-test('loads the Table locale scope and translates consumer labels while sort actions stay English', async ({
+test('loads the Table locale scope and translates consumer labels and sort actions', async ({
   page,
 }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const localeResponse = await page.request.get('/i18n/table/ru.json');
   expect(localeResponse.ok()).toBe(true);
   const russian = (await localeResponse.json()) as {
@@ -397,19 +399,35 @@ test('loads the Table locale scope and translates consumer labels while sort act
   const region = sorting.getByRole('region', { name: russian.regions.sorting });
   await expect(region.locator('thead th').first()).toHaveText(russian.columns.name);
   await expect(region.locator('thead th').nth(3)).toHaveText('Score');
-  const scoreButton = region.getByRole('button', { name: 'Sort Score ascending', exact: true });
+  const scoreButton = region.getByRole('button', {
+    name: kuiMessage(kui, 'table', 'sortAscending', { label: 'Score' }),
+    exact: true,
+  });
   await expect(scoreButton).toBeVisible();
   await scoreButton.click();
   const descendingScoreButton = region.getByRole('button', {
-    name: 'Sort Score descending',
+    name: kuiMessage(kui, 'table', 'sortDescending', { label: 'Score' }),
     exact: true,
   });
   await expect(descendingScoreButton).toBeVisible();
   await descendingScoreButton.click();
-  await expect(region.getByRole('button', { name: 'Clear Score sort', exact: true })).toBeVisible();
-  await region.getByRole('button', { name: 'Clear Score sort', exact: true }).click();
   await expect(
-    region.getByRole('button', { name: 'Sort Score ascending', exact: true }),
+    region.getByRole('button', {
+      name: kuiMessage(kui, 'table', 'clearSort', { label: 'Score' }),
+      exact: true,
+    }),
+  ).toBeVisible();
+  await region
+    .getByRole('button', {
+      name: kuiMessage(kui, 'table', 'clearSort', { label: 'Score' }),
+      exact: true,
+    })
+    .click();
+  await expect(
+    region.getByRole('button', {
+      name: kuiMessage(kui, 'table', 'sortAscending', { label: 'Score' }),
+      exact: true,
+    }),
   ).toBeVisible();
 
   const selection = getGroup(page, russian.accessibility.selection);
@@ -428,10 +446,16 @@ test('loads the Table locale scope and translates consumer labels while sort act
     defaultLabelsRegion.getByRole('table', { name: russian.captions.defaultSelectionLabels }),
   ).toBeVisible();
   await expect(
-    defaultLabelsRegion.getByRole('checkbox', { name: 'Select all rows', exact: true }),
+    defaultLabelsRegion.getByRole('checkbox', {
+      name: kuiMessage(kui, 'table', 'selectAllRows'),
+      exact: true,
+    }),
   ).toBeVisible();
   await expect(
-    defaultLabelsRegion.getByRole('checkbox', { name: 'Select row', exact: true }),
+    defaultLabelsRegion.getByRole('checkbox', {
+      name: kuiMessage(kui, 'table', 'selectRow'),
+      exact: true,
+    }),
   ).toBeVisible();
 
   await page.setViewportSize(mobileViewport);

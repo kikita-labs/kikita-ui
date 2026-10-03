@@ -11,6 +11,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiIdFactory } from '../../utils/kui-id.util';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
@@ -46,14 +47,19 @@ import type { KuiDialogAppearance, KuiDialogSize } from './kui-dialog.types';
         [attr.data-kui-appearance]="_appearance !== 'default' ? _appearance : null"
         role="dialog"
         aria-modal="true"
-        aria-label="Dialog"
+        [attr.aria-label]="hasTitle() ? null : t().label"
         cdkTrapFocus
         [cdkTrapFocusAutoCapture]="true"
         (click)="$event.stopPropagation()"
       >
         <ng-template cdkPortalOutlet />
         @if (_closable()) {
-          <button type="button" class="kui-dialog-close" aria-label="Close" (click)="close()">
+          <button
+            type="button"
+            class="kui-dialog-close"
+            [attr.aria-label]="common().close"
+            (click)="close()"
+          >
             <svg width="16" height="16" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.5"></svg>
           </button>
         }
@@ -67,6 +73,11 @@ import type { KuiDialogAppearance, KuiDialogSize } from './kui-dialog.types';
 export class KuiDialogContainerComponent {
   private readonly nextId = kuiIdFactory();
   private readonly dialogDefaults = inject(KuiDefaults).get('dialog');
+  protected readonly t = injectKuiMessages('dialog');
+
+  /** Whether a projected title names the panel; the default `label` message applies otherwise. */
+  protected readonly hasTitle = signal(false);
+  protected readonly common = injectKuiMessages('common');
 
   protected readonly closeGlyph = injectKuiGlyph({
     role: 'close',
@@ -148,7 +159,7 @@ export class KuiDialogContainerComponent {
       title.id = this.nextId('kui-dialog-title');
     }
 
-    panel.removeAttribute('aria-label');
+    this.hasTitle.set(true);
     panel.setAttribute('aria-labelledby', title.id);
   }
 }

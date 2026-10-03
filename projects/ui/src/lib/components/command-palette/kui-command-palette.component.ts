@@ -21,6 +21,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import type { KuiCommandPaletteMessages } from '../../i18n/kui-messages.interface';
 import { focusWhenRendered } from '../../utils/kui-focus-when-rendered.util';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiEmptyStateComponent, KuiEmptyStateIconDirective } from '../empty-state';
@@ -64,12 +66,16 @@ export class KuiCommandPaletteComponent implements OnDestroy {
   readonly groups = input<readonly KuiCommandGroup[]>([]);
   /** Loading state. Renders skeleton rows and sets `aria-busy`. */
   readonly loading = input(false, { transform: booleanAttribute });
-  /** Search input placeholder. */
-  readonly placeholder = input('Type a command or search...');
-  /** Accessible label for the modal command palette dialog. */
-  readonly label = input('Command palette');
-  /** Text shown when no commands match the query. */
-  readonly emptyText = input('No commands found');
+  /** Search input placeholder. Defaults to the `commandPalette.placeholder` message. */
+  readonly placeholder = input<string | undefined>();
+  /** Accessible label for the modal command palette dialog. Defaults to the `commandPalette.label` message. */
+  readonly label = input<string | undefined>();
+  /** Text shown when no commands match the query. Defaults to the `commandPalette.empty` message. */
+  readonly emptyText = input<string | undefined>();
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiCommandPaletteMessages> | undefined>();
+
+  protected readonly t = injectKuiMessages('commandPalette', () => this.messages());
   /** Current search query. */
   readonly query = model('');
   /** Emitted when a command is selected. */

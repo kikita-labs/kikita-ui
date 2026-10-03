@@ -13,6 +13,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
@@ -66,6 +67,7 @@ export class KuiButtonDirective {
   private readonly renderer = inject(Renderer2);
   private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly common = injectKuiMessages('common');
   private readonly buttonDefaults = inject(KuiDefaults).get('button');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
@@ -109,7 +111,7 @@ export class KuiButtonDirective {
 
     effect(() => {
       if (this.loading()) {
-        this.showLoader(this.effectiveSize());
+        this.showLoader(this.effectiveSize(), this.common().loading);
       } else {
         this.hideLoader();
       }
@@ -133,7 +135,7 @@ export class KuiButtonDirective {
     event.stopImmediatePropagation();
   }
 
-  private showLoader(size: KuiSize): void {
+  private showLoader(size: KuiSize, label: string): void {
     this.ensureContentWrapper();
 
     if (!this.loaderEl) {
@@ -142,10 +144,10 @@ export class KuiButtonDirective {
       this.renderer.addClass(this.loaderEl, 'kui-button__loader');
       this.renderer.setAttribute(this.loaderEl, 'role', 'status');
       this.renderer.setAttribute(this.loaderEl, 'aria-live', 'polite');
-      this.renderer.setAttribute(this.loaderEl, 'aria-label', 'Loading');
       this.renderer.appendChild(this.host, this.loaderEl);
     }
 
+    this.renderer.setAttribute(this.loaderEl, 'aria-label', label);
     this.renderer.setAttribute(this.loaderEl, 'data-kui-size', size);
   }
 

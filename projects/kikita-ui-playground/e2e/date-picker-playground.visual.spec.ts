@@ -78,10 +78,10 @@ test('captures the default and compact date picker at desktop, tablet, and 320px
   const selectedInput = selectedExample.getByRole('combobox', { name: 'Preselected date' });
 
   await expect(defaultInput).toHaveValue('');
-  await expect(selectedInput).toHaveValue('14.05.2026');
+  await expect(selectedInput).toHaveValue('05/14/2026');
   await expect(defaultInput).toHaveAttribute('aria-haspopup', 'dialog');
   await expect(defaultInput).toHaveAttribute('aria-expanded', 'false');
-  await expect(defaultInput).toHaveAttribute('placeholder', 'dd.mm.yyyy');
+  await expect(defaultInput).toHaveAttribute('placeholder', 'mm/dd/yyyy');
   await expect(defaultInput).toHaveAttribute('autocomplete', 'off');
   await expect(defaultInput).not.toHaveAttribute('aria-controls', /.+/);
   const defaultInputId = await defaultInput.getAttribute('id');
@@ -162,14 +162,14 @@ test('captures input focus, hover, open, focused-day, hovered-day, and pressed-d
   await expect(panel).toHaveScreenshot('date-picker-open.png');
 
   await input.press('ArrowDown');
-  const focusedDay = grid.getByRole('button', { name: '14', exact: true });
+  const focusedDay = grid.locator('.kui-calendar-day').filter({ hasText: /^14$/ });
   await expect(focusedDay).toBeFocused();
   expect(await focusedDay.evaluate((element) => element.matches(':focus-visible'))).toBe(true);
   await expect(panel).toHaveScreenshot('date-picker-calendar-focused-day.png', {
     animations: 'disabled',
   });
 
-  const hoveredDay = grid.getByRole('button', { name: '15', exact: true });
+  const hoveredDay = grid.locator('.kui-calendar-day').filter({ hasText: /^15$/ });
   await hoveredDay.hover();
   expect(await hoveredDay.evaluate((element) => element.matches(':hover'))).toBe(true);
   await expect(panel).toHaveScreenshot('date-picker-calendar-hovered-day.png', {
@@ -182,7 +182,7 @@ test('captures input focus, hover, open, focused-day, hovered-day, and pressed-d
     animations: 'disabled',
   });
   await page.mouse.up();
-  await expect(input).toHaveValue('15.05.2026');
+  await expect(input).toHaveValue('05/15/2026');
 });
 
 test('auto-wires typed values, calendar selection, and the displayed month @visual', async ({
@@ -194,20 +194,19 @@ test('auto-wires typed values, calendar selection, and the displayed month @visu
   // Hydration replaces a value typed into the server-rendered input, and it has no observable end,
   // so type again until the value holds.
   await expect(async () => {
-    await input.fill(' 20.06.2026 ');
-    await expect(input).toHaveValue('20.06.2026', { timeout: 1000 });
+    await input.fill(' 06/20/2026 ');
+    await expect(input).toHaveValue('06/20/2026', { timeout: 1000 });
   }).toPass();
   const panel = page.getByRole('dialog');
   const grid = panel.getByRole('grid');
   await expect(panel.getByRole('button', { name: 'June 2026', exact: true })).toBeVisible();
-  await expect(gridcellOf(grid.getByRole('button', { name: '20', exact: true }))).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
+  await expect(
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^20$/ })),
+  ).toHaveAttribute('aria-selected', 'true');
   await expect(panel).toHaveScreenshot('date-picker-typed-date-open.png');
 
-  await grid.getByRole('button', { name: '21', exact: true }).click();
-  await expect(input).toHaveValue('21.06.2026');
+  await grid.locator('.kui-calendar-day').filter({ hasText: /^21$/ }).click();
+  await expect(input).toHaveValue('06/21/2026');
   await expect(input).not.toHaveAttribute('aria-invalid', 'true');
 });
 
@@ -215,16 +214,16 @@ test('preserves four-digit years below 0100 while parsing typed dates', async ({
   const example = page.getByRole('group', { name: 'Selected date picker example', exact: true });
   const input = example.getByRole('combobox', { name: 'Preselected date' });
 
-  await input.fill('01.01.0001');
-  await expect(input).toHaveValue('01.01.0001');
+  await input.fill('01/01/0001');
+  await expect(input).toHaveValue('01/01/0001');
   await expect(input).not.toHaveAttribute('aria-invalid', 'true');
 
-  await input.fill('29.02.0000');
-  await expect(input).toHaveValue('29.02.0000');
+  await input.fill('02/29/0000');
+  await expect(input).toHaveValue('02/29/0000');
   await expect(input).not.toHaveAttribute('aria-invalid', 'true');
 
-  await input.fill('29.02.0001');
-  await expect(input).toHaveValue('29.02.0001');
+  await input.fill('02/29/0001');
+  await expect(input).toHaveValue('02/29/0001');
   await expect(input).toHaveAttribute('aria-invalid', 'true');
 });
 
@@ -278,15 +277,15 @@ test('moves focus into the calendar and selects a day with the calendar keyboard
   await input.press('ArrowDown');
   await input.press('ArrowDown');
   const grid = page.getByRole('dialog').getByRole('grid');
-  const selectedDay = grid.getByRole('button', { name: '14', exact: true });
+  const selectedDay = grid.locator('.kui-calendar-day').filter({ hasText: /^14$/ });
   await expect(selectedDay).toBeFocused();
 
   await page.keyboard.press('ArrowRight');
-  const nextDay = grid.getByRole('button', { name: '15', exact: true });
+  const nextDay = grid.locator('.kui-calendar-day').filter({ hasText: /^15$/ });
   await expect(nextDay).toBeFocused();
   await page.keyboard.press('Enter');
 
-  await expect(input).toHaveValue('15.05.2026');
+  await expect(input).toHaveValue('05/15/2026');
   await expect(gridcellOf(nextDay)).toHaveAttribute('aria-selected', 'true');
 });
 
@@ -299,42 +298,41 @@ test('captures bounded dates and marks malformed or out-of-range typed values in
   });
   const input = example.getByRole('combobox', { name: 'Booking date' });
 
-  await expect(input).toHaveValue('14.05.2026');
+  await expect(input).toHaveValue('05/14/2026');
   await input.press('ArrowDown');
   const panel = page.getByRole('dialog');
   const grid = panel.getByRole('grid');
-  await expect(grid.getByRole('button', { name: '7', exact: true })).toHaveAttribute(
+  await expect(grid.locator('.kui-calendar-day').filter({ hasText: /^7$/ })).toHaveAttribute(
     'aria-disabled',
     'true',
   );
-  await expect(grid.getByRole('button', { name: '25', exact: true })).toHaveAttribute(
+  await expect(grid.locator('.kui-calendar-day').filter({ hasText: /^25$/ })).toHaveAttribute(
     'aria-disabled',
     'true',
   );
-  await expect(grid.getByRole('button', { name: '8', exact: true })).not.toHaveAttribute(
+  await expect(grid.locator('.kui-calendar-day').filter({ hasText: /^8$/ })).not.toHaveAttribute(
     'aria-disabled',
     'true',
   );
-  await expect(grid.getByRole('button', { name: '24', exact: true })).not.toHaveAttribute(
+  await expect(grid.locator('.kui-calendar-day').filter({ hasText: /^24$/ })).not.toHaveAttribute(
     'aria-disabled',
     'true',
   );
   await expect(panel).toHaveScreenshot('date-picker-bounds-open.png');
 
-  await input.fill('08.05.2026');
-  await expect(input).toHaveValue('08.05.2026');
+  await input.fill('05/08/2026');
+  await expect(input).toHaveValue('05/08/2026');
   await expect(input).not.toHaveAttribute('aria-invalid', 'true');
-  await input.fill('24.05.2026');
-  await expect(input).toHaveValue('24.05.2026');
+  await input.fill('05/24/2026');
+  await expect(input).toHaveValue('05/24/2026');
   await expect(input).not.toHaveAttribute('aria-invalid', 'true');
 
-  await input.fill('32.13.2026');
+  await input.fill('13/32/2026');
   await expect(input).toHaveAttribute('aria-invalid', 'true');
   await expect(input).toHaveAttribute('data-kui-invalid', '');
-  await expect(gridcellOf(grid.getByRole('button', { name: '24', exact: true }))).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
+  await expect(
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^24$/ })),
+  ).toHaveAttribute('aria-selected', 'true');
   await expect(example).toHaveScreenshot('date-picker-invalid-format.png', {
     animations: 'disabled',
   });
@@ -342,16 +340,15 @@ test('captures bounded dates and marks malformed or out-of-range typed values in
   await input.fill('');
   await expect(input).toHaveValue('');
   await expect(input).not.toHaveAttribute('aria-invalid', 'true');
-  await expect(gridcellOf(grid.getByRole('button', { name: '24', exact: true }))).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
+  await expect(
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^24$/ })),
+  ).toHaveAttribute('aria-selected', 'true');
 
-  await input.fill('20.05.2026');
+  await input.fill('05/20/2026');
   await expect(input).not.toHaveAttribute('aria-invalid', 'true');
   await expect(input).not.toHaveAttribute('data-kui-invalid', '');
 
-  await input.fill('01.05.2026');
+  await input.fill('05/01/2026');
   await expect(input).toHaveAttribute('aria-invalid', 'true');
   await expect(input).toHaveAttribute('data-kui-invalid', '');
   const firstOfMay = grid
@@ -364,13 +361,12 @@ test('captures bounded dates and marks malformed or out-of-range typed values in
     animations: 'disabled',
   });
 
-  await input.fill('31.05.2026');
+  await input.fill('05/31/2026');
   await expect(input).toHaveAttribute('aria-invalid', 'true');
-  await expect(gridcellOf(grid.getByRole('button', { name: '31', exact: true }))).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
-  await expect(grid.getByRole('button', { name: '31', exact: true })).toHaveAttribute(
+  await expect(
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^31$/ })),
+  ).toHaveAttribute('aria-selected', 'true');
+  await expect(grid.locator('.kui-calendar-day').filter({ hasText: /^31$/ })).toHaveAttribute(
     'aria-disabled',
     'true',
   );
@@ -396,7 +392,7 @@ test('preserves native disabled and readonly semantics and exposes clear setting
   await expect(disabled).toBeDisabled();
   await expect(disabled).toHaveAttribute('aria-expanded', 'false');
   await expect(readonly).toHaveAttribute('readonly', '');
-  await expect(readonly).toHaveValue('20.05.2026');
+  await expect(readonly).toHaveValue('05/20/2026');
   await expect(readonly).toHaveAttribute('aria-expanded', 'false');
   expect(await localClearFalse.getAttribute('id')).toBeTruthy();
   expect(
@@ -414,8 +410,8 @@ test('preserves native disabled and readonly semantics and exposes clear setting
   await readonly.focus();
   await expect(readonly).toBeFocused();
   await readonly.press('End');
-  await readonly.pressSequentially('31.12.2030');
-  await expect(readonly).toHaveValue('20.05.2026');
+  await readonly.pressSequentially('12/31/2030');
+  await expect(readonly).toHaveValue('05/20/2026');
 
   await expect(examples).toHaveScreenshot('date-picker-field-states-desktop.png');
 
@@ -482,7 +478,7 @@ test('clears a selected date and restores focus to its native input', async ({ p
   const example = page.getByRole('group', { name: 'Selected date picker example', exact: true });
   const input = example.getByRole('combobox', { name: 'Preselected date' });
 
-  await expect(input).toHaveValue('14.05.2026');
+  await expect(input).toHaveValue('05/14/2026');
   await example.getByRole('button', { name: 'Clear', exact: true }).click();
   await expect(input).toHaveValue('');
   await expect(input).toBeFocused();
@@ -491,7 +487,11 @@ test('clears a selected date and restores focus to its native input', async ({ p
   await input.press('ArrowDown');
   await expect(
     gridcellOf(
-      page.getByRole('dialog').getByRole('grid').getByRole('button', { name: '14', exact: true }),
+      page
+        .getByRole('dialog')
+        .getByRole('grid')
+        .locator('.kui-calendar-day')
+        .filter({ hasText: /^14$/ }),
     ),
   ).not.toHaveAttribute('aria-selected', 'true');
 });
@@ -509,7 +509,7 @@ test('shows Signal Forms required state, touch validation, and recovery after se
   expect(
     await input.evaluate((element) => (element as HTMLInputElement).labels?.[0]?.htmlFor),
   ).toBe(await input.getAttribute('id'));
-  await expect(input).toHaveAttribute('placeholder', 'dd.mm.yyyy');
+  await expect(input).toHaveAttribute('placeholder', 'mm/dd/yyyy');
   await expect(input).not.toHaveAttribute('aria-invalid', 'true');
   await expect(example.getByText('A delivery date is required.', { exact: true })).toBeHidden();
   await expect(input).toHaveAttribute('aria-describedby', /-hint/);
@@ -526,8 +526,8 @@ test('shows Signal Forms required state, touch validation, and recovery after se
 
   await input.press('ArrowDown');
   const panel = page.getByRole('dialog');
-  await panel.getByRole('grid').getByRole('button', { name: '18', exact: true }).click();
-  await expect(input).toHaveValue('18.05.2026');
+  await panel.getByRole('grid').locator('.kui-calendar-day').filter({ hasText: /^18$/ }).click();
+  await expect(input).toHaveValue('05/18/2026');
   await expect(example.getByText('A delivery date is required.', { exact: true })).toBeHidden();
 });
 
@@ -540,14 +540,13 @@ test('keeps the documented manual calendar model bindings synchronized @visual',
   });
   const input = example.getByRole('combobox', { name: 'Manually bound date' });
 
-  await input.fill('17.05.2026');
+  await input.fill('05/17/2026');
   const panel = page.getByRole('dialog');
   const grid = panel.getByRole('grid');
 
-  await expect(gridcellOf(grid.getByRole('button', { name: '17', exact: true }))).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
+  await expect(
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^17$/ })),
+  ).toHaveAttribute('aria-selected', 'true');
   await panel.getByRole('button', { name: 'Next month', exact: true }).click();
   await expect(panel.getByRole('button', { name: 'June 2026', exact: true })).toBeVisible();
   await expect(panel).toHaveScreenshot('date-picker-manual-binding-open.png');
@@ -608,13 +607,13 @@ test('keeps the page labels and field names translated in Russian', async ({ pag
   await russianInput.press('ArrowDown');
   await expect(russianInput).toHaveAttribute('aria-expanded', 'true');
   await expect(calendarPanel).toBeVisible();
-  const russianMonth = await page.evaluate(() =>
-    new Intl.DateTimeFormat('ru-RU', { month: 'long', timeZone: 'UTC' }).format(
+  const russianHeading = await page.evaluate(() =>
+    new Intl.DateTimeFormat('ru-RU', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(
       new Date(Date.UTC(2026, 4, 1)),
     ),
   );
   await expect(
-    calendarPanel.getByRole('button', { name: `${russianMonth} 2026`, exact: true }),
+    calendarPanel.getByRole('button', { name: russianHeading, exact: true }),
   ).toBeVisible();
   const russianWeekdays = await page.evaluate(() =>
     Array.from({ length: 7 }, (_, index) =>

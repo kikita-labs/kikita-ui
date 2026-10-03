@@ -39,12 +39,12 @@ Hex values also enable the browser-native color picker from the swatch button:
 
 ## Inputs
 
-| Input         | Type                           | Default               | Notes                                                                  |
-| ------------- | ------------------------------ | --------------------- | ---------------------------------------------------------------------- |
-| `size`        | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'`                | Control height from Kikita size tokens.                                |
-| `invalid`     | `boolean`                      | `false`               | Applies error border. Also inherited from parent `kui-field` error.    |
-| `id`          | `string`                       | none                  | Id override. Falls back to `kui-field` control id when inside a field. |
-| `swatchLabel` | `string`                       | `'Open color picker'` | Accessible label prefix for the swatch button.                         |
+| Input         | Type                           | Default                         | Notes                                                                  |
+| ------------- | ------------------------------ | ------------------------------- | ---------------------------------------------------------------------- |
+| `size`        | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'`                          | Control height from Kikita size tokens.                                |
+| `invalid`     | `boolean`                      | `false`                         | Applies error border. Also inherited from parent `kui-field` error.    |
+| `id`          | `string`                       | none                            | Id override. Falls back to `kui-field` control id when inside a field. |
+| `swatchLabel` | `string`                       | `colorInput.openPicker` message | Accessible label prefix for the swatch button.                         |
 
 Standard native input attributes (`value`, `disabled`, `readonly`, `placeholder`,
 `autocomplete`, `[formField]`, `[(ngModel)]`, and reactive forms bindings) stay

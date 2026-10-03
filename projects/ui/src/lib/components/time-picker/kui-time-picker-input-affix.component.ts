@@ -1,5 +1,7 @@
 import { Component, inject, input, output, ViewEncapsulation } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import type { KuiTimePickerMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
@@ -21,7 +23,7 @@ import { KuiGlyphComponent } from '../icon/kui-glyph.component';
           kuiFieldAction
           type="button"
           class="kui-timepicker-clear"
-          aria-label="Clear"
+          [attr.aria-label]="common().clear"
           (click)="onClear($event)"
         >
           <svg width="12" height="12" [kuiGlyph]="clearGlyph()" [kuiGlyphStroke]="1.6"></svg>
@@ -34,7 +36,7 @@ import { KuiGlyphComponent } from '../icon/kui-glyph.component';
         class="kui-timepicker-chevron"
         tabindex="-1"
         [disabled]="disabled() || readonly()"
-        [attr.aria-label]="isOpen() ? 'Close time picker' : 'Open time picker'"
+        [attr.aria-label]="isOpen() ? t().closePicker : t().openPicker"
         [attr.aria-expanded]="isOpen()"
         (click)="onToggle($event)"
       >
@@ -62,6 +64,10 @@ export class KuiTimePickerInputAffixComponent {
     slot: () => this.pickerDefaults()?.chevronIcon,
     fallback: KUI_GLYPH_CHEVRON_DOWN,
   });
+
+  readonly messages = input<Partial<KuiTimePickerMessages> | undefined>(undefined);
+  protected readonly t = injectKuiMessages('timePicker', () => this.messages());
+  protected readonly common = injectKuiMessages('common');
 
   readonly clearable = input(false);
   readonly hasValue = input(false);

@@ -1,5 +1,6 @@
 import { Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiRowDirective } from './kui-row.directive';
 import { KUI_TABLE_CTX } from './kui-table.directive';
 
@@ -15,14 +16,16 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
         type="checkbox"
         [checked]="row.selected()"
         (change)="table.toggle(row.value())"
-        [attr.aria-label]="ariaLabel()"
+        [attr.aria-label]="ariaLabel() ?? t().selectRow"
       />
     }
   `,
 })
 export class KuiSelectCellComponent {
-  /** Accessible label for the row selection checkbox. */
-  readonly ariaLabel = input('Select row');
+  /** Accessible label for the row selection checkbox. Defaults to the `table.selectRow` message. */
+  readonly ariaLabel = input<string | undefined>();
+
+  protected readonly t = injectKuiMessages('table');
 
   protected readonly table = inject(KUI_TABLE_CTX);
   protected readonly row = inject(KuiRowDirective);

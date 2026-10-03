@@ -96,5 +96,228 @@
       "selectComponent": "Выберите компонент",
       "pageComingSoon": "Страница компонента появится на следующем этапе."
     }
+  },
+  "kui": {
+    "common": {
+      "clear": "Очистить",
+      "close": "Закрыть",
+      "loading": "Загрузка",
+      "remove": "Удалить"
+    },
+    "alert": {
+      "close": "Закрыть уведомление"
+    },
+    "avatar": {
+      "fallback": "Аватар",
+      "statusOnline": "в сети",
+      "statusAway": "отошёл",
+      "statusBusy": "занят",
+      "statusOffline": "не в сети",
+      "withStatus": "{label}, {status}"
+    },
+    "avatarGroup": {
+      "label": "Группа аватаров",
+      "overflow": "ещё {count}"
+    },
+    "calendar": {
+      "label": "Календарь",
+      "today": "Сегодня",
+      "previousMonth": "Предыдущий месяц",
+      "nextMonth": "Следующий месяц",
+      "previousYear": "Предыдущий год",
+      "nextYear": "Следующий год",
+      "previousDecade": "Предыдущее десятилетие",
+      "nextDecade": "Следующее десятилетие"
+    },
+    "carousel": {
+      "label": "Слайды",
+      "roleDescription": "карусель",
+      "slideRoleDescription": "слайд",
+      "previous": "Предыдущий слайд",
+      "next": "Следующий слайд",
+      "pause": "Приостановить автопрокрутку",
+      "resume": "Возобновить автопрокрутку",
+      "dots": "Выбор слайда",
+      "goToSlide": "Перейти к слайду {index} из {total}",
+      "slidePosition": "{index} из {total}"
+    },
+    "chart": {
+      "loading": "Загрузка графика",
+      "noData": "Нет данных",
+      "viewChart": "График",
+      "viewTable": "Таблица",
+      "columnCategory": "Категория",
+      "columnSeries": "Серия",
+      "columnLabel": "Подпись",
+      "columnValue": "Значение",
+      "lineLabel": "Линейный график",
+      "barLabel": "Столбчатая диаграмма",
+      "donutLabel": "Кольцевая диаграмма",
+      "scatterLabel": "Точечная диаграмма",
+      "lineRoleDescription": "линейный график",
+      "barRoleDescription": "столбчатая диаграмма",
+      "donutRoleDescription": "кольцевая диаграмма",
+      "scatterRoleDescription": "точечная диаграмма",
+      "pointWithCategory": "{series} · {category}: {value}",
+      "point": "{series}: {value}",
+      "slice": "{label}: {value} ({percent} %)"
+    },
+    "colorInput": {
+      "openPicker": "Открыть выбор цвета",
+      "pickerLabel": "Яркость и насыщенность",
+      "hue": "Оттенок",
+      "preset": "Цвет «{name}»: {value}",
+      "presetPrimary": "Основной",
+      "presetNeutral": "Нейтральный",
+      "presetSuccess": "Успех",
+      "presetWarning": "Предупреждение",
+      "presetDanger": "Опасность",
+      "presetInfo": "Информация",
+      "copyValue": "Копировать значение"
+    },
+    "combobox": {
+      "openOptions": "Открыть список",
+      "closeOptions": "Закрыть список"
+    },
+    "commandPalette": {
+      "placeholder": "Введите команду или запрос...",
+      "label": "Палитра команд",
+      "empty": "Команды не найдены",
+      "emptyDescription": "Попробуйте изменить запрос.",
+      "clearSearch": "Очистить поиск",
+      "keyUp": "Вверх",
+      "keyDown": "Вниз",
+      "keyEnter": "Enter",
+      "keyEscape": "Esc",
+      "hintNavigate": "навигация",
+      "hintRun": "выполнить",
+      "hintClose": "закрыть"
+    },
+    "datePicker": {
+      "openCalendar": "Открыть календарь",
+      "closeCalendar": "Закрыть календарь",
+      "dayPlaceholder": "дд",
+      "monthPlaceholder": "мм",
+      "yearPlaceholder": "гггг"
+    },
+    "dialog": {
+      "label": "Диалог",
+      "confirm": "OK",
+      "cancel": "Отмена"
+    },
+    "drawer": {
+      "label": "Боковая панель"
+    },
+    "fileUpload": {
+      "dropzoneLabel": "Загрузка файла. Перетащите файл или нажмите, чтобы выбрать.",
+      "promptBefore": "Перетащите файлы сюда или ",
+      "promptAction": "выберите файл",
+      "promptAfter": "",
+      "chooseFile": "Выбрать файл",
+      "attachFile": "Прикрепить файл",
+      "invalidType": "Недопустимый тип файла",
+      "tooLarge": "Превышен максимальный размер ({max})",
+      "tooMany": {
+        "$select": "max",
+        "one": "Не более {max} файла",
+        "few": "Не более {max} файлов",
+        "many": "Не более {max} файлов",
+        "other": "Не более {max} файла"
+      },
+      "uploading": "Загрузка {name}",
+      "removeFile": "Удалить {name}",
+      "done": "Готово",
+      "queued": "В очереди",
+      "retry": "Повторить"
+    },
+    "link": {
+      "opensInNewTab": "(откроется в новой вкладке)"
+    },
+    "mediaViewer": {
+      "label": "Просмотр фото",
+      "zoomIn": "Увеличить",
+      "zoomOut": "Уменьшить",
+      "close": "Закрыть просмотр фото",
+      "previous": "Предыдущее фото",
+      "next": "Следующее фото",
+      "goTo": "Перейти к фото {index} из {total}",
+      "position": "{label}, фото {index} из {total}",
+      "loadErrorTitle": "Не удалось загрузить фото",
+      "loadErrorDescription": "Проверьте подключение и повторите попытку"
+    },
+    "menu": {
+      "label": "Действия"
+    },
+    "numberInput": {
+      "decrease": "Уменьшить значение",
+      "increase": "Увеличить значение"
+    },
+    "otpInput": {
+      "label": "Код подтверждения",
+      "digit": "Цифра {index} из {total}",
+      "verifying": "Проверка кода"
+    },
+    "pagination": {
+      "label": "Постраничная навигация",
+      "first": "Первая страница",
+      "previous": "Предыдущая страница",
+      "next": "Следующая страница",
+      "last": "Последняя страница",
+      "page": {
+        "$select": "current",
+        "true": "Страница {page}, текущая",
+        "false": "Страница {page}"
+      },
+      "rowsPerPage": "Строк на странице",
+      "summary": "Показано {start}–{end} из {total}",
+      "simplePage": "Страница {page} из {total}"
+    },
+    "popover": {
+      "label": "Всплывающее окно"
+    },
+    "select": {
+      "openOptions": "Открыть список",
+      "closeOptions": "Закрыть список",
+      "removeItem": "Удалить «{label}»"
+    },
+    "splitter": {
+      "collapsePane": "Свернуть панель",
+      "expandPane": "Развернуть панель"
+    },
+    "stepper": {
+      "backToStep": "Вернуться к шагу «{label}»",
+      "goToStep": "Перейти к шагу «{label}»"
+    },
+    "table": {
+      "selectRow": "Выбрать строку",
+      "selectAllRows": "Выбрать все строки",
+      "sortAscending": "Сортировать «{label}» по возрастанию",
+      "sortDescending": "Сортировать «{label}» по убыванию",
+      "clearSort": "Сбросить сортировку «{label}»"
+    },
+    "tabs": {
+      "scrollLeft": "Прокрутить вкладки влево",
+      "scrollRight": "Прокрутить вкладки вправо",
+      "errorIndicator": "есть ошибка"
+    },
+    "timePicker": {
+      "openPicker": "Открыть выбор времени",
+      "closePicker": "Закрыть выбор времени",
+      "hours": "Часы",
+      "minutes": "Минуты",
+      "seconds": "Секунды",
+      "period": "До полудня или после полудня",
+      "now": "Сейчас",
+      "done": "Готово",
+      "hourPlaceholder": "чч",
+      "minutePlaceholder": "мм",
+      "secondPlaceholder": "сс"
+    },
+    "toast": {
+      "region": "Уведомления"
+    },
+    "tree": {
+      "label": "Дерево"
+    }
   }
 }

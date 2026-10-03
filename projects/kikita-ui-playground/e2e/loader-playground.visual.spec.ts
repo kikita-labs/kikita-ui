@@ -1,4 +1,5 @@
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
@@ -93,6 +94,7 @@ test('adds and removes a consumer-owned status through native keyboard actions @
 });
 
 test('uses the route scope after switching the shell language to Russian', async ({ page }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const response = await page.request.get(new URL('/i18n/loader/ru.json', page.url()).toString());
   expect(response.ok()).toBeTruthy();
   const russian: {
@@ -121,7 +123,9 @@ test('uses the route scope after switching the shell language to Russian', async
     name: russian.accessibility.default,
     exact: true,
   });
-  await expect(defaultExample.getByRole('status', { name: 'Loading', exact: true })).toBeVisible();
+  await expect(
+    defaultExample.getByRole('status', { name: kuiMessage(kui, 'common', 'loading'), exact: true }),
+  ).toBeVisible();
 
   const sizes = page.getByRole('group', { name: russian.accessibility.sizes, exact: true });
   await expect(

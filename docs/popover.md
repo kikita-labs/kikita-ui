@@ -52,17 +52,17 @@ import '@kikita-labs/ui/styles';
 
 ## KuiPopoverComponent inputs
 
-| Input         | Type                    | Default     | Description                                                                                             |
-| ------------- | ----------------------- | ----------- | ------------------------------------------------------------------------------------------------------- |
-| `placement`   | `KuiPopoverPlacement`   | `'bottom'`  | Preferred side. Auto-flips to fit in viewport.                                                          |
-| `align`       | `KuiPopoverAlign`       | `'center'`  | Alignment along the anchor edge.                                                                        |
-| `arrow`       | `boolean`               | `false`     | Show the arrow caret pointing to the anchor.                                                            |
-| `triggerType` | `KuiPopoverTriggerType` | `'click'`   | `click`: toggle on click, close on outside click/ESC. `hover`: open on mouseenter, close on mouseleave. |
-| `ariaLabel`   | `string`                | `'Popover'` | Accessible name for the `role="dialog"` panel. Prefer content-specific text.                            |
-| `hoverDelay`  | `number`                | `100`       | Delay (ms) before closing on mouseleave; lets the mouse travel to the panel.                            |
-| `offset`      | `number`                | `8`         | Gap in px between anchor and panel. Arrow adds 6 px automatically.                                      |
-| `trapFocus`   | `boolean`               | `false`     | Trap focus inside the panel and auto-focus the first focusable element on open.                         |
-| `open`        | `boolean` (model)       | `false`     | Current open state exposed for trigger integrations. Do not use as a standalone controlled API.         |
+| Input         | Type                    | Default                 | Description                                                                                             |
+| ------------- | ----------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------- |
+| `placement`   | `KuiPopoverPlacement`   | `'bottom'`              | Preferred side. Auto-flips to fit in viewport.                                                          |
+| `align`       | `KuiPopoverAlign`       | `'center'`              | Alignment along the anchor edge.                                                                        |
+| `arrow`       | `boolean`               | `false`                 | Show the arrow caret pointing to the anchor.                                                            |
+| `triggerType` | `KuiPopoverTriggerType` | `'click'`               | `click`: toggle on click, close on outside click/ESC. `hover`: open on mouseenter, close on mouseleave. |
+| `ariaLabel`   | `string`                | `popover.label` message | Accessible name for the `role="dialog"` panel. Prefer content-specific text.                            |
+| `hoverDelay`  | `number`                | `100`                   | Delay (ms) before closing on mouseleave; lets the mouse travel to the panel.                            |
+| `offset`      | `number`                | `8`                     | Gap in px between anchor and panel. Arrow adds 6 px automatically.                                      |
+| `trapFocus`   | `boolean`               | `false`                 | Trap focus inside the panel and auto-focus the first focusable element on open.                         |
+| `open`        | `boolean` (model)       | `false`                 | Current open state exposed for trigger integrations. Do not use as a standalone controlled API.         |
 
 ## KuiPopoverForDirective
 

@@ -133,10 +133,16 @@ describe('KuiDefaults read by the time picker', () => {
     return fixture.nativeElement as HTMLElement;
   }
 
-  it('uses the 24 hour format without defaults', () => {
-    TestBed.configureTestingModule({ providers: [provideKikitaUi()] });
+  it('follows the locale hour cycle without defaults', () => {
+    TestBed.configureTestingModule({ providers: [provideKikitaUi({ locale: 'ru-RU' })] });
 
     expect(render().querySelector('#default')!.getAttribute('placeholder')).toBe('hh:mm');
+  });
+
+  it('uses the 12 hour format of a 12 hour locale without defaults', () => {
+    TestBed.configureTestingModule({ providers: [provideKikitaUi({ locale: 'en-US' })] });
+
+    expect(render().querySelector('#default')!.getAttribute('placeholder')).toBe('hh:mm AM/PM');
   });
 
   it('applies the format and seconds defaults, and a local input wins', () => {

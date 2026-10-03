@@ -1,5 +1,6 @@
 import { Component, computed, inject, ViewEncapsulation } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiButtonDirective } from '../button/kui-button.directive';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_TRIANGLE_ALERT } from '../icon/kui-chrome-glyphs';
@@ -27,10 +28,10 @@ import { KUI_DIALOG_CONTEXT } from './kui-dialog-context.token';
     }
     <div class="kui-dialog-footer">
       <button kuiButton shape="outline" type="button" (click)="ctx.close(false)">
-        {{ ctx.data.cancelLabel ?? 'Cancel' }}
+        {{ ctx.data.cancelLabel ?? t().cancel }}
       </button>
       <button kuiButton [appearance]="confirmAppearance()" type="button" (click)="ctx.close(true)">
-        {{ ctx.data.confirmLabel ?? 'OK' }}
+        {{ ctx.data.confirmLabel ?? t().confirm }}
       </button>
     </div>
   `,
@@ -39,6 +40,8 @@ import { KUI_DIALOG_CONTEXT } from './kui-dialog-context.token';
 })
 /** Renders the default confirmation dialog content for `confirm()`. */
 export class KuiConfirmComponent implements KuiDialogHost<boolean, KuiConfirmConfig> {
+  protected readonly t = injectKuiMessages('dialog');
+
   protected readonly warningGlyph = injectKuiGlyph({
     role: 'statusWarning',
     fallback: KUI_GLYPH_TRIANGLE_ALERT,

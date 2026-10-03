@@ -150,7 +150,7 @@ describe('KuiFileUploadComponent', () => {
     expect(host.files().length).toBe(1);
     expect(
       fixture.nativeElement.querySelector('.kui-file-upload-form-error')?.textContent,
-    ).toContain('Maximum 1 files');
+    ).toContain('Maximum 1 file');
   });
 
   it('single mode replaces the previous file on re-selection', () => {

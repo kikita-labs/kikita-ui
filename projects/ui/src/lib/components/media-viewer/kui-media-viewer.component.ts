@@ -1,5 +1,7 @@
 import { Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import { KuiI18n } from '../../i18n/kui-i18n.service';
 import type { KuiDialogContext, KuiDialogHost } from '../dialog/kui-dialog-context.token';
 import { KUI_DIALOG_CONTEXT } from '../dialog/kui-dialog-context.token';
 import { KuiEmptyStateComponent } from '../empty-state/kui-empty-state.component';
@@ -55,7 +57,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
           kuiIconButton
           shape="ghost"
           size="md"
-          aria-label="Zoom out"
+          [attr.aria-label]="t().zoomOut"
           [disabled]="zoomOutDisabled()"
           (click)="zoomOut()"
         >
@@ -65,7 +67,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
           kuiIconButton
           shape="ghost"
           size="md"
-          aria-label="Zoom in"
+          [attr.aria-label]="t().zoomIn"
           [disabled]="zoomInDisabled()"
           (click)="zoomIn()"
         >
@@ -76,7 +78,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
           shape="ghost"
           size="md"
           class="kui-media-viewer__close"
-          aria-label="Close photo viewer"
+          [attr.aria-label]="t().close"
           (click)="close()"
         >
           <svg width="18" height="18" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.6"></svg>
@@ -91,7 +93,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
           shape="ghost"
           size="lg"
           class="kui-media-viewer__nav kui-media-viewer__nav--prev"
-          aria-label="Previous photo"
+          [attr.aria-label]="t().previous"
           [disabled]="prevDisabled()"
           (click)="goPrev()"
         >
@@ -113,8 +115,8 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
         @if (currentStatus() === 'error') {
           <kui-empty-state
             class="kui-media-viewer__placeholder"
-            heading="Could not load this photo"
-            description="Check your connection and try again"
+            [heading]="t().loadErrorTitle"
+            [description]="t().loadErrorDescription"
             context="error"
             size="sm"
           />
@@ -139,7 +141,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
           shape="ghost"
           size="lg"
           class="kui-media-viewer__nav kui-media-viewer__nav--next"
-          aria-label="Next photo"
+          [attr.aria-label]="t().next"
           [disabled]="nextDisabled()"
           (click)="goNext()"
         >
@@ -156,7 +158,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
             class="kui-media-viewer__thumb"
             [class.kui-media-viewer__thumb--active]="$index === index()"
             [attr.aria-current]="$index === index() ? 'true' : null"
-            [attr.aria-label]="'Go to photo ' + ($index + 1) + ' of ' + items().length"
+            [attr.aria-label]="t().goTo({ index: $index + 1, total: items().length })"
             (click)="goTo($index)"
           >
             <img [src]="item.src" alt="" loading="lazy" />
@@ -201,6 +203,9 @@ export class KuiMediaViewerComponent implements KuiDialogHost<void, KuiMediaView
     inject<KuiDialogContext<void, KuiMediaViewerData>>(KUI_DIALOG_CONTEXT);
 
   private readonly ctx = this.dialogContext;
+  private readonly i18n = inject(KuiI18n);
+
+  protected readonly t = injectKuiMessages('mediaViewer', () => this.ctx.data.messages);
   private readonly maxZoom = this.ctx.data.maxZoom ?? 3;
   private readonly zoomStep = this.ctx.data.zoomStep ?? 0.5;
 
@@ -229,12 +234,18 @@ export class KuiMediaViewerComponent implements KuiDialogHost<void, KuiMediaView
    */
   protected readonly isGallery = computed(() => this.items().length > 1);
 
-  protected readonly counterText = computed(() => `${this.index() + 1} / ${this.items().length}`);
-  protected readonly panelLabel = computed(() =>
-    this.isGallery()
-      ? `${this.ctx.data.ariaLabel ?? 'Photo viewer'}, photo ${this.index() + 1} of ${this.items().length}`
-      : (this.ctx.data.ariaLabel ?? 'Photo viewer'),
-  );
+  protected readonly counterText = computed(() => {
+    const { formatNumber } = this.i18n.context();
+
+    return `${formatNumber(this.index() + 1)} / ${formatNumber(this.items().length)}`;
+  });
+  protected readonly panelLabel = computed(() => {
+    const label = this.ctx.data.ariaLabel ?? this.t().label;
+
+    return this.isGallery()
+      ? this.t().position({ label, index: this.index() + 1, total: this.items().length })
+      : label;
+  });
 
   protected readonly prevDisabled = computed(() => this.index() <= 0);
   protected readonly nextDisabled = computed(() => this.index() >= this.items().length - 1);

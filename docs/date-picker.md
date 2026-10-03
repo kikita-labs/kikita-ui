@@ -1,8 +1,10 @@
 # Date Picker
 
 `input[kuiDatePicker]` converts a native text input into a date picker trigger. Text is
-parsed/formatted as `dd.MM.yyyy`; surrounding whitespace is trimmed, and four-digit years from
-`0000` through `9999` are preserved. Pair it with `kui-calendar` inside a sibling `kui-dropdown`
+parsed/formatted with the numeric layout of the locale (`10/03/2026` in `en-US`, `03.10.2026` in
+`ru-RU`, `2026/10/03` in `ja-JP`) or the `format` input; surrounding whitespace is trimmed, and
+four-digit years from `0000` through `9999` are preserved. Parsing reads three digit groups in the
+layout's order, so `3.1.2026` is accepted where `03.01.2026` is shown. Pair it with `kui-calendar` inside a sibling `kui-dropdown`
 for the popover grid.
 
 ## Import
@@ -123,7 +125,9 @@ clears the invalid state.
   its own).
 - `clearable`: `boolean | undefined` (default resolves to `true`)
 - `disabled` / `readonly`: `boolean` (default: `false`)
-- `placeholder`: `string` (default: `'dd.mm.yyyy'`)
+- `placeholder`: `string | undefined` — defaults to the `dayPlaceholder`, `monthPlaceholder` and `yearPlaceholder` messages arranged in the order and separators of the locale (`mm/dd/yyyy`, `dd.mm.yyyy`)
+- `format`: `string | undefined` (default: `'locale'`). A pattern of `d`/`dd`, `M`/`MM` and `yyyy` tokens such as `dd.MM.yyyy` pins the layout. Resolves as `format > defaults.datePicker.format > 'locale'`.
+- `messages`: `Partial<KuiDatePickerMessages> | undefined`. Text overrides for this instance (`openCalendar`, `closeCalendar`, the placeholder tokens). See [Internationalization](./i18n.md).
 - `id`: `string | undefined` — falls back to the parent `kui-field`'s control id
 
 Also implements the Angular Signal Forms `FormValueControl<Date | null>` contract
@@ -197,8 +201,8 @@ styles.
   range selection without a text-input trigger.
 - No mobile bottom-sheet popover variant; the popover is always a floating panel, on any
   viewport size.
-- No locale-aware display format (`format` input); the mask is always `dd.MM.yyyy`, matching
-  the design brief's explicit non-goal for this iteration.
+- Digits are Latin and the calendar is Gregorian in every locale; native numerals and other
+  calendars are not supported in v2 (see [Internationalization](./i18n.md#limits-in-v2)).
 
 <!-- color-tokens:begin -->
 

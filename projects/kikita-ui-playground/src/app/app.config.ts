@@ -9,6 +9,7 @@ import { provideKikitaUi } from '@kikita-labs/ui';
 import { provideTransloco } from '@jsverse/transloco';
 
 import { routes } from './app.routes';
+import { playgroundKuiLocale, playgroundKuiMessages } from './kui-i18n-sources';
 import { TranslocoHttpLoader } from './transloco-loader';
 
 export const appConfig: ApplicationConfig = {
@@ -17,7 +18,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(withFetch()),
-    provideKikitaUi({ scrollbars: 'styled' }),
+    provideKikitaUi({
+      scrollbars: 'styled',
+      locale: playgroundKuiLocale,
+      messages: playgroundKuiMessages,
+    }),
     provideTransloco({
       config: {
         availableLangs: ['en', 'ru'],

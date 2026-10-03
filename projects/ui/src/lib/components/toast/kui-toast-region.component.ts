@@ -16,6 +16,7 @@ import {
 
 import { Subject } from 'rxjs';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import {
@@ -71,7 +72,7 @@ function readPersistent(value: PersistentConfig): boolean {
       popover="manual"
       [attr.data-position]="_position()"
       role="region"
-      aria-label="Notifications"
+      [attr.aria-label]="t().region"
       aria-live="polite"
     >
       @for (toast of _toasts(); track toast.id) {
@@ -119,7 +120,7 @@ function readPersistent(value: PersistentConfig): boolean {
             <button
               class="kui-toast-close"
               type="button"
-              aria-label="Close"
+              [attr.aria-label]="common().close"
               (click)="dismiss(toast.id)"
             >
               <svg width="16" height="16" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.5"></svg>
@@ -146,6 +147,8 @@ export class KuiToastRegionComponent implements OnDestroy {
   private readonly document = inject(DOCUMENT);
   private readonly regionEl = viewChild<ElementRef<HTMLElement>>('region');
   private readonly toastDefaults = inject(KuiDefaults).get('toast');
+  protected readonly t = injectKuiMessages('toast');
+  protected readonly common = injectKuiMessages('common');
 
   private readonly infoGlyph = injectKuiGlyph({ role: 'statusInfo', fallback: KUI_GLYPH_INFO });
   private readonly successGlyph = injectKuiGlyph({

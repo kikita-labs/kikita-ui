@@ -8,8 +8,8 @@ export interface KuiConfirmConfig {
   message?: string;
   /** Visual intent. Affects icon color and confirm button appearance. Defaults to `'default'`. */
   appearance?: KuiDialogAppearance;
-  /** Label for the confirm button. Defaults to `'OK'`. */
+  /** Label for the confirm button. Defaults to the `dialog.confirm` message. */
   confirmLabel?: string;
-  /** Label for the cancel button. Defaults to `'Cancel'`. */
+  /** Label for the cancel button. Defaults to the `dialog.cancel` message. */
   cancelLabel?: string;
 }

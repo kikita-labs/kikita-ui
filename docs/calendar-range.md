@@ -100,7 +100,8 @@ Same `Intl`-driven locale resolution as `kui-calendar` — see [Calendar > Local
 - `showPrevNav` / `showNextNav`: `boolean` (default: `true`). Hide a header nav button.
 - `minDate` / `maxDate`: `Date | undefined`. Dates outside the range are disabled.
 - `disabledDates`: `Date[] | ((date: Date) => boolean) | undefined`. Individual exceptions.
-- `locale`: `string | undefined`. BCP 47 locale tag overriding `KUI_LOCALE` for this instance.
+- `locale`: `string | undefined`. BCP 47 locale tag overriding the locale of the nearest `KuiI18n` level for this instance.
+- `messages`: `Partial<KuiCalendarMessages> | undefined`. Text overrides for this instance, the same group as Calendar.
 
 ## Provider Defaults
 

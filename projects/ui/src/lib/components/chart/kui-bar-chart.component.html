@@ -4,7 +4,7 @@
     [style.height.px]="dimensions().height"
     role="status"
     aria-live="polite"
-    aria-label="Loading chart"
+    [attr.aria-label]="t().loading"
   >
     @for (top of loadingGridLineOffsets; track top) {
       <div class="kui-chart__loading-bars-grid-line" [style.top.%]="top"></div>
@@ -31,14 +31,14 @@
         stroke-linejoin="round"
       />
     </svg>
-    <span>No data</span>
+    <span>{{ t().noData }}</span>
   </div>
 } @else {
   <div
     class="kui-chart__graphic"
     role="graphics-document"
-    aria-roledescription="bar chart"
-    [attr.aria-label]="ariaLabel()"
+    [attr.aria-roledescription]="t().barRoleDescription"
+    [attr.aria-label]="effectiveAriaLabel()"
   >
     @if (!showTable()) {
       <svg
@@ -246,7 +246,7 @@
       <table kuiTable class="kui-chart__table">
         <thead>
           <tr kuiThGroup>
-            <th kuiTh>Category</th>
+            <th kuiTh>{{ t().columnCategory }}</th>
             @for (s of visibleSeries(); track s.seriesId) {
               <th kuiTh>{{ s.seriesName }}</th>
             }
@@ -287,7 +287,7 @@
       </div>
     }
     <button kuiButton shape="outline" size="xs" type="button" (click)="showTable.set(!showTable())">
-      {{ showTable() ? 'Chart' : 'Table' }}
+      {{ showTable() ? t().viewChart : t().viewTable }}
     </button>
   </div>
 }

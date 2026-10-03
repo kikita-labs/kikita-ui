@@ -20,6 +20,7 @@ import type {
 } from '@angular/forms/signals';
 import { FormField } from '@angular/forms/signals';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
@@ -105,14 +106,14 @@ const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
         kuiLoader
         [size]="effectiveSize()"
         class="kui-otp-input__loader"
-        label="Verifying code"
+        [label]="t().verifying"
       ></span>
     }
   `,
   host: {
     class: 'kui-otp-input',
     role: 'group',
-    '[attr.aria-label]': 'ariaLabel()',
+    '[attr.aria-label]': 'ariaLabel() ?? t().label',
     '[attr.aria-describedby]': 'describedBy()',
     '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-alpha]': 'effectiveIntegerOnly() ? null : ""',
@@ -148,8 +149,8 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
     transform: optionalBooleanAttribute,
   });
 
-  /** Accessible label for the cell group. Defaults to `'Verification code'`. */
-  readonly ariaLabel = input('Verification code');
+  /** Accessible label for the cell group. Defaults to the `otpInput.label` message. */
+  readonly ariaLabel = input<string | undefined>();
 
   /** Current code value: the joined characters of every cell, in order. */
   readonly value = model<string>('');
@@ -199,6 +200,7 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
   private readonly cellRefs = viewChildren<ElementRef<HTMLInputElement>>('cellEl');
 
   private readonly otpInputDefaults = inject(KuiDefaults).get('otpInput');
+  protected readonly t = injectKuiMessages('otpInput');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   /**
@@ -294,7 +296,7 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
   }
 
   protected cellLabel(i: number): string {
-    return `Digit ${i + 1} of ${this.length()}`;
+    return this.t().digit({ index: i + 1, total: this.length() });
   }
 
   protected onCellFocus(event: FocusEvent): void {

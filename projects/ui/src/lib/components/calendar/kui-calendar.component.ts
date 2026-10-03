@@ -12,11 +12,13 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { getKuiCalendarLocaleText } from '../../i18n/kui-calendar-locale-text.util';
-import { KUI_LOCALE } from '../../i18n/kui-locale.token';
+import { KuiI18n } from '../../i18n/kui-i18n.service';
+import { resolveKuiLocale } from '../../i18n/kui-locale-resolve.util';
+import type { KuiCalendarMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import {
-  KUI_CALENDAR_NAVIGATION_LABELS,
   KUI_CALENDAR_SIZES,
   type KuiCalendarNavigationView,
 } from '../../utils/kui-calendar-navigation.util';
@@ -44,6 +46,7 @@ import {
 interface KuiCalendarDayCell {
   date: Date;
   label: string;
+  ariaLabel: string;
   cls: string;
   tabIndex: 0 | -1;
   ariaSelected: 'true' | null;
@@ -127,7 +130,7 @@ type KuiCalendarView = KuiCalendarNavigationView;
     <div aria-live="polite" class="sr-only">{{ liveAnnounce() }}</div>
 
     @if (view() === 'days') {
-      <div class="kui-calendar-table" role="grid" aria-label="Calendar">
+      <div class="kui-calendar-table" role="grid" [attr.aria-label]="t().label">
         <div class="kui-calendar-weekdays" role="row">
           @for (name of localeText().weekdaysShort; track name; let i = $index) {
             <span
@@ -151,6 +154,7 @@ type KuiCalendarView = KuiCalendarNavigationView;
                     class="{{ cell.cls }}"
                     type="button"
                     [tabIndex]="cell.tabIndex"
+                    [attr.aria-label]="cell.ariaLabel"
                     [attr.aria-current]="cell.ariaCurrent"
                     [attr.aria-disabled]="cell.ariaDisabled"
                     (keydown)="onGridKeyDown($event)"
@@ -204,7 +208,9 @@ type KuiCalendarView = KuiCalendarNavigationView;
         <hr kuiSeparator />
         <div class="kui-calendar-footer">
           <span class="kui-calendar-value">{{ valueLabel() }}</span>
-          <button kuiButton shape="ghost" size="xs" type="button" (click)="goToday()">Today</button>
+          <button kuiButton shape="ghost" size="xs" type="button" (click)="goToday()">
+            {{ t().today }}
+          </button>
         </div>
       }
     </ng-content>
@@ -235,7 +241,7 @@ export class KuiCalendarComponent implements OnInit {
 
   private readonly injector = inject(Injector);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly injectedLocale = inject(KUI_LOCALE);
+  private readonly i18n = inject(KuiI18n);
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiCalendarSize>(KUI_CALENDAR_SIZES);
 
   /** Visual density. `sm` is a compact, border/padding-less variant for sidebars. */
@@ -274,6 +280,15 @@ export class KuiCalendarComponent implements OnInit {
    * (month/weekday names and first day of week).
    */
   readonly locale = input<string | undefined>(undefined);
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiCalendarMessages> | undefined>(undefined);
+
+  protected readonly t = injectKuiMessages('calendar', () => this.messages());
+
+  private readonly activeLocale = computed(() => {
+    const own = this.locale();
+    return own ? resolveKuiLocale(own) : this.i18n.locale();
+  });
   /**
    * Shows the "previous" nav control in the header. Defaults to true. Set to false when
    * pairing two linked calendars (e.g. a range popover showing month N and N+1) so only
@@ -353,11 +368,37 @@ export class KuiCalendarComponent implements OnInit {
     this.focusedDate.set(candidate);
   }
 
-  protected readonly localeText = computed(() =>
-    getKuiCalendarLocaleText(this.locale() ?? this.injectedLocale),
-  );
+  protected readonly localeText = computed(() => {
+    const locale = this.activeLocale();
+    return this.i18n.cached(`calendar:${locale}`, () => getKuiCalendarLocaleText(locale));
+  });
 
-  protected readonly navLabels = computed(() => KUI_CALENDAR_NAVIGATION_LABELS[this.view()]);
+  private monthYearLabel(year: number, month: number): string {
+    const locale = this.activeLocale();
+    const format = this.i18n.dateFormat(locale, 'monthYear', { month: 'long', year: 'numeric' });
+    const date = new Date(Date.UTC(2000, month, 1));
+    date.setUTCFullYear(year);
+
+    return format.format(date);
+  }
+
+  private fullDateLabel(date: Date): string {
+    const locale = this.activeLocale();
+    const format = this.i18n.dateFormat(locale, 'fullDate', { dateStyle: 'full' });
+    const utc = new Date(Date.UTC(2000, date.getMonth(), date.getDate()));
+    utc.setUTCFullYear(date.getFullYear());
+
+    return format.format(utc);
+  }
+
+  protected readonly navLabels = computed(() => {
+    const t = this.t();
+    const view = this.view();
+
+    if (view === 'days') return { prev: t.previousMonth, next: t.nextMonth };
+    if (view === 'months') return { prev: t.previousYear, next: t.nextYear };
+    return { prev: t.previousDecade, next: t.nextDecade };
+  });
 
   protected readonly headerLabel = computed(() => {
     const view = this.view();
@@ -367,7 +408,7 @@ export class KuiCalendarComponent implements OnInit {
       const start = decadeStart(year);
       return `${start}–${start + 11}`;
     }
-    return `${this.localeText().monthsLong[this.viewMonth()]} ${year}`;
+    return this.monthYearLabel(year, this.viewMonth());
   });
 
   /**
@@ -401,7 +442,8 @@ export class KuiCalendarComponent implements OnInit {
     for (let i = 0; i < 42; i++) {
       const date = addDays(gridStart, i);
       const muted = date.getMonth() !== month;
-      const weekend = this.effectiveShowWeekend() && (date.getDay() === 0 || date.getDay() === 6);
+      const weekend =
+        this.effectiveShowWeekend() && this.localeText().weekend.includes(date.getDay());
       const isToday = isSameDay(date, this.today());
       const disabled = this.isDisabled(date);
 
@@ -420,6 +462,7 @@ export class KuiCalendarComponent implements OnInit {
       cells.push({
         date,
         label: String(date.getDate()),
+        ariaLabel: this.fullDateLabel(date),
         cls,
         tabIndex: isSameDay(date, focused) ? 0 : -1,
         ariaSelected,
@@ -449,7 +492,7 @@ export class KuiCalendarComponent implements OnInit {
         this.viewDate.set(new Date(this.viewYear(), idx, 1));
         this.view.set('days');
         this.focusActiveDay();
-        this.liveAnnounce.set(`${this.localeText().monthsLong[idx]} ${this.viewYear()}`);
+        this.liveAnnounce.set(this.monthYearLabel(this.viewYear(), idx));
       },
     }));
   });

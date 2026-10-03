@@ -149,19 +149,20 @@ them from tab order.
 
 ## API
 
-| Input             | Type                              | Default                 | Description                                                                                               |
-| ----------------- | --------------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------- |
-| `variant`         | `'full' \| 'compact' \| 'simple'` | `'compact'`             | Layout preset. See Variants above.                                                                        |
-| `size`            | `KuiSize`                         | `'md'`                  | Control size. Same scale as `Button`/`IconButton`.                                                        |
-| `totalPages`      | positive integer                  | --                      | Required total page count. Static numeric values are coerced; invalid or non-positive values use `1`.     |
-| `currentPage`     | `number`                          | `1`                     | Current page, 1-based. Two-way model.                                                                     |
-| `siblingCount`    | non-negative integer              | `1`                     | Page numbers shown beside the current page before an ellipsis appears. Static numeric values are coerced. |
-| `boundaryCount`   | non-negative integer              | `1`                     | Page numbers always shown at each edge before an ellipsis appears. Static numeric values are coerced.     |
-| `pageSize`        | `number`                          | `25`                    | Rows shown per page. Only used by `variant="full"`. Two-way model.                                        |
-| `pageSizeOptions` | `readonly number[]`               | `[10, 25, 50, 100]`     | Choices offered by the rows-per-page picker. Only used by `variant="full"`.                               |
-| `totalItems`      | `number \| undefined`             | `totalPages * pageSize` | Total item count, for the summary text. Only used by `variant="full"`.                                    |
-| `disabled`        | `boolean`                         | `false`                 | Disables every control.                                                                                   |
-| `ariaLabel`       | `string`                          | `'Pagination'`          | Accessible name for the `nav` landmark.                                                                   |
+| Input             | Type                              | Default                    | Description                                                                                                             |
+| ----------------- | --------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `variant`         | `'full' \| 'compact' \| 'simple'` | `'compact'`                | Layout preset. See Variants above.                                                                                      |
+| `size`            | `KuiSize`                         | `'md'`                     | Control size. Same scale as `Button`/`IconButton`.                                                                      |
+| `totalPages`      | positive integer                  | --                         | Required total page count. Static numeric values are coerced; invalid or non-positive values use `1`.                   |
+| `currentPage`     | `number`                          | `1`                        | Current page, 1-based. Two-way model.                                                                                   |
+| `siblingCount`    | non-negative integer              | `1`                        | Page numbers shown beside the current page before an ellipsis appears. Static numeric values are coerced.               |
+| `boundaryCount`   | non-negative integer              | `1`                        | Page numbers always shown at each edge before an ellipsis appears. Static numeric values are coerced.                   |
+| `pageSize`        | `number`                          | `25`                       | Rows shown per page. Only used by `variant="full"`. Two-way model.                                                      |
+| `pageSizeOptions` | `readonly number[]`               | `[10, 25, 50, 100]`        | Choices offered by the rows-per-page picker. Only used by `variant="full"`.                                             |
+| `totalItems`      | `number \| undefined`             | `totalPages * pageSize`    | Total item count, for the summary text. Only used by `variant="full"`.                                                  |
+| `disabled`        | `boolean`                         | `false`                    | Disables every control.                                                                                                 |
+| `ariaLabel`       | `string`                          | `pagination.label` message | Accessible name for the `nav` landmark.                                                                                 |
+| `messages`        | `Partial<KuiPaginationMessages>`  | `undefined`                | Text overrides for this instance (button names, `rowsPerPage`, `summary`, `page`). See [Internationalization](i18n.md). |
 
 | Output              | Payload  | Description                                            |
 | ------------------- | -------- | ------------------------------------------------------ |
@@ -207,7 +208,7 @@ Each option resolves as `local input > defaults.pagination.<option> > built-in d
 
 ## Accessibility
 
-- The controls sit inside a `<nav>` landmark with `aria-label` (default `"Pagination"`), a
+- The controls sit inside a `<nav>` landmark with `aria-label` (default: the `pagination.label` message, `"Pagination"`), a
   separate landmark from the page's own primary navigation.
 - The current page gets both `aria-current="page"` and its own `aria-label`
   (`"Page N, current"`) -- state is not carried by `shape="solid"`/`appearance="primary"` color

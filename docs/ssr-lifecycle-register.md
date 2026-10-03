@@ -123,7 +123,10 @@ version of the clock fix.
    that wants one fixed locale provides it with `kuiProvideLocale`. Evidence: `kui-locale.token.spec.ts`,
    `kui-locale-seed.util.spec.ts`, and the e2e "renders the request language on the server and keeps
    it through hydration" (de-DE). This replaces the earlier interim rule that the server always
-   rendered `en-US`.
+   rendered `en-US`. Since Plan 21 components read the effective locale through `KuiI18n`, which
+   checks the tag against the runtime's `Intl` (an unsupported language falls back to `en-US`, never
+   to the host's default locale) and keeps every formatter cache in the injector. The calendar-name
+   cache that used to live in module scope grew with each distinct request locale; it is gone.
 2. **Dialog whose opener is destroyed.** Kept as is and now documented: a dialog belongs to the
    application overlay and outlives the component that opened it, because confirmations are
    commonly opened from route guards and other short-lived callers. Closing is explicit (result,

@@ -13,6 +13,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiIconComponent, type KuiIconName } from '../icon';
 import { KuiTextDirective } from '../typography';
@@ -81,6 +82,7 @@ export class KuiLinkDirective {
   readonly disabled = input(false, { transform: booleanAttribute });
 
   private readonly linkDefaults = inject(KuiDefaults).get('link');
+  private readonly messages = injectKuiMessages('link');
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly renderer = inject(Renderer2);
   private readonly viewContainerRef = inject(ViewContainerRef);
@@ -135,7 +137,7 @@ export class KuiLinkDirective {
     });
 
     effect(() => {
-      this.syncExternalHint(this.isExternal());
+      this.syncExternalHint(this.isExternal(), this.messages().opensInNewTab);
     });
   }
 
@@ -210,7 +212,7 @@ export class KuiLinkDirective {
     }
   }
 
-  private syncExternalHint(isExternal: boolean): void {
+  private syncExternalHint(isExternal: boolean, hint: string): void {
     if (!isExternal) {
       if (this.externalHintEl) {
         this.renderer.removeChild(this.host, this.externalHintEl);
@@ -221,15 +223,13 @@ export class KuiLinkDirective {
     }
 
     if (this.externalHintEl) {
+      this.externalHintEl.textContent = ` ${hint}`;
       return;
     }
 
     this.externalHintEl = this.renderer.createElement('span');
     this.renderer.addClass(this.externalHintEl, 'kui-link__sr-only');
-    this.renderer.appendChild(
-      this.externalHintEl,
-      this.renderer.createText(' (opens in a new tab)'),
-    );
+    this.renderer.appendChild(this.externalHintEl, this.renderer.createText(` ${hint}`));
     this.renderer.appendChild(this.host, this.externalHintEl);
   }
 }

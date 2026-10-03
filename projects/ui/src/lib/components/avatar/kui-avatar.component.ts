@@ -8,6 +8,7 @@ import {
   signal,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiSkeletonShape } from '../skeleton';
@@ -15,13 +16,6 @@ import { KuiSkeletonDirective } from '../skeleton';
 import type { KuiAvatarShape } from './kui-avatar-shape.type';
 import type { KuiAvatarSize } from './kui-avatar-size.type';
 import type { KuiAvatarStatus } from './kui-avatar-status.type';
-
-const STATUS_LABELS: Record<KuiAvatarStatus, string> = {
-  online: 'online',
-  away: 'away',
-  busy: 'busy',
-  offline: 'offline',
-};
 
 function numberOrUndefinedAttribute(value: unknown): number | undefined {
   if (value == null || value === '') return undefined;
@@ -78,6 +72,7 @@ export class KuiAvatarComponent {
   readonly loading = input(false, { transform: booleanAttribute });
 
   private readonly avatarDefaults = inject(KuiDefaults).get('avatar');
+  private readonly messages = injectKuiMessages('avatar');
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiAvatarSize>();
   private readonly failedImageSrc = signal<string | undefined>(undefined);
 
@@ -98,10 +93,19 @@ export class KuiAvatarComponent {
   protected readonly displayInitials = computed(() => this.resolveInitials());
 
   protected readonly accessibleLabel = computed(() => {
-    const base = this.alt() ?? this.name() ?? this.displayInitials() ?? 'Avatar';
+    const messages = this.messages();
+    const base = this.alt() ?? this.name() ?? this.displayInitials() ?? messages.fallback;
     const status = this.status();
+    if (!status) return base;
 
-    return status ? `${base}, ${STATUS_LABELS[status]}` : base;
+    const words: Record<KuiAvatarStatus, string> = {
+      online: messages.statusOnline,
+      away: messages.statusAway,
+      busy: messages.statusBusy,
+      offline: messages.statusOffline,
+    };
+
+    return messages.withStatus({ label: base, status: words[status] });
   });
 
   protected readonly imageAlt = computed(() => this.accessibleLabel());

@@ -1,4 +1,5 @@
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1200 });
@@ -225,6 +226,7 @@ test('gates required Signal Forms errors until touched and clears them after sel
   const localeResponse = await page.request.get('/i18n/combobox/ru.json');
   expect(localeResponse.ok()).toBeTruthy();
   const russian = await localeResponse.json();
+  const kui = await loadKuiCatalogue(page, 'ru');
   await page
     .getByRole('banner')
     .getByRole('button', { name: 'Switch language to Russian', exact: true })
@@ -238,7 +240,9 @@ test('gates required Signal Forms errors until touched and clears them after sel
     name: russian.fields.requiredAssignee,
     exact: true,
   });
-  await russianExample.getByRole('button', { name: 'Clear', exact: true }).click();
+  await russianExample
+    .getByRole('button', { name: kuiMessage(kui, 'common', 'clear'), exact: true })
+    .click();
   await expect(russianInput).toHaveValue('');
   await expect(russianInput).toHaveAttribute('aria-invalid', 'true');
   await expect(

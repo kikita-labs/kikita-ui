@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 
 const desktopViewport = { width: 1440, height: 1000 };
 const tabletViewport = { width: 768, height: 1024 };
@@ -42,7 +43,7 @@ function clearButton(input: Locator): Locator {
   return fieldOf(input).getByRole('button', { name: 'Clear', exact: true });
 }
 
-function column(panel: Locator, name: 'Hours' | 'Minutes' | 'Seconds'): Locator {
+function column(panel: Locator, name: 'Hours' | 'Minutes' | 'Seconds' | (string & {})): Locator {
   return panel.getByRole('listbox', { name, exact: true });
 }
 
@@ -679,9 +680,8 @@ test('renders the standalone panel inline with its own chrome and keeps Done ine
   );
 });
 
-test('switches the page copy to Russian while library-owned panel strings stay English', async ({
-  page,
-}) => {
+test('switches the page copy and the library-owned panel strings to Russian', async ({ page }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const response = await page.request.get(
     new URL('/i18n/time-picker/ru.json', page.url()).toString(),
   );
@@ -705,8 +705,10 @@ test('switches the page copy to Russian while library-owned panel strings stay E
   await input.press('ArrowDown');
   await expect(input).toHaveAttribute('aria-expanded', 'true');
   const panel = page.getByRole('dialog');
-  await expect(column(panel, 'Hours')).toBeVisible();
-  await expect(panel.getByRole('button', { name: 'Now', exact: true })).toBeVisible();
+  await expect(column(panel, kuiMessage(kui, 'timePicker', 'hours'))).toBeVisible();
+  await expect(
+    panel.getByRole('button', { name: kuiMessage(kui, 'timePicker', 'now'), exact: true }),
+  ).toBeVisible();
 });
 
 test('keeps the page without horizontal overflow and the open panel on screen at 320px', async ({

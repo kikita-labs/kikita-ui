@@ -9,6 +9,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import {
@@ -49,7 +50,7 @@ import type { KuiTreeNode } from './kui-tree-node.interface';
     >
       @if (hasChildren()) {
         @if (loading()) {
-          <span class="kui-tree-spinner" role="status" aria-label="Loading"></span>
+          <span class="kui-tree-spinner" role="status" [attr.aria-label]="common().loading"></span>
         } @else {
           <button
             class="kui-field-action kui-tree-toggle"
@@ -114,6 +115,7 @@ import type { KuiTreeNode } from './kui-tree-node.interface';
 /** Renders one interactive row in a Kikita UI tree. */
 export class KuiTreeNodeComponent {
   private readonly treeDefaults = inject(KuiDefaults).get('tree');
+  protected readonly common = injectKuiMessages('common');
 
   protected readonly disclosureGlyph = injectKuiGlyph({
     role: 'disclosure',

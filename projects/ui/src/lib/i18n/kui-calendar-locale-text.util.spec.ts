@@ -18,9 +18,12 @@ describe('getKuiCalendarLocaleText', () => {
     );
   });
 
-  it('caches results per locale tag', () => {
-    const first = getKuiCalendarLocaleText('fr-FR');
-    const second = getKuiCalendarLocaleText('fr-FR');
-    expect(first).toBe(second);
+  it('reports the weekend of the locale', () => {
+    expect(getKuiCalendarLocaleText('en-US').weekend).toEqual([6, 0]);
+    expect(getKuiCalendarLocaleText('he-IL').weekend).toEqual([5, 6]);
+  });
+
+  it('names months in the Gregorian calendar whatever the locale default is', () => {
+    expect(getKuiCalendarLocaleText('th-TH').monthsLong[9]).toBe('ตุลาคม');
   });
 });

@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 import { openWithHeldScripts, readDuplicateIds } from './support/ssr';
 
 interface MediaViewerLocale {
@@ -522,9 +523,8 @@ test('still opens and closes when reduced motion is requested', async ({ page })
   await expect(dialog).toHaveCount(0);
 });
 
-test('translates page copy and item text while the viewer chrome stays English', async ({
-  page,
-}) => {
+test('translates page copy, item text and the viewer chrome', async ({ page }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const response = await page.request.get('/i18n/media-viewer/ru.json');
   expect(response.ok()).toBeTruthy();
   const russian = (await response.json()) as MediaViewerLocale;
@@ -542,12 +542,17 @@ test('translates page copy and item text while the viewer chrome stays English',
     })
     .click();
 
-  const dialog = viewer(page, { photo: 2, total: 6 });
+  const russianViewer = (base: string, photo: number) =>
+    page.getByRole('dialog', {
+      name: kuiMessage(kui, 'mediaViewer', 'position', { label: base, index: photo, total: 6 }),
+      exact: true,
+    });
+  const dialog = russianViewer(kuiMessage(kui, 'mediaViewer', 'label'), 2);
   await expect(
     dialog.getByRole('img', { name: russian.labels.photoAlt.replace('{{number}}', '2') }),
   ).toBeVisible();
   await expect(
-    dialog.getByRole('button', { name: 'Close photo viewer', exact: true }),
+    dialog.getByRole('button', { name: kuiMessage(kui, 'mediaViewer', 'close'), exact: true }),
   ).toBeVisible();
   await expect(grid.getByRole('status')).toHaveText(
     russian.status.lastViewed.replace('{{number}}', '2'),
@@ -558,7 +563,7 @@ test('translates page copy and item text while the viewer chrome stays English',
   await group(page, russian.accessibility.options)
     .getByRole('button', { name: russian.actions.openCustomLabel, exact: true })
     .click();
-  await expect(viewer(page, { photo: 1, total: 6 }, russian.labels.customAriaLabel)).toBeVisible();
+  await expect(russianViewer(russian.labels.customAriaLabel, 1)).toBeVisible();
   await page.keyboard.press('Escape');
 
   await group(page, russian.accessibility.select)

@@ -3,8 +3,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { KUI_LOCALE, kuiProvideLocale } from './kui-locale.token';
+import { KuiI18n } from './kui-i18n.service';
+import { KUI_LOCALE } from './kui-locale.token';
 import { KUI_LOCALE_SEED } from './kui-locale-seed.util';
+import { kuiProvideLocale } from './provide-kui-i18n';
 
 describe('KUI_LOCALE', () => {
   afterEach(() => {
@@ -65,6 +67,6 @@ describe('KUI_LOCALE', () => {
       providers: [{ provide: PLATFORM_ID, useValue: 'server' }, kuiProvideLocale('fr-FR')],
     });
 
-    expect(TestBed.inject(KUI_LOCALE)).toBe('fr-FR');
+    expect(TestBed.inject(KuiI18n).locale()).toBe('fr-FR');
   });
 });

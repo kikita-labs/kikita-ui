@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiTextDirective } from '@kikita-labs/ui';
+import { kuiProvideDefaults, KuiTextDirective } from '@kikita-labs/ui';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
@@ -32,6 +32,10 @@ import {
     TimePickerSteps,
     TranslocoPipe,
   ],
+  // Without a format the Time Picker follows the locale's hour cycle (12-hour in en-US). The page
+  // pins 24 hours so its examples read the same in every language; the 12-hour examples set
+  // `format="12h"`, and the locale-driven default is covered by the library unit specs.
+  providers: [kuiProvideDefaults({ timePicker: { format: '24h' } })],
   templateUrl: './time-picker.html',
   styleUrl: './time-picker.scss',
 })

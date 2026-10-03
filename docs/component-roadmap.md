@@ -83,9 +83,18 @@ fixing or closing them; record new evidence in state coverage.
   `Signal`, and `KuiDefaults` reads and changes them at runtime. Data, instance state, forms state,
   accessible names and library message text are not defaults. `kui-icon`, `kui-command-palette`
   and `kui-media-viewer` have no key: icon size is a raw CSS size, and the other two only expose
-  message text (Plan 21) or data. See [DI defaults](di-defaults.md). Every read of a key follows runtime
+  message text or data. See [DI defaults](di-defaults.md). Every read of a key follows runtime
   changes, except options read when an overlay opens or a tooltip shows (verified in Plan 18, 2026-10-03).
-  Open follow-up: message overrides (Plan 21).
+- Internationalization (v2, Plan 21): the library's own text lives in one typed map, `KuiMessages` (29
+  groups, 153 messages, English pack `KUI_ENGLISH_MESSAGES`), overridden for the app
+  (`provideKikitaUi({ messages })`), a subtree (`kuiProvideMessages`) or an instance (the `messages`
+  input of the ten larger components, or the existing label inputs), and switchable at runtime by
+  passing a `Signal`. The formatting locale (`KuiI18n.locale`) is independent: calendar names, week
+  start and weekend, date and time layouts, numbers, units and plural rules all come from `Intl` with
+  the Gregorian calendar and Latin digits. See [Internationalization](i18n.md). Deferred by decision:
+  right-to-left layouts, native numerals and non-Gregorian calendars (v2 limits); language packs
+  other than English ship with applications or community packages, the Playground carries a Russian
+  reference pack in its catalogues.
 - Structural icons (v2, Plan 20): the glyphs components draw for themselves are icon data replaceable per
   role (`defaults.icons`) or per component slot, drawn through an allowlist renderer that is
   synchronous, SSR-safe and forced-colors-safe; `--kui-icon-stroke-width` and

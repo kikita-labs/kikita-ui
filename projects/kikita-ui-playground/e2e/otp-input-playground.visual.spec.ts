@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 import { openWithHeldScripts, readDuplicateIds } from './support/ssr';
 
 const desktopViewport = { width: 1440, height: 1000 };
@@ -47,8 +48,8 @@ function otp(scope: Locator, name: string): Locator {
   return scope.getByRole('group', { name, exact: true });
 }
 
-function cell(group: Locator, index: number, length = 6): Locator {
-  return group.getByLabel(`Digit ${index} of ${length}`, { exact: true });
+function cell(group: Locator, index: number, length = 6, label?: string): Locator {
+  return group.getByLabel(label ?? `Digit ${index} of ${length}`, { exact: true });
 }
 
 function readoutOf(scope: Locator, label = 'Value:'): Locator {
@@ -451,6 +452,7 @@ test('shows Signal Forms errors only after the group is edited', async ({ page }
 });
 
 test('loads the OTP Input scope and switches page text at runtime', async ({ page }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const localeResponse = await page.request.get('/i18n/otp-input/ru.json');
   expect(localeResponse.ok()).toBeTruthy();
   const translations = await localeResponse.json();
@@ -465,8 +467,15 @@ test('loads the OTP Input scope and switches page text at runtime', async ({ pag
     exact: true,
   });
   await expect(defaultCard.getByText(translations.fields.verificationCode)).toBeVisible();
-  // Library-owned strings stay English by design.
-  await expect(cell(otp(defaultCard, 'Verification code'), 1)).toBeVisible();
+  // Library-owned strings follow the language through the Kikita UI messages.
+  await expect(
+    cell(
+      otp(defaultCard, kuiMessage(kui, 'otpInput', 'label')),
+      1,
+      6,
+      kuiMessage(kui, 'otpInput', 'digit', { index: 1, total: 6 }),
+    ),
+  ).toBeVisible();
 
   const validation = page.getByRole('group', {
     name: translations.accessibility.validation,
@@ -476,7 +485,7 @@ test('loads the OTP Input scope and switches page text at runtime', async ({ pag
     name: translations.fields.signInCode,
     exact: true,
   });
-  await cell(group, 1).click();
+  await cell(group, 1, 6, kuiMessage(kui, 'otpInput', 'digit', { index: 1, total: 6 })).click();
   await page.keyboard.type('1');
   await expect(validation.getByRole('alert')).toHaveText(translations.errors.length);
 });

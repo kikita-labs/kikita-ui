@@ -1,5 +1,6 @@
 import { computed, Directive, inject, input } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
@@ -12,17 +13,20 @@ import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
     role: 'status',
     'aria-live': 'polite',
     '[attr.data-kui-size]': 'effectiveSize()',
-    '[attr.aria-label]': 'label()',
+    '[attr.aria-label]': 'effectiveLabel()',
   },
 })
 export class KuiLoaderDirective {
   /** Loader size. Defaults to `defaults.loader.size`, then the global `defaults.size`, then md. */
   readonly size = input<KuiSize | undefined>();
 
-  /** Accessible label for the loading indicator. */
-  readonly label = input('Loading');
+  /** Accessible label for the loading indicator. Defaults to the `common.loading` message. */
+  readonly label = input<string | undefined>();
 
   private readonly loaderDefaults = inject(KuiDefaults).get('loader');
+  private readonly common = injectKuiMessages('common');
+
+  protected readonly effectiveLabel = computed(() => this.label() ?? this.common().loading);
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
   protected readonly effectiveSize = computed(

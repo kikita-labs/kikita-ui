@@ -1,6 +1,7 @@
 import type { ElementRef } from '@angular/core';
 import { Component, computed, inject, input, viewChild, ViewEncapsulation } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KUI_GLYPH_CHEVRON_LEFT } from '../icon/kui-chrome-glyphs';
 import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
@@ -75,6 +76,7 @@ export class KuiSplitterGutterComponent {
   readonly index = input.required<number>();
 
   private readonly context = inject(KUI_SPLITTER_CONTEXT);
+  private readonly t = injectKuiMessages('splitter');
 
   private readonly separator = viewChild.required<ElementRef<HTMLElement>>('separator');
 
@@ -119,7 +121,7 @@ export class KuiSplitterGutterComponent {
   });
 
   protected readonly collapseLabel = computed(() =>
-    this.collapsed() ? 'Expand pane' : 'Collapse pane',
+    this.collapsed() ? this.t().expandPane : this.t().collapsePane,
   );
 
   /**

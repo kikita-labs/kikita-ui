@@ -12,6 +12,7 @@ import {
   Renderer2,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
@@ -68,6 +69,7 @@ export class KuiChipDirective {
   readonly removed = output<void>();
 
   private readonly chipDefaults = inject(KuiDefaults).get('chip');
+  private readonly common = injectKuiMessages('common');
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiChipSize>();
   private readonly renderer = inject(Renderer2);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
@@ -102,7 +104,7 @@ export class KuiChipDirective {
       if (this.removable()) {
         this.ensureRemoveButton();
         this.syncRemoveGlyph(this.removeGlyph());
-        this.syncRemoveButtonState(this.disabled(), this.removeLabel());
+        this.syncRemoveButtonState(this.disabled(), this.removeLabel() ?? this.common().remove);
       } else {
         this.destroyRemoveButton();
       }
@@ -156,14 +158,14 @@ export class KuiChipDirective {
     this.renderer.appendChild(button, this.removeGlyphEl);
   }
 
-  private syncRemoveButtonState(disabled: boolean, removeLabel: string | undefined): void {
+  private syncRemoveButtonState(disabled: boolean, removeLabel: string): void {
     const button = this.removeButtonEl;
 
     if (!button) {
       return;
     }
 
-    this.renderer.setAttribute(button, 'aria-label', removeLabel ?? 'Remove');
+    this.renderer.setAttribute(button, 'aria-label', removeLabel);
 
     if (disabled) {
       this.renderer.setAttribute(button, 'aria-disabled', 'true');

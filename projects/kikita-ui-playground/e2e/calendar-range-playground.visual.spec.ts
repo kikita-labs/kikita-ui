@@ -121,36 +121,34 @@ test('builds, reverses, and restarts a range across real clicks', async ({ page 
   await expectBrowserLocaleWeek(example);
   await expect(example.getByText('No range selected', { exact: true })).toBeVisible();
 
-  await grid.getByRole('button', { name: '12', exact: true }).click();
+  await grid.locator('.kui-calendar-day').filter({ hasText: /^12$/ }).click();
   await expect(example.getByText('Start 2026-05-12, end open', { exact: true })).toBeVisible();
-  await expect(gridcellOf(grid.getByRole('button', { name: '12', exact: true }))).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
+  await expect(
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^12$/ })),
+  ).toHaveAttribute('aria-selected', 'true');
 
-  await grid.getByRole('button', { name: '20', exact: true }).click();
+  await grid.locator('.kui-calendar-day').filter({ hasText: /^20$/ }).click();
   await expect(
     example.getByText('Selected 2026-05-12 to 2026-05-20', { exact: true }),
   ).toBeVisible();
   await expect(grid.locator('[aria-selected="true"]')).toHaveCount(2);
-  await expect(gridcellOf(grid.getByRole('button', { name: '20', exact: true }))).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
   await expect(
-    gridcellOf(grid.getByRole('button', { name: '15', exact: true })),
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^20$/ })),
+  ).toHaveAttribute('aria-selected', 'true');
+  await expect(
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^15$/ })),
   ).not.toHaveAttribute('aria-selected', 'true');
 
-  await grid.getByRole('button', { name: '8', exact: true }).click();
+  await grid.locator('.kui-calendar-day').filter({ hasText: /^8$/ }).click();
   await expect(example.getByText('Start 2026-05-08, end open', { exact: true })).toBeVisible();
 
-  await grid.getByRole('button', { name: '5', exact: true }).nth(0).click();
+  await grid.locator('.kui-calendar-day').filter({ hasText: /^5$/ }).nth(0).click();
   await expect(
     example.getByText('Selected 2026-05-05 to 2026-05-08', { exact: true }),
   ).toBeVisible();
 
-  await grid.getByRole('button', { name: '18', exact: true }).click();
-  await grid.getByRole('button', { name: '18', exact: true }).click();
+  await grid.locator('.kui-calendar-day').filter({ hasText: /^18$/ }).click();
+  await grid.locator('.kui-calendar-day').filter({ hasText: /^18$/ }).click();
   await expect(
     example.getByText('Selected 2026-05-18 to 2026-05-18', { exact: true }),
   ).toBeVisible();
@@ -161,16 +159,17 @@ test('shows a hover preview before the second click @visual', async ({ page }) =
   const grid = example.getByRole('grid');
 
   await expectBrowserLocaleWeek(example);
-  await grid.getByRole('button', { name: '12', exact: true }).click();
-  await moveMouseTo(page, grid.getByRole('button', { name: '18', exact: true }));
+  await grid.locator('.kui-calendar-day').filter({ hasText: /^12$/ }).click();
+  await moveMouseTo(page, grid.locator('.kui-calendar-day').filter({ hasText: /^18$/ }));
   expect(
     await grid
-      .getByRole('button', { name: '18', exact: true })
+      .locator('.kui-calendar-day')
+      .filter({ hasText: /^18$/ })
       .evaluate((day) => day.matches(':hover')),
   ).toBe(true);
   await expect(example).toHaveScreenshot('calendar-range-preview.png', { animations: 'disabled' });
 
-  await grid.getByRole('button', { name: '18', exact: true }).click();
+  await grid.locator('.kui-calendar-day').filter({ hasText: /^18$/ }).click();
   await expect(
     example.getByText('Selected 2026-05-12 to 2026-05-18', { exact: true }),
   ).toBeVisible();
@@ -193,7 +192,7 @@ test('navigates to another month when an outside-month day is chosen', async ({ 
 test('selects a range with the keyboard and moves across a month boundary', async ({ page }) => {
   const example = group(page, 'Calendar range selection example');
   const grid = example.getByRole('grid');
-  const today = grid.getByRole('button', { name: '14', exact: true });
+  const today = grid.locator('.kui-calendar-day').filter({ hasText: /^14$/ });
 
   await expectBrowserLocaleWeek(example);
   // The roving tab stop is asserted instead of DOM focus: the library keeps DOM focus on the
@@ -226,7 +225,7 @@ test('selects a range with the keyboard and moves across a month boundary', asyn
   await tabStop.focus();
   await page.keyboard.press('PageDown');
   await expect(example.getByRole('button', { name: 'June 2026', exact: true })).toBeVisible();
-  const june23 = grid.getByRole('button', { name: '23', exact: true });
+  const june23 = grid.locator('.kui-calendar-day').filter({ hasText: /^23$/ });
   await expect(june23).toHaveAttribute('tabindex', '0');
   await june23.focus();
   await june23.press('Shift+PageUp');
@@ -251,7 +250,7 @@ test('captures a date cell in keyboard focus @visual', async ({ page }) => {
 
 test('captures a hovered date cell @visual', async ({ page }) => {
   const example = group(page, sections[0].name);
-  const day = example.getByRole('grid').getByRole('button', { name: '20', exact: true });
+  const day = example.getByRole('grid').locator('.kui-calendar-day').filter({ hasText: /^20$/ });
 
   await expectBrowserLocaleWeek(example);
   await moveMouseTo(page, day);
@@ -326,30 +325,26 @@ test('disables dates outside the limits and the listed exception', async ({ page
 
   await expectBrowserLocaleWeek(example);
   for (const day of ['8', '24']) {
-    await expect(grid.getByRole('button', { name: day, exact: true })).not.toHaveAttribute(
-      'aria-disabled',
-      'true',
-    );
+    await expect(
+      grid.locator('.kui-calendar-day').filter({ hasText: new RegExp(`^${day}$`) }),
+    ).not.toHaveAttribute('aria-disabled', 'true');
   }
   for (const day of ['7', '18', '25']) {
-    await expect(grid.getByRole('button', { name: day, exact: true })).toHaveAttribute(
-      'aria-disabled',
-      'true',
-    );
+    await expect(
+      grid.locator('.kui-calendar-day').filter({ hasText: new RegExp(`^${day}$`) }),
+    ).toHaveAttribute('aria-disabled', 'true');
   }
 
-  const disabled = grid.getByRole('button', { name: '18', exact: true });
+  const disabled = grid.locator('.kui-calendar-day').filter({ hasText: /^18$/ });
   await moveMouseTo(page, disabled);
   await page.mouse.down();
   await page.mouse.up();
-  await expect(gridcellOf(grid.getByRole('button', { name: '12', exact: true }))).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
-  await expect(gridcellOf(grid.getByRole('button', { name: '20', exact: true }))).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
+  await expect(
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^12$/ })),
+  ).toHaveAttribute('aria-selected', 'true');
+  await expect(
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^20$/ })),
+  ).toHaveAttribute('aria-selected', 'true');
   await expect(gridcellOf(disabled)).not.toHaveAttribute('aria-selected', 'true');
 });
 
@@ -358,31 +353,28 @@ test('rejects a disabled date from the keyboard but commits a range across it', 
 }) => {
   const example = group(page, 'Calendar range date limits and disabled date example');
   const grid = example.getByRole('grid');
-  const day17 = grid.getByRole('button', { name: '17', exact: true });
+  const day17 = grid.locator('.kui-calendar-day').filter({ hasText: /^17$/ });
 
   await expectBrowserLocaleWeek(example);
   await day17.focus();
   await page.keyboard.press('ArrowRight');
-  const day18 = grid.getByRole('button', { name: '18', exact: true });
+  const day18 = grid.locator('.kui-calendar-day').filter({ hasText: /^18$/ });
   await expect(day18).toHaveAttribute('tabindex', '0');
   await page.keyboard.press('Enter');
   await page.keyboard.press('Space');
-  await expect(gridcellOf(grid.getByRole('button', { name: '12', exact: true }))).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
+  await expect(
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^12$/ })),
+  ).toHaveAttribute('aria-selected', 'true');
   await expect(gridcellOf(day18)).not.toHaveAttribute('aria-selected', 'true');
 
-  await grid.getByRole('button', { name: '15', exact: true }).click();
-  await grid.getByRole('button', { name: '20', exact: true }).click();
-  await expect(gridcellOf(grid.getByRole('button', { name: '15', exact: true }))).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
-  await expect(gridcellOf(grid.getByRole('button', { name: '20', exact: true }))).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
+  await grid.locator('.kui-calendar-day').filter({ hasText: /^15$/ }).click();
+  await grid.locator('.kui-calendar-day').filter({ hasText: /^20$/ }).click();
+  await expect(
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^15$/ })),
+  ).toHaveAttribute('aria-selected', 'true');
+  await expect(
+    gridcellOf(grid.locator('.kui-calendar-day').filter({ hasText: /^20$/ })),
+  ).toHaveAttribute('aria-selected', 'true');
   await expect(day18).toHaveAttribute('aria-disabled', 'true');
   await expect(gridcellOf(day18)).not.toHaveAttribute('aria-selected', 'true');
 });
@@ -392,15 +384,14 @@ test('disables weekend days through the predicate', async ({ page }) => {
   const grid = example.getByRole('grid');
 
   await expectBrowserLocaleWeek(example);
-  await expect(grid.getByRole('button', { name: '15', exact: true })).not.toHaveAttribute(
+  await expect(grid.locator('.kui-calendar-day').filter({ hasText: /^15$/ })).not.toHaveAttribute(
     'aria-disabled',
     'true',
   );
   for (const day of ['16', '17']) {
-    await expect(grid.getByRole('button', { name: day, exact: true })).toHaveAttribute(
-      'aria-disabled',
-      'true',
-    );
+    await expect(
+      grid.locator('.kui-calendar-day').filter({ hasText: new RegExp(`^${day}$`) }),
+    ).toHaveAttribute('aria-disabled', 'true');
   }
 });
 
@@ -426,13 +417,13 @@ test('keeps a linked pair one month apart with one navigation button each', asyn
   await previous.click();
   const [leading, trailing] = await example.getByRole('grid').all();
   await expectBrowserLocaleWeek(example);
-  await leading.getByRole('button', { name: '12', exact: true }).click();
-  await trailing.getByRole('button', { name: '20', exact: true }).click();
+  await leading.locator('.kui-calendar-day').filter({ hasText: /^12$/ }).click();
+  await trailing.locator('.kui-calendar-day').filter({ hasText: /^20$/ }).click();
   await expect(
-    gridcellOf(leading.getByRole('button', { name: '12', exact: true })),
+    gridcellOf(leading.locator('.kui-calendar-day').filter({ hasText: /^12$/ })),
   ).toHaveAttribute('aria-selected', 'true');
   await expect(
-    gridcellOf(trailing.getByRole('button', { name: '20', exact: true })),
+    gridcellOf(trailing.locator('.kui-calendar-day').filter({ hasText: /^20$/ })),
   ).toHaveAttribute('aria-selected', 'true');
 });
 
@@ -455,9 +446,9 @@ test('updates page labels and verifies the Russian calendar month and week', asy
     name: russian.locales.russian,
     exact: true,
   });
-  const monthLabel = `${new Intl.DateTimeFormat('ru-RU', { month: 'long' }).format(
+  const monthLabel = new Intl.DateTimeFormat('ru-RU', { month: 'long', year: 'numeric' }).format(
     new Date(2026, 4, 1),
-  )} 2026`;
+  );
   await expect(
     russianCalendar.getByRole('button', { name: monthLabel, exact: true }),
   ).toBeVisible();
@@ -492,12 +483,12 @@ test.fixme('moves DOM focus to the next day when an arrow key is pressed', async
   // moves it, so focus stays on the previous cell. kui-calendar waits for the next render.
   const example = group(page, sections[0].name);
   const grid = example.getByRole('grid');
-  const today = grid.getByRole('button', { name: '14', exact: true });
+  const today = grid.locator('.kui-calendar-day').filter({ hasText: /^14$/ });
 
   await expectBrowserLocaleWeek(example);
   await today.focus();
   await today.press('ArrowRight');
-  await expect(grid.getByRole('button', { name: '15', exact: true })).toBeFocused();
+  await expect(grid.locator('.kui-calendar-day').filter({ hasText: /^15$/ })).toBeFocused();
 });
 
 test.fixme('announces the new month when the Next month button is used', async ({ page }) => {

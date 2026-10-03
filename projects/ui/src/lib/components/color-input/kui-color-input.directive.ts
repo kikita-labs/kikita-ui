@@ -18,6 +18,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import type { KuiColorInputMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { DEFAULT_KUI_THEME } from '../../theme/default-kui-theme.const';
 import type { KuiSize } from '../../types';
@@ -82,8 +84,15 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   /** Id override for the native input. Falls back to the parent `kui-field` control id. */
   readonly id = input<string | undefined>();
 
-  /** Accessible label for the swatch button. */
-  readonly swatchLabel = input('Open color picker');
+  /** Accessible label for the swatch button. Defaults to the `colorInput.openPicker` message. */
+  readonly swatchLabel = input<string | undefined>();
+
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiColorInputMessages> | undefined>();
+
+  private readonly t = injectKuiMessages('colorInput', () => this.messages());
+
+  private readonly effectiveSwatchLabel = computed(() => this.swatchLabel() ?? this.t().openPicker);
 
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
@@ -187,7 +196,8 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       this.effectiveSize(),
       this.invalidInput(),
       this.field?.invalid() ?? false,
-      this.swatchLabel(),
+      this.effectiveSwatchLabel(),
+      this.t().openPicker,
       this.open(),
     ].join('|');
 
@@ -245,7 +255,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.renderer.addClass(this.chevronBtn, 'kui-field-action');
     this.renderer.addClass(this.chevronBtn, 'kui-color-input__trigger');
     this.renderer.setAttribute(this.chevronBtn, 'type', 'button');
-    this.renderer.setAttribute(this.chevronBtn, 'aria-label', 'Open color picker');
+    this.renderer.setAttribute(this.chevronBtn, 'aria-label', this.t().openPicker);
     this.renderChevronGlyph(untracked(this.chevronGlyph));
 
     this.renderer.appendChild(this.containerEl, this.swatchBtn);
@@ -273,11 +283,11 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       ),
       this.renderer.listen(this.swatchBtn, 'focusout', () => this.hideTooltip()),
       this.renderer.listen(this.chevronBtn, 'mouseenter', () =>
-        this.showTooltip(this.chevronBtn, 'Open color picker'),
+        this.showTooltip(this.chevronBtn, this.t().openPicker),
       ),
       this.renderer.listen(this.chevronBtn, 'mouseleave', () => this.hideTooltip()),
       this.renderer.listen(this.chevronBtn, 'focusin', () =>
-        this.showTooltipOnFocus(this.chevronBtn, 'Open color picker'),
+        this.showTooltipOnFocus(this.chevronBtn, this.t().openPicker),
       ),
       this.renderer.listen(this.chevronBtn, 'focusout', () => this.hideTooltip()),
     );
@@ -316,12 +326,13 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.swatchTooltipText = this.lastValid.hex;
     this.swatchBtn.setAttribute(
       'aria-label',
-      value ? `${this.swatchLabel()}: ${this.lastValid.hex}` : this.swatchLabel(),
+      value ? `${this.effectiveSwatchLabel()}: ${this.lastValid.hex}` : this.effectiveSwatchLabel(),
     );
     if (this.tooltipAnchor === this.swatchBtn) {
       this.updateTooltipText(this.swatchTooltipText);
       this.tooltipOverlay?.updatePosition();
     }
+    this.chevronBtn.setAttribute('aria-label', this.t().openPicker);
     this.chevronBtn.setAttribute('aria-expanded', this.open() ? 'true' : 'false');
     this.chevronBtn.setAttribute('aria-hidden', native.readOnly ? 'true' : 'false');
 
@@ -436,7 +447,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.renderer.setStyle(this.pickerEl, 'background', this.surfaceBackground());
     this.renderer.setAttribute(this.pickerEl, 'role', 'slider');
     this.renderer.setAttribute(this.pickerEl, 'tabindex', '0');
-    this.renderer.setAttribute(this.pickerEl, 'aria-label', 'Lightness and chroma');
+    this.renderer.setAttribute(this.pickerEl, 'aria-label', this.t().pickerLabel);
     this.renderer.setAttribute(this.pickerEl, 'aria-valuetext', this.lastValid.hex);
 
     this.thumbEl = this.renderer.createElement('span');
@@ -469,7 +480,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.renderer.setAttribute(this.hueInputEl, 'type', 'range');
     this.renderer.setAttribute(this.hueInputEl, 'min', '0');
     this.renderer.setAttribute(this.hueInputEl, 'max', '360');
-    this.renderer.setAttribute(this.hueInputEl, 'aria-label', 'Hue');
+    this.renderer.setAttribute(this.hueInputEl, 'aria-label', this.t().hue);
     this.renderer.setProperty(this.hueInputEl, 'value', String(Math.round(this.lastValid.h)));
     this.renderer.appendChild(hue, hueTrack);
     this.renderer.appendChild(hue, this.hueThumbEl);
@@ -584,12 +595,12 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     const seeds = DEFAULT_KUI_THEME.seeds.color;
     const presets: readonly [name: string, hex: string][] = (
       [
-        ['Primary', seeds.primary],
-        ['Neutral', seeds.neutral],
-        ['Success', seeds.success],
-        ['Warning', seeds.warning],
-        ['Danger', seeds.danger],
-        ['Info', seeds.info],
+        [this.t().presetPrimary, seeds.primary],
+        [this.t().presetNeutral, seeds.neutral],
+        [this.t().presetSuccess, seeds.success],
+        [this.t().presetWarning, seeds.warning],
+        [this.t().presetDanger, seeds.danger],
+        [this.t().presetInfo, seeds.info],
       ] as const
     ).flatMap(([name, seed]) =>
       seed ? [[name, parseColor(seed)?.hex ?? seed] as [string, string]] : [],
@@ -600,18 +611,15 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       const btn = this.renderer.createElement('button');
       this.renderer.addClass(btn, 'kui-color-input-preset');
       this.renderer.setAttribute(btn, 'type', 'button');
-      this.renderer.setAttribute(btn, 'aria-label', `${name} seed: ${preset}`);
+      const presetLabel = this.t().preset({ name, value: preset });
+      this.renderer.setAttribute(btn, 'aria-label', presetLabel);
       this.renderer.setStyle(btn, 'background', preset);
       this.renderer.appendChild(row, btn);
       this.pickerUnlisten.push(
         this.renderer.listen(btn, 'click', () => this.commitText(preset)),
-        this.renderer.listen(btn, 'mouseenter', () =>
-          this.showTooltip(btn, `${name} seed: ${preset}`),
-        ),
+        this.renderer.listen(btn, 'mouseenter', () => this.showTooltip(btn, presetLabel)),
         this.renderer.listen(btn, 'mouseleave', () => this.hideTooltip()),
-        this.renderer.listen(btn, 'focusin', () =>
-          this.showTooltipOnFocus(btn, `${name} seed: ${preset}`),
-        ),
+        this.renderer.listen(btn, 'focusin', () => this.showTooltipOnFocus(btn, presetLabel)),
         this.renderer.listen(btn, 'focusout', () => this.hideTooltip()),
       );
     }
@@ -629,15 +637,15 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       btn,
       createKuiGlyphElement(this.renderer, KUI_GLYPH_COPY, { size: 13, strokeWidth: 2 }),
     );
-    this.renderer.appendChild(btn, this.renderer.createText('Copy value'));
+    this.renderer.appendChild(btn, this.renderer.createText(this.t().copyValue));
     this.renderer.appendChild(panel, btn);
     this.pickerUnlisten.push(
       this.renderer.listen(btn, 'click', () => {
         void navigator.clipboard?.writeText(this.lastValid.hex).catch(() => undefined);
       }),
-      this.renderer.listen(btn, 'mouseenter', () => this.showTooltip(btn, 'Copy value')),
+      this.renderer.listen(btn, 'mouseenter', () => this.showTooltip(btn, this.t().copyValue)),
       this.renderer.listen(btn, 'mouseleave', () => this.hideTooltip()),
-      this.renderer.listen(btn, 'focusin', () => this.showTooltipOnFocus(btn, 'Copy value')),
+      this.renderer.listen(btn, 'focusin', () => this.showTooltipOnFocus(btn, this.t().copyValue)),
       this.renderer.listen(btn, 'focusout', () => this.hideTooltip()),
     );
   }

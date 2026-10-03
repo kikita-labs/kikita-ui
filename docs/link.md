@@ -93,7 +93,7 @@ link text already carries the meaning).
   icon data drawn as inline SVG rather than the async, name-resolved `kui-icon`, the same treatment
   `kuiDatePicker`'s calendar affix and `kuiTimePicker`'s clock affix get). Replace it with
   `defaults.link.externalIcon` or the `externalLink` role; see [Structural Icons](structural-icons.md).
-- A visually-hidden "(opens in a new tab)" suffix is appended to the accessible name.
+- A visually-hidden suffix is appended to the accessible name: the `link.opensInNewTab` message, `(opens in a new tab)` by default.
 
 ### Disabled
 

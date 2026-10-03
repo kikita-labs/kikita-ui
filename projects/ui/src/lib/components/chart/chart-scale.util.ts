@@ -136,24 +136,6 @@ export function computeScatterDomain(
 }
 
 /**
- * Compact axis/tooltip/legend number formatting (`1.2K`, `3.4M`). Not used for the alt-table,
- * which shows exact values -- see `chart.types.ts`'s `KuiChartValueFormat` JSDoc.
- */
-export function formatCompact(value: number): string {
-  if (value === 0) return '0';
-  const sign = value < 0 ? '-' : '';
-  const abs = Math.abs(value);
-  if (abs >= 1_000_000_000) return `${sign}${trimTrailingZero(abs / 1_000_000_000)}B`;
-  if (abs >= 1_000_000) return `${sign}${trimTrailingZero(abs / 1_000_000)}M`;
-  if (abs >= 1_000) return `${sign}${trimTrailingZero(abs / 1_000)}K`;
-  return `${sign}${trimTrailingZero(abs)}`;
-}
-
-function trimTrailingZero(value: number): string {
-  return (Math.round(value * 10) / 10).toString();
-}
-
-/**
  * Picks which category indices get a rendered tick label so labels do not overlap at high
  * density. `minLabelWidth` is an estimate in the same SVG viewBox units as
  * `availableWidth`; labels are not measured individually.

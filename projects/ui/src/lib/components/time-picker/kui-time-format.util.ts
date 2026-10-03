@@ -1,13 +1,16 @@
+import {
+  collapseKuiSpaces,
+  type KuiTimePattern,
+  normalizeKuiDayPeriod,
+} from '../../i18n/kui-intl.util';
 import type { KuiTimePickerFormat } from './kui-time-picker.types';
 
-/** @internal `HH:mm[:ss]` (24h) / `hh:mm[:ss] AM|PM` (12h) display formatting/parsing used by `input[kuiTimePicker]`. */
-
-const RE_24H_HMS = /^(\d{1,2}):(\d{2}):(\d{2})$/;
-const RE_24H_HM = /^(\d{1,2}):(\d{2})$/;
-// The period is optional to match -- see parseDisplayTime's own doc for why an absent one
-// defaults from `base` rather than failing the whole parse.
-const RE_12H_HMS = /^(\d{1,2}):(\d{2}):(\d{2})\s*(AM|PM)?$/i;
-const RE_12H_HM = /^(\d{1,2}):(\d{2})\s*(AM|PM)?$/i;
+/**
+ * @internal
+ * Display, parsing and typing mask of `input[kuiTimePicker]`: `HH<sep>mm[<sep>ss]` for `'24h'` and
+ * the same digits plus the locale's own day period for `'12h'`. The separator, the day period text
+ * and its position come from the locale's {@link KuiTimePattern}; digits are always Latin.
+ */
 
 /** Formats a time field as a two-digit decimal value. */
 export function formatTwoDigits(value: number): string {
@@ -39,10 +42,18 @@ function nearestStepInDomain(value: number, step: number, domainSize: number): n
   return values.reduce((best, v) => (Math.abs(v - value) < Math.abs(best - value) ? v : best));
 }
 
-/** Max input length for a fully-typed value, per `format`/`showSeconds` (mirrors the spec's own `maxLen`). */
-export function maxTimeInputLength(format: KuiTimePickerFormat, showSeconds: boolean): number {
-  if (format === '12h') return showSeconds ? 12 : 9;
-  return showSeconds ? 8 : 5;
+/** Max input length for a fully-typed value, per `format`/`showSeconds` and the locale's day period text. */
+export function maxTimeInputLength(
+  format: KuiTimePickerFormat,
+  showSeconds: boolean,
+  pattern: KuiTimePattern,
+): number {
+  const digits = showSeconds ? 8 : 5;
+  if (format !== '12h') return digits;
+
+  // One extra character, so a user can type a letter after a complete value and have the mask
+  // resolve it, as the fixed `hh:mm AM` + 1 limit did.
+  return digits + pattern.periodGap.length + Math.max(pattern.am.length, pattern.pm.length) + 1;
 }
 
 /**
@@ -57,63 +68,112 @@ function clampDigitGroup(digits: string, max: number): string {
   return formatTwoDigits(Math.min(Number(digits), max));
 }
 
+/** The day period words a user may type: the locale's own and the ASCII `am`/`pm`. */
+function periodCandidates(pattern: KuiTimePattern): readonly [text: string, pm: boolean][] {
+  return [
+    [pattern.am, false],
+    [pattern.pm, true],
+    ['am', false],
+    ['pm', true],
+  ];
+}
+
+/** Splits typed text into its day period letters and everything else. */
+function splitPeriod(text: string): { period: string; rest: string } {
+  const letters = text.match(/\p{L}[\p{L}.]*(?:\s+\p{L}[\p{L}.]*)*/gu);
+  const period = (letters ?? []).join(' ');
+  const rest = text.replace(/\p{L}[\p{L}.]*/gu, '');
+
+  return { period: collapseKuiSpaces(period).trim(), rest };
+}
+
 /**
- * Auto-inserts the `:` separators as the user types digits -- typing `2214` becomes `22:14`
- * without the user typing the colon themselves -- and clamps each 2-digit group to its valid
+ * Resolves typed period letters. The longest trailing part of the letters that is a prefix of a
+ * period wins, so a stray earlier period (a value that already read `AM` followed by a typed `P`)
+ * is dropped. The result is the canonical locale text when that part matches a period completely,
+ * the letters as typed while it is still a prefix, and nothing otherwise.
+ */
+function resolvePeriodText(typed: string, pattern: KuiTimePattern): string {
+  for (let start = 0; start < typed.length; start++) {
+    const part = typed.slice(start);
+    const normalized = normalizeKuiDayPeriod(part);
+    if (!normalized) continue;
+
+    for (const [text, pm] of periodCandidates(pattern)) {
+      if (normalizeKuiDayPeriod(text) === normalized) return pm ? pattern.pm : pattern.am;
+    }
+
+    const isPrefix = periodCandidates(pattern).some(([text]) =>
+      normalizeKuiDayPeriod(text).startsWith(normalized),
+    );
+
+    if (isPrefix) return part;
+  }
+
+  return '';
+}
+
+/**
+ * Auto-inserts the locale's separator as the user types digits -- typing `2214` becomes `22:14`
+ * without the user typing the separator themselves -- and clamps each 2-digit group to its valid
  * maximum once fully typed (hours to `23`/`12`, minutes/seconds to `59`) so e.g. typing a second
  * `5` for the hour never leaves `55` sitting in the field. Rebuilds from scratch on every
- * keystroke from just the digit count (ignoring whatever separators/period letters were already
- * there), so Backspace naturally "un-masks" too instead of getting stuck on a colon the user
- * can't delete. Caret position is not preserved (it always ends up at the end of the field after
- * a rebuild) -- a known simplification, the same category of gap as the parser's own
- * locale-less regex mask.
+ * keystroke from just the digit count (ignoring whatever separators were already there), so
+ * Backspace naturally "un-masks" too instead of getting stuck on a separator the user can't
+ * delete. For `'12h'` the typed letters are kept while they can still become the locale's `AM` or
+ * `PM` text (or the ASCII `am`/`pm`), and are replaced by the locale's text once complete. Caret
+ * position is not preserved (it always ends up at the end of the field after a rebuild).
  */
 export function autoMaskTimeInputText(
   text: string,
   format: KuiTimePickerFormat,
   showSeconds: boolean,
+  pattern: KuiTimePattern,
 ): string {
-  // Matches a *partial* trailing period too ("A"/"P" alone, not just the complete "AM"/"PM") --
-  // typing happens one keystroke at a time, and a stricter two-letter-only match would strip a
-  // lone "P" right back out before the "M" ever arrives (rebuild-from-scratch means each
-  // keystroke re-runs this from the previous, already-stripped result), making it impossible to
-  // type the period at all. A leading space is always inserted ourselves, same as the `:`
-  // separators, so the user never has to type one.
-  const periodMatch = format === '12h' ? /([apAP][mM]?)\s*$/.exec(text.trimEnd()) : null;
-  const period = periodMatch ? ` ${periodMatch[1].toUpperCase()}` : '';
+  const split = format === '12h' ? splitPeriod(text) : { period: '', rest: text };
+  const period = format === '12h' ? resolvePeriodText(split.period, pattern) : '';
 
   const maxDigits = showSeconds ? 6 : 4;
-  const digits = text.replace(/[^0-9]/g, '').slice(0, maxDigits);
+  const digits = split.rest.replace(/[^0-9]/g, '').slice(0, maxDigits);
   const maxHour = format === '12h' ? 12 : 23;
 
   const hourGroup = clampDigitGroup(digits.slice(0, 2), maxHour);
   const minuteGroup = clampDigitGroup(digits.slice(2, 4), 59);
   const secondGroup = clampDigitGroup(digits.slice(4, 6), 59);
 
-  let out = hourGroup;
-  if (digits.length > 2) out += `:${minuteGroup}`;
-  if (showSeconds && digits.length > 4) out += `:${secondGroup}`;
+  let time = hourGroup;
+  if (digits.length > 2) time += `${pattern.separator}${minuteGroup}`;
+  if (showSeconds && digits.length > 4) time += `${pattern.separator}${secondGroup}`;
 
-  return out + period;
+  if (!period) return time;
+
+  return pattern.periodBefore
+    ? `${period}${digits ? pattern.periodGap : ''}${time}`
+    : `${time}${pattern.periodGap}${period}`;
 }
 
-/** Formats a `Date`'s time-of-day for display, per `format`/`showSeconds`. */
+/** Formats a `Date`'s time-of-day for display, per `format`/`showSeconds` and the locale pattern. */
 export function formatDisplayTime(
   date: Date,
   format: KuiTimePickerFormat,
   showSeconds: boolean,
+  pattern: KuiTimePattern,
 ): string {
   const hours = date.getHours();
   const minutes = formatTwoDigits(date.getMinutes());
-  const seconds = showSeconds ? `:${formatTwoDigits(date.getSeconds())}` : '';
+  const seconds = showSeconds ? `${pattern.separator}${formatTwoDigits(date.getSeconds())}` : '';
 
   if (format === '12h') {
-    const period = hours >= 12 ? 'PM' : 'AM';
-    const hour12 = hours % 12 === 0 ? 12 : hours % 12;
-    return `${formatTwoDigits(hour12)}:${minutes}${seconds} ${period}`;
+    const period = hours >= 12 ? pattern.pm : pattern.am;
+    const hour12 = formatTwoDigits(hours % 12 === 0 ? 12 : hours % 12);
+    const time = `${hour12}${pattern.separator}${minutes}${seconds}`;
+
+    return pattern.periodBefore
+      ? `${period}${pattern.periodGap}${time}`
+      : `${time}${pattern.periodGap}${period}`;
   }
 
-  return `${formatTwoDigits(hours)}:${minutes}${seconds}`;
+  return `${formatTwoDigits(hours)}${pattern.separator}${minutes}${seconds}`;
 }
 
 /**
@@ -122,46 +182,56 @@ export function formatDisplayTime(
  * relevant fields" strategy `input[kuiDatePicker]` uses for its own display mask. Returns `null`
  * for an unparsable or out-of-range string.
  *
- * The parsed hours/minutes/seconds are each snapped to the nearest `hourStep`/`minuteStep`/
- * `secondStep` -- typing an exact value the wheel's own step thins out would otherwise leave the
- * wheel with no cell selected in that column at all, silently disagreeing with what's typed.
+ * Separators are not compared: the text must hold the right number of digit groups (hours of one
+ * or two digits, minutes and seconds of two). The parsed hours/minutes/seconds are each snapped to
+ * the nearest `hourStep`/`minuteStep`/`secondStep` -- typing an exact value the wheel's own step
+ * thins out would otherwise leave the wheel with no cell selected in that column at all.
  *
- * For `format: '12h'`, the `AM`/`PM` suffix is optional -- defaulting to `base`'s own period when
- * absent, not failing the parse. Requiring it used to mean a fully-typed `hh:mm[:ss]` (every digit
- * present and in range) sat there parsed as `null` -- invalid, uncommitted -- until the suffix was
- * typed too; interacting with the wheel or the AM/PM toggle in that window (which both act on
- * `value`, not on the not-yet-committed typed text) silently discarded the already-typed digits.
- * Defaulting the period commits those digits immediately; the AM/PM toggle then simply flips the
- * period on top of an already-correct value instead of on stale, unrelated data.
+ * For `format: '12h'`, the day period is optional -- defaulting to `base`'s own period when
+ * absent, not failing the parse. Requiring it used to mean a fully-typed value sat there parsed as
+ * `null` -- invalid, uncommitted -- until the period was typed too; interacting with the wheel or
+ * the period toggle in that window silently discarded the already-typed digits. A present period
+ * must be the locale's own `AM`/`PM` text or the ASCII `am`/`pm`.
  */
 export function parseDisplayTime(
   text: string,
   format: KuiTimePickerFormat,
   showSeconds: boolean,
   base: Date,
+  pattern: KuiTimePattern,
   hourStep = 1,
   minuteStep = 1,
   secondStep = 1,
 ): Date | null {
-  const trimmed = text.trim();
-  const withSecondsRe = format === '12h' ? RE_12H_HMS : RE_24H_HMS;
-  const withoutSecondsRe = format === '12h' ? RE_12H_HM : RE_24H_HM;
-  const match = showSeconds ? withSecondsRe.exec(trimmed) : withoutSecondsRe.exec(trimmed);
-  if (!match) return null;
+  const split = splitPeriod(collapseKuiSpaces(text).trim());
+  const groups = split.rest.match(/\d+/g);
+  const expected = showSeconds ? 3 : 2;
 
-  let hours = Number(match[1]);
-  let minutes = Number(match[2]);
-  let seconds = showSeconds ? Number(match[3]) : 0;
-  const typedPeriod = showSeconds ? match[4] : match[3];
+  if (!groups || groups.length !== expected) return null;
+  if (groups[0].length > 2 || groups.slice(1).some((group) => group.length !== 2)) return null;
+  if (format !== '12h' && split.period) return null;
+
+  let hours = Number(groups[0]);
+  let minutes = Number(groups[1]);
+  let seconds = showSeconds ? Number(groups[2]) : 0;
 
   if (format === '12h') {
     if (hours < 1 || hours > 12) return null;
+
+    let isPm = base.getHours() >= 12;
+    if (split.period) {
+      const normalized = normalizeKuiDayPeriod(split.period);
+      const match = periodCandidates(pattern).find(
+        ([candidate]) => normalizeKuiDayPeriod(candidate) === normalized,
+      );
+      if (!match) return null;
+      isPm = match[1];
+    }
+
     // Snap in the wheel's own 1-12 domain (shifted to 0-11) before converting to 24h -- the
     // wheel's 12h cells are `range(12, hourStep).map(h => h + 1)` (`1, 4, 7, 10` for step 3),
     // snapping the already-converted 24h value against a plain 0-23 domain would not match.
     hours = nearestStepInDomain(hours - 1, hourStep, 12) + 1;
-    // No typed suffix yet -- default from `base`'s existing period (see this function's doc).
-    const isPm = typedPeriod ? /pm/i.test(typedPeriod) : base.getHours() >= 12;
     hours = hours % 12;
     if (isPm) hours += 12;
   } else if (hours < 0 || hours > 23) {

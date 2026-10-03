@@ -7,6 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHECK, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
 import { KuiGlyphComponent } from '../icon/kui-glyph.component';
@@ -97,6 +98,7 @@ export class KuiStepComponent {
   readonly disabled = input(false, { transform: booleanAttribute });
 
   private readonly ctx = inject(KUI_STEPPER_CONTEXT);
+  private readonly t = injectKuiMessages('stepper');
 
   protected readonly index = computed(() => this.ctx.steps().indexOf(this));
 
@@ -126,7 +128,9 @@ export class KuiStepComponent {
   });
 
   protected readonly circleLabel = computed(() =>
-    this.state() === 'done' ? `Back to step ${this.label()}` : `Go to step ${this.label()}`,
+    this.state() === 'done'
+      ? this.t().backToStep({ label: this.label() })
+      : this.t().goToStep({ label: this.label() }),
   );
 
   protected onCircleClick(): void {

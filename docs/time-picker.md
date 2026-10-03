@@ -1,7 +1,7 @@
 # Time Picker
 
 `input[kuiTimePicker]` converts a native text input into a time-of-day picker trigger. Text is
-parsed/formatted per `format` (`HH:mm[:ss]` for `'24h'`, `hh:mm[:ss] AM/PM` for `'12h'`); pair it
+parsed/formatted per `format` (`HH:mm[:ss]` for `'24h'`, `hh:mm[:ss]` plus the locale's day period for `'12h'`); `format` follows the locale's hour cycle when it is not set. The separator (`:` or `.`), the day period text and its position come from the locale. Pair it
 with `kui-time-picker-panel` inside a sibling `kui-dropdown` for the scrollable hour/minute/second
 column popover — the same composition `input[kuiDatePicker]` uses with `kui-calendar`.
 
@@ -94,10 +94,10 @@ thin the minute/second columns to only every Nth value (e.g. `15` → `00, 15, 3
 
 ## Typing
 
-Typing digits auto-inserts the `:` separator (`2214` becomes `22:14` as you type) and non-digit
-characters that could never be part of a valid value are stripped as you type (`AM`/`PM` letters,
-typed one at a time, and a space are kept for `format="12h"` -- the space is inserted
-automatically, same as `:`). Input length is capped per `format`/`showSeconds`. Each
+Typing digits auto-inserts the locale's separator (`2214` becomes `22:14` as you type, or `22.14` in `da-DK`) and non-digit
+characters that could never be part of a valid value are stripped as you type (the letters of the locale's `AM`/`PM` text or ASCII `am`/`pm`,
+typed one at a time, are kept for `format="12h"`, and the gap is inserted
+automatically, same as the separator). Input length is capped per `format`/`showSeconds`. Each
 hour/minute/second group clamps to its own valid maximum once both its digits are typed (`99:99`
 becomes `23:59`, not left sitting out of range) and snaps to the nearest `hourStep`/`minuteStep`/
 `secondStep`. For `format="12h"`, the `AM`/`PM` suffix is optional -- a fully-typed `hh:mm[:ss]`
@@ -125,7 +125,7 @@ last valid value:
   the date part is whatever `Date` last produced or received the value (typically "now" from the
   browser at construction time or from "Now"). Auto-wired into a sibling
   `kui-time-picker-panel` inside the same `kui-field` (see Usage above).
-- `format`: `'24h' | '12h'` (default: `'24h'`). Also auto-wired (push-only) into the panel.
+- `format`: `'24h' | '12h'` (default: the hour cycle of the locale, `12h` in `en-US`, `24h` in `ru-RU`). Resolves as `format > defaults.timePicker.format > locale`. Also auto-wired (push-only) into the panel.
 - `hourStep`: positive integer (default: `1`). Static numeric values are coerced; invalid or
   non-positive values use `1`. Not in the Claude Design spec's own API table (only
   `minuteStep`/`secondStep` are) — added for naming/behavior parity with those two. Also
@@ -153,8 +153,8 @@ last valid value:
   Also auto-wired (push-only).
 - `clearable`: `boolean | undefined` (default resolves to `true`)
 - `disabled` / `readonly`: `boolean` (default: `false`)
-- `placeholder`: `string | undefined` — defaults to a format-appropriate mask
-  (`hh:mm`, `hh:mm:ss`, `hh:mm AM/PM`, or `hh:mm:ss AM/PM`)
+- `placeholder`: `string | undefined` — defaults to the `hourPlaceholder`, `minutePlaceholder` and `secondPlaceholder` messages joined with the locale's separator, plus the day period text for `12h` (`hh:mm AM/PM`)
+- `messages`: `Partial<KuiTimePickerMessages> | undefined`. Text overrides for this instance (button and column names, `Now`, `Done`, the placeholder tokens). See [Internationalization](./i18n.md).
 - `id`: `string | undefined` — falls back to the parent `kui-field`'s control id
 
 Also implements the Angular Signal Forms `FormValueControl<Date | null>` contract
@@ -258,7 +258,7 @@ styles.
 - `aria-controls` on the trigger does not point at the real `kui-dropdown` panel id while the
   panel component itself hasn't rendered it yet on first open — the same pre-existing gap
   `kuiDatePicker` has (the dropdown doesn't expose its id outward before attaching).
-- No locale-aware display format beyond the `24h`/`12h` mask switch; the leading clock icon is a
+- Digits are Latin in every locale (see [Internationalization](./i18n.md#limits-in-v2)); the leading clock icon is a
   structural glyph drawn from built-in icon data, not routed through the async `kui-icon` registry,
   matching the calendar glyph of `kuiDatePicker`. It follows the stroke tokens but has no override
   slot yet; the clear and chevron icons do (see [Structural Icons](structural-icons.md)).

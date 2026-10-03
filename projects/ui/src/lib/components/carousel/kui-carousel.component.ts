@@ -16,6 +16,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import type { KuiCarouselMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import {
@@ -63,8 +65,8 @@ function autoplayIntervalAttribute(value: unknown): number | undefined {
     <div
       class="kui-carousel__region"
       role="region"
-      [attr.aria-roledescription]="'carousel'"
-      [attr.aria-label]="ariaLabel()"
+      [attr.aria-roledescription]="t().roleDescription"
+      [attr.aria-label]="ariaLabel() ?? t().label"
       (keydown)="onRegionKeydown($event)"
       (mouseenter)="hoverPaused.set(true)"
       (mouseleave)="hoverPaused.set(false)"
@@ -97,7 +99,7 @@ function autoplayIntervalAttribute(value: unknown): number | undefined {
           <button
             kuiIconButton
             shape="ghost"
-            aria-label="Previous slide"
+            [attr.aria-label]="t().previous"
             [disabled]="prevDisabled()"
             (click)="goPrev()"
           >
@@ -108,7 +110,7 @@ function autoplayIntervalAttribute(value: unknown): number | undefined {
           <button
             kuiIconButton
             shape="ghost"
-            aria-label="Next slide"
+            [attr.aria-label]="t().next"
             [disabled]="nextDisabled()"
             (click)="goNext()"
           >
@@ -122,7 +124,7 @@ function autoplayIntervalAttribute(value: unknown): number | undefined {
           <button
             kuiIconButton
             shape="ghost"
-            [attr.aria-label]="effectivePlaying() ? 'Pause autoplay' : 'Resume autoplay'"
+            [attr.aria-label]="effectivePlaying() ? t().pause : t().resume"
             (click)="togglePlay()"
           >
             @if (effectivePlaying()) {
@@ -139,7 +141,7 @@ function autoplayIntervalAttribute(value: unknown): number | undefined {
       <div
         class="kui-carousel__dots"
         role="tablist"
-        aria-label="Choose slide"
+        [attr.aria-label]="t().dots"
         (keydown)="onDotsKeydown($event)"
       >
         @for (dot of dots(); track dot.index) {
@@ -252,10 +254,16 @@ export class KuiCarouselComponent {
   );
 
   /**
-   * Accessible name for the carousel region. Defaults to `Slides`; use a content-specific name
-   * where one is available. Do not include `carousel`, because `aria-roledescription` announces it.
+   * Accessible name for the carousel region. Defaults to the `carousel.label` message; use a
+   * content-specific name where one is available. Do not include `carousel`, because
+   * `aria-roledescription` announces it.
    */
-  readonly ariaLabel = input('Slides');
+  readonly ariaLabel = input<string | undefined>();
+
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiCarouselMessages> | undefined>();
+
+  protected readonly t = injectKuiMessages('carousel', () => this.messages());
 
   /** Index of the first visible slide. Two-way bindable via `[(index)]`. Defaults to `0`. */
   readonly index = model(0);
@@ -316,7 +324,7 @@ export class KuiCarouselComponent {
     return Array.from({ length: total }, (_, i) => ({
       index: i,
       selected: i === current,
-      label: `Go to slide ${i + 1} of ${total}`,
+      label: this.t().goToSlide({ index: i + 1, total }),
       controls: this.slides()[i]?._id() ?? null,
     }));
   });
@@ -328,7 +336,8 @@ export class KuiCarouselComponent {
 
       slides.forEach((slide, i) => {
         slide._id.set(`${this.idBase}-slide-${i}`);
-        slide._ariaLabel.set(`${i + 1} of ${total}`);
+        slide._roleDescription.set(this.t().slideRoleDescription);
+        slide._ariaLabel.set(this.t().slidePosition({ index: i + 1, total }));
       });
     });
 

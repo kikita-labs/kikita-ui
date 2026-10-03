@@ -1,6 +1,7 @@
 import type { Locator } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 
 /**
  * Waits until the Drawer panel and its backdrop finish their entrance animations.
@@ -399,9 +400,8 @@ test('uses the short reduced-motion duration for Drawer and backdrop animations'
   await expect(drawer).toHaveCount(0);
 });
 
-test('translates the page content while preserving library-owned English labels', async ({
-  page,
-}) => {
+test('translates the page content and the library-owned labels', async ({ page }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const englishResponse = await page.request.get('/i18n/drawer/en.json');
   const localeResponse = await page.request.get('/i18n/drawer/ru.json');
   expect(englishResponse.ok()).toBeTruthy();
@@ -436,7 +436,9 @@ test('translates the page content while preserving library-owned English labels'
 
   const drawer = page.getByRole('dialog', { name: russian.labels.defaultTitle, exact: true });
   await expect(drawer.locator('.kui-drawer-subtitle')).toHaveText(russian.labels.defaultSubtitle);
-  await expect(drawer.getByRole('button', { name: 'Close', exact: true })).toBeVisible();
+  await expect(
+    drawer.getByRole('button', { name: kuiMessage(kui, 'common', 'close'), exact: true }),
+  ).toBeVisible();
   await drawer.getByRole('button', { name: russian.actions.cancel, exact: true }).click();
   await expect(group.getByRole('status')).toHaveText(russian.status.cancelled);
 
@@ -444,8 +446,11 @@ test('translates the page content while preserving library-owned English labels'
     .getByRole('group', { name: russian.accessibility.content, exact: true })
     .getByRole('button', { name: russian.actions.openUntitled, exact: true })
     .click();
-  const untitledDrawer = page.getByRole('dialog', { name: 'Drawer', exact: true });
-  await expect(untitledDrawer).toHaveAttribute('aria-label', 'Drawer');
+  const untitledDrawer = page.getByRole('dialog', {
+    name: kuiMessage(kui, 'drawer', 'label'),
+    exact: true,
+  });
+  await expect(untitledDrawer).toHaveAttribute('aria-label', kuiMessage(kui, 'drawer', 'label'));
   await page.keyboard.press('Escape');
   await expect(untitledDrawer).toHaveCount(0);
 });

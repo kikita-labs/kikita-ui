@@ -1,5 +1,7 @@
 import { Component, inject, input, output, ViewEncapsulation } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import type { KuiDatePickerMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
@@ -21,7 +23,7 @@ import { KuiGlyphComponent } from '../icon/kui-glyph.component';
           kuiFieldAction
           type="button"
           class="kui-date-picker-clear"
-          aria-label="Clear"
+          [attr.aria-label]="common().clear"
           (click)="onClear($event)"
         >
           <svg width="12" height="12" [kuiGlyph]="clearGlyph()" [kuiGlyphStroke]="1.6"></svg>
@@ -34,7 +36,7 @@ import { KuiGlyphComponent } from '../icon/kui-glyph.component';
         class="kui-date-picker-chevron"
         tabindex="-1"
         [disabled]="disabled() || readonly()"
-        [attr.aria-label]="isOpen() ? 'Close calendar' : 'Open calendar'"
+        [attr.aria-label]="isOpen() ? t().closeCalendar : t().openCalendar"
         [attr.aria-expanded]="isOpen()"
         (click)="onToggle($event)"
       >
@@ -63,11 +65,15 @@ export class KuiDatePickerInputAffixComponent {
     fallback: KUI_GLYPH_CHEVRON_DOWN,
   });
 
+  protected readonly t = injectKuiMessages('datePicker', () => this.messages());
+  protected readonly common = injectKuiMessages('common');
+
   readonly clearable = input(false);
   readonly hasValue = input(false);
   readonly isOpen = input(false);
   readonly disabled = input(false);
   readonly readonly = input(false);
+  readonly messages = input<Partial<KuiDatePickerMessages> | undefined>(undefined);
   readonly cleared = output<void>();
   readonly toggled = output<void>();
 

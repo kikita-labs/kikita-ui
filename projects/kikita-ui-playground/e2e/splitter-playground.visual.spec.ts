@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 import { expectNoDocumentOverflow } from './support/page-ready';
 import { openWithHeldScripts } from './support/ssr';
 
@@ -591,9 +592,10 @@ test('collapses a pane with a real touch tap on the gutter button', async ({ bro
   }
 });
 
-test('keeps the collapse button labels of the library in English when the language changes', async ({
+test('translates the collapse button labels of the library when the language changes', async ({
   page,
 }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const localeResponse = await page.request.get('/i18n/splitter/ru.json');
   expect(localeResponse.ok()).toBeTruthy();
   const translations = await localeResponse.json();
@@ -610,7 +612,9 @@ test('keeps the collapse button labels of the library in English when the langua
 
   await expect(first.getByRole('definition')).toHaveText(['30', translations.status.no]);
   await expect(first.getByRole('term').first()).toHaveText(translations.status.size);
-  await expect(first.getByRole('button', { name: 'Collapse pane', exact: true })).toBeVisible();
+  await expect(
+    first.getByRole('button', { name: kuiMessage(kui, 'splitter', 'collapsePane'), exact: true }),
+  ).toBeVisible();
   await expect(group(page, translations.accessibility.default)).toBeVisible();
 
   await page

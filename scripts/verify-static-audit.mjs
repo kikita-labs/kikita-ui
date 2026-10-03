@@ -123,6 +123,31 @@ const parentAssignedTokens = new Set([
 const disallowedTopLevelGlobals =
   /(?:=\s*(window|document|navigator|localStorage|sessionStorage)\b|\b(window|document|navigator|localStorage|sessionStorage)\.)/;
 
+// A literal English word in an accessible-name attribute, a placeholder, a rendered text node or a
+// `Renderer2` call is library-owned text that a consumer could not translate. It belongs in
+// `KuiMessages`. Text that is data, not a message, is listed by file and snippet, with the reason.
+const hardcodedTextAllowlist = [
+  // Technical channel letters of the OKLCH picker, not words.
+  { file: 'color-input/kui-color-input.directive.ts', text: ["'L'", "'C'", "'H'"] },
+];
+const literalMessageAttribute =
+  /(?<![\w.\]-])(?:aria-label|aria-roledescription|aria-valuetext|title|placeholder|alt)="([^"{}]*[A-Za-z]{2}[^"{}]*)"/u;
+const boundMessageAttribute =
+  /\[attr\.(?:aria-label|aria-roledescription|aria-valuetext|title|placeholder|alt)\]="'([^']*[A-Za-z]{2}[^']*)'"/u;
+const rendererMessageAttribute =
+  /setAttribute\([^,]+,\s*'(?:aria-label|aria-roledescription|aria-valuetext|title|placeholder|alt)',\s*'([^']*[A-Za-z]{2}[^']*)'/u;
+const rendererTextNode = /createText\(\s*['"`]([^'"`$]*[A-Za-z]{2}[^'"`$]*)['"`]/u;
+const templateTextNode = /<[a-z][^<>]*>\s*([A-Z][A-Za-z' ,.!?&/-]{2,}[A-Za-z.!?])\s*<\//u;
+const interpolatedWord = /\{\{[^}]*['"]([A-Z][a-z]{2,}(?: [A-Za-z]+)*)['"][^}]*\}\}/u;
+const hardcodedTextPatterns = [
+  ['an interpolation', interpolatedWord],
+  ['an accessible or placeholder attribute', literalMessageAttribute],
+  ['a bound attribute', boundMessageAttribute],
+  ['a Renderer2 attribute', rendererMessageAttribute],
+  ['a Renderer2 text node', rendererTextNode],
+  ['a template text node', templateTextNode],
+];
+
 if (isMain()) {
   const failures = runStaticAudit(defaultRoot);
 
@@ -184,6 +209,14 @@ export function runStaticAudit(root = defaultRoot) {
   );
   runCheck(failures, 'Signal Forms controls spell contract members exactly', () =>
     checkFormControlContractNames(root),
+  );
+  runCheck(failures, 'library components read their text from the message map', () =>
+    checkNoHardcodedUserFacingText(root),
+  );
+  runCheck(
+    failures,
+    'every library message is documented, read, and translated in the Playground',
+    () => checkMessageCoverage(root),
   );
   return failures;
 }
@@ -732,6 +765,135 @@ function checkNoRawPaletteConsumption(root) {
         );
       }
     }
+  }
+
+  return failures;
+}
+
+// The library's message map, read from its interface file: group -> message keys. Each group points
+// to a named interface, so the map is parsed in two steps. Returns null when the file is absent.
+function readLibraryMessageKeys(root) {
+  const file = join(root, 'projects/ui/src/lib/i18n/kui-messages.interface.ts');
+
+  if (!existsSync(file)) {
+    return null;
+  }
+
+  const text = readFileSync(file, 'utf8');
+  const interfaces = new Map();
+
+  for (const match of text.matchAll(/export interface (\w+) \{([\s\S]*?)\n\}/gu)) {
+    const members = [];
+
+    for (const member of match[2].matchAll(/^ {2}readonly (\w+)\??:/gmu)) {
+      members.push({ name: member[1], index: member.index });
+    }
+
+    interfaces.set(match[1], { body: match[2], members });
+  }
+
+  const root_ = interfaces.get('KuiMessages');
+  const groups = new Map();
+
+  for (const member of root_?.body.matchAll(/^ {2}readonly (\w+): (\w+);/gmu) ?? []) {
+    groups.set(member[1], interfaces.get(member[2]));
+  }
+
+  return groups;
+}
+
+function checkMessageCoverage(root) {
+  const groups = readLibraryMessageKeys(root);
+
+  if (groups === null) {
+    return [];
+  }
+
+  const failures = [];
+  const componentText = collectTextFiles(root, [join(root, 'projects/ui/src/lib/components')])
+    .filter((file) => /\.(?:ts|html)$/u.test(file) && !/\.spec\.ts$/u.test(file))
+    .map((file) => readFileSync(file, 'utf8'))
+    .join('\n');
+
+  for (const [group, definition] of groups) {
+    if (!definition) {
+      failures.push(
+        `KuiMessages.${group} does not point at an interface in kui-messages.interface.ts`,
+      );
+      continue;
+    }
+
+    for (const { name, index } of definition.members) {
+      const before = definition.body.slice(0, index).trimEnd();
+
+      if (!before.endsWith('*/')) {
+        failures.push(`KuiMessages.${group}.${name} has no JSDoc with its English default`);
+      }
+
+      if (!new RegExp(`\\b${name}\\b`, 'u').test(componentText)) {
+        failures.push(`KuiMessages.${group}.${name} is not read by any component`);
+      }
+    }
+  }
+
+  for (const language of ['en', 'ru']) {
+    const catalogueFile = join(root, `projects/kikita-ui-playground/public/i18n/${language}.json`);
+
+    if (!existsSync(catalogueFile)) {
+      continue;
+    }
+
+    const catalogue = JSON.parse(readFileSync(catalogueFile, 'utf8')).kui ?? {};
+
+    for (const [group, definition] of groups) {
+      const expected = (definition?.members ?? []).map((member) => member.name).sort();
+      const actual = Object.keys(catalogue[group] ?? {}).sort();
+
+      if (JSON.stringify(expected) !== JSON.stringify(actual)) {
+        failures.push(
+          `${language}.json kui.${group} must hold exactly the library keys: expected [${expected.join(', ')}], found [${actual.join(', ')}]`,
+        );
+      }
+    }
+
+    for (const group of Object.keys(catalogue)) {
+      if (!groups.has(group)) {
+        failures.push(`${language}.json kui.${group} is not a library message group`);
+      }
+    }
+  }
+
+  return failures;
+}
+
+function checkNoHardcodedUserFacingText(root) {
+  const failures = [];
+  const base = join(root, 'projects/ui/src/lib/components');
+  const files = collectTextFiles(root, [base]).filter(
+    (file) => /\.(?:ts|html)$/u.test(file) && !/\.spec\.ts$/u.test(file),
+  );
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+    const relative = repoPath.replace('projects/ui/src/lib/components/', '');
+    const allowed = hardcodedTextAllowlist.find((entry) => entry.file === relative)?.text ?? [];
+    const lines = readFileSync(file, 'utf8').split(/\r?\n/u);
+
+    lines.forEach((line, index) => {
+      if (/^\s*(?:\*|\/\/|\/\*)/u.test(line) || allowed.some((text) => line.includes(text))) {
+        return;
+      }
+
+      for (const [kind, pattern] of hardcodedTextPatterns) {
+        const match = pattern.exec(line);
+
+        if (match) {
+          failures.push(
+            `${repoPath}:${index + 1} writes the literal text "${match[1]}" in ${kind}; read it from KuiMessages`,
+          );
+        }
+      }
+    });
   }
 
   return failures;

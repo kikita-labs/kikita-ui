@@ -24,7 +24,7 @@ The directive sets `role="status"` and `aria-live="polite"`.
 ## Inputs
 
 - `size`: `xs | sm | md | lg`
-- `label`: accessible label, default `Loading`
+- `label`: accessible label, default: the `common.loading` message (`Loading`)
 
 ## CSS Variables
 

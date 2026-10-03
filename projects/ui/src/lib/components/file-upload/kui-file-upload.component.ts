@@ -14,6 +14,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import { KuiI18n } from '../../i18n/kui-i18n.service';
+import type { KuiFileUploadMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
@@ -53,13 +56,6 @@ function positiveLimitAttribute(value: unknown): number | undefined {
 interface KuiFileKind {
   readonly label: string;
   readonly cat: 'pdf' | 'doc' | 'zip' | 'other';
-}
-
-function formatBytes(bytes: number): string {
-  if (bytes >= 1_000_000) {
-    return `${(bytes / 1_000_000).toFixed(1)} MB`;
-  }
-  return `${Math.round(bytes / 1_000)} KB`;
 }
 
 function detectKind(name: string): KuiFileKind | null {
@@ -169,8 +165,19 @@ export class KuiFileUploadComponent {
   /** Emits the file entry when its retry action is activated. Does not change `files` itself. */
   readonly retry = output<KuiUploadFile>();
 
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiFileUploadMessages> | undefined>();
+
+  private readonly i18n = inject(KuiI18n);
+
+  protected readonly t = injectKuiMessages('fileUpload', () => this.messages());
+
   protected readonly dragState = signal<KuiFileUploadDragState>('none');
-  protected readonly formError = signal<string | null>(null);
+  private readonly formErrorMax = signal<number | null>(null);
+  protected readonly formError = computed(() => {
+    const max = this.formErrorMax();
+    return max === null ? null : this.t().tooMany({ max });
+  });
   protected readonly hasFiles = computed(() => this.files().length > 0);
   protected readonly effectiveSize = computed(
     () => this.size() ?? this.fileUploadDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
@@ -185,7 +192,7 @@ export class KuiFileUploadComponent {
   );
 
   protected readonly dropzoneAriaLabel = computed(() => {
-    const base = 'Upload file. Drag and drop or click to browse.';
+    const base = this.t().dropzoneLabel;
     const hint = this.acceptLabel();
     return hint ? `${base} ${hint}` : base;
   });
@@ -216,7 +223,38 @@ export class KuiFileUploadComponent {
   }
 
   protected sizeLabel(entry: KuiUploadFile): string {
-    return formatBytes(entry.size);
+    return this.formatBytes(entry.size);
+  }
+
+  protected percentLabel(entry: KuiUploadFile): string {
+    return this.i18n
+      .numberFormat('percent', { style: 'percent', maximumFractionDigits: 0 })
+      .format(this.progressPct(entry) / 100);
+  }
+
+  protected errorText(entry: KuiUploadFile): string | undefined {
+    const maxSize = this.maxSize();
+
+    if (entry.errorKind === 'type') return this.t().invalidType;
+    if (entry.errorKind === 'size' && maxSize !== undefined) {
+      return this.t().tooLarge({ max: this.formatBytes(maxSize) });
+    }
+
+    return entry.errorMsg;
+  }
+
+  private formatBytes(bytes: number): string {
+    const megabytes = bytes >= 1_000_000;
+
+    return this.i18n
+      .numberFormat(megabytes ? 'megabyte' : 'kilobyte', {
+        style: 'unit',
+        unit: megabytes ? 'megabyte' : 'kilobyte',
+        unitDisplay: 'short',
+        maximumFractionDigits: megabytes ? 1 : 0,
+        minimumFractionDigits: megabytes ? 1 : 0,
+      })
+      .format(megabytes ? bytes / 1_000_000 : bytes / 1_000);
   }
 
   protected progressPct(entry: KuiUploadFile): number {
@@ -295,7 +333,7 @@ export class KuiFileUploadComponent {
       this.previewUrls.delete(entry.id);
     }
     this.files.set(this.files().filter((f) => f.id !== entry.id));
-    this.formError.set(null);
+    this.formErrorMax.set(null);
   }
 
   protected onRetryClick(entry: KuiUploadFile, event: Event): void {
@@ -336,13 +374,16 @@ export class KuiFileUploadComponent {
 
     let status: KuiUploadFileStatus = 'pending';
     let errorMsg: string | undefined;
+    let errorKind: KuiUploadFile['errorKind'];
 
     if (accepted && accepted.length && !accepted.includes(file.type)) {
       status = 'error';
-      errorMsg = 'Invalid file type';
+      errorKind = 'type';
+      errorMsg = this.t().invalidType;
     } else if (maxSizeVal !== undefined && file.size > maxSizeVal) {
       status = 'error';
-      errorMsg = `Exceeds max size (max ${formatBytes(maxSizeVal)})`;
+      errorKind = 'size';
+      errorMsg = this.t().tooLarge({ max: this.formatBytes(maxSizeVal) });
     }
 
     return {
@@ -353,6 +394,7 @@ export class KuiFileUploadComponent {
       type: file.type,
       status,
       errorMsg,
+      errorKind,
     };
   }
 
@@ -361,24 +403,24 @@ export class KuiFileUploadComponent {
     if (!picked.length) return;
 
     if (this.effectiveMode() === 'single') {
-      this.formError.set(null);
+      this.formErrorMax.set(null);
       this.files.set([this.buildEntry(picked[0])]);
       return;
     }
 
     const maxCountVal = this.maxCount();
     const next = [...this.files()];
-    let error: string | null = null;
+    let error: number | null = null;
 
     for (const file of picked) {
       if (maxCountVal !== undefined && next.length >= maxCountVal) {
-        error = `Maximum ${maxCountVal} files`;
+        error = maxCountVal;
         break;
       }
       next.push(this.buildEntry(file));
     }
 
-    this.formError.set(error);
+    this.formErrorMax.set(error);
     this.files.set(next);
   }
 }

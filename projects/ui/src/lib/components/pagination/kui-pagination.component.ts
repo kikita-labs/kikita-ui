@@ -8,6 +8,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import { KuiI18n } from '../../i18n/kui-i18n.service';
+import type { KuiPaginationMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
@@ -90,13 +93,13 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
       <div class="kui-pagination__summary" aria-live="polite">{{ summaryText() }}</div>
     }
 
-    <nav class="kui-pagination__nav" [attr.aria-label]="ariaLabel()">
+    <nav class="kui-pagination__nav" [attr.aria-label]="ariaLabel() ?? t().label">
       @if (showEnds()) {
         <button
           kuiIconButton
           shape="ghost"
           [size]="effectiveSize()"
-          aria-label="First page"
+          [attr.aria-label]="t().first"
           [disabled]="firstDisabled()"
           (click)="goFirst()"
         >
@@ -108,7 +111,7 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
         kuiIconButton
         shape="ghost"
         [size]="effectiveSize()"
-        aria-label="Previous page"
+        [attr.aria-label]="t().previous"
         [disabled]="prevDisabled()"
         (click)="goPrev()"
       >
@@ -143,16 +146,16 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
       }
 
       @if (showSimple()) {
-        <span class="kui-pagination__simple-label"
-          >Page {{ clampedCurrentPage() }} of {{ totalPages() }}</span
-        >
+        <span class="kui-pagination__simple-label">{{
+          t().simplePage({ page: clampedCurrentPage(), total: totalPages() })
+        }}</span>
       }
 
       <button
         kuiIconButton
         shape="ghost"
         [size]="effectiveSize()"
-        aria-label="Next page"
+        [attr.aria-label]="t().next"
         [disabled]="nextDisabled()"
         (click)="goNext()"
       >
@@ -164,7 +167,7 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
           kuiIconButton
           shape="ghost"
           [size]="effectiveSize()"
-          aria-label="Last page"
+          [attr.aria-label]="t().last"
           [disabled]="lastDisabled()"
           (click)="goLast()"
         >
@@ -174,14 +177,16 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
 
       @if (showPageSize()) {
         <span class="kui-pagination__page-size">
-          <span class="kui-pagination__page-size-label" aria-hidden="true">Rows per page</span>
+          <span class="kui-pagination__page-size-label" aria-hidden="true">{{
+            t().rowsPerPage
+          }}</span>
           <kui-field class="kui-pagination__page-size-field" [size]="effectiveSize()" hideErrors>
             <input
               kuiSelect
               [value]="pageSize()"
               (valueChange)="onPageSizeChange($event)"
               [disabled]="disabled()"
-              aria-label="Rows per page"
+              [attr.aria-label]="t().rowsPerPage"
             />
             <kui-dropdown>
               @for (option of effectivePageSizeOptions(); track option) {
@@ -267,8 +272,15 @@ export class KuiPaginationComponent {
   /** Disables every control. Defaults to `false`. */
   readonly disabled = input(false, { transform: booleanAttribute });
 
-  /** Accessible name for the `nav` landmark. Defaults to `'Pagination'`. */
-  readonly ariaLabel = input('Pagination');
+  /** Accessible name for the `nav` landmark. Defaults to the `pagination.label` message. */
+  readonly ariaLabel = input<string | undefined>();
+
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiPaginationMessages> | undefined>();
+
+  private readonly i18n = inject(KuiI18n);
+
+  protected readonly t = injectKuiMessages('pagination', () => this.messages());
 
   private readonly instanceId = kuiNextId('kui-pagination');
 
@@ -330,11 +342,11 @@ export class KuiPaginationComponent {
         key: `${this.instanceId}-p${it}`,
         ellipsis: false,
         page: it,
-        label: String(it),
+        label: this.i18n.context().formatNumber(it),
         active,
         shape: active ? 'solid' : 'ghost',
         appearance: active ? 'primary' : undefined,
-        ariaLabel: active ? `Page ${it}, current` : `Page ${it}`,
+        ariaLabel: this.t().page({ page: it, current: active }),
         ariaCurrent: active ? 'page' : null,
       };
     });
@@ -347,7 +359,7 @@ export class KuiPaginationComponent {
     const start = total === 0 ? 0 : (page - 1) * pageSize + 1;
     const end = Math.min(page * pageSize, total);
 
-    return `Showing ${start}–${end} of ${total}`;
+    return this.t().summary({ start, end, total });
   });
 
   protected setPage(page: number): void {

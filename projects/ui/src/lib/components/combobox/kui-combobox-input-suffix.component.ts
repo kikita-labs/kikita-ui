@@ -1,5 +1,6 @@
 import { Component, inject, input, output, ViewEncapsulation } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiFieldActionDirective } from '../field';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
@@ -19,7 +20,7 @@ import { KuiGlyphComponent } from '../icon/kui-glyph.component';
           kuiFieldAction
           type="button"
           class="kui-combobox-clear"
-          aria-label="Clear"
+          [attr.aria-label]="common().clear"
           (click)="onClear($event)"
         >
           <svg width="12" height="12" [kuiGlyph]="clearGlyph()" [kuiGlyphStroke]="1.6"></svg>
@@ -32,7 +33,7 @@ import { KuiGlyphComponent } from '../icon/kui-glyph.component';
         class="kui-combobox-chevron"
         tabindex="-1"
         [disabled]="disabled() || readonly()"
-        [attr.aria-label]="isOpen() ? 'Close options' : 'Open options'"
+        [attr.aria-label]="isOpen() ? t().closeOptions : t().openOptions"
         [attr.aria-expanded]="isOpen()"
         (click)="onToggle($event)"
       >
@@ -46,6 +47,8 @@ import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 /** Renders combobox input actions such as clear and dropdown toggle controls. */
 export class KuiComboboxInputSuffixComponent {
   private readonly comboboxDefaults = inject(KuiDefaults).get('combobox');
+  protected readonly t = injectKuiMessages('combobox');
+  protected readonly common = injectKuiMessages('common');
 
   protected readonly clearGlyph = injectKuiGlyph({
     role: 'clear',

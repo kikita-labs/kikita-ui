@@ -12,6 +12,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import { KuiI18n } from '../../i18n/kui-i18n.service';
+import type { KuiChartMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
@@ -38,7 +41,6 @@ import {
   computeGroupedDomain,
   computeLoadingGridLines,
   computeNiceScale,
-  formatCompact,
   thinTicks,
 } from './chart-scale.util';
 import { isTouchPointerType, KuiChartTooltipController } from './chart-tooltip.util';
@@ -142,14 +144,35 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
   /** Axis visibility and grid line configuration. */
   readonly axes = input<KuiChartAxesOptions>({});
 
-  /** Formats axis tick labels and legend/tooltip numbers. Defaults to a compact `1.2K` format. */
-  readonly valueFormat = input<KuiChartValueFormat>(formatCompact);
+  /** Formats axis tick labels and legend/tooltip numbers. Defaults to the locale's compact notation (`1.2K` in English). */
+  readonly valueFormat = input<KuiChartValueFormat | undefined>(undefined);
 
   /** Formats the tooltip text for a point. Defaults to `"<series>: <formatted value>"`. */
   readonly tooltip = input<KuiChartTooltipFormatter | undefined>(undefined);
 
   /** Accessible name for the chart as a whole (what it shows, not per-point detail). */
-  readonly ariaLabel = input('Line chart');
+  readonly ariaLabel = input<string | undefined>(undefined);
+
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiChartMessages> | undefined>(undefined);
+
+  private readonly i18n = inject(KuiI18n);
+
+  protected readonly t = injectKuiMessages('chart', () => this.messages());
+
+  protected readonly effectiveAriaLabel = computed(() => this.ariaLabel() ?? this.t().lineLabel);
+
+  private readonly effectiveValueFormat = computed<KuiChartValueFormat>(() => {
+    const own = this.valueFormat();
+    if (own) return own;
+
+    const format = this.i18n.numberFormat('compact', {
+      notation: 'compact',
+      maximumFractionDigits: 1,
+    });
+
+    return (value) => format.format(value);
+  });
 
   protected readonly chartId = kuiNextId('kui-line-chart', 1);
   protected readonly loadingWavePoints = computed(() => {
@@ -358,10 +381,14 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
   private formatTooltipText(point: KuiChartPoint): string {
     const formatter = this.tooltip();
     if (formatter) return formatter(point);
-    const value = this.valueFormat()(point.value);
+    const value = this.effectiveValueFormat()(point.value);
     return point.categoryLabel
-      ? `${point.seriesName} · ${point.categoryLabel}: ${value}`
-      : `${point.seriesName}: ${value}`;
+      ? this.t().pointWithCategory({
+          series: point.seriesName,
+          category: point.categoryLabel,
+          value,
+        })
+      : this.t().point({ series: point.seriesName, value });
   }
 
   /** Mouse hover shows the tooltip at the pointer position, not the mark's own element -- see
@@ -483,7 +510,7 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
   }
 
   protected formatValue(value: number): string {
-    return this.valueFormat()(value);
+    return this.effectiveValueFormat()(value);
   }
 
   constructor() {

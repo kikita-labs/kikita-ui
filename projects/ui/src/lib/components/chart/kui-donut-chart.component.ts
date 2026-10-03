@@ -13,6 +13,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import { KuiI18n } from '../../i18n/kui-i18n.service';
+import type { KuiChartMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
@@ -32,7 +35,7 @@ import type {
 } from './chart.types';
 import { computeRovingIndex } from './chart-keyboard-nav.util';
 import { normalizeSlices } from './chart-normalize.util';
-import { computeDonutShares, formatCompact } from './chart-scale.util';
+import { computeDonutShares } from './chart-scale.util';
 import { isTouchPointerType, KuiChartTooltipController } from './chart-tooltip.util';
 
 /** See the matching constant's JSDoc in `kui-line-chart.component.ts` -- same rationale. Height
@@ -125,14 +128,35 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
   /** Shows the legend. Defaults to `defaults.donutChart.legend`, then `true` when there is more than one slice. */
   readonly legend = input<boolean | undefined>(undefined);
 
-  /** Formats the default tooltip/legend number formatting. Defaults to a compact `1.2K` format. */
-  readonly valueFormat = input<KuiChartValueFormat>(formatCompact);
+  /** Formats the default tooltip/legend number formatting. Defaults to the locale's compact notation (`1.2K` in English). */
+  readonly valueFormat = input<KuiChartValueFormat | undefined>(undefined);
 
   /** Formats the tooltip text for a slice. Defaults to `"<label>: <value> (<share>%)"`. */
   readonly tooltip = input<KuiChartTooltipFormatter | undefined>(undefined);
 
   /** Accessible name for the chart as a whole (what it shows, not per-slice detail). */
-  readonly ariaLabel = input('Donut chart');
+  readonly ariaLabel = input<string | undefined>(undefined);
+
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiChartMessages> | undefined>(undefined);
+
+  private readonly i18n = inject(KuiI18n);
+
+  protected readonly t = injectKuiMessages('chart', () => this.messages());
+
+  protected readonly effectiveAriaLabel = computed(() => this.ariaLabel() ?? this.t().donutLabel);
+
+  private readonly effectiveValueFormat = computed<KuiChartValueFormat>(() => {
+    const own = this.valueFormat();
+    if (own) return own;
+
+    const format = this.i18n.numberFormat('compact', {
+      notation: 'compact',
+      maximumFractionDigits: 1,
+    });
+
+    return (value) => format.format(value);
+  });
 
   protected readonly chartId = kuiNextId('kui-donut-chart', 1);
 
@@ -361,9 +385,9 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
     if (formatter) {
       return formatter({ seriesName: slice.label, value: slice.value });
     }
-    const value = this.valueFormat()(slice.value);
+    const value = this.effectiveValueFormat()(slice.value);
     const percent = Math.round(slice.share * 100);
-    return `${slice.label}: ${value} (${percent}%)`;
+    return this.t().slice({ label: slice.label, value, percent });
   }
 
   protected onSliceEnter(slice: KuiDonutChartSlice, event: PointerEvent, group: Element): void {
@@ -450,7 +474,7 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
   }
 
   protected formatValue(value: number): string {
-    return this.valueFormat()(value);
+    return this.effectiveValueFormat()(value);
   }
 
   /** Builds `shares()`'s canonical key -- see `lastTargetKey`'s doc. */

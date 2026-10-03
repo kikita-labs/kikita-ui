@@ -314,6 +314,165 @@ describe('verify-static-audit', () => {
   });
 });
 
+describe('verify-static-audit: library text', () => {
+  function writeComponent(root, source) {
+    writeFileSync(
+      join(root, 'projects/ui/src/lib/components/button/kui-button.directive.ts'),
+      `/** Button directive. */\n${source}\nexport class KuiButtonDirective {}\n`,
+    );
+  }
+
+  it('reports a literal accessible name in a template', () => {
+    const root = makeValidRepo();
+    writeComponent(root, 'const template = \'<button aria-label="Close panel"></button>\';');
+
+    expect(runStaticAudit(root)).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining(
+          'writes the literal text "Close panel" in an accessible or placeholder attribute',
+        ),
+      ]),
+    );
+  });
+
+  it('reports a literal bound name, a Renderer2 name and a Renderer2 text node', () => {
+    const root = makeValidRepo();
+    writeComponent(
+      root,
+      [
+        "const a = '<button [attr.aria-label]=\"\'Open menu\'\"></button>';",
+        "renderer.setAttribute(btn, 'aria-label', 'Copy value');",
+        "renderer.appendChild(btn, renderer.createText('Copy value'));",
+      ].join('\n'),
+    );
+
+    const failures = runStaticAudit(root);
+
+    expect(failures).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('"Open menu" in a bound attribute'),
+        expect.stringContaining('"Copy value" in a Renderer2 attribute'),
+        expect.stringContaining('"Copy value" in a Renderer2 text node'),
+      ]),
+    );
+  });
+
+  it('reports a literal word between tags', () => {
+    const root = makeValidRepo();
+    writeComponent(root, "const template = '<span>Queued</span>';");
+
+    expect(runStaticAudit(root)).toEqual(
+      expect.arrayContaining([expect.stringContaining('"Queued" in a template text node')]),
+    );
+  });
+
+  it('accepts message reads, interpolations, generics and comments', () => {
+    const root = makeValidRepo();
+    writeComponent(
+      root,
+      [
+        'const a = \'<button [attr.aria-label]="t().close"></button>\';',
+        "const b = '<span>{{ t().queued }}</span>';",
+        '// aria-label="Close panel" is described here',
+        'let c: Observable<boolean>;',
+      ].join('\n'),
+    );
+
+    expect(runStaticAudit(root)).toEqual([]);
+  });
+});
+
+describe('verify-static-audit: message coverage', () => {
+  function writeMessages(root, { interfaceBody, catalogue }) {
+    mkdirSync(join(root, 'projects/ui/src/lib/i18n'), { recursive: true });
+    mkdirSync(join(root, 'projects/kikita-ui-playground/public/i18n'), { recursive: true });
+    writeFileSync(
+      join(root, 'projects/ui/src/lib/i18n/kui-messages.interface.ts'),
+      [
+        '/** Button messages. */',
+        'export interface KuiButtonMessages {',
+        interfaceBody,
+        '}',
+        '',
+        '/** All messages. */',
+        'export interface KuiMessages {',
+        '  /** Button. */',
+        '  readonly button: KuiButtonMessages;',
+        '}',
+        '',
+      ].join('\n'),
+    );
+    for (const language of ['en', 'ru']) {
+      writeFileSync(
+        join(root, `projects/kikita-ui-playground/public/i18n/${language}.json`),
+        JSON.stringify({ kui: catalogue(language) }),
+      );
+    }
+    writeFileSync(
+      join(root, 'projects/ui/src/lib/components/button/kui-button.directive.ts'),
+      '/** Button directive. */\nexport class KuiButtonDirective { readonly label = t().loadingLabel; }\n',
+    );
+  }
+
+  const documented =
+    '  /** Name while loading. Default `Loading`. */\n  readonly loadingLabel: string;';
+
+  it('accepts documented, read and translated messages', () => {
+    const root = makeValidRepo();
+    writeMessages(root, {
+      interfaceBody: documented,
+      catalogue: () => ({ button: { loadingLabel: 'x' } }),
+    });
+
+    expect(runStaticAudit(root)).toEqual([]);
+  });
+
+  it('reports a message that has no JSDoc', () => {
+    const root = makeValidRepo();
+    writeMessages(root, {
+      interfaceBody: '  readonly loadingLabel: string;',
+      catalogue: () => ({ button: { loadingLabel: 'x' } }),
+    });
+
+    expect(runStaticAudit(root)).toContain(
+      'KuiMessages.button.loadingLabel has no JSDoc with its English default',
+    );
+  });
+
+  it('reports a message that no component reads', () => {
+    const root = makeValidRepo();
+    writeMessages(root, {
+      interfaceBody: `${documented}\n  /** Unused. Default \`x\`. */\n  readonly neverRead: string;`,
+      catalogue: () => ({ button: { loadingLabel: 'x', neverRead: 'y' } }),
+    });
+
+    expect(runStaticAudit(root)).toContain(
+      'KuiMessages.button.neverRead is not read by any component',
+    );
+  });
+
+  it('reports a Playground catalogue that misses or adds a key', () => {
+    const root = makeValidRepo();
+    writeMessages(root, {
+      interfaceBody: documented,
+      catalogue: (language) =>
+        language === 'ru'
+          ? { button: { loadingLabel: 'x', extra: 'y' }, other: {} }
+          : { button: {} },
+    });
+
+    const failures = runStaticAudit(root);
+
+    expect(failures).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('ru.json kui.button must hold exactly the library keys'),
+        expect.stringContaining('en.json kui.button must hold exactly the library keys'),
+        'ru.json kui.other is not a library message group',
+      ]),
+    );
+  });
+});
+
 describe('verify-static-audit: Signal Forms control member names', () => {
   function writeControl(root, members, implementsClause = 'implements FormValueControl<string>') {
     writeFileSync(

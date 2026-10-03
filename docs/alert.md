@@ -106,18 +106,18 @@ gives each one a shared 1px line between them.
 
 ## API
 
-| Input         | Type                 | Default                | Description                                                                                                                                                            |
-| ------------- | -------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `appearance`  | `KuiAlertAppearance` | `'neutral'`            | Semantic type. Same five values as `KuiToastAppearance`.                                                                                                               |
-| `shape`       | `KuiAlertShape`      | `'soft'`               | Visual weight. Uses the `KuiButtonShape` vocabulary (`soft`/`outline`/`solid`).                                                                                        |
-| `size`        | `KuiAlertSize`       | `'md'`                 | Padding/gap density. Resolves the local input, then the root `defaults.size` (`sm`/`md` only), then `md`.                                                              |
-| `banner`      | `boolean`            | `false`                | Stretches the alert full-width and removes corner radius.                                                                                                              |
-| `title`       | `string`             | -                      | Optional single-line heading. Ignored when `[kuiAlertTitle]` is projected.                                                                                             |
-| `message`     | `string`             | -                      | Optional supporting text below the title. Ignored when `[kuiAlertMessage]` is projected.                                                                               |
-| `showIcon`    | `boolean`            | `true`                 | Shows the built-in appearance icon. `neutral` never shows one regardless of this value. Ignored when `[kuiAlertIcon]` is projected -- a projected icon always renders. |
-| `closable`    | `boolean`            | `true`                 | Shows the close button and enables `(closed)`.                                                                                                                         |
-| `closeLabel`  | `string`             | `'Close notification'` | Accessible label for the close button.                                                                                                                                 |
-| `actionLabel` | `string`             | -                      | Label for the inline ghost action button. Ignored when `[kuiAlertActions]` is projected.                                                                               |
+| Input         | Type                 | Default               | Description                                                                                                                                                            |
+| ------------- | -------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `appearance`  | `KuiAlertAppearance` | `'neutral'`           | Semantic type. Same five values as `KuiToastAppearance`.                                                                                                               |
+| `shape`       | `KuiAlertShape`      | `'soft'`              | Visual weight. Uses the `KuiButtonShape` vocabulary (`soft`/`outline`/`solid`).                                                                                        |
+| `size`        | `KuiAlertSize`       | `'md'`                | Padding/gap density. Resolves the local input, then the root `defaults.size` (`sm`/`md` only), then `md`.                                                              |
+| `banner`      | `boolean`            | `false`               | Stretches the alert full-width and removes corner radius.                                                                                                              |
+| `title`       | `string`             | -                     | Optional single-line heading. Ignored when `[kuiAlertTitle]` is projected.                                                                                             |
+| `message`     | `string`             | -                     | Optional supporting text below the title. Ignored when `[kuiAlertMessage]` is projected.                                                                               |
+| `showIcon`    | `boolean`            | `true`                | Shows the built-in appearance icon. `neutral` never shows one regardless of this value. Ignored when `[kuiAlertIcon]` is projected -- a projected icon always renders. |
+| `closable`    | `boolean`            | `true`                | Shows the close button and enables `(closed)`.                                                                                                                         |
+| `closeLabel`  | `string`             | `alert.close` message | Accessible label for the close button.                                                                                                                                 |
+| `actionLabel` | `string`             | -                     | Label for the inline ghost action button. Ignored when `[kuiAlertActions]` is projected.                                                                               |
 
 | Output   | Payload | Description                                                                               |
 | -------- | ------- | ----------------------------------------------------------------------------------------- |

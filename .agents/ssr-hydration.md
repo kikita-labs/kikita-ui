@@ -59,7 +59,7 @@ Rules for render-time values:
 - Never keep an id counter, clock or locale in module scope. Module state outlives a request, so
   server ids and dates depend on earlier requests. Use `kuiNextId` / `kuiIdFactory` for ids and
   `KuiClock` for "today" and initial months.
-- Never read the host's locale on the server. `KUI_LOCALE` comes from the request's `Accept-Language` and reaches the browser through `TransferState`; cache the server output with `Vary: Accept-Language`.
+- Never read the host's locale on the server. `KUI_LOCALE` comes from the request's `Accept-Language` and reaches the browser through `TransferState`; cache the server output with `Vary: Accept-Language`. Components read the locale and the library messages through `KuiI18n`; its formatter caches live in the instance, never in module scope, and an unsupported tag falls back to `en-US` instead of the host's default locale.
 - A value that differs between server and browser must render identically first. Hydration does not
   remove a class or attribute the server set and the browser's first evaluation leaves unset.
 

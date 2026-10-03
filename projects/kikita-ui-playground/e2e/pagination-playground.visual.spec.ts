@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 import { openWithHeldScripts, readDuplicateIds } from './support/ssr';
 
 const desktopViewport = { width: 1440, height: 1000 };
@@ -262,7 +263,7 @@ test('pages a table through the page owner and localizes numbers per language @v
   await expect(table.getByRole('row')).toHaveCount(11);
   await expect(table.getByRole('cell', { name: 'Order 1,001', exact: true })).toBeVisible();
   await expect(status).toHaveText('Page 1 of 129, 1,284 orders');
-  await expect(example.getByText('Showing 1–10 of 1284', { exact: true })).toBeVisible();
+  await expect(example.getByText('Showing 1–10 of 1,284', { exact: true })).toBeVisible();
   await expect(example).toHaveScreenshot('pagination-table-desktop.png');
   await captureMobile(page, example, 'pagination-table-320.png');
 
@@ -280,7 +281,7 @@ test('pages a table through the page owner and localizes numbers per language @v
   await nav.getByRole('button', { name: 'Last page', exact: true }).click();
   await expect(status).toHaveText('Page 65 of 65, 1,284 orders');
   await expect(table.getByRole('row')).toHaveCount(5);
-  await expect(example.getByText('Showing 1281–1284 of 1284', { exact: true })).toBeVisible();
+  await expect(example.getByText('Showing 1,281–1,284 of 1,284', { exact: true })).toBeVisible();
 });
 
 test('moves through every control in visual order with real keyboard input', async ({ page }) => {
@@ -372,9 +373,10 @@ test.fixme('keeps keyboard focus in the navigation after Next reaches the last p
   await expect(nav.locator(':focus')).toHaveCount(1);
 });
 
-test('translates page-owned text, keeps library text English, and formats numbers per language', async ({
+test('translates page-owned and library text and formats numbers per language', async ({
   page,
 }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const response = await page.request.get('/i18n/pagination/ru.json');
   expect(response.ok()).toBe(true);
   const russian = (await response.json()) as {
@@ -396,7 +398,9 @@ test('translates page-owned text, keeps library text English, and formats number
       exact: true,
     }),
   ).toBeVisible();
-  await expect(compact.getByRole('button', { name: 'Next page', exact: true })).toBeVisible();
+  await expect(
+    compact.getByRole('button', { name: kuiMessage(kui, 'pagination', 'next'), exact: true }),
+  ).toBeVisible();
 
   const table = getGroup(page, russian.accessibility.table);
   const expectedStatus = fill(russian.table.status, {
@@ -420,8 +424,18 @@ test('translates page-owned text, keeps library text English, and formats number
   await expect(
     table.getByRole('navigation', { name: russian.table.navigation, exact: true }),
   ).toBeVisible();
-  await expect(table.getByText('Showing 1–10 of 1284', { exact: true })).toBeVisible();
-  await expect(table.getByRole('combobox', { name: 'Rows per page', exact: true })).toBeVisible();
+  await expect(
+    table.getByText(
+      kuiMessage(kui, 'pagination', 'summary', { start: '1', end: '10', total: `1${nbsp}284` }),
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await expect(
+    table.getByRole('combobox', {
+      name: kuiMessage(kui, 'pagination', 'rowsPerPage'),
+      exact: true,
+    }),
+  ).toBeVisible();
 });
 
 test('keeps the catalogue within the viewport at desktop, tablet, and phone widths', async ({

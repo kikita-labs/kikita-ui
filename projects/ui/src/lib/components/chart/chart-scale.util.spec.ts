@@ -7,7 +7,6 @@ import {
   computeNiceScale,
   computeScatterDomain,
   computeStackedDomain,
-  formatCompact,
   thinTicks,
 } from './chart-scale.util';
 
@@ -99,18 +98,6 @@ describe('computeStackedDomain', () => {
       'bar',
     );
     expect(computeStackedDomain(series, 1, new Set(['b']))).toEqual({ min: 0, max: 60 });
-  });
-});
-
-describe('formatCompact', () => {
-  it.each([
-    [0, '0'],
-    [999, '999'],
-    [1200, '1.2K'],
-    [3400000, '3.4M'],
-    [-1200, '-1.2K'],
-  ])('formats %d as %s', (value, expected) => {
-    expect(formatCompact(value)).toBe(expected);
   });
 });
 

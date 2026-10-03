@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
+import { kuiMessage, loadKuiCatalogue } from './support/kui-catalogue';
 
 interface ToastLocale {
   title: string;
@@ -59,9 +60,9 @@ async function readToastLocale(page: Page, language: 'en' | 'ru'): Promise<Toast
   return (await response.json()) as ToastLocale;
 }
 
-function getToast(page: Page, role: 'status' | 'alert', title: string) {
+function getToast(page: Page, role: 'status' | 'alert', title: string, region = 'Notifications') {
   return page
-    .getByRole('region', { name: 'Notifications', exact: true })
+    .getByRole('region', { name: region, exact: true })
     .getByRole(role)
     .filter({ hasText: title });
 }
@@ -603,6 +604,7 @@ test('dismisses page-owned toasts and restores the region position on navigation
 });
 
 test('loads the Russian route scope after switching the shell language', async ({ page }) => {
+  const kui = await loadKuiCatalogue(page, 'ru');
   const response = await page.request.get(new URL('/i18n/toast/ru.json', page.url()).toString());
   expect(response.ok()).toBeTruthy();
   const russian = (await response.json()) as ToastLocale;
@@ -620,7 +622,9 @@ test('loads the Russian route scope after switching the shell language', async (
     exact: true,
   });
   await example.getByRole('button', { name: russian.actions['showDefault'], exact: true }).click();
-  await expect(getToast(page, 'status', russian.labels['defaultTitle'])).toBeVisible();
+  await expect(
+    getToast(page, 'status', russian.labels['defaultTitle'], kuiMessage(kui, 'toast', 'region')),
+  ).toBeVisible();
 });
 
 test('server renders and hydrates the Toast route without creating a toast early', async ({

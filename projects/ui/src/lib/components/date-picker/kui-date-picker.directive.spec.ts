@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
+import { kuiProvideLocale } from '../../i18n/provide-kui-i18n';
 import { KuiCalendarComponent } from '../calendar/kui-calendar.component';
 import { KuiDropdownComponent } from '../dropdown';
 import { KuiFieldComponent } from '../field/kui-field.component';
@@ -66,7 +67,10 @@ describe('KuiDatePickerDirective', () => {
   let host: HTMLElement;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [TestDatePickerHost] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [TestDatePickerHost],
+      providers: [kuiProvideLocale('ru-RU')],
+    }).compileComponents();
     fixture = TestBed.createComponent(TestDatePickerHost);
     host = fixture.nativeElement as HTMLElement;
     fixture.detectChanges();
@@ -283,6 +287,7 @@ describe('KuiDatePickerDirective with a manually-bound calendar (legacy pairing)
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TestDatePickerManualBindingHost],
+      providers: [kuiProvideLocale('ru-RU')],
     }).compileComponents();
     fixture = TestBed.createComponent(TestDatePickerManualBindingHost);
     host = fixture.nativeElement as HTMLElement;

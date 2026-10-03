@@ -4,7 +4,7 @@
       class="kui-command"
       role="dialog"
       aria-modal="true"
-      [attr.aria-label]="label()"
+      [attr.aria-label]="label() ?? t().label"
       [attr.aria-busy]="loading() ? 'true' : null"
       cdkTrapFocus
       [cdkTrapFocusAutoCapture]="true"
@@ -22,8 +22,8 @@
           role="combobox"
           autocomplete="off"
           [value]="query()"
-          [placeholder]="placeholder()"
-          [attr.aria-label]="label()"
+          [placeholder]="placeholder() ?? t().placeholder"
+          [attr.aria-label]="label() ?? t().label"
           [attr.aria-expanded]="true"
           [attr.aria-controls]="listId"
           [attr.aria-activedescendant]="activeItemId()"
@@ -34,7 +34,7 @@
           <button
             class="kui-command__clear"
             type="button"
-            aria-label="Clear search"
+            [attr.aria-label]="t().clearSearch"
             (click)="clearQuery()"
           >
             <svg [kuiGlyph]="clearGlyph()" [kuiGlyphStroke]="2"></svg>
@@ -54,8 +54,8 @@
           <kui-empty-state
             size="sm"
             context="no-results"
-            [heading]="emptyText()"
-            description="Try a different query."
+            [heading]="emptyText() ?? t().empty"
+            [description]="t().emptyDescription"
             role="status"
           >
             <svg kuiEmptyStateIcon [kuiGlyph]="searchGlyph" [kuiGlyphStroke]="1.5"></svg>
@@ -118,10 +118,15 @@
 
       <div class="kui-command__footer">
         <span class="kui-command__footer-hint">
-          <span class="kui-kbd">Up</span><span class="kui-kbd">Down</span> navigate
+          <span class="kui-kbd">{{ t().keyUp }}</span
+          ><span class="kui-kbd">{{ t().keyDown }}</span> {{ t().hintNavigate }}
         </span>
-        <span class="kui-command__footer-hint"><span class="kui-kbd">Enter</span> run</span>
-        <span class="kui-command__footer-hint"><span class="kui-kbd">Esc</span> close</span>
+        <span class="kui-command__footer-hint"
+          ><span class="kui-kbd">{{ t().keyEnter }}</span> {{ t().hintRun }}</span
+        >
+        <span class="kui-command__footer-hint"
+          ><span class="kui-kbd">{{ t().keyEscape }}</span> {{ t().hintClose }}</span
+        >
       </div>
     </section>
   </div>
