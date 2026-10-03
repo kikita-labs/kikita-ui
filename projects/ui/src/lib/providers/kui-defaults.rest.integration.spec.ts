@@ -9,8 +9,8 @@ import { KuiSelectDirective } from '../components/select/kui-select.directive';
 import { KuiSplitterComponent } from '../components/splitter/kui-splitter.component';
 import { KuiSplitterPaneComponent } from '../components/splitter/kui-splitter-pane.component';
 import { KuiTextDirective } from '../components/typography/kui-text.directive';
+import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
-import { provideKikitaUi } from './provide-kikita-ui';
 
 @Component({
   imports: [KuiTextDirective],

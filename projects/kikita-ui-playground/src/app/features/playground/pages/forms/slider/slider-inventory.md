@@ -120,7 +120,7 @@ range to 100% when max is zero` case verifies the visible `min=-100`, `max=0`, `
 - `projects/ui/src/styles/slider.css`: track/thumb geometry, semantic colors, active/focus states,
   disabled styling, label layout, and reduced-motion transition.
 - `projects/ui/src/styles/tooltip.css` and
-  `projects/ui/src/lib/utils/kui-tooltip-overlay.util.ts`: shared tooltip overlay and reduced motion.
+  `projects/ui/src/lib/components/tooltip/kui-tooltip-overlay.util.ts`: shared tooltip overlay and reduced motion.
 - `projects/ui/src/lib/theme/create-kui-theme.ts`: theme token values for Slider shadows and semantic
   colors.
 - `projects/kikita-ui-playground/src/app/app.config.ts`: root provider does not set a default size.

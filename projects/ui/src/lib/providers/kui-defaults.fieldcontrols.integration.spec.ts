@@ -10,8 +10,8 @@ import { KuiRadioDirective } from '../components/radio/kui-radio.directive';
 import { KuiSliderDirective } from '../components/slider/kui-slider.directive';
 import { KuiSwitchDirective } from '../components/switch/kui-switch.directive';
 import { KuiTextareaDirective } from '../components/textarea/kui-textarea.directive';
+import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
-import { provideKikitaUi } from './provide-kikita-ui';
 
 @Component({
   imports: [

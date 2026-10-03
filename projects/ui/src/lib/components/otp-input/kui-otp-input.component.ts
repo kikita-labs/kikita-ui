@@ -31,7 +31,7 @@ import {
   positiveIntegerAttribute,
 } from '../../utils/kui-input-transform.util';
 import { KuiAutoFocusDirective } from '../auto-focus';
-import { KuiFieldComponent } from '../field';
+import { KUI_FIELD } from '../field/kui-field-host.token';
 import { KuiInputDirective } from '../input';
 import { KuiLoaderDirective } from '../loader';
 
@@ -211,7 +211,7 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
    * intentionally cannot see past this component's own boundary, so they never duplicate this
    * wiring.
    */
-  private readonly field = inject(KuiFieldComponent, { optional: true });
+  private readonly field = inject(KUI_FIELD, { optional: true });
 
   /**
    * Whether an Angular Signal Forms `[formField]` is bound directly to this component (`self:

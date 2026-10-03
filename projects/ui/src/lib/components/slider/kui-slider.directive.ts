@@ -17,10 +17,10 @@ import {
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
-import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.util';
-import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
-import { KuiFieldComponent } from '../field';
+import { KUI_FIELD } from '../field/kui-field-host.token';
 import { KuiTooltipDirective } from '../tooltip/kui-tooltip.directive';
+import type { KuiTooltipOverlayHandle } from '../tooltip/kui-tooltip-overlay.util';
+import { createKuiTooltipOverlay } from '../tooltip/kui-tooltip-overlay.util';
 
 const KUI_SLIDER_SIZES = ['sm', 'md', 'lg'] as const;
 
@@ -58,7 +58,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   private readonly overlay = inject(Overlay);
   private readonly doc = inject(DOCUMENT);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
+  private readonly field = inject(KUI_FIELD, { optional: true, host: true });
   // If user adds [kuiTooltip]="'static text'", we defer to it; empty = value mode.
   private readonly kuiTooltip = inject(KuiTooltipDirective, { optional: true, self: true });
 

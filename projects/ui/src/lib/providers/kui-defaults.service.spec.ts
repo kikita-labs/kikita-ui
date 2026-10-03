@@ -8,9 +8,9 @@ import {
 import { TestBed } from '@angular/core/testing';
 
 import type { KuiButtonShape } from '../components/button/kui-button-shape.type';
+import { provideKikitaUi } from '../root';
 import type { KuiDefaultsSource } from './kui-defaults.interface';
 import { KuiDefaults } from './kui-defaults.service';
-import { provideKikitaUi } from './provide-kikita-ui';
 import { kuiProvideDefaults } from './provide-kui-defaults';
 
 function nested(

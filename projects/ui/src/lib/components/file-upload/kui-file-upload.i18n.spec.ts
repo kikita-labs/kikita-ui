@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
 import { KuiI18n } from '../../i18n/kui-i18n.service';
-import { provideKikitaUi } from '../../providers/provide-kikita-ui';
+import { provideKikitaUi } from '../../root';
 import { KuiFileUploadComponent } from './kui-file-upload.component';
 import type { KuiUploadFile } from './kui-upload-file.interface';
 

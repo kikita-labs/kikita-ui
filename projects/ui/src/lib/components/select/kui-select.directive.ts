@@ -19,8 +19,8 @@ import type {
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
-import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
-import { KuiFieldComponent } from '../field/kui-field.component';
+import { KUI_FIELD } from '../field/kui-field-host.token';
+import type { KuiOptionContext } from '../field/kui-option-context.token';
 import type { KuiSelectChipItem } from './kui-select-input-suffix.component';
 import { KuiSelectInputSuffixComponent } from './kui-select-input-suffix.component';
 
@@ -128,7 +128,7 @@ export class KuiSelectDirective<T = unknown>
 
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly vcr = inject(ViewContainerRef);
-  private readonly field = inject(KuiFieldComponent, { optional: true });
+  private readonly field = inject(KUI_FIELD, { optional: true });
   private readonly fieldDefaults = inject(KuiDefaults).get('field');
   private readonly selectDefaults = inject(KuiDefaults).get('select');
 

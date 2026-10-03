@@ -1,12 +1,4 @@
 {
-  "cycles": [
-    "components/field <-> components/input <-> components/time-picker",
-    "components/icon <-> i18n <-> providers",
-    "components/tooltip <-> utils"
-  ],
-  "layerViolations": [
-    "providers -> components/icon",
-    "utils -> components/tooltip",
-    "utils -> providers"
-  ]
+  "cycles": [],
+  "layerViolations": ["utils -> providers"]
 }

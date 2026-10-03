@@ -19,17 +19,17 @@ import type {
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
 
+import { sameNullableDate } from '../../foundation/date/kui-date-equality.util';
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiI18n } from '../../i18n/kui-i18n.service';
 import type { KuiTimePickerMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { sameNullableDate } from '../../utils/kui-date-equality.util';
 import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
 import {
   optionalBooleanAttribute,
   optionalPositiveIntegerAttribute,
 } from '../../utils/kui-input-transform.util';
-import { KuiFieldComponent } from '../field/kui-field.component';
+import { KUI_FIELD } from '../field/kui-field-host.token';
 import {
   autoMaskTimeInputText,
   formatDisplayTime,
@@ -168,7 +168,7 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
 
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly vcr = inject(ViewContainerRef);
-  private readonly field = inject(KuiFieldComponent, { optional: true });
+  private readonly field = inject(KUI_FIELD, { optional: true });
   private readonly fieldDefaults = inject(KuiDefaults).get('field');
   private readonly timePickerDefaults = inject(KuiDefaults).get('timePicker');
 

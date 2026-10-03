@@ -10,8 +10,8 @@ import { KuiFieldComponent } from '../components/field/kui-field.component';
 import { KuiPaginationComponent } from '../components/pagination/kui-pagination.component';
 import { KuiTimePickerDirective } from '../components/time-picker/kui-time-picker.directive';
 import { KuiTimePickerPanelComponent } from '../components/time-picker/kui-time-picker-panel.component';
+import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
-import { provideKikitaUi } from './provide-kikita-ui';
 
 @Component({
   imports: [KuiCalendarComponent, KuiCalendarRangeComponent],

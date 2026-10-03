@@ -12,6 +12,17 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import {
+  addDays,
+  addMonths,
+  addYears,
+  decadeStart,
+  isSameDay,
+  startOfDay,
+  startOfMonth,
+  startOfWeek,
+  weekdayIndex,
+} from '../../foundation/date/kui-calendar-date.util';
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { getKuiCalendarLocaleText } from '../../i18n/kui-calendar-locale-text.util';
 import { KuiI18n } from '../../i18n/kui-i18n.service';
@@ -25,23 +36,14 @@ import {
 import { KuiClock } from '../../utils/kui-clock.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
+import { KUI_PICKED_EVENT } from '../../utils/kui-picked-event';
 import { KuiButtonDirective } from '../button/kui-button.directive';
+import { KUI_FIELD_CALENDAR, registerKuiFieldPart } from '../field/kui-field-host.token';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHEVRON_LEFT, KUI_GLYPH_CHEVRON_RIGHT } from '../icon/kui-chrome-glyphs';
 import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KuiSeparatorDirective } from '../separator/kui-separator.directive';
 import type { KuiCalendarDisabledPredicate, KuiCalendarSize } from './kui-calendar.types';
-import {
-  addDays,
-  addMonths,
-  addYears,
-  decadeStart,
-  isSameDay,
-  startOfDay,
-  startOfMonth,
-  startOfWeek,
-  weekdayIndex,
-} from './kui-calendar-date.util';
 
 interface KuiCalendarDayCell {
   date: Date;
@@ -346,6 +348,8 @@ export class KuiCalendarComponent implements OnInit {
   private readonly today = this.clock.today;
 
   constructor() {
+    registerKuiFieldPart(KUI_FIELD_CALENDAR, this);
+
     const initial = this.value();
     if (initial) this.viewDate.set(startOfMonth(initial));
 
@@ -544,6 +548,7 @@ export class KuiCalendarComponent implements OnInit {
     if (date.getMonth() !== this.viewMonth() || date.getFullYear() !== this.viewYear()) {
       this.viewDate.set(startOfMonth(date));
     }
+    this.host.nativeElement.dispatchEvent(new CustomEvent(KUI_PICKED_EVENT, { bubbles: true }));
   }
 
   protected drillUp(): void {

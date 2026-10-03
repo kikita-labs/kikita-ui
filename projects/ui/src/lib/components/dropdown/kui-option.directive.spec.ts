@@ -3,9 +3,9 @@ import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
+import type { KuiOptionContext } from '../field/kui-option-context.token';
+import { KUI_OPTION_CONTEXT } from '../field/kui-option-context.token';
 import { KuiOptionDirective } from './kui-option.directive';
-import type { KuiOptionContext } from './kui-option-context.token';
-import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
 
 // Mock context
 

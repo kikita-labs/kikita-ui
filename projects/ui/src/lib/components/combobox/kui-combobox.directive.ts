@@ -20,8 +20,8 @@ import type {
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
-import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
-import { KuiFieldComponent } from '../field/kui-field.component';
+import { KUI_FIELD } from '../field/kui-field-host.token';
+import type { KuiOptionContext } from '../field/kui-option-context.token';
 import { KuiComboboxInputSuffixComponent } from './kui-combobox-input-suffix.component';
 import type { KuiComboboxMode } from './kui-combobox-mode.type';
 
@@ -108,7 +108,7 @@ export class KuiComboboxDirective<T = unknown>
 
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly vcr = inject(ViewContainerRef);
-  private readonly field = inject(KuiFieldComponent, { optional: true });
+  private readonly field = inject(KUI_FIELD, { optional: true });
   private readonly fieldDefaults = inject(KuiDefaults).get('field');
   private readonly comboboxDefaults = inject(KuiDefaults).get('combobox');
   private readonly suffixRef: ComponentRef<KuiComboboxInputSuffixComponent>;

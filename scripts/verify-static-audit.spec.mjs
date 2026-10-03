@@ -148,6 +148,31 @@ describe('verify-static-audit', () => {
     ]);
   });
 
+  it('reports a top-level initialiser call unless it is annotated pure or is an injection token', () => {
+    const root = makeValidRepo();
+    mkdirSync(join(root, 'projects/ui/src/lib/utils'), { recursive: true });
+    writeFileSync(
+      join(root, 'projects/ui/src/lib/utils/state.ts'),
+      [
+        'const TAGS = new Set(["a"]);',
+        'export const RESOLVER = createResolver();',
+        'const OK_SET = /* @__PURE__ */ new Set(["a"]);',
+        'export const OK_TOKEN = new InjectionToken<string>("x");',
+        'const inner = () => new Set(["a"]);',
+        'function f() {',
+        '  const local = new Set(["a"]);',
+        '  return local;',
+        '}',
+        '',
+      ].join('\n'),
+    );
+
+    expect(runStaticAudit(root)).toEqual([
+      'projects/ui/src/lib/utils/state.ts:1 calls Set() at module level; annotate it /* @__PURE__ */ or initialise it lazily',
+      'projects/ui/src/lib/utils/state.ts:2 calls createResolver() at module level; annotate it /* @__PURE__ */ or initialise it lazily',
+    ]);
+  });
+
   it('skips the generated default theme in the token checks', () => {
     const root = makeValidRepo();
     writeFileSync(

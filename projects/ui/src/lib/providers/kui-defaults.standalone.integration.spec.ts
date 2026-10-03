@@ -10,8 +10,8 @@ import { KuiLoaderDirective } from '../components/loader/kui-loader.directive';
 import { KuiSegmentDirective } from '../components/segmented/kui-segment.directive';
 import { KuiSegmentedComponent } from '../components/segmented/kui-segmented.component';
 import { KuiTableDirective } from '../components/table/kui-table.directive';
+import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
-import { provideKikitaUi } from './provide-kikita-ui';
 
 @Component({
   imports: [

@@ -60,7 +60,7 @@ The retrospective audit cross-checks `docs/date-picker.md`, `docs/calendar.md`, 
 `projects/ui/src/lib/components/date-picker/kui-date-picker.directive.spec.ts`,
 `projects/ui/src/lib/components/date-picker/kui-date-picker-input-affix.component.ts`,
 `projects/ui/src/lib/components/calendar/kui-calendar.component.ts`,
-`projects/ui/src/lib/components/calendar/kui-calendar-date.util.ts`, and
+`projects/ui/src/lib/foundation/date/kui-calendar-date.util.ts`, and
 `projects/ui/src/lib/i18n/kui-calendar-locale-text.util.ts`,
 `projects/ui/src/lib/components/field/kui-field.component.ts`,
 `projects/ui/src/lib/components/field/kui-field.component.html`,

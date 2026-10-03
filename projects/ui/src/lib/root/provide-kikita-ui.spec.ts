@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { KUI_BRAND_ICONS, KUI_ICONS, resolveLucideIcon } from '../components/icon';
 import { KuiTooltipTriggerType } from '../components/tooltip';
-import { KuiDefaults } from './kui-defaults.service';
+import { KuiDefaults } from '../providers/kui-defaults.service';
 import { provideKikitaUi } from './provide-kikita-ui';
 
 describe('provideKikitaUi', () => {

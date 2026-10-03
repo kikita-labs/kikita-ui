@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it } from 'vitest';
 
-import { provideKikitaUi } from '../../providers/provide-kikita-ui';
+import { provideKikitaUi } from '../../root';
 import { KuiDropdownComponent } from '../dropdown';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import { KuiTimePickerDirective } from './kui-time-picker.directive';

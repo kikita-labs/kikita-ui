@@ -2,7 +2,7 @@ import { Component, PLATFORM_ID, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { provideKikitaUi } from '../../providers';
+import { provideKikitaUi } from '../../root';
 import { kuiProvideButtonOptions } from '../../tokens';
 import { provideKuiIcons } from '../icon';
 import { KuiButtonDirective } from './kui-button.directive';

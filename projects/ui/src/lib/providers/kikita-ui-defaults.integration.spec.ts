@@ -11,8 +11,8 @@ import { KuiInputDirective } from '../components/input';
 import { KuiLoaderDirective } from '../components/loader';
 import { KuiProgressComponent } from '../components/progress';
 import { KuiTableDirective } from '../components/table';
+import { provideKikitaUi } from '../root';
 import { kuiProvideButtonOptions } from '../tokens';
-import { provideKikitaUi } from './provide-kikita-ui';
 
 @Component({
   imports: [

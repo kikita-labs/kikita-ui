@@ -20,17 +20,17 @@ import type {
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
 
+import { startOfDay, startOfMonth } from '../../foundation/date/kui-calendar-date.util';
+import { sameNullableDate } from '../../foundation/date/kui-date-equality.util';
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiI18n } from '../../i18n/kui-i18n.service';
 import { formatKuiDate, parseKuiDate, parseKuiDatePattern } from '../../i18n/kui-intl.util';
 import type { KuiDatePickerMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiClock } from '../../utils/kui-clock.service';
-import { sameNullableDate } from '../../utils/kui-date-equality.util';
 import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
-import { startOfDay, startOfMonth } from '../calendar/kui-calendar-date.util';
-import { KuiFieldComponent } from '../field/kui-field.component';
+import { KUI_FIELD } from '../field/kui-field-host.token';
 import { KuiDatePickerInputAffixComponent } from './kui-date-picker-input-affix.component';
 
 /**
@@ -140,7 +140,7 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
 
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly vcr = inject(ViewContainerRef);
-  private readonly field = inject(KuiFieldComponent, { optional: true });
+  private readonly field = inject(KUI_FIELD, { optional: true });
   private readonly fieldDefaults = inject(KuiDefaults).get('field');
   private readonly datePickerDefaults = inject(KuiDefaults).get('datePicker');
   private readonly i18n = inject(KuiI18n);

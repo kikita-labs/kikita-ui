@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { provideKikitaUi } from '../../providers';
+import { provideKikitaUi } from '../../root';
 import { KuiFieldComponent } from '../field';
 import { KuiInputDirective } from './kui-input.directive';
 

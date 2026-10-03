@@ -123,6 +123,15 @@ const parentAssignedTokens = new Set([
 const disallowedTopLevelGlobals =
   /(?:=\s*(window|document|navigator|localStorage|sessionStorage)\b|\b(window|document|navigator|localStorage|sessionStorage)\.)/;
 
+/** Initialisers Angular marks as pure itself, so they need no annotation. */
+const pureByDefaultInitialisers = new Set(['InjectionToken']);
+
+// A top-level `const x = new Y(...)` or `const x = f(...)` stays in every bundle that reaches the
+// module unless it is annotated `/* @__PURE__ */`, because bundlers cannot prove the call has no
+// effect. An annotated initialiser puts the comment before the call, so it does not match.
+const topLevelInitialiserCall =
+  /^(?:export\s+)?(?:const|let|var)\s+[A-Za-z_$][\w$]*(?:\s*:\s*[^=]+?)?\s*=\s*(new\s+)?([A-Za-z_$][\w$.]*)\s*(?:<[^>(]*>)?\(/u;
+
 // A literal English word in an accessible-name attribute, a placeholder, a rendered text node or a
 // `Renderer2` call is library-owned text that a consumer could not translate. It belongs in
 // `KuiMessages`. Text that is data, not a message, is listed by file and snippet, with the reason.
@@ -189,6 +198,9 @@ export function runStaticAudit(root = defaultRoot) {
   runCheck(failures, 'public exports have nearby JSDoc', () => checkPublicJSDoc(root));
   runCheck(failures, 'library files avoid top-level browser globals', () =>
     checkTopLevelBrowserGlobals(root),
+  );
+  runCheck(failures, 'library modules have no unannotated top-level initialiser calls', () =>
+    checkNoTopLevelInitialiserCalls(root),
   );
   runCheck(failures, 'components keep their defaults in private variables', () =>
     checkPublicTokenDefinitions(root),
@@ -671,6 +683,7 @@ function checkPublicJSDoc(root) {
   const publicFiles = collectTextFiles(root, [
     join(root, 'projects/ui/src/lib/components'),
     join(root, 'projects/ui/src/lib/providers'),
+    join(root, 'projects/ui/src/lib/root'),
     join(root, 'projects/ui/src/lib/theme'),
     join(root, 'projects/ui/src/lib/tokens'),
     join(root, 'projects/ui/src/lib/types'),
@@ -718,6 +731,35 @@ function checkTopLevelBrowserGlobals(root) {
       if (/^\S/.test(line) && disallowedTopLevelGlobals.test(stripLineComment(line))) {
         failures.push(
           `${toRepoPath(root, file)}:${index + 1} has a top-level browser global reference`,
+        );
+      }
+    }
+  }
+
+  return failures;
+}
+
+function checkNoTopLevelInitialiserCalls(root) {
+  const failures = [];
+  const libDir = join(root, 'projects/ui/src/lib');
+
+  if (!existsSync(libDir)) {
+    return failures;
+  }
+
+  const files = collectTextFiles(root, [libDir]).filter(
+    (file) => file.endsWith('.ts') && !file.endsWith('.spec.ts'),
+  );
+
+  for (const file of files) {
+    const lines = readFileSync(file, 'utf8').split(/\r?\n/);
+
+    for (let index = 0; index < lines.length; index += 1) {
+      const match = topLevelInitialiserCall.exec(lines[index]);
+
+      if (match && !pureByDefaultInitialisers.has(match[2])) {
+        failures.push(
+          `${toRepoPath(root, file)}:${index + 1} calls ${match[2]}() at module level; annotate it /* @__PURE__ */ or initialise it lazily`,
         );
       }
     }

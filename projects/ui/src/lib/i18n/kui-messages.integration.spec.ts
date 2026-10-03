@@ -40,7 +40,7 @@ import { KuiTabDirective } from '../components/tabs/kui-tab.directive';
 import { KuiTabsComponent } from '../components/tabs/kui-tabs.component';
 import { KuiTimePickerDirective } from '../components/time-picker/kui-time-picker.directive';
 import { KuiTimePickerPanelComponent } from '../components/time-picker/kui-time-picker-panel.component';
-import { provideKikitaUi } from '../providers/provide-kikita-ui';
+import { provideKikitaUi } from '../root';
 import { KuiI18n } from './kui-i18n.service';
 import { KUI_ENGLISH_MESSAGES } from './kui-messages.en';
 import type { KuiMessages, KuiMessagesLayer } from './kui-messages.interface';

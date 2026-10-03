@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it, vi } from 'vitest';
 
-import { provideKikitaUi } from '../providers/provide-kikita-ui';
+import { provideKikitaUi } from '../root';
 import { KuiI18n } from './kui-i18n.service';
 import { KUI_ENGLISH_MESSAGES } from './kui-messages.en';
 import type { KuiMessagesLayer } from './kui-messages.interface';

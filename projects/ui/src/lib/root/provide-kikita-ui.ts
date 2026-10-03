@@ -5,12 +5,12 @@ import { ENVIRONMENT_INITIALIZER, inject, makeEnvironmentProviders } from '@angu
 import { KUI_BRAND_ICONS, KUI_ICONS, resolveLucideIcon } from '../components/icon';
 import { KuiI18n } from '../i18n/kui-i18n.service';
 import { KUI_I18N_SEED } from '../i18n/kui-i18n.token';
+import type { KikitaUiOptions } from '../providers/kikita-ui-options.interface';
+import { KIKITA_UI_OPTIONS } from '../providers/kikita-ui-options.token';
+import type { KuiDefaultsSource } from '../providers/kui-defaults.interface';
+import { KuiDefaults } from '../providers/kui-defaults.service';
+import { KUI_DEFAULTS_SEED } from '../providers/kui-defaults.token';
 import { DEFAULT_KUI_THEME, provideKuiTheme } from '../theme';
-import type { KikitaUiOptions } from './kikita-ui-options.interface';
-import { KIKITA_UI_OPTIONS } from './kikita-ui-options.token';
-import type { KuiDefaultsSource } from './kui-defaults.interface';
-import { KuiDefaults } from './kui-defaults.service';
-import { KUI_DEFAULTS_SEED } from './kui-defaults.token';
 
 /** Provides root Kikita UI configuration for an Angular application. */
 export function provideKikitaUi(options: KikitaUiOptions = {}): EnvironmentProviders {

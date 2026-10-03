@@ -14,8 +14,8 @@ import { KuiTabPanelDirective } from '../components/tabs/kui-tab-panel.directive
 import { KuiTabsComponent } from '../components/tabs/kui-tabs.component';
 import { KuiTreeComponent } from '../components/tree/kui-tree.component';
 import type { KuiTreeNode } from '../components/tree/kui-tree-node.interface';
+import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
-import { provideKikitaUi } from './provide-kikita-ui';
 
 const NODES: KuiTreeNode[] = [
   { id: 'a', label: 'Alpha' },

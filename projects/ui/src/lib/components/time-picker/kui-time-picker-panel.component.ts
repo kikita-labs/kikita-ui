@@ -18,6 +18,7 @@ import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
+import { KUI_FIELD_TIME_PICKER_PANEL, registerKuiFieldPart } from '../field/kui-field-host.token';
 import { KuiSegmentDirective, KuiSegmentedComponent } from '../segmented';
 import { formatTwoDigits, nearestStep } from './kui-time-format.util';
 import type { KuiTimePickerFormat, KuiTimePickerPeriod } from './kui-time-picker.types';
@@ -224,6 +225,8 @@ export class KuiTimePickerPanelComponent {
   private hasRenderedOnce = false;
 
   constructor() {
+    registerKuiFieldPart(KUI_FIELD_TIME_PICKER_PANEL, this);
+
     // Centers every column on its newly selected cell whenever `value` changes for *any* reason
     // -- a wheel pick, "Now", or `value` arriving from typing in the trigger input (auto-wired in
     // from a sibling `input[kuiTimePicker]`, which bypasses every method below that used to call

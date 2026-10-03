@@ -21,8 +21,8 @@ import { KuiFieldComponent } from '../components/field/kui-field.component';
 import type { KuiIconGlyph } from '../components/icon/kui-icon-glyph.type';
 import { provideKuiIcons } from '../components/icon/provide-kui-icons';
 import { KuiSelectDirective } from '../components/select/kui-select.directive';
+import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
-import { provideKikitaUi } from './provide-kikita-ui';
 import { kuiProvideDefaults } from './provide-kui-defaults';
 
 const ROLE_GLYPH: KuiIconGlyph = { node: [['path', { d: 'M1 1 role' }]] };

@@ -6,7 +6,7 @@ import type { KuiIconGlyph } from './kui-icon-glyph.type';
 export const KUI_GLYPH_DEFAULT_VIEW_BOX = '0 0 24 24';
 
 /** Elements a glyph may draw. Anything else makes the whole glyph invalid. */
-const GLYPH_TAGS: ReadonlySet<string> = new Set([
+const GLYPH_TAGS: ReadonlySet<string> = /* @__PURE__ */ new Set([
   'path',
   'line',
   'polyline',
@@ -22,7 +22,7 @@ const GLYPH_TAGS: ReadonlySet<string> = new Set([
  * `stroke-width` and `vector-effect` are deliberately absent: the renderer owns line weight so the
  * `--kui-icon-stroke-width` and `--kui-icon-vector-effect` tokens always apply.
  */
-const GLYPH_ATTRIBUTES: ReadonlySet<string> = new Set([
+const GLYPH_ATTRIBUTES: ReadonlySet<string> = /* @__PURE__ */ new Set([
   'd',
   'cx',
   'cy',
@@ -73,8 +73,8 @@ export type KuiGlyphInspection =
   | { readonly glyph: KuiSanitizedGlyph; readonly reason?: undefined }
   | { readonly glyph?: undefined; readonly reason: string };
 
-const inspections = new WeakMap<object, KuiGlyphInspection>();
-const warned = new WeakSet<object>();
+const inspections = /* @__PURE__ */ new WeakMap<object, KuiGlyphInspection>();
+const warned = /* @__PURE__ */ new WeakSet<object>();
 
 /**
  * Validates glyph data against the element and attribute allowlists.

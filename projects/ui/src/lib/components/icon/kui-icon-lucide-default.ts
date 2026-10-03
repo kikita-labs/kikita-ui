@@ -72,4 +72,4 @@ export function createKuiLucideResolver(options: KuiLucideResolverOptions = {}):
  * Does not require installing any Lucide package -- only a network request to jsDelivr. Opt out with
  * `provideKikitaUi({ icons: false })`.
  */
-export const resolveLucideIcon: KuiIconResolver = createKuiLucideResolver();
+export const resolveLucideIcon: KuiIconResolver = /* @__PURE__ */ createKuiLucideResolver();

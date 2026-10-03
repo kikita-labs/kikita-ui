@@ -21,7 +21,7 @@ import {
   createKuiControlSize,
   createKuiFieldWiring,
 } from '../../utils/kui-field-control-wiring.util';
-import { KuiFieldComponent } from '../field';
+import { KUI_FIELD } from '../field/kui-field-host.token';
 
 /** Layout of the increment/decrement controls. */
 export type KuiNumberInputVariant = 'stacked' | 'split';
@@ -77,7 +77,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
   private readonly renderer = inject(Renderer2);
   private readonly doc = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
+  private readonly field = inject(KUI_FIELD, { optional: true, host: true });
   private readonly numberInputDefaults = inject(KuiDefaults).get('numberInput');
   private readonly t = injectKuiMessages('numberInput');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();

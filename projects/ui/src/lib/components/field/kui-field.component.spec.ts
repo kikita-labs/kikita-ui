@@ -5,7 +5,7 @@ import { form, FormField, required } from '@angular/forms/signals';
 
 import { describe, expect, it } from 'vitest';
 
-import { provideKikitaUi } from '../../providers';
+import { provideKikitaUi } from '../../root';
 import { kuiProvideFieldOptions } from '../../tokens';
 import { KuiInputDirective } from '../input';
 import { KuiFieldComponent } from './kui-field.component';

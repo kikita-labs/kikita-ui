@@ -29,14 +29,14 @@ import {
   createKuiFieldWiring,
 } from '../../utils/kui-field-control-wiring.util';
 import { kuiIdFactory } from '../../utils/kui-id.util';
-import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.util';
-import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
-import { KuiFieldComponent } from '../field';
+import { KUI_FIELD } from '../field/kui-field-host.token';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHEVRON_DOWN, KUI_GLYPH_COPY } from '../icon/kui-chrome-glyphs';
 import { createKuiGlyphElement } from '../icon/kui-glyph-dom.util';
 import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
+import type { KuiTooltipOverlayHandle } from '../tooltip/kui-tooltip-overlay.util';
+import { createKuiTooltipOverlay } from '../tooltip/kui-tooltip-overlay.util';
 
 const HEX_COLOR_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
 const OKLCH_COLOR_RE =
@@ -100,7 +100,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private readonly vcr = inject(ViewContainerRef);
   private readonly injector = inject(Injector);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
+  private readonly field = inject(KUI_FIELD, { optional: true, host: true });
   private readonly colorInputDefaults = inject(KuiDefaults).get('colorInput');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private readonly isBrowser = isPlatformBrowser(this.platformId);
@@ -359,8 +359,14 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.panelEl = this.renderer.createElement('div') as HTMLElement;
     this.renderer.addClass(this.panelEl, 'kui-color-input-popover');
 
+    // The field must not adopt this dropdown: the directive owns its open state, and a field that
+    // also toggled it on click would close the panel it just opened.
     const dropdownRef = this.vcr.createComponent(KuiDropdownComponent, {
       projectableNodes: [[this.panelEl]],
+      injector: Injector.create({
+        providers: [{ provide: KUI_FIELD, useValue: null }],
+        parent: this.injector,
+      }),
     });
     dropdownRef.setInput('panelRole', 'dialog');
     dropdownRef.setInput('panelWidth', 'auto');

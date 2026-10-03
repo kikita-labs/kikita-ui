@@ -29,577 +29,577 @@
   ],
   "exports": {
     "createKuiLucideResolver": {
-      "baselineBytes": 3280,
-      "limitBytes": 3392
+      "baselineBytes": 2816,
+      "limitBytes": 2912
     },
     "createKuiTheme": {
-      "baselineBytes": 22673,
-      "limitBytes": 23360
+      "baselineBytes": 19751,
+      "limitBytes": 20352
     },
     "createKuiThemeCssText": {
-      "baselineBytes": 3513,
-      "limitBytes": 3632
+      "baselineBytes": 633,
+      "limitBytes": 656
     },
     "createKuiThemeStyleSheet": {
-      "baselineBytes": 3683,
-      "limitBytes": 3808
+      "baselineBytes": 803,
+      "limitBytes": 832
     },
     "createKuiThemeVariableMap": {
-      "baselineBytes": 3392,
-      "limitBytes": 3504
+      "baselineBytes": 512,
+      "limitBytes": 528
     },
     "DEFAULT_KUI_THEME": {
-      "baselineBytes": 3509,
-      "limitBytes": 3616
+      "baselineBytes": 629,
+      "limitBytes": 656
     },
     "getKuiCalendarLocaleText": {
-      "baselineBytes": 4313,
-      "limitBytes": 4448
+      "baselineBytes": 1876,
+      "limitBytes": 1936
     },
     "KIKITA_UI_OPTIONS": {
-      "baselineBytes": 3340,
-      "limitBytes": 3456
+      "baselineBytes": 456,
+      "limitBytes": 480
     },
     "KUI_BRAND_ICONS": {
-      "baselineBytes": 4538,
-      "limitBytes": 4688
+      "baselineBytes": 1662,
+      "limitBytes": 1712
     },
     "KUI_DIALOG_CONTEXT": {
-      "baselineBytes": 3322,
-      "limitBytes": 3424
+      "baselineBytes": 438,
+      "limitBytes": 464
     },
     "KUI_DRAWER_CONTEXT": {
-      "baselineBytes": 3322,
-      "limitBytes": 3424
+      "baselineBytes": 438,
+      "limitBytes": 464
     },
     "KUI_ENGLISH_MESSAGES": {
-      "baselineBytes": 8098,
-      "limitBytes": 8352
+      "baselineBytes": 5218,
+      "limitBytes": 5376
     },
     "KUI_ICONS": {
-      "baselineBytes": 3313,
-      "limitBytes": 3424
+      "baselineBytes": 429,
+      "limitBytes": 448
     },
     "KUI_INPUT_GROUP_CONTROL_SELECTOR": {
-      "baselineBytes": 3280,
-      "limitBytes": 3392
+      "baselineBytes": 400,
+      "limitBytes": 416
     },
     "KUI_INPUT_GROUP_INTERACTIVE_SELECTOR": {
-      "baselineBytes": 3280,
-      "limitBytes": 3392
+      "baselineBytes": 400,
+      "limitBytes": 416
     },
     "KUI_LOCALE": {
-      "baselineBytes": 3986,
-      "limitBytes": 4112
+      "baselineBytes": 1095,
+      "limitBytes": 1136
     },
     "KUI_LUCIDE_STATIC_VERSION": {
-      "baselineBytes": 3280,
-      "limitBytes": 3392
+      "baselineBytes": 415,
+      "limitBytes": 432
     },
     "KUI_THEME": {
-      "baselineBytes": 22729,
-      "limitBytes": 23424
+      "baselineBytes": 19813,
+      "limitBytes": 20416
     },
     "KuiAccordionComponent": {
-      "baselineBytes": 5900,
-      "limitBytes": 6080
+      "baselineBytes": 2975,
+      "limitBytes": 3072
     },
     "KuiAccordionIconDirective": {
-      "baselineBytes": 3479,
-      "limitBytes": 3584
+      "baselineBytes": 563,
+      "limitBytes": 592
     },
     "KuiAccordionItemComponent": {
-      "baselineBytes": 12637,
-      "limitBytes": 13024
+      "baselineBytes": 11125,
+      "limitBytes": 11472
     },
     "KuiAlertActionsDirective": {
-      "baselineBytes": 3502,
-      "limitBytes": 3616
+      "baselineBytes": 586,
+      "limitBytes": 608
     },
     "KuiAlertComponent": {
-      "baselineBytes": 35926,
-      "limitBytes": 37008
+      "baselineBytes": 34888,
+      "limitBytes": 35936
     },
     "KuiAlertIconDirective": {
-      "baselineBytes": 3656,
-      "limitBytes": 3776
+      "baselineBytes": 731,
+      "limitBytes": 768
     },
     "KuiAlertMessageDirective": {
-      "baselineBytes": 3502,
-      "limitBytes": 3616
+      "baselineBytes": 586,
+      "limitBytes": 608
     },
     "KuiAlertTitleDirective": {
-      "baselineBytes": 3498,
-      "limitBytes": 3616
+      "baselineBytes": 582,
+      "limitBytes": 608
     },
     "KuiAutoFocusDirective": {
-      "baselineBytes": 5263,
-      "limitBytes": 5424
+      "baselineBytes": 2336,
+      "limitBytes": 2416
     },
     "KuiAvatarComponent": {
-      "baselineBytes": 18533,
-      "limitBytes": 19104
+      "baselineBytes": 16082,
+      "limitBytes": 16576
     },
     "KuiAvatarGroupComponent": {
-      "baselineBytes": 20843,
-      "limitBytes": 21472
+      "baselineBytes": 18392,
+      "limitBytes": 18944
     },
     "KuiBadgeDirective": {
-      "baselineBytes": 5140,
-      "limitBytes": 5296
+      "baselineBytes": 2209,
+      "limitBytes": 2288
     },
     "KuiBarChartComponent": {
-      "baselineBytes": 54617,
-      "limitBytes": 56256
+      "baselineBytes": 53579,
+      "limitBytes": 55200
     },
     "KuiBreadcrumbItemDirective": {
-      "baselineBytes": 3875,
-      "limitBytes": 4000
+      "baselineBytes": 950,
+      "limitBytes": 992
     },
     "KuiBreadcrumbsDirective": {
-      "baselineBytes": 5203,
-      "limitBytes": 5360
+      "baselineBytes": 2272,
+      "limitBytes": 2352
     },
     "KuiBreadcrumbSeparatorComponent": {
-      "baselineBytes": 10674,
-      "limitBytes": 11008
+      "baselineBytes": 9162,
+      "limitBytes": 9440
     },
     "KuiButtonDirective": {
-      "baselineBytes": 26402,
-      "limitBytes": 27200,
+      "baselineBytes": 25364,
+      "limitBytes": 26128,
       "targetBytes": 12288
     },
     "KuiCalendarComponent": {
-      "baselineBytes": 42486,
-      "limitBytes": 43776
+      "baselineBytes": 41702,
+      "limitBytes": 42960
     },
     "KuiCalendarRangeComponent": {
-      "baselineBytes": 43571,
-      "limitBytes": 44880
+      "baselineBytes": 42553,
+      "limitBytes": 43840
     },
     "KuiCardDirective": {
-      "baselineBytes": 5333,
-      "limitBytes": 5504
+      "baselineBytes": 2402,
+      "limitBytes": 2480
     },
     "KuiCarouselComponent": {
-      "baselineBytes": 38268,
-      "limitBytes": 39424
+      "baselineBytes": 37230,
+      "limitBytes": 38352
     },
     "KuiCarouselSlideDirective": {
-      "baselineBytes": 13945,
-      "limitBytes": 14368
+      "baselineBytes": 11494,
+      "limitBytes": 11840
     },
     "KuiCellDirective": {
-      "baselineBytes": 3486,
-      "limitBytes": 3600
+      "baselineBytes": 570,
+      "limitBytes": 592
     },
     "KuiChartLegendComponent": {
-      "baselineBytes": 5324,
-      "limitBytes": 5488
+      "baselineBytes": 2399,
+      "limitBytes": 2480
     },
     "KuiChartLegendItemDirective": {
-      "baselineBytes": 3554,
-      "limitBytes": 3664
+      "baselineBytes": 629,
+      "limitBytes": 656
     },
     "KuiCheckboxDirective": {
-      "baselineBytes": 74803,
-      "limitBytes": 77056,
+      "baselineBytes": 3094,
+      "limitBytes": 3200,
       "targetBytes": 30720
     },
     "KuiChipDirective": {
-      "baselineBytes": 18159,
-      "limitBytes": 18704
+      "baselineBytes": 17121,
+      "limitBytes": 17648
     },
     "KuiChipRemoveDirective": {
-      "baselineBytes": 18714,
-      "limitBytes": 19280
+      "baselineBytes": 17676,
+      "limitBytes": 18208
     },
     "KuiColorInputDirective": {
-      "baselineBytes": 97494,
-      "limitBytes": 100432,
+      "baselineBytes": 45228,
+      "limitBytes": 46592,
       "targetBytes": 46080
     },
     "KuiComboboxDirective": {
-      "baselineBytes": 81023,
-      "limitBytes": 83456,
+      "baselineBytes": 26538,
+      "limitBytes": 27344,
       "targetBytes": 46080
     },
     "KuiComboboxHighlightPipe": {
-      "baselineBytes": 3816,
-      "limitBytes": 3936
+      "baselineBytes": 900,
+      "limitBytes": 928
     },
     "KuiCommandPaletteComponent": {
-      "baselineBytes": 32890,
-      "limitBytes": 33888
+      "baselineBytes": 31852,
+      "limitBytes": 32816
     },
     "kuiConfirm": {
-      "baselineBytes": 33139,
-      "limitBytes": 34144
+      "baselineBytes": 32101,
+      "limitBytes": 33072
     },
     "KuiDatePickerDirective": {
-      "baselineBytes": 83636,
-      "limitBytes": 86160,
+      "baselineBytes": 30394,
+      "limitBytes": 31312,
       "targetBytes": 56320
     },
     "KuiDefaults": {
-      "baselineBytes": 4508,
-      "limitBytes": 4656
+      "baselineBytes": 1577,
+      "limitBytes": 1632
     },
     "kuiDialog": {
-      "baselineBytes": 24457,
-      "limitBytes": 25200
+      "baselineBytes": 23419,
+      "limitBytes": 24128
     },
     "KuiDialogRef": {
-      "baselineBytes": 3455,
-      "limitBytes": 3568
+      "baselineBytes": 539,
+      "limitBytes": 560
     },
     "KuiDonutChartComponent": {
-      "baselineBytes": 48037,
-      "limitBytes": 49488
+      "baselineBytes": 46999,
+      "limitBytes": 48416
     },
     "kuiDrawer": {
-      "baselineBytes": 24350,
-      "limitBytes": 25088
+      "baselineBytes": 23312,
+      "limitBytes": 24016
     },
     "KuiDrawerRef": {
-      "baselineBytes": 3455,
-      "limitBytes": 3568
+      "baselineBytes": 539,
+      "limitBytes": 560
     },
     "KuiDropdownComponent": {
-      "baselineBytes": 11970,
-      "limitBytes": 12336,
+      "baselineBytes": 9022,
+      "limitBytes": 9296,
       "targetBytes": 8192
     },
     "KuiDropdownForDirective": {
-      "baselineBytes": 4647,
-      "limitBytes": 4800
+      "baselineBytes": 1722,
+      "limitBytes": 1776
     },
     "KuiEmptyStateActionsDirective": {
-      "baselineBytes": 3507,
-      "limitBytes": 3616
+      "baselineBytes": 591,
+      "limitBytes": 624
     },
     "KuiEmptyStateComponent": {
-      "baselineBytes": 5925,
-      "limitBytes": 6112
+      "baselineBytes": 3000,
+      "limitBytes": 3104
     },
     "KuiEmptyStateIconDirective": {
-      "baselineBytes": 3522,
-      "limitBytes": 3632
+      "baselineBytes": 606,
+      "limitBytes": 640
     },
     "KuiErrorDirective": {
-      "baselineBytes": 3956,
-      "limitBytes": 4080
+      "baselineBytes": 1021,
+      "limitBytes": 1056
     },
     "KuiFieldActionDirective": {
-      "baselineBytes": 3505,
-      "limitBytes": 3616
+      "baselineBytes": 589,
+      "limitBytes": 608
     },
     "KuiFieldAffixDirective": {
-      "baselineBytes": 24288,
-      "limitBytes": 25024
+      "baselineBytes": 23250,
+      "limitBytes": 23952
     },
     "KuiFieldAffixIconDirective": {
-      "baselineBytes": 3527,
-      "limitBytes": 3648
+      "baselineBytes": 611,
+      "limitBytes": 640
     },
     "KuiFieldComponent": {
-      "baselineBytes": 73429,
-      "limitBytes": 75632
+      "baselineBytes": 34015,
+      "limitBytes": 35040
     },
     "KuiFileUploadComponent": {
-      "baselineBytes": 48040,
-      "limitBytes": 49488
+      "baselineBytes": 47002,
+      "limitBytes": 48416
     },
     "KuiGroupDirective": {
-      "baselineBytes": 5967,
-      "limitBytes": 6160
+      "baselineBytes": 3042,
+      "limitBytes": 3136
     },
     "KuiHintDirective": {
-      "baselineBytes": 3938,
-      "limitBytes": 4064
+      "baselineBytes": 1007,
+      "limitBytes": 1040
     },
     "KuiI18n": {
-      "baselineBytes": 13440,
-      "limitBytes": 13856
+      "baselineBytes": 10989,
+      "limitBytes": 11328
     },
     "KuiIconButtonDirective": {
-      "baselineBytes": 25865,
-      "limitBytes": 26656,
+      "baselineBytes": 24827,
+      "limitBytes": 25584,
       "targetBytes": 12288
     },
     "KuiIconComponent": {
-      "baselineBytes": 11982,
-      "limitBytes": 12352,
+      "baselineBytes": 10470,
+      "limitBytes": 10800,
       "targetBytes": 8192
     },
     "KuiInputDirective": {
-      "baselineBytes": 74774,
-      "limitBytes": 77024,
+      "baselineBytes": 3061,
+      "limitBytes": 3168,
       "targetBytes": 30720
     },
     "KuiInputGroupDirective": {
-      "baselineBytes": 3675,
-      "limitBytes": 3792
+      "baselineBytes": 762,
+      "limitBytes": 800
     },
     "KuiLabelDirective": {
-      "baselineBytes": 4046,
-      "limitBytes": 4176
+      "baselineBytes": 1115,
+      "limitBytes": 1152
     },
     "KuiLineChartComponent": {
-      "baselineBytes": 52484,
-      "limitBytes": 54064
+      "baselineBytes": 51446,
+      "limitBytes": 52992
     },
     "KuiLinkDirective": {
-      "baselineBytes": 28731,
-      "limitBytes": 29600
+      "baselineBytes": 27693,
+      "limitBytes": 28528
     },
     "KuiLoaderDirective": {
-      "baselineBytes": 14833,
-      "limitBytes": 15280,
+      "baselineBytes": 12382,
+      "limitBytes": 12768,
       "targetBytes": 8192
     },
     "kuiMediaViewer": {
-      "baselineBytes": 42173,
-      "limitBytes": 43440
+      "baselineBytes": 41135,
+      "limitBytes": 42384
     },
     "KuiMenuComponent": {
-      "baselineBytes": 22903,
-      "limitBytes": 23600
+      "baselineBytes": 20452,
+      "limitBytes": 21072
     },
     "KuiMenuForDirective": {
-      "baselineBytes": 4336,
-      "limitBytes": 4480
+      "baselineBytes": 1411,
+      "limitBytes": 1456
     },
     "KuiMenuHeaderDirective": {
-      "baselineBytes": 3525,
-      "limitBytes": 3632
+      "baselineBytes": 609,
+      "limitBytes": 640
     },
     "KuiMenuItemDirective": {
-      "baselineBytes": 4546,
-      "limitBytes": 4688
+      "baselineBytes": 1621,
+      "limitBytes": 1680
     },
     "KuiNumberInputDirective": {
-      "baselineBytes": 82082,
-      "limitBytes": 84560,
+      "baselineBytes": 20481,
+      "limitBytes": 21104,
       "targetBytes": 46080
     },
     "KuiOptionDirective": {
-      "baselineBytes": 5569,
-      "limitBytes": 5744
+      "baselineBytes": 2644,
+      "limitBytes": 2736
     },
     "KuiOtpInputComponent": {
-      "baselineBytes": 82116,
-      "limitBytes": 84592,
+      "baselineBytes": 21510,
+      "limitBytes": 22160,
       "targetBytes": 46080
     },
     "KuiPaginationComponent": {
-      "baselineBytes": 101187,
-      "limitBytes": 104224,
+      "baselineBytes": 72922,
+      "limitBytes": 75120,
       "targetBytes": 46080
     },
     "KuiPopoverComponent": {
-      "baselineBytes": 21963,
-      "limitBytes": 22624
+      "baselineBytes": 19512,
+      "limitBytes": 20112
     },
     "KuiPopoverForDirective": {
-      "baselineBytes": 4783,
-      "limitBytes": 4928
+      "baselineBytes": 1858,
+      "limitBytes": 1920
     },
     "KuiProgressComponent": {
-      "baselineBytes": 7296,
-      "limitBytes": 7520
+      "baselineBytes": 4371,
+      "limitBytes": 4512
     },
     "kuiProvideButtonOptions": {
-      "baselineBytes": 4635,
-      "limitBytes": 4784
+      "baselineBytes": 1704,
+      "limitBytes": 1760
     },
     "kuiProvideComboboxOptions": {
-      "baselineBytes": 4606,
-      "limitBytes": 4752
+      "baselineBytes": 1675,
+      "limitBytes": 1728
     },
     "kuiProvideDefaults": {
-      "baselineBytes": 4567,
-      "limitBytes": 4720
+      "baselineBytes": 1636,
+      "limitBytes": 1696
     },
     "kuiProvideFieldOptions": {
-      "baselineBytes": 4603,
-      "limitBytes": 4752
+      "baselineBytes": 1672,
+      "limitBytes": 1728
     },
     "kuiProvideI18n": {
-      "baselineBytes": 13499,
-      "limitBytes": 13904
+      "baselineBytes": 11048,
+      "limitBytes": 11392
     },
     "kuiProvideLocale": {
-      "baselineBytes": 13536,
-      "limitBytes": 13952
+      "baselineBytes": 11085,
+      "limitBytes": 11424
     },
     "kuiProvideMessages": {
-      "baselineBytes": 13538,
-      "limitBytes": 13952
+      "baselineBytes": 11087,
+      "limitBytes": 11424
     },
     "kuiProvideSelectOptions": {
-      "baselineBytes": 4604,
-      "limitBytes": 4752
+      "baselineBytes": 1673,
+      "limitBytes": 1728
     },
     "kuiProvideTooltipOptions": {
-      "baselineBytes": 4605,
-      "limitBytes": 4752
+      "baselineBytes": 1674,
+      "limitBytes": 1728
     },
     "KuiRadioDirective": {
-      "baselineBytes": 74717,
-      "limitBytes": 76960,
+      "baselineBytes": 3004,
+      "limitBytes": 3104,
       "targetBytes": 30720
     },
     "KuiRowDirective": {
-      "baselineBytes": 3780,
-      "limitBytes": 3904
+      "baselineBytes": 855,
+      "limitBytes": 896
     },
     "KuiScatterChartComponent": {
-      "baselineBytes": 50172,
-      "limitBytes": 51680
+      "baselineBytes": 49134,
+      "limitBytes": 50624
     },
     "KuiSegmentDirective": {
-      "baselineBytes": 4277,
-      "limitBytes": 4416
+      "baselineBytes": 1352,
+      "limitBytes": 1408
     },
     "KuiSegmentedComponent": {
-      "baselineBytes": 8772,
-      "limitBytes": 9040
+      "baselineBytes": 5847,
+      "limitBytes": 6032
     },
     "KuiSelectCellComponent": {
-      "baselineBytes": 14737,
-      "limitBytes": 15184
+      "baselineBytes": 12286,
+      "limitBytes": 12656
     },
     "KuiSelectDirective": {
-      "baselineBytes": 88337,
-      "limitBytes": 90992,
+      "baselineBytes": 33937,
+      "limitBytes": 34960,
       "targetBytes": 46080
     },
     "KuiSelectThComponent": {
-      "baselineBytes": 14380,
-      "limitBytes": 14816
+      "baselineBytes": 11929,
+      "limitBytes": 12288
     },
     "KuiSelectValueDirective": {
-      "baselineBytes": 73806,
-      "limitBytes": 76032
+      "baselineBytes": 808,
+      "limitBytes": 848
     },
     "KuiSeparatorDirective": {
-      "baselineBytes": 5395,
-      "limitBytes": 5568
+      "baselineBytes": 2464,
+      "limitBytes": 2544
     },
     "KuiSkeletonDirective": {
-      "baselineBytes": 5119,
-      "limitBytes": 5280
+      "baselineBytes": 2188,
+      "limitBytes": 2256
     },
     "KuiSliderDirective": {
-      "baselineBytes": 86048,
-      "limitBytes": 88640,
+      "baselineBytes": 14622,
+      "limitBytes": 15072,
       "targetBytes": 46080
     },
     "KuiSplitterComponent": {
-      "baselineBytes": 30486,
-      "limitBytes": 31408
+      "baselineBytes": 29448,
+      "limitBytes": 30336
     },
     "KuiSplitterPaneComponent": {
-      "baselineBytes": 5987,
-      "limitBytes": 6176
+      "baselineBytes": 3062,
+      "limitBytes": 3168
     },
     "KuiStepComponent": {
-      "baselineBytes": 22686,
-      "limitBytes": 23376
+      "baselineBytes": 21648,
+      "limitBytes": 22304
     },
     "KuiStepperComponent": {
-      "baselineBytes": 24270,
-      "limitBytes": 25008
+      "baselineBytes": 23232,
+      "limitBytes": 23936
     },
     "KuiSwitchDirective": {
-      "baselineBytes": 74813,
-      "limitBytes": 77072,
+      "baselineBytes": 3100,
+      "limitBytes": 3200,
       "targetBytes": 30720
     },
     "KuiTabDirective": {
-      "baselineBytes": 15589,
-      "limitBytes": 16064
+      "baselineBytes": 13138,
+      "limitBytes": 13536
     },
     "KuiTableDirective": {
-      "baselineBytes": 6751,
-      "limitBytes": 6960
+      "baselineBytes": 3826,
+      "limitBytes": 3952
     },
     "KuiTabPanelDirective": {
-      "baselineBytes": 3922,
-      "limitBytes": 4048
+      "baselineBytes": 991,
+      "limitBytes": 1024
     },
     "KuiTabsComponent": {
-      "baselineBytes": 27961,
-      "limitBytes": 28800
+      "baselineBytes": 26923,
+      "limitBytes": 27744
     },
     "KuiTextareaDirective": {
-      "baselineBytes": 74804,
-      "limitBytes": 77056,
+      "baselineBytes": 3091,
+      "limitBytes": 3184,
       "targetBytes": 30720
     },
     "KuiTextDirective": {
-      "baselineBytes": 6074,
-      "limitBytes": 6272
+      "baselineBytes": 3149,
+      "limitBytes": 3248
     },
     "KuiThDirective": {
-      "baselineBytes": 15826,
-      "limitBytes": 16304
+      "baselineBytes": 13375,
+      "limitBytes": 13792
     },
     "KuiThGroupDirective": {
-      "baselineBytes": 3643,
-      "limitBytes": 3760
+      "baselineBytes": 718,
+      "limitBytes": 752
     },
     "KuiTimePickerDirective": {
-      "baselineBytes": 86886,
-      "limitBytes": 89504,
+      "baselineBytes": 32824,
+      "limitBytes": 33824,
       "targetBytes": 56320
     },
     "KuiTimePickerPanelComponent": {
-      "baselineBytes": 46002,
-      "limitBytes": 47392
+      "baselineBytes": 44974,
+      "limitBytes": 46336
     },
     "kuiToast": {
-      "baselineBytes": 30429,
-      "limitBytes": 31344
+      "baselineBytes": 29391,
+      "limitBytes": 30288
     },
     "KuiToastService": {
-      "baselineBytes": 30402,
-      "limitBytes": 31328
+      "baselineBytes": 29364,
+      "limitBytes": 30256
     },
     "KuiTooltipDirective": {
-      "baselineBytes": 10653,
-      "limitBytes": 10976,
+      "baselineBytes": 7728,
+      "limitBytes": 7968,
       "targetBytes": 8192
     },
     "KuiTooltipTriggerType": {
-      "baselineBytes": 3377,
-      "limitBytes": 3488
+      "baselineBytes": 497,
+      "limitBytes": 512
     },
     "KuiTreeComponent": {
-      "baselineBytes": 30538,
-      "limitBytes": 31456
+      "baselineBytes": 29500,
+      "limitBytes": 30400
     },
     "provideKikitaUi": {
-      "baselineBytes": 36409,
+      "baselineBytes": 36428,
       "limitBytes": 37504,
       "targetBytes": 14336
     },
     "provideKuiIcons": {
-      "baselineBytes": 3371,
-      "limitBytes": 3488
+      "baselineBytes": 487,
+      "limitBytes": 512
     },
     "provideKuiTheme": {
-      "baselineBytes": 23569,
-      "limitBytes": 24288
+      "baselineBytes": 20644,
+      "limitBytes": 21264
     },
     "provideKuiToastOptions": {
-      "baselineBytes": 4603,
-      "limitBytes": 4752
+      "baselineBytes": 1672,
+      "limitBytes": 1728
     },
     "resolveLucideIcon": {
-      "baselineBytes": 3280,
-      "limitBytes": 3392
+      "baselineBytes": 2826,
+      "limitBytes": 2912
     }
   }
 }

@@ -31,7 +31,8 @@ import {
   optionalBooleanAttribute,
   optionalOverlayOffsetAttribute,
 } from '../../utils/kui-input-transform.util';
-import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
+import { KUI_FIELD_DROPDOWN, registerKuiFieldPart } from '../field/kui-field-host.token';
+import { KUI_OPTION_CONTEXT } from '../field/kui-option-context.token';
 
 /**
  * Floating listbox panel rendered in an Angular CDK overlay.
@@ -60,6 +61,7 @@ import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
         [attr.role]="panelRole()"
         (click)="handlePanelClick($event)"
         (keydown)="handlePanelKeydown($event)"
+        (kui-picked)="handlePicked()"
         (animationend)="onAnimationEnd($event)"
       >
         <ng-content />
@@ -174,6 +176,8 @@ export class KuiDropdownComponent implements OnDestroy {
   private openSubs: { unsubscribe: () => void }[] = [];
 
   constructor() {
+    registerKuiFieldPart(KUI_FIELD_DROPDOWN, this);
+
     effect(() => {
       const requestedOpen = this.openState();
       const renderedOpen = this.isOpen();
@@ -356,11 +360,12 @@ export class KuiDropdownComponent implements OnDestroy {
       target.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
     ) {
       this.closeRestoringFocus();
-      return;
     }
-    if (this.effectiveCloseOnSelect() && this.isCalendarDayClick(target)) {
-      this.closeRestoringFocus();
-    }
+  }
+
+  /** A projected single-date picker reported a pick; the panel closes unless `closeOnSelect` is off. */
+  protected handlePicked(): void {
+    if (this.effectiveCloseOnSelect()) this.closeRestoringFocus();
   }
 
   protected handlePanelKeydown(e: KeyboardEvent): void {
@@ -373,24 +378,7 @@ export class KuiDropdownComponent implements OnDestroy {
       target?.closest('.kui-listbox-option:not(.kui-listbox-option--disabled)')
     ) {
       this.closeRestoringFocus();
-      return;
     }
-    if (this.effectiveCloseOnSelect() && target && this.isCalendarDayClick(target)) {
-      this.closeRestoringFocus();
-    }
-  }
-
-  /**
-   * True for a click/activation on a `kui-calendar` day cell -- `kui-calendar` is single-date
-   * only, so any day pick is a complete selection. Excludes a `kui-calendar-range` day (it
-   * shares `kui-calendar`'s host class for CSS, so it's told apart by its own
-   * `data-kui-range` host attribute): a range stays open after picking the start date so the
-   * user can still pick the end date, and has no auto-close behavior of its own yet.
-   */
-  private isCalendarDayClick(target: Element): boolean {
-    const day = target.closest('.kui-calendar-day:not(.kui-calendar-day--disabled)');
-    if (!day) return false;
-    return !day.closest('[data-kui-range]');
   }
 
   protected onAnimationEnd(event: AnimationEvent): void {

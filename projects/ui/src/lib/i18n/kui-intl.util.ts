@@ -55,9 +55,18 @@ const WEEK_ROWS: readonly (readonly [regions: string, row: WeekRow])[] = [
   ['UG', [1, [7]]],
 ];
 
-const WEEK_BY_REGION = new Map<string, WeekRow>(
-  WEEK_ROWS.flatMap(([regions, row]) => regions.split(' ').map((region) => [region, row] as const)),
-);
+let weekByRegion: ReadonlyMap<string, WeekRow> | undefined;
+
+/** Week rows by region, built on first use so that merely importing the module costs nothing. */
+function getWeekByRegion(): ReadonlyMap<string, WeekRow> {
+  weekByRegion ??= new Map<string, WeekRow>(
+    WEEK_ROWS.flatMap(([regions, row]) =>
+      regions.split(' ').map((region) => [region, row] as const),
+    ),
+  );
+
+  return weekByRegion;
+}
 
 const DEFAULT_WEEK: WeekRow = [1, [6, 7]];
 
@@ -100,7 +109,7 @@ export function getKuiWeekInfo(tag: string): KuiWeekInfo {
   }
 
   const region = locale.region ?? locale.maximize().region;
-  const [firstDay, weekend] = (region ? WEEK_BY_REGION.get(region) : undefined) ?? DEFAULT_WEEK;
+  const [firstDay, weekend] = (region ? getWeekByRegion().get(region) : undefined) ?? DEFAULT_WEEK;
 
   return { firstDay: toSundayZero(firstDay), weekend: weekend.map(toSundayZero) };
 }

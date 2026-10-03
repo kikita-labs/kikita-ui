@@ -29,10 +29,10 @@ import type { KuiSeparatorSpacing } from '../components/separator/kui-separator-
 import { KuiSkeletonDirective } from '../components/skeleton/kui-skeleton.directive';
 import type { KuiSkeletonAnimation } from '../components/skeleton/kui-skeleton-animation.type';
 import type { KuiSkeletonShape } from '../components/skeleton/kui-skeleton-shape.type';
+import { provideKikitaUi } from '../root';
 import type { KuiSize } from '../types';
 import type { KuiDefaultsLayer } from './kui-defaults.interface';
 import { KuiDefaults } from './kui-defaults.service';
-import { provideKikitaUi } from './provide-kikita-ui';
 
 const ITEMS: readonly KuiAvatarItem[] = [
   { name: 'Ada Lovelace' },

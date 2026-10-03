@@ -13,11 +13,12 @@ const baselinePath = 'scripts/architecture-baseline.json';
  * cycles that already exist, so the audit fails only on new ones and on stale baseline entries.
  */
 const groupOf = (module) => {
+  if (module === 'root') return 'root';
   if (module.startsWith('components/')) return 'components';
-  if (module === 'types' || module === 'utils') return 'foundation';
+  if (module === 'foundation' || module === 'types' || module === 'utils') return 'foundation';
   return 'core';
 };
-const groupRank = { foundation: 0, core: 1, components: 2 };
+const groupRank = { foundation: 0, core: 1, components: 2, root: 3 };
 
 /**
  * Builds the module import graph of the library. Only runtime edges count: type-only imports and

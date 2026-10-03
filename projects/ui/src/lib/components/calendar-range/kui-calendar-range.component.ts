@@ -11,6 +11,17 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import {
+  addDays,
+  addMonths,
+  addYears,
+  decadeStart,
+  isSameDay,
+  startOfDay,
+  startOfMonth,
+  startOfWeek,
+  weekdayIndex,
+} from '../../foundation/date/kui-calendar-date.util';
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { getKuiCalendarLocaleText } from '../../i18n/kui-calendar-locale-text.util';
 import { KuiI18n } from '../../i18n/kui-i18n.service';
@@ -30,17 +41,6 @@ import type {
   KuiCalendarSize,
   KuiDateRange,
 } from '../calendar/kui-calendar.types';
-import {
-  addDays,
-  addMonths,
-  addYears,
-  decadeStart,
-  isSameDay,
-  startOfDay,
-  startOfMonth,
-  startOfWeek,
-  weekdayIndex,
-} from '../calendar/kui-calendar-date.util';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHEVRON_LEFT, KUI_GLYPH_CHEVRON_RIGHT } from '../icon/kui-chrome-glyphs';
 import { KuiGlyphComponent } from '../icon/kui-glyph.component';

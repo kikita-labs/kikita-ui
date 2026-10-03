@@ -15,8 +15,8 @@ import {
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
-import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.util';
-import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
+import type { KuiTooltipOverlayHandle } from './kui-tooltip-overlay.util';
+import { createKuiTooltipOverlay } from './kui-tooltip-overlay.util';
 import type { KuiTooltipPlacement } from './kui-tooltip-placement.type';
 import type { KuiTooltipTrigger } from './kui-tooltip-trigger.type';
 import { KuiTooltipTriggerType } from './kui-tooltip-trigger.type';

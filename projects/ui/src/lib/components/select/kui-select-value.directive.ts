@@ -1,7 +1,7 @@
 import type { OnDestroy } from '@angular/core';
 import { Directive, inject, TemplateRef } from '@angular/core';
 
-import { KuiFieldComponent } from '../field/kui-field.component';
+import { KUI_FIELD } from '../field/kui-field-host.token';
 
 /** Template context exposed by `ng-template[kuiSelectValue]`. */
 export interface KuiSelectValueContext<T = unknown> {
@@ -36,7 +36,7 @@ export class KuiSelectValueDirective<T = unknown> implements OnDestroy {
   /** Template reference consumed by `input[kuiSelect]`. */
   readonly templateRef = inject<TemplateRef<KuiSelectValueContext<T>>>(TemplateRef);
 
-  private readonly field = inject(KuiFieldComponent, { optional: true });
+  private readonly field = inject(KUI_FIELD, { optional: true });
 
   constructor() {
     this.field?.setSelectValueTemplate(this.templateRef as TemplateRef<unknown>);

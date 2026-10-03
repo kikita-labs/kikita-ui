@@ -15,8 +15,8 @@ import type { KuiChartBaseOptions } from '../components/chart/kui-chart-options.
 import { KuiDonutChartComponent } from '../components/chart/kui-donut-chart.component';
 import { KuiLineChartComponent } from '../components/chart/kui-line-chart.component';
 import { KuiScatterChartComponent } from '../components/chart/kui-scatter-chart.component';
+import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
-import { provideKikitaUi } from './provide-kikita-ui';
 
 type ChartSize = 'sm' | 'md' | 'lg';
 

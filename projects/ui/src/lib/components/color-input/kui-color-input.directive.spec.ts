@@ -1,6 +1,7 @@
 import { Component, PLATFORM_ID } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { KuiFieldComponent } from '../field';
 import { KuiColorInputDirective } from './kui-color-input.directive';
@@ -111,6 +112,24 @@ describe('KuiColorInputDirective', () => {
 
     expect(document.querySelector('.kui-color-input-popover')).toBeTruthy();
     expect(swatch.disabled).toBe(false);
+  });
+
+  it('keeps its own dropdown out of the surrounding field', () => {
+    const fixture = createFixture(FieldColorInputHost);
+    const swatch = fixture.nativeElement.querySelector(
+      '.kui-color-input__swatch',
+    ) as HTMLButtonElement;
+    const field = fixture.debugElement.query(By.directive(KuiFieldComponent))
+      .componentInstance as KuiFieldComponent;
+
+    swatch.click();
+    fixture.detectChanges();
+
+    expect(document.querySelector('.kui-color-input-popover')).toBeTruthy();
+    expect(field.getDropdown()).toBeUndefined();
+    expect(
+      fixture.nativeElement.querySelector('kui-field').hasAttribute('data-dropdown-open'),
+    ).toBe(false);
   });
 
   it('hides the chevron trigger when readonly', () => {

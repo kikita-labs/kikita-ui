@@ -7,7 +7,7 @@ import {
   createKuiControlSize,
   createKuiFieldWiring,
 } from '../../utils/kui-field-control-wiring.util';
-import { KuiFieldComponent } from '../field';
+import { KUI_FIELD } from '../field/kui-field-host.token';
 
 /** Applies Kikita UI multiline control styling and field ARIA wiring to native textarea elements. */
 @Directive({
@@ -32,7 +32,7 @@ export class KuiTextareaDirective {
   /** Explicit id override. If omitted inside `kui-field`, the field id is used. */
   readonly id = input<string | undefined>();
 
-  private readonly field = inject(KuiFieldComponent, { optional: true, host: true });
+  private readonly field = inject(KUI_FIELD, { optional: true, host: true });
   private readonly textareaDefaults = inject(KuiDefaults).get('textarea');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 

@@ -24,8 +24,8 @@ import { KuiMenuItemDirective } from '../components/menu/kui-menu-item.directive
 import { KuiPopoverComponent } from '../components/popover/kui-popover.component';
 import { KuiPopoverForDirective } from '../components/popover/kui-popover-for.directive';
 import { KuiTooltipDirective } from '../components/tooltip/kui-tooltip.directive';
+import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
-import { provideKikitaUi } from './provide-kikita-ui';
 import { kuiProvideDefaults } from './provide-kui-defaults';
 
 @Component({ template: `<p>Dialog</p>` })

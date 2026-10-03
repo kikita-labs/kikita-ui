@@ -18,33 +18,40 @@ import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
-import { KuiCalendarComponent } from '../calendar/kui-calendar.component';
-import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
-import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
-import { KUI_OPTION_CONTEXT } from '../dropdown/kui-option-context.token';
-import {
-  KUI_INPUT_GROUP_CONTROL_SELECTOR,
-  KUI_INPUT_GROUP_INTERACTIVE_SELECTOR,
-} from '../input/kui-input-group.directive';
-import { KuiTimePickerPanelComponent } from '../time-picker/kui-time-picker-panel.component';
+import type { KuiCalendarComponent } from '../calendar/kui-calendar.component';
+import type { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
+import type { KuiTimePickerPanelComponent } from '../time-picker/kui-time-picker-panel.component';
 import {
   KuiFieldActionDirective,
   KuiFieldAffixDirective,
   KuiFieldAffixIconDirective,
 } from './kui-field-affix.directive';
+import type { KuiFieldHost, KuiFieldPart } from './kui-field-host.token';
+import {
+  KUI_FIELD,
+  KUI_FIELD_CALENDAR,
+  KUI_FIELD_DROPDOWN,
+  KUI_FIELD_TIME_PICKER_PANEL,
+} from './kui-field-host.token';
 import { KuiFieldIdGenerator } from './kui-field-id-generator.service';
 import {
   KuiErrorDirective,
   KuiHintDirective,
   KuiLabelDirective,
 } from './kui-field-markers.directive';
+import { focusInputGroupControl } from './kui-input-group.util';
+import type { KuiOptionContext } from './kui-option-context.token';
+import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
 
 /** Wraps a form control with Kikita UI label, hint, error, and required state semantics. */
 @Component({
   selector: 'kui-field',
   templateUrl: './kui-field.component.html',
   styleUrl: './kui-field.component.css',
-  providers: [{ provide: KUI_OPTION_CONTEXT, useExisting: KuiFieldComponent }],
+  providers: [
+    { provide: KUI_OPTION_CONTEXT, useExisting: KuiFieldComponent },
+    { provide: KUI_FIELD, useExisting: KuiFieldComponent },
+  ],
   host: {
     class: 'kui-field',
     '[attr.data-kui-size]': 'effectiveSize()',
@@ -54,7 +61,7 @@ import {
     '(keydown)': 'handleKeydown($event)',
   },
 })
-export class KuiFieldComponent implements KuiOptionContext {
+export class KuiFieldComponent implements KuiOptionContext, KuiFieldHost {
   private readonly idGenerator = inject(KuiFieldIdGenerator);
 
   /** Field size, adjusting control slot height and spacing. Defaults to md. */
@@ -173,24 +180,29 @@ export class KuiFieldComponent implements KuiOptionContext {
     return ids.length > 0 ? ids.join(' ') : null;
   });
 
-  protected readonly dropdown = contentChild(KuiDropdownComponent);
+  /** Parts (dropdown, calendar, time picker panel) that registered themselves with this field. */
+  private readonly registeredParts = signal<
+    readonly { readonly part: KuiFieldPart<unknown>; readonly instance: unknown }[]
+  >([]);
+
+  protected readonly dropdown = this.partSignal(KUI_FIELD_DROPDOWN);
   protected readonly dropdownOpen = computed(() => this.dropdown()?.isOpen() ?? false);
   protected readonly projectedLabel = contentChild(KuiLabelDirective);
 
   /**
-   * Sibling `kui-calendar` projected into this field, if any -- discovered so
+   * The `kui-calendar` registered with this field, if any -- registered so
    * `input[kuiDatePicker]` can auto-wire it via `getCalendar()` without the consumer manually
    * binding `[value]`/`(valueChange)` on the calendar.
    */
-  protected readonly calendar = contentChild(KuiCalendarComponent);
+  protected readonly calendar = this.partSignal(KUI_FIELD_CALENDAR);
 
   /**
-   * Sibling `kui-time-picker-panel` projected into this field, if any -- discovered so
+   * The `kui-time-picker-panel` registered with this field, if any -- registered so
    * `input[kuiTimePicker]` can auto-wire it via `getTimePickerPanel()` without the consumer
    * manually binding `[value]`/`(valueChange)`/`[format]`/`[minuteStep]`/`[secondStep]`/
    * `[showSeconds]` on the panel.
    */
-  protected readonly timePickerPanel = contentChild(KuiTimePickerPanelComponent);
+  protected readonly timePickerPanel = this.partSignal(KUI_FIELD_TIME_PICKER_PANEL);
 
   private readonly projectedAffixes = contentChildren(KuiFieldAffixDirective, {
     descendants: true,
@@ -274,14 +286,34 @@ export class KuiFieldComponent implements KuiOptionContext {
     return this.dropdown();
   }
 
-  /** Sibling `kui-calendar` projected into this field, if any. See {@link calendar}. */
+  /** The `kui-calendar` registered with this field, if any. See {@link calendar}. */
   getCalendar(): KuiCalendarComponent | undefined {
     return this.calendar();
   }
 
-  /** Sibling `kui-time-picker-panel` projected into this field, if any. See {@link timePickerPanel}. */
+  /** The `kui-time-picker-panel` registered with this field, if any. See {@link timePickerPanel}. */
   getTimePickerPanel(): KuiTimePickerPanelComponent | undefined {
     return this.timePickerPanel();
+  }
+
+  /** @internal Registers a part of this field; the part unregisters through the returned function. */
+  registerPart<T>(part: KuiFieldPart<T>, instance: T): () => void {
+    const entry = { part: part as KuiFieldPart<unknown>, instance };
+
+    this.registeredParts.update((parts) => [...parts, entry]);
+
+    return () => this.registeredParts.update((parts) => parts.filter((item) => item !== entry));
+  }
+
+  /** @internal The first registered instance of a part, or `undefined`. */
+  getPart<T>(part: KuiFieldPart<T>): T | undefined {
+    return this.partSignal(part)();
+  }
+
+  private partSignal<T>(part: KuiFieldPart<T>): Signal<T | undefined> {
+    return computed(
+      () => this.registeredParts().find((item) => item.part === part)?.instance as T | undefined,
+    );
   }
 
   protected handleClick(event: MouseEvent): void {
@@ -295,12 +327,8 @@ export class KuiFieldComponent implements KuiOptionContext {
     // this element. Re-implement its click-to-focus delegation here instead of relying on it,
     // otherwise clicking the group's padding (the gap between its 40px border and the shorter
     // native control) does nothing.
-    if (this.hasInputGroupChrome() && !target.closest(KUI_INPUT_GROUP_INTERACTIVE_SELECTOR)) {
-      control
-        .querySelector<
-          HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >(KUI_INPUT_GROUP_CONTROL_SELECTOR)
-        ?.focus();
+    if (this.hasInputGroupChrome()) {
+      focusInputGroupControl(control, target);
     }
 
     if (!this._selectDisabled()) {

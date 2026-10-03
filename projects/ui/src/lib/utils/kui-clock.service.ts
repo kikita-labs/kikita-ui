@@ -21,7 +21,7 @@ export interface KuiClockSeed {
 }
 
 /** @internal Transfer-state key that carries the server's calendar date to the browser. */
-export const KUI_CLOCK_SEED = makeStateKey<KuiClockSeed>('kui-clock-seed');
+export const KUI_CLOCK_SEED = /* @__PURE__ */ makeStateKey<KuiClockSeed>('kui-clock-seed');
 
 /** A seed older than this is not from the render being hydrated. */
 const SEED_MAX_AGE_MS = 10 * 60 * 1000;

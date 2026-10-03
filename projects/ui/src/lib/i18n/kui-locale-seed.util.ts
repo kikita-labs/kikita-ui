@@ -4,7 +4,7 @@ import { makeStateKey } from '@angular/core';
 export const KUI_DEFAULT_LOCALE = 'en-US';
 
 /** @internal Transfer-state key that carries the server-resolved locale to the browser. */
-export const KUI_LOCALE_SEED = makeStateKey<string>('kui-locale-seed');
+export const KUI_LOCALE_SEED = /* @__PURE__ */ makeStateKey<string>('kui-locale-seed');
 
 /**
  * @internal

@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 import { kuiNextId } from '../../utils/kui-id.util';
-import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
+import { KUI_OPTION_CONTEXT } from '../field/kui-option-context.token';
 
 @Directive({
   selector: '[kuiOption]',

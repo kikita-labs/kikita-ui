@@ -7,8 +7,8 @@ import type {
 import { ComponentPortal } from '@angular/cdk/portal';
 import type { ComponentRef } from '@angular/core';
 
-import type { KuiTooltipPlacement } from '../components/tooltip/kui-tooltip-placement.type';
-import { KuiTooltipSurfaceComponent } from '../components/tooltip/kui-tooltip-surface.component';
+import type { KuiTooltipPlacement } from './kui-tooltip-placement.type';
+import { KuiTooltipSurfaceComponent } from './kui-tooltip-surface.component';
 
 /** Gap in px between the anchor and the tooltip when no offset is given. */
 export const KUI_TOOLTIP_DEFAULT_OFFSET = 6;
