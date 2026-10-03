@@ -12,38 +12,7 @@ import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 @Component({
   selector: 'kui-date-picker-input-affix',
   imports: [KuiFieldAffixIconDirective, KuiFieldActionDirective, KuiGlyphComponent],
-  template: `
-    <span kuiFieldAffixIcon>
-      <svg width="16" height="16" [kuiGlyph]="calendarGlyph" [kuiGlyphStroke]="2"></svg>
-    </span>
-
-    <div class="kui-date-picker-suffix">
-      @if (clearable() && hasValue() && !disabled() && !readonly()) {
-        <button
-          kuiFieldAction
-          type="button"
-          class="kui-date-picker-clear"
-          [attr.aria-label]="common().clear"
-          (click)="onClear($event)"
-        >
-          <svg width="12" height="12" [kuiGlyph]="clearGlyph()" [kuiGlyphStroke]="1.6"></svg>
-        </button>
-      }
-
-      <button
-        kuiFieldAction
-        type="button"
-        class="kui-date-picker-chevron"
-        tabindex="-1"
-        [disabled]="disabled() || readonly()"
-        [attr.aria-label]="isOpen() ? t().closeCalendar : t().openCalendar"
-        [attr.aria-expanded]="isOpen()"
-        (click)="onToggle($event)"
-      >
-        <svg width="14" height="14" [kuiGlyph]="chevronGlyph()" [kuiGlyphStroke]="1.6"></svg>
-      </button>
-    </div>
-  `,
+  templateUrl: './kui-date-picker-input-affix.component.html',
   host: { class: 'kui-date-picker-control-overlay' },
   encapsulation: ViewEncapsulation.None,
 })

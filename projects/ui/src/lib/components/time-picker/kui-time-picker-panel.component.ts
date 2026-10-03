@@ -80,57 +80,7 @@ function timeOfDaySeconds(date: Date): number {
 @Component({
   selector: 'kui-time-picker-panel',
   imports: [KuiButtonDirective, KuiSegmentedComponent, KuiSegmentDirective],
-  template: `
-    <div class="kui-timepicker-columns">
-      @for (col of columns(); track col.key) {
-        <div
-          class="kui-timepicker-col kui-scroll"
-          role="listbox"
-          [attr.aria-label]="col.ariaLabel"
-          tabindex="0"
-          (keydown)="onColumnKeydown($event, col)"
-        >
-          @for (cell of col.cells; track cell.value) {
-            <div
-              class="kui-timepicker-opt"
-              role="option"
-              [id]="cell.id"
-              [attr.aria-selected]="cell.selected ? 'true' : null"
-              [attr.aria-disabled]="cell.disabled ? 'true' : null"
-              [class.kui-timepicker-opt--selected]="cell.selected"
-              [class.kui-timepicker-opt--disabled]="cell.disabled"
-              (click)="onCellClick(col, cell)"
-            >
-              {{ cell.label }}
-            </div>
-          }
-        </div>
-      }
-    </div>
-
-    @if (effectiveFormat() === '12h') {
-      <div class="kui-timepicker-period">
-        <kui-segmented
-          [value]="period()"
-          (valueChange)="applyPeriod($event)"
-          size="sm"
-          [attr.aria-label]="t().period"
-        >
-          <button kuiSegment value="AM">{{ pattern().am }}</button>
-          <button kuiSegment value="PM">{{ pattern().pm }}</button>
-        </kui-segmented>
-      </div>
-    }
-
-    <div class="kui-timepicker-footer">
-      <button kuiButton shape="ghost" size="xs" type="button" (click)="applyNow()">
-        {{ t().now }}
-      </button>
-      <button kuiButton shape="solid" size="xs" type="button" (click)="done()">
-        {{ t().done }}
-      </button>
-    </div>
-  `,
+  templateUrl: './kui-time-picker-panel.component.html',
   host: {
     class: 'kui-timepicker-panel',
     // Auto-detected, not a settable input: when there's no ancestor kui-dropdown (the panel is

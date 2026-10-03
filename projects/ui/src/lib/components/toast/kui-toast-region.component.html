@@ -1,0 +1,75 @@
+<div
+  #region
+  class="kui-toast-region"
+  popover="manual"
+  [attr.data-position]="_position()"
+  role="region"
+  [attr.aria-label]="t().region"
+  aria-live="polite"
+>
+  @for (toast of _toasts(); track toast.id) {
+    <div
+      class="kui-toast"
+      [attr.data-kui-appearance]="toast.config.appearance ?? 'neutral'"
+      [attr.role]="toast.config.appearance === 'danger' ? 'alert' : 'status'"
+      [attr.aria-live]="toast.config.appearance === 'danger' ? 'assertive' : 'polite'"
+      aria-atomic="true"
+      [style.animation]="toast.closing() ? _outAnim() : _inAnim()"
+      (mouseenter)="pauseTimer(toast.id)"
+      (mouseleave)="resumeTimer(toast.id)"
+    >
+      @if (toast.config.showIcon !== false && hasIcon(toast.config.appearance)) {
+        <span class="kui-toast-icon">
+          <svg
+            width="18"
+            height="18"
+            [kuiGlyph]="statusGlyph(toast.config.appearance)"
+            [kuiGlyphStroke]="1.5"
+          ></svg>
+        </span>
+      }
+
+      <div class="kui-toast-body">
+        <div class="kui-toast-title">{{ toast.config.title }}</div>
+        @if (toast.config.message) {
+          <div class="kui-toast-message">{{ toast.config.message }}</div>
+        }
+        @if (toast.config.actionLabel) {
+          <button
+            class="kui-button"
+            data-kui-shape="ghost"
+            data-kui-size="xs"
+            type="button"
+            style="
+              align-self: flex-start;
+              margin-top: var(--kui-space-1);
+              --kui-btn-ghost-fg: var(--kui-toast-accent-color, var(--_kui-toast-accent-color));
+            "
+            (click)="onAction(toast)"
+          >
+            {{ toast.config.actionLabel }}
+          </button>
+        }
+      </div>
+
+      @if (toast.config.closable !== false) {
+        <button
+          class="kui-toast-close"
+          type="button"
+          [attr.aria-label]="common().close"
+          (click)="dismiss(toast.id)"
+        >
+          <svg width="16" height="16" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.5"></svg>
+        </button>
+      }
+
+      @if (toast.config.showProgress && !isPersistent(toast)) {
+        <div
+          class="kui-toast-progress"
+          [style.animation-play-state]="toast.paused() ? 'paused' : 'running'"
+          [style.animation]="'kui-toast-prog ' + getDuration(toast) + 'ms linear both'"
+        ></div>
+      }
+    </div>
+  }
+</div>

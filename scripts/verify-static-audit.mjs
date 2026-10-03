@@ -129,6 +129,8 @@ const pureByDefaultInitialisers = new Set(['InjectionToken']);
 // A top-level `const x = new Y(...)` or `const x = f(...)` stays in every bundle that reaches the
 // module unless it is annotated `/* @__PURE__ */`, because bundlers cannot prove the call has no
 // effect. An annotated initialiser puts the comment before the call, so it does not match.
+const maxInlineTemplateLines = 3;
+
 const topLevelInitialiserCall =
   /^(?:export\s+)?(?:const|let|var)\s+[A-Za-z_$][\w$]*(?:\s*:\s*[^=]+?)?\s*=\s*(new\s+)?([A-Za-z_$][\w$.]*)\s*(?:<[^>(]*>)?\(/u;
 
@@ -201,6 +203,9 @@ export function runStaticAudit(root = defaultRoot) {
   );
   runCheck(failures, 'library modules have no unannotated top-level initialiser calls', () =>
     checkNoTopLevelInitialiserCalls(root),
+  );
+  runCheck(failures, 'component templates longer than three lines live in an .html file', () =>
+    checkNoLongInlineTemplates(root),
   );
   runCheck(failures, 'components keep their defaults in private variables', () =>
     checkPublicTokenDefinitions(root),
@@ -760,6 +765,38 @@ function checkNoTopLevelInitialiserCalls(root) {
       if (match && !pureByDefaultInitialisers.has(match[2])) {
         failures.push(
           `${toRepoPath(root, file)}:${index + 1} calls ${match[2]}() at module level; annotate it /* @__PURE__ */ or initialise it lazily`,
+        );
+      }
+    }
+  }
+
+  return failures;
+}
+
+function checkNoLongInlineTemplates(root) {
+  const failures = [];
+  const libDir = join(root, 'projects/ui/src/lib');
+
+  if (!existsSync(libDir)) {
+    return failures;
+  }
+
+  const files = collectTextFiles(root, [libDir]).filter(
+    (file) => file.endsWith('.ts') && !file.endsWith('.spec.ts'),
+  );
+
+  for (const file of files) {
+    const text = readFileSync(file, 'utf8');
+    const pattern = /\btemplate:\s*`([^`]*)`/gu;
+    let match;
+
+    while ((match = pattern.exec(text))) {
+      const lineCount = match[1].split(/\r?\n/u).filter((line) => line.trim() !== '').length;
+
+      if (lineCount > maxInlineTemplateLines) {
+        const line = text.slice(0, match.index).split('\n').length;
+        failures.push(
+          `${toRepoPath(root, file)}:${line} has an inline template of ${lineCount} lines; move it to a .html file (limit ${maxInlineTemplateLines})`,
         );
       }
     }

@@ -32,43 +32,7 @@ import { KuiAccordionIconDirective } from './kui-accordion-icon.directive';
 @Component({
   selector: 'kui-accordion-item',
   imports: [NgTemplateOutlet, KuiGlyphComponent],
-  template: `
-    <button
-      class="kui-accordion-trigger"
-      type="button"
-      [id]="triggerId()"
-      [attr.aria-expanded]="isOpen()"
-      [attr.aria-controls]="bodyId()"
-      [attr.aria-disabled]="disabled() || null"
-      [attr.tabindex]="disabled() ? -1 : null"
-      (click)="onTriggerClick()"
-    >
-      @if (iconTplRef(); as tpl) {
-        <span class="kui-accordion-icon">
-          <ng-container [ngTemplateOutlet]="tpl" />
-        </span>
-      }
-      <span class="kui-accordion-trigger-text">{{ header() }}</span>
-      <span class="kui-accordion-chevron" aria-hidden="true">
-        <svg width="16" height="16" [kuiGlyph]="disclosureGlyph()" [kuiGlyphStroke]="1.5"></svg>
-      </span>
-    </button>
-    <div
-      class="kui-accordion-body-wrap"
-      [class.is-open]="isOpen()"
-      [id]="bodyId()"
-      role="region"
-      [attr.aria-labelledby]="triggerId()"
-      [attr.aria-hidden]="isOpen() ? null : 'true'"
-      [attr.inert]="isOpen() ? null : ''"
-    >
-      <div class="kui-accordion-body-inner">
-        <div class="kui-accordion-body-content">
-          <ng-content />
-        </div>
-      </div>
-    </div>
-  `,
+  templateUrl: './kui-accordion-item.component.html',
   host: { class: 'kui-accordion-item' },
   encapsulation: ViewEncapsulation.None,
 })

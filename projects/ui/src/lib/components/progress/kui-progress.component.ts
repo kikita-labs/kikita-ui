@@ -47,40 +47,7 @@ function numberOrNullAttribute(value: unknown): number | null {
 @Component({
   selector: 'kui-progress',
   encapsulation: ViewEncapsulation.None,
-  template: `
-    @if (type() === 'linear') {
-      <div class="kui-progress-linear-fill" [style.width]="fillWidth()"></div>
-    } @else {
-      <svg
-        [attr.width]="circCfg().size"
-        [attr.height]="circCfg().size"
-        [attr.viewBox]="'0 0 ' + circCfg().size + ' ' + circCfg().size"
-      >
-        <circle
-          [attr.cx]="circCfg().cx"
-          [attr.cy]="circCfg().cy"
-          [attr.r]="circCfg().r"
-          fill="none"
-          class="kui-progress-circular-track"
-          [attr.stroke-width]="circCfg().strokeWidth"
-        />
-        <circle
-          [attr.cx]="circCfg().cx"
-          [attr.cy]="circCfg().cy"
-          [attr.r]="circCfg().r"
-          fill="none"
-          class="kui-progress-circular-fill"
-          [attr.stroke-width]="circCfg().strokeWidth"
-          [attr.stroke-dasharray]="circCfg().circumference"
-          [attr.stroke-dashoffset]="dashOffset()"
-          stroke-linecap="round"
-        />
-      </svg>
-      <div class="kui-progress-circular-label">
-        <ng-content />
-      </div>
-    }
-  `,
+  templateUrl: './kui-progress.component.html',
   host: {
     '[class.kui-progress-linear]': 'type() === "linear"',
     '[class.kui-progress-circular]': 'type() === "circular"',

@@ -10,18 +10,7 @@ const KUI_EMPTY_STATE_SIZES = ['sm', 'md', 'lg'] as const;
 /** Displays a non-blocking empty, error, no-access, or success state for known UI regions. */
 @Component({
   selector: 'kui-empty-state',
-  template: `
-    <ng-content select="[kuiEmptyStateIcon]" />
-    <div class="kui-empty__body">
-      @if (heading(); as headingText) {
-        <div class="kui-empty__title">{{ headingText }}</div>
-      }
-      @if (description(); as descriptionText) {
-        <div class="kui-empty__description">{{ descriptionText }}</div>
-      }
-    </div>
-    <ng-content select="[kuiEmptyStateActions]" />
-  `,
+  templateUrl: './kui-empty-state.component.html',
   host: {
     class: 'kui-empty',
     '[attr.data-kui-context]': 'context()',

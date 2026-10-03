@@ -63,33 +63,7 @@ function hoverDelayAttribute(value: unknown): number | undefined {
 @Component({
   selector: 'kui-popover',
   imports: [CdkTrapFocus],
-  template: `
-    <ng-template #tpl>
-      <!-- Wrapper carries the alignment transform; kept separate from the animated element
-           so CDK-applied transforms on the overlay pane don't cancel the gap offset. -->
-      <div [style.transform]="_alignTransform()">
-        <div
-          [id]="panelId"
-          class="kui-popover"
-          [class.kui-popover--in]="!_closing()"
-          [class.kui-popover--out]="_closing()"
-          [attr.data-side]="_side()"
-          [attr.data-align]="_align()"
-          role="dialog"
-          [attr.aria-label]="ariaLabel() ?? messages().label"
-          [cdkTrapFocus]="trapFocus()"
-          (animationend)="onAnimationEnd($event)"
-          (mouseenter)="onPanelMouseEnter()"
-          (mouseleave)="onPanelMouseLeave()"
-        >
-          @if (effectiveArrow()) {
-            <div class="kui-popover-arrow" aria-hidden="true"></div>
-          }
-          <ng-content />
-        </div>
-      </div>
-    </ng-template>
-  `,
+  templateUrl: './kui-popover.component.html',
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders an anchored popover surface with configurable trigger behavior. */

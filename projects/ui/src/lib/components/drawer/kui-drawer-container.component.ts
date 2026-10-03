@@ -29,40 +29,7 @@ import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
  */
 @Component({
   selector: 'kui-drawer-container',
-  template: `
-    <div
-      class="kui-drawer-backdrop"
-      [class.kui-drawer-backdrop--closing]="isClosing()"
-      (pointerdown)="onBackdropPointerDown($event)"
-      (click)="onBackdropClick()"
-    ></div>
-    <div
-      #drawerPanel
-      class="kui-drawer"
-      [class.kui-drawer--closing]="isClosing()"
-      [attr.data-kui-side]="_side"
-      [attr.data-kui-size]="_size"
-      role="dialog"
-      aria-modal="true"
-      [attr.aria-label]="hasTitle() ? null : t().label"
-      cdkTrapFocus
-      [cdkTrapFocusAutoCapture]="true"
-      (click)="$event.stopPropagation()"
-      (animationend)="onAnimationEnd($event)"
-    >
-      <ng-template cdkPortalOutlet />
-      @if (_closable()) {
-        <button
-          type="button"
-          class="kui-drawer-close"
-          [attr.aria-label]="common().close"
-          (click)="close()"
-        >
-          <svg width="16" height="16" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.5"></svg>
-        </button>
-      }
-    </div>
-  `,
+  templateUrl: './kui-drawer-container.component.html',
   imports: [CdkPortalOutlet, CdkTrapFocus, KuiGlyphComponent],
   encapsulation: ViewEncapsulation.None,
 })

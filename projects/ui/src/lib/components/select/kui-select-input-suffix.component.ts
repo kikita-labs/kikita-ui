@@ -27,53 +27,7 @@ export interface KuiSelectChipItem {
     KuiFieldActionDirective,
     KuiGlyphComponent,
   ],
-  template: `
-    @if (selectedItems().length) {
-      <div class="kui-select-chip-layer">
-        @for (item of visibleItems(); track item.value) {
-          @if (valueTemplate(); as tpl) {
-            <ng-container *ngTemplateOutlet="tpl; context: valueContext(item.value, item.label)" />
-          } @else {
-            <span kuiChip size="sm" (removed)="removed.emit(item.value)">
-              <span class="kui-chip-label">{{ item.label }}</span>
-              <button kuiChipRemove [attr.aria-label]="t().removeItem({ label: item.label })">
-                <svg width="10" height="10" [kuiGlyph]="removeGlyph()" [kuiGlyphStroke]="2"></svg>
-              </button>
-            </span>
-          }
-        }
-        @if (hiddenCount() > 0) {
-          <span kuiChip size="sm" class="kui-select-chip-overflow">+{{ hiddenCount() }}</span>
-        }
-      </div>
-    }
-
-    <div class="kui-select-input-suffix">
-      @if (clearable() && hasValue()) {
-        <button
-          kuiFieldAction
-          type="button"
-          class="kui-select-clear"
-          [attr.aria-label]="common().clear"
-          [disabled]="disabled() || readonly()"
-          (click)="onClear($event)"
-        >
-          <svg width="12" height="12" [kuiGlyph]="clearGlyph()" [kuiGlyphStroke]="1.6"></svg>
-        </button>
-      }
-      <button
-        kuiFieldAction
-        type="button"
-        class="kui-select-chevron"
-        [disabled]="disabled() || readonly()"
-        [attr.aria-label]="isOpen() ? t().closeOptions : t().openOptions"
-        [attr.aria-expanded]="isOpen()"
-        (click)="onToggle($event)"
-      >
-        <svg width="14" height="14" [kuiGlyph]="chevronGlyph()" [kuiGlyphStroke]="1.6"></svg>
-      </button>
-    </div>
-  `,
+  templateUrl: './kui-select-input-suffix.component.html',
   host: { class: 'kui-select-control-overlay' },
   encapsulation: ViewEncapsulation.None,
 })

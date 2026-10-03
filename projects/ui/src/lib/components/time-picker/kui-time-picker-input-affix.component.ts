@@ -12,38 +12,7 @@ import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 @Component({
   selector: 'kui-time-picker-input-affix',
   imports: [KuiFieldAffixIconDirective, KuiFieldActionDirective, KuiGlyphComponent],
-  template: `
-    <span kuiFieldAffixIcon>
-      <svg width="16" height="16" [kuiGlyph]="clockGlyph" [kuiGlyphStroke]="2"></svg>
-    </span>
-
-    <div class="kui-timepicker-suffix">
-      @if (clearable() && hasValue() && !disabled() && !readonly()) {
-        <button
-          kuiFieldAction
-          type="button"
-          class="kui-timepicker-clear"
-          [attr.aria-label]="common().clear"
-          (click)="onClear($event)"
-        >
-          <svg width="12" height="12" [kuiGlyph]="clearGlyph()" [kuiGlyphStroke]="1.6"></svg>
-        </button>
-      }
-
-      <button
-        kuiFieldAction
-        type="button"
-        class="kui-timepicker-chevron"
-        tabindex="-1"
-        [disabled]="disabled() || readonly()"
-        [attr.aria-label]="isOpen() ? t().closePicker : t().openPicker"
-        [attr.aria-expanded]="isOpen()"
-        (click)="onToggle($event)"
-      >
-        <svg width="14" height="14" [kuiGlyph]="chevronGlyph()" [kuiGlyphStroke]="1.6"></svg>
-      </button>
-    </div>
-  `,
+  templateUrl: './kui-time-picker-input-affix.component.html',
   host: { class: 'kui-timepicker-control-overlay' },
   encapsulation: ViewEncapsulation.None,
 })

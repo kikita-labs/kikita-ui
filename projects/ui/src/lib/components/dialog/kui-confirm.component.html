@@ -1,0 +1,17 @@
+<div class="kui-dialog-header">
+  @if (ctx.appearance !== 'default') {
+    <svg class="kui-dialog-icon" [kuiGlyph]="warningGlyph()" [kuiGlyphStroke]="1.6"></svg>
+  }
+  <h2 class="kui-dialog-title">{{ ctx.data.title }}</h2>
+</div>
+@if (ctx.data.message) {
+  <div class="kui-dialog-body">{{ ctx.data.message }}</div>
+}
+<div class="kui-dialog-footer">
+  <button kuiButton shape="outline" type="button" (click)="ctx.close(false)">
+    {{ ctx.data.cancelLabel ?? t().cancel }}
+  </button>
+  <button kuiButton [appearance]="confirmAppearance()" type="button" (click)="ctx.close(true)">
+    {{ ctx.data.confirmLabel ?? t().confirm }}
+  </button>
+</div>

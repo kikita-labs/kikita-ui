@@ -173,6 +173,32 @@ describe('verify-static-audit', () => {
     ]);
   });
 
+  it('reports an inline template longer than three lines', () => {
+    const root = makeValidRepo();
+    mkdirSync(join(root, 'projects/ui/src/lib/utils'), { recursive: true });
+    writeFileSync(
+      join(root, 'projects/ui/src/lib/utils/inline-template.ts'),
+      [
+        '@Component({',
+        '  template: `',
+        '    <a></a>',
+        '    <b></b>',
+        '    <i></i>',
+        '    <u></u>',
+        '  `,',
+        '})',
+        'class Demo {}',
+        '@Component({ template: `<a></a>` })',
+        'class Short {}',
+        '',
+      ].join('\n'),
+    );
+
+    expect(runStaticAudit(root)).toEqual([
+      'projects/ui/src/lib/utils/inline-template.ts:2 has an inline template of 4 lines; move it to a .html file (limit 3)',
+    ]);
+  });
+
   it('skips the generated default theme in the token checks', () => {
     const root = makeValidRepo();
     writeFileSync(

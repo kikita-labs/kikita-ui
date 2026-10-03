@@ -11,36 +11,7 @@ import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 @Component({
   selector: 'kui-combobox-input-suffix',
   imports: [KuiFieldActionDirective, KuiGlyphComponent],
-  template: `
-    <div class="kui-combobox-input-suffix">
-      @if (loading()) {
-        <span class="kui-combobox-loader" aria-hidden="true"></span>
-      } @else if (clearable() && hasValue() && !disabled() && !readonly()) {
-        <button
-          kuiFieldAction
-          type="button"
-          class="kui-combobox-clear"
-          [attr.aria-label]="common().clear"
-          (click)="onClear($event)"
-        >
-          <svg width="12" height="12" [kuiGlyph]="clearGlyph()" [kuiGlyphStroke]="1.6"></svg>
-        </button>
-      }
-
-      <button
-        kuiFieldAction
-        type="button"
-        class="kui-combobox-chevron"
-        tabindex="-1"
-        [disabled]="disabled() || readonly()"
-        [attr.aria-label]="isOpen() ? t().closeOptions : t().openOptions"
-        [attr.aria-expanded]="isOpen()"
-        (click)="onToggle($event)"
-      >
-        <svg width="14" height="14" [kuiGlyph]="chevronGlyph()" [kuiGlyphStroke]="1.6"></svg>
-      </button>
-    </div>
-  `,
+  templateUrl: './kui-combobox-input-suffix.component.html',
   host: { class: 'kui-combobox-control-overlay' },
   encapsulation: ViewEncapsulation.None,
 })

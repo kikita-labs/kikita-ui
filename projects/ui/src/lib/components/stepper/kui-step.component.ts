@@ -29,48 +29,7 @@ export type KuiStepState = 'done' | 'current' | 'upcoming' | 'disabled' | 'error
 @Component({
   imports: [KuiGlyphComponent],
   selector: 'kui-step',
-  template: `
-    <span class="kui-step-track">
-      <span
-        class="kui-step-line"
-        aria-hidden="true"
-        [attr.data-kui-done]="lineBeforeDone() ? '' : null"
-      ></span>
-      @if (clickable()) {
-        <button
-          class="kui-step-circle"
-          type="button"
-          [attr.aria-label]="circleLabel()"
-          (click)="onCircleClick()"
-        >
-          @if (state() === 'done') {
-            <svg width="14" height="14" [kuiGlyph]="checkGlyph()" [kuiGlyphStroke]="2"></svg>
-          } @else {
-            {{ index() + 1 }}
-          }
-        </button>
-      } @else {
-        <span class="kui-step-circle">
-          @if (state() === 'error') {
-            <svg width="14" height="14" [kuiGlyph]="errorGlyph" [kuiGlyphStroke]="2"></svg>
-          } @else {
-            {{ index() + 1 }}
-          }
-        </span>
-      }
-      <span
-        class="kui-step-line"
-        aria-hidden="true"
-        [attr.data-kui-done]="lineAfterDone() ? '' : null"
-      ></span>
-    </span>
-    <span class="kui-step-body">
-      <span class="kui-step-label">{{ label() }}</span>
-      @if (description()) {
-        <span class="kui-step-description">{{ description() }}</span>
-      }
-    </span>
-  `,
+  templateUrl: './kui-step.component.html',
   host: {
     class: 'kui-step',
     role: 'listitem',

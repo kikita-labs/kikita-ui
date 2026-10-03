@@ -41,24 +41,7 @@ import type { KuiMenuPlacement } from './kui-menu-placement.type';
 @Component({
   selector: 'kui-menu',
   exportAs: 'kuiMenu',
-  template: `
-    <ng-template #menuTpl>
-      <div [style.transform]="alignTransform()">
-        <div
-          [id]="panelId"
-          class="kui-menu"
-          [class.kui-menu--closing]="isClosing()"
-          role="menu"
-          [attr.aria-label]="ariaLabel() ?? messages().label"
-          (click)="onPanelClick($event)"
-          (keydown)="onPanelKeydown($event)"
-          (animationend)="onAnimationEnd($event)"
-        >
-          <ng-content />
-        </div>
-      </div>
-    </ng-template>
-  `,
+  templateUrl: './kui-menu.component.html',
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiMenuComponent implements OnDestroy {

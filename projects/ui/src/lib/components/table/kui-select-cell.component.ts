@@ -9,17 +9,7 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
   selector: 'td[kuiSelectCell]',
   encapsulation: ViewEncapsulation.None,
   host: { class: 'kui-table__select-cell' },
-  template: `
-    @if (visible()) {
-      <input
-        class="kui-table__cb"
-        type="checkbox"
-        [checked]="row.selected()"
-        (change)="table.toggle(row.value())"
-        [attr.aria-label]="ariaLabel() ?? t().selectRow"
-      />
-    }
-  `,
+  templateUrl: './kui-select-cell.component.html',
 })
 export class KuiSelectCellComponent {
   /** Accessible label for the row selection checkbox. Defaults to the `table.selectRow` message. */

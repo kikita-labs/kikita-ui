@@ -1,0 +1,14 @@
+<ng-template #dropdownTpl>
+  <div
+    [id]="panelId"
+    class="kui-dropdown kui-dropdown--scroll"
+    [class.kui-dropdown--closing]="isClosing()"
+    [attr.role]="panelRole()"
+    (click)="handlePanelClick($event)"
+    (keydown)="handlePanelKeydown($event)"
+    (kui-picked)="handlePicked()"
+    (animationend)="onAnimationEnd($event)"
+  >
+    <ng-content />
+  </div>
+</ng-template>

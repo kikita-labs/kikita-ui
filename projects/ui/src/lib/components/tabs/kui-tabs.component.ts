@@ -50,42 +50,7 @@ export type KuiTabsOrientation = 'horizontal' | 'vertical';
 @Component({
   imports: [KuiGlyphComponent],
   selector: 'kui-tabs',
-  template: `
-    <div class="kui-tabs__scroll-wrap">
-      @if (canScrollLeft()) {
-        <button
-          class="kui-tabs__scroll-btn kui-tabs__scroll-btn--left"
-          type="button"
-          (click)="scrollBy(-200)"
-          [attr.aria-label]="t().scrollLeft"
-        >
-          <svg width="16" height="16" [kuiGlyph]="previousGlyph()" [kuiGlyphStroke]="1.5"></svg>
-        </button>
-      }
-      <div class="kui-tabs__scroll" #scrollEl (scroll)="updateScrollState()">
-        <div
-          class="kui-tabs__list"
-          role="tablist"
-          [attr.aria-orientation]="effectiveOrientation()"
-          (keydown)="onKeydown($event)"
-        >
-          <span class="kui-tab-indicator" #indicator></span>
-          <ng-content select="[kuiTab]" />
-        </div>
-      </div>
-      @if (canScrollRight()) {
-        <button
-          class="kui-tabs__scroll-btn kui-tabs__scroll-btn--right"
-          type="button"
-          (click)="scrollBy(200)"
-          [attr.aria-label]="t().scrollRight"
-        >
-          <svg width="16" height="16" [kuiGlyph]="nextGlyph()" [kuiGlyphStroke]="1.5"></svg>
-        </button>
-      }
-    </div>
-    <ng-content select="[kuiTabPanel]" />
-  `,
+  templateUrl: './kui-tabs.component.html',
   host: {
     class: 'kui-tabs',
     '[attr.data-kui-variant]': 'effectiveVariant()',

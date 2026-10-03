@@ -1,0 +1,10 @@
+@if (visible()) {
+  <input
+    class="kui-table__cb"
+    type="checkbox"
+    [checked]="table.allSelected()"
+    [indeterminate]="table.someSelected()"
+    (change)="table.toggleAll()"
+    [attr.aria-label]="ariaLabel() ?? t().selectAllRows"
+  />
+}

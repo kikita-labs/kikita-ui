@@ -52,22 +52,7 @@ import { KUI_OPTION_CONTEXT } from '../field/kui-option-context.token';
  */
 @Component({
   selector: 'kui-dropdown',
-  template: `
-    <ng-template #dropdownTpl>
-      <div
-        [id]="panelId"
-        class="kui-dropdown kui-dropdown--scroll"
-        [class.kui-dropdown--closing]="isClosing()"
-        [attr.role]="panelRole()"
-        (click)="handlePanelClick($event)"
-        (keydown)="handlePanelKeydown($event)"
-        (kui-picked)="handlePicked()"
-        (animationend)="onAnimationEnd($event)"
-      >
-        <ng-content />
-      </div>
-    </ng-template>
-  `,
+  templateUrl: './kui-dropdown.component.html',
   styles: ``,
   encapsulation: ViewEncapsulation.None,
 })
