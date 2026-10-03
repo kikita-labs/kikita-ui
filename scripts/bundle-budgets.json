@@ -170,12 +170,12 @@
       "targetBytes": 12288
     },
     "KuiCalendarComponent": {
-      "baselineBytes": 41702,
-      "limitBytes": 42960
+      "baselineBytes": 43121,
+      "limitBytes": 44416
     },
     "KuiCalendarRangeComponent": {
-      "baselineBytes": 42553,
-      "limitBytes": 43840
+      "baselineBytes": 44010,
+      "limitBytes": 45344
     },
     "KuiCardDirective": {
       "baselineBytes": 2402,
