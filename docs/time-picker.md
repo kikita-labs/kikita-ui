@@ -160,6 +160,41 @@ last valid value:
 Also implements the Angular Signal Forms `FormValueControl<Date | null>` contract
 (`invalid`, `errors`, `touched` inputs; `touch` output), same shape as `kuiDatePicker`.
 
+## Provider Defaults
+
+Set `defaults.timePicker` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    timePicker: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    timePicker: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values           | Description                                                                      |
+| ------------- | ---------------- | -------------------------------------------------------------------------------- |
+| `clearable`   | `boolean`        | When true, field controls with clear affordances show a clear button by default. |
+| `format`      | `'24h' \| '12h'` | Display and parse format.                                                        |
+| `hourStep`    | `number`         | Step of the hour column.                                                         |
+| `minuteStep`  | `number`         | Step of the minute column.                                                       |
+| `secondStep`  | `number`         | Step of the second column, used when seconds are shown.                          |
+| `showSeconds` | `boolean`        | Shows the seconds column.                                                        |
+
+Each option resolves as `local input > defaults.timePicker.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - `role="combobox"` on the input, `aria-haspopup="dialog"`, `aria-expanded` + `aria-controls`

@@ -66,6 +66,38 @@ import { KuiAccordionComponent, KuiAccordionItemComponent } from '@kikita-labs/u
 | `id`       | `string`  | auto    | Stable ID for state and ARIA wiring.                      |
 | `disabled` | `boolean` | `false` | Removes the trigger from tab order and prevents toggling. |
 
+## Provider Defaults
+
+Set `defaults.accordion` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    accordion: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    accordion: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option       | Values                               | Description                                                       |
+| ------------ | ------------------------------------ | ----------------------------------------------------------------- |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg'`       | Component size. Takes precedence over the global `defaults.size`. |
+| `mode`       | `'exclusive' \| 'multi'`             | Default mode.                                                     |
+| `appearance` | `'default' \| 'bordered' \| 'ghost'` | Default appearance.                                               |
+
+Each option resolves as `local input > defaults.accordion.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 Each item renders a native button trigger with `aria-expanded`, `aria-controls`,

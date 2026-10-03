@@ -205,6 +205,16 @@ changes it at runtime. See [DI defaults](di-defaults.md#reactive-values).
 
 See `docs/di-defaults.md` before adding or changing field-control provider defaults.
 
+### Configurable options
+
+`defaults.field`:
+
+| Option       | Values                         | Description                                                                      |
+| ------------ | ------------------------------ | -------------------------------------------------------------------------------- |
+| `clearable`  | `boolean`                      | When true, field controls with clear affordances show a clear button by default. |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg'` | Default `kui-field` size when no local `size` input is provided.                 |
+| `hideErrors` | `boolean`                      | Hides automatically rendered Angular Signal Forms error messages by default.     |
+
 ## CSS Classes
 
 - `.kui-input-group`: wraps a native input with field chrome (applied automatically by `kui-field`

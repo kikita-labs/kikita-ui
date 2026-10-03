@@ -129,6 +129,36 @@ clears the invalid state.
 Also implements the Angular Signal Forms `FormValueControl<Date | null>` contract
 (`invalid`, `errors`, `touched` inputs; `touch` output), same shape as `kuiCombobox`/`kuiSelect`.
 
+## Provider Defaults
+
+Set `defaults.datePicker` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    datePicker: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    datePicker: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option      | Values    | Description                                                                      |
+| ----------- | --------- | -------------------------------------------------------------------------------- |
+| `clearable` | `boolean` | When true, field controls with clear affordances show a clear button by default. |
+
+Each option resolves as `local input > defaults.datePicker.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - `role="combobox"` on the input, `aria-haspopup="dialog"`, `aria-expanded` + `aria-controls`

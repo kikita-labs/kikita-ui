@@ -51,3 +51,33 @@ CVA-first design.
 instead of a checkmark). `indeterminate` is a DOM property, not an HTML
 attribute, so set it imperatively on the element (`kui-tree`'s checkable mode
 does this for parent nodes with a partially checked subtree).
+
+## Provider Defaults
+
+Set `defaults.checkbox` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    checkbox: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    checkbox: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.checkbox.<option> > built-in default`. See [DI defaults](di-defaults.md).

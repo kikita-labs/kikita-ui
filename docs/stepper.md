@@ -66,6 +66,39 @@ Steps after an errored step automatically render as `disabled`.
 
 State (`done` / `current` / `upcoming` / `disabled` / `error`) is derived automatically and cannot be set directly.
 
+## Provider Defaults
+
+Set `defaults.stepper` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    stepper: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    stepper: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                       | Description                                                       |
+| ------------- | ---------------------------- | ----------------------------------------------------------------- |
+| `size`        | `'sm' \| 'md' \| 'lg'`       | Component size. Takes precedence over the global `defaults.size`. |
+| `orientation` | `'horizontal' \| 'vertical'` | Default orientation.                                              |
+| `linear`      | `boolean`                    | Requires steps to be completed in order.                          |
+| `compact`     | `boolean`                    | Uses the compact layout.                                          |
+
+Each option resolves as `local input > defaults.stepper.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - `kui-stepper` renders `role="list"`; each `kui-step` renders `role="listitem"`.

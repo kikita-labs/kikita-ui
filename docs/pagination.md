@@ -166,6 +166,39 @@ them from tab order.
 | `currentPageChange` | `number` | Emitted whenever `currentPage` changes (model output). |
 | `pageSizeChange`    | `number` | Emitted whenever `pageSize` changes (model output).    |
 
+## Provider Defaults
+
+Set `defaults.pagination` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    pagination: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    pagination: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option            | Values                            | Description                                                        |
+| ----------------- | --------------------------------- | ------------------------------------------------------------------ |
+| `variant`         | `'full' \| 'compact' \| 'simple'` | Layout variant.                                                    |
+| `siblingCount`    | `number`                          | Pages shown on each side of the current page.                      |
+| `boundaryCount`   | `number`                          | Pages always shown at each edge.                                   |
+| `pageSizeOptions` | `readonly number[]`               | Choices offered by the rows-per-page picker of the `full` variant. |
+
+Each option resolves as `local input > defaults.pagination.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - The controls sit inside a `<nav>` landmark with `aria-label` (default `"Pagination"`), a

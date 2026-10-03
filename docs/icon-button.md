@@ -68,6 +68,16 @@ providers: [
 Use root `provideKikitaUi({ defaults: { size: 'sm' } })` for broad default sizing across all
 size-enabled primitives. Local inputs always win.
 
+### Configurable options
+
+`defaults.iconButton`:
+
+| Option       | Values                                                    | Description                                                                            |
+| ------------ | --------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `shape`      | `'solid' \| 'soft' \| 'outline' \| 'ghost'`               | Default surface shape.                                                                 |
+| `appearance` | `'primary' \| 'danger' \| 'success' \| 'warning' \| null` | Default semantic color intent. Use `null` for each shape's neutral/default appearance. |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg'`                            | Default button size. Takes precedence over the global `defaults.size`.                 |
+
 ## Migration from 0.1.4
 
 Move `solid`, `soft`, `outline`, and `ghost` values from `appearance` to `shape`. Keep semantic

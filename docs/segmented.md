@@ -68,6 +68,36 @@ import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
 | `End`                      | Focus last segment          |
 | `Enter` / `Space`          | Select focused segment      |
 
+## Provider Defaults
+
+Set `defaults.segmented` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    segmented: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    segmented: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.segmented.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - `role="radiogroup"` on `kui-segmented`

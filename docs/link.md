@@ -130,6 +130,39 @@ Per MUI's accessibility guidance: a link with no real `href` should render as a 
 `href`, native `target`/`rel`, `type`, and `(click)` are plain native attributes/bindings on the
 host `<a>`/`<button>` -- no separate `as` input exists in the Angular API.
 
+## Provider Defaults
+
+Set `defaults.link` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    link: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    link: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option      | Values                                                                    | Description                  |
+| ----------- | ------------------------------------------------------------------------- | ---------------------------- |
+| `tone`      | `'default' \| 'muted' \| 'primary' \| 'success' \| 'warning' \| 'danger'` | Default tone.                |
+| `underline` | `'always' \| 'hover' \| 'none'`                                           | When the link is underlined. |
+
+Each option resolves as `local input > defaults.link.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
+`kuiLink` composes `kuiText` for its role class but ignores `defaults.typography`, because a link owns its text colour (`defaults.link.tone`).
+
 ## Accessibility
 
 - Host is a native `<a href>` or `<button type="button">` -- no custom ARIA role.

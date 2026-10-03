@@ -123,6 +123,38 @@ contract; it is plain projected content inside `kui-field` (see Known Gaps).
 | `Tab`                  | Moves between the trigger, each file item, and its remove button.           |
 | `Delete` / `Backspace` | Removes the focused file item.                                              |
 
+## Provider Defaults
+
+Set `defaults.fileUpload` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    fileUpload: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    fileUpload: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option    | Values                         | Description                                                       |
+| --------- | ------------------------------ | ----------------------------------------------------------------- |
+| `size`    | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+| `variant` | `'dropzone' \| 'compact'`      | Default variant.                                                  |
+| `mode`    | `'single' \| 'multiple'`       | Default mode.                                                     |
+
+Each option resolves as `local input > defaults.fileUpload.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 The visible dropzone/button controls a visually hidden native

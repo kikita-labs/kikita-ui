@@ -174,6 +174,16 @@ maxVisibleChips: local input > defaults.select > 3
 
 See `docs/di-defaults.md` before adding or changing provider defaults.
 
+### Configurable options
+
+`defaults.select`:
+
+| Option            | Values              | Description                                                                      |
+| ----------------- | ------------------- | -------------------------------------------------------------------------------- |
+| `clearable`       | `boolean`           | When true, field controls with clear affordances show a clear button by default. |
+| `multipleDisplay` | `'chips' \| 'text'` | How a multiple select shows its selection.                                       |
+| `maxVisibleChips` | `number`            | Default visible selected chips before select renders a collapsed `+N` chip.      |
+
 ## Signal Forms
 
 Put `[formField]` on the native input inside `kui-field`.

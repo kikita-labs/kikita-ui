@@ -178,6 +178,14 @@ clearable: local input > defaults.combobox > defaults.field > true
 Combobox inherits shared clearable semantics from `KuiFieldControlOptions`. See
 `docs/di-defaults.md` before adding or changing provider defaults.
 
+### Configurable options
+
+`defaults.combobox`:
+
+| Option      | Values    | Description                                                                      |
+| ----------- | --------- | -------------------------------------------------------------------------------- |
+| `clearable` | `boolean` | When true, field controls with clear affordances show a clear button by default. |
+
 ## Tokens
 
 Combobox uses `--kui-combobox-*` variables for suffix affordances, loader, and highlight treatment.

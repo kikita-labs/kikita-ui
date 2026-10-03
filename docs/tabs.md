@@ -91,6 +91,38 @@ Use `controlsPanels="false"` when `kui-tabs` is used as navigation and the route
 | `Home`                     | Focus first tab         |
 | `End`                      | Focus last tab          |
 
+## Provider Defaults
+
+Set `defaults.tabs` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    tabs: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    tabs: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                         | Description                                                       |
+| ------------- | ------------------------------ | ----------------------------------------------------------------- |
+| `size`        | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+| `variant`     | `'line' \| 'pill'`             | Default variant.                                                  |
+| `orientation` | `'horizontal' \| 'vertical'`   | Default orientation.                                              |
+
+Each option resolves as `local input > defaults.tabs.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - `role="tablist"` on the list container

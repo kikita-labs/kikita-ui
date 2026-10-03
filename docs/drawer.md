@@ -108,6 +108,40 @@ manual markup), the container detects it and skips rendering its own button rath
 two. New drawer components should not render `.kui-drawer-close` themselves — let the container
 handle it via `closable`.
 
+## Provider Defaults
+
+Set `defaults.drawer` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    drawer: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    drawer: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option                 | Values                                     | Description                            |
+| ---------------------- | ------------------------------------------ | -------------------------------------- |
+| `closable`             | `boolean`                                  | Shows the close button in the header.  |
+| `side`                 | `'right' \| 'left' \| 'bottom' \| 'top'`   | Edge the drawer slides in from.        |
+| `size`                 | `'sm' \| 'md' \| 'lg' \| 'full' \| 'auto'` | Drawer size preset.                    |
+| `closeOnBackdropClick` | `boolean`                                  | Closes the drawer on a backdrop click. |
+| `closeOnEscape`        | `boolean`                                  | Closes the drawer on Escape.           |
+
+Each option resolves as `local input > defaults.drawer.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Drawer renders `role="dialog"` and `aria-modal="true"`.

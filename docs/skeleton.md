@@ -27,6 +27,37 @@ region, not on every skeleton block.
 - `shape`: `text | heading | rect | circle | square | button | badge`
 - `animation`: `shimmer | pulse | none`
 
+## Provider Defaults
+
+Set `defaults.skeleton` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    skeleton: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    skeleton: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option      | Values                                                                         | Description        |
+| ----------- | ------------------------------------------------------------------------------ | ------------------ |
+| `shape`     | `'text' \| 'heading' \| 'rect' \| 'circle' \| 'square' \| 'button' \| 'badge'` | Default shape.     |
+| `animation` | `'shimmer' \| 'pulse' \| 'none'`                                               | Default animation. |
+
+Each option resolves as `local input > defaults.skeleton.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Skeleton is decorative placeholder chrome and must not expose text to assistive technology.

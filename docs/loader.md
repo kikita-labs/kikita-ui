@@ -33,3 +33,33 @@ The directive sets `role="status"` and `aria-live="polite"`.
 - `--kui-loader-fill`
 - `--kui-loader-border-width`
 - `--kui-loader-duration`
+
+## Provider Defaults
+
+Set `defaults.loader` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    loader: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    loader: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.loader.<option> > built-in default`. See [DI defaults](di-defaults.md).

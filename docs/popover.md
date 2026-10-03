@@ -145,6 +145,41 @@ is not set, the part uses the semantic role in the Default column.
 
 <!-- geometry-tokens:begin -->
 
+## Provider Defaults
+
+Set `defaults.popover` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    popover: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    popover: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                                   | Description                                                                                |
+| ------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `placement`   | `'top' \| 'bottom' \| 'left' \| 'right'` | Preferred side of the anchor. The overlay flips to the opposite side when it does not fit. |
+| `offset`      | `number`                                 | Gap in px between the anchor and the overlay panel.                                        |
+| `align`       | `'start' \| 'center' \| 'end'`           | Alignment along the anchor edge.                                                           |
+| `arrow`       | `boolean`                                | Shows the arrow caret pointing to the anchor.                                              |
+| `triggerType` | `'click' \| 'hover'`                     | Whether the popover opens on `click` or on `hover`.                                        |
+| `hoverDelay`  | `number`                                 | Delay in ms before a hover popover closes after the pointer leaves.                        |
+
+Each option resolves as `local input > defaults.popover.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Geometry Tokens
 
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it

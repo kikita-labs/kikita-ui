@@ -78,6 +78,38 @@ block size.
 | `orientation` | `'horizontal' \| 'vertical'`             | `'horizontal'` | Divider direction.             |
 | `spacing`     | `'none' \| 'xs' \| 'sm' \| 'md' \| 'lg'` | `'sm'`         | Outer spacing around the line. |
 
+## Provider Defaults
+
+Set `defaults.separator` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    separator: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    separator: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                                   | Description                           |
+| ------------- | ---------------------------------------- | ------------------------------------- |
+| `appearance`  | `'subtle' \| 'default' \| 'strong'`      | Default appearance.                   |
+| `orientation` | `'horizontal' \| 'vertical'`             | Default orientation.                  |
+| `spacing`     | `'none' \| 'xs' \| 'sm' \| 'md' \| 'lg'` | Default spacing around the separator. |
+
+Each option resolves as `local input > defaults.separator.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Prefer native `<hr kuiSeparator>`.

@@ -44,6 +44,37 @@ Projected content is rendered in the center of circular progress.
 | `color` | `'primary' \| 'success' \| 'warning' \| 'danger' \| 'neutral'` | `'primary'` | Semantic color.                        |
 | `size`  | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                         | `'md'`      | Linear thickness or circular diameter. |
 
+## Provider Defaults
+
+Set `defaults.progress` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    progress: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    progress: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option  | Values                                                         | Description                                                       |
+| ------- | -------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `size`  | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                         | Component size. Takes precedence over the global `defaults.size`. |
+| `color` | `'primary' \| 'success' \| 'warning' \| 'danger' \| 'neutral'` | Default colour role.                                              |
+
+Each option resolves as `local input > defaults.progress.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 The host uses `role="progressbar"`, `aria-valuemin="0"`, and

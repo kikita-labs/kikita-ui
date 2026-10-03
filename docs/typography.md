@@ -103,6 +103,39 @@ scale, and weights use:
 --kui-font-weight-bold
 ```
 
+## Provider Defaults
+
+Set `defaults.typography` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    typography: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    typography: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option    | Values                                                                                                                                          | Description                |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| `variant` | `'display' \| 'heading-lg' \| 'heading-md' \| 'heading-sm' \| 'title' \| 'body-lg' \| 'body' \| 'body-sm' \| 'caption' \| 'overline' \| 'code'` | Semantic typography role.  |
+| `tone`    | `'default' \| 'muted' \| 'disabled' \| 'primary' \| 'success' \| 'warning' \| 'danger'`                                                         | Semantic text colour tone. |
+
+Each option resolves as `local input > defaults.typography.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
+`defaults.typography` does not reach `kuiLink`, which composes `kuiText` but owns its own text colour.
+
 ## Accessibility
 
 - Keep native heading order meaningful; classes are visual only.

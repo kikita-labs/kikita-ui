@@ -89,6 +89,16 @@ local input > defaults.button / defaults.iconButton > defaults.size > component 
 through separate `button` and `iconButton` keys so one does not
 accidentally restyle the other.
 
+### Configurable options
+
+`defaults.button`:
+
+| Option       | Values                                                    | Description                                                                            |
+| ------------ | --------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `shape`      | `'solid' \| 'soft' \| 'outline' \| 'ghost'`               | Default surface shape.                                                                 |
+| `appearance` | `'primary' \| 'danger' \| 'success' \| 'warning' \| null` | Default semantic color intent. Use `null` for each shape's neutral/default appearance. |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg'`                            | Default button size. Takes precedence over the global `defaults.size`.                 |
+
 ## Migration from 0.1.4
 
 Button surface treatments moved from `appearance` to `shape`. Semantic color now belongs to

@@ -47,3 +47,33 @@ Use Angular Signal Forms `[formField]` on each native radio input:
   `provideKikitaUi({ defaults.size })`, then `md`
 - `invalid`: marks the radio invalid outside a field error state
 - `id`: explicit id override
+
+## Provider Defaults
+
+Set `defaults.radio` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    radio: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    radio: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.radio.<option> > built-in default`. See [DI defaults](di-defaults.md).

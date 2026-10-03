@@ -125,6 +125,38 @@ styling stay hidden until the field is touched.
 | `touch`    | `void`   | Fires after any cell edit; marks the control touched in the form system.      |
 | `complete` | `string` | Fires exactly once, with the completed value, when every cell becomes filled. |
 
+## Provider Defaults
+
+Set `defaults.otpInput` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    otpInput: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    otpInput: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                         | Description                                                       |
+| ------------- | ------------------------------ | ----------------------------------------------------------------- |
+| `size`        | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+| `mask`        | `boolean`                      | Masks the entered characters.                                     |
+| `integerOnly` | `boolean`                      | Accepts digits only.                                              |
+
+Each option resolves as `local input > defaults.otpInput.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - The group is `role="group"` with an `aria-label` (default `"Verification code"`).

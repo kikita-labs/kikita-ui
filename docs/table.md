@@ -98,6 +98,36 @@ Use `ariaLabel` on selection cells when the row has a human-readable name:
 Add `sticky` to `th[kuiTh]` to pin the header column. Add `sticky` to `td[kuiCell]`
 on matching body cells.
 
+## Provider Defaults
+
+Set `defaults.table` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    table: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    table: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.table.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Keep real `<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, and `<td>` markup.

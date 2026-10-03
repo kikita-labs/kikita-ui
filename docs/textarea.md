@@ -40,6 +40,36 @@ marker and first error message from Angular Signal Forms metadata.
 
 <!-- geometry-tokens:begin -->
 
+## Provider Defaults
+
+Set `defaults.textarea` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    textarea: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    textarea: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.textarea.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Geometry Tokens
 
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it

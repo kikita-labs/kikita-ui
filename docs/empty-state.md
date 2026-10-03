@@ -46,6 +46,36 @@ import {
 - `[kuiEmptyStateIcon]`: decorative icon slot; Kikita marks it `aria-hidden="true"`
 - `[kuiEmptyStateActions]`: action slot for native buttons, links, or Kikita button directives
 
+## Provider Defaults
+
+Set `defaults.emptyState` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    emptyState: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    emptyState: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                 | Description                                                       |
+| ------ | ---------------------- | ----------------------------------------------------------------- |
+| `size` | `'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.emptyState.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Use surrounding page structure for heading hierarchy. The built-in heading is visual text, not a

@@ -113,6 +113,37 @@ is not set, the part uses the semantic role in the Default column.
 
 <!-- geometry-tokens:begin -->
 
+## Provider Defaults
+
+Set `defaults.slider` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    slider: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    slider: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option  | Values                                            | Description                                                       |
+| ------- | ------------------------------------------------- | ----------------------------------------------------------------- |
+| `size`  | `'sm' \| 'md' \| 'lg'`                            | Component size. Takes precedence over the global `defaults.size`. |
+| `color` | `'primary' \| 'success' \| 'danger' \| 'neutral'` | Default colour role.                                              |
+
+Each option resolves as `local input > defaults.slider.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Geometry Tokens
 
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it

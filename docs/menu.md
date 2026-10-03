@@ -89,6 +89,39 @@ Wires a native element as the trigger. The directive sets:
 | `appearance` | `'neutral' \| 'destructive'` | `'neutral'` | Visual item appearance.                                           |
 | `disabled`   | `boolean`                    | `false`     | Applies disabled/ARIA-disabled semantics and prevents activation. |
 
+## Provider Defaults
+
+Set `defaults.menu` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    menu: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    menu: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option      | Values                                   | Description                                                                                |
+| ----------- | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `placement` | `'top' \| 'bottom' \| 'left' \| 'right'` | Preferred side of the anchor. The overlay flips to the opposite side when it does not fit. |
+| `offset`    | `number`                                 | Gap in px between the anchor and the overlay panel.                                        |
+| `menuAlign` | `'start' \| 'end'`                       | Alignment along the trigger edge.                                                          |
+| `minWidth`  | `string \| null`                         | Minimum panel width as a CSS length.                                                       |
+
+Each option resolves as `local input > defaults.menu.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - The panel uses `role="menu"`.

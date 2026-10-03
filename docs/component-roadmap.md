@@ -77,14 +77,14 @@ fixing or closing them; record new evidence in state coverage.
   intentional public extension points, and confirmed config/data `readonly` usage should protect
   library-owned immutable data without restricting consumer-owned mutable models.
 
-- DI defaults audit before `1.0.0`: root `provideKikitaUi({ defaults.size })` now drives public
-  size-enabled primitives when local size inputs are omitted. Components with narrower size unions
-  apply only supported root values. `kui-icon` is excluded because its `size` is a raw CSS/icon
-  size, not a Kikita control-size preset. `kuiProvideButtonOptions` is the only new
-  component-specific default provider because button shape/appearance defaults are a repeated
-  design-system decision. Field-control clearability is shared through `KuiFieldControlOptions`.
-  Do not add provider defaults for every component input; evaluate future candidates from real
-  consumer repetition first.
+- DI defaults (v2, Plan 17): every primitive with a preference shared across instances has a key
+  in `KuiComponentDefaults`, set through `provideKikitaUi({ defaults })` or `kuiProvideDefaults`.
+  Levels merge per component key and per property, every property accepts a plain value or a
+  `Signal`, and `KuiDefaults` reads and changes them at runtime. Data, instance state, forms state,
+  accessible names and library message text are not defaults. `kui-icon`, `kui-command-palette`
+  and `kui-media-viewer` have no key: icon size is a raw CSS size, and the other two only expose
+  message text (Plan 21) or data. See [DI defaults](di-defaults.md). Open follow-ups: reactive
+  field classification (Plan 18), message and icon overrides (Plans 20 and 21).
 
 - ESLint is enabled for the library and playground. The gate fails on hard errors and reports
   warnings for current architecture/accessibility debt that needs focused follow-up before those

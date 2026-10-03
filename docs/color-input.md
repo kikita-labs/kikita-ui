@@ -90,6 +90,36 @@ Use `[formField]` on the same native input:
 `kui-field` keeps the label, required marker, hint, error, and
 `aria-describedby` wiring.
 
+## Provider Defaults
+
+Set `defaults.colorInput` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    colorInput: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    colorInput: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.colorInput.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - The control uses a native text input for editable value semantics.

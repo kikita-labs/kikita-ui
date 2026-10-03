@@ -77,6 +77,36 @@ pick one.
 | --------- | ------ | ----------------------------------------------------------------------------------- |
 | `removed` | `void` | Emitted when the `removable` button or a nested `button[kuiChipRemove]` is clicked. |
 
+## Provider Defaults
+
+Set `defaults.chip` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    chip: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    chip: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.chip.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Static chip: use a non-interactive host such as `span`.

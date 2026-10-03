@@ -129,6 +129,41 @@ Or override it for a single instance with the `locale` input, which takes preced
 - `disabledDates`: `Date[] | ((date: Date) => boolean) | undefined`. Individual exceptions.
 - `locale`: `string | undefined`. BCP 47 locale tag overriding `KUI_LOCALE` for this instance.
 
+## Provider Defaults
+
+Set `defaults.calendar` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    calendar: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    calendar: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values         | Description                                                       |
+| ------------- | -------------- | ----------------------------------------------------------------- |
+| `size`        | `'md' \| 'sm'` | Calendar size. Takes precedence over the global `defaults.size`.  |
+| `flat`        | `boolean`      | Strips the calendar's own background, border and padding.         |
+| `showWeekend` | `boolean`      | Shows Saturday and Sunday in a muted colour.                      |
+| `showFooter`  | `boolean`      | Shows the footer with the current value and the "Today" shortcut. |
+| `showPrevNav` | `boolean`      | Shows the "previous" navigation control in the header.            |
+| `showNextNav` | `boolean`      | Shows the "next" navigation control in the header.                |
+
+Each option resolves as `local input > defaults.calendar.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - The day grid is a complete ARIA grid: `role="grid"` containing the weekday header `role="row"` (with `role="columnheader"` cells that carry the full weekday name as `abbr`) and a `role="rowgroup"` of six `role="row"` week rows, each holding seven `role="gridcell"` elements. Each gridcell wraps one day `<button>`.

@@ -366,6 +366,124 @@ See Standalone legend above. Optionally projects a `kuiChartLegendItem`-marked `
 (context: `KuiChartLegendItemContext` -- `$implicit: KuiChartLegendItem`, `hovered: boolean`) to
 replace its default `<button>` markup.
 
+## Provider Defaults
+
+Set `defaults.barChart` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    barChart: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    barChart: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option   | Values                 | Description             |
+| -------- | ---------------------- | ----------------------- |
+| `size`   | `'sm' \| 'md' \| 'lg'` | Chart size.             |
+| `legend` | `boolean`              | Shows the chart legend. |
+
+Each option resolves as `local input > defaults.barChart.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
+Set `defaults.lineChart` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    lineChart: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    lineChart: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option   | Values                 | Description             |
+| -------- | ---------------------- | ----------------------- |
+| `size`   | `'sm' \| 'md' \| 'lg'` | Chart size.             |
+| `legend` | `boolean`              | Shows the chart legend. |
+
+Each option resolves as `local input > defaults.lineChart.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
+Set `defaults.donutChart` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    donutChart: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    donutChart: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option   | Values                 | Description             |
+| -------- | ---------------------- | ----------------------- |
+| `size`   | `'sm' \| 'md' \| 'lg'` | Chart size.             |
+| `legend` | `boolean`              | Shows the chart legend. |
+
+Each option resolves as `local input > defaults.donutChart.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
+Set `defaults.scatterChart` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    scatterChart: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    scatterChart: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option   | Values                 | Description             |
+| -------- | ---------------------- | ----------------------- |
+| `size`   | `'sm' \| 'md' \| 'lg'` | Chart size.             |
+| `legend` | `boolean`              | Shows the chart legend. |
+
+Each option resolves as `local input > defaults.scatterChart.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Each point/bar/slice is `role="graphics-symbol img"` with its own `aria-label` (the same text as

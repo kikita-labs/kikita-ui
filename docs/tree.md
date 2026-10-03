@@ -103,6 +103,37 @@ Disabled nodes stay reachable by arrow/Home/End/type-ahead navigation; only
 `Enter`, `Space`, and click are gated on `!disabled`, so keyboard users are
 never trapped on a disabled row.
 
+## Provider Defaults
+
+Set `defaults.tree` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    tree: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    tree: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+| `mode` | `'display' \| 'checkable'`     | Default mode.                                                     |
+
+Each option resolves as `local input > defaults.tree.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 `role="tree"` on the root, `role="treeitem"` on every node, `role="group"` on

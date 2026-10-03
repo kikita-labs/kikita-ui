@@ -130,6 +130,9 @@ local clearable > defaults.<select|combobox|datePicker|timePicker> > defaults.fi
 
 Select defaults to `false`; Combobox, Date Picker and Time Picker default to `true`.
 
+`defaults.select.multipleDisplay` (`chips` or `text`) sets how a multiple select shows its selection and
+`defaults.select.maxVisibleChips` how many chips it shows before the `+N` chip.
+
 ## Tooltip
 
 ```text

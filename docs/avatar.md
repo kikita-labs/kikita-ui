@@ -114,6 +114,67 @@ preserves native keyboard and accessibility behavior.
 | `shape`   | `KuiAvatarShape`           | `'circle'`       | Shape applied to every avatar in the group.                                       |
 | `label`   | `string`                   | `'Avatar group'` | Accessible group label.                                                           |
 
+## Provider Defaults
+
+Set `defaults.avatar` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    avatar: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    avatar: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option  | Values                                          | Description                                                       |
+| ------- | ----------------------------------------------- | ----------------------------------------------------------------- |
+| `size`  | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | Component size. Takes precedence over the global `defaults.size`. |
+| `shape` | `'circle' \| 'square'`                          | Default shape.                                                    |
+
+Each option resolves as `local input > defaults.avatar.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
+Set `defaults.avatarGroup` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    avatarGroup: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    avatarGroup: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option  | Values                                          | Description                                                       |
+| ------- | ----------------------------------------------- | ----------------------------------------------------------------- |
+| `size`  | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | Component size. Takes precedence over the global `defaults.size`. |
+| `shape` | `'circle' \| 'square'`                          | Default shape.                                                    |
+| `max`   | `number`                                        | Maximum avatars shown before the overflow counter.                |
+
+Each option resolves as `local input > defaults.avatarGroup.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Image avatars render a native `<img>` with `alt` derived from `alt`, then `name`.

@@ -76,6 +76,36 @@ gates its displayed invalid state on touch; when `[formField]` is present, `kuiI
 Field state instead of treating the raw `invalid` binding as a manual override. Outside this
 Signal Forms case, the `invalid` input can mark a standalone input or reflect a Field error.
 
+## Provider Defaults
+
+Set `defaults.input` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    input: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    input: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.input.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Keep the native `<input>` semantics; do not add an ARIA role to it.

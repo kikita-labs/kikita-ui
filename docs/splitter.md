@@ -150,6 +150,37 @@ interactive); only the resize affordance is disabled.
 (a `Signal<boolean>`), and `toggleCollapse()` for template-ref access (`#pane="..."` isn't needed --
 inject or query the component directly if you need these outside a template).
 
+## Provider Defaults
+
+Set `defaults.splitter` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    splitter: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    splitter: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                       | Description                                             |
+| ------------- | ---------------------------- | ------------------------------------------------------- |
+| `orientation` | `'horizontal' \| 'vertical'` | Panel layout direction.                                 |
+| `minSize`     | `number`                     | Minimum share of a pane, as a percentage from 0 to 100. |
+
+Each option resolves as `local input > defaults.splitter.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Each gutter renders an inner `role="separator"` element, focusable (`tabIndex="0"` unless

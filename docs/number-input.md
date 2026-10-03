@@ -71,6 +71,37 @@ Use Angular Signal Forms `min(...)` and `max(...)` validators for range constrai
 native `min`/`max` attributes to an element that has `[formField]`; Angular binds those native
 properties from the schema metadata.
 
+## Provider Defaults
+
+Set `defaults.numberInput` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    numberInput: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    numberInput: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option    | Values                         | Description                                                       |
+| --------- | ------------------------------ | ----------------------------------------------------------------- |
+| `size`    | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+| `variant` | `'stacked' \| 'split'`         | Default variant.                                                  |
+
+Each option resolves as `local input > defaults.numberInput.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - The native `input[type=number]` keeps its built-in keyboard and screen-reader semantics.

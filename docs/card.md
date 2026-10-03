@@ -32,6 +32,37 @@ content; `button` for an action; and `a` with an `href` for navigation.
 
 The directive has no outputs or models.
 
+## Provider Defaults
+
+Set `defaults.card` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    card: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    card: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option       | Values                                | Description                                                       |
+| ------------ | ------------------------------------- | ----------------------------------------------------------------- |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg'`        | Component size. Takes precedence over the global `defaults.size`. |
+| `appearance` | `'surface' \| 'elevated' \| 'sunken'` | Default appearance.                                               |
+
+Each option resolves as `local input > defaults.card.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 `kuiCard` styles its host; it does not add a role, `tabindex`, activation behavior, or keyboard

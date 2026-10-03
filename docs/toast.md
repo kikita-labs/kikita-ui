@@ -227,6 +227,41 @@ is not set, the part uses the semantic role in the Default column.
 
 <!-- geometry-tokens:begin -->
 
+## Provider Defaults
+
+Set `defaults.toast` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    toast: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    toast: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option         | Values                                                                                          | Description                                                              |
+| -------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `position`     | `'top-start' \| 'top-center' \| 'top-end' \| 'bottom-start' \| 'bottom-center' \| 'bottom-end'` | Where the toast region is placed. Read once, when the region is created. |
+| `duration`     | `number`                                                                                        | Auto-dismiss delay in ms.                                                |
+| `maxVisible`   | `number`                                                                                        | Toasts shown at once. Read once, when the region is created.             |
+| `showProgress` | `boolean`                                                                                       | Shows the remaining-time bar.                                            |
+| `closable`     | `boolean`                                                                                       | Shows the close button.                                                  |
+| `showIcon`     | `boolean`                                                                                       | Shows the status icon.                                                   |
+
+Each option resolves as `local input > defaults.toast.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Geometry Tokens
 
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it

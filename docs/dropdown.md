@@ -137,6 +137,39 @@ state classes, and Enter/Space selection. Selection state comes from
 the owning Select, Combobox, Menu, or Field integration. That coordination token
 is internal and is not part of the public dropdown API.
 
+## Provider Defaults
+
+Set `defaults.dropdown` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    dropdown: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    dropdown: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option          | Values                            | Description                                                   |
+| --------------- | --------------------------------- | ------------------------------------------------------------- |
+| `maxHeight`     | `string \| null`                  | Maximum panel height as a CSS length, or `null` for no limit. |
+| `offset`        | `number`                          | Gap in px between the anchor and the panel edge.              |
+| `closeOnSelect` | `boolean`                         | Closes the panel when a selectable option is clicked.         |
+| `panelWidth`    | `'anchor' \| 'content' \| 'auto'` | Panel width relative to the anchor.                           |
+
+Each option resolves as `local input > defaults.dropdown.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Keep dropdown triggers native where possible, especially `<button>`.

@@ -88,6 +88,38 @@ The default now opens the existing tooltip surface on touch taps. Set `triggerTy
 preserve the previous touch-disabled behavior, or `triggerType="none"` to disable the tooltip on
 all input devices.
 
+## Provider Defaults
+
+Set `defaults.tooltip` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    tooltip: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    tooltip: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                                   | Description                                                                          |
+| ------------- | ---------------------------------------- | ------------------------------------------------------------------------------------ |
+| `triggerType` | `KuiTooltipTrigger`                      | Default interaction mode for tooltip triggers. Defaults to adaptive `auto` behavior. |
+| `placement`   | `'top' \| 'bottom' \| 'left' \| 'right'` | Preferred side of the trigger.                                                       |
+| `offset`      | `number`                                 | Gap in px between the trigger and the tooltip.                                       |
+
+Each option resolves as `local input > defaults.tooltip.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Use a native interactive element, normally a `<button>`, for an information trigger.

@@ -162,6 +162,39 @@ automatically from `appearance`. Size is fixed at 20 x 20 px.
 - Close: `kui-dialog-out` (150 ms) and `kui-bd-out` (150 ms).
 - `prefers-reduced-motion`: opacity only, no scale.
 
+## Provider Defaults
+
+Set `defaults.dialog` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    dialog: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    dialog: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                                           | Description                                          |
+| ------------- | ------------------------------------------------ | ---------------------------------------------------- |
+| `closable`    | `boolean`                                        | Shows the close button in the header.                |
+| `size`        | `'auto' \| 'sm' \| 'md' \| 'lg' \| 'fullscreen'` | Dialog width preset.                                 |
+| `appearance`  | `'default' \| 'danger' \| 'warning'`             | Visual intent of the dialog.                         |
+| `dismissable` | `boolean`                                        | Closes the dialog on Escape and on a backdrop click. |
+
+Each option resolves as `local input > defaults.dialog.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - `role="dialog"` and `aria-modal="true"` are set on the panel.

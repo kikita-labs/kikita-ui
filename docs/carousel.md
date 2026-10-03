@@ -137,6 +137,42 @@ documented open question in the design spec, not an oversight.
 
 `[kuiCarouselSlide]` has no inputs -- apply it to the element wrapping each slide's content.
 
+## Provider Defaults
+
+Set `defaults.carousel` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    carousel: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    carousel: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option             | Values    | Description                                  |
+| ------------------ | --------- | -------------------------------------------- |
+| `itemsPerView`     | `number`  | Slides visible at once.                      |
+| `loop`             | `boolean` | Wraps around at the first and last slide.    |
+| `autoplay`         | `boolean` | Advances slides automatically.               |
+| `autoplayInterval` | `number`  | Delay in ms between automatic slide changes. |
+| `showArrows`       | `boolean` | Shows the previous and next arrows.          |
+| `showDots`         | `boolean` | Shows the pagination dots.                   |
+| `draggable`        | `boolean` | Allows dragging the track with a pointer.    |
+
+Each option resolves as `local input > defaults.carousel.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - The outer element is `role="region"` with `aria-roledescription="carousel"` and `ariaLabel`,

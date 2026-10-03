@@ -77,6 +77,36 @@ The library does not enforce a single collapse strategy; pick the one that fits 
 
 - `current`: `boolean` (default: `false`). Only meaningful on `<span>`; sets `aria-current="page"`.
 
+## Provider Defaults
+
+Set `defaults.breadcrumbs` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    breadcrumbs: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    breadcrumbs: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                 | Description                                                       |
+| ------ | ---------------------- | ----------------------------------------------------------------- |
+| `size` | `'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.breadcrumbs.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Wrap the trail in `<nav aria-label="Breadcrumb">` (or a localized label).

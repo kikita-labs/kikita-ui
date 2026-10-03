@@ -167,6 +167,39 @@ of `{appearance}-soft-*`:
 | `outline` | `transparent`                | `--kui-color-border-strong` |
 | `solid`   | `--kui-color-border-strong`  | `transparent`               |
 
+## Provider Defaults
+
+Set `defaults.alert` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    alert: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  kuiProvideDefaults({
+    alert: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option     | Values                           | Description                                                       |
+| ---------- | -------------------------------- | ----------------------------------------------------------------- |
+| `size`     | `'sm' \| 'md'`                   | Component size. Takes precedence over the global `defaults.size`. |
+| `shape`    | `'soft' \| 'outline' \| 'solid'` | Default shape.                                                    |
+| `showIcon` | `boolean`                        | Shows the leading status icon.                                    |
+| `closable` | `boolean`                        | Shows the close button.                                           |
+
+Each option resolves as `local input > defaults.alert.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - `role="alert"` + `aria-live="assertive"` + `aria-atomic="true"` only for `appearance="danger"`
