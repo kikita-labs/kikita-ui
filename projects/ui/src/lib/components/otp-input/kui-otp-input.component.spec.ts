@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
-import { form, FormField, required } from '@angular/forms/signals';
+import { form, FormField, readonly, required } from '@angular/forms/signals';
 
 import { KuiFieldComponent } from '../field';
 import { KuiOtpInputComponent } from './kui-otp-input.component';
@@ -47,6 +47,43 @@ class OtpInputAlphaHost {
 class OtpInputSignalFormsHost {
   readonly model = signal({ code: '' });
   readonly signInForm = form(this.model);
+}
+
+@Component({
+  imports: [FormField, KuiFieldComponent, KuiOtpInputComponent],
+  template: `
+    <kui-field label="Required code">
+      <kui-otp-input [formField]="requiredForm.code" [length]="4" />
+    </kui-field>
+  `,
+})
+class OtpInputRequiredHost {
+  readonly model = signal({ code: '' });
+  readonly requiredForm = form(this.model, (path) => {
+    required(path.code);
+  });
+}
+
+@Component({
+  imports: [KuiFieldComponent, KuiOtpInputComponent],
+  template: `
+    <kui-field label="Code" required>
+      <kui-otp-input [length]="4" />
+    </kui-field>
+  `,
+})
+class OtpInputFieldRequiredHost {}
+
+@Component({
+  imports: [FormField, KuiOtpInputComponent],
+  template: `<kui-otp-input [formField]="lockedForm.code" [length]="4" />`,
+})
+class OtpInputFormStateHost {
+  readonly model = signal({ code: '12' });
+  readonly locked = signal(true);
+  readonly lockedForm = form(this.model, (path) => {
+    readonly(path.code, () => this.locked());
+  });
 }
 
 @Component({
@@ -315,7 +352,7 @@ describe('KuiOtpInputComponent', () => {
   it('ignores paste on a read-only group', () => {
     @Component({
       imports: [KuiOtpInputComponent],
-      template: `<kui-otp-input [(value)]="code" [length]="4" readOnly />`,
+      template: `<kui-otp-input [(value)]="code" [length]="4" readonly />`,
     })
     class ReadOnlyHost {
       readonly code = signal('1234');
@@ -338,7 +375,7 @@ describe('KuiOtpInputComponent', () => {
   it('ignores Backspace cross-cell clearing on a read-only group', () => {
     @Component({
       imports: [KuiOtpInputComponent],
-      template: `<kui-otp-input [(value)]="code" [length]="4" readOnly />`,
+      template: `<kui-otp-input [(value)]="code" [length]="4" readonly />`,
     })
     class ReadOnlyHost {
       readonly code = signal('12');
@@ -353,5 +390,122 @@ describe('KuiOtpInputComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.code()).toBe('12');
+  });
+
+  describe('autoFocus', () => {
+    it('focuses the first cell after the first render', async () => {
+      TestBed.configureTestingModule({ imports: [OtpInputHost] });
+      const fixture = TestBed.createComponent(OtpInputHost);
+      fixture.componentInstance.autoFocus.set(true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(document.activeElement).toBe(cells(fixture)[0]);
+    });
+
+    it('does not focus while autoFocus is false and focuses on a false to true change', async () => {
+      const fixture = createFixture();
+      await fixture.whenStable();
+      expect(document.activeElement).not.toBe(cells(fixture)[0]);
+
+      fixture.componentInstance.autoFocus.set(true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(document.activeElement).toBe(cells(fixture)[0]);
+    });
+
+    it('does not focus a disabled group', async () => {
+      @Component({
+        imports: [KuiOtpInputComponent],
+        template: `<kui-otp-input [length]="4" disabled autoFocus />`,
+      })
+      class DisabledHost {}
+
+      TestBed.configureTestingModule({ imports: [DisabledHost] });
+      const fixture = TestBed.createComponent(DisabledHost);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(cells(fixture).some((cell) => cell === document.activeElement)).toBe(false);
+    });
+  });
+
+  describe('Signal Forms contract', () => {
+    it('focus() moves focus to the first cell', () => {
+      const fixture = createFixture();
+      const otp = fixture.debugElement.children[0].componentInstance as KuiOtpInputComponent;
+
+      otp.focus();
+
+      expect(document.activeElement).toBe(cells(fixture)[0]);
+    });
+
+    it('focusBoundControl() focuses the first cell instead of the non-focusable group', () => {
+      TestBed.configureTestingModule({ imports: [OtpInputSignalFormsHost] });
+      const fixture = TestBed.createComponent(OtpInputSignalFormsHost);
+      fixture.detectChanges();
+
+      fixture.componentInstance.signInForm.code().focusBoundControl();
+
+      expect(document.activeElement).toBe(cells(fixture)[0]);
+    });
+
+    it('binds the readonly state of the form field to every cell', () => {
+      TestBed.configureTestingModule({ imports: [OtpInputFormStateHost] });
+      const fixture = TestBed.createComponent(OtpInputFormStateHost);
+      fixture.detectChanges();
+
+      expect(cells(fixture).every((cell) => cell.readOnly)).toBe(true);
+
+      fixture.componentInstance.locked.set(false);
+      fixture.detectChanges();
+
+      expect(cells(fixture).some((cell) => cell.readOnly)).toBe(false);
+    });
+  });
+
+  describe('required', () => {
+    function requiredCells(fixture: ComponentFixture<unknown>): boolean[] {
+      return cells(fixture).map((cell) => cell.required);
+    }
+
+    it('marks only the first cell as required when a Signal Forms validator requires a code', async () => {
+      TestBed.configureTestingModule({ imports: [OtpInputRequiredHost] });
+      const fixture = TestBed.createComponent(OtpInputRequiredHost);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(requiredCells(fixture)).toEqual([true, false, false, false]);
+    });
+
+    it('marks only the first cell as required inside a required kui-field', () => {
+      TestBed.configureTestingModule({ imports: [OtpInputFieldRequiredHost] });
+      const fixture = TestBed.createComponent(OtpInputFieldRequiredHost);
+      fixture.detectChanges();
+
+      expect(requiredCells(fixture)).toEqual([true, false, false, false]);
+    });
+
+    it('marks only the first cell as required from its own input', () => {
+      @Component({
+        imports: [KuiOtpInputComponent],
+        template: `<kui-otp-input [length]="4" required />`,
+      })
+      class RequiredInputHost {}
+
+      TestBed.configureTestingModule({ imports: [RequiredInputHost] });
+      const fixture = TestBed.createComponent(RequiredInputHost);
+      fixture.detectChanges();
+
+      expect(requiredCells(fixture)).toEqual([true, false, false, false]);
+    });
+
+    it('sets no required state on a code that is not required', () => {
+      const fixture = createFixture();
+
+      expect(requiredCells(fixture)).toEqual([false, false, false, false]);
+    });
   });
 });

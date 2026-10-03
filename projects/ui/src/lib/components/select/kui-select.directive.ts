@@ -18,6 +18,7 @@ import type {
 } from '@angular/forms/signals';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
 import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KuiFieldComponent } from '../field/kui-field.component';
 import type { KuiSelectChipItem } from './kui-select-input-suffix.component';
@@ -44,6 +45,7 @@ function optionalNumberAttribute(value: unknown): number | undefined {
     '[attr.aria-expanded]': 'dropdownOpen()',
     '[attr.aria-controls]': 'dropdownPanelId()',
     '[attr.aria-describedby]': 'describedBy()',
+    '[attr.aria-required]': 'ariaRequired()',
     '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
     '[attr.placeholder]': 'effectivePlaceholder()',
     '[attr.disabled]': 'disabled() ? "" : null',
@@ -134,11 +136,16 @@ export class KuiSelectDirective<T = unknown>
   protected readonly dropdownPanelId = computed(() =>
     this.dropdownOpen() ? (this.field?.getDropdown()?.getPanelId() ?? null) : null,
   );
-  protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
-  protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
-  protected readonly effectiveInvalid = computed(
-    () => this.invalid() || Boolean(this.field?.invalid()),
-  );
+  private readonly wiring = createKuiFieldWiring({
+    field: this.field,
+    id: this.id,
+    invalid: this.invalid,
+  });
+
+  protected readonly hostId = this.wiring.hostId;
+  protected readonly describedBy = this.wiring.describedBy;
+  protected readonly ariaRequired = this.wiring.ariaRequired;
+  protected readonly effectiveInvalid = this.wiring.invalid;
 
   protected readonly effectiveClearable = computed(() => {
     const own = this.clearable();

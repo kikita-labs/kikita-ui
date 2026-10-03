@@ -48,6 +48,11 @@ import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
 - `disabled`: `boolean` - disables every segment. Set by `[formField]` or directly.
 - `invalid`, `errors`, `touched`: set by `[formField]`.
 
+`focus(options?)` focuses the selected segment, or the first enabled one when nothing is selected, so
+`field().focusBoundControl()` reaches the control. It does nothing while every segment is disabled.
+`kui-segmented` has no `required` input: a segmented control always shows one active segment, so it
+does not expose a required state.
+
 ## Outputs
 
 - `touch`: emitted whenever an enabled segment is selected, including when it was already

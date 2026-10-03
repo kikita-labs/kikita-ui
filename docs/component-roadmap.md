@@ -87,6 +87,18 @@ fixing or closing them; record new evidence in state coverage.
   changes, except options read when an overlay opens or a tooltip shows (verified in Plan 18, 2026-10-03).
   Open follow-ups: message and icon overrides (Plans 20 and 21).
 
+- Field wiring and focus (v2, Plan 19): the host id, invalid state, `aria-describedby` and
+  `aria-required` of the native controls now come from one internal helper
+  (`createKuiFieldWiring`, `utils/kui-field-control-wiring.util.ts`) instead of nine copies;
+  `kui-field` exposes its merged required state as `aria-required` on every control whose role supports
+  it (single Radio and Slider are documented exceptions, see [Field](field.md)). `kuiAutoFocus`
+  ([Auto Focus](auto-focus.md)) replaces the private focus code of OTP Input and the Command Palette.
+  `kui-otp-input` and `kui-segmented` implement `focus()` so Signal Forms `focusBoundControl()` reaches
+  them, and a static-audit rule keeps every Signal Forms control spelling the contract members exactly.
+  Remaining decorator uses outside the signal-first rule are tracked for Plan 22: eleven
+  `@HostListener` (Chip remove, Input Group, Menu For, Popover For, Slider) and one `@ViewChild`
+  (Segmented thumb).
+
 - ESLint is enabled for the library and playground. The gate fails on hard errors and reports
   warnings for current architecture/accessibility debt that needs focused follow-up before those
   rules can safely become blocking: selector edge cases on internal components, aliased public
@@ -108,7 +120,7 @@ fixing or closing them; record new evidence in state coverage.
   - Automated axe violations (Calendar, Calendar Range, Splitter, Menu, File Upload and many library
     demo pages; exact rule ids are asserted per route) and the Time Picker Escape-focus defect belong
     to a separate accessibility follow-up after Plan 10.2.
-  - `kui-field` `required` exposure to assistive technology is added to Plan 19B.
+  - `kui-field` `required` exposure to assistive technology is added to Plan 19B and done (2026-10-03).
   - Default Lucide icons depending on the jsDelivr CDN is added to Plan 20.
   - Re-enabling the axe `color-contrast` rule is added to Plan 14 and done (2026-10-02).
   - Hydration-readiness marker and orphan-dialog behavior are added to Plan 12. Both are decided: no marker, and a dialog outlives its opener (`docs/ssr-lifecycle-register.md`). The server locale now follows the request `Accept-Language` and is transferred to the browser.

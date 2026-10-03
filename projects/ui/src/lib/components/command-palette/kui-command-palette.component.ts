@@ -10,6 +10,7 @@ import {
   computed,
   effect,
   inject,
+  Injector,
   input,
   isDevMode,
   model,
@@ -25,6 +26,7 @@ import {
   KUI_SEARCH_HANDLE_D,
   KUI_X_D,
 } from '../../utils/kui-chrome-icon-paths.util';
+import { focusWhenRendered } from '../../utils/kui-focus-when-rendered.util';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiEmptyStateComponent, KuiEmptyStateIconDirective } from '../empty-state';
 import { KuiSkeletonDirective } from '../skeleton';
@@ -78,6 +80,7 @@ export class KuiCommandPaletteComponent implements OnDestroy {
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly document = inject(DOCUMENT);
+  private readonly injector = inject(Injector);
   private overlayRef: OverlayRef | null = null;
   private previouslyFocused: HTMLElement | null = null;
 
@@ -229,7 +232,10 @@ export class KuiCommandPaletteComponent implements OnDestroy {
       hasBackdrop: false,
     });
     this.overlayRef.attach(new TemplatePortal(this.paletteTpl(), this.vcr));
-    queueMicrotask(() => this.inputEl()?.nativeElement.focus());
+    focusWhenRendered({
+      injector: this.injector,
+      target: () => this.inputEl()?.nativeElement ?? null,
+    });
   }
 
   private detachOverlay(restoreFocus: boolean): void {

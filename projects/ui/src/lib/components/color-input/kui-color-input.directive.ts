@@ -27,6 +27,10 @@ import {
   KUI_COPY_RECT,
 } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import {
+  createKuiControlSize,
+  createKuiFieldWiring,
+} from '../../utils/kui-field-control-wiring.util';
 import { kuiIdFactory } from '../../utils/kui-id.util';
 import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.util';
 import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
@@ -63,6 +67,7 @@ const MAX_CHROMA = 0.32;
     autocapitalize: 'off',
     '[attr.id]': 'inputId()',
     '[attr.aria-describedby]': 'describedBy()',
+    '[attr.aria-required]': 'ariaRequired()',
     '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
   },
 })
@@ -92,30 +97,27 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
-  protected readonly inputId = computed(() => this.id() ?? this.field?.controlId ?? null);
-  protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
-  /**
-   * Signal Forms' native-control interop auto-wires this directive's `invalid` input straight
-   * from the bound field's raw (untouched-gated) state whenever `[formField]` is present -- see
-   * `KuiFieldComponent.hasSignalFormField`. In that case `invalidInput()` no longer reflects a
-   * deliberate manual override, so it's ignored in favor of the field's own gated `invalid()`;
-   * `invalidValue()` (a parse-error state internal to this control) always still applies.
-   */
+  private readonly wiring = createKuiFieldWiring({
+    field: this.field,
+    id: this.id,
+    invalid: this.invalidInput,
+  });
+
+  protected readonly inputId = this.wiring.hostId;
+  protected readonly describedBy = this.wiring.describedBy;
+  protected readonly ariaRequired = this.wiring.ariaRequired;
+
+  /** The field-derived invalid state, plus the control's own parse-error state (`invalidValue`). */
   protected readonly effectiveInvalid = computed(
-    () =>
-      (this.field?.hasSignalFormField()
-        ? Boolean(this.field.invalid())
-        : this.invalidInput() || Boolean(this.field?.invalid())) || this.invalidValue(),
+    () => this.wiring.invalid() || this.invalidValue(),
   );
-  protected readonly effectiveSize = computed(
-    () =>
-      this.size() ??
-      this.field?.size() ??
-      this.colorInputDefaults()?.size ??
-      this.field?.effectiveSize() ??
-      this.rootDefaultSize() ??
-      'md',
-  );
+
+  protected readonly effectiveSize = createKuiControlSize({
+    field: this.field,
+    local: this.size,
+    keyDefault: computed(() => this.colorInputDefaults()?.size),
+    root: this.rootDefaultSize,
+  });
 
   private containerEl!: HTMLElement;
   private swatchBtn!: HTMLButtonElement;

@@ -134,6 +134,17 @@ export class KuiSegmentedComponent implements KuiSegmentedContext, FormValueCont
     });
   }
 
+  /**
+   * Focuses the selected segment, or the first enabled one when nothing is selected. Signal Forms
+   * calls this for `focusBoundControl()`. Does nothing while every segment is disabled.
+   */
+  focus(options?: FocusOptions): void {
+    const enabled = this.segmentItems().filter((item) => !item.isDisabled());
+    const target = enabled.find((item) => item.value() === this.selected()) ?? enabled[0];
+
+    target?.elementRef.nativeElement.focus(options);
+  }
+
   select(value: string): void {
     if (this.disabled()) return;
     this.value.set(value);

@@ -117,6 +117,14 @@ export class KuiFieldComponent implements KuiOptionContext {
   );
 
   /**
+   * Value controls bind to `aria-required`: `'true'` when the field is required, otherwise `null`.
+   * Merges the explicit `required` input with the Signal Forms required state. Signal Forms already
+   * writes the native `required` attribute on native controls; this adds the ARIA state for every
+   * control kind and for fields marked required without a validator.
+   */
+  readonly ariaRequired = computed<'true' | null>(() => (this.isRequired() ? 'true' : null));
+
+  /**
    * Whether a Signal Forms `[formField]` is projected into this field. Angular Signal Forms'
    * native-control interop auto-wires ANY directive on the bound host element that declares an
    * `invalid`/`disabled`/`required`/... input matching its `FIELD_STATE_KEY_TO_CONTROL_BINDING`

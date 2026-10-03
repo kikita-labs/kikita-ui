@@ -176,4 +176,31 @@ describe('KuiSegmentedComponent', () => {
 
     expect(fixture.componentInstance.model().view).toBe('grid');
   });
+
+  it('focusBoundControl() focuses the selected segment instead of the non-focusable group', () => {
+    TestBed.configureTestingModule({ imports: [SignalFormsHost] });
+    const fixture = TestBed.createComponent(SignalFormsHost);
+    fixture.detectChanges();
+    const items = fixture.nativeElement.querySelectorAll(
+      '[role="radio"]',
+    ) as NodeListOf<HTMLElement>;
+
+    fixture.componentInstance.settingsForm.view().focusBoundControl();
+
+    expect(document.activeElement).toBe(items[0]);
+  });
+
+  it('focus() lands on the first enabled segment when nothing is selected', () => {
+    const fixture = TestBed.createComponent(SegmentedHost);
+    fixture.componentInstance.selected.set('');
+    fixture.detectChanges();
+    const segmented = fixture.debugElement.children[0].componentInstance as KuiSegmentedComponent;
+    const items = fixture.nativeElement.querySelectorAll(
+      '[role="radio"]',
+    ) as NodeListOf<HTMLElement>;
+
+    segmented.focus();
+
+    expect(document.activeElement).toBe(items[0]);
+  });
 });

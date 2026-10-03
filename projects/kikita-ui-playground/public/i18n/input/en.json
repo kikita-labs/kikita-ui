@@ -6,7 +6,8 @@
     "sizes": "Input sizes",
     "states": "Native input states",
     "types": "Native input types",
-    "validation": "Signal Forms validation"
+    "validation": "Signal Forms validation",
+    "autoFocus": "Auto focus"
   },
   "fields": {
     "projectName": "Project name",
@@ -58,6 +59,18 @@
     "fieldSizeGroup": "Input size inheritance and precedence",
     "statesGroup": "Input native states",
     "typesGroup": "Native input types",
-    "validationGroup": "Signal Forms validation"
+    "validationGroup": "Signal Forms validation",
+    "autoFocusGroup": "Input auto focus"
+  },
+  "autoFocus": {
+    "mount": "Show focused field",
+    "mountedField": "Focused on mount",
+    "request": "Request focus",
+    "requestedField": "Focused on request",
+    "openDialog": "Open dialog",
+    "dialogTitle": "Auto focus dialog",
+    "dialogFirstField": "First field",
+    "dialogFocusedField": "Focused field in dialog",
+    "close": "Close"
   }
 }

@@ -85,6 +85,7 @@ Index tracking remains appropriate for genuinely static lists.
 
 - Uses a CDK overlay with scroll blocking.
 - Uses a modal dialog container with CDK focus trap.
+- Focus moves to the search input after the overlay has rendered, on every open, including when another control had focus.
 - The search input exposes combobox/listbox relationships through `aria-controls` and
   `aria-activedescendant`.
 - Arrow keys move the active option, Enter selects it, Escape closes the palette.

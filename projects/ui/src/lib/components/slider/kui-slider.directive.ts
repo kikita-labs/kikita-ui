@@ -16,6 +16,7 @@ import {
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
 import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.util';
 import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
 import { KuiFieldComponent } from '../field';
@@ -82,24 +83,20 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   /** Explicit id override. If omitted inside `kui-field`, the field id is used. */
   readonly id = input<string | undefined>();
 
-  /** @internal */
-  protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
-
-  /**
-   * @internal Signal Forms' native-control interop auto-wires this directive's `invalid` input
-   * straight from the bound field's raw (untouched-gated) state whenever `[formField]` is present
-   * -- see `KuiFieldComponent.hasSignalFormField`. In that case `invalidInput()` no longer
-   * reflects a deliberate manual override, so it's ignored in favor of the field's own gated
-   * `invalid()`.
-   */
-  protected readonly effectiveInvalid = computed(() =>
-    this.field?.hasSignalFormField()
-      ? Boolean(this.field.invalid())
-      : this.invalidInput() || Boolean(this.field?.invalid()),
-  );
+  private readonly wiring = createKuiFieldWiring({
+    field: this.field,
+    id: this.id,
+    invalid: this.invalidInput,
+  });
 
   /** @internal */
-  protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
+  protected readonly hostId = this.wiring.hostId;
+
+  /** @internal */
+  protected readonly effectiveInvalid = this.wiring.invalid;
+
+  /** @internal */
+  protected readonly describedBy = this.wiring.describedBy;
   protected readonly effectiveColor = computed(
     () => this.color() ?? this.sliderDefaults()?.color ?? 'primary',
   );

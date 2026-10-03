@@ -108,7 +108,7 @@ the sweep until the list is updated.
 | Drawer          | 10   | 14   | No touch backdrop tap.                                                                                                                                                                                                                                               |
 | Dropdown        | 16   | 16   | None recorded.                                                                                                                                                                                                                                                       |
 | Empty State     | 2    | 7    | None recorded.                                                                                                                                                                                                                                                       |
-| Field           | 20   | 10   | `required` renders only an `aria-hidden` marker; the control gets no `aria-required` (Plan 19B).                                                                                                                                                                     |
+| Field           | 20   | 10   | `required` is exposed to assistive technology as `aria-required` on the control (Plan 19B).                                                                                                                                                                          |
 | File Upload     | 14   | 17   | Axe clean after Plan 10.3 (hidden input `aria-hidden`, presentational Choose file label).                                                                                                                                                                            |
 | Group           | 4    | 9    | None recorded.                                                                                                                                                                                                                                                       |
 | Icon Button     | 6    | 13   | None recorded.                                                                                                                                                                                                                                                       |
@@ -171,9 +171,10 @@ in the plan listed.
 4. **Time Picker Escape from inside the panel** returned no focus to the input. Fixed in queue item
    10.3: `kui-dropdown` hands focus back to the field control when Escape closes a panel that held
    focus (regression tests in the Dropdown unit spec and the Time Picker and Date Picker pages).
-5. **Field `required`** is not exposed to assistive technology. `test.fixme` in
-   `field-playground.visual.spec.ts`. Owner: Plan 19B, Phase B
-   (`autofocus-and-base-input-directive.md`).
+5. **Field `required`** was not exposed to assistive technology. Fixed in Plan 19B (2026-10-03): `kui-field`
+   puts the merged required state on the control as `aria-required`, and the former `test.fixme` in
+   `field-playground.visual.spec.ts` is now a passing test. Unit coverage for every control is in
+   `field/kui-field-control-wiring.spec.ts`.
 6. **Right-to-left** is unsupported in v2 and is documented as such (see the roadmap's Deferred Feature
    Scope). No primitive has direction-aware behavior (no `rtl`, `dir` or `Directionality` use under
    `projects/ui/src/lib`), so arrow-key direction in Tabs, Slider, Segmented, Tree and Splitter is

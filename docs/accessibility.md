@@ -72,7 +72,8 @@ Review dropdown, select, tooltip, popover, dialog, toast, and any future overlay
 - Labels, hints, errors, and required markers come from `kui-field` by default.
 - The accessible name comes from the visible label when possible.
 - Hint and error ids are referenced only while the elements exist.
-- Required and invalid states are exposed to AT.
+- Required and invalid states are exposed to AT. `kui-field` sets `aria-required` from its merged required state on every control whose role supports it; a single radio and a slider are the documented exceptions (see `docs/field.md`).
+- Automatic focus (`kuiAutoFocus`, OTP `autoFocus`) is opt-in and limited to places where focus on arrival is expected; see `docs/auto-focus.md`.
 - First error announcement is understandable after blur, submit, or validation state changes.
 - Disabled and readonly states are visually distinct and semantically accurate.
 - Signal Forms examples preserve native semantics and do not require custom ARIA to compensate for broken binding.

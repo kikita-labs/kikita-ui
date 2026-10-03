@@ -44,6 +44,30 @@ const textExtensions = new Set([
   '.yaml',
   '.yml',
 ]);
+// Members of Angular's `FormUiControl`, `FormValueControl` and `FormCheckboxControl` that Signal Forms
+// binds by exact name. Every one is optional, so TypeScript accepts a near miss such as `readOnly`
+// and Signal Forms then silently never binds it.
+const formControlContractMembers = [
+  'checked',
+  'dirty',
+  'disabled',
+  'disabledReasons',
+  'errors',
+  'hidden',
+  'invalid',
+  'max',
+  'maxLength',
+  'min',
+  'minLength',
+  'name',
+  'pattern',
+  'pending',
+  'readonly',
+  'required',
+  'touch',
+  'touched',
+  'value',
+];
 const routeCoverageExclusions = new Set();
 const playgroundRouteEnumPath =
   'projects/kikita-ui-playground/src/app/enums/playground-route.enum.ts';
@@ -157,6 +181,9 @@ export function runStaticAudit(root = defaultRoot) {
   );
   runCheck(failures, 'overlay layers read a --kui-z-* token instead of a z-index literal', () =>
     checkNoLayerZIndexLiterals(root),
+  );
+  runCheck(failures, 'Signal Forms controls spell contract members exactly', () =>
+    checkFormControlContractNames(root),
   );
   return failures;
 }
@@ -564,6 +591,42 @@ function checkLibraryInternalPackageImports(root) {
       failures.push(
         `${toRepoPath(root, file)} imports @kikita-labs/ui from inside the library source`,
       );
+    }
+  }
+
+  return failures;
+}
+
+function checkFormControlContractNames(root) {
+  const failures = [];
+  const libDir = join(root, 'projects/ui/src/lib');
+
+  if (!existsSync(libDir)) {
+    return failures;
+  }
+
+  const byLowerCase = new Map(formControlContractMembers.map((name) => [name.toLowerCase(), name]));
+  const implementsPattern = /\bimplements\b[^{]*\bForm(?:Value|Checkbox)Control\b/u;
+  const memberPattern = /^[ \t]+(?:readonly[ \t]+)?(\w+)[ \t]*=[ \t]*(?:input|model|output)\b/gmu;
+  const files = collectTextFiles(root, [libDir]).filter(
+    (file) => file.endsWith('.ts') && !file.endsWith('.spec.ts'),
+  );
+
+  for (const file of files) {
+    const text = readFileSync(file, 'utf8');
+
+    if (!implementsPattern.test(text)) {
+      continue;
+    }
+
+    for (const match of text.matchAll(memberPattern)) {
+      const expected = byLowerCase.get(match[1].toLowerCase());
+
+      if (expected && expected !== match[1]) {
+        failures.push(
+          `${toRepoPath(root, file)} declares ${match[1]}, which Signal Forms binds only as ${expected}`,
+        );
+      }
     }
   }
 

@@ -18,6 +18,7 @@ import type {
 } from '@angular/forms/signals';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import type { KuiOptionContext } from '../dropdown/kui-option-context.token';
 import { KuiFieldComponent } from '../field/kui-field.component';
@@ -54,6 +55,7 @@ import type { KuiComboboxMode } from './kui-combobox-mode.type';
     '[attr.aria-controls]': 'dropdownPanelId()',
     '[attr.aria-autocomplete]': 'mode() === "free" ? "both" : "list"',
     '[attr.aria-describedby]': 'describedBy()',
+    '[attr.aria-required]': 'ariaRequired()',
     '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
     '[attr.placeholder]': 'placeholder()',
     '[attr.disabled]': 'disabled() ? "" : null',
@@ -117,13 +119,16 @@ export class KuiComboboxDirective<T = unknown>
   protected readonly dropdownPanelId = computed(() =>
     this.dropdownOpen() ? (this.field?.getDropdown()?.getPanelId() ?? null) : null,
   );
-  protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
-  protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
-  protected readonly effectiveInvalid = computed(() =>
-    this.field?.hasSignalFormField()
-      ? Boolean(this.field.invalid())
-      : this.invalid() || Boolean(this.field?.invalid()),
-  );
+  private readonly wiring = createKuiFieldWiring({
+    field: this.field,
+    id: this.id,
+    invalid: this.invalid,
+  });
+
+  protected readonly hostId = this.wiring.hostId;
+  protected readonly describedBy = this.wiring.describedBy;
+  protected readonly ariaRequired = this.wiring.ariaRequired;
+  protected readonly effectiveInvalid = this.wiring.invalid;
   protected readonly hasValue = computed(() => this.value() != null || this.query().length > 0);
   protected readonly effectiveClearable = computed(() => {
     const own = this.clearable();

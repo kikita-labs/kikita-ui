@@ -1,10 +1,10 @@
-import type { ElementRef, Signal } from '@angular/core';
+import type { Signal } from '@angular/core';
 import {
-  afterNextRender,
   booleanAttribute,
   Component,
   computed,
   effect,
+  ElementRef,
   inject,
   input,
   model,
@@ -23,11 +23,13 @@ import { FormField } from '@angular/forms/signals';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { resolveKuiFocusTarget } from '../../utils/kui-focus-when-rendered.util';
 import { kuiNextId } from '../../utils/kui-id.util';
 import {
   optionalBooleanAttribute,
   positiveIntegerAttribute,
 } from '../../utils/kui-input-transform.util';
+import { KuiAutoFocusDirective } from '../auto-focus';
 import { KuiFieldComponent } from '../field';
 import { KuiInputDirective } from '../input';
 import { KuiLoaderDirective } from '../loader';
@@ -50,6 +52,10 @@ const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
  * `kui-otp-input` itself (it is not a native element, so `[formField]` goes there, not on
  * `kui-field` -- the same pattern `kui-segmented` uses). For standalone use, bind `[(value)]`
  * directly.
+ *
+ * `autoFocus` (provided by {@link KuiAutoFocusDirective}) focuses the first cell that can take
+ * focus after the first render, and again every time it changes from `false` to `true`, for
+ * example after a failed check clears the code. It never runs on the server.
  *
  * `value` is the joined string of per-cell characters in cell order. Clearing a cell that has
  * later cells still filled collapses those positions when joined -- accepted, spec-inherited
@@ -81,11 +87,12 @@ const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
         [attr.autocomplete]="$index === 0 ? 'one-time-code' : 'off'"
         [attr.maxlength]="1"
         [attr.aria-label]="cellLabel($index)"
+        [required]="$index === 0 && isRequired()"
         class="kui-otp-input__cell"
         [size]="effectiveSize()"
         [invalid]="effectiveInvalid()"
         [disabled]="disabled() || loading()"
-        [readOnly]="readOnly()"
+        [readOnly]="readonly()"
         [value]="char"
         (input)="onCellInput($index, $event)"
         (keydown)="onCellKeydown($index, $event)"
@@ -113,6 +120,7 @@ const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
     '[attr.data-kui-disabled]': 'disabled() ? "" : null',
     '[attr.data-kui-loading]': 'loading() ? "" : null',
   },
+  hostDirectives: [{ directive: KuiAutoFocusDirective, inputs: ['kuiAutoFocus: autoFocus'] }],
   encapsulation: ViewEncapsulation.None,
 })
 /** Row of single-character cells for a one-time verification code or PIN. See the class-level example above. */
@@ -140,9 +148,6 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
     transform: optionalBooleanAttribute,
   });
 
-  /** Focuses the first cell after the component mounts. Defaults to `false`. */
-  readonly autoFocus = input(false, { transform: booleanAttribute });
-
   /** Accessible label for the cell group. Defaults to `'Verification code'`. */
   readonly ariaLabel = input('Verification code');
 
@@ -152,8 +157,16 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
   /** Disables every cell. Set by `[formField]` or directly. */
   readonly disabled = input(false, { transform: booleanAttribute });
 
-  /** Whether every cell is read-only. Defaults to `false`. */
-  readonly readOnly = input(false, { transform: booleanAttribute });
+  /**
+   * Whether a code is required. Set by `[formField]` or directly. Exposed to assistive technology
+   * as the native `required` state of the first cell only, the cell the field label points at; the
+   * remaining cells are named by position. Also follows a required ancestor `kui-field`. Defaults
+   * to `false`.
+   */
+  readonly required = input(false, { transform: booleanAttribute });
+
+  /** Whether every cell is read-only. Set by `[formField]` or directly. Defaults to `false`. */
+  readonly readonly = input(false, { transform: booleanAttribute });
 
   /**
    * Disables every cell (like `disabled`) while an asynchronous code check is pending, blurs the
@@ -178,6 +191,7 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
   /** Emitted exactly once when every cell becomes filled, with the completed value. */
   readonly complete = output<string>();
 
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly instanceId = kuiNextId('kui-otp-input');
 
   private readonly chars = signal<string[]>([]);
@@ -222,6 +236,11 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
     () => this.integerOnly() ?? this.otpInputDefaults()?.integerOnly ?? true,
   );
 
+  /** Whether this control or the ancestor `kui-field` is required; bound to the first cell. */
+  protected readonly isRequired = computed(
+    () => this.required() || Boolean(this.field?.isRequired()),
+  );
+
   /** Forwards the ancestor `kui-field`'s hint/error ids so screen readers announce them for the group. */
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
 
@@ -259,10 +278,6 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
       if (current.length !== length || current.join('') !== value) {
         this.chars.set(Array.from({ length }, (_, i) => value[i] ?? ''));
       }
-    });
-
-    afterNextRender(() => {
-      if (this.autoFocus()) this.focusCell(0);
     });
   }
 
@@ -311,8 +326,8 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
       case 'Backspace':
         // Native `readonly` only blocks the browser's own default edit for the focused cell's own
         // keystroke -- it does not stop this handler from reaching into and mutating a *different*
-        // (previous) cell, so that cross-cell write needs its own explicit readOnly guard.
-        if (!this.chars()[i] && i > 0 && !this.readOnly()) {
+        // (previous) cell, so that cross-cell write needs its own explicit `readonly()` guard.
+        if (!this.chars()[i] && i > 0 && !this.readonly()) {
           event.preventDefault();
           const next = this.chars().slice();
           next[i - 1] = '';
@@ -342,10 +357,10 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
   protected onCellPaste(event: ClipboardEvent): void {
     event.preventDefault();
     // Unlike keyboard typing, the browser does not itself block a paste's default action on a
-    // `readonly` input before this handler runs -- `readOnly()` must be checked explicitly here,
+    // `readonly` input before this handler runs -- `readonly()` must be checked explicitly here,
     // the same way it is for the Backspace cross-cell write above. `disabled()`/`loading()` cells
     // never reach this handler at all: the native `disabled` attribute suppresses paste natively.
-    if (this.readOnly()) return;
+    if (this.readonly()) return;
 
     const raw = event.clipboardData?.getData('text') ?? '';
     const allowedOut = this.effectiveIntegerOnly() ? /[^0-9]/g : /[^a-zA-Z0-9]/g;
@@ -369,6 +384,14 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
     this.touch.emit();
 
     if (!wasComplete && this.isComplete()) this.complete.emit(joined);
+  }
+
+  /**
+   * Focuses the first cell that can take focus. Signal Forms calls this for `focusBoundControl()`.
+   * Does nothing while every cell is disabled.
+   */
+  focus(options?: FocusOptions): void {
+    resolveKuiFocusTarget(this.host.nativeElement)?.focus(options);
   }
 
   private focusCell(i: number): void {

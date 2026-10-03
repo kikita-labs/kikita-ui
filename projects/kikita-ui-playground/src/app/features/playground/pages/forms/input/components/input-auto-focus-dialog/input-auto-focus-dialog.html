@@ -1,0 +1,18 @@
+<div class="kui-dialog-header">
+  <h2 class="kui-dialog-title">{{ 'input.autoFocus.dialogTitle' | transloco }}</h2>
+</div>
+
+<div class="kui-dialog-body">
+  <input kuiInput [attr.aria-label]="'input.autoFocus.dialogFirstField' | transloco" />
+  <input
+    kuiInput
+    kuiAutoFocus
+    [attr.aria-label]="'input.autoFocus.dialogFocusedField' | transloco"
+  />
+</div>
+
+<div class="kui-dialog-footer">
+  <button kuiButton shape="outline" type="button" (click)="dialogContext.close()">
+    {{ 'input.autoFocus.close' | transloco }}
+  </button>
+</div>

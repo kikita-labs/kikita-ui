@@ -16,6 +16,10 @@ import {
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import {
+  createKuiControlSize,
+  createKuiFieldWiring,
+} from '../../utils/kui-field-control-wiring.util';
 import { KuiFieldComponent } from '../field';
 
 /** Layout of the increment/decrement controls. */
@@ -27,15 +31,11 @@ const PRESS_INTERVAL_MS = 80;
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 /**
- * Applies Kikita UI number-input styling and increment/decrement controls to a
- * native `input[type=number]` element.
- *
- * The directive wraps the native input in a `.kui-number-input` container and
- * injects minus / plus buttons. Native keyboard behavior (ArrowUp/Down, Home, End),
- * Angular forms (`NgModel`, `ReactiveFormsModule`), and `kui-field` wiring all
- * work without extra configuration.
- *
- * Press and hold a button for accelerating auto-increment (400 ms delay, 80 ms interval).
+ * Applies Kikita UI number-input styling and increment/decrement controls to a native
+ * `input[type=number]`. It wraps the input in a `.kui-number-input` container and injects minus /
+ * plus buttons. Native keyboard behavior (ArrowUp/Down, Home, End), Angular forms, and `kui-field`
+ * wiring work without extra configuration. Press and hold a button to auto-increment, accelerating
+ * after a 400 ms delay in 80 ms steps.
  *
  * @example
  * ```html
@@ -52,6 +52,7 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
     class: 'kui-number-input__input',
     '[attr.id]': 'inputId()',
     '[attr.aria-describedby]': 'describedBy()',
+    '[attr.aria-required]': 'ariaRequired()',
     '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
   },
 })
@@ -79,37 +80,34 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
   private readonly numberInputDefaults = inject(KuiDefaults).get('numberInput');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
-  /** @internal */
-  protected readonly inputId = computed(() => this.id() ?? this.field?.controlId ?? null);
-
-  /**
-   * @internal Signal Forms' native-control interop auto-wires this directive's `invalid` input
-   * straight from the bound field's raw (untouched-gated) state whenever `[formField]` is present
-   * -- see `KuiFieldComponent.hasSignalFormField`. In that case `invalidInput()` no longer
-   * reflects a deliberate manual override, so it's ignored in favor of the field's own gated
-   * `invalid()`.
-   */
-  protected readonly effectiveInvalid = computed(() =>
-    this.field?.hasSignalFormField()
-      ? Boolean(this.field.invalid())
-      : this.invalidInput() || Boolean(this.field?.invalid()),
-  );
+  private readonly wiring = createKuiFieldWiring({
+    field: this.field,
+    id: this.id,
+    invalid: this.invalidInput,
+  });
 
   /** @internal */
-  protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
+  protected readonly inputId = this.wiring.hostId;
+
+  /** @internal */
+  protected readonly effectiveInvalid = this.wiring.invalid;
+
+  /** @internal */
+  protected readonly describedBy = this.wiring.describedBy;
+
+  /** @internal */
+  protected readonly ariaRequired = this.wiring.ariaRequired;
+
   protected readonly effectiveVariant = computed(
     () => this.variant() ?? this.numberInputDefaults()?.variant ?? 'split',
   );
 
-  protected readonly effectiveSize = computed(
-    () =>
-      this.size() ??
-      this.field?.size() ??
-      this.numberInputDefaults()?.size ??
-      this.field?.effectiveSize() ??
-      this.rootDefaultSize() ??
-      'md',
-  );
+  protected readonly effectiveSize = createKuiControlSize({
+    field: this.field,
+    local: this.size,
+    keyDefault: computed(() => this.numberInputDefaults()?.size),
+    root: this.rootDefaultSize,
+  });
 
   private containerEl!: HTMLElement;
   private decBtn!: HTMLElement;

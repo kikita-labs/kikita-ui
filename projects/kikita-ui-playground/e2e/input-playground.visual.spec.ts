@@ -1,4 +1,4 @@
-import type { Locator } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 import { expect, test } from './support/fixtures';
 
@@ -15,6 +15,7 @@ const catalogueExamples = [
   ['Input sizes', 'input-sizes-desktop.png', 'input-sizes-320.png'],
   ['Input native states', 'input-states-desktop.png', 'input-states-320.png'],
   ['Native input types', 'input-types-desktop.png', 'input-types-320.png'],
+  ['Input auto focus', 'input-auto-focus-desktop.png', 'input-auto-focus-320.png'],
   ['Signal Forms validation', 'input-validation-desktop.png', 'input-validation-320.png'],
 ] as const;
 
@@ -328,6 +329,75 @@ test('fits the Input catalogue without page overflow at desktop, tablet, and 320
       .poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth))
       .toBe(true);
   }
+});
+
+test.describe('auto focus', () => {
+  function autoFocusGroup(page: Page): Locator {
+    return page.getByRole('group', { name: 'Input auto focus', exact: true });
+  }
+
+  test('moves no focus on page load and focuses the field mounted on demand', async ({ page }) => {
+    const group = autoFocusGroup(page);
+
+    await expect(page.locator('input:focus')).toHaveCount(0);
+    await expect(group.getByRole('textbox', { name: 'Focused on mount' })).toHaveCount(0);
+
+    await group.getByRole('button', { name: 'Show focused field', exact: true }).click();
+
+    await expect(
+      group.getByRole('textbox', { name: 'Focused on mount', exact: true }),
+    ).toBeFocused();
+  });
+
+  test('focuses the requested field again every time the request turns on', async ({ page }) => {
+    const group = autoFocusGroup(page);
+    const request = group.getByRole('button', { name: 'Request focus', exact: true });
+    const field = group.getByRole('textbox', { name: 'Focused on request', exact: true });
+
+    await expect(field).not.toBeFocused();
+
+    await request.click();
+    await expect(field).toBeFocused();
+
+    await request.click();
+    await field.blur();
+    await request.click();
+    await expect(field).toBeFocused();
+  });
+
+  test('focuses the requested field inside a dialog and returns focus on close', async ({
+    page,
+  }) => {
+    const opener = autoFocusGroup(page).getByRole('button', { name: 'Open dialog', exact: true });
+
+    await opener.click();
+
+    const dialog = page.getByRole('dialog');
+    await expect(dialog.getByRole('textbox', { name: 'Focused field in dialog' })).toBeFocused();
+    await expect(dialog.getByRole('textbox', { name: 'First field' })).not.toBeFocused();
+
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    await expect(opener).toBeFocused();
+  });
+
+  test('server HTML moves no focus and carries no native autofocus attribute', async ({
+    browser,
+    page,
+  }) => {
+    const routeUrl = new URL('/components/input', page.url()).toString();
+    const serverContext = await browser.newContext({ javaScriptEnabled: false });
+
+    try {
+      const serverPage = await serverContext.newPage();
+      await serverPage.goto(routeUrl);
+
+      await expect(serverPage.locator('[autofocus]')).toHaveCount(0);
+      await expect(serverPage.locator('input:focus')).toHaveCount(0);
+    } finally {
+      await serverContext.close();
+    }
+  });
 });
 
 test('captures each Input catalogue group at desktop and 320px @visual', async ({ page }) => {

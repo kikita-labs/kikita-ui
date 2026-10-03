@@ -3,6 +3,10 @@ import { booleanAttribute, computed, Directive, inject, input } from '@angular/c
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import {
+  createKuiControlSize,
+  createKuiFieldWiring,
+} from '../../utils/kui-field-control-wiring.util';
 import { KuiFieldComponent } from '../field';
 
 /** Applies Kikita UI input styling and field ARIA wiring to native input elements. */
@@ -14,6 +18,7 @@ import { KuiFieldComponent } from '../field';
     '[attr.data-kui-invalid]': 'invalid() ? "" : null',
     '[attr.id]': 'hostId()',
     '[attr.aria-describedby]': 'describedBy()',
+    '[attr.aria-required]': 'ariaRequired()',
     '[attr.aria-invalid]': 'invalid() ? "true" : null',
   },
 })
@@ -31,29 +36,24 @@ export class KuiInputDirective {
   private readonly inputDefaults = inject(KuiDefaults).get('input');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
-  protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
+  private readonly wiring = createKuiFieldWiring({
+    field: this.field,
+    id: this.id,
+    invalid: this.invalidInput,
+  });
 
-  protected readonly effectiveSize = computed(
-    () =>
-      this.size() ??
-      this.field?.size() ??
-      this.inputDefaults()?.size ??
-      this.field?.effectiveSize() ??
-      this.rootDefaultSize() ??
-      'md',
-  );
+  protected readonly hostId = this.wiring.hostId;
 
-  /**
-   * Signal Forms' native-control interop auto-wires this directive's `invalid` input straight
-   * from the bound field's raw (untouched-gated) state whenever `[formField]` is present -- see
-   * `KuiFieldComponent.hasSignalFormField`. In that case `invalidInput()` no longer reflects a
-   * deliberate manual override, so it's ignored in favor of the field's own gated `invalid()`.
-   */
-  protected readonly invalid = computed(() =>
-    this.field?.hasSignalFormField()
-      ? Boolean(this.field.invalid())
-      : this.invalidInput() || Boolean(this.field?.invalid()),
-  );
+  protected readonly effectiveSize = createKuiControlSize({
+    field: this.field,
+    local: this.size,
+    keyDefault: computed(() => this.inputDefaults()?.size),
+    root: this.rootDefaultSize,
+  });
 
-  protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
+  protected readonly invalid = this.wiring.invalid;
+
+  protected readonly describedBy = this.wiring.describedBy;
+
+  protected readonly ariaRequired = this.wiring.ariaRequired;
 }

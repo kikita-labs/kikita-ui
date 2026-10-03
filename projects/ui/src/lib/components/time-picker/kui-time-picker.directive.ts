@@ -21,6 +21,7 @@ import type {
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { sameNullableDate } from '../../utils/kui-date-equality.util';
+import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
 import {
   optionalBooleanAttribute,
   optionalPositiveIntegerAttribute,
@@ -70,6 +71,7 @@ import { KuiTimePickerInputAffixComponent } from './kui-time-picker-input-affix.
     '[attr.aria-expanded]': 'dropdownOpen()',
     '[attr.aria-controls]': 'dropdownPanelId()',
     '[attr.aria-describedby]': 'describedBy()',
+    '[attr.aria-required]': 'ariaRequired()',
     '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
     '[attr.data-kui-invalid]': 'effectiveInvalid() ? "" : null',
     '[attr.placeholder]': 'effectivePlaceholder()',
@@ -190,8 +192,15 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
   protected readonly dropdownPanelId = computed(() =>
     this.dropdownOpen() ? (this.field?.getDropdown()?.getPanelId() ?? null) : null,
   );
-  protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
-  protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
+  private readonly wiring = createKuiFieldWiring({
+    field: this.field,
+    id: this.id,
+    invalid: this.invalid,
+  });
+
+  protected readonly hostId = this.wiring.hostId;
+  protected readonly describedBy = this.wiring.describedBy;
+  protected readonly ariaRequired = this.wiring.ariaRequired;
   protected readonly hasValue = computed(() => this.value() != null || this.rawText().length > 0);
   protected readonly effectiveClearable = computed(() => {
     const own = this.clearable();
@@ -247,14 +256,9 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
     return false;
   });
 
-  /** See `KuiDatePickerDirective.effectiveInvalid` for why `hasSignalFormField` is checked here. */
+  /** See `KuiDatePickerDirective.effectiveInvalid`. */
   protected readonly effectiveInvalid = computed(
-    () =>
-      (this.field?.hasSignalFormField()
-        ? Boolean(this.field.invalid())
-        : this.invalid() || Boolean(this.field?.invalid())) ||
-      this.parseFailed() ||
-      this.outOfRange(),
+    () => this.wiring.invalid() || this.parseFailed() || this.outOfRange(),
   );
 
   constructor() {

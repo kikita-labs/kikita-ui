@@ -114,11 +114,9 @@ test('names the control from its label and focuses it when the label is clicked'
   await expect(requiredEmail).toBeFocused();
 });
 
-// Owner: Plan 19B (shared field wiring). `kui-field required` renders only an `aria-hidden` asterisk;
-// the projected input gets neither `required` nor `aria-required`, so assistive technology is not
-// told the field is required. Whether the field should own that attribute is a Plan 19B decision,
-// so this documents the gap instead of asserting an unapproved contract.
-test.fixme('exposes the required state of kui-field to assistive technology', async ({ page }) => {
+// `kui-field required` renders only an `aria-hidden` asterisk; the field itself puts the merged required
+// state on the projected control as `aria-required` (Plan 19B), so assistive technology is told.
+test('exposes the required state of kui-field to assistive technology', async ({ page }) => {
   const projected = page.getByRole('group', { name: 'Projected field content', exact: true });
 
   await expect(projected.getByRole('textbox', { name: 'Domain' })).toHaveAttribute(

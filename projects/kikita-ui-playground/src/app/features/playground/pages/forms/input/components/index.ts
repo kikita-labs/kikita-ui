@@ -1,3 +1,5 @@
+export { InputAutoFocus } from './input-auto-focus';
+export { InputAutoFocusDialog } from './input-auto-focus-dialog';
 export { InputDefault } from './input-default';
 export { InputExplicitId } from './input-explicit-id';
 export { InputSizes } from './input-sizes';

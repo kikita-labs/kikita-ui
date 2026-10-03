@@ -36,6 +36,8 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 - Docs and playground do not hand-roll field-level label/hint/error wiring around input-like controls.
 - Native input-like primitives support Signal Forms first.
 - Custom controls implement the correct Angular Signal Forms control contract when native binding is not enough.
+- A custom control spells every contract member exactly (`readonly`, `required`, `disabled`, `invalid`, `touched`, `errors`, `touch`, ...) and implements `focus(options?)` when its host is not itself focusable. Every contract member is optional, so TypeScript accepts a near miss; `pnpm audit:static` fails on an input, model or output that differs from a contract member only by case.
+- A control that has a role supporting `aria-required` binds it from the field's `ariaRequired` through `createKuiFieldWiring`; exceptions are documented in `docs/field.md`.
 - Required and error behavior is covered by tests where the primitive participates in forms.
 
 ## 4. Styling And Tokens

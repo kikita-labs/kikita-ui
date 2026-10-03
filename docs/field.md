@@ -49,6 +49,21 @@ with `message` values, the first message is rendered automatically unless `hideE
 `kuiError` content, but keeps invalid state. An explicit `required` input on `kui-field`
 overrides the inferred state.
 
+## Required State For Assistive Technology
+
+The required marker is visual only (`aria-hidden`). The field also exposes the merged required state,
+from the explicit `required` input or the Signal Forms `required(...)` validator, to assistive
+technology as `aria-required="true"` on the projected control. Signal Forms already writes the native
+`required` attribute on native controls; `kui-field` never writes the native attribute, and the two
+describe one state, so nothing is announced twice.
+
+Every control that has a role supporting `aria-required` receives it: Input, Textarea, Checkbox, Switch,
+Number Input, Color Input, Select, Combobox, Date Picker and Time Picker. Two controls are exceptions:
+a single Radio does not support it, because the requirement belongs to the radio group the application
+builds, and Slider does not, because its role does not support the state. `kui-otp-input` marks only its
+first cell, the one the label points at. `kui-segmented` always has one active segment and exposes no
+required state.
+
 ```html
 <kui-field label="Project" hint="Minimum 3 characters" hideErrors>
   <input kuiInput [formField]="profileForm.project" />
@@ -179,7 +194,7 @@ Error messages are still part of `aria-describedby` when projected with `kuiErro
 - `hint`: shorthand hint text
 - `error`: explicit error text override
 - `hideErrors`: hides rendered error messages while keeping invalid state
-- `required`: explicit required marker override
+- `required`: explicit required marker override; also drives `aria-required` on the control (see below)
 - `size`: `xs | sm | md | lg`
 
 ## Provider Defaults

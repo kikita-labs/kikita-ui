@@ -314,6 +314,63 @@ describe('verify-static-audit', () => {
   });
 });
 
+describe('verify-static-audit: Signal Forms control member names', () => {
+  function writeControl(root, members, implementsClause = 'implements FormValueControl<string>') {
+    writeFileSync(
+      join(root, 'projects/ui/src/lib/components/button/kui-code.component.ts'),
+      [
+        '/** Code control. */',
+        `export class KuiCodeComponent ${implementsClause} {`,
+        ...members.map((member) => `  ${member}`),
+        '}',
+        '',
+      ].join('\n'),
+    );
+  }
+
+  it('reports an input that differs from a contract member only by case', () => {
+    const root = makeValidRepo();
+    writeControl(root, ["readonly value = model('');", 'readonly readOnly = input(false);']);
+
+    expect(runStaticAudit(root)).toContain(
+      'projects/ui/src/lib/components/button/kui-code.component.ts declares readOnly, which Signal Forms binds only as readonly',
+    );
+  });
+
+  it('reports a near miss on an output and a model', () => {
+    const root = makeValidRepo();
+    writeControl(root, ["readonly Value = model('');", 'readonly Touch = output<void>();']);
+
+    const failures = runStaticAudit(root);
+
+    expect(failures).toContain(
+      'projects/ui/src/lib/components/button/kui-code.component.ts declares Value, which Signal Forms binds only as value',
+    );
+    expect(failures).toContain(
+      'projects/ui/src/lib/components/button/kui-code.component.ts declares Touch, which Signal Forms binds only as touch',
+    );
+  });
+
+  it('accepts exact member names and unrelated members', () => {
+    const root = makeValidRepo();
+    writeControl(root, [
+      "readonly value = model('');",
+      'readonly readonly = input(false);',
+      'readonly maxLength = input<number | undefined>();',
+      'readonly autoFocus = input(false);',
+    ]);
+
+    expect(runStaticAudit(root)).toEqual([]);
+  });
+
+  it('ignores classes that do not implement a Signal Forms contract', () => {
+    const root = makeValidRepo();
+    writeControl(root, ['readonly readOnly = input(false);'], '');
+
+    expect(runStaticAudit(root)).toEqual([]);
+  });
+});
+
 function makeValidRepo() {
   const root = mkdtempSync(join(tmpdir(), 'kui-audit-'));
   mkdirSync(join(root, '.agents', 'skills', 'kikita-ui-demo'), { recursive: true });

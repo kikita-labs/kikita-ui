@@ -78,6 +78,15 @@ describe('KuiCommandPaletteComponent', () => {
     expect(input.getAttribute('aria-controls')).toBeTruthy();
   });
 
+  it('moves focus to the search input after the overlay has rendered', async () => {
+    host.querySelector<HTMLButtonElement>('.trigger')?.focus();
+    openPalette();
+    await fixture.whenStable();
+
+    const input = overlayHost.querySelector('.kui-command__input') as HTMLInputElement;
+    expect(document.activeElement).toBe(input);
+  });
+
   it('filters commands and highlights matching label text', () => {
     fixture.componentInstance.query.set('proj');
     openPalette();

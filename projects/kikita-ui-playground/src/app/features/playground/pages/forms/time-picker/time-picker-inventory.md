@@ -52,7 +52,7 @@ Every panel member is a `model()` (`value`, `format`, `hourStep`, `minuteStep`, 
 7. `--kui-timepicker-suffix-gap` is read by the stylesheet with a `2px` fallback but was missing from the docs token table; the row is added to `docs/time-picker.md` in the same commit.
 8. Library-owned strings are hard-coded English: Hours, Minutes, Seconds, AM/PM, Now, Done, Clear, Open time picker, Close time picker. Page labels are localized; these stay English in RU, as on other pages.
 9. Docs known gaps still apply: `aria-controls` is absent until the panel exists; "Now" ignores `disabledHours/Minutes/Seconds`; no range picking; no locale-aware format; the clock icon is a static glyph.
-10. Field `required` is not exposed to assistive technology (known defect, owner Plan 19B). The page shows the visible marker only and asserts no `aria-required`.
+10. Field `required` is exposed to assistive technology as `aria-required` on the control (Plan 19B, 2026-10-03). The Field `required` state is covered on the Field page and in `field/kui-field-control-wiring.spec.ts`.
 
 ## Page (cards, each a `role="group"` with a translated `aria-label`)
 

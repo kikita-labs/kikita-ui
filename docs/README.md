@@ -11,6 +11,7 @@ is defined in [the maintenance rules](../.agents/documentation.md).
 - [Accordion](accordion.md)
 - [Alert](alert.md)
 - [Architecture](architecture.md)
+- [Auto Focus](auto-focus.md)
 - [Avatar](avatar.md)
 - [Badge](badge.md)
 - [Breadcrumbs](breadcrumbs.md)

@@ -23,6 +23,7 @@ import type {
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiClock } from '../../utils/kui-clock.service';
 import { sameNullableDate } from '../../utils/kui-date-equality.util';
+import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { startOfDay, startOfMonth } from '../calendar/kui-calendar-date.util';
 import { KuiFieldComponent } from '../field/kui-field.component';
@@ -65,6 +66,7 @@ import { KuiDatePickerInputAffixComponent } from './kui-date-picker-input-affix.
     '[attr.aria-expanded]': 'dropdownOpen()',
     '[attr.aria-controls]': 'dropdownPanelId()',
     '[attr.aria-describedby]': 'describedBy()',
+    '[attr.aria-required]': 'ariaRequired()',
     '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
     '[attr.data-kui-invalid]': 'effectiveInvalid() ? "" : null',
     '[attr.placeholder]': 'placeholder()',
@@ -137,8 +139,15 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
   protected readonly dropdownPanelId = computed(() =>
     this.dropdownOpen() ? (this.field?.getDropdown()?.getPanelId() ?? null) : null,
   );
-  protected readonly hostId = computed(() => this.id() ?? this.field?.controlId ?? null);
-  protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
+  private readonly wiring = createKuiFieldWiring({
+    field: this.field,
+    id: this.id,
+    invalid: this.invalid,
+  });
+
+  protected readonly hostId = this.wiring.hostId;
+  protected readonly describedBy = this.wiring.describedBy;
+  protected readonly ariaRequired = this.wiring.ariaRequired;
   protected readonly hasValue = computed(() => this.value() != null || this.rawText().length > 0);
   protected readonly effectiveClearable = computed(() => {
     const own = this.clearable();
@@ -164,20 +173,11 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
   });
 
   /**
-   * Signal Forms' native-control interop auto-wires this directive's `invalid` input straight
-   * from the bound field's raw (untouched-gated) state whenever `[formField]` is present -- see
-   * `KuiFieldComponent.hasSignalFormField`. In that case `invalid()` no longer reflects a
-   * deliberate manual override, so it's ignored in favor of the field's own gated `invalid()`;
-   * `parseFailed()`/`outOfRange()` (parse/range state internal to this control) always still
-   * apply.
+   * The field-derived invalid state (see `createKuiFieldWiring`), plus `parseFailed()` and
+   * `outOfRange()`, which are internal to this control and always apply.
    */
   protected readonly effectiveInvalid = computed(
-    () =>
-      (this.field?.hasSignalFormField()
-        ? Boolean(this.field.invalid())
-        : this.invalid() || Boolean(this.field?.invalid())) ||
-      this.parseFailed() ||
-      this.outOfRange(),
+    () => this.wiring.invalid() || this.parseFailed() || this.outOfRange(),
   );
 
   constructor() {

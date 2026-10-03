@@ -5,6 +5,7 @@ import { KuiTextDirective } from '@kikita-labs/ui';
 import { TranslocoPipe } from '@jsverse/transloco';
 
 import {
+  InputAutoFocus,
   InputDefault,
   InputExplicitId,
   InputSizes,
@@ -13,10 +14,11 @@ import {
   InputValidation,
 } from './components';
 
-/** Shows native input defaults, an explicit id, sizes, states, types, and Signal Forms integration. */
+/** Shows native input defaults, an explicit id, sizes, states, types, auto focus, and Signal Forms integration. */
 @Component({
   selector: 'app-input',
   imports: [
+    InputAutoFocus,
     InputDefault,
     InputExplicitId,
     InputSizes,
