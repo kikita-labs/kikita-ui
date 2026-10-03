@@ -18,12 +18,10 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
-import { hexToOklch, oklchToRgb8, rgbToHex } from '../../foundation/color/kui-color-math';
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import type { KuiColorInputMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
-import { DEFAULT_KUI_THEME } from '../../theme/default-kui-theme.const';
 import type { KuiSize } from '../../types';
 import {
   createKuiControlSize,
@@ -33,16 +31,13 @@ import { kuiIdFactory } from '../../utils/kui-id.util';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KUI_FIELD } from '../field/kui-field-host.token';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
-import { KUI_GLYPH_CHEVRON_DOWN, KUI_GLYPH_COPY } from '../icon/kui-chrome-glyphs';
+import { KUI_GLYPH_CHEVRON_DOWN } from '../icon/kui-chrome-glyphs';
 import { createKuiGlyphElement } from '../icon/kui-glyph-dom.util';
 import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
 import type { KuiTooltipOverlayHandle } from '../tooltip/kui-tooltip-overlay.util';
 import { createKuiTooltipOverlay } from '../tooltip/kui-tooltip-overlay.util';
-
-const HEX_COLOR_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
-const OKLCH_COLOR_RE =
-  /^oklch\(\s*(?:0|1|0?\.\d+|\d+(?:\.\d+)?%)\s+\d*(?:\.\d+)?\s+\d+(?:\.\d+)?(?:\s*\/\s*(?:0|1|0?\.\d+|\d+(?:\.\d+)?%))?\s*\)$/i;
-const MAX_CHROMA = 0.32;
+import { hexToParsed, type KuiParsedColor, parseColor } from './kui-color-input-color.util';
+import { KuiColorPickerPanel } from './kui-color-picker-panel';
 
 /**
  * Applies Kikita UI color-input styling to a native text input.
@@ -142,27 +137,16 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   });
   private dropdownRef: ComponentRef<KuiDropdownComponent> | null = null;
   private panelEl: HTMLElement | null = null;
-  private pickerEl: HTMLElement | null = null;
+  private picker: KuiColorPickerPanel | null = null;
   private focusReturnTarget: HTMLElement | null = null;
-  private thumbEl: HTMLElement | null = null;
-  private hueThumbEl: HTMLElement | null = null;
-  private hueInputEl: HTMLInputElement | null = null;
-  private lInputEl: HTMLInputElement | null = null;
-  private cInputEl: HTMLInputElement | null = null;
-  private hInputEl: HTMLInputElement | null = null;
-  private hexInputEl: HTMLInputElement | null = null;
-  private previewFillEl: HTMLElement | null = null;
-  private pickerBuilt = false;
   private readonly invalidValue = signal(false);
   private readonly open = signal(false);
   private lastValid = hexToParsed('#5b4fe0')!;
-  private dragAbort: (() => void) | null = null;
   private lastState = '';
   private swatchTooltipText = '';
   private tooltipOverlay: KuiTooltipOverlayHandle | null = null;
   private tooltipAnchor: HTMLElement | null = null;
   private readonly unlisten: (() => void)[] = [];
-  private readonly pickerUnlisten: (() => void)[] = [];
 
   constructor() {
     effect(() => {
@@ -210,10 +194,8 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   ngOnDestroy(): void {
     this.unlisten.forEach((fn) => fn());
     this.unlisten.length = 0;
-    this.clearPickerListeners();
+    this.picker?.destroy();
     this.hideTooltip();
-    this.dragAbort?.();
-    this.dragAbort = null;
     this.dropdownRef?.destroy();
     this.dropdownRef = null;
     this.teardownDom();
@@ -343,9 +325,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       valid && value ? this.lastValid.hex : this.lastValid.hex,
     );
 
-    if (this.panelEl) {
-      this.pickerBuilt ? this.updatePickerVisuals() : this.renderPicker();
-    }
+    this.picker?.sync();
   }
 
   /**
@@ -359,6 +339,16 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
 
     this.panelEl = this.renderer.createElement('div') as HTMLElement;
     this.renderer.addClass(this.panelEl, 'kui-color-input-popover');
+    this.picker = new KuiColorPickerPanel({
+      renderer: this.renderer,
+      panel: this.panelEl,
+      messages: () => this.t(),
+      color: () => this.lastValid,
+      commit: (color) => this.commitColor(color),
+      showTooltip: (anchor, text) => this.showTooltip(anchor, text),
+      showTooltipOnFocus: (anchor, text) => this.showTooltipOnFocus(anchor, text),
+      hideTooltip: () => this.hideTooltip(),
+    });
 
     // The field must not adopt this dropdown: the directive owns its open state, and a field that
     // also toggled it on click would close the panel it just opened.
@@ -431,7 +421,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.syncState();
 
     if (focusPanel) {
-      afterNextRender({ write: () => this.pickerEl?.focus() }, { injector: this.injector });
+      afterNextRender({ write: () => this.picker?.focusSurface() }, { injector: this.injector });
     }
   }
 
@@ -442,307 +432,14 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.syncState();
   }
 
-  private renderPicker(): void {
-    const panel = this.panelEl;
-    if (!panel) return;
-
-    this.clearPickerListeners();
-    panel.replaceChildren();
-
-    this.pickerEl = this.renderer.createElement('div');
-    this.renderer.addClass(this.pickerEl, 'kui-color-input-picker');
-    this.renderer.setStyle(this.pickerEl, 'background', this.surfaceBackground());
-    this.renderer.setAttribute(this.pickerEl, 'role', 'slider');
-    this.renderer.setAttribute(this.pickerEl, 'tabindex', '0');
-    this.renderer.setAttribute(this.pickerEl, 'aria-label', this.t().pickerLabel);
-    this.renderer.setAttribute(this.pickerEl, 'aria-valuetext', this.lastValid.hex);
-
-    this.thumbEl = this.renderer.createElement('span');
-    this.renderer.addClass(this.thumbEl, 'kui-color-input-thumb');
-    this.renderer.setStyle(this.thumbEl, 'left', `${(this.lastValid.c / MAX_CHROMA) * 100}%`);
-    this.renderer.setStyle(this.thumbEl, 'top', `${(1 - this.lastValid.l) * 100}%`);
-    this.renderer.setStyle(this.thumbEl, 'background', this.lastValid.hex);
-    this.renderer.appendChild(this.pickerEl, this.thumbEl);
-    this.renderer.appendChild(panel, this.pickerEl);
-
-    this.pickerUnlisten.push(
-      this.renderer.listen(this.pickerEl, 'pointerdown', (event: PointerEvent) =>
-        this.handleSurfacePointer(event),
-      ),
-      this.renderer.listen(this.pickerEl, 'keydown', (event: KeyboardEvent) =>
-        this.handleSurfaceKeydown(event),
-      ),
-    );
-
-    const hue = this.renderer.createElement('div');
-    this.renderer.addClass(hue, 'kui-color-input-hue');
-    const hueTrack = this.renderer.createElement('div');
-    this.renderer.addClass(hueTrack, 'kui-color-input-hue-track');
-    this.renderer.setStyle(hueTrack, 'background', this.hueBackground());
-    this.hueThumbEl = this.renderer.createElement('span');
-    this.renderer.addClass(this.hueThumbEl, 'kui-color-input-hue-thumb');
-    this.renderer.setStyle(this.hueThumbEl, 'left', `${(this.lastValid.h / 360) * 100}%`);
-    this.hueInputEl = this.renderer.createElement('input');
-    this.renderer.addClass(this.hueInputEl, 'kui-color-input-hue-native');
-    this.renderer.setAttribute(this.hueInputEl, 'type', 'range');
-    this.renderer.setAttribute(this.hueInputEl, 'min', '0');
-    this.renderer.setAttribute(this.hueInputEl, 'max', '360');
-    this.renderer.setAttribute(this.hueInputEl, 'aria-label', this.t().hue);
-    this.renderer.setProperty(this.hueInputEl, 'value', String(Math.round(this.lastValid.h)));
-    this.renderer.appendChild(hue, hueTrack);
-    this.renderer.appendChild(hue, this.hueThumbEl);
-    this.renderer.appendChild(hue, this.hueInputEl);
-    this.renderer.appendChild(panel, hue);
-    this.pickerUnlisten.push(
-      this.renderer.listen(this.hueInputEl, 'input', () =>
-        this.commitOklch(this.lastValid.l, this.lastValid.c, Number(this.hueInputEl!.value)),
-      ),
-    );
-
-    this.renderNumberInputs(panel);
-    this.renderPreviewRow(panel);
-    this.renderPresets(panel);
-    this.renderCopyButton(panel);
-    this.pickerBuilt = true;
-  }
-
-  private updatePickerVisuals(): void {
-    if (!this.pickerEl || !this.thumbEl || !this.hueThumbEl || !this.hueInputEl) return;
-    const active = this.pickerEl.ownerDocument.activeElement;
-
-    this.renderer.setStyle(this.pickerEl, 'background', this.surfaceBackground());
-    this.renderer.setAttribute(this.pickerEl, 'aria-valuetext', this.lastValid.hex);
-    this.renderer.setStyle(this.thumbEl, 'left', `${(this.lastValid.c / MAX_CHROMA) * 100}%`);
-    this.renderer.setStyle(this.thumbEl, 'top', `${(1 - this.lastValid.l) * 100}%`);
-    this.renderer.setStyle(this.thumbEl, 'background', this.lastValid.hex);
-    this.renderer.setStyle(this.hueThumbEl, 'left', `${(this.lastValid.h / 360) * 100}%`);
-
-    if (active !== this.hueInputEl) {
-      this.renderer.setProperty(this.hueInputEl, 'value', String(Math.round(this.lastValid.h)));
-    }
-    if (this.lInputEl && active !== this.lInputEl) {
-      this.renderer.setProperty(this.lInputEl, 'value', this.lastValid.l.toFixed(2));
-    }
-    if (this.cInputEl && active !== this.cInputEl) {
-      this.renderer.setProperty(this.cInputEl, 'value', this.lastValid.c.toFixed(3));
-    }
-    if (this.hInputEl && active !== this.hInputEl) {
-      this.renderer.setProperty(this.hInputEl, 'value', String(Math.round(this.lastValid.h)));
-    }
-    if (this.hexInputEl && active !== this.hexInputEl) {
-      this.renderer.setProperty(this.hexInputEl, 'value', this.lastValid.hex);
-    }
-    if (this.previewFillEl) {
-      this.renderer.setStyle(this.previewFillEl, 'background', this.lastValid.hex);
-    }
-  }
-
-  private renderNumberInputs(panel: HTMLElement): void {
-    const nums = this.renderer.createElement('div');
-    this.renderer.addClass(nums, 'kui-color-input-nums');
-    this.lInputEl = this.renderNumberInput(nums, 'L', this.lastValid.l.toFixed(2));
-    this.cInputEl = this.renderNumberInput(nums, 'C', this.lastValid.c.toFixed(3));
-    this.hInputEl = this.renderNumberInput(nums, 'H', String(Math.round(this.lastValid.h)));
-    this.renderer.appendChild(panel, nums);
-
-    this.pickerUnlisten.push(
-      this.renderer.listen(this.lInputEl, 'change', () =>
-        this.commitOklch(Number(this.lInputEl!.value), this.lastValid.c, this.lastValid.h),
-      ),
-      this.renderer.listen(this.cInputEl, 'change', () =>
-        this.commitOklch(this.lastValid.l, Number(this.cInputEl!.value), this.lastValid.h),
-      ),
-      this.renderer.listen(this.hInputEl, 'change', () =>
-        this.commitOklch(this.lastValid.l, this.lastValid.c, Number(this.hInputEl!.value)),
-      ),
-    );
-  }
-
-  private renderNumberInput(parent: HTMLElement, label: string, value: string): HTMLInputElement {
-    const wrap = this.renderer.createElement('label');
-    this.renderer.addClass(wrap, 'kui-color-input-num');
-    const text = this.renderer.createElement('span');
-    text.textContent = label;
-    const inputEl = this.renderer.createElement('input') as HTMLInputElement;
-    this.renderer.setAttribute(inputEl, 'type', 'text');
-    this.renderer.setProperty(inputEl, 'value', value);
-    this.renderer.appendChild(wrap, text);
-    this.renderer.appendChild(wrap, inputEl);
-    this.renderer.appendChild(parent, wrap);
-    return inputEl;
-  }
-
-  private renderPreviewRow(panel: HTMLElement): void {
-    const row = this.renderer.createElement('div');
-    this.renderer.addClass(row, 'kui-color-input-preview-row');
-    const swatch = this.renderer.createElement('span');
-    this.renderer.addClass(swatch, 'kui-color-input-swatch');
-    this.renderer.addClass(swatch, 'kui-color-input-swatch--lg');
-    this.previewFillEl = this.renderer.createElement('span');
-    this.renderer.addClass(this.previewFillEl, 'kui-color-input-swatch__fill');
-    this.renderer.setStyle(this.previewFillEl, 'background', this.lastValid.hex);
-    this.renderer.appendChild(swatch, this.previewFillEl);
-    this.hexInputEl = this.renderer.createElement('input');
-    this.renderer.addClass(this.hexInputEl, 'kui-color-input-hex');
-    this.renderer.setAttribute(this.hexInputEl, 'type', 'text');
-    this.renderer.setProperty(this.hexInputEl, 'value', this.lastValid.hex);
-    this.renderer.appendChild(row, swatch);
-    this.renderer.appendChild(row, this.hexInputEl);
-    this.renderer.appendChild(panel, row);
-    this.pickerUnlisten.push(
-      this.renderer.listen(this.hexInputEl, 'change', () =>
-        this.commitText(this.hexInputEl!.value),
-      ),
-    );
-  }
-
-  private renderPresets(panel: HTMLElement): void {
-    // The default theme seeds (primary/neutral/success/warning/danger/info), so the swatches read
-    // as theme-seed shortcuts and follow DEFAULT_KUI_THEME instead of a second copy of its colors.
-    const seeds = DEFAULT_KUI_THEME.seeds.color;
-    const presets: readonly [name: string, hex: string][] = (
-      [
-        [this.t().presetPrimary, seeds.primary],
-        [this.t().presetNeutral, seeds.neutral],
-        [this.t().presetSuccess, seeds.success],
-        [this.t().presetWarning, seeds.warning],
-        [this.t().presetDanger, seeds.danger],
-        [this.t().presetInfo, seeds.info],
-      ] as const
-    ).flatMap(([name, seed]) =>
-      seed ? [[name, parseColor(seed)?.hex ?? seed] as [string, string]] : [],
-    );
-    const row = this.renderer.createElement('div');
-    this.renderer.addClass(row, 'kui-color-input-presets');
-    for (const [name, preset] of presets) {
-      const btn = this.renderer.createElement('button');
-      this.renderer.addClass(btn, 'kui-color-input-preset');
-      this.renderer.setAttribute(btn, 'type', 'button');
-      const presetLabel = this.t().preset({ name, value: preset });
-      this.renderer.setAttribute(btn, 'aria-label', presetLabel);
-      this.renderer.setStyle(btn, 'background', preset);
-      this.renderer.appendChild(row, btn);
-      this.pickerUnlisten.push(
-        this.renderer.listen(btn, 'click', () => this.commitText(preset)),
-        this.renderer.listen(btn, 'mouseenter', () => this.showTooltip(btn, presetLabel)),
-        this.renderer.listen(btn, 'mouseleave', () => this.hideTooltip()),
-        this.renderer.listen(btn, 'focusin', () => this.showTooltipOnFocus(btn, presetLabel)),
-        this.renderer.listen(btn, 'focusout', () => this.hideTooltip()),
-      );
-    }
-    this.renderer.appendChild(panel, row);
-  }
-
-  private renderCopyButton(panel: HTMLElement): void {
-    const btn = this.renderer.createElement('button');
-    this.renderer.addClass(btn, 'kui-button');
-    this.renderer.addClass(btn, 'kui-color-input-copy-btn');
-    this.renderer.setAttribute(btn, 'data-kui-shape', 'ghost');
-    this.renderer.setAttribute(btn, 'data-kui-size', 'xs');
-    this.renderer.setAttribute(btn, 'type', 'button');
-    this.renderer.appendChild(
-      btn,
-      createKuiGlyphElement(this.renderer, KUI_GLYPH_COPY, { size: 13, strokeWidth: 2 }),
-    );
-    this.renderer.appendChild(btn, this.renderer.createText(this.t().copyValue));
-    this.renderer.appendChild(panel, btn);
-    this.pickerUnlisten.push(
-      this.renderer.listen(btn, 'click', () => {
-        void navigator.clipboard?.writeText(this.lastValid.hex).catch(() => undefined);
-      }),
-      this.renderer.listen(btn, 'mouseenter', () => this.showTooltip(btn, this.t().copyValue)),
-      this.renderer.listen(btn, 'mouseleave', () => this.hideTooltip()),
-      this.renderer.listen(btn, 'focusin', () => this.showTooltipOnFocus(btn, this.t().copyValue)),
-      this.renderer.listen(btn, 'focusout', () => this.hideTooltip()),
-    );
-  }
-
-  private handleSurfacePointer(event: PointerEvent): void {
-    event.preventDefault();
-    this.pickerEl?.setPointerCapture?.(event.pointerId);
-    this.updateFromSurface(event.clientX, event.clientY);
-    const view = this.el.nativeElement.ownerDocument.defaultView;
-    if (!view) return;
-
-    const move = (moveEvent: PointerEvent) =>
-      this.updateFromSurface(moveEvent.clientX, moveEvent.clientY);
-    const up = () => {
-      this.renderer.removeClass(this.thumbEl, 'kui-color-input-thumb--drag');
-      this.pickerEl?.releasePointerCapture?.(event.pointerId);
-      view.removeEventListener('pointermove', move);
-      view.removeEventListener('pointerup', up);
-      this.dragAbort = null;
-    };
-    this.renderer.addClass(this.thumbEl, 'kui-color-input-thumb--drag');
-    view.addEventListener('pointermove', move);
-    view.addEventListener('pointerup', up);
-    this.dragAbort = up;
-  }
-
-  private updateFromSurface(clientX: number, clientY: number): void {
-    const rect = this.pickerEl?.getBoundingClientRect();
-    if (!rect) return;
-    const x = Math.min(rect.width, Math.max(0, clientX - rect.left));
-    const y = Math.min(rect.height, Math.max(0, clientY - rect.top));
-    this.commitOklch(1 - y / rect.height, (x / rect.width) * MAX_CHROMA, this.lastValid.h);
-  }
-
-  private handleSurfaceKeydown(event: KeyboardEvent): void {
-    const stepC = MAX_CHROMA / 50;
-    const stepL = 0.02;
-    let { l, c } = this.lastValid;
-    if (event.key === 'ArrowRight') c += stepC;
-    else if (event.key === 'ArrowLeft') c -= stepC;
-    else if (event.key === 'ArrowUp') l += stepL;
-    else if (event.key === 'ArrowDown') l -= stepL;
-    else if (event.key === 'Home') c = 0;
-    else if (event.key === 'End') c = MAX_CHROMA;
-    else return;
-    event.preventDefault();
-    this.commitOklch(l, c, this.lastValid.h);
-  }
-
-  private commitOklch(l: number, c: number, h: number): void {
-    if (!Number.isFinite(l) || !Number.isFinite(c) || !Number.isFinite(h)) return;
-    const next = normalizeOklch(l, c, h);
-    this.commitParsed(next);
-  }
-
-  private commitText(value: string): void {
-    const parsed = parseColor(value);
-    if (!parsed) return;
-    this.commitParsed(parsed);
-  }
-
-  private commitParsed(parsed: KuiParsedColor): void {
+  /** Applies a colour chosen in the picker: keeps it, writes it to the native input and syncs. */
+  private commitColor(parsed: KuiParsedColor): void {
     const native = this.el.nativeElement;
     this.lastValid = parsed;
     native.value = parsed.hex;
     native.dispatchEvent(new Event('input', { bubbles: true }));
     native.dispatchEvent(new Event('change', { bubbles: true }));
     this.syncState();
-  }
-
-  private surfaceBackground(): string {
-    const hueColor = normalizeOklch(
-      0.72,
-      Math.min(this.lastValid.c || 0.2, MAX_CHROMA),
-      this.lastValid.h,
-    ).hex;
-    return `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, ${hueColor})`;
-  }
-
-  private hueBackground(): string {
-    const stops = [0, 60, 120, 180, 240, 300, 360]
-      .map((h) => normalizeOklch(0.72, 0.15, h).hex)
-      .join(', ');
-    return `linear-gradient(to right, ${stops})`;
-  }
-
-  private clearPickerListeners(): void {
-    this.hideTooltip();
-    this.pickerUnlisten.forEach((fn) => fn());
-    this.pickerUnlisten.length = 0;
   }
 
   /**
@@ -808,61 +505,4 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
       this.renderer.removeAttribute(el, name);
     }
   }
-}
-
-function isSupportedColor(value: string): boolean {
-  return HEX_COLOR_RE.test(value) || OKLCH_COLOR_RE.test(value);
-}
-
-function normalizeHexForPicker(value: string): string | null {
-  if (!HEX_COLOR_RE.test(value)) return null;
-
-  if (value.length === 4) {
-    const [, r, g, b] = value;
-    return `#${r}${r}${g}${g}${b}${b}`.toLowerCase();
-  }
-
-  return value.toLowerCase();
-}
-
-interface KuiParsedColor {
-  hex: string;
-  l: number;
-  c: number;
-  h: number;
-}
-
-function parseColor(value: string): KuiParsedColor | null {
-  const trimmed = value.trim();
-  const hex = normalizeHexForPicker(trimmed);
-  if (hex) return hexToParsed(hex);
-  return parseOklch(trimmed);
-}
-
-function parseOklch(value: string): KuiParsedColor | null {
-  if (!OKLCH_COLOR_RE.test(value)) return null;
-  const match = value.match(/^oklch\(\s*([^\s]+)\s+([^\s]+)\s+([^\s/)]+)/i);
-  if (!match) return null;
-  const l = match[1].endsWith('%') ? Number(match[1].slice(0, -1)) / 100 : Number(match[1]);
-  const c = Number(match[2]);
-  const h = Number(match[3]);
-  if (!Number.isFinite(l) || !Number.isFinite(c) || !Number.isFinite(h)) return null;
-  return normalizeOklch(l, c, h);
-}
-
-function normalizeOklch(l: number, c: number, h: number): KuiParsedColor {
-  const nextL = Math.min(1, Math.max(0, l));
-  const nextC = Math.min(MAX_CHROMA, Math.max(0, c));
-  const nextH = h === 360 ? 360 : ((h % 360) + 360) % 360;
-  const [r, g, b] = oklchToRgb8({ lightness: nextL, chroma: nextC, hue: nextH });
-  return { hex: rgbToHex(r, g, b), l: nextL, c: nextC, h: nextH };
-}
-
-function hexToParsed(hex: string): KuiParsedColor | null {
-  const normalized = normalizeHexForPicker(hex);
-  const oklch = normalized ? hexToOklch(normalized) : null;
-
-  return normalized && oklch
-    ? { hex: normalized, l: oklch.lightness, c: oklch.chroma, h: oklch.hue }
-    : null;
 }
