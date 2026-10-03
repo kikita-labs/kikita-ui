@@ -27,21 +27,38 @@ describe('measure-bundle', () => {
     expect(() => listRuntimeExports('const a = 1;')).toThrow('No export list');
   });
 
-  it('sums only Kikita inputs of main.js', () => {
+  it('sums Kikita inputs of main.js and the chunks it imports statically', () => {
     const stats = {
       outputs: {
-        'chunk.js': { inputs: { 'x/kikita-labs-ui.mjs': { bytesInOutput: 999 } } },
+        'lazy.js': { inputs: { 'x/kikita-labs-ui-lazy.mjs': { bytesInOutput: 999 } }, imports: [] },
+        'shared.js': {
+          inputs: { 'dist/ui/fesm2022/kikita-labs-ui-core.mjs': { bytesInOutput: 700 } },
+          imports: [],
+        },
         'main.js': {
           inputs: {
             'node_modules/@angular/core/core.mjs': { bytesInOutput: 5000 },
-            'dist/ui/fesm2022/kikita-labs-ui.mjs': { bytesInOutput: 1200 },
-            'other/kikita-labs-ui.mjs': { bytesInOutput: 300 },
+            'dist/ui/fesm2022/kikita-labs-ui.mjs': { bytesInOutput: 500 },
           },
+          imports: [
+            { path: 'shared.js', kind: 'import-statement' },
+            { path: 'lazy.js', kind: 'dynamic-import' },
+          ],
         },
       },
     };
 
-    expect(kikitaBytes(stats)).toBe(1500);
+    expect(kikitaBytes(stats)).toBe(1200);
+  });
+
+  it('fails when no Kikita code reaches the initial chunks', () => {
+    const stats = {
+      outputs: {
+        'main.js': { inputs: { 'node_modules/x.mjs': { bytesInOutput: 1 } }, imports: [] },
+      },
+    };
+
+    expect(() => kikitaBytes(stats)).toThrow('No Kikita code reached');
   });
 
   it('passes an export under its limit and reports a target miss as a note', () => {

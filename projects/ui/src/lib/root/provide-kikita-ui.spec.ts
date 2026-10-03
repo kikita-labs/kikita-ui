@@ -5,6 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { KUI_BRAND_ICONS, KUI_ICONS, resolveLucideIcon } from '../components/icon';
 import { KuiTooltipTriggerType } from '../components/tooltip';
 import { KuiDefaults } from '../providers/kui-defaults.service';
+import { DEFAULT_KUI_THEME } from '../theme';
 import { provideKikitaUi } from './provide-kikita-ui';
 
 describe('provideKikitaUi', () => {
@@ -100,5 +101,46 @@ describe('provideKikitaUi', () => {
     expect(TestBed.inject(KuiDefaults).effective().tooltip?.triggerType).toBe(
       KuiTooltipTriggerType.Hover,
     );
+  });
+});
+
+describe('provideKikitaUi theme', () => {
+  afterEach(() => {
+    document.getElementById('kui-theme')?.remove();
+    document.documentElement.removeAttribute('data-kui-density');
+    TestBed.resetTestingModule();
+  });
+
+  it('installs the layered default theme and its density on the document', () => {
+    TestBed.configureTestingModule({ providers: [provideKikitaUi()] });
+
+    TestBed.inject(DOCUMENT);
+
+    expect(document.documentElement.getAttribute('data-kui-density')).toBe('regular');
+    expect(document.getElementById('kui-theme')?.textContent).toContain('@layer kui.tokens');
+  });
+
+  it('keeps a density the page already set', () => {
+    document.documentElement.setAttribute('data-kui-density', 'compact');
+    TestBed.configureTestingModule({ providers: [provideKikitaUi()] });
+
+    TestBed.inject(DOCUMENT);
+
+    expect(document.documentElement.getAttribute('data-kui-density')).toBe('compact');
+  });
+
+  it('generates the theme of custom seeds', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        provideKikitaUi({
+          theme: { seeds: { ...DEFAULT_KUI_THEME.seeds, radius: 12, density: 'comfortable' } },
+        }),
+      ],
+    });
+
+    TestBed.inject(DOCUMENT);
+
+    expect(document.getElementById('kui-theme')?.textContent).toContain('--kui-radius-md: 12px');
+    expect(document.documentElement.getAttribute('data-kui-density')).toBe('comfortable');
   });
 });

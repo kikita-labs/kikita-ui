@@ -66,16 +66,22 @@ Causes found in the source:
 10. **Shared stylesheets stay in `styles/`:** `base`, `cdk-overlay`, `density`, `glyph`, `forced-colors`,
     `scrollbar`, `selection`, `listbox`, `theme-default`.
 11. **Bundle budgets are a gate** (`pnpm audit:bundle`, `scripts/bundle-budgets.json`): a ratcheting
-    `limitBytes` per export plus a `targetBytes` goal. Targets: Input-like controls at most 30 kB,
+    `limitBytes` per export plus a `targetBytes` goal; the metric is Kikita code in `main.js` and the
+    chunks it imports statically. Targets: Input-like controls at most 30 kB,
     Select, Slider, Number Input, OTP, Combobox, Pagination and Color Input at most 45 kB, Date and Time
     Picker at most 55 kB, Button at most 12 kB, Loader at most 8 kB, `provideKikitaUi` at most 14 kB,
     Tooltip, Dropdown and Icon at most 8 kB.
-12. **Message defaults are per group**, registered by the component that reads them; the service does
-    not import the aggregate dictionary, which stays public as a translator reference.
-13. **The default theme is the static CSS.** `provideKikitaUi` does not ship the generator for the
-    default theme; custom seeds go through `provideKuiTheme`, which `provideKikitaUi` does not import.
-14. **Button and Icon.** First slim the Icon renderer; if Button is still above 12 kB, move `iconStart` and
-    `iconEnd` to projected `kui-icon` and document it in the migration guide.
+12. **Message defaults stay one aggregate pack.** Per-group registration was evaluated and rejected:
+    `KuiI18n.messages` is a documented signal of the complete map, and the real saving for an
+    application is about 3 kB.
+13. **The runtime theme stays.** `provideKikitaUi` keeps generating and installing the layered theme
+    (the server HTML carries it, and `provideKikitaUi({ theme })` is the documented way to set seeds).
+    Removing the generator from the default path was evaluated and rejected: lazy loading does not
+    keep a public export out of the initial bundle, and the alternatives need a secondary entry point or
+    an API break.
+14. **Button and Icon stay as they are.** Moving `iconStart` and `iconEnd` to projected `kui-icon` was
+    evaluated and rejected: the icon renderer is shared by about 25 components, so applications save
+    nothing, and two public inputs would break.
 15. **No top-level side effects** in library modules (lazy initialisation or a pure annotation), enforced
     by a static audit rule.
 16. **No class-name contracts between primitives;** typed contracts owned by the lower layer.
@@ -96,6 +102,27 @@ Causes found in the source:
   added to hide a new dependency.
 - Public API stays identical except where decision 14 applies.
 - Each slice is committed and can be reverted on its own.
+
+## Outcome of the bundle work (2026-10-04)
+
+Measured with `pnpm audit:bundle` on a fresh build (library code reached from `main.js` and its static
+chunks, one export imported alone):
+
+| Export                                                            | Before            | After                     | Target                                                        |
+| ----------------------------------------------------------------- | ----------------- | ------------------------- | ------------------------------------------------------------- |
+| `kuiInput`, `kuiCheckbox`, `kuiRadio`, `kuiSwitch`, `kuiTextarea` | 73 kB             | 3 kB                      | 30 kB, met                                                    |
+| `kuiSelect`                                                       | 86 kB             | 33 kB                     | 45 kB, met                                                    |
+| `kuiSlider`, `kuiNumberInput`, `kuiCombobox`                      | 80-84 kB          | 14-26 kB                  | 45 kB, met                                                    |
+| Date Picker, Time Picker                                          | 82-85 kB          | 30-32 kB                  | 55 kB, met                                                    |
+| Color Input                                                       | 95 kB             | 44 kB                     | 45 kB, met                                                    |
+| Tooltip                                                           | 10 kB             | 7.5 kB                    | 8 kB, met                                                     |
+| `kui-pagination`                                                  | 99 kB             | 71 kB                     | 45 kB, missed (a real `kuiSelect` and `kui-field` dependency) |
+| Dropdown                                                          | 12 kB             | 8.8 kB                    | 8 kB, missed (own overlay code)                               |
+| Button, Icon Button, Icon, Loader                                 | 26, 25, 12, 15 kB | 24.8, 24.2, 10.2, 12.1 kB | 12, 12, 8, 8 kB, missed                                       |
+| `provideKikitaUi`                                                 | 36 kB             | 35.6 kB                   | 14 kB, missed                                                 |
+
+The misses come from the shared icon renderer, the i18n service with its English pack and the runtime
+theme generator, which decisions 12 to 14 above explain.
 
 ## Alternatives rejected
 

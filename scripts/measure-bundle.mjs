@@ -49,14 +49,39 @@ export function listRuntimeExports(fesmText) {
     .filter(Boolean);
 }
 
-/** Bytes of Kikita code in the `main.js` output of an esbuild-style stats file. */
+/**
+ * Bytes of Kikita code a page loads up front: the `main.js` output plus every chunk it imports
+ * statically. A lazily imported chunk is not counted, because an application only pays for it when
+ * the code runs.
+ */
 export function kikitaBytes(stats) {
-  const output = Object.entries(stats.outputs ?? {}).find(([name]) => name.endsWith('main.js'));
-  if (!output) throw new Error('The build stats have no main.js output.');
+  const outputs = stats.outputs ?? {};
+  const mainName = Object.keys(outputs).find((name) => name.endsWith('main.js'));
+  if (!mainName) throw new Error('The build stats have no main.js output.');
+
+  const initial = new Set();
+  const queue = [mainName];
+  while (queue.length > 0) {
+    const name = queue.shift();
+    if (initial.has(name) || !outputs[name]) continue;
+    initial.add(name);
+    for (const imported of outputs[name].imports ?? []) {
+      if (imported.kind === 'import-statement') queue.push(imported.path);
+    }
+  }
 
   let bytes = 0;
-  for (const [input, detail] of Object.entries(output[1].inputs ?? {})) {
-    if (input.includes('kikita-labs-ui')) bytes += detail.bytesInOutput;
+  const inputs = [];
+  for (const name of initial) {
+    for (const [input, detail] of Object.entries(outputs[name].inputs ?? {})) {
+      inputs.push(input);
+      if (input.includes('kikita-labs-ui')) bytes += detail.bytesInOutput;
+    }
+  }
+  if (bytes === 0) {
+    throw new Error(
+      `No Kikita code reached the initial chunks; the library file names may have changed. Inputs: ${inputs.slice(0, 12).join(', ')}`,
+    );
   }
   return bytes;
 }
