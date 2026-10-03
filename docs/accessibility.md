@@ -118,6 +118,7 @@ Review dropdown, select, tooltip, popover, dialog, toast, and any future overlay
 - Text and icon contrast meet WCAG AA where practical for the component size.
 - Forced-colors or high-contrast mode preserves visible boundaries, focus, and state indicators.
 - The library ships these rules in `forced-colors.css` using system colours; `e2e/forced-colors.spec.ts` (Chromium forced-colors emulation) checks the checked, selected, filled and focus states. WebKit emulation does not apply the forced palette, so it is not evidence. New state-bearing components add their rule there and a case to the spec.
+- Icons are drawn as inline SVG with `currentColor`, so they take the system text colour in forced-colors mode. Do not draw an icon with a CSS `mask-image` and `background: currentColor`: Chromium paints the background in the forced palette and the icon disappears (Firefox keeps it). `e2e/icon-structural.spec.ts` checks that the structural icons keep a visible paint. See [Structural Icons](structural-icons.md#accessibility).
 - Semi-transparent overlays and shadows are not the only way to communicate depth or modality.
 
 ## Per-Component Review Template

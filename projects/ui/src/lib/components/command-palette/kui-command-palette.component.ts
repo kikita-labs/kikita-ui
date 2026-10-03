@@ -21,14 +21,12 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  KUI_SEARCH_CIRCLE,
-  KUI_SEARCH_HANDLE_D,
-  KUI_X_D,
-} from '../../utils/kui-chrome-icon-paths.util';
 import { focusWhenRendered } from '../../utils/kui-focus-when-rendered.util';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiEmptyStateComponent, KuiEmptyStateIconDirective } from '../empty-state';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_SEARCH, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KuiSkeletonDirective } from '../skeleton';
 import type { KuiCommandGroup, KuiCommandItem } from './kui-command-palette.types';
 
@@ -45,14 +43,20 @@ interface KuiCommandLabelSegment {
 /** Searchable command palette dialog with grouped commands and keyboard navigation. */
 @Component({
   selector: 'kui-command-palette',
-  imports: [CdkTrapFocus, KuiEmptyStateComponent, KuiEmptyStateIconDirective, KuiSkeletonDirective],
+  imports: [
+    CdkTrapFocus,
+    KuiEmptyStateComponent,
+    KuiEmptyStateIconDirective,
+    KuiGlyphComponent,
+    KuiSkeletonDirective,
+  ],
   templateUrl: './kui-command-palette.component.html',
   encapsulation: ViewEncapsulation.None,
 })
 export class KuiCommandPaletteComponent implements OnDestroy {
-  protected readonly _searchCircle = KUI_SEARCH_CIRCLE;
-  protected readonly _searchHandleD = KUI_SEARCH_HANDLE_D;
-  protected readonly _xD = KUI_X_D;
+  protected readonly searchGlyph = KUI_GLYPH_SEARCH;
+
+  protected readonly clearGlyph = injectKuiGlyph({ role: 'clear', fallback: KUI_GLYPH_X });
 
   /** Controls whether the command palette overlay is open. */
   readonly open = model(false);

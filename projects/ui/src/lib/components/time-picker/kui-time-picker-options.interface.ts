@@ -1,8 +1,9 @@
 import type { KuiFieldControlOptions } from '../field/kui-field-options.interface';
+import type { KuiPickerIconOptions } from '../icon/kui-picker-icon-options.interface';
 import type { KuiTimePickerFormat } from './kui-time-picker.types';
 
 /** Defaults for `input[kuiTimePicker]`, set under the `timePicker` key of the component defaults. */
-export interface KuiTimePickerOptions extends KuiFieldControlOptions {
+export interface KuiTimePickerOptions extends KuiFieldControlOptions, KuiPickerIconOptions {
   /** Display and parse format. */
   readonly format?: KuiTimePickerFormat;
 

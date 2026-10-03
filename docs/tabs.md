@@ -115,11 +115,13 @@ providers: [
 ];
 ```
 
-| Option        | Values                         | Description                                                       |
-| ------------- | ------------------------------ | ----------------------------------------------------------------- |
-| `size`        | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
-| `variant`     | `'line' \| 'pill'`             | Default variant.                                                  |
-| `orientation` | `'horizontal' \| 'vertical'`   | Default orientation.                                              |
+| Option         | Values                         | Description                                                                                                                 |
+| -------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `size`         | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`.                                                           |
+| `variant`      | `'line' \| 'pill'`             | Default variant.                                                                                                            |
+| `orientation`  | `'horizontal' \| 'vertical'`   | Default orientation.                                                                                                        |
+| `previousIcon` | `KuiIconGlyph`                 | Icon of the previous control. Takes precedence over `defaults.icons.previous`. See [Structural Icons](structural-icons.md). |
+| `nextIcon`     | `KuiIconGlyph`                 | Icon of the next control. Takes precedence over `defaults.icons.next`. See [Structural Icons](structural-icons.md).         |
 
 Each option resolves as `local input > defaults.tabs.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

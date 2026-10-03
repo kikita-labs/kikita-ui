@@ -30,6 +30,7 @@ import type { KuiEmptyStateOptions } from '../components/empty-state/kui-empty-s
 import type { KuiFieldOptions } from '../components/field/kui-field-options.interface';
 import type { KuiFileUploadOptions } from '../components/file-upload/kui-file-upload-options.interface';
 import type { KuiGroupOptions } from '../components/group/kui-group-options.interface';
+import type { KuiIconsOptions } from '../components/icon/kui-icons-options.interface';
 import type { KuiInputOptions } from '../components/input/kui-input-options.interface';
 import type { KuiLinkOptions } from '../components/link/kui-link-options.interface';
 import type { KuiLoaderOptions } from '../components/loader/kui-loader-options.interface';
@@ -72,6 +73,9 @@ import type { KuiDefaultsInput } from './kui-defaults-layer.util';
 export interface KuiComponentDefaults {
   /** Global control size used by size-enabled primitives that have no narrower setting. */
   readonly size?: KuiSize;
+
+  /** Structural icons shared by the library: close, chevrons, status marks. See {@link KuiIconsOptions}. */
+  readonly icons?: KuiIconsOptions;
 
   /** Defaults for `kuiButton`. */
   readonly button?: KuiButtonOptions;

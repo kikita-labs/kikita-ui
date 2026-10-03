@@ -65,6 +65,7 @@ is defined in [the maintenance rules](../.agents/documentation.md).
 - [Splitter](splitter.md)
 - [State Coverage](state-coverage.md)
 - [Stepper](stepper.md)
+- [Structural Icons](structural-icons.md)
 - [Switch](switch.md)
 - [Table](table.md)
 - [Tabs](tabs.md)

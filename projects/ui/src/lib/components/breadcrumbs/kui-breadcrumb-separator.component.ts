@@ -1,6 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 
-import { KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_CHEVRON_RIGHT } from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 
 /**
  * Decorative chevron separator between crumbs inside a `[kuiBreadcrumbs]` trail.
@@ -14,17 +17,10 @@ import { KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
  * ```
  */
 @Component({
+  imports: [KuiGlyphComponent],
   selector: 'li[kuiBreadcrumbSeparator]',
   template: `
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-      <path
-        d="${KUI_CHEVRON_RIGHT_D}"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
+    <svg width="14" height="14" [kuiGlyph]="separatorGlyph()" [kuiGlyphStroke]="1.5"></svg>
   `,
   host: {
     class: 'kui-breadcrumb-sep',
@@ -33,4 +29,12 @@ import { KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders the default separator between breadcrumb items. */
-export class KuiBreadcrumbSeparatorComponent {}
+export class KuiBreadcrumbSeparatorComponent {
+  private readonly breadcrumbsDefaults = inject(KuiDefaults).get('breadcrumbs');
+
+  protected readonly separatorGlyph = injectKuiGlyph({
+    role: 'separator',
+    slot: () => this.breadcrumbsDefaults()?.separatorIcon,
+    fallback: KUI_GLYPH_CHEVRON_RIGHT,
+  });
+}

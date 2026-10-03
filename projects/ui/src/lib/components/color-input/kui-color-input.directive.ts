@@ -21,11 +21,6 @@ import {
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { DEFAULT_KUI_THEME } from '../../theme/default-kui-theme.const';
 import type { KuiSize } from '../../types';
-import {
-  KUI_CHEVRON_DOWN_D,
-  KUI_COPY_D,
-  KUI_COPY_RECT,
-} from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import {
   createKuiControlSize,
@@ -36,6 +31,10 @@ import type { KuiTooltipOverlayHandle } from '../../utils/kui-tooltip-overlay.ut
 import { createKuiTooltipOverlay } from '../../utils/kui-tooltip-overlay.util';
 import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
 import { KuiFieldComponent } from '../field';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_CHEVRON_DOWN, KUI_GLYPH_COPY } from '../icon/kui-chrome-glyphs';
+import { createKuiGlyphElement } from '../icon/kui-glyph-dom.util';
+import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
 
 const HEX_COLOR_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
 const OKLCH_COLOR_RE =
@@ -123,6 +122,14 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private swatchBtn!: HTMLButtonElement;
   private swatchFill!: HTMLElement;
   private chevronBtn!: HTMLButtonElement;
+  private chevronSvg: SVGElement | null = null;
+  private renderedChevronGlyph: KuiIconGlyph | null = null;
+
+  private readonly chevronGlyph = injectKuiGlyph({
+    role: 'pickerChevron',
+    slot: () => this.colorInputDefaults()?.chevronIcon,
+    fallback: KUI_GLYPH_CHEVRON_DOWN,
+  });
   private dropdownRef: ComponentRef<KuiDropdownComponent> | null = null;
   private panelEl: HTMLElement | null = null;
   private pickerEl: HTMLElement | null = null;
@@ -148,6 +155,12 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   private readonly pickerUnlisten: (() => void)[] = [];
 
   constructor() {
+    effect(() => {
+      const glyph = this.chevronGlyph();
+
+      untracked(() => this.renderChevronGlyph(glyph));
+    });
+
     // ngDoCheck only runs when the parent view is checked, so a size change that comes from a
     // signal (for example a runtime defaults update) must also resync the generated container.
     effect(() => {
@@ -195,6 +208,21 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.teardownDom();
   }
 
+  /** Draws the resolved chevron glyph into the toggle button, replacing the previous one. */
+  private renderChevronGlyph(glyph: KuiIconGlyph): void {
+    if (!this.chevronBtn || (this.chevronSvg && this.renderedChevronGlyph === glyph)) {
+      return;
+    }
+
+    if (this.chevronSvg) {
+      this.renderer.removeChild(this.chevronBtn, this.chevronSvg);
+    }
+
+    this.chevronSvg = createKuiGlyphElement(this.renderer, glyph, { size: 14, strokeWidth: 2 });
+    this.renderedChevronGlyph = glyph;
+    this.renderer.appendChild(this.chevronBtn, this.chevronSvg);
+  }
+
   private buildDom(): void {
     const native = this.el.nativeElement;
     const parent = native.parentNode;
@@ -218,7 +246,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.renderer.addClass(this.chevronBtn, 'kui-color-input__trigger');
     this.renderer.setAttribute(this.chevronBtn, 'type', 'button');
     this.renderer.setAttribute(this.chevronBtn, 'aria-label', 'Open color picker');
-    this.chevronBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="${KUI_CHEVRON_DOWN_D}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
+    this.renderChevronGlyph(untracked(this.chevronGlyph));
 
     this.renderer.appendChild(this.containerEl, this.swatchBtn);
     this.renderer.appendChild(this.containerEl, native);
@@ -597,7 +625,11 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     this.renderer.setAttribute(btn, 'data-kui-shape', 'ghost');
     this.renderer.setAttribute(btn, 'data-kui-size', 'xs');
     this.renderer.setAttribute(btn, 'type', 'button');
-    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="${KUI_COPY_RECT.x}" y="${KUI_COPY_RECT.y}" width="${KUI_COPY_RECT.width}" height="${KUI_COPY_RECT.height}" rx="${KUI_COPY_RECT.rx}" ry="${KUI_COPY_RECT.ry}" stroke="currentColor" stroke-width="2"></rect><path d="${KUI_COPY_D}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Copy value`;
+    this.renderer.appendChild(
+      btn,
+      createKuiGlyphElement(this.renderer, KUI_GLYPH_COPY, { size: 13, strokeWidth: 2 }),
+    );
+    this.renderer.appendChild(btn, this.renderer.createText('Copy value'));
     this.renderer.appendChild(panel, btn);
     this.pickerUnlisten.push(
       this.renderer.listen(btn, 'click', () => {

@@ -178,11 +178,13 @@ See `docs/di-defaults.md` before adding or changing provider defaults.
 
 `defaults.select`:
 
-| Option            | Values              | Description                                                                      |
-| ----------------- | ------------------- | -------------------------------------------------------------------------------- |
-| `clearable`       | `boolean`           | When true, field controls with clear affordances show a clear button by default. |
-| `multipleDisplay` | `'chips' \| 'text'` | How a multiple select shows its selection.                                       |
-| `maxVisibleChips` | `number`            | Default visible selected chips before select renders a collapsed `+N` chip.      |
+| Option            | Values              | Description                                                                                                                    |
+| ----------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `clearable`       | `boolean`           | When true, field controls with clear affordances show a clear button by default.                                               |
+| `multipleDisplay` | `'chips' \| 'text'` | How a multiple select shows its selection.                                                                                     |
+| `maxVisibleChips` | `number`            | Default visible selected chips before select renders a collapsed `+N` chip.                                                    |
+| `chevronIcon`     | `KuiIconGlyph`      | Icon of the options toggle. Takes precedence over `defaults.icons.pickerChevron`. See [Structural Icons](structural-icons.md). |
+| `clearIcon`       | `KuiIconGlyph`      | Icon of the clear button. Takes precedence over `defaults.icons.clear`. See [Structural Icons](structural-icons.md).           |
 
 ## Signal Forms
 

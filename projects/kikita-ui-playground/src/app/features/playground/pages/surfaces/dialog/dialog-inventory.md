@@ -47,8 +47,8 @@ The E2E suite also clicks the enabled container close button, checks the
 ## Confirm behavior and known limits
 
 - The appearance examples use the same triangle-alert SVG paths as the shipped `kuiConfirm()`
-  content (`projects/ui/src/lib/utils/kui-chrome-icon-paths.util.ts`); they remain page-owned
-  consumer content and do not import that internal utility.
+  content (the `statusWarning` structural icon); they remain page-owned consumer content and do not
+  import the library internals.
 - `kuiConfirm()` shows an icon for non-default appearance. Its confirm button becomes danger only
   for `appearance: 'danger'`; warning keeps the default button appearance. This differs from the
   broad wording in the `KuiConfirmConfig` docs and is represented honestly in the page.

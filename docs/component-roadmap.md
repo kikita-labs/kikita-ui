@@ -85,7 +85,14 @@ fixing or closing them; record new evidence in state coverage.
   and `kui-media-viewer` have no key: icon size is a raw CSS size, and the other two only expose
   message text (Plan 21) or data. See [DI defaults](di-defaults.md). Every read of a key follows runtime
   changes, except options read when an overlay opens or a tooltip shows (verified in Plan 18, 2026-10-03).
-  Open follow-ups: message and icon overrides (Plans 20 and 21).
+  Open follow-up: message overrides (Plan 21).
+- Structural icons (v2, Plan 20): the glyphs components draw for themselves are icon data replaceable per
+  role (`defaults.icons`) or per component slot, drawn through an allowlist renderer that is
+  synchronous, SSR-safe and forced-colors-safe; `--kui-icon-stroke-width` and
+  `--kui-icon-vector-effect` control the line of structural and stroke-based `kui-icon` icons. The
+  default Lucide set is read at a pinned version and converted to the same data. Glyphs without a role
+  (calendar, clock, search, zoom, play, pause, copy, file, folder, upload) follow the stroke tokens but
+  have no override slot yet. See [Structural Icons](structural-icons.md).
 
 - Field wiring and focus (v2, Plan 19): the host id, invalid state, `aria-describedby` and
   `aria-required` of the native controls now come from one internal helper
@@ -121,7 +128,7 @@ fixing or closing them; record new evidence in state coverage.
     demo pages; exact rule ids are asserted per route) and the Time Picker Escape-focus defect belong
     to a separate accessibility follow-up after Plan 10.2.
   - `kui-field` `required` exposure to assistive technology is added to Plan 19B and done (2026-10-03).
-  - Default Lucide icons depending on the jsDelivr CDN is added to Plan 20.
+  - Default Lucide icons depending on the jsDelivr CDN is added to Plan 20 and done (2026-10-03): pinned version, allowlist conversion, documented network need; the CDN stays the zero-setup default for content icons by name.
   - Re-enabling the axe `color-contrast` rule is added to Plan 14 and done (2026-10-02).
   - Hydration-readiness marker and orphan-dialog behavior are added to Plan 12. Both are decided: no marker, and a dialog outlives its opener (`docs/ssr-lifecycle-register.md`). The server locale now follows the request `Accept-Language` and is transferred to the browser.
 

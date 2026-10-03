@@ -8,10 +8,11 @@ The slide track is native scroll + `scroll-snap`, scrolled programmatically to t
 not a hand-rolled transform animation -- so trackpad/touch swipe and its inertia come from the
 browser for free. `[kuiCarouselSlide]` marks projected slide content (`role="group"` +
 `aria-roledescription="slide"`), the same content-projection shape `kuiTab`/`kuiTabPanel` use for
-`kui-tabs`. Prev/Next/Play/Pause reuse `button[kuiIconButton]` with static inline SVG chrome
-(`kui-chrome-icon-paths.util`) instead of the network-dependent, name-resolved `icon` input -- the
-same treatment `kui-pagination` and `kui-media-viewer` already give their own essential-to-operate
-controls.
+`kui-tabs`. Prev/Next/Play/Pause reuse `button[kuiIconButton]` with structural icons (synchronous icon data
+drawn as inline SVG) instead of the network-dependent, name-resolved `icon` input -- the same
+treatment `kui-pagination` and `kui-media-viewer` give their own essential-to-operate controls.
+Prev and Next can be replaced through `defaults.carousel.previousIcon` and `nextIcon` or the shared
+`previous` and `next` roles; see [Structural Icons](structural-icons.md).
 
 ## Import
 
@@ -161,15 +162,17 @@ providers: [
 ];
 ```
 
-| Option             | Values    | Description                                  |
-| ------------------ | --------- | -------------------------------------------- |
-| `itemsPerView`     | `number`  | Slides visible at once.                      |
-| `loop`             | `boolean` | Wraps around at the first and last slide.    |
-| `autoplay`         | `boolean` | Advances slides automatically.               |
-| `autoplayInterval` | `number`  | Delay in ms between automatic slide changes. |
-| `showArrows`       | `boolean` | Shows the previous and next arrows.          |
-| `showDots`         | `boolean` | Shows the pagination dots.                   |
-| `draggable`        | `boolean` | Allows dragging the track with a pointer.    |
+| Option             | Values         | Description                                                                                                                 |
+| ------------------ | -------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `itemsPerView`     | `number`       | Slides visible at once.                                                                                                     |
+| `loop`             | `boolean`      | Wraps around at the first and last slide.                                                                                   |
+| `autoplay`         | `boolean`      | Advances slides automatically.                                                                                              |
+| `autoplayInterval` | `number`       | Delay in ms between automatic slide changes.                                                                                |
+| `showArrows`       | `boolean`      | Shows the previous and next arrows.                                                                                         |
+| `showDots`         | `boolean`      | Shows the pagination dots.                                                                                                  |
+| `draggable`        | `boolean`      | Allows dragging the track with a pointer.                                                                                   |
+| `previousIcon`     | `KuiIconGlyph` | Icon of the previous control. Takes precedence over `defaults.icons.previous`. See [Structural Icons](structural-icons.md). |
+| `nextIcon`         | `KuiIconGlyph` | Icon of the next control. Takes precedence over `defaults.icons.next`. See [Structural Icons](structural-icons.md).         |
 
 Each option resolves as `local input > defaults.carousel.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

@@ -1,3 +1,4 @@
+import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
 import type { KuiAlertShape } from './kui-alert-shape.type';
 import type { KuiAlertSize } from './kui-alert-size.type';
 
@@ -14,4 +15,7 @@ export interface KuiAlertOptions {
 
   /** Shows the close button. */
   readonly closable?: boolean;
+
+  /** Icon of the close button. Takes precedence over `defaults.icons.close`. */
+  readonly closeIcon?: KuiIconGlyph;
 }

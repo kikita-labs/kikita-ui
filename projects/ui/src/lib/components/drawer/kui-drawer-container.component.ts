@@ -13,8 +13,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiIdFactory } from '../../utils/kui-id.util';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
 
 /**
@@ -49,30 +52,24 @@ import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
       <ng-template cdkPortalOutlet />
       @if (_closable()) {
         <button type="button" class="kui-drawer-close" aria-label="Close" (click)="close()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="${KUI_X_D[0]}"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-            />
-            <path
-              d="${KUI_X_D[1]}"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-            />
-          </svg>
+          <svg width="16" height="16" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.5"></svg>
         </button>
       }
     </div>
   `,
-  imports: [CdkPortalOutlet, CdkTrapFocus],
+  imports: [CdkPortalOutlet, CdkTrapFocus, KuiGlyphComponent],
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders the modal drawer surface used by the drawer service. */
 export class KuiDrawerContainerComponent {
   private readonly nextId = kuiIdFactory();
+  private readonly drawerDefaults = inject(KuiDefaults).get('drawer');
+
+  protected readonly closeGlyph = injectKuiGlyph({
+    role: 'close',
+    slot: () => this.drawerDefaults()?.closeIcon,
+    fallback: KUI_GLYPH_X,
+  });
 
   private readonly injector = inject(Injector);
   private readonly portalOutlet = viewChild.required(CdkPortalOutlet);

@@ -112,7 +112,7 @@ the sweep until the list is updated.
 | File Upload     | 14   | 17   | Axe clean after Plan 10.3 (hidden input `aria-hidden`, presentational Choose file label).                                                                                                                                                                            |
 | Group           | 4    | 9    | None recorded.                                                                                                                                                                                                                                                       |
 | Icon Button     | 6    | 13   | None recorded.                                                                                                                                                                                                                                                       |
-| Icon            | 12   | 7    | Axe clean after Plan 10.3 (page root is a tab stop). Default icons load from a CDN.                                                                                                                                                                                  |
+| Icon            | 12   | 7+6  | Axe clean after Plan 10.3 (page root is a tab stop). Default icons by name load from a CDN. `icon-structural.spec.ts` (6 behavior tests) covers server HTML, stroke tokens, constant stroke, `defaults.icons` scope and forced colors.                               |
 | Input           | 7    | 8    | None recorded.                                                                                                                                                                                                                                                       |
 | Link            | 10   | 38   | Page (37 run, 1 fixme). Composed typography line height is asserted for anchor and button hosts. Fixme: a consumer `(click)` handler still runs on a disabled anchor.                                                                                                |
 | Loader          | 1    | 7    | None recorded.                                                                                                                                                                                                                                                       |
@@ -190,10 +190,11 @@ in the plan listed.
    de-DE request is checked for the same weekday row on the server and after hydration (see
    `docs/ssr-lifecycle-register.md`). OTP Input and Time Picker read no date at render and have no
    dedicated SSR check beyond the per-page heading test. Owner: Plan 12 until it is closed.
-9. **CDN dependence**: default Lucide icons load from `cdn.jsdelivr.net`. Only three replacement
-   specs stub it, so screenshots in the others need internet access. The harness allowance stops the
-   console failure, not the missing pixels. Owner: Plan 20, extended to default content icons
-   (`icon-architecture-v2-research.md`); the harness allowance is removed with it.
+9. **CDN dependence**: default Lucide icons by name load from `cdn.jsdelivr.net` (pinned version,
+   converted to glyph data). Only three replacement specs stub it (`lucide-static@*`), so screenshots in
+   the others need internet access. The harness allowance stops the console failure, not the missing
+   pixels. This is a justified exception of Plan 20 for content icons by name only; structural icons
+   never use the network. The allowance stays and is narrowed to the Lucide path by its URL pattern.
 10. **No manual accessibility evidence**: no real keyboard-only or screen-reader session is recorded for
     any primitive. Scheduled at final v2 integration (`PLAN.md`); the assistive technology, browser and
     OS must be named. See [Accessibility Review Guide](accessibility.md).

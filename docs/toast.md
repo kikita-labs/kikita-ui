@@ -267,14 +267,15 @@ providers: [
 ];
 ```
 
-| Option         | Values                                                                                          | Description                                                               |
-| -------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| `position`     | `'top-start' \| 'top-center' \| 'top-end' \| 'bottom-start' \| 'bottom-center' \| 'bottom-end'` | Where the toast region is placed. Follows runtime changes of the default. |
-| `duration`     | `number`                                                                                        | Auto-dismiss delay in ms.                                                 |
-| `maxVisible`   | `number`                                                                                        | Toasts shown at once. Follows runtime changes of the default.             |
-| `showProgress` | `boolean`                                                                                       | Shows the remaining-time bar.                                             |
-| `closable`     | `boolean`                                                                                       | Shows the close button.                                                   |
-| `showIcon`     | `boolean`                                                                                       | Shows the status icon.                                                    |
+| Option         | Values                                                                                          | Description                                                                                                          |
+| -------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `position`     | `'top-start' \| 'top-center' \| 'top-end' \| 'bottom-start' \| 'bottom-center' \| 'bottom-end'` | Where the toast region is placed. Follows runtime changes of the default.                                            |
+| `duration`     | `number`                                                                                        | Auto-dismiss delay in ms.                                                                                            |
+| `maxVisible`   | `number`                                                                                        | Toasts shown at once. Follows runtime changes of the default.                                                        |
+| `showProgress` | `boolean`                                                                                       | Shows the remaining-time bar.                                                                                        |
+| `closable`     | `boolean`                                                                                       | Shows the close button.                                                                                              |
+| `showIcon`     | `boolean`                                                                                       | Shows the status icon.                                                                                               |
+| `closeIcon`    | `KuiIconGlyph`                                                                                  | Icon of the close button. Takes precedence over `defaults.icons.close`. See [Structural Icons](structural-icons.md). |
 
 Each option resolves as `local input > defaults.toast.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

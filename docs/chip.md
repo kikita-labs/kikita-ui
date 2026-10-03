@@ -101,9 +101,10 @@ providers: [
 ];
 ```
 
-| Option | Values                         | Description                                                       |
-| ------ | ------------------------------ | ----------------------------------------------------------------- |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+| Option       | Values                         | Description                                                                                                            |
+| ------------ | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`.                                                      |
+| `removeIcon` | `KuiIconGlyph`                 | Icon of the remove button. Takes precedence over `defaults.icons.remove`. See [Structural Icons](structural-icons.md). |
 
 Each option resolves as `local input > defaults.chip.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

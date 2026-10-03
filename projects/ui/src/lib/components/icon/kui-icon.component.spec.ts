@@ -1,8 +1,10 @@
+import type { EnvironmentProviders, Provider } from '@angular/core';
 import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { KuiIconComponent } from './kui-icon.component';
+import type { KuiIconGlyph } from './kui-icon-glyph.type';
 import { provideKuiIcons } from './provide-kui-icons';
 
 const CHECK_ICON =
@@ -158,6 +160,144 @@ describe('KuiIconComponent', () => {
     const icon = fixture.nativeElement.querySelector('kui-icon') as HTMLElement;
 
     expect(icon.style.getPropertyValue('--kui-icon-size')).toBe('1.75em');
+  });
+});
+
+const GLYPH: KuiIconGlyph = {
+  node: [
+    ['circle', { cx: 12, cy: 12, r: 10 }],
+    ['path', { d: 'M12 8v8' }],
+  ],
+};
+
+@Component({
+  imports: [KuiIconComponent],
+  template: `<kui-icon name="spark" />`,
+})
+class SparkHost {}
+
+@Component({
+  imports: [KuiIconComponent],
+  template: `<kui-icon [source]="glyph" />`,
+})
+class GlyphSourceHost {
+  protected readonly glyph = GLYPH;
+}
+
+@Component({
+  imports: [KuiIconComponent],
+  template: `<kui-icon name="constructor" />`,
+})
+class PrototypeNameHost {}
+
+@Component({
+  imports: [KuiIconComponent],
+  template: `<kui-icon name="spark" [strokeWidth]="1.25" absoluteStrokeWidth />`,
+})
+class StrokeHost {}
+
+@Component({
+  imports: [KuiIconComponent],
+  template: `<kui-icon name="spark" />`,
+})
+class PlainStrokeHost {}
+
+describe('KuiIconComponent glyph data and static registries', () => {
+  afterEach(() => TestBed.resetTestingModule());
+
+  function render<T>(
+    type: new () => T,
+    providers: (Provider | EnvironmentProviders)[],
+  ): ComponentFixture<T> {
+    TestBed.configureTestingModule({ imports: [type], providers });
+    const fixture = TestBed.createComponent(type);
+    fixture.detectChanges();
+
+    return fixture;
+  }
+
+  it('draws a name from a static registry on the first pass, without waiting for a promise', () => {
+    const fixture = render(SparkHost, [provideKuiIcons({ spark: CLOSE_ICON })]);
+
+    expect(fixture.nativeElement.querySelector('kui-icon svg path')).not.toBeNull();
+  });
+
+  it('draws glyph data from a static registry through the safe renderer, not as trusted markup', () => {
+    const fixture = render(SparkHost, [provideKuiIcons({ spark: GLYPH })]);
+    const icon = fixture.nativeElement.querySelector('kui-icon') as HTMLElement;
+    const svg = icon.querySelector('svg.kui-icon__glyph') as SVGElement;
+
+    expect(icon.querySelector('.kui-icon__svg')).toBeNull();
+    expect(svg.getAttribute('viewBox')).toBe('0 0 24 24');
+    expect(svg.querySelector('circle')?.getAttribute('r')).toBe('10');
+    expect(svg.querySelector('path')?.getAttribute('d')).toBe('M12 8v8');
+  });
+
+  it('draws glyph data passed to source', () => {
+    const fixture = render(GlyphSourceHost, []);
+
+    expect(fixture.nativeElement.querySelector('kui-icon svg.kui-icon__glyph path')).not.toBeNull();
+  });
+
+  it('draws glyph data returned by an async resolver', async () => {
+    const fixture = render(SparkHost, [provideKuiIcons(async () => GLYPH)]);
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('kui-icon svg.kui-icon__glyph circle'),
+    ).not.toBeNull();
+  });
+
+  it('never draws invalid glyph data as markup', () => {
+    const hostile = { node: [['script', { d: 'x' }]] } as unknown as KuiIconGlyph;
+    const fixture = render(SparkHost, [provideKuiIcons({ spark: hostile })]);
+    const icon = fixture.nativeElement.querySelector('kui-icon') as HTMLElement;
+
+    expect(icon.querySelector('script')).toBeNull();
+    expect(icon.querySelector('svg.kui-icon__glyph')?.children).toHaveLength(0);
+  });
+
+  it('lets the latest registry win, whether it is static or async', async () => {
+    const early = render(SparkHost, [
+      provideKuiIcons({ spark: CHECK_ICON }),
+      provideKuiIcons({ spark: GLYPH }),
+    ]);
+
+    expect(early.nativeElement.querySelector('svg.kui-icon__glyph')).not.toBeNull();
+
+    TestBed.resetTestingModule();
+
+    const late = render(SparkHost, [
+      provideKuiIcons({ spark: CHECK_ICON }),
+      provideKuiIcons(async () => GLYPH),
+    ]);
+    await late.whenStable();
+    late.detectChanges();
+
+    expect(late.nativeElement.querySelector('svg.kui-icon__glyph')).not.toBeNull();
+  });
+
+  it('does not resolve names from the prototype of a registry object', () => {
+    const fixture = render(PrototypeNameHost, [provideKuiIcons({ spark: CLOSE_ICON })]);
+
+    expect(fixture.nativeElement.querySelector('kui-icon svg')).toBeNull();
+  });
+
+  it('sets the stroke tokens only when asked', () => {
+    const plain = render(PlainStrokeHost, [provideKuiIcons({ spark: CLOSE_ICON })]);
+    const plainIcon = plain.nativeElement.querySelector('kui-icon') as HTMLElement;
+
+    expect(plainIcon.style.getPropertyValue('--kui-icon-stroke-width')).toBe('');
+    expect(plainIcon.style.getPropertyValue('--kui-icon-vector-effect')).toBe('');
+
+    TestBed.resetTestingModule();
+
+    const stroked = render(StrokeHost, [provideKuiIcons({ spark: CLOSE_ICON })]);
+    const icon = stroked.nativeElement.querySelector('kui-icon') as HTMLElement;
+
+    expect(icon.style.getPropertyValue('--kui-icon-stroke-width')).toBe('1.25');
+    expect(icon.style.getPropertyValue('--kui-icon-vector-effect')).toBe('non-scaling-stroke');
   });
 });
 

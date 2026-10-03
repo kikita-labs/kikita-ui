@@ -10,12 +10,6 @@ import {
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
-import {
-  KUI_CHEVRON_LEFT_D,
-  KUI_CHEVRON_RIGHT_D,
-  KUI_CHEVRONS_LEFT_D,
-  KUI_CHEVRONS_RIGHT_D,
-} from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { kuiNextId } from '../../utils/kui-id.util';
 import {
@@ -25,6 +19,14 @@ import {
 import { KuiButtonDirective } from '../button';
 import { KuiDropdownComponent, KuiOptionDirective } from '../dropdown';
 import { KuiFieldComponent } from '../field';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import {
+  KUI_GLYPH_CHEVRON_LEFT,
+  KUI_GLYPH_CHEVRON_RIGHT,
+  KUI_GLYPH_CHEVRONS_LEFT,
+  KUI_GLYPH_CHEVRONS_RIGHT,
+} from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KuiIconButtonDirective } from '../icon-button';
 import { KuiSelectDirective } from '../select';
 import type { KuiPaginationVariant } from './kui-pagination-variant.type';
@@ -81,6 +83,7 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
     KuiFieldComponent,
     KuiDropdownComponent,
     KuiOptionDirective,
+    KuiGlyphComponent,
   ],
   template: `
     @if (showSummary()) {
@@ -97,22 +100,7 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
           [disabled]="firstDisabled()"
           (click)="goFirst()"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="${KUI_CHEVRONS_LEFT_D[0]}"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="${KUI_CHEVRONS_LEFT_D[1]}"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <svg width="16" height="16" [kuiGlyph]="firstGlyph()" [kuiGlyphStroke]="1.5"></svg>
         </button>
       }
 
@@ -124,15 +112,7 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
         [disabled]="prevDisabled()"
         (click)="goPrev()"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="${KUI_CHEVRON_LEFT_D}"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <svg width="16" height="16" [kuiGlyph]="previousGlyph()" [kuiGlyphStroke]="1.5"></svg>
       </button>
 
       @if (showNumbers()) {
@@ -176,15 +156,7 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
         [disabled]="nextDisabled()"
         (click)="goNext()"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="${KUI_CHEVRON_RIGHT_D}"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <svg width="16" height="16" [kuiGlyph]="nextGlyph()" [kuiGlyphStroke]="1.5"></svg>
       </button>
 
       @if (showEnds()) {
@@ -196,22 +168,7 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
           [disabled]="lastDisabled()"
           (click)="goLast()"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="${KUI_CHEVRONS_RIGHT_D[0]}"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="${KUI_CHEVRONS_RIGHT_D[1]}"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <svg width="16" height="16" [kuiGlyph]="lastGlyph()" [kuiGlyphStroke]="1.5"></svg>
         </button>
       }
 
@@ -245,6 +202,30 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
 })
 /** Page navigation for a long list/table. See the class-level example above. */
 export class KuiPaginationComponent {
+  protected readonly firstGlyph = injectKuiGlyph({
+    role: 'first',
+    slot: () => this.paginationDefaults()?.firstIcon,
+    fallback: KUI_GLYPH_CHEVRONS_LEFT,
+  });
+
+  protected readonly previousGlyph = injectKuiGlyph({
+    role: 'previous',
+    slot: () => this.paginationDefaults()?.previousIcon,
+    fallback: KUI_GLYPH_CHEVRON_LEFT,
+  });
+
+  protected readonly nextGlyph = injectKuiGlyph({
+    role: 'next',
+    slot: () => this.paginationDefaults()?.nextIcon,
+    fallback: KUI_GLYPH_CHEVRON_RIGHT,
+  });
+
+  protected readonly lastGlyph = injectKuiGlyph({
+    role: 'last',
+    slot: () => this.paginationDefaults()?.lastIcon,
+    fallback: KUI_GLYPH_CHEVRONS_RIGHT,
+  });
+
   /**
    * Layout preset: `full` adds the summary and rows-per-page picker on top of `compact`;
    * `compact` is First/Prev/numbers+ellipsis/Next/Last; `simple` is only Prev/"Page X of Y"/Next,

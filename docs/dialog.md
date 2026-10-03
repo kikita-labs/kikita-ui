@@ -186,12 +186,13 @@ providers: [
 ];
 ```
 
-| Option        | Values                                           | Description                                          |
-| ------------- | ------------------------------------------------ | ---------------------------------------------------- |
-| `closable`    | `boolean`                                        | Shows the close button in the header.                |
-| `size`        | `'auto' \| 'sm' \| 'md' \| 'lg' \| 'fullscreen'` | Dialog width preset.                                 |
-| `appearance`  | `'default' \| 'danger' \| 'warning'`             | Visual intent of the dialog.                         |
-| `dismissable` | `boolean`                                        | Closes the dialog on Escape and on a backdrop click. |
+| Option        | Values                                           | Description                                                                                                          |
+| ------------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| `closable`    | `boolean`                                        | Shows the close button in the header.                                                                                |
+| `size`        | `'auto' \| 'sm' \| 'md' \| 'lg' \| 'fullscreen'` | Dialog width preset.                                                                                                 |
+| `appearance`  | `'default' \| 'danger' \| 'warning'`             | Visual intent of the dialog.                                                                                         |
+| `dismissable` | `boolean`                                        | Closes the dialog on Escape and on a backdrop click.                                                                 |
+| `closeIcon`   | `KuiIconGlyph`                                   | Icon of the close button. Takes precedence over `defaults.icons.close`. See [Structural Icons](structural-icons.md). |
 
 Each option resolves as `local input > defaults.dialog.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

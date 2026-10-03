@@ -153,9 +153,11 @@ providers: [
 ];
 ```
 
-| Option      | Values    | Description                                                                      |
-| ----------- | --------- | -------------------------------------------------------------------------------- |
-| `clearable` | `boolean` | When true, field controls with clear affordances show a clear button by default. |
+| Option        | Values         | Description                                                                                                                    |
+| ------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `clearable`   | `boolean`      | When true, field controls with clear affordances show a clear button by default.                                               |
+| `chevronIcon` | `KuiIconGlyph` | Icon of the options toggle. Takes precedence over `defaults.icons.pickerChevron`. See [Structural Icons](structural-icons.md). |
+| `clearIcon`   | `KuiIconGlyph` | Icon of the clear button. Takes precedence over `defaults.icons.clear`. See [Structural Icons](structural-icons.md).           |
 
 Each option resolves as `local input > defaults.datePicker.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

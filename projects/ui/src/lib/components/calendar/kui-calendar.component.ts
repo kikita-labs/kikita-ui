@@ -20,11 +20,13 @@ import {
   KUI_CALENDAR_SIZES,
   type KuiCalendarNavigationView,
 } from '../../utils/kui-calendar-navigation.util';
-import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { KuiClock } from '../../utils/kui-clock.service';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { KuiButtonDirective } from '../button/kui-button.directive';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_CHEVRON_LEFT, KUI_GLYPH_CHEVRON_RIGHT } from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KuiSeparatorDirective } from '../separator/kui-separator.directive';
 import type { KuiCalendarDisabledPredicate, KuiCalendarSize } from './kui-calendar.types';
 import {
@@ -87,18 +89,7 @@ type KuiCalendarView = KuiCalendarNavigationView;
             [attr.aria-label]="navLabels().prev"
             (click)="navPrev()"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="${KUI_CHEVRON_LEFT_D}"></path>
-            </svg>
+            <svg width="16" height="16" [kuiGlyph]="previousGlyph()" [kuiGlyphStroke]="2"></svg>
           </button>
         } @else {
           <span class="kui-calendar-nav-spacer"></span>
@@ -125,18 +116,7 @@ type KuiCalendarView = KuiCalendarNavigationView;
             [attr.aria-label]="navLabels().next"
             (click)="navNext()"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="${KUI_CHEVRON_RIGHT_D}"></path>
-            </svg>
+            <svg width="16" height="16" [kuiGlyph]="nextGlyph()" [kuiGlyphStroke]="2"></svg>
           </button>
         } @else {
           <span class="kui-calendar-nav-spacer"></span>
@@ -234,11 +214,23 @@ type KuiCalendarView = KuiCalendarNavigationView;
     '[attr.data-kui-size]': "effectiveSize() === 'sm' ? 'sm' : null",
     '[attr.data-kui-flat]': "effectiveFlat() ? '' : null",
   },
-  imports: [KuiButtonDirective, KuiSeparatorDirective],
+  imports: [KuiButtonDirective, KuiSeparatorDirective, KuiGlyphComponent],
   encapsulation: ViewEncapsulation.None,
 })
 /** Displays a navigable calendar grid for selecting a single date. */
 export class KuiCalendarComponent implements OnInit {
+  protected readonly previousGlyph = injectKuiGlyph({
+    role: 'previous',
+    slot: () => this.calendarDefaults()?.previousIcon,
+    fallback: KUI_GLYPH_CHEVRON_LEFT,
+  });
+
+  protected readonly nextGlyph = injectKuiGlyph({
+    role: 'next',
+    slot: () => this.calendarDefaults()?.nextIcon,
+    fallback: KUI_GLYPH_CHEVRON_RIGHT,
+  });
+
   private readonly clock = inject(KuiClock);
 
   private readonly injector = inject(Injector);

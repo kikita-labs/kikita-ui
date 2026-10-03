@@ -90,11 +90,12 @@ providers: [
 ];
 ```
 
-| Option       | Values                               | Description                                                       |
-| ------------ | ------------------------------------ | ----------------------------------------------------------------- |
-| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg'`       | Component size. Takes precedence over the global `defaults.size`. |
-| `mode`       | `'exclusive' \| 'multi'`             | Default mode.                                                     |
-| `appearance` | `'default' \| 'bordered' \| 'ghost'` | Default appearance.                                               |
+| Option           | Values                               | Description                                                                                                                 |
+| ---------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `size`           | `'xs' \| 'sm' \| 'md' \| 'lg'`       | Component size. Takes precedence over the global `defaults.size`.                                                           |
+| `mode`           | `'exclusive' \| 'multi'`             | Default mode.                                                                                                               |
+| `appearance`     | `'default' \| 'bordered' \| 'ghost'` | Default appearance.                                                                                                         |
+| `disclosureIcon` | `KuiIconGlyph`                       | Icon of the expand control. Takes precedence over `defaults.icons.disclosure`. See [Structural Icons](structural-icons.md). |
 
 Each option resolves as `local input > defaults.accordion.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

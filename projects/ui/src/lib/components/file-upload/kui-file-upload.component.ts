@@ -16,20 +16,20 @@ import {
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
-import {
-  KUI_CHECK_D,
-  KUI_CIRCLE_ALERT_CIRCLE,
-  KUI_CIRCLE_ALERT_DOT,
-  KUI_CIRCLE_ALERT_LINE,
-  KUI_CLOUD_UPLOAD_D,
-  KUI_FILE_D,
-  KUI_PLUS_MINI_D,
-  KUI_X_D,
-} from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KuiButtonDirective } from '../button';
 import { KuiFieldActionDirective } from '../field';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import {
+  KUI_GLYPH_CHECK,
+  KUI_GLYPH_CIRCLE_ALERT,
+  KUI_GLYPH_CLOUD_UPLOAD,
+  KUI_GLYPH_FILE,
+  KUI_GLYPH_PLUS_MINI,
+  KUI_GLYPH_X,
+} from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KuiLinkDirective } from '../link';
 import { KuiProgressComponent } from '../progress';
 import type { KuiUploadFile, KuiUploadFileStatus } from './kui-upload-file.interface';
@@ -96,7 +96,13 @@ function detectKind(name: string): KuiFileKind | null {
 @Component({
   selector: 'kui-file-upload',
   templateUrl: './kui-file-upload.component.html',
-  imports: [KuiButtonDirective, KuiFieldActionDirective, KuiLinkDirective, KuiProgressComponent],
+  imports: [
+    KuiButtonDirective,
+    KuiFieldActionDirective,
+    KuiLinkDirective,
+    KuiProgressComponent,
+    KuiGlyphComponent,
+  ],
   host: {
     class: 'kui-file-upload',
     '[attr.data-kui-size]': 'effectiveSize()',
@@ -107,14 +113,18 @@ function detectKind(name: string): KuiFileKind | null {
 })
 /** Provides a drag-and-drop file upload surface with native file input semantics. */
 export class KuiFileUploadComponent {
-  protected readonly _cloudUploadD = KUI_CLOUD_UPLOAD_D;
-  protected readonly _plusMiniD = KUI_PLUS_MINI_D;
-  protected readonly _circleAlertCircle = KUI_CIRCLE_ALERT_CIRCLE;
-  protected readonly _circleAlertLine = KUI_CIRCLE_ALERT_LINE;
-  protected readonly _circleAlertDot = KUI_CIRCLE_ALERT_DOT;
-  protected readonly _checkD = KUI_CHECK_D;
-  protected readonly _fileD = KUI_FILE_D;
-  protected readonly _xD = KUI_X_D;
+  protected readonly cloudUploadGlyph = KUI_GLYPH_CLOUD_UPLOAD;
+  protected readonly plusGlyph = KUI_GLYPH_PLUS_MINI;
+  protected readonly alertGlyph = KUI_GLYPH_CIRCLE_ALERT;
+  protected readonly fileGlyph = KUI_GLYPH_FILE;
+
+  protected readonly checkGlyph = injectKuiGlyph({ role: 'check', fallback: KUI_GLYPH_CHECK });
+
+  protected readonly removeGlyph = injectKuiGlyph({
+    role: 'remove',
+    slot: () => this.fileUploadDefaults()?.removeIcon,
+    fallback: KUI_GLYPH_X,
+  });
 
   /**
    * Full drag-and-drop dropzone, or a compact button-only trigger. Defaults to

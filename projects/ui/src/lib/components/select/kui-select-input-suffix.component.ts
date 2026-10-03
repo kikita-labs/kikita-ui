@@ -1,11 +1,14 @@
 import { NgTemplateOutlet } from '@angular/common';
 import type { TemplateRef } from '@angular/core';
-import { Component, computed, input, output, ViewEncapsulation } from '@angular/core';
+import { Component, computed, inject, input, output, ViewEncapsulation } from '@angular/core';
 
-import { KUI_CHEVRON_DOWN_D, KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiChipDirective } from '../chip/kui-chip.directive';
 import { KuiChipRemoveDirective } from '../chip/kui-chip-remove.directive';
 import { KuiFieldActionDirective } from '../field';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_CHEVRON_DOWN, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import type { KuiSelectValueContext } from './kui-select-value.directive';
 
 /** @internal Selected item rendered inside a multiple select control. */
@@ -16,7 +19,13 @@ export interface KuiSelectChipItem {
 
 @Component({
   selector: 'kui-select-input-suffix',
-  imports: [NgTemplateOutlet, KuiChipDirective, KuiChipRemoveDirective, KuiFieldActionDirective],
+  imports: [
+    NgTemplateOutlet,
+    KuiChipDirective,
+    KuiChipRemoveDirective,
+    KuiFieldActionDirective,
+    KuiGlyphComponent,
+  ],
   template: `
     @if (selectedItems().length) {
       <div class="kui-select-chip-layer">
@@ -27,20 +36,7 @@ export interface KuiSelectChipItem {
             <span kuiChip size="sm" (removed)="removed.emit(item.value)">
               <span class="kui-chip-label">{{ item.label }}</span>
               <button kuiChipRemove [attr.aria-label]="'Remove ' + item.label">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="${KUI_X_D[0]}"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
-                  <path
-                    d="${KUI_X_D[1]}"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
-                </svg>
+                <svg width="10" height="10" [kuiGlyph]="removeGlyph()" [kuiGlyphStroke]="2"></svg>
               </button>
             </span>
           }
@@ -61,20 +57,7 @@ export interface KuiSelectChipItem {
           [disabled]="disabled() || readonly()"
           (click)="onClear($event)"
         >
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" aria-hidden="true">
-            <path
-              d="${KUI_X_D[0]}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-            <path
-              d="${KUI_X_D[1]}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-          </svg>
+          <svg width="12" height="12" [kuiGlyph]="clearGlyph()" [kuiGlyphStroke]="1.6"></svg>
         </button>
       }
       <button
@@ -86,15 +69,7 @@ export interface KuiSelectChipItem {
         [attr.aria-expanded]="isOpen()"
         (click)="onToggle($event)"
       >
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true">
-          <path
-            d="${KUI_CHEVRON_DOWN_D}"
-            stroke="currentColor"
-            stroke-width="1.6"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <svg width="14" height="14" [kuiGlyph]="chevronGlyph()" [kuiGlyphStroke]="1.6"></svg>
       </button>
     </div>
   `,
@@ -114,6 +89,28 @@ export class KuiSelectInputSuffixComponent {
   readonly cleared = output<void>();
   readonly removed = output<unknown>();
   readonly toggled = output<void>();
+
+  private readonly defaults = inject(KuiDefaults);
+  private readonly selectDefaults = this.defaults.get('select');
+  private readonly chipDefaults = this.defaults.get('chip');
+
+  protected readonly removeGlyph = injectKuiGlyph({
+    role: 'remove',
+    slot: () => this.chipDefaults()?.removeIcon,
+    fallback: KUI_GLYPH_X,
+  });
+
+  protected readonly clearGlyph = injectKuiGlyph({
+    role: 'clear',
+    slot: () => this.selectDefaults()?.clearIcon,
+    fallback: KUI_GLYPH_X,
+  });
+
+  protected readonly chevronGlyph = injectKuiGlyph({
+    role: 'pickerChevron',
+    slot: () => this.selectDefaults()?.chevronIcon,
+    fallback: KUI_GLYPH_CHEVRON_DOWN,
+  });
 
   protected readonly visibleItems = computed(() =>
     this.selectedItems().slice(0, Math.max(0, this.maxVisibleChips())),

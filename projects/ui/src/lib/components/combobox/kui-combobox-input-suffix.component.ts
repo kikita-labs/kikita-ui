@@ -1,12 +1,15 @@
-import { Component, input, output, ViewEncapsulation } from '@angular/core';
+import { Component, inject, input, output, ViewEncapsulation } from '@angular/core';
 
-import { KUI_CHEVRON_DOWN_D, KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiFieldActionDirective } from '../field';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_CHEVRON_DOWN, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 
 /** @internal Visual suffix rendered over `input[kuiCombobox]`. */
 @Component({
   selector: 'kui-combobox-input-suffix',
-  imports: [KuiFieldActionDirective],
+  imports: [KuiFieldActionDirective, KuiGlyphComponent],
   template: `
     <div class="kui-combobox-input-suffix">
       @if (loading()) {
@@ -19,20 +22,7 @@ import { KuiFieldActionDirective } from '../field';
           aria-label="Clear"
           (click)="onClear($event)"
         >
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" aria-hidden="true">
-            <path
-              d="${KUI_X_D[0]}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-            <path
-              d="${KUI_X_D[1]}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-          </svg>
+          <svg width="12" height="12" [kuiGlyph]="clearGlyph()" [kuiGlyphStroke]="1.6"></svg>
         </button>
       }
 
@@ -46,15 +36,7 @@ import { KuiFieldActionDirective } from '../field';
         [attr.aria-expanded]="isOpen()"
         (click)="onToggle($event)"
       >
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true">
-          <path
-            d="${KUI_CHEVRON_DOWN_D}"
-            stroke="currentColor"
-            stroke-width="1.6"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <svg width="14" height="14" [kuiGlyph]="chevronGlyph()" [kuiGlyphStroke]="1.6"></svg>
       </button>
     </div>
   `,
@@ -63,6 +45,20 @@ import { KuiFieldActionDirective } from '../field';
 })
 /** Renders combobox input actions such as clear and dropdown toggle controls. */
 export class KuiComboboxInputSuffixComponent {
+  private readonly comboboxDefaults = inject(KuiDefaults).get('combobox');
+
+  protected readonly clearGlyph = injectKuiGlyph({
+    role: 'clear',
+    slot: () => this.comboboxDefaults()?.clearIcon,
+    fallback: KUI_GLYPH_X,
+  });
+
+  protected readonly chevronGlyph = injectKuiGlyph({
+    role: 'pickerChevron',
+    slot: () => this.comboboxDefaults()?.chevronIcon,
+    fallback: KUI_GLYPH_CHEVRON_DOWN,
+  });
+
   readonly clearable = input(false);
   readonly hasValue = input(false);
   readonly isOpen = input(false);

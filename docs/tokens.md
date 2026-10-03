@@ -259,6 +259,19 @@ Group):
 Selected via `data-kui-size` (`xs`/`sm`/`md`/`lg`) on the component. This is the only axis that
 controls height; `data-kui-density` controls padding only (see Button tokens below).
 
+## Icons
+
+Two public tokens control the line of stroke-based icons: the structural icons that components draw
+for themselves and `kui-icon` content. Set them on `:root` or on any subtree. See
+[Structural Icons](structural-icons.md#stroke-width).
+
+| Token                      | Values                       | Default                                                                                           |
+| -------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------- |
+| `--kui-icon-stroke-width`  | A number in glyph-grid units | Structural icons: the weight of their call site (1.5 to 2.5). `kui-icon`: the icon's own weight.  |
+| `--kui-icon-vector-effect` | `none`, `non-scaling-stroke` | `none`: the stroke scales with the icon. `non-scaling-stroke` keeps it the same number of pixels. |
+
+The `--kui-icon-size-*` presets are listed on the [Icon](icon.md) page.
+
 ## Component Tokens
 
 Component tokens are inputs: set them on an element or its ancestors to restyle one component part.

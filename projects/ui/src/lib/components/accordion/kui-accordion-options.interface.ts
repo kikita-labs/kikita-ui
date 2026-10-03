@@ -1,4 +1,5 @@
 import type { KuiSize } from '../../types';
+import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
 import type { KuiAccordionMode } from './kui-accordion.component';
 import type { KuiAccordionAppearance } from './kui-accordion.component';
 
@@ -12,4 +13,6 @@ export interface KuiAccordionOptions {
 
   /** Default appearance. */
   readonly appearance?: KuiAccordionAppearance;
+  /** Icon of the expand control. Takes precedence over `defaults.icons.disclosure`. */
+  readonly disclosureIcon?: KuiIconGlyph;
 }

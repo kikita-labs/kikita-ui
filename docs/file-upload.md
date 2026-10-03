@@ -147,11 +147,12 @@ providers: [
 ];
 ```
 
-| Option    | Values                         | Description                                                       |
-| --------- | ------------------------------ | ----------------------------------------------------------------- |
-| `size`    | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
-| `variant` | `'dropzone' \| 'compact'`      | Default variant.                                                  |
-| `mode`    | `'single' \| 'multiple'`       | Default mode.                                                     |
+| Option       | Values                         | Description                                                                                                            |
+| ------------ | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`.                                                      |
+| `variant`    | `'dropzone' \| 'compact'`      | Default variant.                                                                                                       |
+| `mode`       | `'single' \| 'multiple'`       | Default mode.                                                                                                          |
+| `removeIcon` | `KuiIconGlyph`                 | Icon of the remove button. Takes precedence over `defaults.icons.remove`. See [Structural Icons](structural-icons.md). |
 
 Each option resolves as `local input > defaults.fileUpload.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

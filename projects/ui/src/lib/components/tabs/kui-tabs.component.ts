@@ -18,9 +18,11 @@ import {
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSize } from '../../types';
-import { KUI_CHEVRON_LEFT_D, KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { kuiNextId } from '../../utils/kui-id.util';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_CHEVRON_LEFT, KUI_GLYPH_CHEVRON_RIGHT } from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KuiTabDirective } from './kui-tab.directive';
 import type { KuiTabsContext } from './kui-tabs-context.token';
 import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
@@ -45,6 +47,7 @@ export type KuiTabsOrientation = 'horizontal' | 'vertical';
  * ```
  */
 @Component({
+  imports: [KuiGlyphComponent],
   selector: 'kui-tabs',
   template: `
     <div class="kui-tabs__scroll-wrap">
@@ -55,15 +58,7 @@ export type KuiTabsOrientation = 'horizontal' | 'vertical';
           (click)="scrollBy(-200)"
           aria-label="Scroll tabs left"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="${KUI_CHEVRON_LEFT_D}"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <svg width="16" height="16" [kuiGlyph]="previousGlyph()" [kuiGlyphStroke]="1.5"></svg>
         </button>
       }
       <div class="kui-tabs__scroll" #scrollEl (scroll)="updateScrollState()">
@@ -84,15 +79,7 @@ export type KuiTabsOrientation = 'horizontal' | 'vertical';
           (click)="scrollBy(200)"
           aria-label="Scroll tabs right"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="${KUI_CHEVRON_RIGHT_D}"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <svg width="16" height="16" [kuiGlyph]="nextGlyph()" [kuiGlyphStroke]="1.5"></svg>
         </button>
       }
     </div>
@@ -115,6 +102,18 @@ export type KuiTabsOrientation = 'horizontal' | 'vertical';
 })
 /** Coordinates tab triggers and tab panels with accessible selection state. */
 export class KuiTabsComponent implements KuiTabsContext {
+  protected readonly previousGlyph = injectKuiGlyph({
+    role: 'previous',
+    slot: () => this.tabsDefaults()?.previousIcon,
+    fallback: KUI_GLYPH_CHEVRON_LEFT,
+  });
+
+  protected readonly nextGlyph = injectKuiGlyph({
+    role: 'next',
+    slot: () => this.tabsDefaults()?.nextIcon,
+    fallback: KUI_GLYPH_CHEVRON_RIGHT,
+  });
+
   /**
    * Tab visual style: underline indicator (line) or pill background (pill). Defaults to
    * `defaults.tabs.variant`, then `line`.

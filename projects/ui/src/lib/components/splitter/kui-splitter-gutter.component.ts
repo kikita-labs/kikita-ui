@@ -1,7 +1,8 @@
 import type { ElementRef } from '@angular/core';
 import { Component, computed, inject, input, viewChild, ViewEncapsulation } from '@angular/core';
 
-import { KUI_CHEVRON_LEFT_D } from '../../utils/kui-chrome-icon-paths.util';
+import { KUI_GLYPH_CHEVRON_LEFT } from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
 
 /**
@@ -12,6 +13,7 @@ import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
  * projected sibling components.
  */
 @Component({
+  imports: [KuiGlyphComponent],
   selector: 'kui-splitter-gutter',
   template: `
     <div
@@ -46,16 +48,14 @@ import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
         [attr.aria-label]="collapseLabel()"
         (click)="onCollapseClick()"
       >
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            [attr.transform]="chevronTransform()"
-            d="${KUI_CHEVRON_LEFT_D}"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <svg
+          width="10"
+          height="10"
+          style="transform-origin: center"
+          [kuiGlyph]="chevronGlyph"
+          [kuiGlyphStroke]="2.5"
+          [style.transform]="chevronTransform()"
+        ></svg>
       </button>
     }
   `,
@@ -69,6 +69,8 @@ import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
 })
 /** Draggable separator between two panes. See the class-level example on `kui-splitter`. */
 export class KuiSplitterGutterComponent {
+  protected readonly chevronGlyph = KUI_GLYPH_CHEVRON_LEFT;
+
   /** Index of this gutter -- fixed at creation; `kui-splitter` recreates gutters on pane changes. */
   readonly index = input.required<number>();
 
@@ -123,7 +125,8 @@ export class KuiSplitterGutterComponent {
   /**
    * Reuses the chevron-left chrome path for both axes, matching the design spec's own choice not
    * to add a dedicated "up" glyph: horizontal splitters rotate it 0/180deg (left/right), vertical
-   * splitters rotate it 90/270deg (up/down) around the icon's own center.
+   * splitters rotate it 90/270deg (up/down) around the icon's own center. Rotation is a CSS
+   * transform on the `<svg>`, so it works for any glyph.
    */
   protected readonly chevronTransform = computed(() => {
     const vertical = this.context.effectiveOrientation() === 'vertical';
@@ -139,7 +142,7 @@ export class KuiSplitterGutterComponent {
       deg = target === 'before' ? (collapsed ? 0 : 180) : collapsed ? 180 : 0;
     }
 
-    return `rotate(${deg} 12 12)`;
+    return `rotate(${deg}deg)`;
   });
 
   protected onCollapseClick(): void {

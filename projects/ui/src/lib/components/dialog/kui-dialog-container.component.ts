@@ -2,10 +2,20 @@ import { CdkTrapFocus } from '@angular/cdk/a11y';
 import type { ComponentPortal } from '@angular/cdk/portal';
 import { CdkPortalOutlet } from '@angular/cdk/portal';
 import type { ComponentRef, ElementRef } from '@angular/core';
-import { Component, EventEmitter, signal, viewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  signal,
+  viewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 
-import { KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiIdFactory } from '../../utils/kui-id.util';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import type { KuiDialogAppearance, KuiDialogSize } from './kui-dialog.types';
 
 /**
@@ -44,31 +54,25 @@ import type { KuiDialogAppearance, KuiDialogSize } from './kui-dialog.types';
         <ng-template cdkPortalOutlet />
         @if (_closable()) {
           <button type="button" class="kui-dialog-close" aria-label="Close" (click)="close()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="${KUI_X_D[0]}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-              <path
-                d="${KUI_X_D[1]}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-            </svg>
+            <svg width="16" height="16" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.5"></svg>
           </button>
         }
       </div>
     </div>
   `,
-  imports: [CdkPortalOutlet, CdkTrapFocus],
+  imports: [CdkPortalOutlet, CdkTrapFocus, KuiGlyphComponent],
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders the modal dialog surface used by the dialog service. */
 export class KuiDialogContainerComponent {
   private readonly nextId = kuiIdFactory();
+  private readonly dialogDefaults = inject(KuiDefaults).get('dialog');
+
+  protected readonly closeGlyph = injectKuiGlyph({
+    role: 'close',
+    slot: () => this.dialogDefaults()?.closeIcon,
+    fallback: KUI_GLYPH_X,
+  });
 
   private readonly portalOutlet = viewChild.required(CdkPortalOutlet);
   private readonly dialogPanel = viewChild.required<ElementRef<HTMLElement>>('dialogPanel');

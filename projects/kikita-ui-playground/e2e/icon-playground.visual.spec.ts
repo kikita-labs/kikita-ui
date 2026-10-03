@@ -217,6 +217,28 @@ test('keeps the catalogue within a 320px viewport @visual', async ({ page }) => 
   });
 });
 
+test('shows stroke width, scaling versus constant strokes and the stroke token on structural icons @visual', async ({
+  page,
+}) => {
+  const catalogue = page.getByRole('group', { name: 'Icon stroke width examples', exact: true });
+
+  await catalogue.scrollIntoViewIfNeeded();
+  await expect(catalogue.locator('.kui-chip-remove svg').first()).toBeVisible();
+  await expect(catalogue).toHaveScreenshot('icon-stroke-catalogue.png', { animations: 'disabled' });
+});
+
+test('compares built-in structural icons with a defaults.icons override @visual', async ({
+  page,
+}) => {
+  const catalogue = page.getByRole('group', { name: 'Structural icon examples', exact: true });
+
+  await catalogue.scrollIntoViewIfNeeded();
+  await expect(catalogue.locator('.kui-chip-remove svg').first()).toBeVisible();
+  await expect(catalogue).toHaveScreenshot('icon-structural-catalogue.png', {
+    animations: 'disabled',
+  });
+});
+
 function presetFallback(size: string): string {
   if (size === '2xs') return '0.75rem';
   if (size === 'xs') return '0.875rem';

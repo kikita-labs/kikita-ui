@@ -89,9 +89,10 @@ link text already carries the meaning).
 
 - `rel="noopener noreferrer"` is merged with any `rel` you already set.
 - The library's own static external-link chrome glyph fills the `iconEnd` slot, unless you pass
-  an explicit `iconEnd` (it is fixed library chrome, not a consumer-chosen icon, so it renders as
-  static inline SVG rather than through the async, name-resolved `kui-icon` -- the same treatment
-  `kuiDatePicker`'s calendar affix and `kuiTimePicker`'s clock affix get).
+  an explicit `iconEnd` (it is library chrome, not a consumer-chosen icon, so it is a structural icon: synchronous
+  icon data drawn as inline SVG rather than the async, name-resolved `kui-icon`, the same treatment
+  `kuiDatePicker`'s calendar affix and `kuiTimePicker`'s clock affix get). Replace it with
+  `defaults.link.externalIcon` or the `externalLink` role; see [Structural Icons](structural-icons.md).
 - A visually-hidden "(opens in a new tab)" suffix is appended to the accessible name.
 
 ### Disabled
@@ -154,10 +155,11 @@ providers: [
 ];
 ```
 
-| Option      | Values                                                                    | Description                  |
-| ----------- | ------------------------------------------------------------------------- | ---------------------------- |
-| `tone`      | `'default' \| 'muted' \| 'primary' \| 'success' \| 'warning' \| 'danger'` | Default tone.                |
-| `underline` | `'always' \| 'hover' \| 'none'`                                           | When the link is underlined. |
+| Option         | Values                                                                    | Description                                                                                                                    |
+| -------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `tone`         | `'default' \| 'muted' \| 'primary' \| 'success' \| 'warning' \| 'danger'` | Default tone.                                                                                                                  |
+| `underline`    | `'always' \| 'hover' \| 'none'`                                           | When the link is underlined.                                                                                                   |
+| `externalIcon` | `KuiIconGlyph`                                                            | Icon after an external link. Takes precedence over `defaults.icons.externalLink`. See [Structural Icons](structural-icons.md). |
 
 Each option resolves as `local input > defaults.link.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

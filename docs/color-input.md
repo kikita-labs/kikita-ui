@@ -114,9 +114,10 @@ providers: [
 ];
 ```
 
-| Option | Values                         | Description                                                       |
-| ------ | ------------------------------ | ----------------------------------------------------------------- |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+| Option        | Values                         | Description                                                                                                                    |
+| ------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| `size`        | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`.                                                              |
+| `chevronIcon` | `KuiIconGlyph`                 | Icon of the options toggle. Takes precedence over `defaults.icons.pickerChevron`. See [Structural Icons](structural-icons.md). |
 
 Each option resolves as `local input > defaults.colorInput.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

@@ -17,17 +17,19 @@ import {
 } from '@angular/core';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import {
-  KUI_CHEVRON_LEFT_D,
-  KUI_CHEVRON_RIGHT_D,
-  KUI_PAUSE_D,
-  KUI_PLAY_D,
-} from '../../utils/kui-chrome-icon-paths.util';
 import { kuiNextId } from '../../utils/kui-id.util';
 import {
   optionalBooleanAttribute,
   optionalPositiveIntegerAttribute,
 } from '../../utils/kui-input-transform.util';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import {
+  KUI_GLYPH_CHEVRON_LEFT,
+  KUI_GLYPH_CHEVRON_RIGHT,
+  KUI_GLYPH_PAUSE,
+  KUI_GLYPH_PLAY,
+} from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KuiIconButtonDirective } from '../icon-button';
 import { KuiCarouselSlideDirective } from './kui-carousel-slide.directive';
 
@@ -56,7 +58,7 @@ function autoplayIntervalAttribute(value: unknown): number | undefined {
  */
 @Component({
   selector: 'kui-carousel',
-  imports: [KuiIconButtonDirective],
+  imports: [KuiIconButtonDirective, KuiGlyphComponent],
   template: `
     <div
       class="kui-carousel__region"
@@ -99,15 +101,7 @@ function autoplayIntervalAttribute(value: unknown): number | undefined {
             [disabled]="prevDisabled()"
             (click)="goPrev()"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="${KUI_CHEVRON_LEFT_D}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <svg width="16" height="16" [kuiGlyph]="previousGlyph()" [kuiGlyphStroke]="1.5"></svg>
           </button>
         </span>
         <span class="kui-carousel__control-slot kui-carousel__control-slot--next">
@@ -118,15 +112,7 @@ function autoplayIntervalAttribute(value: unknown): number | undefined {
             [disabled]="nextDisabled()"
             (click)="goNext()"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="${KUI_CHEVRON_RIGHT_D}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <svg width="16" height="16" [kuiGlyph]="nextGlyph()" [kuiGlyphStroke]="1.5"></svg>
           </button>
         </span>
       }
@@ -140,14 +126,9 @@ function autoplayIntervalAttribute(value: unknown): number | undefined {
             (click)="togglePlay()"
           >
             @if (effectivePlaying()) {
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="${KUI_PAUSE_D[0]}" fill="currentColor" />
-                <path d="${KUI_PAUSE_D[1]}" fill="currentColor" />
-              </svg>
+              <svg width="16" height="16" [kuiGlyph]="pauseGlyph" [kuiGlyphStroke]="1.5"></svg>
             } @else {
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="${KUI_PLAY_D}" fill="currentColor" />
-              </svg>
+              <svg width="16" height="16" [kuiGlyph]="playGlyph" [kuiGlyphStroke]="1.5"></svg>
             }
           </button>
         </span>
@@ -185,6 +166,21 @@ function autoplayIntervalAttribute(value: unknown): number | undefined {
 })
 /** Slide strip with Prev/Next, a dot picker, and optional autoplay. See the class-level example above. */
 export class KuiCarouselComponent {
+  protected readonly previousGlyph = injectKuiGlyph({
+    role: 'previous',
+    slot: () => this.carouselDefaults()?.previousIcon,
+    fallback: KUI_GLYPH_CHEVRON_LEFT,
+  });
+
+  protected readonly nextGlyph = injectKuiGlyph({
+    role: 'next',
+    slot: () => this.carouselDefaults()?.nextIcon,
+    fallback: KUI_GLYPH_CHEVRON_RIGHT,
+  });
+
+  protected readonly pauseGlyph = KUI_GLYPH_PAUSE;
+  protected readonly playGlyph = KUI_GLYPH_PLAY;
+
   /** How many slides are visible at once. Defaults to `1`. */
   readonly itemsPerView = input<number | undefined, unknown>(undefined, {
     transform: optionalPositiveIntegerAttribute,

@@ -1,0 +1,97 @@
+<app-playground-example-card [heading]="'icon.examples.stroke' | transloco">
+  <div class="icon-stroke-examples__stack">
+    <section
+      class="icon-stroke-examples__section"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.strokeWidths' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'icon.labels.strokeWidths' | transloco }}</h3>
+      <div class="icon-stroke-examples__grid">
+        @for (width of widths; track width) {
+          <div
+            class="icon-stroke-examples__item"
+            role="group"
+            [attr.aria-label]="'icon.accessibility.strokeWidth' | transloco: { width }"
+          >
+            <kui-icon [source]="glyph" [size]="48" [strokeWidth]="width" />
+            <span kuiText variant="caption">
+              {{ 'icon.labels.strokeWidth' | transloco: { width } }}
+            </span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section
+      class="icon-stroke-examples__section"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.scalingStroke' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'icon.labels.scalingStroke' | transloco }}</h3>
+      <div class="icon-stroke-examples__grid">
+        @for (size of sizes; track size) {
+          <div
+            class="icon-stroke-examples__item"
+            role="group"
+            [attr.aria-label]="'icon.accessibility.scalingStrokeSize' | transloco: { size }"
+          >
+            <kui-icon [source]="glyph" [size]="size" />
+            <span kuiText variant="caption">
+              {{ 'icon.labels.pixelSize' | transloco: { size } }}
+            </span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section
+      class="icon-stroke-examples__section"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.absoluteStroke' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'icon.labels.absoluteStroke' | transloco }}</h3>
+      <div class="icon-stroke-examples__grid">
+        @for (size of sizes; track size) {
+          <div
+            class="icon-stroke-examples__item"
+            role="group"
+            [attr.aria-label]="'icon.accessibility.absoluteStrokeSize' | transloco: { size }"
+          >
+            <kui-icon [source]="glyph" [size]="size" absoluteStrokeWidth />
+            <span kuiText variant="caption">
+              {{ 'icon.labels.pixelSize' | transloco: { size } }}
+            </span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section
+      class="icon-stroke-examples__section"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.chromeStroke' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'icon.labels.chromeStroke' | transloco }}</h3>
+      <div class="icon-stroke-examples__grid icon-stroke-examples__grid--chrome">
+        @for (variant of chromeVariants; track variant.id) {
+          <div
+            class="icon-stroke-examples__chrome"
+            role="group"
+            [attr.data-stroke]="variant.id"
+            [attr.aria-label]="variant.accessibility | transloco"
+          >
+            <span kuiChip removable [removeLabel]="'icon.labels.removeChip' | transloco">
+              {{ 'icon.labels.chipLabel' | transloco }}
+            </span>
+            <kui-alert
+              appearance="info"
+              [message]="'icon.labels.alertMessage' | transloco"
+              [closeLabel]="'icon.labels.closeAlert' | transloco"
+            />
+            <span kuiText variant="caption">{{ variant.label | transloco }}</span>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+</app-playground-example-card>

@@ -10,8 +10,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { KUI_CHEVRON_RIGHT_D } from '../../utils/kui-chrome-icon-paths.util';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_CHEVRON_RIGHT } from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KUI_ACCORDION_CONTEXT } from './kui-accordion-context.token';
 import { KuiAccordionIconDirective } from './kui-accordion-icon.directive';
 
@@ -28,7 +31,7 @@ import { KuiAccordionIconDirective } from './kui-accordion-icon.directive';
  */
 @Component({
   selector: 'kui-accordion-item',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, KuiGlyphComponent],
   template: `
     <button
       class="kui-accordion-trigger"
@@ -47,15 +50,7 @@ import { KuiAccordionIconDirective } from './kui-accordion-icon.directive';
       }
       <span class="kui-accordion-trigger-text">{{ header() }}</span>
       <span class="kui-accordion-chevron" aria-hidden="true">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path
-            d="${KUI_CHEVRON_RIGHT_D}"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <svg width="16" height="16" [kuiGlyph]="disclosureGlyph()" [kuiGlyphStroke]="1.5"></svg>
       </span>
     </button>
     <div
@@ -79,6 +74,14 @@ import { KuiAccordionIconDirective } from './kui-accordion-icon.directive';
 })
 /** Represents a single expandable item inside a Kikita UI accordion. */
 export class KuiAccordionItemComponent {
+  private readonly accordionDefaults = inject(KuiDefaults).get('accordion');
+
+  protected readonly disclosureGlyph = injectKuiGlyph({
+    role: 'disclosure',
+    slot: () => this.accordionDefaults()?.disclosureIcon,
+    fallback: KUI_GLYPH_CHEVRON_RIGHT,
+  });
+
   /** Label text rendered inside the trigger button. */
   readonly header = input<string>('');
 

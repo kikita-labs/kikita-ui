@@ -1,36 +1,18 @@
-import { Component, input, output, ViewEncapsulation } from '@angular/core';
+import { Component, inject, input, output, ViewEncapsulation } from '@angular/core';
 
-import {
-  KUI_CALENDAR_D,
-  KUI_CALENDAR_RECT,
-  KUI_CHEVRON_DOWN_D,
-  KUI_X_D,
-} from '../../utils/kui-chrome-icon-paths.util';
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_CALENDAR, KUI_GLYPH_CHEVRON_DOWN, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 
 /** @internal Visual leading icon + trailing clear/chevron rendered over `input[kuiDatePicker]`. */
 @Component({
   selector: 'kui-date-picker-input-affix',
-  imports: [KuiFieldAffixIconDirective, KuiFieldActionDirective],
+  imports: [KuiFieldAffixIconDirective, KuiFieldActionDirective, KuiGlyphComponent],
   template: `
     <span kuiFieldAffixIcon>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <rect
-          x="${KUI_CALENDAR_RECT.x}"
-          y="${KUI_CALENDAR_RECT.y}"
-          width="${KUI_CALENDAR_RECT.width}"
-          height="${KUI_CALENDAR_RECT.height}"
-          rx="${KUI_CALENDAR_RECT.rx}"
-          stroke="currentColor"
-          stroke-width="2"
-        ></rect>
-        <path
-          d="${KUI_CALENDAR_D}"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-        ></path>
-      </svg>
+      <svg width="16" height="16" [kuiGlyph]="calendarGlyph" [kuiGlyphStroke]="2"></svg>
     </span>
 
     <div class="kui-date-picker-suffix">
@@ -42,20 +24,7 @@ import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
           aria-label="Clear"
           (click)="onClear($event)"
         >
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" aria-hidden="true">
-            <path
-              d="${KUI_X_D[0]}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-            <path
-              d="${KUI_X_D[1]}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-          </svg>
+          <svg width="12" height="12" [kuiGlyph]="clearGlyph()" [kuiGlyphStroke]="1.6"></svg>
         </button>
       }
 
@@ -69,15 +38,7 @@ import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
         [attr.aria-expanded]="isOpen()"
         (click)="onToggle($event)"
       >
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true">
-          <path
-            d="${KUI_CHEVRON_DOWN_D}"
-            stroke="currentColor"
-            stroke-width="1.6"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <svg width="14" height="14" [kuiGlyph]="chevronGlyph()" [kuiGlyphStroke]="1.6"></svg>
       </button>
     </div>
   `,
@@ -86,6 +47,22 @@ import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
 })
 /** Renders date-picker input controls such as calendar and clear actions. */
 export class KuiDatePickerInputAffixComponent {
+  private readonly pickerDefaults = inject(KuiDefaults).get('datePicker');
+
+  protected readonly calendarGlyph = KUI_GLYPH_CALENDAR;
+
+  protected readonly clearGlyph = injectKuiGlyph({
+    role: 'clear',
+    slot: () => this.pickerDefaults()?.clearIcon,
+    fallback: KUI_GLYPH_X,
+  });
+
+  protected readonly chevronGlyph = injectKuiGlyph({
+    role: 'pickerChevron',
+    slot: () => this.pickerDefaults()?.chevronIcon,
+    fallback: KUI_GLYPH_CHEVRON_DOWN,
+  });
+
   readonly clearable = input(false);
   readonly hasValue = input(false);
   readonly isOpen = input(false);

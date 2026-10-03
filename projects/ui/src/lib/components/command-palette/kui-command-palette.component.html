@@ -13,14 +13,7 @@
     >
       <div class="kui-command__search">
         <span class="kui-command__search-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle
-              [attr.cx]="_searchCircle.cx"
-              [attr.cy]="_searchCircle.cy"
-              [attr.r]="_searchCircle.r"
-            />
-            <path [attr.d]="_searchHandleD" />
-          </svg>
+          <svg [kuiGlyph]="searchGlyph" [kuiGlyphStroke]="2"></svg>
         </span>
         <input
           #inputEl
@@ -44,10 +37,7 @@
             aria-label="Clear search"
             (click)="clearQuery()"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path [attr.d]="_xD[0]" />
-              <path [attr.d]="_xD[1]" />
-            </svg>
+            <svg [kuiGlyph]="clearGlyph()" [kuiGlyphStroke]="2"></svg>
           </button>
         }
       </div>
@@ -68,20 +58,7 @@
             description="Try a different query."
             role="status"
           >
-            <svg
-              kuiEmptyStateIcon
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <circle
-                [attr.cx]="_searchCircle.cx"
-                [attr.cy]="_searchCircle.cy"
-                [attr.r]="_searchCircle.r"
-              />
-              <path [attr.d]="_searchHandleD" />
-            </svg>
+            <svg kuiEmptyStateIcon [kuiGlyph]="searchGlyph" [kuiGlyphStroke]="1.5"></svg>
           </kui-empty-state>
         } @else {
           @for (group of filteredGroups(); track group.heading ?? $index) {

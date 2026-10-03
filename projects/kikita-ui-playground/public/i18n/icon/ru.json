@@ -4,7 +4,9 @@
     "default": "По умолчанию",
     "sizes": "Размеры",
     "sources": "Источники",
-    "accessibility": "Доступные имена"
+    "accessibility": "Доступные имена",
+    "stroke": "Толщина штриха",
+    "structural": "Служебные иконки"
   },
   "labels": {
     "localDefault": "Локальная иконка бренда",
@@ -22,7 +24,24 @@
     "projectedSvg": "Спроецированный SVG",
     "decorative": "Декоративная иконка",
     "accessibleBrand": "Иконка бренда Kikita UI",
-    "labeled": "Иконка с подписью"
+    "labeled": "Иконка с подписью",
+    "strokeWidths": "Вход strokeWidth",
+    "strokeWidth": "Штрих {{width}}",
+    "scalingStroke": "Штрих растёт вместе с иконкой",
+    "absoluteStroke": "absoluteStrokeWidth: постоянные пиксели",
+    "pixelSize": "{{size}} px",
+    "chromeStroke": "--kui-icon-stroke-width у служебных иконок",
+    "chromeThin": "Тонкий (1)",
+    "chromeDefault": "По умолчанию",
+    "chromeThick": "Толстый (3)",
+    "chipLabel": "Backend",
+    "removeChip": "Удалить Backend",
+    "alertMessage": "Не удалось выполнить развёртывание",
+    "closeAlert": "Закрыть уведомление",
+    "builtInStructural": "Встроенные глифы",
+    "overriddenStructural": "Переопределение defaults.icons",
+    "paginationBuiltIn": "Страницы со встроенными иконками",
+    "paginationOverridden": "Страницы с переопределёнными иконками"
   },
   "accessibility": {
     "defaultExample": "Пример иконки по умолчанию",
@@ -39,6 +58,20 @@
     "projectedSource": "Пример спроецированного SVG",
     "accessibleNames": "Примеры доступных имен иконок",
     "decorative": "Пример декоративной иконки",
-    "labeled": "Пример иконки с подписью"
+    "labeled": "Пример иконки с подписью",
+    "strokeCatalogue": "Примеры толщины штриха иконок",
+    "strokeWidths": "Примеры входа толщины штриха",
+    "strokeWidth": "Толщина штриха {{width}}",
+    "scalingStroke": "Примеры растущего штриха",
+    "scalingStrokeSize": "Растущий штрих при {{size}} пикселях",
+    "absoluteStroke": "Примеры штриха постоянной толщины в пикселях",
+    "absoluteStrokeSize": "Штрих постоянной толщины при {{size}} пикселях",
+    "chromeStroke": "Примеры толщины штриха служебных иконок",
+    "chromeThin": "Тонкие служебные иконки",
+    "chromeDefault": "Служебные иконки по умолчанию",
+    "chromeThick": "Толстые служебные иконки",
+    "structuralCatalogue": "Примеры служебных иконок",
+    "builtInStructural": "Встроенные служебные иконки",
+    "overriddenStructural": "Переопределённые служебные иконки"
   }
 }

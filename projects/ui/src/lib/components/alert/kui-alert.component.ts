@@ -10,20 +10,18 @@ import {
 } from '@angular/core';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import {
-  KUI_CIRCLE_CHECK_CIRCLE,
-  KUI_CIRCLE_CHECK_D,
-  KUI_CIRCLE_X_CIRCLE,
-  KUI_CIRCLE_X_D,
-  KUI_INFO_CIRCLE,
-  KUI_INFO_DOT_D,
-  KUI_INFO_LINE_D,
-  KUI_TRIANGLE_ALERT_D,
-  KUI_X_D,
-} from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { KuiButtonDirective } from '../button';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import {
+  KUI_GLYPH_CIRCLE_CHECK,
+  KUI_GLYPH_CIRCLE_X,
+  KUI_GLYPH_INFO,
+  KUI_GLYPH_TRIANGLE_ALERT,
+  KUI_GLYPH_X,
+} from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KuiIconButtonDirective } from '../icon-button';
 import { KuiAlertActionsDirective } from './kui-alert-actions.directive';
 import type { KuiAlertAppearance } from './kui-alert-appearance.type';
@@ -40,7 +38,8 @@ const KUI_ALERT_SIZES: readonly KuiAlertSize[] = ['sm', 'md'];
  * there is no timer or overlay. Projected title, icon, message, and action slots
  * replace their matching shorthand inputs. Supply a title, message, or message slot.
  * Neutral hides the built-in icon, but an explicit icon slot always renders.
- * Essential chrome uses synchronous inline SVG. See docs/alert.md.
+ * Essential chrome is drawn from synchronous icon data that `defaults.icons` can replace. See
+ * docs/alert.md.
  *
  * @example
  * ```html
@@ -68,7 +67,7 @@ const KUI_ALERT_SIZES: readonly KuiAlertSize[] = ['sm', 'md'];
  */
 @Component({
   selector: 'kui-alert',
-  imports: [KuiButtonDirective, KuiIconButtonDirective],
+  imports: [KuiButtonDirective, KuiGlyphComponent, KuiIconButtonDirective],
   template: `
     <ng-content select="[kuiAlertIcon]" />
     @if (!hasProjectedIcon() && showIconResolved()) {
@@ -76,97 +75,7 @@ const KUI_ALERT_SIZES: readonly KuiAlertSize[] = ['sm', 'md'];
         class="kui-alert__icon"
         style="color: var(--kui-alert-icon-color, var(--_kui-alert-icon-color, currentColor))"
       >
-        @switch (appearance()) {
-          @case ('info') {
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle
-                cx="${KUI_INFO_CIRCLE.cx}"
-                cy="${KUI_INFO_CIRCLE.cy}"
-                r="${KUI_INFO_CIRCLE.r}"
-                stroke="currentColor"
-                stroke-width="1.5"
-              />
-              <path
-                d="${KUI_INFO_LINE_D}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-              <path
-                d="${KUI_INFO_DOT_D}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-            </svg>
-          }
-          @case ('success') {
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle
-                cx="${KUI_CIRCLE_CHECK_CIRCLE.cx}"
-                cy="${KUI_CIRCLE_CHECK_CIRCLE.cy}"
-                r="${KUI_CIRCLE_CHECK_CIRCLE.r}"
-                stroke="currentColor"
-                stroke-width="1.5"
-              />
-              <path
-                d="${KUI_CIRCLE_CHECK_D}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          }
-          @case ('warning') {
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="${KUI_TRIANGLE_ALERT_D[0]}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="${KUI_TRIANGLE_ALERT_D[1]}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="${KUI_TRIANGLE_ALERT_D[2]}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          }
-          @case ('danger') {
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle
-                cx="${KUI_CIRCLE_X_CIRCLE.cx}"
-                cy="${KUI_CIRCLE_X_CIRCLE.cy}"
-                r="${KUI_CIRCLE_X_CIRCLE.r}"
-                stroke="currentColor"
-                stroke-width="1.5"
-              />
-              <path
-                d="${KUI_CIRCLE_X_D[0]}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-              <path
-                d="${KUI_CIRCLE_X_D[1]}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-            </svg>
-          }
-        }
+        <svg [kuiGlyph]="statusGlyph()" [kuiGlyphStroke]="1.5"></svg>
       </span>
     }
 
@@ -204,10 +113,7 @@ const KUI_ALERT_SIZES: readonly KuiAlertSize[] = ['sm', 'md'];
         [attr.aria-label]="closeLabel()"
         (click)="closed.emit()"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="${KUI_X_D[0]}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-          <path d="${KUI_X_D[1]}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-        </svg>
+        <svg width="16" height="16" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.5"></svg>
       </button>
     }
   `,
@@ -311,6 +217,39 @@ export class KuiAlertComponent {
   protected readonly effectiveClosable = computed(
     () => this.closable() ?? this.alertDefaults()?.closable ?? true,
   );
+
+  private readonly infoGlyph = injectKuiGlyph({ role: 'statusInfo', fallback: KUI_GLYPH_INFO });
+  private readonly successGlyph = injectKuiGlyph({
+    role: 'statusSuccess',
+    fallback: KUI_GLYPH_CIRCLE_CHECK,
+  });
+  private readonly warningGlyph = injectKuiGlyph({
+    role: 'statusWarning',
+    fallback: KUI_GLYPH_TRIANGLE_ALERT,
+  });
+  private readonly dangerGlyph = injectKuiGlyph({
+    role: 'statusDanger',
+    fallback: KUI_GLYPH_CIRCLE_X,
+  });
+
+  protected readonly statusGlyph = computed(() => {
+    switch (this.appearance()) {
+      case 'success':
+        return this.successGlyph();
+      case 'warning':
+        return this.warningGlyph();
+      case 'danger':
+        return this.dangerGlyph();
+      default:
+        return this.infoGlyph();
+    }
+  });
+
+  protected readonly closeGlyph = injectKuiGlyph({
+    role: 'close',
+    slot: () => this.alertDefaults()?.closeIcon,
+    fallback: KUI_GLYPH_X,
+  });
 
   protected readonly showIconResolved = computed(
     () => this.effectiveShowIcon() && this.appearance() !== 'neutral',

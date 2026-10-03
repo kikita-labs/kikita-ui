@@ -24,7 +24,7 @@ const LUCIDE_TEST_ICONS = {
 } satisfies Record<string, string>;
 
 test.beforeEach(async ({ page }) => {
-  await page.route('https://cdn.jsdelivr.net/npm/lucide-static@1/icons/*.svg', async (route) => {
+  await page.route('https://cdn.jsdelivr.net/npm/lucide-static@*/icons/*.svg', async (route) => {
     const iconName = new URL(route.request().url()).pathname.split('/').at(-1)?.replace('.svg', '');
     const svg = iconName
       ? LUCIDE_TEST_ICONS[iconName as keyof typeof LUCIDE_TEST_ICONS]

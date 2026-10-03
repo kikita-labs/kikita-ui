@@ -101,9 +101,10 @@ providers: [
 ];
 ```
 
-| Option | Values                 | Description                                                       |
-| ------ | ---------------------- | ----------------------------------------------------------------- |
-| `size` | `'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+| Option          | Values                 | Description                                                                                                         |
+| --------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `size`          | `'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`.                                                   |
+| `separatorIcon` | `KuiIconGlyph`         | Icon between crumbs. Takes precedence over `defaults.icons.separator`. See [Structural Icons](structural-icons.md). |
 
 Each option resolves as `local input > defaults.breadcrumbs.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

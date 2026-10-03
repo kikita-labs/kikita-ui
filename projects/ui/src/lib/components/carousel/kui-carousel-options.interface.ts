@@ -1,3 +1,4 @@
+import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
 /** Defaults for `kui-carousel`, set under the `carousel` key of the component defaults. */
 export interface KuiCarouselOptions {
   /** Slides visible at once. */
@@ -20,4 +21,9 @@ export interface KuiCarouselOptions {
 
   /** Allows dragging the track with a pointer. */
   readonly draggable?: boolean;
+  /** Icon of the previous-slide arrow. Takes precedence over `defaults.icons.previous`. */
+  readonly previousIcon?: KuiIconGlyph;
+
+  /** Icon of the next-slide arrow. Takes precedence over `defaults.icons.next`. */
+  readonly nextIcon?: KuiIconGlyph;
 }

@@ -2,6 +2,8 @@ import type { Signal } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
+import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
+
 /** Visual intent of a toast notification. */
 export type KuiToastAppearance = 'neutral' | 'success' | 'warning' | 'danger' | 'info';
 
@@ -50,6 +52,8 @@ export interface KuiToastOptions {
   closable?: boolean;
   /** Default value for `showIcon`. Defaults to `true`. */
   showIcon?: boolean;
+  /** Icon of the close button. Takes precedence over `defaults.icons.close`. */
+  closeIcon?: KuiIconGlyph;
 }
 
 /** Handle returned by {@link KuiToastService.open}. */

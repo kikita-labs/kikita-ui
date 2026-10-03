@@ -7,7 +7,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { KUI_CHECK_D, KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_CHECK, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KUI_STEPPER_CONTEXT } from './kui-stepper-context.token';
 
 /** Visual state of a `kui-step`, derived from its position relative to the stepper's currentIndex. */
@@ -24,6 +26,7 @@ export type KuiStepState = 'done' | 'current' | 'upcoming' | 'disabled' | 'error
  * ```
  */
 @Component({
+  imports: [KuiGlyphComponent],
   selector: 'kui-step',
   template: `
     <span class="kui-step-track">
@@ -40,15 +43,7 @@ export type KuiStepState = 'done' | 'current' | 'upcoming' | 'disabled' | 'error
           (click)="onCircleClick()"
         >
           @if (state() === 'done') {
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="${KUI_CHECK_D}"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <svg width="14" height="14" [kuiGlyph]="checkGlyph()" [kuiGlyphStroke]="2"></svg>
           } @else {
             {{ index() + 1 }}
           }
@@ -56,20 +51,7 @@ export type KuiStepState = 'done' | 'current' | 'upcoming' | 'disabled' | 'error
       } @else {
         <span class="kui-step-circle">
           @if (state() === 'error') {
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="${KUI_X_D[0]}"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <path
-                d="${KUI_X_D[1]}"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
+            <svg width="14" height="14" [kuiGlyph]="errorGlyph" [kuiGlyphStroke]="2"></svg>
           } @else {
             {{ index() + 1 }}
           }
@@ -98,6 +80,13 @@ export type KuiStepState = 'done' | 'current' | 'upcoming' | 'disabled' | 'error
 })
 /** Represents one step within a Kikita UI stepper. */
 export class KuiStepComponent {
+  protected readonly checkGlyph = injectKuiGlyph({
+    role: 'check',
+    fallback: KUI_GLYPH_CHECK,
+  });
+
+  protected readonly errorGlyph = KUI_GLYPH_X;
+
   /** Step label text. */
   readonly label = input<string>('');
   /** Optional secondary line rendered under the label. */

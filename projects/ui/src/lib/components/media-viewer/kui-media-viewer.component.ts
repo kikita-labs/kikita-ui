@@ -1,17 +1,17 @@
 import { Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
 
-import {
-  KUI_CHEVRON_LEFT_D,
-  KUI_CHEVRON_RIGHT_D,
-  KUI_SEARCH_CIRCLE,
-  KUI_SEARCH_HANDLE_D,
-  KUI_X_D,
-  KUI_ZOOM_LINE_H_D,
-  KUI_ZOOM_LINE_V_D,
-} from '../../utils/kui-chrome-icon-paths.util';
 import type { KuiDialogContext, KuiDialogHost } from '../dialog/kui-dialog-context.token';
 import { KUI_DIALOG_CONTEXT } from '../dialog/kui-dialog-context.token';
 import { KuiEmptyStateComponent } from '../empty-state/kui-empty-state.component';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import {
+  KUI_GLYPH_CHEVRON_LEFT,
+  KUI_GLYPH_CHEVRON_RIGHT,
+  KUI_GLYPH_X,
+  KUI_GLYPH_ZOOM_IN,
+  KUI_GLYPH_ZOOM_OUT,
+} from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KuiIconButtonDirective } from '../icon-button/kui-icon-button.directive';
 import { KuiSkeletonDirective } from '../skeleton/kui-skeleton.directive';
 import type { KuiMediaViewerData, KuiMediaViewerItem } from './kui-media-viewer.types';
@@ -59,27 +59,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
           [disabled]="zoomOutDisabled()"
           (click)="zoomOut()"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle
-              cx="${KUI_SEARCH_CIRCLE.cx}"
-              cy="${KUI_SEARCH_CIRCLE.cy}"
-              r="${KUI_SEARCH_CIRCLE.r}"
-              stroke="currentColor"
-              stroke-width="1.6"
-            />
-            <path
-              d="${KUI_SEARCH_HANDLE_D}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-            <path
-              d="${KUI_ZOOM_LINE_H_D}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-          </svg>
+          <svg width="20" height="20" [kuiGlyph]="zoomOutGlyph" [kuiGlyphStroke]="1.6"></svg>
         </button>
         <button
           kuiIconButton
@@ -89,33 +69,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
           [disabled]="zoomInDisabled()"
           (click)="zoomIn()"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle
-              cx="${KUI_SEARCH_CIRCLE.cx}"
-              cy="${KUI_SEARCH_CIRCLE.cy}"
-              r="${KUI_SEARCH_CIRCLE.r}"
-              stroke="currentColor"
-              stroke-width="1.6"
-            />
-            <path
-              d="${KUI_SEARCH_HANDLE_D}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-            <path
-              d="${KUI_ZOOM_LINE_H_D}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-            <path
-              d="${KUI_ZOOM_LINE_V_D}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-          </svg>
+          <svg width="20" height="20" [kuiGlyph]="zoomInGlyph" [kuiGlyphStroke]="1.6"></svg>
         </button>
         <button
           kuiIconButton
@@ -125,20 +79,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
           aria-label="Close photo viewer"
           (click)="close()"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="${KUI_X_D[0]}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-            <path
-              d="${KUI_X_D[1]}"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-            />
-          </svg>
+          <svg width="18" height="18" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.6"></svg>
         </button>
       </div>
     </div>
@@ -154,15 +95,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
           [disabled]="prevDisabled()"
           (click)="goPrev()"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="${KUI_CHEVRON_LEFT_D}"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <svg width="24" height="24" [kuiGlyph]="previousGlyph()" [kuiGlyphStroke]="1.8"></svg>
         </button>
       }
 
@@ -210,15 +143,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
           [disabled]="nextDisabled()"
           (click)="goNext()"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="${KUI_CHEVRON_RIGHT_D}"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <svg width="24" height="24" [kuiGlyph]="nextGlyph()" [kuiGlyphStroke]="1.8"></svg>
         </button>
       }
     </div>
@@ -240,7 +165,12 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
       </div>
     }
   `,
-  imports: [KuiIconButtonDirective, KuiSkeletonDirective, KuiEmptyStateComponent],
+  imports: [
+    KuiIconButtonDirective,
+    KuiSkeletonDirective,
+    KuiEmptyStateComponent,
+    KuiGlyphComponent,
+  ],
   host: {
     class: 'kui-media-viewer',
     '(keydown)': 'onKeydown($event)',
@@ -249,6 +179,24 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
 })
 /** Renders the fullscreen photo lightbox opened by {@link kuiMediaViewer}. */
 export class KuiMediaViewerComponent implements KuiDialogHost<void, KuiMediaViewerData> {
+  protected readonly closeGlyph = injectKuiGlyph({
+    role: 'close',
+    fallback: KUI_GLYPH_X,
+  });
+
+  protected readonly previousGlyph = injectKuiGlyph({
+    role: 'previous',
+    fallback: KUI_GLYPH_CHEVRON_LEFT,
+  });
+
+  protected readonly nextGlyph = injectKuiGlyph({
+    role: 'next',
+    fallback: KUI_GLYPH_CHEVRON_RIGHT,
+  });
+
+  protected readonly zoomInGlyph = KUI_GLYPH_ZOOM_IN;
+  protected readonly zoomOutGlyph = KUI_GLYPH_ZOOM_OUT;
+
   public readonly dialogContext =
     inject<KuiDialogContext<void, KuiMediaViewerData>>(KUI_DIALOG_CONTEXT);
 

@@ -16,17 +16,17 @@ import {
 
 import { Subject } from 'rxjs';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import {
-  KUI_CIRCLE_CHECK_CIRCLE,
-  KUI_CIRCLE_CHECK_D,
-  KUI_CIRCLE_X_CIRCLE,
-  KUI_CIRCLE_X_D,
-  KUI_INFO_CIRCLE,
-  KUI_INFO_DOT_D,
-  KUI_INFO_LINE_D,
-  KUI_TRIANGLE_ALERT_D,
-  KUI_X_D,
-} from '../../utils/kui-chrome-icon-paths.util';
+  KUI_GLYPH_CIRCLE_CHECK,
+  KUI_GLYPH_CIRCLE_X,
+  KUI_GLYPH_INFO,
+  KUI_GLYPH_TRIANGLE_ALERT,
+  KUI_GLYPH_X,
+} from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
 import type {
   KuiToastAppearance,
   KuiToastConfig,
@@ -63,6 +63,7 @@ function readPersistent(value: PersistentConfig): boolean {
  */
 @Component({
   selector: 'kui-toast-region',
+  imports: [KuiGlyphComponent],
   template: `
     <div
       #region
@@ -86,97 +87,12 @@ function readPersistent(value: PersistentConfig): boolean {
         >
           @if (toast.config.showIcon !== false && hasIcon(toast.config.appearance)) {
             <span class="kui-toast-icon">
-              @switch (toast.config.appearance) {
-                @case ('success') {
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <circle
-                      cx="${KUI_CIRCLE_CHECK_CIRCLE.cx}"
-                      cy="${KUI_CIRCLE_CHECK_CIRCLE.cy}"
-                      r="${KUI_CIRCLE_CHECK_CIRCLE.r}"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                    />
-                    <path
-                      d="${KUI_CIRCLE_CHECK_D}"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                }
-                @case ('warning') {
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="${KUI_TRIANGLE_ALERT_D[0]}"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="${KUI_TRIANGLE_ALERT_D[1]}"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="${KUI_TRIANGLE_ALERT_D[2]}"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                }
-                @case ('danger') {
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <circle
-                      cx="${KUI_CIRCLE_X_CIRCLE.cx}"
-                      cy="${KUI_CIRCLE_X_CIRCLE.cy}"
-                      r="${KUI_CIRCLE_X_CIRCLE.r}"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                    />
-                    <path
-                      d="${KUI_CIRCLE_X_D[0]}"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="${KUI_CIRCLE_X_D[1]}"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                  </svg>
-                }
-                @case ('info') {
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <circle
-                      cx="${KUI_INFO_CIRCLE.cx}"
-                      cy="${KUI_INFO_CIRCLE.cy}"
-                      r="${KUI_INFO_CIRCLE.r}"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                    />
-                    <path
-                      d="${KUI_INFO_LINE_D}"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="${KUI_INFO_DOT_D}"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                  </svg>
-                }
-              }
+              <svg
+                width="18"
+                height="18"
+                [kuiGlyph]="statusGlyph(toast.config.appearance)"
+                [kuiGlyphStroke]="1.5"
+              ></svg>
             </span>
           }
 
@@ -206,20 +122,7 @@ function readPersistent(value: PersistentConfig): boolean {
               aria-label="Close"
               (click)="dismiss(toast.id)"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="${KUI_X_D[0]}"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="${KUI_X_D[1]}"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                />
-              </svg>
+              <svg width="16" height="16" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.5"></svg>
             </button>
           }
 
@@ -242,6 +145,27 @@ export class KuiToastRegionComponent implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
   private readonly regionEl = viewChild<ElementRef<HTMLElement>>('region');
+  private readonly toastDefaults = inject(KuiDefaults).get('toast');
+
+  private readonly infoGlyph = injectKuiGlyph({ role: 'statusInfo', fallback: KUI_GLYPH_INFO });
+  private readonly successGlyph = injectKuiGlyph({
+    role: 'statusSuccess',
+    fallback: KUI_GLYPH_CIRCLE_CHECK,
+  });
+  private readonly warningGlyph = injectKuiGlyph({
+    role: 'statusWarning',
+    fallback: KUI_GLYPH_TRIANGLE_ALERT,
+  });
+  private readonly dangerGlyph = injectKuiGlyph({
+    role: 'statusDanger',
+    fallback: KUI_GLYPH_CIRCLE_X,
+  });
+
+  protected readonly closeGlyph = injectKuiGlyph({
+    role: 'close',
+    slot: () => this.toastDefaults()?.closeIcon,
+    fallback: KUI_GLYPH_X,
+  });
 
   /** @internal Set by the service after creation. */
   readonly _position = signal<KuiToastPosition>('bottom-center');
@@ -382,6 +306,19 @@ export class KuiToastRegionComponent implements OnDestroy {
 
   protected onAction(toast: InternalToastItem): void {
     toast.actionSubject.next();
+  }
+
+  protected statusGlyph(appearance: KuiToastAppearance | undefined): KuiIconGlyph {
+    switch (appearance) {
+      case 'success':
+        return this.successGlyph();
+      case 'warning':
+        return this.warningGlyph();
+      case 'danger':
+        return this.dangerGlyph();
+      default:
+        return this.infoGlyph();
+    }
   }
 
   protected hasIcon(appearance: KuiToastAppearance | undefined): boolean {

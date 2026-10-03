@@ -13,8 +13,11 @@ import {
 } from '@angular/core';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { KUI_X_D } from '../../utils/kui-chrome-icon-paths.util';
 import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
+import { createKuiGlyphElement } from '../icon/kui-glyph-dom.util';
+import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
 import type { KuiChipAppearance } from './kui-chip-appearance.type';
 import type { KuiChipSize } from './kui-chip-size.type';
 
@@ -69,7 +72,15 @@ export class KuiChipDirective {
   private readonly renderer = inject(Renderer2);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
+  private readonly removeGlyph = injectKuiGlyph({
+    role: 'remove',
+    slot: () => this.chipDefaults()?.removeIcon,
+    fallback: KUI_GLYPH_X,
+  });
+
   private removeButtonEl: HTMLButtonElement | null = null;
+  private removeGlyphEl: SVGElement | null = null;
+  private renderedGlyph: KuiIconGlyph | null = null;
 
   protected readonly effectiveSize = computed(
     () => this.size() ?? this.chipDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
@@ -90,6 +101,7 @@ export class KuiChipDirective {
     effect(() => {
       if (this.removable()) {
         this.ensureRemoveButton();
+        this.syncRemoveGlyph(this.removeGlyph());
         this.syncRemoveButtonState(this.disabled(), this.removeLabel());
       } else {
         this.destroyRemoveButton();
@@ -113,23 +125,6 @@ export class KuiChipDirective {
     this.renderer.addClass(button, 'kui-chip-remove');
     this.renderer.setAttribute(button, 'type', 'button');
 
-    const svg = this.renderer.createElement('svg', 'svg');
-    this.renderer.setAttribute(svg, 'viewBox', '0 0 24 24');
-    this.renderer.setAttribute(svg, 'width', '10');
-    this.renderer.setAttribute(svg, 'height', '10');
-    this.renderer.setAttribute(svg, 'fill', 'none');
-    this.renderer.setAttribute(svg, 'aria-hidden', 'true');
-
-    for (const d of KUI_X_D) {
-      const path = this.renderer.createElement('path', 'svg');
-      this.renderer.setAttribute(path, 'd', d);
-      this.renderer.setAttribute(path, 'stroke', 'currentColor');
-      this.renderer.setAttribute(path, 'stroke-width', '2');
-      this.renderer.setAttribute(path, 'stroke-linecap', 'round');
-      this.renderer.appendChild(svg, path);
-    }
-
-    this.renderer.appendChild(button, svg);
     this.renderer.listen(button, 'click', (event: MouseEvent) => {
       event.stopPropagation();
 
@@ -142,6 +137,23 @@ export class KuiChipDirective {
     });
     this.renderer.appendChild(this.elementRef.nativeElement, button);
     this.removeButtonEl = button;
+  }
+
+  /** Draws the resolved glyph into the remove button, replacing the previous one. */
+  private syncRemoveGlyph(glyph: KuiIconGlyph): void {
+    const button = this.removeButtonEl;
+
+    if (!button || (this.removeGlyphEl && this.renderedGlyph === glyph)) {
+      return;
+    }
+
+    if (this.removeGlyphEl) {
+      this.renderer.removeChild(button, this.removeGlyphEl);
+    }
+
+    this.removeGlyphEl = createKuiGlyphElement(this.renderer, glyph, { size: 10, strokeWidth: 2 });
+    this.renderedGlyph = glyph;
+    this.renderer.appendChild(button, this.removeGlyphEl);
   }
 
   private syncRemoveButtonState(disabled: boolean, removeLabel: string | undefined): void {
@@ -171,5 +183,7 @@ export class KuiChipDirective {
 
     this.renderer.removeChild(this.elementRef.nativeElement, this.removeButtonEl);
     this.removeButtonEl = null;
+    this.removeGlyphEl = null;
+    this.renderedGlyph = null;
   }
 }

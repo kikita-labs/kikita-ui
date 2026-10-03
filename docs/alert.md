@@ -136,10 +136,12 @@ Icon mapping is reused from `kuiToast()` so Alert and Toast speak the same visua
 | `warning` | `triangle-alert` |
 | `danger`  | `circle-x`       |
 
-The severity icon and the close glyph render as inline `<svg>` built from
-`kui-chrome-icon-paths.util` -- the same synchronous, SSR-safe pattern `kuiToast()` uses for its
-own chrome -- rather than the async, name-resolved `kui-icon`. The glyph shapes match their Lucide
-namesakes; nothing depends on a network fetch or waits past hydration to appear.
+The severity icon and the close glyph are structural icons: synchronous icon data drawn as an inline
+`<svg>`, the same pattern `kuiToast()` uses for its own chrome, rather than the async, name-resolved
+`kui-icon`. The glyph shapes match their Lucide namesakes; nothing depends on a network fetch or waits
+past hydration to appear. Replace them with `defaults.icons.statusInfo`, `statusSuccess`,
+`statusWarning`, `statusDanger` and `close`, or `defaults.alert.closeIcon`; see
+[Structural Icons](structural-icons.md).
 
 The built-in icon box is 16px on `size="sm"` and 18px on `size="md"`.
 
@@ -191,12 +193,13 @@ providers: [
 ];
 ```
 
-| Option     | Values                           | Description                                                       |
-| ---------- | -------------------------------- | ----------------------------------------------------------------- |
-| `size`     | `'sm' \| 'md'`                   | Component size. Takes precedence over the global `defaults.size`. |
-| `shape`    | `'soft' \| 'outline' \| 'solid'` | Default shape.                                                    |
-| `showIcon` | `boolean`                        | Shows the leading status icon.                                    |
-| `closable` | `boolean`                        | Shows the close button.                                           |
+| Option      | Values                           | Description                                                                                                          |
+| ----------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `size`      | `'sm' \| 'md'`                   | Component size. Takes precedence over the global `defaults.size`.                                                    |
+| `shape`     | `'soft' \| 'outline' \| 'solid'` | Default shape.                                                                                                       |
+| `showIcon`  | `boolean`                        | Shows the leading status icon.                                                                                       |
+| `closable`  | `boolean`                        | Shows the close button.                                                                                              |
+| `closeIcon` | `KuiIconGlyph`                   | Icon of the close button. Takes precedence over `defaults.icons.close`. See [Structural Icons](structural-icons.md). |
 
 Each option resolves as `local input > defaults.alert.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

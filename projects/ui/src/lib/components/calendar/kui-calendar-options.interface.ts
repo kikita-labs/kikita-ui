@@ -1,3 +1,4 @@
+import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
 import type { KuiCalendarSize } from './kui-calendar.types';
 
 /** View defaults shared by `kui-calendar` and `kui-calendar-range`. */
@@ -19,6 +20,11 @@ export interface KuiCalendarViewOptions {
 
   /** Shows the "next" navigation control in the header. */
   readonly showNextNav?: boolean;
+  /** Icon of the previous-month button. Takes precedence over `defaults.icons.previous`. */
+  readonly previousIcon?: KuiIconGlyph;
+
+  /** Icon of the next-month button. Takes precedence over `defaults.icons.next`. */
+  readonly nextIcon?: KuiIconGlyph;
 }
 
 /** Defaults for `kui-calendar`, set under the `calendar` key of the component defaults. */

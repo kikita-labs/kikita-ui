@@ -1,0 +1,6 @@
+export {
+  ICON_CHROME_STROKE_VARIANTS,
+  ICON_STROKE_DEMO_GLYPH,
+  ICON_STROKE_SIZES,
+  ICON_STROKE_WIDTHS,
+} from './icon-stroke-demo.const';

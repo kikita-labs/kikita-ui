@@ -81,9 +81,9 @@ export function assertValidAllowance(allowance: BrowserErrorAllowance): void {
  */
 export const lucideCdnOfflineAllowance: BrowserErrorAllowance = {
   message: /Failed to load resource/,
-  url: /^https:\/\/cdn\.jsdelivr\.net\/npm\/lucide-static@/,
+  url: /^https:\/\/cdn\.jsdelivr\.net\/npm\/lucide-static@[\d.]+\/icons\/[a-z0-9-]+\.svg$/,
   reason:
-    'Default Lucide icons load from the jsDelivr CDN and the library swallows the failure by design.',
+    'Default Lucide icons by name load from the jsDelivr CDN at a pinned version and the library swallows the failure by design. Structural icons never use the network.',
 };
 
 /**

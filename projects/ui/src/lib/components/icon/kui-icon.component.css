@@ -52,3 +52,11 @@
   width: 100%;
   height: 100%;
 }
+
+.kui-icon__glyph {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 0;
+}

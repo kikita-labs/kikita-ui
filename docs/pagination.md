@@ -10,8 +10,10 @@ The current page is marked with `shape="solid" appearance="primary"` plus `aria-
 (state is never carried by color alone), matching Claude Design spec `03 Pagination.dc.html`
 exactly. The First/Prev/Next/Last chevrons are this component's own internal chrome, not
 user-facing content, so -- like `kui-select`'s dropdown chevron and `kui-tabs`' scroll chevrons --
-they render as static inline SVG (`kui-chrome-icon-paths.util`) instead of `IconButton`'s
-network-dependent, name-resolved `icon` input.
+they are structural icons (synchronous icon data drawn as inline SVG) instead of `IconButton`'s
+network-dependent, name-resolved `icon` input. Replace them with `defaults.pagination.firstIcon`,
+`previousIcon`, `nextIcon` and `lastIcon`, or the shared roles; see
+[Structural Icons](structural-icons.md).
 
 ## Import
 
@@ -190,12 +192,16 @@ providers: [
 ];
 ```
 
-| Option            | Values                            | Description                                                        |
-| ----------------- | --------------------------------- | ------------------------------------------------------------------ |
-| `variant`         | `'full' \| 'compact' \| 'simple'` | Layout variant.                                                    |
-| `siblingCount`    | `number`                          | Pages shown on each side of the current page.                      |
-| `boundaryCount`   | `number`                          | Pages always shown at each edge.                                   |
-| `pageSizeOptions` | `readonly number[]`               | Choices offered by the rows-per-page picker of the `full` variant. |
+| Option            | Values                            | Description                                                                                                                 |
+| ----------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `variant`         | `'full' \| 'compact' \| 'simple'` | Layout variant.                                                                                                             |
+| `siblingCount`    | `number`                          | Pages shown on each side of the current page.                                                                               |
+| `boundaryCount`   | `number`                          | Pages always shown at each edge.                                                                                            |
+| `pageSizeOptions` | `readonly number[]`               | Choices offered by the rows-per-page picker of the `full` variant.                                                          |
+| `firstIcon`       | `KuiIconGlyph`                    | Icon of the first-page button. Takes precedence over `defaults.icons.first`. See [Structural Icons](structural-icons.md).   |
+| `previousIcon`    | `KuiIconGlyph`                    | Icon of the previous control. Takes precedence over `defaults.icons.previous`. See [Structural Icons](structural-icons.md). |
+| `nextIcon`        | `KuiIconGlyph`                    | Icon of the next control. Takes precedence over `defaults.icons.next`. See [Structural Icons](structural-icons.md).         |
+| `lastIcon`        | `KuiIconGlyph`                    | Icon of the last-page button. Takes precedence over `defaults.icons.last`. See [Structural Icons](structural-icons.md).     |
 
 Each option resolves as `local input > defaults.pagination.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

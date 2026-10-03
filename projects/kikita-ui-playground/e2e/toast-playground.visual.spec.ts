@@ -143,7 +143,7 @@ test.beforeEach(async ({ page }) => {
     if (message.type() === 'error') errors.push(message.text());
   });
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.route('https://cdn.jsdelivr.net/npm/lucide-static@1/icons/*.svg', async (route) => {
+  await page.route('https://cdn.jsdelivr.net/npm/lucide-static@*/icons/*.svg', async (route) => {
     const iconName = new URL(route.request().url()).pathname.split('/').at(-1)?.replace('.svg', '');
     const svg = iconName ? LUCIDE_TEST_ICONS[iconName] : undefined;
 

@@ -153,14 +153,16 @@ providers: [
 ];
 ```
 
-| Option        | Values         | Description                                                       |
-| ------------- | -------------- | ----------------------------------------------------------------- |
-| `size`        | `'md' \| 'sm'` | Calendar size. Takes precedence over the global `defaults.size`.  |
-| `flat`        | `boolean`      | Strips the calendar's own background, border and padding.         |
-| `showWeekend` | `boolean`      | Shows Saturday and Sunday in a muted colour.                      |
-| `showFooter`  | `boolean`      | Shows the footer with the current value and the "Today" shortcut. |
-| `showPrevNav` | `boolean`      | Shows the "previous" navigation control in the header.            |
-| `showNextNav` | `boolean`      | Shows the "next" navigation control in the header.                |
+| Option         | Values         | Description                                                                                                                 |
+| -------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `size`         | `'md' \| 'sm'` | Calendar size. Takes precedence over the global `defaults.size`.                                                            |
+| `flat`         | `boolean`      | Strips the calendar's own background, border and padding.                                                                   |
+| `showWeekend`  | `boolean`      | Shows Saturday and Sunday in a muted colour.                                                                                |
+| `showFooter`   | `boolean`      | Shows the footer with the current value and the "Today" shortcut.                                                           |
+| `showPrevNav`  | `boolean`      | Shows the "previous" navigation control in the header.                                                                      |
+| `showNextNav`  | `boolean`      | Shows the "next" navigation control in the header.                                                                          |
+| `previousIcon` | `KuiIconGlyph` | Icon of the previous control. Takes precedence over `defaults.icons.previous`. See [Structural Icons](structural-icons.md). |
+| `nextIcon`     | `KuiIconGlyph` | Icon of the next control. Takes precedence over `defaults.icons.next`. See [Structural Icons](structural-icons.md).         |
 
 Each option resolves as `local input > defaults.calendar.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

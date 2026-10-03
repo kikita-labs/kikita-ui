@@ -132,13 +132,14 @@ providers: [
 ];
 ```
 
-| Option                 | Values                                     | Description                            |
-| ---------------------- | ------------------------------------------ | -------------------------------------- |
-| `closable`             | `boolean`                                  | Shows the close button in the header.  |
-| `side`                 | `'right' \| 'left' \| 'bottom' \| 'top'`   | Edge the drawer slides in from.        |
-| `size`                 | `'sm' \| 'md' \| 'lg' \| 'full' \| 'auto'` | Drawer size preset.                    |
-| `closeOnBackdropClick` | `boolean`                                  | Closes the drawer on a backdrop click. |
-| `closeOnEscape`        | `boolean`                                  | Closes the drawer on Escape.           |
+| Option                 | Values                                     | Description                                                                                                          |
+| ---------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| `closable`             | `boolean`                                  | Shows the close button in the header.                                                                                |
+| `side`                 | `'right' \| 'left' \| 'bottom' \| 'top'`   | Edge the drawer slides in from.                                                                                      |
+| `size`                 | `'sm' \| 'md' \| 'lg' \| 'full' \| 'auto'` | Drawer size preset.                                                                                                  |
+| `closeOnBackdropClick` | `boolean`                                  | Closes the drawer on a backdrop click.                                                                               |
+| `closeOnEscape`        | `boolean`                                  | Closes the drawer on Escape.                                                                                         |
+| `closeIcon`            | `KuiIconGlyph`                             | Icon of the close button. Takes precedence over `defaults.icons.close`. See [Structural Icons](structural-icons.md). |
 
 Each option resolves as `local input > defaults.drawer.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

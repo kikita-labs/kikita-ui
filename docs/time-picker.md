@@ -184,14 +184,16 @@ providers: [
 ];
 ```
 
-| Option        | Values           | Description                                                                      |
-| ------------- | ---------------- | -------------------------------------------------------------------------------- |
-| `clearable`   | `boolean`        | When true, field controls with clear affordances show a clear button by default. |
-| `format`      | `'24h' \| '12h'` | Display and parse format.                                                        |
-| `hourStep`    | `number`         | Step of the hour column.                                                         |
-| `minuteStep`  | `number`         | Step of the minute column.                                                       |
-| `secondStep`  | `number`         | Step of the second column, used when seconds are shown.                          |
-| `showSeconds` | `boolean`        | Shows the seconds column.                                                        |
+| Option        | Values           | Description                                                                                                                    |
+| ------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `clearable`   | `boolean`        | When true, field controls with clear affordances show a clear button by default.                                               |
+| `format`      | `'24h' \| '12h'` | Display and parse format.                                                                                                      |
+| `hourStep`    | `number`         | Step of the hour column.                                                                                                       |
+| `minuteStep`  | `number`         | Step of the minute column.                                                                                                     |
+| `secondStep`  | `number`         | Step of the second column, used when seconds are shown.                                                                        |
+| `showSeconds` | `boolean`        | Shows the seconds column.                                                                                                      |
+| `chevronIcon` | `KuiIconGlyph`   | Icon of the options toggle. Takes precedence over `defaults.icons.pickerChevron`. See [Structural Icons](structural-icons.md). |
+| `clearIcon`   | `KuiIconGlyph`   | Icon of the clear button. Takes precedence over `defaults.icons.clear`. See [Structural Icons](structural-icons.md).           |
 
 Each option resolves as `local input > defaults.timePicker.<option> > built-in default`. See [DI defaults](di-defaults.md).
 
@@ -257,9 +259,9 @@ styles.
   panel component itself hasn't rendered it yet on first open — the same pre-existing gap
   `kuiDatePicker` has (the dropdown doesn't expose its id outward before attaching).
 - No locale-aware display format beyond the `24h`/`12h` mask switch; the leading clock icon is a
-  new static chrome glyph (`KUI_CLOCK_CIRCLE`/`KUI_CLOCK_D` in `kui-chrome-icon-paths.util`), not
-  yet routed through the async `kui-icon` registry, matching how `KUI_CALENDAR_D` is handled for
-  `kuiDatePicker`.
+  structural glyph drawn from built-in icon data, not routed through the async `kui-icon` registry,
+  matching the calendar glyph of `kuiDatePicker`. It follows the stroke tokens but has no override
+  slot yet; the clear and chevron icons do (see [Structural Icons](structural-icons.md)).
 
 <!-- color-tokens:begin -->
 

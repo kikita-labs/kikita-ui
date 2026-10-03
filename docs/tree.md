@@ -127,10 +127,11 @@ providers: [
 ];
 ```
 
-| Option | Values                         | Description                                                       |
-| ------ | ------------------------------ | ----------------------------------------------------------------- |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
-| `mode` | `'display' \| 'checkable'`     | Default mode.                                                     |
+| Option           | Values                         | Description                                                                                                                 |
+| ---------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `size`           | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`.                                                           |
+| `mode`           | `'display' \| 'checkable'`     | Default mode.                                                                                                               |
+| `disclosureIcon` | `KuiIconGlyph`                 | Icon of the expand control. Takes precedence over `defaults.icons.disclosure`. See [Structural Icons](structural-icons.md). |
 
 Each option resolves as `local input > defaults.tree.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

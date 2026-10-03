@@ -1,4 +1,5 @@
 import type { KuiSize } from '../../types';
+import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
 import type { KuiFileUploadVariant } from './kui-file-upload.component';
 import type { KuiFileUploadMode } from './kui-file-upload.component';
 
@@ -12,4 +13,6 @@ export interface KuiFileUploadOptions {
 
   /** Default mode. */
   readonly mode?: KuiFileUploadMode;
+  /** Icon of the remove-file button. Takes precedence over `defaults.icons.remove`. */
+  readonly removeIcon?: KuiIconGlyph;
 }

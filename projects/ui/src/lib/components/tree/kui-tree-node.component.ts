@@ -9,12 +9,15 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import {
-  KUI_CHEVRON_RIGHT_D,
-  KUI_FILE_D,
-  KUI_FOLDER_D,
-  KUI_FOLDER_OPEN_D,
-} from '../../utils/kui-chrome-icon-paths.util';
+  KUI_GLYPH_CHEVRON_RIGHT,
+  KUI_GLYPH_FILE,
+  KUI_GLYPH_FOLDER,
+  KUI_GLYPH_FOLDER_OPEN,
+} from '../icon/kui-chrome-glyphs';
+import { KuiGlyphComponent } from '../icon/kui-glyph.component';
 import { KUI_TREE_CONTEXT } from './kui-tree-context.token';
 import type { KuiTreeNode } from './kui-tree-node.interface';
 
@@ -25,7 +28,7 @@ import type { KuiTreeNode } from './kui-tree-node.interface';
  */
 @Component({
   selector: 'kui-tree-node',
-  imports: [KuiTreeNodeComponent],
+  imports: [KuiTreeNodeComponent, KuiGlyphComponent],
   template: `
     <div
       #row
@@ -56,15 +59,7 @@ import type { KuiTreeNode } from './kui-tree-node.interface';
             [attr.aria-expanded]="expanded()"
             (click)="onToggleClick($event)"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <path
-                d="${KUI_CHEVRON_RIGHT_D}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <svg width="14" height="14" [kuiGlyph]="disclosureGlyph()" [kuiGlyphStroke]="1.5"></svg>
           </button>
         }
       } @else {
@@ -87,45 +82,14 @@ import type { KuiTreeNode } from './kui-tree-node.interface';
       @if (node().icon === 'folder') {
         <span class="kui-tree-icon" aria-hidden="true">
           @if (expanded()) {
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path
-                d="${KUI_FOLDER_OPEN_D}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <svg width="16" height="16" [kuiGlyph]="folderOpenGlyph" [kuiGlyphStroke]="1.5"></svg>
           } @else {
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path
-                d="${KUI_FOLDER_D}"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <svg width="16" height="16" [kuiGlyph]="folderGlyph" [kuiGlyphStroke]="1.5"></svg>
           }
         </span>
       } @else if (node().icon === 'file') {
         <span class="kui-tree-icon" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path
-              d="${KUI_FILE_D[0]}"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="${KUI_FILE_D[1]}"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <svg width="16" height="16" [kuiGlyph]="fileGlyph" [kuiGlyphStroke]="1.5"></svg>
         </span>
       }
 
@@ -149,6 +113,18 @@ import type { KuiTreeNode } from './kui-tree-node.interface';
 })
 /** Renders one interactive row in a Kikita UI tree. */
 export class KuiTreeNodeComponent {
+  private readonly treeDefaults = inject(KuiDefaults).get('tree');
+
+  protected readonly disclosureGlyph = injectKuiGlyph({
+    role: 'disclosure',
+    slot: () => this.treeDefaults()?.disclosureIcon,
+    fallback: KUI_GLYPH_CHEVRON_RIGHT,
+  });
+
+  protected readonly folderGlyph = KUI_GLYPH_FOLDER;
+  protected readonly folderOpenGlyph = KUI_GLYPH_FOLDER_OPEN;
+  protected readonly fileGlyph = KUI_GLYPH_FILE;
+
   /** Node data rendered by this row. */
   readonly node = input.required<KuiTreeNode>();
   /** 1-based tree depth, mirrored to `aria-level`. */

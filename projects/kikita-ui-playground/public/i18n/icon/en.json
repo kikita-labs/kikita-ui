@@ -4,7 +4,9 @@
     "default": "Default",
     "sizes": "Sizes",
     "sources": "Source types",
-    "accessibility": "Accessible names"
+    "accessibility": "Accessible names",
+    "stroke": "Stroke width",
+    "structural": "Structural icons"
   },
   "labels": {
     "localDefault": "Local brand icon",
@@ -22,7 +24,24 @@
     "projectedSvg": "Projected SVG",
     "decorative": "Decorative icon",
     "accessibleBrand": "Kikita UI brand icon",
-    "labeled": "Labeled image"
+    "labeled": "Labeled image",
+    "strokeWidths": "strokeWidth input",
+    "strokeWidth": "Stroke {{width}}",
+    "scalingStroke": "Stroke scales with the icon",
+    "absoluteStroke": "absoluteStrokeWidth: constant pixels",
+    "pixelSize": "{{size}} px",
+    "chromeStroke": "--kui-icon-stroke-width on structural icons",
+    "chromeThin": "Thin (1)",
+    "chromeDefault": "Default",
+    "chromeThick": "Thick (3)",
+    "chipLabel": "Backend",
+    "removeChip": "Remove Backend",
+    "alertMessage": "Deployment failed",
+    "closeAlert": "Close notification",
+    "builtInStructural": "Built-in glyphs",
+    "overriddenStructural": "defaults.icons override",
+    "paginationBuiltIn": "Built-in pages",
+    "paginationOverridden": "Overridden pages"
   },
   "accessibility": {
     "defaultExample": "Default icon example",
@@ -39,6 +58,20 @@
     "projectedSource": "Projected SVG source example",
     "accessibleNames": "Icon accessible name examples",
     "decorative": "Decorative icon example",
-    "labeled": "Labeled icon example"
+    "labeled": "Labeled icon example",
+    "strokeCatalogue": "Icon stroke width examples",
+    "strokeWidths": "Stroke width input examples",
+    "strokeWidth": "Stroke width {{width}}",
+    "scalingStroke": "Scaling stroke examples",
+    "scalingStrokeSize": "Scaling stroke at {{size}} pixels",
+    "absoluteStroke": "Constant pixel stroke examples",
+    "absoluteStrokeSize": "Constant pixel stroke at {{size}} pixels",
+    "chromeStroke": "Structural icon stroke examples",
+    "chromeThin": "Thin structural icons",
+    "chromeDefault": "Default structural icons",
+    "chromeThick": "Thick structural icons",
+    "structuralCatalogue": "Structural icon examples",
+    "builtInStructural": "Built-in structural icons",
+    "overriddenStructural": "Overridden structural icons"
   }
 }

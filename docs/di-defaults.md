@@ -221,6 +221,24 @@ Not configurable on purpose: values, open and loading state, `disabled`, `readon
 data inputs (`series`, `data`, `groups`), ids, accessible names and library message text, and
 per-instance structure such as `Select.multiple`, `Chip.removable` or `OTP length`.
 
+## Structural icons
+
+The `icons` key replaces the glyphs components draw for themselves (close, chevrons, status marks),
+one glyph per role, for the whole app or for a subtree. A component key can replace one icon of one
+component.
+
+```text
+defaults.<component>.<slot>Icon > defaults.icons.<role> > built-in glyph
+```
+
+```ts
+provideKikitaUi({ defaults: { icons: { close: MY_CLOSE }, select: { chevronIcon: MY_CHEVRON } } });
+```
+
+A glyph is plain icon data (`KuiIconGlyph`), not markup, and an invalid one is ignored. The roles, the
+slot keys and the data format are listed in [Structural Icons](structural-icons.md). These are not
+the icons you pass to `kui-icon` by name.
+
 ## Button primitives
 
 `kuiButton` and `kuiIconButton` use separate keys because their default shapes differ on purpose

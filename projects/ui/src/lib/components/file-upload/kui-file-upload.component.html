@@ -28,29 +28,7 @@
     (drop)="onDrop($event)"
   >
     <span class="kui-file-upload-dropzone-icon" aria-hidden="true">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-        <path
-          [attr.d]="_cloudUploadD[1]"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-        <path
-          [attr.d]="_cloudUploadD[2]"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-        <path
-          [attr.d]="_cloudUploadD[0]"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
+      <svg width="32" height="32" [kuiGlyph]="cloudUploadGlyph" [kuiGlyphStroke]="1.5"></svg>
     </span>
 
     @if (dragState() === 'invalid') {
@@ -85,14 +63,7 @@
       [disabled]="disabled()"
       (click)="onTriggerClick($event)"
     >
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-        <path
-          [attr.d]="_plusMiniD"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-        />
-      </svg>
+      <svg width="14" height="14" [kuiGlyph]="plusGlyph" [kuiGlyphStroke]="1.5"></svg>
       Attach file
     </button>
     @if (acceptLabel(); as hint) {
@@ -103,27 +74,7 @@
 
 @if (formError(); as message) {
   <div class="kui-file-upload-form-error" aria-live="polite">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-      <circle
-        [attr.cx]="_circleAlertCircle.cx"
-        [attr.cy]="_circleAlertCircle.cy"
-        [attr.r]="_circleAlertCircle.r"
-        stroke="currentColor"
-        stroke-width="1.5"
-      />
-      <path
-        [attr.d]="'M' + _circleAlertLine.x1 + ' ' + _circleAlertLine.y1 + 'V' + _circleAlertLine.y2"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-      />
-      <path
-        [attr.d]="'M' + _circleAlertDot.x1 + ' ' + _circleAlertDot.y1 + 'h.01'"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-      />
-    </svg>
+    <svg width="14" height="14" [kuiGlyph]="alertGlyph" [kuiGlyphStroke]="1.5"></svg>
     <span>{{ message }}</span>
   </div>
 }
@@ -143,22 +94,7 @@
           } @else if (kind(entry); as fileKind) {
             <span>{{ fileKind.label }}</span>
           } @else {
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path
-                [attr.d]="_fileD[0]"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                [attr.d]="_fileD[1]"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <svg width="16" height="16" [kuiGlyph]="fileGlyph" [kuiGlyphStroke]="1.5"></svg>
           }
         </div>
 
@@ -181,48 +117,19 @@
             <div class="kui-file-upload-item-meta">
               <span class="kui-file-upload-item-size">{{ sizeLabel(entry) }}</span>
               <span class="kui-file-upload-item-success">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                  <path
-                    [attr.d]="_checkD"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
+                <svg width="12" height="12" [kuiGlyph]="checkGlyph()" [kuiGlyphStroke]="2"></svg>
                 Done
               </span>
             </div>
           } @else if (entry.status === 'error') {
             <div class="kui-file-upload-item-error">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0">
-                <circle
-                  [attr.cx]="_circleAlertCircle.cx"
-                  [attr.cy]="_circleAlertCircle.cy"
-                  [attr.r]="_circleAlertCircle.r"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                />
-                <path
-                  [attr.d]="
-                    'M' +
-                    _circleAlertLine.x1 +
-                    ' ' +
-                    _circleAlertLine.y1 +
-                    'V' +
-                    _circleAlertLine.y2
-                  "
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                />
-                <path
-                  [attr.d]="'M' + _circleAlertDot.x1 + ' ' + _circleAlertDot.y1 + 'h.01'"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                />
-              </svg>
+              <svg
+                width="12"
+                height="12"
+                style="flex-shrink: 0"
+                [kuiGlyph]="alertGlyph"
+                [kuiGlyphStroke]="1.5"
+              ></svg>
               <span>{{ entry.errorMsg }}</span>
               <button
                 class="kui-file-upload-item-retry"
@@ -250,20 +157,7 @@
             [attr.aria-label]="'Remove ' + entry.name"
             (click)="removeFile(entry)"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <path
-                [attr.d]="_xD[0]"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-              <path
-                [attr.d]="_xD[1]"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-            </svg>
+            <svg width="14" height="14" [kuiGlyph]="removeGlyph()" [kuiGlyphStroke]="1.5"></svg>
           </button>
         </div>
       </div>

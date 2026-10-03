@@ -1,4 +1,5 @@
 import type { KuiSize } from '../../types';
+import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
 import type { KuiTabsVariant } from './kui-tabs.component';
 import type { KuiTabsOrientation } from './kui-tabs.component';
 
@@ -12,4 +13,9 @@ export interface KuiTabsOptions {
 
   /** Default orientation. */
   readonly orientation?: KuiTabsOrientation;
+  /** Icon of the scroll-back button. Takes precedence over `defaults.icons.previous`. */
+  readonly previousIcon?: KuiIconGlyph;
+
+  /** Icon of the scroll-forward button. Takes precedence over `defaults.icons.next`. */
+  readonly nextIcon?: KuiIconGlyph;
 }

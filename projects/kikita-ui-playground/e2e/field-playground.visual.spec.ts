@@ -15,7 +15,7 @@ const LUCIDE_SEARCH_ICON =
   '<svg class="lucide lucide-search" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg>';
 
 test.beforeEach(async ({ page }) => {
-  await page.route('https://cdn.jsdelivr.net/npm/lucide-static@1/icons/search.svg', (route) =>
+  await page.route('https://cdn.jsdelivr.net/npm/lucide-static@*/icons/search.svg', (route) =>
     route.fulfill({ contentType: 'image/svg+xml', body: LUCIDE_SEARCH_ICON }),
   );
   await page.setViewportSize({ width: 1440, height: 1000 });

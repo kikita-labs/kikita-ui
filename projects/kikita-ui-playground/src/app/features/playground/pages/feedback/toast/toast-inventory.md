@@ -134,7 +134,7 @@ Verification 2026-09-28: the mobile placement test was flaky for two reasons. Th
 theme icon is fetched from the jsDelivr CDN at runtime and raced page-level captures, and a click
 on a not-yet-stable button retried with Playwright's forced scroll alignments, leaving the shell
 workspace at an arbitrary offset. The spec now serves the shell's Lucide icons from verbatim
-`lucide-static@1` fixtures, waits for every `kui-icon` to render before page captures, and pins
+`lucide-static@*` fixtures (the default set is read at a pinned version), waits for every `kui-icon` to render before page captures, and pins
 the workspace scroll before every capture. The `toast-persistent-signal-320` and
 `toast-reference-update-320` baselines were regenerated after a pixel diff showed only the single
 page row behind each toast's fractional box changed; the toast content is identical. With a fresh
