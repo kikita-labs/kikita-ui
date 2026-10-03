@@ -12,8 +12,8 @@ import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiI18n } from '../../i18n/kui-i18n.service';
 import type { KuiPaginationMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { kuiNextId } from '../../utils/kui-id.util';
 import {
   optionalNonNegativeIntegerAttribute,

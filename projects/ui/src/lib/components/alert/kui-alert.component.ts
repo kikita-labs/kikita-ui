@@ -11,7 +11,7 @@ import {
 
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { KuiButtonDirective } from '../button';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';

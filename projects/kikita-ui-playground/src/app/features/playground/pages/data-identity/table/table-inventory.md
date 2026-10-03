@@ -96,7 +96,7 @@ faked with page CSS. The page contains no random or time-dependent content.
   table accessibility guidance).
 - Runtime inputs, outputs, sorting, and size resolution:
   `projects/ui/src/lib/components/table/kui-table.directive.ts` and
-  `projects/ui/src/lib/utils/kui-defaults.util.ts`.
+  `projects/ui/src/lib/providers/kui-defaults.util.ts`.
 - Sort button creation, state labels, `aria-sort`, and comparator typing:
   `projects/ui/src/lib/components/table/kui-th.directive.ts`.
 - Sticky header input: `projects/ui/src/lib/components/table/kui-th-group.directive.ts`.

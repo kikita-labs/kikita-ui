@@ -14,7 +14,7 @@ import {
 
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
 import { createKuiGlyphElement } from '../icon/kui-glyph-dom.util';

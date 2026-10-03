@@ -65,6 +65,8 @@ change unless explicitly deferred:
 
 - Full delivery gate: `docs/component-checklist.md`
 - Implementation: `projects/ui/src/lib/components/<primitive>/...`
+- Layer: classify the new folder in `scripts/architecture-layers.json` (`primitives` or `composites`);
+  `pnpm audit:architecture` fails on an unclassified module. See `.agents/imports-and-boundaries.md`.
 - Local component barrel: `projects/ui/src/lib/components/<primitive>/index.ts`
 - Component barrel: `projects/ui/src/lib/components/index.ts`
 - Public API: `projects/ui/src/public-api.ts` when public outside package internals

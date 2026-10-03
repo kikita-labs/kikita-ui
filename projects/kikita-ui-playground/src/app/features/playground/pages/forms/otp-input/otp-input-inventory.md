@@ -15,7 +15,7 @@ Status: implemented. The contract audit was reviewed and accepted by the parent 
   `positiveIntegerAttribute` transform in
   [`kui-input-transform.util.ts`](../../../../../../../../../projects/ui/src/lib/utils/kui-input-transform.util.ts),
   and root size resolution in
-  [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/utils/kui-defaults.util.ts).
+  [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts).
 - Existing browser tests to keep covered but not duplicate (legacy app,
   [`tests/e2e/behavior.spec.ts`](../../../../../../../../../tests/e2e/behavior.spec.ts)): label click
   focuses the first cell; keyboard navigation and paste distribution across cells.

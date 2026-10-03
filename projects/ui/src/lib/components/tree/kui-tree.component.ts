@@ -13,8 +13,8 @@ import {
 
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiTreeCheckedState, KuiTreeContext } from './kui-tree-context.token';
 import { KUI_TREE_CONTEXT } from './kui-tree-context.token';
 import { KuiTreeNodeComponent } from './kui-tree-node.component';

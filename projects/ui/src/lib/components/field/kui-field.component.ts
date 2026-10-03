@@ -15,8 +15,8 @@ import {
 import { FormField } from '@angular/forms/signals';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import type { KuiCalendarComponent } from '../calendar/kui-calendar.component';
 import type { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';

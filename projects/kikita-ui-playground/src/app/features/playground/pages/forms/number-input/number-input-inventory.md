@@ -25,7 +25,7 @@ integration.
   [`kui-field.component.html`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.html),
   and [`kui-field.component.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.spec.ts).
 - Defaults, tokens, and styles:
-  [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/utils/kui-defaults.util.ts),
+  [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts),
   [`KikitaUiOptions`](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),
   [`defaults.field`](../../../../../../../../../projects/ui/src/lib/tokens/kui-field-options.interface.ts),
   [`number-input.css`](../../../../../../../../../projects/ui/src/styles/number-input.css),

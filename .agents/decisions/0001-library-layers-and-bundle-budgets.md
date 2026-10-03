@@ -40,7 +40,7 @@ Causes found in the source:
 
 1. **Keep one entry point.** No secondary entry points: the measurement shows the single flat bundle
    tree-shakes (Badge 5 kB, Button 26 kB), and secondary entries forbid the cycles that exist today.
-2. **Layers, dependencies point down only:** `foundation` (pure functions) -> `core` (defaults, i18n,
+2. **Layers, dependencies point down only (enforced as rules in `scripts/architecture-layers.json`, not as folders):** `foundation` (pure functions) -> `core` (defaults, i18n,
    theme generator, overlay helpers) -> `primitives` (leaf components) -> `composites` (field, select,
    combobox, pickers, calendar, chart) -> `root` (`provideKikitaUi` and other composition-root
    functions). `core` may import component options types type-only (the defaults registry). Type-only
@@ -160,7 +160,10 @@ theme generator, which decisions 12 to 14 above explain.
    bundles byte-for-byte identically from the repository and from the packed package).
 1. Break the cycles; Field contract and token; shared-core weight (Icon, i18n, root provider, side
    effects, class-name contracts, date maths).
-2. Mechanical move into layers.
+2. Layers as audited rules, not folders: `scripts/architecture-layers.json` classifies every module, the
+   baseline is empty (done 2026-10-04). A physical move into `primitives/` and `composites/` folders
+   was rejected: none of the surveyed libraries separates components that way, and it would rewrite
+   hundreds of paths in docs and Playground inventories for no extra guarantee.
 3. Theme split with exact output equivalence.
 4. Calendar engine.
 5. Chart session and per-type folders.

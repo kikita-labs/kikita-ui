@@ -1,7 +1,7 @@
 import { computed, Directive, inject, input } from '@angular/core';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 
 /** Size of the breadcrumb trail. */
 export type KuiBreadcrumbsSize = 'sm' | 'md' | 'lg';

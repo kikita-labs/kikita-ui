@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { KuiStepComponent } from './kui-step.component';
 import type { KuiStepperContext } from './kui-stepper-context.token';

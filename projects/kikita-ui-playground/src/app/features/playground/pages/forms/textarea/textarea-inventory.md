@@ -19,7 +19,7 @@ the public API, native and Signal Forms behavior, documented caveats, and determ
   [`kui-field.component.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.ts),
   [`kui-field.component.html`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.html),
   and [`kui-field.component.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.spec.ts).
-- Defaults and tokens: [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/utils/kui-defaults.util.ts),
+- Defaults and tokens: [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts),
   [`kikita-ui-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),
   [`kui-field-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/tokens/kui-field-options.interface.ts),
   [`input.css`](../../../../../../../../../projects/ui/src/styles/input.css),

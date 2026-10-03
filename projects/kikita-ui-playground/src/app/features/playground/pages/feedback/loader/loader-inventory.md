@@ -63,7 +63,7 @@ Kikita tokens; the library owns Loader color, dimensions, and motion.
   root-size precedence described by implementation and [DI defaults](../../../../../../../../../docs/di-defaults.md).
 - [Directive source](../../../../../../../../../projects/ui/src/lib/components/loader/kui-loader.directive.ts),
   [shared size type](../../../../../../../../../projects/ui/src/lib/types/kui-size.type.ts),
-  [root default helper](../../../../../../../../../projects/ui/src/lib/utils/kui-defaults.util.ts),
+  [root default helper](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts),
   [root options](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),
   and [Playground config](../../../../../../../../../projects/kikita-ui-playground/src/app/app.config.ts)
   establish the public inputs, defaults, and effective size used by this app.

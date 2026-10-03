@@ -5,8 +5,8 @@ import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiActiveSortState, KuiSortState } from './types';
 
 /** Injection token used by table child directives to access their parent table state. */

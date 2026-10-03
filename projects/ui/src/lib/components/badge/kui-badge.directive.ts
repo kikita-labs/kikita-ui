@@ -1,8 +1,8 @@
 import { computed, Directive, inject, input } from '@angular/core';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiBadgeAppearance } from './kui-badge-appearance.type';
 
 /** Applies Kikita UI badge styling to inline status or metadata elements. */

@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 
 /** Visual shape used by `kui-progress`. */
 export type KuiProgressType = 'linear' | 'circular';

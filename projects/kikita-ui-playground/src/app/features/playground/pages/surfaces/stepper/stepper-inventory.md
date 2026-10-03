@@ -124,7 +124,7 @@ claimed. Real assistive-technology review was not performed.
   non-linear jump, and one-error disablement.
 - `projects/ui/src/styles/stepper.css`, `projects/ui/src/styles/kikita-ui.css`,
   `projects/ui/src/lib/theme/create-kui-theme.ts`, and
-  `projects/ui/src/lib/utils/kui-defaults.util.ts` — runtime layout/states, style import, theme
+  `projects/ui/src/lib/providers/kui-defaults.util.ts` — runtime layout/states, style import, theme
   values, and supported root size fallback.
 - `docs/di-defaults.md` and `projects/kikita-ui-playground/src/app/app.config.ts` — root-size
   precedence and the current app’s lack of a root size default.

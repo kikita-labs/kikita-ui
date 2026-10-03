@@ -2,7 +2,7 @@ import { Component, computed, inject, input } from '@angular/core';
 
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import { optionalPositiveIntegerAttribute } from '../../utils/kui-input-transform.util';
 import { KuiAvatarComponent } from './kui-avatar.component';
 import type { KuiAvatarItem } from './kui-avatar-item.interface';

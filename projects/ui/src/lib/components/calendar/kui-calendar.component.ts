@@ -29,12 +29,12 @@ import { KuiI18n } from '../../i18n/kui-i18n.service';
 import { resolveKuiLocale } from '../../i18n/kui-locale-resolve.util';
 import type { KuiCalendarMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import {
   KUI_CALENDAR_SIZES,
   type KuiCalendarNavigationView,
 } from '../../utils/kui-calendar-navigation.util';
 import { KuiClock } from '../../utils/kui-clock.service';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { KUI_PICKED_EVENT } from '../../utils/kui-picked-event';
 import { KuiButtonDirective } from '../button/kui-button.directive';

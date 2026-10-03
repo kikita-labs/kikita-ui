@@ -26,6 +26,7 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
   spec covers the no-defaults control, a configured value, a local-input-wins case and a runtime change.
   Data, instance state, forms state, accessible names and message text are never defaults.
 - Public API is exported from the local `index.ts`, `projects/ui/src/lib/components/index.ts`, and `projects/ui/src/public-api.ts` when applicable.
+- The new component folder is classified in `scripts/architecture-layers.json` (`primitives` or `composites`); `pnpm audit:architecture` fails on an unclassified module or on an import from a higher layer.
 - New services use Angular 22 `@Service` unless official Angular docs or a specific DI pattern require otherwise.
 - New components do not add `ChangeDetectionStrategy.OnPush`; Angular 22 default change detection is assumed.
 

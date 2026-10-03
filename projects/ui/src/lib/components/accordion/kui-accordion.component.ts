@@ -1,8 +1,8 @@
 import { Component, computed, inject, input, model, ViewEncapsulation } from '@angular/core';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import type { KuiAccordionContext } from './kui-accordion-context.token';
 import { KUI_ACCORDION_CONTEXT } from './kui-accordion-context.token';
 

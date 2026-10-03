@@ -21,9 +21,9 @@ import {
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import type { KuiColorInputMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import { DEFAULT_KUI_THEME } from '../../theme/default-kui-theme.const';
 import type { KuiSize } from '../../types';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import {
   createKuiControlSize,
   createKuiFieldWiring,

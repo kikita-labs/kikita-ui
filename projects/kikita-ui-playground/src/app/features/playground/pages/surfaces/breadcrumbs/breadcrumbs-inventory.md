@@ -33,7 +33,7 @@ This page demonstrates the currently shipped Breadcrumbs contract. The component
 - [Breadcrumbs directive](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumbs.directive.ts)
 - [Breadcrumb item directive](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumb-item.directive.ts)
 - [Separator component](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumb-separator.component.ts)
-- [Root size resolution](../../../../../../../../ui/src/lib/utils/kui-defaults.util.ts) and [default precedence](../../../../../../../../../docs/di-defaults.md)
+- [Root size resolution](../../../../../../../../ui/src/lib/providers/kui-defaults.util.ts) and [default precedence](../../../../../../../../../docs/di-defaults.md)
 - [Breadcrumbs unit tests](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumbs.component.spec.ts)
 - [Breadcrumbs runtime styles](../../../../../../../../ui/src/styles/breadcrumbs.css) and [generated theme variables](../../../../../../../../ui/src/lib/theme/create-kui-theme.ts)
 - [Public style entrypoint](../../../../../../../../ui/src/styles/kikita-ui.css)

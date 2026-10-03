@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
 import { KUI_FIELD } from '../field/kui-field-host.token';
 import { KuiTooltipDirective } from '../tooltip/kui-tooltip.directive';

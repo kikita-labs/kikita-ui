@@ -7,18 +7,29 @@ const defaultRoot = fileURLToPath(new URL('..', import.meta.url));
 const libRoot = 'projects/ui/src/lib';
 const baselinePath = 'scripts/architecture-baseline.json';
 
+const layersPath = 'scripts/architecture-layers.json';
+
 /*
- * Module groups of the library, lowest first. A module may import its own group and the groups
- * below it; an edge to a higher group is a layer violation. The baseline lists the violations and
- * cycles that already exist, so the audit fails only on new ones and on stale baseline entries.
+ * Layers of the library, lowest first, and the modules in each (`scripts/architecture-layers.json`).
+ * A module may import its own layer and the layers below it; an edge to a higher layer is a layer
+ * violation. Every module must be classified, so a new component folder cannot skip the check. The
+ * baseline lists the violations and cycles that already exist, so the audit fails only on new ones
+ * and on stale baseline entries.
  */
-const groupOf = (module) => {
-  if (module === 'root') return 'root';
-  if (module.startsWith('components/')) return 'components';
-  if (module === 'foundation' || module === 'types' || module === 'utils') return 'foundation';
-  return 'core';
-};
-const groupRank = { foundation: 0, core: 1, components: 2, root: 3 };
+function readLayers(root) {
+  const file = join(root, layersPath);
+  if (!existsSync(file)) {
+    throw new Error(`${layersPath} is missing`);
+  }
+  const config = JSON.parse(readFileSync(file, 'utf8'));
+  const layerOf = new Map();
+  config.order.forEach((layer, rank) => {
+    for (const module of config.modules[layer] ?? []) {
+      layerOf.set(module, { layer, rank });
+    }
+  });
+  return { order: config.order, layerOf };
+}
 
 /**
  * Builds the module import graph of the library. Only runtime edges count: type-only imports and
@@ -49,6 +60,8 @@ export function buildModuleGraph(root = defaultRoot) {
 
   const moduleEdges = new Map();
   for (const [file, targets] of fileEdges) {
+    // A barrel does not make its folder a module of its own, and it consumes nothing.
+    if (file.endsWith('index.ts')) continue;
     const from = moduleOf(lib, file);
     if (!moduleEdges.has(from)) moduleEdges.set(from, new Map());
     for (const target of targets) {
@@ -108,17 +121,40 @@ export function findModuleCycles(moduleEdges) {
   return cycles.sort();
 }
 
-/** Module edges from a lower group to a higher one, as `from -> to` strings. */
-export function findLayerViolations(moduleEdges) {
+/** Module edges from a lower layer to a higher one, as `from -> to` strings. */
+export function findLayerViolations(moduleEdges, layers) {
   const violations = [];
   for (const [from, targets] of moduleEdges) {
     for (const to of targets.keys()) {
-      if (groupRank[groupOf(from)] < groupRank[groupOf(to)]) {
-        violations.push(`${from} -> ${to}`);
+      const fromLayer = layers.layerOf.get(from);
+      const toLayer = layers.layerOf.get(to);
+      if (fromLayer && toLayer && fromLayer.rank < toLayer.rank) {
+        violations.push(`${from} (${fromLayer.layer}) -> ${to} (${toLayer.layer})`);
       }
     }
   }
   return violations.sort();
+}
+
+/** Layer-file problems: modules without a layer and layer entries for modules that are gone. */
+export function findLayerConfigProblems(moduleEdges, layers) {
+  const modules = new Set(moduleEdges.keys());
+  for (const targets of moduleEdges.values()) {
+    for (const to of targets.keys()) modules.add(to);
+  }
+
+  const problems = [];
+  for (const module of [...modules].sort()) {
+    if (!layers.layerOf.has(module)) {
+      problems.push(`module ${module} has no layer in ${layersPath}`);
+    }
+  }
+  for (const module of [...layers.layerOf.keys()].sort()) {
+    if (!modules.has(module)) {
+      problems.push(`${layersPath} lists ${module}, which no longer exists`);
+    }
+  }
+  return problems;
 }
 
 export function runArchitectureAudit(root = defaultRoot) {
@@ -127,13 +163,15 @@ export function runArchitectureAudit(root = defaultRoot) {
   const baseline = existsSync(baselineFile)
     ? JSON.parse(readFileSync(baselineFile, 'utf8'))
     : { cycles: [], layerViolations: [] };
+  const layers = readLayers(root);
   const moduleEdges = buildModuleGraph(root);
   const cycles = findModuleCycles(moduleEdges);
-  const violations = findLayerViolations(moduleEdges);
+  const violations = findLayerViolations(moduleEdges, layers);
 
+  failures.push(...findLayerConfigProblems(moduleEdges, layers));
   compare(failures, 'module cycle', cycles, baseline.cycles ?? []);
   compare(failures, 'layer violation', violations, baseline.layerViolations ?? [], (entry) => {
-    const [from, to] = entry.split(' -> ');
+    const [from, to] = entry.split(' -> ').map((part) => part.replace(/ \(.*\)$/u, ''));
     return (moduleEdges.get(from)?.get(to) ?? []).slice(0, 3).join('; ');
   });
 
@@ -144,7 +182,7 @@ export function writeArchitectureBaseline(root = defaultRoot) {
   const moduleEdges = buildModuleGraph(root);
   const baseline = {
     cycles: findModuleCycles(moduleEdges),
-    layerViolations: findLayerViolations(moduleEdges),
+    layerViolations: findLayerViolations(moduleEdges, readLayers(root)),
   };
   writeFileSync(join(root, baselinePath), `${JSON.stringify(baseline, null, 2)}\n`);
   return baseline;

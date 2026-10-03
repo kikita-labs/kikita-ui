@@ -13,7 +13,7 @@
   [`kui-input.directive.ts`](../../../../../../../../../projects/ui/src/lib/components/input/kui-input.directive.ts)
   and [`kui-input.directive.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/input/kui-input.directive.spec.ts).
 - Default resolution implementation and provider types:
-  [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/utils/kui-defaults.util.ts),
+  [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts),
   [`provide-kikita-ui.ts`](../../../../../../../../../projects/ui/src/lib/providers/provide-kikita-ui.ts),
   [`kikita-ui-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),
   and [`kui-field-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/tokens/kui-field-options.interface.ts).

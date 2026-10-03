@@ -1,4 +1,4 @@
 {
   "cycles": [],
-  "layerViolations": ["utils -> providers"]
+  "layerViolations": []
 }

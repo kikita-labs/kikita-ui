@@ -20,8 +20,8 @@ import type {
 } from '@angular/forms/signals';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
 import { KuiSegmentDirective } from './kui-segment.directive';
 import type { KuiSegmentedContext } from './kui-segmented-context.token';
 import { KUI_SEGMENTED_CONTEXT } from './kui-segmented-context.token';

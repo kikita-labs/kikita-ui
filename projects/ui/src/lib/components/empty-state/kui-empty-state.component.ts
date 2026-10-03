@@ -1,7 +1,7 @@
 import { Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { injectKuiRootSizeDefault } from '../../utils/kui-defaults.util';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiEmptyStateContext } from './kui-empty-state-context.type';
 import type { KuiEmptyStateSize } from './kui-empty-state-size.type';
 
