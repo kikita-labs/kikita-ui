@@ -13,30 +13,30 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { injectKuiMessages } from '../../i18n/inject-kui-messages';
-import { KuiI18n } from '../../i18n/kui-i18n.service';
-import type { KuiChartMessages } from '../../i18n/kui-messages.interface';
-import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { kuiNextId } from '../../utils/kui-id.util';
-import { KuiButtonDirective } from '../button';
+import { injectKuiMessages } from '../../../i18n/inject-kui-messages';
+import { KuiI18n } from '../../../i18n/kui-i18n.service';
+import type { KuiChartMessages } from '../../../i18n/kui-messages.interface';
+import { KuiDefaults } from '../../../providers/kui-defaults.service';
+import { kuiNextId } from '../../../utils/kui-id.util';
+import { KuiButtonDirective } from '../../button';
 import {
   KuiCellDirective,
   KuiRowDirective,
   KuiTableDirective,
   KuiThDirective,
   KuiThGroupDirective,
-} from '../table';
+} from '../../table';
 import type {
   KuiChartLegendItem,
   KuiChartLegendSource,
   KuiChartSlice,
   KuiChartTooltipFormatter,
   KuiChartValueFormat,
-} from './chart.types';
-import { computeRovingIndex } from './chart-keyboard-nav.util';
-import { normalizeSlices } from './chart-normalize.util';
-import { computeDonutShares } from './chart-scale.util';
-import { isTouchPointerType, KuiChartTooltipController } from './chart-tooltip.util';
+} from '../chart.types';
+import { computeRovingIndex } from '../core/chart-keyboard-nav.util';
+import { normalizeSlices } from '../core/chart-normalize.util';
+import { computeDonutShares } from '../core/chart-scale.util';
+import { isTouchPointerType, KuiChartTooltipController } from '../core/chart-tooltip.util';
 
 /** See the matching constant's JSDoc in `kui-line-chart.component.ts` -- same rationale. Height
  * and width share one value here (a donut is circular, not an axis-driven rectangle). */

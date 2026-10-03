@@ -7,7 +7,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { KuiCarouselComponent } from './components/carousel/kui-carousel.component';
 import { KuiCarouselSlideDirective } from './components/carousel/kui-carousel-slide.directive';
-import { KuiDonutChartComponent } from './components/chart/kui-donut-chart.component';
+import { KuiDonutChartComponent } from './components/chart/donut/kui-donut-chart.component';
 import { KuiCommandPaletteComponent } from './components/command-palette/kui-command-palette.component';
 import { KuiDropdownComponent } from './components/dropdown/kui-dropdown.component';
 import { KuiDropdownForDirective } from './components/dropdown/kui-dropdown-for.directive';

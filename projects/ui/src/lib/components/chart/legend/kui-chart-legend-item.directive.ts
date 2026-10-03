@@ -1,6 +1,6 @@
 import { Directive, inject, TemplateRef } from '@angular/core';
 
-import type { KuiChartLegendItem } from './chart.types';
+import type { KuiChartLegendItem } from '../chart.types';
 
 /** Template context for `[kuiChartLegendItem]` -- `$implicit` is the legend entry itself,
  * `hovered` is whether it's the currently cross-highlighted item (from a hovered mark/slice on

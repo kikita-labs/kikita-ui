@@ -1,8 +1,8 @@
 import type { FlexibleConnectedPositionStrategyOrigin, Overlay } from '@angular/cdk/overlay';
 import { isPlatformBrowser } from '@angular/common';
 
-import type { KuiTooltipOverlayHandle } from '../tooltip/kui-tooltip-overlay.util';
-import { createKuiTooltipOverlay } from '../tooltip/kui-tooltip-overlay.util';
+import type { KuiTooltipOverlayHandle } from '../../tooltip/kui-tooltip-overlay.util';
+import { createKuiTooltipOverlay } from '../../tooltip/kui-tooltip-overlay.util';
 
 /**
  * Reuses one overlay per chart while moving between marks. Dispose only when

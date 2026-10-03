@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it } from 'vitest';
 
-import type { KuiChartCartesianSeries, KuiChartTooltipFormatter } from './chart.types';
+import type { KuiChartCartesianSeries, KuiChartTooltipFormatter } from '../chart.types';
 import { KuiBarChartComponent } from './kui-bar-chart.component';
 
 @Component({

@@ -1,4 +1,4 @@
-import type { KuiChartCartesianSeries, KuiChartScatterSeries, KuiChartSlice } from './chart.types';
+import type { KuiChartCartesianSeries, KuiChartScatterSeries, KuiChartSlice } from '../chart.types';
 import { resolveSeriesColor } from './chart-color.util';
 
 /**

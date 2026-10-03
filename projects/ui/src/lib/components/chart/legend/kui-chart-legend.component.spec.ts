@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it } from 'vitest';
 
-import type { KuiChartLegendItem, KuiChartLegendSource } from './chart.types';
+import type { KuiChartLegendItem, KuiChartLegendSource } from '../chart.types';
 import { KuiChartLegendComponent } from './kui-chart-legend.component';
 import { KuiChartLegendItemDirective } from './kui-chart-legend-item.directive';
 

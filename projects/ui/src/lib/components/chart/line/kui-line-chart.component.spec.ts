@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 
 import { describe, expect, it } from 'vitest';
 
-import type { KuiChartCartesianSeries, KuiChartTooltipFormatter } from './chart.types';
+import type { KuiChartCartesianSeries, KuiChartTooltipFormatter } from '../chart.types';
 import { KuiLineChartComponent } from './kui-line-chart.component';
 
 @Component({

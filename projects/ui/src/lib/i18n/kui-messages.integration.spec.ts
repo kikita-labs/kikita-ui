@@ -11,10 +11,10 @@ import { KuiCalendarComponent } from '../components/calendar/kui-calendar.compon
 import { KuiCalendarRangeComponent } from '../components/calendar-range/kui-calendar-range.component';
 import { KuiCarouselComponent } from '../components/carousel/kui-carousel.component';
 import { KuiCarouselSlideDirective } from '../components/carousel/kui-carousel-slide.directive';
-import { KuiBarChartComponent } from '../components/chart/kui-bar-chart.component';
-import { KuiDonutChartComponent } from '../components/chart/kui-donut-chart.component';
-import { KuiLineChartComponent } from '../components/chart/kui-line-chart.component';
-import { KuiScatterChartComponent } from '../components/chart/kui-scatter-chart.component';
+import { KuiBarChartComponent } from '../components/chart/bar/kui-bar-chart.component';
+import { KuiDonutChartComponent } from '../components/chart/donut/kui-donut-chart.component';
+import { KuiLineChartComponent } from '../components/chart/line/kui-line-chart.component';
+import { KuiScatterChartComponent } from '../components/chart/scatter/kui-scatter-chart.component';
 import { KuiChipDirective } from '../components/chip/kui-chip.directive';
 import { KuiDatePickerDirective } from '../components/date-picker/kui-date-picker.directive';
 import { KuiDropdownComponent } from '../components/dropdown/kui-dropdown.component';

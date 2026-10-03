@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, contentChild, input, TemplateRef, ViewEncapsulation } from '@angular/core';
 
-import type { KuiChartLegendSource } from './chart.types';
+import type { KuiChartLegendSource } from '../chart.types';
 import { KuiChartLegendItemDirective } from './kui-chart-legend-item.directive';
 
 @Component({
