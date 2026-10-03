@@ -110,6 +110,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
   protected readonly effectiveSize = computed(
     () =>
       this.size() ??
+      this.field?.size() ??
       this.colorInputDefaults()?.size ??
       this.field?.effectiveSize() ??
       this.rootDefaultSize() ??

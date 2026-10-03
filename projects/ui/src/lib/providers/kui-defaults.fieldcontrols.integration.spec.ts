@@ -74,6 +74,31 @@ import { provideKikitaUi } from './provide-kikita-ui';
 })
 class FieldControlsHost {}
 
+@Component({
+  imports: [
+    KuiFieldComponent,
+    KuiInputDirective,
+    KuiTextareaDirective,
+    KuiCheckboxDirective,
+    KuiRadioDirective,
+    KuiSwitchDirective,
+    KuiColorInputDirective,
+    KuiNumberInputDirective,
+  ],
+  template: `
+    <kui-field label="a"><input id="input-fd" kuiInput /></kui-field>
+    <kui-field label="a"><textarea id="textarea-fd" kuiTextarea></textarea></kui-field>
+    <kui-field label="a"><input id="checkbox-fd" type="checkbox" kuiCheckbox /></kui-field>
+    <kui-field label="a"><input id="radio-fd" type="radio" kuiRadio /></kui-field>
+    <kui-field label="a"><input id="switch-fd" type="checkbox" kuiSwitch /></kui-field>
+    <kui-field label="a"><input id="colorInput-fd" kuiColorInput value="#5b4fe0" /></kui-field>
+    <kui-field label="a"
+      ><input id="numberInput-fd" type="number" kuiNumberInput value="5"
+    /></kui-field>
+  `,
+})
+class FieldDefaultsHost {}
+
 function render(): HTMLElement {
   const fixture = TestBed.createComponent(FieldControlsHost);
   fixture.detectChanges();
@@ -117,6 +142,35 @@ const KEYS: readonly FieldKey[] = [
   'slider',
 ];
 
+describe('KuiDefaults key against a field size that comes from the defaults', () => {
+  afterEach(() => TestBed.resetTestingModule());
+
+  const NON_SLIDER = KEYS.filter((key) => key !== 'slider');
+
+  for (const key of NON_SLIDER) {
+    it(`${key}: the key wins over defaults.field.size, and defaults.field.size wins over the global size`, () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideKikitaUi({
+            defaults: { size: 'xs', field: { size: 'lg' }, [key]: { size: 'sm' } },
+          }),
+        ],
+      });
+
+      const fixture = TestBed.createComponent(FieldDefaultsHost);
+      fixture.detectChanges();
+      const host = fixture.nativeElement as HTMLElement;
+
+      expect(sizeOf(host, `${key}-fd`)).toBe('sm');
+
+      TestBed.inject(KuiDefaults).set(key, { size: undefined });
+      fixture.detectChanges();
+
+      expect(sizeOf(host, `${key}-fd`)).toBe('lg');
+    });
+  }
+});
+
 describe('KuiDefaults read by field controls', () => {
   afterEach(() => TestBed.resetTestingModule());
 
@@ -146,14 +200,15 @@ describe('KuiDefaults read by field controls', () => {
         expect(sizeOf(host, `${key}-local`)).toBe('lg');
       });
 
-      it('lets the key size win over the size of the parent field (c2)', () => {
+      it('lets an explicit size of the parent field win over the key (c2)', () => {
         TestBed.configureTestingModule({
           providers: [provideKikitaUi({ defaults: { [key]: { size: 'sm' } } })],
         });
 
         const host = render();
 
-        expect(sizeOf(host, `${key}-field`)).toBe('sm');
+        // The slider never read the parent field, so only its key applies.
+        expect(sizeOf(host, `${key}-field`)).toBe(key === 'slider' ? 'sm' : 'lg');
       });
 
       it('follows a runtime change of the key size', () => {

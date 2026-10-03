@@ -198,6 +198,10 @@ Local inputs always win over provider defaults:
 
 ```text
 local input > defaults.field > defaults.size > component default
+
+Controls inside the field (`kuiInput`, `kuiTextarea`, `kuiCheckbox`, `kuiRadio`, `kuiSwitch`,
+`kuiColorInput`, `kuiNumberInput`) take an explicit `size` of this field first, then their own
+`defaults.<control>.size`, then `defaults.field.size`.
 ```
 
 Every property of `defaults.field` accepts a plain value or a `Signal`, and `KuiDefaults.set('field', ...)`

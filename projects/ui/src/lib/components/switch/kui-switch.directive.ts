@@ -37,6 +37,7 @@ export class KuiSwitchDirective {
   protected readonly effectiveSize = computed(
     () =>
       this.size() ??
+      this.field?.size() ??
       this.switchDefaults()?.size ??
       this.field?.effectiveSize() ??
       this.rootDefaultSize() ??

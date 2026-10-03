@@ -112,12 +112,14 @@ local input > defaults.<component>.size > defaults.size > md
 ```
 
 Field controls (`kuiInput`, `kuiTextarea`, `kuiNumberInput`, `kuiColorInput`, `kuiCheckbox`,
-`kuiRadio`, `kuiSwitch`, `kuiSlider`) have their own key. Their key wins over the size of the parent
-`kui-field`, which in turn wins over the global size:
+`kuiRadio`, `kuiSwitch`) have their own key. An explicit size on the parent `kui-field` is an explicit
+choice and wins over the control key; among defaults the more specific one wins:
 
 ```text
-local size > defaults.<control>.size > parent kui-field size > defaults.size > md
+local size > parent kui-field local size > defaults.<control>.size > defaults.field.size > defaults.size > md
 ```
+
+`kuiSlider` does not read the parent field: `local size > defaults.slider.size > defaults.size > md`.
 
 `kui-field` itself resolves `local size > defaults.field.size > defaults.size > md`. `kuiSelect`,
 `kuiCombobox`, `kuiDatePicker` and `kuiTimePicker` have no `size` input and follow the parent field.

@@ -104,6 +104,7 @@ export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestro
   protected readonly effectiveSize = computed(
     () =>
       this.size() ??
+      this.field?.size() ??
       this.numberInputDefaults()?.size ??
       this.field?.effectiveSize() ??
       this.rootDefaultSize() ??

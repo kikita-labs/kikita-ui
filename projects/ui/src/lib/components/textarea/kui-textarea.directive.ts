@@ -36,6 +36,7 @@ export class KuiTextareaDirective {
   protected readonly effectiveSize = computed(
     () =>
       this.size() ??
+      this.field?.size() ??
       this.textareaDefaults()?.size ??
       this.field?.effectiveSize() ??
       this.rootDefaultSize() ??

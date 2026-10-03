@@ -36,6 +36,7 @@ export class KuiRadioDirective {
   protected readonly effectiveSize = computed(
     () =>
       this.size() ??
+      this.field?.size() ??
       this.radioDefaults()?.size ??
       this.field?.effectiveSize() ??
       this.rootDefaultSize() ??

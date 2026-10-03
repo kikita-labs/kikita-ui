@@ -18,8 +18,12 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 - Marker directives stay boolean-like. Visual variants use an explicit
   `appearance` input, not a marker directive value.
 - Public classes, directives, components, providers, services, types, and tokens have JSDoc.
-- DI defaults follow `docs/di-defaults.md`; local inputs stay strongest, option interfaces are
-  `readonly`, and new provider defaults have focused precedence tests.
+- Every preference input (size, shape, variant, orientation, display flags) is configurable through
+  `defaults.<key>` per `docs/di-defaults.md`: the options interface lives next to the component
+  (`kui-<name>-options.interface.ts`, `readonly` members), the key is added to `KuiComponentDefaults`,
+  the input is `undefined` when omitted and resolves through `inject(KuiDefaults).get('<key>')`, and a
+  spec covers the no-defaults control, a configured value, a local-input-wins case and a runtime change.
+  Data, instance state, forms state, accessible names and message text are never defaults.
 - Public API is exported from the local `index.ts`, `projects/ui/src/lib/components/index.ts`, and `projects/ui/src/public-api.ts` when applicable.
 - New services use Angular 22 `@Service` unless official Angular docs or a specific DI pattern require otherwise.
 - New components do not add `ChangeDetectionStrategy.OnPush`; Angular 22 default change detection is assumed.

@@ -36,6 +36,7 @@ export class KuiCheckboxDirective {
   protected readonly effectiveSize = computed(
     () =>
       this.size() ??
+      this.field?.size() ??
       this.checkboxDefaults()?.size ??
       this.field?.effectiveSize() ??
       this.rootDefaultSize() ??

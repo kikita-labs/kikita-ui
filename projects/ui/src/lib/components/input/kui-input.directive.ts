@@ -36,6 +36,7 @@ export class KuiInputDirective {
   protected readonly effectiveSize = computed(
     () =>
       this.size() ??
+      this.field?.size() ??
       this.inputDefaults()?.size ??
       this.field?.effectiveSize() ??
       this.rootDefaultSize() ??
