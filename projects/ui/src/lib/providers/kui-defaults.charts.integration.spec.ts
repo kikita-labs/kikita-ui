@@ -11,10 +11,10 @@ import type {
   KuiChartSlice,
 } from '../components/chart/chart.types';
 import { KuiBarChartComponent } from '../components/chart/kui-bar-chart.component';
+import type { KuiChartBaseOptions } from '../components/chart/kui-chart-options.interface';
 import { KuiDonutChartComponent } from '../components/chart/kui-donut-chart.component';
 import { KuiLineChartComponent } from '../components/chart/kui-line-chart.component';
 import { KuiScatterChartComponent } from '../components/chart/kui-scatter-chart.component';
-import type { KuiChartBaseOptions } from '../tokens/kui-chart-options.interface';
 import { KuiDefaults } from './kui-defaults.service';
 import { provideKikitaUi } from './provide-kikita-ui';
 

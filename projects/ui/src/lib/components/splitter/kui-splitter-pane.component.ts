@@ -8,6 +8,7 @@ import {
   numberAttribute,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
 
@@ -44,11 +45,20 @@ export class KuiSplitterPaneComponent {
   });
 
   /**
-   * Minimum share, as a percentage. Defaults to `10`, which is enough to stop an accidental drag
+   * Minimum share, as a percentage. Defaults to `defaults.splitter.minSize`, then `10`, which is enough to stop an accidental drag
    * or keyboard step from collapsing the pane to nothing; override only when a different floor is
    * actually needed.
    */
-  readonly minSize = input(10, { transform: minimumPercentageAttribute });
+  readonly minSize = input<number | undefined, unknown>(undefined, {
+    transform: minimumPercentageAttribute,
+  });
+
+  private readonly splitterDefaults = inject(KuiDefaults).get('splitter');
+
+  /** @internal Minimum share after the local input and defaults. */
+  readonly effectiveMinSize = computed(
+    () => this.minSize() ?? this.splitterDefaults()?.minSize ?? 10,
+  );
 
   /**
    * Renders a one-touch collapse button on the adjacent gutter. Only meaningful on the first or
@@ -86,7 +96,8 @@ function percentageOrUndefinedAttribute(value: unknown): number | undefined {
   return Number.isFinite(parsed) && parsed >= 0 ? Math.min(parsed, 100) : undefined;
 }
 
-function minimumPercentageAttribute(value: unknown): number {
+function minimumPercentageAttribute(value: unknown): number | undefined {
+  if (value === undefined || value === null) return undefined;
   const parsed = numberAttribute(value, 10);
   return Number.isFinite(parsed) ? Math.min(Math.max(parsed, 0), 100) : 10;
 }

@@ -9,7 +9,7 @@ export type KuiSplitterCollapseTarget = 'before' | 'after' | null;
 
 /** Shared context injected by KuiSplitterComponent into its internal gutter components. */
 export interface KuiSplitterContext {
-  readonly orientation: Signal<KuiSplitterOrientation>;
+  readonly effectiveOrientation: Signal<KuiSplitterOrientation>;
   readonly disabled: Signal<boolean>;
   readonly panes: Signal<readonly KuiSplitterPaneComponent[]>;
   readonly sizes: Signal<readonly number[]>;

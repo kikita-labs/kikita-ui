@@ -3,6 +3,7 @@ import {
   afterNextRender,
   booleanAttribute,
   Component,
+  computed,
   contentChildren,
   DestroyRef,
   effect,
@@ -17,6 +18,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSplitterCollapseTarget, KuiSplitterContext } from './kui-splitter-context.token';
 import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
 import { KuiSplitterGutterComponent } from './kui-splitter-gutter.component';
@@ -52,7 +54,7 @@ const ARROW_STEP_LARGE = 10;
   template: `<ng-content />`,
   host: {
     class: 'kui-splitter',
-    '[attr.data-kui-orientation]': 'orientation()',
+    '[attr.data-kui-orientation]': 'effectiveOrientation()',
     '[attr.data-kui-disabled]': 'disabled() ? "" : null',
   },
   providers: [
@@ -65,8 +67,15 @@ const ARROW_STEP_LARGE = 10;
 })
 /** Multi-pane resizable layout. See the class-level example above. */
 export class KuiSplitterComponent implements KuiSplitterContext {
-  /** Panel layout direction. Defaults to `horizontal`. */
-  readonly orientation = input<KuiSplitterOrientation>('horizontal');
+  /** Panel layout direction. Defaults to `defaults.splitter.orientation`, then `horizontal`. */
+  readonly orientation = input<KuiSplitterOrientation | undefined>();
+
+  private readonly splitterDefaults = inject(KuiDefaults).get('splitter');
+
+  /** @internal Orientation after the local input and defaults, read by the gutters through the context. */
+  readonly effectiveOrientation = computed(
+    () => this.orientation() ?? this.splitterDefaults()?.orientation ?? 'horizontal',
+  );
 
   /** Disables every gutter: removed from tab order and ignores drag. Defaults to `false`. */
   readonly disabled = input(false, { transform: booleanAttribute });
@@ -151,7 +160,7 @@ export class KuiSplitterComponent implements KuiSplitterContext {
   }
 
   minSizeOf(paneIndex: number): number {
-    return this.panes()[paneIndex]?.minSize() ?? 0;
+    return this.panes()[paneIndex]?.effectiveMinSize() ?? 0;
   }
 
   collapseTargetFor(gutterIndex: number): KuiSplitterCollapseTarget {
@@ -207,7 +216,8 @@ export class KuiSplitterComponent implements KuiSplitterContext {
     if (this.disabled()) return;
 
     this.dragStartSizes = [...this.sizes()];
-    this.dragStartClientPos = this.orientation() === 'horizontal' ? event.clientX : event.clientY;
+    this.dragStartClientPos =
+      this.effectiveOrientation() === 'horizontal' ? event.clientX : event.clientY;
     this.dragAvailablePx = this.measureAvailablePx();
     this.draggingIndex.set(gutterIndex);
   }
@@ -215,7 +225,7 @@ export class KuiSplitterComponent implements KuiSplitterContext {
   onGutterPointerMove(gutterIndex: number, event: PointerEvent): void {
     if (this.draggingIndex() !== gutterIndex || this.dragAvailablePx <= 0) return;
 
-    const pos = this.orientation() === 'horizontal' ? event.clientX : event.clientY;
+    const pos = this.effectiveOrientation() === 'horizontal' ? event.clientX : event.clientY;
     const deltaPx = pos - this.dragStartClientPos;
     const deltaPercent = (deltaPx / this.dragAvailablePx) * 100;
     this.applyDeltaFromDragStart(gutterIndex, deltaPercent);
@@ -229,7 +239,7 @@ export class KuiSplitterComponent implements KuiSplitterContext {
   onGutterKeyDown(gutterIndex: number, event: KeyboardEvent): void {
     if (this.disabled()) return;
 
-    const vertical = this.orientation() === 'vertical';
+    const vertical = this.effectiveOrientation() === 'vertical';
     const decreaseKey = vertical ? 'ArrowUp' : 'ArrowLeft';
     const increaseKey = vertical ? 'ArrowDown' : 'ArrowRight';
     const step = event.shiftKey ? ARROW_STEP_LARGE : ARROW_STEP;
@@ -321,7 +331,8 @@ export class KuiSplitterComponent implements KuiSplitterContext {
 
   private measureAvailablePx(): number {
     const hostEl = this.hostRef.nativeElement;
-    const total = this.orientation() === 'horizontal' ? hostEl.clientWidth : hostEl.clientHeight;
+    const total =
+      this.effectiveOrientation() === 'horizontal' ? hostEl.clientWidth : hostEl.clientHeight;
     const gutterCount = Math.max(0, this.panes().length - 1);
     const gutterPx = this.resolveGutterSizePx(hostEl);
     return total - gutterCount * gutterPx;

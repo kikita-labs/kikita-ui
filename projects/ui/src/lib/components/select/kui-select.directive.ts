@@ -110,7 +110,7 @@ export class KuiSelectDirective<T = unknown>
     transform: optionalNumberAttribute,
   });
   /** Presentation used for multiple selected values. */
-  readonly multipleDisplay = input<KuiSelectMultipleDisplay>('chips');
+  readonly multipleDisplay = input<KuiSelectMultipleDisplay | undefined>();
   /** Formats the full selected value array when `multipleDisplay` is `text`. */
   readonly multipleTextFn = input<((items: readonly T[]) => string) | undefined>();
 
@@ -164,7 +164,11 @@ export class KuiSelectDirective<T = unknown>
   );
 
   protected readonly showChipLayer = computed(
-    () => this.multiple() && this.multipleDisplay() === 'chips' && this.hasValue(),
+    () => this.multiple() && this.effectiveMultipleDisplay() === 'chips' && this.hasValue(),
+  );
+
+  protected readonly effectiveMultipleDisplay = computed(
+    () => this.multipleDisplay() ?? this.selectDefaults()?.multipleDisplay ?? 'chips',
   );
 
   protected readonly effectiveMaxVisibleChips = computed(() => {

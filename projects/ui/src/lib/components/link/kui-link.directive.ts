@@ -16,6 +16,7 @@ import {
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiIconComponent, type KuiIconName } from '../icon';
 import { KuiTextDirective } from '../typography';
+import { KUI_TEXT_IGNORES_DEFAULTS } from '../typography/kui-text-defaults-opt-out.token';
 import { KuiLinkExternalIconComponent } from './kui-link-external-icon.component';
 import type { KuiLinkTone } from './kui-link-tone.type';
 import type { KuiLinkUnderline } from './kui-link-underline.type';
@@ -33,6 +34,7 @@ type KuiLinkEndSlot =
 @Directive({
   selector: 'a[kuiLink], button[kuiLink]',
   hostDirectives: [{ directive: KuiTextDirective, inputs: ['variant'] }],
+  providers: [{ provide: KUI_TEXT_IGNORES_DEFAULTS, useValue: true }],
   host: {
     class: 'kui-link',
     '[attr.data-kui-tone]': 'effectiveTone()',

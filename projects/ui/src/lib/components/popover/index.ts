@@ -5,3 +5,4 @@ export type {
   KuiPopoverTriggerType,
 } from './kui-popover.types';
 export { KuiPopoverForDirective } from './kui-popover-for.directive';
+export * from './kui-popover-options.interface';

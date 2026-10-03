@@ -1,5 +1,5 @@
+import type { KuiTooltipOptions } from '../components/tooltip/kui-tooltip-options.interface';
 import type { KuiThemeOptions } from '../theme';
-import type { KuiTooltipOptions } from '../tokens/kui-tooltip-options.interface';
 import type { KuiComponentDefaults, KuiDefaultsSource } from './kui-defaults.interface';
 
 /** Root configuration for Kikita UI providers. */

@@ -80,7 +80,7 @@ export class KuiSplitterGutterComponent {
   protected readonly isDragging = computed(() => this.context.draggingIndex() === this.index());
 
   protected readonly ariaOrientation = computed(() =>
-    this.context.orientation() === 'horizontal' ? 'vertical' : 'horizontal',
+    this.context.effectiveOrientation() === 'horizontal' ? 'vertical' : 'horizontal',
   );
 
   protected readonly disabled = computed(() => this.context.disabled());
@@ -126,7 +126,7 @@ export class KuiSplitterGutterComponent {
    * splitters rotate it 90/270deg (up/down) around the icon's own center.
    */
   protected readonly chevronTransform = computed(() => {
-    const vertical = this.context.orientation() === 'vertical';
+    const vertical = this.context.effectiveOrientation() === 'vertical';
     const target = this.collapseTarget();
     const collapsed = this.collapsed();
 

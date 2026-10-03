@@ -1,12 +1,12 @@
 import type { Provider } from '@angular/core';
 
+import type { KuiButtonProviderOptions } from '../components/button/kui-button-options.interface';
+import type { KuiComboboxOptions } from '../components/combobox/kui-combobox-options.interface';
+import type { KuiFieldOptions } from '../components/field/kui-field-options.interface';
+import type { KuiSelectOptions } from '../components/select/kui-select-options.interface';
 import type { KuiToastOptions } from '../components/toast/kui-toast.types';
+import type { KuiTooltipOptions } from '../components/tooltip/kui-tooltip-options.interface';
 import { kuiProvideDefaults } from '../providers/provide-kui-defaults';
-import type { KuiButtonProviderOptions } from './kui-button-options.interface';
-import type { KuiComboboxOptions } from './kui-combobox-options.interface';
-import type { KuiFieldOptions } from './kui-field-options.interface';
-import type { KuiSelectOptions } from './kui-select-options.interface';
-import type { KuiTooltipOptions } from './kui-tooltip-options.interface';
 
 /**
  * Provides scoped defaults for descendant Kikita UI button primitives.

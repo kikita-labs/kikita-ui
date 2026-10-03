@@ -1,5 +1,7 @@
-import { Directive, input } from '@angular/core';
+import { computed, Directive, inject, input } from '@angular/core';
 
+import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { KUI_TEXT_IGNORES_DEFAULTS } from './kui-text-defaults-opt-out.token';
 import type { KuiTextTone } from './kui-text-tone.type';
 import type { KuiTextVariant } from './kui-text-variant.type';
 
@@ -7,32 +9,49 @@ import type { KuiTextVariant } from './kui-text-variant.type';
 @Directive({
   selector: '[kuiText]',
   host: {
-    '[class.kui-display]': "variant() === 'display'",
-    '[class.kui-heading-lg]': "variant() === 'heading-lg'",
-    '[class.kui-heading-md]': "variant() === 'heading-md'",
-    '[class.kui-heading-sm]': "variant() === 'heading-sm'",
-    '[class.kui-title]': "variant() === 'title'",
-    '[class.kui-body-lg]': "variant() === 'body-lg'",
-    '[class.kui-body]': "variant() === 'body'",
-    '[class.kui-body-sm]': "variant() === 'body-sm'",
-    '[class.kui-caption]': "variant() === 'caption'",
-    '[class.kui-overline]': "variant() === 'overline'",
-    '[class.kui-code]': "variant() === 'code'",
-    '[class.kui-text-default]': "tone() === 'default'",
-    '[class.kui-text-muted]': "tone() === 'muted'",
-    '[class.kui-text-disabled]': "tone() === 'disabled'",
-    '[class.kui-text-primary]': "tone() === 'primary'",
-    '[class.kui-text-success]': "tone() === 'success'",
-    '[class.kui-text-warning]': "tone() === 'warning'",
-    '[class.kui-text-danger]': "tone() === 'danger'",
-    '[attr.data-kui-text-variant]': 'variant()',
-    '[attr.data-kui-text-tone]': 'tone()',
+    '[class.kui-display]': "effectiveVariant() === 'display'",
+    '[class.kui-heading-lg]': "effectiveVariant() === 'heading-lg'",
+    '[class.kui-heading-md]': "effectiveVariant() === 'heading-md'",
+    '[class.kui-heading-sm]': "effectiveVariant() === 'heading-sm'",
+    '[class.kui-title]': "effectiveVariant() === 'title'",
+    '[class.kui-body-lg]': "effectiveVariant() === 'body-lg'",
+    '[class.kui-body]': "effectiveVariant() === 'body'",
+    '[class.kui-body-sm]': "effectiveVariant() === 'body-sm'",
+    '[class.kui-caption]': "effectiveVariant() === 'caption'",
+    '[class.kui-overline]': "effectiveVariant() === 'overline'",
+    '[class.kui-code]': "effectiveVariant() === 'code'",
+    '[class.kui-text-default]': "effectiveTone() === 'default'",
+    '[class.kui-text-muted]': "effectiveTone() === 'muted'",
+    '[class.kui-text-disabled]': "effectiveTone() === 'disabled'",
+    '[class.kui-text-primary]': "effectiveTone() === 'primary'",
+    '[class.kui-text-success]': "effectiveTone() === 'success'",
+    '[class.kui-text-warning]': "effectiveTone() === 'warning'",
+    '[class.kui-text-danger]': "effectiveTone() === 'danger'",
+    '[attr.data-kui-text-variant]': 'effectiveVariant()',
+    '[attr.data-kui-text-tone]': 'effectiveTone()',
   },
 })
 export class KuiTextDirective {
-  /** Semantic typography role mapped to `.kui-*` role classes. */
-  readonly variant = input<KuiTextVariant>('body');
+  /** Semantic typography role mapped to `.kui-*` role classes. Defaults to `defaults.typography.variant`, then `body`. */
+  readonly variant = input<KuiTextVariant | undefined>();
 
-  /** Semantic text color tone mapped to `.kui-text-*` tone classes. */
-  readonly tone = input<KuiTextTone>('default');
+  /** Semantic text color tone mapped to `.kui-text-*` tone classes. Defaults to `defaults.typography.tone`, then `default`. */
+  readonly tone = input<KuiTextTone | undefined>();
+
+  private readonly typographyDefaults = inject(KuiDefaults).get('typography');
+  private readonly ignoresDefaults = inject(KUI_TEXT_IGNORES_DEFAULTS, {
+    optional: true,
+    self: true,
+  });
+
+  private readonly configured = computed(() =>
+    this.ignoresDefaults ? undefined : this.typographyDefaults(),
+  );
+
+  protected readonly effectiveVariant = computed(
+    () => this.variant() ?? this.configured()?.variant ?? 'body',
+  );
+  protected readonly effectiveTone = computed(
+    () => this.tone() ?? this.configured()?.tone ?? 'default',
+  );
 }

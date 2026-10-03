@@ -4,4 +4,5 @@ export * from './kui-menu-for.directive';
 export * from './kui-menu-header.directive';
 export * from './kui-menu-item.directive';
 export * from './kui-menu-item-appearance.type';
+export * from './kui-menu-options.interface';
 export * from './kui-menu-placement.type';
