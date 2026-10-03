@@ -1,4 +1,3 @@
-import { Overlay } from '@angular/cdk/overlay';
 import {
   booleanAttribute,
   Component,
@@ -7,17 +6,13 @@ import {
   effect,
   inject,
   input,
-  PLATFORM_ID,
   signal,
   viewChildren,
   ViewEncapsulation,
 } from '@angular/core';
 
-import { injectKuiMessages } from '../../../i18n/inject-kui-messages';
-import { KuiI18n } from '../../../i18n/kui-i18n.service';
 import type { KuiChartMessages } from '../../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../../providers/kui-defaults.service';
-import { kuiNextId } from '../../../utils/kui-id.util';
 import { KuiButtonDirective } from '../../button';
 import {
   KuiCellDirective,
@@ -33,10 +28,9 @@ import type {
   KuiChartTooltipFormatter,
   KuiChartValueFormat,
 } from '../chart.types';
-import { computeRovingIndex } from '../core/chart-keyboard-nav.util';
 import { normalizeSlices } from '../core/chart-normalize.util';
 import { computeDonutShares } from '../core/chart-scale.util';
-import { isTouchPointerType, KuiChartTooltipController } from '../core/chart-tooltip.util';
+import { KuiChartSession } from '../core/chart-session';
 
 /** See the matching constant's JSDoc in `kui-line-chart.component.ts` -- same rationale. Height
  * and width share one value here (a donut is circular, not an axis-driven rectangle). */
@@ -140,38 +134,35 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
   /** Per-instance text overrides; they win over the scoped and root messages. */
   readonly messages = input<Partial<KuiChartMessages> | undefined>(undefined);
 
-  private readonly i18n = inject(KuiI18n);
-
-  protected readonly t = injectKuiMessages('chart', () => this.messages());
-
-  protected readonly effectiveAriaLabel = computed(() => this.ariaLabel() ?? this.t().donutLabel);
-
-  private readonly effectiveValueFormat = computed<KuiChartValueFormat>(() => {
-    const own = this.valueFormat();
-    if (own) return own;
-
-    const format = this.i18n.numberFormat('compact', {
-      notation: 'compact',
-      maximumFractionDigits: 1,
-    });
-
-    return (value) => format.format(value);
+  /** State and handlers the four charts share; this chart supplies its slices and their text. */
+  private readonly session = new KuiChartSession({
+    idPrefix: 'kui-donut-chart',
+    defaultLabel: (messages) => messages.donutLabel,
+    ariaLabel: this.ariaLabel,
+    messages: this.messages,
+    valueFormat: this.valueFormat,
+    tooltip: this.tooltip,
+    markCount: () => this.renderedSlices().length,
+    markRefs: () => this.markRefs(),
   });
 
-  protected readonly chartId = kuiNextId('kui-donut-chart', 1);
+  protected readonly t = this.session.t;
+  protected readonly effectiveAriaLabel = this.session.effectiveAriaLabel;
+  protected readonly chartId = this.session.chartId;
+  protected readonly hiddenSliceIds = this.session.hiddenIds;
+  protected readonly hoveredSliceId = this.session.hoveredSeriesId;
+  protected readonly focusedMarkIndex = this.session.focusedMarkIndex;
+  protected readonly showTable = this.session.showTable;
+  protected readonly formatValue = this.session.formatValue;
+  protected readonly onSlicesPointerMove = this.session.onPointerMove;
+  protected readonly onSlicesPointerLeave = this.session.onPointerLeave;
+  protected readonly onSlicesFocusOut = this.session.onFocusOut;
+  protected readonly onSlicesKeydown = this.session.onKeydown;
+  protected readonly toggleSlice = this.session.toggle;
+  protected readonly isSliceHidden = this.session.isHidden;
 
   private readonly donutChartDefaults = inject(KuiDefaults).get('donutChart');
-  private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly tooltipController = new KuiChartTooltipController(
-    inject(Overlay),
-    this.platformId,
-  );
-
-  protected readonly hiddenSliceIds = signal<ReadonlySet<string>>(new Set());
-  protected readonly hoveredSliceId = signal<string | null>(null);
-  protected readonly focusedMarkIndex = signal(0);
-  protected readonly showTable = signal(false);
 
   private readonly effectiveSize = computed(
     () => this.size() ?? this.donutChartDefaults()?.size ?? 'md',
@@ -381,86 +372,20 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
   }
 
   private formatTooltipText(slice: KuiDonutChartSlice): string {
-    const formatter = this.tooltip();
-    if (formatter) {
-      return formatter({ seriesName: slice.label, value: slice.value });
-    }
-    const value = this.effectiveValueFormat()(slice.value);
+    const custom = this.session.customText({ seriesName: slice.label, value: slice.value });
+    if (custom !== undefined) return custom;
+
+    const value = this.session.formatValue(slice.value);
     const percent = Math.round(slice.share * 100);
-    return this.t().slice({ label: slice.label, value, percent });
+    return this.session.t().slice({ label: slice.label, value, percent });
   }
 
   protected onSliceEnter(slice: KuiDonutChartSlice, event: PointerEvent, group: Element): void {
-    const point = { x: event.clientX, y: event.clientY };
-    if (isTouchPointerType(event.pointerType)) {
-      // See `kui-line-chart`'s matching `onMarkEnter` doc.
-      this.tooltipController.showPinned(point, this.sliceLabel(slice), group, () => {
-        this.hoveredSliceId.set(null);
-      });
-    } else {
-      this.tooltipController.show(point, this.sliceLabel(slice));
-    }
-    this.hoveredSliceId.set(slice.sliceId);
+    this.session.enter(slice.sliceId, slice.sliceId, this.sliceLabel(slice), event, group);
   }
 
   protected onSliceFocus(slice: KuiDonutChartSlice, index: number, target: Element): void {
-    this.focusedMarkIndex.set(index);
-    // See `kui-line-chart`'s matching `onMarkFocus` doc -- a click's synthetic `focus` shouldn't
-    // jump an already pointer-following tooltip to the element's center.
-    if (this.hoveredSliceId() === slice.sliceId) return;
-    this.tooltipController.show(target, this.sliceLabel(slice));
-  }
-
-  /** See `kui-line-chart`'s matching `onMarksPointerMove` doc -- follows cursor while over the
-   * same slice. */
-  protected onSlicesPointerMove(event: PointerEvent): void {
-    this.tooltipController.move({ x: event.clientX, y: event.clientY });
-  }
-
-  /** See `kui-line-chart`'s matching `onMarksPointerLeave` doc. */
-  protected onSlicesPointerLeave(event: PointerEvent): void {
-    if (isTouchPointerType(event.pointerType)) return;
-    this.tooltipController.hide();
-    this.hoveredSliceId.set(null);
-  }
-
-  /** See `kui-line-chart`'s matching `onMarksFocusOut` doc. */
-  protected onSlicesFocusOut(event: FocusEvent, group: Element): void {
-    const next = event.relatedTarget as Node | null;
-    if (next && group.contains(next)) return;
-    this.tooltipController.hide();
-  }
-
-  /** See `kui-line-chart`'s matching `onMarksKeydown` doc. */
-  protected onSlicesKeydown(event: KeyboardEvent): void {
-    const next = computeRovingIndex(
-      event.key,
-      this.focusedMarkIndex(),
-      this.renderedSlices().length,
-    );
-    if (next === null) return;
-    event.preventDefault();
-    this.focusedMarkIndex.set(next);
-    this.markRefs()[next]?.focus?.();
-  }
-
-  protected toggleSlice(sliceId: string): void {
-    const next = new Set(this.hiddenSliceIds());
-    const hiding = !next.has(sliceId);
-    if (hiding) next.add(sliceId);
-    else next.delete(sliceId);
-    this.hiddenSliceIds.set(next);
-    // Clicking a legend item doesn't move the pointer away from it -- if this slice was already
-    // the hovered one (hovered, then clicked to hide), it stays "hovered" by id after hiding, but
-    // is no longer in `renderedSlices()` to match against, so every other slice's dimmed-check
-    // (`hoveredSliceId() && hoveredSliceId() !== slice.sliceId`) was true for all of them --
-    // dimming the entire ring with nothing highlighted (found from a real screenshot: hiding "Pro"
-    // while still hovering its legend button dimmed Free/Business/Enterprise all at once).
-    if (hiding && this.hoveredSliceId() === sliceId) this.hoveredSliceId.set(null);
-  }
-
-  protected isSliceHidden(sliceId: string): boolean {
-    return this.hiddenSliceIds().has(sliceId);
+    this.session.focus(index, slice.sliceId, this.sliceLabel(slice), target);
   }
 
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
@@ -471,10 +396,6 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
   setHoveredLegendId(sliceId: string | null): void {
     this.hoveredSliceId.set(sliceId);
-  }
-
-  protected formatValue(value: number): string {
-    return this.effectiveValueFormat()(value);
   }
 
   /** Builds `shares()`'s canonical key -- see `lastTargetKey`'s doc. */
@@ -576,8 +497,6 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
     });
 
     this.destroyRef.onDestroy(() => {
-      this.tooltipController.hide();
-      this.tooltipController.destroy();
       if (this.rafId !== null) cancelAnimationFrame(this.rafId);
     });
   }

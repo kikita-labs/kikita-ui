@@ -1,22 +1,15 @@
-import { Overlay } from '@angular/cdk/overlay';
 import {
   booleanAttribute,
   Component,
   computed,
-  DestroyRef,
   inject,
   input,
-  PLATFORM_ID,
-  signal,
   viewChildren,
   ViewEncapsulation,
 } from '@angular/core';
 
-import { injectKuiMessages } from '../../../i18n/inject-kui-messages';
-import { KuiI18n } from '../../../i18n/kui-i18n.service';
 import type { KuiChartMessages } from '../../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../../providers/kui-defaults.service';
-import { kuiNextId } from '../../../utils/kui-id.util';
 import { KuiButtonDirective } from '../../button';
 import {
   KuiCellDirective,
@@ -30,11 +23,9 @@ import type {
   KuiChartCartesianSeries,
   KuiChartLegendItem,
   KuiChartLegendSource,
-  KuiChartPoint,
   KuiChartTooltipFormatter,
   KuiChartValueFormat,
 } from '../chart.types';
-import { computeRovingIndex } from '../core/chart-keyboard-nav.util';
 import type { KuiChartNormalizedCartesianSeries } from '../core/chart-normalize.util';
 import { normalizeCartesianSeries } from '../core/chart-normalize.util';
 import {
@@ -43,7 +34,7 @@ import {
   computeNiceScale,
   thinTicks,
 } from '../core/chart-scale.util';
-import { isTouchPointerType, KuiChartTooltipController } from '../core/chart-tooltip.util';
+import { KuiChartSession } from '../core/chart-session';
 
 /**
  * Nominal SVG viewBox units; CSS preserves the aspect ratio without browser
@@ -156,25 +147,33 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
   /** Per-instance text overrides; they win over the scoped and root messages. */
   readonly messages = input<Partial<KuiChartMessages> | undefined>(undefined);
 
-  private readonly i18n = inject(KuiI18n);
-
-  protected readonly t = injectKuiMessages('chart', () => this.messages());
-
-  protected readonly effectiveAriaLabel = computed(() => this.ariaLabel() ?? this.t().lineLabel);
-
-  private readonly effectiveValueFormat = computed<KuiChartValueFormat>(() => {
-    const own = this.valueFormat();
-    if (own) return own;
-
-    const format = this.i18n.numberFormat('compact', {
-      notation: 'compact',
-      maximumFractionDigits: 1,
-    });
-
-    return (value) => format.format(value);
+  /** State and handlers the four charts share; this chart supplies its marks and their text. */
+  private readonly session = new KuiChartSession({
+    idPrefix: 'kui-line-chart',
+    defaultLabel: (messages) => messages.lineLabel,
+    ariaLabel: this.ariaLabel,
+    messages: this.messages,
+    valueFormat: this.valueFormat,
+    tooltip: this.tooltip,
+    markCount: () => this.marks().length,
+    markRefs: () => this.markRefs(),
   });
 
-  protected readonly chartId = kuiNextId('kui-line-chart', 1);
+  protected readonly t = this.session.t;
+  protected readonly effectiveAriaLabel = this.session.effectiveAriaLabel;
+  protected readonly chartId = this.session.chartId;
+  protected readonly hiddenSeriesIds = this.session.hiddenIds;
+  protected readonly hoveredSeriesId = this.session.hoveredSeriesId;
+  protected readonly hoveredMarkKey = this.session.hoveredMarkKey;
+  protected readonly focusedMarkIndex = this.session.focusedMarkIndex;
+  protected readonly showTable = this.session.showTable;
+  protected readonly formatValue = this.session.formatValue;
+  protected readonly onMarksPointerMove = this.session.onPointerMove;
+  protected readonly onMarksPointerLeave = this.session.onPointerLeave;
+  protected readonly onMarksFocusOut = this.session.onFocusOut;
+  protected readonly onMarksKeydown = this.session.onKeydown;
+  protected readonly toggleSeries = this.session.toggle;
+  protected readonly isSeriesHidden = this.session.isHidden;
   protected readonly loadingWavePoints = computed(() => {
     const { width, height } = SIZE_DIMENSIONS[this.effectiveSize()];
     const plotWidth = width - PADDING.left - PADDING.right;
@@ -195,18 +194,6 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
   });
 
   private readonly lineChartDefaults = inject(KuiDefaults).get('lineChart');
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly destroyRef = inject(DestroyRef);
-
-  protected readonly hiddenSeriesIds = signal<ReadonlySet<string>>(new Set());
-  protected readonly hoveredSeriesId = signal<string | null>(null);
-  /** The single pointer-hovered mark (not its whole series -- `hoveredSeriesId` already dims the
-   * OTHER series). Drives the hover scale-up effect (`chart.css`'s `.kui-chart__mark--hovered`),
-   * distinct enough from focus that keyboard nav doesn't also trigger it (the existing
-   * `:focus-visible` ring is that state's own affordance). */
-  protected readonly hoveredMarkKey = signal<string | null>(null);
-  protected readonly focusedMarkIndex = signal(0);
-  protected readonly showTable = signal(false);
 
   private readonly effectiveSize = computed(
     () => this.size() ?? this.lineChartDefaults()?.size ?? 'md',
@@ -365,141 +352,29 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
     return this.yForValue(value);
   }
 
-  private readonly tooltipController = new KuiChartTooltipController(
-    inject(Overlay),
-    this.platformId,
-  );
-
   protected markLabel(mark: KuiLineChartMark): string {
-    return this.formatTooltipText({
+    return this.session.pointText({
       seriesName: mark.seriesName,
       categoryLabel: mark.categoryLabel,
       value: mark.value,
     });
   }
 
-  private formatTooltipText(point: KuiChartPoint): string {
-    const formatter = this.tooltip();
-    if (formatter) return formatter(point);
-    const value = this.effectiveValueFormat()(point.value);
-    return point.categoryLabel
-      ? this.t().pointWithCategory({
-          series: point.seriesName,
-          category: point.categoryLabel,
-          value,
-        })
-      : this.t().point({ series: point.seriesName, value });
-  }
-
-  /** Mouse hover shows the tooltip at the pointer position, not the mark's own element -- see
-   * `KuiChartTooltipController`'s class doc for why (a mark-as-anchor tooltip only coincidentally
-   * tracks the cursor for small, point-like marks). `onMarksPointerMove` keeps it following the
-   * cursor while the pointer stays within the marks group. */
   protected onMarkEnter(mark: KuiLineChartMark, event: PointerEvent, group: Element): void {
-    const point = { x: event.clientX, y: event.clientY };
-    if (isTouchPointerType(event.pointerType)) {
-      // See `KuiChartTooltipController.showPinned`'s doc -- touch has no hover to follow, so a
-      // tap pins the tooltip open instead of showing it only for the instant before `pointerleave`
-      // (which fires almost immediately on release) would otherwise hide it.
-      this.tooltipController.showPinned(point, this.markLabel(mark), group, () => {
-        this.hoveredSeriesId.set(null);
-        this.hoveredMarkKey.set(null);
-      });
-    } else {
-      this.tooltipController.show(point, this.markLabel(mark));
-    }
-    this.hoveredSeriesId.set(mark.seriesId);
-    this.hoveredMarkKey.set(this.markKey(mark));
+    this.session.enter(mark.seriesId, this.markKey(mark), this.markLabel(mark), event, group);
   }
 
-  /** Keyboard focus has no pointer position, so it anchors to the mark element itself (the
-   * `target` a `focus` event's own element/`markRef` provides) -- the one case
-   * `KuiChartTooltipController`'s class doc calls out as still using an element anchor. */
   protected onMarkFocus(mark: KuiLineChartMark, index: number, target: Element): void {
-    this.focusedMarkIndex.set(index);
-    // A mouse click on a mark fires `focus` too (native focusable-element behavior), which would
-    // otherwise re-anchor an already pointer-following tooltip to the element's center -- a real
-    // jump the user could see (found from a screenshot: hovered tooltip tracking the cursor, then
-    // snapping to dead-center above the bar the instant it was clicked). Only reposition for a
-    // focus that ISN'T a side effect of the pointer already hovering this exact mark (real
-    // keyboard `Tab`/arrow navigation, which has no pointer position of its own to anchor to).
-    if (this.hoveredMarkKey() === this.markKey(mark)) return;
-    this.tooltipController.show(target, this.markLabel(mark));
+    this.session.focus(index, this.markKey(mark), this.markLabel(mark), target);
   }
 
-  /** See `KuiChartTooltipController.move`'s doc -- keeps an already-shown tooltip following the
-   * cursor without touching its text, which stays whatever the last-entered mark's `onMarkEnter`
-   * set until a different mark's own `pointerenter` changes it. */
-  protected onMarksPointerMove(event: PointerEvent): void {
-    this.tooltipController.move({ x: event.clientX, y: event.clientY });
-  }
-
-  /**
-   * Hides the tooltip only when the pointer truly leaves the whole marks group, not on every
-   * individual mark's `pointerleave` -- a per-mark handler would dispose and recreate the overlay
-   * on every adjacent-mark hover, defeating the point of retargeting one shared overlay (plan
-   * section 7 / Phase 2).
-   */
-  protected onMarksPointerLeave(event: PointerEvent): void {
-    // A touch `pointerleave` fires right on release, almost simultaneously with `pointerenter` --
-    // hiding here would defeat `showPinned`'s whole point (see its doc). Touch dismissal is an
-    // outside tap/Escape instead, wired through `onMarkEnter`'s `showPinned` call.
-    if (isTouchPointerType(event.pointerType)) return;
-    this.tooltipController.hide();
-    this.hoveredSeriesId.set(null);
-    this.hoveredMarkKey.set(null);
-  }
-
-  /**
-   * Hides the tooltip only when focus leaves the whole marks group (e.g. Tab out to the legend),
-   * not on every individual mark's `blur` -- moving focus between adjacent marks via arrow keys
-   * fires `blur` then `focus` synchronously, so a per-mark `blur` handler would dispose and
-   * recreate the overlay on every step for the same reason as `onMarksPointerLeave` above.
-   */
-  protected onMarksFocusOut(event: FocusEvent, group: Element): void {
-    const next = event.relatedTarget as Node | null;
-    if (next && group.contains(next)) return;
-    this.tooltipController.hide();
-  }
-
-  /** Roving-tabindex keyboard navigation across marks: arrows move by one, Home/End jump to the
-   * first/last mark. Only the focused mark is a tab stop; entering the group with Tab resumes at
-   * the last focused mark. */
-  protected onMarksKeydown(event: KeyboardEvent): void {
-    const next = computeRovingIndex(event.key, this.focusedMarkIndex(), this.marks().length);
-    if (next === null) return;
-    event.preventDefault();
-    this.focusedMarkIndex.set(next);
-    // jsdom (unit tests) does not implement SVGElement.focus(); real browsers do.
-    this.markRefs()[next]?.focus?.();
-  }
-
-  protected toggleSeries(seriesId: string): void {
-    const next = new Set(this.hiddenSeriesIds());
-    const hiding = !next.has(seriesId);
-    if (hiding) next.add(seriesId);
-    else next.delete(seriesId);
-    this.hiddenSeriesIds.set(next);
-    // See `kui-donut-chart`'s matching `toggleSlice` doc -- same "clicking a legend item doesn't
-    // move the pointer away from it" cross-highlight bug, same fix.
-    if (hiding && this.hoveredSeriesId() === seriesId) {
-      this.hoveredSeriesId.set(null);
-      this.hoveredMarkKey.set(null);
-    }
-  }
-
-  /** Stable per-mark identity for `hoveredMarkKey` -- matches the `@for` track expression in the
-   * template, so the hovered key always corresponds to exactly one rendered mark. */
+  /** Stable per-mark identity for `hoveredMarkKey` -- matches the template's `@for` track
+   * expression, so the hovered key always corresponds to exactly one rendered mark. */
   protected markKey(mark: KuiLineChartMark): string {
     return `${mark.seriesId}:${mark.categoryIndex}`;
   }
 
-  protected isSeriesHidden(seriesId: string): boolean {
-    return this.hiddenSeriesIds().has(seriesId);
-  }
-
-  /** Public {@link KuiChartLegendSource} implementation -- see the class doc. Same toggle
-   * `toggleSeries` (the chart's own inline legend) calls, so both stay in sync automatically. */
+  /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
   toggleLegendItem(seriesId: string): void {
     this.toggleSeries(seriesId);
   }
@@ -507,16 +382,5 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
   setHoveredLegendId(seriesId: string | null): void {
     this.hoveredSeriesId.set(seriesId);
-  }
-
-  protected formatValue(value: number): string {
-    return this.effectiveValueFormat()(value);
-  }
-
-  constructor() {
-    this.destroyRef.onDestroy(() => {
-      this.tooltipController.hide();
-      this.tooltipController.destroy();
-    });
   }
 }

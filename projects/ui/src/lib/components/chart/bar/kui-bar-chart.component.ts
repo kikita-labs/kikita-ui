@@ -1,22 +1,15 @@
-import { Overlay } from '@angular/cdk/overlay';
 import {
   booleanAttribute,
   Component,
   computed,
-  DestroyRef,
   inject,
   input,
-  PLATFORM_ID,
-  signal,
   viewChildren,
   ViewEncapsulation,
 } from '@angular/core';
 
-import { injectKuiMessages } from '../../../i18n/inject-kui-messages';
-import { KuiI18n } from '../../../i18n/kui-i18n.service';
 import type { KuiChartMessages } from '../../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../../providers/kui-defaults.service';
-import { kuiNextId } from '../../../utils/kui-id.util';
 import { KuiButtonDirective } from '../../button';
 import { KuiSkeletonDirective } from '../../skeleton';
 import {
@@ -31,11 +24,9 @@ import type {
   KuiChartCartesianSeries,
   KuiChartLegendItem,
   KuiChartLegendSource,
-  KuiChartPoint,
   KuiChartTooltipFormatter,
   KuiChartValueFormat,
 } from '../chart.types';
-import { computeRovingIndex } from '../core/chart-keyboard-nav.util';
 import type { KuiChartNormalizedCartesianSeries } from '../core/chart-normalize.util';
 import { normalizeCartesianSeries } from '../core/chart-normalize.util';
 import {
@@ -44,7 +35,7 @@ import {
   computeStackedDomain,
   thinTicks,
 } from '../core/chart-scale.util';
-import { isTouchPointerType, KuiChartTooltipController } from '../core/chart-tooltip.util';
+import { KuiChartSession } from '../core/chart-session';
 
 /** See the matching constant's JSDoc in `kui-line-chart.component.ts` -- same rationale. */
 const SIZE_DIMENSIONS = {
@@ -168,43 +159,37 @@ export class KuiBarChartComponent implements KuiChartLegendSource {
   /** Per-instance text overrides; they win over the scoped and root messages. */
   readonly messages = input<Partial<KuiChartMessages> | undefined>(undefined);
 
-  private readonly i18n = inject(KuiI18n);
-
-  protected readonly t = injectKuiMessages('chart', () => this.messages());
-
-  protected readonly effectiveAriaLabel = computed(() => this.ariaLabel() ?? this.t().barLabel);
-
-  private readonly effectiveValueFormat = computed<KuiChartValueFormat>(() => {
-    const own = this.valueFormat();
-    if (own) return own;
-
-    const format = this.i18n.numberFormat('compact', {
-      notation: 'compact',
-      maximumFractionDigits: 1,
-    });
-
-    return (value) => format.format(value);
+  /** State and handlers the four charts share; this chart supplies its marks and their text. */
+  private readonly session = new KuiChartSession({
+    idPrefix: 'kui-bar-chart',
+    defaultLabel: (messages) => messages.barLabel,
+    ariaLabel: this.ariaLabel,
+    messages: this.messages,
+    valueFormat: this.valueFormat,
+    tooltip: this.tooltip,
+    markCount: () => this.bars().length,
+    markRefs: () => this.barRefs(),
   });
 
-  protected readonly chartId = kuiNextId('kui-bar-chart', 1);
+  protected readonly t = this.session.t;
+  protected readonly effectiveAriaLabel = this.session.effectiveAriaLabel;
+  protected readonly chartId = this.session.chartId;
+  protected readonly hiddenSeriesIds = this.session.hiddenIds;
+  protected readonly hoveredSeriesId = this.session.hoveredSeriesId;
+  protected readonly hoveredBarKey = this.session.hoveredMarkKey;
+  protected readonly focusedMarkIndex = this.session.focusedMarkIndex;
+  protected readonly showTable = this.session.showTable;
+  protected readonly formatValue = this.session.formatValue;
+  protected readonly onBarsPointerMove = this.session.onPointerMove;
+  protected readonly onBarsPointerLeave = this.session.onPointerLeave;
+  protected readonly onBarsFocusOut = this.session.onFocusOut;
+  protected readonly onBarsKeydown = this.session.onKeydown;
+  protected readonly toggleSeries = this.session.toggle;
+  protected readonly isSeriesHidden = this.session.isHidden;
   protected readonly loadingBarHeights = LOADING_BAR_HEIGHTS;
   protected readonly loadingGridLineOffsets = LOADING_GRID_LINE_OFFSETS;
 
   private readonly barChartDefaults = inject(KuiDefaults).get('barChart');
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly tooltipController = new KuiChartTooltipController(
-    inject(Overlay),
-    this.platformId,
-  );
-
-  protected readonly hiddenSeriesIds = signal<ReadonlySet<string>>(new Set());
-  protected readonly hoveredSeriesId = signal<string | null>(null);
-  /** See `kui-line-chart`'s matching `hoveredMarkKey` doc -- same single-bar (not whole-series)
-   * hover highlight, distinct from `hoveredSeriesId`'s cross-highlight dimming. */
-  protected readonly hoveredBarKey = signal<string | null>(null);
-  protected readonly focusedMarkIndex = signal(0);
-  protected readonly showTable = signal(false);
 
   private readonly effectiveSize = computed(
     () => this.size() ?? this.barChartDefaults()?.size ?? 'md',
@@ -441,102 +426,25 @@ export class KuiBarChartComponent implements KuiChartLegendSource {
   }
 
   protected markLabel(bar: KuiBarChartBar): string {
-    return this.formatTooltipText({
+    return this.session.pointText({
       seriesName: bar.seriesName,
       categoryLabel: bar.categoryLabel,
       value: bar.value,
     });
   }
 
-  private formatTooltipText(point: KuiChartPoint): string {
-    const formatter = this.tooltip();
-    if (formatter) return formatter(point);
-    const value = this.effectiveValueFormat()(point.value);
-    return point.categoryLabel
-      ? this.t().pointWithCategory({
-          series: point.seriesName,
-          category: point.categoryLabel,
-          value,
-        })
-      : this.t().point({ series: point.seriesName, value });
-  }
-
   protected onBarEnter(bar: KuiBarChartBar, event: PointerEvent, group: Element): void {
-    const point = { x: event.clientX, y: event.clientY };
-    if (isTouchPointerType(event.pointerType)) {
-      // See `kui-line-chart`'s matching `onMarkEnter` doc.
-      this.tooltipController.showPinned(point, this.markLabel(bar), group, () => {
-        this.hoveredSeriesId.set(null);
-        this.hoveredBarKey.set(null);
-      });
-    } else {
-      this.tooltipController.show(point, this.markLabel(bar));
-    }
-    this.hoveredSeriesId.set(bar.seriesId);
-    this.hoveredBarKey.set(this.barKey(bar));
+    this.session.enter(bar.seriesId, this.barKey(bar), this.markLabel(bar), event, group);
   }
 
   protected onBarFocus(bar: KuiBarChartBar, index: number, target: Element): void {
-    this.focusedMarkIndex.set(index);
-    // See `kui-line-chart`'s matching `onMarkFocus` doc -- a click's synthetic `focus` shouldn't
-    // jump an already pointer-following tooltip to the element's center.
-    if (this.hoveredBarKey() === this.barKey(bar)) return;
-    this.tooltipController.show(target, this.markLabel(bar));
-  }
-
-  /** See `kui-line-chart`'s matching `onMarksPointerMove` doc -- follows cursor while over the
-   * same bar. */
-  protected onBarsPointerMove(event: PointerEvent): void {
-    this.tooltipController.move({ x: event.clientX, y: event.clientY });
-  }
-
-  /** See `kui-line-chart`'s matching `onMarksPointerLeave` doc -- same rationale (group-level,
-   * not per-bar, to keep the shared overlay retargeted instead of recreated). */
-  protected onBarsPointerLeave(event: PointerEvent): void {
-    if (isTouchPointerType(event.pointerType)) return;
-    this.tooltipController.hide();
-    this.hoveredSeriesId.set(null);
-    this.hoveredBarKey.set(null);
-  }
-
-  /** See `kui-line-chart`'s matching `onMarksFocusOut` doc. */
-  protected onBarsFocusOut(event: FocusEvent, group: Element): void {
-    const next = event.relatedTarget as Node | null;
-    if (next && group.contains(next)) return;
-    this.tooltipController.hide();
-  }
-
-  /** See `kui-line-chart`'s matching `onMarksKeydown` doc. */
-  protected onBarsKeydown(event: KeyboardEvent): void {
-    const next = computeRovingIndex(event.key, this.focusedMarkIndex(), this.bars().length);
-    if (next === null) return;
-    event.preventDefault();
-    this.focusedMarkIndex.set(next);
-    this.barRefs()[next]?.focus?.();
-  }
-
-  protected toggleSeries(seriesId: string): void {
-    const next = new Set(this.hiddenSeriesIds());
-    const hiding = !next.has(seriesId);
-    if (hiding) next.add(seriesId);
-    else next.delete(seriesId);
-    this.hiddenSeriesIds.set(next);
-    // See `kui-donut-chart`'s matching `toggleSlice` doc -- same "clicking a legend item doesn't
-    // move the pointer away from it" cross-highlight bug, same fix.
-    if (hiding && this.hoveredSeriesId() === seriesId) {
-      this.hoveredSeriesId.set(null);
-      this.hoveredBarKey.set(null);
-    }
+    this.session.focus(index, this.barKey(bar), this.markLabel(bar), target);
   }
 
   /** Stable per-bar identity for `hoveredBarKey` -- matches the template's `@for` track
    * expression, so the hovered key always corresponds to exactly one rendered bar. */
   protected barKey(bar: KuiBarChartBar): string {
     return `${bar.seriesId}:${bar.categoryIndex}`;
-  }
-
-  protected isSeriesHidden(seriesId: string): boolean {
-    return this.hiddenSeriesIds().has(seriesId);
   }
 
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
@@ -547,16 +455,5 @@ export class KuiBarChartComponent implements KuiChartLegendSource {
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
   setHoveredLegendId(seriesId: string | null): void {
     this.hoveredSeriesId.set(seriesId);
-  }
-
-  protected formatValue(value: number): string {
-    return this.effectiveValueFormat()(value);
-  }
-
-  constructor() {
-    this.destroyRef.onDestroy(() => {
-      this.tooltipController.hide();
-      this.tooltipController.destroy();
-    });
   }
 }
