@@ -321,7 +321,7 @@ export class KuiCarouselComponent {
       index: i,
       selected: i === current,
       label: `Go to slide ${i + 1} of ${total}`,
-      controls: this.slides()[i]?.id ?? null,
+      controls: this.slides()[i]?._id() ?? null,
     }));
   });
 
@@ -331,8 +331,8 @@ export class KuiCarouselComponent {
       const total = slides.length;
 
       slides.forEach((slide, i) => {
-        slide.id = `${this.idBase}-slide-${i}`;
-        slide.ariaLabel = `${i + 1} of ${total}`;
+        slide._id.set(`${this.idBase}-slide-${i}`);
+        slide._ariaLabel.set(`${i + 1} of ${total}`);
       });
     });
 

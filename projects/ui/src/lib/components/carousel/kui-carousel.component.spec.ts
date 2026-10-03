@@ -40,6 +40,20 @@ class BasicHost {
 })
 class AutoplayHost {}
 
+@Component({
+  imports: [KuiCarouselComponent, KuiCarouselSlideDirective],
+  template: `
+    <kui-carousel>
+      @for (n of slides(); track n) {
+        <div kuiCarouselSlide>{{ n }}</div>
+      }
+    </kui-carousel>
+  `,
+})
+class DynamicHost {
+  readonly slides = signal([1, 2]);
+}
+
 function createFixture<T>(component: new () => T): ComponentFixture<T> {
   TestBed.configureTestingModule({ imports: [component] });
   const fixture = TestBed.createComponent(component);
@@ -306,5 +320,49 @@ describe('KuiCarouselComponent', () => {
     fixture.detectChanges();
 
     expect(toggle.getAttribute('aria-label')).toBe('Resume autoplay');
+  });
+
+  it('links every page dot to its slide id and labels each slide after the first render', async () => {
+    const fixture = createFixture(BasicHost);
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const slides = Array.from<HTMLElement>(
+      fixture.nativeElement.querySelectorAll('[kuiCarouselSlide]'),
+    );
+    expect(slides.map((slide) => slide.getAttribute('aria-label'))).toEqual([
+      '1 of 3',
+      '2 of 3',
+      '3 of 3',
+    ]);
+
+    const controls = Array.from<HTMLElement>(
+      fixture.nativeElement.querySelectorAll('[aria-controls]'),
+    ).map((dot) => dot.getAttribute('aria-controls'));
+    expect(controls).toEqual(slides.map((slide) => slide.id));
+    expect(controls.every((id) => !!id)).toBe(true);
+  });
+
+  it('relabels slides and relinks page dots when slides are added', async () => {
+    const fixture = createFixture(DynamicHost);
+    await fixture.whenStable();
+    fixture.componentInstance.slides.set([1, 2, 3, 4]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const slides = Array.from<HTMLElement>(
+      fixture.nativeElement.querySelectorAll('[kuiCarouselSlide]'),
+    );
+    expect(slides.map((slide) => slide.getAttribute('aria-label'))).toEqual([
+      '1 of 4',
+      '2 of 4',
+      '3 of 4',
+      '4 of 4',
+    ]);
+    const controls = Array.from<HTMLElement>(
+      fixture.nativeElement.querySelectorAll('[aria-controls]'),
+    ).map((dot) => dot.getAttribute('aria-controls'));
+    expect(controls).toEqual(slides.map((slide) => slide.id));
   });
 });

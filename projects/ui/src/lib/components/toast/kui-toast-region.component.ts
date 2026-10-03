@@ -7,6 +7,7 @@ import {
   effect,
   inject,
   Injector,
+  isSignal,
   PLATFORM_ID,
   signal,
   viewChild,
@@ -40,12 +41,16 @@ interface InternalToastItem {
   readonly paused: ReturnType<typeof signal<boolean>>;
   readonly closedSubject: Subject<void>;
   readonly actionSubject: Subject<void>;
+  /** Duration used when a config has no finite duration of its own. */
+  readonly defaultDuration: number;
 }
+
+const DEFAULT_DURATION = 5000;
 
 type PersistentConfig = boolean | Signal<boolean> | undefined;
 
 function readPersistent(value: PersistentConfig): boolean {
-  return typeof value === 'function' ? value() : value === true;
+  return isSignal(value) ? value() : value === true;
 }
 
 /**
@@ -222,7 +227,7 @@ function readPersistent(value: PersistentConfig): boolean {
             <div
               class="kui-toast-progress"
               [style.animation-play-state]="toast.paused() ? 'paused' : 'running'"
-              [style.animation]="'kui-toast-prog ' + getDuration(toast.config) + 'ms linear both'"
+              [style.animation]="'kui-toast-prog ' + getDuration(toast) + 'ms linear both'"
             ></div>
           }
         </div>
@@ -259,9 +264,10 @@ export class KuiToastRegionComponent implements OnDestroy {
   private readonly remaining = new Map<number, number>();
   private readonly startedAt = new Map<number, number>();
   private readonly persistentEffects = new Map<number, EffectRef>();
+  private readonly closeTimers = new Map<number, ReturnType<typeof setTimeout>>();
 
   /** Add a toast to the region and return a handle. Called by the service. */
-  addToast(config: KuiToastConfig): KuiToastRef {
+  addToast(config: KuiToastConfig, defaultDuration = DEFAULT_DURATION): KuiToastRef {
     const id = this.nextId++;
     const closedSubject = new Subject<void>();
     const actionSubject = new Subject<void>();
@@ -283,11 +289,12 @@ export class KuiToastRegionComponent implements OnDestroy {
         paused: pausedSignal,
         closedSubject,
         actionSubject,
+        defaultDuration,
       },
     ]);
 
     if (!this.isPersistentConfig(config)) {
-      const duration = this.getDuration(config);
+      const duration = this.getDuration({ config, defaultDuration });
       this.remaining.set(id, duration);
       this.startTimerFor(id, duration);
     }
@@ -320,8 +327,9 @@ export class KuiToastRegionComponent implements OnDestroy {
     if (this.isPersistentConfig(toast.config)) {
       this.clearTimer(id);
       this.startedAt.delete(id);
+      this.remaining.delete(id);
     } else if (persistentChanged || durationChanged) {
-      const duration = this.getDuration(toast.config);
+      const duration = this.getDuration(toast);
       this.remaining.set(id, duration);
       if (!toast.paused()) this.startTimerFor(id, duration);
     }
@@ -338,13 +346,15 @@ export class KuiToastRegionComponent implements OnDestroy {
     this.startedAt.delete(id);
     toast.paused.set(false);
     toast.closing.set(true);
-    setTimeout(() => {
-      this._toasts.update((list) => list.filter((t) => t.id !== id));
-      if (this._toasts().length === 0) this.leaveTopLayer();
-      toast.closedSubject.next();
-      toast.closedSubject.complete();
-      toast.actionSubject.complete();
-    }, 200);
+    this.closeTimers.set(
+      id,
+      setTimeout(() => {
+        this.closeTimers.delete(id);
+        this._toasts.update((list) => list.filter((t) => t.id !== id));
+        if (this._toasts().length === 0) this.leaveTopLayer();
+        this.completeSubjects(toast, true);
+      }, 200),
+    );
   }
 
   dismissAll(): void {
@@ -357,17 +367,14 @@ export class KuiToastRegionComponent implements OnDestroy {
     const toast = this._toasts().find((item) => item.id === id);
     if (!toast) return;
     toast.paused.set(true);
-    if (!this.timers.has(id)) return;
-    clearTimeout(this.timers.get(id)!);
-    this.timers.delete(id);
-    const elapsed = Date.now() - (this.startedAt.get(id) ?? Date.now());
-    this.remaining.set(id, Math.max(0, (this.remaining.get(id) ?? 5000) - elapsed));
+    this.freezeTimer(id, toast);
   }
 
   protected resumeTimer(id: number): void {
     const toast = this._toasts().find((item) => item.id === id);
     if (!toast) return;
     toast.paused.set(false);
+    if (toast.closing() || this.isPersistentConfig(toast.config)) return;
     const rem = this.remaining.get(id);
     if (rem == null) return;
     this.startTimerFor(id, rem);
@@ -454,13 +461,32 @@ export class KuiToastRegionComponent implements OnDestroy {
     );
   }
 
-  protected getDuration(config: KuiToastConfig): number {
-    const duration = config.duration ?? 5000;
-    return Number.isFinite(duration) ? Math.max(0, duration) : 5000;
+  /** A missing or non-finite duration falls back to the default the toast was opened with. */
+  protected getDuration(toast: Pick<InternalToastItem, 'config' | 'defaultDuration'>): number {
+    const duration = toast.config.duration;
+    return duration !== undefined && Number.isFinite(duration)
+      ? Math.max(0, duration)
+      : toast.defaultDuration;
+  }
+
+  /** Stops the running timer and keeps the time that was left, so a later resume continues it. */
+  private freezeTimer(id: number, toast: InternalToastItem): void {
+    if (!this.timers.has(id)) return;
+    this.clearTimer(id);
+    const elapsed = Date.now() - (this.startedAt.get(id) ?? Date.now());
+    const left = this.remaining.get(id) ?? this.getDuration(toast);
+    this.remaining.set(id, Math.max(0, left - elapsed));
+    this.startedAt.delete(id);
+  }
+
+  private completeSubjects(toast: InternalToastItem, emitClosed: boolean): void {
+    if (emitClosed) toast.closedSubject.next();
+    toast.closedSubject.complete();
+    toast.actionSubject.complete();
   }
 
   private trackPersistentSignal(id: number, value: PersistentConfig): void {
-    if (typeof value !== 'function') return;
+    if (!isSignal(value)) return;
 
     let previous = readPersistent(value);
     const ref = effect(
@@ -483,12 +509,11 @@ export class KuiToastRegionComponent implements OnDestroy {
       persistent ||
       (toast.config.persistent === undefined && toast.config.duration === Infinity)
     ) {
-      this.clearTimer(id);
-      this.startedAt.delete(id);
+      this.freezeTimer(id, toast);
       return;
     }
 
-    const duration = this.remaining.get(id) ?? this.getDuration(toast.config);
+    const duration = this.remaining.get(id) ?? this.getDuration(toast);
     this.remaining.set(id, duration);
     if (!toast.paused()) this.startTimerFor(id, duration);
   }
@@ -509,6 +534,11 @@ export class KuiToastRegionComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.leaveTopLayer();
     this.timers.forEach((t) => clearTimeout(t));
+    this.closeTimers.forEach((t) => clearTimeout(t));
     this.persistentEffects.forEach((ref) => ref.destroy());
+    this.timers.clear();
+    this.closeTimers.clear();
+    this.persistentEffects.clear();
+    for (const toast of this._toasts()) this.completeSubjects(toast, toast.closing());
   }
 }

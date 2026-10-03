@@ -3,6 +3,7 @@ import type { ComponentRef } from '@angular/core';
 import {
   ApplicationRef,
   createComponent,
+  effect,
   EnvironmentInjector,
   inject,
   PLATFORM_ID,
@@ -64,16 +65,17 @@ export class KuiToastService {
     }
 
     const options = this.toastDefaults() ?? {};
+    const defaultDuration = options.duration ?? 5000;
     const merged: KuiToastConfig = {
       appearance: 'neutral',
-      duration: options.duration ?? 5000,
+      duration: defaultDuration,
       closable: options.closable ?? true,
       showIcon: options.showIcon ?? true,
       showProgress: options.showProgress ?? false,
       ...config,
     };
 
-    return region.addToast(merged);
+    return region.addToast(merged, defaultDuration);
   }
 
   private getRegion(): KuiToastRegionComponent | null {
@@ -84,8 +86,25 @@ export class KuiToastService {
       this.regionRef = createComponent(KuiToastRegionComponent, {
         environmentInjector: this.environmentInjector,
       });
-      this.regionRef.instance._position.set(options.position ?? 'bottom-center');
-      this.regionRef.instance._maxVisible.set(options.maxVisible ?? 3);
+      const region = this.regionRef.instance;
+      let appliedPosition = options.position ?? 'bottom-center';
+      let appliedMaxVisible = options.maxVisible ?? 3;
+      region._position.set(appliedPosition);
+      region._maxVisible.set(appliedMaxVisible);
+      // Follow later changes of the defaults. Only a changed default is applied, so a
+      // `setPosition()` call made in between is not overwritten by an unchanged default.
+      effect(
+        () => {
+          const next = this.toastDefaults() ?? {};
+          const position = next.position ?? 'bottom-center';
+          const maxVisible = next.maxVisible ?? 3;
+          if (position !== appliedPosition) region._position.set((appliedPosition = position));
+          if (maxVisible !== appliedMaxVisible) {
+            region._maxVisible.set((appliedMaxVisible = maxVisible));
+          }
+        },
+        { injector: this.environmentInjector },
+      );
       this.appRef.attachView(this.regionRef.hostView);
       this.document.body.appendChild(this.regionRef.location.nativeElement);
     }

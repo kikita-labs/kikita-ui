@@ -141,4 +141,137 @@ describe('KuiToastRegionComponent', () => {
 
     expect(fixture.componentInstance._toasts()).toHaveLength(0);
   });
+
+  describe('reactive lifecycle', () => {
+    function open(config: Parameters<KuiToastRegionComponent['addToast']>[0]) {
+      const fixture = TestBed.createComponent(KuiToastRegionComponent);
+      const ref = fixture.componentInstance.addToast(config);
+      fixture.detectChanges();
+      return { fixture, ref, region: fixture.componentInstance };
+    }
+
+    it('keeps the remaining time when a persistent signal pauses and resumes the timer', () => {
+      vi.useFakeTimers();
+      const persistent = signal(false);
+      const { fixture, region } = open({ title: 'Sync', duration: 5_000, persistent });
+
+      vi.advanceTimersByTime(3_000);
+      persistent.set(true);
+      fixture.detectChanges();
+      vi.advanceTimersByTime(60_000);
+      expect(region._toasts()[0].closing()).toBe(false);
+
+      persistent.set(false);
+      fixture.detectChanges();
+      vi.advanceTimersByTime(1_999);
+      expect(region._toasts()[0].closing()).toBe(false);
+      vi.advanceTimersByTime(1);
+      expect(region._toasts()[0].closing()).toBe(true);
+    });
+
+    it('does not restart the timer on pointer leave while a signal keeps the toast persistent', () => {
+      vi.useFakeTimers();
+      const persistent = signal(false);
+      const { fixture, region } = open({ title: 'Sync', duration: 5_000, persistent });
+
+      persistent.set(true);
+      fixture.detectChanges();
+      const toast = fixture.nativeElement.querySelector('.kui-toast') as HTMLElement;
+      toast.dispatchEvent(new Event('mouseenter'));
+      toast.dispatchEvent(new Event('mouseleave'));
+      vi.advanceTimersByTime(60_000);
+
+      expect(region._toasts()[0].closing()).toBe(false);
+    });
+
+    it('detaches the previous signal when update() supplies a replacement', () => {
+      vi.useFakeTimers();
+      const first = signal(true);
+      const second = signal(true);
+      const { fixture, ref, region } = open({ title: 'Sync', duration: 2_000, persistent: first });
+
+      ref.update({ persistent: second });
+      fixture.detectChanges();
+      first.set(false);
+      fixture.detectChanges();
+      vi.advanceTimersByTime(60_000);
+      expect(region._toasts()[0].closing()).toBe(false);
+
+      second.set(false);
+      fixture.detectChanges();
+      vi.advanceTimersByTime(2_000);
+      expect(region._toasts()[0].closing()).toBe(true);
+    });
+
+    it('lets an explicit update replace a signal binding with a static value', () => {
+      vi.useFakeTimers();
+      const persistent = signal(true);
+      const { fixture, ref, region } = open({ title: 'Sync', duration: 2_000, persistent });
+
+      ref.update({ persistent: false });
+      persistent.set(true);
+      fixture.detectChanges();
+      vi.advanceTimersByTime(2_000);
+
+      expect(region._toasts()[0].closing()).toBe(true);
+    });
+
+    it('does not create duplicate timers across repeated toggles', () => {
+      vi.useFakeTimers();
+      const persistent = signal(true);
+      const { fixture, region } = open({ title: 'Sync', duration: 1_000, persistent });
+
+      for (let i = 0; i < 5; i++) {
+        persistent.set(false);
+        fixture.detectChanges();
+        persistent.set(true);
+        fixture.detectChanges();
+      }
+      expect(vi.getTimerCount()).toBe(0);
+
+      persistent.set(false);
+      fixture.detectChanges();
+      expect(vi.getTimerCount()).toBe(1);
+      vi.advanceTimersByTime(1_000);
+      expect(region._toasts()[0].closing()).toBe(true);
+    });
+
+    it('falls back to the default duration when update() sets duration to undefined', () => {
+      vi.useFakeTimers();
+      const fixture = TestBed.createComponent(KuiToastRegionComponent);
+      const region = fixture.componentInstance;
+      const ref = region.addToast({ title: 'Sync', duration: 10_000 }, 3_000);
+      fixture.detectChanges();
+
+      ref.update({ duration: undefined });
+      vi.advanceTimersByTime(3_000);
+
+      expect(region._toasts()[0].closing()).toBe(true);
+    });
+
+    it('ignores updates after the toast is dismissed', () => {
+      vi.useFakeTimers();
+      const { ref, region } = open({ title: 'Sync', persistent: true });
+
+      ref.close();
+      ref.update({ persistent: false, duration: 100 });
+      vi.advanceTimersByTime(200);
+
+      expect(region._toasts()).toHaveLength(0);
+      expect(vi.getTimerCount()).toBe(0);
+    });
+
+    it('clears timers and completes subscriptions when the region is destroyed', () => {
+      vi.useFakeTimers();
+      const persistent = signal(false);
+      const { fixture, ref } = open({ title: 'Sync', duration: 5_000, persistent });
+      let completed = false;
+      ref.closed$.subscribe({ complete: () => (completed = true) });
+
+      fixture.destroy();
+
+      expect(vi.getTimerCount()).toBe(0);
+      expect(completed).toBe(true);
+    });
+  });
 });

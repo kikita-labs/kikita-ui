@@ -83,8 +83,9 @@ fixing or closing them; record new evidence in state coverage.
   `Signal`, and `KuiDefaults` reads and changes them at runtime. Data, instance state, forms state,
   accessible names and library message text are not defaults. `kui-icon`, `kui-command-palette`
   and `kui-media-viewer` have no key: icon size is a raw CSS size, and the other two only expose
-  message text (Plan 21) or data. See [DI defaults](di-defaults.md). Open follow-ups: reactive
-  field classification (Plan 18), message and icon overrides (Plans 20 and 21).
+  message text (Plan 21) or data. See [DI defaults](di-defaults.md). Every read of a key follows runtime
+  changes, except options read when an overlay opens or a tooltip shows (verified in Plan 18, 2026-10-03).
+  Open follow-ups: message and icon overrides (Plans 20 and 21).
 
 - ESLint is enabled for the library and playground. The gate fails on hard errors and reports
   warnings for current architecture/accessibility debt that needs focused follow-up before those

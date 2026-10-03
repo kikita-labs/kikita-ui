@@ -39,6 +39,22 @@ close button or returned reference. `persistent` also accepts a `Signal<boolean>
 signal to `false` starts the configured timer, while changing it to `true` pauses the timer and
 preserves its remaining time.
 
+Lifecycle rules:
+
+- A signal only needs to be readable; the toast never writes to it. A `computed` works.
+- Turning the signal `true` freezes the time left; turning it `false` resumes that time. A toast
+  opened with a `true` signal starts the full duration the first time the signal becomes `false`.
+- `ref.update({ persistent })` or `ref.update({ duration })` restarts the full duration. An update
+  that omits `persistent` keeps the current binding; one that sets it replaces the previous value or
+  signal, and the old signal is detached.
+- An explicit `persistent` value, even `false`, wins over `duration: Infinity`; a non-finite or
+  missing duration then uses the default duration. `ref.update({ duration: undefined })` also uses
+  the default duration the toast was opened with.
+- Hovering the toast pauses the timer; leaving resumes it unless the toast is persistent.
+- Updates after the toast starts closing are ignored. Closing the toast or destroying the region
+  detaches every signal subscription and timer, and completes `closed$` and `action$`.
+- The server renders no toast and starts no timer.
+
 ```ts
 import { signal } from '@angular/core';
 
@@ -251,14 +267,14 @@ providers: [
 ];
 ```
 
-| Option         | Values                                                                                          | Description                                                              |
-| -------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| `position`     | `'top-start' \| 'top-center' \| 'top-end' \| 'bottom-start' \| 'bottom-center' \| 'bottom-end'` | Where the toast region is placed. Read once, when the region is created. |
-| `duration`     | `number`                                                                                        | Auto-dismiss delay in ms.                                                |
-| `maxVisible`   | `number`                                                                                        | Toasts shown at once. Read once, when the region is created.             |
-| `showProgress` | `boolean`                                                                                       | Shows the remaining-time bar.                                            |
-| `closable`     | `boolean`                                                                                       | Shows the close button.                                                  |
-| `showIcon`     | `boolean`                                                                                       | Shows the status icon.                                                   |
+| Option         | Values                                                                                          | Description                                                               |
+| -------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `position`     | `'top-start' \| 'top-center' \| 'top-end' \| 'bottom-start' \| 'bottom-center' \| 'bottom-end'` | Where the toast region is placed. Follows runtime changes of the default. |
+| `duration`     | `number`                                                                                        | Auto-dismiss delay in ms.                                                 |
+| `maxVisible`   | `number`                                                                                        | Toasts shown at once. Follows runtime changes of the default.             |
+| `showProgress` | `boolean`                                                                                       | Shows the remaining-time bar.                                             |
+| `closable`     | `boolean`                                                                                       | Shows the close button.                                                   |
+| `showIcon`     | `boolean`                                                                                       | Shows the status icon.                                                    |
 
 Each option resolves as `local input > defaults.toast.<option> > built-in default`. See [DI defaults](di-defaults.md).
 

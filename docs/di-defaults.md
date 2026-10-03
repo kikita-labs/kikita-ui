@@ -89,8 +89,11 @@ defaults.get('button'); // Signal of the effective button options
 
 `set` and `update` write to the nearest level only. `KuiDefaults` never exposes a writable signal.
 
-Some options are read once. Toast `position` and `maxVisible` apply when the toast region is first
-created and do not react afterwards; every other toast option is read each time a toast opens.
+Some options are read when something opens, not continuously. Dialog, drawer and toast options are
+read each time one opens, so an open overlay keeps what it opened with; a tooltip reads its options
+each time it shows. Toast `position` and `maxVisible` belong to the shared region: they follow a
+change of the default, and a `setPosition()` call stays until the position default changes again.
+Everything else follows runtime changes of a default immediately.
 
 ## Server rendering
 

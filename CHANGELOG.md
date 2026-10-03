@@ -29,6 +29,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Changed
 
+- Toast: `defaults.toast.position` and `defaults.toast.maxVisible` now follow runtime changes of the default instead of being read once when the region is created. A `setPosition()` call is kept until the position default changes again.
+- Carousel: the internal slide `id` and `aria-label` are signals; no public API changes.
 - **Behavior (breaking):** component defaults moved from six injection tokens to the single `KuiDefaults` mechanism. A nested provider now merges with its parent per property; before, `kuiProvideFieldOptions`, `kuiProvideSelectOptions`, `kuiProvideComboboxOptions` and `kuiProvideButtonOptions` replaced the whole parent object. The global control size is now reactive: changing `defaults.size` updates components already rendered. Providing `KIKITA_UI_OPTIONS` directly no longer sets the default size; use `kuiProvideDefaults({ size })` for a subtree.
 - `KuiButtonOptions` now describes one button's options; the old `{ button, iconButton }` shape is `KuiButtonProviderOptions` and `KuiButtonPrimitiveOptions` is `KuiButtonBaseOptions`. `KikitaUiDefaults` is a deprecated alias of `KuiComponentDefaults`.
 - Deprecated, removal in 3.0: `kuiProvideButtonOptions`, `kuiProvideFieldOptions`, `kuiProvideSelectOptions`, `kuiProvideComboboxOptions`, `kuiProvideTooltipOptions`, `provideKuiToastOptions` (forward to `kuiProvideDefaults`) and the root `provideKikitaUi({ tooltip })` option (use `defaults.tooltip`).
@@ -60,6 +62,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Fixed
 
+- Toast: a `persistent` signal that turns `true` now keeps the time left, so turning it `false` again resumes that time instead of restarting the full duration, as documented. Pointer leave no longer starts the timer of a toast that is persistent through a signal, `ref.update({ duration: undefined })` falls back to the configured default duration instead of a fixed 5000 ms, and destroying the region clears its pending close timers and completes the `closed$` and `action$` streams.
 - A multiple Select keeps its panel open when an option is chosen with Enter or Space, as it already did for a click. The keyboard path ignored the Select rule and closed the panel whenever `closeOnSelect` was left at its default.
 - Calendar and Calendar Range always have one Tab stop on a day: after the month changes, or when today is not in the open month, the grid used to have none and Tab skipped it.
 - Calendar and Calendar Range months and years views move with the arrow keys, Home and End, and keep focus when a month or year is chosen.

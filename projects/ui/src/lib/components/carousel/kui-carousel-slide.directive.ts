@@ -1,4 +1,4 @@
-import { Directive, ElementRef, inject } from '@angular/core';
+import { Directive, ElementRef, inject, signal } from '@angular/core';
 
 /**
  * Marks one slide inside `kui-carousel`. Wraps arbitrary consumer content -- the host element
@@ -20,16 +20,16 @@ import { Directive, ElementRef, inject } from '@angular/core';
     class: 'kui-carousel__slide',
     role: 'group',
     '[attr.aria-roledescription]': "'slide'",
-    '[attr.id]': 'id',
-    '[attr.aria-label]': 'ariaLabel',
+    '[attr.id]': '_id()',
+    '[attr.aria-label]': '_ariaLabel()',
   },
 })
 export class KuiCarouselSlideDirective {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** @internal Set by the parent `kui-carousel`. */
-  id: string | null = null;
+  readonly _id = signal<string | null>(null);
 
   /** @internal Set by the parent `kui-carousel`, e.g. "2 of 5". */
-  ariaLabel: string | null = null;
+  readonly _ariaLabel = signal<string | null>(null);
 }
