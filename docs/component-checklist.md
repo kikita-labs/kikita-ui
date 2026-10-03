@@ -145,11 +145,18 @@ Run these before marking the primitive done:
 ```bash
 pnpm lint
 pnpm audit:static
+pnpm audit:architecture
 pnpm format:check
 pnpm test
 pnpm build
+pnpm audit:bundle
 pnpm build:playground
 ```
+
+`audit:architecture` fails on a new module cycle or a new import from a lower layer to a higher one;
+`audit:bundle` fails when a primitive's single-export bundle cost exceeds its limit in
+`scripts/bundle-budgets.json`. Add a budget entry (`pnpm audit:bundle --write-baseline`) for every new
+public export. See `.agents/testing-and-quality.md`.
 
 For a visual or browser-behavior change also run the matching suites: `pnpm test:browser` (the
 Playground `behavior` project, which includes the SSR, accessibility and responsive checks) and

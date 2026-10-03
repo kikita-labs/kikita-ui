@@ -13,6 +13,7 @@ Fast local gate:
 pnpm.cmd lint
 pnpm.cmd typecheck:e2e
 pnpm.cmd audit:static
+pnpm.cmd audit:architecture
 pnpm.cmd test:scripts
 pnpm.cmd test
 ```
@@ -24,10 +25,12 @@ pnpm.cmd format:check
 pnpm.cmd lint
 pnpm.cmd typecheck:e2e
 pnpm.cmd audit:static
+pnpm.cmd audit:architecture
 pnpm.cmd skills:check
 pnpm.cmd test:scripts
 pnpm.cmd test
 pnpm.cmd build
+pnpm.cmd audit:bundle
 pnpm.cmd build:playground
 pnpm.cmd test:kikita-ui-playground
 pnpm.cmd test:ssr
@@ -40,11 +43,29 @@ title does not carry `@visual`, including the SSR, hydration, accessibility and 
 `test:ssr` runs only the SSR hydration spec against a fresh build. The `visual` project runs through
 Docker (`test:visual`, see `docs/visual-regression.md`) because its baselines are Linux captures.
 
+## Architecture And Bundle Audits
+
+- `pnpm audit:architecture` reads the import graph of `projects/ui/src/lib` with the TypeScript API
+  (type-only imports and files that export only types are ignored, barrels are not consumers) and
+  fails on a module cycle or an import from a lower group (`types`/`utils`, then `i18n`, `providers`,
+  `theme`, `tokens`, then `components`) to a higher one. `scripts/architecture-baseline.json` lists the
+  cycles and violations that already exist; the audit fails on a new one and also on a baseline entry
+  that no longer exists, so the file only shrinks. After a fix, run
+  `node scripts/verify-architecture.mjs --write-baseline` and review the diff. See
+  `.agents/imports-and-boundaries.md`.
+- `pnpm audit:bundle` imports each runtime export alone into an empty Angular application, builds it
+  with the real application builder and compares the bytes of Kikita code with
+  `scripts/bundle-budgets.json` (`limitBytes` is the enforced ceiling, `targetBytes` the goal and only
+  reported). It needs a fresh `dist/ui` (`pnpm build`) and checks the 25 `gateExports` in about a
+  minute; `--all` checks every export, `--export A,B` a chosen few,
+  `--write-baseline` re-measures and only lowers limits (`--allow-increase` raises them and needs a
+  reason in the commit). Output goes to `output/bundle-sweep.csv`.
+
 ## Continuous Integration
 
 `.github/workflows/ci.yml` runs on pull requests and on pushes to `main` and `release/**`:
 
-- `verify`: format, lint, e2e type check, static audit, skills check, script tests, unit tests, and all builds.
+- `verify`: format, lint, e2e type check, static audit, architecture audit, skills check, script tests, unit tests, all builds, and the bundle audit after the library build.
 - `browser`: the Playground `behavior` project on Chromium, in 3 shards. Shards use `--fully-parallel` so tests, not files, are balanced across them (Playwright sharding guidance).
 - `visual`: the Playground screenshot suite inside the pinned Playwright Docker image, in 4 shards.
 
@@ -103,7 +124,7 @@ characterization test when coverage is missing. Keep refactors small and green.
 - `pre-commit` runs `lint-staged` on staged files: ESLint and Prettier for TypeScript and
   Angular templates; Stylelint and Prettier for SCSS. It also runs the static and skills
   checks from `.husky/pre-commit`.
-- `pre-push` runs the fast checks only: format, lint, e2e type check, static audit, skills check, script tests and
+- `pre-push` runs the fast checks only: format, lint, e2e type check, static audit, architecture audit, skills check, script tests and
   unit tests. Builds, SSR, browser and visual suites run in CI; run them locally when a change
   touches browser behavior or visuals.
 - If a hook fails because of local environment limits, run the same command

@@ -42,3 +42,18 @@ docs -> source-of-truth Markdown, not runtime code
 ```
 
 Do not make the library depend on the playground or docs repo.
+
+## Module Graph Audit
+
+`pnpm audit:architecture` enforces two rules on `projects/ui/src/lib` today:
+
+- No module cycles. A module is `components/<primitive>` or one of `types`, `utils`, `i18n`,
+  `providers`, `theme`, `tokens`.
+- No runtime import from a lower group to a higher one. Groups, lowest first: `types` and `utils`;
+  `i18n`, `providers`, `theme`, `tokens`; `components`.
+
+Type-only imports do not count. `scripts/architecture-baseline.json` records the cycles and violations
+that exist today and are being removed under
+[ADR 0001](decisions/0001-library-layers-and-bundle-budgets.md); never add an entry to hide a new
+dependency, fix the dependency instead. The target layering in that ADR is enforced step by step as
+its slices land.

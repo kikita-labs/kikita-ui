@@ -40,8 +40,10 @@ Run before publishing:
 
 ```bash
 pnpm audit:static
+pnpm audit:architecture
 pnpm format:check
 pnpm build
+pnpm audit:bundle
 pnpm build:playground
 pnpm test
 npm pack ./dist/ui --pack-destination .local-notes

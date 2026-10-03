@@ -40,11 +40,13 @@ jobs:
       - run: pnpm lint
       - run: pnpm typecheck:e2e
       - run: pnpm audit:static
+      - run: pnpm audit:architecture
       - run: pnpm skills:check
       - run: pnpm test:scripts
       - run: pnpm test
       - run: pnpm test:kikita-ui-playground
       - run: pnpm build
+      - run: pnpm audit:bundle
       - run: pnpm build:playground
 
   browser:

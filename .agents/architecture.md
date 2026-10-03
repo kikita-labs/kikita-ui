@@ -81,3 +81,9 @@ models, callbacks, mutable form values, or objects intended for user editing.
 Record architecture changes that alter source layout, dependency direction,
 public API shape, SSR strategy, theming contract, generated artifacts, or agent
 surface generation under `.agents/decisions/`.
+
+Current decisions:
+
+- [ADR 0001](decisions/0001-library-layers-and-bundle-budgets.md): library layers, decoupled form
+  controls, per-export bundle budgets and where component CSS lives. It is being implemented in
+  slices; `pnpm audit:architecture` and `pnpm audit:bundle` enforce what has landed.
