@@ -35,6 +35,31 @@ interface HarnessOptions {
 export const test = base.extend<HarnessFixtures & HarnessOptions>({
   browserErrorAllowances: [[lucideCdnOfflineAllowance], { option: true }],
 
+  /**
+   * `page.goto()` also waits for Angular hydration, so a test never types or clicks into server
+   * markup whose handlers are not attached yet (the replayed event would otherwise race the
+   * assertions). Angular removes the `ngh` attribute from each host as it hydrates, so none left
+   * means the page is interactive. A navigation that stops at `waitUntil: 'commit'` is meant to
+   * inspect the server response and is left alone, as are tests without JavaScript.
+   */
+  page: async ({ page, javaScriptEnabled }, use) => {
+    if (javaScriptEnabled) {
+      const goto = page.goto.bind(page);
+
+      page.goto = async (url, options) => {
+        const response = await goto(url, options);
+
+        if (options?.waitUntil !== 'commit') {
+          await page.waitForFunction(() => document.querySelector('[ngh]') === null);
+        }
+
+        return response;
+      };
+    }
+
+    await use(page);
+  },
+
   browserErrors: [
     async ({ page, browserErrorAllowances, javaScriptEnabled }, use) => {
       const collector = new BrowserErrorCollector(page, browserErrorAllowances);
