@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "rename-symbols-v2": {
+      "version": "2.0.0-0",
+      "description": "Renames the Kikita UI exports that lost their Component, Directive or Service suffix in 2.0.0.",
+      "factory": "./ng-update/index.cjs#renameSymbolsV2"
+    }
+  }
+}

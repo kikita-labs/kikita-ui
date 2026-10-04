@@ -56,6 +56,9 @@ The local tarball should contain:
 - `styles/kikita-ui.css` and the stylesheets it imports (`styles/*.css`, `lib/components/*/kui-*.css`)
 - `schematics/collection.json`
 - `schematics/ng-add/index.cjs`
+- `schematics/migration.json`
+- `schematics/ng-update/index.cjs`
+- `schematics/ng-update/renames.json`
 - `package.json`
 - `README.md`
 
@@ -66,6 +69,20 @@ Before publishing a package with install changes, verify that `ng add` still:
 - adds `provideKikitaUi()` once;
 - scaffolds default theme seeds with `--theme`;
 - respects `--skip-provider` and `--skip-styles`.
+
+Before publishing a major release that renames exports, verify that `ng update` migrates a consumer:
+
+1. In a temporary Angular 22 app outside this workspace, install the previous published version
+   (for example `@kikita-labs/ui@1.8.0`) and write a sample that imports at least twenty renamed
+   names, including an aliased import, a namespace import, a type-only import and a re-export.
+2. Install the packed tarball over it (`npm install <path>/kikita-labs-ui-<version>.tgz`).
+3. Run `ng update @kikita-labs/ui --migrate-only --from=<previous> --to=<new> --allow-dirty`.
+4. Confirm that the sample imports the new names, that no old name remains, and that
+   `ng build` with strict templates passes.
+
+`projects/ui/schematics/migration.json` selects migrations by `version`; keep it at the first
+prerelease of the major (`2.0.0-0`) so prerelease targets run it too. The rename data is
+`schematics/ng-update/renames.json`; it is the same table as the migration guide.
 
 The latest fresh-consumer verification used a local tarball installed into a
 temporary Angular 22 app outside this workspace, then ran `ng add --theme`,
