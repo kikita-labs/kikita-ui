@@ -77,7 +77,7 @@ Import the Kikita UI style entrypoint once:
 @import '@kikita-labs/ui/styles';
 ```
 
-Slider styles live in `projects/ui/src/styles/slider.css` and are included through `@kikita-labs/ui/styles`.
+Slider styles live in `projects/ui/src/lib/components/slider/kui-slider.css` and are included through `@kikita-labs/ui/styles`.
 
 <!-- color-tokens:begin -->
 

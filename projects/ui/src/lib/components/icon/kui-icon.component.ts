@@ -32,7 +32,6 @@ const KUI_ICON_SIZE_PRESETS: Record<KuiIconSizePreset, string> = {
   selector: 'kui-icon',
   imports: [KuiGlyphComponent],
   templateUrl: './kui-icon.component.html',
-  styleUrl: './kui-icon.component.css',
   host: {
     class: 'kui-icon',
     '[attr.role]': 'label() ? "img" : null',

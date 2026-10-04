@@ -155,7 +155,7 @@ it with Enter.
 - File entry fields and lifecycle types:
   `projects/ui/src/lib/components/file-upload/kui-upload-file.interface.ts`.
 - Base, size, hover, drag, disabled, status, and focus styling:
-  `projects/ui/src/styles/file-upload.css`.
+  `projects/ui/src/lib/components/file-upload/kui-file-upload.css`.
 - Root-size injection: `projects/ui/src/lib/providers/kui-defaults.util.ts` and
   `projects/ui/src/lib/providers/kikita-ui-options.token.ts`.
 - Component tests and current focused behavior coverage:

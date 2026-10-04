@@ -79,7 +79,7 @@ omits both inputs and E2E confirms their English defaults remain English in the 
   asserts the defaults remain English.
 - No Table-specific design-provenance record exists in `docs/design-provenance.md`. This page uses
   the library Table styles as shipped and adds only layout, wrapping, and scroll-region styles.
-- The selection checkbox is styled at 15×15 CSS pixels (`projects/ui/src/styles/table.css`), below
+- The selection checkbox is styled at 15×15 CSS pixels (`projects/ui/src/lib/components/table/kui-table.css`), below
   the playground's 44×44px touch-target guidance. The sort button has `min-height: 1.5em` and
   inherits the 10px table-header font, giving it a 15px minimum height; it also falls below that
   guidance. The page does not alter shipped component visuals, so both small targets remain
@@ -107,7 +107,7 @@ faked with page CSS. The page contains no random or time-dependent content.
   `projects/ui/src/lib/components/table/kui-select-th.component.ts` and
   `projects/ui/src/lib/components/table/kui-select-cell.component.ts`.
 - Sticky rules, size tokens, and checkbox dimensions:
-  `projects/ui/src/styles/table.css`.
+  `projects/ui/src/lib/components/table/kui-table.css`.
 - Existing behavioral coverage: `projects/ui/src/lib/components/table/kui-table.directive.spec.ts`.
 - Touch target guidance: `projects/kikita-ui-playground/.agents/accessibility.md`.
 - Design record inventory: `docs/design-provenance.md` (there is no Table-specific entry).

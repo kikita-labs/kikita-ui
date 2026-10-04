@@ -17,8 +17,11 @@
 - SCSS is allowed as an authoring/convenience layer, not as the runtime theme API.
 - Keep `projects/ui/src/styles/kikita-ui.css` as the single public style
   entrypoint for `@kikita-labs/ui/styles`.
-- Author real styles in per-layer/per-primitive files under
-  `projects/ui/src/styles/`.
+- Author each primitive's styles in `kui-<primitive>.css` beside the component.
+  Layer-wide and cross-primitive styles (base, density, glyph, listbox, selection,
+  forced colors) stay under `projects/ui/src/styles/`. `ng-package.json` mirrors
+  `lib/**/*.css` into the package so `kikita-ui.css` resolves the same relative
+  imports in the repository and in `dist`.
 - Import every public primitive style file from `kikita-ui.css`; do not hide
   required component CSS in playground styles.
 - Use CSS `@layer` for Kikita-owned CSS. Current layers are `kui.base` and

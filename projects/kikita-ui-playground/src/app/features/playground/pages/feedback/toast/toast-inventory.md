@@ -85,7 +85,7 @@ symbols.
 - Region roles, icons, timers, eviction, update, and close lifecycle:
   `projects/ui/src/lib/components/toast/kui-toast-region.component.ts`.
 - Defaults and provider: `projects/ui/src/lib/components/toast/kui-toast.token.ts`.
-- Consumer documentation and tokens: `docs/toast.md`, `projects/ui/src/styles/toast.css`, and
+- Consumer documentation and tokens: `docs/toast.md`, `projects/ui/src/lib/components/toast/kui-toast.css`, and
   `projects/ui/src/lib/theme/create-kui-theme.ts`.
 - Existing unit evidence: `projects/ui/src/lib/components/toast/kui-toast-region.component.spec.ts`
   covers status/alert roles, persistent close, signal release, update, `Infinity`, hover pause/resume,

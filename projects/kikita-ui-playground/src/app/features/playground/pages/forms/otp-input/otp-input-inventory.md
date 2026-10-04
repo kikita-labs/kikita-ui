@@ -11,7 +11,7 @@ Status: implemented. The contract audit was reviewed and accepted by the parent 
   [`kui-otp-input.component.ts`](../../../../../../../../../projects/ui/src/lib/components/otp-input/kui-otp-input.component.ts),
   unit suite
   [`kui-otp-input.component.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/otp-input/kui-otp-input.component.spec.ts),
-  styles [`otp-input.css`](../../../../../../../../../projects/ui/src/styles/otp-input.css), the
+  styles [`otp-input.css`](../../../../../../../../../projects/ui/src/lib/components/otp-input/kui-otp-input.css), the
   `positiveIntegerAttribute` transform in
   [`kui-input-transform.util.ts`](../../../../../../../../../projects/ui/src/lib/utils/kui-input-transform.util.ts),
   and root size resolution in

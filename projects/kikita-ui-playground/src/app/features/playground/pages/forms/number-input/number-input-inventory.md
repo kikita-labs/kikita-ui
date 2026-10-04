@@ -28,7 +28,7 @@ integration.
   [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts),
   [`KikitaUiOptions`](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),
   [`defaults.field`](../../../../../../../../../projects/ui/src/lib/tokens/kui-field-options.interface.ts),
-  [`number-input.css`](../../../../../../../../../projects/ui/src/styles/number-input.css),
+  [`number-input.css`](../../../../../../../../../projects/ui/src/lib/components/number-input/kui-number-input.css),
   [`kikita-ui.css`](../../../../../../../../../projects/ui/src/styles/kikita-ui.css),
   [`create-kui-theme.ts`](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.ts),
   and [`tokens.md`](../../../../../../../../../docs/tokens.md).

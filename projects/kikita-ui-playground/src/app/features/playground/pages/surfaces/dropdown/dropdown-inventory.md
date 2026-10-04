@@ -39,7 +39,7 @@ This inventory records the reviewed public Dropdown contract against the example
 - `docs/dropdown.md` uses `[kuiOption]="option"` and `kuiOption="edit"` as value bindings and labels `kuiOption` as the value input. The directive's actual required input is `value`; the page uses the `kuiOption` selector with `[value]` or `value`.
 - The generated UI MCP metadata describes `closeOnSelect` as a model although the public source declares it as an input. The page follows the source API.
 
-The source audit is grounded in `projects/ui/src/lib/components/dropdown/kui-dropdown.component.ts` (inputs and overlay behavior), `kui-dropdown-for.directive.ts` (trigger and ARIA wiring), `kui-option.directive.ts` (option semantics), `projects/ui/src/styles/dropdown.css`, `projects/ui/src/styles/listbox.css`, and the Dropdown component unit tests.
+The source audit is grounded in `projects/ui/src/lib/components/dropdown/kui-dropdown.component.ts` (inputs and overlay behavior), `kui-dropdown-for.directive.ts` (trigger and ARIA wiring), `kui-option.directive.ts` (option semantics), `projects/ui/src/lib/components/dropdown/kui-dropdown.css`, `projects/ui/src/styles/listbox.css`, and the Dropdown component unit tests.
 
 ## Verification notes
 

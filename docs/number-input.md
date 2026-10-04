@@ -117,7 +117,7 @@ Import the Kikita UI style entrypoint once:
 @import '@kikita-labs/ui/styles';
 ```
 
-Number-input styles live in `projects/ui/src/styles/number-input.css` and are
+Number-input styles live in `projects/ui/src/lib/components/number-input/kui-number-input.css` and are
 included through `@kikita-labs/ui/styles`.
 
 ## CSS Custom Properties

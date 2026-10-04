@@ -122,7 +122,7 @@ claimed. Real assistive-technology review was not performed.
 - `projects/ui/src/lib/components/stepper/kui-stepper.component.spec.ts` — current unit coverage:
   list roles, positional state/current marker, done-step back navigation, linear restriction,
   non-linear jump, and one-error disablement.
-- `projects/ui/src/styles/stepper.css`, `projects/ui/src/styles/kikita-ui.css`,
+- `projects/ui/src/lib/components/stepper/kui-stepper.css`, `projects/ui/src/styles/kikita-ui.css`,
   `projects/ui/src/lib/theme/create-kui-theme.ts`, and
   `projects/ui/src/lib/providers/kui-defaults.util.ts` — runtime layout/states, style import, theme
   values, and supported root size fallback.

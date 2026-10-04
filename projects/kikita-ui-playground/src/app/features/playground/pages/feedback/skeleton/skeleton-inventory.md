@@ -103,7 +103,7 @@ Viewer, or Chart because their own pages/components own those integrated states.
   establish exports, defaults, host attributes, and literal input domains. The local
   [Skeleton barrel](../../../../../../../../../projects/ui/src/lib/components/skeleton/index.ts)
   is re-exported from the component barrel and package public API.
-- [Skeleton styles](../../../../../../../../../projects/ui/src/styles/skeleton.css) establish
+- [Skeleton styles](../../../../../../../../../projects/ui/src/lib/components/skeleton/kui-skeleton.css) establish
   geometry, modes, base pointer/selection behavior, and reduced motion. The stylesheet is imported
   through `projects/ui/src/styles/kikita-ui.css`.
 - [Theme defaults](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.ts)
@@ -115,7 +115,7 @@ Viewer, or Chart because their own pages/components own those integrated states.
   evidence includes Avatar's circle/square loading shape, Command Palette's `aria-busy` skeleton
   rows, Media Viewer's rectangular photo placeholder with load/reveal tests, and Bar Chart's
   square loading bars.
-- The consumer lifecycle buttons use the documented [Button `lg` size](../../../../../../../../../projects/ui/src/styles/button.css),
+- The consumer lifecycle buttons use the documented [Button `lg` size](../../../../../../../../../projects/ui/src/lib/components/button/kui-button.css),
   which resolves to the 44px minimum block size required by the Playground's
   [accessibility guidance](../../../../../../../../../projects/kikita-ui-playground/.agents/accessibility.md).
 

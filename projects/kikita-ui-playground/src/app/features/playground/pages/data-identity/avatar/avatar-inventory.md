@@ -20,8 +20,8 @@ Neither component declares an output, model, or consumer-facing method. `onImage
 - [Avatar source documentation](../../../../../../../../../docs/avatar.md), [root default precedence](../../../../../../../../../docs/di-defaults.md), [accessibility review guide](../../../../../../../../../docs/accessibility.md), and [design provenance](../../../../../../../../../docs/design-provenance.md).
 - [Avatar component](../../../../../../../../../projects/ui/src/lib/components/avatar/kui-avatar.component.ts), [Avatar template](../../../../../../../../../projects/ui/src/lib/components/avatar/kui-avatar.component.html), [group component](../../../../../../../../../projects/ui/src/lib/components/avatar/kui-avatar-group.component.ts), and [group template](../../../../../../../../../projects/ui/src/lib/components/avatar/kui-avatar-group.component.html).
 - [Avatar types and item interface](../../../../../../../../../projects/ui/src/lib/components/avatar/index.ts), [public component barrel](../../../../../../../../../projects/ui/src/lib/components/index.ts), and [public API barrel](../../../../../../../../../projects/ui/src/public-api.ts).
-- [Avatar unit test](../../../../../../../../../projects/ui/src/lib/components/avatar/kui-avatar.component.spec.ts), [Avatar runtime styles](../../../../../../../../../projects/ui/src/styles/avatar.css), and [theme token source](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.ts) with [theme test](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.spec.ts).
-- [Skeleton directive](../../../../../../../../../projects/ui/src/lib/components/skeleton/kui-skeleton.directive.ts) and [Skeleton styles](../../../../../../../../../projects/ui/src/styles/skeleton.css) for Avatar loading behavior.
+- [Avatar unit test](../../../../../../../../../projects/ui/src/lib/components/avatar/kui-avatar.component.spec.ts), [Avatar runtime styles](../../../../../../../../../projects/ui/src/lib/components/avatar/kui-avatar.css), and [theme token source](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.ts) with [theme test](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.spec.ts).
+- [Skeleton directive](../../../../../../../../../projects/ui/src/lib/components/skeleton/kui-skeleton.directive.ts) and [Skeleton styles](../../../../../../../../../projects/ui/src/lib/components/skeleton/kui-skeleton.css) for Avatar loading behavior.
 - Existing Avatar consumer (removed legacy file `playground/src/app/pages/avatar/avatar.page.ts`) and consumer template (removed legacy file `playground/src/app/pages/avatar/avatar.page.html`).
 
 ## Inputs, defaults, and page mapping
@@ -66,7 +66,7 @@ Neither component declares an output, model, or consumer-facing method. `onImage
 
 ## Style and token audit
 
-The runtime source is `projects/ui/src/styles/avatar.css`, inside `@layer kui.components`, imported by the public `projects/ui/src/styles/kikita-ui.css` entry point. The page must consume those styles and only add layout rules. The style uses these Avatar token families:
+The runtime source is `projects/ui/src/lib/components/avatar/kui-avatar.css`, inside `@layer kui.components`, imported by the public `projects/ui/src/styles/kikita-ui.css` entry point. The page must consume those styles and only add layout rules. The style uses these Avatar token families:
 
 - Dimensions: `--kui-avatar-size-xs`, `-sm`, `-md`, `-lg`, `-xl`, `-2xl` resolve to 20, 24, 32, 40, 48, and 64 CSS pixels. Font-size tokens follow the matching text scale.
 - Shape: `--kui-avatar-radius-circle`, `--kui-avatar-radius-square`, and square size overrides.

@@ -2,7 +2,7 @@
 
 This page follows the reviewed contract for docs/drawer.md, the public Drawer exports and types,
 kuiDrawer(), its CDK overlay service and container, the container/ref unit specs, and
-projects/ui/src/styles/drawer.css. Drawer is an imperative overlay API. The page uses a private
+projects/ui/src/lib/components/drawer/kui-drawer.css. Drawer is an imperative overlay API. The page uses a private
 typed host component and does not invent component inputs, outputs, or projection slots.
 
 ## Public contract map

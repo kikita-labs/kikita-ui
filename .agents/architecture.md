@@ -17,13 +17,13 @@ surface; the sibling `kikita-ui-docs` repository is the external consumer proof.
 
 ```text
 projects/ui/src/lib/
-  components/<primitive>/
+  components/<primitive>/        code, tests and kui-<primitive>.css
   providers/
   theme/
   tokens/
   types/
   utils/
-projects/ui/src/styles/
+projects/ui/src/styles/            shared layers and the single entrypoint kikita-ui.css
 projects/kikita-ui-playground/
   AGENTS.md
   .agents/

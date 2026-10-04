@@ -52,7 +52,7 @@ Browser evidence with real input: `page.mouse` drags (horizontal, vertical, nest
 
 ## Source audit
 
-- [Docs](../../../../../../../../../docs/splitter.md), [splitter](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter.component.ts), [pane](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter-pane.component.ts), [gutter](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter-gutter.component.ts), [context token](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter-context.token.ts), [unit spec](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter.component.spec.ts) (15 tests), and [stylesheet](../../../../../../../../../projects/ui/src/styles/splitter.css).
+- [Docs](../../../../../../../../../docs/splitter.md), [splitter](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter.component.ts), [pane](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter-pane.component.ts), [gutter](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter-gutter.component.ts), [context token](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter-context.token.ts), [unit spec](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter.component.spec.ts) (15 tests), and [stylesheet](../../../../../../../../../projects/ui/src/lib/components/splitter/kui-splitter.css).
 - Legacy scenarios (reference only): default, vertical, collapsible first pane, three panes, nested IDE layout, disabled, and a sizes readout.
 
 ## Discrepancies and findings

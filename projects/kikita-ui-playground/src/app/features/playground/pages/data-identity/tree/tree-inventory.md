@@ -1,6 +1,6 @@
 # Tree page contract inventory
 
-This page maps the public Tree contract in [Tree docs](../../../../../../../../../docs/tree.md), [Tree API](../../../../../../../../../projects/ui/src/lib/components/tree/kui-tree.component.ts), [node type](../../../../../../../../../projects/ui/src/lib/components/tree/kui-tree-node.interface.ts), [styles](../../../../../../../../../projects/ui/src/styles/tree.css), [theme tokens](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.ts), and [unit tests](../../../../../../../../../projects/ui/src/lib/components/tree/kui-tree.component.spec.ts) to the live examples in this page. The page imports Tree only from `@kikita-labs/ui`; the app shell owns theme and language.
+This page maps the public Tree contract in [Tree docs](../../../../../../../../../docs/tree.md), [Tree API](../../../../../../../../../projects/ui/src/lib/components/tree/kui-tree.component.ts), [node type](../../../../../../../../../projects/ui/src/lib/components/tree/kui-tree-node.interface.ts), [styles](../../../../../../../../../projects/ui/src/lib/components/tree/kui-tree.css), [theme tokens](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.ts), and [unit tests](../../../../../../../../../projects/ui/src/lib/components/tree/kui-tree.component.spec.ts) to the live examples in this page. The page imports Tree only from `@kikita-labs/ui`; the app shell owns theme and language.
 
 ## Public inputs and models
 

@@ -158,7 +158,7 @@ Import the Kikita UI style entrypoint once:
 @import '@kikita-labs/ui/styles';
 ```
 
-Tree styles live in `projects/ui/src/styles/tree.css` and are included through
+Tree styles live in `projects/ui/src/lib/components/tree/kui-tree.css` and are included through
 `@kikita-labs/ui/styles`. Tree rows reuse the existing `.kui-field-action`
 (toggle button) and `.kui-checkbox` (checkable mode) styling — no new tokens
 are introduced for either.

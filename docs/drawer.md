@@ -173,7 +173,7 @@ Drawer styles consume public Kikita CSS variables:
 - `--kui-drawer-close-offset-x` (default `var(--kui-drawer-header-padding-x)`)
 - `--kui-drawer-close-offset-y` (default `var(--kui-drawer-header-padding-y)`)
 
-See `projects/ui/src/styles/drawer.css` for the full token list.
+See `projects/ui/src/lib/components/drawer/kui-drawer.css` for the full token list.
 
 <!-- color-tokens:begin -->
 

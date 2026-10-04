@@ -23,7 +23,7 @@
   [`kui-field.component.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.spec.ts),
   and [`forms.md`](../../../../../../../../../docs/forms.md).
 - Runtime styles and theme variables:
-  [`input.css`](../../../../../../../../../projects/ui/src/styles/input.css),
+  [`input.css`](../../../../../../../../../projects/ui/src/lib/components/input/kui-input.css),
   [`kikita-ui.css`](../../../../../../../../../projects/ui/src/styles/kikita-ui.css),
   [`create-kui-theme.ts`](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.ts),
   [`tokens.md`](../../../../../../../../../docs/tokens.md), and

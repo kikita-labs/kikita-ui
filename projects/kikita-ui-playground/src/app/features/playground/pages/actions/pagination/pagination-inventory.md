@@ -109,7 +109,7 @@ and an ellipsis only replaces a gap of two or more pages.
   inputs, models, `computePageWindow`, summary math) and `kui-pagination-variant.type.ts`; coercion
   helper `projects/ui/src/lib/utils/kui-input-transform.util.ts`; root size default
   `projects/ui/src/lib/providers/kui-defaults.util.ts`.
-- Styles: `projects/ui/src/styles/pagination.css` (tokens `--kui-pagination-*`, per-size square page
+- Styles: `projects/ui/src/lib/components/pagination/kui-pagination.css` (tokens `--kui-pagination-*`, per-size square page
   buttons, ellipsis geometry, fixed-width picker).
 - Unit tests: `kui-pagination.component.spec.ts` (11 specs: landmark name, current page marking, inline
   SVG chrome, ellipsis count, click, boundary disabling, jump controls, simple variant, full summary,

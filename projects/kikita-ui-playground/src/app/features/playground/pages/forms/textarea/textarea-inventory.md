@@ -22,7 +22,7 @@ the public API, native and Signal Forms behavior, documented caveats, and determ
 - Defaults and tokens: [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts),
   [`kikita-ui-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),
   [`kui-field-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/tokens/kui-field-options.interface.ts),
-  [`input.css`](../../../../../../../../../projects/ui/src/styles/input.css),
+  [`input.css`](../../../../../../../../../projects/ui/src/lib/components/input/kui-input.css),
   [`density.css`](../../../../../../../../../projects/ui/src/styles/density.css),
   [`kikita-ui.css`](../../../../../../../../../projects/ui/src/styles/kikita-ui.css),
   [`create-kui-theme.ts`](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.ts),

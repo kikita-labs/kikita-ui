@@ -2,7 +2,7 @@
 
 This page follows the accepted source-backed audit for `docs/dialog.md`, the public Dialog
 types and context, `kuiDialog()` / `kuiConfirm()`, the CDK container and service, unit tests,
-and `projects/ui/src/styles/dialog.css`. The Dialog page is an imperative consumer showcase:
+and `projects/ui/src/lib/components/dialog/kui-dialog.css`. The Dialog page is an imperative consumer showcase:
 it does not invent component inputs, outputs, or Angular projection slots.
 
 ## Public contract map

@@ -112,7 +112,7 @@ Import the Kikita UI style entrypoint once:
 @import '@kikita-labs/ui/styles';
 ```
 
-Accordion styles live in `projects/ui/src/styles/accordion.css` and are included
+Accordion styles live in `projects/ui/src/lib/components/accordion/kui-accordion.css` and are included
 through `@kikita-labs/ui/styles`.
 
 <!-- color-tokens:begin -->

@@ -1,6 +1,6 @@
 # Calendar Range Page Inventory
 
-Source audit of `kui-calendar-range` and the page that exercises it. Contract sources: `docs/calendar-range.md`, `projects/ui/src/lib/components/calendar-range/kui-calendar-range.component.ts` (inline template, inputs, models), its unit spec, `projects/ui/src/lib/components/calendar/kui-calendar.types.ts` and `kui-calendar-date.util.ts`, `projects/ui/src/lib/utils/kui-calendar-navigation.util.ts`, `projects/ui/src/lib/i18n/kui-calendar-locale-text.util.ts`, `projects/ui/src/styles/calendar.css`, and the Calendar page inventory. Behavior below was verified in the browser through the page's E2E spec and throwaway probes.
+Source audit of `kui-calendar-range` and the page that exercises it. Contract sources: `docs/calendar-range.md`, `projects/ui/src/lib/components/calendar-range/kui-calendar-range.component.ts` (inline template, inputs, models), its unit spec, `projects/ui/src/lib/components/calendar/kui-calendar.types.ts` and `kui-calendar-date.util.ts`, `projects/ui/src/lib/utils/kui-calendar-navigation.util.ts`, `projects/ui/src/lib/i18n/kui-calendar-locale-text.util.ts`, `projects/ui/src/lib/components/calendar/kui-calendar.css`, and the Calendar page inventory. Behavior below was verified in the browser through the page's E2E spec and throwaway probes.
 
 ## Public contract mapping
 

@@ -1,6 +1,6 @@
 # Calendar Page Inventory
 
-This inventory is a retrospective source audit of the Calendar page and its browser evidence. The public contract was cross-checked against `docs/calendar.md`, `projects/ui/src/lib/components/calendar/kui-calendar.component.ts` (inline template and input/model declarations), `projects/ui/src/lib/components/calendar/kui-calendar.types.ts`, `projects/ui/src/lib/utils/kui-calendar-navigation.util.ts`, `projects/ui/src/lib/i18n/kui-locale.token.ts`, `projects/ui/src/lib/components/calendar/kui-calendar.component.spec.ts`, and `projects/ui/src/styles/calendar.css`.
+This inventory is a retrospective source audit of the Calendar page and its browser evidence. The public contract was cross-checked against `docs/calendar.md`, `projects/ui/src/lib/components/calendar/kui-calendar.component.ts` (inline template and input/model declarations), `projects/ui/src/lib/components/calendar/kui-calendar.types.ts`, `projects/ui/src/lib/utils/kui-calendar-navigation.util.ts`, `projects/ui/src/lib/i18n/kui-locale.token.ts`, `projects/ui/src/lib/components/calendar/kui-calendar.component.spec.ts`, and `projects/ui/src/lib/components/calendar/kui-calendar.css`.
 
 ## Public contract mapping
 
@@ -48,7 +48,7 @@ This inventory is a retrospective source audit of the Calendar page and its brow
 - `[kuiCalendarHeader]` and `[kuiCalendarFooter]` are consumer projection directives that replace, rather than extend, built-in chrome. The page omits custom projected content and demonstrates the built-in footer API instead.
 - `KUI_LOCALE` is the fallback only when `locale` is unset. The page's locale matrix intentionally binds per-instance locale and does not change the global provider.
 - `KUI_LOCALE` defaults to `navigator.language`, which Node also defines during SSR. Examples without an explicit `locale` are therefore server-rendered in the server process locale (for example `ru-RU`, Monday-first, Russian weekdays) and re-rendered in the browser locale after hydration, shifting the day grid. Keyboard E2E waits for the browser-locale weekday row and the focused day's roving tab stop before pressing keys. Pointer E2E waits for that same weekday row before resolving date buttons and capturing click coordinates, so hydration cannot move the target after lookup. The SSR/browser locale mismatch is an inherited library/app-provider gap reported to the parent, not a page-level change.
-- Runtime stylesheet is `projects/ui/src/styles/calendar.css`. Page SCSS controls only layout; the page-private Calendar classes set the public width hook and block host layout to fit regular-size examples inside narrow cards without changing the Calendar treatment.
+- Runtime stylesheet is `projects/ui/src/lib/components/calendar/kui-calendar.css`. Page SCSS controls only layout; the page-private Calendar classes set the public width hook and block host layout to fit regular-size examples inside narrow cards without changing the Calendar treatment.
 - [`docs/design-provenance.md`](../../../../../../../../../docs/design-provenance.md) contains no Calendar-specific approved visual record. This audit preserves the released Calendar treatment; page styles remain layout-only.
 
 ## Self-review checklist

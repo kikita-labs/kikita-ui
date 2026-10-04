@@ -72,8 +72,8 @@ The retrospective audit cross-checks `docs/date-picker.md`, `docs/calendar.md`, 
 `projects/ui/src/lib/tokens/kui-field-options.interface.ts`,
 `projects/ui/src/lib/components/dropdown/kui-dropdown.component.ts`,
 `projects/ui/src/lib/components/dropdown/kui-dropdown.component.spec.ts`,
-`projects/ui/src/styles/date-picker.css`,
-`projects/ui/src/styles/dropdown.css`, and
+`projects/ui/src/lib/components/date-picker/kui-date-picker.css`,
+`projects/ui/src/lib/components/dropdown/kui-dropdown.css`, and
 `projects/ui/src/styles/field-actions.css`,
 `projects/kikita-ui-playground/e2e/date-picker-playground.visual.spec.ts`, and
 `projects/kikita-ui-playground/e2e/calendar-playground.visual.spec.ts`.

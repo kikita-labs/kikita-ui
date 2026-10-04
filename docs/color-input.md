@@ -141,7 +141,7 @@ Import the Kikita UI style entrypoint once:
 @import '@kikita-labs/ui/styles';
 ```
 
-Color-input styles live in `projects/ui/src/styles/color-input.css` and are
+Color-input styles live in `projects/ui/src/lib/components/color-input/kui-color-input.css` and are
 included through `@kikita-labs/ui/styles`.
 
 ## CSS Custom Properties

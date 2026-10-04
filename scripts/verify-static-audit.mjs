@@ -95,7 +95,10 @@ const colorLiteralPattern =
   /#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\([^)]*\)|\boklch\((?!\s*[01]\s+0\s+0\s*(?:\)|\/))[^)]*\)/gu;
 // Style files that are themselves the semantic layer and may read colour roles directly.
 const colorHookExceptions = new Map([
-  ['projects/ui/src/styles/typography.css', 'tone classes are the semantic text-colour API'],
+  [
+    'projects/ui/src/lib/components/typography/kui-typography.css',
+    'tone classes are the semantic text-colour API',
+  ],
 ]);
 const colorRolePattern =
   /^--kui-color-(?:bg|surface(?:-[a-z]+)?|border(?:-[a-z]+)*|text(?:-[a-z]+)?|on-fill|on-scrim|focus|state-(?:hover|active)|neutral-(?:fill|on-fill)|(?:primary|success|warning|danger|info)-[a-z-]+)$/u;
@@ -368,15 +371,24 @@ function checkStyleImports(root) {
 
   const entrypointPath = join(stylesDir, 'kikita-ui.css');
   const entrypoint = readFileSync(entrypointPath, 'utf8');
-  const styleFiles = readdirSync(stylesDir)
+  const libDir = join(root, 'projects/ui/src/lib');
+  // Stylesheets beside a component are imported by the entry; `*.component.css` files are
+  // Angular `styleUrl` sources and ship inside the component instead.
+  const libStyles = existsSync(libDir)
+    ? collectTextFiles(root, [libDir]).filter(
+        (file) => file.endsWith('.css') && !file.endsWith('.component.css'),
+      )
+    : [];
+  const sharedStyles = readdirSync(stylesDir)
     .filter((file) => file.endsWith('.css') && file !== 'kikita-ui.css')
-    .sort();
+    .map((file) => join(stylesDir, file));
 
-  for (const file of styleFiles) {
-    const importLine = `@import './${file}';`;
+  for (const file of [...sharedStyles, ...libStyles].sort()) {
+    const importPath = relative(stylesDir, file).replaceAll('\\', '/');
+    const specifier = importPath.startsWith('..') ? importPath : `./${importPath}`;
 
-    if (!entrypoint.includes(importLine)) {
-      failures.push(`projects/ui/src/styles/${file} is not imported by kikita-ui.css`);
+    if (!entrypoint.includes(`@import '${specifier}';`)) {
+      failures.push(`${toRepoPath(root, file)} is not imported by kikita-ui.css`);
     }
   }
 

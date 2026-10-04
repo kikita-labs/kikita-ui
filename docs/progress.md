@@ -90,7 +90,7 @@ Import the Kikita UI style entrypoint once:
 @import '@kikita-labs/ui/styles';
 ```
 
-Progress styles live in `projects/ui/src/styles/progress.css` and are included
+Progress styles live in `projects/ui/src/lib/components/progress/kui-progress.css` and are included
 through `@kikita-labs/ui/styles`.
 
 <!-- color-tokens:begin -->

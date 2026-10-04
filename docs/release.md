@@ -53,7 +53,7 @@ The local tarball should contain:
 
 - `fesm2022/kikita-labs-ui.mjs`
 - `types/kikita-labs-ui.d.ts`
-- `styles/kikita-ui.css`
+- `styles/kikita-ui.css` and the stylesheets it imports (`styles/*.css`, `lib/components/*/kui-*.css`)
 - `schematics/collection.json`
 - `schematics/ng-add/index.cjs`
 - `package.json`

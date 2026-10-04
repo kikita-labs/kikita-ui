@@ -1,6 +1,6 @@
 # Combobox Page Inventory
 
-This inventory is a retrospective source audit of the Combobox page. It was cross-checked against `docs/combobox.md`, `projects/ui/src/lib/components/combobox/index.ts`, the directive, highlight pipe and mode type, the Combobox/Field option tokens and providers, `projects/ui/src/lib/components/combobox/kui-combobox.directive.spec.ts`, the Dropdown/Field/Option composition, and `projects/ui/src/styles/combobox.css` plus the inherited Field styles.
+This inventory is a retrospective source audit of the Combobox page. It was cross-checked against `docs/combobox.md`, `projects/ui/src/lib/components/combobox/index.ts`, the directive, highlight pipe and mode type, the Combobox/Field option tokens and providers, `projects/ui/src/lib/components/combobox/kui-combobox.directive.spec.ts`, the Dropdown/Field/Option composition, and `projects/ui/src/lib/components/combobox/kui-combobox.css` plus the inherited Field styles.
 
 `docs/design-provenance.md` has no Combobox-specific approved visual record, and `docs/combobox.md` documents the API and behavior rather than approval evidence. This page-only correction adds a Signal Forms consumer scenario and its lifecycle assertions using the existing Field/Combobox visuals; it does not invent or restyle a visual state.
 
@@ -63,7 +63,7 @@ The public `KuiComboboxHighlightPipe` accepts `(label: string, query: string | n
 - The required option value is the translated label captured at selection time. After a language switch the stored value, and therefore the input text, stays in the previous language; the locale E2E clears the value before asserting the Russian error instead of claiming label re-translation.
 - The Field required marker comes from the Signal Forms `required` state; the E2E does not assert the marker separately beyond the reviewed screenshots.
 - An explicit ID override, provider configuration, and real remote transport remain omitted for the concrete reasons in the API mapping above. The page verifies standalone invalid state, native Field error association, and a real Signal Forms required selection flow. Selection context methods are exercised through the composed option interaction instead of direct calls.
-- Relevant styling comes from `projects/ui/src/styles/combobox.css` and Field/Input styles. Page SCSS uses KUI spacing tokens and responsive layout only; it does not restyle the Combobox primitive.
+- Relevant styling comes from `projects/ui/src/lib/components/combobox/kui-combobox.css` and Field/Input styles. Page SCSS uses KUI spacing tokens and responsive layout only; it does not restyle the Combobox primitive.
 
 ## Self-review checklist
 

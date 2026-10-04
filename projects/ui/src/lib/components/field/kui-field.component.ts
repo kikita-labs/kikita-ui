@@ -47,7 +47,6 @@ import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
 @Component({
   selector: 'kui-field',
   templateUrl: './kui-field.component.html',
-  styleUrl: './kui-field.component.css',
   providers: [
     { provide: KUI_OPTION_CONTEXT, useExisting: KuiFieldComponent },
     { provide: KUI_FIELD, useExisting: KuiFieldComponent },

@@ -44,7 +44,7 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 
 ## 4. Styling And Tokens
 
-- Runtime styles live in `projects/ui/src/styles/<primitive>.css`.
+- Runtime styles live in `projects/ui/src/lib/components/<primitive>/kui-<primitive>.css`.
 - The primitive style file is imported from `projects/ui/src/styles/kikita-ui.css`.
 - Styles use `@layer kui.components` or the correct Kikita-owned layer.
 - Styles consume `--kui-*` CSS variables for design values.

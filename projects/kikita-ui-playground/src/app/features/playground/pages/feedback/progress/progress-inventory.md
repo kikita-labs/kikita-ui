@@ -125,7 +125,7 @@ no arbitrary-props editor is added.
   [component exports](../../../../../../../../../projects/ui/src/lib/components/index.ts), and
   [public API](../../../../../../../../../projects/ui/src/public-api.ts) establish signal inputs,
   aliases, exports, transforms, geometry, ARIA attributes, and projection behavior.
-- [Progress CSS](../../../../../../../../../projects/ui/src/styles/progress.css) and the
+- [Progress CSS](../../../../../../../../../projects/ui/src/lib/components/progress/kui-progress.css) and the
   [style entrypoint](../../../../../../../../../projects/ui/src/styles/kikita-ui.css) establish
   colors, linear thicknesses, circular geometry styling, motion, reduced motion, and CSS hooks.
 - The [Progress unit spec](../../../../../../../../../projects/ui/src/lib/components/progress/kui-progress.component.spec.ts)

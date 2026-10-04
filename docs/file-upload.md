@@ -196,7 +196,7 @@ Import the Kikita UI style entrypoint once:
 @import '@kikita-labs/ui/styles';
 ```
 
-File Upload styles live in `projects/ui/src/styles/file-upload.css` and are
+File Upload styles live in `projects/ui/src/lib/components/file-upload/kui-file-upload.css` and are
 included through `@kikita-labs/ui/styles`. The upload progress bar reuses
 `kui-progress` directly (its own `--kui-progress-*` tokens) — no separate
 progress-color token is introduced for File Upload. The remove button reuses

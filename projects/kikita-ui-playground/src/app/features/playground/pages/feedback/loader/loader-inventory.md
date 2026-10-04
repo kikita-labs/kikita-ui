@@ -67,7 +67,7 @@ Kikita tokens; the library owns Loader color, dimensions, and motion.
   [root options](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),
   and [Playground config](../../../../../../../../../projects/kikita-ui-playground/src/app/app.config.ts)
   establish the public inputs, defaults, and effective size used by this app.
-- [Loader CSS](../../../../../../../../../projects/ui/src/styles/loader.css) establishes the
+- [Loader CSS](../../../../../../../../../projects/ui/src/lib/components/loader/kui-loader.css) establishes the
   rendered sizes, animation, reduced-motion behavior, and variables; [theme defaults](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.ts)
   provides the base Loader values.
 - The [Loader unit spec](../../../../../../../../../projects/ui/src/lib/components/loader/kui-loader.directive.spec.ts)

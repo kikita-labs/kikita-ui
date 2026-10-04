@@ -143,7 +143,7 @@ values remain owned by the existing stylesheet and are not overridden by the pag
   and size type.
 - `projects/ui/src/lib/components/tabs/kui-tabs.component.spec.ts` — current Tabs unit behavior and
   coverage gaps.
-- `projects/ui/src/styles/tabs.css`, `projects/ui/src/styles/kikita-ui.css`, and
+- `projects/ui/src/lib/components/tabs/kui-tabs.css`, `projects/ui/src/styles/kikita-ui.css`, and
   `projects/ui/src/lib/theme/create-kui-theme.ts` — visual combinations, responsive overflow,
   focus treatment, tokens, and theme defaults.
 - `projects/kikita-ui-playground/src/app/app.config.ts` — current Playground root defaults.

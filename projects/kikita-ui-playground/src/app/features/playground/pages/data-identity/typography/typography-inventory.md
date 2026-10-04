@@ -2,7 +2,7 @@
 
 Status: accepted by the parent (research gate passed); implemented and reconciled with the shipped page below.
 
-Typography is a CSS-only primitive (`projects/ui/src/styles/typography.css`, layer `kui.base`) plus a
+Typography is a CSS-only primitive (`projects/ui/src/lib/components/typography/kui-typography.css`, layer `kui.base`) plus a
 convenience attribute directive `KuiTextDirective` (`[kuiText]`). The directive only toggles the same
 role and tone classes and mirrors the values into two data attributes. It adds no ARIA, no role, no
 element replacement, and no interaction.
@@ -61,7 +61,7 @@ these states is fabricated on the page.
   `kui-text-variant.type.ts` and `kui-text-tone.type.ts`, barrel `index.ts`, unit spec
   `kui-text.directive.spec.ts` (two tests: classes plus data attributes for one variant/tone pair, and
   class swap on input change).
-- Styles: `projects/ui/src/styles/typography.css`; tokens in `projects/ui/src/lib/theme/create-kui-theme.ts`
+- Styles: `projects/ui/src/lib/components/typography/kui-typography.css`; tokens in `projects/ui/src/lib/theme/create-kui-theme.ts`
   (lines 313-349) and `create-kui-theme.spec.ts`.
 - Legacy reference (scenarios only, not modified): `projects/playground/src/app/pages/typography`
   (type scale, role tokens, product UI examples, tones, dark/light scopes, wrapping and overflow).

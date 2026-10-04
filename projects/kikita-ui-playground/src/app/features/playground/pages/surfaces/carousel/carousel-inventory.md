@@ -96,7 +96,7 @@ with inline SVG chrome, so no icon CDN request occurs and no Lucide stub is need
 
 ## Visual contract and tokens
 
-Component visuals come from `projects/ui/src/styles/carousel.css` (`--kui-carousel-*` tokens: gap,
+Component visuals come from `projects/ui/src/lib/components/carousel/kui-carousel.css` (`--kui-carousel-*` tokens: gap,
 region/slide radius, backgrounds, border, control background/shadow, dot size/colors). Height is
 entirely slide content; the component never fixes a block size. Page SCSS only lays out the example
 grid with `--kui-space-*` tokens and gives slide content padding; it does not restyle Carousel. No
@@ -136,7 +136,7 @@ assertion that the Play/Pause control stays visible.
 - `projects/ui/src/lib/components/carousel/kui-carousel.component.spec.ts` — unit coverage: labels,
   scroll sync, cursor/lock, touch exclusion, mouse drag, snap-restore race, boundaries, loop, keyboard,
   Play/Pause label (via `click()` only).
-- `projects/ui/src/styles/carousel.css` — layout, tokens, dots, control slots, scrollbar hiding.
+- `projects/ui/src/lib/components/carousel/kui-carousel.css` — layout, tokens, dots, control slots, scrollbar hiding.
 - `projects/ui/src/lib/utils/kui-input-transform.util.ts` — `positiveIntegerAttribute`.
 - `projects/playground/src/app/pages/carousel/carousel.page.*` — legacy scenarios only (reference for
   scenarios; its slides are local SVG data URIs, not reused).

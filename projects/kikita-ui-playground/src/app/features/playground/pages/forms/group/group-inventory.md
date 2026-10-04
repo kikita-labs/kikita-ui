@@ -12,7 +12,7 @@
   and this Playground's [`app.config.ts`](../../../../../../../../../projects/kikita-ui-playground/src/app/app.config.ts).
 - Isolated component-scoped token example: [`group-size-scoped-default.ts`](./components/group-sizes/components/group-size-scoped-default/group-size-scoped-default.ts). This example provides `kuiProvideDefaults({ size: 'lg' })` in its component injector to demonstrate the same size fallback; it does not configure the app-wide `provideKikitaUi()` provider.
 - Border merging, orientation, size inheritance, Field subgrid, rounded corners, and invalid
-  border stacking: [`group.css`](../../../../../../../../../projects/ui/src/styles/group.css).
+  border stacking: [`group.css`](../../../../../../../../../projects/ui/src/lib/components/group/kui-group.css).
 - Group behavior tests: [`kui-group.directive.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/group/kui-group.directive.spec.ts).
 - Existing complete usage catalogue: `group.page.html` (removed legacy file `playground/src/app/pages/group/group.page.html`).
 

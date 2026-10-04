@@ -70,7 +70,7 @@ change unless explicitly deferred:
 - Local component barrel: `projects/ui/src/lib/components/<primitive>/index.ts`
 - Component barrel: `projects/ui/src/lib/components/index.ts`
 - Public API: `projects/ui/src/public-api.ts` when public outside package internals
-- Runtime styles: `projects/ui/src/styles/<primitive>.css`
+- Runtime styles: `projects/ui/src/lib/components/<primitive>/kui-<primitive>.css` (a stylesheet shared by several primitives stays in `projects/ui/src/styles/`)
 - Public style entrypoint: `projects/ui/src/styles/kikita-ui.css`
 - Component docs: `docs/<primitive>.md`
 - State tracking: `docs/state-coverage.md`
