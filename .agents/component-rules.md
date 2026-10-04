@@ -64,7 +64,9 @@ When adding or changing a public primitive, update all relevant files in the sam
 change unless explicitly deferred:
 
 - Full delivery gate: `docs/component-checklist.md`
-- Implementation: `projects/ui/src/lib/components/<primitive>/...`
+- Implementation: `projects/ui/src/lib/components/<primitive>/...`, with files named after their
+  class (`kui-<primitive>.ts`, `kui-<primitive>.html`, `kui-<primitive>.spec.ts`); see
+  `.agents/angular-code-style.md`
 - Layer: classify the new folder in `scripts/architecture-layers.json` (`primitives` or `composites`);
   `pnpm audit:architecture` fails on an unclassified module. See `.agents/imports-and-boundaries.md`.
 - Local component barrel: `projects/ui/src/lib/components/<primitive>/index.ts`

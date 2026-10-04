@@ -68,6 +68,9 @@ export const appConfig: ApplicationConfig = {
 
 Repository contracts and verification records: [source documentation index](docs/README.md).
 
+Upgrading from 1.x: run `ng update @kikita-labs/ui`; the [migration guide](docs/migration-v2.md)
+lists the renamed exports.
+
 The docs site includes component pages, examples, API tables, playgrounds,
 SSR-rendered pages, and AI-readable docs.
 

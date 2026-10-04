@@ -2,7 +2,10 @@
 
 ## Public Contract
 
-CSS variables are the public runtime theming contract.
+CSS variables are the public runtime theming contract. Class names are a separate namespace: a
+`kui-*` class is stable only where a component page documents it (for example `.kui-field-affix`);
+the other anatomy classes (`kui-pagination__page-size-label`) are internal and may change in a
+minor release.
 
 Kikita UI uses this pipeline:
 

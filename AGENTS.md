@@ -51,6 +51,11 @@ SSR verification, and its own `.agents/` documentation tree.
 - Use signals and Signal Forms-first APIs.
 - Use Angular 22 `@Service` for new service classes. Use `@Injectable` only when
   Angular docs or a specific DI pattern require it.
+- Name Angular classes for what they are: no `Component`, `Directive` or `Service` suffix
+  (`KuiButton`, `KuiTabs`, `KuiToast`), and name files after the class without a construct infix
+  (`kui-button.ts`, `kui-button.html`, `kui-button.spec.ts`). A pipe keeps `Pipe` and a `-pipe.ts` file.
+  Provider functions are `provideX`. `pnpm audit:static` enforces this; see
+  `.agents/angular-code-style.md`.
 - Do not add `changeDetection: ChangeDetectionStrategy.OnPush` to new
   components.
 - CSS variables are the public theming contract.

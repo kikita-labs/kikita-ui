@@ -14,6 +14,7 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 - Native semantics are used when possible, for example `button[kuiButton]`, `input[kuiInput]`, `table[kuiTable]`, `input[type=range][kuiSlider]`.
 - A component is used only when native/directive semantics are not enough.
 - Public selectors use the `kui` prefix.
+- The class is the PascalCase of its selector with no `Component`, `Directive` or `Service` suffix, and its file is named after it (`kui-name.ts`, `kui-name.html`, `kui-name.spec.ts`); `pnpm audit:static` checks both.
 - Public APIs use signals, signal inputs, models, and queries.
 - Marker directives stay boolean-like. Visual variants use an explicit
   `appearance` input, not a marker directive value.

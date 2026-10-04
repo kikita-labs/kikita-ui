@@ -23,6 +23,29 @@ Follow Angular 22 best practices and the local component rules.
   requires `@Injectable`.
 - Use host metadata instead of `@HostBinding` and `@HostListener`.
 
+## Naming
+
+- A class is named for what it is, not for the construct that declares it. A directive or component
+  class is the PascalCase of its selector: `button[kuiButton]` is `KuiButton`, `kui-tabs` is `KuiTabs`.
+  No `Component`, `Directive` or `Service` suffix on any class, public or internal. This is the Angular
+  20+ default (`ng generate`, Angular Material, CDK, Angular Aria) and `@Service` examples in the
+  Angular 22 docs.
+- A file is named after its class in kebab-case, without a construct infix: `kui-button.ts`,
+  `kui-button.html`, `kui-button.css`, `kui-button.spec.ts`. A pipe keeps its role as a hyphenated
+  word: class `KuiMarkPipe` in `kui-mark-pipe.ts`. Files that are not Angular constructs keep their
+  role infix (`.interface.ts`, `.type.ts`, `.types.ts`, `.util.ts`, `.token.ts`, `.const.ts`).
+- Provider functions are `provideKuiX`. Injection-context openers keep the `kuiX()` form
+  (`kuiToast()`, `kuiDialog()`).
+- When a new class name collides with an existing type, rename the construct that is not the
+  selector's twin (for example the data interface `KuiChartLegendEntry` next to the directive
+  `KuiChartLegendItem`) or give an internal class a role name (`KuiConfirmDialog`). Do not
+  reintroduce a suffix, and do not rely on an import alias at the call site in the public API.
+- A published export that is renamed or removed needs an entry in
+  `projects/ui/schematics/ng-update/renames.json` (the `ng update` migration reads it), a row in
+  `docs/migration-v2.md` or the guide of that major version, and a `CHANGELOG.md` entry.
+- CSS class names are a separate namespace from exported symbols. CSS custom properties are the
+  public theming contract; a class name is stable only where a component page documents it.
+
 ## Templates
 
 - Use native control flow: `@if`, `@for`, and `@switch`.

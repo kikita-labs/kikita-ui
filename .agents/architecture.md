@@ -84,6 +84,8 @@ surface generation under `.agents/decisions/`.
 
 Current decisions:
 
+- [ADR 0002](decisions/0002-public-naming.md): class and file names without construct suffixes, `provideX`
+  providers and the `ng update` migration for renamed exports.
 - [ADR 0001](decisions/0001-library-layers-and-bundle-budgets.md): library layers, decoupled form
   controls, per-export bundle budgets and where component CSS lives. It is being implemented in
   slices; `pnpm audit:architecture` and `pnpm audit:bundle` enforce what has landed.

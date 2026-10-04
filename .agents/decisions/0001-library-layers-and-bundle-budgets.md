@@ -93,7 +93,7 @@ Causes found in the source:
     group direction with a shrinking baseline) and `pnpm audit:bundle`. dependency-cruiser was rejected:
     its `collapse` option only affects reporters, so it cannot validate cycles between folders.
 20. **File names do not change in this work;** the public naming migration renames class and file names
-    once, later.
+    once, later. (Done: [ADR 0002](0002-public-naming.md).)
 
 ## Consequences
 

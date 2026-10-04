@@ -50,6 +50,7 @@ is defined in [the maintenance rules](../.agents/documentation.md).
 - [Loader](loader.md)
 - [Media Viewer](media-viewer.md)
 - [Menu](menu.md)
+- [Migrating to 2.0](migration-v2.md)
 - [Number Input](number-input.md)
 - [OTP Input](otp-input.md)
 - [Pagination](pagination.md)
