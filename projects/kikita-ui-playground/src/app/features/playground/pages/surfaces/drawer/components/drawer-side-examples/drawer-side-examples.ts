@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { KuiButtonDirective, kuiDrawer, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiButton, kuiDrawer, KuiText } from '@kikita-labs/ui';
 
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
@@ -14,7 +14,7 @@ import { DrawerExampleContent } from '../drawer-example-content';
 /** Opens a minimally configured Drawer and compares its supported edge placements. */
 @Component({
   selector: 'app-drawer-side-examples',
-  imports: [DrawerExampleActions, KuiButtonDirective, KuiTextDirective, TranslocoPipe],
+  imports: [DrawerExampleActions, KuiButton, KuiText, TranslocoPipe],
   templateUrl: './drawer-side-examples.html',
   styleUrl: './drawer-side-examples.scss',
 })

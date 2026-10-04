@@ -5,7 +5,7 @@ import { TestBed } from '@angular/core/testing';
 
 import type { KuiOptionContext } from '../field/kui-option-context.token';
 import { KUI_OPTION_CONTEXT } from '../field/kui-option-context.token';
-import { KuiOptionDirective } from './kui-option.directive';
+import { KuiOption } from './kui-option.directive';
 
 // Mock context
 
@@ -22,21 +22,21 @@ class MockOptionContext implements KuiOptionContext {
 // Host fixtures
 
 @Component({
-  imports: [KuiOptionDirective],
+  imports: [KuiOption],
   providers: [{ provide: KUI_OPTION_CONTEXT, useClass: MockOptionContext }],
   template: `<div kuiOption value="a">Option A</div>`,
 })
 class BasicOptionHost {}
 
 @Component({
-  imports: [KuiOptionDirective],
+  imports: [KuiOption],
   providers: [{ provide: KUI_OPTION_CONTEXT, useClass: MockOptionContext }],
   template: `<div kuiOption value="a" [disabled]="true">Option A</div>`,
 })
 class DisabledOptionHost {}
 
 @Component({
-  imports: [KuiOptionDirective],
+  imports: [KuiOption],
   providers: [{ provide: KUI_OPTION_CONTEXT, useClass: MockOptionContext }],
   template: `<div kuiOption [value]="obj">Object option</div>`,
 })
@@ -63,7 +63,7 @@ function getContext(fixture: ComponentFixture<unknown>): MockOptionContext {
 
 // Tests
 
-describe('KuiOptionDirective', () => {
+describe('KuiOption', () => {
   describe('host attributes', () => {
     it('sets role=option and tabindex=-1', () => {
       const fixture = createFixture(BasicOptionHost);

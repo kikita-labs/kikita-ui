@@ -37,7 +37,7 @@ import {
   parseDisplayTime,
 } from './kui-time-format.util';
 import type { KuiTimePickerFormat } from './kui-time-picker.types';
-import { KuiTimePickerInputAffixComponent } from './kui-time-picker-input-affix.component';
+import { KuiTimePickerInputAffix } from './kui-time-picker-input-affix.component';
 
 /**
  * Converts a native text input into a time-of-day picker trigger. Text is parsed/formatted per
@@ -46,7 +46,7 @@ import { KuiTimePickerInputAffixComponent } from './kui-time-picker-input-affix.
  * column popover -- the same composition `input[kuiDatePicker]` uses with `kui-calendar`.
  *
  * When a `kui-time-picker-panel` is found as a sibling inside the same `kui-field` (via
- * `KuiFieldComponent.getTimePickerPanel()`), the directive auto-wires it: its own `value`,
+ * `KuiField.getTimePickerPanel()`), the directive auto-wires it: its own `value`,
  * `format`, `minuteStep`, `secondStep`, and `showSeconds` are pushed into the panel -- no manual
  * `[value]`/`(valueChange)` or `[format]`/`[minuteStep]`/`[secondStep]`/`[showSeconds]` binding is
  * required on the panel for this to work. `value` also flows back from the panel (a cell click,
@@ -89,7 +89,7 @@ import { KuiTimePickerInputAffixComponent } from './kui-time-picker-input-affix.
   },
 })
 /** Adds a scrollable-column time picker behavior to a native input. */
-export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date | null> {
+export class KuiTimePicker implements OnDestroy, FormValueControl<Date | null> {
   /**
    * Selected time. Bound by `[formField]` or `[(value)]`. Auto-wired (both ways) into a sibling
    * `kui-time-picker-panel` inside the same `kui-field` (see the class doc).
@@ -194,7 +194,7 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
   protected readonly effectiveShowSeconds = computed(
     () => this.showSeconds() ?? this.timePickerDefaults()?.showSeconds ?? false,
   );
-  private readonly affixRef: ComponentRef<KuiTimePickerInputAffixComponent>;
+  private readonly affixRef: ComponentRef<KuiTimePickerInputAffix>;
   private wasOpen = false;
   private pointerStartedOnInput = false;
   private readonly rawText = signal('');
@@ -251,7 +251,7 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
    * Whether `value`'s time-of-day falls outside `minTime`/`maxTime`, or is named by
    * `disabledHours`/`disabledMinutes`/`disabledSeconds` -- the same checks the panel's wheel
    * cells use, applied here too so a fully-typed value that lands on a disallowed slot is caught,
-   * not just wheel-driven values. See `KuiDatePickerDirective.outOfRange`.
+   * not just wheel-driven values. See `KuiDatePicker.outOfRange`.
    */
   private readonly outOfRange = computed(() => {
     const value = this.value();
@@ -278,13 +278,13 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
     return false;
   });
 
-  /** See `KuiDatePickerDirective.effectiveInvalid`. */
+  /** See `KuiDatePicker.effectiveInvalid`. */
   protected readonly effectiveInvalid = computed(
     () => this.wiring.invalid() || this.parseFailed() || this.outOfRange(),
   );
 
   constructor() {
-    this.affixRef = this.vcr.createComponent(KuiTimePickerInputAffixComponent);
+    this.affixRef = this.vcr.createComponent(KuiTimePickerInputAffix);
 
     effect(() => {
       this.affixRef.setInput('clearable', this.effectiveClearable());
@@ -521,7 +521,7 @@ export class KuiTimePickerDirective implements OnDestroy, FormValueControl<Date 
   /**
    * Moves DOM focus from the text input into the open panel's first unit column, so a second
    * ArrowDown starts column navigation instead of doing nothing -- same rationale as
-   * `KuiDatePickerDirective.focusCalendarGrid`.
+   * `KuiDatePicker.focusCalendarGrid`.
    */
   private focusFirstColumn(): void {
     this.field

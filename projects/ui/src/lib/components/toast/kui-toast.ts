@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 
-import { KuiToastService } from './kui-toast.service';
+import { KuiToast } from './kui-toast.service';
 
 /**
  * Inject-function for showing toast notifications.
@@ -22,6 +22,6 @@ import { KuiToastService } from './kui-toast.service';
  * }
  * ```
  */
-export function kuiToast(): KuiToastService {
-  return inject(KuiToastService);
+export function kuiToast(): KuiToast {
+  return inject(KuiToast);
 }

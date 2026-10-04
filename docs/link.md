@@ -14,7 +14,7 @@ always wins for color).
 ## Import
 
 ```ts
-import { KuiLinkDirective } from '@kikita-labs/ui';
+import { KuiLink } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -147,7 +147,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     link: {
       /* options below */
     },

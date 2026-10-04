@@ -5,12 +5,12 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach } from 'vitest';
 
-import { KuiDropdownComponent } from './kui-dropdown.component';
-import { KuiDropdownForDirective } from './kui-dropdown-for.directive';
-import { KuiOptionDirective } from './kui-option.directive';
+import { KuiDropdown } from './kui-dropdown.component';
+import { KuiDropdownFor } from './kui-dropdown-for.directive';
+import { KuiOption } from './kui-option.directive';
 
 @Component({
-  imports: [KuiDropdownComponent, KuiDropdownForDirective, KuiOptionDirective],
+  imports: [KuiDropdown, KuiDropdownFor, KuiOption],
   template: `
     <button type="button" [kuiDropdownFor]="menu">Actions</button>
     <kui-dropdown #menu>
@@ -19,10 +19,10 @@ import { KuiOptionDirective } from './kui-option.directive';
   `,
 })
 class DropdownForHost {
-  readonly menu = viewChild.required(KuiDropdownComponent);
+  readonly menu = viewChild.required(KuiDropdown);
 }
 
-describe('KuiDropdownForDirective', () => {
+describe('KuiDropdownFor', () => {
   afterEach(() => {
     TestBed.inject(OverlayContainer).getContainerElement().innerHTML = '';
   });

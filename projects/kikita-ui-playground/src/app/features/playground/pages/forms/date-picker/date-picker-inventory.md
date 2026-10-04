@@ -121,8 +121,8 @@ open Default panel capture is expected to change because its displayed month mov
   serial playground gate. Running the unchanged spec with `--repeat-each=20 --workers=1`
   reproduced it 2/20, both at the final weekday poll. The traces show the observed cause: the
   English panel was closed with Escape and the Russian ArrowDown followed about 135ms later.
-  `KuiDropdownComponent.close()` only starts the 120ms `kui-dropdown-out` animation and keeps
-  `isOpen()` true until `animationend`, so `KuiDatePickerDirective` treated the ArrowDown as
+  `KuiDropdown.close()` only starts the 120ms `kui-dropdown-out` animation and keeps
+  `isOpen()` true until `animationend`, so `KuiDatePicker` treated the ArrowDown as
   "focus the grid" instead of "open". The closing panel already rendered the Russian month, so the
   month check passed, then the overlay detached and the weekday row was never found. The spec now
   waits for the English dialog to be hidden and `aria-expanded="false"` after Escape, and for

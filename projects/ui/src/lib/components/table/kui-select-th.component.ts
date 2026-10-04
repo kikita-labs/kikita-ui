@@ -10,7 +10,7 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
   host: { class: 'kui-table__select-cell' },
   templateUrl: './kui-select-th.component.html',
 })
-export class KuiSelectThComponent {
+export class KuiSelectTh {
   /** Accessible label for the select-all checkbox. Defaults to the `table.selectAllRows` message. */
   readonly ariaLabel = input<string | undefined>();
 

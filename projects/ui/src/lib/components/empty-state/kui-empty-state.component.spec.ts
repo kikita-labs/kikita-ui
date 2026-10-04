@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiEmptyStateComponent } from './kui-empty-state.component';
-import { KuiEmptyStateActionsDirective } from './kui-empty-state-actions.directive';
-import { KuiEmptyStateIconDirective } from './kui-empty-state-icon.directive';
+import { KuiEmptyState } from './kui-empty-state.component';
+import { KuiEmptyStateActions } from './kui-empty-state-actions.directive';
+import { KuiEmptyStateIcon } from './kui-empty-state-icon.directive';
 
 @Component({
-  imports: [KuiEmptyStateActionsDirective, KuiEmptyStateComponent, KuiEmptyStateIconDirective],
+  imports: [KuiEmptyStateActions, KuiEmptyState, KuiEmptyStateIcon],
   template: `
     <kui-empty-state
       heading="No results"
@@ -23,12 +23,12 @@ import { KuiEmptyStateIconDirective } from './kui-empty-state-icon.directive';
 class EmptyStateHost {}
 
 @Component({
-  imports: [KuiEmptyStateComponent],
+  imports: [KuiEmptyState],
   template: `<kui-empty-state description="Change filters" />`,
 })
 class DescriptionOnlyEmptyStateHost {}
 
-describe('KuiEmptyStateComponent', () => {
+describe('KuiEmptyState', () => {
   it('renders context, size, title, description, and projected slots', () => {
     const fixture = createFixture(EmptyStateHost);
 

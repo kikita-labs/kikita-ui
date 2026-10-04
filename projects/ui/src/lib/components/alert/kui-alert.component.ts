@@ -13,7 +13,7 @@ import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
-import { KuiButtonDirective } from '../button';
+import { KuiButton } from '../button';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import {
   KUI_GLYPH_CIRCLE_CHECK,
@@ -22,15 +22,15 @@ import {
   KUI_GLYPH_TRIANGLE_ALERT,
   KUI_GLYPH_X,
 } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
-import { KuiIconButtonDirective } from '../icon-button';
-import { KuiAlertActionsDirective } from './kui-alert-actions.directive';
+import { KuiGlyph } from '../icon/kui-glyph.component';
+import { KuiIconButton } from '../icon-button';
+import { KuiAlertActions } from './kui-alert-actions.directive';
 import type { KuiAlertAppearance } from './kui-alert-appearance.type';
-import { KuiAlertIconDirective } from './kui-alert-icon.directive';
-import { KuiAlertMessageDirective } from './kui-alert-message.directive';
+import { KuiAlertIcon } from './kui-alert-icon.directive';
+import { KuiAlertMessage } from './kui-alert-message.directive';
 import type { KuiAlertShape } from './kui-alert-shape.type';
 import type { KuiAlertSize } from './kui-alert-size.type';
-import { KuiAlertTitleDirective } from './kui-alert-title.directive';
+import { KuiAlertTitle } from './kui-alert-title.directive';
 
 const KUI_ALERT_SIZES: readonly KuiAlertSize[] = ['sm', 'md'];
 
@@ -68,7 +68,7 @@ const KUI_ALERT_SIZES: readonly KuiAlertSize[] = ['sm', 'md'];
  */
 @Component({
   selector: 'kui-alert',
-  imports: [KuiButtonDirective, KuiGlyphComponent, KuiIconButtonDirective],
+  imports: [KuiButton, KuiGlyph, KuiIconButton],
   templateUrl: './kui-alert.component.html',
   host: {
     class: 'kui-alert',
@@ -90,7 +90,7 @@ const KUI_ALERT_SIZES: readonly KuiAlertSize[] = ['sm', 'md'];
   encapsulation: ViewEncapsulation.None,
 })
 /** Inline notification embedded in the page content flow. See the class-level example above. */
-export class KuiAlertComponent {
+export class KuiAlert {
   /** Semantic type of the message. `neutral` never shows the built-in icon. Defaults to `'neutral'`. */
   readonly appearance = input<KuiAlertAppearance>('neutral');
 
@@ -144,10 +144,10 @@ export class KuiAlertComponent {
   /** Emits when the close button is clicked. Does not remove the alert -- the caller does. */
   readonly closed = output<void>();
 
-  private readonly projectedIcon = contentChild(KuiAlertIconDirective);
-  private readonly projectedTitle = contentChild(KuiAlertTitleDirective);
-  private readonly projectedMessage = contentChild(KuiAlertMessageDirective);
-  private readonly projectedActions = contentChild(KuiAlertActionsDirective);
+  private readonly projectedIcon = contentChild(KuiAlertIcon);
+  private readonly projectedTitle = contentChild(KuiAlertTitle);
+  private readonly projectedMessage = contentChild(KuiAlertMessage);
+  private readonly projectedActions = contentChild(KuiAlertActions);
 
   protected readonly hasProjectedIcon = computed(() => !!this.projectedIcon());
   protected readonly hasProjectedTitle = computed(() => !!this.projectedTitle());

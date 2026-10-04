@@ -3,7 +3,7 @@
 Status: accepted by the parent (research gate passed); implemented and reconciled with the shipped page below.
 
 Typography is a CSS-only primitive (`projects/ui/src/lib/components/typography/kui-typography.css`, layer `kui.base`) plus a
-convenience attribute directive `KuiTextDirective` (`[kuiText]`). The directive only toggles the same
+convenience attribute directive `KuiText` (`[kuiText]`). The directive only toggles the same
 role and tone classes and mirrors the values into two data attributes. It adds no ARIA, no role, no
 element replacement, and no interaction.
 
@@ -68,7 +68,7 @@ these states is fabricated on the page.
 
 ## Discrepancies and gaps (not fixed, library is out of scope)
 
-1. Docs say `KuiTextDirective` is "for native text elements", but the directive accepts any host and
+1. Docs say `KuiText` is "for native text elements", but the directive accepts any host and
    never checks the element. The docs' "Native elements" column is guidance, not enforced.
 2. `data-kui-text-variant` and `data-kui-text-tone` are emitted and unit-tested but not documented in
    `docs/typography.md`. The page asserts them as observed behavior and records this gap.

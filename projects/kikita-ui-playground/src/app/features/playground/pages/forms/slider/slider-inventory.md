@@ -2,7 +2,7 @@
 
 ## Contract Map
 
-The page uses the public `KuiSliderDirective` export on native `input[type=range]` controls. Its
+The page uses the public `KuiSlider` export on native `input[type=range]` controls. Its
 generated visuals remain library-owned. Page-local `__control-row` wrappers reserve a 44px minimum
 layout row so examples align consistently; they do not enlarge the native Slider hit area or alter
 the component.
@@ -88,7 +88,7 @@ the component.
   native range exposes its value. The shared static tooltip does manage its own description, so that
   example is kept outside `kui-field` to avoid two directives writing the same host attribute.
 - Slider CSS contains `.kui-slider-tooltip*` selectors, but the directive currently creates the shared
-  `KuiTooltipSurfaceComponent` overlay instead. The page demonstrates the shipped shared tooltip and
+  `KuiTooltipSurface` overlay instead. The page demonstrates the shipped shared tooltip and
   does not represent the unused Slider-specific tooltip selectors as rendered output.
 - A degenerate range with equal bounds is omitted: the source sets fill width to `0%`, and it is not a
   useful control state. Readonly is omitted because native range has no Slider readonly input or

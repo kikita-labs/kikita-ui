@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiCalendarRangeComponent } from '@kikita-labs/ui';
+import { KuiCalendarRange } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -9,7 +9,7 @@ import type { KuiDateRange } from '@kikita-labs/ui';
 /** Shows a consumer-composed linked pair that hides one navigation button on each calendar. */
 @Component({
   selector: 'app-calendar-range-navigation',
-  imports: [KuiCalendarRangeComponent, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiCalendarRange, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './calendar-range-navigation.html',
   styleUrl: './calendar-range-navigation.scss',
 })

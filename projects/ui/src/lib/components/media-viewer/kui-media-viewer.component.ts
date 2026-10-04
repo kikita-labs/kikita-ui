@@ -4,7 +4,7 @@ import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiI18n } from '../../i18n/kui-i18n.service';
 import type { KuiDialogContext, KuiDialogHost } from '../dialog/kui-dialog-context.token';
 import { KUI_DIALOG_CONTEXT } from '../dialog/kui-dialog-context.token';
-import { KuiEmptyStateComponent } from '../empty-state/kui-empty-state.component';
+import { KuiEmptyState } from '../empty-state/kui-empty-state.component';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import {
   KUI_GLYPH_CHEVRON_LEFT,
@@ -13,9 +13,9 @@ import {
   KUI_GLYPH_ZOOM_IN,
   KUI_GLYPH_ZOOM_OUT,
 } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
-import { KuiIconButtonDirective } from '../icon-button/kui-icon-button.directive';
-import { KuiSkeletonDirective } from '../skeleton/kui-skeleton.directive';
+import { KuiGlyph } from '../icon/kui-glyph.component';
+import { KuiIconButton } from '../icon-button/kui-icon-button.directive';
+import { KuiSkeleton } from '../skeleton/kui-skeleton.directive';
 import type { KuiMediaViewerData, KuiMediaViewerItem } from './kui-media-viewer.types';
 
 /** Per-photo load status, tracked so the stage can show a loading/error placeholder. */
@@ -42,12 +42,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
 @Component({
   selector: 'kui-media-viewer',
   templateUrl: './kui-media-viewer.component.html',
-  imports: [
-    KuiIconButtonDirective,
-    KuiSkeletonDirective,
-    KuiEmptyStateComponent,
-    KuiGlyphComponent,
-  ],
+  imports: [KuiIconButton, KuiSkeleton, KuiEmptyState, KuiGlyph],
   host: {
     class: 'kui-media-viewer',
     '(keydown)': 'onKeydown($event)',
@@ -55,7 +50,7 @@ const PAN_LIMIT_PER_ZOOM_STEP = 120;
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders the fullscreen photo lightbox opened by {@link kuiMediaViewer}. */
-export class KuiMediaViewerComponent implements KuiDialogHost<void, KuiMediaViewerData> {
+export class KuiMediaViewerDialog implements KuiDialogHost<void, KuiMediaViewerData> {
   protected readonly closeGlyph = injectKuiGlyph({
     role: 'close',
     fallback: KUI_GLYPH_X,
@@ -251,7 +246,7 @@ export class KuiMediaViewerComponent implements KuiDialogHost<void, KuiMediaView
     // ownerDocument.defaultView (never the bare global `window`, the same convention
     // `kui-color-input` already uses), not an element's own `getBoundingClientRect()`. The
     // obvious candidate, this component's own host element, is unusable for that:
-    // `KuiDialogContainerComponent.attachContent()` sets the attached content's host to
+    // `KuiDialogContainer.attachContent()` sets the attached content's host to
     // `display: contents` so its children become direct flex items of `.kui-dialog` -- and a
     // `display: contents` element's own `getBoundingClientRect()` is always a zero rect, which
     // made every pointermove read as "outside" and cancel the pan on its very first move.

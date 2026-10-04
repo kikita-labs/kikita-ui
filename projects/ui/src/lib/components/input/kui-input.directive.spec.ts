@@ -3,17 +3,17 @@ import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { provideKikitaUi } from '../../root';
-import { KuiFieldComponent } from '../field';
-import { KuiInputDirective } from './kui-input.directive';
+import { KuiField } from '../field';
+import { KuiInput } from './kui-input.directive';
 
 @Component({
-  imports: [KuiInputDirective],
+  imports: [KuiInput],
   template: '<input kuiInput size="sm" invalid />',
 })
 class StandaloneInputHost {}
 
 @Component({
-  imports: [KuiFieldComponent, KuiInputDirective],
+  imports: [KuiField, KuiInput],
   template: `
     <kui-field label="Email" hint="Use work email" error="Required">
       <input kuiInput />
@@ -23,13 +23,13 @@ class StandaloneInputHost {}
 class FieldInputHost {}
 
 @Component({
-  imports: [KuiInputDirective],
+  imports: [KuiInput],
   template: '<input kuiInput />',
 })
 class DefaultInputHost {}
 
 @Component({
-  imports: [KuiFieldComponent, KuiInputDirective],
+  imports: [KuiField, KuiInput],
   template: `
     <kui-field label="Email" size="lg">
       <input kuiInput />
@@ -38,7 +38,7 @@ class DefaultInputHost {}
 })
 class FieldSizedInputHost {}
 
-describe('KuiInputDirective', () => {
+describe('KuiInput', () => {
   it('adds input host attributes for size and invalid state', () => {
     const fixture = createFixture(StandaloneInputHost);
 

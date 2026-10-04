@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiTextDirective } from '@kikita-labs/ui';
+import { KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -10,7 +10,7 @@ import { TYPOGRAPHY_MATRIX_ROLES, TYPOGRAPHY_TONES } from '../../constants';
 /** Shows every tone combined with representative roles. */
 @Component({
   selector: 'app-typography-matrix',
-  imports: [KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './typography-matrix.html',
   styleUrl: './typography-matrix.scss',
 })

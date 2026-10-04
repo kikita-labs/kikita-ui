@@ -33,7 +33,7 @@ const MEMO_LIMIT = 16;
 /**
  * Locale and library messages of the current injector level.
  *
- * The root instance is seeded by `provideKikitaUi({ locale, messages })`; `kuiProvideI18n` adds a
+ * The root instance is seeded by `provideKikitaUi({ locale, messages })`; `provideKuiI18n` adds a
  * nested level for a subtree. A level inherits the parent's locale unless it sets one and merges
  * its messages over the parent's per group and per key, so two subtrees never affect each other.
  * Text language (messages) and formatting locale are independent. All state, including formatter

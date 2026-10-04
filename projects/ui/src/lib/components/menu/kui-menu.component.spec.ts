@@ -5,20 +5,14 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach } from 'vitest';
 
-import { KuiSeparatorDirective } from '../separator';
-import { KuiMenuComponent } from './kui-menu.component';
-import { KuiMenuForDirective } from './kui-menu-for.directive';
-import { KuiMenuHeaderDirective } from './kui-menu-header.directive';
-import { KuiMenuItemDirective } from './kui-menu-item.directive';
+import { KuiSeparator } from '../separator';
+import { KuiMenu } from './kui-menu.component';
+import { KuiMenuFor } from './kui-menu-for.directive';
+import { KuiMenuHeader } from './kui-menu-header.directive';
+import { KuiMenuItem } from './kui-menu-item.directive';
 
 @Component({
-  imports: [
-    KuiMenuComponent,
-    KuiMenuForDirective,
-    KuiMenuHeaderDirective,
-    KuiMenuItemDirective,
-    KuiSeparatorDirective,
-  ],
+  imports: [KuiMenu, KuiMenuFor, KuiMenuHeader, KuiMenuItem, KuiSeparator],
   template: `
     <button type="button" [kuiMenuFor]="menu" id="trigger">Actions</button>
     <kui-menu #menu ariaLabel="Project actions">
@@ -36,10 +30,10 @@ import { KuiMenuItemDirective } from './kui-menu-item.directive';
   `,
 })
 class MenuHost {
-  readonly menu = viewChild.required(KuiMenuComponent);
+  readonly menu = viewChild.required(KuiMenu);
 }
 
-describe('KuiMenuComponent', () => {
+describe('KuiMenu', () => {
   afterEach(() => {
     TestBed.inject(OverlayContainer).getContainerElement().innerHTML = '';
   });

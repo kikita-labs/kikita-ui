@@ -1,13 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
 
-import {
-  KuiFieldAffixDirective,
-  KuiFieldComponent,
-  KuiIconComponent,
-  KuiInputDirective,
-  KuiLoaderDirective,
-} from '@kikita-labs/ui';
+import { KuiField, KuiFieldAffix, KuiIcon, KuiInput, KuiLoader } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -19,11 +13,11 @@ import type { FieldAffixesFormModel } from './interfaces';
   selector: 'app-field-affixes',
   imports: [
     FormField,
-    KuiFieldAffixDirective,
-    KuiFieldComponent,
-    KuiIconComponent,
-    KuiInputDirective,
-    KuiLoaderDirective,
+    KuiFieldAffix,
+    KuiField,
+    KuiIcon,
+    KuiInput,
+    KuiLoader,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

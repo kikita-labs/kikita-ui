@@ -64,7 +64,7 @@ integration.
 
 ## Public API, defaults, and coverage map
 
-`KuiNumberInputDirective` is a standalone directive with selector
+`KuiNumberInput` is a standalone directive with selector
 `input[type=number][kuiNumberInput]`. It styles and wraps the native number input with decrement
 and increment buttons in the browser. The local barrel exports both the directive and its
 `KuiNumberInputVariant` type; the components barrel and package root re-export them. It has no
@@ -82,7 +82,7 @@ explicit `id` on a projected number input overrides the input id but does not up
 label's `for`, so it breaks that association. Keep the explicit-id example standalone and pair it
 with a native label.
 
-The native element remains `input[type=number]`. `KuiNumberInputDirective` does not add a custom
+The native element remains `input[type=number]`. `KuiNumberInput` does not add a custom
 form-control value model or output; native input events and form bindings remain the value surface.
 The directive documents compatibility with `NgModel` and Reactive Forms, while the current forms
 guidance and proposed replacement example use Angular Signal Forms.

@@ -2,7 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, contentChild, input, TemplateRef, ViewEncapsulation } from '@angular/core';
 
 import type { KuiChartLegendSource } from '../chart.types';
-import { KuiChartLegendItemDirective } from './kui-chart-legend-item.directive';
+import { KuiChartLegendItem } from './kui-chart-legend-item.directive';
 
 @Component({
   selector: 'kui-chart-legend',
@@ -28,16 +28,16 @@ import { KuiChartLegendItemDirective } from './kui-chart-legend-item.directive';
  *
  * Without a custom template, renders the same `<button>` markup (and `.kui-chart__legend*` CSS
  * classes) as the chart's own inline legend. Project a `kuiChartLegendItem`-marked `<ng-template>`
- * to fully replace that markup -- see `KuiChartLegendItemDirective` for the template context and
+ * to fully replace that markup -- see `KuiChartLegendItem` for the template context and
  * an example.
  */
-export class KuiChartLegendComponent {
+export class KuiChartLegend {
   /** The chart to read legend items/state from and dispatch toggle/hover calls to -- any
    * `kui-*-chart` component (they all implement `KuiChartLegendSource`), passed through a
    * template reference variable. */
   readonly chart = input.required<KuiChartLegendSource>();
 
-  protected readonly itemTemplate = contentChild(KuiChartLegendItemDirective, {
+  protected readonly itemTemplate = contentChild(KuiChartLegendItem, {
     read: TemplateRef,
   });
 }

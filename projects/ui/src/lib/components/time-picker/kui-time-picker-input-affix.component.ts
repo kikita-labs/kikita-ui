@@ -3,21 +3,21 @@ import { Component, inject, input, output, ViewEncapsulation } from '@angular/co
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import type { KuiTimePickerMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
+import { KuiFieldAction, KuiFieldAffixIcon } from '../field';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHEVRON_DOWN, KUI_GLYPH_CLOCK, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import { KuiGlyph } from '../icon/kui-glyph.component';
 
 /** @internal Visual leading icon + trailing clear/chevron rendered over `input[kuiTimePicker]`. */
 @Component({
   selector: 'kui-time-picker-input-affix',
-  imports: [KuiFieldAffixIconDirective, KuiFieldActionDirective, KuiGlyphComponent],
+  imports: [KuiFieldAffixIcon, KuiFieldAction, KuiGlyph],
   templateUrl: './kui-time-picker-input-affix.component.html',
   host: { class: 'kui-timepicker-control-overlay' },
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders time-picker input controls such as clock icon and clear/chevron actions. */
-export class KuiTimePickerInputAffixComponent {
+export class KuiTimePickerInputAffix {
   private readonly pickerDefaults = inject(KuiDefaults).get('timePicker');
 
   protected readonly clockGlyph = KUI_GLYPH_CLOCK;

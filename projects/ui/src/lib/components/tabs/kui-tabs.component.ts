@@ -23,8 +23,8 @@ import type { KuiSize } from '../../types';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHEVRON_LEFT, KUI_GLYPH_CHEVRON_RIGHT } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
-import { KuiTabDirective } from './kui-tab.directive';
+import { KuiGlyph } from '../icon/kui-glyph.component';
+import { KuiTab } from './kui-tab.directive';
 import type { KuiTabsContext } from './kui-tabs-context.token';
 import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
 
@@ -48,7 +48,7 @@ export type KuiTabsOrientation = 'horizontal' | 'vertical';
  * ```
  */
 @Component({
-  imports: [KuiGlyphComponent],
+  imports: [KuiGlyph],
   selector: 'kui-tabs',
   templateUrl: './kui-tabs.component.html',
   host: {
@@ -61,13 +61,13 @@ export type KuiTabsOrientation = 'horizontal' | 'vertical';
   providers: [
     {
       provide: KUI_TABS_CONTEXT,
-      useFactory: () => inject(KuiTabsComponent),
+      useFactory: () => inject(KuiTabs),
     },
   ],
   encapsulation: ViewEncapsulation.None,
 })
 /** Coordinates tab triggers and tab panels with accessible selection state. */
-export class KuiTabsComponent implements KuiTabsContext {
+export class KuiTabs implements KuiTabsContext {
   protected readonly previousGlyph = injectKuiGlyph({
     role: 'previous',
     slot: () => this.tabsDefaults()?.previousIcon,
@@ -109,7 +109,7 @@ export class KuiTabsComponent implements KuiTabsContext {
    */
   readonly selected = model<string>('');
 
-  private readonly tabItems = contentChildren(KuiTabDirective);
+  private readonly tabItems = contentChildren(KuiTab);
   private readonly scrollElRef = viewChild<ElementRef<HTMLElement>>('scrollEl');
   private readonly indicatorRef = viewChild<ElementRef<HTMLSpanElement>>('indicator');
   private readonly destroyRef = inject(DestroyRef);

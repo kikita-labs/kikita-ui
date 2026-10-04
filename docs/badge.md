@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiBadgeDirective } from '@kikita-labs/ui';
+import { KuiBadge } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -53,7 +53,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     badge: {
       /* options below */
     },

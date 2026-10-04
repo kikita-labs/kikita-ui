@@ -6,7 +6,7 @@ known content is loading.
 ## Import
 
 ```ts
-import { KuiSkeletonDirective } from '@kikita-labs/ui';
+import { KuiSkeleton } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -43,7 +43,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     skeleton: {
       /* options below */
     },

@@ -15,10 +15,10 @@ import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiClock } from '../../utils/kui-clock.service';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { KUI_PICKED_EVENT } from '../../utils/kui-picked-event';
-import { KuiButtonDirective } from '../button/kui-button.directive';
+import { KuiButton } from '../button/kui-button.directive';
 import { KUI_FIELD_CALENDAR, registerKuiFieldPart } from '../field/kui-field-host.token';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
-import { KuiSeparatorDirective } from '../separator/kui-separator.directive';
+import { KuiGlyph } from '../icon/kui-glyph.component';
+import { KuiSeparator } from '../separator/kui-separator.directive';
 import type { KuiCalendarDisabledPredicate, KuiCalendarSize } from './kui-calendar.types';
 import { KuiCalendarEngine } from './kui-calendar-engine';
 
@@ -43,11 +43,11 @@ import { KuiCalendarEngine } from './kui-calendar-engine';
     '[attr.data-kui-size]': "engine.effectiveSize() === 'sm' ? 'sm' : null",
     '[attr.data-kui-flat]': "engine.effectiveFlat() ? '' : null",
   },
-  imports: [KuiButtonDirective, KuiSeparatorDirective, KuiGlyphComponent],
+  imports: [KuiButton, KuiSeparator, KuiGlyph],
   encapsulation: ViewEncapsulation.None,
 })
 /** Displays a navigable calendar grid for selecting a single date. */
-export class KuiCalendarComponent implements OnInit {
+export class KuiCalendar implements OnInit {
   private readonly clock = inject(KuiClock);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly injector = inject(Injector);

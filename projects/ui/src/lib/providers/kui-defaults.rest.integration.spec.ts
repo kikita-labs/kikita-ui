@@ -1,19 +1,19 @@
 import { Component, signal, viewChildren } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiDropdownComponent } from '../components/dropdown/kui-dropdown.component';
-import { KuiOptionDirective } from '../components/dropdown/kui-option.directive';
-import { KuiFieldComponent } from '../components/field/kui-field.component';
-import { KuiLinkDirective } from '../components/link/kui-link.directive';
-import { KuiSelectDirective } from '../components/select/kui-select.directive';
-import { KuiSplitterComponent } from '../components/splitter/kui-splitter.component';
-import { KuiSplitterPaneComponent } from '../components/splitter/kui-splitter-pane.component';
-import { KuiTextDirective } from '../components/typography/kui-text.directive';
+import { KuiDropdown } from '../components/dropdown/kui-dropdown.component';
+import { KuiOption } from '../components/dropdown/kui-option.directive';
+import { KuiField } from '../components/field/kui-field.component';
+import { KuiLink } from '../components/link/kui-link.directive';
+import { KuiSelect } from '../components/select/kui-select.directive';
+import { KuiSplitter } from '../components/splitter/kui-splitter.component';
+import { KuiSplitterPane } from '../components/splitter/kui-splitter-pane.component';
+import { KuiText } from '../components/typography/kui-text.directive';
 import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
 
 @Component({
-  imports: [KuiTextDirective],
+  imports: [KuiText],
   template: `
     <p kuiText id="plain">Plain</p>
     <p kuiText id="local" variant="title" tone="danger">Local</p>
@@ -22,13 +22,13 @@ import { KuiDefaults } from './kui-defaults.service';
 class TypographyHost {}
 
 @Component({
-  imports: [KuiLinkDirective],
+  imports: [KuiLink],
   template: `<a kuiLink id="link" href="#">Link</a>`,
 })
 class LinkHost {}
 
 @Component({
-  imports: [KuiSplitterComponent, KuiSplitterPaneComponent],
+  imports: [KuiSplitter, KuiSplitterPane],
   template: `
     <kui-splitter id="plain">
       <kui-splitter-pane>One</kui-splitter-pane>
@@ -41,11 +41,11 @@ class LinkHost {}
   `,
 })
 class SplitterHost {
-  readonly panes = viewChildren(KuiSplitterPaneComponent);
+  readonly panes = viewChildren(KuiSplitterPane);
 }
 
 @Component({
-  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  imports: [KuiField, KuiSelect, KuiDropdown, KuiOption],
   template: `
     <kui-field>
       <input kuiSelect id="default" multiple [(value)]="value" />

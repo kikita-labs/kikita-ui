@@ -6,7 +6,7 @@ the same independent `shape` and `appearance` axes as `kuiButton`.
 ## Import
 
 ```ts
-import { KuiIconButtonDirective } from '@kikita-labs/ui';
+import { KuiIconButton } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -55,11 +55,11 @@ Use `loading` to show a spinner in place of the icon while an action is pending:
 
 ## Provider Defaults
 
-Use `kuiProvideDefaults` to configure repeated icon-button defaults:
+Use `provideKuiDefaults` to configure repeated icon-button defaults:
 
 ```ts
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     iconButton: { shape: 'outline', appearance: 'primary', size: 'sm' },
   }),
 ];

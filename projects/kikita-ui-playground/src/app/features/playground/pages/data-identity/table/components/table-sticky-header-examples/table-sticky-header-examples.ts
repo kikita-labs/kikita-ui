@@ -1,13 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { Component } from '@angular/core';
 
-import {
-  KuiCellDirective,
-  KuiRowDirective,
-  KuiTableDirective,
-  KuiThDirective,
-  KuiThGroupDirective,
-} from '@kikita-labs/ui';
+import { KuiCell, KuiRow, KuiTable, KuiTh, KuiThGroup } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -19,11 +13,11 @@ import { TABLE_MEMBERS } from '../../constants';
   selector: 'app-table-sticky-header-examples',
   imports: [
     DecimalPipe,
-    KuiCellDirective,
-    KuiRowDirective,
-    KuiTableDirective,
-    KuiThDirective,
-    KuiThGroupDirective,
+    KuiCell,
+    KuiRow,
+    KuiTable,
+    KuiTh,
+    KuiThGroup,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

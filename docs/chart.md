@@ -11,12 +11,7 @@ kitchen-sink component with a `type` prop. The contract and limitations below de
 ## Import
 
 ```ts
-import {
-  KuiBarChartComponent,
-  KuiDonutChartComponent,
-  KuiLineChartComponent,
-  KuiScatterChartComponent,
-} from '@kikita-labs/ui';
+import { KuiBarChart, KuiDonutChart, KuiLineChart, KuiScatterChart } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:
@@ -118,7 +113,7 @@ markup with your own:
 </kui-chart-legend>
 ```
 
-The template receives `KuiChartLegendItemContext` (`$implicit`: the `KuiChartLegendItem`,
+The template receives `KuiChartLegendItemContext` (`$implicit`: the `KuiChartLegendEntry`,
 `hovered`: whether it's cross-highlighted) -- wiring up `toggleLegendItem`/`setHoveredLegendId` is
 the template's own job (it already has the chart reference in scope), not a second set of
 callbacks this directive supplies. Modeled after the "headless legend" pattern common to chart
@@ -365,7 +360,7 @@ appearance -- deferred rather than invented; see Known gaps.
 | `chart` | `KuiChartLegendSource` | -- (required) | Any `kui-*-chart` component, via a template reference variable. |
 
 See Standalone legend above. Optionally projects a `kuiChartLegendItem`-marked `<ng-template>`
-(context: `KuiChartLegendItemContext` -- `$implicit: KuiChartLegendItem`, `hovered: boolean`) to
+(context: `KuiChartLegendItemContext` -- `$implicit: KuiChartLegendEntry`, `hovered: boolean`) to
 replace its default `<button>` markup.
 
 ## Provider Defaults
@@ -384,7 +379,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     barChart: {
       /* options below */
     },
@@ -413,7 +408,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     lineChart: {
       /* options below */
     },
@@ -442,7 +437,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     donutChart: {
       /* options below */
     },
@@ -471,7 +466,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     scatterChart: {
       /* options below */
     },
@@ -531,7 +526,7 @@ Each option resolves as `local input > defaults.scatterChart.<option> > built-in
 - `kui-donut-chart` has no center text/sum -- the spec does not specify one and no design source
   dictates its appearance; explicitly deferred rather than invented. Its inner-radius ratio (60% of
   the outer radius) is fixed, not configurable, in v1.
-- The shared `KuiTooltipDirective`'s hover/focus mode is not fully WCAG 1.4.13 compliant (not
+- The shared `KuiTooltip`'s hover/focus mode is not fully WCAG 1.4.13 compliant (not
   dismissible via Escape, not hoverable) -- a pre-existing kit-wide gap, not specific to Chart; see
   `docs/component-roadmap.md` Known Tech Debt.
 - Reviewed in a real browser for all four types (tooltip retarget, keyboard nav, legend, alt-table,

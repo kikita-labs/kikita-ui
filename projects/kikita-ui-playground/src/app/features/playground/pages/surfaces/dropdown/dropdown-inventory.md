@@ -11,9 +11,9 @@ This inventory records the reviewed public Dropdown contract against the example
 - `panelRole`, default `listbox`, also accepts `dialog`, `grid`, or `null`: only the default listbox role is shown. `kuiDropdownFor` hardcodes `aria-haspopup="listbox"`, so other roles would misstate the trigger contract.
 - `panelWidth`, default `anchor`: the width examples show `anchor`, `content` (at least the trigger width and able to grow beyond it for long content), and `auto` (content-sized).
 - `width: string | null`, default `null`: the explicit-width example sets `16rem`, overriding the width strategy; other examples leave it unset.
-- `KuiDropdownForDirective.kuiDropdownFor`, required dropdown instance: every trigger is a native button decorated with `kuiButton` and connected with `[kuiDropdownFor]`.
-- `KuiOptionDirective.value`, required `unknown`: options bind stable string identifiers while their visible labels remain localized. `kuiOptionSelect` emits the chosen identifier; the default and keep-open examples each render their own event in a localized status. The event does not create selected state or a checkmark.
-- `KuiOptionDirective.disabled`, default `false`: the default list includes a disabled option and verifies it remains inert and does not close the panel.
+- `KuiDropdownFor.kuiDropdownFor`, required dropdown instance: every trigger is a native button decorated with `kuiButton` and connected with `[kuiDropdownFor]`.
+- `KuiOption.value`, required `unknown`: options bind stable string identifiers while their visible labels remain localized. `kuiOptionSelect` emits the chosen identifier; the default and keep-open examples each render their own event in a localized status. The event does not create selected state or a checkmark.
+- `KuiOption.disabled`, default `false`: the default list includes a disabled option and verifies it remains inert and does not close the panel.
 
 ## Meaningful behavior and state
 
@@ -49,7 +49,7 @@ The source audit is grounded in `projects/ui/src/lib/components/dropdown/kui-dro
   the server and in the browser, so the HTTP transfer cache never matched. Until that response
   rendered, every translated label, including each trigger's text, was empty. An ArrowDown press
   in that window opened the correct panel and focused its first option, but
-  `KuiDropdownComponent` copies the trigger text into the panel `aria-label` only once when it
+  `KuiDropdown` copies the trigger text into the panel `aria-label` only once when it
   opens, so the listbox stayed unnamed and name-based locators never matched it.
 - The cause is fixed at the source in shared commit `91ec517`: the loader uses the same relative
   URL on both platforms, so the browser reuses the server-loaded catalogues and the server text
@@ -57,6 +57,6 @@ The source audit is grounded in `projects/ui/src/lib/components/dropdown/kui-dro
   `3973a0f` is removed; the spec again opens the route and waits for the translated heading.
   Against a production build of `91ec517`, the keep-open keyboard check passed 20/20 in serial
   repeats and the whole Dropdown spec passed 16/16 with no capture changes.
-- The one-time accessible-name snapshot in `KuiDropdownComponent` remains a library concern: a
+- The one-time accessible-name snapshot in `KuiDropdown` remains a library concern: a
   trigger whose text changes while its panel is open keeps a stale panel name. It is reported to
   the library owners rather than changed here.

@@ -2,10 +2,10 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, input, output, Renderer2, signal } from '@angular/core';
 
 import {
-  KuiIconButtonDirective,
-  KuiIconComponent,
-  KuiSeparatorDirective,
-  KuiTextDirective,
+  KuiIcon,
+  KuiIconButton,
+  KuiSeparator,
+  KuiText,
   type KuiThemeColorSeeds,
   type KuiThemeMode,
 } from '@kikita-labs/ui';
@@ -15,14 +15,7 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-playground-header',
-  imports: [
-    KuiIconButtonDirective,
-    KuiIconComponent,
-    PlaygroundPalette,
-    KuiSeparatorDirective,
-    KuiTextDirective,
-    TranslocoPipe,
-  ],
+  imports: [KuiIconButton, KuiIcon, PlaygroundPalette, KuiSeparator, KuiText, TranslocoPipe],
   templateUrl: './playground-header.html',
   styleUrl: './playground-header.scss',
 })

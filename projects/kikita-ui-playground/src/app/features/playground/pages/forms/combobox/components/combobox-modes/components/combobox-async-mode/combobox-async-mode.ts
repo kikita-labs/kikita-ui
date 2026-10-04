@@ -1,11 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 
-import {
-  KuiComboboxDirective,
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
-} from '@kikita-labs/ui';
+import { KuiCombobox, KuiDropdown, KuiField, KuiOption } from '@kikita-labs/ui';
 
 import { COMBOBOX_PEOPLE } from '@features/playground/pages/forms/combobox/constants';
 import type { ComboboxPerson } from '@features/playground/pages/forms/combobox/interfaces';
@@ -13,13 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-combobox-async-mode',
-  imports: [
-    KuiComboboxDirective,
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiOptionDirective,
-    TranslocoPipe,
-  ],
+  imports: [KuiCombobox, KuiDropdown, KuiField, KuiOption, TranslocoPipe],
   templateUrl: './combobox-async-mode.html',
 })
 export class ComboboxAsyncMode {

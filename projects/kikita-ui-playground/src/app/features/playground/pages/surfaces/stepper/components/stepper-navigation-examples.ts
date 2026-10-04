@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiButtonDirective, KuiStepComponent, KuiStepperComponent } from '@kikita-labs/ui';
+import { KuiButton, KuiStep, KuiStepper } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -8,13 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows consumer-owned linear controls and non-linear step navigation. */
 @Component({
   selector: 'app-stepper-navigation-examples',
-  imports: [
-    KuiButtonDirective,
-    KuiStepComponent,
-    KuiStepperComponent,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [KuiButton, KuiStep, KuiStepper, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './stepper-navigation-examples.html',
   styleUrl: './stepper-navigation-examples.scss',
 })

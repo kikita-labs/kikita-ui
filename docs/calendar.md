@@ -7,7 +7,7 @@ Header nav/title controls and the footer's "Today" button are `kuiButton` (ghost
 ## Import
 
 ```ts
-import { KuiCalendarComponent } from '@kikita-labs/ui';
+import { KuiCalendar } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -111,7 +111,7 @@ import { provideKikitaUi } from '@kikita-labs/ui';
 
 provideKikitaUi({ locale: 'ru-RU' });
 
-// a subtree: kuiProvideLocale('ru-RU') in the component's providers
+// a subtree: provideKuiLocale('ru-RU') in the component's providers
 ```
 
 Or override it for a single instance with the `locale` input, which takes precedence over the level:
@@ -150,7 +150,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     calendar: {
       /* options below */
     },

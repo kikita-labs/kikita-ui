@@ -23,7 +23,7 @@ import { KUI_FIELD } from '../field/kui-field-host.token';
     '[attr.aria-invalid]': 'invalid() ? "true" : null',
   },
 })
-export class KuiSwitchDirective {
+export class KuiSwitch {
   /** Switch size mapped to Kikita UI switch tokens. Defaults to `defaults.switch.size`, then the parent field, then the global `defaults.size`, then `'md'`. */
   readonly size = input<KuiSize | undefined>();
 

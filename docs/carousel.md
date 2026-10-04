@@ -17,7 +17,7 @@ Prev and Next can be replaced through `defaults.carousel.previousIcon` and `next
 ## Import
 
 ```ts
-import { KuiCarouselComponent, KuiCarouselSlideDirective } from '@kikita-labs/ui';
+import { KuiCarousel, KuiCarouselSlide } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:
@@ -154,7 +154,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     carousel: {
       /* options below */
     },

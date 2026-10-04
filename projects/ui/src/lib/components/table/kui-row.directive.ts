@@ -11,7 +11,7 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
   },
 })
 /** Applies Kikita UI row styling and selected state to a native table row. */
-export class KuiRowDirective {
+export class KuiRow {
   private readonly table = inject(KUI_TABLE_CTX, { optional: true });
 
   /** Row data used to determine selected state. Omit for a non-selectable presentational row. */

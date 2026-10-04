@@ -17,7 +17,7 @@ import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
 import type { KuiTreeCheckedState, KuiTreeContext } from './kui-tree-context.token';
 import { KUI_TREE_CONTEXT } from './kui-tree-context.token';
-import { KuiTreeNodeComponent } from './kui-tree-node.component';
+import { KuiTreeRow } from './kui-tree-node.component';
 import type { KuiTreeMode, KuiTreeNode } from './kui-tree-node.interface';
 
 interface KuiTreeFlatEntry {
@@ -45,7 +45,7 @@ interface KuiTreeIndex {
  */
 @Component({
   selector: 'kui-tree',
-  imports: [KuiTreeNodeComponent],
+  imports: [KuiTreeRow],
   template: `
     @for (root of data(); track root.id) {
       <kui-tree-node [node]="root" [level]="1" [setSize]="$count" [posInset]="$index + 1" />
@@ -59,11 +59,11 @@ interface KuiTreeIndex {
     '[attr.data-kui-size]': 'effectiveSize()',
     '[attr.data-kui-mobile]': "mobile() ? '' : null",
   },
-  providers: [{ provide: KUI_TREE_CONTEXT, useFactory: () => inject(KuiTreeComponent) }],
+  providers: [{ provide: KUI_TREE_CONTEXT, useFactory: () => inject(KuiTree) }],
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders hierarchical data with roving focus, selection, and optional checkbox state. */
-export class KuiTreeComponent implements KuiTreeContext {
+export class KuiTree implements KuiTreeContext {
   /** Selection/toggle behavior. Defaults to `defaults.tree.mode`, then `display`. */
   readonly mode = input<KuiTreeMode | undefined>();
 

@@ -9,7 +9,7 @@ control.
 ## Import
 
 ```ts
-import { KuiOtpInputComponent } from '@kikita-labs/ui';
+import { KuiOtpInput } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:
@@ -142,7 +142,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     otpInput: {
       /* options below */
     },

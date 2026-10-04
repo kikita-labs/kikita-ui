@@ -3,15 +3,15 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { KuiToastRegionComponent } from './kui-toast-region.component';
+import { KuiToastRegion } from './kui-toast-region.component';
 
-describe('KuiToastRegionComponent', () => {
+describe('KuiToastRegion', () => {
   afterEach(() => {
     vi.useRealTimers();
   });
 
   it('renders non-danger toasts as polite status messages', () => {
-    const fixture = TestBed.createComponent(KuiToastRegionComponent);
+    const fixture = TestBed.createComponent(KuiToastRegion);
     fixture.componentInstance.addToast({
       title: 'Saved',
       appearance: 'success',
@@ -25,7 +25,7 @@ describe('KuiToastRegionComponent', () => {
   });
 
   it('renders danger toasts as assertive alerts', () => {
-    const fixture = TestBed.createComponent(KuiToastRegionComponent);
+    const fixture = TestBed.createComponent(KuiToastRegion);
     fixture.componentInstance.addToast({
       title: 'Failed',
       appearance: 'danger',
@@ -40,7 +40,7 @@ describe('KuiToastRegionComponent', () => {
 
   it('keeps a persistent toast open until its ref closes it', () => {
     vi.useFakeTimers();
-    const fixture = TestBed.createComponent(KuiToastRegionComponent);
+    const fixture = TestBed.createComponent(KuiToastRegion);
     const ref = fixture.componentInstance.addToast({ title: 'Uploading', persistent: true });
     fixture.detectChanges();
 
@@ -55,7 +55,7 @@ describe('KuiToastRegionComponent', () => {
 
   it('reacts to a persistent signal and starts the timer when it becomes false', () => {
     vi.useFakeTimers();
-    const fixture = TestBed.createComponent(KuiToastRegionComponent);
+    const fixture = TestBed.createComponent(KuiToastRegion);
     const persistent = signal(true);
     const ref = fixture.componentInstance.addToast({ title: 'Syncing', persistent });
     fixture.detectChanges();
@@ -75,7 +75,7 @@ describe('KuiToastRegionComponent', () => {
 
   it('updates a toast and re-evaluates its timer', () => {
     vi.useFakeTimers();
-    const fixture = TestBed.createComponent(KuiToastRegionComponent);
+    const fixture = TestBed.createComponent(KuiToastRegion);
     const ref = fixture.componentInstance.addToast({ title: 'Uploading', persistent: true });
     fixture.detectChanges();
 
@@ -93,7 +93,7 @@ describe('KuiToastRegionComponent', () => {
 
   it('treats Infinity duration as persistent without scheduling an overflowing timer', () => {
     vi.useFakeTimers();
-    const fixture = TestBed.createComponent(KuiToastRegionComponent);
+    const fixture = TestBed.createComponent(KuiToastRegion);
     const ref = fixture.componentInstance.addToast({ title: 'Waiting', duration: Infinity });
     fixture.detectChanges();
 
@@ -106,7 +106,7 @@ describe('KuiToastRegionComponent', () => {
   });
 
   it('pauses and resumes the progress animation with the timer', () => {
-    const fixture = TestBed.createComponent(KuiToastRegionComponent);
+    const fixture = TestBed.createComponent(KuiToastRegion);
     const ref = fixture.componentInstance.addToast({
       title: 'Saving',
       duration: 5_000,
@@ -131,7 +131,7 @@ describe('KuiToastRegionComponent', () => {
 
   it('dismisses all active toasts', () => {
     vi.useFakeTimers();
-    const fixture = TestBed.createComponent(KuiToastRegionComponent);
+    const fixture = TestBed.createComponent(KuiToastRegion);
     fixture.componentInstance.addToast({ title: 'First', persistent: true });
     fixture.componentInstance.addToast({ title: 'Second', persistent: true });
     fixture.detectChanges();
@@ -143,8 +143,8 @@ describe('KuiToastRegionComponent', () => {
   });
 
   describe('reactive lifecycle', () => {
-    function open(config: Parameters<KuiToastRegionComponent['addToast']>[0]) {
-      const fixture = TestBed.createComponent(KuiToastRegionComponent);
+    function open(config: Parameters<KuiToastRegion['addToast']>[0]) {
+      const fixture = TestBed.createComponent(KuiToastRegion);
       const ref = fixture.componentInstance.addToast(config);
       fixture.detectChanges();
       return { fixture, ref, region: fixture.componentInstance };
@@ -238,7 +238,7 @@ describe('KuiToastRegionComponent', () => {
 
     it('falls back to the default duration when update() sets duration to undefined', () => {
       vi.useFakeTimers();
-      const fixture = TestBed.createComponent(KuiToastRegionComponent);
+      const fixture = TestBed.createComponent(KuiToastRegion);
       const region = fixture.componentInstance;
       const ref = region.addToast({ title: 'Sync', duration: 10_000 }, 3_000);
       fixture.detectChanges();

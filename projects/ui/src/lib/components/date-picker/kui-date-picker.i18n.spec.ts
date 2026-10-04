@@ -4,13 +4,13 @@ import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
 import { provideKikitaUi } from '../../root';
-import { KuiCalendarComponent } from '../calendar/kui-calendar.component';
-import { KuiDropdownComponent } from '../dropdown';
-import { KuiFieldComponent } from '../field/kui-field.component';
-import { KuiDatePickerDirective } from './kui-date-picker.directive';
+import { KuiCalendar } from '../calendar/kui-calendar.component';
+import { KuiDropdown } from '../dropdown';
+import { KuiField } from '../field/kui-field.component';
+import { KuiDatePicker } from './kui-date-picker.directive';
 
 @Component({
-  imports: [KuiFieldComponent, KuiDropdownComponent, KuiDatePickerDirective, KuiCalendarComponent],
+  imports: [KuiField, KuiDropdown, KuiDatePicker, KuiCalendar],
   template: `
     <kui-field label="Date">
       <input kuiDatePicker [(value)]="value" [format]="format()" [messages]="messages()" />
@@ -39,7 +39,7 @@ function type(fixture: { detectChanges(): void }, input: HTMLInputElement, text:
   fixture.detectChanges();
 }
 
-describe('KuiDatePickerDirective locale', () => {
+describe('KuiDatePicker locale', () => {
   it('shows and parses the numeric layout of the locale', () => {
     const { fixture, input } = setup({ locale: 'en-US' });
 

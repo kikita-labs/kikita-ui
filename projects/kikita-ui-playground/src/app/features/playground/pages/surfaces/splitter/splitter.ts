@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiTextDirective } from '@kikita-labs/ui';
+import { KuiText } from '@kikita-labs/ui';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
@@ -19,7 +19,7 @@ import {
 @Component({
   selector: 'app-splitter',
   imports: [
-    KuiTextDirective,
+    KuiText,
     SplitterCollapsible,
     SplitterDefault,
     SplitterDisabled,

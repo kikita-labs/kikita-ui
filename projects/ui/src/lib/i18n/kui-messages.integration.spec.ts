@@ -3,48 +3,48 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { KuiAlertComponent } from '../components/alert/kui-alert.component';
-import { KuiAvatarComponent } from '../components/avatar/kui-avatar.component';
-import { KuiAvatarGroupComponent } from '../components/avatar/kui-avatar-group.component';
-import { KuiButtonDirective } from '../components/button/kui-button.directive';
-import { KuiCalendarComponent } from '../components/calendar/kui-calendar.component';
-import { KuiCalendarRangeComponent } from '../components/calendar-range/kui-calendar-range.component';
-import { KuiCarouselComponent } from '../components/carousel/kui-carousel.component';
-import { KuiCarouselSlideDirective } from '../components/carousel/kui-carousel-slide.directive';
-import { KuiBarChartComponent } from '../components/chart/bar/kui-bar-chart.component';
-import { KuiDonutChartComponent } from '../components/chart/donut/kui-donut-chart.component';
-import { KuiLineChartComponent } from '../components/chart/line/kui-line-chart.component';
-import { KuiScatterChartComponent } from '../components/chart/scatter/kui-scatter-chart.component';
-import { KuiChipDirective } from '../components/chip/kui-chip.directive';
-import { KuiDatePickerDirective } from '../components/date-picker/kui-date-picker.directive';
-import { KuiDropdownComponent } from '../components/dropdown/kui-dropdown.component';
-import { KuiFieldComponent } from '../components/field/kui-field.component';
-import { KuiFileUploadComponent } from '../components/file-upload/kui-file-upload.component';
+import { KuiAlert } from '../components/alert/kui-alert.component';
+import { KuiAvatar } from '../components/avatar/kui-avatar.component';
+import { KuiAvatarGroup } from '../components/avatar/kui-avatar-group.component';
+import { KuiButton } from '../components/button/kui-button.directive';
+import { KuiCalendar } from '../components/calendar/kui-calendar.component';
+import { KuiCalendarRange } from '../components/calendar-range/kui-calendar-range.component';
+import { KuiCarousel } from '../components/carousel/kui-carousel.component';
+import { KuiCarouselSlide } from '../components/carousel/kui-carousel-slide.directive';
+import { KuiBarChart } from '../components/chart/bar/kui-bar-chart.component';
+import { KuiDonutChart } from '../components/chart/donut/kui-donut-chart.component';
+import { KuiLineChart } from '../components/chart/line/kui-line-chart.component';
+import { KuiScatterChart } from '../components/chart/scatter/kui-scatter-chart.component';
+import { KuiChip } from '../components/chip/kui-chip.directive';
+import { KuiDatePicker } from '../components/date-picker/kui-date-picker.directive';
+import { KuiDropdown } from '../components/dropdown/kui-dropdown.component';
+import { KuiField } from '../components/field/kui-field.component';
+import { KuiFileUpload } from '../components/file-upload/kui-file-upload.component';
 import type { KuiUploadFile } from '../components/file-upload/kui-upload-file.interface';
-import { KuiIconButtonDirective } from '../components/icon-button/kui-icon-button.directive';
-import { KuiLinkDirective } from '../components/link/kui-link.directive';
-import { KuiLoaderDirective } from '../components/loader/kui-loader.directive';
-import { KuiNumberInputDirective } from '../components/number-input/kui-number-input.directive';
-import { KuiOtpInputComponent } from '../components/otp-input/kui-otp-input.component';
-import { KuiPaginationComponent } from '../components/pagination/kui-pagination.component';
-import { KuiStepComponent } from '../components/stepper/kui-step.component';
-import { KuiStepperComponent } from '../components/stepper/kui-stepper.component';
-import { KuiCellDirective } from '../components/table/kui-cell.directive';
-import { KuiRowDirective } from '../components/table/kui-row.directive';
-import { KuiSelectCellComponent } from '../components/table/kui-select-cell.component';
-import { KuiSelectThComponent } from '../components/table/kui-select-th.component';
-import { KuiTableDirective } from '../components/table/kui-table.directive';
-import { KuiThDirective } from '../components/table/kui-th.directive';
-import { KuiThGroupDirective } from '../components/table/kui-th-group.directive';
-import { KuiTabDirective } from '../components/tabs/kui-tab.directive';
-import { KuiTabsComponent } from '../components/tabs/kui-tabs.component';
-import { KuiTimePickerDirective } from '../components/time-picker/kui-time-picker.directive';
-import { KuiTimePickerPanelComponent } from '../components/time-picker/kui-time-picker-panel.component';
+import { KuiIconButton } from '../components/icon-button/kui-icon-button.directive';
+import { KuiLink } from '../components/link/kui-link.directive';
+import { KuiLoader } from '../components/loader/kui-loader.directive';
+import { KuiNumberInput } from '../components/number-input/kui-number-input.directive';
+import { KuiOtpInput } from '../components/otp-input/kui-otp-input.component';
+import { KuiPagination } from '../components/pagination/kui-pagination.component';
+import { KuiStep } from '../components/stepper/kui-step.component';
+import { KuiStepper } from '../components/stepper/kui-stepper.component';
+import { KuiCell } from '../components/table/kui-cell.directive';
+import { KuiRow } from '../components/table/kui-row.directive';
+import { KuiSelectCell } from '../components/table/kui-select-cell.component';
+import { KuiSelectTh } from '../components/table/kui-select-th.component';
+import { KuiTable } from '../components/table/kui-table.directive';
+import { KuiTh } from '../components/table/kui-th.directive';
+import { KuiThGroup } from '../components/table/kui-th-group.directive';
+import { KuiTab } from '../components/tabs/kui-tab.directive';
+import { KuiTabs } from '../components/tabs/kui-tabs.component';
+import { KuiTimePicker } from '../components/time-picker/kui-time-picker.directive';
+import { KuiTimePickerPanel } from '../components/time-picker/kui-time-picker-panel.component';
 import { provideKikitaUi } from '../root';
 import { KuiI18n } from './kui-i18n.service';
 import { KUI_ENGLISH_MESSAGES } from './kui-messages.en';
 import type { KuiMessages, KuiMessagesLayer } from './kui-messages.interface';
-import { kuiProvideMessages } from './provide-kui-i18n';
+import { provideKuiMessages } from './provide-kui-i18n';
 
 const OPEN = '«';
 const CLOSE = '»';
@@ -92,42 +92,42 @@ function leakedNames(root: HTMLElement): string[] {
 
 @Component({
   imports: [
-    KuiAlertComponent,
-    KuiAvatarComponent,
-    KuiAvatarGroupComponent,
-    KuiBarChartComponent,
-    KuiButtonDirective,
-    KuiCalendarComponent,
-    KuiCalendarRangeComponent,
-    KuiCarouselComponent,
-    KuiCarouselSlideDirective,
-    KuiCellDirective,
-    KuiChipDirective,
-    KuiDatePickerDirective,
-    KuiDonutChartComponent,
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiFileUploadComponent,
-    KuiIconButtonDirective,
-    KuiLineChartComponent,
-    KuiLinkDirective,
-    KuiLoaderDirective,
-    KuiNumberInputDirective,
-    KuiOtpInputComponent,
-    KuiPaginationComponent,
-    KuiRowDirective,
-    KuiScatterChartComponent,
-    KuiSelectCellComponent,
-    KuiSelectThComponent,
-    KuiStepComponent,
-    KuiStepperComponent,
-    KuiTabDirective,
-    KuiTableDirective,
-    KuiTabsComponent,
-    KuiThDirective,
-    KuiThGroupDirective,
-    KuiTimePickerDirective,
-    KuiTimePickerPanelComponent,
+    KuiAlert,
+    KuiAvatar,
+    KuiAvatarGroup,
+    KuiBarChart,
+    KuiButton,
+    KuiCalendar,
+    KuiCalendarRange,
+    KuiCarousel,
+    KuiCarouselSlide,
+    KuiCell,
+    KuiChip,
+    KuiDatePicker,
+    KuiDonutChart,
+    KuiDropdown,
+    KuiField,
+    KuiFileUpload,
+    KuiIconButton,
+    KuiLineChart,
+    KuiLink,
+    KuiLoader,
+    KuiNumberInput,
+    KuiOtpInput,
+    KuiPagination,
+    KuiRow,
+    KuiScatterChart,
+    KuiSelectCell,
+    KuiSelectTh,
+    KuiStep,
+    KuiStepper,
+    KuiTab,
+    KuiTable,
+    KuiTabs,
+    KuiTh,
+    KuiThGroup,
+    KuiTimePicker,
+    KuiTimePickerPanel,
   ],
   template: `
     <kui-pagination variant="full" [totalPages]="5" [totalItems]="48" [pageSize]="10" />
@@ -278,14 +278,14 @@ describe('KuiMessages integration', () => {
   it('keeps two subtrees apart', () => {
     @Component({
       selector: 'kui-test-scoped',
-      imports: [KuiPaginationComponent],
-      providers: [kuiProvideMessages({ pagination: { next: 'Scoped' } })],
+      imports: [KuiPagination],
+      providers: [provideKuiMessages({ pagination: { next: 'Scoped' } })],
       template: `<kui-pagination [totalPages]="3" />`,
     })
     class Scoped {}
 
     @Component({
-      imports: [Scoped, KuiPaginationComponent],
+      imports: [Scoped, KuiPagination],
       template: `
         <kui-pagination id="outside" [totalPages]="3" />
         <kui-test-scoped />
@@ -306,7 +306,7 @@ describe('KuiMessages integration', () => {
 
   it('lets a component messages input win over the scope', () => {
     @Component({
-      imports: [KuiPaginationComponent],
+      imports: [KuiPagination],
       template: `<kui-pagination [totalPages]="3" [messages]="{ next: 'Instance' }" />`,
     })
     class Instance {}

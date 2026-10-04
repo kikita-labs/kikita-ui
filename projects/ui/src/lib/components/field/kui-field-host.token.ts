@@ -3,9 +3,9 @@ import type { Signal } from '@angular/core';
 import { DestroyRef, inject, InjectionToken } from '@angular/core';
 
 import type { KuiFieldWiringSource } from '../../utils/kui-field-control-wiring.util';
-import type { KuiCalendarComponent } from '../calendar/kui-calendar.component';
-import type { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
-import type { KuiTimePickerPanelComponent } from '../time-picker/kui-time-picker-panel.component';
+import type { KuiCalendar } from '../calendar/kui-calendar.component';
+import type { KuiDropdown } from '../dropdown/kui-dropdown.component';
+import type { KuiTimePickerPanel } from '../time-picker/kui-time-picker-panel.component';
 import type { KuiOptionContext } from './kui-option-context.token';
 
 /**
@@ -23,20 +23,20 @@ export interface KuiFieldPart<T> {
 }
 
 /** @internal The `kui-dropdown` projected into a field. */
-export const KUI_FIELD_DROPDOWN: KuiFieldPart<KuiDropdownComponent> = { name: 'dropdown' };
+export const KUI_FIELD_DROPDOWN: KuiFieldPart<KuiDropdown> = { name: 'dropdown' };
 
 /** @internal The `kui-calendar` projected into a field, wired by `input[kuiDatePicker]`. */
-export const KUI_FIELD_CALENDAR: KuiFieldPart<KuiCalendarComponent> = { name: 'calendar' };
+export const KUI_FIELD_CALENDAR: KuiFieldPart<KuiCalendar> = { name: 'calendar' };
 
 /** @internal The `kui-time-picker-panel` projected into a field, wired by `input[kuiTimePicker]`. */
-export const KUI_FIELD_TIME_PICKER_PANEL: KuiFieldPart<KuiTimePickerPanelComponent> = {
+export const KUI_FIELD_TIME_PICKER_PANEL: KuiFieldPart<KuiTimePickerPanel> = {
   name: 'time-picker-panel',
 };
 
 /**
  * @internal
  * What a control or a part reads from and registers with its ancestor `kui-field`. Controls inject
- * this contract through {@link KUI_FIELD}, never the `KuiFieldComponent` class, so using a control
+ * this contract through {@link KUI_FIELD}, never the `KuiField` class, so using a control
  * does not pull the field or the parts it can host into a bundle.
  */
 export interface KuiFieldHost extends KuiFieldWiringSource {
@@ -53,13 +53,13 @@ export interface KuiFieldHost extends KuiFieldWiringSource {
   getPart<T>(part: KuiFieldPart<T>): T | undefined;
 
   /** The `kui-dropdown` registered with the field, if any. */
-  getDropdown(): KuiDropdownComponent | undefined;
+  getDropdown(): KuiDropdown | undefined;
 
   /** The `kui-calendar` registered with the field, if any. */
-  getCalendar(): KuiCalendarComponent | undefined;
+  getCalendar(): KuiCalendar | undefined;
 
   /** The `kui-time-picker-panel` registered with the field, if any. */
-  getTimePickerPanel(): KuiTimePickerPanelComponent | undefined;
+  getTimePickerPanel(): KuiTimePickerPanel | undefined;
 
   /** Registers the select-like control that owns the field's options. */
   registerSelectContext(context: KuiOptionContext | null): void;

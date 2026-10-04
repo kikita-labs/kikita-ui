@@ -4,11 +4,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { vi } from 'vitest';
 
-import { KuiSplitterComponent } from './kui-splitter.component';
-import { KuiSplitterPaneComponent } from './kui-splitter-pane.component';
+import { KuiSplitter } from './kui-splitter.component';
+import { KuiSplitterPane } from './kui-splitter-pane.component';
 
 @Component({
-  imports: [KuiSplitterComponent, KuiSplitterPaneComponent],
+  imports: [KuiSplitter, KuiSplitterPane],
   template: `
     <kui-splitter
       [orientation]="orientation()"
@@ -33,7 +33,7 @@ class TwoPaneHost {
 }
 
 @Component({
-  imports: [KuiSplitterComponent, KuiSplitterPaneComponent],
+  imports: [KuiSplitter, KuiSplitterPane],
   template: `
     <kui-splitter>
       <kui-splitter-pane [size]="20">A</kui-splitter-pane>
@@ -55,7 +55,7 @@ function getGutters(fixture: ComponentFixture<unknown>): HTMLElement[] {
   return Array.from(fixture.nativeElement.querySelectorAll('[role="separator"]'));
 }
 
-describe('KuiSplitterComponent', () => {
+describe('KuiSplitter', () => {
   it('renders one gutter per pair of adjacent panes', () => {
     const fixture = createFixture(ThreePaneHost);
     expect(getGutters(fixture).length).toBe(2);

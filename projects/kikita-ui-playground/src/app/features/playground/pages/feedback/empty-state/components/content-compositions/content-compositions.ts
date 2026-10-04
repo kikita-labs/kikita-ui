@@ -1,11 +1,6 @@
 import { Component } from '@angular/core';
 
-import {
-  KuiButtonDirective,
-  KuiEmptyStateActionsDirective,
-  KuiEmptyStateComponent,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiButton, KuiEmptyState, KuiEmptyStateActions, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -14,10 +9,10 @@ import { TranslocoPipe } from '@jsverse/transloco';
 @Component({
   selector: 'app-empty-state-content-compositions',
   imports: [
-    KuiButtonDirective,
-    KuiEmptyStateActionsDirective,
-    KuiEmptyStateComponent,
-    KuiTextDirective,
+    KuiButton,
+    KuiEmptyStateActions,
+    KuiEmptyState,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

@@ -1,14 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { Component } from '@angular/core';
 
-import {
-  KuiCellDirective,
-  KuiRowDirective,
-  KuiTableDirective,
-  KuiTextDirective,
-  KuiThDirective,
-  KuiThGroupDirective,
-} from '@kikita-labs/ui';
+import { KuiCell, KuiRow, KuiTable, KuiText, KuiTh, KuiThGroup } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -21,12 +14,12 @@ import { TABLE_MEMBERS } from '../../constants';
   selector: 'app-table-size-examples',
   imports: [
     DecimalPipe,
-    KuiCellDirective,
-    KuiRowDirective,
-    KuiTableDirective,
-    KuiThDirective,
-    KuiThGroupDirective,
-    KuiTextDirective,
+    KuiCell,
+    KuiRow,
+    KuiTable,
+    KuiTh,
+    KuiThGroup,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

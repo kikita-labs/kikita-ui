@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiLoaderDirective } from './kui-loader.directive';
+import { KuiLoader } from './kui-loader.directive';
 
 @Component({
-  imports: [KuiLoaderDirective],
+  imports: [KuiLoader],
   template: '<span kuiLoader size="lg" label="Saving"></span>',
 })
 class LoaderHost {}
 
-describe('KuiLoaderDirective', () => {
+describe('KuiLoader', () => {
   it('adds loader host attributes for size and accessibility', () => {
     const fixture = createFixture(LoaderHost);
 

@@ -10,8 +10,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Added
 
-- Internationalization: every piece of text the library owns (accessible names, visible words, placeholders, hints, announcements, role descriptions; 153 messages in 29 groups) is a typed message in `KuiMessages` with an English default (`KUI_ENGLISH_MESSAGES`). Override it for the application with `provideKikitaUi({ messages })`, for a subtree with `kuiProvideMessages` or `kuiProvideI18n`, and for one instance with the `messages` input of Calendar, Calendar Range, Carousel, the four charts, Color Input, Command Palette, Date Picker, File Upload, Pagination and Time Picker (`kuiMediaViewer({ messages })` for the viewer). Pass a `Signal` to follow the application's language at runtime. A message is a string or a function with one named parameter object; function messages receive `ctx.formatNumber` and `ctx.plural`. The single-purpose label inputs (`ariaLabel`, `closeLabel`, `label`, `swatchLabel`, `errorLabel`, `placeholder`, `emptyText`) are `undefined` when omitted and resolve through the messages. See [docs/i18n.md](docs/i18n.md).
-- `KuiI18n`, a service per injector level that holds the formatting `locale` and the merged `messages` as signals (`get(group)`, `setLocale`, `setMessages`), `provideKikitaUi({ locale })` (a tag, a `Signal` or a function), `kuiProvideI18n`, `KuiMessageContext`, `KuiPluralForms` and the `KuiMessages*` types. `kuiProvideLocale` accepts a `Signal` and works for a subtree.
+- Internationalization: every piece of text the library owns (accessible names, visible words, placeholders, hints, announcements, role descriptions; 153 messages in 29 groups) is a typed message in `KuiMessages` with an English default (`KUI_ENGLISH_MESSAGES`). Override it for the application with `provideKikitaUi({ messages })`, for a subtree with `provideKuiMessages` or `provideKuiI18n`, and for one instance with the `messages` input of Calendar, Calendar Range, Carousel, the four charts, Color Input, Command Palette, Date Picker, File Upload, Pagination and Time Picker (`kuiMediaViewer({ messages })` for the viewer). Pass a `Signal` to follow the application's language at runtime. A message is a string or a function with one named parameter object; function messages receive `ctx.formatNumber` and `ctx.plural`. The single-purpose label inputs (`ariaLabel`, `closeLabel`, `label`, `swatchLabel`, `errorLabel`, `placeholder`, `emptyText`) are `undefined` when omitted and resolve through the messages. See [docs/i18n.md](docs/i18n.md).
+- `KuiI18n`, a service per injector level that holds the formatting `locale` and the merged `messages` as signals (`get(group)`, `setLocale`, `setMessages`), `provideKikitaUi({ locale })` (a tag, a `Signal` or a function), `provideKuiI18n`, `KuiMessageContext`, `KuiPluralForms` and the `KuiMessages*` types. `provideKuiLocale` accepts a `Signal` and works for a subtree.
 - Date Picker `format` input and `defaults.datePicker.format`: `'locale'` (default) or a pattern of `d`/`dd`, `M`/`MM` and `yyyy` tokens such as `dd.MM.yyyy`. File Upload entries gain `errorKind` (`'type'` or `'size'`), so the displayed error follows the active messages.
 - `pnpm audit:static` fails on literal English in component templates, `aria-*`, `placeholder` and `Renderer2` calls, on a message without JSDoc or without a reader, and on Playground catalogues (`kui` key in `en.json` and `ru.json`) that do not hold exactly the library keys.
 - The Playground feeds `locale` and `messages` from its Transloco language: switching the shell language switches every Kikita UI label. The `kui` catalogues and a short adapter are the reference for connecting any translator.
@@ -22,11 +22,11 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 - `createKuiLucideResolver({ version, baseUrl })` and `KUI_LUCIDE_STATIC_VERSION` build the default Lucide resolver for another version or for icon files on your own origin.
 - Picker option interfaces share `KuiPickerIconOptions`; `KuiIconsOptions`, `KuiIconRole` and the glyph types are exported.
 
-- `kuiAutoFocus` directive (`KuiAutoFocusDirective`) that focuses its host, or its first focusable descendant, after the browser has rendered, once on first render and on every `false` to `true` change. It never runs on the server, adds no `tabindex`, yields to focus the user already set, waits for a dialog or popover enter animation, and marks the host `cdkFocusInitial` so Dialog and Drawer focus traps agree. Input `kuiAutoFocusPreventScroll`. See [Auto Focus](docs/auto-focus.md).
+- `kuiAutoFocus` directive (`KuiAutoFocus`) that focuses its host, or its first focusable descendant, after the browser has rendered, once on first render and on every `false` to `true` change. It never runs on the server, adds no `tabindex`, yields to focus the user already set, waits for a dialog or popover enter animation, and marks the host `cdkFocusInitial` so Dialog and Drawer focus traps agree. Input `kuiAutoFocusPreventScroll`. See [Auto Focus](docs/auto-focus.md).
 - `kui-field` exposes its required state, from the explicit `required` input or a Signal Forms `required(...)` validator, to assistive technology as `aria-required` on Input, Textarea, Checkbox, Switch, Number Input, Color Input, Select, Combobox, Date Picker and Time Picker. A single Radio and Slider are exceptions because their roles do not support it; `kui-otp-input` marks only its first cell.
 - `kui-otp-input` gains a `required` input and a `focus(options?)` method, and `kui-segmented` gains `focus(options?)`, so Signal Forms `focusBoundControl()` reaches both controls instead of the non-focusable group host.
 - `pnpm audit:static` now fails when a class implementing `FormValueControl` or `FormCheckboxControl` declares an input, model or output that differs from a contract member (`readonly`, `required`, `touched`, ...) only by case.
-- `kuiProvideDefaults(...)`, the `KuiDefaults` service and `provideKikitaUi({ defaults })` with one flat map of component defaults (`KuiComponentDefaults`: `size`, `button`, `iconButton`, `field`, `select`, `combobox`, `datePicker`, `timePicker`, `tooltip`, `toast`). Every property accepts a plain value or a `Signal`, the whole value may be a function that runs in an injection context, and `KuiDefaults.set`, `update` and `get` change and read them at runtime. Levels merge per component key and per property across injectors. New `datePicker` and `timePicker` keys, read before the `field` key. See [docs/di-defaults.md](docs/di-defaults.md).
+- `provideKuiDefaults(...)`, the `KuiDefaults` service and `provideKikitaUi({ defaults })` with one flat map of component defaults (`KuiComponentDefaults`: `size`, `button`, `iconButton`, `field`, `select`, `combobox`, `datePicker`, `timePicker`, `tooltip`, `toast`). Every property accepts a plain value or a `Signal`, the whole value may be a function that runs in an injection context, and `KuiDefaults.set`, `update` and `get` change and read them at runtime. Levels merge per component key and per property across injectors. New `datePicker` and `timePicker` keys, read before the `field` key. See [docs/di-defaults.md](docs/di-defaults.md).
 - Defaults for overlays: `popover`, `menu`, `dropdown`, `dialog` and `drawer` keys (placement, offset, alignment, arrow, trigger type, hover delay, min width, max height, close on select, panel width, dialog and drawer size, side, closable and dismissal) and `placement` under `tooltip`. The matching inputs of `kui-popover`, `kui-menu` and `kui-dropdown` no longer carry a literal default (their value is `undefined` when omitted); the built-in values are unchanged. `KuiOverlayPositionOptions` is the shared base of the anchored overlays.
 - Defaults for `calendar`, `calendarRange` (size, flat, weekend, footer and navigation flags; shared `KuiCalendarViewOptions`), `timePicker` (format, steps, seconds), `carousel` (items per view, loop, autoplay, interval, arrows, dots, dragging) and `pagination` (variant, sibling and boundary count, page size choices), and `offset` under `tooltip` (new `offset` input on `kuiTooltip`; the gap was a fixed 6 px). The matching inputs are `undefined` when omitted and resolve through the defaults; built-in values are unchanged.
 - Defaults for every remaining primitive: `badge`, `breadcrumbs`, `chip`, `emptyState`, `loader`, `segmented`, `table`, `input`, `textarea`, `checkbox`, `radio`, `switch`, `colorInput`, `numberInput`, `slider`, `accordion`, `alert`, `card`, `tabs`, `stepper`, `tree`, `group`, `avatar`, `avatarGroup`, `link`, `progress`, `separator`, `skeleton`, `fileUpload`, `otpInput` and the four chart types (`barChart`, `lineChart`, `donutChart`, `scatterChart`). Size, shape, appearance, variant, orientation and the display flags of each can be set once under its key. A control inside `kui-field` follows an explicit size of the parent field first, then its own key, then `defaults.field.size`, then the global size.
@@ -48,13 +48,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 - Package layout and style source: each primitive's stylesheet now lives beside its component (`lib/components/<name>/kui-<name>.css`), `styles/kikita-ui.css` imports them by relative path and `ng-package.json` mirrors `lib/**/*.css` into the package, so the entry resolves the same imports in the repository and in `dist`. The bundled stylesheet is unchanged in rules and order apart from Field and Icon (below); `@kikita-labs/ui/styles` and `kikita-ui.css` stay the only public style paths. Stylesheets that no single primitive owns (base, density, glyph, listbox, selection, field actions, forced colors, scrollbar, cdk overlay) stay in `styles/`. Component templates longer than three lines moved into `.html` files and the static audit enforces that limit.
 - `kui-field` and `kui-icon` styles moved from component-scoped `styleUrl` files into the shared `kui.components` layer (`kui-field.css`, `kui-icon.css`) without `::ng-deep`. Both now need `kikita-ui.css` like every other component, which `ng add` already installs, and an unlayered application rule overrides them without raising specificity.
 - Library layering: components no longer import `kui-field`; controls inject the `KUI_FIELD` token and the Dropdown, Calendar and Time Picker Panel register with the field, so a control pulls only the code it uses (`kuiInput` 74.8 to 3.0 kB, Select 86 to 33 kB, Date Picker 82 to 30 kB in a minimal application). No public selector, input or output changed. `pnpm audit:architecture` and `pnpm audit:bundle` enforce the layers and size limits.
-- Bundle size: a form control (`kuiInput`, `kuiTextarea`, `kuiCheckbox`, `kuiRadio`, `kuiSwitch`, `kuiSlider`, `kuiNumberInput`, `kuiSelect`, `kuiCombobox`, Date and Time Picker, OTP and Color Input) no longer pulls `kui-field` and the calendar, time picker panel and dropdown it could host into an application bundle. Controls read the field through an internal contract (`KUI_FIELD`) and the dropdown, calendar and time picker panel register themselves with the field they sit in, so `kuiInput` alone went from 73 kB to 3 kB of library code and `kuiSelect` from 86 kB to 33 kB. `KuiFieldComponent.getDropdown()`, `getCalendar()` and `getTimePickerPanel()` keep working; they now find the part anywhere inside the field, not only among its direct content. Module-level initialisers are annotated or lazy, so merely importing the library costs less (`kuiBadge` 5 kB to 2 kB).
+- Bundle size: a form control (`kuiInput`, `kuiTextarea`, `kuiCheckbox`, `kuiRadio`, `kuiSwitch`, `kuiSlider`, `kuiNumberInput`, `kuiSelect`, `kuiCombobox`, Date and Time Picker, OTP and Color Input) no longer pulls `kui-field` and the calendar, time picker panel and dropdown it could host into an application bundle. Controls read the field through an internal contract (`KUI_FIELD`) and the dropdown, calendar and time picker panel register themselves with the field they sit in, so `kuiInput` alone went from 73 kB to 3 kB of library code and `kuiSelect` from 86 kB to 33 kB. `KuiField.getDropdown()`, `getCalendar()` and `getTimePickerPanel()` keep working; they now find the part anywhere inside the field, not only among its direct content. Module-level initialisers are annotated or lazy, so merely importing the library costs less (`kuiBadge` 5 kB to 2 kB).
 - `kui-dropdown` closes after a date pick in a projected `kui-calendar` through a bubbling `kui-picked` event the calendar dispatches, not by reading the calendar's class names; `kui-calendar-range` still keeps the panel open. `provideKikitaUi` now lives in `lib/root`; the public import is unchanged.
 - **Behavior (API):** Date Picker formats and parses the numeric layout of the locale (`10/03/2026` in `en-US`, `03.10.2026` in `ru-RU`) instead of a fixed `dd.MM.yyyy`, and its placeholder is built from the `datePicker` messages in the same order. Parsing reads three digit groups, so `3.1.2026` is accepted. Set `format="dd.MM.yyyy"` or `defaults.datePicker.format` to keep the old layout.
 - **Behavior (API):** Time Picker (and its panel) defaults to the locale's hour cycle (`12h` in `en-US`, `24h` in `ru-RU`) and uses the locale's separator, day period text and position; typing accepts the locale's `AM`/`PM` text and ASCII `am`/`pm`. Set `format="24h"` or `defaults.timePicker.format` to keep the old default.
 - **Behavior (API):** Calendar and Calendar Range name every day button with its full localized date (`Saturday, October 3, 2026`) instead of the bare day number, write the heading with one `Intl` month-and-year format (`2026年10月`), read the first day and the weekend from `Intl.Locale#getWeekInfo()` (with a static fallback), and mark the weekend of the locale instead of always Saturday and Sunday. `getKuiCalendarLocaleText` gains `weekend` and no longer caches in module scope.
 - **Behavior (API):** The default chart `valueFormat` is the locale's compact notation (`1.2K` in English, `1,5 Mio.` in German); File Upload sizes use `Intl` units (`2.5 MB`, `340 kB`, was `KB`) and a percent format; Pagination, Carousel, Media Viewer and OTP positions are formatted with the locale (`1,234`). The error for too many files reads `Maximum 1 file` for one.
-- **Behavior (API):** `kuiProvideLocale` returns `Provider[]` (was one `Provider`) and sets the locale of a `KuiI18n` level. `KUI_LOCALE` remains the root source (request, transfer state, navigator). A requested locale is checked against the runtime's `Intl` and falls back to `en-US` instead of the host's default locale. `LOCALE_ID` is not read implicitly; use `locale: () => inject(LOCALE_ID)`.
+- **Behavior (API):** `provideKuiLocale` returns `Provider[]` (was one `Provider`) and sets the locale of a `KuiI18n` level. `KUI_LOCALE` remains the root source (request, transfer state, navigator). A requested locale is checked against the runtime's `Intl` and falls back to `en-US` instead of the host's default locale. `LOCALE_ID` is not read implicitly; use `locale: () => inject(LOCALE_ID)`.
 - **Behavior (API):** Inputs that carried an English default (`ariaLabel` of Pagination, Carousel, Menu, Popover, Tree, OTP Input and the select cell and header, `closeLabel` of Alert, `label` of Avatar Group and Loader, `placeholder` of Command Palette and Date Picker, `errorLabel` of Tab) are `undefined` when omitted. The rendered default is unchanged.
 - The internal `KUI_CALENDAR_NAVIGATION_LABELS` constant and the Date Picker `formatDisplayDate` / `parseDisplayDate` helpers are removed; chart `formatCompact` is no longer used.
 
@@ -66,9 +66,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 - The native controls (Input, Textarea, Checkbox, Radio, Switch, Number Input, Color Input, Slider, Select, Combobox, Date Picker, Time Picker) take their host id, invalid state and `aria-describedby` from one internal helper instead of separate copies; behavior is unchanged apart from the Select fix below.
 - Toast: `defaults.toast.position` and `defaults.toast.maxVisible` now follow runtime changes of the default instead of being read once when the region is created. A `setPosition()` call is kept until the position default changes again.
 - Carousel: the internal slide `id` and `aria-label` are signals; no public API changes.
-- **Behavior (breaking):** component defaults moved from six injection tokens to the single `KuiDefaults` mechanism. A nested provider now merges with its parent per property; before, `kuiProvideFieldOptions`, `kuiProvideSelectOptions`, `kuiProvideComboboxOptions` and `kuiProvideButtonOptions` replaced the whole parent object. The global control size is now reactive: changing `defaults.size` updates components already rendered. Providing `KIKITA_UI_OPTIONS` directly no longer sets the default size; use `kuiProvideDefaults({ size })` for a subtree.
+- **Behavior (breaking):** component defaults moved from six injection tokens to the single `KuiDefaults` mechanism. A nested provider now merges with its parent per property; before, `kuiProvideFieldOptions`, `kuiProvideSelectOptions`, `kuiProvideComboboxOptions` and `kuiProvideButtonOptions` replaced the whole parent object. The global control size is now reactive: changing `defaults.size` updates components already rendered. Providing `KIKITA_UI_OPTIONS` directly no longer sets the default size; use `provideKuiDefaults({ size })` for a subtree.
 - `KuiButtonOptions` now describes one button's options; the old `{ button, iconButton }` shape is `KuiButtonProviderOptions` and `KuiButtonPrimitiveOptions` is `KuiButtonBaseOptions`. `KikitaUiDefaults` is a deprecated alias of `KuiComponentDefaults`.
-- Deprecated, removal in 3.0: `kuiProvideButtonOptions`, `kuiProvideFieldOptions`, `kuiProvideSelectOptions`, `kuiProvideComboboxOptions`, `kuiProvideTooltipOptions`, `provideKuiToastOptions` (forward to `kuiProvideDefaults`) and the root `provideKikitaUi({ tooltip })` option (use `defaults.tooltip`).
+- Deprecated, removal in 3.0: `kuiProvideButtonOptions`, `kuiProvideFieldOptions`, `kuiProvideSelectOptions`, `kuiProvideComboboxOptions`, `kuiProvideTooltipOptions`, `provideKuiToastOptions` (forward to `provideKuiDefaults`) and the root `provideKikitaUi({ tooltip })` option (use `defaults.tooltip`).
 - **Behavior (fix):** the Toast region is shown in the browser top layer (a manual popover) while toasts are visible, and is raised above any dialog, drawer or other overlay that is open when a toast is added or opens while it is visible. With `@angular/cdk` 22 overlays live in the top layer, where `z-index` has no effect, so a toast (`z-index: 1100`) was hidden behind an open dialog. `--kui-z-toast` remains the fallback for browsers without the Popover API.
 - New size tokens for parts that had literal pixel values: `--kui-slider-thumb-size`, `--kui-slider-thumb-size-active` and `--kui-slider-track-size` (the thumb radius still sets the track inset and the block padding), `--kui-progress-height`, `--kui-dialog-min-width-auto`, `--kui-dialog-icon-size`, `--kui-dialog-close-size`, `--kui-accordion-trigger-min-height-sm` and `-lg`, the Breadcrumbs ellipsis, icon and truncation sizes, `--kui-field-clear-icon-size`, and the input padding that clears the affixes of Select, Combobox, Date Picker and Time Picker (`--kui-<component>-padding-inline-end`, `-padding-inline-end-clearable`, `-padding-inline-start`). Every default equals the previous value, so nothing changes visually. Each component page lists them under Geometry Tokens.
 - New layer tokens `--kui-z-overlay` (the CDK overlay container, backdrop and bounding box, `1000`), `--kui-z-dialog` (`520`, was a literal `100`), `--kui-z-dropdown` (`1000`) and `--kui-z-tooltip` (`9000`); `--kui-z-popover` is now applied to the Popover panel. These tokens order the layers only in a browser without the Popover API; see [docs/tokens.md](docs/tokens.md). `pnpm audit:static` fails on a layer `z-index` literal (100 or more) in component styles.
@@ -92,7 +92,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ### Removed
 
-- The injection tokens `KUI_BUTTON_OPTIONS`, `KUI_FIELD_OPTIONS`, `KUI_SELECT_OPTIONS`, `KUI_COMBOBOX_OPTIONS`, `KUI_TOOLTIP_OPTIONS` and `KUI_TOAST_OPTIONS`. Provide defaults with `kuiProvideDefaults` or `provideKikitaUi({ defaults })`; inject `KuiDefaults` to read them. Include this in the v1 to v2 migration guide.
+- The injection tokens `KUI_BUTTON_OPTIONS`, `KUI_FIELD_OPTIONS`, `KUI_SELECT_OPTIONS`, `KUI_COMBOBOX_OPTIONS`, `KUI_TOOLTIP_OPTIONS` and `KUI_TOAST_OPTIONS`. Provide defaults with `provideKuiDefaults` or `provideKikitaUi({ defaults })`; inject `KuiDefaults` to read them. Include this in the v1 to v2 migration guide.
 - Generated tokens that nothing read any more: the Button compatibility aliases `--kui-btn-bg`, `--kui-btn-bg-hover`, `--kui-btn-bg-active`, `--kui-btn-color`, `--kui-btn-secondary-bg`, `--kui-btn-secondary-bg-hover`, `--kui-btn-secondary-color`, `--kui-btn-outline-bg-hover`, `--kui-btn-ghost-bg-hover`, `--kui-btn-focus-ring-width`, `--kui-btn-focus-ring-offset` and `--kui-btn-focus-ring`, and the legacy Select chrome tokens `--kui-select-bg`, `--kui-select-border`, `--kui-select-border-hover`, `--kui-select-border-focus`, `--kui-select-border-error` and `--kui-select-radius` (deprecated in 1.x). Use the replacements listed in [docs/tokens.md](docs/tokens.md#removed-in-20).
 
 ### Fixed
@@ -120,7 +120,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 - The Slider thumb hover and active halo followed a hard-coded purple instead of the primary seed. It now mixes `--kui-color-primary-indicator`; the default moved from the generated `--kui-slider-thumb-shadow-hover` and `--kui-slider-thumb-shadow-active` values into the Slider style sheet, and both tokens still override it.
 - The static audit now also rejects colour literals in the theme generator, except black, white, the categorical avatar and chart palettes and the fallback seed.
 - The soft `danger` Button hover and active backgrounds in the light theme no longer render near-black (they read dark-theme palette steps in both themes); they now follow the same light tints as the `primary` appearance. Dark-theme values are unchanged.
-- `KUI_LOCALE` on the server now follows the request's `Accept-Language` (falling back to `en-US`) instead of the host machine's `navigator.language`, and the browser's first render reuses that value through `TransferState`, so server HTML and hydrated DOM agree for every language. Responses now vary by `Accept-Language`; a cache in front of the server must send `Vary: Accept-Language`, or the app can pin a locale with `kuiProvideLocale`.
+- `KUI_LOCALE` on the server now follows the request's `Accept-Language` (falling back to `en-US`) instead of the host machine's `navigator.language`, and the browser's first render reuses that value through `TransferState`, so server HTML and hydrated DOM agree for every language. Responses now vary by `Accept-Language`; a cache in front of the server must send `Vary: Accept-Language`, or the app can pin a locale with `provideKuiLocale`.
 - Component ids (Accordion, Carousel, Chart, Color Input, Command Palette, Dialog, Drawer, Dropdown, File Upload, Menu, OTP Input, Pagination, Popover, Splitter, Tabs, Time Picker, Tooltip and Field markers) are now numbered per Angular application, so server-rendered ids no longer depend on earlier requests and match the browser's.
 - `provideKikitaUi` now sets the global `data-kui-scrollbars` mode on the server as well, so the server HTML carries it.
 - Calendar, Calendar Range and Date Picker now render the server's date first during hydration and then follow the browser's date, so a server and browser on different days no longer leave two days marked as today. Once hydrated, an untouched visible month and focused day move to the browser's date.
@@ -138,7 +138,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 - `kui-calendar` now places its initial roving tab stop on a date in the displayed month, preferring the selected date, then today, then the first day of that month. This keeps a bound calendar keyboard-reachable when its displayed month differs from the current month.
 - `kui-calendar` now moves DOM focus with its roving tab stop when keyboard navigation changes the focused date.
 - `kui-calendar` and `kui-calendar-range` now render a complete ARIA grid: the weekday header row sits inside the `role="grid"`, day buttons are wrapped in `role="gridcell"` elements grouped into week `role="row"`s, and `aria-selected` moved from the day button to its gridcell. Layout and keyboard behavior are unchanged; consumer CSS that targets `.kui-calendar-grid > .kui-calendar-day` must use `.kui-calendar-day` or the new `.kui-calendar-week`/`.kui-calendar-cell` wrappers (which are `display: contents`). This resolves the axe `aria-required-children`, `aria-required-parent` and `aria-allowed-attr` violations.
-- Escape now returns focus to the field control when it closes a `kui-dropdown` panel that held focus, so the Time Picker and Date Picker no longer drop focus to `<body>` when Escape is pressed inside the open panel. `KuiDropdownComponent.setAnchor` takes an optional third argument naming the focus-return element; `kui-field` passes its control.
+- Escape now returns focus to the field control when it closes a `kui-dropdown` panel that held focus, so the Time Picker and Date Picker no longer drop focus to `<body>` when Escape is pressed inside the open panel. `KuiDropdown.setAnchor` takes an optional third argument naming the focus-return element; `kui-field` passes its control.
 - `kui-carousel`'s slide track is now keyboard focusable while `draggable` is `true` (it is a scrollable region), with a visible focus ring; the region's arrow, `Home` and `End` keys then work from the track. This resolves the axe `scrollable-region-focusable` violation on the Carousel page.
 - `kui-file-upload` no longer nests an interactive control inside its `role="button"` dropzone: the "Choose file" label is now presentational (`aria-hidden`, clicks still reach the dropzone), and the hidden native `<input type="file">` is `aria-hidden`. This resolves the axe `nested-interactive` and `label` violations; keyboard behavior and the dropzone's accessible name are unchanged.
 - `kui-splitter` no longer nests its collapse button inside the focusable `role="separator"`: the separator is now an inner element of `kui-splitter-gutter` and the button is its sibling, which resolves the axe `nested-interactive` violation. Each `kui-splitter-pane` now renders its generated `id`, so the gutter's `aria-controls` points at an existing element instead of a missing one. The `kui-splitter-gutter` host no longer carries `role`, `aria-*` or `tabindex`; styling hooks on it are `data-kui-orientation`, `data-kui-disabled` and `data-kui-dragging`.
@@ -171,8 +171,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   across groups in development builds. Stable consumer-owned IDs remain required;
   selection still emits the complete command item.
 
-- `KuiLineChartComponent` (`kui-line-chart`), `KuiBarChartComponent` (`kui-bar-chart`),
-  `KuiScatterChartComponent` (`kui-scatter-chart`), and `KuiDonutChartComponent`
+- `KuiLineChart` (`kui-line-chart`), `KuiBarChart` (`kui-bar-chart`),
+  `KuiScatterChart` (`kui-scatter-chart`), and `KuiDonutChart`
   (`kui-donut-chart`): a new SVG chart family, built from Claude Design spec `09 Chart.dc.html`.
   Built ahead of the roadmap's original "wait for a real consumer" gate for Charts because a real
   consumer need now exists. Thin, type-specific public components share one internal engine (scale
@@ -227,7 +227,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   accessible alt-table with exact (not compact-formatted) values behind a "Table" toggle; and
   roving-tabindex keyboard navigation (arrows/Home/End) with `role="graphics-symbol img"` per
   WAI-ARIA Graphics Module guidance on every mark. `null`/`NaN`/`Infinity` in cartesian series data
-  are gaps, never silently drawn as `0`. `KuiDonutChartComponent`, hiding a slice through the
+  are gaps, never silently drawn as `0`. `KuiDonutChart`, hiding a slice through the
   legend recomputes the remaining shares and re-partitions the circle (a single 100%-share slice
   renders as a seamless two-circle ring rather than an unclosable arc wedge); the re-partition
   animates as an actual sweep around the rim -- each slice's shape (`d`, always drawn in its own
@@ -236,15 +236,15 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `d` by linearly interpolating coordinates in a straight line, which visibly cuts through the
   donut's interior for a large repositioning instead of sweeping around it. Stacked `kui-bar-chart`
   bars also transition `x`/`y`/`width`/`height` smoothly on their own hide-recompute, instead of
-  jumping straight to the new geometry. `KuiChartLegendComponent` (`kui-chart-legend`) and
-  `KuiChartLegendItemDirective` (`kuiChartLegendItem`): every `kui-*-chart` component implements a
+  jumping straight to the new geometry. `KuiChartLegend` (`kui-chart-legend`) and
+  `KuiChartLegendItem` (`kuiChartLegendItem`): every `kui-*-chart` component implements a
   new public `KuiChartLegendSource` interface (`legendItems`/`hoveredLegendId` signals,
   `toggleLegendItem`/`setHoveredLegendId` methods), so `kui-chart-legend` can render a chart's
   legend anywhere in the DOM instead of only inline, with a `kuiChartLegendItem`-projected
   `<ng-template>` replacing its default markup for full custom rendering -- the "headless legend"
   pattern common to chart libraries with external-legend support (amCharts, Recharts, MUI X
   Charts).
-- `KuiSplitterComponent` (`kui-splitter`) + `KuiSplitterPaneComponent` (`kui-splitter-pane`): a new
+- `KuiSplitter` (`kui-splitter`) + `KuiSplitterPane` (`kui-splitter-pane`): a new
   draggable multi-pane layout, built from Claude Design spec `08 Splitter.dc.html`, following the
   W3C ARIA APG Window Splitter Pattern. `orientation` (`horizontal`/`vertical`, default
   `horizontal`), `disabled`, and `(sizesChange)` on the splitter; `size` (optional initial share),
@@ -256,7 +256,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   gutter-free server-rendered DOM. Supports 2+ panes (each gutter only resizes the two panes
   touching it), nested splitters, and pointer drag + full keyboard (arrows/Shift-large-step/
   Home/End/Enter/Escape). No `[kuiSplitterThumb]` custom-thumb projection yet -- documented gap.
-- `KuiCarouselComponent` (`kui-carousel`) + `KuiCarouselSlideDirective` (`[kuiCarouselSlide]`): a
+- `KuiCarousel` (`kui-carousel`) + `KuiCarouselSlide` (`[kuiCarouselSlide]`): a
   new horizontal slide strip, built from Claude Design spec `07 Carousel.dc.html`. The track is
   native scroll + `scroll-snap`, scrolled programmatically to the current slide rather than a
   hand-rolled transform animation. `[kuiCarouselSlide]` projects arbitrary content, the same
@@ -277,7 +277,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   before that cancels the pending restore, avoiding an instant-jump artifact and a stuck-track race
   on a quick release-then-redrag that the Claude Design spec's own reference implementation has.
 - `kuiMediaViewer()`: a new fullscreen photo lightbox opener, the same imperative shape as
-  `kuiDialog()`/`kuiConfirm()`/`kuiDrawer()` on top of `KuiDialogService`. Call it with
+  `kuiDialog()`/`kuiConfirm()`/`kuiDrawer()` on top of `KuiDialog`. Call it with
   `{ items, index? }` (`items: { id?, src, alt }[]`, `id` optional and defaulting to `src`) to
   open. For `items.length > 1` it renders prev/next navigation with boundary disabling, Home/End/
   Left/Right keyboard navigation, a live-region "N / total" counter, and a thumbnail strip; a
@@ -293,7 +293,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   panel fills the viewport with no radius, border, shadow, or padding of its own, for content that
   needs to own its full layout (used by `kuiMediaViewer()`'s lightbox).
 
-- `KuiLinkDirective` (`a[kuiLink]`/`button[kuiLink]`): a new directive for inline interactive
+- `KuiLink` (`a[kuiLink]`/`button[kuiLink]`): a new directive for inline interactive
   text -- navigation (`<a href>`) or a JS-driven action (`<button type="button">`, per MUI's
   accessibility guidance that a link with no real `href` should be a button). Composes
   `[kuiText]` internally via Angular's Directive Composition API (`hostDirectives`), exposing only
@@ -313,7 +313,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   already applies for `as="a"`; native `disabled` attribute on a host `<button>`). No `visited`
   tone/state -- deliberate, not found in Taiga `tuiLink`, MUI `Link`, or the kit's own `Text`.
 
-- `KuiTimePickerDirective` (`input[kuiTimePicker]`) and `KuiTimePickerPanelComponent`
+- `KuiTimePicker` (`input[kuiTimePicker]`) and `KuiTimePickerPanel`
   (`kui-time-picker-panel`): a new text-field-trigger + popup pattern for picking a time of day,
   the same composition `input[kuiDatePicker]` uses with `kui-calendar`. The panel renders
   scrollable hour/minute/(second) `role="listbox"`/`role="option"` columns, an AM/PM
@@ -339,7 +339,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   glyph (`KUI_CLOCK_CIRCLE`/`KUI_CLOCK_D` in `kui-chrome-icon-paths.util`), matching how
   `KUI_CALENDAR_D` is handled for `kuiDatePicker`.
 
-- `KuiPaginationComponent` (`kui-pagination`): a new composite control for navigating pages of a
+- `KuiPagination` (`kui-pagination`): a new composite control for navigating pages of a
   long list or table -- page numbers, step forward/back, jump to first/last, and (with
   `variant="full"`) a "Showing X-Y of Z" summary and a rows-per-page picker. Composed entirely from
   existing primitives (`button[kuiButton]` for page numbers, `button[kuiIconButton]` for
@@ -353,7 +353,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   render as static inline SVG chrome (`kui-chrome-icon-paths.util`), not `IconButton`'s
   network-dependent, name-resolved `icon` input, the same as `kui-select`'s dropdown chevron.
 
-- `KuiOtpInputComponent` (`kui-otp-input`): a new composite control for entering a one-time
+- `KuiOtpInput` (`kui-otp-input`): a new composite control for entering a one-time
   verification code (SMS/email/authenticator) or PIN, as a row of single-character cells. Each
   cell renders the kit's own `input[kuiInput]` styling unmodified; the component owns roving
   keyboard navigation (auto-advance while typing, `Backspace` on an empty cell clears and
@@ -367,7 +367,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `[formField]` on `kui-otp-input` itself (not on `kui-field`), the same pattern `kui-segmented`
   uses. `(complete)` fires once, with the completed value, when every cell becomes filled.
 
-- `KuiAlertComponent` (`kui-alert`): a new inline notification companion to `kuiToast()`. Renders
+- `KuiAlert` (`kui-alert`): a new inline notification companion to `kuiToast()`. Renders
   directly in the page content flow instead of floating or auto-dismissing. Supports `neutral` /
   `info` / `success` / `warning` / `danger` appearances (reusing `kuiToast()`'s severity-to-icon
   mapping, rendered as inline SVG from `kui-chrome-icon-paths.util` -- the same synchronous,
@@ -377,21 +377,21 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `role="alert"`/`aria-live="assertive"` is used only for `danger`; every other appearance uses
   `role="status"`/`aria-live="polite"`, both always `aria-atomic="true"`. It is a controlled
   component: `(closed)` only notifies the consumer, it does not remove itself from the DOM.
-  `KuiAlertTitleDirective` (`[kuiAlertTitle]`), `KuiAlertIconDirective` (`[kuiAlertIcon]`),
-  `KuiAlertMessageDirective` (`[kuiAlertMessage]`), and `KuiAlertActionsDirective`
+  `KuiAlertTitle` (`[kuiAlertTitle]`), `KuiAlertIcon` (`[kuiAlertIcon]`),
+  `KuiAlertMessage` (`[kuiAlertMessage]`), and `KuiAlertActions`
   (`[kuiAlertActions]`) let a consumer project custom title/icon/message/action content instead of
   the plain-string inputs, the same shorthand-input-or-projected-content pattern `kui-empty-state`
   uses for its icon/actions slots.
 
 - `input[kuiDatePicker]` auto-discovers a sibling `kui-calendar` projected inside the same
-  `kui-field` (via a new `KuiFieldComponent.getCalendar()` accessor) and wires its `value`,
+  `kui-field` (via a new `KuiField.getCalendar()` accessor) and wires its `value`,
   `viewDate`, `minDate`, and `maxDate` automatically -- a paired calendar no longer needs manual
   `[value]`/`(valueChange)`/`[(viewDate)]`/`[minDate]`/`[maxDate]` binding. Manually binding those
   on the calendar still works unchanged; the auto-wire effects only write when the two sides
   actually differ, so an existing manual binding and the new auto-wire converge without looping or
   fighting each other. `kui-calendar`'s `minDate`/`maxDate` are now `model()` (were plain
   `input()`) to support this.
-- `KuiCalendarRangeComponent` (`kui-calendar-range`): a new standalone date-range calendar with
+- `KuiCalendarRange` (`kui-calendar-range`): a new standalone date-range calendar with
   the same month/year/decade grid, keyboard navigation, disabled-date, and locale behavior as
   `kui-calendar`, selecting a `KuiDateRange | null` start/end pair instead of a single date.
 
@@ -415,10 +415,10 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
   `closeOnSelect` are now read-only `input()` values. They no longer expose writable model outputs;
   mutable accordion state remains available through `expandedItems`.
 
-- `kui-calendar` (`KuiCalendarComponent`) is now single-date only. The `mode` input and the
+- `kui-calendar` (`KuiCalendar`) is now single-date only. The `mode` input and the
   `KuiCalendarMode`/`KuiCalendarValue` types are gone; `value` is now `model<Date | null>`
   instead of `model<Date | KuiDateRange | null>`. Existing `mode="range"` usage migrates to the
-  new `KuiCalendarRangeComponent` (`kui-calendar-range`), whose `value` is
+  new `KuiCalendarRange` (`kui-calendar-range`), whose `value` is
   `model<KuiDateRange | null>`. `KuiDateRange` itself is unchanged and now documented as the
   value type of `kui-calendar-range`.
 

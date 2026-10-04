@@ -10,17 +10,17 @@ import {
 const budgets = {
   tolerancePercent: 3,
   exports: {
-    KuiButtonDirective: { baselineBytes: 26000, limitBytes: 26800, targetBytes: 12288 },
-    KuiBadgeDirective: { baselineBytes: 5000, limitBytes: 5152 },
+    KuiButton: { baselineBytes: 26000, limitBytes: 26800, targetBytes: 12288 },
+    KuiBadge: { baselineBytes: 5000, limitBytes: 5152 },
   },
 };
 
 describe('measure-bundle', () => {
   it('reads the runtime export names, resolving aliases', () => {
     const text =
-      'const a = 1;\nexport { KuiBadgeDirective, internal as kuiToast, provideKikitaUi };\n//# map\n';
+      'const a = 1;\nexport { KuiBadge, internal as kuiToast, provideKikitaUi };\n//# map\n';
 
-    expect(listRuntimeExports(text)).toEqual(['KuiBadgeDirective', 'kuiToast', 'provideKikitaUi']);
+    expect(listRuntimeExports(text)).toEqual(['KuiBadge', 'kuiToast', 'provideKikitaUi']);
   });
 
   it('fails when the bundle has no export list', () => {
@@ -62,34 +62,34 @@ describe('measure-bundle', () => {
   });
 
   it('passes an export under its limit and reports a target miss as a note', () => {
-    const result = evaluateBudgets({ KuiButtonDirective: 26500, KuiBadgeDirective: 5100 }, budgets);
+    const result = evaluateBudgets({ KuiButton: 26500, KuiBadge: 5100 }, budgets);
 
     expect(result.failures).toEqual([]);
     expect(result.notes).toEqual([expect.stringContaining('above its target of 12.0 kB')]);
   });
 
   it('fails an export over its limit', () => {
-    const result = evaluateBudgets({ KuiBadgeDirective: 6000 }, budgets);
+    const result = evaluateBudgets({ KuiBadge: 6000 }, budgets);
 
-    expect(result.failures).toEqual(['KuiBadgeDirective is 5.9 kB, over its limit of 5.0 kB']);
+    expect(result.failures).toEqual(['KuiBadge is 5.9 kB, over its limit of 5.0 kB']);
   });
 
   it('fails an export without a budget', () => {
-    const result = evaluateBudgets({ KuiNewDirective: 100 }, budgets);
+    const result = evaluateBudgets({ KuiNew: 100 }, budgets);
 
-    expect(result.failures).toEqual([expect.stringContaining('KuiNewDirective has no budget')]);
+    expect(result.failures).toEqual([expect.stringContaining('KuiNew has no budget')]);
   });
 
   it('suggests lowering a limit once an export shrinks', () => {
-    const result = evaluateBudgets({ KuiButtonDirective: 12000 }, budgets);
+    const result = evaluateBudgets({ KuiButton: 12000 }, budgets);
 
     expect(result.notes).toEqual([expect.stringContaining('ratchet it down')]);
   });
 
   it('ratchets limits down and keeps targets', () => {
-    const next = ratchetBudgets({ KuiButtonDirective: 12000 }, budgets);
+    const next = ratchetBudgets({ KuiButton: 12000 }, budgets);
 
-    expect(next.exports.KuiButtonDirective).toEqual({
+    expect(next.exports.KuiButton).toEqual({
       baselineBytes: 12000,
       limitBytes: 12368,
       targetBytes: 12288,
@@ -97,10 +97,10 @@ describe('measure-bundle', () => {
   });
 
   it('refuses to raise a limit unless asked', () => {
-    const kept = ratchetBudgets({ KuiBadgeDirective: 9000 }, budgets);
-    const raised = ratchetBudgets({ KuiBadgeDirective: 9000 }, budgets, { allowIncrease: true });
+    const kept = ratchetBudgets({ KuiBadge: 9000 }, budgets);
+    const raised = ratchetBudgets({ KuiBadge: 9000 }, budgets, { allowIncrease: true });
 
-    expect(kept.exports.KuiBadgeDirective.limitBytes).toBe(5152);
-    expect(raised.exports.KuiBadgeDirective.limitBytes).toBe(9280);
+    expect(kept.exports.KuiBadge.limitBytes).toBe(5152);
+    expect(raised.exports.KuiBadge.limitBytes).toBe(9280);
   });
 });

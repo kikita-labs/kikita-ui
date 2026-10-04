@@ -15,26 +15,26 @@ import {
 
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { KuiIconComponent, type KuiIconName } from '../icon';
-import { KuiTextDirective } from '../typography';
+import { KuiIcon, type KuiIconName } from '../icon';
+import { KuiText } from '../typography';
 import { KUI_TEXT_IGNORES_DEFAULTS } from '../typography/kui-text-defaults-opt-out.token';
-import { KuiLinkExternalIconComponent } from './kui-link-external-icon.component';
+import { KuiLinkExternalIcon } from './kui-link-external-icon.component';
 import type { KuiLinkTone } from './kui-link-tone.type';
 import type { KuiLinkUnderline } from './kui-link-underline.type';
 
 type KuiLinkEndSlot =
-  | { readonly kind: 'icon'; readonly ref: ComponentRef<KuiIconComponent> }
-  | { readonly kind: 'external'; readonly ref: ComponentRef<KuiLinkExternalIconComponent> };
+  | { readonly kind: 'icon'; readonly ref: ComponentRef<KuiIcon> }
+  | { readonly kind: 'external'; readonly ref: ComponentRef<KuiLinkExternalIcon> };
 
 /**
  * Styles native anchors for navigation and buttons for actions. Consumers supply
  * a real href on anchors and type="button" on action buttons.
- * Composes KuiTextDirective's variant input; link tone owns interactive color.
+ * Composes KuiText's variant input; link tone owns interactive color.
  * See docs/link.md for usage and accessibility requirements.
  */
 @Directive({
   selector: 'a[kuiLink], button[kuiLink]',
-  hostDirectives: [{ directive: KuiTextDirective, inputs: ['variant'] }],
+  hostDirectives: [{ directive: KuiText, inputs: ['variant'] }],
   providers: [{ provide: KUI_TEXT_IGNORES_DEFAULTS, useValue: true }],
   host: {
     class: 'kui-link',
@@ -48,7 +48,7 @@ type KuiLinkEndSlot =
     '(click)': 'handleClick($event)',
   },
 })
-export class KuiLinkDirective {
+export class KuiLink {
   /** Semantic color intent. Defaults to `defaults.link.tone`, then `primary`. Unaffected by hover/focus/active -- only underline thickness and the
    * focus ring change between those states and rest. */
   readonly tone = input<KuiLinkTone | undefined>();
@@ -62,7 +62,7 @@ export class KuiLinkDirective {
 
   /** Decorative icon rendered after the link's projected content. When `external` resolves to
    * `true` and this is unset, the library's own static external-link chrome glyph takes the slot
-   * instead (see `KuiLinkExternalIconComponent`) -- not the async, name-resolved `kui-icon`. */
+   * instead (see `KuiLinkExternalIcon`) -- not the async, name-resolved `kui-icon`. */
   readonly iconEnd = input<KuiIconName | undefined>();
 
   /** Native anchor `target`, reflected onto the host and used to auto-detect `external`. */
@@ -88,7 +88,7 @@ export class KuiLinkDirective {
   private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  private iconStartRef: ComponentRef<KuiIconComponent> | null = null;
+  private iconStartRef: ComponentRef<KuiIcon> | null = null;
   private endSlot: KuiLinkEndSlot | null = null;
   private externalHintEl: HTMLElement | null = null;
 
@@ -121,7 +121,7 @@ export class KuiLinkDirective {
   );
 
   constructor() {
-    // See KuiButtonDirective for why icon/hint DOM mutation is skipped during SSR: it would
+    // See KuiButton for why icon/hint DOM mutation is skipped during SSR: it would
     // insert markup the client's hydration pass does not expect and crash it. The client
     // inserts once hydrated instead.
     if (!this.isBrowser) {
@@ -152,8 +152,8 @@ export class KuiLinkDirective {
 
   private syncStartIcon(
     name: KuiIconName | undefined,
-    existing: ComponentRef<KuiIconComponent> | null,
-  ): ComponentRef<KuiIconComponent> | null {
+    existing: ComponentRef<KuiIcon> | null,
+  ): ComponentRef<KuiIcon> | null {
     if (!name) {
       existing?.destroy();
       return null;
@@ -164,7 +164,7 @@ export class KuiLinkDirective {
       return existing;
     }
 
-    const created = this.viewContainerRef.createComponent(KuiIconComponent);
+    const created = this.viewContainerRef.createComponent(KuiIcon);
     created.setInput('name', name);
     this.renderer.addClass(created.location.nativeElement, 'kui-link__icon-start');
     this.renderer.insertBefore(this.host, created.location.nativeElement, this.host.firstChild);
@@ -175,7 +175,7 @@ export class KuiLinkDirective {
   /**
    * The end slot holds either a consumer-chosen `kui-icon` (`iconEnd`) or, when `external`
    * resolves to `true` and `iconEnd` is unset, the library's own static external-link chrome
-   * glyph (`KuiLinkExternalIconComponent`) -- never both. Rebuilds the slot only when which kind
+   * glyph (`KuiLinkExternalIcon`) -- never both. Rebuilds the slot only when which kind
    * it should hold changes; an icon *name* change while already showing an icon just updates the
    * existing component's input.
    */
@@ -197,7 +197,7 @@ export class KuiLinkDirective {
         return;
       }
 
-      const ref = this.viewContainerRef.createComponent(KuiIconComponent);
+      const ref = this.viewContainerRef.createComponent(KuiIcon);
       ref.setInput('name', iconEnd);
       this.renderer.addClass(ref.location.nativeElement, 'kui-link__icon-end');
       this.renderer.appendChild(this.host, ref.location.nativeElement);
@@ -206,7 +206,7 @@ export class KuiLinkDirective {
     }
 
     if (!this.endSlot) {
-      const ref = this.viewContainerRef.createComponent(KuiLinkExternalIconComponent);
+      const ref = this.viewContainerRef.createComponent(KuiLinkExternalIcon);
       this.renderer.appendChild(this.host, ref.location.nativeElement);
       this.endSlot = { kind: 'external', ref };
     }

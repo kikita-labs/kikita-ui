@@ -5,10 +5,10 @@ import { By } from '@angular/platform-browser';
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { KuiDropdownComponent } from '../dropdown';
-import { KuiFieldComponent } from '../field/kui-field.component';
-import { KuiTimePickerDirective } from './kui-time-picker.directive';
-import { KuiTimePickerPanelComponent } from './kui-time-picker-panel.component';
+import { KuiDropdown } from '../dropdown';
+import { KuiField } from '../field/kui-field.component';
+import { KuiTimePicker } from './kui-time-picker.directive';
+import { KuiTimePickerPanel } from './kui-time-picker-panel.component';
 
 @Component({
   template: `
@@ -29,12 +29,7 @@ import { KuiTimePickerPanelComponent } from './kui-time-picker-panel.component';
       </kui-dropdown>
     </kui-field>
   `,
-  imports: [
-    KuiFieldComponent,
-    KuiDropdownComponent,
-    KuiTimePickerDirective,
-    KuiTimePickerPanelComponent,
-  ],
+  imports: [KuiField, KuiDropdown, KuiTimePicker, KuiTimePickerPanel],
 })
 class TestTimePickerHost {
   readonly value = signal<Date | null>(null);
@@ -56,12 +51,7 @@ class TestTimePickerHost {
       </kui-dropdown>
     </kui-field>
   `,
-  imports: [
-    KuiFieldComponent,
-    KuiDropdownComponent,
-    KuiTimePickerDirective,
-    KuiTimePickerPanelComponent,
-  ],
+  imports: [KuiField, KuiDropdown, KuiTimePicker, KuiTimePickerPanel],
 })
 class StaticStepsTimePickerHost {}
 
@@ -70,7 +60,7 @@ function clickInput(input: HTMLInputElement): void {
   input.click();
 }
 
-describe('KuiTimePickerDirective', () => {
+describe('KuiTimePicker', () => {
   let fixture: ComponentFixture<TestTimePickerHost>;
   let host: HTMLElement;
 
@@ -370,7 +360,7 @@ describe('KuiTimePickerDirective', () => {
   });
 });
 
-describe('KuiTimePickerDirective static step attributes', () => {
+describe('KuiTimePicker static step attributes', () => {
   afterEach(() => {
     document.querySelector('.cdk-overlay-container')?.replaceChildren();
   });
@@ -383,8 +373,8 @@ describe('KuiTimePickerDirective static step attributes', () => {
     fixture.detectChanges();
 
     const directive = fixture.debugElement
-      .query(By.directive(KuiTimePickerDirective))
-      .injector.get(KuiTimePickerDirective);
+      .query(By.directive(KuiTimePicker))
+      .injector.get(KuiTimePicker);
 
     expect(directive.hourStep()).toBe(3);
     expect(directive.minuteStep()).toBe(1);

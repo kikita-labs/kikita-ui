@@ -1,7 +1,7 @@
 import type { Signal } from '@angular/core';
 import { InjectionToken } from '@angular/core';
 
-/** Shared context provided by KuiAccordionComponent to item children. */
+/** Shared context provided by KuiAccordion to item children. */
 export interface KuiAccordionContext {
   readonly expandedItems: Signal<string[]>;
   toggle(id: string): void;

@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiGlyphComponent } from './kui-glyph.component';
+import { KuiGlyph } from './kui-glyph.component';
 import type { KuiIconGlyph } from './kui-icon-glyph.type';
 
 @Component({
-  imports: [KuiGlyphComponent],
+  imports: [KuiGlyph],
   template: `<svg width="16" height="16" [kuiGlyph]="glyph()" [kuiGlyphStroke]="stroke()"></svg>`,
 })
 class GlyphHost {
@@ -28,7 +28,7 @@ function render() {
   };
 }
 
-describe('KuiGlyphComponent', () => {
+describe('KuiGlyph', () => {
   it('renders the glyph as an inline svg that follows currentColor and is hidden from assistive technology', () => {
     const { svg } = render();
 

@@ -10,7 +10,7 @@ import type { KuiSize } from '../../types';
 import type { KuiActiveSortState, KuiSortState } from './types';
 
 /** Injection token used by table child directives to access their parent table state. */
-export const KUI_TABLE_CTX = new InjectionToken<KuiTableDirective>('KuiTableContext');
+export const KUI_TABLE_CTX = new InjectionToken<KuiTable>('KuiTableContext');
 
 function defaultCompare(a: unknown, b: unknown): number {
   if (a == null && b == null) return 0;
@@ -27,9 +27,9 @@ function defaultCompare(a: unknown, b: unknown): number {
     class: 'kui-table',
     '[attr.data-kui-size]': 'effectiveSize()',
   },
-  providers: [{ provide: KUI_TABLE_CTX, useExisting: KuiTableDirective }],
+  providers: [{ provide: KUI_TABLE_CTX, useExisting: KuiTable }],
 })
-export class KuiTableDirective<T = unknown> {
+export class KuiTable<T = unknown> {
   readonly data = input<T[]>([]);
   /** Table size. Defaults to `defaults.table.size`, then the global `defaults.size`, then md. */
   readonly size = input<KuiSize | undefined>();

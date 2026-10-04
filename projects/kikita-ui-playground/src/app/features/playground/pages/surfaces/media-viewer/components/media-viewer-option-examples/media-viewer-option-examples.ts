@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 
-import { KuiButtonDirective, kuiMediaViewer } from '@kikita-labs/ui';
+import { KuiButton, kuiMediaViewer } from '@kikita-labs/ui';
 
 import { MEDIA_VIEWER_GALLERY_SIZE } from '@features/playground/pages/surfaces/media-viewer/constants';
 import { MediaViewerPhotos } from '@features/playground/pages/surfaces/media-viewer/services';
@@ -9,7 +9,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows single-photo mode, index clamping, a custom accessible name, and custom zoom bounds. */
 @Component({
   selector: 'app-media-viewer-option-examples',
-  imports: [KuiButtonDirective, TranslocoPipe],
+  imports: [KuiButton, TranslocoPipe],
   templateUrl: './media-viewer-option-examples.html',
   styleUrl: './media-viewer-option-examples.scss',
 })

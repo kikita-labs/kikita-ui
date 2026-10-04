@@ -18,7 +18,7 @@ import {
   KUI_GLYPH_FOLDER,
   KUI_GLYPH_FOLDER_OPEN,
 } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import { KuiGlyph } from '../icon/kui-glyph.component';
 import { KUI_TREE_CONTEXT } from './kui-tree-context.token';
 import type { KuiTreeNode } from './kui-tree-node.interface';
 
@@ -29,12 +29,12 @@ import type { KuiTreeNode } from './kui-tree-node.interface';
  */
 @Component({
   selector: 'kui-tree-node',
-  imports: [KuiTreeNodeComponent, KuiGlyphComponent],
+  imports: [KuiTreeRow, KuiGlyph],
   templateUrl: './kui-tree-node.component.html',
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders one interactive row in a Kikita UI tree. */
-export class KuiTreeNodeComponent {
+export class KuiTreeRow {
   private readonly treeDefaults = inject(KuiDefaults).get('tree');
   protected readonly common = injectKuiMessages('common');
 

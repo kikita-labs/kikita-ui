@@ -7,17 +7,13 @@ import { describe, expect, it } from 'vitest';
 
 import { provideKikitaUi } from '../../root';
 import { kuiProvideFieldOptions } from '../../tokens';
-import { KuiInputDirective } from '../input';
-import { KuiFieldComponent } from './kui-field.component';
-import { KuiFieldActionDirective, KuiFieldAffixDirective } from './kui-field-affix.directive';
-import {
-  KuiErrorDirective,
-  KuiHintDirective,
-  KuiLabelDirective,
-} from './kui-field-markers.directive';
+import { KuiInput } from '../input';
+import { KuiField } from './kui-field.component';
+import { KuiFieldAction, KuiFieldAffix } from './kui-field-affix.directive';
+import { KuiError, KuiHint, KuiLabel } from './kui-field-markers.directive';
 
 @Component({
-  imports: [KuiFieldComponent],
+  imports: [KuiField],
   template: `
     <kui-field label="Email" required>
       <input />
@@ -27,7 +23,7 @@ import {
 class StaticRequiredHost {}
 
 @Component({
-  imports: [KuiFieldComponent, KuiInputDirective],
+  imports: [KuiField, KuiInput],
   template: `
     <kui-field label="First field">
       <input kuiInput />
@@ -40,7 +36,7 @@ class StaticRequiredHost {}
 class MultipleGeneratedFieldIdsHost {}
 
 @Component({
-  imports: [FormField, KuiFieldComponent, KuiInputDirective],
+  imports: [FormField, KuiField, KuiInput],
   template: `
     <kui-field label="Email">
       <input kuiInput [formField]="profileForm.email" />
@@ -55,7 +51,7 @@ class SignalFormsRequiredHost {
 }
 
 @Component({
-  imports: [FormField, KuiFieldComponent, KuiInputDirective],
+  imports: [FormField, KuiField, KuiInput],
   template: `
     <kui-field label="Email" [required]="false">
       <input kuiInput [formField]="profileForm.email" />
@@ -70,7 +66,7 @@ class ExplicitRequiredFalseHost {
 }
 
 @Component({
-  imports: [FormField, KuiFieldComponent, KuiInputDirective],
+  imports: [FormField, KuiField, KuiInput],
   template: `
     <kui-field label="Email" hideErrors>
       <input kuiInput [formField]="profileForm.email" />
@@ -85,7 +81,7 @@ class HiddenSignalFormsErrorHost {
 }
 
 @Component({
-  imports: [KuiFieldComponent],
+  imports: [KuiField],
   template: `
     <kui-field label="Email" error="Email is required" hideErrors>
       <input />
@@ -95,7 +91,7 @@ class HiddenSignalFormsErrorHost {
 class HiddenExplicitErrorHost {}
 
 @Component({
-  imports: [FormField, KuiFieldComponent, KuiInputDirective],
+  imports: [FormField, KuiField, KuiInput],
   template: `
     <kui-field label="Email">
       <input kuiInput [formField]="profileForm.email" />
@@ -110,7 +106,7 @@ class ProviderFieldOptionsHost {
 }
 
 @Component({
-  imports: [KuiFieldComponent],
+  imports: [KuiField],
   template: `
     <kui-field label="Email">
       <input />
@@ -120,13 +116,7 @@ class ProviderFieldOptionsHost {
 class RootDefaultFieldHost {}
 
 @Component({
-  imports: [
-    KuiErrorDirective,
-    KuiFieldComponent,
-    KuiHintDirective,
-    KuiInputDirective,
-    KuiLabelDirective,
-  ],
+  imports: [KuiError, KuiField, KuiHint, KuiInput, KuiLabel],
   template: `
     <kui-field>
       <label kuiLabel>Email</label>
@@ -139,13 +129,7 @@ class RootDefaultFieldHost {}
 class ProjectedFieldContentHost {}
 
 @Component({
-  imports: [
-    KuiErrorDirective,
-    KuiFieldComponent,
-    KuiHintDirective,
-    KuiInputDirective,
-    KuiLabelDirective,
-  ],
+  imports: [KuiError, KuiField, KuiHint, KuiInput, KuiLabel],
   template: `
     <kui-field hideErrors>
       <label kuiLabel>Email</label>
@@ -158,7 +142,7 @@ class ProjectedFieldContentHost {}
 class HiddenProjectedErrorHost {}
 
 @Component({
-  imports: [KuiFieldAffixDirective, KuiFieldComponent, KuiInputDirective],
+  imports: [KuiFieldAffix, KuiField, KuiInput],
   template: `
     <kui-field label="Project URL">
       <span kuiFieldAffix>https://</span>
@@ -169,7 +153,7 @@ class HiddenProjectedErrorHost {}
 class AffixContentHost {}
 
 @Component({
-  imports: [KuiFieldActionDirective, KuiFieldComponent, KuiInputDirective],
+  imports: [KuiFieldAction, KuiField, KuiInput],
   template: `
     <kui-field label="Search">
       <input kuiInput />
@@ -180,7 +164,7 @@ class AffixContentHost {}
 class FieldActionContentHost {}
 
 @Component({
-  imports: [KuiFieldComponent, KuiInputDirective],
+  imports: [KuiField, KuiInput],
   template: `
     <kui-field label="No affixes">
       <input kuiInput />
@@ -197,7 +181,7 @@ function errorMessage(fixture: ComponentFixture<unknown>): HTMLElement | null {
   return fixture.nativeElement.querySelector('.kui-field__error');
 }
 
-describe('KuiFieldComponent', () => {
+describe('KuiField', () => {
   it('generates unique control ids and associates each label with its control', async () => {
     await TestBed.configureTestingModule({
       imports: [MultipleGeneratedFieldIdsHost],

@@ -19,7 +19,7 @@ released component API and leaves tab visuals to the library stylesheet.
 | `[kuiTab] errorLabel`         | `string`; source default `'has error'`                                     | The payment error example supplies the translated label and E2E checks its runtime English/Russian accessible name. The docs omit this input.                                                                                                   |
 | `[kuiTabPanel] value`         | `string`, source default `''`                                              | Matched panels remain mounted and inactive panels are hidden. E2E checks selected and hidden panels in the minimal default and selected content after keyboard changes.                                                                         |
 
-`KuiTabsComponent`, `KuiTabDirective`, `KuiTabPanelDirective`, `KuiTabsVariant`, and
+`KuiTabs`, `KuiTab`, `KuiTabPanel`, `KuiTabsVariant`, and
 `KuiTabsOrientation` are public exports. `KuiSize` is also public. The shared tabs context is an
 internal coordination detail. No explicit output declarations or panel-selection outputs exist;
 the two model outputs are Angular's implicit `valueChange` and deprecated `selectedChange`.

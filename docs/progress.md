@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiProgressComponent } from '@kikita-labs/ui';
+import { KuiProgress } from '@kikita-labs/ui';
 ```
 
 ## Linear
@@ -60,7 +60,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     progress: {
       /* options below */
     },

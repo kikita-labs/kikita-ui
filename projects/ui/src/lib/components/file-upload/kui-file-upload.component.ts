@@ -21,8 +21,8 @@ import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
 import { kuiNextId } from '../../utils/kui-id.util';
-import { KuiButtonDirective } from '../button';
-import { KuiFieldActionDirective } from '../field';
+import { KuiButton } from '../button';
+import { KuiFieldAction } from '../field';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import {
   KUI_GLYPH_CHECK,
@@ -32,9 +32,9 @@ import {
   KUI_GLYPH_PLUS_MINI,
   KUI_GLYPH_X,
 } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
-import { KuiLinkDirective } from '../link';
-import { KuiProgressComponent } from '../progress';
+import { KuiGlyph } from '../icon/kui-glyph.component';
+import { KuiLink } from '../link';
+import { KuiProgress } from '../progress';
 import type { KuiUploadFile, KuiUploadFileStatus } from './kui-upload-file.interface';
 
 /** Visual layout of `kui-file-upload`. */
@@ -92,13 +92,7 @@ function detectKind(name: string): KuiFileKind | null {
 @Component({
   selector: 'kui-file-upload',
   templateUrl: './kui-file-upload.component.html',
-  imports: [
-    KuiButtonDirective,
-    KuiFieldActionDirective,
-    KuiLinkDirective,
-    KuiProgressComponent,
-    KuiGlyphComponent,
-  ],
+  imports: [KuiButton, KuiFieldAction, KuiLink, KuiProgress, KuiGlyph],
   host: {
     class: 'kui-file-upload',
     '[attr.data-kui-size]': 'effectiveSize()',
@@ -108,7 +102,7 @@ function detectKind(name: string): KuiFileKind | null {
   encapsulation: ViewEncapsulation.None,
 })
 /** Provides a drag-and-drop file upload surface with native file input semantics. */
-export class KuiFileUploadComponent {
+export class KuiFileUpload {
   protected readonly cloudUploadGlyph = KUI_GLYPH_CLOUD_UPLOAD;
   protected readonly plusGlyph = KUI_GLYPH_PLUS_MINI;
   protected readonly alertGlyph = KUI_GLYPH_CIRCLE_ALERT;

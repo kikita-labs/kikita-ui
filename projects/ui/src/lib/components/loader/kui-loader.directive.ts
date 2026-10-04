@@ -16,7 +16,7 @@ import type { KuiSize } from '../../types';
     '[attr.aria-label]': 'effectiveLabel()',
   },
 })
-export class KuiLoaderDirective {
+export class KuiLoader {
   /** Loader size. Defaults to `defaults.loader.size`, then the global `defaults.size`, then md. */
   readonly size = input<KuiSize | undefined>();
 

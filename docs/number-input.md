@@ -6,7 +6,7 @@ controls to a native `input[type=number]` element.
 ## Import
 
 ```ts
-import { KuiNumberInputDirective } from '@kikita-labs/ui';
+import { KuiNumberInput } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -87,7 +87,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     numberInput: {
       /* options below */
     },

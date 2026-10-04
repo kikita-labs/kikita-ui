@@ -3,7 +3,7 @@ import { inject, Injector } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
-import { KuiDialogService } from './kui-dialog.service';
+import { KuiDialog } from './kui-dialog.service';
 import type { KuiDialogConfig } from './kui-dialog.types';
 import type { KuiDialogHost } from './kui-dialog-context.token';
 
@@ -43,7 +43,7 @@ export function kuiDialog<TComponent extends KuiDialogHost<unknown, unknown>>(
   component: Type<TComponent>,
   config?: Omit<KuiDialogConfig, 'data'>,
 ): (data: InferDialogData<TComponent>) => Observable<InferDialogResult<TComponent> | undefined> {
-  const service = inject(KuiDialogService);
+  const service = inject(KuiDialog);
   const injector = inject(Injector);
   return (data: InferDialogData<TComponent>) =>
     service.open(

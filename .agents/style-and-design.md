@@ -100,7 +100,7 @@ var(--kui-color-surface)`: an alias on `:root` is resolved there and descendants
 
 | Text responsibility                                               | Implementation                                                               |
 | ----------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| Consumer-facing typography role, such as Link variant             | Compose `KuiTextDirective`, explicitly exposing only intended inputs         |
+| Consumer-facing typography role, such as Link variant             | Compose `KuiText`, explicitly exposing only intended inputs                  |
 | Component label with size, selection, disabled, or severity state | Use component/semantic CSS tokens; keep state colors owned by the component  |
 | Projected rich content                                            | Preserve consumer markup and native semantics; avoid automatic text wrappers |
 | SVG axes and marks                                                | Use SVG/CSS typography; do not add HTML text wrappers                        |

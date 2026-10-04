@@ -3,37 +3,37 @@ import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { provideKuiIcons } from '../icon';
-import { KuiLinkDirective } from './kui-link.directive';
+import { KuiLink } from './kui-link.directive';
 
 const DOWNLOAD_ICON = '<svg viewBox="0 0 16 16"><path d="M8 2v8m-3-3l3 3 3-3" /></svg>';
 
 @Component({
-  imports: [KuiLinkDirective],
+  imports: [KuiLink],
   template:
     '<a kuiLink variant="body-sm" tone="danger" underline="always" href="/account/delete">Delete</a>',
 })
 class ToneUnderlineHost {}
 
 @Component({
-  imports: [KuiLinkDirective],
+  imports: [KuiLink],
   template: '<a kuiLink href="/blocked" disabled>Blocked</a>',
 })
 class DisabledAnchorHost {}
 
 @Component({
-  imports: [KuiLinkDirective],
+  imports: [KuiLink],
   template: '<button kuiLink type="button" disabled>Copy</button>',
 })
 class DisabledButtonHost {}
 
 @Component({
-  imports: [KuiLinkDirective],
+  imports: [KuiLink],
   template: '<a kuiLink href="https://example.com" target="_blank">External docs</a>',
 })
 class AutoExternalHost {}
 
 @Component({
-  imports: [KuiLinkDirective],
+  imports: [KuiLink],
   template:
     '<a kuiLink href="https://example.com" [external]="external()" [iconEnd]="iconEnd()">Docs</a>',
 })
@@ -43,7 +43,7 @@ class ExplicitExternalHost {
 }
 
 @Component({
-  imports: [KuiLinkDirective],
+  imports: [KuiLink],
   template: '<a kuiLink [iconStart]="startIcon()" href="/report">Download report</a>',
 })
 class IconStartHost {
@@ -51,18 +51,18 @@ class IconStartHost {
 }
 
 @Component({
-  imports: [KuiLinkDirective],
+  imports: [KuiLink],
   template: '<a kuiLink href="/docs">Docs</a>',
 })
 class DefaultHost {}
 
 @Component({
-  imports: [KuiLinkDirective],
+  imports: [KuiLink],
   template: '<a kuiLink href="https://example.com" target="_blank" rel="author">Docs</a>',
 })
 class CustomRelHost {}
 
-describe('KuiLinkDirective', () => {
+describe('KuiLink', () => {
   it('reflects tone and underline as host attributes, and forwards variant to composed [kuiText]', () => {
     const fixture = createFixture(ToneUnderlineHost);
 

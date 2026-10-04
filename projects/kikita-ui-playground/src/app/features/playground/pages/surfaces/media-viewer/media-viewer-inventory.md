@@ -5,7 +5,7 @@ contract-to-example map. The implementation review below found the additional li
 recorded as discrepancies 9 to 13.
 
 The Media Viewer page is an imperative consumer showcase. `kuiMediaViewer()` is an opener over
-`KuiDialogService` (size `fullscreen`, `dismissable: true`, `closable: false`); the public surface
+`KuiDialog` (size `fullscreen`, `dismissable: true`, `closable: false`); the public surface
 has no component inputs, models, or outputs. The page never invents any.
 
 ## Public contract map
@@ -25,14 +25,14 @@ has no component inputs, models, or outputs. The page never invents any.
 | `KuiMediaViewerData` / `KuiMediaViewerItem` | Public types, JSDoc present.                                                                                                                                  | Type-only; the page uses them for typed data. No visual state.                                                                                               |
 | Public outputs / models                     | None.                                                                                                                                                         | Not claimed.                                                                                                                                                 |
 
-Not public and therefore not demonstrated as API: `KuiMediaViewerComponent` (`@internal`),
-`KuiDialogService` handle, `KuiDialogRef`.
+Not public and therefore not demonstrated as API: `KuiMediaViewerDialog` (`@internal`),
+`KuiDialog` handle, `KuiDialogRef`.
 
 ## States and behavior
 
 | State or edge case                      | Source of truth                                                                                                  | Page mapping and browser evidence                                                                                                                                                                                                                                                  |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Open from a tile (pointer and keyboard) | docs Usage; `KuiDialogService.open`                                                                              | Grid of native `<button>` tiles. E2E opens by click and by focus + Enter/Space.                                                                                                                                                                                                    |
+| Open from a tile (pointer and keyboard) | docs Usage; `KuiDialog.open`                                                                                     | Grid of native `<button>` tiles. E2E opens by click and by focus + Enter/Space.                                                                                                                                                                                                    |
 | Modal semantics                         | Container: `role="dialog"`, `aria-modal="true"`; hidden `h2.kui-dialog-title`                                    | E2E asserts `getByRole('dialog', { name: 'Photo viewer, photo 2 of 6' })` and `aria-modal`. Single photo name is just `Photo viewer`.                                                                                                                                              |
 | Counter                                 | `aria-live="polite"`, `N / total`; absent for one photo                                                          | E2E asserts the counter text after each navigation and its absence for a single photo.                                                                                                                                                                                             |
 | Previous/Next, bounds                   | native `disabled` at 0 and last; not rendered for one photo                                                      | E2E: Previous disabled on photo 1, Next disabled on the last, neither rendered in single-photo mode.                                                                                                                                                                               |
@@ -114,7 +114,7 @@ disabled while focused')`. Escape still closes the viewer because the CDK dispat
    Documented behavior, not a defect.
 8. Pan clamp is a fixed `120px * (zoom - 1)` budget, not the photo's rendered size (documented in
    "Explicitly Not Included").
-9. Light theme: `KuiMediaViewerComponent`'s host is `display: contents` (set by the dialog
+9. Light theme: `KuiMediaViewerDialog`'s host is `display: contents` (set by the dialog
    container), so `.kui-media-viewer`'s dark scrim background never paints. In the light theme the
    white chrome (counter, zoom, close, Prev/Next) sits on the light dialog panel with a measured
    contrast ratio of about 1.03. Recorded as a library defect with

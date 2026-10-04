@@ -26,7 +26,7 @@ import type { KuiGroupOrientation } from './kui-group-orientation.type';
     '[style.grid-template-columns]': 'fieldColumns()',
   },
 })
-export class KuiGroupDirective {
+export class KuiGroup {
   /** Group layout direction. Defaults to `defaults.group.orientation`, then `horizontal`. */
   readonly orientation = input<KuiGroupOrientation | undefined>();
 

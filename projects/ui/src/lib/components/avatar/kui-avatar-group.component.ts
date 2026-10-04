@@ -4,7 +4,7 @@ import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import { optionalPositiveIntegerAttribute } from '../../utils/kui-input-transform.util';
-import { KuiAvatarComponent } from './kui-avatar.component';
+import { KuiAvatar } from './kui-avatar.component';
 import type { KuiAvatarItem } from './kui-avatar-item.interface';
 import type { KuiAvatarShape } from './kui-avatar-shape.type';
 import type { KuiAvatarSize } from './kui-avatar-size.type';
@@ -12,7 +12,7 @@ import type { KuiAvatarSize } from './kui-avatar-size.type';
 /** Renders an overlapping avatar stack with an overflow avatar when items exceed the limit. */
 @Component({
   selector: 'kui-avatar-group',
-  imports: [KuiAvatarComponent],
+  imports: [KuiAvatar],
   templateUrl: './kui-avatar-group.component.html',
   host: {
     class: 'kui-avatar-group',
@@ -23,7 +23,7 @@ import type { KuiAvatarSize } from './kui-avatar-size.type';
     '[attr.title]': 'null',
   },
 })
-export class KuiAvatarGroupComponent {
+export class KuiAvatarGroup {
   /** Avatar items rendered by the group. */
   readonly avatars = input<readonly KuiAvatarItem[]>([]);
 

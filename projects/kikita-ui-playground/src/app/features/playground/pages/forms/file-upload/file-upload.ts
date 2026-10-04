@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiTextDirective } from '@kikita-labs/ui';
+import { KuiText } from '@kikita-labs/ui';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
@@ -21,7 +21,7 @@ import {
     FileUploadSizes,
     FileUploadStates,
     FileUploadValidation,
-    KuiTextDirective,
+    KuiText,
     TranslocoPipe,
   ],
   templateUrl: './file-upload.html',

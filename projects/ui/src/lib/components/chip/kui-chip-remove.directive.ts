@@ -1,6 +1,6 @@
 import { Directive, HostListener, inject } from '@angular/core';
 
-import { KuiChipDirective } from './kui-chip.directive';
+import { KuiChip } from './kui-chip.directive';
 
 /** Marks a native button as the remove affordance inside `[kuiChip]`. */
 @Directive({
@@ -13,8 +13,8 @@ import { KuiChipDirective } from './kui-chip.directive';
     '[attr.disabled]': 'chip.disabled() ? "" : null',
   },
 })
-export class KuiChipRemoveDirective {
-  protected readonly chip = inject(KuiChipDirective, { host: true });
+export class KuiChipRemove {
+  protected readonly chip = inject(KuiChip, { host: true });
 
   @HostListener('click', ['$event'])
   protected onClick(event: MouseEvent): void {

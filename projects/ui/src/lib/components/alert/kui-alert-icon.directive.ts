@@ -25,4 +25,4 @@ import { Directive } from '@angular/core';
     '[style.color]': "'var(--kui-alert-icon-color, var(--_kui-alert-icon-color, currentColor))'",
   },
 })
-export class KuiAlertIconDirective {}
+export class KuiAlertIcon {}

@@ -4,14 +4,14 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it } from 'vitest';
 
-import type { KuiChartLegendItem, KuiChartLegendSource } from '../chart.types';
-import { KuiChartLegendComponent } from './kui-chart-legend.component';
-import { KuiChartLegendItemDirective } from './kui-chart-legend-item.directive';
+import type { KuiChartLegendEntry, KuiChartLegendSource } from '../chart.types';
+import { KuiChartLegend } from './kui-chart-legend.component';
+import { KuiChartLegendItem } from './kui-chart-legend-item.directive';
 
 /** Minimal `KuiChartLegendSource` fake -- isolates these tests from any real chart component's
  * data-normalization/scale logic, since `kui-chart-legend` only ever reads this interface. */
 class FakeChartLegendSource implements KuiChartLegendSource {
-  private readonly items = signal<readonly KuiChartLegendItem[]>([
+  private readonly items = signal<readonly KuiChartLegendEntry[]>([
     { id: 'a', label: 'Series A', color: 'red', hidden: false },
     { id: 'b', label: 'Series B', color: 'blue', hidden: true },
   ]);
@@ -32,7 +32,7 @@ class FakeChartLegendSource implements KuiChartLegendSource {
 }
 
 @Component({
-  imports: [KuiChartLegendComponent],
+  imports: [KuiChartLegend],
   template: `<kui-chart-legend [chart]="chart" />`,
 })
 class HostComponent {
@@ -50,7 +50,7 @@ function legendButtons(fixture: ComponentFixture<HostComponent>): HTMLButtonElem
   return Array.from(fixture.nativeElement.querySelectorAll('.kui-chart__legend-item'));
 }
 
-describe('KuiChartLegendComponent', () => {
+describe('KuiChartLegend', () => {
   it('renders one item per legendItems() entry, reflecting hidden state', () => {
     const fixture = createFixture();
     const buttons = legendButtons(fixture);
@@ -77,7 +77,7 @@ describe('KuiChartLegendComponent', () => {
 });
 
 @Component({
-  imports: [KuiChartLegendComponent, KuiChartLegendItemDirective],
+  imports: [KuiChartLegend, KuiChartLegendItem],
   template: `
     <kui-chart-legend [chart]="chart">
       <ng-template kuiChartLegendItem let-item>
@@ -90,7 +90,7 @@ class CustomTemplateHostComponent {
   readonly chart = new FakeChartLegendSource();
 }
 
-describe('KuiChartLegendComponent with a custom kuiChartLegendItem template', () => {
+describe('KuiChartLegend with a custom kuiChartLegendItem template', () => {
   it('renders the projected template instead of the built-in button markup', () => {
     TestBed.configureTestingModule({ imports: [CustomTemplateHostComponent] });
     const fixture = TestBed.createComponent(CustomTemplateHostComponent);

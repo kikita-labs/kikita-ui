@@ -8,7 +8,7 @@ import { mergeKuiDefaultsLayers, resolveKuiDefaultsLayer } from './kui-defaults-
 /**
  * Reads and changes the component defaults of the current injector level.
  *
- * The root instance is seeded by `provideKikitaUi({ defaults })`; `kuiProvideDefaults` adds a nested
+ * The root instance is seeded by `provideKikitaUi({ defaults })`; `provideKuiDefaults` adds a nested
  * level for a subtree. A level merges its own layer over the parent's effective defaults, so a
  * parent change reaches the child and a write never touches the parent. All state is held per
  * injector, so server requests never share it.

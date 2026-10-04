@@ -2,14 +2,14 @@ import { DecimalPipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
 
 import {
-  KuiCellDirective,
-  KuiRowDirective,
-  KuiSelectCellComponent,
-  KuiSelectThComponent,
-  KuiTableDirective,
-  KuiTextDirective,
-  KuiThDirective,
-  KuiThGroupDirective,
+  KuiCell,
+  KuiRow,
+  KuiSelectCell,
+  KuiSelectTh,
+  KuiTable,
+  KuiText,
+  KuiTh,
+  KuiThGroup,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -23,14 +23,14 @@ import type { TableMember } from '../../interfaces';
   selector: 'app-table-selection-examples',
   imports: [
     DecimalPipe,
-    KuiCellDirective,
-    KuiRowDirective,
-    KuiSelectCellComponent,
-    KuiSelectThComponent,
-    KuiTableDirective,
-    KuiTextDirective,
-    KuiThDirective,
-    KuiThGroupDirective,
+    KuiCell,
+    KuiRow,
+    KuiSelectCell,
+    KuiSelectTh,
+    KuiTable,
+    KuiText,
+    KuiTh,
+    KuiThGroup,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

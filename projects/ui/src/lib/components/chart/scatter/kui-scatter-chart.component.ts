@@ -10,17 +10,11 @@ import {
 
 import type { KuiChartMessages } from '../../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../../providers/kui-defaults.service';
-import { KuiButtonDirective } from '../../button';
-import {
-  KuiCellDirective,
-  KuiRowDirective,
-  KuiTableDirective,
-  KuiThDirective,
-  KuiThGroupDirective,
-} from '../../table';
+import { KuiButton } from '../../button';
+import { KuiCell, KuiRow, KuiTable, KuiTh, KuiThGroup } from '../../table';
 import type {
   KuiChartAxesOptions,
-  KuiChartLegendItem,
+  KuiChartLegendEntry,
   KuiChartLegendSource,
   KuiChartScatterSeries,
   KuiChartTooltipFormatter,
@@ -77,14 +71,7 @@ interface KuiScatterChartMark {
 
 @Component({
   selector: 'kui-scatter-chart',
-  imports: [
-    KuiButtonDirective,
-    KuiCellDirective,
-    KuiRowDirective,
-    KuiTableDirective,
-    KuiThDirective,
-    KuiThGroupDirective,
-  ],
+  imports: [KuiButton, KuiCell, KuiRow, KuiTable, KuiTh, KuiThGroup],
   templateUrl: './kui-scatter-chart.component.html',
   host: {
     class: 'kui-chart kui-scatter-chart',
@@ -103,7 +90,7 @@ interface KuiScatterChartMark {
  *
  * Implements {@link KuiChartLegendSource} -- see `kui-line-chart`'s matching class doc.
  */
-export class KuiScatterChartComponent implements KuiChartLegendSource {
+export class KuiScatterChart implements KuiChartLegendSource {
   /** Series to plot. Empty or omitted renders the empty state, never a blank canvas. */
   readonly series = input.required<readonly KuiChartScatterSeries[]>();
 
@@ -237,7 +224,7 @@ export class KuiScatterChartComponent implements KuiChartLegendSource {
   protected readonly legendSeries = computed(() => this.normalizedSeries());
 
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
-  readonly legendItems: () => readonly KuiChartLegendItem[] = computed(() =>
+  readonly legendItems: () => readonly KuiChartLegendEntry[] = computed(() =>
     this.legendSeries().map((s) => ({
       id: s.seriesId,
       label: s.seriesName,

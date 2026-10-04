@@ -2,12 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import {
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
-  KuiSelectDirective,
-} from '@kikita-labs/ui';
+import { KuiDropdown, KuiField, KuiOption, KuiSelect } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -17,14 +12,7 @@ const DEFAULT_ROLE_VALUES = ['designer', 'engineer', 'manager'] as const;
 /** Shows a minimally configured Select with its selected value status. */
 @Component({
   selector: 'app-select-default',
-  imports: [
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiOptionDirective,
-    KuiSelectDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [KuiDropdown, KuiField, KuiOption, KuiSelect, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './select-default.html',
   styleUrl: './select-default.scss',
 })

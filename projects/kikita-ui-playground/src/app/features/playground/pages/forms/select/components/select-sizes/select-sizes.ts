@@ -1,11 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import {
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
-  KuiSelectDirective,
-} from '@kikita-labs/ui';
+import { KuiDropdown, KuiField, KuiOption, KuiSelect } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -13,14 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Compares the supported Field sizes used by Select. */
 @Component({
   selector: 'app-select-sizes',
-  imports: [
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiOptionDirective,
-    KuiSelectDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [KuiDropdown, KuiField, KuiOption, KuiSelect, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './select-sizes.html',
   styleUrl: './select-sizes.scss',
 })

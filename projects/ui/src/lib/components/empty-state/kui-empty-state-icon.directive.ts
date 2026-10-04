@@ -8,4 +8,4 @@ import { Directive } from '@angular/core';
     'aria-hidden': 'true',
   },
 })
-export class KuiEmptyStateIconDirective {}
+export class KuiEmptyStateIcon {}

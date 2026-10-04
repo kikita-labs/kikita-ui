@@ -3,7 +3,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { KuiButtonDirective, kuiToast } from '@kikita-labs/ui';
+import { KuiButton, kuiToast } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -11,7 +11,7 @@ import type { KuiToastPosition, KuiToastRef } from '@kikita-labs/ui';
 
 @Component({
   selector: 'app-toast-positions',
-  imports: [KuiButtonDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiButton, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './toast-positions.html',
   styleUrl: './toast-positions.scss',
 })

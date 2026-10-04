@@ -3,7 +3,7 @@ import { form, FormField } from '@angular/forms/signals';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { KuiFieldComponent, KuiNumberInputDirective } from '@kikita-labs/ui';
+import { KuiField, KuiNumberInput } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -14,13 +14,7 @@ import { createNumberInputValidationSchema } from './helpers';
 /** Shows the numeric Field moving from untouched through invalid and back to valid. */
 @Component({
   selector: 'app-number-input-validation',
-  imports: [
-    FormField,
-    KuiFieldComponent,
-    KuiNumberInputDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [FormField, KuiField, KuiNumberInput, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './number-input-validation.html',
   styleUrl: './number-input-validation.scss',
 })

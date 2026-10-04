@@ -25,11 +25,11 @@ import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import type { KuiCommandPaletteMessages } from '../../i18n/kui-messages.interface';
 import { focusWhenRendered } from '../../utils/kui-focus-when-rendered.util';
 import { kuiNextId } from '../../utils/kui-id.util';
-import { KuiEmptyStateComponent, KuiEmptyStateIconDirective } from '../empty-state';
+import { KuiEmptyState, KuiEmptyStateIcon } from '../empty-state';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_SEARCH, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
-import { KuiSkeletonDirective } from '../skeleton';
+import { KuiGlyph } from '../icon/kui-glyph.component';
+import { KuiSkeleton } from '../skeleton';
 import type { KuiCommandGroup, KuiCommandItem } from './kui-command-palette.types';
 
 interface KuiCommandEntry {
@@ -45,17 +45,11 @@ interface KuiCommandLabelSegment {
 /** Searchable command palette dialog with grouped commands and keyboard navigation. */
 @Component({
   selector: 'kui-command-palette',
-  imports: [
-    CdkTrapFocus,
-    KuiEmptyStateComponent,
-    KuiEmptyStateIconDirective,
-    KuiGlyphComponent,
-    KuiSkeletonDirective,
-  ],
+  imports: [CdkTrapFocus, KuiEmptyState, KuiEmptyStateIcon, KuiGlyph, KuiSkeleton],
   templateUrl: './kui-command-palette.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class KuiCommandPaletteComponent implements OnDestroy {
+export class KuiCommandPalette implements OnDestroy {
   protected readonly searchGlyph = KUI_GLYPH_SEARCH;
 
   protected readonly clearGlyph = injectKuiGlyph({ role: 'clear', fallback: KUI_GLYPH_X });

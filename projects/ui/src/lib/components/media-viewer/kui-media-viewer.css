@@ -140,7 +140,7 @@
     transition: transform 150ms ease;
     touch-action: none;
     /*
-     * The pointer-drag pan (KuiMediaViewerComponent.onFramePointerDown/Move) competes with two
+     * The pointer-drag pan (KuiMediaViewerDialog.onFramePointerDown/Move) competes with two
      * browser-native gestures a plain <img> would otherwise start on the same mousedown+move:
      * the built-in "drag this image out" ghost, and (Firefox/Safari especially) selecting the
      * image as content. `[draggable=false]` on the element (template) plus `-webkit-user-drag`

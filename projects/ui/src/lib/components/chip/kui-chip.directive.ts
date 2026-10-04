@@ -35,7 +35,7 @@ import type { KuiChipSize } from './kui-chip-size.type';
     '[attr.disabled]': 'disabledAttr()',
   },
 })
-export class KuiChipDirective {
+export class KuiChip {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** Visual chip treatment mapped to Kikita UI semantic tokens. */

@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 
 import {
-  KuiCalendarComponent,
-  KuiDatePickerDirective,
-  KuiDropdownComponent,
-  KuiFieldComponent,
+  KuiCalendar,
+  KuiDatePicker,
+  KuiDropdown,
+  KuiField,
   kuiProvideFieldOptions,
 } from '@kikita-labs/ui';
 
@@ -17,10 +17,10 @@ import { createDatePickerCalendarLocale } from '../date-picker-calendar-locale';
 @Component({
   selector: 'app-date-picker-field-states',
   imports: [
-    KuiCalendarComponent,
-    KuiDatePickerDirective,
-    KuiDropdownComponent,
-    KuiFieldComponent,
+    KuiCalendar,
+    KuiDatePicker,
+    KuiDropdown,
+    KuiField,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiCardDirective } from './kui-card.directive';
+import { KuiCard } from './kui-card.directive';
 
 @Component({
-  imports: [KuiCardDirective],
+  imports: [KuiCard],
   template: '<article kuiCard appearance="elevated" interactive>Card</article>',
 })
 class CardHost {}
 
-describe('KuiCardDirective', () => {
+describe('KuiCard', () => {
   it('adds card host attributes for appearance and interactivity', () => {
     const fixture = createFixture(CardHost);
 

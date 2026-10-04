@@ -10,7 +10,7 @@ Chip is different from Badge:
 ## Import
 
 ```ts
-import { KuiChipDirective, KuiChipRemoveDirective } from '@kikita-labs/ui';
+import { KuiChip, KuiChipRemove } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:
@@ -53,8 +53,8 @@ of its own: project whatever content you want as the button's children, for exam
 </span>
 ```
 
-`kuiIconButton` is its own directive; import `KuiIconButtonDirective` alongside
-`KuiChipDirective`/`KuiChipRemoveDirective` to use this pattern. See [Icon
+`kuiIconButton` is its own directive; import `KuiIconButton` alongside
+`KuiChip`/`KuiChipRemove` to use this pattern. See [Icon
 Button](icon-button.md).
 
 Do not combine `removable` and a projected `button[kuiChipRemove]` on the same chip —
@@ -93,7 +93,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     chip: {
       /* options below */
     },

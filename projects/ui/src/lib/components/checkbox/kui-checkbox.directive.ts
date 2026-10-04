@@ -22,7 +22,7 @@ import { KUI_FIELD } from '../field/kui-field-host.token';
     '[attr.aria-invalid]': 'invalid() ? "true" : null',
   },
 })
-export class KuiCheckboxDirective {
+export class KuiCheckbox {
   /** Checkbox size mapped to Kikita UI checkbox tokens. Defaults to `defaults.checkbox.size`, then the parent field, then the global `defaults.size`, then `'md'`. */
   readonly size = input<KuiSize | undefined>();
 

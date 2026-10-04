@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiCellDirective } from './kui-cell.directive';
-import { KuiRowDirective } from './kui-row.directive';
-import { KuiSelectCellComponent } from './kui-select-cell.component';
-import { KuiSelectThComponent } from './kui-select-th.component';
-import { KuiTableDirective } from './kui-table.directive';
-import { KuiThDirective } from './kui-th.directive';
-import { KuiThGroupDirective } from './kui-th-group.directive';
+import { KuiCell } from './kui-cell.directive';
+import { KuiRow } from './kui-row.directive';
+import { KuiSelectCell } from './kui-select-cell.component';
+import { KuiSelectTh } from './kui-select-th.component';
+import { KuiTable } from './kui-table.directive';
+import { KuiTh } from './kui-th.directive';
+import { KuiThGroup } from './kui-th-group.directive';
 import type { KuiSortState } from './types';
 
 interface Row {
@@ -18,15 +18,7 @@ interface Row {
 }
 
 @Component({
-  imports: [
-    KuiCellDirective,
-    KuiRowDirective,
-    KuiSelectCellComponent,
-    KuiSelectThComponent,
-    KuiTableDirective,
-    KuiThDirective,
-    KuiThGroupDirective,
-  ],
+  imports: [KuiCell, KuiRow, KuiSelectCell, KuiSelectTh, KuiTable, KuiTh, KuiThGroup],
   template: `
     <table
       kuiTable
@@ -74,10 +66,10 @@ function getSortableButtons(fixture: ComponentFixture<TableHost>): HTMLButtonEle
   return [...fixture.nativeElement.querySelectorAll('.kui-th__sort-button')] as HTMLButtonElement[];
 }
 
-describe('KuiTableDirective', () => {
+describe('KuiTable', () => {
   it('allows a presentational row without a selection value', () => {
     @Component({
-      imports: [KuiCellDirective, KuiRowDirective, KuiTableDirective],
+      imports: [KuiCell, KuiRow, KuiTable],
       template: `<table kuiTable>
         <tbody>
           <tr kuiRow>
@@ -135,7 +127,7 @@ describe('KuiTableDirective', () => {
 
   it('sorts local data when sortChange is not observed', () => {
     @Component({
-      imports: [KuiCellDirective, KuiRowDirective, KuiTableDirective, KuiThDirective],
+      imports: [KuiCell, KuiRow, KuiTable, KuiTh],
       template: `
         <table kuiTable #table="kuiTable" [data]="rows">
           <thead>

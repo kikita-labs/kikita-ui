@@ -15,15 +15,15 @@ import type { KuiCalendarMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { KuiClock } from '../../utils/kui-clock.service';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
-import { KuiButtonDirective } from '../button/kui-button.directive';
+import { KuiButton } from '../button/kui-button.directive';
 import type {
   KuiCalendarDisabledPredicate,
   KuiCalendarSize,
   KuiDateRange,
 } from '../calendar/kui-calendar.types';
 import { KuiCalendarEngine } from '../calendar/kui-calendar-engine';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
-import { KuiSeparatorDirective } from '../separator/kui-separator.directive';
+import { KuiGlyph } from '../icon/kui-glyph.component';
+import { KuiSeparator } from '../separator/kui-separator.directive';
 
 /**
  * Inline month-grid date-range picker with month/year/decade navigation. Same visual grid
@@ -47,11 +47,11 @@ import { KuiSeparatorDirective } from '../separator/kui-separator.directive';
     '[attr.data-kui-flat]': "engine.effectiveFlat() ? '' : null",
     'data-kui-range': '',
   },
-  imports: [KuiButtonDirective, KuiSeparatorDirective, KuiGlyphComponent],
+  imports: [KuiButton, KuiSeparator, KuiGlyph],
   encapsulation: ViewEncapsulation.None,
 })
 /** Displays a navigable calendar grid for selecting a start/end date range. */
-export class KuiCalendarRangeComponent {
+export class KuiCalendarRange {
   private readonly clock = inject(KuiClock);
   private readonly injector = inject(Injector);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);

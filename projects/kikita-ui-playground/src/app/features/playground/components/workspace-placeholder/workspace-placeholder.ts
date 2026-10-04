@@ -1,12 +1,12 @@
 import { Component, input } from '@angular/core';
 
-import { KuiIconComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiIcon, KuiText } from '@kikita-labs/ui';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-workspace-placeholder',
-  imports: [KuiIconComponent, KuiTextDirective, TranslocoPipe],
+  imports: [KuiIcon, KuiText, TranslocoPipe],
   templateUrl: './workspace-placeholder.html',
   styleUrl: './workspace-placeholder.scss',
 })

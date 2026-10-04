@@ -1,11 +1,6 @@
 import { Component } from '@angular/core';
 
-import {
-  KuiButtonDirective,
-  KuiPopoverComponent,
-  KuiPopoverForDirective,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiButton, KuiPopover, KuiPopoverFor, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -20,10 +15,10 @@ import { PopoverContentExamples, PopoverFormExamples, PopoverPositionExamples } 
     PopoverContentExamples,
     PopoverFormExamples,
     PopoverPositionExamples,
-    KuiButtonDirective,
-    KuiPopoverComponent,
-    KuiPopoverForDirective,
-    KuiTextDirective,
+    KuiButton,
+    KuiPopover,
+    KuiPopoverFor,
+    KuiText,
     TranslocoPipe,
   ],
   templateUrl: './popover.html',

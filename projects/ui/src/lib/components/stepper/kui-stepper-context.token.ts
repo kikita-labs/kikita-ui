@@ -1,14 +1,14 @@
 import type { Signal } from '@angular/core';
 import { InjectionToken } from '@angular/core';
 
-import type { KuiStepComponent } from './kui-step.component';
+import type { KuiStep } from './kui-step.component';
 
-/** Shared context provided by KuiStepperComponent to projected `kui-step` children. */
+/** Shared context provided by KuiStepper to projected `kui-step` children. */
 export interface KuiStepperContext {
   readonly currentIndex: Signal<number>;
   /** Effective linear flag: the `linear` input, then `defaults.stepper.linear`, then `true`. */
   readonly effectiveLinear: Signal<boolean>;
-  readonly steps: Signal<readonly KuiStepComponent[]>;
+  readonly steps: Signal<readonly KuiStep[]>;
   goTo(index: number): void;
 }
 

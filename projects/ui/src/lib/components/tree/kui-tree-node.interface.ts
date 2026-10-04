@@ -18,7 +18,7 @@ export interface KuiTreeNode<T = unknown> {
   readonly children?: readonly KuiTreeNode<T>[];
   /** Grays the node out; it cannot be expanded, selected, or checked. */
   readonly disabled?: boolean;
-  /** Marks the node's children as loaded on demand via `KuiTreeComponent.loadChildren`. */
+  /** Marks the node's children as loaded on demand via `KuiTree.loadChildren`. */
   readonly lazy?: boolean;
   /** Arbitrary consumer payload carried alongside the node. */
   readonly data?: T;

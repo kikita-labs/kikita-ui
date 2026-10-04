@@ -26,7 +26,7 @@ import { injectKuiMessages } from '../../i18n/inject-kui-messages';
     '[attr.aria-label]': '_ariaLabel()',
   },
 })
-export class KuiCarouselSlideDirective {
+export class KuiCarouselSlide {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   protected readonly messages = injectKuiMessages('carousel');

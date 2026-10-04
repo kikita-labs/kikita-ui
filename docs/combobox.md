@@ -10,12 +10,12 @@ not part of Combobox; it belongs to a future input-chip or multi-select primitiv
 
 ```ts
 import {
-  KuiComboboxDirective,
+  KuiCombobox,
   KuiComboboxHighlightPipe,
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
-  kuiProvideDefaults,
+  KuiDropdown,
+  KuiField,
+  KuiOption,
+  provideKuiDefaults,
 } from '@kikita-labs/ui';
 ```
 
@@ -161,11 +161,11 @@ clears the selected value until the user selects a projected `kuiOption`.
 
 ## Provider Defaults
 
-Use `kuiProvideDefaults` (or `provideKikitaUi({ defaults })`) for combobox defaults:
+Use `provideKuiDefaults` (or `provideKikitaUi({ defaults })`) for combobox defaults:
 
 ```ts
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     combobox: { clearable: true },
   }),
 ];

@@ -1,11 +1,6 @@
 import { Component } from '@angular/core';
 
-import {
-  type KuiChipAppearance,
-  KuiChipDirective,
-  type KuiChipSize,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiChip, type KuiChipAppearance, type KuiChipSize, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -13,7 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Displays every documented Chip appearance and size combination. */
 @Component({
   selector: 'app-chip-appearance-matrix',
-  imports: [KuiChipDirective, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiChip, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './chip-appearance-matrix.html',
   styleUrl: './chip-appearance-matrix.scss',
 })

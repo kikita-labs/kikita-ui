@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiTextDirective } from '@kikita-labs/ui';
+import { KuiText } from '@kikita-labs/ui';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
@@ -13,7 +13,7 @@ import { ButtonComposition, ButtonDefault, ButtonStates, ButtonVariantMatrix } f
     ButtonDefault,
     ButtonStates,
     ButtonVariantMatrix,
-    KuiTextDirective,
+    KuiText,
     TranslocoPipe,
   ],
   templateUrl: './button.html',

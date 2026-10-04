@@ -7,7 +7,7 @@ dialog or a code field that has just appeared.
 ## Import
 
 ```ts
-import { KuiAutoFocusDirective } from '@kikita-labs/ui';
+import { KuiAutoFocus } from '@kikita-labs/ui';
 ```
 
 The directive has no styles.

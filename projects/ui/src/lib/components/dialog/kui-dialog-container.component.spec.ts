@@ -5,7 +5,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it } from 'vitest';
 
-import { KuiDialogContainerComponent } from './kui-dialog-container.component';
+import { KuiDialogContainer } from './kui-dialog-container.component';
 
 @Component({
   template: `
@@ -22,9 +22,9 @@ class ManualCloseContent {}
 })
 class PlainContent {}
 
-describe('KuiDialogContainerComponent', () => {
-  function create(): ComponentFixture<KuiDialogContainerComponent> {
-    return TestBed.createComponent(KuiDialogContainerComponent);
+describe('KuiDialogContainer', () => {
+  function create(): ComponentFixture<KuiDialogContainer> {
+    return TestBed.createComponent(KuiDialogContainer);
   }
 
   it('renders the close button by default', () => {

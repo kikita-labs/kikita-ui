@@ -18,7 +18,7 @@ import type { KuiMenuItemAppearance } from './kui-menu-item-appearance.type';
     '(click)': 'onClick($event)',
   },
 })
-export class KuiMenuItemDirective {
+export class KuiMenuItem {
   /** Item visual appearance. Use `destructive` for dangerous actions. */
   readonly appearance = input<KuiMenuItemAppearance>('neutral');
 

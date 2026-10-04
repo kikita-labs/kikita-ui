@@ -30,7 +30,7 @@ export type KuiButtonPrimitiveOptions = KuiButtonBaseOptions;
 /**
  * Shape accepted by the deprecated `kuiProvideButtonOptions`.
  *
- * @deprecated Set `button` and `iconButton` through `kuiProvideDefaults`. Planned removal in 3.0.
+ * @deprecated Set `button` and `iconButton` through `provideKuiDefaults`. Planned removal in 3.0.
  */
 export interface KuiButtonProviderOptions {
   /** Defaults for `button[kuiButton]`. */

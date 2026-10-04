@@ -1,11 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import {
-  KuiAlertActionsDirective,
-  KuiAlertComponent,
-  KuiButtonDirective,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiAlert, KuiAlertActions, KuiButton, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -13,14 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows the action output and projected actions, which replace the action button and its output. */
 @Component({
   selector: 'app-alert-action-scenario',
-  imports: [
-    KuiAlertActionsDirective,
-    KuiAlertComponent,
-    KuiButtonDirective,
-    KuiTextDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [KuiAlertActions, KuiAlert, KuiButton, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './alert-action-scenario.html',
   styleUrl: './alert-action-scenario.scss',
 })

@@ -18,7 +18,7 @@ network-dependent, name-resolved `icon` input. Replace them with `defaults.pagin
 ## Import
 
 ```ts
-import { KuiPaginationComponent } from '@kikita-labs/ui';
+import { KuiPagination } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:
@@ -185,7 +185,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     pagination: {
       /* options below */
     },
@@ -248,7 +248,7 @@ Each option resolves as `local input > defaults.pagination.<option> > built-in d
 - The ellipsis is static and non-interactive, unlike some kits' hover-to-jump affordance (e.g. Ant
   Design desktop) -- an intentional scope decision, not a defect.
 - The rows-per-page `input[kuiSelect]` sits inside a label-less `kui-field` (an `aria-label` is set
-  directly on the input); `KuiDropdownComponent` does not derive an accessible name for the
+  directly on the input); `KuiDropdown` does not derive an accessible name for the
   listbox panel from an `<input>` anchor (by design -- normally `kui-field`'s own `<label>` covers
   that), so the open listbox panel itself carries no separate `aria-label`. Accepted, matching the
   existing `input[kuiSelect]` pattern.

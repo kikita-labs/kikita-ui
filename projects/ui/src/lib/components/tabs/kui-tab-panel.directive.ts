@@ -22,7 +22,7 @@ import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
     '[attr.data-kui-active]': 'isActive() ? "" : null',
   },
 })
-export class KuiTabPanelDirective {
+export class KuiTabPanel {
   /** Value that identifies this panel. Must match the corresponding kuiTab value. */
   readonly value = input<string>('');
 

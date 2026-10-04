@@ -10,7 +10,7 @@ edit Ember seed colors as hex or OKLCH values and feed those strings into
 ## Import
 
 ```ts
-import { KuiColorInputDirective } from '@kikita-labs/ui';
+import { KuiColorInput } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -106,7 +106,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     colorInput: {
       /* options below */
     },

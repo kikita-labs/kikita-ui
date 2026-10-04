@@ -1,10 +1,6 @@
 import { Component } from '@angular/core';
 
-import {
-  KuiAccordionComponent,
-  KuiAccordionItemComponent,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiAccordion, KuiAccordionItem, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -22,9 +18,9 @@ import {
     AccordionAppearanceMatrix,
     AccordionInteractions,
     AccordionItemStates,
-    KuiAccordionComponent,
-    KuiAccordionItemComponent,
-    KuiTextDirective,
+    KuiAccordion,
+    KuiAccordionItem,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

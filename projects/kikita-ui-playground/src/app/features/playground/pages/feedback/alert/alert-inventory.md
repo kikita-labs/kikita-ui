@@ -44,7 +44,7 @@ There are no models. `KuiAlertAppearance`, `KuiAlertShape`, and `KuiAlertSize` a
 
 ### Discrepancies and library observations
 
-1. The docs "Import" block lists `KuiAlertActionsDirective`, `KuiAlertIconDirective`, `KuiAlertMessageDirective` but omits `KuiAlertTitleDirective`, although `[kuiAlertTitle]` is documented and exported from `index.ts`. Fixed in `docs/alert.md` in the page commit (docs gap, no behavior impact).
+1. The docs "Import" block lists `KuiAlertActions`, `KuiAlertIcon`, `KuiAlertMessage` but omits `KuiAlertTitle`, although `[kuiAlertTitle]` is documented and exported from `index.ts`. Fixed in `docs/alert.md` in the page commit (docs gap, no behavior impact).
 2. The docs API table states `size` defaults to `'md'`; the implementation resolves local input, then the root `defaults.size` (only `sm`/`md`), then `md`. `docs/alert.md` now states the resolution order (fixed in the page commit).
 3. The class JSDoc and docs use `<kui-icon kuiAlertIcon name="cloud-off">` as the projected icon example. `kui-icon` resolves names asynchronously (CDN fetch), which conflicts with deterministic screenshots and the component's own "no async chrome" note. The page uses an inline `<svg>` instead; this is a page choice, not a defect.
 4. `docs/state-coverage.md` row 95 and the note at line 130 describe the legacy `/alert` page ("dismissed state tracked by the demo", "committed baselines not run"). The parent must replace that with the new `/components/alert` evidence after integration.

@@ -15,7 +15,7 @@ export interface KikitaUiOptions {
    * Global component defaults, one key per primitive plus the global control `size`.
    *
    * Properties accept plain values or signals. A function runs in an injection context. Nested
-   * levels added with `kuiProvideDefaults` merge over these per component key and per property.
+   * levels added with `provideKuiDefaults` merge over these per component key and per property.
    */
   readonly defaults?: KuiDefaultsSource;
 

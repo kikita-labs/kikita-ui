@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiOtpInputComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiOtpInput, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -8,7 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows OTP Input with 4, 6 (default), and 8 cells. */
 @Component({
   selector: 'app-otp-input-lengths',
-  imports: [KuiOtpInputComponent, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiOtpInput, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './otp-input-lengths.html',
   styleUrl: './otp-input-lengths.scss',
 })

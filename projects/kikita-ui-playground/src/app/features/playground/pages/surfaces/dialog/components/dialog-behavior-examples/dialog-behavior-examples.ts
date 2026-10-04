@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest, type Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
-import { KuiButtonDirective, kuiDialog } from '@kikita-labs/ui';
+import { KuiButton, kuiDialog } from '@kikita-labs/ui';
 
 import { DialogExampleActions } from '@features/playground/pages/surfaces/dialog/components/dialog-example-actions';
 import {
@@ -20,7 +20,7 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 /** Shows Dialog title and body edge cases plus the independent close and dismiss options. */
 @Component({
   selector: 'app-dialog-behavior-examples',
-  imports: [DialogExampleActions, KuiButtonDirective, TranslocoPipe],
+  imports: [DialogExampleActions, KuiButton, TranslocoPipe],
   templateUrl: './dialog-behavior-examples.html',
   styleUrl: './dialog-behavior-examples.scss',
 })

@@ -9,7 +9,7 @@ import type { Observable } from 'rxjs';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { getFocusableElement } from '../../utils/kui-focusable-element.util';
 import type { KuiDrawerConfig } from './kui-drawer.types';
-import { KuiDrawerContainerComponent } from './kui-drawer-container.component';
+import { KuiDrawerContainer } from './kui-drawer-container.component';
 import type { KuiDrawerContext, KuiDrawerHost } from './kui-drawer-context.token';
 import { KUI_DRAWER_CONTEXT } from './kui-drawer-context.token';
 import { KuiDrawerRef } from './kui-drawer-ref';
@@ -20,7 +20,7 @@ import { KuiDrawerRef } from './kui-drawer-ref';
  * Consumers should use {@link kuiDrawer} instead of injecting this directly.
  */
 @Service()
-export class KuiDrawerService {
+export class KuiDrawer {
   private readonly overlay = inject(Overlay);
   private readonly injector = inject(Injector);
   private readonly document = inject(DOCUMENT);
@@ -49,7 +49,7 @@ export class KuiDrawerService {
       hasBackdrop: false,
     });
 
-    let container: KuiDrawerContainerComponent | null = null;
+    let container: KuiDrawerContainer | null = null;
 
     const context: KuiDrawerContext<TResult, TData> = {
       data: (config.data ?? undefined) as TData,
@@ -65,7 +65,7 @@ export class KuiDrawerService {
     });
 
     const containerRef = overlayRef.attach(
-      new ComponentPortal(KuiDrawerContainerComponent, null, childInjector),
+      new ComponentPortal(KuiDrawerContainer, null, childInjector),
     );
     container = containerRef.instance;
     container._side = side;

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiIconComponent } from './kui-icon.component';
+import { KuiIcon } from './kui-icon.component';
 import type { KuiIconGlyph } from './kui-icon-glyph.type';
 import { provideKuiIcons } from './provide-kui-icons';
 
@@ -14,13 +14,13 @@ const CLOSE_ICON =
   '<svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor"/></svg>';
 
 @Component({
-  imports: [KuiIconComponent],
+  imports: [KuiIcon],
   template: '<kui-icon name="check" label="Confirm" />',
 })
 class NamedIconHost {}
 
 @Component({
-  imports: [KuiIconComponent],
+  imports: [KuiIcon],
   template: '<kui-icon [source]="source" />',
 })
 class SourceIconHost {
@@ -28,13 +28,13 @@ class SourceIconHost {
 }
 
 @Component({
-  imports: [KuiIconComponent],
+  imports: [KuiIcon],
   template: '<kui-icon src="/assets/icon.svg" />',
 })
 class UrlIconHost {}
 
 @Component({
-  imports: [KuiIconComponent],
+  imports: [KuiIcon],
   template: `
     <kui-icon>
       <svg viewBox="0 0 16 16" fill="none">
@@ -46,24 +46,24 @@ class UrlIconHost {}
 class ProjectedContentIconHost {}
 
 @Component({
-  imports: [KuiIconComponent],
+  imports: [KuiIcon],
   template: '<kui-icon name="check" size="lg" />',
 })
 class PresetSizeIconHost {}
 
 @Component({
-  imports: [KuiIconComponent],
+  imports: [KuiIcon],
   template: '<kui-icon name="check" [size]="32" />',
 })
 class NumericSizeIconHost {}
 
 @Component({
-  imports: [KuiIconComponent],
+  imports: [KuiIcon],
   template: '<kui-icon name="check" size="1.75em" />',
 })
 class CssSizeIconHost {}
 
-describe('KuiIconComponent', () => {
+describe('KuiIcon', () => {
   it('renders a registered icon by name with an accessible label', async () => {
     const fixture = createFixture(NamedIconHost);
     await fixture.whenStable();
@@ -104,7 +104,7 @@ describe('KuiIconComponent', () => {
 
   it('resolves icon names through an async resolver function', async () => {
     @Component({
-      imports: [KuiIconComponent],
+      imports: [KuiIcon],
       template: '<kui-icon name="spark" />',
     })
     class ResolverIconHost {}
@@ -171,13 +171,13 @@ const GLYPH: KuiIconGlyph = {
 };
 
 @Component({
-  imports: [KuiIconComponent],
+  imports: [KuiIcon],
   template: `<kui-icon name="spark" />`,
 })
 class SparkHost {}
 
 @Component({
-  imports: [KuiIconComponent],
+  imports: [KuiIcon],
   template: `<kui-icon [source]="glyph" />`,
 })
 class GlyphSourceHost {
@@ -185,24 +185,24 @@ class GlyphSourceHost {
 }
 
 @Component({
-  imports: [KuiIconComponent],
+  imports: [KuiIcon],
   template: `<kui-icon name="constructor" />`,
 })
 class PrototypeNameHost {}
 
 @Component({
-  imports: [KuiIconComponent],
+  imports: [KuiIcon],
   template: `<kui-icon name="spark" [strokeWidth]="1.25" absoluteStrokeWidth />`,
 })
 class StrokeHost {}
 
 @Component({
-  imports: [KuiIconComponent],
+  imports: [KuiIcon],
   template: `<kui-icon name="spark" />`,
 })
 class PlainStrokeHost {}
 
-describe('KuiIconComponent glyph data and static registries', () => {
+describe('KuiIcon glyph data and static registries', () => {
   afterEach(() => TestBed.resetTestingModule());
 
   function render<T>(

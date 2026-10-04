@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiGroupDirective } from './kui-group.directive';
+import { KuiGroup } from './kui-group.directive';
 
 @Component({
-  imports: [KuiGroupDirective],
+  imports: [KuiGroup],
   template: '<div kuiGroup orientation="vertical" size="sm" collapsed></div>',
 })
 class GroupHost {}
 
 @Component({
-  imports: [KuiGroupDirective],
+  imports: [KuiGroup],
   template: `
     <div kuiGroup>
       <button type="button">Action</button>
@@ -22,7 +22,7 @@ class GroupHost {}
 class NoFieldHost {}
 
 @Component({
-  imports: [KuiGroupDirective],
+  imports: [KuiGroup],
   template: `
     <div kuiGroup>
       <div class="kui-field"></div>
@@ -33,7 +33,7 @@ class NoFieldHost {}
 class TwoFieldsHost {}
 
 @Component({
-  imports: [KuiGroupDirective],
+  imports: [KuiGroup],
   template: `
     <div kuiGroup>
       <button type="button">Action</button>
@@ -44,7 +44,7 @@ class TwoFieldsHost {}
 })
 class FieldBetweenButtonsHost {}
 
-describe('KuiGroupDirective', () => {
+describe('KuiGroup', () => {
   it('adds group layout attributes', () => {
     const fixture = createFixture(GroupHost);
 

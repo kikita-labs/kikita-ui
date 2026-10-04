@@ -4,10 +4,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { KuiAutoFocusDirective } from './kui-auto-focus.directive';
+import { KuiAutoFocus } from './kui-auto-focus.directive';
 
 @Component({
-  imports: [KuiAutoFocusDirective],
+  imports: [KuiAutoFocus],
   template: `
     <input id="other" />
     <input id="target" [kuiAutoFocus]="enabled()" />
@@ -18,13 +18,13 @@ class ToggleHost {
 }
 
 @Component({
-  imports: [KuiAutoFocusDirective],
+  imports: [KuiAutoFocus],
   template: `<input id="target" kuiAutoFocus />`,
 })
 class AttributeHost {}
 
 @Component({
-  imports: [KuiAutoFocusDirective],
+  imports: [KuiAutoFocus],
   template: `
     <input id="other" />
     <input id="target" kuiAutoFocus />
@@ -33,7 +33,7 @@ class AttributeHost {}
 class OtherFocusedHost {}
 
 @Component({
-  imports: [KuiAutoFocusDirective],
+  imports: [KuiAutoFocus],
   template: `
     <div id="wrapper" kuiAutoFocus>
       <input id="first" disabled />
@@ -45,19 +45,19 @@ class OtherFocusedHost {}
 class WrapperHost {}
 
 @Component({
-  imports: [KuiAutoFocusDirective],
+  imports: [KuiAutoFocus],
   template: `<input id="target" kuiAutoFocus disabled />`,
 })
 class DisabledHost {}
 
 @Component({
-  imports: [KuiAutoFocusDirective],
+  imports: [KuiAutoFocus],
   template: ` <div inert><input id="target" kuiAutoFocus /></div> `,
 })
 class InertHost {}
 
 @Component({
-  imports: [KuiAutoFocusDirective],
+  imports: [KuiAutoFocus],
   template: `
     <div role="dialog">
       <input id="inside" />
@@ -78,7 +78,7 @@ function byId(fixture: ComponentFixture<unknown>, id: string): HTMLElement {
   return fixture.nativeElement.querySelector(`#${id}`) as HTMLElement;
 }
 
-describe('KuiAutoFocusDirective', () => {
+describe('KuiAutoFocus', () => {
   afterEach(() => {
     (document.activeElement as HTMLElement | null)?.blur();
   });

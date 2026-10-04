@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiSliderDirective } from '@kikita-labs/ui';
+import { KuiSlider } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -129,7 +129,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     slider: {
       /* options below */
     },

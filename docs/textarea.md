@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiTextareaDirective } from '@kikita-labs/ui';
+import { KuiTextarea } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -56,7 +56,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     textarea: {
       /* options below */
     },

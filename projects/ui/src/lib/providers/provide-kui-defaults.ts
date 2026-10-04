@@ -12,9 +12,9 @@ import { KUI_DEFAULTS_SEED } from './kui-defaults.token';
  *
  * @example
  * ```ts
- * @Component({ providers: [kuiProvideDefaults({ button: { size: 'lg' } })] })
+ * @Component({ providers: [provideKuiDefaults({ button: { size: 'lg' } })] })
  * ```
  */
-export function kuiProvideDefaults(source: KuiDefaultsSource): Provider[] {
+export function provideKuiDefaults(source: KuiDefaultsSource): Provider[] {
   return [KuiDefaults, { provide: KUI_DEFAULTS_SEED, multi: true, useValue: source }];
 }

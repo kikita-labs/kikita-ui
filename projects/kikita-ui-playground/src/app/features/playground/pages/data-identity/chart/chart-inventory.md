@@ -32,7 +32,7 @@ The page imports Chart only from `@kikita-labs/ui`; the shell owns theme and lan
 
 `kui-chart-legend` (`chart`, required) and `kuiChartLegendItem`: "Standalone legend" (scatter, default markup) and "Custom legend template" (donut, `kuiButton` items with `hovered` state) both set `[legend]="false"` on the chart and drive it through a template reference. `KuiChartLegendSource` (`legendItems`, `hoveredLegendId`, `toggleLegendItem`, `setHoveredLegendId`) is exercised only through those two consumers.
 
-Exported types (`KuiChartAxesOptions`, `KuiChartCartesianSeries`, `KuiChartScatterSeries`, `KuiChartSlice`, `KuiChartPoint`, `KuiChartValueFormat`, `KuiChartTooltipFormatter`, `KuiChartLegendItem`, `KuiChartLegendSource`, `KuiChartLegendItemContext`, `KuiChartGridLines`) are used by the typed page data and formatters; none needs its own example. There are no outputs, models, or content slots on the chart components.
+Exported types (`KuiChartAxesOptions`, `KuiChartCartesianSeries`, `KuiChartScatterSeries`, `KuiChartSlice`, `KuiChartPoint`, `KuiChartValueFormat`, `KuiChartTooltipFormatter`, `KuiChartLegendEntry`, `KuiChartLegendSource`, `KuiChartLegendItemContext`, `KuiChartGridLines`) are used by the typed page data and formatters; none needs its own example. There are no outputs, models, or content slots on the chart components.
 
 ## Visual catalogue and behavior
 

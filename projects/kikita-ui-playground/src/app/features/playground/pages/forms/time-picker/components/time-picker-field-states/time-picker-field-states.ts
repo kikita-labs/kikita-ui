@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 
 import {
-  KuiDropdownComponent,
-  KuiFieldComponent,
+  KuiDropdown,
+  KuiField,
   kuiProvideFieldOptions,
-  KuiTimePickerDirective,
-  KuiTimePickerPanelComponent,
+  KuiTimePicker,
+  KuiTimePickerPanel,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -17,10 +17,10 @@ import { createPickerTime } from '../../helpers';
 @Component({
   selector: 'app-time-picker-field-states',
   imports: [
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiTimePickerDirective,
-    KuiTimePickerPanelComponent,
+    KuiDropdown,
+    KuiField,
+    KuiTimePicker,
+    KuiTimePickerPanel,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

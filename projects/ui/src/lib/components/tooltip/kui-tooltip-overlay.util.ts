@@ -8,7 +8,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import type { ComponentRef } from '@angular/core';
 
 import type { KuiTooltipPlacement } from './kui-tooltip-placement.type';
-import { KuiTooltipSurfaceComponent } from './kui-tooltip-surface.component';
+import { KuiTooltipSurface } from './kui-tooltip-surface.component';
 
 /** Gap in px between the anchor and the tooltip when no offset is given. */
 export const KUI_TOOLTIP_DEFAULT_OFFSET = 6;
@@ -20,7 +20,7 @@ interface KuiTooltipOverlayOptions {
    * latter for a mouse-following tooltip (`KuiChartTooltipController.move`), since anchoring to a
    * mark's own element bounding box breaks down for large/non-convex shapes (a donut slice's arc
    * can have a bounding box whose center lands nowhere near the visible wedge -- see
-   * `KuiDonutChartComponent`'s doc on why marks-as-anchor doesn't generalize). See docs/chart.md for the interaction contract.
+   * `KuiDonutChart`'s doc on why marks-as-anchor doesn't generalize). See docs/chart.md for the interaction contract.
    */
   readonly anchor: FlexibleConnectedPositionStrategyOrigin;
   readonly id?: string;
@@ -65,7 +65,7 @@ export function createKuiTooltipOverlay(
     positionStrategy,
     scrollStrategy: overlay.scrollStrategies.reposition(),
   });
-  const tooltipRef = overlayRef.attach(new ComponentPortal(KuiTooltipSurfaceComponent));
+  const tooltipRef = overlayRef.attach(new ComponentPortal(KuiTooltipSurface));
   tooltipRef.setInput('tooltipId', id ?? null);
   tooltipRef.setInput('placement', placement);
   tooltipRef.setInput('text', text);
@@ -85,10 +85,7 @@ export function createKuiTooltipOverlay(
   };
 }
 
-function setTooltipText(
-  componentRef: ComponentRef<KuiTooltipSurfaceComponent>,
-  text: string,
-): void {
+function setTooltipText(componentRef: ComponentRef<KuiTooltipSurface>, text: string): void {
   componentRef.setInput('text', text);
   componentRef.changeDetectorRef.detectChanges();
 }

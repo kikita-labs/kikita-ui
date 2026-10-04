@@ -10,18 +10,12 @@ import {
 
 import type { KuiChartMessages } from '../../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../../providers/kui-defaults.service';
-import { KuiButtonDirective } from '../../button';
-import {
-  KuiCellDirective,
-  KuiRowDirective,
-  KuiTableDirective,
-  KuiThDirective,
-  KuiThGroupDirective,
-} from '../../table';
+import { KuiButton } from '../../button';
+import { KuiCell, KuiRow, KuiTable, KuiTh, KuiThGroup } from '../../table';
 import type {
   KuiChartAxesOptions,
   KuiChartCartesianSeries,
-  KuiChartLegendItem,
+  KuiChartLegendEntry,
   KuiChartLegendSource,
   KuiChartTooltipFormatter,
   KuiChartValueFormat,
@@ -82,14 +76,7 @@ interface KuiLineChartMark {
 
 @Component({
   selector: 'kui-line-chart',
-  imports: [
-    KuiButtonDirective,
-    KuiCellDirective,
-    KuiRowDirective,
-    KuiTableDirective,
-    KuiThDirective,
-    KuiThGroupDirective,
-  ],
+  imports: [KuiButton, KuiCell, KuiRow, KuiTable, KuiTh, KuiThGroup],
   templateUrl: './kui-line-chart.component.html',
   host: {
     class: 'kui-chart kui-line-chart',
@@ -113,7 +100,7 @@ interface KuiLineChartMark {
  * as) its own built-in inline legend, or read `legendItems`/`hoveredLegendId` directly to build a
  * fully custom legend.
  */
-export class KuiLineChartComponent implements KuiChartLegendSource {
+export class KuiLineChart implements KuiChartLegendSource {
   /** Series to plot. Empty or omitted renders the empty state, never a blank canvas. */
   readonly series = input.required<readonly KuiChartCartesianSeries[]>();
 
@@ -248,7 +235,7 @@ export class KuiLineChartComponent implements KuiChartLegendSource {
   protected readonly legendSeries = computed(() => this.normalizedSeries());
 
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
-  readonly legendItems: () => readonly KuiChartLegendItem[] = computed(() =>
+  readonly legendItems: () => readonly KuiChartLegendEntry[] = computed(() =>
     this.legendSeries().map((s) => ({
       id: s.seriesId,
       label: s.seriesName,

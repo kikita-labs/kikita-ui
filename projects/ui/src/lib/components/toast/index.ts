@@ -1,5 +1,5 @@
 export { kuiToast } from './kui-toast';
-export { KuiToastService } from './kui-toast.service';
+export { KuiToast } from './kui-toast.service';
 export type {
   KuiToastAppearance,
   KuiToastConfig,

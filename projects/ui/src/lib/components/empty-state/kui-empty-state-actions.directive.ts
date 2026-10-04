@@ -7,4 +7,4 @@ import { Directive } from '@angular/core';
     class: 'kui-empty__actions',
   },
 })
-export class KuiEmptyStateActionsDirective {}
+export class KuiEmptyStateActions {}

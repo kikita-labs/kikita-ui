@@ -1,13 +1,13 @@
 import { Component, input } from '@angular/core';
 
-import { KuiTextDirective } from '@kikita-labs/ui';
+import { KuiText } from '@kikita-labs/ui';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
 /** Renders the local text content of one Carousel example slide. */
 @Component({
   selector: 'app-carousel-slide-label',
-  imports: [KuiTextDirective, TranslocoPipe],
+  imports: [KuiText, TranslocoPipe],
   templateUrl: './carousel-slide-label.html',
   styleUrl: './carousel-slide-label.scss',
 })

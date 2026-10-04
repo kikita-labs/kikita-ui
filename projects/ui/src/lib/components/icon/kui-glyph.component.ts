@@ -30,7 +30,7 @@ import { inspectKuiIconGlyph, KUI_GLYPH_DEFAULT_VIEW_BOX } from './kui-icon-glyp
   },
   encapsulation: ViewEncapsulation.None,
 })
-export class KuiGlyphComponent {
+export class KuiGlyph {
   /** Glyph to draw. An invalid or missing glyph renders an empty `<svg>`. */
   readonly glyph = input<KuiIconGlyph | undefined>(undefined, { alias: 'kuiGlyph' });
 

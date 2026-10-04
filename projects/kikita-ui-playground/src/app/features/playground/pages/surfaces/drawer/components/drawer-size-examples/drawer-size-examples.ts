@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { KuiButtonDirective, kuiDrawer, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiButton, kuiDrawer, KuiText } from '@kikita-labs/ui';
 
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
@@ -14,7 +14,7 @@ import { DrawerExampleContent } from '../drawer-example-content';
 /** Opens every supported horizontal and vertical Drawer size preset. */
 @Component({
   selector: 'app-drawer-size-examples',
-  imports: [DrawerExampleActions, KuiButtonDirective, KuiTextDirective, TranslocoPipe],
+  imports: [DrawerExampleActions, KuiButton, KuiText, TranslocoPipe],
   templateUrl: './drawer-size-examples.html',
 })
 export class DrawerSizeExamples {

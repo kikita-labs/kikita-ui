@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiBreadcrumbItemDirective } from './kui-breadcrumb-item.directive';
-import { KuiBreadcrumbSeparatorComponent } from './kui-breadcrumb-separator.component';
-import { KuiBreadcrumbsDirective } from './kui-breadcrumbs.directive';
+import { KuiBreadcrumbItem } from './kui-breadcrumb-item.directive';
+import { KuiBreadcrumbSeparator } from './kui-breadcrumb-separator.component';
+import { KuiBreadcrumbs } from './kui-breadcrumbs.directive';
 
 @Component({
-  imports: [KuiBreadcrumbsDirective, KuiBreadcrumbItemDirective, KuiBreadcrumbSeparatorComponent],
+  imports: [KuiBreadcrumbs, KuiBreadcrumbItem, KuiBreadcrumbSeparator],
   template: `
     <nav aria-label="Breadcrumb">
       <ol kuiBreadcrumbs size="sm">
@@ -23,7 +23,7 @@ import { KuiBreadcrumbsDirective } from './kui-breadcrumbs.directive';
 class BreadcrumbsHost {}
 
 @Component({
-  imports: [KuiBreadcrumbsDirective, KuiBreadcrumbItemDirective],
+  imports: [KuiBreadcrumbs, KuiBreadcrumbItem],
   template: `
     <ol kuiBreadcrumbs>
       <li><a kuiBreadcrumbItem href="/catalog">Catalog</a></li>
@@ -34,7 +34,7 @@ class BreadcrumbsHost {}
 })
 class PlainCrumbHost {}
 
-describe('KuiBreadcrumbsDirective', () => {
+describe('KuiBreadcrumbs', () => {
   function createFixture<T>(component: new () => T): ComponentFixture<T> {
     TestBed.configureTestingModule({ imports: [component] });
     const fixture = TestBed.createComponent(component);

@@ -3,7 +3,7 @@ import { form, FormField } from '@angular/forms/signals';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { KuiFieldComponent, KuiTextareaDirective } from '@kikita-labs/ui';
+import { KuiField, KuiTextarea } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -14,13 +14,7 @@ import { createTextareaValidationSchema } from './helpers';
 /** Shows a required Textarea moving from untouched to invalid and then corrected. */
 @Component({
   selector: 'app-textarea-validation',
-  imports: [
-    FormField,
-    KuiFieldComponent,
-    KuiTextareaDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [FormField, KuiField, KuiTextarea, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './textarea-validation.html',
   styleUrl: './textarea-validation.scss',
 })

@@ -10,12 +10,7 @@ for the popover grid.
 ## Import
 
 ```ts
-import {
-  KuiCalendarComponent,
-  KuiDatePickerDirective,
-  KuiDropdownComponent,
-  KuiFieldComponent,
-} from '@kikita-labs/ui';
+import { KuiCalendar, KuiDatePicker, KuiDropdown, KuiField } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -149,7 +144,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     datePicker: {
       /* options below */
     },

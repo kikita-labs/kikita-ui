@@ -57,7 +57,7 @@ import { KUI_OPTION_CONTEXT } from '../field/kui-option-context.token';
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders an anchored selectable dropdown panel. */
-export class KuiDropdownComponent implements OnDestroy {
+export class KuiDropdown implements OnDestroy {
   private readonly dropdownDefaults = inject(KuiDefaults).get('dropdown');
 
   /**
@@ -179,7 +179,7 @@ export class KuiDropdownComponent implements OnDestroy {
   }
 
   /**
-   * Called by KuiFieldComponent to wire up the anchor element.
+   * Called by KuiField to wire up the anchor element.
    * @param positionEl element used for overlay positioning and minWidth (e.g. the control slot)
    * @param outsideClickIgnoreEl element that should not close the overlay on document capture click
    * @param focusReturnTarget resolves the element that receives focus when Escape closes a panel

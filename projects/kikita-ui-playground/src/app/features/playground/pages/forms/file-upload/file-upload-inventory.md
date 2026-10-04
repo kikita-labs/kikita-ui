@@ -1,6 +1,6 @@
 # File Upload page inventory
 
-This inventory maps the public `KuiFileUploadComponent` contract to the fixed
+This inventory maps the public `KuiFileUpload` contract to the fixed
 catalogue at `/components/file-upload`. It records library behavior from the
 local source and docs; the page does not redefine the component contract.
 

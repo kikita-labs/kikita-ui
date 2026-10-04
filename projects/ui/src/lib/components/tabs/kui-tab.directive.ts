@@ -35,7 +35,7 @@ import { KUI_TABS_CONTEXT } from './kui-tabs-context.token';
     '(click)': 'select()',
   },
 })
-export class KuiTabDirective {
+export class KuiTab {
   /** Value that identifies this tab. Must match the corresponding kuiTabPanel value. */
   readonly value = input<string>('');
   /** Shows a small danger dot next to the label without affecting selected state. */

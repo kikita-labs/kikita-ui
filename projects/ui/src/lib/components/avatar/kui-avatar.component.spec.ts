@@ -2,29 +2,29 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiAvatarComponent } from './kui-avatar.component';
-import { KuiAvatarGroupComponent } from './kui-avatar-group.component';
+import { KuiAvatar } from './kui-avatar.component';
+import { KuiAvatarGroup } from './kui-avatar-group.component';
 
 @Component({
-  imports: [KuiAvatarComponent],
+  imports: [KuiAvatar],
   template: '<kui-avatar name="Nikita Repin" status="online" />',
 })
 class InitialsHost {}
 
 @Component({
-  imports: [KuiAvatarComponent],
+  imports: [KuiAvatar],
   template: '<kui-avatar src="/broken.png" name="Nikita Repin" />',
 })
 class ImageHost {}
 
 @Component({
-  imports: [KuiAvatarComponent],
+  imports: [KuiAvatar],
   template: '<kui-avatar loading name="Nikita Repin" />',
 })
 class LoadingHost {}
 
 @Component({
-  imports: [KuiAvatarGroupComponent],
+  imports: [KuiAvatarGroup],
   template: `
     <kui-avatar-group
       [avatars]="avatars"
@@ -44,20 +44,20 @@ class GroupHost {
 }
 
 @Component({
-  imports: [KuiAvatarComponent],
+  imports: [KuiAvatar],
   template: '<kui-avatar name="Nikita Repin" paletteIndex="9" />',
 })
 class StaticPaletteHost {}
 
 @Component({
-  imports: [KuiAvatarGroupComponent],
+  imports: [KuiAvatarGroup],
   template: '<kui-avatar-group max="2" [avatars]="avatars" />',
 })
 class StaticMaxHost {
   protected readonly avatars = [{ name: 'A' }, { name: 'B' }, { name: 'C' }];
 }
 
-describe('KuiAvatarComponent', () => {
+describe('KuiAvatar', () => {
   it('renders initials with an accessible image role and status in the label', () => {
     const fixture = createFixture(InitialsHost);
 
@@ -99,7 +99,7 @@ describe('KuiAvatarComponent', () => {
   });
 });
 
-describe('KuiAvatarGroupComponent', () => {
+describe('KuiAvatarGroup', () => {
   it('renders visible avatars and an overflow item', () => {
     const fixture = createFixture(GroupHost);
 
@@ -117,7 +117,7 @@ describe('KuiAvatarGroupComponent', () => {
   });
 });
 
-describe('KuiAvatarComponent numeric attributes', () => {
+describe('KuiAvatar numeric attributes', () => {
   it('coerces and clamps a static palette index', () => {
     const fixture = createFixture(StaticPaletteHost);
 

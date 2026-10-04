@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiRadioDirective } from '@kikita-labs/ui';
+import { KuiRadio } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -64,7 +64,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     radio: {
       /* options below */
     },

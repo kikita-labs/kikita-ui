@@ -1,12 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import {
-  KuiButtonDirective,
-  KuiDropdownComponent,
-  KuiDropdownForDirective,
-  KuiOptionDirective,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiButton, KuiDropdown, KuiDropdownFor, KuiOption, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -17,11 +11,11 @@ import { DROPDOWN_OPTIONS, EXTENDED_DROPDOWN_OPTIONS } from './constants';
 @Component({
   selector: 'app-dropdown',
   imports: [
-    KuiButtonDirective,
-    KuiDropdownComponent,
-    KuiDropdownForDirective,
-    KuiOptionDirective,
-    KuiTextDirective,
+    KuiButton,
+    KuiDropdown,
+    KuiDropdownFor,
+    KuiOption,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

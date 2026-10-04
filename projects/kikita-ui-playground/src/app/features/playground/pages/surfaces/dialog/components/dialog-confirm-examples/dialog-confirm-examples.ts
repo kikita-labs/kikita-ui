@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest, type Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 
-import { KuiButtonDirective, kuiConfirm, type KuiConfirmConfig } from '@kikita-labs/ui';
+import { KuiButton, kuiConfirm, type KuiConfirmConfig } from '@kikita-labs/ui';
 
 import { DialogExampleActions } from '@features/playground/pages/surfaces/dialog/components/dialog-example-actions';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -12,7 +12,7 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 /** Shows the prebuilt confirmation dialog's default, danger, and warning intents. */
 @Component({
   selector: 'app-dialog-confirm-examples',
-  imports: [DialogExampleActions, KuiButtonDirective, TranslocoPipe],
+  imports: [DialogExampleActions, KuiButton, TranslocoPipe],
   templateUrl: './dialog-confirm-examples.html',
   styleUrl: './dialog-confirm-examples.scss',
 })

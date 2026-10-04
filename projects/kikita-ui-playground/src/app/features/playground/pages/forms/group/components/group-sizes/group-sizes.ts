@@ -1,11 +1,6 @@
 import { Component } from '@angular/core';
 
-import {
-  KuiGroupDirective,
-  KuiIconButtonDirective,
-  KuiInputDirective,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiGroup, KuiIconButton, KuiInput, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -16,10 +11,10 @@ import { GroupSizeScopedDefault } from './components';
   selector: 'app-group-sizes',
   imports: [
     GroupSizeScopedDefault,
-    KuiGroupDirective,
-    KuiIconButtonDirective,
-    KuiInputDirective,
-    KuiTextDirective,
+    KuiGroup,
+    KuiIconButton,
+    KuiInput,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

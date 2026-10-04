@@ -29,7 +29,7 @@ Granular providers:
 ```ts
 provideKuiTheme(...)
 provideKuiIcons(...)
-kuiProvideDefaults(...)
+provideKuiDefaults(...)
 ```
 
 Default precedence is property-specific. Consult [DI defaults](di-defaults.md)

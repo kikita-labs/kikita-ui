@@ -7,15 +7,10 @@ float above the interface, does not self-dismiss on a timer, and does not requir
 ## Import
 
 ```ts
-import { KuiAlertComponent } from '@kikita-labs/ui';
+import { KuiAlert } from '@kikita-labs/ui';
 
 // Only if you need custom content -- see "Custom content" below.
-import {
-  KuiAlertActionsDirective,
-  KuiAlertIconDirective,
-  KuiAlertMessageDirective,
-  KuiAlertTitleDirective,
-} from '@kikita-labs/ui';
+import { KuiAlertActions, KuiAlertIcon, KuiAlertMessage, KuiAlertTitle } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:
@@ -185,7 +180,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     alert: {
       /* options below */
     },

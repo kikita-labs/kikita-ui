@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiCommandPaletteComponent, KuiCommandGroup } from '@kikita-labs/ui';
+import { KuiCommandPalette, KuiCommandGroup } from '@kikita-labs/ui';
 ```
 
 ## Usage

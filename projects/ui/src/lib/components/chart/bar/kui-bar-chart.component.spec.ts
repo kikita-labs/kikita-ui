@@ -5,10 +5,10 @@ import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
 import type { KuiChartCartesianSeries, KuiChartTooltipFormatter } from '../chart.types';
-import { KuiBarChartComponent } from './kui-bar-chart.component';
+import { KuiBarChart } from './kui-bar-chart.component';
 
 @Component({
-  imports: [KuiBarChartComponent],
+  imports: [KuiBarChart],
   template: `
     <kui-bar-chart
       [series]="series()"
@@ -42,7 +42,7 @@ function bars(fixture: ComponentFixture<HostComponent>): SVGRectElement[] {
   return Array.from(fixture.nativeElement.querySelectorAll('rect.kui-chart__bar'));
 }
 
-describe('KuiBarChartComponent', () => {
+describe('KuiBarChart', () => {
   it('uses a generic accessible name when ariaLabel is omitted', () => {
     const fixture = createFixture();
     const graphic = fixture.nativeElement.querySelector('.kui-chart__graphic') as HTMLElement;

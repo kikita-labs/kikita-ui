@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiPaginationComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiPagination, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -18,8 +18,8 @@ import {
 @Component({
   selector: 'app-pagination',
   imports: [
-    KuiPaginationComponent,
-    KuiTextDirective,
+    KuiPagination,
+    KuiText,
     PaginationExample,
     PaginationRowsPerPage,
     PaginationTable,

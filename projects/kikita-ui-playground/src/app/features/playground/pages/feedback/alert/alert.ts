@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiAlertComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiAlert, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -17,8 +17,8 @@ import {
 @Component({
   selector: 'app-alert',
   imports: [
-    KuiAlertComponent,
-    KuiTextDirective,
+    KuiAlert,
+    KuiText,
     AlertActionScenario,
     AlertAppearanceMatrix,
     AlertCustomContent,

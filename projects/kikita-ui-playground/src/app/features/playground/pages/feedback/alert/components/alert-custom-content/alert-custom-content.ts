@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 
-import {
-  KuiAlertComponent,
-  KuiAlertIconDirective,
-  KuiAlertMessageDirective,
-  KuiAlertTitleDirective,
-  KuiBadgeDirective,
-} from '@kikita-labs/ui';
+import { KuiAlert, KuiAlertIcon, KuiAlertMessage, KuiAlertTitle, KuiBadge } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -15,11 +9,11 @@ import { TranslocoPipe } from '@jsverse/transloco';
 @Component({
   selector: 'app-alert-custom-content',
   imports: [
-    KuiAlertComponent,
-    KuiAlertIconDirective,
-    KuiAlertMessageDirective,
-    KuiAlertTitleDirective,
-    KuiBadgeDirective,
+    KuiAlert,
+    KuiAlertIcon,
+    KuiAlertMessage,
+    KuiAlertTitle,
+    KuiBadge,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

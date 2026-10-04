@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiFieldComponent } from '../field';
-import { KuiRadioDirective } from './kui-radio.directive';
+import { KuiField } from '../field';
+import { KuiRadio } from './kui-radio.directive';
 
 @Component({
-  imports: [KuiRadioDirective],
+  imports: [KuiRadio],
   template: '<input kuiRadio type="radio" size="sm" invalid />',
 })
 class StandaloneRadioHost {}
 
 @Component({
-  imports: [KuiFieldComponent, KuiRadioDirective],
+  imports: [KuiField, KuiRadio],
   template: `
     <kui-field label="Plan" hint="Choose one" error="Required" size="lg">
       <input kuiRadio type="radio" name="plan" />
@@ -21,7 +21,7 @@ class StandaloneRadioHost {}
 })
 class FieldRadioHost {}
 
-describe('KuiRadioDirective', () => {
+describe('KuiRadio', () => {
   it('adds radio host attributes for size and invalid state', () => {
     const fixture = createFixture(StandaloneRadioHost);
 

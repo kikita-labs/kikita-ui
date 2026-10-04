@@ -1,7 +1,7 @@
 import type { Signal } from '@angular/core';
 import { InjectionToken } from '@angular/core';
 
-/** Shared context injected by KuiTabsComponent into child tab and panel directives. */
+/** Shared context injected by KuiTabs into child tab and panel directives. */
 export interface KuiTabsContext {
   readonly value: Signal<string>;
   readonly controlsPanels: Signal<boolean>;

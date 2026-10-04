@@ -244,7 +244,7 @@ export interface KuiComponentDefaults {
 export type KuiDefaultsLayer = KuiDefaultsInput<KuiComponentDefaults>;
 
 /**
- * Value accepted by `provideKikitaUi({ defaults })` and `kuiProvideDefaults`.
+ * Value accepted by `provideKikitaUi({ defaults })` and `provideKuiDefaults`.
  *
  * A function runs in an injection context, so it can read services and return `computed` values.
  */

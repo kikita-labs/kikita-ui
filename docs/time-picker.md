@@ -8,12 +8,7 @@ column popover — the same composition `input[kuiDatePicker]` uses with `kui-ca
 ## Import
 
 ```ts
-import {
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiTimePickerDirective,
-  KuiTimePickerPanelComponent,
-} from '@kikita-labs/ui';
+import { KuiDropdown, KuiField, KuiTimePicker, KuiTimePickerPanel } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -176,7 +171,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     timePicker: {
       /* options below */
     },

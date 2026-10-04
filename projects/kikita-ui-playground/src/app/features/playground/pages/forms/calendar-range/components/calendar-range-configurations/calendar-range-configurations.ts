@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiCalendarRangeComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiCalendarRange, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -9,7 +9,7 @@ import type { KuiDateRange } from '@kikita-labs/ui';
 /** Groups Calendar Range's footer, date constraint, and locale examples. */
 @Component({
   selector: 'app-calendar-range-configurations',
-  imports: [KuiCalendarRangeComponent, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiCalendarRange, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './calendar-range-configurations.html',
   styleUrl: './calendar-range-configurations.scss',
 })

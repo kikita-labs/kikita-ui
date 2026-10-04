@@ -2,12 +2,12 @@ import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiTextDirective } from './kui-text.directive';
+import { KuiText } from './kui-text.directive';
 import type { KuiTextTone } from './kui-text-tone.type';
 import type { KuiTextVariant } from './kui-text-variant.type';
 
 @Component({
-  imports: [KuiTextDirective],
+  imports: [KuiText],
   template: '<p kuiText [variant]="variant()" [tone]="tone()">Copy</p>',
 })
 class TextHost {
@@ -15,7 +15,7 @@ class TextHost {
   readonly tone = signal<KuiTextTone>('muted');
 }
 
-describe('KuiTextDirective', () => {
+describe('KuiText', () => {
   it('applies typography role and tone classes', () => {
     const fixture = createFixture(TextHost);
 

@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { KuiAvatarGroupComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiAvatarGroup, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -27,7 +27,7 @@ const GROUP_SIZES = [
 
 @Component({
   selector: 'app-avatar-group-examples',
-  imports: [KuiAvatarGroupComponent, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiAvatarGroup, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './avatar-group-examples.html',
   styleUrl: './avatar-group-examples.scss',
 })

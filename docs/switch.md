@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiSwitchDirective } from '@kikita-labs/ui';
+import { KuiSwitch } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -62,7 +62,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     switch: {
       /* options below */
     },

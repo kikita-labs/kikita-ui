@@ -20,4 +20,4 @@ import { Directive } from '@angular/core';
     class: 'kui-alert__message',
   },
 })
-export class KuiAlertMessageDirective {}
+export class KuiAlertMessage {}

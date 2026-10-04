@@ -5,10 +5,10 @@ import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
 import type { KuiChartSlice, KuiChartTooltipFormatter } from '../chart.types';
-import { KuiDonutChartComponent } from './kui-donut-chart.component';
+import { KuiDonutChart } from './kui-donut-chart.component';
 
 @Component({
-  imports: [KuiDonutChartComponent],
+  imports: [KuiDonutChart],
   template: ` <kui-donut-chart [slices]="slices()" [loading]="loading()" [tooltip]="tooltip()" /> `,
 })
 class HostComponent {
@@ -46,7 +46,7 @@ function legendButtons(fixture: ComponentFixture<HostComponent>): HTMLButtonElem
 /**
  * Waits past the donut's hide/show re-partition animation (`DONUT_TWEEN_DURATION_MS`, 260ms) and
  * flushes change detection -- a slice/share change after the component's first render animates via
- * `requestAnimationFrame` (see `KuiDonutChartComponent`'s `displayedShareById` doc), so `d`/`share`
+ * `requestAnimationFrame` (see `KuiDonutChart`'s `displayedShareById` doc), so `d`/`share`
  * geometry doesn't reach its final value synchronously the way a plain signal write would. Any test
  * asserting on rendered slice geometry after a *second* `slices`/hide-toggle change needs this;
  * tests asserting on plain signal-driven state (legend `aria-pressed`, `legendEnabled()`, etc.) or
@@ -64,7 +64,7 @@ async function settleAnimation(fixture: ComponentFixture<HostComponent>): Promis
  * arc" bug (browsers render a single unclosed arc spanning exactly 360 degrees as invisible).
  * `donutArcPath`'s single-arc-per-edge technique can't close seamlessly for a full circle even
  * with its `FULL_CIRCLE_EPSILON` nudge (the tiny gap is visible once actually rendered, see
- * `KuiDonutChartComponent.renderedSlices`'s doc) -- `donutFullRingPath` sidesteps the whole
+ * `KuiDonutChart.renderedSlices`'s doc) -- `donutFullRingPath` sidesteps the whole
  * problem with two independently-closing circles instead of one continuous arc.
  */
 function expectFullRingPath(d: string | null): void {
@@ -73,7 +73,7 @@ function expectFullRingPath(d: string | null): void {
   expect(d!.match(/M/g)).toHaveLength(2);
 }
 
-describe('KuiDonutChartComponent', () => {
+describe('KuiDonutChart', () => {
   it('uses a generic accessible name when ariaLabel is omitted', () => {
     const fixture = createFixture();
     const graphic = fixture.nativeElement.querySelector('.kui-chart__graphic') as HTMLElement;

@@ -39,7 +39,7 @@ import { focusWhenRendered, resolveKuiFocusTarget } from '../../utils/kui-focus-
     '[attr.cdkFocusInitial]': 'kuiAutoFocus() ? "" : null',
   },
 })
-export class KuiAutoFocusDirective {
+export class KuiAutoFocus {
   /**
    * Enables focus. The attribute without a value counts as `true`. Changing it from `false` to
    * `true` focuses again. Defaults to `false`.

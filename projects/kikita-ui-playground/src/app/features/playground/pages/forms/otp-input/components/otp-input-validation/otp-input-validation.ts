@@ -3,7 +3,7 @@ import { form, FormField } from '@angular/forms/signals';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { KuiFieldComponent, KuiOtpInputComponent } from '@kikita-labs/ui';
+import { KuiField, KuiOtpInput } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -17,8 +17,8 @@ import { createOtpInputValidationSchema } from './helpers';
   selector: 'app-otp-input-validation',
   imports: [
     FormField,
-    KuiFieldComponent,
-    KuiOtpInputComponent,
+    KuiField,
+    KuiOtpInput,
     OtpInputReadout,
     PlaygroundExampleCard,
     TranslocoPipe,

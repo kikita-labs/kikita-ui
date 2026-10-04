@@ -21,9 +21,9 @@ import {
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiSplitterCollapseTarget, KuiSplitterContext } from './kui-splitter-context.token';
 import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
-import { KuiSplitterGutterComponent } from './kui-splitter-gutter.component';
+import { KuiSplitterGutter } from './kui-splitter-gutter.component';
 import type { KuiSplitterOrientation } from './kui-splitter-orientation.type';
-import { KuiSplitterPaneComponent } from './kui-splitter-pane.component';
+import { KuiSplitterPane } from './kui-splitter-pane.component';
 
 const DEFAULT_GUTTER_PX = 8;
 const ARROW_STEP = 2;
@@ -60,13 +60,13 @@ const ARROW_STEP_LARGE = 10;
   providers: [
     {
       provide: KUI_SPLITTER_CONTEXT,
-      useFactory: () => inject(KuiSplitterComponent),
+      useFactory: () => inject(KuiSplitter),
     },
   ],
   encapsulation: ViewEncapsulation.None,
 })
 /** Multi-pane resizable layout. See the class-level example above. */
-export class KuiSplitterComponent implements KuiSplitterContext {
+export class KuiSplitter implements KuiSplitterContext {
   /** Panel layout direction. Defaults to `defaults.splitter.orientation`, then `horizontal`. */
   readonly orientation = input<KuiSplitterOrientation | undefined>();
 
@@ -83,7 +83,7 @@ export class KuiSplitterComponent implements KuiSplitterContext {
   /** Emits the full sizes array (percentages) on every drag or keyboard resize. */
   readonly sizesChange = output<readonly number[]>();
 
-  readonly panes = contentChildren(KuiSplitterPaneComponent);
+  readonly panes = contentChildren(KuiSplitterPane);
 
   private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly renderer = inject(Renderer2);
@@ -101,7 +101,7 @@ export class KuiSplitterComponent implements KuiSplitterContext {
   readonly sizes = signal<readonly number[]>([]);
   readonly draggingIndex = signal<number | null>(null);
 
-  private gutterRefs: ComponentRef<KuiSplitterGutterComponent>[] = [];
+  private gutterRefs: ComponentRef<KuiSplitterGutter>[] = [];
   private lastSizesPaneCount = -1;
   private lastGutterPaneCount = -1;
   private canManageGutters = false;
@@ -150,7 +150,7 @@ export class KuiSplitterComponent implements KuiSplitterContext {
     this.destroyRef.onDestroy(() => this.destroyGutters());
   }
 
-  private syncGutters(panes: readonly KuiSplitterPaneComponent[]): void {
+  private syncGutters(panes: readonly KuiSplitterPane[]): void {
     this.lastGutterPaneCount = panes.length;
     this.rebuildGutters(panes);
   }
@@ -320,7 +320,7 @@ export class KuiSplitterComponent implements KuiSplitterContext {
     this.sizesChange.emit(sizes);
   }
 
-  private computeInitialSizes(panes: readonly KuiSplitterPaneComponent[]): number[] {
+  private computeInitialSizes(panes: readonly KuiSplitterPane[]): number[] {
     const explicit = panes.map((p) => p.size());
     const explicitSum = explicit.reduce((sum: number, v) => sum + (v ?? 0), 0);
     const autoCount = explicit.filter((v) => v === undefined).length;
@@ -344,12 +344,12 @@ export class KuiSplitterComponent implements KuiSplitterContext {
     return Number.isFinite(parsed) ? parsed : DEFAULT_GUTTER_PX;
   }
 
-  private rebuildGutters(panes: readonly KuiSplitterPaneComponent[]): void {
+  private rebuildGutters(panes: readonly KuiSplitterPane[]): void {
     this.destroyGutters();
 
     const hostEl = this.hostRef.nativeElement;
     for (let i = 0; i < panes.length - 1; i++) {
-      const ref = this.viewContainerRef.createComponent(KuiSplitterGutterComponent, {
+      const ref = this.viewContainerRef.createComponent(KuiSplitterGutter, {
         injector: this.injector,
       });
       ref.setInput('index', i);

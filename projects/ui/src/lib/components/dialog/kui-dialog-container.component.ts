@@ -16,7 +16,7 @@ import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiIdFactory } from '../../utils/kui-id.util';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import { KuiGlyph } from '../icon/kui-glyph.component';
 import type { KuiDialogAppearance, KuiDialogSize } from './kui-dialog.types';
 
 /**
@@ -28,11 +28,11 @@ import type { KuiDialogAppearance, KuiDialogSize } from './kui-dialog.types';
 @Component({
   selector: 'kui-dialog-container',
   templateUrl: './kui-dialog-container.component.html',
-  imports: [CdkPortalOutlet, CdkTrapFocus, KuiGlyphComponent],
+  imports: [CdkPortalOutlet, CdkTrapFocus, KuiGlyph],
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders the modal dialog surface used by the dialog service. */
-export class KuiDialogContainerComponent {
+export class KuiDialogContainer {
   private readonly nextId = kuiIdFactory();
   private readonly dialogDefaults = inject(KuiDefaults).get('dialog');
   protected readonly t = injectKuiMessages('dialog');

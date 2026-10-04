@@ -60,7 +60,7 @@ Primitive selected values are displayed with `String(value)` unless `kuiLabelFn`
 - The custom `kuiSelectValue` remove button is supplied by consumer template markup; the library does not disable that button when readonly. Its callback becomes a no-op. This page uses the public removal callback only in the enabled custom-template example.
 - The `maxVisibleChips` suffix clamps negative values to zero visible chips; its numeric transform accepts positive `Infinity`, which `slice(0, Infinity)` uses to show every selected item. Zero, negative, and infinite caps are omitted because the default three-chip and local two-chip examples already show normal overflow behavior without advertising atypical configurations.
 - No Select-specific approved design record appears in `docs/design-provenance.md`. Examples preserve the shipped Select/input, Field, chip, dropdown, and listbox visuals; page SCSS only arranges layout with Kikita spacing tokens.
-- `KuiSelectDirective` does not add `aria-multiselectable` to the listbox. The page does not claim that attribute exists.
+- `KuiSelect` does not add `aria-multiselectable` to the listbox. The page does not claim that attribute exists.
 - The directive compares object and multiple values by identity; it has no `compareWith` input. Fixtures retain stable object references.
 - No loading, typeahead, filtering, empty-result, or async state exists in the public Select contract; those states are omitted.
 - Provider-only `clearable` and `maxVisibleChips` overrides are shown in a page-private component provider scope so they do not alter the other catalogue examples; the normal three-chip fallback and local two-chip override remain visible separately.

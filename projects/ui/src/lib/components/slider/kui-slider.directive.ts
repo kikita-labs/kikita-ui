@@ -18,7 +18,7 @@ import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
 import { KUI_FIELD } from '../field/kui-field-host.token';
-import { KuiTooltipDirective } from '../tooltip/kui-tooltip.directive';
+import { KuiTooltip } from '../tooltip/kui-tooltip.directive';
 import type { KuiTooltipOverlayHandle } from '../tooltip/kui-tooltip-overlay.util';
 import { createKuiTooltipOverlay } from '../tooltip/kui-tooltip-overlay.util';
 
@@ -52,7 +52,7 @@ export type KuiSliderSize = 'sm' | 'md' | 'lg';
     '(keydown)': 'onKeyDown()',
   },
 })
-export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
+export class KuiSlider implements AfterViewInit, DoCheck, OnDestroy {
   private readonly el = inject(ElementRef<HTMLInputElement>);
   private readonly renderer = inject(Renderer2);
   private readonly overlay = inject(Overlay);
@@ -60,7 +60,7 @@ export class KuiSliderDirective implements AfterViewInit, DoCheck, OnDestroy {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly field = inject(KUI_FIELD, { optional: true, host: true });
   // If user adds [kuiTooltip]="'static text'", we defer to it; empty = value mode.
-  private readonly kuiTooltip = inject(KuiTooltipDirective, { optional: true, self: true });
+  private readonly kuiTooltip = inject(KuiTooltip, { optional: true, self: true });
 
   /** Semantic color applied to the generated slider fill and thumb. Defaults to `defaults.slider.color`, then `'primary'`. */
   readonly color = input<KuiSliderColor | undefined>();

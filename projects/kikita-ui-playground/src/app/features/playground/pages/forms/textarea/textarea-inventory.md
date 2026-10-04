@@ -44,7 +44,7 @@ the public API, native and Signal Forms behavior, documented caveats, and determ
 
 ## Public API, defaults, and coverage map
 
-`KuiTextareaDirective` is a standalone styling and Field-integration directive on native
+`KuiTextarea` is a standalone styling and Field-integration directive on native
 `textarea` elements with selector `textarea[kuiTextarea]`. The local barrel re-exports it; the
 components barrel and package root re-export that barrel. It has no public outputs, models,
 methods, component-specific providers, or content slots.
@@ -113,7 +113,7 @@ own behaviors rather than styling a textarea into a different control.
 - `aria-invalid` is omitted when false. `aria-describedby` must contain only existing hint and
   visible error ids; Field's automatic error (rendered with `role="alert"`) is absent before touch
   and after correction.
-- `KuiTextareaDirective` only injects optional Field context and root size defaults and binds host
+- `KuiTextarea` only injects optional Field context and root size defaults and binds host
   attributes; it has no browser-global access, listeners, timers, or template DOM mutation. Its
   host behavior is SSR-safe. A Field generates one control id per instance; verify that the
   server-rendered label `for`, textarea `id`, `aria-describedby`, invalid state, and size agree,
@@ -129,7 +129,7 @@ own behaviors rather than styling a textarea into a different control.
 - `docs/textarea.md` documents the three inputs but does not give a stable API table, exact
   boolean default/coercion, standalone id behavior, accessible-name rules, style hooks, or SSR
   notes. Its size resolution omits the `defaults.field.size` layer inherited through
-  `KuiFieldComponent.effectiveSize`.
+  `KuiField.effectiveSize`.
 - The directive JSDoc records that Signal Forms overwrites its `invalid` input with raw field state
   and that Textarea then uses the Field's touched-gated invalid value. The Textarea source doc does
   not describe this behavior. The Field source and tests cover that collision with `input[kuiInput]`,

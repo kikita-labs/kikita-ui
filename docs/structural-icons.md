@@ -6,7 +6,7 @@ name. They never touch the icon registry or the network, they render on the serv
 replace them for the whole app or for one subtree without changing a template.
 
 ```ts
-import { kuiProvideDefaults, provideKikitaUi } from '@kikita-labs/ui';
+import { provideKuiDefaults, provideKikitaUi } from '@kikita-labs/ui';
 import type { KuiIconGlyph } from '@kikita-labs/ui';
 
 const CIRCLE_X: KuiIconGlyph = {
@@ -21,7 +21,7 @@ const CIRCLE_X: KuiIconGlyph = {
 provideKikitaUi({ defaults: { icons: { close: CIRCLE_X, remove: CIRCLE_X } } });
 
 // One subtree
-providers: [kuiProvideDefaults({ icons: { close: CIRCLE_X } })];
+providers: [provideKuiDefaults({ icons: { close: CIRCLE_X } })];
 ```
 
 ## Precedence
@@ -166,7 +166,7 @@ before, and follow the same defaults.
 
 ## Not supported
 
-- Per-instance icon inputs on components: use a subtree and `kuiProvideDefaults`.
+- Per-instance icon inputs on components: use a subtree and `provideKuiDefaults`.
 - Icon fonts, sprite sheets and CSS `mask-image` icons.
 - `<g>`, gradients, `<use>`, `<image>`, filters and text inside a glyph.
 - Render functions or component templates as an override value.

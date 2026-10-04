@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiIconComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiIcon, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -8,7 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Compares registered, inline, image URL, and projected Icon sources. */
 @Component({
   selector: 'app-icon-source-examples',
-  imports: [KuiIconComponent, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiIcon, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './icon-source-examples.html',
   styleUrl: './icon-source-examples.scss',
 })

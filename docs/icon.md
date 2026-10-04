@@ -12,7 +12,7 @@ themselves (close, chevrons, status marks) are a separate system; see
 ## Import
 
 ```ts
-import { KuiIconComponent, provideKuiIcons } from '@kikita-labs/ui';
+import { KuiIcon, provideKuiIcons } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:

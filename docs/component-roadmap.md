@@ -56,7 +56,7 @@ fixing or closing them; record new evidence in state coverage.
   The report is kept as history; it no longer describes the current checkout. The legacy suite
   and its 24 baselines were retired with the legacy Playground on 2026-10-01 (Plan 10.2 Phase B).
 
-- `KuiTooltipDirective`'s hover/focus display mode is not fully WCAG 1.4.13 (Content on Hover or
+- `KuiTooltip`'s hover/focus display mode is not fully WCAG 1.4.13 (Content on Hover or
   Focus) compliant: Escape does not dismiss the tooltip in hover/focus mode (only the touch-tap
   branch handles Escape, via `startTapDismissal`), and the tooltip surface is not hoverable
   (moving the pointer from the anchor onto the tooltip itself dismisses it instead of keeping it
@@ -78,7 +78,7 @@ fixing or closing them; record new evidence in state coverage.
   library-owned immutable data without restricting consumer-owned mutable models.
 
 - DI defaults (v2, Plan 17): every primitive with a preference shared across instances has a key
-  in `KuiComponentDefaults`, set through `provideKikitaUi({ defaults })` or `kuiProvideDefaults`.
+  in `KuiComponentDefaults`, set through `provideKikitaUi({ defaults })` or `provideKuiDefaults`.
   Levels merge per component key and per property, every property accepts a plain value or a
   `Signal`, and `KuiDefaults` reads and changes them at runtime. Data, instance state, forms state,
   accessible names and library message text are not defaults. `kui-icon`, `kui-command-palette`
@@ -87,7 +87,7 @@ fixing or closing them; record new evidence in state coverage.
   changes, except options read when an overlay opens or a tooltip shows (verified in Plan 18, 2026-10-03).
 - Internationalization (v2, Plan 21): the library's own text lives in one typed map, `KuiMessages` (29
   groups, 153 messages, English pack `KUI_ENGLISH_MESSAGES`), overridden for the app
-  (`provideKikitaUi({ messages })`), a subtree (`kuiProvideMessages`) or an instance (the `messages`
+  (`provideKikitaUi({ messages })`), a subtree (`provideKuiMessages`) or an instance (the `messages`
   input of the ten larger components, or the existing label inputs), and switchable at runtime by
   passing a `Signal`. The formatting locale (`KuiI18n.locale`) is independent: calendar names, week
   start and weekend, date and time layouts, numbers, units and plural rules all come from `Intl` with

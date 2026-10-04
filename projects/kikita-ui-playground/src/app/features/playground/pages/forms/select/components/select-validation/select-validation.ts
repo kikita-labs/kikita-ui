@@ -3,12 +3,7 @@ import { form, FormField } from '@angular/forms/signals';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import {
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
-  KuiSelectDirective,
-} from '@kikita-labs/ui';
+import { KuiDropdown, KuiField, KuiOption, KuiSelect } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -22,10 +17,10 @@ import type { SelectValidationModel } from './interfaces';
   selector: 'app-select-validation',
   imports: [
     FormField,
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiOptionDirective,
-    KuiSelectDirective,
+    KuiDropdown,
+    KuiField,
+    KuiOption,
+    KuiSelect,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

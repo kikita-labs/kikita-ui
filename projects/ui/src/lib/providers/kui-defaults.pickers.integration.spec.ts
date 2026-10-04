@@ -1,20 +1,20 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiCalendarComponent } from '../components/calendar/kui-calendar.component';
-import { KuiCalendarRangeComponent } from '../components/calendar-range/kui-calendar-range.component';
-import { KuiCarouselComponent } from '../components/carousel/kui-carousel.component';
-import { KuiCarouselSlideDirective } from '../components/carousel/kui-carousel-slide.directive';
-import { KuiDropdownComponent } from '../components/dropdown/kui-dropdown.component';
-import { KuiFieldComponent } from '../components/field/kui-field.component';
-import { KuiPaginationComponent } from '../components/pagination/kui-pagination.component';
-import { KuiTimePickerDirective } from '../components/time-picker/kui-time-picker.directive';
-import { KuiTimePickerPanelComponent } from '../components/time-picker/kui-time-picker-panel.component';
+import { KuiCalendar } from '../components/calendar/kui-calendar.component';
+import { KuiCalendarRange } from '../components/calendar-range/kui-calendar-range.component';
+import { KuiCarousel } from '../components/carousel/kui-carousel.component';
+import { KuiCarouselSlide } from '../components/carousel/kui-carousel-slide.directive';
+import { KuiDropdown } from '../components/dropdown/kui-dropdown.component';
+import { KuiField } from '../components/field/kui-field.component';
+import { KuiPagination } from '../components/pagination/kui-pagination.component';
+import { KuiTimePicker } from '../components/time-picker/kui-time-picker.directive';
+import { KuiTimePickerPanel } from '../components/time-picker/kui-time-picker-panel.component';
 import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
 
 @Component({
-  imports: [KuiCalendarComponent, KuiCalendarRangeComponent],
+  imports: [KuiCalendar, KuiCalendarRange],
   template: `
     <kui-calendar id="plain" />
     <kui-calendar id="local" [showFooter]="false" [showPrevNav]="true" />
@@ -100,12 +100,7 @@ describe('KuiDefaults read by calendars', () => {
 });
 
 @Component({
-  imports: [
-    KuiFieldComponent,
-    KuiDropdownComponent,
-    KuiTimePickerDirective,
-    KuiTimePickerPanelComponent,
-  ],
+  imports: [KuiField, KuiDropdown, KuiTimePicker, KuiTimePickerPanel],
   template: `
     <kui-field label="Time">
       <input kuiTimePicker id="default" />
@@ -172,7 +167,7 @@ describe('KuiDefaults read by the time picker', () => {
 });
 
 @Component({
-  imports: [KuiCarouselComponent, KuiCarouselSlideDirective],
+  imports: [KuiCarousel, KuiCarouselSlide],
   template: `
     <kui-carousel id="default">
       <div kuiCarouselSlide>One</div>
@@ -224,7 +219,7 @@ describe('KuiDefaults read by the carousel', () => {
 });
 
 @Component({
-  imports: [KuiPaginationComponent],
+  imports: [KuiPagination],
   template: `
     <kui-pagination id="default" [totalPages]="20" [(currentPage)]="page" />
     <kui-pagination id="local" [totalPages]="20" variant="compact" [(currentPage)]="page" />

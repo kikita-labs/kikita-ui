@@ -26,7 +26,7 @@ import { KUI_SEGMENTED_CONTEXT } from './kui-segmented-context.token';
     '(click)': 'select()',
   },
 })
-export class KuiSegmentDirective {
+export class KuiSegment {
   /** Value that identifies this segment. Must be unique within the segmented group. */
   readonly value = input<string>('');
   /** Whether this segment is disabled and skipped by keyboard navigation. */

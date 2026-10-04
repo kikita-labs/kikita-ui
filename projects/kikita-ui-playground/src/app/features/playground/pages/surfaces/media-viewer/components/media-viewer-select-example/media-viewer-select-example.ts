@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
 
-import { KuiCheckboxDirective, kuiMediaViewer } from '@kikita-labs/ui';
+import { KuiCheckbox, kuiMediaViewer } from '@kikita-labs/ui';
 
 import { MediaViewerTile } from '@features/playground/pages/surfaces/media-viewer/components/media-viewer-tile';
 import {
@@ -16,7 +16,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows the documented consumer composition of a selection checkbox beside each cover button. */
 @Component({
   selector: 'app-media-viewer-select-example',
-  imports: [FormField, KuiCheckboxDirective, MediaViewerTile, TranslocoPipe],
+  imports: [FormField, KuiCheckbox, MediaViewerTile, TranslocoPipe],
   templateUrl: './media-viewer-select-example.html',
   styleUrl: './media-viewer-select-example.scss',
 })

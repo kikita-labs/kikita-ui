@@ -4,13 +4,13 @@ import { TestBed } from '@angular/core/testing';
 
 import { KUI_LOCALE } from '../../i18n/kui-locale.token';
 import { KUI_PICKED_EVENT } from '../../utils/kui-picked-event';
-import { KuiCalendarRangeComponent } from '../calendar-range/kui-calendar-range.component';
-import { KuiCalendarComponent } from './kui-calendar.component';
+import { KuiCalendarRange } from '../calendar-range/kui-calendar-range.component';
+import { KuiCalendar } from './kui-calendar.component';
 import type { KuiDateRange } from './kui-calendar.types';
 
 /** Behaviour of the engine shared by `kui-calendar` and `kui-calendar-range`, seen from both. */
 @Component({
-  imports: [KuiCalendarComponent],
+  imports: [KuiCalendar],
   template: `
     <kui-calendar
       [(value)]="value"
@@ -27,7 +27,7 @@ class SingleHost {
 }
 
 @Component({
-  imports: [KuiCalendarRangeComponent],
+  imports: [KuiCalendarRange],
   template: `
     <kui-calendar-range [(value)]="value" [(viewDate)]="viewDate" [showFooter]="true" />
   `,

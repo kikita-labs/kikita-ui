@@ -6,10 +6,10 @@ import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
 import type { KuiChartCartesianSeries, KuiChartTooltipFormatter } from '../chart.types';
-import { KuiLineChartComponent } from './kui-line-chart.component';
+import { KuiLineChart } from './kui-line-chart.component';
 
 @Component({
-  imports: [KuiLineChartComponent],
+  imports: [KuiLineChart],
   template: `
     <kui-line-chart
       [series]="series()"
@@ -41,11 +41,11 @@ function marks(fixture: ComponentFixture<HostComponent>): SVGCircleElement[] {
   return Array.from(fixture.nativeElement.querySelectorAll('circle.kui-chart__mark'));
 }
 
-function chartInstance(fixture: ComponentFixture<HostComponent>): KuiLineChartComponent {
-  return fixture.debugElement.query(By.directive(KuiLineChartComponent)).componentInstance;
+function chartInstance(fixture: ComponentFixture<HostComponent>): KuiLineChart {
+  return fixture.debugElement.query(By.directive(KuiLineChart)).componentInstance;
 }
 
-describe('KuiLineChartComponent', () => {
+describe('KuiLineChart', () => {
   it('uses a generic accessible name when ariaLabel is omitted', () => {
     const fixture = createFixture();
     const graphic = fixture.nativeElement.querySelector('.kui-chart__graphic') as HTMLElement;

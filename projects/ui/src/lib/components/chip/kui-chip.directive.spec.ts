@@ -4,8 +4,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { KuiChipDirective } from './kui-chip.directive';
-import { KuiChipRemoveDirective } from './kui-chip-remove.directive';
+import { KuiChip } from './kui-chip.directive';
+import { KuiChipRemove } from './kui-chip-remove.directive';
 
 @Component({
   template: `
@@ -31,7 +31,7 @@ import { KuiChipRemoveDirective } from './kui-chip-remove.directive';
       <span class="kui-chip-label">Backend</span>
     </span>
   `,
-  imports: [KuiChipDirective, KuiChipRemoveDirective],
+  imports: [KuiChip, KuiChipRemove],
 })
 class TestChipHost {
   readonly disabled = signal(false);
@@ -42,7 +42,7 @@ class TestChipHost {
   readonly removableRemoved = signal(0);
 }
 
-describe('KuiChipDirective', () => {
+describe('KuiChip', () => {
   let fixture: ComponentFixture<TestChipHost>;
 
   beforeEach(async () => {

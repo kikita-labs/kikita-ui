@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiAlertComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiAlert, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -8,7 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows every Alert appearance in every shape with a title, message, icon, and close button. */
 @Component({
   selector: 'app-alert-appearance-matrix',
-  imports: [KuiAlertComponent, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiAlert, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './alert-appearance-matrix.html',
   styleUrl: './alert-appearance-matrix.scss',
 })

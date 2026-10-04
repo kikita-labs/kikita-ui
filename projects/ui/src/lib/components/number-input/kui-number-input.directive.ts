@@ -57,7 +57,7 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
     '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
   },
 })
-export class KuiNumberInputDirective implements AfterViewInit, DoCheck, OnDestroy {
+export class KuiNumberInput implements AfterViewInit, DoCheck, OnDestroy {
   /** Control height matched to `--kui-control-height-*` tokens. Defaults to `defaults.numberInput.size`, then the parent field, then the global `defaults.size`, then `'md'`. */
   readonly size = input<KuiSize | undefined>();
 

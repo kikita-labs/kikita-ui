@@ -10,19 +10,13 @@ import {
 
 import type { KuiChartMessages } from '../../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../../providers/kui-defaults.service';
-import { KuiButtonDirective } from '../../button';
-import { KuiSkeletonDirective } from '../../skeleton';
-import {
-  KuiCellDirective,
-  KuiRowDirective,
-  KuiTableDirective,
-  KuiThDirective,
-  KuiThGroupDirective,
-} from '../../table';
+import { KuiButton } from '../../button';
+import { KuiSkeleton } from '../../skeleton';
+import { KuiCell, KuiRow, KuiTable, KuiTh, KuiThGroup } from '../../table';
 import type {
   KuiChartAxesOptions,
   KuiChartCartesianSeries,
-  KuiChartLegendItem,
+  KuiChartLegendEntry,
   KuiChartLegendSource,
   KuiChartTooltipFormatter,
   KuiChartValueFormat,
@@ -91,15 +85,7 @@ interface KuiBarChartBar {
 
 @Component({
   selector: 'kui-bar-chart',
-  imports: [
-    KuiButtonDirective,
-    KuiCellDirective,
-    KuiRowDirective,
-    KuiSkeletonDirective,
-    KuiTableDirective,
-    KuiThDirective,
-    KuiThGroupDirective,
-  ],
+  imports: [KuiButton, KuiCell, KuiRow, KuiSkeleton, KuiTable, KuiTh, KuiThGroup],
   templateUrl: './kui-bar-chart.component.html',
   host: {
     class: 'kui-chart kui-bar-chart',
@@ -120,7 +106,7 @@ interface KuiBarChartBar {
  *
  * Implements {@link KuiChartLegendSource} -- see `kui-line-chart`'s matching class doc.
  */
-export class KuiBarChartComponent implements KuiChartLegendSource {
+export class KuiBarChart implements KuiChartLegendSource {
   /** Series to plot. Empty or omitted renders the empty state, never a blank canvas. */
   readonly series = input.required<readonly KuiChartCartesianSeries[]>();
 
@@ -270,7 +256,7 @@ export class KuiBarChartComponent implements KuiChartLegendSource {
   protected readonly legendSeries = computed(() => this.normalizedSeries());
 
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
-  readonly legendItems: () => readonly KuiChartLegendItem[] = computed(() =>
+  readonly legendItems: () => readonly KuiChartLegendEntry[] = computed(() =>
     this.legendSeries().map((s) => ({
       id: s.seriesId,
       label: s.seriesName,

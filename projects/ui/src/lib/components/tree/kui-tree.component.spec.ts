@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiTreeComponent } from './kui-tree.component';
+import { KuiTree } from './kui-tree.component';
 import type { KuiTreeMode, KuiTreeNode } from './kui-tree-node.interface';
 
 const NODES: KuiTreeNode[] = [
@@ -19,7 +19,7 @@ const NODES: KuiTreeNode[] = [
 ];
 
 @Component({
-  imports: [KuiTreeComponent],
+  imports: [KuiTree],
   template: `
     <kui-tree
       ariaLabel="Test tree"
@@ -47,7 +47,7 @@ class TreeHost {
 }
 
 @Component({
-  imports: [KuiTreeComponent],
+  imports: [KuiTree],
   template: ` <kui-tree ariaLabel="Test tree" [data]="nodes" [(selected)]="selected" /> `,
 })
 class TreeDeprecatedSelectedHost {
@@ -56,7 +56,7 @@ class TreeDeprecatedSelectedHost {
 }
 
 @Component({
-  imports: [KuiTreeComponent],
+  imports: [KuiTree],
   template: `
     <kui-tree
       ariaLabel="Test tree"
@@ -71,7 +71,7 @@ class TreeSplitBindingSelectedHost {
   readonly selected = signal<string | null>('root-b');
 }
 
-describe('KuiTreeComponent', () => {
+describe('KuiTree', () => {
   let fixture: ComponentFixture<TreeHost>;
   let host: TreeHost;
 
@@ -255,7 +255,7 @@ describe('KuiTreeComponent', () => {
   });
 });
 
-describe('KuiTreeComponent value/selected sync', () => {
+describe('KuiTree value/selected sync', () => {
   it('deprecated [(selected)] still two-way binds', () => {
     TestBed.configureTestingModule({ imports: [TreeDeprecatedSelectedHost] });
     const fixture = TestBed.createComponent(TreeDeprecatedSelectedHost);

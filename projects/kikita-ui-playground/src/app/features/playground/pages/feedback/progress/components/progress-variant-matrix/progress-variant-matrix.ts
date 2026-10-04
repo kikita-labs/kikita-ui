@@ -1,11 +1,11 @@
 import { Component, input } from '@angular/core';
 
 import {
+  KuiProgress,
   type KuiProgressColor,
-  KuiProgressComponent,
   type KuiProgressSize,
   type KuiProgressType,
-  KuiTextDirective,
+  KuiText,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -14,7 +14,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Compares every Progress color and size for one visual shape. */
 @Component({
   selector: 'app-progress-variant-matrix',
-  imports: [KuiProgressComponent, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiProgress, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './progress-variant-matrix.html',
   styleUrl: './progress-variant-matrix.scss',
 })

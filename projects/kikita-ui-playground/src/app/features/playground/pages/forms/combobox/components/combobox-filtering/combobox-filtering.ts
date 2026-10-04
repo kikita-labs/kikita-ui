@@ -1,11 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
 
 import {
-  KuiComboboxDirective,
+  KuiCombobox,
   KuiComboboxHighlightPipe,
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
+  KuiDropdown,
+  KuiField,
+  KuiOption,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -16,11 +16,11 @@ import { TranslocoPipe } from '@jsverse/transloco';
 @Component({
   selector: 'app-combobox-filtering',
   imports: [
-    KuiComboboxDirective,
+    KuiCombobox,
     KuiComboboxHighlightPipe,
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiOptionDirective,
+    KuiDropdown,
+    KuiField,
+    KuiOption,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

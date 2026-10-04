@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 
-import { KuiFieldComponent, KuiInputDirective, type KuiSize } from '@kikita-labs/ui';
+import { KuiField, KuiInput, type KuiSize } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-field-sizes',
-  imports: [KuiFieldComponent, KuiInputDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiField, KuiInput, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './field-sizes.html',
   styleUrl: './field-sizes.scss',
 })

@@ -2,12 +2,12 @@ import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiTabDirective } from './kui-tab.directive';
-import { KuiTabPanelDirective } from './kui-tab-panel.directive';
-import { KuiTabsComponent } from './kui-tabs.component';
+import { KuiTab } from './kui-tab.directive';
+import { KuiTabPanel } from './kui-tab-panel.directive';
+import { KuiTabs } from './kui-tabs.component';
 
 @Component({
-  imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
+  imports: [KuiTabs, KuiTab, KuiTabPanel],
   template: `
     <kui-tabs [value]="tab()" [controlsPanels]="controlsPanels()">
       <button kuiTab value="a">A</button>
@@ -23,7 +23,7 @@ class TabsHost {
 }
 
 @Component({
-  imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
+  imports: [KuiTabs, KuiTab, KuiTabPanel],
   template: `
     <kui-tabs value="a" inverted>
       <button kuiTab value="a">A</button>
@@ -34,7 +34,7 @@ class TabsHost {
 class TabsInvertedHost {}
 
 @Component({
-  imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
+  imports: [KuiTabs, KuiTab, KuiTabPanel],
   template: `
     <kui-tabs value="a">
       <button kuiTab value="a">A</button>
@@ -49,7 +49,7 @@ class TabsErrorHost {
 }
 
 @Component({
-  imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
+  imports: [KuiTabs, KuiTab, KuiTabPanel],
   template: `
     <kui-tabs [(selected)]="selected">
       <button kuiTab value="a">A</button>
@@ -64,7 +64,7 @@ class TabsDeprecatedSelectedHost {
 }
 
 @Component({
-  imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
+  imports: [KuiTabs, KuiTab, KuiTabPanel],
   template: `
     <kui-tabs [selected]="selected()" (selectedChange)="selected.set($event)">
       <button kuiTab value="a">A</button>
@@ -78,7 +78,7 @@ class TabsSplitBindingSelectedHost {
   readonly selected = signal('b');
 }
 
-describe('KuiTabsComponent', () => {
+describe('KuiTabs', () => {
   function createFixture(): ComponentFixture<TabsHost> {
     TestBed.configureTestingModule({ imports: [TabsHost] });
     const fixture = TestBed.createComponent(TabsHost);

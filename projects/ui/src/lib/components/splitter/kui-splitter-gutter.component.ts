@@ -3,7 +3,7 @@ import { Component, computed, inject, input, viewChild, ViewEncapsulation } from
 
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KUI_GLYPH_CHEVRON_LEFT } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import { KuiGlyph } from '../icon/kui-glyph.component';
 import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
 
 /**
@@ -14,7 +14,7 @@ import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
  * projected sibling components.
  */
 @Component({
-  imports: [KuiGlyphComponent],
+  imports: [KuiGlyph],
   selector: 'kui-splitter-gutter',
   templateUrl: './kui-splitter-gutter.component.html',
   host: {
@@ -26,7 +26,7 @@ import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
   encapsulation: ViewEncapsulation.None,
 })
 /** Draggable separator between two panes. See the class-level example on `kui-splitter`. */
-export class KuiSplitterGutterComponent {
+export class KuiSplitterGutter {
   protected readonly chevronGlyph = KUI_GLYPH_CHEVRON_LEFT;
 
   /** Index of this gutter -- fixed at creation; `kui-splitter` recreates gutters on pane changes. */

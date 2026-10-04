@@ -18,8 +18,8 @@ Status values: `Done`, `In progress`, `Queued`, `Blocked`.
 
 ## Current Risks / Open Questions
 
-- `KUI_LOCALE` defaults to `navigator.language`, which Node 21+ also defines, so the server renders date components in the host locale (`ru-RU` here) and the client re-renders after hydration. Library fix or an app-level `kuiProvideLocale` needs an owner decision.
-- The client re-downloads Transloco scopes already present in transfer state, so translated text is briefly empty after hydration on every page. `KuiDropdownComponent` copies the trigger text into `aria-label` once on open and never refreshes it.
+- `KUI_LOCALE` defaults to `navigator.language`, which Node 21+ also defines, so the server renders date components in the host locale (`ru-RU` here) and the client re-renders after hydration. Library fix or an app-level `provideKuiLocale` needs an owner decision.
+- The client re-downloads Transloco scopes already present in transfer state, so translated text is briefly empty after hydration on every page. `KuiDropdown` copies the trigger text into `aria-label` once on open and never refreshes it.
 - Several specs route Lucide icons locally because `kui-icon` fetches them from a CDN at runtime; other page captures may share that race.
 - `@angular-eslint/template/label-has-associated-control` warns on the Field projected-label example; `kui-field` associates the label at runtime.
 

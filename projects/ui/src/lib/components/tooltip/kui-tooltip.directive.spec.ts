@@ -5,41 +5,41 @@ import { TestBed } from '@angular/core/testing';
 import { afterEach, vi } from 'vitest';
 
 import { kuiProvideTooltipOptions } from '../../tokens';
-import { KuiTooltipDirective } from './kui-tooltip.directive';
+import { KuiTooltip } from './kui-tooltip.directive';
 import { KuiTooltipTriggerType } from './kui-tooltip-trigger.type';
 
 @Component({
-  imports: [KuiTooltipDirective],
+  imports: [KuiTooltip],
   template: '<button [kuiTooltip]="\'Save\'" placement="bottom">Save</button>',
 })
 class TooltipHost {}
 
 @Component({
-  imports: [KuiTooltipDirective],
+  imports: [KuiTooltip],
   template: '<button [kuiTooltip]="\'\'">No tooltip</button>',
 })
 class EmptyTooltipHost {}
 
 @Component({
-  imports: [KuiTooltipDirective],
+  imports: [KuiTooltip],
   template: '<button [kuiTooltip]="\'   \'">Whitespace tooltip</button>',
 })
 class WhitespaceTooltipHost {}
 
 @Component({
-  imports: [KuiTooltipDirective],
+  imports: [KuiTooltip],
   template: '<button [kuiTooltip]="\'Info\'" triggerType="auto">Info</button>',
 })
 class TouchTooltipHost {}
 
 @Component({
-  imports: [KuiTooltipDirective],
+  imports: [KuiTooltip],
   providers: [kuiProvideTooltipOptions({ triggerType: KuiTooltipTriggerType.Hover })],
   template: '<button [kuiTooltip]="\'Info\'">Info</button>',
 })
 class ProviderTooltipHost {}
 
-describe('KuiTooltipDirective', () => {
+describe('KuiTooltip', () => {
   afterEach(() => vi.useRealTimers());
 
   it('sets aria-describedby only while the tooltip element exists', () => {
@@ -145,7 +145,7 @@ describe('KuiTooltipDirective', () => {
 
   it('uses the local trigger override over the provider', () => {
     @Component({
-      imports: [KuiTooltipDirective],
+      imports: [KuiTooltip],
       providers: [kuiProvideTooltipOptions({ triggerType: KuiTooltipTriggerType.None })],
       template: '<button [kuiTooltip]="\'Info\'" triggerType="click">Info</button>',
     })

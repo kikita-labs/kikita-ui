@@ -1,12 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import {
-  KuiComboboxDirective,
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiCombobox, KuiDropdown, KuiField, KuiOption, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -14,11 +8,11 @@ import { TranslocoPipe } from '@jsverse/transloco';
 @Component({
   selector: 'app-combobox-affordances',
   imports: [
-    KuiComboboxDirective,
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiOptionDirective,
-    KuiTextDirective,
+    KuiCombobox,
+    KuiDropdown,
+    KuiField,
+    KuiOption,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

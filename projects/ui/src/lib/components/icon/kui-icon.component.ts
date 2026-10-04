@@ -2,7 +2,7 @@ import { booleanAttribute, Component, computed, inject, input, resource } from '
 import type { SafeHtml } from '@angular/platform-browser';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { KuiGlyphComponent } from './kui-glyph.component';
+import { KuiGlyph } from './kui-glyph.component';
 import type { KuiIconGlyph } from './kui-icon-glyph.type';
 import { KUI_ICONS } from './kui-icon-registry.token';
 import type { KuiIconSizePreset } from './kui-icon-size.type';
@@ -30,7 +30,7 @@ const KUI_ICON_SIZE_PRESETS: Record<KuiIconSizePreset, string> = {
  */
 @Component({
   selector: 'kui-icon',
-  imports: [KuiGlyphComponent],
+  imports: [KuiGlyph],
   templateUrl: './kui-icon.component.html',
   host: {
     class: 'kui-icon',
@@ -42,7 +42,7 @@ const KUI_ICON_SIZE_PRESETS: Record<KuiIconSizePreset, string> = {
     '[style.--kui-icon-vector-effect]': 'absoluteStrokeWidth() ? "non-scaling-stroke" : null',
   },
 })
-export class KuiIconComponent {
+export class KuiIcon {
   /** Icon name resolved from registered icon sets. */
   readonly name = input<KuiIconName | undefined>();
 

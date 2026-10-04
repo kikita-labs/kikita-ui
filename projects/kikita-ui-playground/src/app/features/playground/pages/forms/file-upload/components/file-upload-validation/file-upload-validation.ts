@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 
-import { KuiButtonDirective, KuiFileUploadComponent } from '@kikita-labs/ui';
+import { KuiButton, KuiFileUpload } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -9,7 +9,7 @@ import type { KuiUploadFile } from '@kikita-labs/ui';
 /** Exposes picker validation, literal MIME matching, and single-file replacement. */
 @Component({
   selector: 'app-file-upload-validation',
-  imports: [KuiButtonDirective, KuiFileUploadComponent, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiButton, KuiFileUpload, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './file-upload-validation.html',
   styleUrl: './file-upload-validation.scss',
 })

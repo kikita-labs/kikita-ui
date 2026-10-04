@@ -4,7 +4,7 @@ import { computed } from '@angular/core';
 import type { KuiSize } from '../types';
 
 /**
- * What a control reads from its ancestor `kui-field`. `KuiFieldComponent` satisfies it; the
+ * What a control reads from its ancestor `kui-field`. `KuiField` satisfies it; the
  * structural type keeps shared helpers from importing a component.
  */
 export interface KuiFieldWiringSource {

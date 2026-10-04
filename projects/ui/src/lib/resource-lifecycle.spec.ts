@@ -5,27 +5,27 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { KuiCarouselComponent } from './components/carousel/kui-carousel.component';
-import { KuiCarouselSlideDirective } from './components/carousel/kui-carousel-slide.directive';
-import { KuiDonutChartComponent } from './components/chart/donut/kui-donut-chart.component';
-import { KuiCommandPaletteComponent } from './components/command-palette/kui-command-palette.component';
-import { KuiDropdownComponent } from './components/dropdown/kui-dropdown.component';
-import { KuiDropdownForDirective } from './components/dropdown/kui-dropdown-for.directive';
-import { KuiOptionDirective } from './components/dropdown/kui-option.directive';
-import { KuiMenuComponent } from './components/menu/kui-menu.component';
-import { KuiMenuForDirective } from './components/menu/kui-menu-for.directive';
-import { KuiMenuItemDirective } from './components/menu/kui-menu-item.directive';
-import { KuiNumberInputDirective } from './components/number-input/kui-number-input.directive';
-import { KuiPopoverComponent } from './components/popover/kui-popover.component';
-import { KuiPopoverForDirective } from './components/popover/kui-popover-for.directive';
-import { KuiSegmentDirective } from './components/segmented/kui-segment.directive';
-import { KuiSegmentedComponent } from './components/segmented/kui-segmented.component';
-import { KuiSliderDirective } from './components/slider/kui-slider.directive';
-import { KuiTabDirective } from './components/tabs/kui-tab.directive';
-import { KuiTabsComponent } from './components/tabs/kui-tabs.component';
-import { KuiTimePickerPanelComponent } from './components/time-picker/kui-time-picker-panel.component';
-import { KuiToastRegionComponent } from './components/toast/kui-toast-region.component';
-import { KuiTooltipDirective } from './components/tooltip/kui-tooltip.directive';
+import { KuiCarousel } from './components/carousel/kui-carousel.component';
+import { KuiCarouselSlide } from './components/carousel/kui-carousel-slide.directive';
+import { KuiDonutChart } from './components/chart/donut/kui-donut-chart.component';
+import { KuiCommandPalette } from './components/command-palette/kui-command-palette.component';
+import { KuiDropdown } from './components/dropdown/kui-dropdown.component';
+import { KuiDropdownFor } from './components/dropdown/kui-dropdown-for.directive';
+import { KuiOption } from './components/dropdown/kui-option.directive';
+import { KuiMenu } from './components/menu/kui-menu.component';
+import { KuiMenuFor } from './components/menu/kui-menu-for.directive';
+import { KuiMenuItem } from './components/menu/kui-menu-item.directive';
+import { KuiNumberInput } from './components/number-input/kui-number-input.directive';
+import { KuiPopover } from './components/popover/kui-popover.component';
+import { KuiPopoverFor } from './components/popover/kui-popover-for.directive';
+import { KuiSegment } from './components/segmented/kui-segment.directive';
+import { KuiSegmented } from './components/segmented/kui-segmented.component';
+import { KuiSlider } from './components/slider/kui-slider.directive';
+import { KuiTab } from './components/tabs/kui-tab.directive';
+import { KuiTabs } from './components/tabs/kui-tabs.component';
+import { KuiTimePickerPanel } from './components/time-picker/kui-time-picker-panel.component';
+import { KuiToastRegion } from './components/toast/kui-toast-region.component';
+import { KuiTooltip } from './components/tooltip/kui-tooltip.directive';
 
 /**
  * Resource-lifecycle regression suite: every component that owns a timer, animation frame,
@@ -117,7 +117,7 @@ function tearDown(fixture: ComponentFixture<unknown>): void {
 }
 
 @Component({
-  imports: [KuiPopoverComponent, KuiPopoverForDirective],
+  imports: [KuiPopover, KuiPopoverFor],
   template: `
     <button [kuiPopoverFor]="pop" id="trigger">Open</button>
     <kui-popover #pop><p>Content</p></kui-popover>
@@ -126,7 +126,7 @@ function tearDown(fixture: ComponentFixture<unknown>): void {
 class ClickPopoverHost {}
 
 @Component({
-  imports: [KuiPopoverComponent, KuiPopoverForDirective],
+  imports: [KuiPopover, KuiPopoverFor],
   template: `
     <button [kuiPopoverFor]="pop" id="trigger">Hover</button>
     <kui-popover #pop triggerType="hover" [hoverDelay]="50"><p>Hover</p></kui-popover>
@@ -135,7 +135,7 @@ class ClickPopoverHost {}
 class HoverPopoverHost {}
 
 @Component({
-  imports: [KuiPopoverComponent, KuiPopoverForDirective],
+  imports: [KuiPopover, KuiPopoverFor],
   template: `
     <button [kuiPopoverFor]="pop" id="trigger">Open</button>
     <kui-popover #pop [trapFocus]="true"><button type="button">Inside</button></kui-popover>
@@ -144,7 +144,7 @@ class HoverPopoverHost {}
 class TrapPopoverHost {}
 
 @Component({
-  imports: [KuiDropdownComponent, KuiDropdownForDirective, KuiOptionDirective],
+  imports: [KuiDropdown, KuiDropdownFor, KuiOption],
   template: `
     <button id="trigger" type="button" [kuiDropdownFor]="dropdown">Open</button>
     <kui-dropdown #dropdown>
@@ -156,7 +156,7 @@ class TrapPopoverHost {}
 class DropdownHost {}
 
 @Component({
-  imports: [KuiMenuComponent, KuiMenuForDirective, KuiMenuItemDirective],
+  imports: [KuiMenu, KuiMenuFor, KuiMenuItem],
   template: `
     <button type="button" [kuiMenuFor]="menu" id="trigger">Actions</button>
     <kui-menu #menu ariaLabel="Actions">
@@ -167,19 +167,19 @@ class DropdownHost {}
 class MenuHost {}
 
 @Component({
-  imports: [KuiTooltipDirective],
+  imports: [KuiTooltip],
   template: '<button [kuiTooltip]="\'Save\'">Save</button>',
 })
 class TooltipHost {}
 
 @Component({
-  imports: [KuiSliderDirective],
+  imports: [KuiSlider],
   template: '<input type="range" kuiSlider />',
 })
 class SliderHost {}
 
 @Component({
-  imports: [KuiCarouselComponent, KuiCarouselSlideDirective],
+  imports: [KuiCarousel, KuiCarouselSlide],
   template: `
     <kui-carousel [autoplay]="true" [autoplayInterval]="1000">
       <div kuiCarouselSlide>1</div>
@@ -190,7 +190,7 @@ class SliderHost {}
 class AutoplayCarouselHost {}
 
 @Component({
-  imports: [KuiDonutChartComponent],
+  imports: [KuiDonutChart],
   template: '<kui-donut-chart [slices]="slices()" />',
 })
 class DonutHost {
@@ -201,19 +201,19 @@ class DonutHost {
 }
 
 @Component({
-  imports: [KuiTimePickerPanelComponent],
+  imports: [KuiTimePickerPanel],
   template: '<kui-time-picker-panel />',
 })
 class TimePickerPanelHost {}
 
 @Component({
-  imports: [KuiNumberInputDirective],
+  imports: [KuiNumberInput],
   template: '<input type="number" kuiNumberInput />',
 })
 class NumberInputHost {}
 
 @Component({
-  imports: [KuiSegmentedComponent, KuiSegmentDirective],
+  imports: [KuiSegmented, KuiSegment],
   template: `
     <kui-segmented value="a">
       <button kuiSegment value="a">A</button>
@@ -224,7 +224,7 @@ class NumberInputHost {}
 class SegmentedHost {}
 
 @Component({
-  imports: [KuiTabsComponent, KuiTabDirective],
+  imports: [KuiTabs, KuiTab],
   template: `
     <kui-tabs value="a">
       <button kuiTab value="a">A</button>
@@ -235,7 +235,7 @@ class SegmentedHost {}
 class TabsHost {}
 
 @Component({
-  imports: [KuiCommandPaletteComponent],
+  imports: [KuiCommandPalette],
   template: '<kui-command-palette [(open)]="open" [groups]="[]" />',
 })
 class PaletteHost {
@@ -288,7 +288,7 @@ describe('resource lifecycle', () => {
   });
 
   it('popover: a pending hover close never runs after the popover is destroyed', () => {
-    const close = vi.spyOn(KuiPopoverComponent.prototype, 'close');
+    const close = vi.spyOn(KuiPopover.prototype, 'close');
     const fixture = mount(HoverPopoverHost);
     const trigger = fixture.nativeElement.querySelector('#trigger') as HTMLElement;
     trigger.dispatchEvent(new MouseEvent('mouseenter'));
@@ -415,7 +415,7 @@ describe('resource lifecycle', () => {
   });
 
   it('toast region: auto-dismiss timers are cleared on destroy', () => {
-    const fixture = TestBed.createComponent(KuiToastRegionComponent);
+    const fixture = TestBed.createComponent(KuiToastRegion);
     fixture.componentInstance.addToast({ title: 'Saved', duration: 5000 });
     fixture.detectChanges();
     expect(vi.getTimerCount()).toBe(1);
@@ -424,7 +424,7 @@ describe('resource lifecycle', () => {
   });
 
   it('toast region: a close animation already running still completes its refs after destroy', () => {
-    const fixture = TestBed.createComponent(KuiToastRegionComponent);
+    const fixture = TestBed.createComponent(KuiToastRegion);
     const ref = fixture.componentInstance.addToast({ title: 'Saved', persistent: true });
     fixture.detectChanges();
     const closed = vi.fn();

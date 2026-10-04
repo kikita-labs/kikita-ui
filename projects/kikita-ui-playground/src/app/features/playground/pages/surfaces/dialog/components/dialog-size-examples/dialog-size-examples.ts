@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest, type Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
-import { KuiButtonDirective, kuiDialog } from '@kikita-labs/ui';
+import { KuiButton, kuiDialog } from '@kikita-labs/ui';
 
 import { DialogExampleActions } from '@features/playground/pages/surfaces/dialog/components/dialog-example-actions';
 import { DialogExampleContent } from '@features/playground/pages/surfaces/dialog/components/dialog-example-content';
@@ -17,7 +17,7 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 /** Shows the default Dialog size and every supported width preset. */
 @Component({
   selector: 'app-dialog-size-examples',
-  imports: [DialogExampleActions, KuiButtonDirective, TranslocoPipe],
+  imports: [DialogExampleActions, KuiButton, TranslocoPipe],
   templateUrl: './dialog-size-examples.html',
   styleUrl: './dialog-size-examples.scss',
 })

@@ -7,7 +7,7 @@ Header nav/title controls and the footer's "Today" button are `kuiButton` (ghost
 ## Import
 
 ```ts
-import { KuiCalendarRangeComponent } from '@kikita-labs/ui';
+import { KuiCalendarRange } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -119,7 +119,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     calendarRange: {
       /* options below */
     },

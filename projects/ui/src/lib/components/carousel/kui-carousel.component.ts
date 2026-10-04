@@ -31,9 +31,9 @@ import {
   KUI_GLYPH_PAUSE,
   KUI_GLYPH_PLAY,
 } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
-import { KuiIconButtonDirective } from '../icon-button';
-import { KuiCarouselSlideDirective } from './kui-carousel-slide.directive';
+import { KuiGlyph } from '../icon/kui-glyph.component';
+import { KuiIconButton } from '../icon-button';
+import { KuiCarouselSlide } from './kui-carousel-slide.directive';
 
 function autoplayIntervalAttribute(value: unknown): number | undefined {
   if (value === undefined || value === null) return undefined;
@@ -60,7 +60,7 @@ function autoplayIntervalAttribute(value: unknown): number | undefined {
  */
 @Component({
   selector: 'kui-carousel',
-  imports: [KuiIconButtonDirective, KuiGlyphComponent],
+  imports: [KuiIconButton, KuiGlyph],
   templateUrl: './kui-carousel.component.html',
   host: {
     class: 'kui-carousel',
@@ -68,7 +68,7 @@ function autoplayIntervalAttribute(value: unknown): number | undefined {
   encapsulation: ViewEncapsulation.None,
 })
 /** Slide strip with Prev/Next, a dot picker, and optional autoplay. See the class-level example above. */
-export class KuiCarouselComponent {
+export class KuiCarousel {
   protected readonly previousGlyph = injectKuiGlyph({
     role: 'previous',
     slot: () => this.carouselDefaults()?.previousIcon,
@@ -169,7 +169,7 @@ export class KuiCarouselComponent {
   /** Index of the first visible slide. Two-way bindable via `[(index)]`. Defaults to `0`. */
   readonly index = model(0);
 
-  private readonly slides = contentChildren(KuiCarouselSlideDirective);
+  private readonly slides = contentChildren(KuiCarouselSlide);
   private readonly trackRef = viewChild<ElementRef<HTMLElement>>('track');
   private readonly dotRefs = viewChildren<ElementRef<HTMLButtonElement>>('dotBtn');
   private readonly destroyRef = inject(DestroyRef);

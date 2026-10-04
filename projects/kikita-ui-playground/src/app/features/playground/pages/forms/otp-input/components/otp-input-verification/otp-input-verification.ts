@@ -1,6 +1,6 @@
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 
-import { KuiButtonDirective, KuiOtpInputComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiButton, KuiOtpInput, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -11,13 +11,7 @@ import type { VerificationStatus } from './types';
 /** Shows the loading state around a consumer-owned, timer-driven code check. */
 @Component({
   selector: 'app-otp-input-verification',
-  imports: [
-    KuiButtonDirective,
-    KuiOtpInputComponent,
-    KuiTextDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [KuiButton, KuiOtpInput, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './otp-input-verification.html',
   styleUrl: './otp-input-verification.scss',
 })

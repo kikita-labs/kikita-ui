@@ -4,10 +4,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { KUI_LOCALE } from '../../i18n/kui-locale.token';
 import type { KuiDateRange } from '../calendar/kui-calendar.types';
-import { KuiCalendarRangeComponent } from './kui-calendar-range.component';
+import { KuiCalendarRange } from './kui-calendar-range.component';
 
 @Component({
-  imports: [KuiCalendarRangeComponent],
+  imports: [KuiCalendarRange],
   template: `
     <kui-calendar-range
       [(value)]="value"
@@ -24,7 +24,7 @@ class CalendarRangeHost {
   readonly showFooter = signal(false);
 }
 
-describe('KuiCalendarRangeComponent', () => {
+describe('KuiCalendarRange', () => {
   let fixture: ComponentFixture<CalendarRangeHost>;
   let host: CalendarRangeHost;
 

@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiLoaderDirective } from '@kikita-labs/ui';
+import { KuiLoader } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -50,7 +50,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     loader: {
       /* options below */
     },

@@ -5,7 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 
 import type { KuiFileUploadMode, KuiFileUploadVariant } from './kui-file-upload.component';
-import { KuiFileUploadComponent } from './kui-file-upload.component';
+import { KuiFileUpload } from './kui-file-upload.component';
 import type { KuiUploadFile } from './kui-upload-file.interface';
 
 function makeFile(name: string, type: string, size: number): File {
@@ -20,7 +20,7 @@ function fileListOf(...files: File[]): FileList {
 }
 
 @Component({
-  imports: [KuiFileUploadComponent],
+  imports: [KuiFileUpload],
   template: `
     <kui-file-upload
       [variant]="variant()"
@@ -50,12 +50,12 @@ class FileUploadHost {
 }
 
 @Component({
-  imports: [KuiFileUploadComponent],
+  imports: [KuiFileUpload],
   template: '<kui-file-upload maxSize="1024" maxCount="3" />',
 })
 class StaticFileUploadLimitsHost {}
 
-describe('KuiFileUploadComponent', () => {
+describe('KuiFileUpload', () => {
   let fixture: ComponentFixture<FileUploadHost>;
   let host: FileUploadHost;
 
@@ -259,12 +259,12 @@ describe('KuiFileUploadComponent', () => {
   });
 });
 
-describe('KuiFileUploadComponent static limits', () => {
+describe('KuiFileUpload static limits', () => {
   it('coerces static positive limits', () => {
     TestBed.configureTestingModule({ imports: [StaticFileUploadLimitsHost] });
     const fixture = TestBed.createComponent(StaticFileUploadLimitsHost);
     fixture.detectChanges();
-    const upload = fixture.debugElement.children[0].componentInstance as KuiFileUploadComponent;
+    const upload = fixture.debugElement.children[0].componentInstance as KuiFileUpload;
 
     expect(upload.maxSize()).toBe(1024);
     expect(upload.maxCount()).toBe(3);

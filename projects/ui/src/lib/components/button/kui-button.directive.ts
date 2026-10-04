@@ -17,7 +17,7 @@ import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
-import { KuiIconComponent, type KuiIconName } from '../icon';
+import { KuiIcon, type KuiIconName } from '../icon';
 import type { KuiButtonAppearance } from './kui-button-appearance.type';
 import type { KuiButtonShape } from './kui-button-shape.type';
 
@@ -38,7 +38,7 @@ import type { KuiButtonShape } from './kui-button-shape.type';
     '(click)': 'handleClick($event)',
   },
 })
-export class KuiButtonDirective {
+export class KuiButton {
   /** Visual button surface shape. */
   readonly shape = input<KuiButtonShape | undefined>();
 
@@ -74,8 +74,8 @@ export class KuiButtonDirective {
   private contentEl: HTMLElement | null = null;
   private labelEl: HTMLElement | null = null;
   private loaderEl: HTMLElement | null = null;
-  private iconStartRef: ComponentRef<KuiIconComponent> | null = null;
-  private iconEndRef: ComponentRef<KuiIconComponent> | null = null;
+  private iconStartRef: ComponentRef<KuiIcon> | null = null;
+  private iconEndRef: ComponentRef<KuiIcon> | null = null;
 
   protected readonly isDisabled = computed(() => this.disabled() || this.loading());
 
@@ -163,8 +163,8 @@ export class KuiButtonDirective {
   private syncIcon(
     position: 'start' | 'end',
     name: KuiIconName | undefined,
-    existing: ComponentRef<KuiIconComponent> | null,
-  ): ComponentRef<KuiIconComponent> | null {
+    existing: ComponentRef<KuiIcon> | null,
+  ): ComponentRef<KuiIcon> | null {
     if (!name) {
       existing?.destroy();
       return null;
@@ -179,7 +179,7 @@ export class KuiButtonDirective {
 
     const contentEl = this.contentEl!;
     const labelEl = this.labelEl!;
-    const created = this.viewContainerRef.createComponent(KuiIconComponent);
+    const created = this.viewContainerRef.createComponent(KuiIcon);
     created.setInput('name', name);
     this.renderer.addClass(created.location.nativeElement, `kui-button__icon-${position}`);
 

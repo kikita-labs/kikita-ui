@@ -11,7 +11,7 @@ import {
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
-import { KuiStepComponent } from './kui-step.component';
+import { KuiStep } from './kui-step.component';
 import type { KuiStepperContext } from './kui-stepper-context.token';
 import { KUI_STEPPER_CONTEXT } from './kui-stepper-context.token';
 
@@ -49,13 +49,13 @@ const KUI_STEPPER_SIZES = ['sm', 'md', 'lg'] as const;
   providers: [
     {
       provide: KUI_STEPPER_CONTEXT,
-      useFactory: () => inject(KuiStepperComponent),
+      useFactory: () => inject(KuiStepper),
     },
   ],
   encapsulation: ViewEncapsulation.None,
 })
 /** Coordinates a sequence of Kikita UI steps and exposes stepper context. */
-export class KuiStepperComponent implements KuiStepperContext {
+export class KuiStepper implements KuiStepperContext {
   /**
    * Layout direction of the step list. Defaults to `defaults.stepper.orientation`, then
    * horizontal.
@@ -84,7 +84,7 @@ export class KuiStepperComponent implements KuiStepperContext {
     transform: optionalBooleanAttribute,
   });
 
-  readonly steps = contentChildren(KuiStepComponent);
+  readonly steps = contentChildren(KuiStep);
 
   private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiStepperSize>(KUI_STEPPER_SIZES);
 

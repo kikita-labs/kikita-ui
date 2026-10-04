@@ -3,10 +3,10 @@ import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { KUI_LOCALE } from '../../i18n/kui-locale.token';
-import { KuiCalendarComponent } from './kui-calendar.component';
+import { KuiCalendar } from './kui-calendar.component';
 
 @Component({
-  imports: [KuiCalendarComponent],
+  imports: [KuiCalendar],
   template: `
     <kui-calendar
       [(value)]="value"
@@ -24,7 +24,7 @@ class CalendarHost {
 }
 
 @Component({
-  imports: [KuiCalendarComponent],
+  imports: [KuiCalendar],
   template: `
     <kui-calendar [(value)]="value">
       <div kuiCalendarFooter class="custom-footer">custom footer</div>
@@ -36,7 +36,7 @@ class CalendarProjectedFooterHost {
 }
 
 @Component({
-  imports: [KuiCalendarComponent],
+  imports: [KuiCalendar],
   template: `<kui-calendar [value]="value()" [viewDate]="viewDate()" />`,
 })
 class CalendarInitialValueHost {
@@ -44,7 +44,7 @@ class CalendarInitialValueHost {
   readonly viewDate = signal(new Date(2026, 4, 1));
 }
 
-describe('KuiCalendarComponent', () => {
+describe('KuiCalendar', () => {
   let fixture: ComponentFixture<CalendarHost>;
   let host: CalendarHost;
 

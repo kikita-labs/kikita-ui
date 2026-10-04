@@ -9,7 +9,7 @@ Use Drawer for secondary workflows that keep page context visible: filters, deta
 ```ts
 import {
   KUI_DRAWER_CONTEXT,
-  KuiButtonDirective,
+  KuiButton,
   KuiDrawerContext,
   KuiDrawerHost,
   kuiDrawer,
@@ -53,7 +53,7 @@ type EditResult = 'saved' | 'cancelled';
       <button kuiButton type="button" (click)="drawerContext.close('saved')">Save</button>
     </div>
   `,
-  imports: [KuiButtonDirective],
+  imports: [KuiButton],
 })
 export class EditDrawer implements KuiDrawerHost<EditResult, EditData> {
   public readonly drawerContext =
@@ -124,7 +124,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     drawer: {
       /* options below */
     },

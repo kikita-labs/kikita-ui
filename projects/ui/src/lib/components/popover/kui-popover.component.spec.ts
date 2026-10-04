@@ -5,13 +5,13 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach, vi } from 'vitest';
 
-import { KuiPopoverComponent } from './kui-popover.component';
-import { KuiPopoverForDirective } from './kui-popover-for.directive';
+import { KuiPopover } from './kui-popover.component';
+import { KuiPopoverFor } from './kui-popover-for.directive';
 
 // Host fixtures
 
 @Component({
-  imports: [KuiPopoverComponent, KuiPopoverForDirective],
+  imports: [KuiPopover, KuiPopoverFor],
   template: `
     <button [kuiPopoverFor]="pop" id="trigger">Open</button>
     <kui-popover #pop placement="bottom">
@@ -20,11 +20,11 @@ import { KuiPopoverForDirective } from './kui-popover-for.directive';
   `,
 })
 class ClickHost {
-  readonly pop = viewChild.required(KuiPopoverComponent);
+  readonly pop = viewChild.required(KuiPopover);
 }
 
 @Component({
-  imports: [KuiPopoverComponent, KuiPopoverForDirective],
+  imports: [KuiPopover, KuiPopoverFor],
   template: `
     <button [kuiPopoverFor]="pop" id="trigger">Hover me</button>
     <kui-popover #pop triggerType="hover" [hoverDelay]="50">
@@ -33,11 +33,11 @@ class ClickHost {
   `,
 })
 class HoverHost {
-  readonly pop = viewChild.required(KuiPopoverComponent);
+  readonly pop = viewChild.required(KuiPopover);
 }
 
 @Component({
-  imports: [KuiPopoverComponent, KuiPopoverForDirective],
+  imports: [KuiPopover, KuiPopoverFor],
   template: `
     <button [kuiPopoverFor]="pop" id="trigger">Open</button>
     <kui-popover #pop [arrow]="true">
@@ -46,11 +46,11 @@ class HoverHost {
   `,
 })
 class ArrowHost {
-  readonly pop = viewChild.required(KuiPopoverComponent);
+  readonly pop = viewChild.required(KuiPopover);
 }
 
 @Component({
-  imports: [KuiPopoverComponent, KuiPopoverForDirective],
+  imports: [KuiPopover, KuiPopoverFor],
   template: `
     <button [kuiPopoverFor]="pop" id="trigger">Open</button>
     <kui-popover #pop ariaLabel="Account actions">
@@ -59,11 +59,11 @@ class ArrowHost {
   `,
 })
 class LabelHost {
-  readonly pop = viewChild.required(KuiPopoverComponent);
+  readonly pop = viewChild.required(KuiPopover);
 }
 
 @Component({
-  imports: [KuiPopoverComponent, KuiPopoverForDirective],
+  imports: [KuiPopover, KuiPopoverFor],
   template: `
     <button [kuiPopoverFor]="pop" id="trigger">Open</button>
     <kui-popover #pop [trapFocus]="true">
@@ -72,7 +72,7 @@ class LabelHost {
   `,
 })
 class TrapFocusHost {
-  readonly pop = viewChild.required(KuiPopoverComponent);
+  readonly pop = viewChild.required(KuiPopover);
 }
 
 // Helpers
@@ -98,7 +98,7 @@ function cleanOverlay(): void {
 
 // Tests
 
-describe('KuiPopoverForDirective - aria attributes', () => {
+describe('KuiPopoverFor - aria attributes', () => {
   afterEach(() => {
     vi.useRealTimers();
     cleanOverlay();
@@ -128,7 +128,7 @@ describe('KuiPopoverForDirective - aria attributes', () => {
   });
 });
 
-describe('KuiPopoverComponent - click trigger', () => {
+describe('KuiPopover - click trigger', () => {
   afterEach(() => {
     vi.useRealTimers();
     cleanOverlay();
@@ -270,7 +270,7 @@ describe('KuiPopoverComponent - click trigger', () => {
   });
 });
 
-describe('KuiPopoverComponent - hover trigger', () => {
+describe('KuiPopover - hover trigger', () => {
   afterEach(() => {
     vi.useRealTimers();
     cleanOverlay();
@@ -342,7 +342,7 @@ describe('KuiPopoverComponent - hover trigger', () => {
   });
 });
 
-describe('KuiPopoverComponent - arrow', () => {
+describe('KuiPopover - arrow', () => {
   afterEach(() => {
     vi.useRealTimers();
     cleanOverlay();

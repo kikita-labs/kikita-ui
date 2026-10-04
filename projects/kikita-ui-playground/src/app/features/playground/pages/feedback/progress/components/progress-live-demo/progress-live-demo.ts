@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiProgressComponent, KuiSliderDirective, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiProgress, KuiSlider, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -8,13 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Lets a native range input control a consumer-owned Progress value. */
 @Component({
   selector: 'app-progress-live-demo',
-  imports: [
-    KuiProgressComponent,
-    KuiSliderDirective,
-    KuiTextDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [KuiProgress, KuiSlider, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './progress-live-demo.html',
   styleUrl: './progress-live-demo.scss',
 })

@@ -5,16 +5,16 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it } from 'vitest';
 
-import { KuiBarChartComponent } from '../components/chart/bar/kui-bar-chart.component';
+import { KuiBarChart } from '../components/chart/bar/kui-bar-chart.component';
 import type {
   KuiChartCartesianSeries,
   KuiChartScatterSeries,
   KuiChartSlice,
 } from '../components/chart/chart.types';
-import { KuiDonutChartComponent } from '../components/chart/donut/kui-donut-chart.component';
+import { KuiDonutChart } from '../components/chart/donut/kui-donut-chart.component';
 import type { KuiChartBaseOptions } from '../components/chart/kui-chart-options.interface';
-import { KuiLineChartComponent } from '../components/chart/line/kui-line-chart.component';
-import { KuiScatterChartComponent } from '../components/chart/scatter/kui-scatter-chart.component';
+import { KuiLineChart } from '../components/chart/line/kui-line-chart.component';
+import { KuiScatterChart } from '../components/chart/scatter/kui-scatter-chart.component';
 import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
 
@@ -50,7 +50,7 @@ const SLICES: readonly KuiChartSlice[] = [
 ];
 
 @Component({
-  imports: [KuiBarChartComponent],
+  imports: [KuiBarChart],
   template: `<kui-bar-chart
     [series]="series"
     [categories]="categories"
@@ -66,7 +66,7 @@ class BarHost {
 }
 
 @Component({
-  imports: [KuiLineChartComponent],
+  imports: [KuiLineChart],
   template: `<kui-line-chart
     [series]="series"
     [categories]="categories"
@@ -82,7 +82,7 @@ class LineHost {
 }
 
 @Component({
-  imports: [KuiScatterChartComponent],
+  imports: [KuiScatterChart],
   template: `<kui-scatter-chart [series]="series" [size]="size()" [legend]="legend()" />`,
 })
 class ScatterHost {
@@ -92,7 +92,7 @@ class ScatterHost {
 }
 
 @Component({
-  imports: [KuiDonutChartComponent],
+  imports: [KuiDonutChart],
   template: `<kui-donut-chart [slices]="slices" [size]="size()" [legend]="legend()" />`,
 })
 class DonutHost {

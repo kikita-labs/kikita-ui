@@ -3,7 +3,7 @@ import { inject, Injector } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
-import { KuiDrawerService } from './kui-drawer.service';
+import { KuiDrawer } from './kui-drawer.service';
 import type { KuiDrawerConfig } from './kui-drawer.types';
 import type { KuiDrawerHost } from './kui-drawer-context.token';
 
@@ -25,7 +25,7 @@ export function kuiDrawer<TComponent extends KuiDrawerHost<unknown, unknown>>(
   component: Type<TComponent>,
   config?: Omit<KuiDrawerConfig, 'data'>,
 ): (data: InferDrawerData<TComponent>) => Observable<InferDrawerResult<TComponent> | undefined> {
-  const service = inject(KuiDrawerService);
+  const service = inject(KuiDrawer);
   const injector = inject(Injector);
   return (data: InferDrawerData<TComponent>) =>
     service.open(

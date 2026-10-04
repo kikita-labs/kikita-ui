@@ -4,32 +4,32 @@ import { TestBed } from '@angular/core/testing';
 
 import { kuiProvideButtonOptions } from '../../tokens';
 import { provideKuiIcons } from '../icon';
-import { KuiIconButtonDirective } from './kui-icon-button.directive';
+import { KuiIconButton } from './kui-icon-button.directive';
 
 const CLOSE_ICON = '<svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" /></svg>';
 const CHECK_ICON = '<svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7" /></svg>';
 
 @Component({
-  imports: [KuiIconButtonDirective],
+  imports: [KuiIconButton],
   template:
     '<button kuiIconButton shape="soft" appearance="warning" size="xs" aria-label="Settings"></button>',
 })
 class IconButtonHost {}
 
 @Component({
-  imports: [KuiIconButtonDirective],
+  imports: [KuiIconButton],
   template: '<button kuiIconButton aria-label="Settings"></button>',
 })
 class DefaultIconButtonHost {}
 
 @Component({
-  imports: [KuiIconButtonDirective],
+  imports: [KuiIconButton],
   template: '<a kuiIconButton disabled href="/blocked" aria-label="Blocked"></a>',
 })
 class DisabledIconAnchorHost {}
 
 @Component({
-  imports: [KuiIconButtonDirective],
+  imports: [KuiIconButton],
   template: '<button kuiIconButton [icon]="iconName()" aria-label="Close"></button>',
 })
 class IconInputHost {
@@ -37,13 +37,13 @@ class IconInputHost {
 }
 
 @Component({
-  imports: [KuiIconButtonDirective],
+  imports: [KuiIconButton],
   template:
     '<button kuiIconButton size="lg" icon="check" [loading]="true" aria-label="Save"></button>',
 })
 class LoadingIconButtonHost {}
 
-describe('KuiIconButtonDirective', () => {
+describe('KuiIconButton', () => {
   it('adds icon button host attributes for appearance and size', () => {
     const fixture = createFixture(IconButtonHost);
 

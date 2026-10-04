@@ -13,4 +13,4 @@ import { Directive } from '@angular/core';
  * ```
  */
 @Directive({ selector: 'ng-template[kuiAccordionIcon]' })
-export class KuiAccordionIconDirective {}
+export class KuiAccordionIcon {}

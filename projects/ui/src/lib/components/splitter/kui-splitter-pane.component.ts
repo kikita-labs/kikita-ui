@@ -34,7 +34,7 @@ import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
   },
 })
 /** A single resizable pane. See the class-level example above. */
-export class KuiSplitterPaneComponent {
+export class KuiSplitterPane {
   /**
    * Requested initial share of the splitter, as a percentage. Optional -- panes without an
    * explicit `size` split the remaining space evenly among themselves, the same way flex items

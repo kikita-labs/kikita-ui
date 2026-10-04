@@ -25,7 +25,7 @@ import '@kikita-labs/ui/styles/kikita-ui.css';
 Directive usage:
 
 ```ts
-import { KuiTextDirective } from '@kikita-labs/ui';
+import { KuiText } from '@kikita-labs/ui';
 ```
 
 ```html
@@ -119,7 +119,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     typography: {
       /* options below */
     },

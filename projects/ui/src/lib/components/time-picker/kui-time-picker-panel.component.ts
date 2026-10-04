@@ -16,10 +16,10 @@ import { KuiI18n } from '../../i18n/kui-i18n.service';
 import type { KuiTimePickerMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
-import { KuiButtonDirective } from '../button/kui-button.directive';
-import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
+import { KuiButton } from '../button/kui-button.directive';
+import { KuiDropdown } from '../dropdown/kui-dropdown.component';
 import { KUI_FIELD_TIME_PICKER_PANEL, registerKuiFieldPart } from '../field/kui-field-host.token';
-import { KuiSegmentDirective, KuiSegmentedComponent } from '../segmented';
+import { KuiSegment, KuiSegmented } from '../segmented';
 import { formatTwoDigits, nearestStep } from './kui-time-format.util';
 import type { KuiTimePickerFormat, KuiTimePickerPeriod } from './kui-time-picker.types';
 
@@ -79,7 +79,7 @@ function timeOfDaySeconds(date: Date): number {
  */
 @Component({
   selector: 'kui-time-picker-panel',
-  imports: [KuiButtonDirective, KuiSegmentedComponent, KuiSegmentDirective],
+  imports: [KuiButton, KuiSegmented, KuiSegment],
   templateUrl: './kui-time-picker-panel.component.html',
   host: {
     class: 'kui-timepicker-panel',
@@ -98,7 +98,7 @@ function timeOfDaySeconds(date: Date): number {
  * (see {@link dropdown}) is optional, and its own chrome (background/border) only drops when one
  * is actually present.
  */
-export class KuiTimePickerPanelComponent {
+export class KuiTimePickerPanel {
   /**
    * Selected time. Two-way. When this panel is a sibling of `input[kuiTimePicker]` inside the
    * same `kui-field`, the directive auto-wires this model to its own value — manual `[(value)]`
@@ -161,7 +161,7 @@ export class KuiTimePickerPanelComponent {
    * `data-kui-flat` on the host). Optional: `undefined` when there's no dropdown, i.e. the panel
    * is used on its own.
    */
-  private readonly dropdown = inject(KuiDropdownComponent, { optional: true });
+  private readonly dropdown = inject(KuiDropdown, { optional: true });
   /** @internal Cached once at construction -- host binding reads a plain field, not a call. */
   protected readonly hasDropdown = !!this.dropdown;
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);

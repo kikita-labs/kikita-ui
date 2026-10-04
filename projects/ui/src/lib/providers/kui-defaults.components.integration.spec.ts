@@ -1,30 +1,30 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiButtonDirective } from '../components/button';
-import { KuiCalendarComponent } from '../components/calendar';
-import { KuiDatePickerDirective } from '../components/date-picker';
-import { KuiDropdownComponent } from '../components/dropdown';
-import { KuiFieldComponent } from '../components/field';
+import { KuiButton } from '../components/button';
+import { KuiCalendar } from '../components/calendar';
+import { KuiDatePicker } from '../components/date-picker';
+import { KuiDropdown } from '../components/dropdown';
+import { KuiField } from '../components/field';
 import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
-import { kuiProvideDefaults } from './provide-kui-defaults';
+import { provideKuiDefaults } from './provide-kui-defaults';
 
 @Component({
-  imports: [KuiButtonDirective],
+  imports: [KuiButton],
   template: `<button kuiButton>Save</button>`,
 })
 class ButtonHost {}
 
 @Component({
-  imports: [KuiButtonDirective],
-  providers: [kuiProvideDefaults({ button: { size: 'lg' } })],
+  imports: [KuiButton],
+  providers: [provideKuiDefaults({ button: { size: 'lg' } })],
   template: `<button kuiButton>Scoped</button>`,
 })
 class ScopedButtonHost {}
 
 @Component({
-  imports: [KuiFieldComponent, KuiDropdownComponent, KuiDatePickerDirective, KuiCalendarComponent],
+  imports: [KuiField, KuiDropdown, KuiDatePicker, KuiCalendar],
   template: `
     <kui-field label="Date">
       <input kuiDatePicker [value]="value()" />

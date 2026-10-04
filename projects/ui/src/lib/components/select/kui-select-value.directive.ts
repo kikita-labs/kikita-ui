@@ -32,7 +32,7 @@ export interface KuiSelectValueContext<T = unknown> {
  * ```
  */
 @Directive({ selector: 'ng-template[kuiSelectValue]' })
-export class KuiSelectValueDirective<T = unknown> implements OnDestroy {
+export class KuiSelectValue<T = unknown> implements OnDestroy {
   /** Template reference consumed by `input[kuiSelect]`. */
   readonly templateRef = inject<TemplateRef<KuiSelectValueContext<T>>>(TemplateRef);
 

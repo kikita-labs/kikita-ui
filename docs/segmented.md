@@ -6,7 +6,7 @@ control with an animated sliding thumb.
 ## Import
 
 ```ts
-import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
+import { KuiSegmented, KuiSegment } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -89,7 +89,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     segmented: {
       /* options below */
     },

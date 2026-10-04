@@ -1,11 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import {
-  KuiButtonDirective,
-  KuiCarouselComponent,
-  KuiCarouselSlideDirective,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiButton, KuiCarousel, KuiCarouselSlide, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -18,10 +13,10 @@ import { CarouselSlideLabel } from './carousel-slide-label';
   selector: 'app-carousel-basic-examples',
   imports: [
     CarouselSlideLabel,
-    KuiButtonDirective,
-    KuiCarouselComponent,
-    KuiCarouselSlideDirective,
-    KuiTextDirective,
+    KuiButton,
+    KuiCarousel,
+    KuiCarouselSlide,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

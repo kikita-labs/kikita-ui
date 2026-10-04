@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { describe, expect, it, vi } from 'vitest';
 
 import { KUI_DIALOG_CONTEXT } from '../dialog/kui-dialog-context.token';
-import { KuiMediaViewerComponent } from './kui-media-viewer.component';
+import { KuiMediaViewerDialog } from './kui-media-viewer.component';
 import type { KuiMediaViewerData, KuiMediaViewerItem } from './kui-media-viewer.types';
 
 const ITEMS: readonly KuiMediaViewerItem[] = [
@@ -16,7 +16,7 @@ const ITEMS: readonly KuiMediaViewerItem[] = [
 function create(
   data: Partial<KuiMediaViewerData> = {},
   close = vi.fn(),
-): ComponentFixture<KuiMediaViewerComponent> {
+): ComponentFixture<KuiMediaViewerDialog> {
   TestBed.configureTestingModule({
     providers: [
       {
@@ -31,12 +31,12 @@ function create(
     ],
   });
 
-  const fixture = TestBed.createComponent(KuiMediaViewerComponent);
+  const fixture = TestBed.createComponent(KuiMediaViewerDialog);
   fixture.detectChanges();
   return fixture;
 }
 
-describe('KuiMediaViewerComponent', () => {
+describe('KuiMediaViewerDialog', () => {
   it('renders a hidden title with the current position for aria-labelledby', () => {
     const fixture = create({ index: 1 });
 

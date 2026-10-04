@@ -1,11 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import {
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiTimePickerDirective,
-  KuiTimePickerPanelComponent,
-} from '@kikita-labs/ui';
+import { KuiDropdown, KuiField, KuiTimePicker, KuiTimePickerPanel } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -16,10 +11,10 @@ import { createPickerTime } from '../../helpers';
 @Component({
   selector: 'app-time-picker-sizes',
   imports: [
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiTimePickerDirective,
-    KuiTimePickerPanelComponent,
+    KuiDropdown,
+    KuiField,
+    KuiTimePicker,
+    KuiTimePickerPanel,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

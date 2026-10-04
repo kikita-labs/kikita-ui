@@ -31,7 +31,7 @@ import { KuiClock } from '../../utils/kui-clock.service';
 import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { KUI_FIELD } from '../field/kui-field-host.token';
-import { KuiDatePickerInputAffixComponent } from './kui-date-picker-input-affix.component';
+import { KuiDatePickerInputAffix } from './kui-date-picker-input-affix.component';
 
 /**
  * Converts a native text input into a Kikita UI date picker trigger. Text is parsed/
@@ -39,7 +39,7 @@ import { KuiDatePickerInputAffixComponent } from './kui-date-picker-input-affix.
  * for the popover grid.
  *
  * When a `kui-calendar` is found as a sibling inside the same `kui-field` (via
- * `KuiFieldComponent.getCalendar()`), the directive auto-wires it: its own `value`, `viewDate`,
+ * `KuiField.getCalendar()`), the directive auto-wires it: its own `value`, `viewDate`,
  * `minDate`, and `maxDate` are pushed into the calendar, and the calendar's `value`/`viewDate`
  * changes (a day click, a month/year drill) are pulled back — no manual `[value]`/`(valueChange)`,
  * `[(viewDate)]`, `[minDate]`, or `[maxDate]` binding is required on the calendar for this to
@@ -83,7 +83,7 @@ import { KuiDatePickerInputAffixComponent } from './kui-date-picker-input-affix.
   },
 })
 /** Adds a calendar-backed date picker behavior to a native input. */
-export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date | null> {
+export class KuiDatePicker implements OnDestroy, FormValueControl<Date | null> {
   /**
    * Selected date. Bound by `[formField]` or `[(value)]`. Auto-wired into a sibling
    * `kui-calendar` inside the same `kui-field` (see the class doc); manual `[(value)]` binding
@@ -164,7 +164,7 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
       .join('');
   });
 
-  private readonly affixRef: ComponentRef<KuiDatePickerInputAffixComponent>;
+  private readonly affixRef: ComponentRef<KuiDatePickerInputAffix>;
   private wasOpen = false;
   private pointerStartedOnInput = false;
   private readonly rawText = signal('');
@@ -219,7 +219,7 @@ export class KuiDatePickerDirective implements OnDestroy, FormValueControl<Date 
     // The server's month is shown first during hydration; follow the browser's once it is settled.
     afterNextRender(() => this.clock.followBrowserDate(this.viewDate, startOfMonth));
 
-    this.affixRef = this.vcr.createComponent(KuiDatePickerInputAffixComponent);
+    this.affixRef = this.vcr.createComponent(KuiDatePickerInputAffix);
 
     effect(() => {
       this.affixRef.setInput('clearable', this.effectiveClearable());

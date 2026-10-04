@@ -16,7 +16,7 @@ pane needs no special API since each splitter only ever measures its own contain
 ## Import
 
 ```ts
-import { KuiSplitterComponent, KuiSplitterPaneComponent } from '@kikita-labs/ui';
+import { KuiSplitter, KuiSplitterPane } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:
@@ -166,7 +166,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     splitter: {
       /* options below */
     },

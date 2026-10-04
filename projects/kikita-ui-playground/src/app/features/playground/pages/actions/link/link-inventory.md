@@ -1,6 +1,6 @@
 # Link Contract Inventory
 
-This inventory maps the public Link contract to the page examples. `KuiLinkDirective` (`a[kuiLink], button[kuiLink]`) styles a native anchor or button host, composes `KuiTextDirective` (exposing only `variant`), reflects native attributes, and adds icon slots, external-link handling, and a disabled convention. It exposes no outputs or models and adds no ARIA role.
+This inventory maps the public Link contract to the page examples. `KuiLink` (`a[kuiLink], button[kuiLink]`) styles a native anchor or button host, composes `KuiText` (exposing only `variant`), reflects native attributes, and adds icon slots, external-link handling, and a disabled convention. It exposes no outputs or models and adds no ARIA role.
 
 Status: audit accepted by the parent; page implemented from this map and self-checked against the source before the browser evidence below.
 
@@ -44,7 +44,7 @@ Native pass-through attributes (`href`, `type`, `(click)`) belong to the host, n
 - `disabled` uses `pointer-events: none`, so a real pointer click passes through to the element underneath instead of reaching the handler. The click handler only protects programmatic and keyboard activation. Tests use a forced/programmatic click and keyboard Enter for the blocked-activation assertion.
 - `underline="none"` still thickens the (invisible) decoration on hover and pressed, so those states produce no visible cue; only the focus ring is visible. Docs already warn against `none` in running text.
 - The `variant` input accepts every `KuiTextVariant`, but only the four inline roles are documented and supported. Heading, display, title, overline, and code variants are omitted.
-- The composed `KuiTextDirective` `tone` is intentionally not exposed; the unit spec asserts it stays `default`.
+- The composed `KuiText` `tone` is intentionally not exposed; the unit spec asserts it stays `default`.
 
 ## Source audit
 
@@ -55,7 +55,7 @@ Native pass-through attributes (`href`, `type`, `(click)`) belong to the host, n
 
 ## Discrepancies
 
-- **Library defect (verified in the browser):** a consumer `(click)` handler on a disabled anchor still runs. `KuiLinkDirective` cancels the event with `stopImmediatePropagation`, but the consumer listener declared on the same host is registered earlier. The Disabled example counts handler calls; Enter on a programmatically focused disabled anchor (and a dispatched click) raised the anchor counter while navigation stayed blocked. Reproduced by the `test.fixme` "does not run a consumer click handler on a disabled anchor" in `e2e/link-playground.visual.spec.ts`. Not fixed here. The disabled button is unaffected (native `disabled`).
+- **Library defect (verified in the browser):** a consumer `(click)` handler on a disabled anchor still runs. `KuiLink` cancels the event with `stopImmediatePropagation`, but the consumer listener declared on the same host is registered earlier. The Disabled example counts handler calls; Enter on a programmatically focused disabled anchor (and a dispatched click) raised the anchor counter while navigation stayed blocked. Reproduced by the `test.fixme` "does not run a consumer click handler on a disabled anchor" in `e2e/link-playground.visual.spec.ts`. Not fixed here. The disabled button is unaffected (native `disabled`).
 - The docs sentence "a blocked click handler" was corrected in `docs/link.md`: pointer input never reaches a disabled link, so the handler only guards keyboard and programmatic activation.
 
 - Docs say only inline text roles make sense for a link, but the public `variant` type accepts all eleven `KuiTextVariant` values. No runtime guard exists.

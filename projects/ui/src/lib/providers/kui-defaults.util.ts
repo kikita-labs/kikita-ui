@@ -7,7 +7,7 @@ import { KuiDefaults } from './kui-defaults.service';
 /**
  * Injects the global control size as a signal, limited to the sizes a primitive supports.
  *
- * The signal follows the nearest `KuiDefaults` level, so a nested `kuiProvideDefaults` or a runtime
+ * The signal follows the nearest `KuiDefaults` level, so a nested `provideKuiDefaults` or a runtime
  * change is reflected without recreating the component. It is `undefined` when no size is set or
  * when the configured size is not in `supportedSizes`.
  */

@@ -26,7 +26,7 @@ import {
   KUI_GLYPH_TRIANGLE_ALERT,
   KUI_GLYPH_X,
 } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import { KuiGlyph } from '../icon/kui-glyph.component';
 import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
 import type {
   KuiToastAppearance,
@@ -57,19 +57,19 @@ function readPersistent(value: PersistentConfig): boolean {
 /**
  * @internal
  * Fixed region that renders the toast stack.
- * Created lazily by {@link KuiToastService} and appended to `document.body`.
+ * Created lazily by {@link KuiToast} and appended to `document.body`.
  * While toasts are visible the region is a manual popover, so it sits in the browser top layer
  * and is raised above any dialog, drawer or other overlay that is open when a toast is added.
  * Not part of the public API.
  */
 @Component({
   selector: 'kui-toast-region',
-  imports: [KuiGlyphComponent],
+  imports: [KuiGlyph],
   templateUrl: './kui-toast-region.component.html',
   encapsulation: ViewEncapsulation.None,
 })
 /** Hosts and announces active Kikita UI toast notifications. */
-export class KuiToastRegionComponent implements OnDestroy {
+export class KuiToastRegion implements OnDestroy {
   private readonly injector = inject(Injector);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);

@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiAvatarComponent, KuiChipDirective, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiAvatar, KuiChip, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -14,9 +14,9 @@ import { ChipRemovalExamples } from './components/chip-removal-examples';
   imports: [
     ChipAppearanceMatrix,
     ChipRemovalExamples,
-    KuiAvatarComponent,
-    KuiChipDirective,
-    KuiTextDirective,
+    KuiAvatar,
+    KuiChip,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

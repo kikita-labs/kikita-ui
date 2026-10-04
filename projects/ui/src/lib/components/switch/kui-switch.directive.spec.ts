@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiFieldComponent } from '../field';
-import { KuiSwitchDirective } from './kui-switch.directive';
+import { KuiField } from '../field';
+import { KuiSwitch } from './kui-switch.directive';
 
 @Component({
-  imports: [KuiSwitchDirective],
+  imports: [KuiSwitch],
   template: '<input kuiSwitch type="checkbox" size="sm" invalid />',
 })
 class StandaloneSwitchHost {}
 
 @Component({
-  imports: [KuiFieldComponent, KuiSwitchDirective],
+  imports: [KuiField, KuiSwitch],
   template: `
     <kui-field label="Enabled" hint="Optional" error="Required" size="lg">
       <input kuiSwitch type="checkbox" />
@@ -21,7 +21,7 @@ class StandaloneSwitchHost {}
 })
 class FieldSwitchHost {}
 
-describe('KuiSwitchDirective', () => {
+describe('KuiSwitch', () => {
   it('adds switch host attributes for size, role, and invalid state', () => {
     const fixture = createFixture(StandaloneSwitchHost);
 

@@ -13,7 +13,7 @@ selection follows the same `closeOnSelect` rule as pointer selection.
 ## Import
 
 ```ts
-import { KuiDropdownComponent, KuiDropdownForDirective, KuiOptionDirective } from '@kikita-labs/ui';
+import { KuiDropdown, KuiDropdownFor, KuiOption } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -72,7 +72,7 @@ readonly resultsOpen = signal(false);
 The existing `open()`, `close()`, and `toggle()` methods remain available for
 imperative integrations.
 
-## `KuiDropdownComponent` API
+## `KuiDropdown` API
 
 | Input           | Type                                      | Default     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | --------------- | ----------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -121,7 +121,7 @@ The panel also closes itself if the anchor (trigger) scrolls out of the viewport
 | `getPanel()`    | Return the rendered panel element, if attached.              |
 | `getPanelId()`  | Return the stable panel id for ARIA wiring.                  |
 
-## `KuiOptionDirective` API
+## `KuiOption` API
 
 | Input       | Type      | Description                         |
 | ----------- | --------- | ----------------------------------- |
@@ -153,7 +153,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     dropdown: {
       /* options below */
     },

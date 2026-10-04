@@ -4,13 +4,13 @@ import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import {
-  KuiAccordionComponent,
-  KuiAccordionItemComponent,
-  KuiFieldAffixDirective,
-  KuiFieldComponent,
-  KuiIconComponent,
-  KuiInputDirective,
-  KuiTextDirective,
+  KuiAccordion,
+  KuiAccordionItem,
+  KuiField,
+  KuiFieldAffix,
+  KuiIcon,
+  KuiInput,
+  KuiText,
 } from '@kikita-labs/ui';
 
 import { PlaygroundRoute } from '@app/enums';
@@ -21,14 +21,14 @@ import { COMPONENT_GROUPS } from './constants';
 @Component({
   selector: 'app-component-sidebar',
   imports: [
-    KuiAccordionComponent,
-    KuiAccordionItemComponent,
-    KuiFieldComponent,
-    KuiInputDirective,
-    KuiTextDirective,
+    KuiAccordion,
+    KuiAccordionItem,
+    KuiField,
+    KuiInput,
+    KuiText,
     TranslocoPipe,
-    KuiIconComponent,
-    KuiFieldAffixDirective,
+    KuiIcon,
+    KuiFieldAffix,
     RouterLink,
   ],
   templateUrl: './component-sidebar.html',

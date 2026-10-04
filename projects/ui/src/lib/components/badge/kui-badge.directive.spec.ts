@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiBadgeDirective } from './kui-badge.directive';
+import { KuiBadge } from './kui-badge.directive';
 
 @Component({
-  imports: [KuiBadgeDirective],
+  imports: [KuiBadge],
   template: '<span kuiBadge appearance="success" size="sm">Ready</span>',
 })
 class BadgeHost {}
 
-describe('KuiBadgeDirective', () => {
+describe('KuiBadge', () => {
   it('adds badge host attributes for appearance and size', () => {
     const fixture = createFixture(BadgeHost);
 

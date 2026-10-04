@@ -30,10 +30,10 @@ import {
   optionalBooleanAttribute,
   positiveIntegerAttribute,
 } from '../../utils/kui-input-transform.util';
-import { KuiAutoFocusDirective } from '../auto-focus';
+import { KuiAutoFocus } from '../auto-focus';
 import { KUI_FIELD } from '../field/kui-field-host.token';
-import { KuiInputDirective } from '../input';
-import { KuiLoaderDirective } from '../loader';
+import { KuiInput } from '../input';
+import { KuiLoader } from '../loader';
 
 const INTEGER_CHAR = /^[0-9]$/;
 const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
@@ -54,7 +54,7 @@ const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
  * `kui-field` -- the same pattern `kui-segmented` uses). For standalone use, bind `[(value)]`
  * directly.
  *
- * `autoFocus` (provided by {@link KuiAutoFocusDirective}) focuses the first cell that can take
+ * `autoFocus` (provided by {@link KuiAutoFocus}) focuses the first cell that can take
  * focus after the first render, and again every time it changes from `false` to `true`, for
  * example after a failed check clears the code. It never runs on the server.
  *
@@ -76,7 +76,7 @@ const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
  */
 @Component({
   selector: 'kui-otp-input',
-  imports: [KuiInputDirective, KuiLoaderDirective],
+  imports: [KuiInput, KuiLoader],
   templateUrl: './kui-otp-input.component.html',
   host: {
     class: 'kui-otp-input',
@@ -89,11 +89,11 @@ const ALPHANUMERIC_CHAR = /^[a-zA-Z0-9]$/;
     '[attr.data-kui-disabled]': 'disabled() ? "" : null',
     '[attr.data-kui-loading]': 'loading() ? "" : null',
   },
-  hostDirectives: [{ directive: KuiAutoFocusDirective, inputs: ['kuiAutoFocus: autoFocus'] }],
+  hostDirectives: [{ directive: KuiAutoFocus, inputs: ['kuiAutoFocus: autoFocus'] }],
   encapsulation: ViewEncapsulation.None,
 })
 /** Row of single-character cells for a one-time verification code or PIN. See the class-level example above. */
-export class KuiOtpInputComponent implements FormValueControl<string> {
+export class KuiOtpInput implements FormValueControl<string> {
   /** Number of cells. Defaults to `6`, the most common SMS/email code length. */
   readonly length = input(6, { transform: positiveIntegerAttribute });
 
@@ -186,7 +186,7 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
    * true`, since `[formField]` sits on `kui-otp-input`'s own host element, not a descendant).
    * Signal Forms writes its raw, untouched-gated validity straight into the `invalid` input
    * required by `FormValueControl` -- the same "native-control interop" behavior documented on
-   * `KuiInputDirective.invalid` -- so a bound `[formField]` needs its own `touched()` applied
+   * `KuiInput.invalid` -- so a bound `[formField]` needs its own `touched()` applied
    * before it drives any visual state, exactly like `kui-field`'s own gated `invalid()` does for
    * its error text. Manual, non-forms usage (`[invalid]="true"` with no `[formField]`) has no such
    * raw/gated split and must keep showing immediately, so this flag decides which of the two
@@ -215,7 +215,7 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
   protected readonly describedBy = computed(() => this.field?.describedBy() ?? null);
 
   /**
-   * `invalid()` resolved for display, matching `KuiInputDirective.invalid`'s exact three-way
+   * `invalid()` resolved for display, matching `KuiInput.invalid`'s exact three-way
    * shape: a bound `[formField]` gates the raw Signal Forms value by `touched()`; otherwise the
    * manual `invalid()` input is OR'd with the ambient `kui-field`'s own `invalid()` -- so wrapping
    * in `<kui-field error="...">` alone already marks every cell invalid, the same as it already
@@ -253,7 +253,7 @@ export class KuiOtpInputComponent implements FormValueControl<string> {
 
   /**
    * The first cell adopts the ancestor `kui-field`'s `controlId`, the same automatic id a plain
-   * `input[kuiInput]` takes on (`KuiInputDirective.hostId`) -- `kui-field`'s `<label for>` targets
+   * `input[kuiInput]` takes on (`KuiInput.hostId`) -- `kui-field`'s `<label for>` targets
    * exactly that id, so clicking the label now focuses (and selects) the first cell, the same way
    * it already does for a single native input. Unlike `kui-segmented` (no single cell is the
    * obvious "start here" target across N equal buttons), OTP's first cell is a natural match.

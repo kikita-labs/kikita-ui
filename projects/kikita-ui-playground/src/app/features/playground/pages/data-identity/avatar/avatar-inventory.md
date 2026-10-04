@@ -6,8 +6,8 @@ This inventory maps the implemented Avatar Playground page to the source contrac
 
 The public import path is `@kikita-labs/ui`. `projects/ui/src/public-api.ts` re-exports the component barrel; `projects/ui/src/lib/components/index.ts` re-exports the Avatar barrel; and `projects/ui/src/lib/components/avatar/index.ts` exports:
 
-- `KuiAvatarComponent` (`kui-avatar`)
-- `KuiAvatarGroupComponent` (`kui-avatar-group`)
+- `KuiAvatar` (`kui-avatar`)
+- `KuiAvatarGroup` (`kui-avatar-group`)
 - `KuiAvatarItem`
 - `KuiAvatarShape`: `'circle' | 'square'`
 - `KuiAvatarSize`: `'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'`

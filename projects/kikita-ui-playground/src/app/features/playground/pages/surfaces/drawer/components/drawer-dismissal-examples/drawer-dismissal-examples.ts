@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { KuiButtonDirective, kuiDrawer, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiButton, kuiDrawer, KuiText } from '@kikita-labs/ui';
 
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
@@ -19,7 +19,7 @@ import { DrawerExampleContent } from '../drawer-example-content';
 /** Compares the independent close button, Escape, and backdrop settings. */
 @Component({
   selector: 'app-drawer-dismissal-examples',
-  imports: [DrawerExampleActions, KuiButtonDirective, KuiTextDirective, TranslocoPipe],
+  imports: [DrawerExampleActions, KuiButton, KuiText, TranslocoPipe],
   templateUrl: './drawer-dismissal-examples.html',
   styleUrl: './drawer-dismissal-examples.scss',
 })

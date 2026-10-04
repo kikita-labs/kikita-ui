@@ -5,11 +5,7 @@ Navigation trail showing the current page's position in a hierarchy. `[kuiBreadc
 ## Import
 
 ```ts
-import {
-  KuiBreadcrumbsDirective,
-  KuiBreadcrumbItemDirective,
-  KuiBreadcrumbSeparatorComponent,
-} from '@kikita-labs/ui';
+import { KuiBreadcrumbs, KuiBreadcrumbItem, KuiBreadcrumbSeparator } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -93,7 +89,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     breadcrumbs: {
       /* options below */
     },

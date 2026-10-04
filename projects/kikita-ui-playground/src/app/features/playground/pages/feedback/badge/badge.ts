@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiBadgeDirective, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiBadge, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -8,7 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows the documented Badge appearances, sizes, and semantic host elements. */
 @Component({
   selector: 'app-badge',
-  imports: [KuiBadgeDirective, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiBadge, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './badge.html',
   styleUrl: './badge.scss',
 })

@@ -3,11 +3,11 @@ import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { KuiAccordionComponent } from './kui-accordion.component';
-import { KuiAccordionItemComponent } from './kui-accordion-item.component';
+import { KuiAccordion } from './kui-accordion.component';
+import { KuiAccordionItem } from './kui-accordion-item.component';
 
 @Component({
-  imports: [KuiAccordionComponent, KuiAccordionItemComponent],
+  imports: [KuiAccordion, KuiAccordionItem],
   template: `
     <kui-accordion [mode]="mode()" [(expandedItems)]="expanded">
       <kui-accordion-item id="a" header="Section A">Body A</kui-accordion-item>
@@ -21,7 +21,7 @@ class AccordionHost {
   readonly expanded = signal<string[]>([]);
 }
 
-describe('KuiAccordionComponent', () => {
+describe('KuiAccordion', () => {
   let fixture: ComponentFixture<AccordionHost>;
   let host: AccordionHost;
 

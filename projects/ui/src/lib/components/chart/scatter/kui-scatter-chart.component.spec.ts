@@ -5,10 +5,10 @@ import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
 import type { KuiChartScatterSeries, KuiChartTooltipFormatter } from '../chart.types';
-import { KuiScatterChartComponent } from './kui-scatter-chart.component';
+import { KuiScatterChart } from './kui-scatter-chart.component';
 
 @Component({
-  imports: [KuiScatterChartComponent],
+  imports: [KuiScatterChart],
   template: `
     <kui-scatter-chart
       [series]="series()"
@@ -50,7 +50,7 @@ function decorationMarks(fixture: ComponentFixture<HostComponent>): SVGCircleEle
   return Array.from(fixture.nativeElement.querySelectorAll('circle.kui-chart__mark--decoration'));
 }
 
-describe('KuiScatterChartComponent', () => {
+describe('KuiScatterChart', () => {
   it('uses a generic accessible name when ariaLabel is omitted', () => {
     const fixture = createFixture();
     const graphic = fixture.nativeElement.querySelector('.kui-chart__graphic') as HTMLElement;

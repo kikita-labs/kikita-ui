@@ -230,6 +230,9 @@ export function runStaticAudit(root = defaultRoot) {
   runCheck(failures, 'Signal Forms controls spell contract members exactly', () =>
     checkFormControlContractNames(root),
   );
+  runCheck(failures, 'Angular classes carry no Component, Directive or Service suffix', () =>
+    checkNoRoleSuffixedClasses(root),
+  );
   runCheck(failures, 'library components read their text from the message map', () =>
     checkNoHardcodedUserFacingText(root),
   );
@@ -720,6 +723,38 @@ function checkPublicJSDoc(root) {
 
       if (!recent.includes('/**')) {
         failures.push(`${toRepoPath(root, file)} export ${match[1]} is missing nearby JSDoc`);
+      }
+    }
+  }
+
+  return failures;
+}
+
+/**
+ * Angular 20+ names a class for what it is, not for the construct that declares it, so `KuiButton`
+ * is the directive and `KuiToast` the service. Pipes keep their `Pipe` suffix and live in `-pipe.ts`.
+ */
+function checkNoRoleSuffixedClasses(root) {
+  const failures = [];
+  const files = collectTextFiles(root, [
+    join(root, 'projects/ui/src'),
+    join(root, 'projects/kikita-ui-playground/src'),
+  ]).filter(
+    (file) => file.endsWith('.ts') && !file.endsWith('.spec.ts') && !file.endsWith('.d.ts'),
+  );
+  const classPattern =
+    /^[ \t]*(?:export\s+)?(?:default\s+)?(?:abstract\s+)?class\s+([A-Za-z0-9_]+)/gm;
+
+  for (const file of files) {
+    const text = readFileSync(file, 'utf8');
+
+    for (const match of text.matchAll(classPattern)) {
+      const name = match[1];
+
+      if (/(?:Component|Directive|Service)$/u.test(name)) {
+        failures.push(
+          `${toRepoPath(root, file)} declares class ${name}; Angular classes carry no Component, Directive or Service suffix`,
+        );
       }
     }
   }

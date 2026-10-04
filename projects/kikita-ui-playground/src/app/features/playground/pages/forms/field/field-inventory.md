@@ -52,7 +52,7 @@ No Field outputs or models are declared. The separate `kuiFieldAffix` directive 
 ## Omitted API and combinations
 
 - Deprecated `kuiFieldAffixIcon` and `kuiFieldAction` aliases are intentionally not used. Current content uses `kuiFieldAffix` auto-detection on icon, loader, button, and text hosts.
-- Manual `.kui-input-group` + `KuiInputGroupDirective` is omitted. It is a fallback for custom chrome that cannot use the supported affix hosts, not a Field input.
+- Manual `.kui-input-group` + `KuiInputGroup` is omitted. It is a fallback for custom chrome that cannot use the supported affix hosts, not a Field input.
 - Dropdown/select/calendar/time-picker host-context behavior is omitted because those integrations are owned by their controls and their component pages; this page does not claim Field has a general dropdown input API.
 - The manually wired dropdown keyboard fallback is omitted: it is an integration path rather than Field form anatomy, and the source has no dedicated unit test establishing that interaction contract.
 - Disabled, read-only, focused, hover, and pressed are states of projected controls, not Field inputs. The Field page does not fabricate those states. Focus is reached through a real affix click and the action uses a native button.

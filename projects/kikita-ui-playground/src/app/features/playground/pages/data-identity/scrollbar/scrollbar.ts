@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiTextDirective } from '@kikita-labs/ui';
+import { KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -8,7 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows native scrolling with Kikita UI's local and application-wide scrollbar styling. */
 @Component({
   selector: 'app-scrollbar',
-  imports: [KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './scrollbar.html',
   styleUrl: './scrollbar.scss',
 })

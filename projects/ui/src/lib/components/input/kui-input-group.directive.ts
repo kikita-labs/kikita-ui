@@ -18,7 +18,7 @@ export { KUI_INPUT_GROUP_CONTROL_SELECTOR, KUI_INPUT_GROUP_INTERACTIVE_SELECTOR 
 @Directive({
   selector: '.kui-input-group',
 })
-export class KuiInputGroupDirective {
+export class KuiInputGroup {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @HostListener('click', ['$event'])

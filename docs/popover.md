@@ -5,7 +5,7 @@ Floating content panel anchored to a trigger element. Unlike Tooltip (text only,
 ## Import
 
 ```ts
-import { KuiButtonDirective, KuiPopoverComponent, KuiPopoverForDirective } from '@kikita-labs/ui';
+import { KuiButton, KuiPopover, KuiPopoverFor } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:
@@ -50,7 +50,7 @@ import '@kikita-labs/ui/styles';
 </kui-popover>
 ```
 
-## KuiPopoverComponent inputs
+## KuiPopover inputs
 
 | Input         | Type                    | Default                 | Description                                                                                             |
 | ------------- | ----------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------- |
@@ -64,7 +64,7 @@ import '@kikita-labs/ui/styles';
 | `trapFocus`   | `boolean`               | `false`                 | Trap focus inside the panel and auto-focus the first focusable element on open.                         |
 | `open`        | `boolean` (model)       | `false`                 | Current open state exposed for trigger integrations. Do not use as a standalone controlled API.         |
 
-## KuiPopoverForDirective
+## KuiPopoverFor
 
 Add `[kuiPopoverFor]="ref"` to any element to make it a trigger. Sets `aria-expanded` and `aria-haspopup="dialog"` automatically.
 
@@ -126,7 +126,7 @@ All other layout (buttons, forms, images) is developer-provided via `<ng-content
 
 ## Architecture
 
-`KuiPopoverComponent` lazily creates a CDK overlay on `openFor()` and disposes it after the exit animation completes. The `[kuiPopoverFor]` directive wires click/hover events on the trigger element and passes `element.nativeElement` to `openFor()`. Position changes from CDK update `data-side`/`data-align` attributes driving animation and arrow direction.
+`KuiPopover` lazily creates a CDK overlay on `openFor()` and disposes it after the exit animation completes. The `[kuiPopoverFor]` directive wires click/hover events on the trigger element and passes `element.nativeElement` to `openFor()`. Position changes from CDK update `data-side`/`data-align` attributes driving animation and arrow direction.
 
 <!-- color-tokens:begin -->
 
@@ -161,7 +161,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     popover: {
       /* options below */
     },

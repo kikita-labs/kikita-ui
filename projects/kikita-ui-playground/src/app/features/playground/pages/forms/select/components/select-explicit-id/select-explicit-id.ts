@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 
-import {
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
-  KuiSelectDirective,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiDropdown, KuiField, KuiOption, KuiSelect, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -15,11 +9,11 @@ import { TranslocoPipe } from '@jsverse/transloco';
 @Component({
   selector: 'app-select-explicit-id',
   imports: [
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiOptionDirective,
-    KuiSelectDirective,
-    KuiTextDirective,
+    KuiDropdown,
+    KuiField,
+    KuiOption,
+    KuiSelect,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

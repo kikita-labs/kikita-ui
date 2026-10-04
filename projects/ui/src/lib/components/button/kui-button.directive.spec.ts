@@ -5,43 +5,43 @@ import { TestBed } from '@angular/core/testing';
 import { provideKikitaUi } from '../../root';
 import { kuiProvideButtonOptions } from '../../tokens';
 import { provideKuiIcons } from '../icon';
-import { KuiButtonDirective } from './kui-button.directive';
+import { KuiButton } from './kui-button.directive';
 
 const CHECK_ICON = '<svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7" /></svg>';
 const ARROW_ICON = '<svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5" /></svg>';
 
 @Component({
-  imports: [KuiButtonDirective],
+  imports: [KuiButton],
   template: '<button kuiButton shape="soft" appearance="success" size="sm" wrap>Save</button>',
 })
 class ButtonHost {}
 
 @Component({
-  imports: [KuiButtonDirective],
+  imports: [KuiButton],
   template: '<button kuiButton>Save</button>',
 })
 class DefaultButtonHost {}
 
 @Component({
-  imports: [KuiButtonDirective],
+  imports: [KuiButton],
   template: '<button kuiButton shape="outline" appearance="danger" size="lg">Delete</button>',
 })
 class ExplicitButtonHost {}
 
 @Component({
-  imports: [KuiButtonDirective],
+  imports: [KuiButton],
   template: '<a kuiButton disabled href="/blocked">Blocked</a>',
 })
 class DisabledAnchorHost {}
 
 @Component({
-  imports: [KuiButtonDirective],
+  imports: [KuiButton],
   template: '<button kuiButton size="lg" [loading]="true">Save</button>',
 })
 class LoadingButtonHost {}
 
 @Component({
-  imports: [KuiButtonDirective],
+  imports: [KuiButton],
   template: '<button kuiButton [iconStart]="startIcon()" [iconEnd]="endIcon()">Continue</button>',
 })
 class IconSlotButtonHost {
@@ -49,7 +49,7 @@ class IconSlotButtonHost {
   protected readonly endIcon = signal<string | undefined>('arrow');
 }
 
-describe('KuiButtonDirective', () => {
+describe('KuiButton', () => {
   it('adds button host attributes for appearance and size', () => {
     const fixture = createFixture(ButtonHost);
 

@@ -1,11 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import {
-  KuiCalendarComponent,
-  KuiDatePickerDirective,
-  KuiDropdownComponent,
-  KuiFieldComponent,
-} from '@kikita-labs/ui';
+import { KuiCalendar, KuiDatePicker, KuiDropdown, KuiField } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -16,10 +11,10 @@ import { createDatePickerCalendarLocale } from '../date-picker-calendar-locale';
 @Component({
   selector: 'app-date-picker-compact',
   imports: [
-    KuiCalendarComponent,
-    KuiDatePickerDirective,
-    KuiDropdownComponent,
-    KuiFieldComponent,
+    KuiCalendar,
+    KuiDatePicker,
+    KuiDropdown,
+    KuiField,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

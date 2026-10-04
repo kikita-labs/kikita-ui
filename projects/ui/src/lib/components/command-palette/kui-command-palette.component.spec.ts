@@ -5,11 +5,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { KuiCommandPaletteComponent } from './kui-command-palette.component';
+import { KuiCommandPalette } from './kui-command-palette.component';
 import type { KuiCommandGroup, KuiCommandItem } from './kui-command-palette.types';
 
 @Component({
-  imports: [KuiCommandPaletteComponent],
+  imports: [KuiCommandPalette],
   template: `
     <button class="trigger" type="button">Trigger</button>
     <kui-command-palette
@@ -45,7 +45,7 @@ class CommandPaletteHost {
   }
 }
 
-describe('KuiCommandPaletteComponent', () => {
+describe('KuiCommandPalette', () => {
   let fixture: ComponentFixture<CommandPaletteHost>;
   let host: HTMLElement;
   let overlayHost: HTMLElement;
@@ -184,7 +184,7 @@ describe('KuiCommandPaletteComponent', () => {
     const item = { id: 'project:open/a#b', label: 'Open' };
     fixture.componentInstance.groups.set([{ items: [item] }]);
     openPalette();
-    const second = TestBed.createComponent(KuiCommandPaletteComponent);
+    const second = TestBed.createComponent(KuiCommandPalette);
     try {
       second.componentRef.setInput('groups', [{ items: [item] }]);
       second.componentInstance.open.set(true);

@@ -5,7 +5,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it } from 'vitest';
 
-import { KuiDrawerContainerComponent } from './kui-drawer-container.component';
+import { KuiDrawerContainer } from './kui-drawer-container.component';
 
 @Component({
   template: `
@@ -22,9 +22,9 @@ class ManualCloseContent {}
 })
 class PlainContent {}
 
-describe('KuiDrawerContainerComponent', () => {
-  function create(): ComponentFixture<KuiDrawerContainerComponent> {
-    return TestBed.createComponent(KuiDrawerContainerComponent);
+describe('KuiDrawerContainer', () => {
+  function create(): ComponentFixture<KuiDrawerContainer> {
+    return TestBed.createComponent(KuiDrawerContainer);
   }
 
   it('renders the close button by default', () => {

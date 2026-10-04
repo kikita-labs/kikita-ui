@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiLoaderDirective, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiLoader, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -8,7 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows every supported Loader size with its resolved size attribute. */
 @Component({
   selector: 'app-loader-sizes',
-  imports: [KuiLoaderDirective, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiLoader, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './loader-sizes.html',
   styleUrl: './loader-sizes.scss',
 })

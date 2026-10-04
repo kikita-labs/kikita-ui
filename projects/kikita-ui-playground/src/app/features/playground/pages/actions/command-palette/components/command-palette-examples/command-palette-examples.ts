@@ -2,12 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import {
-  KuiButtonDirective,
-  type KuiCommandItem,
-  KuiCommandPaletteComponent,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiButton, type KuiCommandItem, KuiCommandPalette, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -17,13 +12,7 @@ import { createCommandGroups } from './helpers';
 
 @Component({
   selector: 'app-command-palette-examples',
-  imports: [
-    KuiButtonDirective,
-    KuiCommandPaletteComponent,
-    KuiTextDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [KuiButton, KuiCommandPalette, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './command-palette-examples.html',
   styleUrl: './command-palette-examples.scss',
 })

@@ -3,7 +3,7 @@ import { form, FormField } from '@angular/forms/signals';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { KuiFieldComponent, KuiInputDirective } from '@kikita-labs/ui';
+import { KuiField, KuiInput } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -14,7 +14,7 @@ import { createInputValidationSchema } from './helpers';
 /** Shows a required Input moving from untouched to invalid and then corrected. */
 @Component({
   selector: 'app-input-validation',
-  imports: [FormField, KuiFieldComponent, KuiInputDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [FormField, KuiField, KuiInput, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './input-validation.html',
   styleUrl: './input-validation.scss',
 })

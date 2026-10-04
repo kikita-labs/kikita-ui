@@ -18,7 +18,7 @@ import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiIdFactory } from '../../utils/kui-id.util';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import { KuiGlyph } from '../icon/kui-glyph.component';
 import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
 
 /**
@@ -30,11 +30,11 @@ import type { KuiDrawerSide, KuiDrawerSize } from './kui-drawer.types';
 @Component({
   selector: 'kui-drawer-container',
   templateUrl: './kui-drawer-container.component.html',
-  imports: [CdkPortalOutlet, CdkTrapFocus, KuiGlyphComponent],
+  imports: [CdkPortalOutlet, CdkTrapFocus, KuiGlyph],
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders the modal drawer surface used by the drawer service. */
-export class KuiDrawerContainerComponent {
+export class KuiDrawerContainer {
   private readonly nextId = kuiIdFactory();
   private readonly drawerDefaults = inject(KuiDefaults).get('drawer');
   protected readonly t = injectKuiMessages('drawer');

@@ -5,8 +5,8 @@ import { disabled, form, FormField, max, min } from '@angular/forms/signals';
 
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { KuiFieldComponent } from '../field';
-import { KuiSliderDirective } from './kui-slider.directive';
+import { KuiField } from '../field';
+import { KuiSlider } from './kui-slider.directive';
 
 @Component({
   template: `
@@ -23,7 +23,7 @@ import { KuiSliderDirective } from './kui-slider.directive';
       [maxLabel]="maxLabel()"
     />
   `,
-  imports: [KuiSliderDirective],
+  imports: [KuiSlider],
 })
 class TestHostComponent {
   readonly value = signal(50);
@@ -38,13 +38,13 @@ class TestHostComponent {
 
 @Component({
   template: '<input type="range" kuiSlider minLabel="0" maxLabel="100" />',
-  imports: [KuiSliderDirective],
+  imports: [KuiSlider],
 })
 class InitiallyLabeledTestHostComponent {}
 
 @Component({
   template: '<input type="range" kuiSlider value="75" />',
-  imports: [KuiSliderDirective],
+  imports: [KuiSlider],
 })
 class DefaultRangeTestHostComponent {}
 
@@ -54,7 +54,7 @@ class DefaultRangeTestHostComponent {}
       <input type="range" kuiSlider [formField]="settingsForm.volume" />
     </kui-field>
   `,
-  imports: [FormField, KuiFieldComponent, KuiSliderDirective],
+  imports: [FormField, KuiField, KuiSlider],
 })
 class SignalFormsHostComponent {
   readonly model = signal({ volume: 60 });
@@ -72,11 +72,11 @@ class SignalFormsHostComponent {
       <input type="range" kuiSlider />
     </kui-field>
   `,
-  imports: [KuiFieldComponent, KuiSliderDirective],
+  imports: [KuiField, KuiSlider],
 })
 class FieldWiringHostComponent {}
 
-describe('KuiSliderDirective', () => {
+describe('KuiSlider', () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let host: TestHostComponent;
 
@@ -222,7 +222,7 @@ describe('KuiSliderDirective', () => {
   });
 });
 
-describe('KuiSliderDirective with Angular Signal Forms', () => {
+describe('KuiSlider with Angular Signal Forms', () => {
   it('keeps native range and generated fill synced with the form value', async () => {
     await TestBed.configureTestingModule({
       imports: [SignalFormsHostComponent],
@@ -271,7 +271,7 @@ describe('KuiSliderDirective with Angular Signal Forms', () => {
   });
 });
 
-describe('KuiSliderDirective inside kui-field', () => {
+describe('KuiSlider inside kui-field', () => {
   it('inherits field id, description, and invalid state', async () => {
     await TestBed.configureTestingModule({
       imports: [FieldWiringHostComponent],

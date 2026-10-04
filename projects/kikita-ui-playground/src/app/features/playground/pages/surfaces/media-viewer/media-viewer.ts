@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiTextDirective } from '@kikita-labs/ui';
+import { KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -23,7 +23,7 @@ import {
     MediaViewerSelectExample,
     MediaViewerStateExamples,
     PlaygroundExampleCard,
-    KuiTextDirective,
+    KuiText,
     TranslocoPipe,
   ],
   templateUrl: './media-viewer.html',

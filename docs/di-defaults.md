@@ -29,7 +29,7 @@ provideKikitaUi({
 
 ```ts
 // A component, route or environment injector: applies to that subtree only
-providers: [kuiProvideDefaults({ button: { size: 'lg' } })];
+providers: [provideKuiDefaults({ button: { size: 'lg' } })];
 ```
 
 `defaults` is a flat map with one key per primitive plus the global control `size`. Every key points
@@ -54,7 +54,7 @@ key and per property**:
 - arrays and functions are replaced as a whole;
 - a level never changes its parent.
 
-Several `kuiProvideDefaults` or `provideKikitaUi` providers on one level combine in provider order,
+Several `provideKuiDefaults` or `provideKikitaUi` providers on one level combine in provider order,
 the later one winning per property.
 
 ## Reactive values
@@ -169,7 +169,7 @@ local input or call config > defaults.<overlay> > built-in default
 `kui-dropdown` is also the panel of `kuiSelect`, `kuiCombobox`, `kuiDatePicker` and
 `kuiTimePicker`, so `defaults.dropdown` reaches those panels unless the control sets the input itself.
 `kuiDialog` and `kuiDrawer` read the defaults of the injector they are called from, so a nested
-`kuiProvideDefaults` applies to dialogs opened inside it.
+`provideKuiDefaults` applies to dialogs opened inside it.
 
 ## Calendars, time, carousel and pagination
 
@@ -256,12 +256,12 @@ functions remain as deprecated wrappers (removal in 3.0):
 
 | Before                                            | After                                        |
 | ------------------------------------------------- | -------------------------------------------- |
-| `kuiProvideButtonOptions({ button, iconButton })` | `kuiProvideDefaults({ button, iconButton })` |
-| `kuiProvideFieldOptions(options)`                 | `kuiProvideDefaults({ field: options })`     |
-| `kuiProvideSelectOptions(options)`                | `kuiProvideDefaults({ select: options })`    |
-| `kuiProvideComboboxOptions(options)`              | `kuiProvideDefaults({ combobox: options })`  |
-| `kuiProvideTooltipOptions(options)`               | `kuiProvideDefaults({ tooltip: options })`   |
-| `provideKuiToastOptions(options)`                 | `kuiProvideDefaults({ toast: options })`     |
+| `kuiProvideButtonOptions({ button, iconButton })` | `provideKuiDefaults({ button, iconButton })` |
+| `kuiProvideFieldOptions(options)`                 | `provideKuiDefaults({ field: options })`     |
+| `kuiProvideSelectOptions(options)`                | `provideKuiDefaults({ select: options })`    |
+| `kuiProvideComboboxOptions(options)`              | `provideKuiDefaults({ combobox: options })`  |
+| `kuiProvideTooltipOptions(options)`               | `provideKuiDefaults({ tooltip: options })`   |
+| `provideKuiToastOptions(options)`                 | `provideKuiDefaults({ toast: options })`     |
 | `provideKikitaUi({ tooltip })`                    | `provideKikitaUi({ defaults: { tooltip } })` |
 | `KuiButtonOptions { button, iconButton }`         | `KuiButtonProviderOptions` (deprecated)      |
 | `KuiButtonPrimitiveOptions`                       | `KuiButtonBaseOptions`                       |

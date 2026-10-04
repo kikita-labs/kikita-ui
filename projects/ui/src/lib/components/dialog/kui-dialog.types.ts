@@ -11,7 +11,7 @@ export type KuiDialogSize = 'auto' | 'sm' | 'md' | 'lg' | 'fullscreen';
 /** Visual intent of the dialog, affects `.kui-dialog-icon` color. */
 export type KuiDialogAppearance = 'default' | 'danger' | 'warning';
 
-/** Options passed to {@link KuiDialogService.open} or {@link kuiDialog}. */
+/** Options passed to {@link KuiDialog.open} or {@link kuiDialog}. */
 export interface KuiDialogConfig<TData = unknown> {
   /** Arbitrary data injected into the dialog component via {@link KUI_DIALOG_CONTEXT}. */
   data?: TData;

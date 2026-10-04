@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiStepperComponent, KuiStepComponent } from '@kikita-labs/ui';
+import { KuiStepper, KuiStep } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -82,7 +82,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     stepper: {
       /* options below */
     },

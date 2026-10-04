@@ -49,7 +49,7 @@ replacing them with new objects; Table exposes no key or track-by input that cou
 persistence across refreshed records. Existing unit coverage selects the same row object; page E2E
 checks selected styling and checkbox state for those stable rows.
 
-The sort action words `Sort` and `Clear` are English literals in `KuiThDirective`; it moves the header's
+The sort action words `Sort` and `Clear` are English literals in `KuiTh`; it moves the header's
 current child nodes into a generated button and captures that initial column text for its accessible
 label. Because the directive reparents the translated content after Angular creates it, sortable column
 headings also remain in their initial language after a runtime locale switch. The Russian E2E verifies
@@ -60,7 +60,7 @@ omits both inputs and E2E confirms their English defaults remain English in the 
 ## Contract discrepancies and boundaries
 
 - `docs/table.md` describes `sticky` on matching `td[kuiCell]` cells and `table.css` contains a
-  `.kui-cell--sticky` rule, but `KuiCellDirective` has no sticky input or host binding. The class is not
+  `.kui-cell--sticky` rule, but `KuiCell` has no sticky input or host binding. The class is not
   applied by the public directive. This page deliberately omits sticky body cells and does not add a
   class-based workaround.
 - `docs/table.md` types the comparator as `(a: T, b: T) => number`; `th[kuiTh]` actually declares
@@ -69,7 +69,7 @@ omits both inputs and E2E confirms their English defaults remain English in the 
 - The page source JSDoc and `docs/table.md` allow an omitted row value for a presentational row, and
   the directive input is `unknown | undefined`. The generated/MCP-facing Table page describes the
   `value` input as required. This page uses values on every data row and does not claim requiredness.
-- `KuiThDirective` moves sortable header child nodes into a generated button and stores its initial
+- `KuiTh` moves sortable header child nodes into a generated button and stores its initial
   column text for the generated accessible label. The heading and generated action therefore retain
   the initial column text across a runtime locale change; the action verbs `Sort` and `Clear` are
   hard-coded in English. The Russian locale test verifies that non-sortable page copy translates while

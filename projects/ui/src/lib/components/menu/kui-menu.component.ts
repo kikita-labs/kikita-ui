@@ -29,7 +29,7 @@ import {
 import { kuiNextId } from '../../utils/kui-id.util';
 import { optionalOverlayOffsetAttribute } from '../../utils/kui-input-transform.util';
 import type { KuiMenuAlign } from './kui-menu-align.type';
-import { KuiMenuItemDirective } from './kui-menu-item.directive';
+import { KuiMenuItem } from './kui-menu-item.directive';
 import type { KuiMenuPlacement } from './kui-menu-placement.type';
 
 /**
@@ -44,7 +44,7 @@ import type { KuiMenuPlacement } from './kui-menu-placement.type';
   templateUrl: './kui-menu.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class KuiMenuComponent implements OnDestroy {
+export class KuiMenu implements OnDestroy {
   /** Accessible name for the menu panel. Defaults to the `menu.label` message. */
   readonly ariaLabel = input<string | undefined>();
 
@@ -119,7 +119,7 @@ export class KuiMenuComponent implements OnDestroy {
   });
 
   private readonly tplRef = viewChild.required<TemplateRef<void>>('menuTpl');
-  private readonly items = contentChildren(KuiMenuItemDirective, { descendants: true });
+  private readonly items = contentChildren(KuiMenuItem, { descendants: true });
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
@@ -352,7 +352,7 @@ export class KuiMenuComponent implements OnDestroy {
     items[items.length - 1]?.focus();
   }
 
-  private focusableItems(): readonly KuiMenuItemDirective[] {
+  private focusableItems(): readonly KuiMenuItem[] {
     return this.items().filter((item) => item.isFocusable());
   }
 

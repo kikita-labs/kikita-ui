@@ -3,8 +3,8 @@ import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiAvatarComponent } from '../components/avatar/kui-avatar.component';
-import { KuiAvatarGroupComponent } from '../components/avatar/kui-avatar-group.component';
+import { KuiAvatar } from '../components/avatar/kui-avatar.component';
+import { KuiAvatarGroup } from '../components/avatar/kui-avatar-group.component';
 import type { KuiAvatarItem } from '../components/avatar/kui-avatar-item.interface';
 import type { KuiAvatarShape } from '../components/avatar/kui-avatar-shape.type';
 import type { KuiAvatarSize } from '../components/avatar/kui-avatar-size.type';
@@ -12,21 +12,21 @@ import type {
   KuiFileUploadMode,
   KuiFileUploadVariant,
 } from '../components/file-upload/kui-file-upload.component';
-import { KuiFileUploadComponent } from '../components/file-upload/kui-file-upload.component';
-import { KuiLinkDirective } from '../components/link/kui-link.directive';
+import { KuiFileUpload } from '../components/file-upload/kui-file-upload.component';
+import { KuiLink } from '../components/link/kui-link.directive';
 import type { KuiLinkTone } from '../components/link/kui-link-tone.type';
 import type { KuiLinkUnderline } from '../components/link/kui-link-underline.type';
-import { KuiOtpInputComponent } from '../components/otp-input/kui-otp-input.component';
+import { KuiOtpInput } from '../components/otp-input/kui-otp-input.component';
 import type {
   KuiProgressColor,
   KuiProgressSize,
 } from '../components/progress/kui-progress.component';
-import { KuiProgressComponent } from '../components/progress/kui-progress.component';
-import { KuiSeparatorDirective } from '../components/separator/kui-separator.directive';
+import { KuiProgress } from '../components/progress/kui-progress.component';
+import { KuiSeparator } from '../components/separator/kui-separator.directive';
 import type { KuiSeparatorAppearance } from '../components/separator/kui-separator-appearance.type';
 import type { KuiSeparatorOrientation } from '../components/separator/kui-separator-orientation.type';
 import type { KuiSeparatorSpacing } from '../components/separator/kui-separator-spacing.type';
-import { KuiSkeletonDirective } from '../components/skeleton/kui-skeleton.directive';
+import { KuiSkeleton } from '../components/skeleton/kui-skeleton.directive';
 import type { KuiSkeletonAnimation } from '../components/skeleton/kui-skeleton-animation.type';
 import type { KuiSkeletonShape } from '../components/skeleton/kui-skeleton-shape.type';
 import { provideKikitaUi } from '../root';
@@ -44,7 +44,7 @@ const ITEMS: readonly KuiAvatarItem[] = [
 ];
 
 @Component({
-  imports: [KuiAvatarComponent],
+  imports: [KuiAvatar],
   template: `<kui-avatar name="Ada Lovelace" [size]="size()" [shape]="shape()" />`,
 })
 class AvatarHost {
@@ -53,7 +53,7 @@ class AvatarHost {
 }
 
 @Component({
-  imports: [KuiAvatarGroupComponent],
+  imports: [KuiAvatarGroup],
   template: `<kui-avatar-group
     [avatars]="items"
     [size]="size()"
@@ -69,7 +69,7 @@ class AvatarGroupHost {
 }
 
 @Component({
-  imports: [KuiLinkDirective],
+  imports: [KuiLink],
   template: `<a kuiLink href="/x" [tone]="tone()" [underline]="underline()">Link</a>`,
 })
 class LinkHost {
@@ -78,7 +78,7 @@ class LinkHost {
 }
 
 @Component({
-  imports: [KuiProgressComponent],
+  imports: [KuiProgress],
   template: `<kui-progress [value]="40" [size]="size()" [color]="color()" />`,
 })
 class ProgressHost {
@@ -87,7 +87,7 @@ class ProgressHost {
 }
 
 @Component({
-  imports: [KuiSeparatorDirective],
+  imports: [KuiSeparator],
   template: `<hr
     kuiSeparator
     [appearance]="appearance()"
@@ -102,7 +102,7 @@ class SeparatorHost {
 }
 
 @Component({
-  imports: [KuiSkeletonDirective],
+  imports: [KuiSkeleton],
   template: `<div kuiSkeleton [shape]="shape()" [animation]="animation()"></div>`,
 })
 class SkeletonHost {
@@ -111,7 +111,7 @@ class SkeletonHost {
 }
 
 @Component({
-  imports: [KuiFileUploadComponent],
+  imports: [KuiFileUpload],
   template: `<kui-file-upload [size]="size()" [variant]="variant()" [mode]="mode()" />`,
 })
 class FileUploadHost {
@@ -121,7 +121,7 @@ class FileUploadHost {
 }
 
 @Component({
-  imports: [KuiOtpInputComponent],
+  imports: [KuiOtpInput],
   template: `<kui-otp-input
     [length]="4"
     [size]="size()"

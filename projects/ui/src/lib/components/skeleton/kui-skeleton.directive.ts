@@ -14,7 +14,7 @@ import type { KuiSkeletonShape } from './kui-skeleton-shape.type';
     '[attr.data-kui-animation]': 'effectiveAnimation()',
   },
 })
-export class KuiSkeletonDirective {
+export class KuiSkeleton {
   /** Placeholder shape mapped to Kikita UI skeleton geometry tokens. Defaults to `defaults.skeleton.shape`, then `rect`. */
   readonly shape = input<KuiSkeletonShape | undefined>();
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiButtonDirective, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiButton, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -9,7 +9,7 @@ import { BUTTON_APPEARANCES, BUTTON_SHAPES, BUTTON_SIZES } from './constants';
 
 @Component({
   selector: 'app-button-variant-matrix',
-  imports: [KuiButtonDirective, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiButton, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './button-variant-matrix.html',
   styleUrl: './button-variant-matrix.scss',
 })

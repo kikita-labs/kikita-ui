@@ -4,10 +4,10 @@ import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { KuiToastService } from './kui-toast.service';
+import { KuiToast } from './kui-toast.service';
 
-describe('KuiToastService', () => {
-  let service: KuiToastService | undefined;
+describe('KuiToast', () => {
+  let service: KuiToast | undefined;
 
   afterEach(() => {
     service?.dismissAll();
@@ -17,7 +17,7 @@ describe('KuiToastService', () => {
 
   it('dismisses a toast by its reference id', () => {
     vi.useFakeTimers();
-    service = TestBed.inject(KuiToastService);
+    service = TestBed.inject(KuiToast);
     const ref = service.open({ title: 'Persistent notification', persistent: true });
     TestBed.inject(ApplicationRef).tick();
 
@@ -33,7 +33,7 @@ describe('KuiToastService', () => {
 
   it('dismisses all toasts created by the service', () => {
     vi.useFakeTimers();
-    service = TestBed.inject(KuiToastService);
+    service = TestBed.inject(KuiToast);
     service.open({ title: 'First', persistent: true });
     service.open({ title: 'Second', persistent: true });
     TestBed.inject(ApplicationRef).tick();
@@ -52,7 +52,7 @@ describe('KuiToastService', () => {
 
     it('moves the region when the position default changes at runtime', () => {
       vi.useFakeTimers();
-      service = TestBed.inject(KuiToastService);
+      service = TestBed.inject(KuiToast);
       const defaults = TestBed.inject(KuiDefaults);
       service.open({ title: 'One', persistent: true });
       TestBed.inject(ApplicationRef).tick();
@@ -66,7 +66,7 @@ describe('KuiToastService', () => {
 
     it('applies a changed maxVisible default to the next toast', () => {
       vi.useFakeTimers();
-      service = TestBed.inject(KuiToastService);
+      service = TestBed.inject(KuiToast);
       const defaults = TestBed.inject(KuiDefaults);
       service.open({ title: 'One', persistent: true });
       defaults.set('toast', { maxVisible: 1 });
@@ -82,7 +82,7 @@ describe('KuiToastService', () => {
 
     it('keeps a setPosition call until the position default changes again', () => {
       vi.useFakeTimers();
-      service = TestBed.inject(KuiToastService);
+      service = TestBed.inject(KuiToast);
       const defaults = TestBed.inject(KuiDefaults);
       service.open({ title: 'One', persistent: true });
       service.setPosition('top-start');

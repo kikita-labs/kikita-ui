@@ -22,7 +22,7 @@ import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util'
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
 import { KUI_FIELD } from '../field/kui-field-host.token';
 import type { KuiOptionContext } from '../field/kui-option-context.token';
-import { KuiComboboxInputSuffixComponent } from './kui-combobox-input-suffix.component';
+import { KuiComboboxInputSuffix } from './kui-combobox-input-suffix.component';
 import type { KuiComboboxMode } from './kui-combobox-mode.type';
 
 /**
@@ -68,7 +68,7 @@ import type { KuiComboboxMode } from './kui-combobox-mode.type';
   },
 })
 /** Adds searchable combobox behavior to a native input. */
-export class KuiComboboxDirective<T = unknown>
+export class KuiCombobox<T = unknown>
   implements OnDestroy, KuiOptionContext, FormValueControl<T | string | null>
 {
   /** Current selected value. Bound by `[formField]` or `[(value)]`. */
@@ -111,7 +111,7 @@ export class KuiComboboxDirective<T = unknown>
   private readonly field = inject(KUI_FIELD, { optional: true });
   private readonly fieldDefaults = inject(KuiDefaults).get('field');
   private readonly comboboxDefaults = inject(KuiDefaults).get('combobox');
-  private readonly suffixRef: ComponentRef<KuiComboboxInputSuffixComponent>;
+  private readonly suffixRef: ComponentRef<KuiComboboxInputSuffix>;
   private wasOpen = false;
   private pointerStartedOnInput = false;
 
@@ -155,7 +155,7 @@ export class KuiComboboxDirective<T = unknown>
 
   constructor() {
     this.field?.registerSelectContext(this);
-    this.suffixRef = this.vcr.createComponent(KuiComboboxInputSuffixComponent);
+    this.suffixRef = this.vcr.createComponent(KuiComboboxInputSuffix);
 
     effect(() => {
       this.suffixRef.setInput('clearable', this.effectiveClearable());

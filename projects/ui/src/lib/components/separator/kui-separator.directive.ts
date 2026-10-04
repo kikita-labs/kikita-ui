@@ -16,7 +16,7 @@ import type { KuiSeparatorSpacing } from './kui-separator-spacing.type';
     '[attr.aria-orientation]': 'effectiveOrientation() === "vertical" ? "vertical" : null',
   },
 })
-export class KuiSeparatorDirective {
+export class KuiSeparator {
   /** Visual separator emphasis. Defaults to `defaults.separator.appearance`, then `default`. */
   readonly appearance = input<KuiSeparatorAppearance | undefined>();
 

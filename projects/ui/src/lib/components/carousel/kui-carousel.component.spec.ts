@@ -4,11 +4,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach, vi } from 'vitest';
 
-import { KuiCarouselComponent } from './kui-carousel.component';
-import { KuiCarouselSlideDirective } from './kui-carousel-slide.directive';
+import { KuiCarousel } from './kui-carousel.component';
+import { KuiCarouselSlide } from './kui-carousel-slide.directive';
 
 @Component({
-  imports: [KuiCarouselComponent, KuiCarouselSlideDirective],
+  imports: [KuiCarousel, KuiCarouselSlide],
   template: `
     <kui-carousel
       [itemsPerView]="itemsPerView()"
@@ -30,7 +30,7 @@ class BasicHost {
 }
 
 @Component({
-  imports: [KuiCarouselComponent, KuiCarouselSlideDirective],
+  imports: [KuiCarousel, KuiCarouselSlide],
   template: `
     <kui-carousel [autoplay]="true" [autoplayInterval]="1000">
       <div kuiCarouselSlide>1</div>
@@ -41,7 +41,7 @@ class BasicHost {
 class AutoplayHost {}
 
 @Component({
-  imports: [KuiCarouselComponent, KuiCarouselSlideDirective],
+  imports: [KuiCarousel, KuiCarouselSlide],
   template: `
     <kui-carousel>
       @for (n of slides(); track n) {
@@ -67,7 +67,7 @@ function getButtons(fixture: ComponentFixture<unknown>, label: RegExp): HTMLButt
   );
 }
 
-describe('KuiCarouselComponent', () => {
+describe('KuiCarousel', () => {
   afterEach(() => {
     vi.useRealTimers();
   });

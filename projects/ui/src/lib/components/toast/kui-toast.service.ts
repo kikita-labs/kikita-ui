@@ -14,7 +14,7 @@ import { EMPTY } from 'rxjs';
 
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import type { KuiToastConfig, KuiToastRef } from './kui-toast.types';
-import { KuiToastRegionComponent } from './kui-toast-region.component';
+import { KuiToastRegion } from './kui-toast-region.component';
 
 const noop = (): void => undefined;
 
@@ -27,14 +27,14 @@ const noop = (): void => undefined;
  * appends it to `document.body`, and manages it for the lifetime of the app.
  */
 @Service()
-export class KuiToastService {
+export class KuiToast {
   private readonly appRef = inject(ApplicationRef);
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
   private readonly toastDefaults = inject(KuiDefaults).get('toast');
 
-  private regionRef: ComponentRef<KuiToastRegionComponent> | null = null;
+  private regionRef: ComponentRef<KuiToastRegion> | null = null;
 
   /**
    * Programmatically change the toast region position.
@@ -78,12 +78,12 @@ export class KuiToastService {
     return region.addToast(merged, defaultDuration);
   }
 
-  private getRegion(): KuiToastRegionComponent | null {
+  private getRegion(): KuiToastRegion | null {
     if (!isPlatformBrowser(this.platformId)) return null;
 
     if (!this.regionRef) {
       const options = this.toastDefaults() ?? {};
-      this.regionRef = createComponent(KuiToastRegionComponent, {
+      this.regionRef = createComponent(KuiToastRegion, {
         environmentInjector: this.environmentInjector,
       });
       const region = this.regionRef.instance;

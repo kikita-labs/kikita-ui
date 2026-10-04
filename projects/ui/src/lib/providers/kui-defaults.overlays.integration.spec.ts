@@ -9,24 +9,24 @@ import {
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiDialogService } from '../components/dialog/kui-dialog.service';
+import { KuiDialog } from '../components/dialog/kui-dialog.service';
 import type { KuiDialogContext } from '../components/dialog/kui-dialog-context.token';
 import { KUI_DIALOG_CONTEXT } from '../components/dialog/kui-dialog-context.token';
-import { KuiDrawerService } from '../components/drawer/kui-drawer.service';
+import { KuiDrawer } from '../components/drawer/kui-drawer.service';
 import type { KuiDrawerContext } from '../components/drawer/kui-drawer-context.token';
 import { KUI_DRAWER_CONTEXT } from '../components/drawer/kui-drawer-context.token';
-import { KuiDropdownComponent } from '../components/dropdown/kui-dropdown.component';
-import { KuiDropdownForDirective } from '../components/dropdown/kui-dropdown-for.directive';
-import { KuiOptionDirective } from '../components/dropdown/kui-option.directive';
-import { KuiMenuComponent } from '../components/menu/kui-menu.component';
-import { KuiMenuForDirective } from '../components/menu/kui-menu-for.directive';
-import { KuiMenuItemDirective } from '../components/menu/kui-menu-item.directive';
-import { KuiPopoverComponent } from '../components/popover/kui-popover.component';
-import { KuiPopoverForDirective } from '../components/popover/kui-popover-for.directive';
-import { KuiTooltipDirective } from '../components/tooltip/kui-tooltip.directive';
+import { KuiDropdown } from '../components/dropdown/kui-dropdown.component';
+import { KuiDropdownFor } from '../components/dropdown/kui-dropdown-for.directive';
+import { KuiOption } from '../components/dropdown/kui-option.directive';
+import { KuiMenu } from '../components/menu/kui-menu.component';
+import { KuiMenuFor } from '../components/menu/kui-menu-for.directive';
+import { KuiMenuItem } from '../components/menu/kui-menu-item.directive';
+import { KuiPopover } from '../components/popover/kui-popover.component';
+import { KuiPopoverFor } from '../components/popover/kui-popover-for.directive';
+import { KuiTooltip } from '../components/tooltip/kui-tooltip.directive';
 import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
-import { kuiProvideDefaults } from './provide-kui-defaults';
+import { provideKuiDefaults } from './provide-kui-defaults';
 
 @Component({ template: `<p>Dialog</p>` })
 class DialogContent {
@@ -47,7 +47,7 @@ class DrawerContent {
 }
 
 @Component({
-  imports: [KuiMenuComponent, KuiMenuForDirective, KuiMenuItemDirective],
+  imports: [KuiMenu, KuiMenuFor, KuiMenuItem],
   template: `
     <button type="button" [kuiMenuFor]="menu" id="default-trigger">Actions</button>
     <kui-menu #menu><button type="button" kuiMenuItem>Open</button></kui-menu>
@@ -58,7 +58,7 @@ class DrawerContent {
 class MenuHost {}
 
 @Component({
-  imports: [KuiPopoverComponent, KuiPopoverForDirective],
+  imports: [KuiPopover, KuiPopoverFor],
   template: `
     <button type="button" [kuiPopoverFor]="pop">Open</button>
     <kui-popover #pop>Content</kui-popover>
@@ -67,11 +67,11 @@ class MenuHost {}
   `,
 })
 class PopoverHost {
-  readonly pop = viewChild.required<KuiPopoverComponent>('pop');
+  readonly pop = viewChild.required<KuiPopover>('pop');
 }
 
 @Component({
-  imports: [KuiDropdownComponent, KuiDropdownForDirective, KuiOptionDirective],
+  imports: [KuiDropdown, KuiDropdownFor, KuiOption],
   template: `
     <button id="trigger" type="button" [kuiDropdownFor]="dropdown">Open</button>
     <kui-dropdown #dropdown>
@@ -80,7 +80,7 @@ class PopoverHost {
   `,
 })
 class DropdownHost {
-  readonly dropdown = viewChild.required(KuiDropdownComponent);
+  readonly dropdown = viewChild.required(KuiDropdown);
 }
 
 function panel(): HTMLElement | null {
@@ -107,7 +107,7 @@ describe('KuiDefaults read by overlays', () => {
       TestBed.configureTestingModule({
         providers: [provideKikitaUi({ defaults: { dialog: { size: 'lg', closable: false } } })],
       });
-      const service = TestBed.inject(KuiDialogService);
+      const service = TestBed.inject(KuiDialog);
       const overlay = TestBed.inject(OverlayContainer);
 
       service.open(DialogContent, {});
@@ -124,11 +124,11 @@ describe('KuiDefaults read by overlays', () => {
         providers: [provideKikitaUi({ defaults: { dialog: { size: 'lg' } } })],
       });
       const nested = createEnvironmentInjector(
-        [kuiProvideDefaults({ dialog: { size: 'sm' } })],
+        [provideKuiDefaults({ dialog: { size: 'sm' } })],
         TestBed.inject(EnvironmentInjector),
       );
       const container = TestBed.inject(OverlayContainer).getContainerElement();
-      const service = TestBed.inject(KuiDialogService);
+      const service = TestBed.inject(KuiDialog);
 
       service.open(DialogContent, { injector: nested });
       TestBed.tick();
@@ -142,7 +142,7 @@ describe('KuiDefaults read by overlays', () => {
         providers: [provideKikitaUi({ defaults: { drawer: { side: 'left', size: 'lg' } } })],
       });
 
-      TestBed.inject(KuiDrawerService).open(DrawerContent, {});
+      TestBed.inject(KuiDrawer).open(DrawerContent, {});
       TestBed.tick();
 
       const content = TestBed.inject(OverlayContainer)
@@ -158,7 +158,7 @@ describe('KuiDefaults read by overlays', () => {
         providers: [provideKikitaUi({ defaults: { drawer: { side: 'left' } } })],
       });
 
-      TestBed.inject(KuiDrawerService).open(DrawerContent, { side: 'top' });
+      TestBed.inject(KuiDrawer).open(DrawerContent, { side: 'top' });
       TestBed.tick();
 
       expect(
@@ -274,7 +274,7 @@ describe('KuiDefaults read by overlays', () => {
 });
 
 @Component({
-  imports: [KuiTooltipDirective],
+  imports: [KuiTooltip],
   template: `
     <button id="default" [kuiTooltip]="'Info'">Default</button>
     <button id="local" [kuiTooltip]="'Info'" placement="left" [offset]="2">Local</button>

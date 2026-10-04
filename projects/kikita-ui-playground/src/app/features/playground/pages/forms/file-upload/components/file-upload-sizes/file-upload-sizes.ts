@@ -2,7 +2,7 @@ import { afterNextRender, Component, DestroyRef, inject, signal } from '@angular
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { KuiFileUploadComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiFileUpload, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -13,7 +13,7 @@ import { createFileUploadDemoEntry } from '../../helpers';
 /** Compares dedicated File Upload sizes and native disabled picker states. */
 @Component({
   selector: 'app-file-upload-sizes',
-  imports: [KuiFileUploadComponent, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiFileUpload, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './file-upload-sizes.html',
   styleUrl: './file-upload-sizes.scss',
 })

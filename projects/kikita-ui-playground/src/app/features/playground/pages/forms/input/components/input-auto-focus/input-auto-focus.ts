@@ -1,11 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import {
-  KuiAutoFocusDirective,
-  KuiButtonDirective,
-  kuiDialog,
-  KuiInputDirective,
-} from '@kikita-labs/ui';
+import { KuiAutoFocus, KuiButton, kuiDialog, KuiInput } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -15,13 +10,7 @@ import { InputAutoFocusDialog } from '../input-auto-focus-dialog';
 /** Shows focus on mount, focus on request, and focus inside a dialog with the auto focus directive. */
 @Component({
   selector: 'app-input-auto-focus',
-  imports: [
-    KuiAutoFocusDirective,
-    KuiButtonDirective,
-    KuiInputDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [KuiAutoFocus, KuiButton, KuiInput, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './input-auto-focus.html',
   styleUrl: './input-auto-focus.scss',
 })

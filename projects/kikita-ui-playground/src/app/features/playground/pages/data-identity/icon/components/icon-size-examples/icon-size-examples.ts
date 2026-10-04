@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiIconComponent, type KuiIconSizePreset, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiIcon, type KuiIconSizePreset, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -8,7 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Compares all named Icon sizes with numeric and CSS-string values. */
 @Component({
   selector: 'app-icon-size-examples',
-  imports: [KuiIconComponent, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiIcon, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './icon-size-examples.html',
   styleUrl: './icon-size-examples.scss',
 })

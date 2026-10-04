@@ -1,13 +1,6 @@
 import { Component } from '@angular/core';
 
-import {
-  KuiCellDirective,
-  KuiRowDirective,
-  KuiTableDirective,
-  KuiTextDirective,
-  KuiThDirective,
-  KuiThGroupDirective,
-} from '@kikita-labs/ui';
+import { KuiCell, KuiRow, KuiTable, KuiText, KuiTh, KuiThGroup } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -18,12 +11,12 @@ import { TABLE_MEMBERS } from '../../constants';
 @Component({
   selector: 'app-table-default-examples',
   imports: [
-    KuiCellDirective,
-    KuiRowDirective,
-    KuiTableDirective,
-    KuiTextDirective,
-    KuiThDirective,
-    KuiThGroupDirective,
+    KuiCell,
+    KuiRow,
+    KuiTable,
+    KuiText,
+    KuiTh,
+    KuiThGroup,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

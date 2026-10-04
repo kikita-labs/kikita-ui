@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiAlertComponent } from './kui-alert.component';
-import { KuiAlertActionsDirective } from './kui-alert-actions.directive';
-import { KuiAlertIconDirective } from './kui-alert-icon.directive';
-import { KuiAlertMessageDirective } from './kui-alert-message.directive';
-import { KuiAlertTitleDirective } from './kui-alert-title.directive';
+import { KuiAlert } from './kui-alert.component';
+import { KuiAlertActions } from './kui-alert-actions.directive';
+import { KuiAlertIcon } from './kui-alert-icon.directive';
+import { KuiAlertMessage } from './kui-alert-message.directive';
+import { KuiAlertTitle } from './kui-alert-title.directive';
 
 @Component({
-  imports: [KuiAlertComponent],
+  imports: [KuiAlert],
   template: `
     <kui-alert
       appearance="warning"
@@ -29,37 +29,37 @@ class AlertHost {
 }
 
 @Component({
-  imports: [KuiAlertComponent],
+  imports: [KuiAlert],
   template: `<kui-alert message="Minimal" />`,
 })
 class DefaultAlertHost {}
 
 @Component({
-  imports: [KuiAlertComponent],
+  imports: [KuiAlert],
   template: `<kui-alert appearance="danger" message="Failed" />`,
 })
 class DangerAlertHost {}
 
 @Component({
-  imports: [KuiAlertComponent],
+  imports: [KuiAlert],
   template: `<kui-alert appearance="success" message="Saved" [closable]="false" />`,
 })
 class NonClosableAlertHost {}
 
 @Component({
-  imports: [KuiAlertComponent],
+  imports: [KuiAlert],
   template: `<kui-alert appearance="success" message="Saved" [showIcon]="false" />`,
 })
 class NoIconAlertHost {}
 
 @Component({
-  imports: [KuiAlertComponent],
+  imports: [KuiAlert],
   template: `<kui-alert appearance="info" banner message="System notice" />`,
 })
 class BannerAlertHost {}
 
 @Component({
-  imports: [KuiAlertComponent],
+  imports: [KuiAlert],
   template: `
     <kui-alert appearance="info" message="Info" />
     <kui-alert appearance="danger" message="Danger" />
@@ -68,7 +68,7 @@ class BannerAlertHost {}
 class TwoAppearancesAlertHost {}
 
 @Component({
-  imports: [KuiAlertComponent],
+  imports: [KuiAlert],
   template: `
     <kui-alert appearance="success" title="Done" />
     <kui-alert appearance="success" message="Saved" />
@@ -79,13 +79,7 @@ class TwoAppearancesAlertHost {}
 class BodyLineCountAlertHost {}
 
 @Component({
-  imports: [
-    KuiAlertComponent,
-    KuiAlertTitleDirective,
-    KuiAlertIconDirective,
-    KuiAlertMessageDirective,
-    KuiAlertActionsDirective,
-  ],
+  imports: [KuiAlert, KuiAlertTitle, KuiAlertIcon, KuiAlertMessage, KuiAlertActions],
   template: `
     <kui-alert appearance="neutral" title="Ignored" [showIcon]="false" message="Ignored">
       <span kuiAlertIcon>ROCKET</span>
@@ -109,7 +103,7 @@ class ProjectedContentAlertHost {
   }
 }
 
-describe('KuiAlertComponent', () => {
+describe('KuiAlert', () => {
   it('renders appearance/shape/size, title, message, action, and close button', () => {
     const fixture = createFixture(AlertHost);
 

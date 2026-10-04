@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 
-import { KuiAvatarComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiAvatar, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-avatar-variant-examples',
-  imports: [KuiAvatarComponent, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiAvatar, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './avatar-variant-examples.html',
   styleUrl: './avatar-variant-examples.scss',
 })

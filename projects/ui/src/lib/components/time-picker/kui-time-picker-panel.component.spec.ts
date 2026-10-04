@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { KuiTimePickerPanelComponent } from './kui-time-picker-panel.component';
+import { KuiTimePickerPanel } from './kui-time-picker-panel.component';
 
 @Component({
   template: `<kui-time-picker-panel
@@ -16,7 +16,7 @@ import { KuiTimePickerPanelComponent } from './kui-time-picker-panel.component';
     [maxTime]="maxTime()"
     [disabledMinutes]="disabledMinutes()"
   />`,
-  imports: [KuiTimePickerPanelComponent],
+  imports: [KuiTimePickerPanel],
 })
 class TestPanelHost {
   readonly value = signal<Date | null>(new Date(2026, 0, 1, 9, 30, 0));
@@ -28,7 +28,7 @@ class TestPanelHost {
   readonly disabledMinutes = signal<((hour: number) => readonly number[]) | undefined>(undefined);
 }
 
-describe('KuiTimePickerPanelComponent', () => {
+describe('KuiTimePickerPanel', () => {
   let fixture: ComponentFixture<TestPanelHost>;
   let host: HTMLElement;
 
@@ -170,13 +170,13 @@ describe('KuiTimePickerPanelComponent', () => {
 
 @Component({
   template: `<kui-time-picker-panel [(value)]="value" />`,
-  imports: [KuiTimePickerPanelComponent],
+  imports: [KuiTimePickerPanel],
 })
 class TestEmptyPanelHost {
   readonly value = signal<Date | null>(null);
 }
 
-describe('KuiTimePickerPanelComponent starting from no value', () => {
+describe('KuiTimePickerPanel starting from no value', () => {
   let fixture: ComponentFixture<TestEmptyPanelHost>;
   let host: HTMLElement;
 

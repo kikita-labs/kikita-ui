@@ -9,7 +9,7 @@ import type { Observable } from 'rxjs';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { getFocusableElement } from '../../utils/kui-focusable-element.util';
 import type { KuiDialogConfig } from './kui-dialog.types';
-import { KuiDialogContainerComponent } from './kui-dialog-container.component';
+import { KuiDialogContainer } from './kui-dialog-container.component';
 import type { KuiDialogContext, KuiDialogHost } from './kui-dialog-context.token';
 import { KUI_DIALOG_CONTEXT } from './kui-dialog-context.token';
 import { KuiDialogRef } from './kui-dialog-ref';
@@ -20,7 +20,7 @@ import { KuiDialogRef } from './kui-dialog-ref';
  * Consumers should use {@link kuiDialog} instead of injecting this directly.
  */
 @Service()
-export class KuiDialogService {
+export class KuiDialog {
   private readonly overlay = inject(Overlay);
   private readonly injector = inject(Injector);
   private readonly document = inject(DOCUMENT);
@@ -47,7 +47,7 @@ export class KuiDialogService {
       hasBackdrop: false,
     });
 
-    let container: KuiDialogContainerComponent | null = null;
+    let container: KuiDialogContainer | null = null;
 
     const context: KuiDialogContext<TResult, TData> = {
       data: (config.data ?? undefined) as TData,
@@ -62,7 +62,7 @@ export class KuiDialogService {
     });
 
     const containerRef = overlayRef.attach(
-      new ComponentPortal(KuiDialogContainerComponent, null, childInjector),
+      new ComponentPortal(KuiDialogContainer, null, childInjector),
     );
     container = containerRef.instance;
     container._size = size;

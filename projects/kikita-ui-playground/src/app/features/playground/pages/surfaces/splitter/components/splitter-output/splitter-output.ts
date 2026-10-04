@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
 
-import { KuiSplitterComponent, KuiSplitterPaneComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiSplitter, KuiSplitterPane, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -14,9 +14,9 @@ import { SplitterPaneLabel } from '../splitter-pane-label';
   selector: 'app-splitter-output',
   imports: [
     DecimalPipe,
-    KuiSplitterComponent,
-    KuiSplitterPaneComponent,
-    KuiTextDirective,
+    KuiSplitter,
+    KuiSplitterPane,
+    KuiText,
     PlaygroundExampleCard,
     SplitterExample,
     SplitterPaneLabel,

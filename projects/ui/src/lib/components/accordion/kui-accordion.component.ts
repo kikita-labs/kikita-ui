@@ -36,12 +36,12 @@ export type KuiAccordionMode = 'exclusive' | 'multi';
   providers: [
     {
       provide: KUI_ACCORDION_CONTEXT,
-      useFactory: () => inject(KuiAccordionComponent),
+      useFactory: () => inject(KuiAccordion),
     },
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class KuiAccordionComponent implements KuiAccordionContext {
+export class KuiAccordion implements KuiAccordionContext {
   /** Toggle mode for the accordion. Defaults to `defaults.accordion.mode`, then `exclusive`. */
   readonly mode = input<KuiAccordionMode | undefined>();
 

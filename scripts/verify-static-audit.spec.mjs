@@ -360,7 +360,7 @@ describe('verify-static-audit', () => {
     const root = makeValidRepo();
     writeFileSync(
       join(root, 'projects/ui/src/lib/components/button/kui-button.directive.ts'),
-      "import { provideKikitaUi } from '@kikita-labs/ui';\n\n/** Button directive. */\nexport class KuiButtonDirective {}\n",
+      "import { provideKikitaUi } from '@kikita-labs/ui';\n\n/** Button directive. */\nexport class KuiButton {}\n",
     );
 
     expect(runStaticAudit(root)).toEqual(
@@ -375,7 +375,7 @@ describe('verify-static-audit: library text', () => {
   function writeComponent(root, source) {
     writeFileSync(
       join(root, 'projects/ui/src/lib/components/button/kui-button.directive.ts'),
-      `/** Button directive. */\n${source}\nexport class KuiButtonDirective {}\n`,
+      `/** Button directive. */\n${source}\nexport class KuiButton {}\n`,
     );
   }
 
@@ -467,7 +467,7 @@ describe('verify-static-audit: message coverage', () => {
     }
     writeFileSync(
       join(root, 'projects/ui/src/lib/components/button/kui-button.directive.ts'),
-      '/** Button directive. */\nexport class KuiButtonDirective { readonly label = t().loadingLabel; }\n',
+      '/** Button directive. */\nexport class KuiButton { readonly label = t().loadingLabel; }\n',
     );
   }
 
@@ -536,7 +536,7 @@ describe('verify-static-audit: Signal Forms control member names', () => {
       join(root, 'projects/ui/src/lib/components/button/kui-code.component.ts'),
       [
         '/** Code control. */',
-        `export class KuiCodeComponent ${implementsClause} {`,
+        `export class KuiCode ${implementsClause} {`,
         ...members.map((member) => `  ${member}`),
         '}',
         '',
@@ -607,7 +607,7 @@ function makeValidRepo() {
   writeFileSync(join(root, 'projects/ui/src/styles/button.css'), '.kui-button {}\n');
   writeFileSync(
     join(root, 'projects/ui/src/lib/components/button/kui-button.directive.ts'),
-    '/** Button directive. */\nexport class KuiButtonDirective {}\n',
+    '/** Button directive. */\nexport class KuiButton {}\n',
   );
   writeFileSync(
     join(root, 'projects/ui/src/lib/components/button/kui-button.directive.spec.ts'),
@@ -615,8 +615,54 @@ function makeValidRepo() {
   );
   writeFileSync(
     join(root, 'projects/ui/src/lib/components/button/index.ts'),
-    "export { KuiButtonDirective } from './kui-button.directive';\n",
+    "export { KuiButton } from './kui-button.directive';\n",
   );
   writeFileSync(join(root, playgroundRouteEnumPath), playgroundRouteEnum(['button']));
   return root;
 }
+
+describe('verify-static-audit: class and file naming', () => {
+  function writeSource(root, path, source) {
+    mkdirSync(join(root, path, '..'), { recursive: true });
+    writeFileSync(join(root, path), source);
+  }
+
+  it('reports a class that keeps a Component, Directive or Service suffix', () => {
+    const root = makeValidRepo();
+    writeSource(
+      root,
+      'projects/ui/src/lib/components/button/kui-old.ts',
+      '/** Old. */\nexport class KuiOldDirective {}\n',
+    );
+    writeSource(
+      root,
+      'projects/kikita-ui-playground/src/app/data.ts',
+      'export class DataService {}\n',
+    );
+
+    const failures = runStaticAudit(root);
+
+    expect(failures).toContain(
+      'projects/ui/src/lib/components/button/kui-old.ts declares class KuiOldDirective; Angular classes carry no Component, Directive or Service suffix',
+    );
+    expect(failures).toContain(
+      'projects/kikita-ui-playground/src/app/data.ts declares class DataService; Angular classes carry no Component, Directive or Service suffix',
+    );
+  });
+
+  it('accepts suffix-free classes and spec test hosts', () => {
+    const root = makeValidRepo();
+    writeSource(
+      root,
+      'projects/ui/src/lib/components/button/kui-new.ts',
+      '/** New. */\nexport class KuiNew {}\n',
+    );
+    writeSource(
+      root,
+      'projects/ui/src/lib/components/button/kui-new.spec.ts',
+      'class HostComponent {}\n',
+    );
+
+    expect(runStaticAudit(root).filter((failure) => failure.includes('declares'))).toEqual([]);
+  });
+});

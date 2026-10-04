@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiTimePickerPanelComponent } from '@kikita-labs/ui';
+import { KuiTimePickerPanel } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -10,7 +10,7 @@ import { createPickerTime } from '../../helpers';
 /** Shows the Time Picker panel used on its own without a trigger input. */
 @Component({
   selector: 'app-time-picker-inline',
-  imports: [KuiTimePickerPanelComponent, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiTimePickerPanel, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './time-picker-inline.html',
   styleUrl: '../time-picker-grid.scss',
 })

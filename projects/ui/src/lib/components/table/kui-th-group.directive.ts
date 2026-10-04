@@ -8,6 +8,6 @@ import { booleanAttribute, Directive, input } from '@angular/core';
   },
 })
 /** Applies Kikita UI grouped-header styling to a native table header cell. */
-export class KuiThGroupDirective {
+export class KuiThGroup {
   readonly sticky = input(false, { transform: booleanAttribute });
 }

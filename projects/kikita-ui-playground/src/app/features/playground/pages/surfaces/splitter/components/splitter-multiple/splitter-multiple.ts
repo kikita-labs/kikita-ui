@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiSplitterComponent, KuiSplitterPaneComponent } from '@kikita-labs/ui';
+import { KuiSplitter, KuiSplitterPane } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -12,8 +12,8 @@ import { SplitterPaneLabel } from '../splitter-pane-label';
 @Component({
   selector: 'app-splitter-multiple',
   imports: [
-    KuiSplitterComponent,
-    KuiSplitterPaneComponent,
+    KuiSplitter,
+    KuiSplitterPane,
     PlaygroundExampleCard,
     SplitterExample,
     SplitterPaneLabel,

@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { KuiI18n } from './kui-i18n.service';
 import { KUI_LOCALE } from './kui-locale.token';
 import { KUI_LOCALE_SEED } from './kui-locale-seed.util';
-import { kuiProvideLocale } from './provide-kui-i18n';
+import { provideKuiLocale } from './provide-kui-i18n';
 
 describe('KUI_LOCALE', () => {
   afterEach(() => {
@@ -62,9 +62,9 @@ describe('KUI_LOCALE', () => {
     expect(TestBed.inject(KUI_LOCALE)).toBe('de-DE');
   });
 
-  it('lets kuiProvideLocale override both platforms', () => {
+  it('lets provideKuiLocale override both platforms', () => {
     TestBed.configureTestingModule({
-      providers: [{ provide: PLATFORM_ID, useValue: 'server' }, kuiProvideLocale('fr-FR')],
+      providers: [{ provide: PLATFORM_ID, useValue: 'server' }, provideKuiLocale('fr-FR')],
     });
 
     expect(TestBed.inject(KuiI18n).locale()).toBe('fr-FR');

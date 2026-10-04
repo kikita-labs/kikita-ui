@@ -1,11 +1,6 @@
 import { Component } from '@angular/core';
 
-import {
-  KuiButtonDirective,
-  KuiIconButtonDirective,
-  KuiIconComponent,
-  KuiTooltipDirective,
-} from '@kikita-labs/ui';
+import { KuiButton, KuiIcon, KuiIconButton, KuiTooltip } from '@kikita-labs/ui';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 import type { KuiIconSource } from '@kikita-labs/ui';
@@ -13,13 +8,7 @@ import type { KuiIconSource } from '@kikita-labs/ui';
 /** Shows ignored blank content, wrapping, and an accessible icon-only trigger. */
 @Component({
   selector: 'app-tooltip-content-examples',
-  imports: [
-    KuiButtonDirective,
-    KuiIconButtonDirective,
-    KuiIconComponent,
-    KuiTooltipDirective,
-    TranslocoPipe,
-  ],
+  imports: [KuiButton, KuiIconButton, KuiIcon, KuiTooltip, TranslocoPipe],
   templateUrl: './tooltip-content-examples.html',
   styleUrl: './tooltip-content-examples.scss',
 })

@@ -28,7 +28,7 @@ import {
   createKuiFieldWiring,
 } from '../../utils/kui-field-control-wiring.util';
 import { kuiIdFactory } from '../../utils/kui-id.util';
-import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
+import { KuiDropdown } from '../dropdown/kui-dropdown.component';
 import { KUI_FIELD } from '../field/kui-field-host.token';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHEVRON_DOWN } from '../icon/kui-chrome-glyphs';
@@ -68,7 +68,7 @@ import { KuiColorPickerPanel } from './kui-color-picker-panel';
     '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
   },
 })
-export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy {
+export class KuiColorInput implements AfterViewInit, DoCheck, OnDestroy {
   private readonly nextId = kuiIdFactory();
 
   /** Control height matched to Kikita UI size tokens. Defaults to `defaults.colorInput.size`, then the parent field, then the global `defaults.size`, then `'md'`. */
@@ -135,7 +135,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
     slot: () => this.colorInputDefaults()?.chevronIcon,
     fallback: KUI_GLYPH_CHEVRON_DOWN,
   });
-  private dropdownRef: ComponentRef<KuiDropdownComponent> | null = null;
+  private dropdownRef: ComponentRef<KuiDropdown> | null = null;
   private panelEl: HTMLElement | null = null;
   private picker: KuiColorPickerPanel | null = null;
   private focusReturnTarget: HTMLElement | null = null;
@@ -334,7 +334,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
    * anchor-offscreen auto-close -- same as every other Kikita UI floating panel -- instead of
    * this directive re-implementing all of that against a raw CDK overlay.
    */
-  private ensureDropdown(): ComponentRef<KuiDropdownComponent> {
+  private ensureDropdown(): ComponentRef<KuiDropdown> {
     if (this.dropdownRef) return this.dropdownRef;
 
     this.panelEl = this.renderer.createElement('div') as HTMLElement;
@@ -352,7 +352,7 @@ export class KuiColorInputDirective implements AfterViewInit, DoCheck, OnDestroy
 
     // The field must not adopt this dropdown: the directive owns its open state, and a field that
     // also toggled it on click would close the panel it just opened.
-    const dropdownRef = this.vcr.createComponent(KuiDropdownComponent, {
+    const dropdownRef = this.vcr.createComponent(KuiDropdown, {
       projectableNodes: [[this.panelEl]],
       injector: Injector.create({
         providers: [{ provide: KUI_FIELD, useValue: null }],

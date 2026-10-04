@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiTextDirective } from '@kikita-labs/ui';
+import { KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -20,7 +20,7 @@ import {
     DrawerDismissalExamples,
     DrawerSideExamples,
     DrawerSizeExamples,
-    KuiTextDirective,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

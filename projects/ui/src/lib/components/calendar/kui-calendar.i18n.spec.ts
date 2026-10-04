@@ -5,11 +5,11 @@ import { describe, expect, it } from 'vitest';
 
 import { KuiI18n } from '../../i18n/kui-i18n.service';
 import { provideKikitaUi } from '../../root';
-import { KuiCalendarRangeComponent } from '../calendar-range/kui-calendar-range.component';
-import { KuiCalendarComponent } from './kui-calendar.component';
+import { KuiCalendarRange } from '../calendar-range/kui-calendar-range.component';
+import { KuiCalendar } from './kui-calendar.component';
 
 @Component({
-  imports: [KuiCalendarComponent],
+  imports: [KuiCalendar],
   template: `<kui-calendar [viewDate]="viewDate" [locale]="locale()" [messages]="messages()" />`,
 })
 class CalendarHost {
@@ -19,7 +19,7 @@ class CalendarHost {
 }
 
 @Component({
-  imports: [KuiCalendarRangeComponent],
+  imports: [KuiCalendarRange],
   template: `<kui-calendar-range [viewDate]="viewDate" locale="en-US" />`,
 })
 class RangeHost {
@@ -38,7 +38,7 @@ function title(root: HTMLElement): string {
   return root.querySelector('.kui-calendar-title')?.textContent?.trim() ?? '';
 }
 
-describe('KuiCalendarComponent locale and messages', () => {
+describe('KuiCalendar locale and messages', () => {
   it('names every day with its full localized date', () => {
     const { root } = setup('en-US');
     const day = Array.from(root.querySelectorAll<HTMLElement>('.kui-calendar-day')).find(
@@ -114,7 +114,7 @@ describe('KuiCalendarComponent locale and messages', () => {
   });
 });
 
-describe('KuiCalendarRangeComponent locale', () => {
+describe('KuiCalendarRange locale', () => {
   it('names day cells with the full date and marks the locale weekend', () => {
     TestBed.configureTestingModule({ providers: [provideKikitaUi()] });
     const fixture = TestBed.createComponent(RangeHost);

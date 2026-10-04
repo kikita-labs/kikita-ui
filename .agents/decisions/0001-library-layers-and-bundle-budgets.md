@@ -20,9 +20,9 @@ works, but coupling between primitives defeats it:
 
 Causes found in the source:
 
-- Fourteen control files inject the `KuiFieldComponent` class. Field holds `contentChild` references to
+- Fourteen control files inject the `KuiField` class. Field holds `contentChild` references to
   Dropdown, Calendar and Time Picker Panel, so every control carries the form-field closure.
-- `KuiButtonDirective` creates `KuiIconComponent` for `iconStart` and `iconEnd`, so every Button user
+- `KuiButton` creates `KuiIcon` for `iconStart` and `iconEnd`, so every Button user
   pays for the icon renderer (about 11 kB).
 - `KuiI18n` imports the whole English dictionary (153 messages), so a Loader costs 14.5 kB for 0.6 kB
   of own code.

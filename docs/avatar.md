@@ -7,7 +7,7 @@ presence status, and grouped avatar stacks.
 ## Import
 
 ```ts
-import { KuiAvatarComponent, KuiAvatarGroupComponent } from '@kikita-labs/ui';
+import { KuiAvatar, KuiAvatarGroup } from '@kikita-labs/ui';
 ```
 
 Import the public stylesheet once:
@@ -130,7 +130,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     avatar: {
       /* options below */
     },
@@ -159,7 +159,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     avatarGroup: {
       /* options below */
     },

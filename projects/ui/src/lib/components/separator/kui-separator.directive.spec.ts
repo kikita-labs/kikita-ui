@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiSeparatorDirective } from './kui-separator.directive';
+import { KuiSeparator } from './kui-separator.directive';
 
 @Component({
-  imports: [KuiSeparatorDirective],
+  imports: [KuiSeparator],
   template: '<hr kuiSeparator appearance="strong" orientation="vertical" spacing="xs" />',
 })
 class SeparatorHost {}
 
-describe('KuiSeparatorDirective', () => {
+describe('KuiSeparator', () => {
   it('adds separator host attributes for appearance, orientation, and spacing', () => {
     const fixture = createFixture(SeparatorHost);
 

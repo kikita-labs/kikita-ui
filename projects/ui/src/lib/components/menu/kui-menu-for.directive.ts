@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostListener, inject, input } from '@angular/core';
 
-import type { KuiMenuComponent } from './kui-menu.component';
+import type { KuiMenu } from './kui-menu.component';
 
 /** Wires a native element as the trigger for a `kui-menu`. */
 @Directive({
@@ -11,13 +11,13 @@ import type { KuiMenuComponent } from './kui-menu.component';
     '[attr.aria-controls]': 'menu()?.isOpen() ? menu()?.panelId : null',
   },
 })
-export class KuiMenuForDirective {
+export class KuiMenuFor {
   /** Menu instance controlled by this trigger. */
-  readonly kuiMenuFor = input<KuiMenuComponent | undefined>();
+  readonly kuiMenuFor = input<KuiMenu | undefined>();
 
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  protected menu(): KuiMenuComponent | undefined {
+  protected menu(): KuiMenu | undefined {
     return this.kuiMenuFor();
   }
 

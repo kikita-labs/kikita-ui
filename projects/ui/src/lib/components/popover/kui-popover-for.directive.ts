@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostListener, inject, input } from '@angular/core';
 
-import type { KuiPopoverComponent } from './kui-popover.component';
+import type { KuiPopover } from './kui-popover.component';
 
 /**
  * Wires any element as a trigger for a `<kui-popover>`.
@@ -19,13 +19,13 @@ import type { KuiPopoverComponent } from './kui-popover.component';
     '[attr.aria-controls]': 'popover()?.open() ? popover()?.panelId : null',
   },
 })
-export class KuiPopoverForDirective {
+export class KuiPopoverFor {
   /** Popover instance controlled by this trigger. */
-  readonly kuiPopoverFor = input<KuiPopoverComponent | undefined>();
+  readonly kuiPopoverFor = input<KuiPopover | undefined>();
 
   private readonly el = inject(ElementRef<HTMLElement>);
 
-  protected popover(): KuiPopoverComponent | undefined {
+  protected popover(): KuiPopover | undefined {
     return this.kuiPopoverFor();
   }
 

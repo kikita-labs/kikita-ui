@@ -2,12 +2,12 @@ import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
-  KuiButtonDirective,
-  KuiEmptyStateActionsDirective,
-  KuiEmptyStateComponent,
-  KuiEmptyStateIconDirective,
-  KuiInputDirective,
-  KuiTextDirective,
+  KuiButton,
+  KuiEmptyState,
+  KuiEmptyStateActions,
+  KuiEmptyStateIcon,
+  KuiInput,
+  KuiText,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -18,12 +18,12 @@ import { TranslocoPipe } from '@jsverse/transloco';
   selector: 'app-empty-state-live-filter',
   imports: [
     FormsModule,
-    KuiButtonDirective,
-    KuiEmptyStateActionsDirective,
-    KuiEmptyStateComponent,
-    KuiEmptyStateIconDirective,
-    KuiInputDirective,
-    KuiTextDirective,
+    KuiButton,
+    KuiEmptyStateActions,
+    KuiEmptyState,
+    KuiEmptyStateIcon,
+    KuiInput,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiCalendarRangeComponent } from '@kikita-labs/ui';
+import { KuiCalendarRange } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -9,7 +9,7 @@ import type { KuiDateRange } from '@kikita-labs/ui';
 /** Groups the supported compact size and flat composition examples with seeded ranges. */
 @Component({
   selector: 'app-calendar-range-appearance',
-  imports: [KuiCalendarRangeComponent, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiCalendarRange, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './calendar-range-appearance.html',
   styleUrl: './calendar-range-appearance.scss',
 })

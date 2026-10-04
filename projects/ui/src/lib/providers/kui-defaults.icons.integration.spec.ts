@@ -8,22 +8,22 @@ import {
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiChipDirective } from '../components/chip/kui-chip.directive';
-import { KuiDialogService } from '../components/dialog/kui-dialog.service';
+import { KuiChip } from '../components/chip/kui-chip.directive';
+import { KuiDialog } from '../components/dialog/kui-dialog.service';
 import type { KuiDialogContext } from '../components/dialog/kui-dialog-context.token';
 import { KUI_DIALOG_CONTEXT } from '../components/dialog/kui-dialog-context.token';
-import { KuiDrawerService } from '../components/drawer/kui-drawer.service';
+import { KuiDrawer } from '../components/drawer/kui-drawer.service';
 import type { KuiDrawerContext } from '../components/drawer/kui-drawer-context.token';
 import { KUI_DRAWER_CONTEXT } from '../components/drawer/kui-drawer-context.token';
-import { KuiDropdownComponent } from '../components/dropdown/kui-dropdown.component';
-import { KuiOptionDirective } from '../components/dropdown/kui-option.directive';
-import { KuiFieldComponent } from '../components/field/kui-field.component';
+import { KuiDropdown } from '../components/dropdown/kui-dropdown.component';
+import { KuiOption } from '../components/dropdown/kui-option.directive';
+import { KuiField } from '../components/field/kui-field.component';
 import type { KuiIconGlyph } from '../components/icon/kui-icon-glyph.type';
 import { provideKuiIcons } from '../components/icon/provide-kui-icons';
-import { KuiSelectDirective } from '../components/select/kui-select.directive';
+import { KuiSelect } from '../components/select/kui-select.directive';
 import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
-import { kuiProvideDefaults } from './provide-kui-defaults';
+import { provideKuiDefaults } from './provide-kui-defaults';
 
 const ROLE_GLYPH: KuiIconGlyph = { node: [['path', { d: 'M1 1 role' }]] };
 const SLOT_GLYPH: KuiIconGlyph = { node: [['path', { d: 'M2 2 slot' }]] };
@@ -41,13 +41,13 @@ class DrawerContent {
 }
 
 @Component({
-  imports: [KuiChipDirective],
+  imports: [KuiChip],
   template: `<span kuiChip removable removeLabel="Remove Backend">Backend</span>`,
 })
 class ChipHost {}
 
 @Component({
-  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  imports: [KuiField, KuiSelect, KuiDropdown, KuiOption],
   template: `
     <kui-field>
       <input kuiSelect [clearable]="true" [(value)]="value" />
@@ -75,7 +75,7 @@ describe('KuiDefaults structural icons', () => {
       TestBed.configureTestingModule({ providers: [provideKikitaUi()] });
 
       const dialogContainer = TestBed.inject(OverlayContainer).getContainerElement();
-      TestBed.inject(KuiDialogService).open(DialogContent, {});
+      TestBed.inject(KuiDialog).open(DialogContent, {});
       TestBed.tick();
 
       expect(glyphPaths(dialogContainer, '.kui-dialog-close')).toEqual([
@@ -91,7 +91,7 @@ describe('KuiDefaults structural icons', () => {
 
     it('renders the glyph as a real svg with the call-site stroke weight and no stroke attribute', () => {
       TestBed.configureTestingModule({ providers: [provideKikitaUi()] });
-      TestBed.inject(KuiDialogService).open(DialogContent, {});
+      TestBed.inject(KuiDialog).open(DialogContent, {});
       TestBed.tick();
 
       const svg = TestBed.inject(OverlayContainer)
@@ -118,8 +118,8 @@ describe('KuiDefaults structural icons', () => {
       });
       const container = TestBed.inject(OverlayContainer).getContainerElement();
 
-      TestBed.inject(KuiDialogService).open(DialogContent, {});
-      TestBed.inject(KuiDrawerService).open(DrawerContent, {});
+      TestBed.inject(KuiDialog).open(DialogContent, {});
+      TestBed.inject(KuiDrawer).open(DrawerContent, {});
       TestBed.tick();
 
       expect(glyphPaths(container, '.kui-dialog-close')).toEqual(['M1 1 role']);
@@ -159,8 +159,8 @@ describe('KuiDefaults structural icons', () => {
       });
       const container = TestBed.inject(OverlayContainer).getContainerElement();
 
-      TestBed.inject(KuiDialogService).open(DialogContent, {});
-      TestBed.inject(KuiDrawerService).open(DrawerContent, {});
+      TestBed.inject(KuiDialog).open(DialogContent, {});
+      TestBed.inject(KuiDrawer).open(DrawerContent, {});
       TestBed.tick();
 
       expect(glyphPaths(container, '.kui-dialog-close')).toEqual(['M2 2 slot']);
@@ -182,7 +182,7 @@ describe('KuiDefaults structural icons', () => {
         ],
       });
 
-      TestBed.inject(KuiDialogService).open(DialogContent, {});
+      TestBed.inject(KuiDialog).open(DialogContent, {});
       TestBed.tick();
 
       const container = TestBed.inject(OverlayContainer).getContainerElement();
@@ -199,7 +199,7 @@ describe('KuiDefaults structural icons', () => {
         providers: [provideKikitaUi(), provideKuiIcons({ close: ROLE_GLYPH, clear: ROLE_GLYPH })],
       });
 
-      TestBed.inject(KuiDialogService).open(DialogContent, {});
+      TestBed.inject(KuiDialog).open(DialogContent, {});
       TestBed.tick();
 
       expect(
@@ -213,7 +213,7 @@ describe('KuiDefaults structural icons', () => {
         providers: [provideKikitaUi({ defaults: { icons: { close: BROKEN_GLYPH } } })],
       });
 
-      TestBed.inject(KuiDialogService).open(DialogContent, {});
+      TestBed.inject(KuiDialog).open(DialogContent, {});
       TestBed.tick();
 
       expect(
@@ -228,11 +228,11 @@ describe('KuiDefaults structural icons', () => {
         providers: [provideKikitaUi({ defaults: { icons: { close: ROLE_GLYPH } } })],
       });
       const nested = createEnvironmentInjector(
-        [kuiProvideDefaults({ icons: { close: NESTED_GLYPH } })],
+        [provideKuiDefaults({ icons: { close: NESTED_GLYPH } })],
         TestBed.inject(EnvironmentInjector),
       );
       const container = TestBed.inject(OverlayContainer).getContainerElement();
-      const service = TestBed.inject(KuiDialogService);
+      const service = TestBed.inject(KuiDialog);
 
       service.open(DialogContent, { injector: nested });
       service.open(DialogContent, {});

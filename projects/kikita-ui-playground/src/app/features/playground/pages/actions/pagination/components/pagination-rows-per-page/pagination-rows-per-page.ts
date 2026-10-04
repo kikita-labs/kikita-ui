@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 
-import { KuiPaginationComponent } from '@kikita-labs/ui';
+import { KuiPagination } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -11,7 +11,7 @@ import { PaginationExample } from '../pagination-example';
 /** Shows the summary, the rows-per-page reset, and both change outputs of a full Pagination. */
 @Component({
   selector: 'app-pagination-rows-per-page',
-  imports: [KuiPaginationComponent, PaginationExample, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiPagination, PaginationExample, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './pagination-rows-per-page.html',
   styleUrl: './pagination-rows-per-page.scss',
 })

@@ -1,11 +1,11 @@
 import { Component, input } from '@angular/core';
 
-import { KuiTextDirective } from '@kikita-labs/ui';
+import { KuiText } from '@kikita-labs/ui';
 
 /** Names one live chart example with a short heading and a matching accessible group. */
 @Component({
   selector: 'app-chart-example',
-  imports: [KuiTextDirective],
+  imports: [KuiText],
   templateUrl: './chart-example.html',
   styleUrl: './chart-example.scss',
 })

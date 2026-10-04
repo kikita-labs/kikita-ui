@@ -5,12 +5,7 @@
 ## Import
 
 ```ts
-import {
-  KuiFieldComponent,
-  KuiInputDirective,
-  KuiInputGroupDirective,
-  kuiProvideDefaults,
-} from '@kikita-labs/ui';
+import { KuiField, KuiInput, KuiInputGroup, provideKuiDefaults } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -148,11 +143,11 @@ auto-detection can't see through — prefer `kuiFieldAffix` for new code:
 </kui-field>
 ```
 
-These are directives, not bare CSS classes — import `KuiFieldAffixDirective`,
-`KuiFieldAffixIconDirective`, and `KuiFieldActionDirective` from `@kikita-labs/ui`.
+These are directives, not bare CSS classes — import `KuiFieldAffix`,
+`KuiFieldAffixIcon`, and `KuiFieldAction` from `@kikita-labs/ui`.
 
 For field chrome none of this covers (spinners built from a bare `<span>` with no `kuiLoader`,
-other custom markup), build `.kui-input-group` by hand and import `KuiInputGroupDirective`. The
+other custom markup), build `.kui-input-group` by hand and import `KuiInputGroup`. The
 directive delegates clicks on non-interactive field chrome — prefix text, suffix text, decorative
 icons, empty group space — to the first enabled native control inside the group. Interactive
 descendants such as clear buttons, chevrons, visibility toggles, links, and the control itself
@@ -199,10 +194,10 @@ Error messages are still part of `aria-describedby` when projected with `kuiErro
 
 ## Provider Defaults
 
-Use `kuiProvideDefaults` (or `provideKikitaUi({ defaults })`) for field defaults:
+Use `provideKuiDefaults` (or `provideKikitaUi({ defaults })`) for field defaults:
 
 ```ts
-providers: [kuiProvideDefaults({ field: { size: 'sm', hideErrors: true } })];
+providers: [provideKuiDefaults({ field: { size: 'sm', hideErrors: true } })];
 ```
 
 Use root `provideKikitaUi({ defaults: { size: 'sm' } })` when the whole application should prefer

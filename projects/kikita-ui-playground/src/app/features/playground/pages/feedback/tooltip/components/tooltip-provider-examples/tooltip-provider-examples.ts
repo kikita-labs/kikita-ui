@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 import {
-  KuiButtonDirective,
+  KuiButton,
   kuiProvideTooltipOptions,
-  KuiTooltipDirective,
+  KuiTooltip,
   KuiTooltipTriggerType,
 } from '@kikita-labs/ui';
 
@@ -12,7 +12,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows a scoped Hover default and a local Click override. */
 @Component({
   selector: 'app-tooltip-provider-examples',
-  imports: [KuiButtonDirective, KuiTooltipDirective, TranslocoPipe],
+  imports: [KuiButton, KuiTooltip, TranslocoPipe],
   providers: [kuiProvideTooltipOptions({ triggerType: KuiTooltipTriggerType.Hover })],
   templateUrl: './tooltip-provider-examples.html',
   styleUrl: './tooltip-provider-examples.scss',

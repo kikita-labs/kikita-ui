@@ -15,7 +15,7 @@ import type { KuiCardAppearance } from './kui-card-appearance.type';
     '[attr.data-kui-interactive]': 'interactive() ? "" : null',
   },
 })
-export class KuiCardDirective {
+export class KuiCard {
   /** Visual surface treatment. Defaults to `defaults.card.appearance`, then `surface`. */
   readonly appearance = input<KuiCardAppearance | undefined>();
 

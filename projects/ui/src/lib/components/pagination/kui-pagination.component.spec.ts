@@ -6,10 +6,10 @@ import { By } from '@angular/platform-browser';
 
 import { afterEach } from 'vitest';
 
-import { KuiPaginationComponent } from './kui-pagination.component';
+import { KuiPagination } from './kui-pagination.component';
 
 @Component({
-  imports: [KuiPaginationComponent],
+  imports: [KuiPagination],
   template: `<kui-pagination [totalPages]="totalPages()" [(currentPage)]="page" />`,
 })
 class CompactHost {
@@ -18,7 +18,7 @@ class CompactHost {
 }
 
 @Component({
-  imports: [KuiPaginationComponent],
+  imports: [KuiPagination],
   template: `<kui-pagination variant="simple" [totalPages]="4" [(currentPage)]="page" />`,
 })
 class SimpleHost {
@@ -26,7 +26,7 @@ class SimpleHost {
 }
 
 @Component({
-  imports: [KuiPaginationComponent],
+  imports: [KuiPagination],
   template: `
     <kui-pagination
       variant="full"
@@ -43,13 +43,13 @@ class FullHost {
 }
 
 @Component({
-  imports: [KuiPaginationComponent],
+  imports: [KuiPagination],
   template: `<kui-pagination [totalPages]="12" [currentPage]="5" [disabled]="true" />`,
 })
 class DisabledHost {}
 
 @Component({
-  imports: [KuiPaginationComponent],
+  imports: [KuiPagination],
   template: `<kui-pagination totalPages="12" siblingCount="0" boundaryCount="0" />`,
 })
 class StaticNumberHost {}
@@ -71,7 +71,7 @@ function cleanOverlay(): void {
   TestBed.inject(OverlayContainer).getContainerElement().innerHTML = '';
 }
 
-describe('KuiPaginationComponent', () => {
+describe('KuiPagination', () => {
   afterEach(() => {
     cleanOverlay();
   });
@@ -210,8 +210,8 @@ describe('KuiPaginationComponent', () => {
   it('coerces static counts to finite integers while allowing zero display counts', () => {
     const fixture = createFixture(StaticNumberHost);
     const pagination = fixture.debugElement
-      .query(By.directive(KuiPaginationComponent))
-      .injector.get(KuiPaginationComponent);
+      .query(By.directive(KuiPagination))
+      .injector.get(KuiPagination);
 
     expect(pagination.totalPages()).toBe(12);
     expect(pagination.siblingCount()).toBe(0);

@@ -1,31 +1,31 @@
 {
   "tolerancePercent": 3,
   "gateExports": [
-    "KuiBadgeDirective",
-    "KuiButtonDirective",
-    "KuiIconComponent",
-    "KuiLoaderDirective",
-    "KuiTooltipDirective",
-    "KuiDropdownComponent",
-    "KuiInputDirective",
-    "KuiCheckboxDirective",
-    "KuiSelectDirective",
-    "KuiPaginationComponent",
-    "KuiColorInputDirective",
-    "KuiDatePickerDirective",
-    "KuiTimePickerDirective",
-    "KuiFieldComponent",
-    "KuiCalendarComponent",
-    "KuiLineChartComponent",
-    "KuiAlertComponent",
-    "KuiTabsComponent",
+    "KuiBadge",
+    "KuiButton",
+    "KuiIcon",
+    "KuiLoader",
+    "KuiTooltip",
+    "KuiDropdown",
+    "KuiInput",
+    "KuiCheckbox",
+    "KuiSelect",
+    "KuiPagination",
+    "KuiColorInput",
+    "KuiDatePicker",
+    "KuiTimePicker",
+    "KuiField",
+    "KuiCalendar",
+    "KuiLineChart",
+    "KuiAlert",
+    "KuiTabs",
     "kuiDialog",
     "kuiToast",
     "provideKikitaUi",
     "KuiI18n",
-    "KuiNumberInputDirective",
-    "KuiComboboxDirective",
-    "KuiSliderDirective"
+    "KuiNumberInput",
+    "KuiCombobox",
+    "KuiSlider"
   ],
   "exports": {
     "createKuiLucideResolver": {
@@ -100,126 +100,126 @@
       "baselineBytes": 20014,
       "limitBytes": 20416
     },
-    "KuiAccordionComponent": {
+    "KuiAccordion": {
       "baselineBytes": 2975,
       "limitBytes": 3072
     },
-    "KuiAccordionIconDirective": {
+    "KuiAccordionIcon": {
       "baselineBytes": 563,
       "limitBytes": 592
     },
-    "KuiAccordionItemComponent": {
+    "KuiAccordionItem": {
       "baselineBytes": 11125,
       "limitBytes": 11472
     },
-    "KuiAlertActionsDirective": {
+    "KuiAlertActions": {
       "baselineBytes": 586,
       "limitBytes": 608
     },
-    "KuiAlertComponent": {
+    "KuiAlert": {
       "baselineBytes": 34114,
       "limitBytes": 35152
     },
-    "KuiAlertIconDirective": {
+    "KuiAlertIcon": {
       "baselineBytes": 731,
       "limitBytes": 768
     },
-    "KuiAlertMessageDirective": {
+    "KuiAlertMessage": {
       "baselineBytes": 586,
       "limitBytes": 608
     },
-    "KuiAlertTitleDirective": {
+    "KuiAlertTitle": {
       "baselineBytes": 582,
       "limitBytes": 608
     },
-    "KuiAutoFocusDirective": {
+    "KuiAutoFocus": {
       "baselineBytes": 2336,
       "limitBytes": 2416
     },
-    "KuiAvatarComponent": {
+    "KuiAvatar": {
       "baselineBytes": 16082,
       "limitBytes": 16576
     },
-    "KuiAvatarGroupComponent": {
+    "KuiAvatarGroup": {
       "baselineBytes": 18392,
       "limitBytes": 18944
     },
-    "KuiBadgeDirective": {
+    "KuiBadge": {
       "baselineBytes": 2209,
       "limitBytes": 2288
     },
-    "KuiBarChartComponent": {
+    "KuiBarChart": {
       "baselineBytes": 53710,
       "limitBytes": 55200
     },
-    "KuiBreadcrumbItemDirective": {
+    "KuiBreadcrumbItem": {
       "baselineBytes": 950,
       "limitBytes": 992
     },
-    "KuiBreadcrumbsDirective": {
+    "KuiBreadcrumbs": {
       "baselineBytes": 2272,
       "limitBytes": 2352
     },
-    "KuiBreadcrumbSeparatorComponent": {
+    "KuiBreadcrumbSeparator": {
       "baselineBytes": 9162,
       "limitBytes": 9440
     },
-    "KuiButtonDirective": {
+    "KuiButton": {
       "baselineBytes": 24590,
       "limitBytes": 25328,
       "targetBytes": 12288
     },
-    "KuiCalendarComponent": {
+    "KuiCalendar": {
       "baselineBytes": 42347,
       "limitBytes": 43632
     },
-    "KuiCalendarRangeComponent": {
+    "KuiCalendarRange": {
       "baselineBytes": 43236,
       "limitBytes": 44544
     },
-    "KuiCardDirective": {
+    "KuiCard": {
       "baselineBytes": 2402,
       "limitBytes": 2480
     },
-    "KuiCarouselComponent": {
+    "KuiCarousel": {
       "baselineBytes": 36456,
       "limitBytes": 37552
     },
-    "KuiCarouselSlideDirective": {
+    "KuiCarouselSlide": {
       "baselineBytes": 11494,
       "limitBytes": 11840
     },
-    "KuiCellDirective": {
+    "KuiCell": {
       "baselineBytes": 570,
       "limitBytes": 592
     },
-    "KuiChartLegendComponent": {
+    "KuiChartLegend": {
       "baselineBytes": 2399,
       "limitBytes": 2480
     },
-    "KuiChartLegendItemDirective": {
+    "KuiChartLegendItem": {
       "baselineBytes": 629,
       "limitBytes": 656
     },
-    "KuiCheckboxDirective": {
+    "KuiCheckbox": {
       "baselineBytes": 3094,
       "limitBytes": 3200,
       "targetBytes": 30720
     },
-    "KuiChipDirective": {
+    "KuiChip": {
       "baselineBytes": 17121,
       "limitBytes": 17648
     },
-    "KuiChipRemoveDirective": {
+    "KuiChipRemove": {
       "baselineBytes": 17676,
       "limitBytes": 18208
     },
-    "KuiColorInputDirective": {
+    "KuiColorInput": {
       "baselineBytes": 46013,
       "limitBytes": 46592,
       "targetBytes": 46080
     },
-    "KuiComboboxDirective": {
+    "KuiCombobox": {
       "baselineBytes": 26538,
       "limitBytes": 27344,
       "targetBytes": 46080
@@ -228,7 +228,7 @@
       "baselineBytes": 900,
       "limitBytes": 928
     },
-    "KuiCommandPaletteComponent": {
+    "KuiCommandPalette": {
       "baselineBytes": 31852,
       "limitBytes": 32816
     },
@@ -236,7 +236,7 @@
       "baselineBytes": 31327,
       "limitBytes": 32272
     },
-    "KuiDatePickerDirective": {
+    "KuiDatePicker": {
       "baselineBytes": 30394,
       "limitBytes": 31312,
       "targetBytes": 56320
@@ -253,7 +253,7 @@
       "baselineBytes": 539,
       "limitBytes": 560
     },
-    "KuiDonutChartComponent": {
+    "KuiDonutChart": {
       "baselineBytes": 47580,
       "limitBytes": 48416
     },
@@ -265,56 +265,56 @@
       "baselineBytes": 539,
       "limitBytes": 560
     },
-    "KuiDropdownComponent": {
+    "KuiDropdown": {
       "baselineBytes": 9022,
       "limitBytes": 9296,
       "targetBytes": 8192
     },
-    "KuiDropdownForDirective": {
+    "KuiDropdownFor": {
       "baselineBytes": 1722,
       "limitBytes": 1776
     },
-    "KuiEmptyStateActionsDirective": {
+    "KuiEmptyStateActions": {
       "baselineBytes": 591,
       "limitBytes": 624
     },
-    "KuiEmptyStateComponent": {
+    "KuiEmptyState": {
       "baselineBytes": 3000,
       "limitBytes": 3104
     },
-    "KuiEmptyStateIconDirective": {
+    "KuiEmptyStateIcon": {
       "baselineBytes": 606,
       "limitBytes": 640
     },
-    "KuiErrorDirective": {
+    "KuiError": {
       "baselineBytes": 1021,
       "limitBytes": 1056
     },
-    "KuiFieldActionDirective": {
+    "KuiFieldAction": {
       "baselineBytes": 589,
       "limitBytes": 608
     },
-    "KuiFieldAffixDirective": {
+    "KuiFieldAffix": {
       "baselineBytes": 22476,
       "limitBytes": 23152
     },
-    "KuiFieldAffixIconDirective": {
+    "KuiFieldAffixIcon": {
       "baselineBytes": 611,
       "limitBytes": 640
     },
-    "KuiFieldComponent": {
+    "KuiField": {
       "baselineBytes": 30878,
       "limitBytes": 31808
     },
-    "KuiFileUploadComponent": {
+    "KuiFileUpload": {
       "baselineBytes": 46228,
       "limitBytes": 47616
     },
-    "KuiGroupDirective": {
+    "KuiGroup": {
       "baselineBytes": 3042,
       "limitBytes": 3136
     },
-    "KuiHintDirective": {
+    "KuiHint": {
       "baselineBytes": 1007,
       "limitBytes": 1040
     },
@@ -322,38 +322,38 @@
       "baselineBytes": 10989,
       "limitBytes": 11328
     },
-    "KuiIconButtonDirective": {
+    "KuiIconButton": {
       "baselineBytes": 24053,
       "limitBytes": 24784,
       "targetBytes": 12288
     },
-    "KuiIconComponent": {
+    "KuiIcon": {
       "baselineBytes": 9696,
       "limitBytes": 10000,
       "targetBytes": 8192
     },
-    "KuiInputDirective": {
+    "KuiInput": {
       "baselineBytes": 3061,
       "limitBytes": 3168,
       "targetBytes": 30720
     },
-    "KuiInputGroupDirective": {
+    "KuiInputGroup": {
       "baselineBytes": 762,
       "limitBytes": 800
     },
-    "KuiLabelDirective": {
+    "KuiLabel": {
       "baselineBytes": 1115,
       "limitBytes": 1152
     },
-    "KuiLineChartComponent": {
+    "KuiLineChart": {
       "baselineBytes": 51572,
       "limitBytes": 52992
     },
-    "KuiLinkDirective": {
+    "KuiLink": {
       "baselineBytes": 26919,
       "limitBytes": 27728
     },
-    "KuiLoaderDirective": {
+    "KuiLoader": {
       "baselineBytes": 12382,
       "limitBytes": 12768,
       "targetBytes": 8192
@@ -362,50 +362,50 @@
       "baselineBytes": 40361,
       "limitBytes": 41584
     },
-    "KuiMenuComponent": {
+    "KuiMenu": {
       "baselineBytes": 20452,
       "limitBytes": 21072
     },
-    "KuiMenuForDirective": {
+    "KuiMenuFor": {
       "baselineBytes": 1411,
       "limitBytes": 1456
     },
-    "KuiMenuHeaderDirective": {
+    "KuiMenuHeader": {
       "baselineBytes": 609,
       "limitBytes": 640
     },
-    "KuiMenuItemDirective": {
+    "KuiMenuItem": {
       "baselineBytes": 1621,
       "limitBytes": 1680
     },
-    "KuiNumberInputDirective": {
+    "KuiNumberInput": {
       "baselineBytes": 20481,
       "limitBytes": 21104,
       "targetBytes": 46080
     },
-    "KuiOptionDirective": {
+    "KuiOption": {
       "baselineBytes": 2644,
       "limitBytes": 2736
     },
-    "KuiOtpInputComponent": {
+    "KuiOtpInput": {
       "baselineBytes": 21510,
       "limitBytes": 22160,
       "targetBytes": 46080
     },
-    "KuiPaginationComponent": {
+    "KuiPagination": {
       "baselineBytes": 69785,
       "limitBytes": 71888,
       "targetBytes": 46080
     },
-    "KuiPopoverComponent": {
+    "KuiPopover": {
       "baselineBytes": 19512,
       "limitBytes": 20112
     },
-    "KuiPopoverForDirective": {
+    "KuiPopoverFor": {
       "baselineBytes": 1858,
       "limitBytes": 1920
     },
-    "KuiProgressComponent": {
+    "KuiProgress": {
       "baselineBytes": 4371,
       "limitBytes": 4512
     },
@@ -417,7 +417,7 @@
       "baselineBytes": 1675,
       "limitBytes": 1728
     },
-    "kuiProvideDefaults": {
+    "provideKuiDefaults": {
       "baselineBytes": 1636,
       "limitBytes": 1696
     },
@@ -425,15 +425,15 @@
       "baselineBytes": 1672,
       "limitBytes": 1728
     },
-    "kuiProvideI18n": {
+    "provideKuiI18n": {
       "baselineBytes": 11048,
       "limitBytes": 11392
     },
-    "kuiProvideLocale": {
+    "provideKuiLocale": {
       "baselineBytes": 11085,
       "limitBytes": 11424
     },
-    "kuiProvideMessages": {
+    "provideKuiMessages": {
       "baselineBytes": 11087,
       "limitBytes": 11424
     },
@@ -445,117 +445,117 @@
       "baselineBytes": 1674,
       "limitBytes": 1728
     },
-    "KuiRadioDirective": {
+    "KuiRadio": {
       "baselineBytes": 3004,
       "limitBytes": 3104,
       "targetBytes": 30720
     },
-    "KuiRowDirective": {
+    "KuiRow": {
       "baselineBytes": 855,
       "limitBytes": 896
     },
-    "KuiScatterChartComponent": {
+    "KuiScatterChart": {
       "baselineBytes": 49359,
       "limitBytes": 50624
     },
-    "KuiSegmentDirective": {
+    "KuiSegment": {
       "baselineBytes": 1352,
       "limitBytes": 1408
     },
-    "KuiSegmentedComponent": {
+    "KuiSegmented": {
       "baselineBytes": 5847,
       "limitBytes": 6032
     },
-    "KuiSelectCellComponent": {
+    "KuiSelectCell": {
       "baselineBytes": 12286,
       "limitBytes": 12656
     },
-    "KuiSelectDirective": {
+    "KuiSelect": {
       "baselineBytes": 33937,
       "limitBytes": 34960,
       "targetBytes": 46080
     },
-    "KuiSelectThComponent": {
+    "KuiSelectTh": {
       "baselineBytes": 11929,
       "limitBytes": 12288
     },
-    "KuiSelectValueDirective": {
+    "KuiSelectValue": {
       "baselineBytes": 808,
       "limitBytes": 848
     },
-    "KuiSeparatorDirective": {
+    "KuiSeparator": {
       "baselineBytes": 2464,
       "limitBytes": 2544
     },
-    "KuiSkeletonDirective": {
+    "KuiSkeleton": {
       "baselineBytes": 2188,
       "limitBytes": 2256
     },
-    "KuiSliderDirective": {
+    "KuiSlider": {
       "baselineBytes": 14622,
       "limitBytes": 15072,
       "targetBytes": 46080
     },
-    "KuiSplitterComponent": {
+    "KuiSplitter": {
       "baselineBytes": 29448,
       "limitBytes": 30336
     },
-    "KuiSplitterPaneComponent": {
+    "KuiSplitterPane": {
       "baselineBytes": 3062,
       "limitBytes": 3168
     },
-    "KuiStepComponent": {
+    "KuiStep": {
       "baselineBytes": 21648,
       "limitBytes": 22304
     },
-    "KuiStepperComponent": {
+    "KuiStepper": {
       "baselineBytes": 23232,
       "limitBytes": 23936
     },
-    "KuiSwitchDirective": {
+    "KuiSwitch": {
       "baselineBytes": 3100,
       "limitBytes": 3200,
       "targetBytes": 30720
     },
-    "KuiTabDirective": {
+    "KuiTab": {
       "baselineBytes": 13138,
       "limitBytes": 13536
     },
-    "KuiTableDirective": {
+    "KuiTable": {
       "baselineBytes": 3826,
       "limitBytes": 3952
     },
-    "KuiTabPanelDirective": {
+    "KuiTabPanel": {
       "baselineBytes": 991,
       "limitBytes": 1024
     },
-    "KuiTabsComponent": {
+    "KuiTabs": {
       "baselineBytes": 26923,
       "limitBytes": 27744
     },
-    "KuiTextareaDirective": {
+    "KuiTextarea": {
       "baselineBytes": 3091,
       "limitBytes": 3184,
       "targetBytes": 30720
     },
-    "KuiTextDirective": {
+    "KuiText": {
       "baselineBytes": 3149,
       "limitBytes": 3248
     },
-    "KuiThDirective": {
+    "KuiTh": {
       "baselineBytes": 13375,
       "limitBytes": 13792
     },
-    "KuiThGroupDirective": {
+    "KuiThGroup": {
       "baselineBytes": 718,
       "limitBytes": 752
     },
-    "KuiTimePickerDirective": {
+    "KuiTimePicker": {
       "baselineBytes": 32824,
       "limitBytes": 33824,
       "targetBytes": 56320
     },
-    "KuiTimePickerPanelComponent": {
+    "KuiTimePickerPanel": {
       "baselineBytes": 44200,
       "limitBytes": 45536
     },
@@ -563,11 +563,11 @@
       "baselineBytes": 29391,
       "limitBytes": 30288
     },
-    "KuiToastService": {
+    "KuiToast": {
       "baselineBytes": 29364,
       "limitBytes": 30256
     },
-    "KuiTooltipDirective": {
+    "KuiTooltip": {
       "baselineBytes": 7728,
       "limitBytes": 7968,
       "targetBytes": 8192
@@ -576,7 +576,7 @@
       "baselineBytes": 497,
       "limitBytes": 512
     },
-    "KuiTreeComponent": {
+    "KuiTree": {
       "baselineBytes": 29500,
       "limitBytes": 30400
     },

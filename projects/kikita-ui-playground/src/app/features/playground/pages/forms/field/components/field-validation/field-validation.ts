@@ -3,7 +3,7 @@ import { form, FormField } from '@angular/forms/signals';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { KuiFieldComponent, KuiInputDirective } from '@kikita-labs/ui';
+import { KuiField, KuiInput } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -13,7 +13,7 @@ import { createFieldValidationSchema } from './helpers';
 
 @Component({
   selector: 'app-field-validation',
-  imports: [FormField, KuiFieldComponent, KuiInputDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [FormField, KuiField, KuiInput, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './field-validation.html',
   styleUrl: './field-validation.scss',
 })

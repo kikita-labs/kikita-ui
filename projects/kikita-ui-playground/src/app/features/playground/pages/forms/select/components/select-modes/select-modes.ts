@@ -3,12 +3,12 @@ import { Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import {
-  KuiChipDirective,
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
-  KuiSelectDirective,
-  KuiSelectValueDirective,
+  KuiChip,
+  KuiDropdown,
+  KuiField,
+  KuiOption,
+  KuiSelect,
+  KuiSelectValue,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -22,12 +22,12 @@ import type { SelectPerson } from './interfaces';
 @Component({
   selector: 'app-select-modes',
   imports: [
-    KuiChipDirective,
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiOptionDirective,
-    KuiSelectDirective,
-    KuiSelectValueDirective,
+    KuiChip,
+    KuiDropdown,
+    KuiField,
+    KuiOption,
+    KuiSelect,
+    KuiSelectValue,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

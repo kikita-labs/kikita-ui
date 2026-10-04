@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { KuiCalendarComponent } from '../components/calendar';
+import { KuiCalendar } from '../components/calendar';
 import { KUI_CLOCK_SEED, KuiClock } from './kui-clock.service';
 
 const realNow = new Date(2026, 11, 5, 12, 0, 0);
@@ -72,7 +72,7 @@ describe('KuiClock', () => {
   it('shows the server month first, then follows the browser date once it has rendered', () => {
     seedServerDate(2026, 8, 30);
 
-    const fixture = TestBed.createComponent(KuiCalendarComponent);
+    const fixture = TestBed.createComponent(KuiCalendar);
     fixture.componentRef.setInput('locale', 'en-US');
 
     // Before the first browser render the calendar holds the server's month and day, which is what
@@ -95,7 +95,7 @@ describe('KuiClock', () => {
   it('does not move a month the app or user has already changed', () => {
     seedServerDate(2026, 8, 30);
 
-    const fixture = TestBed.createComponent(KuiCalendarComponent);
+    const fixture = TestBed.createComponent(KuiCalendar);
     fixture.componentRef.setInput('locale', 'en-US');
     fixture.componentRef.setInput('viewDate', new Date(2027, 0, 1));
     fixture.detectChanges();

@@ -1,7 +1,7 @@
 import { computed, Directive, effect, ElementRef, inject, input, Renderer2 } from '@angular/core';
 
-import { KuiIconComponent } from '../icon/kui-icon.component';
-import { KuiLoaderDirective } from '../loader/kui-loader.directive';
+import { KuiIcon } from '../icon/kui-icon.component';
+import { KuiLoader } from '../loader/kui-loader.directive';
 
 /** Visual emphasis for `[kuiFieldAffix]` text. `strong` uses full text color instead of muted. */
 export type KuiFieldAffixEmphasis = 'default' | 'strong';
@@ -30,14 +30,14 @@ type KuiFieldAffixKind = 'action' | 'icon' | 'text';
     '[attr.data-kui-emphasis]': "kind() === 'text' ? emphasis() : null",
   },
 })
-export class KuiFieldAffixDirective {
+export class KuiFieldAffix {
   /** Visual emphasis for text affixes. Defaults to muted text; `strong` uses full text color. */
   readonly emphasis = input<KuiFieldAffixEmphasis>('default');
 
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly renderer = inject(Renderer2);
-  protected readonly iconHost = inject(KuiIconComponent, { optional: true, self: true });
-  private readonly loaderHost = inject(KuiLoaderDirective, { optional: true, self: true });
+  protected readonly iconHost = inject(KuiIcon, { optional: true, self: true });
+  private readonly loaderHost = inject(KuiLoader, { optional: true, self: true });
 
   /** @internal Detected look, exposed for `kui-field`'s input-group chrome detection. */
   readonly kind = computed<KuiFieldAffixKind>(() => {
@@ -86,7 +86,7 @@ export class KuiFieldAffixDirective {
     'aria-hidden': 'true',
   },
 })
-export class KuiFieldAffixIconDirective {}
+export class KuiFieldAffixIcon {}
 
 /**
  * Field-action button styling for a prefix/suffix `<button>`.
@@ -110,4 +110,4 @@ export class KuiFieldAffixIconDirective {}
     class: 'kui-field-action',
   },
 })
-export class KuiFieldActionDirective {}
+export class KuiFieldAction {}

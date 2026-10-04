@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { KuiNumberInputDirective } from './kui-number-input.directive';
+import { KuiNumberInput } from './kui-number-input.directive';
 
 @Component({
   template: `
@@ -22,7 +22,7 @@ import { KuiNumberInputDirective } from './kui-number-input.directive';
       [attr.readonly]="readonly() || null"
     />
   `,
-  imports: [KuiNumberInputDirective],
+  imports: [KuiNumberInput],
 })
 class TestHost {
   readonly value = signal(5);
@@ -38,11 +38,11 @@ class TestHost {
 
 @Component({
   template: `<input type="number" kuiNumberInput value="5" />`,
-  imports: [KuiNumberInputDirective],
+  imports: [KuiNumberInput],
 })
 class ServerHost {}
 
-describe('KuiNumberInputDirective', () => {
+describe('KuiNumberInput', () => {
   let fixture: ComponentFixture<TestHost>;
   let host: TestHost;
 
@@ -272,7 +272,7 @@ describe('KuiNumberInputDirective', () => {
   });
 });
 
-describe('KuiNumberInputDirective on the server', () => {
+describe('KuiNumberInput on the server', () => {
   it('leaves the native input unwrapped so hydration can match the template DOM', async () => {
     await TestBed.configureTestingModule({
       imports: [ServerHost],

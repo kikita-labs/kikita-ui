@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 import {
-  KuiAccordionComponent,
-  KuiAccordionIconDirective,
-  KuiAccordionItemComponent,
-  KuiIconComponent,
-  KuiTextDirective,
+  KuiAccordion,
+  KuiAccordionIcon,
+  KuiAccordionItem,
+  KuiIcon,
+  KuiText,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -15,11 +15,11 @@ import { TranslocoPipe } from '@jsverse/transloco';
 @Component({
   selector: 'app-accordion-item-states',
   imports: [
-    KuiAccordionComponent,
-    KuiAccordionIconDirective,
-    KuiAccordionItemComponent,
-    KuiIconComponent,
-    KuiTextDirective,
+    KuiAccordion,
+    KuiAccordionIcon,
+    KuiAccordionItem,
+    KuiIcon,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

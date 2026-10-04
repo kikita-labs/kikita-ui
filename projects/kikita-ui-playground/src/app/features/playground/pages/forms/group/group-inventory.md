@@ -10,7 +10,7 @@
   [`kikita-ui-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),
   [`kikita-ui-options.token.ts`](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.token.ts),
   and this Playground's [`app.config.ts`](../../../../../../../../../projects/kikita-ui-playground/src/app/app.config.ts).
-- Isolated component-scoped token example: [`group-size-scoped-default.ts`](./components/group-sizes/components/group-size-scoped-default/group-size-scoped-default.ts). This example provides `kuiProvideDefaults({ size: 'lg' })` in its component injector to demonstrate the same size fallback; it does not configure the app-wide `provideKikitaUi()` provider.
+- Isolated component-scoped token example: [`group-size-scoped-default.ts`](./components/group-sizes/components/group-size-scoped-default/group-size-scoped-default.ts). This example provides `provideKuiDefaults({ size: 'lg' })` in its component injector to demonstrate the same size fallback; it does not configure the app-wide `provideKikitaUi()` provider.
 - Border merging, orientation, size inheritance, Field subgrid, rounded corners, and invalid
   border stacking: [`group.css`](../../../../../../../../../projects/ui/src/lib/components/group/kui-group.css).
 - Group behavior tests: [`kui-group.directive.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/group/kui-group.directive.spec.ts).
@@ -21,7 +21,7 @@
 | Group input                        | Default and resolution                                                                                                                 | Page coverage                                                                                                                                                                                      |
 | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `orientation: KuiGroupOrientation` | `horizontal`; supported values are `horizontal` and `vertical`.                                                                        | Default horizontal group, plus horizontal and vertical collapsed examples.                                                                                                                         |
-| `size?: KuiSize`                   | Local input, then root `provideKikitaUi({ defaults: { size } })`, then `md`. Supported values are `xs`, `sm`, `md`, and `lg`.          | Explicit four-size matrix, plus an isolated component-scoped `kuiProvideDefaults` example that resolves omitted Group and Input sizes to `lg`; baseline verifies the no-override fallback to `md`. |
+| `size?: KuiSize`                   | Local input, then root `provideKikitaUi({ defaults: { size } })`, then `md`. Supported values are `xs`, `sm`, `md`, and `lg`.          | Explicit four-size matrix, plus an isolated component-scoped `provideKuiDefaults` example that resolves omitted Group and Input sizes to `lg`; baseline verifies the no-override fallback to `md`. |
 | `collapsed: boolean`               | `false`; presence/boolean values use `booleanAttribute`. Collapsed mode removes the gap and merges supported adjacent control borders. | Baseline without the input; collapsed horizontal and vertical groups and collapsed Field compositions.                                                                                             |
 | `rounded: boolean`                 | `true`; presence/boolean values use `booleanAttribute`. It affects outer corners only when `collapsed` is true.                        | Rounded and square-ended collapsed groups in both orientations.                                                                                                                                    |
 
@@ -54,7 +54,7 @@ variables, and an explicit child size can override that inherited size.
 
 ## Semantics, edge cases, and omissions
 
-- `KuiGroupDirective` only adds `kui-group` and data attributes/style state. It does not add a
+- `KuiGroup` only adds `kui-group` and data attributes/style state. It does not add a
   `role`, accessible name, ARIA wiring, roving tab stop, or keyboard behavior. Examples add a
   labelled `role="group"` to the actual related controls; Field keeps its own label, hint, error,
   and control associations.

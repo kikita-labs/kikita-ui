@@ -7,10 +7,10 @@ import { provideKikitaUi } from '../root';
 import { KuiI18n } from './kui-i18n.service';
 import { KUI_ENGLISH_MESSAGES } from './kui-messages.en';
 import type { KuiMessagesLayer } from './kui-messages.interface';
-import type { kuiProvideI18n } from './provide-kui-i18n';
-import { kuiProvideLocale, kuiProvideMessages } from './provide-kui-i18n';
+import type { provideKuiI18n } from './provide-kui-i18n';
+import { provideKuiLocale, provideKuiMessages } from './provide-kui-i18n';
 
-function createChild(providers: ReturnType<typeof kuiProvideI18n>): KuiI18n {
+function createChild(providers: ReturnType<typeof provideKuiI18n>): KuiI18n {
   return Injector.create({ providers, parent: TestBed.inject(EnvironmentInjector) }).get(KuiI18n);
 }
 
@@ -113,10 +113,10 @@ describe('KuiI18n', () => {
       providers: [provideKikitaUi({ locale: 'en-US', messages: { menu: { label: 'Root' } } })],
     });
     const root = TestBed.inject(KuiI18n);
-    const left = createChild(kuiProvideMessages({ pagination: { next: 'Left' } }));
+    const left = createChild(provideKuiMessages({ pagination: { next: 'Left' } }));
     const right = createChild([
-      ...kuiProvideLocale('de-DE'),
-      ...kuiProvideMessages({ menu: { label: 'Right' } }),
+      ...provideKuiLocale('de-DE'),
+      ...provideKuiMessages({ menu: { label: 'Right' } }),
     ]);
 
     expect(left.get('pagination')().next).toBe('Left');
@@ -132,7 +132,7 @@ describe('KuiI18n', () => {
   it('passes a parent change to a child level', () => {
     const language = signal<KuiMessagesLayer>({ menu: { label: 'A' } });
     TestBed.configureTestingModule({ providers: [provideKikitaUi({ messages: language })] });
-    const child = createChild(kuiProvideMessages({ pagination: { next: 'Child' } }));
+    const child = createChild(provideKuiMessages({ pagination: { next: 'Child' } }));
 
     expect(child.get('menu')().label).toBe('A');
     language.set({ menu: { label: 'B' } });

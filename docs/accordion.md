@@ -6,7 +6,7 @@
 ## Import
 
 ```ts
-import { KuiAccordionComponent, KuiAccordionItemComponent } from '@kikita-labs/ui';
+import { KuiAccordion, KuiAccordionItem } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -82,7 +82,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     accordion: {
       /* options below */
     },

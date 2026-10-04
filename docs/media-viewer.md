@@ -5,7 +5,7 @@ Photos only -- video is intentionally out of scope, per the Claude Design brief 
 `06 Media Viewer.dc.html`.
 
 `kuiMediaViewer()` is an imperative opener, the same shape as `kuiDialog()`/`kuiConfirm()`: it
-reuses `KuiDialogService` for the portal, backdrop, focus trap, Escape handling, and scroll lock,
+reuses `KuiDialog` for the portal, backdrop, focus trap, Escape handling, and scroll lock,
 the same way `kuiDrawer()` and the Command Palette overlay already do. The panel itself uses
 `KuiDialogSize`'s `'fullscreen'` value, added alongside `sm`/`md`/`lg`/`auto` so any dialog content
 that needs to own its full layout can request it, not only this component.
@@ -144,11 +144,11 @@ click); it carries no result value.
 
 ## Accessibility
 
-- The panel is `role="dialog"` + `aria-modal="true"` (from `KuiDialogService`), `aria-labelledby`
+- The panel is `role="dialog"` + `aria-modal="true"` (from `KuiDialog`), `aria-labelledby`
   pointing at a visually-hidden `<h2>` reading "Photo viewer, photo N of total" for a gallery, or
   just "Photo viewer" (the `ariaLabel` alone) for a single photo.
 - Focus trap, focus restore to the trigger element on close, and page scroll lock come from
-  `KuiDialogService`, not reimplemented here.
+  `KuiDialog`, not reimplemented here.
 - The counter is `aria-live="polite"`, announced on navigation without reopening the dialog. Not
   rendered at all for a single photo -- "1 / 1" carries no information.
 - Close/Prev/Next/Zoom in/Zoom out are `button[kuiIconButton]`; Prev/Next/Zoom in/Zoom out get
@@ -159,7 +159,7 @@ click); it carries no result value.
 
 | Key             | Action                                                             |
 | --------------- | ------------------------------------------------------------------ |
-| Tab / Shift+Tab | Cycles focus inside the lightbox (trap from `KuiDialogService`).   |
+| Tab / Shift+Tab | Cycles focus inside the lightbox (trap from `KuiDialog`).          |
 | Escape          | Closes the lightbox.                                               |
 | Left / Right    | Previous / next photo. Does not wrap -- bounds disable the button. |
 | Home / End      | First / last photo.                                                |

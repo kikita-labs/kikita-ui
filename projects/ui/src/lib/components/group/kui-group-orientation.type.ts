@@ -1,2 +1,2 @@
-/** Layout direction supported by `KuiGroupDirective`. */
+/** Layout direction supported by `KuiGroup`. */
 export type KuiGroupOrientation = 'horizontal' | 'vertical';

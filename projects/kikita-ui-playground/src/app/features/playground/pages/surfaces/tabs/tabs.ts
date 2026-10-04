@@ -1,12 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import {
-  KuiButtonDirective,
-  KuiTabDirective,
-  KuiTabPanelDirective,
-  KuiTabsComponent,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiButton, KuiTab, KuiTabPanel, KuiTabs, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -17,11 +11,11 @@ import { TabsStyleMatrix } from './components';
 @Component({
   selector: 'app-tabs',
   imports: [
-    KuiButtonDirective,
-    KuiTabDirective,
-    KuiTabPanelDirective,
-    KuiTabsComponent,
-    KuiTextDirective,
+    KuiButton,
+    KuiTab,
+    KuiTabPanel,
+    KuiTabs,
+    KuiText,
     PlaygroundExampleCard,
     TabsStyleMatrix,
     TranslocoPipe,

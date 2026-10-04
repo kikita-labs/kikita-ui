@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiLinkDirective, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiLink, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -8,7 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Compares the anchor and button hosts, with a real counted action on the button. */
 @Component({
   selector: 'app-link-hosts',
-  imports: [KuiLinkDirective, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiLink, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './link-hosts.html',
   styleUrl: './link-hosts.scss',
 })

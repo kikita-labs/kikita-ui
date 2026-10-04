@@ -29,7 +29,7 @@ import { KUI_OPTION_CONTEXT } from '../field/kui-option-context.token';
   },
 })
 /** Marks projected dropdown content as a selectable Kikita UI option. */
-export class KuiOptionDirective {
+export class KuiOption {
   /** The value emitted and passed to the selection context when this option is chosen. */
   readonly value = input.required<unknown>();
   /** Prevents selection and applies disabled styling. */

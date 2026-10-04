@@ -21,7 +21,7 @@ import { booleanAttribute, Directive, ElementRef, inject, input } from '@angular
     '[attr.aria-current]': 'current() ? "page" : null',
   },
 })
-export class KuiBreadcrumbItemDirective {
+export class KuiBreadcrumbItem {
   /** Marks this crumb as the current page. Only meaningful on `<span>`. */
   readonly current = input(false, { transform: booleanAttribute });
 

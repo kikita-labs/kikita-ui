@@ -5,15 +5,15 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach } from 'vitest';
 
-import { KuiCalendarComponent } from '../calendar/kui-calendar.component';
+import { KuiCalendar } from '../calendar/kui-calendar.component';
 import type { KuiDateRange } from '../calendar/kui-calendar.types';
-import { KuiCalendarRangeComponent } from '../calendar-range/kui-calendar-range.component';
-import { KuiDropdownComponent } from './kui-dropdown.component';
-import { KuiDropdownForDirective } from './kui-dropdown-for.directive';
-import { KuiOptionDirective } from './kui-option.directive';
+import { KuiCalendarRange } from '../calendar-range/kui-calendar-range.component';
+import { KuiDropdown } from './kui-dropdown.component';
+import { KuiDropdownFor } from './kui-dropdown-for.directive';
+import { KuiOption } from './kui-option.directive';
 
 @Component({
-  imports: [KuiDropdownComponent, KuiDropdownForDirective, KuiOptionDirective],
+  imports: [KuiDropdown, KuiDropdownFor, KuiOption],
   template: `
     <button id="trigger" type="button" [kuiDropdownFor]="dropdown">Open</button>
     <kui-dropdown #dropdown [(open)]="open">
@@ -24,11 +24,11 @@ import { KuiOptionDirective } from './kui-option.directive';
 })
 class ControlledDropdownHost {
   readonly open = signal(false);
-  readonly dropdown = viewChild.required(KuiDropdownComponent);
+  readonly dropdown = viewChild.required(KuiDropdown);
 }
 
 @Component({
-  imports: [KuiDropdownComponent, KuiDropdownForDirective, KuiCalendarComponent],
+  imports: [KuiDropdown, KuiDropdownFor, KuiCalendar],
   template: `
     <button id="trigger" type="button" [kuiDropdownFor]="dropdown">Open</button>
     <kui-dropdown #dropdown [(open)]="open">
@@ -39,11 +39,11 @@ class ControlledDropdownHost {
 class CalendarDropdownHost {
   readonly open = signal(false);
   readonly value = signal<Date | null>(null);
-  readonly dropdown = viewChild.required(KuiDropdownComponent);
+  readonly dropdown = viewChild.required(KuiDropdown);
 }
 
 @Component({
-  imports: [KuiDropdownComponent, KuiDropdownForDirective, KuiCalendarRangeComponent],
+  imports: [KuiDropdown, KuiDropdownFor, KuiCalendarRange],
   template: `
     <button id="trigger" type="button" [kuiDropdownFor]="dropdown">Open</button>
     <kui-dropdown #dropdown [(open)]="open">
@@ -54,10 +54,10 @@ class CalendarDropdownHost {
 class RangeCalendarDropdownHost {
   readonly open = signal(false);
   readonly value = signal<KuiDateRange | null>(null);
-  readonly dropdown = viewChild.required(KuiDropdownComponent);
+  readonly dropdown = viewChild.required(KuiDropdown);
 }
 
-describe('KuiDropdownComponent', () => {
+describe('KuiDropdown', () => {
   afterEach(() => {
     TestBed.inject(OverlayContainer).getContainerElement().innerHTML = '';
   });

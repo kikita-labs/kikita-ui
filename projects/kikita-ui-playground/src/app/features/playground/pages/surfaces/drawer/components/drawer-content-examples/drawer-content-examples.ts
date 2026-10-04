@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { KuiButtonDirective, kuiDrawer, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiButton, kuiDrawer, KuiText } from '@kikita-labs/ui';
 
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
@@ -19,7 +19,7 @@ import { DrawerExampleContent } from '../drawer-example-content';
 /** Opens titled, untitled, and internally scrollable Drawer content. */
 @Component({
   selector: 'app-drawer-content-examples',
-  imports: [DrawerExampleActions, KuiButtonDirective, KuiTextDirective, TranslocoPipe],
+  imports: [DrawerExampleActions, KuiButton, KuiText, TranslocoPipe],
   templateUrl: './drawer-content-examples.html',
   styleUrl: './drawer-content-examples.scss',
 })

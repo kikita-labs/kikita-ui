@@ -12,7 +12,7 @@ import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSkeletonShape } from '../skeleton';
-import { KuiSkeletonDirective } from '../skeleton';
+import { KuiSkeleton } from '../skeleton';
 import type { KuiAvatarShape } from './kui-avatar-shape.type';
 import type { KuiAvatarSize } from './kui-avatar-size.type';
 import type { KuiAvatarStatus } from './kui-avatar-status.type';
@@ -27,7 +27,7 @@ function numberOrUndefinedAttribute(value: unknown): number | undefined {
 /** Renders an accessible user or entity avatar with image, initials, or icon fallback. */
 @Component({
   selector: 'kui-avatar',
-  imports: [KuiSkeletonDirective],
+  imports: [KuiSkeleton],
   templateUrl: './kui-avatar.component.html',
   host: {
     class: 'kui-avatar',
@@ -41,7 +41,7 @@ function numberOrUndefinedAttribute(value: unknown): number | undefined {
     '[attr.title]': 'null',
   },
 })
-export class KuiAvatarComponent {
+export class KuiAvatar {
   /** Optional image URL. Falls back to initials or icon when loading fails. */
   readonly src = input<string | undefined>();
 

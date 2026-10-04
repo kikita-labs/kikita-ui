@@ -3,7 +3,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { asapScheduler, filter, observeOn } from 'rxjs';
 
-import { KuiTextDirective, KuiTreeComponent } from '@kikita-labs/ui';
+import { KuiText, KuiTree } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -14,13 +14,7 @@ import { TreeSizeExamples } from './components';
 /** Shows Tree's default, checkable, size, keyboard, lazy, and mobile behavior. */
 @Component({
   selector: 'app-tree',
-  imports: [
-    KuiTextDirective,
-    KuiTreeComponent,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-    TreeSizeExamples,
-  ],
+  imports: [KuiText, KuiTree, PlaygroundExampleCard, TranslocoPipe, TreeSizeExamples],
   templateUrl: './tree.html',
   styleUrl: './tree.scss',
 })

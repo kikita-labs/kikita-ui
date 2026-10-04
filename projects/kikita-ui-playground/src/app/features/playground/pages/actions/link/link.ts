@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiLinkDirective, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiLink, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -18,8 +18,8 @@ import {
 @Component({
   selector: 'app-link',
   imports: [
-    KuiLinkDirective,
-    KuiTextDirective,
+    KuiLink,
+    KuiText,
     LinkDisabled,
     LinkExternal,
     LinkHosts,

@@ -6,12 +6,12 @@
 
 ```ts
 import {
-  KuiButtonDirective,
-  KuiIconButtonDirective,
-  KuiIconComponent,
-  KuiTooltipDirective,
+  KuiButton,
+  KuiIconButton,
+  KuiIcon,
+  KuiTooltip,
   KuiTooltipTriggerType,
-  kuiProvideDefaults,
+  provideKuiDefaults,
   provideKikitaUi,
 } from '@kikita-labs/ui';
 ```
@@ -49,7 +49,7 @@ providers: [
 ];
 
 // A component or route subtree
-providers: [kuiProvideDefaults({ tooltip: { triggerType: KuiTooltipTriggerType.Hover } })];
+providers: [provideKuiDefaults({ tooltip: { triggerType: KuiTooltipTriggerType.Hover } })];
 ```
 
 Use `providers` when the default should apply to the component's subtree and projected content.
@@ -80,7 +80,7 @@ the parent per property, so it can change `triggerType` without resetting other 
 
 `defaults.tooltip.triggerType` falls back to `KuiTooltipTriggerType.Auto`. Override it globally with
 `provideKikitaUi({ defaults: { tooltip: { triggerType: ... } } })`, or in a component provider with
-`kuiProvideDefaults({ tooltip: { triggerType: ... } })`. A local `triggerType` input is the narrowest override.
+`provideKuiDefaults({ tooltip: { triggerType: ... } })`. A local `triggerType` input is the narrowest override.
 
 ## Migration
 
@@ -104,7 +104,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     tooltip: {
       /* options below */
     },

@@ -3,21 +3,21 @@ import { Component, inject, input, output, ViewEncapsulation } from '@angular/co
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import type { KuiDatePickerMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { KuiFieldActionDirective, KuiFieldAffixIconDirective } from '../field';
+import { KuiFieldAction, KuiFieldAffixIcon } from '../field';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CALENDAR, KUI_GLYPH_CHEVRON_DOWN, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import { KuiGlyph } from '../icon/kui-glyph.component';
 
 /** @internal Visual leading icon + trailing clear/chevron rendered over `input[kuiDatePicker]`. */
 @Component({
   selector: 'kui-date-picker-input-affix',
-  imports: [KuiFieldAffixIconDirective, KuiFieldActionDirective, KuiGlyphComponent],
+  imports: [KuiFieldAffixIcon, KuiFieldAction, KuiGlyph],
   templateUrl: './kui-date-picker-input-affix.component.html',
   host: { class: 'kui-date-picker-control-overlay' },
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders date-picker input controls such as calendar and clear actions. */
-export class KuiDatePickerInputAffixComponent {
+export class KuiDatePickerInputAffix {
   private readonly pickerDefaults = inject(KuiDefaults).get('datePicker');
 
   protected readonly calendarGlyph = KUI_GLYPH_CALENDAR;

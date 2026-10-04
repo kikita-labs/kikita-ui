@@ -3,11 +3,11 @@ import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { form, FormField, readonly, required } from '@angular/forms/signals';
 
-import { KuiFieldComponent } from '../field';
-import { KuiOtpInputComponent } from './kui-otp-input.component';
+import { KuiField } from '../field';
+import { KuiOtpInput } from './kui-otp-input.component';
 
 @Component({
-  imports: [KuiOtpInputComponent],
+  imports: [KuiOtpInput],
   template: `<kui-otp-input [(value)]="code" [length]="4" [autoFocus]="autoFocus()" />`,
 })
 class OtpInputHost {
@@ -16,7 +16,7 @@ class OtpInputHost {
 }
 
 @Component({
-  imports: [KuiOtpInputComponent],
+  imports: [KuiOtpInput],
   template: `<kui-otp-input [(value)]="code" [length]="4" (complete)="onComplete($event)" />`,
 })
 class OtpInputCompleteHost {
@@ -29,7 +29,7 @@ class OtpInputCompleteHost {
 }
 
 @Component({
-  imports: [KuiOtpInputComponent],
+  imports: [KuiOtpInput],
   template: `<kui-otp-input [(value)]="code" [length]="4" [integerOnly]="false" />`,
 })
 class OtpInputAlphaHost {
@@ -37,7 +37,7 @@ class OtpInputAlphaHost {
 }
 
 @Component({
-  imports: [FormField, KuiFieldComponent, KuiOtpInputComponent],
+  imports: [FormField, KuiField, KuiOtpInput],
   template: `
     <kui-field label="Code">
       <kui-otp-input [formField]="signInForm.code" [length]="4" />
@@ -50,7 +50,7 @@ class OtpInputSignalFormsHost {
 }
 
 @Component({
-  imports: [FormField, KuiFieldComponent, KuiOtpInputComponent],
+  imports: [FormField, KuiField, KuiOtpInput],
   template: `
     <kui-field label="Required code">
       <kui-otp-input [formField]="requiredForm.code" [length]="4" />
@@ -65,7 +65,7 @@ class OtpInputRequiredHost {
 }
 
 @Component({
-  imports: [KuiFieldComponent, KuiOtpInputComponent],
+  imports: [KuiField, KuiOtpInput],
   template: `
     <kui-field label="Code" required>
       <kui-otp-input [length]="4" />
@@ -75,7 +75,7 @@ class OtpInputRequiredHost {
 class OtpInputFieldRequiredHost {}
 
 @Component({
-  imports: [FormField, KuiOtpInputComponent],
+  imports: [FormField, KuiOtpInput],
   template: `<kui-otp-input [formField]="lockedForm.code" [length]="4" />`,
 })
 class OtpInputFormStateHost {
@@ -87,7 +87,7 @@ class OtpInputFormStateHost {
 }
 
 @Component({
-  imports: [KuiFieldComponent, KuiOtpInputComponent],
+  imports: [KuiField, KuiOtpInput],
   template: `
     <kui-field label="Code from email" hint="Sent to your email" error="Wrong code">
       <kui-otp-input [length]="4" />
@@ -97,7 +97,7 @@ class OtpInputFormStateHost {
 class OtpInputFieldHost {}
 
 @Component({
-  imports: [FormField, KuiFieldComponent, KuiOtpInputComponent],
+  imports: [FormField, KuiField, KuiOtpInput],
   template: `
     <kui-field label="Code">
       <kui-otp-input [formField]="signInForm.code" [length]="4" />
@@ -112,12 +112,12 @@ class OtpInputValidatorHost {
 }
 
 @Component({
-  imports: [KuiOtpInputComponent],
+  imports: [KuiOtpInput],
   template: `<kui-otp-input length="4" />`,
 })
 class StaticOtpInputHost {}
 
-describe('KuiOtpInputComponent', () => {
+describe('KuiOtpInput', () => {
   function createFixture(): ComponentFixture<OtpInputHost> {
     TestBed.configureTestingModule({ imports: [OtpInputHost] });
     const fixture = TestBed.createComponent(OtpInputHost);
@@ -260,7 +260,7 @@ describe('KuiOtpInputComponent', () => {
 
   it('reflects invalid/disabled/loading on every cell', () => {
     @Component({
-      imports: [KuiOtpInputComponent],
+      imports: [KuiOtpInput],
       template: `<kui-otp-input [length]="2" invalid disabled loading />`,
     })
     class StatesHost {}
@@ -351,7 +351,7 @@ describe('KuiOtpInputComponent', () => {
 
   it('ignores paste on a read-only group', () => {
     @Component({
-      imports: [KuiOtpInputComponent],
+      imports: [KuiOtpInput],
       template: `<kui-otp-input [(value)]="code" [length]="4" readonly />`,
     })
     class ReadOnlyHost {
@@ -374,7 +374,7 @@ describe('KuiOtpInputComponent', () => {
 
   it('ignores Backspace cross-cell clearing on a read-only group', () => {
     @Component({
-      imports: [KuiOtpInputComponent],
+      imports: [KuiOtpInput],
       template: `<kui-otp-input [(value)]="code" [length]="4" readonly />`,
     })
     class ReadOnlyHost {
@@ -417,7 +417,7 @@ describe('KuiOtpInputComponent', () => {
 
     it('does not focus a disabled group', async () => {
       @Component({
-        imports: [KuiOtpInputComponent],
+        imports: [KuiOtpInput],
         template: `<kui-otp-input [length]="4" disabled autoFocus />`,
       })
       class DisabledHost {}
@@ -434,7 +434,7 @@ describe('KuiOtpInputComponent', () => {
   describe('Signal Forms contract', () => {
     it('focus() moves focus to the first cell', () => {
       const fixture = createFixture();
-      const otp = fixture.debugElement.children[0].componentInstance as KuiOtpInputComponent;
+      const otp = fixture.debugElement.children[0].componentInstance as KuiOtpInput;
 
       otp.focus();
 
@@ -490,7 +490,7 @@ describe('KuiOtpInputComponent', () => {
 
     it('marks only the first cell as required from its own input', () => {
       @Component({
-        imports: [KuiOtpInputComponent],
+        imports: [KuiOtpInput],
         template: `<kui-otp-input [length]="4" required />`,
       })
       class RequiredInputHost {}

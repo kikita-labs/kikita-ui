@@ -8,14 +8,14 @@ stays explicit and composable.
 
 ```ts
 import {
-  KuiChipDirective,
-  KuiChipRemoveDirective,
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
-  KuiSelectDirective,
-  KuiSelectValueDirective,
-  kuiProvideDefaults,
+  KuiChip,
+  KuiChipRemove,
+  KuiDropdown,
+  KuiField,
+  KuiOption,
+  KuiSelect,
+  KuiSelectValue,
+  provideKuiDefaults,
 } from '@kikita-labs/ui';
 ```
 
@@ -158,10 +158,10 @@ native button. Hidden values still collapse into the default `+N` overflow chip.
 
 ## Provider Defaults
 
-Use `kuiProvideDefaults` (or `provideKikitaUi({ defaults })`) for select defaults:
+Use `provideKuiDefaults` (or `provideKikitaUi({ defaults })`) for select defaults:
 
 ```ts
-providers: [kuiProvideDefaults({ select: { clearable: true, maxVisibleChips: 2 } })];
+providers: [provideKuiDefaults({ select: { clearable: true, maxVisibleChips: 2 } })];
 ```
 
 Local inputs win over select provider defaults. Field defaults are used only for shared clearable

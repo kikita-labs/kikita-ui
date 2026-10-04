@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 import {
-  KuiButtonDirective,
-  KuiEmptyStateActionsDirective,
-  KuiEmptyStateComponent,
-  KuiEmptyStateIconDirective,
-  KuiTextDirective,
+  KuiButton,
+  KuiEmptyState,
+  KuiEmptyStateActions,
+  KuiEmptyStateIcon,
+  KuiText,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -17,11 +17,11 @@ import { EmptyStateContentCompositions, EmptyStateLiveFilter } from './component
 @Component({
   selector: 'app-empty-state',
   imports: [
-    KuiButtonDirective,
-    KuiEmptyStateActionsDirective,
-    KuiEmptyStateComponent,
-    KuiEmptyStateIconDirective,
-    KuiTextDirective,
+    KuiButton,
+    KuiEmptyStateActions,
+    KuiEmptyState,
+    KuiEmptyStateIcon,
+    KuiText,
     EmptyStateContentCompositions,
     EmptyStateLiveFilter,
     PlaygroundExampleCard,

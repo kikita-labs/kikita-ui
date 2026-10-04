@@ -274,7 +274,7 @@ test('blocks disabled links and buttons from activation, focus order, and handle
 
 // Library defect: the directive blocks the click with stopImmediatePropagation, but a consumer
 // (click) listener declared on the same host is registered earlier and still runs. Enable this
-// test when KuiLinkDirective stops consumer handlers on a disabled anchor.
+// test when KuiLink stops consumer handlers on a disabled anchor.
 test.fixme('does not run a consumer click handler on a disabled anchor', async ({ page }) => {
   const disabled = group(page, 'Disabled link examples');
   const anchor = disabled.getByRole('link', { name: 'Disabled anchor', exact: true });

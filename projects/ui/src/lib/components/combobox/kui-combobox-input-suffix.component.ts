@@ -2,21 +2,21 @@ import { Component, inject, input, output, ViewEncapsulation } from '@angular/co
 
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { KuiFieldActionDirective } from '../field';
+import { KuiFieldAction } from '../field';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHEVRON_DOWN, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import { KuiGlyph } from '../icon/kui-glyph.component';
 
 /** @internal Visual suffix rendered over `input[kuiCombobox]`. */
 @Component({
   selector: 'kui-combobox-input-suffix',
-  imports: [KuiFieldActionDirective, KuiGlyphComponent],
+  imports: [KuiFieldAction, KuiGlyph],
   templateUrl: './kui-combobox-input-suffix.component.html',
   host: { class: 'kui-combobox-control-overlay' },
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders combobox input actions such as clear and dropdown toggle controls. */
-export class KuiComboboxInputSuffixComponent {
+export class KuiComboboxInputSuffix {
   private readonly comboboxDefaults = inject(KuiDefaults).get('combobox');
   protected readonly t = injectKuiMessages('combobox');
   protected readonly common = injectKuiMessages('common');

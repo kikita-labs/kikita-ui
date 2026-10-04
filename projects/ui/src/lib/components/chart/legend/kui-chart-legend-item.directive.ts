@@ -1,12 +1,12 @@
 import { Directive, inject, TemplateRef } from '@angular/core';
 
-import type { KuiChartLegendItem } from '../chart.types';
+import type { KuiChartLegendEntry } from '../chart.types';
 
 /** Template context for `[kuiChartLegendItem]` -- `$implicit` is the legend entry itself,
  * `hovered` is whether it's the currently cross-highlighted item (from a hovered mark/slice on
  * the chart, or another legend item's own hover). */
 export interface KuiChartLegendItemContext {
-  readonly $implicit: KuiChartLegendItem;
+  readonly $implicit: KuiChartLegendEntry;
   readonly hovered: boolean;
 }
 
@@ -37,13 +37,13 @@ export interface KuiChartLegendItemContext {
  * ```
  */
 @Directive({ selector: 'ng-template[kuiChartLegendItem]' })
-export class KuiChartLegendItemDirective {
-  /** @internal read by `kui-chart-legend` via `contentChild(KuiChartLegendItemDirective)`. */
+export class KuiChartLegendItem {
+  /** @internal read by `kui-chart-legend` via `contentChild(KuiChartLegendItem)`. */
   readonly templateRef = inject(TemplateRef<KuiChartLegendItemContext>);
 
   /** Lets templates type-check `let item = ...` against {@link KuiChartLegendItemContext}. */
   static ngTemplateContextGuard(
-    _dir: KuiChartLegendItemDirective,
+    _dir: KuiChartLegendItem,
     _ctx: unknown,
   ): _ctx is KuiChartLegendItemContext {
     return true;

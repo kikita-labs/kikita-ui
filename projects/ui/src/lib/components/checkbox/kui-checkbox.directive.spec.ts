@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiFieldComponent } from '../field';
-import { KuiCheckboxDirective } from './kui-checkbox.directive';
+import { KuiField } from '../field';
+import { KuiCheckbox } from './kui-checkbox.directive';
 
 @Component({
-  imports: [KuiCheckboxDirective],
+  imports: [KuiCheckbox],
   template: '<input kuiCheckbox type="checkbox" size="sm" invalid />',
 })
 class StandaloneCheckboxHost {}
 
 @Component({
-  imports: [KuiFieldComponent, KuiCheckboxDirective],
+  imports: [KuiField, KuiCheckbox],
   template: `
     <kui-field label="Accept" hint="Required" error="Required" size="lg">
       <input kuiCheckbox type="checkbox" />
@@ -21,7 +21,7 @@ class StandaloneCheckboxHost {}
 })
 class FieldCheckboxHost {}
 
-describe('KuiCheckboxDirective', () => {
+describe('KuiCheckbox', () => {
   it('adds checkbox host attributes for size and invalid state', () => {
     const fixture = createFixture(StandaloneCheckboxHost);
 

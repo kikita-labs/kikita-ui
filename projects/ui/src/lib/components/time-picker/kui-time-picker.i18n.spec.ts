@@ -4,18 +4,13 @@ import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
 import { provideKikitaUi } from '../../root';
-import { KuiDropdownComponent } from '../dropdown';
-import { KuiFieldComponent } from '../field/kui-field.component';
-import { KuiTimePickerDirective } from './kui-time-picker.directive';
-import { KuiTimePickerPanelComponent } from './kui-time-picker-panel.component';
+import { KuiDropdown } from '../dropdown';
+import { KuiField } from '../field/kui-field.component';
+import { KuiTimePicker } from './kui-time-picker.directive';
+import { KuiTimePickerPanel } from './kui-time-picker-panel.component';
 
 @Component({
-  imports: [
-    KuiFieldComponent,
-    KuiDropdownComponent,
-    KuiTimePickerDirective,
-    KuiTimePickerPanelComponent,
-  ],
+  imports: [KuiField, KuiDropdown, KuiTimePicker, KuiTimePickerPanel],
   template: `
     <kui-field label="Time">
       <input kuiTimePicker [(value)]="value" />
@@ -44,7 +39,7 @@ function type(fixture: { detectChanges(): void }, input: HTMLInputElement, text:
   return input.value;
 }
 
-describe('KuiTimePickerDirective locale', () => {
+describe('KuiTimePicker locale', () => {
   it('defaults to the hour cycle of the locale', () => {
     expect(setup({ locale: 'en-US' }).input.value).toBe('03:04 PM');
     TestBed.resetTestingModule();

@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiFieldComponent } from '../field';
-import { KuiTextareaDirective } from './kui-textarea.directive';
+import { KuiField } from '../field';
+import { KuiTextarea } from './kui-textarea.directive';
 
 @Component({
-  imports: [KuiTextareaDirective],
+  imports: [KuiTextarea],
   template: '<textarea kuiTextarea size="lg" invalid></textarea>',
 })
 class StandaloneTextareaHost {}
 
 @Component({
-  imports: [KuiFieldComponent, KuiTextareaDirective],
+  imports: [KuiField, KuiTextarea],
   template: `
     <kui-field label="Notes" hint="Short internal note" error="Required" size="sm">
       <textarea kuiTextarea></textarea>
@@ -21,7 +21,7 @@ class StandaloneTextareaHost {}
 })
 class FieldTextareaHost {}
 
-describe('KuiTextareaDirective', () => {
+describe('KuiTextarea', () => {
   it('adds textarea host attributes for size and invalid state', () => {
     const fixture = createFixture(StandaloneTextareaHost);
 

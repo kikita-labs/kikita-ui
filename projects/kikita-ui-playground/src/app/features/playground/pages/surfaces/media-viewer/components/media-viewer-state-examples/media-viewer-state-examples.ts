@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 
-import { KuiButtonDirective, kuiMediaViewer } from '@kikita-labs/ui';
+import { KuiButton, kuiMediaViewer } from '@kikita-labs/ui';
 
 import {
   MEDIA_VIEWER_FILE_PHOTO_SRC,
@@ -12,7 +12,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows the loading and error stage states and gallery items without explicit ids. */
 @Component({
   selector: 'app-media-viewer-state-examples',
-  imports: [KuiButtonDirective, TranslocoPipe],
+  imports: [KuiButton, TranslocoPipe],
   templateUrl: './media-viewer-state-examples.html',
   styleUrl: './media-viewer-state-examples.scss',
 })

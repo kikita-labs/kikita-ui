@@ -2,16 +2,16 @@ import type { Signal } from '@angular/core';
 import { InjectionToken } from '@angular/core';
 
 import type { KuiSplitterOrientation } from './kui-splitter-orientation.type';
-import type { KuiSplitterPaneComponent } from './kui-splitter-pane.component';
+import type { KuiSplitterPane } from './kui-splitter-pane.component';
 
 /** Which adjacent pane a gutter's one-touch collapse button controls, if any. */
 export type KuiSplitterCollapseTarget = 'before' | 'after' | null;
 
-/** Shared context injected by KuiSplitterComponent into its internal gutter components. */
+/** Shared context injected by KuiSplitter into its internal gutter components. */
 export interface KuiSplitterContext {
   readonly effectiveOrientation: Signal<KuiSplitterOrientation>;
   readonly disabled: Signal<boolean>;
-  readonly panes: Signal<readonly KuiSplitterPaneComponent[]>;
+  readonly panes: Signal<readonly KuiSplitterPane[]>;
   readonly sizes: Signal<readonly number[]>;
   readonly draggingIndex: Signal<number | null>;
 

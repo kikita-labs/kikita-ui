@@ -8,7 +8,7 @@ navigation.
 ## Import
 
 ```ts
-import { KuiTreeComponent } from '@kikita-labs/ui';
+import { KuiTree } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -119,7 +119,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     tree: {
       /* options below */
     },

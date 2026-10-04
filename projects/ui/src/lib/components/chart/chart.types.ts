@@ -116,7 +116,7 @@ export type KuiChartTooltipFormatter = (point: KuiChartPoint) => string;
  * `id ?? name`/`id ?? label` identity described on {@link KuiChartCartesianSeries} and
  * {@link KuiChartSlice} -- the same value `toggleLegendItem`/`setHoveredLegendId` take.
  */
-export interface KuiChartLegendItem {
+export interface KuiChartLegendEntry {
   /** Stable identity -- pass to `toggleLegendItem`/`setHoveredLegendId`. */
   readonly id: string;
   /** Display text (series `name` or slice `label`). */
@@ -141,7 +141,7 @@ export interface KuiChartLegendItem {
 export interface KuiChartLegendSource {
   /** Every series/slice, in series order, regardless of hidden state -- hidden items stay in the
    * list (with `hidden: true`) so a legend can keep them clickable to bring back. */
-  readonly legendItems: () => readonly KuiChartLegendItem[];
+  readonly legendItems: () => readonly KuiChartLegendEntry[];
   /** The currently hovered item's `id`, or `null` -- drives cross-highlight with the chart's own
    * marks. Read this to highlight the matching legend item; call `setHoveredLegendId` on
    * pointerenter/pointerleave to highlight the matching marks from the legend side. */

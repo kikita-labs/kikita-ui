@@ -61,7 +61,7 @@ function numberOrNullAttribute(value: unknown): number | null {
   },
 })
 /** Displays linear or circular progress with accessible progressbar semantics. */
-export class KuiProgressComponent {
+export class KuiProgress {
   /** Visual shape of the progress indicator. Defaults to linear. */
   readonly type = input<KuiProgressType>('linear');
 

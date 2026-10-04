@@ -21,7 +21,7 @@ function ensureElementId(
     class: 'kui-field__label',
   },
 })
-export class KuiLabelDirective {
+export class KuiLabel {
   private readonly elementRef = inject(ElementRef<HTMLElement>);
   private readonly nextId = kuiIdFactory();
 
@@ -44,7 +44,7 @@ export class KuiLabelDirective {
     class: 'kui-field__hint',
   },
 })
-export class KuiHintDirective {
+export class KuiHint {
   private readonly elementRef = inject(ElementRef<HTMLElement>);
   private readonly nextId = kuiIdFactory();
 
@@ -60,7 +60,7 @@ export class KuiHintDirective {
     role: 'alert',
   },
 })
-export class KuiErrorDirective {
+export class KuiError {
   private readonly elementRef = inject(ElementRef<HTMLElement>);
   private readonly nextId = kuiIdFactory();
 

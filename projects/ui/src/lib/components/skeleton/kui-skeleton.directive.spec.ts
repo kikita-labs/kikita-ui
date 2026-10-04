@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiSkeletonDirective } from './kui-skeleton.directive';
+import { KuiSkeleton } from './kui-skeleton.directive';
 
 @Component({
-  imports: [KuiSkeletonDirective],
+  imports: [KuiSkeleton],
   template: '<span kuiSkeleton shape="circle" animation="pulse"></span>',
 })
 class SkeletonHost {}
 
-describe('KuiSkeletonDirective', () => {
+describe('KuiSkeleton', () => {
   it('adds skeleton host attributes and hides the placeholder from assistive tech', () => {
     const fixture = createFixture(SkeletonHost);
 

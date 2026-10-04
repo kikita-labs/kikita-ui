@@ -22,7 +22,7 @@ import type {
 import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
-import { KuiSegmentDirective } from './kui-segment.directive';
+import { KuiSegment } from './kui-segment.directive';
 import type { KuiSegmentedContext } from './kui-segmented-context.token';
 import { KUI_SEGMENTED_CONTEXT } from './kui-segmented-context.token';
 
@@ -52,10 +52,10 @@ import { KUI_SEGMENTED_CONTEXT } from './kui-segmented-context.token';
     '[attr.aria-invalid]': 'invalid() ? "true" : null',
     '(keydown)': 'onKeydown($event)',
   },
-  providers: [{ provide: KUI_SEGMENTED_CONTEXT, useFactory: () => inject(KuiSegmentedComponent) }],
+  providers: [{ provide: KUI_SEGMENTED_CONTEXT, useFactory: () => inject(KuiSegmented) }],
   encapsulation: ViewEncapsulation.None,
 })
-export class KuiSegmentedComponent implements KuiSegmentedContext, FormValueControl<string> {
+export class KuiSegmented implements KuiSegmentedContext, FormValueControl<string> {
   /** Currently selected segment value. Bound by `[formField]` or `[(value)]`. */
   readonly value = model<string>('');
 
@@ -85,7 +85,7 @@ export class KuiSegmentedComponent implements KuiSegmentedContext, FormValueCont
   @ViewChild('thumb', { static: true })
   private readonly thumbRef!: ElementRef<HTMLSpanElement>;
 
-  private readonly segmentItems = contentChildren(KuiSegmentDirective);
+  private readonly segmentItems = contentChildren(KuiSegment);
   private readonly segmentedDefaults = inject(KuiDefaults).get('segmented');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
   private firstRender = true;

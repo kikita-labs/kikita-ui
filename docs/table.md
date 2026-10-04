@@ -8,13 +8,13 @@ a shared DI context while preserving table semantics.
 
 ```ts
 import {
-  KuiCellDirective,
-  KuiRowDirective,
-  KuiSelectCellComponent,
-  KuiSelectThComponent,
-  KuiTableDirective,
-  KuiThDirective,
-  KuiThGroupDirective,
+  KuiCell,
+  KuiRow,
+  KuiSelectCell,
+  KuiSelectTh,
+  KuiTable,
+  KuiTh,
+  KuiThGroup,
 } from '@kikita-labs/ui';
 ```
 
@@ -114,7 +114,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     table: {
       /* options below */
     },

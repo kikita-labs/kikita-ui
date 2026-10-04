@@ -4,10 +4,10 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import type { KuiProgressColor, KuiProgressSize } from './kui-progress.component';
-import { KuiProgressComponent } from './kui-progress.component';
+import { KuiProgress } from './kui-progress.component';
 
 @Component({
-  imports: [KuiProgressComponent],
+  imports: [KuiProgress],
   template: `<kui-progress
     [type]="type()"
     [value]="value()"
@@ -24,23 +24,23 @@ class ProgressHost {
 }
 
 @Component({
-  imports: [KuiProgressComponent],
+  imports: [KuiProgress],
   template: `<kui-progress value="60" aria-label="Upload progress" />`,
 })
 class StaticProgressValueHost {}
 
 @Component({
-  imports: [KuiProgressComponent],
+  imports: [KuiProgress],
   template: `<kui-progress value="not-a-number" aria-label="Upload progress" />`,
 })
 class InvalidStaticProgressValueHost {}
 
-describe('KuiProgressComponent', () => {
+describe('KuiProgress', () => {
   let fixture: ComponentFixture<ProgressHost>;
   let host: ProgressHost;
 
   function el(): HTMLElement {
-    return fixture.debugElement.query(By.directive(KuiProgressComponent)).nativeElement;
+    return fixture.debugElement.query(By.directive(KuiProgress)).nativeElement;
   }
 
   beforeEach(() => {
@@ -143,7 +143,7 @@ describe('KuiProgressComponent', () => {
   });
 });
 
-describe('KuiProgressComponent static value attributes', () => {
+describe('KuiProgress static value attributes', () => {
   it('coerces a static numeric value attribute', () => {
     TestBed.configureTestingModule({ imports: [StaticProgressValueHost] });
     const fixture = TestBed.createComponent(StaticProgressValueHost);

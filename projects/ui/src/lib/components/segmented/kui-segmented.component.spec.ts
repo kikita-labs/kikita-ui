@@ -3,12 +3,12 @@ import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { form, FormField } from '@angular/forms/signals';
 
-import { KuiFieldComponent } from '../field';
-import { KuiSegmentDirective } from './kui-segment.directive';
-import { KuiSegmentedComponent } from './kui-segmented.component';
+import { KuiField } from '../field';
+import { KuiSegment } from './kui-segment.directive';
+import { KuiSegmented } from './kui-segmented.component';
 
 @Component({
-  imports: [KuiSegmentedComponent, KuiSegmentDirective],
+  imports: [KuiSegmented, KuiSegment],
   template: `
     <kui-segmented [(value)]="selected" aria-label="View mode">
       <button kuiSegment value="list">List</button>
@@ -22,7 +22,7 @@ class SegmentedHost {
 }
 
 @Component({
-  imports: [KuiSegmentedComponent, KuiSegmentDirective],
+  imports: [KuiSegmented, KuiSegment],
   template: `
     <kui-segmented [(selected)]="selected" aria-label="View mode">
       <button kuiSegment value="list">List</button>
@@ -35,7 +35,7 @@ class DeprecatedSelectedHost {
 }
 
 @Component({
-  imports: [KuiSegmentedComponent, KuiSegmentDirective],
+  imports: [KuiSegmented, KuiSegment],
   template: `
     <kui-segmented
       [selected]="selected()"
@@ -52,7 +52,7 @@ class SplitBindingSelectedHost {
 }
 
 @Component({
-  imports: [FormField, KuiFieldComponent, KuiSegmentedComponent, KuiSegmentDirective],
+  imports: [FormField, KuiField, KuiSegmented, KuiSegment],
   template: `
     <kui-field label="View">
       <kui-segmented [formField]="settingsForm.view" aria-label="View mode">
@@ -67,7 +67,7 @@ class SignalFormsHost {
   readonly settingsForm = form(this.model);
 }
 
-describe('KuiSegmentedComponent', () => {
+describe('KuiSegmented', () => {
   function createFixture(): ComponentFixture<SegmentedHost> {
     TestBed.configureTestingModule({ imports: [SegmentedHost] });
     const fixture = TestBed.createComponent(SegmentedHost);
@@ -194,7 +194,7 @@ describe('KuiSegmentedComponent', () => {
     const fixture = TestBed.createComponent(SegmentedHost);
     fixture.componentInstance.selected.set('');
     fixture.detectChanges();
-    const segmented = fixture.debugElement.children[0].componentInstance as KuiSegmentedComponent;
+    const segmented = fixture.debugElement.children[0].componentInstance as KuiSegmented;
     const items = fixture.nativeElement.querySelectorAll(
       '[role="radio"]',
     ) as NodeListOf<HTMLElement>;

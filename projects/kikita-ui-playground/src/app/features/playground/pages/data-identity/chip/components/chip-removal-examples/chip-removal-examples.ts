@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
 
 import {
-  KuiButtonDirective,
+  KuiButton,
+  KuiChip,
   type KuiChipAppearance,
-  KuiChipDirective,
-  KuiChipRemoveDirective,
-  KuiIconButtonDirective,
-  KuiIconComponent,
-  KuiTextDirective,
+  KuiChipRemove,
+  KuiIcon,
+  KuiIconButton,
+  KuiText,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -17,12 +17,12 @@ import { TranslocoPipe } from '@jsverse/transloco';
 @Component({
   selector: 'app-chip-removal-examples',
   imports: [
-    KuiButtonDirective,
-    KuiChipDirective,
-    KuiChipRemoveDirective,
-    KuiIconButtonDirective,
-    KuiIconComponent,
-    KuiTextDirective,
+    KuiButton,
+    KuiChip,
+    KuiChipRemove,
+    KuiIconButton,
+    KuiIcon,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

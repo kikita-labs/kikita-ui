@@ -3,11 +3,11 @@ import { Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import {
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
+  KuiDropdown,
+  KuiField,
+  KuiOption,
   kuiProvideSelectOptions,
-  KuiSelectDirective,
+  KuiSelect,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -18,14 +18,7 @@ import { SELECT_ROLES } from '../../constants';
 /** Shows Select options inherited from a page-private provider scope. */
 @Component({
   selector: 'app-select-provider-defaults',
-  imports: [
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiOptionDirective,
-    KuiSelectDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [KuiDropdown, KuiField, KuiOption, KuiSelect, PlaygroundExampleCard, TranslocoPipe],
   providers: [kuiProvideSelectOptions({ clearable: true, maxVisibleChips: 2 })],
   templateUrl: './select-provider-defaults.html',
 })

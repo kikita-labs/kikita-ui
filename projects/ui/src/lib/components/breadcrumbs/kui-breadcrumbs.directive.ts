@@ -32,7 +32,7 @@ const KUI_BREADCRUMBS_SIZES = ['sm', 'md', 'lg'] as const;
     '[attr.data-kui-size]': 'effectiveSize()',
   },
 })
-export class KuiBreadcrumbsDirective {
+export class KuiBreadcrumbs {
   /** Font size and icon/gap scale of the trail. Defaults to `defaults.breadcrumbs.size`, then the global `defaults.size`, then md. */
   readonly size = input<KuiBreadcrumbsSize | undefined>();
 

@@ -26,7 +26,7 @@ import { KUI_TABLE_CTX } from './kui-table.directive';
   },
 })
 /** Applies Kikita UI header-cell behavior and optional sort state to a table header. */
-export class KuiThDirective implements AfterViewInit, OnDestroy {
+export class KuiTh implements AfterViewInit, OnDestroy {
   private readonly table = inject(KUI_TABLE_CTX, { optional: true });
   private readonly el = inject<ElementRef<HTMLTableCellElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);

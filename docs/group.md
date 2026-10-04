@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiGroupDirective } from '@kikita-labs/ui';
+import { KuiGroup } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -93,7 +93,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     group: {
       /* options below */
     },

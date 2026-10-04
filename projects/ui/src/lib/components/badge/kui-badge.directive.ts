@@ -14,7 +14,7 @@ import type { KuiBadgeAppearance } from './kui-badge-appearance.type';
     '[attr.data-kui-size]': 'effectiveSize()',
   },
 })
-export class KuiBadgeDirective {
+export class KuiBadge {
   /** Visual badge treatment mapped to Kikita UI status tokens. */
   readonly appearance = input<KuiBadgeAppearance>('neutral');
 

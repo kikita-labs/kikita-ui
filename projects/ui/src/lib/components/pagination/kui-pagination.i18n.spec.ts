@@ -5,10 +5,10 @@ import { describe, expect, it } from 'vitest';
 
 import { KuiI18n } from '../../i18n/kui-i18n.service';
 import { provideKikitaUi } from '../../root';
-import { KuiPaginationComponent } from './kui-pagination.component';
+import { KuiPagination } from './kui-pagination.component';
 
 @Component({
-  imports: [KuiPaginationComponent],
+  imports: [KuiPagination],
   template: `
     <kui-pagination
       variant="full"
@@ -35,7 +35,7 @@ function setup(options: Parameters<typeof provideKikitaUi>[0] = {}) {
   return { fixture, root: fixture.nativeElement as HTMLElement };
 }
 
-describe('KuiPaginationComponent messages and locale', () => {
+describe('KuiPagination messages and locale', () => {
   it('names the controls and the summary in English by default', () => {
     const { root } = setup({ locale: 'en-US' });
 

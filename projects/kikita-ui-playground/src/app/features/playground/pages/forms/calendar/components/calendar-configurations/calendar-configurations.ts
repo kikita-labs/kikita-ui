@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiCalendarComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiCalendar, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -8,7 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Groups Calendar's optional footer, date constraints, and locale inputs. */
 @Component({
   selector: 'app-calendar-configurations',
-  imports: [KuiCalendarComponent, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiCalendar, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './calendar-configurations.html',
   styleUrl: './calendar-configurations.scss',
 })

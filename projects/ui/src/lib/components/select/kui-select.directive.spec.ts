@@ -6,16 +6,16 @@ import { TestBed } from '@angular/core/testing';
 import { afterEach } from 'vitest';
 
 import { kuiProvideSelectOptions } from '../../tokens';
-import { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
-import { KuiOptionDirective } from '../dropdown/kui-option.directive';
-import { KuiFieldComponent } from '../field/kui-field.component';
-import { KuiSelectDirective } from './kui-select.directive';
-import { KuiSelectValueDirective } from './kui-select-value.directive';
+import { KuiDropdown } from '../dropdown/kui-dropdown.component';
+import { KuiOption } from '../dropdown/kui-option.directive';
+import { KuiField } from '../field/kui-field.component';
+import { KuiSelect } from './kui-select.directive';
+import { KuiSelectValue } from './kui-select-value.directive';
 
 // Host fixtures
 
 @Component({
-  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  imports: [KuiField, KuiSelect, KuiDropdown, KuiOption],
   template: `
     <kui-field label="Choice" hint="Pick one">
       <input kuiSelect [(value)]="val" placeholder="Pick..." (touch)="touches.set(touches() + 1)" />
@@ -37,7 +37,7 @@ interface User {
 }
 
 @Component({
-  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  imports: [KuiField, KuiSelect, KuiDropdown, KuiOption],
   template: `
     <kui-field>
       <input kuiSelect [(value)]="val" [kuiLabelFn]="label" placeholder="Pick..." />
@@ -54,7 +54,7 @@ class LabelFnHost {
 }
 
 @Component({
-  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  imports: [KuiField, KuiSelect, KuiDropdown, KuiOption],
   template: `
     <kui-field>
       <input kuiSelect [(value)]="val" [clearable]="true" />
@@ -69,7 +69,7 @@ class ClearableHost {
 }
 
 @Component({
-  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  imports: [KuiField, KuiSelect, KuiDropdown, KuiOption],
   template: `
     <kui-field>
       <input kuiSelect [(value)]="val" [clearable]="true" [readonly]="true" />
@@ -84,7 +84,7 @@ class ReadonlyClearableHost {
 }
 
 @Component({
-  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  imports: [KuiField, KuiSelect, KuiDropdown, KuiOption],
   template: `
     <kui-field>
       <input kuiSelect [(value)]="val" [disabled]="true" />
@@ -99,7 +99,7 @@ class DisabledHost {
 }
 
 @Component({
-  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  imports: [KuiField, KuiSelect, KuiDropdown, KuiOption],
   template: `
     <kui-field label="Choice" error="Choice is required">
       <input kuiSelect [(value)]="val" placeholder="Pick..." />
@@ -114,7 +114,7 @@ class InvalidFieldHost {
 }
 
 @Component({
-  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  imports: [KuiField, KuiSelect, KuiDropdown, KuiOption],
   template: `
     <kui-field>
       <input
@@ -138,7 +138,7 @@ class MultipleHost {
 }
 
 @Component({
-  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  imports: [KuiField, KuiSelect, KuiDropdown, KuiOption],
   template: `
     <kui-field>
       <input kuiSelect multiple multipleDisplay="text" [(value)]="val" [multipleTextFn]="format" />
@@ -154,13 +154,7 @@ class MultipleTextHost {
 }
 
 @Component({
-  imports: [
-    KuiFieldComponent,
-    KuiSelectDirective,
-    KuiSelectValueDirective,
-    KuiDropdownComponent,
-    KuiOptionDirective,
-  ],
+  imports: [KuiField, KuiSelect, KuiSelectValue, KuiDropdown, KuiOption],
   template: `
     <kui-field>
       <input kuiSelect multiple [(value)]="val" [maxVisibleChips]="2" />
@@ -183,7 +177,7 @@ class MultipleTemplateHost {
 }
 
 @Component({
-  imports: [KuiFieldComponent, KuiSelectDirective, KuiDropdownComponent, KuiOptionDirective],
+  imports: [KuiField, KuiSelect, KuiDropdown, KuiOption],
   template: `
     <kui-field>
       <input kuiSelect multiple [(value)]="val" />
@@ -229,7 +223,7 @@ function cleanOverlay(): void {
 
 // Tests
 
-describe('KuiSelectDirective', () => {
+describe('KuiSelect', () => {
   afterEach(() => {
     cleanOverlay();
   });

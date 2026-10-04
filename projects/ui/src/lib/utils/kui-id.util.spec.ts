@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiCarouselComponent, KuiCarouselSlideDirective } from '../components/carousel';
-import { KuiLineChartComponent } from '../components/chart';
+import { KuiCarousel, KuiCarouselSlide } from '../components/carousel';
+import { KuiLineChart } from '../components/chart';
 import { KuiIdSequences } from './kui-id.util';
 
 @Component({
-  imports: [KuiCarouselComponent, KuiCarouselSlideDirective, KuiLineChartComponent],
+  imports: [KuiCarousel, KuiCarouselSlide, KuiLineChart],
   template: `
     <kui-carousel ariaLabel="First">
       <div kuiCarouselSlide>One</div>

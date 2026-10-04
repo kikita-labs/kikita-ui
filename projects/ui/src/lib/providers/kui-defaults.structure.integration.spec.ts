@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiAccordionComponent } from '../components/accordion/kui-accordion.component';
-import { KuiAccordionItemComponent } from '../components/accordion/kui-accordion-item.component';
-import { KuiAlertComponent } from '../components/alert/kui-alert.component';
-import { KuiCardDirective } from '../components/card/kui-card.directive';
-import { KuiGroupDirective } from '../components/group/kui-group.directive';
-import { KuiStepComponent } from '../components/stepper/kui-step.component';
-import { KuiStepperComponent } from '../components/stepper/kui-stepper.component';
-import { KuiTabDirective } from '../components/tabs/kui-tab.directive';
-import { KuiTabPanelDirective } from '../components/tabs/kui-tab-panel.directive';
-import { KuiTabsComponent } from '../components/tabs/kui-tabs.component';
-import { KuiTreeComponent } from '../components/tree/kui-tree.component';
+import { KuiAccordion } from '../components/accordion/kui-accordion.component';
+import { KuiAccordionItem } from '../components/accordion/kui-accordion-item.component';
+import { KuiAlert } from '../components/alert/kui-alert.component';
+import { KuiCard } from '../components/card/kui-card.directive';
+import { KuiGroup } from '../components/group/kui-group.directive';
+import { KuiStep } from '../components/stepper/kui-step.component';
+import { KuiStepper } from '../components/stepper/kui-stepper.component';
+import { KuiTab } from '../components/tabs/kui-tab.directive';
+import { KuiTabPanel } from '../components/tabs/kui-tab-panel.directive';
+import { KuiTabs } from '../components/tabs/kui-tabs.component';
+import { KuiTree } from '../components/tree/kui-tree.component';
 import type { KuiTreeNode } from '../components/tree/kui-tree-node.interface';
 import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
@@ -23,7 +23,7 @@ const NODES: KuiTreeNode[] = [
 ];
 
 @Component({
-  imports: [KuiAccordionComponent, KuiAccordionItemComponent],
+  imports: [KuiAccordion, KuiAccordionItem],
   template: `
     <kui-accordion id="plain">
       <kui-accordion-item header="One">1</kui-accordion-item>
@@ -38,7 +38,7 @@ const NODES: KuiTreeNode[] = [
 class AccordionHost {}
 
 @Component({
-  imports: [KuiAlertComponent],
+  imports: [KuiAlert],
   template: `
     <kui-alert id="plain" appearance="info" title="Plain" />
     <kui-alert
@@ -55,7 +55,7 @@ class AccordionHost {}
 class AlertHost {}
 
 @Component({
-  imports: [KuiCardDirective],
+  imports: [KuiCard],
   template: `
     <div id="plain" kuiCard>Plain</div>
     <div id="local" kuiCard size="md" appearance="surface">Local</div>
@@ -64,7 +64,7 @@ class AlertHost {}
 class CardHost {}
 
 @Component({
-  imports: [KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective],
+  imports: [KuiTabs, KuiTab, KuiTabPanel],
   template: `
     <kui-tabs id="plain" value="a">
       <button kuiTab value="a">A</button>
@@ -79,7 +79,7 @@ class CardHost {}
 class TabsHost {}
 
 @Component({
-  imports: [KuiStepperComponent, KuiStepComponent],
+  imports: [KuiStepper, KuiStep],
   template: `
     <kui-stepper id="plain" [currentIndex]="0">
       <kui-step label="A" />
@@ -101,7 +101,7 @@ class TabsHost {}
 class StepperHost {}
 
 @Component({
-  imports: [KuiTreeComponent],
+  imports: [KuiTree],
   template: `
     <kui-tree id="plain" ariaLabel="Plain" [data]="nodes" />
     <kui-tree id="local" ariaLabel="Local" [data]="nodes" size="md" mode="display" />
@@ -112,7 +112,7 @@ class TreeHost {
 }
 
 @Component({
-  imports: [KuiGroupDirective],
+  imports: [KuiGroup],
   template: `
     <div id="plain" kuiGroup><span>x</span></div>
     <div

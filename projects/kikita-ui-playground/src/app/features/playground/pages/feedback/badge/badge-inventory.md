@@ -30,7 +30,7 @@ There are no Badge outputs or models. Every appearance × size combination is sh
 - No appearance or size value is omitted. The full 6 × 4 matrix covers the visual cross product.
 - The host-element examples do not repeat all 24 combinations because host semantics do not alter the directive's appearance/size contract.
 - A root-provider size override is omitted because this app uses no root size default. The example shows the actual fallback, and provider precedence is owned by the shared defaults contract.
-- Disabled, invalid, loading, selected, and other component states are omitted because `KuiBadgeDirective` exposes only `appearance` and `size` and defines no interaction or state selectors.
+- Disabled, invalid, loading, selected, and other component states are omitted because `KuiBadge` exposes only `appearance` and `size` and defines no interaction or state selectors.
 
 ## Self-review checklist
 

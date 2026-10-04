@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 
-import { KuiButtonDirective, kuiMediaViewer } from '@kikita-labs/ui';
+import { KuiButton, kuiMediaViewer } from '@kikita-labs/ui';
 
 import { MEDIA_VIEWER_GALLERY_SIZE } from '@features/playground/pages/surfaces/media-viewer/constants';
 import { MediaViewerPhotos } from '@features/playground/pages/surfaces/media-viewer/services';
@@ -9,7 +9,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Opens the Media Viewer with only the required `items` option. */
 @Component({
   selector: 'app-media-viewer-default-example',
-  imports: [KuiButtonDirective, TranslocoPipe],
+  imports: [KuiButton, TranslocoPipe],
   templateUrl: './media-viewer-default-example.html',
   styleUrl: './media-viewer-default-example.scss',
 })

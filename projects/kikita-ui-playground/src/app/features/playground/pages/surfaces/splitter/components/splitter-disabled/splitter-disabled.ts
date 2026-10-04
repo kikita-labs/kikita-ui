@@ -1,10 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import {
-  KuiButtonDirective,
-  KuiSplitterComponent,
-  KuiSplitterPaneComponent,
-} from '@kikita-labs/ui';
+import { KuiButton, KuiSplitter, KuiSplitterPane } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -16,9 +12,9 @@ import { SplitterPaneLabel } from '../splitter-pane-label';
 @Component({
   selector: 'app-splitter-disabled',
   imports: [
-    KuiButtonDirective,
-    KuiSplitterComponent,
-    KuiSplitterPaneComponent,
+    KuiButton,
+    KuiSplitter,
+    KuiSplitterPane,
     PlaygroundExampleCard,
     SplitterExample,
     SplitterPaneLabel,

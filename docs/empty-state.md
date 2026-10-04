@@ -6,12 +6,7 @@ inside a known UI region.
 ## Import
 
 ```ts
-import {
-  KuiButtonDirective,
-  KuiEmptyStateActionsDirective,
-  KuiEmptyStateComponent,
-  KuiEmptyStateIconDirective,
-} from '@kikita-labs/ui';
+import { KuiButton, KuiEmptyStateActions, KuiEmptyState, KuiEmptyStateIcon } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -62,7 +57,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     emptyState: {
       /* options below */
     },

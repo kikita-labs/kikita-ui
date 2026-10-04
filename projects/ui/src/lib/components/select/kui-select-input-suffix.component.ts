@@ -4,12 +4,12 @@ import { Component, computed, inject, input, output, ViewEncapsulation } from '@
 
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { KuiDefaults } from '../../providers/kui-defaults.service';
-import { KuiChipDirective } from '../chip/kui-chip.directive';
-import { KuiChipRemoveDirective } from '../chip/kui-chip-remove.directive';
-import { KuiFieldActionDirective } from '../field';
+import { KuiChip } from '../chip/kui-chip.directive';
+import { KuiChipRemove } from '../chip/kui-chip-remove.directive';
+import { KuiFieldAction } from '../field';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHEVRON_DOWN, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import { KuiGlyph } from '../icon/kui-glyph.component';
 import type { KuiSelectValueContext } from './kui-select-value.directive';
 
 /** @internal Selected item rendered inside a multiple select control. */
@@ -20,19 +20,13 @@ export interface KuiSelectChipItem {
 
 @Component({
   selector: 'kui-select-input-suffix',
-  imports: [
-    NgTemplateOutlet,
-    KuiChipDirective,
-    KuiChipRemoveDirective,
-    KuiFieldActionDirective,
-    KuiGlyphComponent,
-  ],
+  imports: [NgTemplateOutlet, KuiChip, KuiChipRemove, KuiFieldAction, KuiGlyph],
   templateUrl: './kui-select-input-suffix.component.html',
   host: { class: 'kui-select-control-overlay' },
   encapsulation: ViewEncapsulation.None,
 })
 /** @internal Select visual overlay rendered inside `.kui-field__control`. */
-export class KuiSelectInputSuffixComponent {
+export class KuiSelectInputSuffix {
   protected readonly t = injectKuiMessages('select');
   protected readonly common = injectKuiMessages('common');
 

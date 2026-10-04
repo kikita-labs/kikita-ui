@@ -203,23 +203,23 @@ bottom-start bottom-center bottom-end   <- default
 
 - **Auto-dismiss:** 5 s by default. Hover on the toast pauses the timer; mouseleave resumes with remaining time.
 - **Persistent lifecycle:** `persistent: true`, `persistent: signal(true)`, or `duration: Infinity` keeps a toast open until it is closed or its state changes. Persistent toasts can still be evicted when `maxVisible` is exceeded.
-- **Programmatic control:** `KuiToastRef.close()` closes one toast, `update()` changes it in place, and `KuiToastService.dismissAll()` closes the service's active toasts.
+- **Programmatic control:** `KuiToastRef.close()` closes one toast, `update()` changes it in place, and `KuiToast.dismissAll()` closes the service's active toasts.
 - **Eviction:** when `maxVisible` is reached, the oldest visible toast is dismissed before the new one appears.
 - **No focus steal:** toast does not capture keyboard focus on appear (unlike Dialog).
 - **`aria-live="polite"`** on the region, screen readers announce new toasts without interrupting current speech.
 - **Mobile:** card stretches to `100vw - 32px`; region ignores position side and aligns to the bottom edge.
 - **`prefers-reduced-motion`:** slide animations replaced with opacity-only fade.
-- **SSR:** `KuiToastService.open()` returns a no-op ref on the server; no DOM access occurs.
+- **SSR:** `KuiToast.open()` returns a no-op ref on the server; no DOM access occurs.
 
 ## Architecture
 
-`KuiToastService` lazily creates a single `KuiToastRegionComponent` on the first `open()` call and appends it to `document.body`. The region lives for the lifetime of the app and manages the toast stack as an Angular signal list.
+`KuiToast` lazily creates a single `KuiToastRegion` on the first `open()` call and appends it to `document.body`. The region lives for the lifetime of the app and manages the toast stack as an Angular signal list.
 
 While toasts are visible the region is a manual popover, so it is shown in the browser top layer, where Dialog, Drawer, Menu and the other library overlays live. A toast added while an overlay is open, or an overlay opened while a toast is visible, raises the region above it (`z-index` has no effect between top-layer elements). `--kui-z-toast` only orders the region in a browser without the Popover API.
 
 ```
-KuiToastService        - @Service(), root-provided
-  -> KuiToastRegionComponent  - internal, created via createComponent()
+KuiToast        - @Service(), root-provided
+  -> KuiToastRegion  - internal, created via createComponent()
        -> InternalToastItem[] - signal<>, per-item closing signal for exit animation
 ```
 
@@ -259,7 +259,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     toast: {
       /* options below */
     },

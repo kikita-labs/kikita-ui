@@ -19,7 +19,7 @@ content, and bounded Back/Next actions.
 | `hasError` (`kui-step`)    | Boolean; `false`, transformed with `booleanAttribute`                         | Marks the step `error`; the earliest error disables later steps that do not themselves have `hasError`.                                                                                                                                                        | Error scenario has one toggled error step and one following error-disabled step.                                                                                                                       |
 | `disabled` (`kui-step`)    | Boolean; `false`, transformed with `booleanAttribute`                         | Forces that item to `disabled` and removes its circle from tab order.                                                                                                                                                                                          | Separate future step is explicitly disabled while another step remains current.                                                                                                                        |
 
-Public exports are `KuiStepperComponent`, `KuiStepComponent`, `KuiStepperOrientation`,
+Public exports are `KuiStepper`, `KuiStep`, `KuiStepperOrientation`,
 `KuiStepperSize`, and `KuiStepState`. `KUI_STEPPER_CONTEXT` and `KuiStepperContext` are internal
 coordination details. The component also has a source-level public `steps` query and a `goTo()`
 method marked `@internal`; the page does not use either. There are no step content slots, other

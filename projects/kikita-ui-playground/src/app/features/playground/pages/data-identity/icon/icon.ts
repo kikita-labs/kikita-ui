@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiIconComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiIcon, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -22,8 +22,8 @@ import {
     IconSourceExamples,
     IconStrokeExamples,
     IconStructuralExamples,
-    KuiIconComponent,
-    KuiTextDirective,
+    KuiIcon,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

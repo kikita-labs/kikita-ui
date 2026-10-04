@@ -38,10 +38,10 @@
 
 ## Public API, defaults, and coverage map
 
-`KuiInputDirective` is a standalone styling directive on native `input` elements with selector
+`KuiInput` is a standalone styling directive on native `input` elements with selector
 `input[kuiInput]`. It has no template, public outputs, models, methods, component-specific provider,
-or slots. The local barrel re-exports `KuiInputDirective` and the separate
-`KuiInputGroupDirective`; the latter is not part of the `kuiInput` contract and is covered by Group
+or slots. The local barrel re-exports `KuiInput` and the separate
+`KuiInputGroup`; the latter is not part of the `kuiInput` contract and is covered by Group
 or Field composition instead.
 
 | Public input                               | Type and default/resolution                                                                                                                                                                                                                                                                                                                     | Visible example and evidence                                                                                                                                                                                                                                                                                                                                                      |
@@ -57,7 +57,7 @@ standalone `input[kuiInput]` and a native label that names the same id.
 
 No `appearance`, shape, density, loading, or other visual variant input exists. `type`, `value`,
 `placeholder`, `name`, `disabled`, `readOnly`, `required`, `autocomplete`, and input constraints
-remain native HTML attributes/properties, not `KuiInputDirective` inputs. Use `textarea[kuiTextarea]`
+remain native HTML attributes/properties, not `KuiInput` inputs. Use `textarea[kuiTextarea]`
 for multiline controls and the dedicated Number Input, Color Input, Slider, Date Picker, Select,
 Combobox, and other input-like directives for their supported behaviors.
 
@@ -128,7 +128,7 @@ The current source surfaces differ in these ways:
   compares computed block-size with the explicit `xs` example. If those dimensions disagree, this
   is a library CSS precedence defect; do not change the page to mask it.
 - `input.css` also contains `.kui-input-group` styles. That chrome is a separate public
-  `KuiInputGroupDirective` or Field affix composition, not an Input variant.
+  `KuiInputGroup` or Field affix composition, not an Input variant.
 - The legacy `projects/playground` Input page marks hover/focus with `.is-hover-preview`,
   `.is-focus-preview`, and CSS state selectors. Those are static visual simulations and must not be
   copied into this catalogue; use real interactions for named browser evidence.

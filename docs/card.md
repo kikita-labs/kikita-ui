@@ -5,7 +5,7 @@
 ## Usage
 
 ```ts
-import { KuiCardDirective } from '@kikita-labs/ui';
+import { KuiCard } from '@kikita-labs/ui';
 ```
 
 Import `@kikita-labs/ui/styles` once in the application stylesheet to load Card's runtime styles.
@@ -48,7 +48,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     card: {
       /* options below */
     },

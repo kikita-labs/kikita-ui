@@ -49,7 +49,7 @@
 - Disabled+invalid is omitted because an unavailable control with a validation error is not a
   useful form state. Checked+indeterminate is omitted because the native mixed marker takes visual
   precedence and communicates the mixed state.
-- `required` is a native HTML constraint, not a `KuiCheckboxDirective` input or custom visual
+- `required` is a native HTML constraint, not a `KuiCheckbox` input or custom visual
   state; a native required-group validation flow is outside this page's focused Checkbox catalogue.
 - Signal Forms `[formField]` integration is documented, but this page isolates native checkbox
   toggling and Field ARIA wiring rather than adding a second form-model scenario. The directive has

@@ -1,14 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 
-import {
-  KuiCellDirective,
-  KuiPaginationComponent,
-  KuiRowDirective,
-  KuiTableDirective,
-  KuiThDirective,
-  KuiThGroupDirective,
-} from '@kikita-labs/ui';
+import { KuiCell, KuiPagination, KuiRow, KuiTable, KuiTh, KuiThGroup } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -21,12 +14,12 @@ import { createPaginationNumberLocale, createPaginationOrder } from '../../helpe
   selector: 'app-pagination-table',
   imports: [
     DecimalPipe,
-    KuiCellDirective,
-    KuiPaginationComponent,
-    KuiRowDirective,
-    KuiTableDirective,
-    KuiThDirective,
-    KuiThGroupDirective,
+    KuiCell,
+    KuiPagination,
+    KuiRow,
+    KuiTable,
+    KuiTh,
+    KuiThGroup,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

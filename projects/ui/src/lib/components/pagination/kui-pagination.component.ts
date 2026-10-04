@@ -19,9 +19,9 @@ import {
   optionalNonNegativeIntegerAttribute,
   positiveIntegerAttribute,
 } from '../../utils/kui-input-transform.util';
-import { KuiButtonDirective } from '../button';
-import { KuiDropdownComponent, KuiOptionDirective } from '../dropdown';
-import { KuiFieldComponent } from '../field';
+import { KuiButton } from '../button';
+import { KuiDropdown, KuiOption } from '../dropdown';
+import { KuiField } from '../field';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import {
   KUI_GLYPH_CHEVRON_LEFT,
@@ -29,9 +29,9 @@ import {
   KUI_GLYPH_CHEVRONS_LEFT,
   KUI_GLYPH_CHEVRONS_RIGHT,
 } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
-import { KuiIconButtonDirective } from '../icon-button';
-import { KuiSelectDirective } from '../select';
+import { KuiGlyph } from '../icon/kui-glyph.component';
+import { KuiIconButton } from '../icon-button';
+import { KuiSelect } from '../select';
 import type { KuiPaginationVariant } from './kui-pagination-variant.type';
 
 /** One rendered slot in the page-number row: either a page button or a static ellipsis. */
@@ -79,15 +79,7 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
  */
 @Component({
   selector: 'kui-pagination',
-  imports: [
-    KuiButtonDirective,
-    KuiIconButtonDirective,
-    KuiSelectDirective,
-    KuiFieldComponent,
-    KuiDropdownComponent,
-    KuiOptionDirective,
-    KuiGlyphComponent,
-  ],
+  imports: [KuiButton, KuiIconButton, KuiSelect, KuiField, KuiDropdown, KuiOption, KuiGlyph],
   templateUrl: './kui-pagination.component.html',
   host: {
     class: 'kui-pagination',
@@ -97,7 +89,7 @@ type KuiPaginationItem = KuiPaginationPageItem | KuiPaginationEllipsisItem;
   encapsulation: ViewEncapsulation.None,
 })
 /** Page navigation for a long list/table. See the class-level example above. */
-export class KuiPaginationComponent {
+export class KuiPagination {
   protected readonly firstGlyph = injectKuiGlyph({
     role: 'first',
     slot: () => this.paginationDefaults()?.firstIcon,

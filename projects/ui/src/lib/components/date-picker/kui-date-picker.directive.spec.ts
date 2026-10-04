@@ -5,11 +5,11 @@ import { By } from '@angular/platform-browser';
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { kuiProvideLocale } from '../../i18n/provide-kui-i18n';
-import { KuiCalendarComponent } from '../calendar/kui-calendar.component';
-import { KuiDropdownComponent } from '../dropdown';
-import { KuiFieldComponent } from '../field/kui-field.component';
-import { KuiDatePickerDirective } from './kui-date-picker.directive';
+import { provideKuiLocale } from '../../i18n/provide-kui-i18n';
+import { KuiCalendar } from '../calendar/kui-calendar.component';
+import { KuiDropdown } from '../dropdown';
+import { KuiField } from '../field/kui-field.component';
+import { KuiDatePicker } from './kui-date-picker.directive';
 
 @Component({
   template: `
@@ -27,7 +27,7 @@ import { KuiDatePickerDirective } from './kui-date-picker.directive';
       </kui-dropdown>
     </kui-field>
   `,
-  imports: [KuiFieldComponent, KuiDropdownComponent, KuiDatePickerDirective, KuiCalendarComponent],
+  imports: [KuiField, KuiDropdown, KuiDatePicker, KuiCalendar],
 })
 class TestDatePickerHost {
   readonly value = signal<Date | null>(null);
@@ -50,7 +50,7 @@ class TestDatePickerHost {
       </kui-dropdown>
     </kui-field>
   `,
-  imports: [KuiFieldComponent, KuiDropdownComponent, KuiDatePickerDirective, KuiCalendarComponent],
+  imports: [KuiField, KuiDropdown, KuiDatePicker, KuiCalendar],
 })
 class TestDatePickerManualBindingHost {
   readonly value = signal<Date | null>(null);
@@ -62,14 +62,14 @@ function clickInput(input: HTMLInputElement): void {
   input.click();
 }
 
-describe('KuiDatePickerDirective', () => {
+describe('KuiDatePicker', () => {
   let fixture: ComponentFixture<TestDatePickerHost>;
   let host: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TestDatePickerHost],
-      providers: [kuiProvideLocale('ru-RU')],
+      providers: [provideKuiLocale('ru-RU')],
     }).compileComponents();
     fixture = TestBed.createComponent(TestDatePickerHost);
     host = fixture.nativeElement as HTMLElement;
@@ -149,8 +149,8 @@ describe('KuiDatePickerDirective', () => {
 
   it('defaults the linked calendar view model to the first day of the current month', () => {
     const directive = fixture.debugElement
-      .query(By.directive(KuiDatePickerDirective))
-      .injector.get(KuiDatePickerDirective);
+      .query(By.directive(KuiDatePicker))
+      .injector.get(KuiDatePicker);
     const viewDate = directive.viewDate();
 
     expect(viewDate.getDate()).toBe(1);
@@ -280,14 +280,14 @@ describe('KuiDatePickerDirective', () => {
   });
 });
 
-describe('KuiDatePickerDirective with a manually-bound calendar (legacy pairing)', () => {
+describe('KuiDatePicker with a manually-bound calendar (legacy pairing)', () => {
   let fixture: ComponentFixture<TestDatePickerManualBindingHost>;
   let host: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TestDatePickerManualBindingHost],
-      providers: [kuiProvideLocale('ru-RU')],
+      providers: [provideKuiLocale('ru-RU')],
     }).compileComponents();
     fixture = TestBed.createComponent(TestDatePickerManualBindingHost);
     host = fixture.nativeElement as HTMLElement;

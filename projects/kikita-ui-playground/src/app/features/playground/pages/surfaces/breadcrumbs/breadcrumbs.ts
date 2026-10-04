@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 import {
-  KuiBreadcrumbItemDirective,
-  KuiBreadcrumbsDirective,
-  KuiBreadcrumbSeparatorComponent,
-  KuiTextDirective,
+  KuiBreadcrumbItem,
+  KuiBreadcrumbs,
+  KuiBreadcrumbSeparator,
+  KuiText,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -23,10 +23,10 @@ import {
     BreadcrumbsCompositionExamples,
     BreadcrumbsNarrowLayoutExamples,
     BreadcrumbsSizeExamples,
-    KuiBreadcrumbItemDirective,
-    KuiBreadcrumbSeparatorComponent,
-    KuiBreadcrumbsDirective,
-    KuiTextDirective,
+    KuiBreadcrumbItem,
+    KuiBreadcrumbSeparator,
+    KuiBreadcrumbs,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

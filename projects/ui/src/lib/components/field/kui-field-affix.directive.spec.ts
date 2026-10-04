@@ -2,35 +2,35 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiIconComponent } from '../icon/kui-icon.component';
-import { KuiLoaderDirective } from '../loader/kui-loader.directive';
-import { KuiFieldAffixDirective } from './kui-field-affix.directive';
+import { KuiIcon } from '../icon/kui-icon.component';
+import { KuiLoader } from '../loader/kui-loader.directive';
+import { KuiFieldAffix } from './kui-field-affix.directive';
 
 @Component({
-  imports: [KuiFieldAffixDirective],
+  imports: [KuiFieldAffix],
   template: '<span kuiFieldAffix>https://</span>',
 })
 class TextAffixHost {}
 
 @Component({
-  imports: [KuiFieldAffixDirective, KuiIconComponent],
+  imports: [KuiFieldAffix, KuiIcon],
   template: '<kui-icon kuiFieldAffix name="search" />',
 })
 class IconAffixHost {}
 
 @Component({
-  imports: [KuiFieldAffixDirective],
+  imports: [KuiFieldAffix],
   template: '<button kuiFieldAffix type="button" aria-label="Clear"></button>',
 })
 class ActionAffixHost {}
 
 @Component({
-  imports: [KuiFieldAffixDirective, KuiLoaderDirective],
+  imports: [KuiFieldAffix, KuiLoader],
   template: '<span kuiLoader kuiFieldAffix></span>',
 })
 class LoaderAffixHost {}
 
-describe('KuiFieldAffixDirective', () => {
+describe('KuiFieldAffix', () => {
   it('defaults to text styling on a plain element', () => {
     const fixture = createFixture(TextAffixHost);
 

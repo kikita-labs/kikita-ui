@@ -2,7 +2,7 @@ import { afterNextRender, Component, DestroyRef, inject, signal } from '@angular
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { KuiFileUploadComponent } from '@kikita-labs/ui';
+import { KuiFileUpload } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -13,7 +13,7 @@ import { createFileUploadStateEntries } from '../../helpers';
 /** Shows all consumer-owned File Upload row states with deterministic seeded files. */
 @Component({
   selector: 'app-file-upload-states',
-  imports: [KuiFileUploadComponent, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiFileUpload, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './file-upload-states.html',
 })
 export class FileUploadStates {

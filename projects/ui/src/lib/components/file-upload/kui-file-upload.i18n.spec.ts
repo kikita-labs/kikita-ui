@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 
 import { KuiI18n } from '../../i18n/kui-i18n.service';
 import { provideKikitaUi } from '../../root';
-import { KuiFileUploadComponent } from './kui-file-upload.component';
+import { KuiFileUpload } from './kui-file-upload.component';
 import type { KuiUploadFile } from './kui-upload-file.interface';
 
 function entry(status: KuiUploadFile['status'], extra: Partial<KuiUploadFile> = {}): KuiUploadFile {
@@ -22,7 +22,7 @@ function entry(status: KuiUploadFile['status'], extra: Partial<KuiUploadFile> = 
 }
 
 @Component({
-  imports: [KuiFileUploadComponent],
+  imports: [KuiFileUpload],
   template: `<kui-file-upload [files]="files()" [maxSize]="1000000" [messages]="messages()" />`,
 })
 class Host {
@@ -42,7 +42,7 @@ function setup(options: Parameters<typeof provideKikitaUi>[0] = {}) {
   return { fixture, root: fixture.nativeElement as HTMLElement };
 }
 
-describe('KuiFileUploadComponent messages and locale', () => {
+describe('KuiFileUpload messages and locale', () => {
   it('formats sizes and progress with the locale and names rows from the messages', () => {
     const { root } = setup({ locale: 'en-US' });
     const text = root.textContent ?? '';

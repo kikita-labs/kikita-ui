@@ -67,7 +67,7 @@ function hoverDelayAttribute(value: unknown): number | undefined {
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders an anchored popover surface with configurable trigger behavior. */
-export class KuiPopoverComponent implements OnDestroy {
+export class KuiPopover implements OnDestroy {
   /** Preferred side of the anchor. Auto-flips to fit in viewport. Defaults to `defaults.popover.placement`, then `bottom`. */
   readonly placement = input<KuiPopoverPlacement | undefined>();
 

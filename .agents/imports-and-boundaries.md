@@ -72,5 +72,5 @@ dependency instead of recording it. Layers are rules, not folders: component fol
 effects are in [ADR 0001](decisions/0001-library-layers-and-bundle-budgets.md).
 
 Controls and parts talk to `kui-field` through its contract (`KUI_FIELD` and the part keys in
-`components/field/kui-field-host.token.ts`), never through the `KuiFieldComponent` class, so a control
+`components/field/kui-field-host.token.ts`), never through the `KuiField` class, so a control
 does not pull the field and the pickers it can host into an application bundle.

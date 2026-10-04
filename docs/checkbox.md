@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiCheckboxDirective } from '@kikita-labs/ui';
+import { KuiCheckbox } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -68,7 +68,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     checkbox: {
       /* options below */
     },

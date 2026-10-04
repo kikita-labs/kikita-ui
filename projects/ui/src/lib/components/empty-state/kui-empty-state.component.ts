@@ -18,7 +18,7 @@ const KUI_EMPTY_STATE_SIZES = ['sm', 'md', 'lg'] as const;
   },
   encapsulation: ViewEncapsulation.None,
 })
-export class KuiEmptyStateComponent {
+export class KuiEmptyState {
   /** Empty-state heading text. Omit when the supporting description is sufficient. */
   readonly heading = input<string | undefined>();
 

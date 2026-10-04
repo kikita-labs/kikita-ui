@@ -49,7 +49,7 @@ function optionalTooltipOffset(value: unknown): number | undefined {
     '(click)': 'onClick($event)',
   },
 })
-export class KuiTooltipDirective implements OnDestroy {
+export class KuiTooltip implements OnDestroy {
   /** Tooltip text content. Empty string disables the tooltip. */
   readonly kuiTooltip = input<string>('');
 

@@ -1,13 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
 
-import {
-  KuiCalendarComponent,
-  KuiDatePickerDirective,
-  KuiDropdownComponent,
-  KuiErrorDirective,
-  KuiFieldComponent,
-} from '@kikita-labs/ui';
+import { KuiCalendar, KuiDatePicker, KuiDropdown, KuiError, KuiField } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -21,11 +15,11 @@ import { datePickerFormSchema } from './helpers';
   selector: 'app-date-picker-form',
   imports: [
     FormField,
-    KuiCalendarComponent,
-    KuiDatePickerDirective,
-    KuiDropdownComponent,
-    KuiErrorDirective,
-    KuiFieldComponent,
+    KuiCalendar,
+    KuiDatePicker,
+    KuiDropdown,
+    KuiError,
+    KuiField,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

@@ -18,14 +18,10 @@ import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
 import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
-import type { KuiCalendarComponent } from '../calendar/kui-calendar.component';
-import type { KuiDropdownComponent } from '../dropdown/kui-dropdown.component';
-import type { KuiTimePickerPanelComponent } from '../time-picker/kui-time-picker-panel.component';
-import {
-  KuiFieldActionDirective,
-  KuiFieldAffixDirective,
-  KuiFieldAffixIconDirective,
-} from './kui-field-affix.directive';
+import type { KuiCalendar } from '../calendar/kui-calendar.component';
+import type { KuiDropdown } from '../dropdown/kui-dropdown.component';
+import type { KuiTimePickerPanel } from '../time-picker/kui-time-picker-panel.component';
+import { KuiFieldAction, KuiFieldAffix, KuiFieldAffixIcon } from './kui-field-affix.directive';
 import type { KuiFieldHost, KuiFieldPart } from './kui-field-host.token';
 import {
   KUI_FIELD,
@@ -34,11 +30,7 @@ import {
   KUI_FIELD_TIME_PICKER_PANEL,
 } from './kui-field-host.token';
 import { KuiFieldIdGenerator } from './kui-field-id-generator.service';
-import {
-  KuiErrorDirective,
-  KuiHintDirective,
-  KuiLabelDirective,
-} from './kui-field-markers.directive';
+import { KuiError, KuiHint, KuiLabel } from './kui-field-markers.directive';
 import { focusInputGroupControl } from './kui-input-group.util';
 import type { KuiOptionContext } from './kui-option-context.token';
 import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
@@ -48,8 +40,8 @@ import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
   selector: 'kui-field',
   templateUrl: './kui-field.component.html',
   providers: [
-    { provide: KUI_OPTION_CONTEXT, useExisting: KuiFieldComponent },
-    { provide: KUI_FIELD, useExisting: KuiFieldComponent },
+    { provide: KUI_OPTION_CONTEXT, useExisting: KuiField },
+    { provide: KUI_FIELD, useExisting: KuiField },
   ],
   host: {
     class: 'kui-field',
@@ -60,7 +52,7 @@ import { KUI_OPTION_CONTEXT } from './kui-option-context.token';
     '(keydown)': 'handleKeydown($event)',
   },
 })
-export class KuiFieldComponent implements KuiOptionContext, KuiFieldHost {
+export class KuiField implements KuiOptionContext, KuiFieldHost {
   private readonly idGenerator = inject(KuiFieldIdGenerator);
 
   /** Field size, adjusting control slot height and spacing. Defaults to md. */
@@ -186,7 +178,7 @@ export class KuiFieldComponent implements KuiOptionContext, KuiFieldHost {
 
   protected readonly dropdown = this.partSignal(KUI_FIELD_DROPDOWN);
   protected readonly dropdownOpen = computed(() => this.dropdown()?.isOpen() ?? false);
-  protected readonly projectedLabel = contentChild(KuiLabelDirective);
+  protected readonly projectedLabel = contentChild(KuiLabel);
 
   /**
    * The `kui-calendar` registered with this field, if any -- registered so
@@ -203,13 +195,13 @@ export class KuiFieldComponent implements KuiOptionContext, KuiFieldHost {
    */
   protected readonly timePickerPanel = this.partSignal(KUI_FIELD_TIME_PICKER_PANEL);
 
-  private readonly projectedAffixes = contentChildren(KuiFieldAffixDirective, {
+  private readonly projectedAffixes = contentChildren(KuiFieldAffix, {
     descendants: true,
   });
-  private readonly projectedAffixIcons = contentChildren(KuiFieldAffixIconDirective, {
+  private readonly projectedAffixIcons = contentChildren(KuiFieldAffixIcon, {
     descendants: true,
   });
-  private readonly projectedFieldActions = contentChildren(KuiFieldActionDirective, {
+  private readonly projectedFieldActions = contentChildren(KuiFieldAction, {
     descendants: true,
   });
 
@@ -227,8 +219,8 @@ export class KuiFieldComponent implements KuiOptionContext, KuiFieldHost {
   );
 
   private readonly signalFormField = contentChild<FormField<unknown>>(FormField);
-  private readonly projectedHint = contentChild(KuiHintDirective);
-  private readonly projectedError = contentChild(KuiErrorDirective);
+  private readonly projectedHint = contentChild(KuiHint);
+  private readonly projectedError = contentChild(KuiError);
   private readonly hostEl = inject(ElementRef<HTMLElement>);
   private readonly fieldDefaults = inject(KuiDefaults).get('field');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
@@ -281,17 +273,17 @@ export class KuiFieldComponent implements KuiOptionContext, KuiFieldHost {
     this._selectValueTemplate.set(template);
   }
 
-  getDropdown(): KuiDropdownComponent | undefined {
+  getDropdown(): KuiDropdown | undefined {
     return this.dropdown();
   }
 
   /** The `kui-calendar` registered with this field, if any. See {@link calendar}. */
-  getCalendar(): KuiCalendarComponent | undefined {
+  getCalendar(): KuiCalendar | undefined {
     return this.calendar();
   }
 
   /** The `kui-time-picker-panel` registered with this field, if any. See {@link timePickerPanel}. */
-  getTimePickerPanel(): KuiTimePickerPanelComponent | undefined {
+  getTimePickerPanel(): KuiTimePickerPanel | undefined {
     return this.timePickerPanel();
   }
 
@@ -321,7 +313,7 @@ export class KuiFieldComponent implements KuiOptionContext, KuiFieldHost {
     if (!target || !control?.contains(target)) return;
 
     // `.kui-input-group` chrome here comes from `[class.kui-input-group]` (see
-    // `hasInputGroupChrome`), a property binding -- `KuiInputGroupDirective`'s own
+    // `hasInputGroupChrome`), a property binding -- `KuiInputGroup`'s own
     // `.kui-input-group` selector only matches a *static* class string, so it never attaches to
     // this element. Re-implement its click-to-focus delegation here instead of relying on it,
     // otherwise clicking the group's padding (the gap between its 40px border and the shorter

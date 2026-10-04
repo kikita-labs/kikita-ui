@@ -1,13 +1,13 @@
 import { Component, input, signal } from '@angular/core';
 
-import { KuiAlertComponent, KuiChipDirective, KuiPaginationComponent } from '@kikita-labs/ui';
+import { KuiAlert, KuiChip, KuiPagination } from '@kikita-labs/ui';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
 /** One chip, one alert and one pagination: the structural icons the override example changes. */
 @Component({
   selector: 'app-icon-structural-sample',
-  imports: [KuiAlertComponent, KuiChipDirective, KuiPaginationComponent, TranslocoPipe],
+  imports: [KuiAlert, KuiChip, KuiPagination, TranslocoPipe],
   templateUrl: './icon-structural-sample.html',
   styleUrl: './icon-structural-sample.scss',
 })

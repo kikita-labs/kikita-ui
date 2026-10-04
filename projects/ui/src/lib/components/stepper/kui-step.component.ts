@@ -10,7 +10,7 @@ import {
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHECK, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import { KuiGlyph } from '../icon/kui-glyph.component';
 import { KUI_STEPPER_CONTEXT } from './kui-stepper-context.token';
 
 /** Visual state of a `kui-step`, derived from its position relative to the stepper's currentIndex. */
@@ -27,7 +27,7 @@ export type KuiStepState = 'done' | 'current' | 'upcoming' | 'disabled' | 'error
  * ```
  */
 @Component({
-  imports: [KuiGlyphComponent],
+  imports: [KuiGlyph],
   selector: 'kui-step',
   templateUrl: './kui-step.component.html',
   host: {
@@ -39,7 +39,7 @@ export type KuiStepState = 'done' | 'current' | 'upcoming' | 'disabled' | 'error
   encapsulation: ViewEncapsulation.None,
 })
 /** Represents one step within a Kikita UI stepper. */
-export class KuiStepComponent {
+export class KuiStep {
   protected readonly checkGlyph = injectKuiGlyph({
     role: 'check',
     fallback: KUI_GLYPH_CHECK,

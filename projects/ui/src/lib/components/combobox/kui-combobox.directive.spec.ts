@@ -6,9 +6,9 @@ import { form, FormField, required } from '@angular/forms/signals';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { kuiProvideComboboxOptions, kuiProvideFieldOptions } from '../../tokens';
-import { KuiDropdownComponent, KuiOptionDirective } from '../dropdown';
-import { KuiFieldComponent } from '../field/kui-field.component';
-import { KuiComboboxDirective } from './kui-combobox.directive';
+import { KuiDropdown, KuiOption } from '../dropdown';
+import { KuiField } from '../field/kui-field.component';
+import { KuiCombobox } from './kui-combobox.directive';
 import { KuiComboboxHighlightPipe } from './kui-combobox-highlight.pipe';
 
 @Component({
@@ -39,13 +39,7 @@ import { KuiComboboxHighlightPipe } from './kui-combobox-highlight.pipe';
       </kui-dropdown>
     </kui-field>
   `,
-  imports: [
-    KuiFieldComponent,
-    KuiDropdownComponent,
-    KuiOptionDirective,
-    KuiComboboxDirective,
-    KuiComboboxHighlightPipe,
-  ],
+  imports: [KuiField, KuiDropdown, KuiOption, KuiCombobox, KuiComboboxHighlightPipe],
 })
 class TestComboboxHost {
   readonly options = [
@@ -74,7 +68,7 @@ class TestComboboxHost {
       </kui-dropdown>
     </kui-field>
   `,
-  imports: [KuiFieldComponent, KuiDropdownComponent, KuiOptionDirective, KuiComboboxDirective],
+  imports: [KuiField, KuiDropdown, KuiOption, KuiCombobox],
 })
 class TestFreeComboboxHost {
   readonly value = signal<string | null>(null);
@@ -90,7 +84,7 @@ class TestFreeComboboxHost {
       </kui-dropdown>
     </kui-field>
   `,
-  imports: [KuiFieldComponent, KuiDropdownComponent, KuiOptionDirective, KuiComboboxDirective],
+  imports: [KuiField, KuiDropdown, KuiOption, KuiCombobox],
 })
 class TestStateComboboxHost {
   readonly value = signal<string | null>('Alpha');
@@ -107,13 +101,7 @@ class TestStateComboboxHost {
       </kui-dropdown>
     </kui-field>
   `,
-  imports: [
-    FormField,
-    KuiFieldComponent,
-    KuiDropdownComponent,
-    KuiOptionDirective,
-    KuiComboboxDirective,
-  ],
+  imports: [FormField, KuiField, KuiDropdown, KuiOption, KuiCombobox],
 })
 class TestSignalFormsComboboxHost {
   readonly model = signal({ assignee: '' });
@@ -127,7 +115,7 @@ function clickComboboxInput(input: HTMLInputElement): void {
   input.click();
 }
 
-describe('KuiComboboxDirective', () => {
+describe('KuiCombobox', () => {
   let fixture: ComponentFixture<TestComboboxHost>;
   let host: HTMLElement;
 

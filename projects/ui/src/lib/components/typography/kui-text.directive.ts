@@ -31,7 +31,7 @@ import type { KuiTextVariant } from './kui-text-variant.type';
     '[attr.data-kui-text-tone]': 'effectiveTone()',
   },
 })
-export class KuiTextDirective {
+export class KuiText {
   /** Semantic typography role mapped to `.kui-*` role classes. Defaults to `defaults.typography.variant`, then `body`. */
   readonly variant = input<KuiTextVariant | undefined>();
 

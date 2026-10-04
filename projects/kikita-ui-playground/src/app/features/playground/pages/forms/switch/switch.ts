@@ -3,7 +3,7 @@ import { form, FormField } from '@angular/forms/signals';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { KuiFieldComponent, KuiSwitchDirective, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiField, KuiSwitch, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -14,14 +14,7 @@ import { createSwitchSchema } from './helpers';
 /** Shows Switch sizes, native states, field wiring, and Signal Forms validation. */
 @Component({
   selector: 'app-switch',
-  imports: [
-    FormField,
-    KuiFieldComponent,
-    KuiSwitchDirective,
-    KuiTextDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [FormField, KuiField, KuiSwitch, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './switch.html',
   styleUrl: './switch.scss',
 })

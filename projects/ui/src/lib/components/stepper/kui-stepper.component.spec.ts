@@ -3,11 +3,11 @@ import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { KuiStepComponent } from './kui-step.component';
-import { KuiStepperComponent } from './kui-stepper.component';
+import { KuiStep } from './kui-step.component';
+import { KuiStepper } from './kui-stepper.component';
 
 @Component({
-  imports: [KuiStepperComponent, KuiStepComponent],
+  imports: [KuiStepper, KuiStep],
   template: `
     <kui-stepper [(currentIndex)]="current" [linear]="linear()" aria-label="Progress">
       <kui-step label="A" />
@@ -22,7 +22,7 @@ class StepperHost {
   readonly errorB = signal(false);
 }
 
-describe('KuiStepperComponent', () => {
+describe('KuiStepper', () => {
   let fixture: ComponentFixture<StepperHost>;
   let host: StepperHost;
 

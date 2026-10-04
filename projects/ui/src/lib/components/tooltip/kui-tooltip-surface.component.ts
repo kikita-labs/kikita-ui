@@ -15,7 +15,7 @@ import type { KuiTooltipPlacement } from './kui-tooltip-placement.type';
     '[class.kui-tooltip--touch]': 'touchEnabled()',
   },
 })
-export class KuiTooltipSurfaceComponent {
+export class KuiTooltipSurface {
   /** Tooltip element id used by `aria-describedby`. */
   readonly tooltipId = input<string | null>(null);
 

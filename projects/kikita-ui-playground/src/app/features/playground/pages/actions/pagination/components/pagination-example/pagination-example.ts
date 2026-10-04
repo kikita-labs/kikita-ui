@@ -1,6 +1,6 @@
 import { Component, input, linkedSignal, signal } from '@angular/core';
 
-import { KuiPaginationComponent, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiPagination, KuiText } from '@kikita-labs/ui';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
@@ -9,7 +9,7 @@ import type { PaginationExampleConfig } from '../../interfaces';
 /** Renders one labelled Pagination that owns its own current page and page size. */
 @Component({
   selector: 'app-pagination-example',
-  imports: [KuiPaginationComponent, KuiTextDirective, TranslocoPipe],
+  imports: [KuiPagination, KuiText, TranslocoPipe],
   templateUrl: './pagination-example.html',
   styleUrl: './pagination-example.scss',
 })

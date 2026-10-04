@@ -7,7 +7,7 @@ Modal overlay opened imperatively via `kuiDialog()`. Built on Angular CDK Overla
 ```ts
 import {
   KUI_DIALOG_CONTEXT,
-  KuiButtonDirective,
+  KuiButton,
   KuiDialogContext,
   KuiDialogHost,
   kuiDialog,
@@ -178,7 +178,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     dialog: {
       /* options below */
     },

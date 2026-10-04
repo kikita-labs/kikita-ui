@@ -2,11 +2,11 @@ import { Component, signal } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
 
 import {
-  KuiDropdownComponent,
-  KuiErrorDirective,
-  KuiFieldComponent,
-  KuiTimePickerDirective,
-  KuiTimePickerPanelComponent,
+  KuiDropdown,
+  KuiError,
+  KuiField,
+  KuiTimePicker,
+  KuiTimePickerPanel,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -20,11 +20,11 @@ import { timePickerFormSchema } from './helpers';
   selector: 'app-time-picker-form',
   imports: [
     FormField,
-    KuiDropdownComponent,
-    KuiErrorDirective,
-    KuiFieldComponent,
-    KuiTimePickerDirective,
-    KuiTimePickerPanelComponent,
+    KuiDropdown,
+    KuiError,
+    KuiField,
+    KuiTimePicker,
+    KuiTimePickerPanel,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

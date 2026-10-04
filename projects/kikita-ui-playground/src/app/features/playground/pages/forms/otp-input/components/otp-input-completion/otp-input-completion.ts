@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiButtonDirective, KuiOtpInputComponent } from '@kikita-labs/ui';
+import { KuiButton, KuiOtpInput } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -10,13 +10,7 @@ import { OtpInputReadout } from '../otp-input-readout';
 /** Shows how many times the complete output fired and the last completed code. */
 @Component({
   selector: 'app-otp-input-completion',
-  imports: [
-    KuiButtonDirective,
-    KuiOtpInputComponent,
-    OtpInputReadout,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [KuiButton, KuiOtpInput, OtpInputReadout, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './otp-input-completion.html',
   styleUrl: './otp-input-completion.scss',
 })

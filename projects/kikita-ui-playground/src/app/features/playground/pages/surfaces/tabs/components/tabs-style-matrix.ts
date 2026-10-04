@@ -1,11 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 
-import {
-  KuiTabDirective,
-  KuiTabPanelDirective,
-  KuiTabsComponent,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiTab, KuiTabPanel, KuiTabs, KuiText } from '@kikita-labs/ui';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 import type { KuiTabsOrientation, KuiTabsVariant } from '@kikita-labs/ui';
@@ -24,13 +19,7 @@ const variants = ['line', 'pill'] as const satisfies readonly KuiTabsVariant[];
 /** Renders one exhaustive size and variant matrix for an orientation and edge. */
 @Component({
   selector: 'app-tabs-style-matrix',
-  imports: [
-    KuiTabDirective,
-    KuiTabPanelDirective,
-    KuiTabsComponent,
-    KuiTextDirective,
-    TranslocoPipe,
-  ],
+  imports: [KuiTab, KuiTabPanel, KuiTabs, KuiText, TranslocoPipe],
   templateUrl: './tabs-style-matrix.html',
   styleUrl: './tabs-style-matrix.scss',
 })

@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiCalendarComponent } from '@kikita-labs/ui';
+import { KuiCalendar } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -8,7 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Groups the supported compact size and flat composition examples. */
 @Component({
   selector: 'app-calendar-appearance',
-  imports: [KuiCalendarComponent, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiCalendar, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './calendar-appearance.html',
   styleUrl: './calendar-appearance.scss',
 })

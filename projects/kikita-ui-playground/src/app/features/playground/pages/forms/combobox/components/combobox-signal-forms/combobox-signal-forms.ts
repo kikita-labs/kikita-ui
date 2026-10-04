@@ -3,12 +3,7 @@ import { form, FormField } from '@angular/forms/signals';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import {
-  KuiComboboxDirective,
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
-} from '@kikita-labs/ui';
+import { KuiCombobox, KuiDropdown, KuiField, KuiOption } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -22,10 +17,10 @@ import type { ComboboxSignalFormsModel } from './interfaces';
   selector: 'app-combobox-signal-forms',
   imports: [
     FormField,
-    KuiComboboxDirective,
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiOptionDirective,
+    KuiCombobox,
+    KuiDropdown,
+    KuiField,
+    KuiOption,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

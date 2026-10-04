@@ -9,9 +9,9 @@ import {
 
 /**
  * Root source of the locale (a BCP 47 tag such as `'en-US'` or `'ru-RU'`) that `KuiI18n` uses
- * when neither `provideKikitaUi({ locale })` nor `kuiProvideLocale` sets one. Components read the
+ * when neither `provideKikitaUi({ locale })` nor `provideKuiLocale` sets one. Components read the
  * locale through `KuiI18n`, which also supports a subtree locale and runtime changes; provide a
- * fixed locale with `kuiProvideLocale` rather than this token.
+ * fixed locale with `provideKuiLocale` rather than this token.
  *
  * On the server it is the most preferred language of the request's `Accept-Language` header
  * (Angular's `REQUEST` token), or `'en-US'` when there is no request, as in prerendering, or no
@@ -21,7 +21,7 @@ import {
  * client-only app) the browser uses `navigator.language`, falling back to `'en-US'`.
  *
  * Server responses now vary by `Accept-Language`: a cache in front of the server must send
- * `Vary: Accept-Language`. Provide a fixed locale with `kuiProvideLocale` to opt out.
+ * `Vary: Accept-Language`. Provide a fixed locale with `provideKuiLocale` to opt out.
  */
 export const KUI_LOCALE = new InjectionToken<string>('KUI_LOCALE', {
   factory: () => {

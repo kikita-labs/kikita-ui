@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 
-import { KuiCardDirective, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiCard, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundRoute } from '@app/enums';
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -9,7 +9,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 /** Shows Card's supported appearances, sizes, interactive behavior, and semantic hosts. */
 @Component({
   selector: 'app-card',
-  imports: [KuiCardDirective, KuiTextDirective, PlaygroundExampleCard, TranslocoPipe],
+  imports: [KuiCard, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './card.html',
   styleUrl: './card.scss',
 })

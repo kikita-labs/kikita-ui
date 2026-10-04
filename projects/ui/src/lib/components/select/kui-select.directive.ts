@@ -22,7 +22,7 @@ import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util'
 import { KUI_FIELD } from '../field/kui-field-host.token';
 import type { KuiOptionContext } from '../field/kui-option-context.token';
 import type { KuiSelectChipItem } from './kui-select-input-suffix.component';
-import { KuiSelectInputSuffixComponent } from './kui-select-input-suffix.component';
+import { KuiSelectInputSuffix } from './kui-select-input-suffix.component';
 
 /** Multiple select value presentation mode. */
 export type KuiSelectMultipleDisplay = 'chips' | 'text';
@@ -84,7 +84,7 @@ function optionalNumberAttribute(value: unknown): number | undefined {
  * </kui-field>
  * ```
  */
-export class KuiSelectDirective<T = unknown>
+export class KuiSelect<T = unknown>
   implements OnDestroy, KuiOptionContext, FormValueControl<T | readonly T[] | null>
 {
   /** Current selected value. In multiple mode this is an array. Bound by `[formField]` or `[(value)]`. */
@@ -226,12 +226,12 @@ export class KuiSelectDirective<T = unknown>
   private _keyboardOpened = false;
   private _wasOpen = false;
   private pointerStartedOnInput = false;
-  private readonly suffixRef: ComponentRef<KuiSelectInputSuffixComponent>;
+  private readonly suffixRef: ComponentRef<KuiSelectInputSuffix>;
 
   constructor() {
     this.field?.registerSelectContext(this);
 
-    this.suffixRef = this.vcr.createComponent(KuiSelectInputSuffixComponent);
+    this.suffixRef = this.vcr.createComponent(KuiSelectInputSuffix);
 
     effect(() => {
       this.suffixRef.setInput('clearable', this.effectiveClearable());

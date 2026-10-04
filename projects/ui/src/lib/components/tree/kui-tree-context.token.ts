@@ -6,7 +6,7 @@ import type { KuiTreeMode, KuiTreeNode } from './kui-tree-node.interface';
 /** Aggregate checked state of a node, including the checkbox `indeterminate` case. */
 export type KuiTreeCheckedState = 'true' | 'false' | 'mixed';
 
-/** Shared context provided by KuiTreeComponent to recursive KuiTreeNodeComponent children. */
+/** Shared context provided by KuiTree to recursive KuiTreeRow children. */
 export interface KuiTreeContext {
   /** Effective mode: the `mode` input, then `defaults.tree.mode`, then `display`. */
   readonly effectiveMode: Signal<KuiTreeMode>;

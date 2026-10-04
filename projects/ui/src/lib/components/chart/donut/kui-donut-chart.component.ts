@@ -13,16 +13,10 @@ import {
 
 import type { KuiChartMessages } from '../../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../../providers/kui-defaults.service';
-import { KuiButtonDirective } from '../../button';
-import {
-  KuiCellDirective,
-  KuiRowDirective,
-  KuiTableDirective,
-  KuiThDirective,
-  KuiThGroupDirective,
-} from '../../table';
+import { KuiButton } from '../../button';
+import { KuiCell, KuiRow, KuiTable, KuiTh, KuiThGroup } from '../../table';
 import type {
-  KuiChartLegendItem,
+  KuiChartLegendEntry,
   KuiChartLegendSource,
   KuiChartSlice,
   KuiChartTooltipFormatter,
@@ -80,14 +74,7 @@ interface KuiDonutChartSlice {
 
 @Component({
   selector: 'kui-donut-chart',
-  imports: [
-    KuiButtonDirective,
-    KuiCellDirective,
-    KuiRowDirective,
-    KuiTableDirective,
-    KuiThDirective,
-    KuiThGroupDirective,
-  ],
+  imports: [KuiButton, KuiCell, KuiRow, KuiTable, KuiTh, KuiThGroup],
   templateUrl: './kui-donut-chart.component.html',
   host: {
     class: 'kui-chart kui-donut-chart',
@@ -108,7 +95,7 @@ interface KuiDonutChartSlice {
  *
  * Implements {@link KuiChartLegendSource} -- see `kui-line-chart`'s matching class doc.
  */
-export class KuiDonutChartComponent implements KuiChartLegendSource {
+export class KuiDonutChart implements KuiChartLegendSource {
   /** Slices to plot. Empty or omitted renders the empty state, never a blank canvas. Negative
    * `value` is dropped during normalization (donut shares cannot be negative). */
   readonly slices = input.required<readonly KuiChartSlice[]>();
@@ -353,7 +340,7 @@ export class KuiDonutChartComponent implements KuiChartLegendSource {
   });
 
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
-  readonly legendItems: () => readonly KuiChartLegendItem[] = computed(() =>
+  readonly legendItems: () => readonly KuiChartLegendEntry[] = computed(() =>
     this.legendSlices().map((s) => ({
       id: s.sliceId,
       label: s.label,

@@ -1,10 +1,10 @@
 import { Component, computed, inject, ViewEncapsulation } from '@angular/core';
 
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
-import { KuiButtonDirective } from '../button/kui-button.directive';
+import { KuiButton } from '../button/kui-button.directive';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_TRIANGLE_ALERT } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import { KuiGlyph } from '../icon/kui-glyph.component';
 import type { KuiConfirmConfig } from './kui-confirm.types';
 import type { KuiDialogContext, KuiDialogHost } from './kui-dialog-context.token';
 import { KUI_DIALOG_CONTEXT } from './kui-dialog-context.token';
@@ -17,11 +17,11 @@ import { KUI_DIALOG_CONTEXT } from './kui-dialog-context.token';
 @Component({
   selector: 'kui-confirm',
   templateUrl: './kui-confirm.component.html',
-  imports: [KuiButtonDirective, KuiGlyphComponent],
+  imports: [KuiButton, KuiGlyph],
   encapsulation: ViewEncapsulation.None,
 })
 /** Renders the default confirmation dialog content for `confirm()`. */
-export class KuiConfirmComponent implements KuiDialogHost<boolean, KuiConfirmConfig> {
+export class KuiConfirmDialog implements KuiDialogHost<boolean, KuiConfirmConfig> {
   protected readonly t = injectKuiMessages('dialog');
 
   protected readonly warningGlyph = injectKuiGlyph({

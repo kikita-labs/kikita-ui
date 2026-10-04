@@ -1,29 +1,29 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiCheckboxDirective } from '../components/checkbox/kui-checkbox.directive';
-import { KuiColorInputDirective } from '../components/color-input/kui-color-input.directive';
-import { KuiFieldComponent } from '../components/field/kui-field.component';
-import { KuiInputDirective } from '../components/input/kui-input.directive';
-import { KuiNumberInputDirective } from '../components/number-input/kui-number-input.directive';
-import { KuiRadioDirective } from '../components/radio/kui-radio.directive';
-import { KuiSliderDirective } from '../components/slider/kui-slider.directive';
-import { KuiSwitchDirective } from '../components/switch/kui-switch.directive';
-import { KuiTextareaDirective } from '../components/textarea/kui-textarea.directive';
+import { KuiCheckbox } from '../components/checkbox/kui-checkbox.directive';
+import { KuiColorInput } from '../components/color-input/kui-color-input.directive';
+import { KuiField } from '../components/field/kui-field.component';
+import { KuiInput } from '../components/input/kui-input.directive';
+import { KuiNumberInput } from '../components/number-input/kui-number-input.directive';
+import { KuiRadio } from '../components/radio/kui-radio.directive';
+import { KuiSlider } from '../components/slider/kui-slider.directive';
+import { KuiSwitch } from '../components/switch/kui-switch.directive';
+import { KuiTextarea } from '../components/textarea/kui-textarea.directive';
 import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
 
 @Component({
   imports: [
-    KuiFieldComponent,
-    KuiInputDirective,
-    KuiTextareaDirective,
-    KuiCheckboxDirective,
-    KuiRadioDirective,
-    KuiSwitchDirective,
-    KuiColorInputDirective,
-    KuiNumberInputDirective,
-    KuiSliderDirective,
+    KuiField,
+    KuiInput,
+    KuiTextarea,
+    KuiCheckbox,
+    KuiRadio,
+    KuiSwitch,
+    KuiColorInput,
+    KuiNumberInput,
+    KuiSlider,
   ],
   template: `
     <input id="input-plain" kuiInput />
@@ -76,14 +76,14 @@ class FieldControlsHost {}
 
 @Component({
   imports: [
-    KuiFieldComponent,
-    KuiInputDirective,
-    KuiTextareaDirective,
-    KuiCheckboxDirective,
-    KuiRadioDirective,
-    KuiSwitchDirective,
-    KuiColorInputDirective,
-    KuiNumberInputDirective,
+    KuiField,
+    KuiInput,
+    KuiTextarea,
+    KuiCheckbox,
+    KuiRadio,
+    KuiSwitch,
+    KuiColorInput,
+    KuiNumberInput,
   ],
   template: `
     <kui-field label="a"><input id="input-fd" kuiInput /></kui-field>

@@ -1,31 +1,31 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiBadgeDirective } from '../components/badge';
-import { KuiButtonDirective } from '../components/button';
-import { KuiCalendarComponent } from '../components/calendar';
-import { KuiCardDirective } from '../components/card';
-import { KuiFieldComponent } from '../components/field';
-import { KuiIconButtonDirective } from '../components/icon-button';
-import { KuiInputDirective } from '../components/input';
-import { KuiLoaderDirective } from '../components/loader';
-import { KuiProgressComponent } from '../components/progress';
-import { KuiTableDirective } from '../components/table';
+import { KuiBadge } from '../components/badge';
+import { KuiButton } from '../components/button';
+import { KuiCalendar } from '../components/calendar';
+import { KuiCard } from '../components/card';
+import { KuiField } from '../components/field';
+import { KuiIconButton } from '../components/icon-button';
+import { KuiInput } from '../components/input';
+import { KuiLoader } from '../components/loader';
+import { KuiProgress } from '../components/progress';
+import { KuiTable } from '../components/table';
 import { provideKikitaUi } from '../root';
 import { kuiProvideButtonOptions } from '../tokens';
 
 @Component({
   imports: [
-    KuiBadgeDirective,
-    KuiButtonDirective,
-    KuiCalendarComponent,
-    KuiCardDirective,
-    KuiFieldComponent,
-    KuiIconButtonDirective,
-    KuiInputDirective,
-    KuiLoaderDirective,
-    KuiProgressComponent,
-    KuiTableDirective,
+    KuiBadge,
+    KuiButton,
+    KuiCalendar,
+    KuiCard,
+    KuiField,
+    KuiIconButton,
+    KuiInput,
+    KuiLoader,
+    KuiProgress,
+    KuiTable,
   ],
   template: `
     <button kuiButton>Save</button>

@@ -120,7 +120,7 @@ version of the clock fix.
    `navigator.language`. The header is untrusted, so tags are canonicalized with
    `Intl.getCanonicalLocales` and malformed ones are ignored. Server responses now vary by
    `Accept-Language`: a cache in front of the server must send `Vary: Accept-Language`, and an app
-   that wants one fixed locale provides it with `kuiProvideLocale`. Evidence: `kui-locale.token.spec.ts`,
+   that wants one fixed locale provides it with `provideKuiLocale`. Evidence: `kui-locale.token.spec.ts`,
    `kui-locale-seed.util.spec.ts`, and the e2e "renders the request language on the server and keeps
    it through hydration" (de-DE). This replaces the earlier interim rule that the server always
    rendered `en-US`. Since Plan 21 components read the effective locale through `KuiI18n`, which

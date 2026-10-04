@@ -4,10 +4,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it } from 'vitest';
 
-import { KuiInputGroupDirective } from './kui-input-group.directive';
+import { KuiInputGroup } from './kui-input-group.directive';
 
 @Component({
-  imports: [KuiInputGroupDirective],
+  imports: [KuiInputGroup],
   template: `
     <div class="kui-input-group">
       <span class="kui-field-affix">https://</span>
@@ -19,7 +19,7 @@ import { KuiInputGroupDirective } from './kui-input-group.directive';
 class InputGroupHost {}
 
 @Component({
-  imports: [KuiInputGroupDirective],
+  imports: [KuiInputGroup],
   template: `
     <div class="kui-input-group">
       <span class="kui-field-affix">https://</span>
@@ -29,7 +29,7 @@ class InputGroupHost {}
 })
 class DisabledInputGroupHost {}
 
-describe('KuiInputGroupDirective', () => {
+describe('KuiInputGroup', () => {
   it('focuses the native control when non-interactive chrome is clicked', () => {
     const fixture = createFixture(InputGroupHost);
     const affix = fixture.nativeElement.querySelector('.kui-field-affix') as HTMLElement;

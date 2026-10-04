@@ -11,13 +11,13 @@ import type { KuiButtonShape } from '../components/button/kui-button-shape.type'
 import { provideKikitaUi } from '../root';
 import type { KuiDefaultsSource } from './kui-defaults.interface';
 import { KuiDefaults } from './kui-defaults.service';
-import { kuiProvideDefaults } from './provide-kui-defaults';
+import { provideKuiDefaults } from './provide-kui-defaults';
 
 function nested(
   source: KuiDefaultsSource,
   parent = TestBed.inject(EnvironmentInjector),
 ): KuiDefaults {
-  return createEnvironmentInjector([kuiProvideDefaults(source)], parent).get(KuiDefaults);
+  return createEnvironmentInjector([provideKuiDefaults(source)], parent).get(KuiDefaults);
 }
 
 describe('KuiDefaults', () => {
@@ -210,7 +210,7 @@ describe('KuiDefaults with several providers on one level', () => {
     TestBed.configureTestingModule({
       providers: [
         provideKikitaUi({ defaults: { size: 'sm', button: { shape: 'ghost', size: 'sm' } } }),
-        kuiProvideDefaults({ button: { size: 'lg' }, select: { clearable: true } }),
+        provideKuiDefaults({ button: { size: 'lg' }, select: { clearable: true } }),
       ],
     });
 

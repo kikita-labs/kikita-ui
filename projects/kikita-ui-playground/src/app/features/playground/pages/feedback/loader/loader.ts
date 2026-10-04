@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiLoaderDirective, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiLoader, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -11,8 +11,8 @@ import { LoaderCompositions, LoaderConsumerStatus, LoaderSizes } from './compone
 @Component({
   selector: 'app-loader',
   imports: [
-    KuiLoaderDirective,
-    KuiTextDirective,
+    KuiLoader,
+    KuiText,
     LoaderCompositions,
     LoaderConsumerStatus,
     LoaderSizes,

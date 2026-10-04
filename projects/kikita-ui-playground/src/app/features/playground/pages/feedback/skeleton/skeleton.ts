@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KuiSkeletonDirective, KuiTextDirective } from '@kikita-labs/ui';
+import { KuiSkeleton, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -11,8 +11,8 @@ import { SkeletonLoadingRegion, SkeletonShapeMatrix } from './components';
 @Component({
   selector: 'app-skeleton',
   imports: [
-    KuiSkeletonDirective,
-    KuiTextDirective,
+    KuiSkeleton,
+    KuiText,
     PlaygroundExampleCard,
     SkeletonLoadingRegion,
     SkeletonShapeMatrix,

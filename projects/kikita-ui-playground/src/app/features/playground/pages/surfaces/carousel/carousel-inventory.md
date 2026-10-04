@@ -24,7 +24,7 @@ component owns navigation, keyboard handling, autoplay, and index/scroll synchro
 | `indexChange`                 | implicit model output, `number`                   | Emitted on every model write: arrows, dots, keyboard, autoplay, scroll/drag sync.                                                                                                                                                                                                                                                | The two-way readout is driven by it; E2E asserts readout after each input method.                                                                         |
 | `kuiCarouselSlide`            | directive, no inputs                              | Host gets class `kui-carousel__slide`, `role="group"`, `aria-roledescription="slide"`, and `id`/`aria-label="N of total"` assigned by the parent effect. `id`/`ariaLabel` are `@internal`.                                                                                                                                       | Used for every slide; E2E asserts `N of total` names and dot `aria-controls` targets.                                                                     |
 
-Public exports: `KuiCarouselComponent`, `KuiCarouselSlideDirective` (via `projects/ui/src/lib/components/carousel/index.ts`).
+Public exports: `KuiCarousel`, `KuiCarouselSlide` (via `projects/ui/src/lib/components/carousel/index.ts`).
 Not public: track/dot refs, timers, `hoverPaused`, `manuallyPaused`, and drag state. The component
 declares no explicit `output()` and no form integration. Prev/Next/Play use `button[kuiIconButton]`
 with inline SVG chrome, so no icon CDN request occurs and no Lucide stub is needed.

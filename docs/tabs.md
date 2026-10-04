@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective } from '@kikita-labs/ui';
+import { KuiTabs, KuiTab, KuiTabPanel } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -107,7 +107,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     tabs: {
       /* options below */
     },

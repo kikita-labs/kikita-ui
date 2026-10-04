@@ -14,9 +14,9 @@ import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { kuiNextId } from '../../utils/kui-id.util';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHEVRON_RIGHT } from '../icon/kui-chrome-glyphs';
-import { KuiGlyphComponent } from '../icon/kui-glyph.component';
+import { KuiGlyph } from '../icon/kui-glyph.component';
 import { KUI_ACCORDION_CONTEXT } from './kui-accordion-context.token';
-import { KuiAccordionIconDirective } from './kui-accordion-icon.directive';
+import { KuiAccordionIcon } from './kui-accordion-icon.directive';
 
 /**
  * A single expandable section inside `kui-accordion`.
@@ -31,13 +31,13 @@ import { KuiAccordionIconDirective } from './kui-accordion-icon.directive';
  */
 @Component({
   selector: 'kui-accordion-item',
-  imports: [NgTemplateOutlet, KuiGlyphComponent],
+  imports: [NgTemplateOutlet, KuiGlyph],
   templateUrl: './kui-accordion-item.component.html',
   host: { class: 'kui-accordion-item' },
   encapsulation: ViewEncapsulation.None,
 })
 /** Represents a single expandable item inside a Kikita UI accordion. */
-export class KuiAccordionItemComponent {
+export class KuiAccordionItem {
   private readonly accordionDefaults = inject(KuiDefaults).get('accordion');
 
   protected readonly disclosureGlyph = injectKuiGlyph({
@@ -61,7 +61,7 @@ export class KuiAccordionItemComponent {
   private readonly ctx = inject(KUI_ACCORDION_CONTEXT);
 
   /** TemplateRef from a nested `ng-template[kuiAccordionIcon]`. */
-  protected readonly iconTplRef = contentChild(KuiAccordionIconDirective, { read: TemplateRef });
+  protected readonly iconTplRef = contentChild(KuiAccordionIcon, { read: TemplateRef });
 
   private readonly _autoId = kuiNextId('kui-accordion-item');
   protected readonly itemId = computed(() => this.id() || this._autoId);

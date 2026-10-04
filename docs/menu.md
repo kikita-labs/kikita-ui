@@ -7,13 +7,7 @@ Dropdown/Listbox for selection.
 ## Import
 
 ```ts
-import {
-  KuiMenuComponent,
-  KuiMenuForDirective,
-  KuiMenuHeaderDirective,
-  KuiMenuItemDirective,
-  KuiSeparatorDirective,
-} from '@kikita-labs/ui';
+import { KuiMenu, KuiMenuFor, KuiMenuHeader, KuiMenuItem, KuiSeparator } from '@kikita-labs/ui';
 ```
 
 Import styles once:
@@ -105,7 +99,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     menu: {
       /* options below */
     },

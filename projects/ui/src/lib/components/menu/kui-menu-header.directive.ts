@@ -8,4 +8,4 @@ import { Directive } from '@angular/core';
     role: 'presentation',
   },
 })
-export class KuiMenuHeaderDirective {}
+export class KuiMenuHeader {}

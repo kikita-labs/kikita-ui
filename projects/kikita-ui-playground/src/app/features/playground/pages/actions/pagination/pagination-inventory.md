@@ -3,7 +3,7 @@
 Status: audit accepted by the parent; page implemented and self-reviewed against the source after the
 audit. This inventory maps the public `kui-pagination` contract to the page examples and browser checks.
 
-`KuiPaginationComponent` (`kui-pagination`) is a composite component: it renders a `nav` landmark
+`KuiPagination` (`kui-pagination`) is a composite component: it renders a `nav` landmark
 that composes `button[kuiIconButton]` (First/Previous/Next/Last), `button[kuiButton]` (page numbers),
 a static ellipsis `span`, and `input[kuiSelect]` inside a label-less `kui-field` (rows per page). It
 owns only the page-window algorithm and the coordinated `currentPage`/`pageSize` state. It is not a

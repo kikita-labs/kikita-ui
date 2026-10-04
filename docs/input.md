@@ -8,7 +8,7 @@ It does not replace the browser's input behavior or own form values and validati
 Import the directive where it is used:
 
 ```ts
-import { KuiInputDirective } from '@kikita-labs/ui';
+import { KuiInput } from '@kikita-labs/ui';
 ```
 
 Import the Kikita UI runtime styles once in the application entry point:
@@ -38,7 +38,7 @@ specialized number, color, date, selection, and other input behaviors.
 
 ## API
 
-The selector is `input[kuiInput]`. `KuiInputDirective` has no outputs, models, content slots,
+The selector is `input[kuiInput]`. `KuiInput` has no outputs, models, content slots,
 or component-owned form value.
 
 | Input     | Type                                            | Default and behavior                                                                                                                                                                                                                                                                                                                             |
@@ -92,7 +92,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     input: {
       /* options below */
     },

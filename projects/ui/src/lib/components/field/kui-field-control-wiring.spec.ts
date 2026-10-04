@@ -6,20 +6,20 @@ import { form, FormField, required } from '@angular/forms/signals';
 
 import { describe, expect, it } from 'vitest';
 
-import { KuiCheckboxDirective } from '../checkbox';
-import { KuiColorInputDirective } from '../color-input';
-import { KuiComboboxDirective } from '../combobox';
-import { KuiDatePickerDirective } from '../date-picker';
-import { KuiDropdownComponent, KuiOptionDirective } from '../dropdown';
-import { KuiInputDirective } from '../input';
-import { KuiNumberInputDirective } from '../number-input';
-import { KuiRadioDirective } from '../radio';
-import { KuiSelectDirective } from '../select';
-import { KuiSliderDirective } from '../slider';
-import { KuiSwitchDirective } from '../switch';
-import { KuiTextareaDirective } from '../textarea';
-import { KuiTimePickerDirective } from '../time-picker';
-import { KuiFieldComponent } from './kui-field.component';
+import { KuiCheckbox } from '../checkbox';
+import { KuiColorInput } from '../color-input';
+import { KuiCombobox } from '../combobox';
+import { KuiDatePicker } from '../date-picker';
+import { KuiDropdown, KuiOption } from '../dropdown';
+import { KuiInput } from '../input';
+import { KuiNumberInput } from '../number-input';
+import { KuiRadio } from '../radio';
+import { KuiSelect } from '../select';
+import { KuiSlider } from '../slider';
+import { KuiSwitch } from '../switch';
+import { KuiTextarea } from '../textarea';
+import { KuiTimePicker } from '../time-picker';
+import { KuiField } from './kui-field.component';
 
 /**
  * Characterization of the field wiring every form control shares: the host id, `aria-describedby`,
@@ -29,21 +29,21 @@ import { KuiFieldComponent } from './kui-field.component';
 
 const IMPORTS = [
   FormField,
-  KuiFieldComponent,
-  KuiCheckboxDirective,
-  KuiColorInputDirective,
-  KuiComboboxDirective,
-  KuiDatePickerDirective,
-  KuiDropdownComponent,
-  KuiInputDirective,
-  KuiNumberInputDirective,
-  KuiOptionDirective,
-  KuiRadioDirective,
-  KuiSelectDirective,
-  KuiSliderDirective,
-  KuiSwitchDirective,
-  KuiTextareaDirective,
-  KuiTimePickerDirective,
+  KuiField,
+  KuiCheckbox,
+  KuiColorInput,
+  KuiCombobox,
+  KuiDatePicker,
+  KuiDropdown,
+  KuiInput,
+  KuiNumberInput,
+  KuiOption,
+  KuiRadio,
+  KuiSelect,
+  KuiSlider,
+  KuiSwitch,
+  KuiTextarea,
+  KuiTimePicker,
 ];
 
 interface WiringModel {

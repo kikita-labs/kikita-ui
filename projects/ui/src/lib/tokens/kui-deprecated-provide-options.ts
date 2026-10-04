@@ -6,58 +6,58 @@ import type { KuiFieldOptions } from '../components/field/kui-field-options.inte
 import type { KuiSelectOptions } from '../components/select/kui-select-options.interface';
 import type { KuiToastOptions } from '../components/toast/kui-toast.types';
 import type { KuiTooltipOptions } from '../components/tooltip/kui-tooltip-options.interface';
-import { kuiProvideDefaults } from '../providers/provide-kui-defaults';
+import { provideKuiDefaults } from '../providers/provide-kui-defaults';
 
 /**
  * Provides scoped defaults for descendant Kikita UI button primitives.
  *
- * @deprecated Use `kuiProvideDefaults({ button, iconButton })`. Planned removal in 3.0.
+ * @deprecated Use `provideKuiDefaults({ button, iconButton })`. Planned removal in 3.0.
  */
 export function kuiProvideButtonOptions(opts: KuiButtonProviderOptions): Provider[] {
-  return kuiProvideDefaults({ button: opts.button, iconButton: opts.iconButton });
+  return provideKuiDefaults({ button: opts.button, iconButton: opts.iconButton });
 }
 
 /**
  * Provides field option defaults for a subtree.
  *
- * @deprecated Use `kuiProvideDefaults({ field })`. Planned removal in 3.0.
+ * @deprecated Use `provideKuiDefaults({ field })`. Planned removal in 3.0.
  */
 export function kuiProvideFieldOptions(opts: KuiFieldOptions): Provider[] {
-  return kuiProvideDefaults({ field: opts });
+  return provideKuiDefaults({ field: opts });
 }
 
 /**
  * Provides defaults for `input[kuiSelect]` controls.
  *
- * @deprecated Use `kuiProvideDefaults({ select })`. Planned removal in 3.0.
+ * @deprecated Use `provideKuiDefaults({ select })`. Planned removal in 3.0.
  */
 export function kuiProvideSelectOptions(opts: KuiSelectOptions): Provider[] {
-  return kuiProvideDefaults({ select: opts });
+  return provideKuiDefaults({ select: opts });
 }
 
 /**
  * Provides defaults for `input[kuiCombobox]` controls.
  *
- * @deprecated Use `kuiProvideDefaults({ combobox })`. Planned removal in 3.0.
+ * @deprecated Use `provideKuiDefaults({ combobox })`. Planned removal in 3.0.
  */
 export function kuiProvideComboboxOptions(opts: KuiComboboxOptions): Provider[] {
-  return kuiProvideDefaults({ combobox: opts });
+  return provideKuiDefaults({ combobox: opts });
 }
 
 /**
  * Provides scoped defaults for descendant `kuiTooltip` directives.
  *
- * @deprecated Use `kuiProvideDefaults({ tooltip })`. Planned removal in 3.0.
+ * @deprecated Use `provideKuiDefaults({ tooltip })`. Planned removal in 3.0.
  */
 export function kuiProvideTooltipOptions(opts: KuiTooltipOptions): Provider[] {
-  return kuiProvideDefaults({ tooltip: opts });
+  return provideKuiDefaults({ tooltip: opts });
 }
 
 /**
  * Provides defaults for toasts opened in the current injector scope.
  *
- * @deprecated Use `kuiProvideDefaults({ toast })`. Planned removal in 3.0.
+ * @deprecated Use `provideKuiDefaults({ toast })`. Planned removal in 3.0.
  */
 export function provideKuiToastOptions(opts: KuiToastOptions): Provider[] {
-  return kuiProvideDefaults({ toast: opts });
+  return provideKuiDefaults({ toast: opts });
 }

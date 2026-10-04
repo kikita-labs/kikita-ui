@@ -14,7 +14,7 @@ response to `(retry)`.
 ## Import
 
 ```ts
-import { KuiFileUploadComponent } from '@kikita-labs/ui';
+import { KuiFileUpload } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -141,7 +141,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     fileUpload: {
       /* options below */
     },

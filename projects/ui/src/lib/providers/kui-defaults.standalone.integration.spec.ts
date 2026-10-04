@@ -1,29 +1,29 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiBadgeDirective } from '../components/badge/kui-badge.directive';
-import { KuiBreadcrumbItemDirective } from '../components/breadcrumbs/kui-breadcrumb-item.directive';
-import { KuiBreadcrumbsDirective } from '../components/breadcrumbs/kui-breadcrumbs.directive';
-import { KuiChipDirective } from '../components/chip/kui-chip.directive';
-import { KuiEmptyStateComponent } from '../components/empty-state/kui-empty-state.component';
-import { KuiLoaderDirective } from '../components/loader/kui-loader.directive';
-import { KuiSegmentDirective } from '../components/segmented/kui-segment.directive';
-import { KuiSegmentedComponent } from '../components/segmented/kui-segmented.component';
-import { KuiTableDirective } from '../components/table/kui-table.directive';
+import { KuiBadge } from '../components/badge/kui-badge.directive';
+import { KuiBreadcrumbItem } from '../components/breadcrumbs/kui-breadcrumb-item.directive';
+import { KuiBreadcrumbs } from '../components/breadcrumbs/kui-breadcrumbs.directive';
+import { KuiChip } from '../components/chip/kui-chip.directive';
+import { KuiEmptyState } from '../components/empty-state/kui-empty-state.component';
+import { KuiLoader } from '../components/loader/kui-loader.directive';
+import { KuiSegment } from '../components/segmented/kui-segment.directive';
+import { KuiSegmented } from '../components/segmented/kui-segmented.component';
+import { KuiTable } from '../components/table/kui-table.directive';
 import { provideKikitaUi } from '../root';
 import { KuiDefaults } from './kui-defaults.service';
 
 @Component({
   imports: [
-    KuiBadgeDirective,
-    KuiBreadcrumbsDirective,
-    KuiBreadcrumbItemDirective,
-    KuiChipDirective,
-    KuiEmptyStateComponent,
-    KuiLoaderDirective,
-    KuiSegmentedComponent,
-    KuiSegmentDirective,
-    KuiTableDirective,
+    KuiBadge,
+    KuiBreadcrumbs,
+    KuiBreadcrumbItem,
+    KuiChip,
+    KuiEmptyState,
+    KuiLoader,
+    KuiSegmented,
+    KuiSegment,
+    KuiTable,
   ],
   template: `
     <span id="badge" kuiBadge>New</span>

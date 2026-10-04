@@ -1,13 +1,13 @@
 import { Component, computed, input } from '@angular/core';
 
-import { KuiTextDirective } from '@kikita-labs/ui';
+import { KuiText } from '@kikita-labs/ui';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
 /** Shows a code or counter next to an OTP Input so entry outcomes are visible. */
 @Component({
   selector: 'app-otp-input-readout',
-  imports: [KuiTextDirective, TranslocoPipe],
+  imports: [KuiText, TranslocoPipe],
   templateUrl: './otp-input-readout.html',
   styleUrl: './otp-input-readout.scss',
 })

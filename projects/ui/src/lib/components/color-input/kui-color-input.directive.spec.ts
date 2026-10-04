@@ -3,23 +3,23 @@ import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { KuiFieldComponent } from '../field';
-import { KuiColorInputDirective } from './kui-color-input.directive';
+import { KuiField } from '../field';
+import { KuiColorInput } from './kui-color-input.directive';
 
 @Component({
-  imports: [KuiColorInputDirective],
+  imports: [KuiColorInput],
   template: '<input kuiColorInput value="#5b4fe0" size="sm" />',
 })
 class ColorInputHost {}
 
 @Component({
-  imports: [KuiColorInputDirective],
+  imports: [KuiColorInput],
   template: '<input kuiColorInput value="#5b4fe0" readonly />',
 })
 class ReadonlyColorInputHost {}
 
 @Component({
-  imports: [KuiFieldComponent, KuiColorInputDirective],
+  imports: [KuiField, KuiColorInput],
   template: `
     <kui-field label="Primary seed" hint="Hex or oklch().">
       <input kuiColorInput value="oklch(0.52 0.25 285)" />
@@ -28,7 +28,7 @@ class ReadonlyColorInputHost {}
 })
 class FieldColorInputHost {}
 
-describe('KuiColorInputDirective', () => {
+describe('KuiColorInput', () => {
   it('wraps the native input with a swatch and size state', () => {
     const fixture = createFixture(ColorInputHost);
 
@@ -119,8 +119,7 @@ describe('KuiColorInputDirective', () => {
     const swatch = fixture.nativeElement.querySelector(
       '.kui-color-input__swatch',
     ) as HTMLButtonElement;
-    const field = fixture.debugElement.query(By.directive(KuiFieldComponent))
-      .componentInstance as KuiFieldComponent;
+    const field = fixture.debugElement.query(By.directive(KuiField)).componentInstance as KuiField;
 
     swatch.click();
     fixture.detectChanges();
@@ -175,7 +174,7 @@ describe('KuiColorInputDirective', () => {
   });
 });
 
-describe('KuiColorInputDirective on the server', () => {
+describe('KuiColorInput on the server', () => {
   it('leaves the native input unwrapped so hydration can match the template DOM', async () => {
     await TestBed.configureTestingModule({
       imports: [ColorInputHost],

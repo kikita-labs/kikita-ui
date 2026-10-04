@@ -7,7 +7,7 @@ is part of the component surface.
 ## Import
 
 ```ts
-import { KuiSeparatorDirective } from '@kikita-labs/ui';
+import { KuiSeparator } from '@kikita-labs/ui';
 ```
 
 Import styles once:
@@ -94,7 +94,7 @@ provideKikitaUi({
 
 // a component, route or environment injector
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     separator: {
       /* options below */
     },

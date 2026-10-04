@@ -18,7 +18,7 @@ import { KuiDefaults } from '../../providers/kui-defaults.service';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import type { KuiSize } from '../../types';
 import type { KuiButtonAppearance, KuiButtonShape } from '../button';
-import { KuiIconComponent, type KuiIconName } from '../icon';
+import { KuiIcon, type KuiIconName } from '../icon';
 
 /** Applies square Kikita UI icon button styling to native button and anchor elements. */
 @Directive({
@@ -36,7 +36,7 @@ import { KuiIconComponent, type KuiIconName } from '../icon';
     '(click)': 'handleClick($event)',
   },
 })
-export class KuiIconButtonDirective {
+export class KuiIconButton {
   /** Visual icon button surface shape. */
   readonly shape = input<KuiButtonShape | undefined>();
 
@@ -66,7 +66,7 @@ export class KuiIconButtonDirective {
   private readonly buttonDefaults = inject(KuiDefaults).get('iconButton');
   private readonly rootDefaultSize = injectKuiRootSizeDefault();
 
-  private iconRef: ComponentRef<KuiIconComponent> | null = null;
+  private iconRef: ComponentRef<KuiIcon> | null = null;
   private contentEl: HTMLElement | null = null;
   private loaderEl: HTMLElement | null = null;
 
@@ -91,7 +91,7 @@ export class KuiIconButtonDirective {
   );
 
   constructor() {
-    // See KuiButtonDirective for why this DOM mutation must not run during SSR.
+    // See KuiButton for why this DOM mutation must not run during SSR.
     if (!this.isBrowser) {
       return;
     }
@@ -145,8 +145,8 @@ export class KuiIconButtonDirective {
 
   private syncIcon(
     name: KuiIconName | undefined,
-    existing: ComponentRef<KuiIconComponent> | null,
-  ): ComponentRef<KuiIconComponent> | null {
+    existing: ComponentRef<KuiIcon> | null,
+  ): ComponentRef<KuiIcon> | null {
     if (!name) {
       existing?.destroy();
       return null;
@@ -160,7 +160,7 @@ export class KuiIconButtonDirective {
     this.ensureContentWrapper();
 
     const contentEl = this.contentEl!;
-    const created = this.viewContainerRef.createComponent(KuiIconComponent);
+    const created = this.viewContainerRef.createComponent(KuiIcon);
     created.setInput('name', name);
     this.renderer.insertBefore(contentEl, created.location.nativeElement, contentEl.firstChild);
 

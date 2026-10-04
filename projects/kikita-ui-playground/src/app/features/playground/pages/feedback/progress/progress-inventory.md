@@ -31,7 +31,7 @@ and one fill/ring.
 - Linear Progress has no `ng-content` slot. Consumers place visible task text and percentages beside
   or below the bar. Circular Progress projects content into a centered visual label; its accessible
   name remains on the host.
-- The live example uses the public `KuiSliderDirective` on a native range input, with a native label
+- The live example uses the public `KuiSlider` on a native range input, with a native label
   and a visible percentage readout. The slider owns keyboard focus and updates the consumer's
   Progress `value` signal.
 - The live Slider inherits a 22px vertical target at its default `md` size: its source styles use

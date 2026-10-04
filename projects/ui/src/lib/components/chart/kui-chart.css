@@ -152,7 +152,7 @@
      * `transform` -- safe to CSS-transition, since it only ever changes on hover (rare,
      * user-triggered). The hide/show re-partition's rotation lives on the WRAPPING `<g>` instead
      * (`kui-donut-chart.component.html`), rewritten every animation frame by
-     * `KuiDonutChartComponent`'s `requestAnimationFrame`-driven tween (see its `displayedShareById`
+     * `KuiDonutChart`'s `requestAnimationFrame`-driven tween (see its `displayedShareById`
      * doc) -- deliberately with no CSS transition of its own, since a per-frame-written property
      * fighting its own CSS transition would just add stutter, not smoothness. An earlier version
      * put the pop-out transform on the SAME attribute as the rotation and removed this transition
@@ -164,7 +164,7 @@
   }
 
   /* No neighbor to separate from when only one slice renders -- see
-     `KuiDonutChartComponent.isSingleVisibleSlice`'s doc. */
+     `KuiDonutChart.isSingleVisibleSlice`'s doc. */
   .kui-chart__slice--no-separator {
     stroke: none;
   }

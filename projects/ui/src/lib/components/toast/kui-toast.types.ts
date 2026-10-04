@@ -38,7 +38,7 @@ export interface KuiToastConfig {
   showProgress?: boolean;
 }
 
-/** Global defaults applied by {@link KuiToastService.open} before per-call config is merged. */
+/** Global defaults applied by {@link KuiToast.open} before per-call config is merged. */
 export interface KuiToastOptions {
   /** Default position of the toast region. Defaults to `'bottom-center'`. */
   position?: KuiToastPosition;
@@ -56,7 +56,7 @@ export interface KuiToastOptions {
   closeIcon?: KuiIconGlyph;
 }
 
-/** Handle returned by {@link KuiToastService.open}. */
+/** Handle returned by {@link KuiToast.open}. */
 export interface KuiToastRef {
   /** Stable identifier for this toast within the owning toast service. */
   readonly id: number;

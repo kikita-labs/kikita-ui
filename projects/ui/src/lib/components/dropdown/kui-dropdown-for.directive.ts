@@ -1,7 +1,7 @@
 import type { OnInit } from '@angular/core';
 import { Directive, ElementRef, inject, input } from '@angular/core';
 
-import type { KuiDropdownComponent } from './kui-dropdown.component';
+import type { KuiDropdown } from './kui-dropdown.component';
 
 @Directive({
   selector: '[kuiDropdownFor]',
@@ -14,8 +14,8 @@ import type { KuiDropdownComponent } from './kui-dropdown.component';
   },
 })
 /** Connects a trigger element to a Kikita UI dropdown instance. */
-export class KuiDropdownForDirective implements OnInit {
-  readonly kuiDropdownFor = input.required<KuiDropdownComponent>();
+export class KuiDropdownFor implements OnInit {
+  readonly kuiDropdownFor = input.required<KuiDropdown>();
 
   private readonly el = inject(ElementRef<HTMLElement>);
 

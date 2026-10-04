@@ -15,11 +15,11 @@ import type { KuiLocaleSource, KuiMessagesSource } from './kui-messages.interfac
  * @example
  * ```ts
  * @Component({
- *   providers: [kuiProvideI18n({ locale: 'de-DE', messages: { pagination: { next: 'Weiter' } } })],
+ *   providers: [provideKuiI18n({ locale: 'de-DE', messages: { pagination: { next: 'Weiter' } } })],
  * })
  * ```
  */
-export function kuiProvideI18n(options: KuiI18nOptions): Provider[] {
+export function provideKuiI18n(options: KuiI18nOptions): Provider[] {
   return [KuiI18n, { provide: KUI_I18N_SEED, multi: true, useValue: options }];
 }
 
@@ -30,11 +30,11 @@ export function kuiProvideI18n(options: KuiI18nOptions): Provider[] {
  * @example
  * ```ts
  * // app.config.ts
- * providers: [kuiProvideLocale('ru-RU')]
+ * providers: [provideKuiLocale('ru-RU')]
  * ```
  */
-export function kuiProvideLocale(locale: KuiLocaleSource): Provider[] {
-  return kuiProvideI18n({ locale });
+export function provideKuiLocale(locale: KuiLocaleSource): Provider[] {
+  return provideKuiI18n({ locale });
 }
 
 /**
@@ -42,9 +42,9 @@ export function kuiProvideLocale(locale: KuiLocaleSource): Provider[] {
  *
  * @example
  * ```ts
- * providers: [kuiProvideMessages({ pagination: { next: 'Weiter', previous: 'Zurück' } })]
+ * providers: [provideKuiMessages({ pagination: { next: 'Weiter', previous: 'Zurück' } })]
  * ```
  */
-export function kuiProvideMessages(messages: KuiMessagesSource): Provider[] {
-  return kuiProvideI18n({ messages });
+export function provideKuiMessages(messages: KuiMessagesSource): Provider[] {
+  return provideKuiI18n({ messages });
 }

@@ -3,11 +3,11 @@ import { Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import {
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
+  KuiDropdown,
+  KuiField,
+  KuiOption,
   kuiProvideFieldOptions,
-  KuiSelectDirective,
+  KuiSelect,
 } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
@@ -18,14 +18,7 @@ import { SELECT_ROLES } from '../../constants';
 /** Shows Select clearability falling back to shared Field options. */
 @Component({
   selector: 'app-select-field-defaults',
-  imports: [
-    KuiDropdownComponent,
-    KuiFieldComponent,
-    KuiOptionDirective,
-    KuiSelectDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [KuiDropdown, KuiField, KuiOption, KuiSelect, PlaygroundExampleCard, TranslocoPipe],
   providers: [kuiProvideFieldOptions({ clearable: true })],
   templateUrl: './select-field-defaults.html',
 })

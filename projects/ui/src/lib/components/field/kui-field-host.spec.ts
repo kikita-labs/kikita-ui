@@ -3,10 +3,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it } from 'vitest';
 
-import { KuiCalendarComponent } from '../calendar';
-import { KuiDropdownComponent } from '../dropdown';
-import { KuiTimePickerPanelComponent } from '../time-picker/kui-time-picker-panel.component';
-import { KuiFieldComponent } from './kui-field.component';
+import { KuiCalendar } from '../calendar';
+import { KuiDropdown } from '../dropdown';
+import { KuiTimePickerPanel } from '../time-picker/kui-time-picker-panel.component';
+import { KuiField } from './kui-field.component';
 import {
   KUI_FIELD,
   KUI_FIELD_CALENDAR,
@@ -32,7 +32,7 @@ class TestPartComponent {
 }
 
 @Component({
-  imports: [KuiFieldComponent, TestPartComponent],
+  imports: [KuiField, TestPartComponent],
   template: `
     <kui-field label="Parts">
       <input />
@@ -51,12 +51,7 @@ class PartsHost {
 }
 
 @Component({
-  imports: [
-    KuiFieldComponent,
-    KuiDropdownComponent,
-    KuiCalendarComponent,
-    KuiTimePickerPanelComponent,
-  ],
+  imports: [KuiField, KuiDropdown, KuiCalendar, KuiTimePickerPanel],
   template: `
     <kui-field label="Picker">
       <input />
@@ -75,7 +70,7 @@ class PickerPartsHost {}
 class StandalonePartHost {}
 
 @Component({
-  imports: [KuiFieldComponent],
+  imports: [KuiField],
   template: `
     <kui-field label="Token">
       <input />
@@ -92,7 +87,7 @@ describe('kui-field host contract', () => {
     const field = fixture.debugElement.children[0];
     const host: KuiFieldHost = field.injector.get(KUI_FIELD);
 
-    expect(host).toBe(field.injector.get(KuiFieldComponent));
+    expect(host).toBe(field.injector.get(KuiField));
     expect(host.controlId).toBe(field.componentInstance.controlId);
   });
 
@@ -100,15 +95,15 @@ describe('kui-field host contract', () => {
     const fixture = TestBed.createComponent(PickerPartsHost);
     fixture.detectChanges();
 
-    const field = fixture.debugElement.children[0].componentInstance as KuiFieldComponent;
+    const field = fixture.debugElement.children[0].componentInstance as KuiField;
     const dropdown = fixture.debugElement.query(
-      (el) => el.componentInstance instanceof KuiDropdownComponent,
+      (el) => el.componentInstance instanceof KuiDropdown,
     );
     const calendar = fixture.debugElement.query(
-      (el) => el.componentInstance instanceof KuiCalendarComponent,
+      (el) => el.componentInstance instanceof KuiCalendar,
     );
     const panel = fixture.debugElement.query(
-      (el) => el.componentInstance instanceof KuiTimePickerPanelComponent,
+      (el) => el.componentInstance instanceof KuiTimePickerPanel,
     );
 
     expect(field.getDropdown()).toBe(dropdown.componentInstance);
@@ -124,9 +119,8 @@ describe('kui-field host contract', () => {
     fixture.detectChanges();
 
     const fieldElement = fixture.nativeElement.querySelector('kui-field') as HTMLElement;
-    const dropdown = fixture.debugElement.query(
-      (el) => el.componentInstance instanceof KuiDropdownComponent,
-    ).componentInstance as KuiDropdownComponent;
+    const dropdown = fixture.debugElement.query((el) => el.componentInstance instanceof KuiDropdown)
+      .componentInstance as KuiDropdown;
 
     expect(fieldElement.hasAttribute('data-dropdown-open')).toBe(false);
 
@@ -141,7 +135,7 @@ describe('kui-field host contract', () => {
     fixture.componentInstance.showSecond.set(true);
     fixture.detectChanges();
 
-    const field = fixture.debugElement.children[0].componentInstance as KuiFieldComponent;
+    const field = fixture.debugElement.children[0].componentInstance as KuiField;
     const parts = fixture.debugElement.queryAll(
       (el) => el.componentInstance instanceof TestPartComponent,
     );

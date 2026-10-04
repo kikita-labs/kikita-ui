@@ -2,12 +2,12 @@ import { inject } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
-import { KuiDialogService } from '../dialog/kui-dialog.service';
-import { KuiMediaViewerComponent } from './kui-media-viewer.component';
+import { KuiDialog } from '../dialog/kui-dialog.service';
+import { KuiMediaViewerDialog } from './kui-media-viewer.component';
 import type { KuiMediaViewerData } from './kui-media-viewer.types';
 
 /**
- * Returns a function that opens a fullscreen photo lightbox, on top of {@link KuiDialogService}.
+ * Returns a function that opens a fullscreen photo lightbox, on top of {@link KuiDialog}.
  * Must be called in an injection context (component/directive constructor or field initializer).
  *
  * Photos only -- video is out of scope. Grid layout, multi-select, and any per-tile checkbox are
@@ -24,10 +24,10 @@ import type { KuiMediaViewerData } from './kui-media-viewer.types';
  * ```
  */
 export function kuiMediaViewer(): (data: KuiMediaViewerData) => Observable<void | undefined> {
-  const service = inject(KuiDialogService);
+  const service = inject(KuiDialog);
 
   return (data: KuiMediaViewerData) =>
-    service.open(KuiMediaViewerComponent, {
+    service.open(KuiMediaViewerDialog, {
       data,
       size: 'fullscreen',
       dismissable: true,

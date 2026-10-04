@@ -3,12 +3,7 @@ import { form, FormField } from '@angular/forms/signals';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import {
-  KuiFieldComponent,
-  KuiSegmentDirective,
-  KuiSegmentedComponent,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiField, KuiSegment, KuiSegmented, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -22,10 +17,10 @@ import type { SegmentedFormModel } from './interfaces';
   selector: 'app-segmented',
   imports: [
     FormField,
-    KuiFieldComponent,
-    KuiSegmentDirective,
-    KuiSegmentedComponent,
-    KuiTextDirective,
+    KuiField,
+    KuiSegment,
+    KuiSegmented,
+    KuiText,
     PlaygroundExampleCard,
     TranslocoPipe,
   ],

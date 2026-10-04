@@ -1,11 +1,6 @@
 import { Component } from '@angular/core';
 
-import {
-  KuiAlertComponent,
-  KuiChipDirective,
-  KuiIconComponent,
-  KuiTextDirective,
-} from '@kikita-labs/ui';
+import { KuiAlert, KuiChip, KuiIcon, KuiText } from '@kikita-labs/ui';
 
 import { PlaygroundExampleCard } from '@features/playground/components';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -20,14 +15,7 @@ import {
 /** Compares stroke widths, scaling versus constant-pixel strokes, and the stroke token on structural icons. */
 @Component({
   selector: 'app-icon-stroke-examples',
-  imports: [
-    KuiAlertComponent,
-    KuiChipDirective,
-    KuiIconComponent,
-    KuiTextDirective,
-    PlaygroundExampleCard,
-    TranslocoPipe,
-  ],
+  imports: [KuiAlert, KuiChip, KuiIcon, KuiText, PlaygroundExampleCard, TranslocoPipe],
   templateUrl: './icon-stroke-examples.html',
   styleUrl: './icon-stroke-examples.scss',
 })

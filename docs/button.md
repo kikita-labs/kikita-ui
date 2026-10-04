@@ -7,9 +7,9 @@
 ```ts
 import {
   KuiButtonAppearance,
-  KuiButtonDirective,
+  KuiButton,
   KuiButtonShape,
-  kuiProvideDefaults,
+  provideKuiDefaults,
 } from '@kikita-labs/ui';
 ```
 
@@ -65,12 +65,12 @@ Project `kui-icon` directly when the icon needs `source` or `src` instead of a r
 
 ## Provider Defaults
 
-Use `kuiProvideDefaults` when an application section needs repeated button defaults, or the
+Use `provideKuiDefaults` when an application section needs repeated button defaults, or the
 `defaults` option of `provideKikitaUi` for the whole application:
 
 ```ts
 providers: [
-  kuiProvideDefaults({
+  provideKuiDefaults({
     button: { shape: 'ghost', appearance: 'primary', size: 'sm' },
     iconButton: { shape: 'outline', size: 'sm' },
   }),
