@@ -9,23 +9,23 @@ import {
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiDialog } from '../components/dialog/kui-dialog.service';
+import { KuiDialog } from '../components/dialog/kui-dialog';
 import type { KuiDialogContext } from '../components/dialog/kui-dialog-context.token';
 import { KUI_DIALOG_CONTEXT } from '../components/dialog/kui-dialog-context.token';
-import { KuiDrawer } from '../components/drawer/kui-drawer.service';
+import { KuiDrawer } from '../components/drawer/kui-drawer';
 import type { KuiDrawerContext } from '../components/drawer/kui-drawer-context.token';
 import { KUI_DRAWER_CONTEXT } from '../components/drawer/kui-drawer-context.token';
-import { KuiDropdown } from '../components/dropdown/kui-dropdown.component';
-import { KuiDropdownFor } from '../components/dropdown/kui-dropdown-for.directive';
-import { KuiOption } from '../components/dropdown/kui-option.directive';
-import { KuiMenu } from '../components/menu/kui-menu.component';
-import { KuiMenuFor } from '../components/menu/kui-menu-for.directive';
-import { KuiMenuItem } from '../components/menu/kui-menu-item.directive';
-import { KuiPopover } from '../components/popover/kui-popover.component';
-import { KuiPopoverFor } from '../components/popover/kui-popover-for.directive';
-import { KuiTooltip } from '../components/tooltip/kui-tooltip.directive';
+import { KuiDropdown } from '../components/dropdown/kui-dropdown';
+import { KuiDropdownFor } from '../components/dropdown/kui-dropdown-for';
+import { KuiOption } from '../components/dropdown/kui-option';
+import { KuiMenu } from '../components/menu/kui-menu';
+import { KuiMenuFor } from '../components/menu/kui-menu-for';
+import { KuiMenuItem } from '../components/menu/kui-menu-item';
+import { KuiPopover } from '../components/popover/kui-popover';
+import { KuiPopoverFor } from '../components/popover/kui-popover-for';
+import { KuiTooltip } from '../components/tooltip/kui-tooltip';
 import { provideKikitaUi } from '../root';
-import { KuiDefaults } from './kui-defaults.service';
+import { KuiDefaults } from './kui-defaults';
 import { provideKuiDefaults } from './provide-kui-defaults';
 
 @Component({ template: `<p>Dialog</p>` })

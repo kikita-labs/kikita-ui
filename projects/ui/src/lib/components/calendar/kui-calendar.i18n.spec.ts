@@ -3,10 +3,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it } from 'vitest';
 
-import { KuiI18n } from '../../i18n/kui-i18n.service';
+import { KuiI18n } from '../../i18n/kui-i18n';
 import { provideKikitaUi } from '../../root';
-import { KuiCalendarRange } from '../calendar-range/kui-calendar-range.component';
-import { KuiCalendar } from './kui-calendar.component';
+import { KuiCalendarRange } from '../calendar-range/kui-calendar-range';
+import { KuiCalendar } from './kui-calendar';
 
 @Component({
   imports: [KuiCalendar],

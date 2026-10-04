@@ -1,7 +1,7 @@
 import type { KuiSize } from '../../types';
 import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
-import type { KuiTabsVariant } from './kui-tabs.component';
-import type { KuiTabsOrientation } from './kui-tabs.component';
+import type { KuiTabsVariant } from './kui-tabs';
+import type { KuiTabsOrientation } from './kui-tabs';
 
 /** Defaults for `kui-tabs`, set under the `tabs` key of the component defaults. */
 export interface KuiTabsOptions {

@@ -8,21 +8,21 @@ import {
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiChip } from '../components/chip/kui-chip.directive';
-import { KuiDialog } from '../components/dialog/kui-dialog.service';
+import { KuiChip } from '../components/chip/kui-chip';
+import { KuiDialog } from '../components/dialog/kui-dialog';
 import type { KuiDialogContext } from '../components/dialog/kui-dialog-context.token';
 import { KUI_DIALOG_CONTEXT } from '../components/dialog/kui-dialog-context.token';
-import { KuiDrawer } from '../components/drawer/kui-drawer.service';
+import { KuiDrawer } from '../components/drawer/kui-drawer';
 import type { KuiDrawerContext } from '../components/drawer/kui-drawer-context.token';
 import { KUI_DRAWER_CONTEXT } from '../components/drawer/kui-drawer-context.token';
-import { KuiDropdown } from '../components/dropdown/kui-dropdown.component';
-import { KuiOption } from '../components/dropdown/kui-option.directive';
-import { KuiField } from '../components/field/kui-field.component';
+import { KuiDropdown } from '../components/dropdown/kui-dropdown';
+import { KuiOption } from '../components/dropdown/kui-option';
+import { KuiField } from '../components/field/kui-field';
 import type { KuiIconGlyph } from '../components/icon/kui-icon-glyph.type';
 import { provideKuiIcons } from '../components/icon/provide-kui-icons';
-import { KuiSelect } from '../components/select/kui-select.directive';
+import { KuiSelect } from '../components/select/kui-select';
 import { provideKikitaUi } from '../root';
-import { KuiDefaults } from './kui-defaults.service';
+import { KuiDefaults } from './kui-defaults';
 import { provideKuiDefaults } from './provide-kui-defaults';
 
 const ROLE_GLYPH: KuiIconGlyph = { node: [['path', { d: 'M1 1 role' }]] };

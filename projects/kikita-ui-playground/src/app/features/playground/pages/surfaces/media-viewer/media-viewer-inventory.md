@@ -74,12 +74,12 @@ under `public/media-viewer/`. No remote URLs.
 
 - Docs: `docs/media-viewer.md`; shared row `docs/state-coverage.md` (Media Viewer).
 - Implementation: `projects/ui/src/lib/components/media-viewer/kui-media-viewer.ts`,
-  `kui-media-viewer.component.ts`, `kui-media-viewer.types.ts`, `index.ts`.
-- Dialog base: `projects/ui/src/lib/components/dialog/kui-dialog.service.ts`,
-  `kui-dialog-container.component.ts`, `projects/ui/src/lib/components/dialog/kui-dialog.css`
+  `kui-media-viewer-dialog.ts`, `kui-media-viewer.types.ts`, `index.ts`.
+- Dialog base: `projects/ui/src/lib/components/dialog/kui-dialog.ts`,
+  `kui-dialog-container.ts`, `projects/ui/src/lib/components/dialog/kui-dialog.css`
   (`.kui-dialog--fullscreen`).
 - Styles: `projects/ui/src/lib/components/media-viewer/kui-media-viewer.css`.
-- Unit specs: `kui-media-viewer.component.spec.ts` (15 specs: title, clamping, `onIndexChange`,
+- Unit specs: `kui-media-viewer-dialog.spec.ts` (15 specs: title, clamping, `onIndexChange`,
   bounds, keyboard no-wrap, close, zoom bounds, skeleton, error, `src` key fallback, single photo,
   thumbnail, wheel, pan, pan-stop, pinch).
 - Legacy scenarios only (not modified): `projects/playground/src/app/pages/media-viewer`

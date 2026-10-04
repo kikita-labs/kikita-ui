@@ -40,7 +40,7 @@ Priya. Output summaries and member labels derive from the same locale data.
 The empty-data example omits `[data]`, so the directive's `data = input<T[]>([])` default applies.
 Table decorates native markup and does not render an empty-state message: `sortedData()` returns the
 empty source array when no sort is active. The direct source contract is in
-`kui-table.directive.ts`; the page E2E asserts one header row and zero body rows. Empty-state content
+`kui-table.ts`; the page E2E asserts one header row and zero body rows. Empty-state content
 is intentionally omitted because it is consumer-owned content rather than a Table input or output.
 
 Selection uses object identity: `isSelected` delegates to `Set.has`, and selection helpers add the row
@@ -95,20 +95,20 @@ faked with page CSS. The page contains no random or time-dependent content.
 - Public contract and examples: `docs/table.md` (inputs, sorting, selection, sticky notes, and native
   table accessibility guidance).
 - Runtime inputs, outputs, sorting, and size resolution:
-  `projects/ui/src/lib/components/table/kui-table.directive.ts` and
+  `projects/ui/src/lib/components/table/kui-table.ts` and
   `projects/ui/src/lib/providers/kui-defaults.util.ts`.
 - Sort button creation, state labels, `aria-sort`, and comparator typing:
-  `projects/ui/src/lib/components/table/kui-th.directive.ts`.
-- Sticky header input: `projects/ui/src/lib/components/table/kui-th-group.directive.ts`.
+  `projects/ui/src/lib/components/table/kui-th.ts`.
+- Sticky header input: `projects/ui/src/lib/components/table/kui-th-group.ts`.
 - Optional row value and cell capabilities:
-  `projects/ui/src/lib/components/table/kui-row.directive.ts` and
-  `projects/ui/src/lib/components/table/kui-cell.directive.ts`.
+  `projects/ui/src/lib/components/table/kui-row.ts` and
+  `projects/ui/src/lib/components/table/kui-cell.ts`.
 - Native selection controls and defaults:
-  `projects/ui/src/lib/components/table/kui-select-th.component.ts` and
-  `projects/ui/src/lib/components/table/kui-select-cell.component.ts`.
+  `projects/ui/src/lib/components/table/kui-select-th.ts` and
+  `projects/ui/src/lib/components/table/kui-select-cell.ts`.
 - Sticky rules, size tokens, and checkbox dimensions:
   `projects/ui/src/lib/components/table/kui-table.css`.
-- Existing behavioral coverage: `projects/ui/src/lib/components/table/kui-table.directive.spec.ts`.
+- Existing behavioral coverage: `projects/ui/src/lib/components/table/kui-table.spec.ts`.
 - Touch target guidance: `projects/kikita-ui-playground/.agents/accessibility.md`.
 - Design record inventory: `docs/design-provenance.md` (there is no Table-specific entry).
 

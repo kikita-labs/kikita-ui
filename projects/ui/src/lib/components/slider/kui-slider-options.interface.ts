@@ -1,5 +1,5 @@
-import type { KuiSliderSize } from './kui-slider.directive';
-import type { KuiSliderColor } from './kui-slider.directive';
+import type { KuiSliderSize } from './kui-slider';
+import type { KuiSliderColor } from './kui-slider';
 
 /** Defaults for `input[type=range][kuiSlider]`, set under the `slider` key of the component defaults. */
 export interface KuiSliderOptions {

@@ -57,9 +57,9 @@ these states is fabricated on the page.
 ## Source references
 
 - Docs: `docs/typography.md`.
-- Directive: `projects/ui/src/lib/components/typography/kui-text.directive.ts`, types
+- Directive: `projects/ui/src/lib/components/typography/kui-text.ts`, types
   `kui-text-variant.type.ts` and `kui-text-tone.type.ts`, barrel `index.ts`, unit spec
-  `kui-text.directive.spec.ts` (two tests: classes plus data attributes for one variant/tone pair, and
+  `kui-text.spec.ts` (two tests: classes plus data attributes for one variant/tone pair, and
   class swap on input change).
 - Styles: `projects/ui/src/lib/components/typography/kui-typography.css`; tokens in `projects/ui/src/lib/theme/create-kui-theme.ts`
   (lines 313-349) and `create-kui-theme.spec.ts`.

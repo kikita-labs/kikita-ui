@@ -61,7 +61,7 @@ Kikita tokens; the library owns Loader color, dimensions, and motion.
 - [Loader docs](../../../../../../../../../docs/loader.md) document the selector usage, `size`
   values, `label` default, live semantics, and CSS variables. They omit the `md` fallback and
   root-size precedence described by implementation and [DI defaults](../../../../../../../../../docs/di-defaults.md).
-- [Directive source](../../../../../../../../../projects/ui/src/lib/components/loader/kui-loader.directive.ts),
+- [Directive source](../../../../../../../../../projects/ui/src/lib/components/loader/kui-loader.ts),
   [shared size type](../../../../../../../../../projects/ui/src/lib/types/kui-size.type.ts),
   [root default helper](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts),
   [root options](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),
@@ -70,9 +70,9 @@ Kikita tokens; the library owns Loader color, dimensions, and motion.
 - [Loader CSS](../../../../../../../../../projects/ui/src/lib/components/loader/kui-loader.css) establishes the
   rendered sizes, animation, reduced-motion behavior, and variables; [theme defaults](../../../../../../../../../projects/ui/src/lib/theme/create-kui-theme.ts)
   provides the base Loader values.
-- The [Loader unit spec](../../../../../../../../../projects/ui/src/lib/components/loader/kui-loader.directive.spec.ts)
+- The [Loader unit spec](../../../../../../../../../projects/ui/src/lib/components/loader/kui-loader.spec.ts)
   checks explicit `lg`, label, role, and live semantics. The [root-default integration spec](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-defaults.integration.spec.ts)
-  checks a bare Loader resolves a configured `sm` default. The [field-affix spec](../../../../../../../../../projects/ui/src/lib/components/field/kui-field-affix.directive.spec.ts)
+  checks a bare Loader resolves a configured `sm` default. The [field-affix spec](../../../../../../../../../projects/ui/src/lib/components/field/kui-field-affix.spec.ts)
   checks that field-affix detection preserves the Loader status and does not hide it.
 - The legacy Loader page (removed legacy file `playground/src/app/pages/loader/loader.page.html`)
   shows sizes and button compositions, but belongs to the older `projects/playground` app. The

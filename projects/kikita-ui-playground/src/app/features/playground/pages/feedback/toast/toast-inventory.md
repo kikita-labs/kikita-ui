@@ -81,15 +81,15 @@ symbols.
 - Public exports and types: `projects/ui/src/lib/components/toast/index.ts`,
   `projects/ui/src/lib/components/index.ts`, `projects/ui/src/public-api.ts`,
   `projects/ui/src/lib/components/toast/kui-toast.types.ts`.
-- Service resolution and SSR boundary: `projects/ui/src/lib/components/toast/kui-toast.service.ts`.
+- Service resolution and SSR boundary: `projects/ui/src/lib/components/toast/kui-toast.ts`.
 - Region roles, icons, timers, eviction, update, and close lifecycle:
-  `projects/ui/src/lib/components/toast/kui-toast-region.component.ts`.
+  `projects/ui/src/lib/components/toast/kui-toast-region.ts`.
 - Defaults and provider: `projects/ui/src/lib/components/toast/kui-toast.token.ts`.
 - Consumer documentation and tokens: `docs/toast.md`, `projects/ui/src/lib/components/toast/kui-toast.css`, and
   `projects/ui/src/lib/theme/create-kui-theme.ts`.
-- Existing unit evidence: `projects/ui/src/lib/components/toast/kui-toast-region.component.spec.ts`
+- Existing unit evidence: `projects/ui/src/lib/components/toast/kui-toast-region.spec.ts`
   covers status/alert roles, persistent close, signal release, update, `Infinity`, hover pause/resume,
-  and dismiss-all. `kui-toast.service.spec.ts` covers dismiss-by-id and dismiss-all. There is no
+  and dismiss-all. `kui-toast.spec.ts` covers dismiss-by-id and dismiss-all. There is no
   existing replacement Playground Toast route/spec or Toast scope catalogue. The old
   `projects/playground/src/app/pages/toast/` is a separate legacy app.
 - `docs/toast.md` describes a polite live region, but implementation also gives each danger toast
@@ -102,7 +102,7 @@ symbols.
   region appends notifications and uses `column-reverse`, so the oldest still-visible toast remains
   closest to the bottom edge; the capacity scenario asserts the rendered order through accessible
   status roles and their geometry. This page records shipped behavior without changing library code.
-- `KuiToast.setPosition()` is a public JSDoc method (`kui-toast.service.ts`) but is absent
+- `KuiToast.setPosition()` is a public JSDoc method (`kui-toast.ts`) but is absent
   from the API tables in `docs/toast.md`. Position controls use it as shipped.
 - The `KuiToastRef.action$` JSDoc/docs describe a single emission; source calls `next()` on every
   action click and completes only when the toast is dismissed. The page presents a real action

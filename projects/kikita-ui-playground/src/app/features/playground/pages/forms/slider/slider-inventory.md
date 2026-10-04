@@ -104,10 +104,10 @@ the component.
 - `docs/slider.md`: native range usage, Field/Signal Forms composition, public inputs, and tooltip
   precedence.
 - `docs/di-defaults.md`: root size behavior and the documented Field-size inheritance claim.
-- `projects/ui/src/lib/components/slider/kui-slider.directive.ts`: input types/resolution, Field
+- `projects/ui/src/lib/components/slider/kui-slider.ts`: input types/resolution, Field
   wiring, browser-only wrapper creation, native state synchronization, fill calculation, tooltip
   lifecycle, and generated DOM.
-- `projects/ui/src/lib/components/slider/kui-slider.directive.spec.ts`: wrapper/fill/variant/labels,
+- `projects/ui/src/lib/components/slider/kui-slider.spec.ts`: wrapper/fill/variant/labels,
   explicit `max=0` and omitted-bound defaults, dynamic standalone and Signal Forms disabled-state
   transitions, Signal Forms model updates from an input event, and Field id/ARIA/invalid unit coverage.
   It does not test tooltip behavior, native keyboard behavior, reduced motion, or SSR.

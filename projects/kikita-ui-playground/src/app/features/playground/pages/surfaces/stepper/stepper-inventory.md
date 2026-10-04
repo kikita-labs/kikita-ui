@@ -113,13 +113,13 @@ claimed. Real assistive-technology review was not performed.
 ## Source audit
 
 - `docs/stepper.md` — usage, documented inputs, accessibility notes, CSS variables, and style import.
-- `projects/ui/src/lib/components/stepper/kui-stepper.component.ts` and
-  `kui-step.component.ts` — signal inputs/model, state precedence, rendered roles, generated names,
+- `projects/ui/src/lib/components/stepper/kui-stepper.ts` and
+  `kui-step.ts` — signal inputs/model, state precedence, rendered roles, generated names,
   click eligibility, and index updates.
 - `projects/ui/src/lib/components/stepper/kui-stepper-context.token.ts` and `index.ts`,
   `projects/ui/src/lib/components/index.ts`, and `projects/ui/src/public-api.ts` — internal
   coordination boundary and public exports.
-- `projects/ui/src/lib/components/stepper/kui-stepper.component.spec.ts` — current unit coverage:
+- `projects/ui/src/lib/components/stepper/kui-stepper.spec.ts` — current unit coverage:
   list roles, positional state/current marker, done-step back navigation, linear restriction,
   non-linear jump, and one-error disablement.
 - `projects/ui/src/lib/components/stepper/kui-stepper.css`, `projects/ui/src/styles/kikita-ui.css`,

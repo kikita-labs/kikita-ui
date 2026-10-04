@@ -5,9 +5,9 @@ import { describe, expect, it } from 'vitest';
 
 import { provideKikitaUi } from '../../root';
 import { KuiDropdown } from '../dropdown';
-import { KuiField } from '../field/kui-field.component';
-import { KuiTimePicker } from './kui-time-picker.directive';
-import { KuiTimePickerPanel } from './kui-time-picker-panel.component';
+import { KuiField } from '../field/kui-field';
+import { KuiTimePicker } from './kui-time-picker';
+import { KuiTimePickerPanel } from './kui-time-picker-panel';
 
 @Component({
   imports: [KuiField, KuiDropdown, KuiTimePicker, KuiTimePickerPanel],

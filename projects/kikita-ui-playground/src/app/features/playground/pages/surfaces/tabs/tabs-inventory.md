@@ -133,15 +133,15 @@ values remain owned by the existing stylesheet and are not overridden by the pag
 
 - `docs/tabs.md` — documented usage, public inputs, router scenario, keyboard notes, accessibility,
   overflow, and listed CSS variables.
-- `projects/ui/src/lib/components/tabs/kui-tabs.component.ts` — input/model defaults, size
+- `projects/ui/src/lib/components/tabs/kui-tabs.ts` — input/model defaults, size
   resolution, generated IDs, arrow/Home/End behavior, scroll handling, and SSR lifecycle hooks.
-- `projects/ui/src/lib/components/tabs/kui-tab.directive.ts` and
-  `kui-tab-panel.directive.ts` — trigger/panel inputs, ARIA attributes, error lifecycle, and panel
+- `projects/ui/src/lib/components/tabs/kui-tab.ts` and
+  `kui-tab-panel.ts` — trigger/panel inputs, ARIA attributes, error lifecycle, and panel
   visibility.
 - `projects/ui/src/lib/components/tabs/index.ts`, `projects/ui/src/lib/components/index.ts`,
   `projects/ui/src/public-api.ts`, and `projects/ui/src/lib/types/kui-size.type.ts` — public exports
   and size type.
-- `projects/ui/src/lib/components/tabs/kui-tabs.component.spec.ts` — current Tabs unit behavior and
+- `projects/ui/src/lib/components/tabs/kui-tabs.spec.ts` — current Tabs unit behavior and
   coverage gaps.
 - `projects/ui/src/lib/components/tabs/kui-tabs.css`, `projects/ui/src/styles/kikita-ui.css`, and
   `projects/ui/src/lib/theme/create-kui-theme.ts` — visual combinations, responsive overflow,

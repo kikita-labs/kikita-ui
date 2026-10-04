@@ -1,6 +1,6 @@
 # Combobox Page Inventory
 
-This inventory is a retrospective source audit of the Combobox page. It was cross-checked against `docs/combobox.md`, `projects/ui/src/lib/components/combobox/index.ts`, the directive, highlight pipe and mode type, the Combobox/Field option tokens and providers, `projects/ui/src/lib/components/combobox/kui-combobox.directive.spec.ts`, the Dropdown/Field/Option composition, and `projects/ui/src/lib/components/combobox/kui-combobox.css` plus the inherited Field styles.
+This inventory is a retrospective source audit of the Combobox page. It was cross-checked against `docs/combobox.md`, `projects/ui/src/lib/components/combobox/index.ts`, the directive, highlight pipe and mode type, the Combobox/Field option tokens and providers, `projects/ui/src/lib/components/combobox/kui-combobox.spec.ts`, the Dropdown/Field/Option composition, and `projects/ui/src/lib/components/combobox/kui-combobox.css` plus the inherited Field styles.
 
 `docs/design-provenance.md` has no Combobox-specific approved visual record, and `docs/combobox.md` documents the API and behavior rather than approval evidence. This page-only correction adds a Signal Forms consumer scenario and its lifecycle assertions using the existing Field/Combobox visuals; it does not invent or restyle a visual state.
 
@@ -52,9 +52,9 @@ The public `KuiComboboxHighlightPipe` accepts `(label: string, query: string | n
 
 ## Source-backed behavior and inherited limitations
 
-- Public exports and API declarations: `projects/ui/src/lib/components/combobox/index.ts` and `kui-combobox.directive.ts`. Mode type and provider fallback are sourced from the adjacent mode/token implementation; docs spell out provider priority.
+- Public exports and API declarations: `projects/ui/src/lib/components/combobox/index.ts` and `kui-combobox.ts`. Mode type and provider fallback are sourced from the adjacent mode/token implementation; docs spell out provider priority.
 - The control remains a native `<input>` and uses `role="combobox"`, `aria-haspopup="listbox"`, dynamic `aria-expanded`/`aria-controls`, `aria-autocomplete`, and Field-provided ID/description/error semantics. Options are provided by the sibling `kui-dropdown`/`kuiOption` composition.
-- Suffix action accessible names `Clear`, `Open options`, and `Close options` are hardcoded English in `kui-combobox-input-suffix.component.ts`. Russian page labels/placeholders update, but those inherited primitive controls do not; the locale E2E does not claim otherwise.
+- Suffix action accessible names `Clear`, `Open options`, and `Close options` are hardcoded English in `kui-combobox-input-suffix.ts`. Russian page labels/placeholders update, but those inherited primitive controls do not; the locale E2E does not claim otherwise.
 - The page's disabled/no-match/loading content rows use ordinary `<div>` elements rather than live status roles. This page-level composition limitation is documented rather than hidden by the inventory.
 - Signal Forms invalid precedence now follows `KuiField.hasSignalFormField()`: with `[formField]`, Combobox uses the Field's touched-gated invalid state instead of the raw invalid value written by native-control interop. The required example covers untouched, touched error, and selected recovery. The focused library test passed, and page browser verification and screenshot review passed on 2026-09-28 (see Verification).
 - The Signal Forms model starts at `null`, the directive's documented empty value. An empty string is non-null, so `hasValue` would treat it as a value and render the clear action on an empty, untouched field; the page therefore does not use `''`. The library unit test host still uses `''`; this does not affect its asserted states, and `docs/combobox.md` does not document the preferred empty model value.

@@ -2,9 +2,9 @@ import { inject } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
-import { KuiDialog } from '../dialog/kui-dialog.service';
-import { KuiMediaViewerDialog } from './kui-media-viewer.component';
+import { KuiDialog } from '../dialog/kui-dialog';
 import type { KuiMediaViewerData } from './kui-media-viewer.types';
+import { KuiMediaViewerDialog } from './kui-media-viewer-dialog';
 
 /**
  * Returns a function that opens a fullscreen photo lightbox, on top of {@link KuiDialog}.

@@ -65,7 +65,7 @@ describe('verify-static-audit', () => {
       '/* --kui-primary-6 is the seed step */\n.kui-button { color: var(--kui-button-color, var(--kui-color-text)); }\n',
     );
     writeFileSync(
-      join(root, 'projects/ui/src/lib/components/button/kui-button.directive.spec.ts'),
+      join(root, 'projects/ui/src/lib/components/button/kui-button.spec.ts'),
       "import { describe, it } from 'vitest';\n\ndescribe('button', () => { it('reads var(--kui-primary-6)', () => {}); });\n",
     );
 
@@ -249,7 +249,7 @@ describe('verify-static-audit', () => {
     const root = makeValidRepo();
     mkdirSync(join(root, 'projects/ui/src/lib/components/typography'), { recursive: true });
     writeFileSync(
-      join(root, 'projects/ui/src/lib/components/typography/kui-text.directive.spec.ts'),
+      join(root, 'projects/ui/src/lib/components/typography/kui-text.spec.ts'),
       'export {};\n',
     );
     writeFileSync(join(root, 'docs/typography.md'), '# Typography\n');
@@ -359,13 +359,13 @@ describe('verify-static-audit', () => {
   it('reports package barrel imports from library implementation files', () => {
     const root = makeValidRepo();
     writeFileSync(
-      join(root, 'projects/ui/src/lib/components/button/kui-button.directive.ts'),
+      join(root, 'projects/ui/src/lib/components/button/kui-button.ts'),
       "import { provideKikitaUi } from '@kikita-labs/ui';\n\n/** Button directive. */\nexport class KuiButton {}\n",
     );
 
     expect(runStaticAudit(root)).toEqual(
       expect.arrayContaining([
-        'projects/ui/src/lib/components/button/kui-button.directive.ts imports @kikita-labs/ui from inside the library source',
+        'projects/ui/src/lib/components/button/kui-button.ts imports @kikita-labs/ui from inside the library source',
       ]),
     );
   });
@@ -374,7 +374,7 @@ describe('verify-static-audit', () => {
 describe('verify-static-audit: library text', () => {
   function writeComponent(root, source) {
     writeFileSync(
-      join(root, 'projects/ui/src/lib/components/button/kui-button.directive.ts'),
+      join(root, 'projects/ui/src/lib/components/button/kui-button.ts'),
       `/** Button directive. */\n${source}\nexport class KuiButton {}\n`,
     );
   }
@@ -466,7 +466,7 @@ describe('verify-static-audit: message coverage', () => {
       );
     }
     writeFileSync(
-      join(root, 'projects/ui/src/lib/components/button/kui-button.directive.ts'),
+      join(root, 'projects/ui/src/lib/components/button/kui-button.ts'),
       '/** Button directive. */\nexport class KuiButton { readonly label = t().loadingLabel; }\n',
     );
   }
@@ -533,7 +533,7 @@ describe('verify-static-audit: message coverage', () => {
 describe('verify-static-audit: Signal Forms control member names', () => {
   function writeControl(root, members, implementsClause = 'implements FormValueControl<string>') {
     writeFileSync(
-      join(root, 'projects/ui/src/lib/components/button/kui-code.component.ts'),
+      join(root, 'projects/ui/src/lib/components/button/kui-code.ts'),
       [
         '/** Code control. */',
         `export class KuiCode ${implementsClause} {`,
@@ -549,7 +549,7 @@ describe('verify-static-audit: Signal Forms control member names', () => {
     writeControl(root, ["readonly value = model('');", 'readonly readOnly = input(false);']);
 
     expect(runStaticAudit(root)).toContain(
-      'projects/ui/src/lib/components/button/kui-code.component.ts declares readOnly, which Signal Forms binds only as readonly',
+      'projects/ui/src/lib/components/button/kui-code.ts declares readOnly, which Signal Forms binds only as readonly',
     );
   });
 
@@ -560,10 +560,10 @@ describe('verify-static-audit: Signal Forms control member names', () => {
     const failures = runStaticAudit(root);
 
     expect(failures).toContain(
-      'projects/ui/src/lib/components/button/kui-code.component.ts declares Value, which Signal Forms binds only as value',
+      'projects/ui/src/lib/components/button/kui-code.ts declares Value, which Signal Forms binds only as value',
     );
     expect(failures).toContain(
-      'projects/ui/src/lib/components/button/kui-code.component.ts declares Touch, which Signal Forms binds only as touch',
+      'projects/ui/src/lib/components/button/kui-code.ts declares Touch, which Signal Forms binds only as touch',
     );
   });
 
@@ -606,16 +606,16 @@ function makeValidRepo() {
   writeFileSync(join(root, 'projects/ui/src/styles/kikita-ui.css'), "@import './button.css';\n");
   writeFileSync(join(root, 'projects/ui/src/styles/button.css'), '.kui-button {}\n');
   writeFileSync(
-    join(root, 'projects/ui/src/lib/components/button/kui-button.directive.ts'),
+    join(root, 'projects/ui/src/lib/components/button/kui-button.ts'),
     '/** Button directive. */\nexport class KuiButton {}\n',
   );
   writeFileSync(
-    join(root, 'projects/ui/src/lib/components/button/kui-button.directive.spec.ts'),
+    join(root, 'projects/ui/src/lib/components/button/kui-button.spec.ts'),
     "import { describe, it } from 'vitest';\n\ndescribe('button', () => { it('has a spec', () => {}); });\n",
   );
   writeFileSync(
     join(root, 'projects/ui/src/lib/components/button/index.ts'),
-    "export { KuiButton } from './kui-button.directive';\n",
+    "export { KuiButton } from './kui-button';\n",
   );
   writeFileSync(join(root, playgroundRouteEnumPath), playgroundRouteEnum(['button']));
   return root;
@@ -664,5 +664,81 @@ describe('verify-static-audit: class and file naming', () => {
     );
 
     expect(runStaticAudit(root).filter((failure) => failure.includes('declares'))).toEqual([]);
+  });
+});
+
+describe('verify-static-audit: Angular file names', () => {
+  function writeSource(root, path, source) {
+    mkdirSync(join(root, path, '..'), { recursive: true });
+    writeFileSync(join(root, path), source);
+  }
+
+  const dir = 'projects/ui/src/lib/components/button';
+
+  it('reports a file that keeps a construct infix', () => {
+    const root = makeValidRepo();
+    writeSource(root, `${dir}/kui-old.directive.ts`, 'export const old = 1;\n');
+    writeSource(root, `${dir}/kui-old.component.html`, '<div></div>\n');
+
+    const failures = runStaticAudit(root);
+
+    expect(failures).toContain(
+      `${dir}/kui-old.directive.ts uses a .component, .directive, .service or .pipe infix; name the file after its class (kui-name.ts, kui-name-pipe.ts)`,
+    );
+    expect(failures).toContain(
+      `${dir}/kui-old.component.html uses a .component, .directive, .service or .pipe infix; name the file after its class (kui-name.ts, kui-name-pipe.ts)`,
+    );
+  });
+
+  it('reports a file whose name differs from its only Angular class', () => {
+    const root = makeValidRepo();
+    writeSource(
+      root,
+      `${dir}/kui-wrong.ts`,
+      "import { Directive } from '@angular/core';\n\n/** Bar. */\n@Directive({ selector: '[kuiBar]' })\nexport class KuiBar {}\n",
+    );
+
+    expect(runStaticAudit(root)).toContain(
+      `${dir}/kui-wrong.ts declares KuiBar; the file must be named kui-bar.ts after its class`,
+    );
+  });
+
+  it('requires the -pipe file name for a pipe', () => {
+    const root = makeValidRepo();
+    writeSource(
+      root,
+      `${dir}/kui-mark.ts`,
+      "import { Pipe } from '@angular/core';\n\n/** Mark. */\n@Pipe({ name: 'kuiMark' })\nexport class KuiMarkPipe {}\n",
+    );
+
+    expect(runStaticAudit(root)).toContain(
+      `${dir}/kui-mark.ts declares KuiMarkPipe; the file must be named kui-mark-pipe.ts after its class`,
+    );
+  });
+
+  it('accepts matching names, util modules and files with several classes', () => {
+    const root = makeValidRepo();
+    writeSource(
+      root,
+      `${dir}/kui-bar.ts`,
+      "import { Directive } from '@angular/core';\n\n/** Bar. */\n@Directive({ selector: '[kuiBar]' })\nexport class KuiBar {}\n",
+    );
+    writeSource(
+      root,
+      `${dir}/kui-mark-pipe.ts`,
+      "import { Pipe } from '@angular/core';\n\n/** Mark. */\n@Pipe({ name: 'kuiMark' })\nexport class KuiMarkPipe {}\n",
+    );
+    writeSource(
+      root,
+      `${dir}/kui-ids.util.ts`,
+      "import { Service } from '@angular/core';\n\n/** Ids. */\n@Service()\nexport class KuiIdSequences {}\n",
+    );
+    writeSource(
+      root,
+      `${dir}/kui-many.ts`,
+      "import { Directive } from '@angular/core';\n\n/** A. */\n@Directive({ selector: '[a]' })\nexport class KuiA {}\n\n/** B. */\nexport class KuiB {}\n",
+    );
+
+    expect(runStaticAudit(root).filter((failure) => failure.includes('named'))).toEqual([]);
   });
 });

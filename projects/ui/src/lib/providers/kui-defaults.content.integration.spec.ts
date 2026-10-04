@@ -3,36 +3,33 @@ import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiAvatar } from '../components/avatar/kui-avatar.component';
-import { KuiAvatarGroup } from '../components/avatar/kui-avatar-group.component';
+import { KuiAvatar } from '../components/avatar/kui-avatar';
+import { KuiAvatarGroup } from '../components/avatar/kui-avatar-group';
 import type { KuiAvatarItem } from '../components/avatar/kui-avatar-item.interface';
 import type { KuiAvatarShape } from '../components/avatar/kui-avatar-shape.type';
 import type { KuiAvatarSize } from '../components/avatar/kui-avatar-size.type';
 import type {
   KuiFileUploadMode,
   KuiFileUploadVariant,
-} from '../components/file-upload/kui-file-upload.component';
-import { KuiFileUpload } from '../components/file-upload/kui-file-upload.component';
-import { KuiLink } from '../components/link/kui-link.directive';
+} from '../components/file-upload/kui-file-upload';
+import { KuiFileUpload } from '../components/file-upload/kui-file-upload';
+import { KuiLink } from '../components/link/kui-link';
 import type { KuiLinkTone } from '../components/link/kui-link-tone.type';
 import type { KuiLinkUnderline } from '../components/link/kui-link-underline.type';
-import { KuiOtpInput } from '../components/otp-input/kui-otp-input.component';
-import type {
-  KuiProgressColor,
-  KuiProgressSize,
-} from '../components/progress/kui-progress.component';
-import { KuiProgress } from '../components/progress/kui-progress.component';
-import { KuiSeparator } from '../components/separator/kui-separator.directive';
+import { KuiOtpInput } from '../components/otp-input/kui-otp-input';
+import type { KuiProgressColor, KuiProgressSize } from '../components/progress/kui-progress';
+import { KuiProgress } from '../components/progress/kui-progress';
+import { KuiSeparator } from '../components/separator/kui-separator';
 import type { KuiSeparatorAppearance } from '../components/separator/kui-separator-appearance.type';
 import type { KuiSeparatorOrientation } from '../components/separator/kui-separator-orientation.type';
 import type { KuiSeparatorSpacing } from '../components/separator/kui-separator-spacing.type';
-import { KuiSkeleton } from '../components/skeleton/kui-skeleton.directive';
+import { KuiSkeleton } from '../components/skeleton/kui-skeleton';
 import type { KuiSkeletonAnimation } from '../components/skeleton/kui-skeleton-animation.type';
 import type { KuiSkeletonShape } from '../components/skeleton/kui-skeleton-shape.type';
 import { provideKikitaUi } from '../root';
 import type { KuiSize } from '../types';
+import { KuiDefaults } from './kui-defaults';
 import type { KuiDefaultsLayer } from './kui-defaults.interface';
-import { KuiDefaults } from './kui-defaults.service';
 
 const ITEMS: readonly KuiAvatarItem[] = [
   { name: 'Ada Lovelace' },

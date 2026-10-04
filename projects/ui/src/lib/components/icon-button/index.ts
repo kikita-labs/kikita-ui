@@ -1,1 +1,1 @@
-export * from './kui-icon-button.directive';
+export * from './kui-icon-button';

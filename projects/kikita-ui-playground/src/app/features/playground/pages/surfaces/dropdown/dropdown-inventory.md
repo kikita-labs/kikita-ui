@@ -35,11 +35,11 @@ This inventory records the reviewed public Dropdown contract against the example
 - Other `panelRole` values are omitted because the available public trigger directive still announces a listbox.
 - Select/Combobox context selection, Date Picker calendar auto-close, and option-context behavior are omitted; their consumer pages own those integrations, and their context token is internal.
 - Size, appearance, shape, density, loading, error, empty, form validation, and selected-state matrices are omitted because Dropdown exposes no such inputs or owned states. Projected content may have those properties, but they would not demonstrate Dropdown behavior.
-- The component JSDoc in `projects/ui/src/lib/components/dropdown/kui-dropdown.component.ts` describes a standalone `[anchor]` input, but the component has no public `anchor` input. The Markdown docs instead show Field composition and the exported `[kuiDropdownFor]` trigger directive; the page follows those current public APIs.
+- The component JSDoc in `projects/ui/src/lib/components/dropdown/kui-dropdown.ts` describes a standalone `[anchor]` input, but the component has no public `anchor` input. The Markdown docs instead show Field composition and the exported `[kuiDropdownFor]` trigger directive; the page follows those current public APIs.
 - `docs/dropdown.md` uses `[kuiOption]="option"` and `kuiOption="edit"` as value bindings and labels `kuiOption` as the value input. The directive's actual required input is `value`; the page uses the `kuiOption` selector with `[value]` or `value`.
 - The generated UI MCP metadata describes `closeOnSelect` as a model although the public source declares it as an input. The page follows the source API.
 
-The source audit is grounded in `projects/ui/src/lib/components/dropdown/kui-dropdown.component.ts` (inputs and overlay behavior), `kui-dropdown-for.directive.ts` (trigger and ARIA wiring), `kui-option.directive.ts` (option semantics), `projects/ui/src/lib/components/dropdown/kui-dropdown.css`, `projects/ui/src/styles/listbox.css`, and the Dropdown component unit tests.
+The source audit is grounded in `projects/ui/src/lib/components/dropdown/kui-dropdown.ts` (inputs and overlay behavior), `kui-dropdown-for.ts` (trigger and ARIA wiring), `kui-option.ts` (option semantics), `projects/ui/src/lib/components/dropdown/kui-dropdown.css`, `projects/ui/src/styles/listbox.css`, and the Dropdown component unit tests.
 
 ## Verification notes
 

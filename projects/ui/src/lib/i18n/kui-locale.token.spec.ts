@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { KuiI18n } from './kui-i18n.service';
+import { KuiI18n } from './kui-i18n';
 import { KUI_LOCALE } from './kui-locale.token';
 import { KUI_LOCALE_SEED } from './kui-locale-seed.util';
 import { provideKuiLocale } from './provide-kui-i18n';

@@ -1,1 +1,1 @@
-export * from './kui-calendar-range.component';
+export * from './kui-calendar-range';

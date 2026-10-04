@@ -40,7 +40,7 @@ There are no models. `KuiAlertAppearance`, `KuiAlertShape`, and `KuiAlertSize` a
 
 ## Source audit
 
-- [Alert docs](../../../../../../../../../docs/alert.md), [component](../../../../../../../../../projects/ui/src/lib/components/alert/kui-alert.component.ts), the four slot directives, the three type files, the [stylesheet](../../../../../../../../../projects/ui/src/lib/components/alert/kui-alert.css), and the [unit spec](../../../../../../../../../projects/ui/src/lib/components/alert/kui-alert.component.spec.ts) were read in full. The legacy playground page was read for scenario ideas only.
+- [Alert docs](../../../../../../../../../docs/alert.md), [component](../../../../../../../../../projects/ui/src/lib/components/alert/kui-alert.ts), the four slot directives, the three type files, the [stylesheet](../../../../../../../../../projects/ui/src/lib/components/alert/kui-alert.css), and the [unit spec](../../../../../../../../../projects/ui/src/lib/components/alert/kui-alert.spec.ts) were read in full. The legacy playground page was read for scenario ideas only.
 
 ### Discrepancies and library observations
 

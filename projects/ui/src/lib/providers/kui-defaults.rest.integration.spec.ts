@@ -1,16 +1,16 @@
 import { Component, signal, viewChildren } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiDropdown } from '../components/dropdown/kui-dropdown.component';
-import { KuiOption } from '../components/dropdown/kui-option.directive';
-import { KuiField } from '../components/field/kui-field.component';
-import { KuiLink } from '../components/link/kui-link.directive';
-import { KuiSelect } from '../components/select/kui-select.directive';
-import { KuiSplitter } from '../components/splitter/kui-splitter.component';
-import { KuiSplitterPane } from '../components/splitter/kui-splitter-pane.component';
-import { KuiText } from '../components/typography/kui-text.directive';
+import { KuiDropdown } from '../components/dropdown/kui-dropdown';
+import { KuiOption } from '../components/dropdown/kui-option';
+import { KuiField } from '../components/field/kui-field';
+import { KuiLink } from '../components/link/kui-link';
+import { KuiSelect } from '../components/select/kui-select';
+import { KuiSplitter } from '../components/splitter/kui-splitter';
+import { KuiSplitterPane } from '../components/splitter/kui-splitter-pane';
+import { KuiText } from '../components/typography/kui-text';
 import { provideKikitaUi } from '../root';
-import { KuiDefaults } from './kui-defaults.service';
+import { KuiDefaults } from './kui-defaults';
 
 @Component({
   imports: [KuiText],

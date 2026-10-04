@@ -1,17 +1,17 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiCalendar } from '../components/calendar/kui-calendar.component';
-import { KuiCalendarRange } from '../components/calendar-range/kui-calendar-range.component';
-import { KuiCarousel } from '../components/carousel/kui-carousel.component';
-import { KuiCarouselSlide } from '../components/carousel/kui-carousel-slide.directive';
-import { KuiDropdown } from '../components/dropdown/kui-dropdown.component';
-import { KuiField } from '../components/field/kui-field.component';
-import { KuiPagination } from '../components/pagination/kui-pagination.component';
-import { KuiTimePicker } from '../components/time-picker/kui-time-picker.directive';
-import { KuiTimePickerPanel } from '../components/time-picker/kui-time-picker-panel.component';
+import { KuiCalendar } from '../components/calendar/kui-calendar';
+import { KuiCalendarRange } from '../components/calendar-range/kui-calendar-range';
+import { KuiCarousel } from '../components/carousel/kui-carousel';
+import { KuiCarouselSlide } from '../components/carousel/kui-carousel-slide';
+import { KuiDropdown } from '../components/dropdown/kui-dropdown';
+import { KuiField } from '../components/field/kui-field';
+import { KuiPagination } from '../components/pagination/kui-pagination';
+import { KuiTimePicker } from '../components/time-picker/kui-time-picker';
+import { KuiTimePickerPanel } from '../components/time-picker/kui-time-picker-panel';
 import { provideKikitaUi } from '../root';
-import { KuiDefaults } from './kui-defaults.service';
+import { KuiDefaults } from './kui-defaults';
 
 @Component({
   imports: [KuiCalendar, KuiCalendarRange],

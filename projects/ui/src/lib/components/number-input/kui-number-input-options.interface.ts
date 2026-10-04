@@ -1,5 +1,5 @@
 import type { KuiSize } from '../../types';
-import type { KuiNumberInputVariant } from './kui-number-input.directive';
+import type { KuiNumberInputVariant } from './kui-number-input';
 
 /** Defaults for `input[type=number][kuiNumberInput]`, set under the `numberInput` key of the component defaults. */
 export interface KuiNumberInputOptions {

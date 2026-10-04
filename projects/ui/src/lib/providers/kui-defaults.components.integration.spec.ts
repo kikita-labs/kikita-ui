@@ -7,7 +7,7 @@ import { KuiDatePicker } from '../components/date-picker';
 import { KuiDropdown } from '../components/dropdown';
 import { KuiField } from '../components/field';
 import { provideKikitaUi } from '../root';
-import { KuiDefaults } from './kui-defaults.service';
+import { KuiDefaults } from './kui-defaults';
 import { provideKuiDefaults } from './provide-kui-defaults';
 
 @Component({

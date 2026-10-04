@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiCheckbox } from '../components/checkbox/kui-checkbox.directive';
-import { KuiColorInput } from '../components/color-input/kui-color-input.directive';
-import { KuiField } from '../components/field/kui-field.component';
-import { KuiInput } from '../components/input/kui-input.directive';
-import { KuiNumberInput } from '../components/number-input/kui-number-input.directive';
-import { KuiRadio } from '../components/radio/kui-radio.directive';
-import { KuiSlider } from '../components/slider/kui-slider.directive';
-import { KuiSwitch } from '../components/switch/kui-switch.directive';
-import { KuiTextarea } from '../components/textarea/kui-textarea.directive';
+import { KuiCheckbox } from '../components/checkbox/kui-checkbox';
+import { KuiColorInput } from '../components/color-input/kui-color-input';
+import { KuiField } from '../components/field/kui-field';
+import { KuiInput } from '../components/input/kui-input';
+import { KuiNumberInput } from '../components/number-input/kui-number-input';
+import { KuiRadio } from '../components/radio/kui-radio';
+import { KuiSlider } from '../components/slider/kui-slider';
+import { KuiSwitch } from '../components/switch/kui-switch';
+import { KuiTextarea } from '../components/textarea/kui-textarea';
 import { provideKikitaUi } from '../root';
-import { KuiDefaults } from './kui-defaults.service';
+import { KuiDefaults } from './kui-defaults';
 
 @Component({
   imports: [

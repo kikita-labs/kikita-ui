@@ -5,8 +5,8 @@ import { describe, expect, it } from 'vitest';
 
 import { KuiCalendar } from '../calendar';
 import { KuiDropdown } from '../dropdown';
-import { KuiTimePickerPanel } from '../time-picker/kui-time-picker-panel.component';
-import { KuiField } from './kui-field.component';
+import { KuiTimePickerPanel } from '../time-picker/kui-time-picker-panel';
+import { KuiField } from './kui-field';
 import {
   KUI_FIELD,
   KUI_FIELD_CALENDAR,

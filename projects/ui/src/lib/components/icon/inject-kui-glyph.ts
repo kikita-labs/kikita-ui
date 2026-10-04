@@ -1,7 +1,7 @@
 import type { Signal } from '@angular/core';
 import { computed, inject } from '@angular/core';
 
-import { KuiDefaults } from '../../providers/kui-defaults.service';
+import { KuiDefaults } from '../../providers/kui-defaults';
 import type { KuiIconGlyph } from './kui-icon-glyph.type';
 import { pickKuiGlyph } from './kui-icon-glyph.util';
 import type { KuiIconRole } from './kui-icons-options.interface';

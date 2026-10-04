@@ -64,7 +64,7 @@
    * button's column `fr` too would just reflate it), and the field's position among sibling
    * buttons varies and can repeat (multiple fields in one group), so there's no static
    * `grid-template-columns` selector that covers every arrangement, count, and order. The
-   * directive (`kui-group.directive.ts`) reads the real projected children instead and sets this
+   * directive (`kui-group.ts`) reads the real projected children instead and sets this
    * inline, one `minmax(0, 1fr)`/`auto` track per child up to the last field.
    */
 

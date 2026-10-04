@@ -1,6 +1,6 @@
 # Command Palette Page Inventory
 
-This inventory is a retrospective source audit of the Command Palette page. It was cross-checked against `docs/command-palette.md`, `projects/ui/src/lib/components/command-palette/index.ts`, `kui-command-palette.component.ts` and its template, `kui-command-palette.types.ts`, `kui-command-palette.component.spec.ts`, `projects/ui/src/lib/components/command-palette/kui-command-palette.css`, the page's translated group helper/templates, and the page E2E spec.
+This inventory is a retrospective source audit of the Command Palette page. It was cross-checked against `docs/command-palette.md`, `projects/ui/src/lib/components/command-palette/index.ts`, `kui-command-palette.ts` and its template, `kui-command-palette.types.ts`, `kui-command-palette.spec.ts`, `projects/ui/src/lib/components/command-palette/kui-command-palette.css`, the page's translated group helper/templates, and the page E2E spec.
 
 ## Public contract mapping
 
@@ -55,7 +55,7 @@ All listed optional command fields are used in the page. A heading-less group is
 
 ## Source-backed behavior and inherited limitations
 
-- Public barrel: `projects/ui/src/lib/components/command-palette/index.ts`; API: `kui-command-palette.component.ts` and inline template; data contracts: `kui-command-palette.types.ts`; tests: `kui-command-palette.component.spec.ts`.
+- Public barrel: `projects/ui/src/lib/components/command-palette/index.ts`; API: `kui-command-palette.ts` and inline template; data contracts: `kui-command-palette.types.ts`; tests: `kui-command-palette.spec.ts`.
 - The component renders a CDK overlay with scroll blocking, `role="dialog"`, `aria-modal="true"`, CDK focus trap, autofocus to search, and trigger focus restoration. Search input has a combobox/listbox relationship with `aria-controls` and `aria-activedescendant`; Enter selects; Escape closes.
 - Filtering checks label, description, metadata, and keywords. IDs must be non-empty, contain no whitespace, and be unique across all groups, including filtered/disabled items. Source validates in development and creates per-instance namespaced option DOM IDs.
 - Primitive-owned `Clear search`, empty-state description, and footer key-help strings (`Up`/`Down`/`Enter`/`Esc`) are hardcoded English in the template. The page translates its own content/command data and does not claim full primitive localization.

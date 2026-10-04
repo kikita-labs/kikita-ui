@@ -14,7 +14,7 @@ import {
 } from '../../foundation/date/kui-calendar-date.util';
 import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import { getKuiCalendarLocaleText } from '../../i18n/kui-calendar-locale-text.util';
-import { KuiI18n } from '../../i18n/kui-i18n.service';
+import { KuiI18n } from '../../i18n/kui-i18n';
 import { resolveKuiLocale } from '../../i18n/kui-locale-resolve.util';
 import type { KuiCalendarMessages } from '../../i18n/kui-messages.interface';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
@@ -22,7 +22,7 @@ import {
   KUI_CALENDAR_SIZES,
   type KuiCalendarNavigationView,
 } from '../../utils/kui-calendar-navigation.util';
-import { KuiClock } from '../../utils/kui-clock.service';
+import { KuiClock } from '../../utils/kui-clock';
 import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHEVRON_LEFT, KUI_GLYPH_CHEVRON_RIGHT } from '../icon/kui-chrome-glyphs';
 import type { KuiCalendarDisabledPredicate, KuiCalendarSize } from './kui-calendar.types';

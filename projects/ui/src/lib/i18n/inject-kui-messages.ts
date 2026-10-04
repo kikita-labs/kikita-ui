@@ -1,7 +1,7 @@
 import type { Signal } from '@angular/core';
 import { inject } from '@angular/core';
 
-import { KuiI18n } from './kui-i18n.service';
+import { KuiI18n } from './kui-i18n';
 import type { KuiBoundMessages, KuiMessages } from './kui-messages.interface';
 
 /**

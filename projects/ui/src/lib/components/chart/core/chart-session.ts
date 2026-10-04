@@ -3,7 +3,7 @@ import type { Signal } from '@angular/core';
 import { computed, DestroyRef, inject, PLATFORM_ID, signal } from '@angular/core';
 
 import { injectKuiMessages } from '../../../i18n/inject-kui-messages';
-import { KuiI18n } from '../../../i18n/kui-i18n.service';
+import { KuiI18n } from '../../../i18n/kui-i18n';
 import type { KuiBoundMessages, KuiChartMessages } from '../../../i18n/kui-messages.interface';
 import { kuiNextId } from '../../../utils/kui-id.util';
 import type { KuiChartPoint, KuiChartTooltipFormatter, KuiChartValueFormat } from '../chart.types';

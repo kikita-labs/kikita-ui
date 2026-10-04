@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiBadge } from '../components/badge/kui-badge.directive';
-import { KuiBreadcrumbItem } from '../components/breadcrumbs/kui-breadcrumb-item.directive';
-import { KuiBreadcrumbs } from '../components/breadcrumbs/kui-breadcrumbs.directive';
-import { KuiChip } from '../components/chip/kui-chip.directive';
-import { KuiEmptyState } from '../components/empty-state/kui-empty-state.component';
-import { KuiLoader } from '../components/loader/kui-loader.directive';
-import { KuiSegment } from '../components/segmented/kui-segment.directive';
-import { KuiSegmented } from '../components/segmented/kui-segmented.component';
-import { KuiTable } from '../components/table/kui-table.directive';
+import { KuiBadge } from '../components/badge/kui-badge';
+import { KuiBreadcrumbItem } from '../components/breadcrumbs/kui-breadcrumb-item';
+import { KuiBreadcrumbs } from '../components/breadcrumbs/kui-breadcrumbs';
+import { KuiChip } from '../components/chip/kui-chip';
+import { KuiEmptyState } from '../components/empty-state/kui-empty-state';
+import { KuiLoader } from '../components/loader/kui-loader';
+import { KuiSegment } from '../components/segmented/kui-segment';
+import { KuiSegmented } from '../components/segmented/kui-segmented';
+import { KuiTable } from '../components/table/kui-table';
 import { provideKikitaUi } from '../root';
-import { KuiDefaults } from './kui-defaults.service';
+import { KuiDefaults } from './kui-defaults';
 
 @Component({
   imports: [

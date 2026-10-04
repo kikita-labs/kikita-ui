@@ -115,7 +115,7 @@
 
   /*
    * kui-link-external-icon's own box model, matching kui-icon's :host exactly (see
-   * kui-icon.component.css) -- without this its host stays a plain inline element, whose box
+   * kui-icon.css) -- without this its host stays a plain inline element, whose box
    * height follows the inherited line-height instead of the SVG's size, rendering a few px
    * taller than a sibling kui-icon and sitting misaligned against the text baseline.
    */

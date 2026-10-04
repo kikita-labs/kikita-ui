@@ -4,13 +4,13 @@
 
 - Public usage and Signal Forms integration: [`docs/radio.md`](../../../../../../../../../docs/radio.md).
 - Directive inputs, host bindings, size resolution, Field wiring, and Signal Forms behavior:
-  [`kui-radio.directive.ts`](../../../../../../../../../projects/ui/src/lib/components/radio/kui-radio.directive.ts).
-- Directive unit coverage: [`kui-radio.directive.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/radio/kui-radio.directive.spec.ts).
+  [`kui-radio.ts`](../../../../../../../../../projects/ui/src/lib/components/radio/kui-radio.ts).
+- Directive unit coverage: [`kui-radio.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/radio/kui-radio.spec.ts).
 - Hover, checked, active, focus-visible, invalid, disabled, and size treatments:
   [`selection.css`](../../../../../../../../../projects/ui/src/styles/selection.css).
 - Field IDs, effective size, error state, and described-by wiring:
-  [`kui-field.component.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.ts)
-  and [`kui-field.component.html`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.html).
+  [`kui-field.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.ts)
+  and [`kui-field.html`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.html).
 - Shared root size defaults: [`docs/di-defaults.md`](../../../../../../../../../docs/di-defaults.md).
 - Angular Signal Forms radio grouping: <https://angular.dev/essentials/signal-forms>.
 - Playground app provider: [`app.config.ts`](../../../../../../../../../projects/kikita-ui-playground/src/app/app.config.ts). It sets styled scrollbars and no root size default.

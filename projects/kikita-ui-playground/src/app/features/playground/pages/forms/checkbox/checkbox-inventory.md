@@ -4,12 +4,12 @@
 
 - Public usage and inputs: [`docs/checkbox.md`](../../../../../../../../../docs/checkbox.md).
 - Directive inputs, size resolution, Field wiring, and Signal Forms invalid-state behavior:
-  [`kui-checkbox.directive.ts`](../../../../../../../../../projects/ui/src/lib/components/checkbox/kui-checkbox.directive.ts).
+  [`kui-checkbox.ts`](../../../../../../../../../projects/ui/src/lib/components/checkbox/kui-checkbox.ts).
 - Native checkbox styling for checked, indeterminate, hover, pressed, focus-visible, invalid,
   disabled, and sizes: [`selection.css`](../../../../../../../../../projects/ui/src/styles/selection.css).
 - Field id, label, hint/error ARIA, and size resolution:
-  [`kui-field.component.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.ts).
-- Directive unit coverage: [`kui-checkbox.directive.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/checkbox/kui-checkbox.directive.spec.ts).
+  [`kui-field.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.ts).
+- Directive unit coverage: [`kui-checkbox.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/checkbox/kui-checkbox.spec.ts).
 - Route scope and runtime locale loader: [`forms.routes.ts`](../forms.routes.ts) and
   [`app.config.ts`](../../../../../../app/app.config.ts).
 

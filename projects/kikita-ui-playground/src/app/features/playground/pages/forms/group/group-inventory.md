@@ -4,7 +4,7 @@
 
 - Public API and composition rules: [`docs/group.md`](../../../../../../../../../docs/group.md).
 - Directive inputs, defaults, inherited size, host attributes, and Field-column setup:
-  [`kui-group.directive.ts`](../../../../../../../../../projects/ui/src/lib/components/group/kui-group.directive.ts)
+  [`kui-group.ts`](../../../../../../../../../projects/ui/src/lib/components/group/kui-group.ts)
   and [`kui-group-orientation.type.ts`](../../../../../../../../../projects/ui/src/lib/components/group/kui-group-orientation.type.ts).
 - Size configuration API: [`provide-kikita-ui.ts`](../../../../../../../../../projects/ui/src/lib/providers/provide-kikita-ui.ts),
   [`kikita-ui-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),
@@ -13,7 +13,7 @@
 - Isolated component-scoped token example: [`group-size-scoped-default.ts`](./components/group-sizes/components/group-size-scoped-default/group-size-scoped-default.ts). This example provides `provideKuiDefaults({ size: 'lg' })` in its component injector to demonstrate the same size fallback; it does not configure the app-wide `provideKikitaUi()` provider.
 - Border merging, orientation, size inheritance, Field subgrid, rounded corners, and invalid
   border stacking: [`group.css`](../../../../../../../../../projects/ui/src/lib/components/group/kui-group.css).
-- Group behavior tests: [`kui-group.directive.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/group/kui-group.directive.spec.ts).
+- Group behavior tests: [`kui-group.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/group/kui-group.spec.ts).
 - Existing complete usage catalogue: `group.page.html` (removed legacy file `playground/src/app/pages/group/group.page.html`).
 
 ## Inputs, defaults, and composition

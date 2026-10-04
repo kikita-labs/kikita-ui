@@ -7,9 +7,9 @@ catalogue layout.
 
 ## Source audit and public contract mapping
 
-Source checked: `docs/popover.md`, the public component and directive barrels, `kui-popover.component.ts`,
-`kui-popover-for.directive.ts`, `kui-popover.types.ts`, `popover.css`, `kikita-ui.css`, theme token
-defaults, and `kui-popover.component.spec.ts`.
+Source checked: `docs/popover.md`, the public component and directive barrels, `kui-popover.ts`,
+`kui-popover-for.ts`, `kui-popover.types.ts`, `popover.css`, `kikita-ui.css`, theme token
+defaults, and `kui-popover.spec.ts`.
 
 | Public surface                                 | Type, default, and observed behavior                                                                                                                                                                                                                                                 | Page mapping and omission                                                                                                                                                                                                                                                |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -63,7 +63,7 @@ defaults but is not consumed by `popover.css`; CDK overlay stacking owns the pan
 
 ## Source discrepancies and page boundaries
 
-- `kui-popover.component.ts` describes `open` as controlled, but `openFor` creates the overlay and
+- `kui-popover.ts` describes `open` as controlled, but `openFor` creates the overlay and
   `close` detaches it only after animation. The docs correctly caution against using the model as a
   standalone controlled API; the page treats it as observed interaction state.
 - `docs/popover.md` says placement auto-flips “to fit.” The implementation tries only the preferred

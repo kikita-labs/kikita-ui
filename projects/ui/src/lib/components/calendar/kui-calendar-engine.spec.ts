@@ -4,8 +4,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { KUI_LOCALE } from '../../i18n/kui-locale.token';
 import { KUI_PICKED_EVENT } from '../../utils/kui-picked-event';
-import { KuiCalendarRange } from '../calendar-range/kui-calendar-range.component';
-import { KuiCalendar } from './kui-calendar.component';
+import { KuiCalendarRange } from '../calendar-range/kui-calendar-range';
+import { KuiCalendar } from './kui-calendar';
 import type { KuiDateRange } from './kui-calendar.types';
 
 /** Behaviour of the engine shared by `kui-calendar` and `kui-calendar-range`, seen from both. */

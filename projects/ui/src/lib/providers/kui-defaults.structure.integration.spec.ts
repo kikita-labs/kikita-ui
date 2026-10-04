@@ -2,20 +2,20 @@ import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { KuiAccordion } from '../components/accordion/kui-accordion.component';
-import { KuiAccordionItem } from '../components/accordion/kui-accordion-item.component';
-import { KuiAlert } from '../components/alert/kui-alert.component';
-import { KuiCard } from '../components/card/kui-card.directive';
-import { KuiGroup } from '../components/group/kui-group.directive';
-import { KuiStep } from '../components/stepper/kui-step.component';
-import { KuiStepper } from '../components/stepper/kui-stepper.component';
-import { KuiTab } from '../components/tabs/kui-tab.directive';
-import { KuiTabPanel } from '../components/tabs/kui-tab-panel.directive';
-import { KuiTabs } from '../components/tabs/kui-tabs.component';
-import { KuiTree } from '../components/tree/kui-tree.component';
+import { KuiAccordion } from '../components/accordion/kui-accordion';
+import { KuiAccordionItem } from '../components/accordion/kui-accordion-item';
+import { KuiAlert } from '../components/alert/kui-alert';
+import { KuiCard } from '../components/card/kui-card';
+import { KuiGroup } from '../components/group/kui-group';
+import { KuiStep } from '../components/stepper/kui-step';
+import { KuiStepper } from '../components/stepper/kui-stepper';
+import { KuiTab } from '../components/tabs/kui-tab';
+import { KuiTabPanel } from '../components/tabs/kui-tab-panel';
+import { KuiTabs } from '../components/tabs/kui-tabs';
+import { KuiTree } from '../components/tree/kui-tree';
 import type { KuiTreeNode } from '../components/tree/kui-tree-node.interface';
 import { provideKikitaUi } from '../root';
-import { KuiDefaults } from './kui-defaults.service';
+import { KuiDefaults } from './kui-defaults';
 
 const NODES: KuiTreeNode[] = [
   { id: 'a', label: 'Alpha' },

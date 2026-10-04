@@ -8,9 +8,9 @@ Status: implemented. The contract audit was reviewed and accepted by the parent 
   [`docs/field.md`](../../../../../../../../../docs/field.md), and
   [`docs/forms.md`](../../../../../../../../../docs/forms.md).
 - Implementation:
-  [`kui-otp-input.component.ts`](../../../../../../../../../projects/ui/src/lib/components/otp-input/kui-otp-input.component.ts),
+  [`kui-otp-input.ts`](../../../../../../../../../projects/ui/src/lib/components/otp-input/kui-otp-input.ts),
   unit suite
-  [`kui-otp-input.component.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/otp-input/kui-otp-input.component.spec.ts),
+  [`kui-otp-input.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/otp-input/kui-otp-input.spec.ts),
   styles [`otp-input.css`](../../../../../../../../../projects/ui/src/lib/components/otp-input/kui-otp-input.css), the
   `positiveIntegerAttribute` transform in
   [`kui-input-transform.util.ts`](../../../../../../../../../projects/ui/src/lib/utils/kui-input-transform.util.ts),
@@ -138,7 +138,7 @@ route through the shared sweep.
 ## Self-review
 
 - [x] Every public input, model, and output is mapped to an example, a browser check, or a recorded omission.
-- [x] Re-read against `kui-otp-input.component.ts`, its unit spec, `otp-input.css`, and `docs/otp-input.md`; the stale Field-label paragraph in the docs was corrected in the same commit.
+- [x] Re-read against `kui-otp-input.ts`, its unit spec, `otp-input.css`, and `docs/otp-input.md`; the stale Field-label paragraph in the docs was corrected in the same commit.
 - [x] EN and RU catalogues have identical key sets. Library-owned strings (cell labels, loader label, default group label) stay English.
 - [x] Behavior tests use real keyboard, real clipboard paste, real clicks, and `page.clock` for the verification timer; no fixed sleeps.
 - [x] Desktop and 320px captures for every card plus focus, typed, pasted, hover, loading, accepted, rejected, validation, and mounted-autofocus states were opened and inspected.

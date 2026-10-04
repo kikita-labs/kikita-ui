@@ -3,9 +3,9 @@ import type { Signal } from '@angular/core';
 import { DestroyRef, inject, InjectionToken } from '@angular/core';
 
 import type { KuiFieldWiringSource } from '../../utils/kui-field-control-wiring.util';
-import type { KuiCalendar } from '../calendar/kui-calendar.component';
-import type { KuiDropdown } from '../dropdown/kui-dropdown.component';
-import type { KuiTimePickerPanel } from '../time-picker/kui-time-picker-panel.component';
+import type { KuiCalendar } from '../calendar/kui-calendar';
+import type { KuiDropdown } from '../dropdown/kui-dropdown';
+import type { KuiTimePickerPanel } from '../time-picker/kui-time-picker-panel';
 import type { KuiOptionContext } from './kui-option-context.token';
 
 /**

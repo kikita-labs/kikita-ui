@@ -142,7 +142,7 @@ const topLevelInitialiserCall =
 // `KuiMessages`. Text that is data, not a message, is listed by file and snippet, with the reason.
 const hardcodedTextAllowlist = [
   // Technical channel letters of the OKLCH picker, not words.
-  { file: 'color-input/kui-color-input.directive.ts', text: ["'L'", "'C'", "'H'"] },
+  { file: 'color-input/kui-color-input.ts', text: ["'L'", "'C'", "'H'"] },
 ];
 const literalMessageAttribute =
   /(?<![\w.\]-])(?:aria-label|aria-roledescription|aria-valuetext|title|placeholder|alt)="([^"{}]*[A-Za-z]{2}[^"{}]*)"/u;
@@ -232,6 +232,9 @@ export function runStaticAudit(root = defaultRoot) {
   );
   runCheck(failures, 'Angular classes carry no Component, Directive or Service suffix', () =>
     checkNoRoleSuffixedClasses(root),
+  );
+  runCheck(failures, 'Angular files are named after their class without a construct infix', () =>
+    checkAngularFileNames(root),
   );
   runCheck(failures, 'library components read their text from the message map', () =>
     checkNoHardcodedUserFacingText(root),
@@ -375,12 +378,9 @@ function checkStyleImports(root) {
   const entrypointPath = join(stylesDir, 'kikita-ui.css');
   const entrypoint = readFileSync(entrypointPath, 'utf8');
   const libDir = join(root, 'projects/ui/src/lib');
-  // Stylesheets beside a component are imported by the entry; `*.component.css` files are
-  // Angular `styleUrl` sources and ship inside the component instead.
+  // Stylesheets beside a component are imported by the entry.
   const libStyles = existsSync(libDir)
-    ? collectTextFiles(root, [libDir]).filter(
-        (file) => file.endsWith('.css') && !file.endsWith('.component.css'),
-      )
+    ? collectTextFiles(root, [libDir]).filter((file) => file.endsWith('.css'))
     : [];
   const sharedStyles = readdirSync(stylesDir)
     .filter((file) => file.endsWith('.css') && file !== 'kikita-ui.css')
@@ -728,6 +728,67 @@ function checkPublicJSDoc(root) {
   }
 
   return failures;
+}
+
+/**
+ * Angular 20+ names a file after its class and drops the construct infix: `kui-button.ts` holds
+ * `KuiButton`, `kui-button.html` is its template and `kui-button.spec.ts` its test. A pipe keeps
+ * its role as a hyphenated word (`kui-mark-pipe.ts`). Files that are not Angular constructs keep
+ * their own role infix (`.interface.ts`, `.type.ts`, `.util.ts`, `.token.ts`).
+ */
+function checkAngularFileNames(root) {
+  const failures = [];
+  const files = collectTextFiles(root, [join(root, 'projects/ui/src')]);
+  const infixPattern = /\.(?:component|directive|service|pipe)(?:\.spec)?\.(?:ts|html|css|scss)$/u;
+  const decoratorPattern = /^@(?:Component|Directive|Service|Injectable|Pipe)\(/gmu;
+  const classPattern = /^(?:export\s+)?(?:default\s+)?(?:abstract\s+)?class\s+([A-Za-z0-9_]+)/gmu;
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (infixPattern.test(file)) {
+      failures.push(
+        `${repoPath} uses a .component, .directive, .service or .pipe infix; name the file after its class (kui-name.ts, kui-name-pipe.ts)`,
+      );
+      continue;
+    }
+
+    // A `.util.ts` module exposes functions and may host a service as an implementation detail.
+    if (
+      !file.endsWith('.ts') ||
+      file.endsWith('.spec.ts') ||
+      file.endsWith('.d.ts') ||
+      file.endsWith('.util.ts')
+    ) {
+      continue;
+    }
+
+    const text = readFileSync(file, 'utf8');
+    const decorators = [...text.matchAll(decoratorPattern)];
+    const classes = [...text.matchAll(classPattern)];
+
+    if (decorators.length !== 1 || classes.length !== 1) {
+      continue;
+    }
+
+    const expected = kebabCase(classes[0][1]);
+    const actual = file.split(/[\\/]/u).at(-1).replace(/\.ts$/u, '');
+
+    if (actual !== expected) {
+      failures.push(
+        `${repoPath} declares ${classes[0][1]}; the file must be named ${expected}.ts after its class`,
+      );
+    }
+  }
+
+  return failures;
+}
+
+function kebabCase(name) {
+  return name
+    .replace(/([a-z0-9])([A-Z])/gu, '$1-$2')
+    .replace(/([A-Z]+)([A-Z][a-z])/gu, '$1-$2')
+    .toLowerCase();
 }
 
 /**

@@ -1,7 +1,7 @@
 import type { KuiSize } from '../../types';
 import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
-import type { KuiAccordionMode } from './kui-accordion.component';
-import type { KuiAccordionAppearance } from './kui-accordion.component';
+import type { KuiAccordionMode } from './kui-accordion';
+import type { KuiAccordionAppearance } from './kui-accordion';
 
 /** Defaults for `kui-accordion`, set under the `accordion` key of the component defaults. */
 export interface KuiAccordionOptions {

@@ -97,7 +97,7 @@ Viewer, or Chart because their own pages/components own those integrated states.
 - [Skeleton source documentation](../../../../../../../../../docs/skeleton.md) establishes
   usage, input domains, region semantics, reduced-motion expectation, and the component token
   family.
-- [Directive source](../../../../../../../../../projects/ui/src/lib/components/skeleton/kui-skeleton.directive.ts),
+- [Directive source](../../../../../../../../../projects/ui/src/lib/components/skeleton/kui-skeleton.ts),
   [shape type](../../../../../../../../../projects/ui/src/lib/components/skeleton/kui-skeleton-shape.type.ts),
   and [animation type](../../../../../../../../../projects/ui/src/lib/components/skeleton/kui-skeleton-animation.type.ts)
   establish exports, defaults, host attributes, and literal input domains. The local
@@ -110,7 +110,7 @@ Viewer, or Chart because their own pages/components own those integrated states.
   define Skeleton's component defaults and light/dark semantic colors. The component token list is
   in [tokens.md](../../../../../../../../../docs/tokens.md); the listed `--kui-skeleton-gap` is
   not read by the Skeleton stylesheet.
-- The [direct unit spec](../../../../../../../../../projects/ui/src/lib/components/skeleton/kui-skeleton.directive.spec.ts)
+- The [direct unit spec](../../../../../../../../../projects/ui/src/lib/components/skeleton/kui-skeleton.spec.ts)
   checks host class, explicit shape/animation attributes, and `aria-hidden`. Existing composition
   evidence includes Avatar's circle/square loading shape, Command Palette's `aria-busy` skeleton
   rows, Media Viewer's rectangular photo placeholder with load/reveal tests, and Bar Chart's

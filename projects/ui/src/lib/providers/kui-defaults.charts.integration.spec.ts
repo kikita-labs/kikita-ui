@@ -5,18 +5,18 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it } from 'vitest';
 
-import { KuiBarChart } from '../components/chart/bar/kui-bar-chart.component';
+import { KuiBarChart } from '../components/chart/bar/kui-bar-chart';
 import type {
   KuiChartCartesianSeries,
   KuiChartScatterSeries,
   KuiChartSlice,
 } from '../components/chart/chart.types';
-import { KuiDonutChart } from '../components/chart/donut/kui-donut-chart.component';
+import { KuiDonutChart } from '../components/chart/donut/kui-donut-chart';
 import type { KuiChartBaseOptions } from '../components/chart/kui-chart-options.interface';
-import { KuiLineChart } from '../components/chart/line/kui-line-chart.component';
-import { KuiScatterChart } from '../components/chart/scatter/kui-scatter-chart.component';
+import { KuiLineChart } from '../components/chart/line/kui-line-chart';
+import { KuiScatterChart } from '../components/chart/scatter/kui-scatter-chart';
 import { provideKikitaUi } from '../root';
-import { KuiDefaults } from './kui-defaults.service';
+import { KuiDefaults } from './kui-defaults';
 
 type ChartSize = 'sm' | 'md' | 'lg';
 

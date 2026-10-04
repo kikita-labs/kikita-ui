@@ -1,7 +1,7 @@
 import type { Provider } from '@angular/core';
 
+import { KuiDefaults } from './kui-defaults';
 import type { KuiDefaultsSource } from './kui-defaults.interface';
-import { KuiDefaults } from './kui-defaults.service';
 import { KUI_DEFAULTS_SEED } from './kui-defaults.token';
 
 /**

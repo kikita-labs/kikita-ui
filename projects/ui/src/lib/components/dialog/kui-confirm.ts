@@ -2,9 +2,9 @@ import { inject } from '@angular/core';
 
 import { map, type Observable } from 'rxjs';
 
-import { KuiConfirmDialog } from './kui-confirm.component';
 import type { KuiConfirmConfig } from './kui-confirm.types';
-import { KuiDialog } from './kui-dialog.service';
+import { KuiConfirmDialog } from './kui-confirm-dialog';
+import { KuiDialog } from './kui-dialog';
 
 /**
  * Returns a function that opens a pre-built confirmation dialog.

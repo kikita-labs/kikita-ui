@@ -30,11 +30,11 @@ This page demonstrates the currently shipped Breadcrumbs contract. The component
 ## Source references
 
 - [Breadcrumbs documentation](../../../../../../../../../docs/breadcrumbs.md)
-- [Breadcrumbs directive](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumbs.directive.ts)
-- [Breadcrumb item directive](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumb-item.directive.ts)
-- [Separator component](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumb-separator.component.ts)
+- [Breadcrumbs directive](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumbs.ts)
+- [Breadcrumb item directive](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumb-item.ts)
+- [Separator component](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumb-separator.ts)
 - [Root size resolution](../../../../../../../../ui/src/lib/providers/kui-defaults.util.ts) and [default precedence](../../../../../../../../../docs/di-defaults.md)
-- [Breadcrumbs unit tests](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumbs.component.spec.ts)
+- [Breadcrumbs unit tests](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumbs.spec.ts)
 - [Breadcrumbs runtime styles](../../../../../../../../ui/src/lib/components/breadcrumbs/kui-breadcrumbs.css) and [generated theme variables](../../../../../../../../ui/src/lib/theme/create-kui-theme.ts)
 - [Public style entrypoint](../../../../../../../../ui/src/styles/kikita-ui.css)
 

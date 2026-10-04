@@ -19,7 +19,7 @@ import { KuiSlider } from '../slider';
 import { KuiSwitch } from '../switch';
 import { KuiTextarea } from '../textarea';
 import { KuiTimePicker } from '../time-picker';
-import { KuiField } from './kui-field.component';
+import { KuiField } from './kui-field';
 
 /**
  * Characterization of the field wiring every form control shares: the host id, `aria-describedby`,

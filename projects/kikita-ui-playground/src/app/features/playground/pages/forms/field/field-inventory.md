@@ -4,19 +4,19 @@
 
 - Public usage and consumer boundaries: [`docs/field.md`](../../../../../../../../../docs/field.md).
 - Field inputs, derived state, id wiring, affix detection, and click behavior:
-  [`kui-field.component.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.ts)
-  and [`kui-field.component.html`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.html).
+  [`kui-field.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.ts)
+  and [`kui-field.html`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.html).
 - Projected marker directives:
-  [`kui-field-markers.directive.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field-markers.directive.ts).
+  [`kui-field-markers.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field-markers.ts).
 - Affix kinds and accessible host behavior:
-  [`kui-field-affix.directive.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field-affix.directive.ts).
+  [`kui-field-affix.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field-affix.ts).
 - Input ARIA/size wiring:
-  [`kui-input.directive.ts`](../../../../../../../../../projects/ui/src/lib/components/input/kui-input.directive.ts).
+  [`kui-input.ts`](../../../../../../../../../projects/ui/src/lib/components/input/kui-input.ts).
 - Scoped field options and provider:
   [`kui-field-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/tokens/kui-field-options.interface.ts).
 - Field behavior coverage:
-  [`kui-field.component.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.spec.ts)
-  and [`kui-field-affix.directive.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field-affix.directive.spec.ts).
+  [`kui-field.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.spec.ts)
+  and [`kui-field-affix.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field-affix.spec.ts).
 
 ## Inputs and defaults
 

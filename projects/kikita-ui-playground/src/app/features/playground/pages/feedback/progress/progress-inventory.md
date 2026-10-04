@@ -120,7 +120,7 @@ no arbitrary-props editor is added.
 
 - [Progress docs](../../../../../../../../../docs/progress.md) provide the import, examples, input
   domains/defaults, accessible-name requirement, and public style entrypoint note.
-- [Component source](../../../../../../../../../projects/ui/src/lib/components/progress/kui-progress.component.ts),
+- [Component source](../../../../../../../../../projects/ui/src/lib/components/progress/kui-progress.ts),
   [Progress barrel](../../../../../../../../../projects/ui/src/lib/components/progress/index.ts),
   [component exports](../../../../../../../../../projects/ui/src/lib/components/index.ts), and
   [public API](../../../../../../../../../projects/ui/src/public-api.ts) establish signal inputs,
@@ -128,7 +128,7 @@ no arbitrary-props editor is added.
 - [Progress CSS](../../../../../../../../../projects/ui/src/lib/components/progress/kui-progress.css) and the
   [style entrypoint](../../../../../../../../../projects/ui/src/styles/kikita-ui.css) establish
   colors, linear thicknesses, circular geometry styling, motion, reduced motion, and CSS hooks.
-- The [Progress unit spec](../../../../../../../../../projects/ui/src/lib/components/progress/kui-progress.component.spec.ts)
+- The [Progress unit spec](../../../../../../../../../projects/ui/src/lib/components/progress/kui-progress.spec.ts)
   checks type default, role, determinate/indeterminate ARIA, linear fill/clamping, host size/color,
   circular markup/dimensions/dash offsets, static-number coercion, and invalid static value fallback.
   The [root defaults integration spec](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-defaults.integration.spec.ts)
@@ -136,7 +136,7 @@ no arbitrary-props editor is added.
   fallbacks or reduced-motion CSS.
 - The legacy Progress playground page (removed legacy file `playground/src/app/pages/progress/progress.page.html`)
   demonstrates color/size matrices, labels, circular center content, indeterminate samples, and a
-  live slider. The replacement Playground config has no root size default. [File Upload](../../../../../../../../../projects/ui/src/lib/components/file-upload/kui-file-upload.component.html)
+  live slider. The replacement Playground config has no root size default. [File Upload](../../../../../../../../../projects/ui/src/lib/components/file-upload/kui-file-upload.html)
   uses Progress for consumer-owned upload feedback.
 - `docs/design-provenance.md` has no Progress-specific visual decision. This page reuses the shipped
   Progress rendering and the agreed card-based entity-page contract; it introduces no component

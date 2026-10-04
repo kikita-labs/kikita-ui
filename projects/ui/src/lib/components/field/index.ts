@@ -1,4 +1,4 @@
-export * from './kui-field.component';
-export * from './kui-field-affix.directive';
-export * from './kui-field-markers.directive';
+export * from './kui-field';
+export * from './kui-field-affix';
+export * from './kui-field-markers';
 export * from './kui-field-options.interface';

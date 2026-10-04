@@ -14,11 +14,11 @@ the public API, native and Signal Forms behavior, documented caveats, and determ
   [`public-api.ts`](../../../../../../../../../projects/ui/src/public-api.ts), and
   [`KuiSize`](../../../../../../../../../projects/ui/src/lib/types/kui-size.type.ts).
 - Implementation and focused tests:
-  [`kui-textarea.directive.ts`](../../../../../../../../../projects/ui/src/lib/components/textarea/kui-textarea.directive.ts),
-  [`kui-textarea.directive.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/textarea/kui-textarea.directive.spec.ts),
-  [`kui-field.component.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.ts),
-  [`kui-field.component.html`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.html),
-  and [`kui-field.component.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.spec.ts).
+  [`kui-textarea.ts`](../../../../../../../../../projects/ui/src/lib/components/textarea/kui-textarea.ts),
+  [`kui-textarea.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/textarea/kui-textarea.spec.ts),
+  [`kui-field.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.ts),
+  [`kui-field.html`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.html),
+  and [`kui-field.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.spec.ts).
 - Defaults and tokens: [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts),
   [`kikita-ui-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),
   [`kui-field-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/tokens/kui-field-options.interface.ts),
@@ -134,7 +134,7 @@ own behaviors rather than styling a textarea into a different control.
   and that Textarea then uses the Field's touched-gated invalid value. The Textarea source doc does
   not describe this behavior. The Field source and tests cover that collision with `input[kuiInput]`,
   but the Textarea suite has no direct form test.
-- `kui-textarea.directive.spec.ts` covers local `size="lg"` plus `invalid`, and Field-generated
+- `kui-textarea.spec.ts` covers local `size="lg"` plus `invalid`, and Field-generated
   id/label, inherited `sm`, Field error state, and hint/error descriptions. It does not cover the
   default `md`, all four sizes, `invalid=false`, explicit id, root-size default, standalone
   accessibility, read-only/disabled native states, real hover/focus, resize, Signal Forms, SSR, or

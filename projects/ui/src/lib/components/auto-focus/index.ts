@@ -1,1 +1,1 @@
-export * from './kui-auto-focus.directive';
+export * from './kui-auto-focus';

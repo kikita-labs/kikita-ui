@@ -131,9 +131,9 @@ assertion that the Play/Pause control stays visible.
 ## Source audit
 
 - `docs/carousel.md` — usage, API table, accessibility, keyboard, tokens, known gaps.
-- `projects/ui/src/lib/components/carousel/kui-carousel.component.ts` and
-  `kui-carousel-slide.directive.ts` — inputs, model, effects, timers, keyboard, drag, roles, labels.
-- `projects/ui/src/lib/components/carousel/kui-carousel.component.spec.ts` — unit coverage: labels,
+- `projects/ui/src/lib/components/carousel/kui-carousel.ts` and
+  `kui-carousel-slide.ts` — inputs, model, effects, timers, keyboard, drag, roles, labels.
+- `projects/ui/src/lib/components/carousel/kui-carousel.spec.ts` — unit coverage: labels,
   scroll sync, cursor/lock, touch exclusion, mouse drag, snap-restore race, boundaries, loop, keyboard,
   Play/Pause label (via `click()` only).
 - `projects/ui/src/lib/components/carousel/kui-carousel.css` — layout, tokens, dots, control slots, scrollbar hiding.

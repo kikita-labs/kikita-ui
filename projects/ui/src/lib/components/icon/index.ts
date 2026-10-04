@@ -1,4 +1,4 @@
-export * from './kui-icon.component';
+export * from './kui-icon';
 export * from './kui-icon-brand-default';
 export * from './kui-icon-glyph.type';
 export * from './kui-icon-lucide-default';

@@ -3,9 +3,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { describe, expect, it } from 'vitest';
 
-import { KuiI18n } from '../../i18n/kui-i18n.service';
+import { KuiI18n } from '../../i18n/kui-i18n';
 import { provideKikitaUi } from '../../root';
-import { KuiPagination } from './kui-pagination.component';
+import { KuiPagination } from './kui-pagination';
 
 @Component({
   imports: [KuiPagination],

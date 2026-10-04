@@ -133,7 +133,7 @@
   }
 
   /* Real hit target for a slice -- pointer/focus events land here, never on the transformed
-     cosmetic `.kui-chart__slice` twin (see `kui-donut-chart.component.html`'s doc on the
+     cosmetic `.kui-chart__slice` twin (see `kui-donut-chart.html`'s doc on the
      hover-flicker bug this split fixes). Invisible: `fill: transparent` still paints (so it still
      receives pointer events under the default `pointer-events: visiblePainted`), just with zero
      opacity. */
@@ -151,7 +151,7 @@
      * Only the hover pop-out (`[style.transform]`, a `translate()`) lives on this element's own
      * `transform` -- safe to CSS-transition, since it only ever changes on hover (rare,
      * user-triggered). The hide/show re-partition's rotation lives on the WRAPPING `<g>` instead
-     * (`kui-donut-chart.component.html`), rewritten every animation frame by
+     * (`kui-donut-chart.html`), rewritten every animation frame by
      * `KuiDonutChart`'s `requestAnimationFrame`-driven tween (see its `displayedShareById`
      * doc) -- deliberately with no CSS transition of its own, since a per-frame-written property
      * fighting its own CSS transition would just add stutter, not smoothness. An earlier version

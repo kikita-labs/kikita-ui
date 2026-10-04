@@ -2,7 +2,7 @@ import type { Signal } from '@angular/core';
 import { InjectionToken } from '@angular/core';
 
 import type { KuiSplitterOrientation } from './kui-splitter-orientation.type';
-import type { KuiSplitterPane } from './kui-splitter-pane.component';
+import type { KuiSplitterPane } from './kui-splitter-pane';
 
 /** Which adjacent pane a gutter's one-touch collapse button controls, if any. */
 export type KuiSplitterCollapseTarget = 'before' | 'after' | null;

@@ -1,7 +1,7 @@
 import type { KuiSize } from '../../types';
 import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
-import type { KuiFileUploadVariant } from './kui-file-upload.component';
-import type { KuiFileUploadMode } from './kui-file-upload.component';
+import type { KuiFileUploadVariant } from './kui-file-upload';
+import type { KuiFileUploadMode } from './kui-file-upload';
 
 /** Defaults for `kui-file-upload`, set under the `fileUpload` key of the component defaults. */
 export interface KuiFileUploadOptions {

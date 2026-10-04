@@ -1,5 +1,5 @@
-export { KuiBreadcrumbItem } from './kui-breadcrumb-item.directive';
-export { KuiBreadcrumbSeparator } from './kui-breadcrumb-separator.component';
-export type { KuiBreadcrumbsSize } from './kui-breadcrumbs.directive';
-export { KuiBreadcrumbs } from './kui-breadcrumbs.directive';
+export { KuiBreadcrumbItem } from './kui-breadcrumb-item';
+export { KuiBreadcrumbSeparator } from './kui-breadcrumb-separator';
+export type { KuiBreadcrumbsSize } from './kui-breadcrumbs';
+export { KuiBreadcrumbs } from './kui-breadcrumbs';
 export * from './kui-breadcrumbs-options.interface';

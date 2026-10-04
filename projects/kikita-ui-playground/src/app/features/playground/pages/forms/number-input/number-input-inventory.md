@@ -17,13 +17,13 @@ integration.
   [`number-input/index.ts`](../../../../../../../../../projects/ui/src/lib/components/number-input/index.ts),
   [`components/index.ts`](../../../../../../../../../projects/ui/src/lib/components/index.ts),
   [`public-api.ts`](../../../../../../../../../projects/ui/src/public-api.ts),
-  [`kui-number-input.directive.ts`](../../../../../../../../../projects/ui/src/lib/components/number-input/kui-number-input.directive.ts),
+  [`kui-number-input.ts`](../../../../../../../../../projects/ui/src/lib/components/number-input/kui-number-input.ts),
   and [`KuiSize`](../../../../../../../../../projects/ui/src/lib/types/kui-size.type.ts).
 - Focused tests and Field integration:
-  [`kui-number-input.directive.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/number-input/kui-number-input.directive.spec.ts),
-  [`kui-field.component.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.ts),
-  [`kui-field.component.html`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.html),
-  and [`kui-field.component.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.spec.ts).
+  [`kui-number-input.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/number-input/kui-number-input.spec.ts),
+  [`kui-field.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.ts),
+  [`kui-field.html`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.html),
+  and [`kui-field.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.spec.ts).
 - Defaults, tokens, and styles:
   [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts),
   [`KikitaUiOptions`](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),

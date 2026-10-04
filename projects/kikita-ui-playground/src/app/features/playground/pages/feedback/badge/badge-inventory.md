@@ -22,8 +22,8 @@ There are no Badge outputs or models. Every appearance × size combination is sh
 ## Source audit
 
 - [Badge docs](../../../../../../../../../docs/badge.md) list appearance and size values and the supported host semantics, but do not state source defaults or root-size precedence.
-- [Directive source](../../../../../../../../../projects/ui/src/lib/components/badge/kui-badge.directive.ts), [appearance type](../../../../../../../../../projects/ui/src/lib/components/badge/kui-badge-appearance.type.ts), and [shared size type](../../../../../../../../../projects/ui/src/lib/types/kui-size.type.ts) establish the exact input signatures and defaults. The [root-default helper](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts) supplies local → root → `md` resolution.
-- [Badge stylesheet](../../../../../../../../../projects/ui/src/lib/components/badge/kui-badge.css) maps appearance tokens and size geometry. [Unit tests](../../../../../../../../../projects/ui/src/lib/components/badge/kui-badge.directive.spec.ts) verify the host class and explicit appearance/size attributes; this page adds the complete visible matrix, default assertion, semantic hosts, and real anchor activation.
+- [Directive source](../../../../../../../../../projects/ui/src/lib/components/badge/kui-badge.ts), [appearance type](../../../../../../../../../projects/ui/src/lib/components/badge/kui-badge-appearance.type.ts), and [shared size type](../../../../../../../../../projects/ui/src/lib/types/kui-size.type.ts) establish the exact input signatures and defaults. The [root-default helper](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts) supplies local → root → `md` resolution.
+- [Badge stylesheet](../../../../../../../../../projects/ui/src/lib/components/badge/kui-badge.css) maps appearance tokens and size geometry. [Unit tests](../../../../../../../../../projects/ui/src/lib/components/badge/kui-badge.spec.ts) verify the host class and explicit appearance/size attributes; this page adds the complete visible matrix, default assertion, semantic hosts, and real anchor activation.
 
 ## Omitted combinations
 

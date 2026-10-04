@@ -1,6 +1,6 @@
 import type { Provider } from '@angular/core';
 
-import { KuiI18n } from './kui-i18n.service';
+import { KuiI18n } from './kui-i18n';
 import type { KuiI18nOptions } from './kui-i18n.token';
 import { KUI_I18N_SEED } from './kui-i18n.token';
 import type { KuiLocaleSource, KuiMessagesSource } from './kui-messages.interface';

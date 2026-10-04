@@ -89,7 +89,7 @@
 
   /*
    * Rendered as the projected content of a `kui-dropdown` instance (see
-   * kui-color-input.directive.ts), which already supplies the floating chrome:
+   * kui-color-input.ts), which already supplies the floating chrome:
    * background/border/radius/shadow, viewport-safe max-height, internal scroll, and
    * overscroll containment. Only the picker's own inner spacing/sizing lives here.
    */

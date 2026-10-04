@@ -149,9 +149,9 @@ it with Enter.
 - Public contract and examples: `docs/file-upload.md`.
 - Inputs, `files` model, `retry` output, validation, drag/drop, preview URL
   lifecycle, keyboard handlers, and default-size resolution:
-  `projects/ui/src/lib/components/file-upload/kui-file-upload.component.ts`.
+  `projects/ui/src/lib/components/file-upload/kui-file-upload.ts`.
 - Native control structure, role/name/live regions, progress, retry, and remove
-  controls: `projects/ui/src/lib/components/file-upload/kui-file-upload.component.html`.
+  controls: `projects/ui/src/lib/components/file-upload/kui-file-upload.html`.
 - File entry fields and lifecycle types:
   `projects/ui/src/lib/components/file-upload/kui-upload-file.interface.ts`.
 - Base, size, hover, drag, disabled, status, and focus styling:
@@ -159,7 +159,7 @@ it with Enter.
 - Root-size injection: `projects/ui/src/lib/providers/kui-defaults.util.ts` and
   `projects/ui/src/lib/providers/kikita-ui-options.token.ts`.
 - Component tests and current focused behavior coverage:
-  `projects/ui/src/lib/components/file-upload/kui-file-upload.component.spec.ts`.
+  `projects/ui/src/lib/components/file-upload/kui-file-upload.spec.ts`.
 - Page examples and client-only deterministic seed data live beside this
   inventory under `file-upload.ts`, `components/`, and `helpers/`.
 - Page-owned browser behavior and screenshot assertions:

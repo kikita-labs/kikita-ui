@@ -5,27 +5,27 @@ import { TestBed } from '@angular/core/testing';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { KuiCarousel } from './components/carousel/kui-carousel.component';
-import { KuiCarouselSlide } from './components/carousel/kui-carousel-slide.directive';
-import { KuiDonutChart } from './components/chart/donut/kui-donut-chart.component';
-import { KuiCommandPalette } from './components/command-palette/kui-command-palette.component';
-import { KuiDropdown } from './components/dropdown/kui-dropdown.component';
-import { KuiDropdownFor } from './components/dropdown/kui-dropdown-for.directive';
-import { KuiOption } from './components/dropdown/kui-option.directive';
-import { KuiMenu } from './components/menu/kui-menu.component';
-import { KuiMenuFor } from './components/menu/kui-menu-for.directive';
-import { KuiMenuItem } from './components/menu/kui-menu-item.directive';
-import { KuiNumberInput } from './components/number-input/kui-number-input.directive';
-import { KuiPopover } from './components/popover/kui-popover.component';
-import { KuiPopoverFor } from './components/popover/kui-popover-for.directive';
-import { KuiSegment } from './components/segmented/kui-segment.directive';
-import { KuiSegmented } from './components/segmented/kui-segmented.component';
-import { KuiSlider } from './components/slider/kui-slider.directive';
-import { KuiTab } from './components/tabs/kui-tab.directive';
-import { KuiTabs } from './components/tabs/kui-tabs.component';
-import { KuiTimePickerPanel } from './components/time-picker/kui-time-picker-panel.component';
-import { KuiToastRegion } from './components/toast/kui-toast-region.component';
-import { KuiTooltip } from './components/tooltip/kui-tooltip.directive';
+import { KuiCarousel } from './components/carousel/kui-carousel';
+import { KuiCarouselSlide } from './components/carousel/kui-carousel-slide';
+import { KuiDonutChart } from './components/chart/donut/kui-donut-chart';
+import { KuiCommandPalette } from './components/command-palette/kui-command-palette';
+import { KuiDropdown } from './components/dropdown/kui-dropdown';
+import { KuiDropdownFor } from './components/dropdown/kui-dropdown-for';
+import { KuiOption } from './components/dropdown/kui-option';
+import { KuiMenu } from './components/menu/kui-menu';
+import { KuiMenuFor } from './components/menu/kui-menu-for';
+import { KuiMenuItem } from './components/menu/kui-menu-item';
+import { KuiNumberInput } from './components/number-input/kui-number-input';
+import { KuiPopover } from './components/popover/kui-popover';
+import { KuiPopoverFor } from './components/popover/kui-popover-for';
+import { KuiSegment } from './components/segmented/kui-segment';
+import { KuiSegmented } from './components/segmented/kui-segmented';
+import { KuiSlider } from './components/slider/kui-slider';
+import { KuiTab } from './components/tabs/kui-tab';
+import { KuiTabs } from './components/tabs/kui-tabs';
+import { KuiTimePickerPanel } from './components/time-picker/kui-time-picker-panel';
+import { KuiToastRegion } from './components/toast/kui-toast-region';
+import { KuiTooltip } from './components/tooltip/kui-tooltip';
 
 /**
  * Resource-lifecycle regression suite: every component that owns a timer, animation frame,

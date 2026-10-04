@@ -1,6 +1,6 @@
 # Calendar Page Inventory
 
-This inventory is a retrospective source audit of the Calendar page and its browser evidence. The public contract was cross-checked against `docs/calendar.md`, `projects/ui/src/lib/components/calendar/kui-calendar.component.ts` (inline template and input/model declarations), `projects/ui/src/lib/components/calendar/kui-calendar.types.ts`, `projects/ui/src/lib/utils/kui-calendar-navigation.util.ts`, `projects/ui/src/lib/i18n/kui-locale.token.ts`, `projects/ui/src/lib/components/calendar/kui-calendar.component.spec.ts`, and `projects/ui/src/lib/components/calendar/kui-calendar.css`.
+This inventory is a retrospective source audit of the Calendar page and its browser evidence. The public contract was cross-checked against `docs/calendar.md`, `projects/ui/src/lib/components/calendar/kui-calendar.ts` (inline template and input/model declarations), `projects/ui/src/lib/components/calendar/kui-calendar.types.ts`, `projects/ui/src/lib/utils/kui-calendar-navigation.util.ts`, `projects/ui/src/lib/i18n/kui-locale.token.ts`, `projects/ui/src/lib/components/calendar/kui-calendar.spec.ts`, and `projects/ui/src/lib/components/calendar/kui-calendar.css`.
 
 ## Public contract mapping
 
@@ -40,7 +40,7 @@ This inventory is a retrospective source audit of the Calendar page and its brow
 
 ## Source-backed behavior and inherited limitations
 
-- Public surface is `projects/ui/src/lib/components/calendar/index.ts`; input/model declarations and behavior are in `kui-calendar.component.ts`; public size/disabled-predicate types are in `kui-calendar.types.ts`.
+- Public surface is `projects/ui/src/lib/components/calendar/index.ts`; input/model declarations and behavior are in `kui-calendar.ts`; public size/disabled-predicate types are in `kui-calendar.types.ts`.
 - Local docs and source agree that Calendar is single-date only and range selection belongs to `kui-calendar-range`. An older Kikita UI MCP Markdown description of `mode="range"` is stale and is not part of the local exported API.
 - `kui-calendar` uses `role="grid"`, a separate weekday `role="row"`, numeric day button names, and `aria-selected`, `aria-current`, and `aria-disabled`. The current source does not assign `row`/`gridcell` roles to each date row/cell and does not include the full date in each day button's accessible name. This is inherited component semantics, not a page-level change.
 - Calendar's accessible grid name, Previous/Next navigation labels, and Today shortcut are currently English strings in the primitive. Russian locale evidence only claims translated Playground labels plus localized `Intl` month/week text; it does not claim primitive controls are localized.

@@ -2,7 +2,7 @@ import type { Signal } from '@angular/core';
 import { computed, inject } from '@angular/core';
 
 import type { KuiSize } from '../types';
-import { KuiDefaults } from './kui-defaults.service';
+import { KuiDefaults } from './kui-defaults';
 
 /**
  * Injects the global control size as a signal, limited to the sizes a primitive supports.

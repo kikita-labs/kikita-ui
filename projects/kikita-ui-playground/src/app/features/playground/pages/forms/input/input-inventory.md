@@ -10,17 +10,17 @@
   [`public-api.ts`](../../../../../../../../../projects/ui/src/public-api.ts), and
   [`KuiSize`](../../../../../../../../../projects/ui/src/lib/types/kui-size.type.ts).
 - Directive behavior and focused tests:
-  [`kui-input.directive.ts`](../../../../../../../../../projects/ui/src/lib/components/input/kui-input.directive.ts)
-  and [`kui-input.directive.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/input/kui-input.directive.spec.ts).
+  [`kui-input.ts`](../../../../../../../../../projects/ui/src/lib/components/input/kui-input.ts)
+  and [`kui-input.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/input/kui-input.spec.ts).
 - Default resolution implementation and provider types:
   [`kui-defaults.util.ts`](../../../../../../../../../projects/ui/src/lib/providers/kui-defaults.util.ts),
   [`provide-kikita-ui.ts`](../../../../../../../../../projects/ui/src/lib/providers/provide-kikita-ui.ts),
   [`kikita-ui-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/providers/kikita-ui-options.interface.ts),
   and [`kui-field-options.interface.ts`](../../../../../../../../../projects/ui/src/lib/tokens/kui-field-options.interface.ts).
 - Field and Signal Forms behavior:
-  [`kui-field.component.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.ts),
-  [`kui-field.component.html`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.html),
-  [`kui-field.component.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.component.spec.ts),
+  [`kui-field.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.ts),
+  [`kui-field.html`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.html),
+  [`kui-field.spec.ts`](../../../../../../../../../projects/ui/src/lib/components/field/kui-field.spec.ts),
   and [`forms.md`](../../../../../../../../../docs/forms.md).
 - Runtime styles and theme variables:
   [`input.css`](../../../../../../../../../projects/ui/src/lib/components/input/kui-input.css),
@@ -34,7 +34,7 @@
   `legacy Input page` (removed legacy file `playground/src/app/pages/input/input.page.html`),
   [`Field inventory`](../field/field-inventory.md),
   [`Group inventory`](../group/group-inventory.md), and
-  [`OTP Input`](../../../../../../../../../projects/ui/src/lib/components/otp-input/kui-otp-input.component.ts).
+  [`OTP Input`](../../../../../../../../../projects/ui/src/lib/components/otp-input/kui-otp-input.ts).
 
 ## Public API, defaults, and coverage map
 

@@ -1,5 +1,5 @@
-import type { KuiStepperSize } from './kui-stepper.component';
-import type { KuiStepperOrientation } from './kui-stepper.component';
+import type { KuiStepperSize } from './kui-stepper';
+import type { KuiStepperOrientation } from './kui-stepper';
 
 /** Defaults for `kui-stepper`, set under the `stepper` key of the component defaults. */
 export interface KuiStepperOptions {

@@ -4,10 +4,10 @@ import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
 import { provideKikitaUi } from '../../root';
-import { KuiCalendar } from '../calendar/kui-calendar.component';
+import { KuiCalendar } from '../calendar/kui-calendar';
 import { KuiDropdown } from '../dropdown';
-import { KuiField } from '../field/kui-field.component';
-import { KuiDatePicker } from './kui-date-picker.directive';
+import { KuiField } from '../field/kui-field';
+import { KuiDatePicker } from './kui-date-picker';
 
 @Component({
   imports: [KuiField, KuiDropdown, KuiDatePicker, KuiCalendar],
