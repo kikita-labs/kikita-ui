@@ -247,13 +247,19 @@ describe('verify-static-audit', () => {
 
   it('allows the typography layer to read colour roles directly', () => {
     const root = makeValidRepo();
+    mkdirSync(join(root, 'projects/ui/src/lib/components/typography'), { recursive: true });
     writeFileSync(
-      join(root, 'projects/ui/src/styles/typography.css'),
+      join(root, 'projects/ui/src/lib/components/typography/kui-text.directive.spec.ts'),
+      'export {};\n',
+    );
+    writeFileSync(join(root, 'docs/typography.md'), '# Typography\n');
+    writeFileSync(
+      join(root, 'projects/ui/src/lib/components/typography/kui-typography.css'),
       '.kui-text-muted { color: var(--kui-color-text-secondary); }\n',
     );
     writeFileSync(
       join(root, 'projects/ui/src/styles/kikita-ui.css'),
-      "@import './button.css';\n@import './typography.css';\n",
+      "@import './button.css';\n@import '../lib/components/typography/kui-typography.css';\n",
     );
 
     expect(runStaticAudit(root)).toEqual([]);
