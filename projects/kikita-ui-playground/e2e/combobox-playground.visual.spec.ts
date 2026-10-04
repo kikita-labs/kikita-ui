@@ -106,6 +106,7 @@ test('captures a hovered combobox option @visual', async ({ page }) => {
   await input.fill('Dan');
 
   const listbox = page.getByRole('listbox');
+  await expect(listbox.getByRole('option')).toHaveCount(1);
   const option = listbox.getByRole('option', { name: 'Daniel Kowalski', exact: true });
   await option.hover();
   expect(await option.evaluate((element) => element.matches(':hover'))).toBe(true);
