@@ -1,6 +1,6 @@
 # ADR 0001: Library layers, decoupled controls and bundle budgets
 
-Status: accepted, 2026-10-04. Implemented in slices; the audits in `scripts/` enforce each rule as its slice lands.
+Status: accepted, 2026-10-04. Slices 0-8 are implemented and committed; the audits in `scripts/` enforce each rule. The final visual gate is tracked in `.local-notes/v2/refactor.md`.
 
 ## Context
 
@@ -108,18 +108,18 @@ Causes found in the source:
 Measured with `pnpm audit:bundle` on a fresh build (library code reached from `main.js` and its static
 chunks, one export imported alone):
 
-| Export                                                            | Before            | After                     | Target                                                        |
-| ----------------------------------------------------------------- | ----------------- | ------------------------- | ------------------------------------------------------------- |
-| `kuiInput`, `kuiCheckbox`, `kuiRadio`, `kuiSwitch`, `kuiTextarea` | 73 kB             | 3 kB                      | 30 kB, met                                                    |
-| `kuiSelect`                                                       | 86 kB             | 33 kB                     | 45 kB, met                                                    |
-| `kuiSlider`, `kuiNumberInput`, `kuiCombobox`                      | 80-84 kB          | 14-26 kB                  | 45 kB, met                                                    |
-| Date Picker, Time Picker                                          | 82-85 kB          | 30-32 kB                  | 55 kB, met                                                    |
-| Color Input                                                       | 95 kB             | 44 kB                     | 45 kB, met                                                    |
-| Tooltip                                                           | 10 kB             | 7.5 kB                    | 8 kB, met                                                     |
-| `kui-pagination`                                                  | 99 kB             | 71 kB                     | 45 kB, missed (a real `kuiSelect` and `kui-field` dependency) |
-| Dropdown                                                          | 12 kB             | 8.8 kB                    | 8 kB, missed (own overlay code)                               |
-| Button, Icon Button, Icon, Loader                                 | 26, 25, 12, 15 kB | 24.8, 24.2, 10.2, 12.1 kB | 12, 12, 8, 8 kB, missed                                       |
-| `provideKikitaUi`                                                 | 36 kB             | 35.6 kB                   | 14 kB, missed                                                 |
+| Export                                                            | Before            | After                    | Target                                                        |
+| ----------------------------------------------------------------- | ----------------- | ------------------------ | ------------------------------------------------------------- |
+| `kuiInput`, `kuiCheckbox`, `kuiRadio`, `kuiSwitch`, `kuiTextarea` | 73 kB             | 3 kB                     | 30 kB, met                                                    |
+| `kuiSelect`                                                       | 86 kB             | 33 kB                    | 45 kB, met                                                    |
+| `kuiSlider`, `kuiNumberInput`, `kuiCombobox`                      | 80-84 kB          | 14-26 kB                 | 45 kB, met                                                    |
+| Date Picker, Time Picker                                          | 82-85 kB          | 30-32 kB                 | 55 kB, met                                                    |
+| Color Input                                                       | 95 kB             | 44 kB                    | 45 kB, met                                                    |
+| Tooltip                                                           | 10 kB             | 7.5 kB                   | 8 kB, met                                                     |
+| `kui-pagination`                                                  | 99 kB             | 68 kB                    | 45 kB, missed (a real `kuiSelect` and `kui-field` dependency) |
+| Dropdown                                                          | 12 kB             | 8.8 kB                   | 8 kB, missed (own overlay code)                               |
+| Button, Icon Button, Icon, Loader                                 | 26, 25, 12, 15 kB | 24.0, 23.5, 9.5, 12.1 kB | 12, 12, 8, 8 kB, missed                                       |
+| `provideKikitaUi`                                                 | 36 kB             | 35.8 kB                  | 14 kB, missed                                                 |
 
 The misses come from the shared icon renderer, the i18n service with its English pack and the runtime
 theme generator, which decisions 12 to 14 above explain.
