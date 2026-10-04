@@ -37,15 +37,15 @@
   .kui-empty__title {
     color: var(--kui-empty-title-color, var(--kui-color-text));
     font-size: var(--kui-empty-title-size, var(--kui-text-md-size));
-    font-weight: var(--kui-empty-title-weight, 650);
-    line-height: 1.25;
+    font-weight: var(--kui-empty-title-weight, var(--kui-font-weight-semibold));
+    line-height: var(--kui-type-heading-md-line-height);
   }
 
   .kui-empty__description {
     max-inline-size: 100%;
     color: var(--kui-empty-description-color, var(--kui-color-text-secondary));
     font-size: var(--kui-empty-description-size, var(--kui-text-sm-size));
-    line-height: 1.6;
+    line-height: var(--kui-type-body-lg-line-height);
   }
 
   .kui-empty__actions {

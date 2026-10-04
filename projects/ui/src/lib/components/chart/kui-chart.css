@@ -13,7 +13,7 @@
   .kui-chart {
     display: flex;
     flex-direction: column;
-    gap: var(--kui-chart-gap, var(--kui-space-3, 12px));
+    gap: var(--kui-chart-gap, var(--kui-space-3));
     width: 100%;
   }
 
@@ -49,7 +49,7 @@
 
   .kui-chart__axis-text {
     fill: var(--kui-chart-axis-label-color);
-    font-size: var(--kui-chart-axis-text-font-size, var(--kui-text-xs-size, 11px));
+    font-size: var(--kui-chart-axis-text-font-size, var(--kui-text-xs-size));
     font-family: var(--kui-font-sans);
   }
 
@@ -86,7 +86,7 @@
 
   .kui-chart__series--dimmed {
     opacity: 0.25;
-    transition: opacity var(--kui-duration-quick, 120ms) var(--kui-ease, ease);
+    transition: opacity var(--kui-duration-quick) var(--kui-ease);
   }
 
   .kui-chart__mark {
@@ -99,7 +99,7 @@
        (which would scale it away from its drawn position). */
     transform-box: fill-box;
     transform-origin: center;
-    transition: transform var(--kui-duration-quick, 120ms) var(--kui-ease, ease);
+    transition: transform var(--kui-duration-quick) var(--kui-ease);
   }
 
   /* Hover grow, matching common chart libraries (Chart.js/Highcharts) -- a uniform scale around
@@ -160,7 +160,7 @@
      * (found from the maintainer noticing hover no longer animated at all). Splitting them onto two
      * elements is what lets each transition independently, correctly.
      */
-    transition: transform var(--kui-duration-quick, 120ms) var(--kui-ease, ease);
+    transition: transform var(--kui-duration-quick) var(--kui-ease);
   }
 
   /* No neighbor to separate from when only one slice renders -- see
@@ -183,11 +183,11 @@
        the stack shifts down to fill it -- see `computeStackedDomain`'s JSDoc) instead of bars
        silently jumping to their new size/position. */
     transition:
-      x var(--kui-duration-normal, 200ms) var(--kui-ease, ease),
-      y var(--kui-duration-normal, 200ms) var(--kui-ease, ease),
-      width var(--kui-duration-normal, 200ms) var(--kui-ease, ease),
-      height var(--kui-duration-normal, 200ms) var(--kui-ease, ease),
-      filter var(--kui-duration-quick, 120ms) var(--kui-ease, ease);
+      x var(--kui-duration-normal) var(--kui-ease),
+      y var(--kui-duration-normal) var(--kui-ease),
+      width var(--kui-duration-normal) var(--kui-ease),
+      height var(--kui-duration-normal) var(--kui-ease),
+      filter var(--kui-duration-quick) var(--kui-ease);
   }
 
   /* Hover highlight for a single bar -- `filter: brightness()`, not a `transform: scale()` like
@@ -209,10 +209,10 @@
   .kui-chart__bar-axis-patch {
     pointer-events: none;
     transition:
-      x var(--kui-duration-normal, 200ms) var(--kui-ease, ease),
-      y var(--kui-duration-normal, 200ms) var(--kui-ease, ease),
-      width var(--kui-duration-normal, 200ms) var(--kui-ease, ease),
-      height var(--kui-duration-normal, 200ms) var(--kui-ease, ease);
+      x var(--kui-duration-normal) var(--kui-ease),
+      y var(--kui-duration-normal) var(--kui-ease),
+      width var(--kui-duration-normal) var(--kui-ease),
+      height var(--kui-duration-normal) var(--kui-ease);
   }
 
   .kui-chart__loading-wave,
@@ -259,8 +259,8 @@
     position: relative;
     display: flex;
     align-items: flex-end;
-    gap: var(--kui-chart-loading-bars-gap, var(--kui-space-3, 12px));
-    padding: var(--kui-chart-loading-bars-padding, var(--kui-space-4, 16px));
+    gap: var(--kui-chart-loading-bars-gap, var(--kui-space-3));
+    padding: var(--kui-chart-loading-bars-padding, var(--kui-space-4));
     box-sizing: border-box;
   }
 
@@ -285,16 +285,16 @@
   }
 
   .kui-chart__loading-bars-axis-line--x {
-    left: var(--kui-space-4, 16px);
-    right: var(--kui-space-4, 16px);
-    bottom: var(--kui-space-4, 16px);
+    left: var(--kui-space-4);
+    right: var(--kui-space-4);
+    bottom: var(--kui-space-4);
     height: 1px;
   }
 
   .kui-chart__loading-bars-axis-line--y {
-    left: var(--kui-space-4, 16px);
-    top: var(--kui-space-4, 16px);
-    bottom: var(--kui-space-4, 16px);
+    left: var(--kui-space-4);
+    top: var(--kui-space-4);
+    bottom: var(--kui-space-4);
     width: 1px;
   }
 
@@ -336,9 +336,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--kui-chart-empty-gap, var(--kui-space-3, 12px));
+    gap: var(--kui-chart-empty-gap, var(--kui-space-3));
     border: 1px dashed var(--kui-chart-empty-border, var(--kui-color-border));
-    border-radius: var(--kui-chart-empty-radius, var(--kui-radius-md, 8px));
+    border-radius: var(--kui-chart-empty-radius, var(--kui-radius-md));
     color: var(--kui-chart-empty-color, var(--kui-color-text-secondary));
   }
 
@@ -347,35 +347,35 @@
   }
 
   .kui-chart__empty span {
-    font-size: var(--kui-chart-empty-text-font-size, var(--kui-text-sm-size, 0.875rem));
+    font-size: var(--kui-chart-empty-text-font-size, var(--kui-text-sm-size));
   }
 
   .kui-chart__toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--kui-chart-toolbar-gap, var(--kui-space-3, 12px));
+    gap: var(--kui-chart-toolbar-gap, var(--kui-space-3));
     flex-wrap: wrap;
   }
 
   .kui-chart__legend {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--kui-chart-legend-gap, var(--kui-space-3, 12px));
+    gap: var(--kui-chart-legend-gap, var(--kui-space-3));
   }
 
   .kui-chart__legend-item {
     display: inline-flex;
     align-items: center;
-    gap: var(--kui-chart-legend-item-gap, var(--kui-space-2, 8px));
+    gap: var(--kui-chart-legend-item-gap, var(--kui-space-2));
     background: none;
     border: none;
-    border-radius: var(--kui-chart-legend-item-radius, var(--kui-radius-sm, 6px));
-    padding: 2px var(--kui-chart-legend-item-padding-inline, var(--kui-space-1, 4px));
-    font-size: var(--kui-chart-legend-item-font-size, var(--kui-text-sm-size, 0.875rem));
+    border-radius: var(--kui-chart-legend-item-radius, var(--kui-radius-sm));
+    padding: 2px var(--kui-chart-legend-item-padding-inline, var(--kui-space-1));
+    font-size: var(--kui-chart-legend-item-font-size, var(--kui-text-sm-size));
     color: var(--kui-chart-legend-text, var(--_kui-chart-legend-text));
     cursor: pointer;
-    transition: background var(--kui-duration-quick, 120ms) var(--kui-ease, ease);
+    transition: background var(--kui-duration-quick) var(--kui-ease);
   }
 
   .kui-chart__legend-item--hidden {
@@ -394,7 +394,7 @@
     display: inline-block;
     width: 10px;
     height: 10px;
-    border-radius: var(--kui-chart-legend-swatch-radius, var(--kui-radius-full, 999px));
+    border-radius: var(--kui-chart-legend-swatch-radius, var(--kui-radius-full));
   }
 
   .kui-chart__table {

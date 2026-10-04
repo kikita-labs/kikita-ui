@@ -106,6 +106,21 @@ scrollbars follow `seeds.neutral`. Contrast is part of the contract: for any see
 the library draws reaches 4.5:1 (text) or 3:1 (non-text); the generator picks white or near-black text for
 each solid fill and corrects a seed that neither reaches 4.5:1 on.
 
+## Shared Behaviour Tokens
+
+A few tokens change one behaviour for the whole library. Set them on `:root` or on any subtree; a
+component hook such as `--kui-btn-focus-ring-w` still wins for one component. They are listed in
+[Shared Tokens](tokens.md#shared-tokens).
+
+```css
+:root {
+  --kui-opacity-disabled: 0.4; /* every disabled control, option and cell */
+  --kui-focus-ring-width: 2px; /* standalone controls; parts use --kui-focus-ring-width-sm */
+  --kui-duration-base: 120ms; /* enter animations and control state changes */
+  --kui-color-scrim: oklch(0 0 0 / 0.65); /* behind Dialog, Drawer and Command Palette */
+}
+```
+
 ## Migrating To The Colour Roles
 
 The 2.x colour system keeps every public token name, so an existing theme keeps working. Move to the

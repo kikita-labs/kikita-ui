@@ -18,7 +18,7 @@
      * of its font's descenders (g/p/q/y/j) for zero alignment benefit. `align-items: center` on
      * `.kui-input-group` already centers both independently of their differing intrinsic heights.
      */
-    line-height: 1.3;
+    line-height: var(--kui-line-height-control);
     text-overflow: ellipsis;
     user-select: none;
     white-space: nowrap;
@@ -106,15 +106,15 @@
   .kui-field-action:focus-visible {
     background: var(--kui-field-action-bg-hover, var(--kui-color-surface-elevated));
     color: var(--kui-field-action-color-hover, var(--kui-color-text));
-    outline: var(--kui-field-action-focus-ring-width) solid
+    outline: var(--kui-field-action-focus-ring-width, var(--kui-focus-ring-width-sm)) solid
       var(--kui-field-action-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   .kui-field-action:disabled,
   .kui-field-action[aria-disabled='true'] {
     cursor: not-allowed;
-    opacity: var(--kui-field-action-disabled-opacity);
+    opacity: var(--kui-field-action-disabled-opacity, var(--kui-opacity-disabled));
   }
 
   .kui-field-message,
@@ -125,7 +125,7 @@
     min-block-size: var(--kui-field-message-min-height, 0);
     margin: 0;
     font-size: var(--kui-field-hint-size, var(--kui-text-xs-size));
-    line-height: 1.4;
+    line-height: var(--kui-type-caption-line-height);
   }
 
   .kui-field-message-icon,

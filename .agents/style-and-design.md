@@ -54,6 +54,18 @@ var(--kui-color-surface)`: an alias on `:root` is resolved there and descendants
   `scripts/verify-static-audit.mjs`.
 - When two parts share a hook name they must share a default; add the state or part to the name
   otherwise. After adding hooks, check that no new name collides with an existing token.
+- Behaviour shared by components reads a shared token, never a copy of its value: font weight
+  (`--kui-font-weight-*`), motion (`--kui-duration-*`, `--kui-ease`, `--kui-ease-exit`), focus ring size
+  (`--kui-focus-ring-width[-sm]`, `--kui-focus-ring-offset[-inset]`), disabled opacity
+  (`--kui-opacity-disabled`), scrim (`--kui-color-scrim[-strong]`), text line height (the
+  `--kui-type-*-line-height` roles, `--kui-line-height-control`) and corner radius (`--kui-radius-*`).
+  A component hook defaults to the shared token in the component's CSS; the generator never defines the
+  hook as a literal, because a literal on `:root` would shadow a change to the shared token. Do not write a
+  literal fallback for a global scale token. `pnpm audit:static` enforces all of this; a reviewed
+  exception carries a reason and an owner.
+- A literal stays private when it is not a design value: visually hidden boilerplate, optical offsets,
+  pseudo-element drawings, `50%` circles, `line-height: 0` or `1`, reduced-motion idioms, layout invariants.
+  A size becomes a token when it is a size-variant ladder or repeats where it must stay in sync.
 - Typography classes and tones (`typography.css`) are the semantic layer and may read colour roles
   directly.
 

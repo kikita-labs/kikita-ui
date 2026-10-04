@@ -3,8 +3,8 @@ import type { KuiCssVariableMap } from '../kui-theme-tokens.interface';
 /** Badge, loader, skeleton, scrollbar, empty state, avatar, card, tooltip, tabs and segmented tokens. */
 export function createContentTokens(): KuiCssVariableMap {
   return {
-    '--kui-badge-font-weight': '600',
     '--kui-loader-duration': '800ms',
+    '--kui-loader-duration-reduced': '1600ms',
     '--kui-skeleton-duration': '1600ms',
     '--kui-skeleton-line-height': '12px',
     '--kui-skeleton-heading-height': '22px',
@@ -18,7 +18,6 @@ export function createContentTokens(): KuiCssVariableMap {
     '--kui-empty-icon-size-sm': '20px',
     '--kui-empty-icon-size-md': '40px',
     '--kui-empty-icon-size-lg': '56px',
-    '--kui-empty-title-weight': '650',
     '--kui-avatar-size-xs': '20px',
     '--kui-avatar-size-sm': '24px',
     '--kui-avatar-size-md': '32px',
@@ -26,7 +25,6 @@ export function createContentTokens(): KuiCssVariableMap {
     '--kui-avatar-size-xl': '48px',
     '--kui-avatar-size-2xl': '64px',
     '--kui-avatar-radius-circle': '50%',
-    '--kui-avatar-font-weight': '600',
     '--kui-avatar-border': '0',
     '--kui-avatar-status-size-xs': '5px',
     '--kui-avatar-status-size-sm': '6px',
@@ -48,8 +46,6 @@ export function createContentTokens(): KuiCssVariableMap {
     '--kui-avatar-group-overlap-2xl': '16px',
     '--kui-avatar-overlay-hover': 'oklch(0 0 0 / 0.20)',
     '--kui-avatar-overlay-active': 'oklch(0 0 0 / 0.30)',
-    '--kui-avatar-focus-ring-w': '3px',
-    '--kui-avatar-focus-ring-off': '2px',
     '--kui-slider-thumb-shadow': '0 1px 3px oklch(0 0 0 / 0.45), 0 0 0 1.5px oklch(0 0 0 / 0.12)',
     '--kui-card-shadow': 'none',
     '--kui-card-shadow-elevated': '0 10px 28px oklch(0 0 0 / 0.18)',
@@ -59,12 +55,8 @@ export function createContentTokens(): KuiCssVariableMap {
     '--kui-tooltip-px': '9px',
     '--kui-tooltip-py': '5px',
     '--kui-tabs-gap': '2px',
-    '--kui-tab-font-weight': '500',
-    '--kui-tab-font-weight-active': '600',
     '--kui-seg-padding': '2px',
     '--kui-seg-gap': '2px',
-    '--kui-seg-font-weight': '500',
-    '--kui-seg-font-weight-active': '600',
     '--kui-seg-item-shadow-active': 'none',
   };
 }

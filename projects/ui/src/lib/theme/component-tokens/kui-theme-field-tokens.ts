@@ -4,7 +4,6 @@ import type { KuiCssVariableMap } from '../kui-theme-tokens.interface';
 export function createFieldTokens(): KuiCssVariableMap {
   return {
     '--kui-group-collapsed-gap': '-1px',
-    '--kui-field-label-weight': '600',
     '--kui-field-affix-icon-size': '16px',
     '--kui-field-affix-max-inline-size': '40%',
     '--kui-field-message-icon-size': '12px',
@@ -17,16 +16,10 @@ export function createFieldTokens(): KuiCssVariableMap {
     '--kui-input-border-width-focus': '1px',
     '--kui-checkbox-size': '18px',
     '--kui-checkbox-border-width': '1px',
-    '--kui-checkbox-focus-ring-w': '3px',
-    '--kui-checkbox-focus-ring-off': '2px',
     '--kui-radio-border-width': '1px',
-    '--kui-radio-focus-ring-w': '3px',
-    '--kui-radio-focus-ring-off': '2px',
     '--kui-switch-thumb-offset': '2px',
     '--kui-switch-radius': '999px',
     '--kui-switch-border-width': '1px',
-    '--kui-switch-focus-ring-w': '3px',
-    '--kui-switch-focus-ring-off': '2px',
     '--kui-switch-thumb-shadow': '0 1px 2px oklch(0 0 0 / 0.22)',
   };
 }

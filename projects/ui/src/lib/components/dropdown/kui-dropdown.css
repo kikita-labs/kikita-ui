@@ -41,12 +41,12 @@
     --_kui-dropdown-border: var(--kui-color-border);
     --_kui-dropdown-radius: var(--kui-radius-md);
     --_kui-dropdown-shadow: var(--kui-shadow-lg);
-    --_kui-dropdown-viewport-margin: var(--kui-space-6, 32px);
+    --_kui-dropdown-viewport-margin: var(--kui-space-6);
 
     box-sizing: border-box;
     width: 100%;
     font-family: var(--kui-font-sans);
-    font-size: var(--kui-dropdown-font-size, var(--kui-text-sm-size, 13px));
+    font-size: var(--kui-dropdown-font-size, var(--kui-text-sm-size));
     background: var(--kui-dropdown-bg, var(--_kui-dropdown-bg));
     border: var(--kui-border-width-hairline) solid
       var(--kui-dropdown-border, var(--_kui-dropdown-border));
@@ -62,7 +62,7 @@
   }
 
   .kui-dropdown.kui-dropdown--closing {
-    animation: kui-dropdown-out 120ms linear both;
+    animation: kui-dropdown-out var(--kui-duration-quick) var(--kui-ease-exit) both;
   }
 
   .kui-dropdown--scroll {

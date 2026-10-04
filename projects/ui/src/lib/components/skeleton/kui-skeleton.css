@@ -59,7 +59,7 @@
   }
 
   .kui-skeleton[data-kui-shape='button'] {
-    block-size: var(--kui-btn-height, var(--kui-control-height-md, 40px));
+    block-size: var(--kui-btn-height, var(--kui-control-height-md));
     border-radius: var(--kui-skeleton-radius-button, var(--kui-radius-md));
   }
 

@@ -1,6 +1,6 @@
 ﻿@layer kui.components {
   .kui-group {
-    gap: var(--kui-group-gap, var(--kui-space-2, 8px));
+    gap: var(--kui-group-gap, var(--kui-space-2));
     vertical-align: middle;
   }
 
@@ -69,18 +69,18 @@
    */
 
   .kui-group[data-kui-size='xs'] {
-    --kui-btn-height: var(--kui-control-height-xs, 28px);
-    --kui-input-height: var(--kui-control-height-xs, 28px);
+    --kui-btn-height: var(--kui-control-height-xs);
+    --kui-input-height: var(--kui-control-height-xs);
   }
 
   .kui-group[data-kui-size='sm'] {
-    --kui-btn-height: var(--kui-control-height-sm, 32px);
-    --kui-input-height: var(--kui-control-height-sm, 32px);
+    --kui-btn-height: var(--kui-control-height-sm);
+    --kui-input-height: var(--kui-control-height-sm);
   }
 
   .kui-group[data-kui-size='lg'] {
-    --kui-btn-height: var(--kui-control-height-lg, 44px);
-    --kui-input-height: var(--kui-control-height-lg, 44px);
+    --kui-btn-height: var(--kui-control-height-lg);
+    --kui-input-height: var(--kui-control-height-lg);
   }
 
   .kui-group[data-kui-collapsed] {
@@ -137,53 +137,53 @@
 
   .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='horizontal']
     > :where(.kui-button, .kui-icon-button, .kui-input):first-child {
-    border-start-start-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
-    border-end-start-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
+    border-start-start-radius: var(--kui-btn-radius, var(--kui-radius-md));
+    border-end-start-radius: var(--kui-btn-radius, var(--kui-radius-md));
   }
 
   .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='horizontal']
     > :where(.kui-button, .kui-icon-button, .kui-input):last-child {
-    border-start-end-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
-    border-end-end-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
+    border-start-end-radius: var(--kui-btn-radius, var(--kui-radius-md));
+    border-end-end-radius: var(--kui-btn-radius, var(--kui-radius-md));
   }
 
   .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='horizontal']
     > kui-field.kui-field:first-child
     .kui-input {
-    border-start-start-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
-    border-end-start-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
+    border-start-start-radius: var(--kui-btn-radius, var(--kui-radius-md));
+    border-end-start-radius: var(--kui-btn-radius, var(--kui-radius-md));
   }
 
   .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='horizontal']
     > kui-field.kui-field:last-child
     .kui-input {
-    border-start-end-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
-    border-end-end-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
+    border-start-end-radius: var(--kui-btn-radius, var(--kui-radius-md));
+    border-end-end-radius: var(--kui-btn-radius, var(--kui-radius-md));
   }
 
   .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='vertical']
     > :where(.kui-button, .kui-icon-button, .kui-input):first-child {
-    border-start-start-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
-    border-start-end-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
+    border-start-start-radius: var(--kui-btn-radius, var(--kui-radius-md));
+    border-start-end-radius: var(--kui-btn-radius, var(--kui-radius-md));
   }
 
   .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='vertical']
     > :where(.kui-button, .kui-icon-button, .kui-input):last-child {
-    border-end-start-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
-    border-end-end-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
+    border-end-start-radius: var(--kui-btn-radius, var(--kui-radius-md));
+    border-end-end-radius: var(--kui-btn-radius, var(--kui-radius-md));
   }
 
   .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='vertical']
     > kui-field.kui-field:first-child
     .kui-input {
-    border-start-start-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
-    border-start-end-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
+    border-start-start-radius: var(--kui-btn-radius, var(--kui-radius-md));
+    border-start-end-radius: var(--kui-btn-radius, var(--kui-radius-md));
   }
 
   .kui-group[data-kui-collapsed][data-kui-rounded][data-kui-orientation='vertical']
     > kui-field.kui-field:last-child
     .kui-input {
-    border-end-start-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
-    border-end-end-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
+    border-end-start-radius: var(--kui-btn-radius, var(--kui-radius-md));
+    border-end-end-radius: var(--kui-btn-radius, var(--kui-radius-md));
   }
 }

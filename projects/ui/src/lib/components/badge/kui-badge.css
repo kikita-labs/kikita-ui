@@ -4,7 +4,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--kui-badge-gap, var(--kui-space-1, 4px));
+    gap: var(--kui-badge-gap, var(--kui-space-1));
     min-block-size: var(--kui-badge-height, var(--_kui-badge-height, 22px));
     max-inline-size: 100%;
     border: var(--kui-border-width-hairline) solid
@@ -22,13 +22,10 @@
       var(--_kui-badge-fg, var(--kui-badge-neutral-fg, var(--kui-color-text-secondary)))
     );
     font: inherit;
-    font-size: var(
-      --kui-badge-font-size,
-      var(--_kui-badge-font-size, var(--kui-text-xs-size, 11px))
-    );
-    font-weight: var(--kui-badge-font-weight, 600);
+    font-size: var(--kui-badge-font-size, var(--_kui-badge-font-size, var(--kui-text-xs-size)));
+    font-weight: var(--kui-badge-font-weight, var(--kui-font-weight-semibold));
     line-height: 1;
-    padding-inline: var(--kui-badge-px, var(--_kui-badge-px, var(--kui-space-2, 8px)));
+    padding-inline: var(--kui-badge-px, var(--_kui-badge-px, var(--kui-space-2)));
     text-decoration: none;
     vertical-align: middle;
     white-space: nowrap;

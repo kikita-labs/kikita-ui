@@ -77,7 +77,7 @@
   z-index: var(--kui-z-overlay);
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
-  transition: opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: opacity var(--kui-duration-normal) var(--kui-ease);
   opacity: 0;
 }
 

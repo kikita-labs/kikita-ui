@@ -138,6 +138,26 @@ These names were exported by 1.8.0.
 | `KuiTreeComponent`                | `KuiTree`                |
 | `kuiProvideLocale`                | `provideKuiLocale`       |
 
+## Token and style changes
+
+The tokens of 2.0 keep their names, with these exceptions. The colour tokens have their own table in
+[Theming](theming.md#migrating-to-the-colour-roles).
+
+- Hooks that used to be defined on `:root` as literals (`--kui-btn-focus-ring-w`, `--kui-btn-disabled-opacity`,
+  `--kui-chip-disabled-opacity`, `--kui-dialog-backdrop`, the component font-weight tokens, ...) are not generated
+  any more. Code that reads them with `getComputedStyle` gets an empty string; CSS that sets them keeps working.
+  Set the shared token (`--kui-focus-ring-width`, `--kui-opacity-disabled`, `--kui-color-scrim`,
+  `--kui-font-weight-semibold`, ...) to change every component at once. The full list is in
+  [Defaults That Moved Into CSS](tokens.md#defaults-that-moved-into-css).
+- Card, Segmented, Tabs and Table no longer follow `--kui-btn-focus-ring-w` and `--kui-btn-focus-ring-off`.
+  Set `--kui-focus-ring-width` and `--kui-focus-ring-offset` instead.
+- Every disabled state dims to `--kui-opacity-disabled` (`0.5`). If a theme relied on a lighter dimming of
+  inputs (`0.65`) or checkboxes (`0.55`), set the token on the subtree.
+- Line heights follow the type roles and `--kui-line-height-control`; a few values moved by at most
+  `0.1` (see the changelog). Set `--kui-type-body-lg-line-height` and the other roles to restore them.
+- Reading a global token with a literal fallback in your own CSS (`var(--kui-space-4, 12px)`) still works;
+  the library no longer does it, because the default theme always defines these tokens.
+
 ## Names from 2.0 prereleases
 
 The migration also maps names that only existed in 2.0 prereleases. The two chart legend entries

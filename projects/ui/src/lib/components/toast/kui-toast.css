@@ -99,7 +99,7 @@
      Popover API. */
   .kui-toast-region {
     position: fixed;
-    z-index: var(--kui-z-toast, 1100);
+    z-index: var(--kui-z-toast);
     inset: auto;
     inline-size: auto;
     block-size: auto;
@@ -164,8 +164,8 @@
 
   @media (max-width: 480px) {
     .kui-toast-region {
-      left: 16px !important;
-      right: 16px !important;
+      left: var(--kui-space-4) !important;
+      right: var(--kui-space-4) !important;
       transform: none !important;
       align-items: stretch !important;
     }
@@ -181,7 +181,7 @@
       var(--kui-toast-padding-x, var(--kui-space-4));
     background: var(--kui-toast-bg, var(--kui-color-surface-elevated));
     border: var(--kui-border-width-hairline) solid var(--kui-toast-border, var(--kui-color-border));
-    border-left: 3px solid
+    border-left: var(--kui-toast-accent-width, 3px) solid
       var(--kui-toast-accent-color, var(--_kui-toast-accent-color, var(--kui-color-border-strong)));
     border-radius: var(--kui-toast-radius, var(--kui-radius-md));
     box-shadow: var(--kui-toast-shadow, var(--kui-shadow-lg));
@@ -244,20 +244,20 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: var(--kui-space-0-5);
   }
 
   .kui-toast-title {
     font-size: var(--kui-toast-title-size, var(--kui-text-sm-size));
-    font-weight: 600;
-    line-height: 1.4;
+    font-weight: var(--kui-font-weight-semibold);
+    line-height: var(--kui-type-title-line-height);
     color: var(--kui-toast-title-color, var(--kui-color-text));
   }
 
   .kui-toast-message {
     font-size: var(--kui-toast-message-size, var(--kui-text-sm-size));
     color: var(--kui-toast-message-color, var(--kui-color-text-secondary));
-    line-height: 1.5;
+    line-height: var(--kui-type-body-line-height);
   }
 
   /* Action button: .kui-button[data-kui-shape='ghost'][data-kui-size='xs']
@@ -291,7 +291,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    height: 2px;
+    height: var(--kui-border-width-heavy);
     background: var(
       --kui-toast-accent-color,
       var(--_kui-toast-accent-color, var(--kui-color-primary-indicator))

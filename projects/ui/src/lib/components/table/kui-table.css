@@ -3,10 +3,7 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    font-size: var(
-      --kui-table-font-size,
-      var(--_kui-table-font-size, var(--kui-text-sm-size, 13px))
-    );
+    font-size: var(--kui-table-font-size, var(--_kui-table-font-size, var(--kui-text-sm-size)));
     color: var(--kui-table-color, var(--kui-color-text));
   }
 
@@ -15,11 +12,11 @@
   .kui-th {
     padding: var(--kui-table-th-py, var(--_kui-table-th-py, 10px))
       var(--kui-table-cell-px, var(--_kui-table-cell-px, 14px));
-    font-size: 10px;
-    font-weight: 600;
+    font-size: var(--kui-text-xs-size);
+    font-weight: var(--kui-font-weight-semibold);
     color: var(--kui-table-th-fg, var(--kui-color-text-secondary));
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: var(--kui-type-overline-letter-spacing);
     background: var(--kui-table-th-bg, var(--kui-color-surface-sunken));
     text-align: left;
     white-space: nowrap;
@@ -60,7 +57,7 @@
     gap: 3px;
     padding: 0;
     border: 0;
-    border-radius: var(--kui-table-th-sort-button-radius, var(--kui-radius-xs, 4px));
+    border-radius: var(--kui-table-th-sort-button-radius, var(--kui-radius-xs));
     color: inherit;
     font: inherit;
     letter-spacing: inherit;
@@ -75,9 +72,9 @@
   }
 
   .kui-th__sort-button:focus-visible {
-    outline: var(--kui-btn-focus-ring-w, 3px) solid
+    outline: var(--kui-focus-ring-width) solid
       var(--kui-table-sort-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   .kui-th__sort-button::after {
@@ -112,9 +109,9 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 2px;
+    height: var(--kui-border-width-heavy);
     background: var(--kui-table-sort-active-color, var(--kui-color-primary-indicator));
-    border-radius: 1px;
+    border-radius: calc(var(--kui-border-width-heavy) / 2);
   }
 
   /* Rows */
@@ -122,7 +119,7 @@
   .kui-row {
     border-bottom: var(--kui-border-width-hairline) solid
       var(--kui-table-row-border, var(--kui-color-border-subtle, var(--kui-color-border)));
-    transition: background var(--kui-duration-fast, 100ms) var(--kui-ease);
+    transition: background var(--kui-duration-fast) var(--kui-ease);
   }
 
   .kui-row:last-child {
@@ -135,7 +132,7 @@
 
   .kui-row--selected {
     background: var(--kui-table-row-selected-bg, var(--kui-color-primary-soft-bg));
-    box-shadow: inset 2px 0 0
+    box-shadow: inset var(--kui-border-width-heavy) 0 0
       var(--kui-table-row-selected-accent, var(--kui-color-primary-indicator));
   }
 
@@ -176,7 +173,7 @@
   .kui-table__cb {
     width: 15px;
     height: 15px;
-    border-radius: 3px;
+    border-radius: var(--kui-radius-xs);
     border: var(--kui-border-width-thick) solid
       var(--kui-table-checkbox-border, var(--kui-color-border-control));
     background: transparent;
@@ -187,8 +184,8 @@
     display: block;
     margin: 0 auto;
     transition:
-      background var(--kui-duration-fast, 100ms),
-      border-color var(--kui-duration-fast, 100ms);
+      background var(--kui-duration-fast),
+      border-color var(--kui-duration-fast);
   }
 
   .kui-table__cb:hover {
@@ -230,9 +227,9 @@
   }
 
   .kui-table__cb:focus-visible {
-    outline: var(--kui-btn-focus-ring-w, 3px) solid
+    outline: var(--kui-focus-ring-width) solid
       var(--kui-table-checkbox-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   /* Size variants */
@@ -241,14 +238,14 @@
     --_kui-table-cell-px: 8px;
     --_kui-table-row-py: 4px;
     --_kui-table-th-py: 5px;
-    --_kui-table-font-size: var(--kui-text-xs-size, 11px);
+    --_kui-table-font-size: var(--kui-text-xs-size);
   }
 
   .kui-table[data-kui-size='sm'] {
     --_kui-table-cell-px: 10px;
     --_kui-table-row-py: 7px;
     --_kui-table-th-py: 7px;
-    --_kui-table-font-size: var(--kui-text-xs-size, 11px);
+    --_kui-table-font-size: var(--kui-text-xs-size);
   }
 
   .kui-table[data-kui-size='lg'] {

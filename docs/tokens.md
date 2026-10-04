@@ -119,6 +119,14 @@ Status:
 --kui-color-info-fill
 ```
 
+Overlay:
+
+```css
+--kui-color-scrim /* black at 50%: behind Dialog, Drawer and Command Palette */
+--kui-color-scrim-strong /* black at 92%: behind the fullscreen Media Viewer */
+--kui-color-on-scrim /* white: text and icons over a scrim */
+```
+
 ## Solid Fill, Indicator And Text Roles
 
 Every accent (`primary`, `success`, `warning`, `danger`, `info`) has these roles; the ones marked
@@ -182,19 +190,21 @@ Ember radius scale:
 
 ## Spacing
 
-Spacing uses a 4px base:
+Spacing uses a 4px base, with 2px and 6px half steps for tight gaps and padding:
 
-| Token            |  Value |
-| ---------------- | -----: |
-| `--kui-space-1`  |  `4px` |
-| `--kui-space-2`  |  `8px` |
-| `--kui-space-3`  | `12px` |
-| `--kui-space-4`  | `16px` |
-| `--kui-space-5`  | `20px` |
-| `--kui-space-6`  | `24px` |
-| `--kui-space-8`  | `32px` |
-| `--kui-space-12` | `48px` |
-| `--kui-space-16` | `64px` |
+| Token             |  Value |
+| ----------------- | -----: |
+| `--kui-space-0-5` |  `2px` |
+| `--kui-space-1`   |  `4px` |
+| `--kui-space-1-5` |  `6px` |
+| `--kui-space-2`   |  `8px` |
+| `--kui-space-3`   | `12px` |
+| `--kui-space-4`   | `16px` |
+| `--kui-space-5`   | `20px` |
+| `--kui-space-6`   | `24px` |
+| `--kui-space-8`   | `32px` |
+| `--kui-space-12`  | `48px` |
+| `--kui-space-16`  | `64px` |
 
 ## Typography
 
@@ -242,7 +252,15 @@ Tone utility classes are color-only: `.kui-text-default`, `.kui-text-muted`,
 `.kui-text-disabled`, `.kui-text-primary`, `.kui-text-success`, `.kui-text-warning`, and
 `.kui-text-danger`.
 
-Letter spacing defaults to `0`; `.kui-overline` uses `0.5px` for uppercase readability.
+Letter spacing defaults to `0`. `--kui-type-overline-letter-spacing` (`0.06em`) is the tracking of
+uppercase overline text: `.kui-overline`, table headers and listbox group labels. It is in `em`, so a
+user stylesheet that sets letter spacing for WCAG 1.4.12 keeps working.
+
+Line height: headings, titles and body copy read the `--kui-type-*-line-height` roles.
+`--kui-line-height-control` (`1.3`) is the line height of single-line control and label text
+(inputs, field labels, menu items). Component weight tokens (`--kui-btn-font-weight`,
+`--kui-tab-font-weight`, `--kui-badge-font-weight`, ...) default to the four `--kui-font-weight-*`
+tokens in CSS, so changing `--kui-font-weight-semibold` restyles every part that uses it.
 
 ## Control Height
 
@@ -258,6 +276,65 @@ Group):
 
 Selected via `data-kui-size` (`xs`/`sm`/`md`/`lg`) on the component. This is the only axis that
 controls height; `data-kui-density` controls padding only (see Button tokens below).
+
+## Shared Tokens
+
+These global tokens are the single knob for a behaviour the whole library shares. A component hook
+(`--kui-btn-focus-ring-w`, `--kui-chip-disabled-opacity`, `--kui-dialog-backdrop`, ...) is read first
+and defaults to the global token in the component's own CSS, so a value set on any ancestor wins and
+a change to the global token reaches every component that has not been overridden. The generated
+stylesheet does not define the component hooks, so a global token set on a subtree is never shadowed
+by a copy of its value on `:root`.
+
+### Motion
+
+| Token                   |                         Default | Use                                                |
+| ----------------------- | ------------------------------: | -------------------------------------------------- |
+| `--kui-duration-fast`   |                         `100ms` | Hover and colour changes                           |
+| `--kui-duration-quick`  |                         `120ms` | Exit animations                                    |
+| `--kui-duration-base`   |                         `160ms` | Enter animations and control state changes         |
+| `--kui-duration-normal` |                         `200ms` | Moving indicators, backdrops, progress             |
+| `--kui-ease`            | `cubic-bezier(0.16, 1, 0.3, 1)` | Entering and moving                                |
+| `--kui-ease-exit`       |    `cubic-bezier(0.4, 0, 1, 1)` | Leaving: shorter and accelerating, never lingering |
+
+Loops keep their own tokens: `--kui-loader-duration`, `--kui-loader-duration-reduced` (Loader and Tree
+spinner with reduced motion), `--kui-skeleton-duration`, `--kui-field-spinner-duration`.
+
+### Focus ring
+
+| Token                           | Default | Use                                                                                                                             |
+| ------------------------------- | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+| `--kui-focus-ring-width`        |   `3px` | Standalone controls: Button, Icon Button, Checkbox, Radio, Switch, Tab, Segmented, Card, Chip, Avatar, Table sort and selection |
+| `--kui-focus-ring-width-sm`     |   `2px` | Parts inside a composite: links, calendar and picker cells, rows, options, field actions, chip remove                           |
+| `--kui-focus-ring-offset`       |   `2px` | Gap between the element and an outer ring                                                                                       |
+| `--kui-focus-ring-offset-inset` |  `-2px` | Ring drawn inside rows, cells and options that sit in a scroll container                                                        |
+
+The ring colour is `--kui-color-focus`; every part also has a `-focus-ring-color` hook. Input, Number
+Input and the Color Input fields draw an outline of `--kui-input-border-width-focus`. Both widths are at
+least the 2px that WCAG 2.2 (2.4.13) asks for.
+
+### Disabled
+
+`--kui-opacity-disabled` (`0.5`) dims every disabled control, row, cell and option: Button, Icon Button,
+Segmented, Tabs, Field action, Chip, Color Input swatch, File Upload, Checkbox, Radio, Switch, Input,
+Number Input, Calendar day, Time Picker option and Listbox option. The hooks
+`--kui-btn-disabled-opacity`, `--kui-chip-disabled-opacity` and `--kui-field-action-disabled-opacity`
+override it for one component. Disabled text additionally reads `--kui-color-text-disabled`. Decorative
+de-emphasis (a breadcrumb separator, a sort glyph) is not a disabled state and keeps its own value.
+
+### Borders
+
+| Token                         | Default | Use                                                                    |
+| ----------------------------- | ------: | ---------------------------------------------------------------------- |
+| `--kui-border-width-hairline` |   `1px` | Borders and dividers                                                   |
+| `--kui-border-width-thick`    | `1.5px` | Today marker, thick separators                                         |
+| `--kui-border-width-heavy`    |   `2px` | Indicator bars, step circles, dashed dropzone borders, spinner strokes |
+
+### Scrim
+
+`--kui-color-scrim` is the layer behind Dialog, Drawer and Command Palette; their hooks
+`--kui-dialog-backdrop`, `--kui-drawer-backdrop-bg` and `--kui-command-backdrop-bg` default to it.
+`--kui-color-scrim-strong` backs the Media Viewer. Both are black with alpha in both modes.
 
 ## Icons
 
@@ -534,6 +611,27 @@ Slider tokens:
 --kui-slider-thumb-focus-ring-color
 --kui-slider-thumb-shadow-active
 ```
+
+## Defaults That Moved Into CSS
+
+These tokens are still valid hooks: set one on an element or an ancestor to override a single
+component. They are no longer defined on `:root`, because a literal copy of a global value there would
+shadow a change to the global token. Each one now defaults to the token in the last column.
+
+| Hook                                                                                                                                                                                                                                                                                                                            | Default                      |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| `--kui-btn-focus-ring-w`, `--kui-checkbox-focus-ring-w`, `--kui-radio-focus-ring-w`, `--kui-switch-focus-ring-w`, `--kui-avatar-focus-ring-w`, `--kui-chip-focus-ring-width`                                                                                                                                                    | `--kui-focus-ring-width`     |
+| `--kui-chip-remove-focus-ring-width`, `--kui-field-action-focus-ring-width`                                                                                                                                                                                                                                                     | `--kui-focus-ring-width-sm`  |
+| `--kui-btn-focus-ring-off`, `--kui-checkbox-focus-ring-off`, `--kui-radio-focus-ring-off`, `--kui-switch-focus-ring-off`, `--kui-avatar-focus-ring-off`                                                                                                                                                                         | `--kui-focus-ring-offset`    |
+| `--kui-btn-disabled-opacity`, `--kui-chip-disabled-opacity` (was `0.4`), `--kui-field-action-disabled-opacity`                                                                                                                                                                                                                  | `--kui-opacity-disabled`     |
+| `--kui-dialog-backdrop`, `--kui-drawer-backdrop-bg`, `--kui-command-backdrop-bg`                                                                                                                                                                                                                                                | `--kui-color-scrim`          |
+| `--kui-btn-font-weight`, `--kui-tab-font-weight`, `--kui-seg-font-weight`, `--kui-menu-item-font-weight`                                                                                                                                                                                                                        | `--kui-font-weight-medium`   |
+| `--kui-tab-font-weight-active`, `--kui-seg-font-weight-active`, `--kui-badge-font-weight`, `--kui-avatar-font-weight`, `--kui-chip-font-weight`, `--kui-field-label-weight`, `--kui-menu-group-header-font-weight`, `--kui-drawer-title-weight`, `--kui-breadcrumb-font-weight-current`, `--kui-empty-title-weight` (was `650`) | `--kui-font-weight-semibold` |
+| `--kui-chip-avatar-font-weight`                                                                                                                                                                                                                                                                                                 | `--kui-font-weight-bold`     |
+
+Card, Segmented, Tabs and Table no longer read the Button hooks `--kui-btn-focus-ring-w` and
+`--kui-btn-focus-ring-off`; set `--kui-focus-ring-width` and `--kui-focus-ring-offset` to change every
+ring at once.
 
 ## Removed In 2.0
 

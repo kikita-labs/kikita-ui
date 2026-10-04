@@ -5,8 +5,6 @@ export function createPickerTokens(): KuiCssVariableMap {
   return {
     '--kui-field-action-size': '24px',
     '--kui-field-action-icon-size': '14px',
-    '--kui-field-action-focus-ring-width': '2px',
-    '--kui-field-action-disabled-opacity': '0.5',
     '--kui-color-input-swatch-size-xs': '16px',
     '--kui-color-input-swatch-size': '20px',
     '--kui-color-input-swatch-size-lg': '24px',

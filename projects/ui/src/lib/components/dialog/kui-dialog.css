@@ -62,12 +62,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--kui-dialog-backdrop, oklch(0 0 0 / 0.5));
+    background: var(--kui-dialog-backdrop, var(--kui-color-scrim));
     animation: kui-bd-in var(--kui-duration-normal) var(--kui-ease) both;
   }
 
   .kui-dialog-backdrop--closing {
-    animation: kui-bd-out 150ms ease-in both;
+    animation: kui-bd-out var(--kui-duration-quick) var(--kui-ease-exit) both;
   }
 
   .kui-dialog {
@@ -79,14 +79,14 @@
     display: flex;
     flex-direction: column;
     width: var(--kui-dialog-width, var(--_kui-dialog-width, 560px));
-    max-width: calc(100vw - 32px);
+    max-width: calc(100vw - 2 * var(--kui-space-4));
     max-height: 85vh;
     color: var(--kui-dialog-color, var(--kui-color-text));
     animation: kui-dialog-in var(--kui-duration-normal) var(--kui-ease) both;
   }
 
   .kui-dialog--closing {
-    animation: kui-dialog-out 150ms ease-in both;
+    animation: kui-dialog-out var(--kui-duration-quick) var(--kui-ease-exit) both;
   }
 
   .kui-dialog--sm {
@@ -144,11 +144,11 @@
   .kui-dialog-title {
     margin: 0;
     font-size: var(--kui-dialog-title-size, var(--kui-text-lg-size));
-    font-weight: 600;
+    font-weight: var(--kui-font-weight-semibold);
     flex: 1;
     min-width: 0;
     color: var(--kui-dialog-title-color, var(--kui-color-text));
-    line-height: 1.3;
+    line-height: var(--kui-type-heading-sm-line-height);
   }
 
   .kui-dialog-close {
@@ -179,7 +179,8 @@
   /* Reserve room in the header so a long title doesn't run under the close button. */
   .kui-dialog:has(> .kui-dialog-close) > .kui-dialog-header {
     padding-right: calc(
-      var(--kui-dialog-padding-x, var(--kui-space-6)) + 28px + var(--kui-space-2)
+      var(--kui-dialog-padding-x, var(--kui-space-6)) + var(--kui-dialog-close-size) +
+        var(--kui-space-2)
     );
   }
 
@@ -190,7 +191,7 @@
     overscroll-behavior: contain;
     padding: var(--kui-dialog-padding-x, var(--kui-space-6));
     font-size: var(--kui-dialog-body-font-size, var(--kui-text-sm-size));
-    line-height: 1.65;
+    line-height: var(--kui-type-body-lg-line-height);
     color: var(--kui-dialog-body-color, var(--kui-color-text));
   }
 

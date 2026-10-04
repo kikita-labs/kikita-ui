@@ -28,7 +28,7 @@
     max-inline-size: 100%;
     min-inline-size: 0;
     align-items: center;
-    gap: var(--kui-otp-gap, var(--kui-space-2, 8px));
+    gap: var(--kui-otp-gap, var(--kui-space-2));
     overflow-x: auto;
     padding: var(--kui-otp-focus-ring-space, 4px);
     margin: calc(var(--kui-otp-focus-ring-space, 4px) * -1);
@@ -45,30 +45,30 @@
    * exceeds) that rule's specificity, in source order, without `!important`.
    */
   input.kui-input.kui-otp-input__cell {
-    --_kui-otp-cell-size: var(--kui-input-height, var(--kui-control-height-md, 40px));
-    --_kui-otp-cell-font-size: var(--kui-text-xl-size, 22px);
+    --_kui-otp-cell-size: var(--kui-input-height, var(--kui-control-height-md));
+    --_kui-otp-cell-font-size: var(--kui-text-xl-size);
     inline-size: var(--kui-otp-cell-size, var(--_kui-otp-cell-size));
     block-size: var(--kui-otp-cell-size, var(--_kui-otp-cell-size));
     padding-inline: 0;
     text-align: center;
-    font-weight: 700;
+    font-weight: var(--kui-font-weight-bold);
     font-variant-numeric: tabular-nums;
     font-size: var(--kui-otp-cell-font-size, var(--_kui-otp-cell-font-size));
   }
 
   input.kui-input.kui-otp-input__cell[data-kui-size='xs'] {
-    --_kui-otp-cell-size: var(--kui-control-height-xs, 28px);
-    --_kui-otp-cell-font-size: var(--kui-text-sm-size, 13px);
+    --_kui-otp-cell-size: var(--kui-control-height-xs);
+    --_kui-otp-cell-font-size: var(--kui-text-sm-size);
   }
 
   input.kui-input.kui-otp-input__cell[data-kui-size='sm'] {
-    --_kui-otp-cell-size: var(--kui-control-height-sm, 32px);
-    --_kui-otp-cell-font-size: var(--kui-text-base-size, 14px);
+    --_kui-otp-cell-size: var(--kui-control-height-sm);
+    --_kui-otp-cell-font-size: var(--kui-text-base-size);
   }
 
   input.kui-input.kui-otp-input__cell[data-kui-size='lg'] {
-    --_kui-otp-cell-size: var(--kui-control-height-lg, 44px);
-    --_kui-otp-cell-font-size: var(--kui-text-2xl-size, 28px);
+    --_kui-otp-cell-size: var(--kui-control-height-lg);
+    --_kui-otp-cell-font-size: var(--kui-text-2xl-size);
   }
 
   .kui-otp-input[data-kui-alpha] .kui-otp-input__cell {

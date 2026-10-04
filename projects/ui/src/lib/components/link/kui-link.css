@@ -95,8 +95,9 @@
   }
 
   .kui-link:focus-visible {
-    outline: 2px solid var(--kui-link-focus-ring, var(--_kui-link-focus-ring));
-    outline-offset: 2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-link-focus-ring, var(--_kui-link-focus-ring));
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   /* ── Disabled ── higher specificity than the plain tone rules above, so it always wins. */

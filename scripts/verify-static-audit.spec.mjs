@@ -1,5 +1,5 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { describe, expect, it } from 'vitest';
 
@@ -117,6 +117,116 @@ describe('verify-static-audit', () => {
     expect(runStaticAudit(root)).toEqual([
       'projects/ui/src/styles/button.css:2 writes the layer z-index 1000; read a --kui-z-* token',
     ]);
+  });
+
+  describe('style literals', () => {
+    const audit = (css, file = 'projects/ui/src/styles/button.css') => {
+      const root = makeValidRepo();
+
+      mkdirSync(dirname(join(root, file)), { recursive: true });
+      writeFileSync(join(root, file), css);
+
+      return runStaticAudit(root);
+    };
+
+    it('reports a numeric font-weight and allows a token read', () => {
+      expect(
+        audit(
+          '.a {\n  font-weight: 600;\n}\n.b {\n  font-weight: var(--kui-font-weight-bold);\n}\n',
+        ),
+      ).toEqual([
+        'projects/ui/src/styles/button.css:2 writes font-weight 600; read a --kui-font-weight-* token',
+      ]);
+    });
+
+    it('reports duration and easing literals but allows tokens, keyframes and reduced-motion idioms', () => {
+      expect(
+        audit(
+          [
+            '.a {',
+            '  transition: color 150ms ease;',
+            '  animation: spin var(--kui-loader-duration, 800ms) linear infinite;',
+            '  animation: out var(--kui-duration-quick) cubic-bezier(0.4, 0, 1, 1) both;',
+            '  animation-duration: 0.01ms;',
+            '}',
+            '@keyframes spin {',
+            '  to {',
+            '    transition: width 3s;',
+            '  }',
+            '}',
+            '',
+          ].join('\n'),
+        ),
+      ).toEqual([
+        'projects/ui/src/styles/button.css:2 writes the motion literal 150ms; read --kui-duration-* and --kui-ease*',
+        'projects/ui/src/styles/button.css:2 writes the motion literal ease; read --kui-duration-* and --kui-ease*',
+        'projects/ui/src/styles/button.css:4 writes the motion literal cubic-bezier(0.4, 0, 1, 1); read --kui-duration-* and --kui-ease*',
+      ]);
+    });
+
+    it('reports a literal focus width or offset but allows tokens and outline: 0', () => {
+      expect(
+        audit(
+          '.a:focus-visible {\n  outline: 2px solid red;\n  outline-offset: -2px;\n}\n.b:focus-visible {\n  outline: var(--kui-focus-ring-width) solid var(--kui-btn-focus-ring-color, var(--kui-color-focus));\n  outline-offset: var(--kui-focus-ring-offset);\n}\n.c {\n  outline: 0;\n}\n',
+        ),
+      ).toEqual([
+        'projects/ui/src/styles/button.css:2 writes a literal focus width or offset (2px solid red); read --kui-focus-ring-*',
+        'projects/ui/src/styles/button.css:3 writes a literal focus width or offset (-2px); read --kui-focus-ring-*',
+      ]);
+    });
+
+    it('reports a literal disabled opacity but allows decorative opacity and tokens', () => {
+      expect(
+        audit(
+          '.a:disabled {\n  opacity: 0.55;\n}\n.b[data-kui-disabled] {\n  opacity: var(--kui-opacity-disabled);\n}\n.c-sep {\n  opacity: 0.55;\n}\n.d:disabled {\n  opacity: 1;\n}\n',
+        ),
+      ).toEqual([
+        'projects/ui/src/styles/button.css:2 dims a disabled state with 0.55; read --kui-opacity-disabled',
+      ]);
+    });
+
+    it('reports a text line-height literal but allows 0, 1 and token reads', () => {
+      expect(
+        audit(
+          '.a {\n  line-height: 1.4;\n}\n.b {\n  line-height: 1;\n}\n.c {\n  line-height: 0;\n}\n.d {\n  line-height: var(--kui-type-body-line-height);\n}\n',
+        ),
+      ).toEqual([
+        'projects/ui/src/styles/button.css:2 writes the text line-height 1.4; read a --kui-type-*-line-height role or --kui-line-height-control',
+      ]);
+    });
+
+    it('reports a literal radius but allows 0, 50%, tokens and calc over a token', () => {
+      expect(
+        audit(
+          '.a {\n  border-radius: 3px;\n}\n.b {\n  border-radius: 50%;\n}\n.c {\n  border-radius: 0 0 var(--kui-radius-sm);\n}\n.d {\n  border-radius: calc(var(--x) / 2);\n}\n',
+        ),
+      ).toEqual([
+        'projects/ui/src/styles/button.css:2 writes a literal radius (3px); read a --kui-radius-* token',
+      ]);
+    });
+
+    it('reports a literal fallback of a global scale token but allows component tokens and system colours', () => {
+      expect(
+        audit(
+          '.a {\n  padding: var(--kui-space-4, 12px);\n  transition: color var(--kui-duration-fast, 100ms) var(--kui-ease);\n  inline-size: var(--kui-button-size, 20px);\n  outline-color: var(--kui-button-ring, var(--kui-color-focus, Highlight));\n  gap: var(--kui-space-2, var(--kui-space-1));\n}\n',
+        ),
+      ).toEqual([
+        'projects/ui/src/styles/button.css:2 gives --kui-space-4 the literal fallback 12px; the default theme always defines it, remove the fallback',
+        'projects/ui/src/styles/button.css:3 gives --kui-duration-fast the literal fallback 100ms; the default theme always defines it, remove the fallback',
+      ]);
+    });
+
+    it('lets the Chart keep its own line-height and radius values but not a fallback', () => {
+      const failures = audit(
+        '.a {\n  line-height: 1.4;\n  border-radius: 4px;\n  padding: var(--kui-space-1, 4px);\n}\n',
+        'projects/ui/src/lib/components/chart/kui-chart.css',
+      );
+
+      expect(failures).toContain(
+        'projects/ui/src/lib/components/chart/kui-chart.css:4 gives --kui-space-1 the literal fallback 4px; the default theme always defines it, remove the fallback',
+      );
+      expect(failures.some((failure) => /line-height|radius/u.test(failure))).toBe(false);
+    });
   });
 
   it('allows black and white, with alpha, as a colour literal', () => {

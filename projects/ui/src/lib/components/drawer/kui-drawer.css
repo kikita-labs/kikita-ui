@@ -93,12 +93,12 @@
     position: fixed;
     inset: 0;
     z-index: var(--kui-z-drawer-backdrop);
-    background: var(--kui-drawer-backdrop-bg);
+    background: var(--kui-drawer-backdrop-bg, var(--kui-color-scrim));
     animation: kui-drawer-backdrop-in var(--kui-drawer-duration-open) var(--kui-ease) both;
   }
 
   .kui-drawer-backdrop--closing {
-    animation: kui-drawer-backdrop-out var(--kui-drawer-duration-close) ease-in both;
+    animation: kui-drawer-backdrop-out var(--kui-drawer-duration-close) var(--kui-ease-exit) both;
   }
 
   .kui-drawer {
@@ -123,7 +123,7 @@
   }
 
   .kui-drawer[data-kui-side='right'].kui-drawer--closing {
-    animation: kui-drawer-out-right var(--kui-drawer-duration-close) ease-in both;
+    animation: kui-drawer-out-right var(--kui-drawer-duration-close) var(--kui-ease-exit) both;
   }
 
   .kui-drawer[data-kui-side='left'] {
@@ -138,7 +138,7 @@
   }
 
   .kui-drawer[data-kui-side='left'].kui-drawer--closing {
-    animation: kui-drawer-out-left var(--kui-drawer-duration-close) ease-in both;
+    animation: kui-drawer-out-left var(--kui-drawer-duration-close) var(--kui-ease-exit) both;
   }
 
   .kui-drawer[data-kui-side='bottom'] {
@@ -155,7 +155,7 @@
   }
 
   .kui-drawer[data-kui-side='bottom'].kui-drawer--closing {
-    animation: kui-drawer-out-bottom var(--kui-drawer-duration-close) ease-in both;
+    animation: kui-drawer-out-bottom var(--kui-drawer-duration-close) var(--kui-ease-exit) both;
   }
 
   .kui-drawer[data-kui-side='top'] {
@@ -172,7 +172,7 @@
   }
 
   .kui-drawer[data-kui-side='top'].kui-drawer--closing {
-    animation: kui-drawer-out-top var(--kui-drawer-duration-close) ease-in both;
+    animation: kui-drawer-out-top var(--kui-drawer-duration-close) var(--kui-ease-exit) both;
   }
 
   .kui-drawer[data-kui-size='sm'] {
@@ -231,15 +231,15 @@
     margin: 0;
     color: var(--kui-drawer-title-color, var(--kui-color-text));
     font-size: var(--kui-drawer-title-size, var(--kui-text-base-size));
-    font-weight: var(--kui-drawer-title-weight);
-    line-height: 1.4;
+    font-weight: var(--kui-drawer-title-weight, var(--kui-font-weight-semibold));
+    line-height: var(--kui-type-title-line-height);
   }
 
   .kui-drawer-subtitle {
     margin-block-start: var(--kui-space-1);
     color: var(--kui-drawer-subtitle-color, var(--kui-color-text-secondary));
     font-size: var(--kui-drawer-subtitle-font-size, var(--kui-text-sm-size));
-    line-height: 1.4;
+    line-height: var(--kui-type-body-sm-line-height);
   }
 
   .kui-drawer-close {
@@ -292,7 +292,7 @@
     padding: var(--kui-drawer-body-padding, var(--kui-space-6));
     color: var(--kui-drawer-body-color, var(--kui-color-text-secondary));
     font-size: var(--kui-drawer-body-font-size, var(--kui-text-sm-size));
-    line-height: 1.65;
+    line-height: var(--kui-type-body-lg-line-height);
   }
 
   .kui-drawer-footer {

@@ -27,7 +27,7 @@
       --kui-avatar-font-size,
       var(--_kui-avatar-font-size, var(--kui-avatar-font-size-md, var(--kui-text-sm-size)))
     );
-    font-weight: var(--kui-avatar-font-weight);
+    font-weight: var(--kui-avatar-font-weight, var(--kui-font-weight-semibold));
     letter-spacing: 0;
     line-height: 1;
     text-align: center;
@@ -281,8 +281,8 @@
   }
 
   .kui-avatar-action:focus-visible {
-    outline: var(--kui-avatar-focus-ring-w) solid
+    outline: var(--kui-avatar-focus-ring-w, var(--kui-focus-ring-width)) solid
       var(--kui-avatar-focus-ring-color, var(--kui-color-focus));
-    outline-offset: var(--kui-avatar-focus-ring-off);
+    outline-offset: var(--kui-avatar-focus-ring-off, var(--kui-focus-ring-offset));
   }
 }

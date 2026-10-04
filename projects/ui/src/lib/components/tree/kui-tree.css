@@ -1,7 +1,7 @@
 @layer kui.components {
   @media (prefers-reduced-motion: reduce) {
     .kui-tree-spinner {
-      animation-duration: 1600ms;
+      animation-duration: var(--kui-loader-duration-reduced);
     }
 
     .kui-tree-toggle svg {
@@ -53,8 +53,9 @@
   }
 
   .kui-tree-row:focus-visible {
-    outline: 2px solid var(--kui-tree-row-focus-ring-color, var(--kui-color-focus));
-    outline-offset: -2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-tree-row-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset-inset);
   }
 
   .kui-tree-row[aria-disabled='true'] {
@@ -69,8 +70,8 @@
   /* ── Toggle / spacer / spinner ────────────────────────────────────────── */
 
   .kui-tree-toggle {
-    inline-size: 20px;
-    block-size: 20px;
+    inline-size: var(--kui-tree-toggle-size, var(--_kui-tree-toggle-size, 20px));
+    block-size: var(--kui-tree-toggle-size, var(--_kui-tree-toggle-size, 20px));
   }
 
   .kui-tree-toggle svg {
@@ -83,18 +84,19 @@
 
   .kui-tree-toggle-spacer {
     flex-shrink: 0;
-    width: 20px;
-    height: 20px;
+    width: var(--kui-tree-toggle-size, var(--_kui-tree-toggle-size, 20px));
+    height: var(--kui-tree-toggle-size, var(--_kui-tree-toggle-size, 20px));
   }
 
   .kui-tree-spinner {
     flex-shrink: 0;
-    width: 14px;
-    height: 14px;
-    border: 2px solid var(--kui-tree-spinner-track-color, var(--kui-color-surface-sunken));
+    width: var(--kui-tree-spinner-size, 14px);
+    height: var(--kui-tree-spinner-size, 14px);
+    border: var(--kui-border-width-heavy) solid
+      var(--kui-tree-spinner-track-color, var(--kui-color-surface-sunken));
     border-block-start-color: var(--kui-tree-spinner-color, var(--kui-color-primary-indicator));
     border-radius: 50%;
-    animation: kui-tree-spin 800ms linear infinite;
+    animation: kui-tree-spin var(--kui-loader-duration) linear infinite;
   }
 
   @keyframes kui-tree-spin {
@@ -104,6 +106,11 @@
   }
 
   /* ── Icon / label ──────────────────────────────────────────────────────── */
+
+  .kui-tree-icon svg {
+    width: var(--kui-tree-icon-size, var(--_kui-tree-icon-size, 16px));
+    height: var(--kui-tree-icon-size, var(--_kui-tree-icon-size, 16px));
+  }
 
   .kui-tree-icon {
     flex-shrink: 0;
@@ -124,16 +131,16 @@
   /* ── Mobile tap target ─────────────────────────────────────────────────── */
 
   .kui-tree-container[data-kui-mobile] .kui-tree-row {
-    height: 44px;
+    height: var(--kui-control-height-lg);
   }
 
   .kui-tree-container[data-kui-mobile] .kui-tree-toggle {
-    width: 44px;
-    height: 44px;
+    width: var(--kui-control-height-lg);
+    height: var(--kui-control-height-lg);
   }
 
   .kui-tree-container[data-kui-mobile] .kui-tree-toggle-spacer {
-    width: 44px;
+    width: var(--kui-control-height-lg);
   }
 
   /* ── Sizes ─────────────────────────────────────────────────────────────── */
@@ -146,15 +153,9 @@
     font-size: var(--kui-tree-label-font-size-sm, var(--kui-text-xs-size));
   }
 
-  .kui-tree-container[data-kui-size='sm'] .kui-tree-toggle,
-  .kui-tree-container[data-kui-size='sm'] .kui-tree-toggle-spacer {
-    width: 16px;
-    height: 16px;
-  }
-
-  .kui-tree-container[data-kui-size='sm'] .kui-tree-icon svg {
-    width: 14px;
-    height: 14px;
+  .kui-tree-container[data-kui-size='sm'] {
+    --_kui-tree-toggle-size: 16px;
+    --_kui-tree-icon-size: 14px;
   }
 
   .kui-tree-container[data-kui-size='sm'] .kui-checkbox {
@@ -173,15 +174,9 @@
     font-size: var(--kui-tree-label-font-size-lg, var(--kui-text-base-size));
   }
 
-  .kui-tree-container[data-kui-size='lg'] .kui-tree-toggle,
-  .kui-tree-container[data-kui-size='lg'] .kui-tree-toggle-spacer {
-    width: 24px;
-    height: 24px;
-  }
-
-  .kui-tree-container[data-kui-size='lg'] .kui-tree-icon svg {
-    width: 18px;
-    height: 18px;
+  .kui-tree-container[data-kui-size='lg'] {
+    --_kui-tree-toggle-size: 24px;
+    --_kui-tree-icon-size: 18px;
   }
 
   .kui-tree-container[data-kui-size='lg'] .kui-checkbox {

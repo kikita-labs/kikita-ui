@@ -1,18 +1,14 @@
 @layer kui.components {
   /*
-   * The kit has no semantic overlay/scrim token yet -- this literal is the same class of
-   * unlabelled value `--kui-dialog-backdrop` already carries in dialog.css, just a higher opacity
-   * because this is a standalone fullscreen viewer rather than a modal layered over visible page
-   * content.
+   * The scrim is the strong one: this is a standalone fullscreen viewer rather than a modal layered
+   * over visible page content.
    */
   .kui-media-viewer {
-    --_kui-media-viewer-scrim-bg: oklch(0 0 0 / 0.92);
+    --_kui-media-viewer-scrim-bg: var(--kui-color-scrim-strong);
     --_kui-media-viewer-fg: var(--kui-color-on-scrim);
     --_kui-media-viewer-fg-muted: color-mix(in oklch, var(--kui-color-on-scrim) 65%, transparent);
     --_kui-media-viewer-hover-bg: color-mix(in oklch, var(--kui-color-on-scrim) 16%, transparent);
-    --_kui-media-viewer-strip-thumb-size: calc(
-      var(--kui-space-16, 64px) + var(--kui-space-4, 16px)
-    );
+    --_kui-media-viewer-strip-thumb-size: calc(var(--kui-space-16) + var(--kui-space-4));
     --_kui-media-viewer-strip-active-border: var(--kui-color-primary-fill);
 
     /* Ghost icon buttons (Close/Zoom/Prev/Next) stay legible on the dark scrim. */
@@ -73,7 +69,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding-inline: var(--kui-media-viewer-stage-padding-inline, var(--kui-space-16, 64px));
+    padding-inline: var(--kui-media-viewer-stage-padding-inline, var(--kui-space-16));
     /*
      * Opts the whole stage out of the browser's native touch gestures (page pinch-zoom,
      * two-finger pan), not just `.kui-media-viewer__image` below -- a real pinch's second finger
@@ -137,7 +133,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    transition: transform 150ms ease;
+    transition: transform var(--kui-duration-base) var(--kui-ease);
     touch-action: none;
     /*
      * The pointer-drag pan (KuiMediaViewerDialog.onFramePointerDown/Move) competes with two
@@ -191,7 +187,7 @@
     width: var(--kui-media-viewer-strip-thumb-size, var(--_kui-media-viewer-strip-thumb-size));
     height: var(--kui-media-viewer-strip-thumb-size, var(--_kui-media-viewer-strip-thumb-size));
     padding: 0;
-    border: 2px solid transparent;
+    border: var(--kui-border-width-heavy) solid transparent;
     border-radius: var(--kui-media-viewer-thumb-radius, var(--kui-radius-sm));
     overflow: hidden;
     background: transparent;
@@ -200,8 +196,9 @@
   }
 
   .kui-media-viewer__thumb:focus-visible {
-    outline: 2px solid var(--kui-media-viewer-thumb-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-media-viewer-thumb-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   .kui-media-viewer__thumb--active {

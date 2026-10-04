@@ -148,7 +148,7 @@ automatically from `appearance`. Size is fixed at 20 x 20 px.
 | `--kui-dialog-border`         | `var(--kui-color-border)`           |
 | `--kui-dialog-radius`         | `var(--kui-radius-lg)`              |
 | `--kui-dialog-shadow`         | `var(--kui-shadow-lg)`              |
-| `--kui-dialog-backdrop`       | `oklch(0 0 0 / 0.5)`                |
+| `--kui-dialog-backdrop`       | `var(--kui-color-scrim)`            |
 | `--kui-dialog-padding-x`      | `var(--kui-space-6)`                |
 | `--kui-dialog-padding-y`      | `var(--kui-space-4)`                |
 | `--kui-dialog-title-size`     | `var(--kui-text-lg-size)`           |

@@ -74,7 +74,7 @@
   :where(.kui-overline) {
     font-size: var(--kui-type-overline-size);
     font-weight: var(--kui-type-overline-weight);
-    letter-spacing: 0.5px;
+    letter-spacing: var(--kui-type-overline-letter-spacing);
     line-height: var(--kui-type-overline-line-height);
     text-transform: uppercase;
   }

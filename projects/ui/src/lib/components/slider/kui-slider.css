@@ -157,8 +157,9 @@
   }
 
   .kui-slider-native:focus-visible ~ .kui-slider-track .kui-slider-thumb {
-    outline: 2px solid var(--kui-slider-thumb-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-slider-thumb-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset);
     box-shadow: var(--kui-slider-thumb-shadow-focus, 0 1px 2px oklch(0 0 0 / 0.3));
   }
 
@@ -196,7 +197,7 @@
 
   .kui-slider-tooltip {
     position: absolute;
-    bottom: calc(100% + 6px);
+    bottom: calc(100% + var(--kui-space-1-5));
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -211,10 +212,10 @@
     background: var(--kui-slider-tooltip-bg, var(--kui-color-text));
     color: var(--kui-slider-tooltip-color, var(--kui-color-bg));
     font-size: var(--kui-slider-tooltip-text-font-size, var(--kui-text-xs-size));
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 5px;
-    line-height: 1.4;
+    font-weight: var(--kui-font-weight-semibold);
+    padding: 3px var(--kui-space-2);
+    border-radius: var(--kui-radius-xs);
+    line-height: var(--kui-type-body-sm-line-height);
   }
 
   .kui-slider-tooltip-arrow {
@@ -230,7 +231,7 @@
   .kui-slider-labels {
     display: flex;
     justify-content: space-between;
-    margin-top: 4px;
+    margin-top: var(--kui-space-1);
     font-size: var(--kui-slider-labels-font-size, var(--kui-text-xs-size));
     color: var(--kui-slider-labels-color, var(--kui-color-text-secondary));
   }

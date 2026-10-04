@@ -18,7 +18,7 @@
   }
 
   .kui-menu--closing {
-    animation: kui-menu-out var(--kui-duration-fast) var(--kui-ease);
+    animation: kui-menu-out var(--kui-duration-quick) var(--kui-ease-exit);
   }
 
   .kui-menu-item {
@@ -38,7 +38,7 @@
     cursor: pointer;
     font: inherit;
     font-size: var(--kui-menu-item-font-size, var(--kui-text-sm-size));
-    font-weight: var(--kui-menu-item-font-weight);
+    font-weight: var(--kui-menu-item-font-weight, var(--kui-font-weight-medium));
     letter-spacing: 0;
     line-height: 1;
     text-align: start;
@@ -56,8 +56,9 @@
 
   /* Keyboard focus adds the same inset frame the listbox option draws, so both read alike. */
   .kui-menu-item:focus-visible {
-    outline: 2px solid var(--kui-menu-item-focus-ring-color, var(--kui-color-focus));
-    outline-offset: -2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-menu-item-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset-inset);
   }
 
   .kui-menu-item:active {
@@ -99,7 +100,7 @@
     flex: 1 1 auto;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 1.3;
+    line-height: var(--kui-line-height-control);
     white-space: nowrap;
   }
 
@@ -117,7 +118,7 @@
     padding-inline: var(--kui-menu-item-padding-x, var(--kui-space-3));
     color: var(--kui-menu-group-header-text, var(--kui-color-text-secondary));
     font-size: var(--kui-menu-group-header-font-size, var(--kui-text-xs-size));
-    font-weight: var(--kui-menu-group-header-font-weight);
+    font-weight: var(--kui-menu-group-header-font-weight, var(--kui-font-weight-semibold));
     letter-spacing: 0;
     line-height: 1;
   }

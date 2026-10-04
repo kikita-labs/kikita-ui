@@ -3,7 +3,7 @@
     --_kui-splitter-pane-bg: var(--kui-color-surface);
     --_kui-splitter-pane-border: var(--kui-color-border);
     --_kui-splitter-radius: var(--kui-radius-md);
-    --kui-splitter-gutter-size: var(--kui-space-2, 8px);
+    --kui-splitter-gutter-size: var(--kui-space-2);
     --_kui-splitter-gutter-line: var(--kui-color-border);
     --_kui-splitter-gutter-line-hover: var(--kui-color-border-strong);
     --_kui-splitter-gutter-line-active: var(--kui-color-primary-indicator);
@@ -73,8 +73,9 @@
   }
 
   .kui-splitter-gutter__separator:focus-visible {
-    outline: 2px solid var(--kui-splitter-focus-ring, var(--_kui-splitter-focus-ring));
-    outline-offset: 2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-splitter-focus-ring, var(--_kui-splitter-focus-ring));
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   .kui-splitter-gutter__line {
@@ -116,8 +117,8 @@
     inset-inline-start: 50%;
     transform: translate(-50%, -50%);
     background: var(--kui-splitter-thumb-bg, var(--_kui-splitter-thumb-bg));
-    border-radius: var(--kui-splitter-gutter-thumb-radius, var(--kui-radius-full, 9999px));
-    transition: background var(--kui-duration-fast, 100ms) var(--kui-ease, ease);
+    border-radius: var(--kui-splitter-gutter-thumb-radius, var(--kui-radius-full));
+    transition: background var(--kui-duration-fast) var(--kui-ease);
   }
 
   .kui-splitter-gutter[data-kui-orientation='vertical'] .kui-splitter-gutter__thumb {
@@ -139,14 +140,14 @@
     block-size: var(--kui-splitter-collapse-btn-size, var(--_kui-splitter-collapse-btn-size));
     padding: 0;
     border: none;
-    border-radius: var(--kui-splitter-gutter-thumb-btn-radius, var(--kui-radius-full, 9999px));
+    border-radius: var(--kui-splitter-gutter-thumb-btn-radius, var(--kui-radius-full));
     background: var(--kui-splitter-collapse-btn-bg, var(--_kui-splitter-collapse-btn-bg));
     color: var(--kui-splitter-collapse-btn-fg, var(--_kui-splitter-collapse-btn-fg));
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background var(--kui-duration-fast, 100ms) var(--kui-ease, ease);
+    transition: background var(--kui-duration-fast) var(--kui-ease);
   }
 
   .kui-splitter-gutter:hover .kui-splitter-gutter__thumb-btn {

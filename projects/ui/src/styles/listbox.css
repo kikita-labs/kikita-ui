@@ -31,14 +31,15 @@
   .kui-listbox-option--active,
   .kui-listbox-option:focus-visible {
     background: var(--kui-select-option-hover-bg, var(--kui-color-state-hover));
-    outline: 2px solid var(--kui-listbox-option-focus-ring-color, var(--kui-color-focus));
-    outline-offset: -2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-listbox-option-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset-inset);
   }
 
   .kui-listbox-option--selected {
     background: var(--kui-listbox-option-bg-selected, var(--kui-color-primary-soft-bg));
     color: var(--kui-listbox-option-color-selected, var(--kui-color-primary-soft-text));
-    font-weight: 500;
+    font-weight: var(--kui-font-weight-medium);
   }
 
   .kui-listbox-option--selected:hover {
@@ -46,7 +47,7 @@
   }
 
   .kui-listbox-option--disabled {
-    opacity: 0.45;
+    opacity: var(--kui-opacity-disabled);
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -74,9 +75,9 @@
 
   .kui-listbox-group-label {
     font-size: var(--kui-listbox-group-label-font-size, var(--kui-text-xs-size));
-    font-weight: 600;
+    font-weight: var(--kui-font-weight-semibold);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: var(--kui-type-overline-letter-spacing);
     color: var(--kui-listbox-group-label-color, var(--kui-color-text-secondary));
     padding: var(--kui-listbox-group-label-padding-block-start, var(--kui-space-2))
       var(--kui-listbox-group-label-padding-inline, var(--kui-space-3))

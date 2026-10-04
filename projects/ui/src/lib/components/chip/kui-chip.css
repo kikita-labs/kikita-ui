@@ -19,7 +19,7 @@
     cursor: default;
     font: inherit;
     font-size: var(--kui-chip-font-size-md, var(--kui-text-sm-size));
-    font-weight: var(--kui-chip-font-weight);
+    font-weight: var(--kui-chip-font-weight, var(--kui-font-weight-semibold));
     line-height: 1;
     text-decoration: none;
     vertical-align: middle;
@@ -112,14 +112,14 @@
   a.kui-chip:focus-visible:not(.kui-chip--disabled),
   .kui-chip--focus {
     border-color: var(--kui-chip-border-focus, var(--kui-color-focus));
-    outline: var(--kui-chip-focus-ring-width) solid
+    outline: var(--kui-chip-focus-ring-width, var(--kui-focus-ring-width)) solid
       var(--kui-chip-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   .kui-chip--disabled {
     cursor: default;
-    opacity: var(--kui-chip-disabled-opacity);
+    opacity: var(--kui-chip-disabled-opacity, var(--kui-opacity-disabled));
     pointer-events: none;
   }
 
@@ -149,7 +149,7 @@
 
   .kui-chip-avatar {
     border-radius: var(--kui-chip-avatar-radius, var(--kui-radius-full));
-    font-weight: var(--kui-chip-avatar-font-weight);
+    font-weight: var(--kui-chip-avatar-font-weight, var(--kui-font-weight-bold));
     line-height: 1;
   }
 
@@ -196,9 +196,9 @@
 
   .kui-chip-remove:focus-visible,
   .kui-chip-remove--focus {
-    outline: var(--kui-chip-remove-focus-ring-width) solid
+    outline: var(--kui-chip-remove-focus-ring-width, var(--kui-focus-ring-width-sm)) solid
       var(--kui-chip-remove-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   .kui-chip-counter {
@@ -213,7 +213,7 @@
     background: var(--kui-chip-bg, var(--_kui-chip-bg, var(--kui-color-surface-elevated)));
     color: var(--kui-chip-counter-color, var(--kui-color-text-secondary));
     font-size: var(--kui-chip-font-size-md, var(--kui-text-sm-size));
-    font-weight: var(--kui-chip-font-weight);
+    font-weight: var(--kui-chip-font-weight, var(--kui-font-weight-semibold));
     line-height: 1;
     vertical-align: middle;
   }

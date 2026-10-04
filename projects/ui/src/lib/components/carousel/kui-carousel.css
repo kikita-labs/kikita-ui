@@ -1,8 +1,8 @@
 @layer kui.components {
   .kui-carousel {
-    --_kui-carousel-gap: var(--kui-space-4, 16px);
-    --_kui-carousel-radius: var(--kui-radius-lg, 12px);
-    --_kui-carousel-slide-radius: var(--kui-radius-md, 8px);
+    --_kui-carousel-gap: var(--kui-space-4);
+    --_kui-carousel-radius: var(--kui-radius-lg);
+    --_kui-carousel-slide-radius: var(--kui-radius-md);
     --_kui-carousel-bg: var(--kui-color-surface);
     --_kui-carousel-border: var(--kui-color-border);
     --_kui-carousel-slide-bg: var(--kui-color-surface-sunken);
@@ -10,10 +10,10 @@
     --_kui-carousel-control-shadow: var(--kui-shadow-lg);
     --_kui-carousel-dot-bg: var(--kui-color-border);
     --_kui-carousel-dot-bg-active: var(--kui-color-primary-indicator);
-    --_kui-carousel-dot-size: var(--kui-space-2, 8px);
+    --_kui-carousel-dot-size: var(--kui-space-2);
     display: flex;
     flex-direction: column;
-    gap: var(--kui-carousel-stack-gap, var(--kui-space-2, 8px));
+    gap: var(--kui-carousel-stack-gap, var(--kui-space-2));
     max-inline-size: 100%;
   }
 
@@ -35,8 +35,9 @@
 
   /* A scrollable track must be keyboard focusable; the region's arrow/Home/End keys then move slides. */
   .kui-carousel__track:focus-visible {
-    outline: 2px solid var(--kui-carousel-track-focus-ring-color, var(--kui-color-focus));
-    outline-offset: -2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-carousel-track-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset-inset);
   }
 
   /*
@@ -97,31 +98,31 @@
   .kui-carousel__control-slot {
     position: absolute;
     display: inline-flex;
-    border-radius: var(--kui-btn-radius, var(--kui-radius-md, 8px));
+    border-radius: var(--kui-btn-radius, var(--kui-radius-md));
     background: var(--kui-carousel-control-bg, var(--_kui-carousel-control-bg));
     box-shadow: var(--kui-carousel-control-shadow, var(--_kui-carousel-control-shadow));
   }
 
   .kui-carousel__control-slot--prev {
-    left: var(--kui-space-2, 8px);
+    left: var(--kui-space-2);
     top: 50%;
     transform: translateY(-50%);
   }
 
   .kui-carousel__control-slot--next {
-    right: var(--kui-space-2, 8px);
+    right: var(--kui-space-2);
     top: 50%;
     transform: translateY(-50%);
   }
 
   .kui-carousel__control-slot--play {
-    top: var(--kui-space-2, 8px);
-    right: var(--kui-space-2, 8px);
+    top: var(--kui-space-2);
+    right: var(--kui-space-2);
   }
 
   .kui-carousel__dots {
     display: flex;
-    gap: var(--kui-carousel-dots-gap, var(--kui-space-2, 8px));
+    gap: var(--kui-carousel-dots-gap, var(--kui-space-2));
     justify-content: center;
   }
 
@@ -130,7 +131,7 @@
     block-size: var(--kui-carousel-dot-size, var(--_kui-carousel-dot-size));
     padding: 0;
     border: 0;
-    border-radius: var(--kui-carousel-dot-radius, var(--kui-radius-full, 9999px));
+    border-radius: var(--kui-carousel-dot-radius, var(--kui-radius-full));
     cursor: pointer;
     background: var(--kui-carousel-dot-bg, var(--_kui-carousel-dot-bg));
   }
@@ -140,7 +141,8 @@
   }
 
   .kui-carousel__dot:focus-visible {
-    outline: 2px solid var(--kui-carousel-dot-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-carousel-dot-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset);
   }
 }

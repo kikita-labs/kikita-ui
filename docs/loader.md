@@ -33,6 +33,7 @@ The directive sets `role="status"` and `aria-live="polite"`.
 - `--kui-loader-fill`
 - `--kui-loader-border-width`
 - `--kui-loader-duration`
+- `--kui-loader-duration-reduced`
 
 ## Provider Defaults
 

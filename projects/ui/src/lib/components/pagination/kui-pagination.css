@@ -1,12 +1,12 @@
 @layer kui.components {
   .kui-pagination {
-    --_kui-pagination-gap: var(--kui-space-1, 4px);
-    --_kui-pagination-summary-gap: var(--kui-space-3, 12px);
+    --_kui-pagination-gap: var(--kui-space-1);
+    --_kui-pagination-summary-gap: var(--kui-space-3);
     --_kui-pagination-ellipsis-color: var(--kui-color-text-secondary);
-    --_kui-pagination-page-min-size-xs: var(--kui-control-height-xs, 28px);
-    --_kui-pagination-page-min-size-sm: var(--kui-control-height-sm, 32px);
-    --_kui-pagination-page-min-size-md: var(--kui-control-height-md, 40px);
-    --_kui-pagination-page-min-size-lg: var(--kui-control-height-lg, 44px);
+    --_kui-pagination-page-min-size-xs: var(--kui-control-height-xs);
+    --_kui-pagination-page-min-size-sm: var(--kui-control-height-sm);
+    --_kui-pagination-page-min-size-md: var(--kui-control-height-md);
+    --_kui-pagination-page-min-size-lg: var(--kui-control-height-lg);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -16,7 +16,7 @@
   }
 
   .kui-pagination__summary {
-    font-size: var(--kui-pagination-summary-font-size, var(--kui-text-xs-size, 12px));
+    font-size: var(--kui-pagination-summary-font-size, var(--kui-text-xs-size));
     color: var(--kui-pagination-ellipsis-color, var(--_kui-pagination-ellipsis-color));
   }
 
@@ -72,7 +72,7 @@
     inline-size: var(--kui-pagination-page-min-size-md, var(--_kui-pagination-page-min-size-md));
     block-size: var(--kui-pagination-page-min-size-md, var(--_kui-pagination-page-min-size-md));
     color: var(--kui-pagination-ellipsis-color, var(--_kui-pagination-ellipsis-color));
-    font-size: var(--kui-pagination-ellipsis-font-size, var(--kui-text-sm-size, 13px));
+    font-size: var(--kui-pagination-ellipsis-font-size, var(--kui-text-sm-size));
     /* Plain text content otherwise shows the browser's default text-selection (I-beam) cursor on
        hover -- misleading for a static, non-interactive separator with no click handler. */
     user-select: none;
@@ -95,21 +95,21 @@
   }
 
   .kui-pagination__simple-label {
-    font-size: var(--kui-pagination-simple-label-font-size, var(--kui-text-sm-size, 13px));
+    font-size: var(--kui-pagination-simple-label-font-size, var(--kui-text-sm-size));
     color: var(--kui-pagination-simple-label-color, var(--kui-color-text));
-    padding-inline: var(--kui-pagination-simple-label-padding-inline, var(--kui-space-2, 8px));
+    padding-inline: var(--kui-pagination-simple-label-padding-inline, var(--kui-space-2));
     white-space: nowrap;
   }
 
   .kui-pagination__page-size {
     display: inline-flex;
     align-items: center;
-    gap: var(--kui-pagination-page-size-gap, var(--kui-space-2, 8px));
+    gap: var(--kui-pagination-page-size-gap, var(--kui-space-2));
     margin-inline-start: var(--kui-pagination-summary-gap, var(--_kui-pagination-summary-gap));
   }
 
   .kui-pagination__page-size-label {
-    font-size: var(--kui-pagination-page-size-label-font-size, var(--kui-text-xs-size, 12px));
+    font-size: var(--kui-pagination-page-size-label-font-size, var(--kui-text-xs-size));
     color: var(--kui-pagination-ellipsis-color, var(--_kui-pagination-ellipsis-color));
     white-space: nowrap;
   }

@@ -1,5 +1,9 @@
 @layer kui.components {
   .kui-tabs {
+    /* The indicator bar and the transparent border it overlays share one thickness; both overlap the
+       list border by exactly that border's width. */
+    --_kui-tab-indicator-size: var(--kui-tab-indicator-size, var(--kui-border-width-heavy));
+    --_kui-tab-overlap: calc(-1 * var(--kui-border-width-hairline));
     display: flex;
     flex-direction: column;
     gap: var(--kui-tabs-panel-gap, var(--kui-space-4));
@@ -20,8 +24,8 @@
   .kui-tabs__scroll {
     overflow-x: auto;
     scrollbar-width: none;
-    padding-bottom: 6px;
-    margin-bottom: -6px;
+    padding-bottom: var(--kui-space-1-5);
+    margin-bottom: calc(-1 * var(--kui-space-1-5));
     min-width: 0;
   }
 
@@ -33,15 +37,15 @@
   .kui-tabs__scroll-btn {
     position: absolute;
     top: 0;
-    bottom: 6px;
+    bottom: var(--kui-space-1-5);
     z-index: 1;
     display: flex;
     align-items: center;
-    padding-inline: 6px;
+    padding-inline: var(--kui-space-1-5);
     border: none;
     color: var(--kui-tabs-scroll-btn-color, var(--kui-color-text-secondary));
     cursor: pointer;
-    transition: color var(--kui-duration-fast, 100ms) var(--kui-ease);
+    transition: color var(--kui-duration-fast) var(--kui-ease);
   }
 
   .kui-tabs__scroll-btn:hover {
@@ -55,7 +59,7 @@
       var(--kui-tabs-scroll-fade-color, var(--kui-color-bg, Canvas)) 50%,
       transparent
     );
-    padding-inline-end: 16px;
+    padding-inline-end: var(--kui-space-4);
   }
 
   .kui-tabs__scroll-btn--right {
@@ -65,14 +69,14 @@
       var(--kui-tabs-scroll-fade-color, var(--kui-color-bg, Canvas)) 50%,
       transparent
     );
-    padding-inline-start: 16px;
+    padding-inline-start: var(--kui-space-4);
   }
 
   .kui-tabs__list {
     position: relative;
     display: flex;
     flex-direction: row;
-    gap: var(--kui-tabs-gap, 2px);
+    gap: var(--kui-tabs-gap, var(--kui-space-0-5));
     border-bottom: var(--kui-border-width-hairline) solid
       var(--kui-tabs-border, var(--kui-color-border));
     min-width: max-content;
@@ -83,7 +87,7 @@
     position: absolute;
     z-index: 1;
     right: 0;
-    bottom: -1px;
+    bottom: var(--_kui-tab-overlap);
     left: 0;
     height: var(--kui-border-width-hairline);
     background: var(--kui-tabs-border, var(--kui-color-border));
@@ -94,17 +98,18 @@
     position: absolute;
     z-index: 2;
     left: 0;
-    bottom: -1px;
-    height: 2px;
+    bottom: var(--_kui-tab-overlap);
+    height: var(--_kui-tab-indicator-size);
     width: 0;
     background: var(--kui-tab-indicator, var(--kui-color-primary-indicator));
-    border-radius: 1px 1px 0 0;
+    border-radius: calc(var(--_kui-tab-indicator-size) / 2) calc(var(--_kui-tab-indicator-size) / 2)
+      0 0;
     opacity: 0;
     pointer-events: none;
     transition:
-      transform var(--kui-duration-normal, 200ms) var(--kui-ease),
-      width var(--kui-duration-normal, 200ms) var(--kui-ease),
-      opacity var(--kui-duration-fast, 100ms) var(--kui-ease);
+      transform var(--kui-duration-normal) var(--kui-ease),
+      width var(--kui-duration-normal) var(--kui-ease),
+      opacity var(--kui-duration-fast) var(--kui-ease);
   }
 
   .kui-tab {
@@ -118,24 +123,24 @@
     );
     padding-inline: var(--kui-tab-px, var(--_kui-tab-px, var(--kui-btn-px)));
     border: none;
-    border-bottom: 2px solid transparent;
+    border-bottom: var(--_kui-tab-indicator-size) solid transparent;
     border-radius: var(--kui-tab-radius, var(--kui-radius-sm))
       var(--kui-tab-radius, var(--kui-radius-sm)) 0 0;
     background: transparent;
     color: var(--kui-tab-fg, var(--kui-color-text-secondary));
     font: inherit;
     font-size: var(--kui-tab-font-size, var(--kui-btn-font-size, var(--kui-text-sm-size)));
-    font-weight: var(--kui-tab-font-weight, 500);
+    font-weight: var(--kui-tab-font-weight, var(--kui-font-weight-medium));
     cursor: pointer;
     white-space: nowrap;
     text-decoration: none;
     outline: none;
     flex-shrink: 0;
     transition:
-      color var(--kui-duration-fast, 100ms) var(--kui-ease),
-      border-color var(--kui-duration-fast, 100ms) var(--kui-ease),
-      background-color var(--kui-duration-fast, 100ms) var(--kui-ease);
-    margin-bottom: -1px;
+      color var(--kui-duration-fast) var(--kui-ease),
+      border-color var(--kui-duration-fast) var(--kui-ease),
+      background-color var(--kui-duration-fast) var(--kui-ease);
+    margin-bottom: var(--_kui-tab-overlap);
   }
 
   .kui-tab:hover:not([data-kui-selected]) {
@@ -145,13 +150,13 @@
 
   .kui-tab[data-kui-selected] {
     color: var(--kui-tab-fg-active, var(--kui-color-text));
-    font-weight: var(--kui-tab-font-weight-active, 600);
+    font-weight: var(--kui-tab-font-weight-active, var(--kui-font-weight-semibold));
   }
 
   .kui-tab:focus-visible {
-    outline: var(--kui-btn-focus-ring-w, 3px) solid
+    outline: var(--kui-focus-ring-width) solid
       var(--kui-tab-focus-ring-color, var(--kui-color-focus));
-    outline-offset: var(--kui-btn-focus-ring-off, 2px);
+    outline-offset: var(--kui-focus-ring-offset);
     border-radius: var(--kui-tab-radius, var(--kui-radius-sm));
   }
 
@@ -161,7 +166,7 @@
 
   .kui-tab:disabled,
   .kui-tab[aria-disabled='true'] {
-    opacity: var(--kui-btn-disabled-opacity, 0.5);
+    opacity: var(--kui-btn-disabled-opacity, var(--kui-opacity-disabled));
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -191,8 +196,9 @@
   }
 
   .kui-tab-panel:focus-visible {
-    outline: 2px solid var(--kui-tab-panel-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-tab-panel-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   .kui-tab-panel[hidden] {
@@ -211,29 +217,30 @@
   }
 
   .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) .kui-tab {
-    border-top: 2px solid transparent;
+    border-top: var(--_kui-tab-indicator-size) solid transparent;
     border-bottom: none;
     border-radius: 0 0 var(--kui-tab-radius, var(--kui-radius-sm))
       var(--kui-tab-radius, var(--kui-radius-sm));
-    margin-top: -1px;
+    margin-top: var(--_kui-tab-overlap);
     margin-bottom: 0;
   }
 
   .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) .kui-tab-indicator {
-    top: -1px;
+    top: var(--_kui-tab-overlap);
     bottom: auto;
-    border-radius: 0 0 1px 1px;
+    border-radius: 0 0 calc(var(--_kui-tab-indicator-size) / 2)
+      calc(var(--_kui-tab-indicator-size) / 2);
   }
 
   .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) .kui-tabs__list::after {
-    top: -1px;
+    top: var(--_kui-tab-overlap);
     bottom: auto;
   }
 
   /* Pill variant */
   .kui-tabs[data-kui-variant='pill'] .kui-tabs__list {
     border-bottom: none;
-    gap: var(--kui-tabs-pill-gap, 4px);
+    gap: var(--kui-tabs-pill-gap, var(--kui-space-1));
   }
 
   .kui-tabs[data-kui-variant='pill'] .kui-tabs__list::after {
@@ -258,18 +265,18 @@
   }
 
   .kui-tabs[data-kui-size='xs'] {
-    --_kui-tab-height: var(--kui-control-height-xs, 28px);
-    --_kui-tab-px: var(--kui-space-2, 8px);
+    --_kui-tab-height: var(--kui-control-height-xs);
+    --_kui-tab-px: var(--kui-space-2);
   }
 
   .kui-tabs[data-kui-size='sm'] {
-    --_kui-tab-height: var(--kui-control-height-sm, 32px);
-    --_kui-tab-px: var(--kui-space-3, 12px);
+    --_kui-tab-height: var(--kui-control-height-sm);
+    --_kui-tab-px: var(--kui-space-3);
   }
 
   .kui-tabs[data-kui-size='lg'] {
-    --_kui-tab-height: var(--kui-control-height-lg, 44px);
-    --_kui-tab-px: var(--kui-space-5, 20px);
+    --_kui-tab-height: var(--kui-control-height-lg);
+    --_kui-tab-px: var(--kui-space-5);
   }
 
   @media (max-width: 479px) {
@@ -286,7 +293,7 @@
   .kui-tabs[data-kui-orientation='vertical'] {
     flex-direction: row;
     align-items: flex-start;
-    gap: var(--kui-tabs-vertical-gap, var(--kui-space-6, 24px));
+    gap: var(--kui-tabs-vertical-gap, var(--kui-space-6));
   }
 
   .kui-tabs[data-kui-orientation='vertical'] .kui-tabs__scroll-wrap {
@@ -315,11 +322,11 @@
     justify-content: flex-start;
     width: 100%;
     border-bottom: none;
-    border-right: 2px solid transparent;
+    border-right: var(--_kui-tab-indicator-size) solid transparent;
     border-radius: var(--kui-tab-radius, var(--kui-radius-sm)) 0 0
       var(--kui-tab-radius, var(--kui-radius-sm));
     margin-bottom: 0;
-    margin-right: -1px;
+    margin-right: var(--_kui-tab-overlap);
   }
 
   .kui-tabs[data-kui-orientation='vertical'] .kui-tab[data-kui-selected] {
@@ -328,17 +335,18 @@
 
   .kui-tabs[data-kui-orientation='vertical'] .kui-tab-indicator {
     left: auto;
-    right: -1px;
+    right: var(--_kui-tab-overlap);
     bottom: auto;
     top: 0;
-    width: 2px;
+    width: var(--_kui-tab-indicator-size);
     height: 0;
-    border-radius: 1px 0 0 1px;
+    border-radius: calc(var(--_kui-tab-indicator-size) / 2) 0 0
+      calc(var(--_kui-tab-indicator-size) / 2);
   }
 
   .kui-tabs[data-kui-orientation='vertical'] .kui-tabs__list::after {
     top: 0;
-    right: -1px;
+    right: var(--_kui-tab-overlap);
     bottom: 0;
     left: auto;
     width: var(--kui-border-width-hairline);
@@ -362,22 +370,23 @@
 
   .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] .kui-tab {
     border-right: none;
-    border-left: 2px solid transparent;
+    border-left: var(--_kui-tab-indicator-size) solid transparent;
     border-radius: 0 var(--kui-tab-radius, var(--kui-radius-sm))
       var(--kui-tab-radius, var(--kui-radius-sm)) 0;
     margin-right: 0;
-    margin-left: -1px;
+    margin-left: var(--_kui-tab-overlap);
   }
 
   .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] .kui-tab-indicator {
-    left: -1px;
+    left: var(--_kui-tab-overlap);
     right: auto;
-    border-radius: 0 1px 1px 0;
+    border-radius: 0 calc(var(--_kui-tab-indicator-size) / 2)
+      calc(var(--_kui-tab-indicator-size) / 2) 0;
   }
 
   .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] .kui-tabs__list::after {
     right: auto;
-    left: -1px;
+    left: var(--_kui-tab-overlap);
   }
 
   .kui-tabs[data-kui-orientation='vertical'][data-kui-variant='pill'] .kui-tabs__list {

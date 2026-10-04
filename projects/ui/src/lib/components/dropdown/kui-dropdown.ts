@@ -64,7 +64,8 @@ export class KuiDropdown implements OnDestroy {
    * Preferred maximum height of the panel before scrolling activates. This is always
    * additionally clamped to the viewport (`calc(100vh - <margin>)`) so the panel can never
    * render taller than the screen with no way to reach its overflowing content — see
-   * `--kui-dropdown-viewport-margin`. Defaults to `defaults.dropdown.maxHeight`, then `240px`.
+   * `--kui-dropdown-viewport-margin`. Defaults to `defaults.dropdown.maxHeight`, then the
+   * `--kui-dropdown-max-height` token (`240px`).
    */
   readonly maxHeight = input<string | null | undefined>();
 
@@ -76,9 +77,12 @@ export class KuiDropdown implements OnDestroy {
    */
   protected readonly effectiveMaxHeight = computed(() => {
     const viewportCap =
-      'calc(100vh - var(--kui-dropdown-viewport-margin, var(--_kui-dropdown-viewport-margin, 32px)))';
+      'calc(100vh - var(--kui-dropdown-viewport-margin, var(--_kui-dropdown-viewport-margin)))';
     const local = this.maxHeight();
-    const intrinsic = local !== undefined ? local : (this.dropdownDefaults()?.maxHeight ?? '240px');
+    const intrinsic =
+      local !== undefined
+        ? local
+        : (this.dropdownDefaults()?.maxHeight ?? 'var(--kui-dropdown-max-height, 240px)');
     return intrinsic ? `min(${intrinsic}, ${viewportCap})` : viewportCap;
   });
 

@@ -5,33 +5,33 @@
     display: block;
     inline-size: 100%;
     min-inline-size: 0;
-    min-block-size: var(--kui-input-height, var(--kui-control-height-md, 40px));
+    min-block-size: var(--kui-input-height, var(--kui-control-height-md));
     border: var(--kui-input-border-width, 1px) solid
       var(--kui-input-border, var(--kui-color-border-control, ButtonBorder));
-    border-radius: var(--kui-input-radius, var(--kui-radius-md, 8px));
+    border-radius: var(--kui-input-radius, var(--kui-radius-md));
     background-color: var(--kui-input-bg, var(--kui-color-surface, Field));
     color: var(--kui-input-color, var(--kui-input-text, var(--kui-color-text, FieldText)));
     font: inherit;
-    font-size: var(--kui-input-font-size, var(--kui-text-sm-size, 13px));
-    line-height: 1.3;
+    font-size: var(--kui-input-font-size, var(--kui-text-sm-size));
+    line-height: var(--kui-line-height-control);
     margin: 0;
     padding-block: 0;
-    padding-inline: var(--kui-input-padding-inline, var(--kui-input-px, var(--kui-space-4, 12px)));
+    padding-inline: var(--kui-input-padding-inline, var(--kui-input-px, var(--kui-space-4)));
     transition:
-      background-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
-      border-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
-      box-shadow var(--kui-duration-base, 160ms) var(--kui-ease, ease),
-      color var(--kui-duration-base, 160ms) var(--kui-ease, ease);
+      background-color var(--kui-duration-base) var(--kui-ease),
+      border-color var(--kui-duration-base) var(--kui-ease),
+      box-shadow var(--kui-duration-base) var(--kui-ease),
+      color var(--kui-duration-base) var(--kui-ease);
   }
 
   input.kui-input {
-    block-size: var(--kui-input-height, var(--kui-control-height-md, 40px));
+    block-size: var(--kui-input-height, var(--kui-control-height-md));
     min-block-size: 0;
   }
 
   textarea.kui-input {
-    min-block-size: calc(var(--kui-input-height, var(--kui-control-height-md, 40px)) * 2);
-    padding-block: var(--kui-textarea-padding-block, var(--kui-space-3, 12px));
+    min-block-size: calc(var(--kui-input-height, var(--kui-control-height-md)) * 2);
+    padding-block: var(--kui-textarea-padding-block, var(--kui-space-3));
     resize: vertical;
   }
 
@@ -52,7 +52,8 @@
   .kui-input:focus {
     border-color: var(--kui-input-border-focus, var(--kui-color-focus, Highlight));
     /* One 2px frame: the border takes the focus colour and the outline sits flush against it. */
-    outline: 1px solid var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline: var(--kui-input-border-width-focus) solid
+      var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
     outline-offset: 0;
     box-shadow: var(--kui-input-focus-ring, none);
   }
@@ -85,29 +86,29 @@
   }
 
   .kui-input[data-kui-size='xs'] {
-    min-block-size: var(--kui-input-height-xs, var(--kui-control-height-xs, 28px));
-    font-size: var(--kui-input-font-size-xs, var(--kui-text-xs-size, 11px));
+    min-block-size: var(--kui-input-height-xs, var(--kui-control-height-xs));
+    font-size: var(--kui-input-font-size-xs, var(--kui-text-xs-size));
   }
 
   input.kui-input[data-kui-size='xs'] {
-    block-size: var(--kui-input-height-xs, var(--kui-control-height-xs, 28px));
+    block-size: var(--kui-input-height-xs, var(--kui-control-height-xs));
   }
 
   .kui-input[data-kui-size='sm'] {
-    min-block-size: var(--kui-input-height-sm, var(--kui-control-height-sm, 32px));
+    min-block-size: var(--kui-input-height-sm, var(--kui-control-height-sm));
   }
 
   input.kui-input[data-kui-size='sm'] {
-    block-size: var(--kui-input-height-sm, var(--kui-control-height-sm, 32px));
+    block-size: var(--kui-input-height-sm, var(--kui-control-height-sm));
   }
 
   .kui-input[data-kui-size='lg'] {
-    min-block-size: var(--kui-input-height-lg, var(--kui-control-height-lg, 44px));
-    font-size: var(--kui-input-font-size-lg, var(--kui-text-base-size, 14px));
+    min-block-size: var(--kui-input-height-lg, var(--kui-control-height-lg));
+    font-size: var(--kui-input-font-size-lg, var(--kui-text-base-size));
   }
 
   input.kui-input[data-kui-size='lg'] {
-    block-size: var(--kui-input-height-lg, var(--kui-control-height-lg, 44px));
+    block-size: var(--kui-input-height-lg, var(--kui-control-height-lg));
   }
 
   .kui-input[data-kui-invalid],
@@ -118,7 +119,7 @@
   .kui-input:disabled {
     background-color: var(--kui-input-bg-disabled, var(--kui-color-surface-sunken));
     cursor: not-allowed;
-    opacity: 0.65;
+    opacity: var(--kui-opacity-disabled);
   }
 
   .kui-input[readonly]:not(:disabled) {
@@ -132,14 +133,14 @@
     align-items: center;
     inline-size: 100%;
     min-inline-size: 0;
-    min-block-size: var(--kui-input-height, var(--kui-control-height-md, 40px));
+    min-block-size: var(--kui-input-height, var(--kui-control-height-md));
     overflow-x: hidden;
     gap: var(--kui-field-affix-gap, var(--kui-space-2));
     padding-block: 0;
-    padding-inline: var(--kui-input-padding-inline, var(--kui-input-px, var(--kui-space-4, 12px)));
+    padding-inline: var(--kui-input-padding-inline, var(--kui-input-px, var(--kui-space-4)));
     border: var(--kui-input-border-width, 1px) solid
       var(--kui-input-border, var(--kui-color-border-control, ButtonBorder));
-    border-radius: var(--kui-input-radius, var(--kui-radius-md, 8px));
+    border-radius: var(--kui-input-radius, var(--kui-radius-md));
     background-color: var(--kui-input-bg, var(--kui-color-surface, Field));
     color: var(--kui-input-color, var(--kui-input-text, var(--kui-color-text, FieldText)));
     /*
@@ -152,10 +153,10 @@
      */
     cursor: text;
     transition:
-      background-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
-      border-color var(--kui-duration-base, 160ms) var(--kui-ease, ease),
-      box-shadow var(--kui-duration-base, 160ms) var(--kui-ease, ease),
-      color var(--kui-duration-base, 160ms) var(--kui-ease, ease);
+      background-color var(--kui-duration-base) var(--kui-ease),
+      border-color var(--kui-duration-base) var(--kui-ease),
+      box-shadow var(--kui-duration-base) var(--kui-ease),
+      color var(--kui-duration-base) var(--kui-ease);
   }
 
   .kui-input-group:hover {
@@ -168,7 +169,8 @@
   .kui-input-group:focus-within {
     border-color: var(--kui-input-border-focus, var(--kui-color-focus, Highlight));
     /* One 2px frame: the border takes the focus colour and the outline sits flush against it. */
-    outline: 1px solid var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline: var(--kui-input-border-width-focus) solid
+      var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
     outline-offset: 0;
     box-shadow: var(--kui-input-focus-ring, none);
   }
@@ -181,7 +183,7 @@
   .kui-input-group[data-kui-disabled] {
     background-color: var(--kui-input-bg-disabled, var(--kui-color-surface-sunken));
     cursor: not-allowed;
-    opacity: 0.65;
+    opacity: var(--kui-opacity-disabled);
   }
 
   .kui-input-group[data-kui-readonly] {
@@ -198,7 +200,7 @@
     border-radius: 0;
     background: transparent;
     box-shadow: none;
-    line-height: 1.3;
+    line-height: var(--kui-line-height-control);
   }
 
   .kui-input-group > .kui-input:hover,
@@ -215,42 +217,42 @@
   }
 
   .kui-input-group[data-kui-size='xs'] {
-    min-block-size: var(--kui-input-height-xs, var(--kui-control-height-xs, 28px));
-    font-size: var(--kui-input-font-size-xs, var(--kui-text-xs-size, 11px));
+    min-block-size: var(--kui-input-height-xs, var(--kui-control-height-xs));
+    font-size: var(--kui-input-font-size-xs, var(--kui-text-xs-size));
   }
 
   .kui-input-group[data-kui-size='sm'] {
-    min-block-size: var(--kui-input-height-sm, var(--kui-control-height-sm, 32px));
+    min-block-size: var(--kui-input-height-sm, var(--kui-control-height-sm));
   }
 
   .kui-input-group[data-kui-size='lg'] {
-    min-block-size: var(--kui-input-height-lg, var(--kui-control-height-lg, 44px));
-    font-size: var(--kui-input-font-size-lg, var(--kui-text-base-size, 14px));
+    min-block-size: var(--kui-input-height-lg, var(--kui-control-height-lg));
+    font-size: var(--kui-input-font-size-lg, var(--kui-text-base-size));
   }
 
   .kui-field[data-kui-size='xs'] .kui-input:not([data-kui-size]) {
-    min-block-size: var(--kui-input-height-xs, var(--kui-control-height-xs, 28px));
-    font-size: var(--kui-input-font-size-xs, var(--kui-text-xs-size, 11px));
+    min-block-size: var(--kui-input-height-xs, var(--kui-control-height-xs));
+    font-size: var(--kui-input-font-size-xs, var(--kui-text-xs-size));
   }
 
   .kui-field[data-kui-size='xs'] input.kui-input:not([data-kui-size]) {
-    block-size: var(--kui-input-height-xs, var(--kui-control-height-xs, 28px));
+    block-size: var(--kui-input-height-xs, var(--kui-control-height-xs));
   }
 
   .kui-field[data-kui-size='sm'] .kui-input:not([data-kui-size]) {
-    min-block-size: var(--kui-input-height-sm, var(--kui-control-height-sm, 32px));
+    min-block-size: var(--kui-input-height-sm, var(--kui-control-height-sm));
   }
 
   .kui-field[data-kui-size='sm'] input.kui-input:not([data-kui-size]) {
-    block-size: var(--kui-input-height-sm, var(--kui-control-height-sm, 32px));
+    block-size: var(--kui-input-height-sm, var(--kui-control-height-sm));
   }
 
   .kui-field[data-kui-size='lg'] .kui-input:not([data-kui-size]) {
-    min-block-size: var(--kui-input-height-lg, var(--kui-control-height-lg, 44px));
-    font-size: var(--kui-input-font-size-lg, var(--kui-text-base-size, 14px));
+    min-block-size: var(--kui-input-height-lg, var(--kui-control-height-lg));
+    font-size: var(--kui-input-font-size-lg, var(--kui-text-base-size));
   }
 
   .kui-field[data-kui-size='lg'] input.kui-input:not([data-kui-size]) {
-    block-size: var(--kui-input-height-lg, var(--kui-control-height-lg, 44px));
+    block-size: var(--kui-input-height-lg, var(--kui-control-height-lg));
   }
 }

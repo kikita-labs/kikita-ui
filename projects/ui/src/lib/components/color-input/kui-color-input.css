@@ -42,14 +42,14 @@
   }
 
   .kui-color-input__swatch:focus-visible {
-    outline: var(--kui-field-action-focus-ring-width) solid
+    outline: var(--kui-field-action-focus-ring-width, var(--kui-focus-ring-width-sm)) solid
       var(--kui-field-action-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   .kui-color-input__swatch:disabled {
     cursor: not-allowed;
-    opacity: var(--kui-field-action-disabled-opacity);
+    opacity: var(--kui-field-action-disabled-opacity, var(--kui-opacity-disabled));
   }
 
   /* The swatch clips its own corners; a rounded fill would leave slivers of the checker behind. */
@@ -113,8 +113,9 @@
   }
 
   .kui-color-input-picker:focus-visible {
-    outline: 2px solid var(--kui-color-input-picker-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-color-input-picker-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   .kui-color-input-thumb {
@@ -186,8 +187,9 @@
 
   /* The native range input is transparent, so its focus is shown on the visible thumb. */
   .kui-color-input-hue:has(.kui-color-input-hue-native:focus-visible) .kui-color-input-hue-thumb {
-    outline: 2px solid var(--kui-color-input-hue-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-color-input-hue-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   .kui-color-input-nums {
@@ -199,22 +201,22 @@
 
   .kui-color-input-num {
     display: grid;
-    gap: 2px;
+    gap: var(--kui-space-0-5);
     min-inline-size: 0;
   }
 
   .kui-color-input-num > span {
     color: var(--kui-color-input-num-label-color, var(--kui-color-text-secondary));
     font-size: var(--kui-color-input-num-label-font-size, var(--kui-text-xs-size));
-    font-weight: 600;
-    line-height: 1.2;
+    font-weight: var(--kui-font-weight-semibold);
+    line-height: var(--kui-line-height-control);
   }
 
   .kui-color-input-num > input,
   .kui-color-input-hex {
     min-inline-size: 0;
     inline-size: 100%;
-    padding: 5px 6px;
+    padding: 5px var(--kui-space-1-5);
     color: var(--kui-color-input-field-color, var(--kui-color-text));
     font: inherit;
     font-family: var(--kui-font-mono);
@@ -229,7 +231,8 @@
   .kui-color-input-num > input:focus,
   .kui-color-input-hex:focus {
     border-color: var(--kui-color-input-field-border-focus, var(--kui-color-focus));
-    outline: 1px solid var(--kui-color-input-field-focus-ring-color, var(--kui-color-focus));
+    outline: var(--kui-input-border-width-focus) solid
+      var(--kui-color-input-field-focus-ring-color, var(--kui-color-focus));
     outline-offset: 0;
   }
 
@@ -289,8 +292,9 @@
   }
 
   .kui-color-input-preset:focus-visible {
-    outline: 2px solid var(--kui-color-input-preset-focus-ring-color, var(--kui-color-focus));
-    outline-offset: 2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-color-input-preset-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   .kui-color-input-copy-btn {

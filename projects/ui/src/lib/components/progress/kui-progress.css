@@ -121,7 +121,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
+    font-weight: var(--kui-font-weight-bold);
     color: var(--kui-progress-circular-label-color, var(--kui-color-text));
     line-height: 1;
     pointer-events: none;

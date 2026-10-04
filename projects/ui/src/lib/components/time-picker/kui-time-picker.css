@@ -27,7 +27,7 @@
   .kui-timepicker-suffix {
     display: flex;
     align-items: center;
-    gap: var(--kui-timepicker-suffix-gap, 2px);
+    gap: var(--kui-timepicker-suffix-gap, var(--kui-space-0-5));
     pointer-events: none;
   }
 
@@ -42,8 +42,8 @@
   }
 
   .kui-timepicker-clear > svg {
-    inline-size: 12px;
-    block-size: 12px;
+    inline-size: var(--kui-field-clear-icon-size);
+    block-size: var(--kui-field-clear-icon-size);
   }
 
   .kui-timepicker-chevron svg {
@@ -103,9 +103,9 @@
        panel (not just an individual column) to scroll even when a column itself had empty
        space below its last item. Matches the Claude Design spec's own sizing for its busier
        (seconds + AM/PM) example. */
-    max-block-size: calc(var(--kui-timepicker-opt-size, var(--kui-control-height-sm, 32px)) * 5);
-    padding: 4px;
-    gap: 2px;
+    max-block-size: calc(var(--kui-timepicker-opt-size, var(--kui-control-height-sm)) * 5);
+    padding: var(--kui-space-1);
+    gap: var(--kui-space-0-5);
     border-radius: var(--kui-timepicker-col-radius, var(--kui-radius-sm));
     outline: none;
     background: transparent;
@@ -113,8 +113,9 @@
   }
 
   .kui-timepicker-col:focus-visible {
-    outline: 2px solid var(--kui-timepicker-col-focus-ring-color, var(--kui-color-focus));
-    outline-offset: -2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-timepicker-col-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset-inset);
   }
 
   /*
@@ -126,8 +127,8 @@
    * every column's right edge. Fixed width sidesteps both: it never depends on overflow state.
    */
   .kui-timepicker-opt {
-    inline-size: var(--kui-timepicker-opt-size, var(--kui-control-height-sm, 32px));
-    block-size: var(--kui-timepicker-opt-size, var(--kui-control-height-sm, 32px));
+    inline-size: var(--kui-timepicker-opt-size, var(--kui-control-height-sm));
+    block-size: var(--kui-timepicker-opt-size, var(--kui-control-height-sm));
     /* A plain div (not a button -- see docs/time-picker.md's accessibility rationale) is
        text-selectable by default; a native button wouldn't be. Clicking/dragging across cells
        to pick a value shouldn't paint a text selection over them. */
@@ -150,7 +151,7 @@
   /* Matches .kui-calendar-day--disabled -- min/max time bounds out-of-range cell. */
   .kui-timepicker-opt--disabled {
     color: var(--kui-timepicker-opt-color-disabled, var(--kui-color-text-disabled));
-    opacity: 0.4;
+    opacity: var(--kui-opacity-disabled);
     cursor: not-allowed;
   }
 
@@ -161,7 +162,7 @@
   .kui-timepicker-opt--selected {
     background: var(--kui-timepicker-cell-bg-selected, var(--kui-color-primary-fill));
     color: var(--kui-timepicker-cell-text-selected, var(--kui-color-primary-on-fill));
-    font-weight: 600;
+    font-weight: var(--kui-font-weight-semibold);
   }
 
   /* Matches .kui-calendar-day--selected:hover -- a selected cell still darkens on hover

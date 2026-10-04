@@ -168,5 +168,6 @@ is not set, the part uses the scale token in the Default column.
 | `--kui-stepper-label-font-size-sm`           | `--kui-text-xs-size`   | Label font size, sm           |
 | `--kui-stepper-circle-font-size-lg`          | `--kui-text-base-size` | Circle font size, lg          |
 | `--kui-stepper-label-font-size-lg`           | `--kui-text-base-size` | Label font size, lg           |
+| `--kui-stepper-dot-size`                     | `10px`                 | Compact dot size              |
 
 <!-- geometry-tokens:end -->

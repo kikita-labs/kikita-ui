@@ -98,6 +98,8 @@ export function createSemanticVariables(
   const modeIndex = mode === 'light' ? 0 : 1;
   const variables: Record<`--kui-${string}`, string> = {
     '--kui-color-on-scrim': WHITE_TEXT,
+    '--kui-color-scrim': 'oklch(0 0 0 / 0.5)',
+    '--kui-color-scrim-strong': 'oklch(0 0 0 / 0.92)',
     // A translucent layer of the text colour: lighter than the surface in dark mode and darker in light
     // mode, on any surface, so a hover or pressed fill never disappears or turns into a hole.
     '--kui-color-state-hover': 'color-mix(in oklab, var(--kui-color-text) 8%, transparent)',

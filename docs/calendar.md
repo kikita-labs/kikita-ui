@@ -266,5 +266,6 @@ is not set, the part uses the scale token in the Default column.
 | `--kui-calendar-padding-sm`                 | `--kui-space-3`           | Padding, sm                 |
 | `--kui-calendar-day-font-size-sm`           | `--kui-text-xs-size`      | Day font size, sm           |
 | `--kui-calendar-weekday-font-size-sm`       | `--kui-text-2xs-size`     | Weekday font size, sm       |
+| `--kui-calendar-width-sm`                   | `252px`                   | Width, sm                   |
 
 <!-- geometry-tokens:end -->

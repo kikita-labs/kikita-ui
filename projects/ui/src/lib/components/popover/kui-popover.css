@@ -165,7 +165,7 @@
   /* Entry animations */
 
   .kui-popover--in {
-    animation: kui-pop-in-b var(--kui-duration-base) ease-out both;
+    animation: kui-pop-in-b var(--kui-duration-base) var(--kui-ease) both;
   }
   .kui-popover--in[data-side='top'] {
     animation-name: kui-pop-in-t;
@@ -179,7 +179,7 @@
   /* Exit animations */
 
   .kui-popover--out {
-    animation: kui-pop-out-b 120ms ease-in both;
+    animation: kui-pop-out-b var(--kui-duration-quick) var(--kui-ease-exit) both;
   }
   .kui-popover--out[data-side='top'] {
     animation-name: kui-pop-out-t;
@@ -268,7 +268,7 @@
 
   .kui-popover-title {
     font-size: var(--kui-popover-title-font-size, var(--kui-text-sm-size));
-    font-weight: 600;
+    font-weight: var(--kui-font-weight-semibold);
     margin-bottom: var(--kui-space-2);
     color: var(--kui-popover-title-color, var(--kui-color-text));
   }
@@ -276,6 +276,6 @@
   .kui-popover-desc {
     font-size: var(--kui-popover-desc-font-size, var(--kui-text-sm-size));
     color: var(--kui-popover-desc-color, var(--kui-color-text-secondary));
-    line-height: 1.55;
+    line-height: var(--kui-type-body-sm-line-height);
   }
 }

@@ -91,6 +91,28 @@ const generatedThemeFiles = new Set(['projects/ui/src/styles/theme-default.css']
 // one component (the 1 to 3 that keep a focus outline or a sticky cell above its neighbours).
 const layerZIndexThreshold = 100;
 const colorLiteralExceptions = new Map();
+// Global scale tokens that are always defined by the default theme. A literal fallback inside
+// `var()` of one of them can never be reached and drifts from the real value, so it is not allowed.
+// Component tokens and system-colour fallbacks are not on this list.
+const globalScaleTokenPattern =
+  /^--kui-(?:space-[\d-]+|radius-\w+|duration-\w+|ease|ease-exit|control-height-\w+|text-\w+-size|border-width-\w+|z-[\w-]+|font-weight-\w+|focus-ring-[\w-]+|opacity-disabled|line-height-control)$/u;
+// Reviewed exceptions for the literal checks: file suffix, selector fragment and property -> reason
+// and owner. A property that is not listed here may not carry a design literal.
+const styleLiteralExceptions = [
+  {
+    file: 'components/table/kui-table.css',
+    selector: '.kui-table__cb:indeterminate::after',
+    property: 'border-radius',
+    reason: 'one-pixel end of a hand-drawn checkbox mark, pseudo-element glyph geometry',
+    owner: 'Plan 16 (Table)',
+  },
+];
+// Chart geometry, opacity and animation values belong to Plan 24; every other check still covers it.
+const chartStyleFile = 'components/chart/kui-chart.css';
+const motionProperties = /^(?:transition|animation)(?:-(?:duration|delay|timing-function))?$/u;
+const motionLiteral =
+  /(?<![\w.-])\d*\.?\d+m?s\b|cubic-bezier\([^)]*\)|\bease-in\b(?!-)|\bease-out\b|\bease\b(?!-)/gu;
+const lengthLiteral = /(?<![\w.-])-?\d*\.?\d+(?:px|rem|em)\b/u;
 const colorLiteralPattern =
   /#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\([^)]*\)|\boklch\((?!\s*[01]\s+0\s+0\s*(?:\)|\/))[^)]*\)/gu;
 // Style files that are themselves the semantic layer and may read colour roles directly.
@@ -226,6 +248,11 @@ export function runStaticAudit(root = defaultRoot) {
   );
   runCheck(failures, 'overlay layers read a --kui-z-* token instead of a z-index literal', () =>
     checkNoLayerZIndexLiterals(root),
+  );
+  runCheck(
+    failures,
+    'component styles read weights, motion, focus, opacity, line height and radius from tokens',
+    () => checkNoStyleLiterals(root),
   );
   runCheck(failures, 'Signal Forms controls spell contract members exactly', () =>
     checkFormControlContractNames(root),
@@ -1110,6 +1137,223 @@ function checkNoLayerZIndexLiterals(root) {
         );
       }
     });
+  }
+
+  return failures;
+}
+
+/** Yields every declaration of a style sheet with its selector, line and keyframes context. */
+function* styleDeclarations(source) {
+  const text = source.replace(/\/\*[\s\S]*?\*\//gu, (comment) => comment.replace(/[^\n]/gu, ' '));
+  const stack = [];
+  let segment = '';
+  let segmentLine = 1;
+  let line = 1;
+  let depth = 0;
+  let quote = '';
+
+  const declaration = () => {
+    const colon = segment.indexOf(':');
+    const top = stack[stack.length - 1];
+
+    if (colon > 0 && top && !top.at) {
+      return {
+        property: segment.slice(0, colon).trim(),
+        value: segment
+          .slice(colon + 1)
+          .trim()
+          .replace(/\s+/gu, ' '),
+        selector: top.selector,
+        keyframes: stack.some((entry) => entry.keyframes),
+        line: segmentLine,
+      };
+    }
+
+    return null;
+  };
+
+  for (const char of text) {
+    if (char === '\n') {
+      line++;
+    }
+
+    if (quote) {
+      segment += char;
+      if (char === quote) quote = '';
+      continue;
+    }
+
+    if (char === '"' || char === "'") {
+      quote = char;
+      segment += char;
+      continue;
+    }
+
+    if (char === '(') depth++;
+    if (char === ')') depth--;
+
+    if (depth === 0 && char === '{') {
+      const selector = segment.trim().replace(/\s+/gu, ' ');
+
+      stack.push({
+        selector,
+        at: selector.startsWith('@'),
+        keyframes: /^@(?:-webkit-)?keyframes/u.test(selector),
+      });
+      segment = '';
+      continue;
+    }
+
+    if (depth === 0 && (char === ';' || char === '}')) {
+      const found = declaration();
+
+      if (found) yield found;
+      segment = '';
+      if (char === '}') stack.pop();
+      continue;
+    }
+
+    if (segment.trim() === '' && char.trim() !== '') {
+      segmentLine = line;
+    }
+    segment += char;
+  }
+}
+
+/** Removes every `var(...)` group, so only literals written outside a token read remain. */
+function withoutVarReads(value) {
+  let out = '';
+  let index = 0;
+
+  while (index < value.length) {
+    const start = value.indexOf('var(', index);
+
+    if (start === -1) {
+      out += value.slice(index);
+      break;
+    }
+
+    out += value.slice(index, start) + 'V';
+    let depth = 0;
+    let end = start + 3;
+
+    for (; end < value.length; end++) {
+      if (value[end] === '(') depth++;
+      if (value[end] === ')' && --depth === 0) break;
+    }
+
+    index = end + 1;
+  }
+
+  return out;
+}
+
+/** Lists `[name, fallback]` of every `var(--name, fallback)` in a value, nested reads included. */
+function varFallbacks(value) {
+  const found = [];
+  let index = 0;
+
+  while ((index = value.indexOf('var(', index)) !== -1) {
+    let depth = 0;
+    let end = index + 3;
+
+    for (; end < value.length; end++) {
+      if (value[end] === '(') depth++;
+      if (value[end] === ')' && --depth === 0) break;
+    }
+
+    const inner = value.slice(index + 4, end);
+    const comma = inner.indexOf(',');
+
+    if (comma !== -1) {
+      found.push([inner.slice(0, comma).trim(), inner.slice(comma + 1).trim()]);
+    }
+
+    index += 4;
+  }
+
+  return found;
+}
+
+function checkNoStyleLiterals(root) {
+  const failures = [];
+  const files = collectTextFiles(root, [join(root, 'projects/ui/src')]).filter((file) =>
+    file.endsWith('.css'),
+  );
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (generatedThemeFiles.has(repoPath)) {
+      continue;
+    }
+
+    const isChart = repoPath.endsWith(chartStyleFile);
+
+    for (const declaration of styleDeclarations(readFileSync(file, 'utf8'))) {
+      const { property, value, selector, keyframes, line } = declaration;
+      const where = `${repoPath}:${line}`;
+      const outside = withoutVarReads(value);
+      const excepted = styleLiteralExceptions.some(
+        (entry) =>
+          repoPath.endsWith(entry.file) &&
+          selector.includes(entry.selector) &&
+          entry.property === property,
+      );
+
+      for (const [name, fallback] of varFallbacks(value)) {
+        if (globalScaleTokenPattern.test(name) && !fallback.startsWith('var(')) {
+          failures.push(
+            `${where} gives ${name} the literal fallback ${fallback}; the default theme always defines it, remove the fallback`,
+          );
+        }
+      }
+
+      if (keyframes || excepted) {
+        continue;
+      }
+
+      if (property === 'font-weight' && /^\d+$/u.test(value)) {
+        failures.push(`${where} writes font-weight ${value}; read a --kui-font-weight-* token`);
+      }
+
+      if (motionProperties.test(property)) {
+        for (const literal of outside.matchAll(motionLiteral)) {
+          // Reduced-motion idioms that stop an animation within a frame.
+          if (/^(?:1|0\.01)ms$/u.test(literal[0])) continue;
+          failures.push(
+            `${where} writes the motion literal ${literal[0]}; read --kui-duration-* and --kui-ease*`,
+          );
+        }
+      }
+
+      if (
+        (property === 'outline' && /^\d/u.test(value) && !/^0(?:\s|$)/u.test(value)) ||
+        (property === 'outline-offset' && lengthLiteral.test(outside))
+      ) {
+        failures.push(
+          `${where} writes a literal focus width or offset (${value}); read --kui-focus-ring-*`,
+        );
+      }
+
+      if (
+        property === 'opacity' &&
+        /^\d*\.\d+$/u.test(value) &&
+        /disabled|readonly/u.test(selector)
+      ) {
+        failures.push(`${where} dims a disabled state with ${value}; read --kui-opacity-disabled`);
+      }
+
+      if (property === 'line-height' && /^\d*\.\d+$/u.test(value) && !isChart) {
+        failures.push(
+          `${where} writes the text line-height ${value}; read a --kui-type-*-line-height role or --kui-line-height-control`,
+        );
+      }
+
+      if (property === 'border-radius' && !isChart && lengthLiteral.test(outside)) {
+        failures.push(`${where} writes a literal radius (${value}); read a --kui-radius-* token`);
+      }
+    }
   }
 
   return failures;

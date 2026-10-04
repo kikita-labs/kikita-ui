@@ -32,7 +32,7 @@
     gap: var(--kui-accordion-trigger-gap, var(--kui-space-2));
     font: inherit;
     font-size: var(--kui-accordion-trigger-font-size, var(--kui-text-base-size));
-    font-weight: 500;
+    font-weight: var(--kui-font-weight-medium);
     color: var(--kui-accordion-trigger-text, var(--kui-color-text));
     text-align: left;
     min-height: var(--kui-accordion-trigger-height, 44px);
@@ -46,8 +46,9 @@
   }
 
   .kui-accordion-trigger:focus-visible {
-    outline: 2px solid var(--kui-accordion-trigger-focus-ring-color, var(--kui-color-focus));
-    outline-offset: -2px;
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-accordion-trigger-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset-inset);
     border-radius: var(--kui-accordion-trigger-radius-focus, var(--kui-radius-xs));
     z-index: 1;
   }
@@ -108,7 +109,7 @@
       var(--kui-accordion-body-content-padding-block-end, var(--kui-space-4));
     font-size: var(--kui-accordion-body-content-font-size, var(--kui-text-sm-size));
     color: var(--kui-accordion-body-text, var(--kui-color-text-secondary));
-    line-height: 1.65;
+    line-height: var(--kui-type-body-lg-line-height);
   }
 
   /* ── Appearances ────────────────────────────────────────────────────────── */

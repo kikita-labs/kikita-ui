@@ -244,10 +244,11 @@ Each option resolves as `local input > defaults.alert.<option> > built-in defaul
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the scale token in the Default column.
 
-| Token                           | Default              | Controls          |
-| ------------------------------- | -------------------- | ----------------- |
-| `--kui-alert-title-font-size`   | `--kui-text-sm-size` | Title font size   |
-| `--kui-alert-message-font-size` | `--kui-text-sm-size` | Message font size |
-| `--kui-alert-actions-gap`       | `--kui-space-3`      | Actions gap       |
+| Token                           | Default                      | Controls          |
+| ------------------------------- | ---------------------------- | ----------------- |
+| `--kui-alert-title-font-size`   | `--kui-text-sm-size`         | Title font size   |
+| `--kui-alert-message-font-size` | `--kui-text-sm-size`         | Message font size |
+| `--kui-alert-actions-gap`       | `--kui-space-3`              | Actions gap       |
+| `--kui-alert-icon-size`         | `1.125rem` (`1rem` for `sm`) | Status icon size  |
 
 <!-- geometry-tokens:end -->

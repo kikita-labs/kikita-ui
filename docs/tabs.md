@@ -151,6 +151,7 @@ At narrow widths, the tablist scrolls horizontally and exposes accessible scroll
 - `--kui-tab-bg-hover`
 - `--kui-tab-fg-active`
 - `--kui-tab-indicator`
+- `--kui-tab-indicator-size`
 - `--kui-tab-font-size`
 - `--kui-tab-font-weight`
 - `--kui-tab-font-weight-active`

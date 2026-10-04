@@ -75,3 +75,20 @@ for these surfaces to preserve.
 
 | Hover, pressed and highlighted rows | Hover and pressed fills of list options, menu items, calendar days and cells, tabs and ghost buttons use `--kui-color-state-hover` and `--kui-color-state-active`, a translucent layer of the text colour. A listbox option or menu item that has keyboard focus adds the same inset 2px focus frame. |
 | Forced colors | State-bearing parts (checked Checkbox, Radio and Switch, Slider, Progress, selected Calendar and Time Picker cells, Tabs, Segmented, pressed Chip, Stepper) show their state with system colours: selected or filled parts use `Highlight` with `HighlightText`, tracks and connectors use `GrayText`, marks and thumbs use `ButtonText`. Every focusable part keeps a visible outline. |
+
+## Shared Token Decisions
+
+The maintainer instructed on 2026-10-05 (Plan 16, final sweep) to settle every remaining design literal
+by best practice. The decisions are verifiable from the repository: `pnpm audit:static` fails on a
+literal that bypasses a shared token, and the Docker visual baselines were reviewed side by side before
+they were refreshed. They change how some surfaces look; there is no earlier pixel-level design record to
+preserve.
+
+| Surface                              | Durable requirement                                                                                                                                                                                                                 |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Disabled controls, cells and options | One opacity, `--kui-opacity-disabled` (`0.5`). Decorative de-emphasis (separators, sort glyphs) is a different thing and keeps its own value.                                                                                       |
+| Focus ring size                      | Standalone controls `--kui-focus-ring-width` (3px) at `--kui-focus-ring-offset` (2px); parts inside a composite `--kui-focus-ring-width-sm` (2px); rows and cells in a scroll container draw it at `--kui-focus-ring-offset-inset`. |
+| Motion                               | Enter and state changes use `--kui-duration-fast`, `-base` or `-normal` with `--kui-ease`; exits use `--kui-duration-quick` with `--kui-ease-exit`. Loops and reduced-motion idioms keep their own values.                          |
+| Text line height and weight          | Headings, titles and body copy read the `--kui-type-*` roles; single-line control and label text reads `--kui-line-height-control`; weights read `--kui-font-weight-*`. Uppercase labels use `--kui-type-overline-letter-spacing`.  |
+| Scrim                                | `--kui-color-scrim` behind Dialog, Drawer and Command Palette, `--kui-color-scrim-strong` behind the fullscreen Media Viewer, `--kui-color-on-scrim` on top of both.                                                                |
+| Radius                               | Every corner radius reads the `--kui-radius-*` scale, so it follows the radius seed; `50%` stays for circles.                                                                                                                       |

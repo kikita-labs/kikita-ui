@@ -287,5 +287,6 @@ is not set, the part uses the scale token in the Default column.
 | Token                      | Default           | Controls            |
 | -------------------------- | ----------------- | ------------------- |
 | `--kui-toast-close-radius` | `--kui-radius-xs` | Close corner radius |
+| `--kui-toast-accent-width` | `3px`             | Accent border width |
 
 <!-- geometry-tokens:end -->

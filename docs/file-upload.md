@@ -249,38 +249,39 @@ is not set, the part uses the semantic role in the Default column.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the scale token in the Default column.
 
-| Token                                          | Default               | Controls                    |
-| ---------------------------------------------- | --------------------- | --------------------------- |
-| `--kui-file-upload-gap`                        | `--kui-space-4`       | Gap                         |
-| `--kui-file-upload-dropzone-padding-block`     | `--kui-space-8`       | Dropzone padding, block     |
-| `--kui-file-upload-dropzone-padding-inline`    | `--kui-space-6`       | Dropzone padding, inline    |
-| `--kui-file-upload-dropzone-gap`               | `--kui-space-2`       | Dropzone gap                |
-| `--kui-file-upload-dropzone-padding-has-files` | `--kui-space-4`       | Dropzone padding, has files |
-| `--kui-file-upload-dropzone-text-font-size`    | `--kui-text-sm-size`  | Dropzone text font size     |
-| `--kui-file-upload-dropzone-hint-font-size`    | `--kui-text-xs-size`  | Dropzone hint font size     |
-| `--kui-file-upload-compact-trigger-gap`        | `--kui-space-3`       | Compact trigger gap         |
-| `--kui-file-upload-compact-hint-font-size`     | `--kui-text-xs-size`  | Compact hint font size      |
-| `--kui-file-upload-form-error-font-size`       | `--kui-text-xs-size`  | Form error font size        |
-| `--kui-file-upload-list-gap`                   | `--kui-space-2`       | List gap                    |
-| `--kui-file-upload-item-gap`                   | `--kui-space-3`       | Item gap                    |
-| `--kui-file-upload-item-padding-block`         | `--kui-space-2`       | Item padding, block         |
-| `--kui-file-upload-item-padding-inline`        | `--kui-space-3`       | Item padding, inline        |
-| `--kui-file-upload-item-radius`                | `--kui-radius-md`     | Item corner radius          |
-| `--kui-file-upload-item-preview-radius`        | `--kui-radius-sm`     | Item preview corner radius  |
-| `--kui-file-upload-item-preview-font-size`     | `--kui-text-2xs-size` | Item preview font size      |
-| `--kui-file-upload-item-name-font-size`        | `--kui-text-sm-size`  | Item name font size         |
-| `--kui-file-upload-item-meta-gap`              | `--kui-space-2`       | Item meta gap               |
-| `--kui-file-upload-item-meta-font-size`        | `--kui-text-xs-size`  | Item meta font size         |
-| `--kui-file-upload-item-error-gap`             | `--kui-space-2`       | Item error gap              |
-| `--kui-file-upload-dropzone-padding-block-sm`  | `--kui-space-5`       | Dropzone padding, block sm  |
-| `--kui-file-upload-dropzone-padding-inline-sm` | `--kui-space-4`       | Dropzone padding, inline sm |
-| `--kui-file-upload-dropzone-gap-sm`            | `--kui-space-1`       | Dropzone gap, sm            |
-| `--kui-file-upload-dropzone-text-font-size-sm` | `--kui-text-xs-size`  | Dropzone text font size, sm |
-| `--kui-file-upload-item-name-font-size-sm`     | `--kui-text-xs-size`  | Item name font size, sm     |
-| `--kui-file-upload-dropzone-padding-block-lg`  | `--kui-space-12`      | Dropzone padding, block lg  |
-| `--kui-file-upload-dropzone-padding-inline-lg` | `--kui-space-8`       | Dropzone padding, inline lg |
-| `--kui-file-upload-dropzone-gap-lg`            | `--kui-space-3`       | Dropzone gap, lg            |
-| `--kui-file-upload-dropzone-text-font-size-lg` | `--kui-text-md-size`  | Dropzone text font size, lg |
-| `--kui-file-upload-item-name-font-size-lg`     | `--kui-text-md-size`  | Item name font size, lg     |
+| Token                                          | Default                       | Controls                    |
+| ---------------------------------------------- | ----------------------------- | --------------------------- |
+| `--kui-file-upload-gap`                        | `--kui-space-4`               | Gap                         |
+| `--kui-file-upload-dropzone-padding-block`     | `--kui-space-8`               | Dropzone padding, block     |
+| `--kui-file-upload-dropzone-padding-inline`    | `--kui-space-6`               | Dropzone padding, inline    |
+| `--kui-file-upload-dropzone-gap`               | `--kui-space-2`               | Dropzone gap                |
+| `--kui-file-upload-dropzone-padding-has-files` | `--kui-space-4`               | Dropzone padding, has files |
+| `--kui-file-upload-dropzone-text-font-size`    | `--kui-text-sm-size`          | Dropzone text font size     |
+| `--kui-file-upload-dropzone-hint-font-size`    | `--kui-text-xs-size`          | Dropzone hint font size     |
+| `--kui-file-upload-compact-trigger-gap`        | `--kui-space-3`               | Compact trigger gap         |
+| `--kui-file-upload-compact-hint-font-size`     | `--kui-text-xs-size`          | Compact hint font size      |
+| `--kui-file-upload-form-error-font-size`       | `--kui-text-xs-size`          | Form error font size        |
+| `--kui-file-upload-list-gap`                   | `--kui-space-2`               | List gap                    |
+| `--kui-file-upload-item-gap`                   | `--kui-space-3`               | Item gap                    |
+| `--kui-file-upload-item-padding-block`         | `--kui-space-2`               | Item padding, block         |
+| `--kui-file-upload-item-padding-inline`        | `--kui-space-3`               | Item padding, inline        |
+| `--kui-file-upload-item-radius`                | `--kui-radius-md`             | Item corner radius          |
+| `--kui-file-upload-item-preview-radius`        | `--kui-radius-sm`             | Item preview corner radius  |
+| `--kui-file-upload-item-preview-font-size`     | `--kui-text-2xs-size`         | Item preview font size      |
+| `--kui-file-upload-item-name-font-size`        | `--kui-text-sm-size`          | Item name font size         |
+| `--kui-file-upload-item-meta-gap`              | `--kui-space-2`               | Item meta gap               |
+| `--kui-file-upload-item-meta-font-size`        | `--kui-text-xs-size`          | Item meta font size         |
+| `--kui-file-upload-item-error-gap`             | `--kui-space-2`               | Item error gap              |
+| `--kui-file-upload-dropzone-padding-block-sm`  | `--kui-space-5`               | Dropzone padding, block sm  |
+| `--kui-file-upload-dropzone-padding-inline-sm` | `--kui-space-4`               | Dropzone padding, inline sm |
+| `--kui-file-upload-dropzone-gap-sm`            | `--kui-space-1`               | Dropzone gap, sm            |
+| `--kui-file-upload-dropzone-text-font-size-sm` | `--kui-text-xs-size`          | Dropzone text font size, sm |
+| `--kui-file-upload-item-name-font-size-sm`     | `--kui-text-xs-size`          | Item name font size, sm     |
+| `--kui-file-upload-dropzone-padding-block-lg`  | `--kui-space-12`              | Dropzone padding, block lg  |
+| `--kui-file-upload-dropzone-padding-inline-lg` | `--kui-space-8`               | Dropzone padding, inline lg |
+| `--kui-file-upload-dropzone-gap-lg`            | `--kui-space-3`               | Dropzone gap, lg            |
+| `--kui-file-upload-dropzone-text-font-size-lg` | `--kui-text-md-size`          | Dropzone text font size, lg |
+| `--kui-file-upload-item-name-font-size-lg`     | `--kui-text-md-size`          | Item name font size, lg     |
+| `--kui-file-upload-dropzone-icon-size`         | `32px` (`24px` sm, `40px` lg) | Dropzone icon size          |
 
 <!-- geometry-tokens:end -->

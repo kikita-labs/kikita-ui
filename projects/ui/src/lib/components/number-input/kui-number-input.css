@@ -8,7 +8,7 @@
         --kui-number-input-border,
         var(--kui-input-border, var(--kui-color-border-control, ButtonBorder))
       );
-    border-radius: var(--kui-input-radius, var(--kui-radius-md, 8px));
+    border-radius: var(--kui-input-radius, var(--kui-radius-md));
     background-color: var(--kui-input-bg, var(--kui-color-surface, Field));
     color: var(--kui-input-color, var(--kui-input-text, var(--kui-color-text, FieldText)));
     overflow: hidden;
@@ -43,7 +43,8 @@
   .kui-number-input:focus-within:not([data-kui-disabled]) {
     border-color: var(--kui-input-border-focus, var(--kui-color-focus, Highlight));
     /* One 2px frame: the border takes the focus colour and the outline sits flush against it. */
-    outline: 1px solid var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline: var(--kui-input-border-width-focus) solid
+      var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
     outline-offset: 0;
     box-shadow: var(--kui-input-focus-ring, none);
   }
@@ -180,7 +181,7 @@
 
   .kui-number-input[data-kui-disabled] {
     background-color: var(--kui-input-bg-disabled, var(--kui-color-surface-sunken));
-    opacity: 0.6;
+    opacity: var(--kui-opacity-disabled);
     pointer-events: none;
   }
 

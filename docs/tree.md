@@ -186,12 +186,15 @@ is not set, the part uses the semantic role in the Default column.
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the scale token in the Default column.
 
-| Token                           | Default                | Controls            |
-| ------------------------------- | ---------------------- | ------------------- |
-| `--kui-tree-row-gap`            | `--kui-space-2`        | Row gap             |
-| `--kui-tree-row-padding-inline` | `--kui-space-2`        | Row padding, inline |
-| `--kui-tree-label-font-size`    | `--kui-text-sm-size`   | Label font size     |
-| `--kui-tree-label-font-size-sm` | `--kui-text-xs-size`   | Label font size, sm |
-| `--kui-tree-label-font-size-lg` | `--kui-text-base-size` | Label font size, lg |
+| Token                           | Default                       | Controls               |
+| ------------------------------- | ----------------------------- | ---------------------- |
+| `--kui-tree-row-gap`            | `--kui-space-2`               | Row gap                |
+| `--kui-tree-row-padding-inline` | `--kui-space-2`               | Row padding, inline    |
+| `--kui-tree-label-font-size`    | `--kui-text-sm-size`          | Label font size        |
+| `--kui-tree-label-font-size-sm` | `--kui-text-xs-size`          | Label font size, sm    |
+| `--kui-tree-label-font-size-lg` | `--kui-text-base-size`        | Label font size, lg    |
+| `--kui-tree-toggle-size`        | `20px` (`16px` sm, `24px` lg) | Toggle and spacer size |
+| `--kui-tree-icon-size`          | `16px` (`14px` sm, `18px` lg) | Node icon size         |
+| `--kui-tree-spinner-size`       | `14px`                        | Loading spinner size   |
 
 <!-- geometry-tokens:end -->

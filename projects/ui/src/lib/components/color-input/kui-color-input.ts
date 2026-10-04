@@ -22,6 +22,7 @@ import { injectKuiMessages } from '../../i18n/inject-kui-messages';
 import type { KuiColorInputMessages } from '../../i18n/kui-messages.interface';
 import { KuiDefaults } from '../../providers/kui-defaults';
 import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
+import { DEFAULT_KUI_THEME } from '../../theme/default-kui-theme.const';
 import type { KuiSize } from '../../types';
 import {
   createKuiControlSize,
@@ -36,7 +37,7 @@ import { createKuiGlyphElement } from '../icon/kui-glyph-dom.util';
 import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
 import type { KuiTooltipOverlayHandle } from '../tooltip/kui-tooltip-overlay.util';
 import { createKuiTooltipOverlay } from '../tooltip/kui-tooltip-overlay.util';
-import { hexToParsed, type KuiParsedColor, parseColor } from './kui-color-input-color.util';
+import { type KuiParsedColor, parseColor } from './kui-color-input-color.util';
 import { KuiColorPickerPanel } from './kui-color-picker-panel';
 
 /**
@@ -141,7 +142,8 @@ export class KuiColorInput implements AfterViewInit, DoCheck, OnDestroy {
   private focusReturnTarget: HTMLElement | null = null;
   private readonly invalidValue = signal(false);
   private readonly open = signal(false);
-  private lastValid = hexToParsed('#5b4fe0')!;
+  // Until the field holds a valid colour, the swatch shows the default theme's primary seed.
+  private lastValid = parseColor(DEFAULT_KUI_THEME.seeds.color.primary!)!;
   private lastState = '';
   private swatchTooltipText = '';
   private tooltipOverlay: KuiTooltipOverlayHandle | null = null;

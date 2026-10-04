@@ -22,8 +22,8 @@
     pointer-events: none;
     opacity: 0;
     transition:
-      transform 220ms cubic-bezier(0.4, 0, 0.2, 1),
-      width 220ms cubic-bezier(0.4, 0, 0.2, 1);
+      transform var(--kui-duration-normal) var(--kui-ease),
+      width var(--kui-duration-normal) var(--kui-ease);
   }
 
   .kui-segment {
@@ -49,12 +49,12 @@
     color: var(--kui-seg-fg, var(--kui-color-text-secondary));
     font: inherit;
     font-size: var(--kui-seg-font-size, var(--kui-btn-font-size, var(--kui-text-sm-size)));
-    font-weight: var(--kui-seg-font-weight, 500);
+    font-weight: var(--kui-seg-font-weight, var(--kui-font-weight-medium));
     cursor: pointer;
     white-space: nowrap;
     outline: none;
     flex-shrink: 0;
-    transition: color var(--kui-duration-fast, 100ms) var(--kui-ease);
+    transition: color var(--kui-duration-fast) var(--kui-ease);
   }
 
   .kui-segment:hover:not([data-kui-selected]) {
@@ -63,14 +63,14 @@
 
   .kui-segment[data-kui-selected] {
     color: var(--kui-seg-fg-active, var(--kui-btn-solid-fg, var(--kui-color-primary-on-fill)));
-    font-weight: var(--kui-seg-font-weight-active, 600);
+    font-weight: var(--kui-seg-font-weight-active, var(--kui-font-weight-semibold));
     cursor: default;
   }
 
   .kui-segment:focus-visible {
-    outline: var(--kui-btn-focus-ring-w, 3px) solid
+    outline: var(--kui-focus-ring-width) solid
       var(--kui-seg-focus-ring-color, var(--kui-color-focus));
-    outline-offset: var(--kui-btn-focus-ring-off, 2px);
+    outline-offset: var(--kui-focus-ring-offset);
   }
 
   .kui-segment:focus:not(:focus-visible) {
@@ -79,35 +79,27 @@
 
   .kui-segment:disabled,
   .kui-segment[aria-disabled='true'] {
-    opacity: var(--kui-btn-disabled-opacity, 0.5);
+    opacity: var(--kui-btn-disabled-opacity, var(--kui-opacity-disabled));
     cursor: not-allowed;
     pointer-events: none;
   }
 
   .kui-segmented[data-kui-size='xs'] {
-    --_kui-seg-height: calc(
-      var(--kui-control-height-xs, 28px) - 2 * var(--kui-seg-padding, 2px) - 2px
-    );
-    --_kui-seg-px: var(--kui-space-2, 8px);
+    --_kui-seg-height: calc(var(--kui-control-height-xs) - 2 * var(--kui-seg-padding, 2px) - 2px);
+    --_kui-seg-px: var(--kui-space-2);
   }
 
   .kui-segmented[data-kui-size='sm'] {
-    --_kui-seg-height: calc(
-      var(--kui-control-height-sm, 32px) - 2 * var(--kui-seg-padding, 2px) - 2px
-    );
-    --_kui-seg-px: var(--kui-space-3, 12px);
+    --_kui-seg-height: calc(var(--kui-control-height-sm) - 2 * var(--kui-seg-padding, 2px) - 2px);
+    --_kui-seg-px: var(--kui-space-3);
   }
 
   .kui-segmented[data-kui-size='lg'] {
-    --_kui-seg-height: calc(
-      var(--kui-control-height-lg, 44px) - 2 * var(--kui-seg-padding, 2px) - 2px
-    );
-    --_kui-seg-px: var(--kui-space-5, 20px);
+    --_kui-seg-height: calc(var(--kui-control-height-lg) - 2 * var(--kui-seg-padding, 2px) - 2px);
+    --_kui-seg-px: var(--kui-space-5);
   }
 
   .kui-segmented[data-kui-size='md'] {
-    --_kui-seg-height: calc(
-      var(--kui-control-height-md, 40px) - 2 * var(--kui-seg-padding, 2px) - 2px
-    );
+    --_kui-seg-height: calc(var(--kui-control-height-md) - 2 * var(--kui-seg-padding, 2px) - 2px);
   }
 }

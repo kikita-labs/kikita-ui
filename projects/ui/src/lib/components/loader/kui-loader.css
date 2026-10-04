@@ -35,7 +35,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .kui-loader {
-      animation-duration: 1600ms;
+      animation-duration: var(--kui-loader-duration-reduced);
     }
   }
 }
