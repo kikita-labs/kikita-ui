@@ -1,6 +1,6 @@
 # ADR 0001: Library layers, decoupled controls and bundle budgets
 
-Status: accepted, 2026-10-04. Slices 0-8 are implemented and committed; the audits in `scripts/` enforce each rule. The final visual gate is tracked in `.local-notes/v2/refactor.md`.
+Status: accepted, 2026-10-04. Slices 0-8 are implemented and committed; the audits in `scripts/` enforce each rule. Verified 2026-10-04 on 04028710 with the full gate, including Docker visual (407 passed).
 
 ## Context
 
