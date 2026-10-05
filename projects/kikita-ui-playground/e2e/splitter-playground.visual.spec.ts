@@ -524,8 +524,13 @@ test('resizes only the inner splitter when its gutter is dragged', async ({ page
 
 test('drags a gutter with real touch input without scrolling the page', async ({
   browser,
+  browserName,
   page,
 }) => {
+  test.skip(
+    browserName !== 'chromium',
+    'Real touch input is dispatched through the Chrome DevTools Protocol, which only Chromium offers.',
+  );
   const context = await browser.newContext({
     hasTouch: true,
     viewport: { width: 1024, height: 900 },

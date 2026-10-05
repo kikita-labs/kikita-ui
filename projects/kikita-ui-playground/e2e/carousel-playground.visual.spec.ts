@@ -478,6 +478,10 @@ test('scrolls the draggable track with the wheel and syncs the index once it set
 
 test.describe('touch swipe', () => {
   test.use({ hasTouch: true });
+  test.skip(
+    ({ browserName }) => browserName !== 'chromium',
+    'Real touch input is dispatched through the Chrome DevTools Protocol, which only Chromium offers.',
+  );
 
   test('swipes a draggable track with touch and leaves a non-draggable one in place', async ({
     page,

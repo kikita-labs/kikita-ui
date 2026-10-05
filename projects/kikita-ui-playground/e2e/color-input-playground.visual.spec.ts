@@ -216,7 +216,11 @@ test('selects a shipped seed preset and commits a valid hex value @visual', asyn
   });
 });
 
-test('copies the currently selected hex value', async ({ page }) => {
+test('copies the currently selected hex value', async ({ page, browserName }) => {
+  test.skip(
+    browserName !== 'chromium',
+    'Reading the clipboard needs the clipboard-read permission, which only Chromium grants.',
+  );
   const values = getGroup(page, 'Color input value formats');
   await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
 

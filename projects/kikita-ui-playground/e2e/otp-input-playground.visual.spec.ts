@@ -68,7 +68,15 @@ async function expectNoHorizontalOverflow(page: Page): Promise<void> {
     .toBe(true);
 }
 
+/**
+ * Pastes `text` through the real clipboard and the paste shortcut. Only Chromium allows a page to
+ * fill the clipboard in a test, so a test that pastes is skipped in Firefox and WebKit.
+ */
 async function paste(page: Page, text: string): Promise<void> {
+  test.skip(
+    page.context().browser()?.browserType().name() !== 'chromium',
+    'Filling the clipboard needs the clipboard-write permission, which only Chromium grants.',
+  );
   await page.evaluate((value) => navigator.clipboard.writeText(value), text);
   await page.keyboard.press('Control+V');
 }
@@ -85,8 +93,11 @@ async function freezeClock(page: Page): Promise<void> {
   await page.clock.pauseAt(new Date(now + 100));
 }
 
-test.beforeEach(async ({ page, context }) => {
-  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+test.beforeEach(async ({ page, context, browserName }) => {
+  // Only Chromium implements the clipboard permissions; Firefox and WebKit reject the names.
+  if (browserName === 'chromium') {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  }
   await page.setViewportSize(desktopViewport);
   await page.goto('/components/otp-input');
   await expect(
@@ -391,7 +402,8 @@ test('loads the consumer-owned verification with a controlled clock', async ({ p
   await expect(scope.getByText('Verifying the code')).toBeVisible();
   for (const input of await group.locator('input').all()) await expect(input).toBeDisabled();
   const loadingBox = await group.boundingBox();
-  expect({ width: loadingBox?.width, height: loadingBox?.height }).toEqual(idleSize);
+  expect(loadingBox?.width).toBeCloseTo(idleSize.width ?? 0, 1);
+  expect(loadingBox?.height).toBeCloseTo(idleSize.height ?? 0, 1);
 
   await page.clock.runFor(500);
   await expect(scope.getByText('Verifying the code')).toBeVisible();

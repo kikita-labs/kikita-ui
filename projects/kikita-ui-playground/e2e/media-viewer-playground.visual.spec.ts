@@ -310,6 +310,10 @@ test('resets zoom when navigating to another photo', async ({ page }) => {
 
 test.describe('touch pinch', () => {
   test.use({ hasTouch: true });
+  test.skip(
+    ({ browserName }) => browserName !== 'chromium',
+    'Real two-finger touch input is dispatched through the Chrome DevTools Protocol, which only Chromium offers.',
+  );
 
   test('pinch-zooms with two real touch points', async ({ page }) => {
     const dialog = await openGridPhoto(page, 2);
