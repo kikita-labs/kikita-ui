@@ -26,18 +26,27 @@ export interface KuiChartNiceScale {
 
 /**
  * Computes a rounded tick scale covering `[min, max]`, expanding to round step boundaries the way
- * `d3-scale`'s `nice()` does. `min === max` (a single data point, or a fully flat series) is
- * expanded by `±1` so a degenerate domain still produces a usable scale instead of a
- * division-by-zero downstream.
+ * `d3-scale`'s `nice()` does. `min === max` (a single data point, or a fully flat series) is widened
+ * by 10% of its magnitude, or by `1` around zero, so a degenerate domain still produces a usable
+ * scale instead of a division by zero, and a flat series of `1_000_000` is not drawn on a `±1` axis.
+ * Ticks are `niceMin + i * step` rounded to the precision the step needs, so a step of `0.0002`
+ * does not collapse into repeated zeros the way a fixed three-decimal rounding would.
  */
 export function computeNiceScale(min: number, max: number, tickCount = 5): KuiChartNiceScale {
-  if (min === max) {
-    min -= 1;
-    max += 1;
+  if (!Number.isFinite(min) || !Number.isFinite(max)) {
+    min = 0;
+    max = 1;
   }
+  if (min > max) [min, max] = [max, min];
+  if (min === max) {
+    const padding = min === 0 ? 1 : Math.abs(min) * 0.1;
+    min -= padding;
+    max += padding;
+  }
+
   const range = max - min;
   const rawStep = range / tickCount;
-  const magnitude = 10 ** Math.floor(Math.log(rawStep) / Math.LN10);
+  const magnitude = 10 ** Math.floor(Math.log10(rawStep));
   const normalized = rawStep / magnitude;
   const step =
     normalized < 1.5
@@ -47,13 +56,15 @@ export function computeNiceScale(min: number, max: number, tickCount = 5): KuiCh
         : normalized < 7
           ? 5 * magnitude
           : 10 * magnitude;
-  const niceMin = Math.floor(min / step) * step;
-  const niceMax = Math.ceil(max / step) * step;
-  const ticks: number[] = [];
-  for (let value = niceMin; value <= niceMax + step * 0.001; value += step) {
-    ticks.push(Math.round(value * 1000) / 1000);
-  }
-  return { min: niceMin, max: niceMax, ticks };
+  // The epsilon keeps `0.3 / 0.1` (2.9999999999999996) from losing a whole step.
+  const niceMin = Math.floor(min / step + 1e-9) * step;
+  const niceMax = Math.ceil(max / step - 1e-9) * step;
+  const decimals = Math.min(12, Math.max(0, -Math.floor(Math.log10(step))));
+  const round = (value: number): number => Number(value.toFixed(decimals));
+  const count = Math.max(1, Math.round((niceMax - niceMin) / step));
+  const ticks = Array.from({ length: count + 1 }, (_, index) => round(niceMin + index * step));
+
+  return { min: round(niceMin), max: round(niceMax), ticks };
 }
 
 /**
@@ -180,8 +191,9 @@ export interface KuiChartDonutShare {
 
 /**
  * Computes donut shares after excluding hidden slices from both output and total.
- * Zero-total visible slices receive equal shares, including one full-circle slice.
- * Unlike grouped line/bar axes, donut angles recompute when visibility changes.
+ * A zero total gives every slice a share of `0`: nothing is drawn, because splitting nothing into
+ * equal arcs would show data that does not exist. Unlike grouped line/bar axes, donut angles
+ * recompute when visibility changes.
  */
 export function computeDonutShares(
   slices: readonly KuiChartSlicePoint[],
@@ -190,9 +202,8 @@ export function computeDonutShares(
   const visible = slices.filter((s) => !hiddenSliceIds.has(s.sliceId));
   const total = visible.reduce((sum, s) => sum + s.value, 0);
 
-  if (total === 0) {
-    const equalShare = visible.length > 0 ? 1 / visible.length : 0;
-    return visible.map((slice) => ({ slice, share: equalShare }));
+  if (total <= 0) {
+    return visible.map((slice) => ({ slice, share: 0 }));
   }
 
   return visible.map((slice) => ({ slice, share: slice.value / total }));

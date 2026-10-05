@@ -8,6 +8,21 @@ kitchen-sink component with a `type` prop. The contract and limitations below de
 **All four types are implemented:** `kui-line-chart`, `kui-bar-chart`, `kui-scatter-chart`,
 `kui-donut-chart`.
 
+## Data contract
+
+| Chart           | Data                                                             | Domain                                                                        | Gaps and invalid values                              | Identity      |
+| --------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------- | ------------- |
+| Line, area      | `series[].data` aligned with `categories`, the shorter side wins | `[min(0, min), max(0, max)]` over all series; hiding a series keeps the scale | `null`, `NaN`, `Infinity` are gaps, never `0`        | `id ?? name`  |
+| Bar, grouped    | as line                                                          | as line                                                                       | as line                                              | `id ?? name`  |
+| Bar, stacked    | as line                                                          | per category, positive and negative sums separate, hidden series excluded     | as line                                              | `id ?? name`  |
+| Scatter, bubble | `points: {x, y, r?}`                                             | data extent per axis, zero is not forced, hiding keeps the scale              | a point with a non-finite `x`, `y` or `r` is dropped | `id ?? name`  |
+| Donut           | `slices: {id?, label, value, color?}`                            | shares of the visible total                                                   | negative and non-finite slices are dropped           | `id ?? label` |
+
+Two series or slices that share an `id` (or, without one, a name) get distinct keys (`a`, `a#1`, ...);
+in development mode the chart logs one warning per chart for a duplicate explicit `id` and for a
+`data` array whose length differs from `categories`. A flat domain (every value equal) is expanded
+so the axis never collapses, and ticks are rounded to the precision their step needs.
+
 ## Import
 
 ```ts
@@ -136,9 +151,11 @@ non-negative) and is never log-scaled or domain-clamped.
 />
 ```
 
-Tick labels thin automatically at high density instead of overlapping. There is no built-in
-zoom/pan -- an intentional scope cut (the same choice uPlot makes: zoom/pan is a plugin concern,
-not part of the base renderer). Aggregate or paginate very dense series before passing them in.
+Tick labels are thinned by their measured width plus an 8px gap, so they never overlap, and a label
+wider than its slot is cut with an ellipsis (the full text stays in the element's `<title>`). There is
+no built-in zoom, pan or decimation -- an intentional scope cut (the same choice uPlot makes: zoom
+and pan are a plugin concern). Aggregate or paginate very dense series before passing them in; see
+[Performance](#performance) for what a chart draws and the measured cost.
 
 ## Sizes
 
@@ -146,16 +163,21 @@ not part of the base renderer). Aggregate or paginate very dense series before p
 <kui-line-chart ariaLabel="..." [series]="series" [categories]="categories" size="sm" />
 ```
 
-`size` (`sm` / `md` / `lg`, default `md`) sets the SVG's nominal `viewBox` dimensions (a fixed
-per-size width/height pair, not a real measured pixel size). The `<svg>` itself scales
-responsively by pure CSS (`width:100%;height:auto` with `preserveAspectRatio="xMidYMid meet"`) -- there is
-no `ResizeObserver`/client-side width measurement. An earlier version measured the real container
-width and re-rendered once that landed, which caused a visible "narrow, then snaps to full width"
-flicker on first paint; removed as unnecessary complexity, since nothing actually needs the true
-pixel width, only a stable aspect ratio. One consequence: tick-thinning and font sizing are
-computed against the nominal `viewBox` width, not the actual rendered width, so a chart rendered
-much narrower than its nominal size can under-thin ticks or look denser than intended -- see Known
-gaps.
+`size` (`sm` / `md` / `lg`, default `md`) sets the plot **height** in CSS pixels (200 / 280 / 360).
+Line, bar and scatter charts measure their container with a `ResizeObserver` and draw at one user
+unit per CSS pixel, so text, strokes and marks keep their pixel size at any width instead of
+shrinking with the container; the plot follows the width, the axis padding fits the widest measured
+tick label, and the x-axis padding also fits the axis title.
+
+Server rendering and the first client render use a nominal width (`sm` 320, `md` 480, `lg` 640) inside
+a graphic whose height is already final (`preserveAspectRatio="xMinYMin meet"`), so hydration does
+not shift the layout; the first measurement runs after render. `kui-donut-chart` has no text, so it
+stays CSS-scaled: a square of `min(container, size)`, centred.
+
+Axis text defaults to `--kui-text-sm-size` (13px, above the 12px floor that Chartability asks for);
+`--kui-chart-axis-text-font-size` changes it, and a smaller value is the consumer's decision.
+
+Axis titles come from `axes.xTitle` and `axes.yTitle` and are drawn in the SVG.
 
 ## Loading / Empty
 
@@ -191,7 +213,14 @@ protected formatTooltip(point: KuiChartPoint): string {
 />
 ```
 
-`tooltip` overrides the default `"<series> · <category>: <value>"` text. `valueFormat` (default: the
+The tooltip is **dismissible** (`Escape` closes it without moving focus or the pointer, and it stays
+closed until a new trigger -- the pointer leaves and comes back, or focus moves) and **persistent** (it
+stays until hover or focus ends, or `Escape`). It follows the pointer and ignores pointer events, so it is
+not **hoverable** (WCAG 1.4.13); see Known gaps. Every `[kuiTooltip]` trigger is hoverable, dismissible and
+persistent.
+
+`tooltip` overrides the default `"<series> · <category>: <value>"` text (scatter: `"<series>: (<x>, <y>)"`,
+bubble adds the radius). `valueFormat` (default: the
 locale's compact notation, `1.2K`/`3.4M` in English and `1,5 Mio.` in German) controls axis tick and default tooltip/legend number formatting --
 it is never used for the alt-table, which always shows exact values. Accessible names, role descriptions,
 the loading and empty text, the table headers and the point text are `chart` messages; every chart takes a
@@ -201,7 +230,9 @@ the loading and empty text, the table headers and the point text are `chart` mes
 
 The "Table" button switches the same data to a `Table`-based representation with exact (not
 compact-formatted) values -- the accessible-charts recommendation of pairing a graphic with a
-tabular alternative, not a cosmetic duplicate.
+tabular alternative, not a cosmetic duplicate. It lists the visible series with exact numbers, has a
+caption with the chart name, and lists every point of a dense chart whatever the chart draws. The
+Table button keeps keyboard focus when the view switches.
 
 ## `kui-bar-chart`
 
@@ -233,7 +264,11 @@ value-axis domain (the remaining stack collapses to its own height) -- the delib
 Grouped mode keeps the axis fixed, same as line.
 
 **Loading** uses a var-height skeleton bar silhouette (from the original bar-chart design) -- the only chart type whose loading shape has an
-actual design source; the other three (see Loading / Empty above) invent their own.
+actual design source; the other three (see Loading / Empty above) invent their own. The skeleton
+shrinks with its container instead of overflowing it.
+
+**`patterns`** fills each series with one of eight hatch patterns instead of plain colour; see
+[Colour independence](#colour-independence).
 
 ## `kui-scatter-chart`
 
@@ -255,12 +290,12 @@ keyboard-nav mechanics with `kui-line-chart`/`kui-bar-chart`. Structurally diffe
   Chart.js scatter both use the data extent).
 - **`bubble`** (`boolean`, default `false`) -- reads `r` from each point as the bubble radius
   instead of a fixed dot size. Not a separate component or chart type (Chart.js precedent: bubble
-  is scatter plus an unscaled `r`). `r` is in SVG viewBox units and is **not clamped** -- the
-  consumer is responsible for passing a radius that fits the plot area.
-- **Touch/pointer hit-target.** Each point renders two overlaid circles: an invisible one at least
-  10 viewBox units in radius (or the bubble's own radius if larger) that carries the
-  role/aria-label/tabindex/events, and a visible decorative dot (`aria-hidden`) at the actual
-  radius. A 3px default dot would otherwise be hard to hover or tap precisely.
+  is scatter plus an unscaled `r`). `r` is in CSS pixels (one user unit is one pixel) and is **not
+  clamped** -- the consumer is responsible for passing a radius that fits the plot area.
+- **Touch/pointer hit-target.** Each point renders two overlaid shapes: an invisible circle at least
+  12px in radius (a 24px target, WCAG 2.5.8; or the bubble's own radius if larger) that carries the
+  role/aria-label/tabindex, and a visible decorative marker (`aria-hidden`) at the actual size. The
+  tooltip shows while the pointer is on the hit circle, and a press focuses the point.
 - **Alt-table** columns are `Series`/`X`/`Y` (`+R` when `bubble`), not category-keyed rows.
 
 ## `kui-donut-chart`
@@ -291,6 +326,11 @@ arc wedge spanning the full circle -- SVG's arc command cannot close a true 360-
 seamlessly (see `donutArcPath`'s JSDoc), and the visible seam that leaves behind is a real render
 bug, not just a theoretical one -- found by browser-checking this exact case, not by a unit test.
 
+A donut whose visible slices sum to zero draws no arc (all-zero data is the empty composition; a
+visible set that sums to zero draws nothing while the legend stays usable) -- it never shows an equal
+split of data that does not exist. The re-partition sweep runs through `requestAnimationFrame`
+only without `prefers-reduced-motion`, and stops at once if reduced motion is turned on while it runs.
+
 **No center text/sum.** The spec does not specify one, and no design source dictates its exact
 appearance -- deferred rather than invented; see Known gaps.
 
@@ -298,18 +338,19 @@ appearance -- deferred rather than invented; see Known gaps.
 
 ### `kui-line-chart`
 
-| Input         | Type                                            | Default        | Description                                                               |
-| ------------- | ----------------------------------------------- | -------------- | ------------------------------------------------------------------------- |
-| `series`      | `readonly KuiChartCartesianSeries[]`            | -- (required)  | `{id?, name, color?, data}`. Empty/no non-gap value renders `EmptyState`. |
-| `categories`  | `readonly string[]`                             | `[]`           | Category labels, aligned index-for-index with each series' `data`.        |
-| `area`        | `boolean`                                       | `false`        | Fills the area under each line. Not a separate chart type.                |
-| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`         | Nominal SVG `viewBox` height: 200 / 280 / 360px.                          |
-| `loading`     | `boolean`                                       | `false`        | Shows a wavy-sparkline skeleton placeholder instead of the chart.         |
-| `legend`      | `boolean \| undefined`                          | auto           | Defaults to `true` when there is more than one series.                    |
-| `axes`        | `KuiChartAxesOptions`                           | `{}`           | `{x?, y?, gridLines?, xTitle?, yTitle?}`.                                 |
-| `valueFormat` | `(value: number) => string`                     | compact        | Axis tick / default tooltip / legend number formatting.                   |
-| `tooltip`     | `(point: KuiChartPoint) => string \| undefined` | built-in       | Overrides the default tooltip text.                                       |
-| `ariaLabel`   | `string`                                        | `'Line chart'` | Accessible name for the chart as a whole; prefer a content-specific name. |
+| Input         | Type                                            | Default        | Description                                                                  |
+| ------------- | ----------------------------------------------- | -------------- | ---------------------------------------------------------------------------- |
+| `series`      | `readonly KuiChartCartesianSeries[]`            | -- (required)  | `{id?, name, color?, data}`. Empty/no non-gap value renders `EmptyState`.    |
+| `categories`  | `readonly string[]`                             | `[]`           | Category labels, aligned index-for-index with each series' `data`.           |
+| `area`        | `boolean`                                       | `false`        | Fills the area under each line. Not a separate chart type.                   |
+| `patterns`    | `boolean`                                       | `false`        | With `area`, fills each area with a hatch pattern (see Colour independence). |
+| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`         | Plot height: 200 / 280 / 360px.                                              |
+| `loading`     | `boolean`                                       | `false`        | Shows a wavy-sparkline skeleton placeholder instead of the chart.            |
+| `legend`      | `boolean \| undefined`                          | auto           | Defaults to `true` when there is more than one series.                       |
+| `axes`        | `KuiChartAxesOptions`                           | `{}`           | `{x?, y?, gridLines?, xTitle?, yTitle?}`.                                    |
+| `valueFormat` | `(value: number) => string`                     | compact        | Axis tick / default tooltip / legend number formatting.                      |
+| `tooltip`     | `(point: KuiChartPoint) => string \| undefined` | built-in       | Overrides the default tooltip text.                                          |
+| `ariaLabel`   | `string`                                        | `'Line chart'` | Accessible name for the chart as a whole; prefer a content-specific name.    |
 
 ### `kui-bar-chart`
 
@@ -319,7 +360,8 @@ appearance -- deferred rather than invented; see Known gaps.
 | `categories`  | `readonly string[]`                             | `[]`          | Category labels, aligned index-for-index with each series' `data`.        |
 | `orientation` | `'vertical' \| 'horizontal'`                    | `'vertical'`  | Flips on-screen bar direction only; `axes.x`/`axes.y` stay semantic.      |
 | `stacked`     | `boolean`                                       | `false`       | Stacks series per category. Only meaningful with >1 series.               |
-| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`        | Nominal SVG `viewBox` height: 200 / 280 / 360px.                          |
+| `patterns`    | `boolean`                                       | `false`       | Fills each series with a hatch pattern (see Colour independence).         |
+| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`        | Plot height: 200 / 280 / 360px.                                           |
 | `loading`     | `boolean`                                       | `false`       | Shows a var-height skeleton bar silhouette instead of the chart.          |
 | `legend`      | `boolean \| undefined`                          | auto          | Defaults to `true` when there is more than one series.                    |
 | `axes`        | `KuiChartAxesOptions`                           | `{}`          | `{x?, y?, gridLines?, xTitle?, yTitle?}`.                                 |
@@ -333,7 +375,7 @@ appearance -- deferred rather than invented; see Known gaps.
 | ------------- | ----------------------------------------------- | ----------------- | ------------------------------------------------------------------------- |
 | `series`      | `readonly KuiChartScatterSeries[]`              | -- (required)     | `{id?, name, color?, points: {x, y, r?}[]}`. Empty renders `EmptyState`.  |
 | `bubble`      | `boolean`                                       | `false`           | Reads `r` from each point as the radius. Not a separate chart type.       |
-| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`            | Nominal SVG `viewBox` height: 200 / 280 / 360px.                          |
+| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`            | Plot height: 200 / 280 / 360px.                                           |
 | `loading`     | `boolean`                                       | `false`           | Shows a scattered-dot skeleton placeholder instead of the chart.          |
 | `legend`      | `boolean \| undefined`                          | auto              | Defaults to `true` when there is more than one series.                    |
 | `axes`        | `KuiChartAxesOptions`                           | `{}`              | `{x?, y?, gridLines?, xTitle?, yTitle?}`. No `categories`-related fields. |
@@ -346,8 +388,9 @@ appearance -- deferred rather than invented; see Known gaps.
 | Input         | Type                                            | Default         | Description                                                               |
 | ------------- | ----------------------------------------------- | --------------- | ------------------------------------------------------------------------- |
 | `slices`      | `readonly KuiChartSlice[]`                      | -- (required)   | `{id?, label, value, color?}`. Negative `value` is dropped.               |
-| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`          | Square nominal SVG `viewBox`: 200 / 280 / 360px.                          |
+| `size`        | `'sm' \| 'md' \| 'lg'`                          | `'md'`          | Square of up to 200 / 280 / 360px.                                        |
 | `loading`     | `boolean`                                       | `false`         | Shows a shimmering ring skeleton placeholder instead of the chart.        |
+| `patterns`    | `boolean`                                       | `false`         | Fills each slice with a hatch pattern (see Colour independence).          |
 | `legend`      | `boolean \| undefined`                          | auto            | Defaults to `true` when there is more than one slice.                     |
 | `valueFormat` | `(value: number) => string`                     | compact         | Default tooltip/legend number formatting.                                 |
 | `tooltip`     | `(point: KuiChartPoint) => string \| undefined` | built-in        | Overrides the default `"<label>: <value> (<share>%)"` tooltip text.       |
@@ -481,58 +524,109 @@ providers: [
 
 Each option resolves as `local input > defaults.scatterChart.<option> > built-in default`. See [DI defaults](di-defaults.md).
 
+## Colour independence
+
+Colour is never the only way to tell series apart (WCAG 1.4.1):
+
+- With more than one series, line and scatter marks use a **marker shape per series index** (circle,
+  square, diamond, up and down triangle, cross, plus, star) and the legend swatch shows the same
+  shape. A single series stays circles. The shape follows the series, so hiding another series never
+  changes it.
+- `kui-bar-chart`, `kui-donut-chart` and `kui-line-chart` with `area` accept **`patterns`**
+  (default `false`): each series or slice is filled with one of eight hatch patterns (a tinted ground
+  with a hatch in the full series colour), and the legend swatch is a patterned square. Patterns are
+  defined once per chart (`<pattern>` ids are unique per chart instance, so many charts on one page
+  never collide).
+- A hidden legend item is marked with more than its pressed state: the label is struck through and the
+  swatch is an outline.
+- In **forced colours** (Windows High Contrast) the chart takes over with `forced-color-adjust: none`
+  and draws with system colours (`CanvasText`, `Canvas`, `GrayText`, `Highlight`) only. Series then
+  differ by hatch pattern (areas, bars, slices), by dash (lines: solid, `8 4`, `2 3`, ...) and by marker
+  shape -- patterns and dashes turn on automatically, `patterns` is not needed. Focus rings use
+  `Highlight`.
+
+Playwright's forced-colours emulation toggles only the media query; it does not force fill and stroke
+the way the real mode does, so the real mode still needs a manual pass on Windows.
+
+## Keyboard
+
+Tab enters a chart at the last focused mark and leaves with Tab; DOM focus follows the arrows.
+
+| Chart             | Keys                                                                                                                                                |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Line, grouped bar | `←` `→` along the category axis in the same series; `↑` `↓` between series at the same category; `Home` `End` first and last category of the series |
+| Stacked bar       | `↑` `↓` between segments of the stack; the rest as above                                                                                            |
+| Horizontal bar    | the pairs swap: `↑` `↓` along the categories, `←` `→` between series                                                                                |
+| Scatter           | points are ordered by `x` within a series; the keys above                                                                                           |
+| Donut             | `←` `↑` previous slice, `→` `↓` next slice, `Home` `End` first and last                                                                             |
+| Any               | `Escape` dismisses the tooltip; `Enter` and `Space` on a legend item toggle it                                                                      |
+
+The roving position is a key (series and category), not an index, so hiding a series moves it to the
+nearest remaining mark and re-focuses that mark if focus was inside the chart. Focus mirrors hover:
+the focused mark highlights its series and opens the tooltip.
+
+## Performance
+
+A line chart draws one DOM mark per point up to 500 marks (`KUI_CHART_MARK_LIMIT`); above that it
+draws only the mark that holds the tab stop (the keyboard model is index-based, so
+nothing else changes, and the table always lists every point). Bar and scatter charts draw every
+shape. Measured in Chromium on the Playground stress page (`/components/chart`, "Stress test"; a line
+chart with two series and a scatter chart with one series of the same point count; the paint time is
+the click until two animation frames later):
+
+| Points per chart | Time to paint | DOM nodes (both charts) |
+| ---------------- | ------------- | ----------------------- |
+| 500              | 46 ms         | 1,629                   |
+| 2,000            | 115 ms        | 6,123                   |
+| 5,000            | 259 ms        | 15,123                  |
+
+Hiding a series on the 2,000-point line chart paints in 27 ms. The e2e budget
+(`chart-contract.spec.ts`) is a ceiling of 500, 1000 and 2000 ms for the three sizes. The practical
+limit for bar and scatter charts is a few thousand shapes; above that, aggregate before passing the
+data in. Decimation is out of scope.
+
 ## Accessibility
 
+- The `<svg>` is the graphic: `role="graphics-document"` with the name and the role description
+  (`aria-roledescription`). The wrapper has no role, and axis text, gridlines and decorative shapes
+  are `aria-hidden`.
 - Each point/bar/slice is `role="graphics-symbol img"` with its own `aria-label` (the same text as
-  the tooltip) -- an indivisible graphical unit, per the WAI-ARIA Graphics Module, not the whole
-  `<svg>`.
-- Roving tabindex across points/bars/slices: `Tab`/`Shift+Tab` enters/exits the chart at the
-  last-focused mark; `←`/`→`/`↑`/`↓` move to the adjacent mark; `Home`/`End` jump to the
-  first/last mark.
-- The tooltip shown on hover is the same one shown on keyboard focus (one shared overlay,
-  retargeted between marks -- not a tooltip instance per mark). On pointer hover it follows the
-  cursor (`pointermove` retargets the overlay to the pointer's viewport position), matching common
-  chart libraries' hover-tooltip behavior; keyboard focus still anchors to the focused mark's own
-  element, since a focus event has no pointer position to follow. On touch, a tap pins the tooltip
-  open (no hover-follow exists for touch) until an outside tap, `Escape`, or a tap on a different
-  mark; the tooltip also always renders below 768px, unlike a purely decorative `kuiTooltip`, since
-  it's the primary way to read a chart's exact value.
-- Points/bars/slices, not the legend, carry the per-value accessible name; the legend uses native
-  `<button aria-pressed>`.
-- `kui-scatter-chart` gives every point/bubble an invisible hit-target at least 10 viewBox units in
-  radius, separate from its (possibly much smaller) visual dot, for touch/pointer precision.
-- `prefers-reduced-motion: reduce` disables the hover/dim transition.
+  the tooltip) -- an indivisible graphical unit, per the WAI-ARIA Graphics Module.
+- Roving tabindex across points/bars/slices (see Keyboard). The inline legend is a named group of
+  native `<button aria-pressed>` items at least 24px high.
+- The tooltip shown on hover is the same one shown on keyboard focus (one shared overlay, retargeted
+  between marks). It is dismissible and persistent. On pointer hover it appears at the pointer and follows
+  it; keyboard focus anchors it to the focused mark. On touch, a tap pins the tooltip open until an
+  outside tap, `Escape`, or a tap on a different mark; it also always renders below 768px, since it is
+  the primary way to read a chart's exact value.
+- Pointer hit targets: a line chart shows the tooltip while the pointer is on the point (its marker plus a
+  3px margin), a scatter chart on the point's hit circle (at least 12px in radius), a bar chart on the bar
+  itself and a donut on the slice.
+- Text is at least 12px on screen: axis text defaults to 13px and keeps its pixel size at any width.
+- `prefers-reduced-motion: reduce` disables the hover/dim transition and the donut sweep.
 - The alt-table is a real accessible alternative to the graphic, not a decorative duplicate.
+
+Automated checks (keyboard, accessibility tree, axe, forced-colours media emulation, reduced motion)
+are in `chart-contract.spec.ts` and `accessibility.spec.ts`. A session with a real screen reader has
+not been run and stays pending.
 
 ## Known gaps
 
-- Padding for axis labels is fixed (sized for the default compact formatter's typical 2-4 char
-  numeric output on `kui-line-chart`, vertical `kui-bar-chart`, and `kui-scatter-chart`;
-  `kui-bar-chart` uses a wider fixed left padding when `orientation="horizontal"`, since that side
-  then shows category text labels instead of numbers) -- not measured against the longest actual
-  tick label in any case, so an unusually long category name or a `valueFormat` producing much
-  wider numbers can still clip against the plot area. The first/last tick on any axis anchors
-  inward (`start`/`end` instead of `middle`) so it does not clip against the viewBox edge, but
-  interior ticks can still visually crowd each other at high density -- `thinTicks` reduces the
-  count, it does not measure actual rendered label width.
-- Tick-thinning and font sizing are computed against each chart's nominal `viewBox` size (see
-  Sizes above), not the actual rendered pixel size -- a chart rendered much narrower than its
-  nominal `size` can under-thin ticks or look denser than the same chart at its intended size.
-- `kui-scatter-chart` does not implement series distinguishability beyond color (marker
-  shape/pattern) -- the design brief did not specify one, and no shape/pattern system has been
-  designed yet; explicitly deferred rather than invented.
+- The chart tooltip follows the pointer and is not hoverable, so it does not meet the "hoverable" part of
+  WCAG 1.4.13 (it is dismissible and persistent). It was left this way on purpose: a tooltip that is
+  hoverable and follows the cursor catches the cursor and freezes. Anchoring it to the mark would fix
+  both; that is a design decision still open.
 - `kui-scatter-chart`'s `bubble` radius is not clamped to any min/max -- a consumer passing an
   unbounded `r` can draw a bubble far larger than the plot area; the consumer owns this.
 - `kui-donut-chart` has no center text/sum -- the spec does not specify one and no design source
   dictates its appearance; explicitly deferred rather than invented. Its inner-radius ratio (60% of
-  the outer radius) is fixed, not configurable, in v1.
-- The shared `KuiTooltip`'s hover/focus mode is not fully WCAG 1.4.13 compliant (not
-  dismissible via Escape, not hoverable) -- a pre-existing kit-wide gap, not specific to Chart; see
-  `docs/component-roadmap.md` Known Tech Debt.
-- Reviewed in a real browser for all four types (tooltip retarget, keyboard nav, legend, alt-table,
-  all orientations/stacking/bubble, default colors, donut hide-recompute behavior) -- but committed
-  visual-regression baselines and a formal assistive-technology pass are still pending, same as
-  other recently added primitives.
+  the outer radius) is fixed, not configurable.
+- There is no zoom, pan or decimation, and bar and scatter charts draw every shape (see
+  [Performance](#performance)).
+- The marker shapes and hatch patterns are engineering decisions recorded in
+  `docs/design-provenance.md`; the designer still has to confirm them for Figma and `tokens.css`.
+- Visual baselines were captured in Docker and reviewed, but a formal assistive-technology pass with a
+  real screen reader and a real Windows forced-colours session is still pending.
 
 <!-- color-tokens:begin -->
 
@@ -541,13 +635,15 @@ Each option resolves as `local input > defaults.scatterChart.<option> > built-in
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the semantic role in the Default column.
 
-| Token                                  | Default                      | Controls                       |
-| -------------------------------------- | ---------------------------- | ------------------------------ |
-| `--kui-chart-mark-stroke`              | `--kui-color-surface`        | Mark stroke                    |
-| `--kui-chart-empty-border`             | `--kui-color-border`         | Empty border color             |
-| `--kui-chart-empty-color`              | `--kui-color-text-secondary` | Empty color                    |
-| `--kui-chart-legend-item-bg-active`    | `--kui-color-surface-sunken` | Legend item background, active |
-| `--kui-chart-legend-item-color-active` | `--kui-color-text`           | Legend item color, active      |
+| Token                                  | Default                        | Controls                       |
+| -------------------------------------- | ------------------------------ | ------------------------------ |
+| `--kui-chart-mark-stroke`              | `--kui-color-surface`          | Mark stroke                    |
+| `--kui-chart-pattern-ground-color`     | `--kui-color-surface`          | Ground under hatch patterns    |
+| `--kui-chart-axis-title-color`         | `--kui-chart-axis-label-color` | Axis title color               |
+| `--kui-chart-empty-border`             | `--kui-color-border`           | Empty border color             |
+| `--kui-chart-empty-color`              | `--kui-color-text-secondary`   | Empty color                    |
+| `--kui-chart-legend-item-bg-active`    | `--kui-color-surface-sunken`   | Legend item background, active |
+| `--kui-chart-legend-item-color-active` | `--kui-color-text`             | Legend item color, active      |
 
 <!-- color-tokens:end -->
 
@@ -561,7 +657,7 @@ is not set, the part uses the scale token in the Default column.
 | Token                                    | Default              | Controls                    |
 | ---------------------------------------- | -------------------- | --------------------------- |
 | `--kui-chart-gap`                        | `--kui-space-3`      | Gap                         |
-| `--kui-chart-axis-text-font-size`        | `--kui-text-xs-size` | Axis text font size         |
+| `--kui-chart-axis-text-font-size`        | `--kui-text-sm-size` | Axis text font size         |
 | `--kui-chart-loading-bars-gap`           | `--kui-space-3`      | Loading bars gap            |
 | `--kui-chart-loading-bars-padding`       | `--kui-space-4`      | Loading bars padding        |
 | `--kui-chart-empty-gap`                  | `--kui-space-3`      | Empty gap                   |
@@ -573,6 +669,6 @@ is not set, the part uses the scale token in the Default column.
 | `--kui-chart-legend-item-radius`         | `--kui-radius-sm`    | Legend item corner radius   |
 | `--kui-chart-legend-item-padding-inline` | `--kui-space-1`      | Legend item padding, inline |
 | `--kui-chart-legend-item-font-size`      | `--kui-text-sm-size` | Legend item font size       |
-| `--kui-chart-legend-swatch-radius`       | `--kui-radius-full`  | Legend swatch corner radius |
+| `--kui-chart-legend-swatch-size`         | `12px`               | Legend swatch size          |
 
 <!-- geometry-tokens:end -->

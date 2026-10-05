@@ -29,18 +29,17 @@
     <span>{{ t().noData }}</span>
   </div>
 } @else {
-  <div
-    class="kui-chart__graphic"
-    role="graphics-document"
-    [attr.aria-roledescription]="t().donutRoleDescription"
-    [attr.aria-label]="effectiveAriaLabel()"
-  >
+  <div class="kui-chart__graphic">
     @if (!showTable()) {
       <svg
+        role="graphics-document"
+        [attr.aria-roledescription]="t().donutRoleDescription"
+        [attr.aria-label]="effectiveAriaLabel()"
         [attr.viewBox]="'0 0 ' + dimensions().width + ' ' + dimensions().height"
         preserveAspectRatio="xMidYMid meet"
         class="kui-chart__svg"
       >
+        <defs kuiChartPatterns [patterns]="patternDefs()"></defs>
         <g
           #slicesGroup
           class="kui-chart__marks"
@@ -72,12 +71,13 @@
                 role="graphics-symbol img"
                 [attr.id]="chartId + '-slice-' + $index"
                 [attr.aria-label]="sliceLabel(slice)"
-                [attr.tabindex]="$index === focusedMarkIndex() ? 0 : -1"
+                [attr.data-kui-mark]="slice.sliceId"
+                [attr.tabindex]="slice.sliceId === rovingKey() ? 0 : -1"
                 [attr.d]="slice.path"
                 [attr.fill-rule]="isSingleVisibleSlice() ? 'evenodd' : null"
                 class="kui-chart__slice-hit"
                 (pointerenter)="onSliceEnter(slice, $event, slicesGroup)"
-                (focus)="onSliceFocus(slice, $index, markRef)"
+                (focus)="onSliceFocus(slice, markRef)"
               />
               <path
                 aria-hidden="true"
@@ -88,7 +88,8 @@
                 "
                 class="kui-chart__slice"
                 [class.kui-chart__slice--no-separator]="isSingleVisibleSlice()"
-                [style.fill]="slice.color"
+                [style.fill]="fillOf(slice.sliceId, slice.color)"
+                [style.--_kui-chart-pattern]="patternOf(slice.sliceId)"
                 [class.kui-chart__series--dimmed]="
                   hoveredSliceId() && hoveredSliceId() !== slice.sliceId
                 "
@@ -98,7 +99,7 @@
         </g>
       </svg>
     } @else {
-      <table kuiTable class="kui-chart__table">
+      <table kuiTable class="kui-chart__table" [attr.aria-label]="effectiveAriaLabel()">
         <thead>
           <tr kuiThGroup>
             <th kuiTh>{{ t().columnLabel }}</th>
@@ -119,7 +120,7 @@
 
   <div class="kui-chart__toolbar">
     @if (legendEnabled()) {
-      <div class="kui-chart__legend">
+      <div class="kui-chart__legend" role="group" [attr.aria-label]="t().legendLabel">
         @for (slice of legendSlices(); track slice.sliceId) {
           <button
             type="button"
@@ -130,8 +131,14 @@
             (click)="toggleSlice(slice.sliceId)"
             (pointerenter)="!isSliceHidden(slice.sliceId) && hoveredSliceId.set(slice.sliceId)"
             (pointerleave)="hoveredSliceId.set(null)"
+            (focus)="!isSliceHidden(slice.sliceId) && hoveredSliceId.set(slice.sliceId)"
+            (blur)="hoveredSliceId.set(null)"
           >
-            <span class="kui-chart__legend-swatch" [style.background]="slice.color"></span>
+            <svg
+              kuiChartSwatch
+              [color]="slice.color"
+              [pattern]="legendPattern(slice.sliceId)"
+            ></svg>
             {{ slice.label }}
           </button>
         }

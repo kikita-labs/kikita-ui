@@ -7,7 +7,7 @@ import {
   inject,
   input,
   signal,
-  viewChildren,
+  untracked,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -22,9 +22,13 @@ import type {
   KuiChartTooltipFormatter,
   KuiChartValueFormat,
 } from '../chart.types';
+import type { KuiChartNavMark } from '../core/chart-keyboard-nav.util';
 import { normalizeSlices } from '../core/chart-normalize.util';
+import { patternId, patternPaint } from '../core/chart-pattern.util';
 import { computeDonutShares } from '../core/chart-scale.util';
 import { KuiChartSession } from '../core/chart-session';
+import { KuiChartPatterns } from '../core/kui-chart-patterns';
+import { KuiChartSwatch } from '../core/kui-chart-swatch';
 
 /** See the matching constant's JSDoc in `kui-line-chart.ts` -- same rationale. Height
  * and width share one value here (a donut is circular, not an axis-driven rectangle). */
@@ -74,7 +78,16 @@ interface KuiDonutChartSlice {
 
 @Component({
   selector: 'kui-donut-chart',
-  imports: [KuiButton, KuiCell, KuiRow, KuiTable, KuiTh, KuiThGroup],
+  imports: [
+    KuiButton,
+    KuiCell,
+    KuiChartPatterns,
+    KuiChartSwatch,
+    KuiRow,
+    KuiTable,
+    KuiTh,
+    KuiThGroup,
+  ],
   templateUrl: './kui-donut-chart.html',
   host: {
     class: 'kui-chart kui-donut-chart',
@@ -106,6 +119,12 @@ export class KuiDonutChart implements KuiChartLegendSource {
   /** Shows a loading placeholder instead of the chart. */
   readonly loading = input(false, { transform: booleanAttribute });
 
+  /**
+   * Fills series with hatch patterns instead of plain colour, so series differ by texture as well as
+   * hue. Turned on automatically in forced colours.
+   */
+  readonly patterns = input(false, { transform: booleanAttribute });
+
   /** Shows the legend. Defaults to `defaults.donutChart.legend`, then `true` when there is more than one slice. */
   readonly legend = input<boolean | undefined>(undefined);
 
@@ -129,8 +148,8 @@ export class KuiDonutChart implements KuiChartLegendSource {
     messages: this.messages,
     valueFormat: this.valueFormat,
     tooltip: this.tooltip,
-    markCount: () => this.renderedSlices().length,
-    markRefs: () => this.markRefs(),
+    marks: () => this.navMarks(),
+    navigation: () => 'sequence',
   });
 
   protected readonly t = this.session.t;
@@ -138,7 +157,7 @@ export class KuiDonutChart implements KuiChartLegendSource {
   protected readonly chartId = this.session.chartId;
   protected readonly hiddenSliceIds = this.session.hiddenIds;
   protected readonly hoveredSliceId = this.session.hoveredSeriesId;
-  protected readonly focusedMarkIndex = this.session.focusedMarkIndex;
+  protected readonly rovingKey = this.session.rovingKey;
   protected readonly showTable = this.session.showTable;
   protected readonly formatValue = this.session.formatValue;
   protected readonly onSlicesPointerMove = this.session.onPointerMove;
@@ -159,7 +178,8 @@ export class KuiDonutChart implements KuiChartLegendSource {
 
   private readonly normalizedSlices = computed(() => normalizeSlices(this.slices()));
 
-  protected readonly hasData = computed(() => this.normalizedSlices().length > 0);
+  /** A donut with only zero values has nothing to draw, so it is the empty composition. */
+  protected readonly hasData = computed(() => this.normalizedSlices().some((s) => s.value > 0));
 
   protected readonly legendEnabled = computed(
     () => this.legend() ?? this.donutChartDefaults()?.legend ?? this.slices().length > 1,
@@ -341,18 +361,56 @@ export class KuiDonutChart implements KuiChartLegendSource {
 
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
   readonly legendItems: () => readonly KuiChartLegendEntry[] = computed(() =>
-    this.legendSlices().map((s) => ({
+    this.legendSlices().map((s, index) => ({
       id: s.sliceId,
       label: s.label,
       color: s.color,
       hidden: this.isSliceHidden(s.sliceId),
+      pattern: this.patterns() ? index : undefined,
     })),
   );
+
+  /** The hatch patterns of every slice, defined once for `patterns` and for forced colours. */
+  protected readonly patternDefs = computed(() =>
+    this.normalizedSlices().map((slice, index) => ({
+      id: patternId(this.chartId, index),
+      index,
+      color: slice.color,
+    })),
+  );
+
+  private readonly patternIndexBySlice = computed(
+    () => new Map(this.normalizedSlices().map((slice, index) => [slice.sliceId, index])),
+  );
+
+  /** The fill of a slice: its colour, or its hatch pattern when `patterns` is on. */
+  protected fillOf(sliceId: string, color: string | undefined): string | undefined {
+    return this.patterns() ? this.patternOf(sliceId) : color;
+  }
+
+  /** The hatch paint of a slice, read by the forced-colours styles. */
+  protected patternOf(sliceId: string): string {
+    return patternPaint(this.chartId, this.patternIndexBySlice().get(sliceId) ?? 0);
+  }
+
+  /** The pattern index of a slice for its legend swatch, or `undefined` without `patterns`. */
+  protected legendPattern(sliceId: string): number | undefined {
+    return this.patterns() ? this.patternIndexBySlice().get(sliceId) : undefined;
+  }
 
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
   readonly hoveredLegendId: () => string | null = computed(() => this.hoveredSliceId());
 
-  protected readonly markRefs = viewChildren<SVGPathElement>('markRef');
+  /** The slices that are drawn, as keyboard navigation sees them: one list, clockwise. */
+  private readonly navMarks = computed<readonly KuiChartNavMark[]>(() =>
+    this.renderedSlices().map((slice, index) => ({
+      key: slice.sliceId,
+      series: index,
+      category: 0,
+      x: 0,
+      y: 0,
+    })),
+  );
 
   protected sliceLabel(slice: KuiDonutChartSlice): string {
     return this.formatTooltipText(slice);
@@ -371,8 +429,8 @@ export class KuiDonutChart implements KuiChartLegendSource {
     this.session.enter(slice.sliceId, slice.sliceId, this.sliceLabel(slice), event, group);
   }
 
-  protected onSliceFocus(slice: KuiDonutChartSlice, index: number, target: Element): void {
-    this.session.focus(index, slice.sliceId, this.sliceLabel(slice), target);
+  protected onSliceFocus(slice: KuiDonutChartSlice, target: Element): void {
+    this.session.focus(slice.sliceId, slice.sliceId, this.sliceLabel(slice), target);
   }
 
   /** Public {@link KuiChartLegendSource} implementation -- see the class doc. */
@@ -403,10 +461,7 @@ export class KuiDonutChart implements KuiChartLegendSource {
    * throughout. Respects `prefers-reduced-motion` and SSR (no `requestAnimationFrame`) by jumping
    * straight to `target`. */
   private retarget(target: ReadonlyMap<string, number>): void {
-    if (
-      typeof requestAnimationFrame === 'undefined' ||
-      (typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches)
-    ) {
+    if (typeof requestAnimationFrame === 'undefined' || this.prefersReducedMotion()) {
       if (this.rafId !== null) cancelAnimationFrame(this.rafId);
       this.rafId = null;
       this.displayedShareById.set(target);
@@ -433,6 +488,12 @@ export class KuiDonutChart implements KuiChartLegendSource {
    * fields and `displayedShareById` (never a `computed()`), so this is safe to call from a
    * `requestAnimationFrame` callback outside Angular's effect-execution context. */
   private readonly tick = (now: number): void => {
+    // Reduced motion may be switched on while a tween runs: finish at once instead of playing on.
+    if (this.prefersReducedMotion()) {
+      this.finishTween();
+      return;
+    }
+
     const t = Math.min(1, (now - this.tweenStart) / DONUT_TWEEN_DURATION_MS);
     const eased = t * t * (3 - 2 * t);
     const next = new Map<string, number>();
@@ -447,6 +508,16 @@ export class KuiDonutChart implements KuiChartLegendSource {
       this.rafId = requestAnimationFrame(this.tick);
       return;
     }
+    this.finishTween();
+  };
+
+  private prefersReducedMotion(): boolean {
+    return (
+      typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
+    );
+  }
+
+  private finishTween(): void {
     this.rafId = null;
     // Snap exactly to target on completion -- easing/floating-point error can leave the tween a
     // fraction of a percent short, and exited slices (target share `0`) need to actually drop out
@@ -454,9 +525,14 @@ export class KuiDonutChart implements KuiChartLegendSource {
     const final = new Map<string, number>();
     for (const [id, to] of this.tweenTo) if (to > MIN_VISIBLE_SHARE) final.set(id, to);
     this.displayedShareById.set(final);
-  };
+  }
 
   constructor() {
+    effect(() => {
+      this.renderedSlices();
+      untracked(() => this.session.restoreFocus());
+    });
+
     // `this.shares()` depends on `this.slices()`, a required input -- not yet bound this early
     // (NG0950), even from inside the constructor body, not just a field initializer. The `effect`
     // below is the first place it's safe to read it. Its first-ever run doesn't animate --

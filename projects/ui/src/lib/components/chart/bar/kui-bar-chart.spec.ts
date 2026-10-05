@@ -15,6 +15,7 @@ import { KuiBarChart } from './kui-bar-chart';
       [categories]="categories()"
       [orientation]="orientation()"
       [stacked]="stacked()"
+      [patterns]="patterns()"
       [loading]="loading()"
       [tooltip]="tooltip()"
     />
@@ -27,6 +28,7 @@ class HostComponent {
   readonly categories = signal<readonly string[]>(['Free', 'Pro', 'Business']);
   readonly orientation = signal<'vertical' | 'horizontal'>('vertical');
   readonly stacked = signal(false);
+  readonly patterns = signal(false);
   readonly loading = signal(false);
   readonly tooltip = signal<KuiChartTooltipFormatter | undefined>(undefined);
 }
@@ -38,14 +40,49 @@ function createFixture(): ComponentFixture<HostComponent> {
   return fixture;
 }
 
-function bars(fixture: ComponentFixture<HostComponent>): SVGRectElement[] {
-  return Array.from(fixture.nativeElement.querySelectorAll('rect.kui-chart__bar'));
+/** The bounding box of a bar from its outline, which is made of M, H, V and A commands only. */
+function bounds(bar: Element): { x: number; y: number; width: number; height: number } {
+  const tokens = (bar.getAttribute('d') ?? '').match(/[MHVAZ]|-?\d+(?:\.\d+)?/g) ?? [];
+  let x = 0;
+  let y = 0;
+  const xs: number[] = [];
+  const ys: number[] = [];
+  const mark = (): void => {
+    xs.push(x);
+    ys.push(y);
+  };
+
+  for (let i = 0; i < tokens.length; ) {
+    const command = tokens[i++];
+
+    if (command === 'M') {
+      x = Number(tokens[i++]);
+      y = Number(tokens[i++]);
+    } else if (command === 'H') x = Number(tokens[i++]);
+    else if (command === 'V') y = Number(tokens[i++]);
+    else if (command === 'A') {
+      i += 5;
+      x = Number(tokens[i++]);
+      y = Number(tokens[i++]);
+    } else continue;
+
+    mark();
+  }
+
+  const left = Math.min(...xs);
+  const top = Math.min(...ys);
+
+  return { x: left, y: top, width: Math.max(...xs) - left, height: Math.max(...ys) - top };
+}
+
+function bars(fixture: ComponentFixture<HostComponent>): SVGPathElement[] {
+  return Array.from(fixture.nativeElement.querySelectorAll('path.kui-chart__bar'));
 }
 
 describe('KuiBarChart', () => {
   it('uses a generic accessible name when ariaLabel is omitted', () => {
     const fixture = createFixture();
-    const graphic = fixture.nativeElement.querySelector('.kui-chart__graphic') as HTMLElement;
+    const graphic = fixture.nativeElement.querySelector('svg.kui-chart__svg') as SVGElement;
 
     expect(graphic.getAttribute('aria-label')).toBe('Bar chart');
   });
@@ -67,8 +104,8 @@ describe('KuiBarChart', () => {
 
     // Grouped: the two bars for the first category must not overlap on x.
     const [first, second] = rects;
-    const firstRight = Number(first.getAttribute('x')) + Number(first.getAttribute('width'));
-    const secondX = Number(second.getAttribute('x'));
+    const firstRight = bounds(first).x + bounds(first).width;
+    const secondX = bounds(second).x;
     expect(secondX).toBeGreaterThanOrEqual(firstRight - 0.01);
   });
 
@@ -84,8 +121,8 @@ describe('KuiBarChart', () => {
 
     const rects = bars(fixture);
     expect(rects).toHaveLength(2);
-    expect(rects[0].getAttribute('x')).toBe(rects[1].getAttribute('x'));
-    expect(rects[0].getAttribute('width')).toBe(rects[1].getAttribute('width'));
+    expect(bounds(rects[0]).x).toBeCloseTo(bounds(rects[1]).x, 2);
+    expect(bounds(rects[0]).width).toBeCloseTo(bounds(rects[1]).width, 2);
   });
 
   it('does not stack a single series even when stacked=true', () => {
@@ -103,8 +140,8 @@ describe('KuiBarChart', () => {
     const rects = bars(fixture);
     expect(rects).toHaveLength(3);
     // In horizontal mode, bars are placed along y (category) and sized along x (value).
-    const heights = rects.map((r) => Number(r.getAttribute('height')));
-    const widths = rects.map((r) => Number(r.getAttribute('width')));
+    const heights = rects.map((r) => Math.round(bounds(r).height * 100));
+    const widths = rects.map((r) => bounds(r).width);
     expect(new Set(heights).size).toBeLessThanOrEqual(1); // same band thickness for all bars
     expect(widths.some((w) => w > 0)).toBe(true);
   });
@@ -165,5 +202,52 @@ describe('KuiBarChart', () => {
     fixture.componentInstance.series.set([{ id: 's', name: 'S', data }]);
     fixture.detectChanges();
     expect(bars(fixture)).toHaveLength(500);
+  });
+
+  it('fills bars with the colour of the series by default and defines a pattern per series', () => {
+    const fixture = createFixture();
+
+    expect(bars(fixture)[0].style.fill).not.toContain('url(');
+    expect(fixture.nativeElement.querySelectorAll('pattern')).toHaveLength(1);
+  });
+
+  it('fills bars with the hatch of the series when patterns is on, and shows it in the legend', () => {
+    const fixture = createFixture();
+    fixture.componentInstance.series.set([
+      { id: 'a', name: 'A', data: [1, 2, 3] },
+      { id: 'b', name: 'B', data: [3, 2, 1] },
+    ]);
+    fixture.componentInstance.patterns.set(true);
+    fixture.detectChanges();
+    const fills = new Set(bars(fixture).map((bar) => bar.style.fill));
+    const ids = Array.from(fixture.nativeElement.querySelectorAll('pattern')).map(
+      (pattern) => (pattern as Element).id,
+    );
+
+    expect(fills.size).toBe(2);
+    for (const fill of fills) {
+      expect(ids.some((id) => fill.includes(id))).toBe(true);
+    }
+    expect(
+      fixture.nativeElement.querySelectorAll('.kui-chart__legend-swatch-pattern'),
+    ).toHaveLength(2);
+  });
+
+  it('keeps the hatch of a series when another series is hidden', () => {
+    const fixture = createFixture();
+    fixture.componentInstance.series.set([
+      { id: 'a', name: 'A', data: [1, 2, 3] },
+      { id: 'b', name: 'B', data: [3, 2, 1] },
+    ]);
+    fixture.componentInstance.patterns.set(true);
+    fixture.detectChanges();
+    const before = bars(fixture)
+      .filter((bar) => bar.getAttribute('aria-label')?.startsWith('B'))
+      .map((bar) => bar.style.fill);
+
+    (fixture.nativeElement.querySelectorAll('.kui-chart__legend-item')[0] as HTMLElement).click();
+    fixture.detectChanges();
+
+    expect(bars(fixture).map((bar) => bar.style.fill)).toEqual(before);
   });
 });

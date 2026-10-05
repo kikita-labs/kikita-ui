@@ -1,0 +1,72 @@
+@let catalogue = data();
+
+<div class="chart-dense-examples__grid">
+  <app-chart-example [heading]="'chart.labels.dense' | transloco">
+    <kui-line-chart
+      [ariaLabel]="'chart.charts.dense' | transloco"
+      [series]="dense()"
+      [categories]="denseCategories"
+    />
+  </app-chart-example>
+
+  <app-chart-example [heading]="'chart.labels.axisTitles' | transloco">
+    <kui-line-chart
+      [ariaLabel]="'chart.charts.axisTitles' | transloco"
+      [series]="catalogue.sessions"
+      [categories]="catalogue.weekdays"
+      [axes]="{
+        xTitle: 'chart.axisTitles.weekday' | transloco,
+        yTitle: 'chart.axisTitles.sessions' | transloco,
+      }"
+    />
+  </app-chart-example>
+
+  <app-chart-example [heading]="'chart.labels.narrowLine' | transloco">
+    <div class="chart-dense-examples__narrow">
+      <kui-line-chart
+        size="sm"
+        [ariaLabel]="'chart.charts.narrowLine' | transloco"
+        [series]="catalogue.traffic"
+        [categories]="catalogue.weekdays"
+      />
+    </div>
+  </app-chart-example>
+
+  <app-chart-example [heading]="'chart.labels.narrowBar' | transloco">
+    <div class="chart-dense-examples__narrow">
+      <kui-bar-chart
+        size="sm"
+        [ariaLabel]="'chart.charts.narrowBar' | transloco"
+        [series]="catalogue.revenueGrouped"
+        [categories]="catalogue.plans"
+      />
+    </div>
+  </app-chart-example>
+
+  <app-chart-example [heading]="'chart.labels.patternsBar' | transloco">
+    <kui-bar-chart
+      patterns
+      [ariaLabel]="'chart.charts.patternsBar' | transloco"
+      [series]="catalogue.revenueGrouped"
+      [categories]="catalogue.plans"
+    />
+  </app-chart-example>
+
+  <app-chart-example [heading]="'chart.labels.patternsArea' | transloco">
+    <kui-line-chart
+      area
+      patterns
+      [ariaLabel]="'chart.charts.patternsArea' | transloco"
+      [series]="catalogue.trafficPair"
+      [categories]="catalogue.weekdays"
+    />
+  </app-chart-example>
+
+  <app-chart-example [heading]="'chart.labels.patternsDonut' | transloco">
+    <kui-donut-chart
+      patterns
+      [ariaLabel]="'chart.charts.patternsDonut' | transloco"
+      [slices]="catalogue.slicesMany"
+    />
+  </app-chart-example>
+</div>

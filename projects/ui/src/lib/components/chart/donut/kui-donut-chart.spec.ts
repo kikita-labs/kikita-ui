@@ -2,14 +2,21 @@ import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import type { KuiChartSlice, KuiChartTooltipFormatter } from '../chart.types';
 import { KuiDonutChart } from './kui-donut-chart';
 
 @Component({
   imports: [KuiDonutChart],
-  template: ` <kui-donut-chart [slices]="slices()" [loading]="loading()" [tooltip]="tooltip()" /> `,
+  template: `
+    <kui-donut-chart
+      [slices]="slices()"
+      [loading]="loading()"
+      [patterns]="patterns()"
+      [tooltip]="tooltip()"
+    />
+  `,
 })
 class HostComponent {
   readonly slices = signal<readonly KuiChartSlice[]>([
@@ -18,6 +25,7 @@ class HostComponent {
     { id: 'business', label: 'Business', value: 25 },
   ]);
   readonly loading = signal(false);
+  readonly patterns = signal(false);
   readonly tooltip = signal<KuiChartTooltipFormatter | undefined>(undefined);
 }
 
@@ -76,7 +84,7 @@ function expectFullRingPath(d: string | null): void {
 describe('KuiDonutChart', () => {
   it('uses a generic accessible name when ariaLabel is omitted', () => {
     const fixture = createFixture();
-    const graphic = fixture.nativeElement.querySelector('.kui-chart__graphic') as HTMLElement;
+    const graphic = fixture.nativeElement.querySelector('svg.kui-chart__svg') as SVGElement;
 
     expect(graphic.getAttribute('aria-label')).toBe('Donut chart');
   });
@@ -121,15 +129,40 @@ describe('KuiDonutChart', () => {
     expect(buttons[0].getAttribute('aria-pressed')).toBe('false');
   });
 
-  it('gives a single all-zero slice a full ring instead of a broken render', async () => {
+  it('shows the empty composition for all-zero data instead of drawing a ring that is not there', async () => {
     const fixture = createFixture();
-    fixture.componentInstance.slices.set([{ id: 'a', label: 'Only', value: 0 }]);
+    fixture.componentInstance.slices.set([
+      { id: 'a', label: 'Free', value: 0 },
+      { id: 'b', label: 'Pro', value: 0 },
+    ]);
     fixture.detectChanges();
     await settleAnimation(fixture);
-    const paths = slicePaths(fixture);
-    expect(paths).toHaveLength(1);
-    expect(paths[0].getAttribute('fill-rule')).toBe('evenodd');
-    expectFullRingPath(paths[0].getAttribute('d'));
+
+    expect(slicePaths(fixture)).toHaveLength(0);
+    expect(fixture.nativeElement.querySelector('.kui-chart__empty')).not.toBeNull();
+  });
+
+  it('keeps the legend usable when hiding every slice with a value leaves only zero-valued ones', async () => {
+    const fixture = createFixture();
+    fixture.componentInstance.slices.set([
+      { id: 'zero', label: 'Zero', value: 0 },
+      { id: 'real', label: 'Real', value: 40 },
+    ]);
+    fixture.detectChanges();
+    await settleAnimation(fixture);
+    expect(slicePaths(fixture)).toHaveLength(1);
+
+    legendButtons(fixture)[1].click();
+    fixture.detectChanges();
+    await settleAnimation(fixture);
+
+    expect(slicePaths(fixture)).toHaveLength(0);
+    expect(legendButtons(fixture)).toHaveLength(2);
+
+    legendButtons(fixture)[1].click();
+    fixture.detectChanges();
+    await settleAnimation(fixture);
+    expect(slicePaths(fixture)).toHaveLength(1);
   });
 
   it('renders a real (non-zero-value) single slice as a seamless two-circle ring, not a one-arc wedge', async () => {
@@ -215,5 +248,74 @@ describe('KuiDonutChart', () => {
     fixture.detectChanges();
     await settleAnimation(fixture);
     expect(slicePaths(fixture)).toHaveLength(500);
+  });
+
+  it('fills slices with the hatch of the slice when patterns is on, and shows it in the legend', () => {
+    const fixture = createFixture();
+
+    expect(slicePaths(fixture)[0].style.fill).not.toContain('url(');
+
+    fixture.componentInstance.patterns.set(true);
+    fixture.detectChanges();
+    const fills = new Set(slicePaths(fixture).map((slice) => slice.style.fill));
+
+    expect(fills.size).toBe(3);
+    for (const fill of fills) expect(fill).toContain('url(');
+    expect(
+      fixture.nativeElement.querySelectorAll('.kui-chart__legend-swatch-pattern'),
+    ).toHaveLength(3);
+  });
+  describe('reduced motion', () => {
+    afterEach(() => {
+      vi.unstubAllGlobals();
+    });
+
+    function stubReducedMotion(reduce: boolean): void {
+      vi.stubGlobal(
+        'matchMedia',
+        (query: string) =>
+          ({
+            matches: reduce && query.includes('prefers-reduced-motion'),
+            media: query,
+            addEventListener: () => undefined,
+            removeEventListener: () => undefined,
+          }) as unknown as MediaQueryList,
+      );
+    }
+
+    it('re-partitions at once when reduced motion is on', () => {
+      stubReducedMotion(true);
+      const fixture = createFixture();
+
+      legendButtons(fixture)[0].click();
+      fixture.detectChanges();
+
+      expect(slicePaths(fixture)).toHaveLength(2);
+    });
+
+    it('plays the sweep when motion is allowed', () => {
+      stubReducedMotion(false);
+      const fixture = createFixture();
+
+      legendButtons(fixture)[0].click();
+      fixture.detectChanges();
+
+      expect(slicePaths(fixture)).toHaveLength(3);
+    });
+
+    it('stops the sweep as soon as reduced motion is turned on while it runs', async () => {
+      stubReducedMotion(false);
+      const fixture = createFixture();
+
+      legendButtons(fixture)[0].click();
+      fixture.detectChanges();
+      expect(slicePaths(fixture)).toHaveLength(3);
+
+      stubReducedMotion(true);
+      await new Promise((resolve) => setTimeout(resolve, 60));
+      fixture.detectChanges();
+
+      expect(slicePaths(fixture)).toHaveLength(2);
+    });
   });
 });

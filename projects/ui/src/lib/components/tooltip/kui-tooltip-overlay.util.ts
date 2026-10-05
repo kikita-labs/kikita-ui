@@ -30,6 +30,8 @@ interface KuiTooltipOverlayOptions {
   readonly offset?: number;
   readonly text: string;
   readonly touchEnabled?: boolean;
+  /** Lets the pointer rest on the tooltip (WCAG 1.4.13). The surface then receives pointer events. */
+  readonly hoverable?: boolean;
 }
 
 /** Handle for an internal CDK-backed Kikita tooltip surface. */
@@ -52,7 +54,7 @@ export interface KuiTooltipOverlayHandle {
 export function createKuiTooltipOverlay(
   options: KuiTooltipOverlayOptions,
 ): KuiTooltipOverlayHandle {
-  const { anchor, id, overlay, placement, text, touchEnabled } = options;
+  const { anchor, id, overlay, placement, text, touchEnabled, hoverable } = options;
   const offset = options.offset ?? KUI_TOOLTIP_DEFAULT_OFFSET;
   const positionStrategy = overlay
     .position()
@@ -70,6 +72,7 @@ export function createKuiTooltipOverlay(
   tooltipRef.setInput('placement', placement);
   tooltipRef.setInput('text', text);
   tooltipRef.setInput('touchEnabled', touchEnabled ?? false);
+  tooltipRef.setInput('hoverable', hoverable ?? false);
   tooltipRef.changeDetectorRef.detectChanges();
   const tooltipEl = tooltipRef.location.nativeElement as HTMLElement;
 

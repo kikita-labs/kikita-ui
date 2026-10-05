@@ -16,12 +16,29 @@ describe('resolveStableIds', () => {
     expect(resolveStableIds([{ label: 'Alpha' }])).toEqual(['Alpha']);
   });
 
-  it('appends an index suffix to keep colliding fallback labels unique', () => {
+  it('appends a #n suffix to keep colliding fallback labels unique', () => {
     expect(resolveStableIds([{ label: 'A' }, { label: 'A' }, { label: 'A' }])).toEqual([
       'A',
-      'A:1',
-      'A:2',
+      'A#1',
+      'A#2',
     ]);
+  });
+
+  it('never hands out the same key twice, even when an explicit id looks like a generated one', () => {
+    const ids = resolveStableIds([{ label: 'a' }, { label: 'a' }, { id: 'a#1', label: 'x' }]);
+
+    expect(ids).toEqual(['a', 'a#1', 'a#1#1']);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('keeps a distinct explicit id that merely resembles the old suffix format', () => {
+    expect(
+      resolveStableIds([
+        { id: 'a', label: 'x' },
+        { id: 'a', label: 'y' },
+        { id: 'a:1', label: 'z' },
+      ]),
+    ).toEqual(['a', 'a#1', 'a:1']);
   });
 });
 

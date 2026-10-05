@@ -31,6 +31,38 @@ describe('computeNiceScale', () => {
     expect(scale.min).toBe(-1);
     expect(scale.max).toBe(1);
   });
+
+  it('widens a flat large value relative to its magnitude, not by one unit', () => {
+    const scale = computeNiceScale(1_000_000, 1_000_000);
+
+    expect(scale.min).toBeGreaterThan(800_000);
+    expect(scale.max).toBeLessThan(1_200_000);
+    expect(scale.ticks.length).toBeGreaterThan(2);
+  });
+
+  it('keeps distinct ticks for a tiny range instead of rounding them all to the same value', () => {
+    const scale = computeNiceScale(0.0001, 0.0005);
+
+    expect(new Set(scale.ticks).size).toBe(scale.ticks.length);
+    expect(scale.ticks.length).toBeGreaterThan(2);
+    expect(scale.min).toBeLessThanOrEqual(0.0001);
+    expect(scale.max).toBeGreaterThanOrEqual(0.0005);
+  });
+
+  it('does not lose a step to floating point error', () => {
+    const scale = computeNiceScale(0, 0.3);
+
+    expect(scale.max).toBeCloseTo(0.3, 10);
+    expect(scale.ticks.at(-1)).toBeCloseTo(0.3, 10);
+  });
+
+  it('falls back to a unit domain for non-finite input and swaps a reversed one', () => {
+    expect(computeNiceScale(Number.NaN, 5).max).toBeGreaterThan(
+      computeNiceScale(Number.NaN, 5).min,
+    );
+    expect(computeNiceScale(10, 0).min).toBeLessThanOrEqual(0);
+    expect(computeNiceScale(10, 0).max).toBeGreaterThanOrEqual(10);
+  });
 });
 
 describe('computeGroupedDomain', () => {
@@ -140,19 +172,27 @@ describe('computeDonutShares', () => {
     expect(shares[1].share).toBeCloseTo(0.75);
   });
 
-  it('splits an all-zero total into equal shares instead of NaN', () => {
+  it('gives every slice a share of 0 for an all-zero total, instead of inventing equal arcs', () => {
     const slices = normalizeSlices([
       { label: 'Free', value: 0 },
       { label: 'Pro', value: 0 },
     ]);
     const shares = computeDonutShares(slices);
-    expect(shares[0].share).toBeCloseTo(0.5);
-    expect(shares[1].share).toBeCloseTo(0.5);
+    expect(shares.map((entry) => entry.share)).toEqual([0, 0]);
   });
 
-  it('gives a single all-zero slice a full circle (share 1), not zero', () => {
+  it('draws nothing for a single all-zero slice', () => {
     const slices = normalizeSlices([{ label: 'Only', value: 0 }]);
-    expect(computeDonutShares(slices)[0].share).toBe(1);
+    expect(computeDonutShares(slices)[0].share).toBe(0);
+  });
+
+  it('draws nothing when only zero-valued slices stay visible after hiding the rest', () => {
+    const slices = normalizeSlices([
+      { id: 'a', label: 'A', value: 0 },
+      { id: 'b', label: 'B', value: 40 },
+    ]);
+
+    expect(computeDonutShares(slices, new Set(['b'])).map((entry) => entry.share)).toEqual([0]);
   });
 
   it('recomputes shares excluding hidden slices from both the total and the result', () => {

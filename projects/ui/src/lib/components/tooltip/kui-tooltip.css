@@ -23,6 +23,12 @@
     position: static;
   }
 
+  /* Hover content must stay reachable by the pointer (WCAG 1.4.13): its text can be selected and
+     the tooltip survives the pointer moving onto it. */
+  .kui-tooltip--hoverable {
+    pointer-events: auto;
+  }
+
   .kui-tooltip.is-hiding {
     animation: kui-tooltip-out var(--kui-duration-quick) var(--kui-ease-exit) both;
   }

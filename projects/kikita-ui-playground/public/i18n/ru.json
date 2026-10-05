@@ -150,6 +150,10 @@
       "columnSeries": "Серия",
       "columnLabel": "Подпись",
       "columnValue": "Значение",
+      "columnX": "X",
+      "columnY": "Y",
+      "columnRadius": "Радиус",
+      "legendLabel": "Легенда",
       "lineLabel": "Линейный график",
       "barLabel": "Столбчатая диаграмма",
       "donutLabel": "Кольцевая диаграмма",
@@ -160,6 +164,8 @@
       "scatterRoleDescription": "точечная диаграмма",
       "pointWithCategory": "{series} · {category}: {value}",
       "point": "{series}: {value}",
+      "scatterPoint": "{series}: ({x}, {y})",
+      "bubblePoint": "{series}: ({x}, {y}), радиус {radius}",
       "slice": "{label}: {value} ({percent} %)"
     },
     "colorInput": {

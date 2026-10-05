@@ -13,6 +13,7 @@ import type { KuiTooltipPlacement } from './kui-tooltip-placement.type';
     '[attr.id]': 'tooltipId()',
     '[attr.data-kui-placement]': 'placement()',
     '[class.kui-tooltip--touch]': 'touchEnabled()',
+    '[class.kui-tooltip--hoverable]': 'hoverable()',
   },
 })
 export class KuiTooltipSurface {
@@ -27,4 +28,7 @@ export class KuiTooltipSurface {
 
   /** @internal Allows an explicitly touch-enabled tooltip to render at mobile widths. */
   readonly touchEnabled = input(false, { transform: booleanAttribute });
+
+  /** @internal Lets the pointer rest on the tooltip, as WCAG 1.4.13 asks for hover content. */
+  readonly hoverable = input(false, { transform: booleanAttribute });
 }

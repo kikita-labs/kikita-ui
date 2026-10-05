@@ -1,3 +1,14 @@
+/** The marker shape of a series in `kui-line-chart` and `kui-scatter-chart` with more than one series. */
+export type KuiChartMarkerShape =
+  | 'circle'
+  | 'square'
+  | 'diamond'
+  | 'triangle'
+  | 'triangle-down'
+  | 'plus'
+  | 'cross'
+  | 'star';
+
 /**
  * Formats a raw numeric value for axis ticks, tooltip text, and legend labels. Not used for the
  * alt-table representation, which always shows exact values -- see `docs/chart.md`.
@@ -39,7 +50,7 @@ export interface KuiChartCartesianSeries {
   readonly id?: string;
   /** Display name, shown in the legend and default tooltip text. */
   readonly name: string;
-  /** CSS color override. Defaults to one of the five `--kui-chart-series-*` tokens, by index. */
+  /** CSS color override. Defaults to one of the eight `--kui-chart-series-*` tokens, by index. */
   readonly color?: string;
   /** Values aligned with the chart's `categories`. `null` marks a gap in this series. */
   readonly data: readonly (number | null)[];
@@ -64,7 +75,7 @@ export interface KuiChartScatterSeries {
   readonly id?: string;
   /** Display name, shown in the legend and default tooltip text. */
   readonly name: string;
-  /** CSS color override. Defaults to one of the five `--kui-chart-series-*` tokens, by index. */
+  /** CSS color override. Defaults to one of the eight `--kui-chart-series-*` tokens, by index. */
   readonly color?: string;
   /** Coordinates for this series. */
   readonly points: readonly KuiChartScatterPoint[];
@@ -82,7 +93,7 @@ export interface KuiChartSlice {
   readonly label: string;
   /** Share value. Negative values are dropped during normalization. */
   readonly value: number;
-  /** CSS color override. Defaults to one of the five `--kui-chart-series-*` tokens, by index. */
+  /** CSS color override. Defaults to one of the eight `--kui-chart-series-*` tokens, by index. */
   readonly color?: string;
 }
 
@@ -97,13 +108,13 @@ export interface KuiChartPoint {
   readonly seriesName: string;
   /** Category label, for `kui-line-chart`/`kui-bar-chart` points only. */
   readonly categoryLabel?: string;
-  /** Horizontal-axis position, for `kui-scatter-chart` points only. */
+  /** Horizontal-axis value in the series' data units, for `kui-scatter-chart` points only. */
   readonly x?: number;
-  /** Vertical-axis position, for `kui-scatter-chart` points only. */
+  /** Vertical-axis value in the series' data units, for `kui-scatter-chart` points only. */
   readonly y?: number;
   /** The plotted value -- a cartesian point's `y`, a bar's height, or a donut slice's value. */
   readonly value: number;
-  /** Bubble radius, for `kui-scatter-chart` points with `bubble` enabled only. */
+  /** The `r` of the data point, for `kui-scatter-chart` points with `bubble` enabled only. */
   readonly r?: number;
 }
 
@@ -125,6 +136,16 @@ export interface KuiChartLegendEntry {
   readonly color?: string;
   /** `true` when this item is currently hidden (its data is excluded from the chart). */
   readonly hidden: boolean;
+  /**
+   * The marker shape of the series, set when the chart tells series apart by shape as well as colour
+   * (line and scatter charts with more than one series). A legend draws its swatch in this shape.
+   */
+  readonly shape?: KuiChartMarkerShape;
+  /**
+   * Index of the hatch pattern of the series, set when the chart fills series with patterns
+   * (`patterns` is on). A legend draws its swatch with the same pattern.
+   */
+  readonly pattern?: number;
 }
 
 /**

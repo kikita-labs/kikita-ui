@@ -437,5 +437,25 @@
         </div>
       </app-playground-example-card>
     </section>
+
+    <section
+      class="chart-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chart.examples.dense' | transloco"
+    >
+      <app-playground-example-card [heading]="'chart.examples.dense' | transloco">
+        <app-chart-dense-examples [data]="catalogue" />
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="chart-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chart.examples.stress' | transloco"
+    >
+      <app-playground-example-card [heading]="'chart.examples.stress' | transloco">
+        <app-chart-stress-examples [data]="catalogue" />
+      </app-playground-example-card>
+    </section>
   </div>
 </main>

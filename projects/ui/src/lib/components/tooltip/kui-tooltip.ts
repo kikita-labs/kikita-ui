@@ -9,15 +9,13 @@ import {
   input,
   numberAttribute,
   PLATFORM_ID,
-  Renderer2,
   signal,
 } from '@angular/core';
 
 import { KuiDefaults } from '../../providers/kui-defaults';
 import { kuiNextId } from '../../utils/kui-id.util';
-import type { KuiTooltipOverlayHandle } from './kui-tooltip-overlay.util';
-import { createKuiTooltipOverlay } from './kui-tooltip-overlay.util';
 import type { KuiTooltipPlacement } from './kui-tooltip-placement.type';
+import { KuiTooltipPresenter } from './kui-tooltip-presenter';
 import type { KuiTooltipTrigger } from './kui-tooltip-trigger.type';
 import { KuiTooltipTriggerType } from './kui-tooltip-trigger.type';
 
@@ -30,6 +28,9 @@ function optionalTooltipOffset(value: unknown): number | undefined {
 /**
  * Shows a text tooltip on hover and keyboard focus, with an adaptive tap trigger for touch
  * input. Keep the content short and non-interactive; use `kuiPopover` for interactive content.
+ *
+ * The tooltip meets WCAG 1.4.13: the pointer can move onto it without it closing, Escape dismisses
+ * it without moving focus, and it stays until the trigger is left or it is dismissed.
  *
  * @example
  * ```html
@@ -45,7 +46,7 @@ function optionalTooltipOffset(value: unknown): number | undefined {
     '(pointerenter)': 'showOnPointerEnter($event)',
     '(pointerleave)': 'hideOnPointerLeave($event)',
     '(focusin)': 'showOnFocus()',
-    '(focusout)': 'hide()',
+    '(focusout)': 'hideOnFocusOut()',
     '(click)': 'onClick($event)',
   },
 })
@@ -69,7 +70,6 @@ export class KuiTooltip implements OnDestroy {
 
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly overlay = inject(Overlay);
-  private readonly renderer = inject(Renderer2);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
   private readonly tooltipDefaults = inject(KuiDefaults).get('tooltip');
@@ -80,7 +80,7 @@ export class KuiTooltip implements OnDestroy {
   protected readonly effectiveTrigger = computed(
     () => this.triggerType() ?? this.tooltipDefaults()?.triggerType ?? KuiTooltipTriggerType.Auto,
   );
-  private tooltipOverlay: KuiTooltipOverlayHandle | null = null;
+  private presenter: KuiTooltipPresenter | null = null;
   private pointerType: string | null = null;
   private tapDismissalCleanup: (() => void) | null = null;
 
@@ -110,8 +110,15 @@ export class KuiTooltip implements OnDestroy {
 
     const trigger = this.effectiveTrigger();
     if (trigger === KuiTooltipTriggerType.Auto || trigger === KuiTooltipTriggerType.Hover) {
-      this.hide();
+      this.presenter?.resetDismissed();
+      this.presenter?.scheduleClose();
     }
+  }
+
+  /** @internal */
+  protected hideOnFocusOut(): void {
+    this.presenter?.resetDismissed();
+    this.hide();
   }
 
   /** @internal */
@@ -137,7 +144,7 @@ export class KuiTooltip implements OnDestroy {
       !text ||
       !isPlatformBrowser(this.platformId) ||
       this.effectiveTrigger() === KuiTooltipTriggerType.None ||
-      this.tooltipOverlay
+      this.presenter?.isOpen
     )
       return;
     this.showWithText(text);
@@ -156,59 +163,60 @@ export class KuiTooltip implements OnDestroy {
   }
 
   private toggleFromTap(): void {
-    if (this.tooltipOverlay) {
+    if (this.presenter?.isOpen) {
       this.hide();
       return;
     }
 
     this.show();
-    if (this.tooltipOverlay) this.startTapDismissal();
+    if (this.presenter?.isOpen) {
+      this.presenter.pin();
+      this.startTapDismissal();
+    }
   }
 
   /** Show tooltip with dynamic text (used by kuiSlider for value display). */
   showWithText(text: string): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    if (this.tooltipOverlay) {
-      this.tooltipOverlay.updateText(text);
-      this.tooltipOverlay.updatePosition();
+
+    const presenter = this.ensurePresenter();
+
+    if (presenter.isOpen) {
+      presenter.updateText(text);
+      presenter.updatePosition();
       return;
     }
-    this.tooltipOverlay = createKuiTooltipOverlay({
-      anchor: this.el.nativeElement,
-      id: this.tooltipId,
-      overlay: this.overlay,
-      placement: this.placement() ?? this.tooltipDefaults()?.placement ?? 'top',
-      offset: this.offset() ?? this.tooltipDefaults()?.offset,
-      text,
-      touchEnabled:
-        this.effectiveTrigger() === KuiTooltipTriggerType.Auto ||
-        this.effectiveTrigger() === KuiTooltipTriggerType.Click,
-    });
-    this.visibleTooltipId.set(this.tooltipId);
+
+    presenter.show(this.el.nativeElement, text, this.tooltipId);
+    if (presenter.isOpen) this.visibleTooltipId.set(this.tooltipId);
   }
 
   /** Update text of an already-visible tooltip. */
   updateText(text: string): void {
-    this.tooltipOverlay?.updateText(text);
+    this.presenter?.updateText(text);
   }
 
   /** @internal */
   protected hide(): void {
     this.stopTapDismissal();
-    if (!this.tooltipOverlay) return;
-    const { overlayRef, tooltipEl } = this.tooltipOverlay;
-    this.tooltipOverlay = null;
+    if (!this.presenter?.isOpen) return;
     this.visibleTooltipId.set(null);
-    this.renderer.addClass(tooltipEl, 'is-hiding');
-    let removed = false;
-    const remove = () => {
-      if (!removed) {
-        removed = true;
-        overlayRef.dispose();
-      }
-    };
-    tooltipEl.addEventListener('animationend', remove, { once: true });
-    setTimeout(remove, 200);
+    this.presenter.hide();
+  }
+
+  private ensurePresenter(): KuiTooltipPresenter {
+    this.presenter ??= new KuiTooltipPresenter({
+      overlay: this.overlay,
+      document: this.document,
+      placement: () => this.placement() ?? this.tooltipDefaults()?.placement ?? 'top',
+      offset: () => this.offset() ?? this.tooltipDefaults()?.offset,
+      touchEnabled: () =>
+        this.effectiveTrigger() === KuiTooltipTriggerType.Auto ||
+        this.effectiveTrigger() === KuiTooltipTriggerType.Click,
+      onHide: () => this.visibleTooltipId.set(null),
+    });
+
+    return this.presenter;
   }
 
   ngOnDestroy(): void {
@@ -220,14 +228,14 @@ export class KuiTooltip implements OnDestroy {
 
     const onDocumentClick = (event: MouseEvent): void => {
       const target = event.target as Node | null;
-      const tooltip = this.tooltipOverlay?.tooltipEl;
+      const tooltip = this.presenter?.surface;
       if (target && (this.el.nativeElement.contains(target) || tooltip?.contains(target))) return;
 
       this.hide();
     };
     const onDocumentFocusIn = (event: FocusEvent): void => {
       const target = event.target as Node | null;
-      const tooltip = this.tooltipOverlay?.tooltipEl;
+      const tooltip = this.presenter?.surface;
       if (target && (this.el.nativeElement.contains(target) || tooltip?.contains(target))) return;
 
       this.hide();

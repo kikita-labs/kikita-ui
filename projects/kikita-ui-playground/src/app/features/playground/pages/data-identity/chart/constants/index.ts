@@ -1,5 +1,6 @@
 export { CHART_AXES_EXAMPLES } from './chart-axes-examples.const';
 export { CHART_SIZES } from './chart-sizes.const';
+export { CHART_DENSE_COUNT, CHART_STRESS_SIZES } from './chart-stress.const';
 export {
   CHART_ANNUAL_REVENUE,
   CHART_BALANCE_GAINS,

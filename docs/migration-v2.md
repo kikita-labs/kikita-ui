@@ -158,6 +158,19 @@ The tokens of 2.0 keep their names, with these exceptions. The colour tokens hav
 - Reading a global token with a literal fallback in your own CSS (`var(--kui-space-4, 12px)`) still works;
   the library no longer does it, because the default theme always defines these tokens.
 
+## Chart behaviour changes
+
+- Arrow keys now move DOM focus, and Up and Down move between series (Left and Right move along a
+  series); previously every arrow moved along one flat list.
+- `KuiChartPoint.x` and `y` passed to a `tooltip` formatter are data units (they were SVG pixels), and
+  `r` is passed. The default scatter text is `{series}: ({x}, {y})`.
+- Bubble `r` is in CSS pixels (it was viewBox units); consumers own clamping.
+- Line and bar charts measure their container, so axis text keeps a fixed pixel size (13px by default,
+  it was 11px scaled with the viewBox). Set `--kui-chart-axis-text-font-size` to change it.
+- Every tooltip closes on `Escape`; `[kuiTooltip]` tooltips also stay open while the pointer is on them. Chart tooltips still follow the pointer, but a line or scatter point (and a bar) shows its tooltip only while the pointer is on it, not near it.
+- `--kui-chart-legend-swatch-radius` is gone (the swatch is a marker shape); use
+  `--kui-chart-legend-swatch-size`.
+
 ## Names from 2.0 prereleases
 
 The migration also maps names that only existed in 2.0 prereleases. The two chart legend entries

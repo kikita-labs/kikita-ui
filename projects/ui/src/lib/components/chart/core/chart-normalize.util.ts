@@ -1,5 +1,6 @@
 import type { KuiChartCartesianSeries, KuiChartScatterSeries, KuiChartSlice } from '../chart.types';
 import { resolveSeriesColor } from './chart-color.util';
+import { warnChartOnce } from './chart-dev-warn.util';
 
 /**
  * Normalized point on a line/bar/scatter chart, used internally by the shared engine (tooltip,
@@ -49,22 +50,55 @@ export interface KuiChartNormalizedCartesianSeries {
 
 /**
  * Resolves a stable per-item key from an optional explicit `id`, falling back to `label` (e.g.
- * series `name`, slice `label`). When two items share the same fallback and neither has an
- * explicit `id`, an index suffix is appended so keys stay unique -- this keeps `@for` tracking
- * and internal `Set`-based hide/show state from colliding, but hide/show and focus-restoration
- * behavior across data updates is only guaranteed when `id` is explicit and stable; see
+ * series `name`, slice `label`). Every key is unique: a repeat of a base key gets a `#n` suffix, and
+ * the suffix is raised until it does not meet any key already handed out, so the inputs `a`, `a`,
+ * `a#1` give `a`, `a#1`, `a#1#1` and never the same key twice. This keeps `@for` tracking and the
+ * internal `Set`-based hide/show state from colliding, but hide/show and focus restoration across
+ * data updates are only guaranteed when `id` is explicit and stable; see
  * {@link KuiChartCartesianSeries} JSDoc.
  */
 export function resolveStableIds(
   items: readonly { readonly id?: string; readonly label: string }[],
 ): readonly string[] {
-  const seen = new Map<string, number>();
+  const used = new Set<string>();
+  const repeats = new Map<string, number>();
+
   return items.map((item) => {
-    const key = item.id ?? item.label;
-    const count = seen.get(key) ?? 0;
-    seen.set(key, count + 1);
-    return count === 0 ? key : `${key}:${count}`;
+    const base = item.id ?? item.label;
+    let repeat = repeats.get(base) ?? 0;
+    let key = repeat === 0 ? base : `${base}#${repeat}`;
+
+    while (used.has(key)) {
+      repeat += 1;
+      key = `${base}#${repeat}`;
+    }
+
+    repeats.set(base, repeat + 1);
+    used.add(key);
+
+    return key;
   });
+}
+
+/** Warns, in development mode, about explicit ids that are used more than once. */
+function warnDuplicateIds(
+  kind: string,
+  items: readonly { readonly id?: string; readonly label: string }[],
+): void {
+  const seen = new Set<string>();
+
+  for (const item of items) {
+    if (item.id === undefined) continue;
+
+    if (seen.has(item.id)) {
+      warnChartOnce(
+        `${kind}:duplicate-id:${item.id}`,
+        `${kind}: the id "${item.id}" is used by more than one item. Ids must be unique; the later items get a "#n" suffix, so their hidden state and colour do not survive a data update.`,
+      );
+    }
+
+    seen.add(item.id);
+  }
 }
 
 function isFiniteNumber(value: unknown): value is number {
@@ -83,11 +117,22 @@ export function normalizeCartesianSeries(
   categories: readonly string[],
   kind: 'line' | 'bar',
 ): readonly KuiChartNormalizedCartesianSeries[] {
-  const ids = resolveStableIds(series.map((s) => ({ id: s.id, label: s.name })));
+  const identities = series.map((s) => ({ id: s.id, label: s.name }));
+  const ids = resolveStableIds(identities);
+
+  warnDuplicateIds(`kui-${kind}-chart`, identities);
 
   return series.map((s, seriesIndex) => {
     const color = resolveSeriesColor(seriesIndex, s.color);
     const length = Math.min(s.data.length, categories.length);
+
+    if (s.data.length !== categories.length) {
+      warnChartOnce(
+        `kui-${kind}-chart:length:${s.name}:${s.data.length}:${categories.length}`,
+        `kui-${kind}-chart: the series "${s.name}" has ${s.data.length} values for ${categories.length} categories; the longer side is cut to ${length}.`,
+      );
+    }
+
     const slots: (KuiChartCartesianPoint | null)[] = [];
 
     for (let categoryIndex = 0; categoryIndex < length; categoryIndex++) {
@@ -133,7 +178,10 @@ export interface KuiChartNormalizedScatterSeries {
 export function normalizeScatterSeries(
   series: readonly KuiChartScatterSeries[],
 ): readonly KuiChartNormalizedScatterSeries[] {
-  const ids = resolveStableIds(series.map((s) => ({ id: s.id, label: s.name })));
+  const identities = series.map((s) => ({ id: s.id, label: s.name }));
+  const ids = resolveStableIds(identities);
+
+  warnDuplicateIds('kui-scatter-chart', identities);
 
   return series.map((s, seriesIndex) => {
     const color = resolveSeriesColor(seriesIndex, s.color);
@@ -168,7 +216,10 @@ export function normalizeScatterSeries(
  * the all-zero case (see chart-scale.util's `computeDonutShares`) without re-deriving identity.
  */
 export function normalizeSlices(slices: readonly KuiChartSlice[]): readonly KuiChartSlicePoint[] {
-  const ids = resolveStableIds(slices.map((s) => ({ id: s.id, label: s.label })));
+  const identities = slices.map((s) => ({ id: s.id, label: s.label }));
+  const ids = resolveStableIds(identities);
+
+  warnDuplicateIds('kui-donut-chart', identities);
 
   return slices
     .map((s, index) => ({ slice: s, id: ids[index], index }))

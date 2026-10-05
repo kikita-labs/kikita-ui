@@ -5,7 +5,12 @@ import { By } from '@angular/platform-browser';
 
 import { describe, expect, it } from 'vitest';
 
-import type { KuiChartCartesianSeries, KuiChartTooltipFormatter } from '../chart.types';
+import type {
+  KuiChartAxesOptions,
+  KuiChartCartesianSeries,
+  KuiChartTooltipFormatter,
+} from '../chart.types';
+import { KUI_CHART_MARK_LIMIT } from '../core/chart-pointer.util';
 import { KuiLineChart } from './kui-line-chart';
 
 @Component({
@@ -16,6 +21,8 @@ import { KuiLineChart } from './kui-line-chart';
       [categories]="categories()"
       [loading]="loading()"
       [area]="area()"
+      [patterns]="patterns()"
+      [axes]="axes()"
       [tooltip]="tooltip()"
     />
   `,
@@ -28,6 +35,8 @@ class HostComponent {
   readonly loading = signal(false);
   readonly area = signal(false);
   readonly tooltip = signal<KuiChartTooltipFormatter | undefined>(undefined);
+  readonly axes = signal<KuiChartAxesOptions>({});
+  readonly patterns = signal(false);
 }
 
 function createFixture(): ComponentFixture<HostComponent> {
@@ -37,8 +46,8 @@ function createFixture(): ComponentFixture<HostComponent> {
   return fixture;
 }
 
-function marks(fixture: ComponentFixture<HostComponent>): SVGCircleElement[] {
-  return Array.from(fixture.nativeElement.querySelectorAll('circle.kui-chart__mark'));
+function marks(fixture: ComponentFixture<HostComponent>): SVGPathElement[] {
+  return Array.from(fixture.nativeElement.querySelectorAll('path.kui-chart__mark'));
 }
 
 function chartInstance(fixture: ComponentFixture<HostComponent>): KuiLineChart {
@@ -48,9 +57,13 @@ function chartInstance(fixture: ComponentFixture<HostComponent>): KuiLineChart {
 describe('KuiLineChart', () => {
   it('uses a generic accessible name when ariaLabel is omitted', () => {
     const fixture = createFixture();
-    const graphic = fixture.nativeElement.querySelector('.kui-chart__graphic') as HTMLElement;
+    const graphic = fixture.nativeElement.querySelector('svg.kui-chart__svg') as SVGElement;
 
+    expect(graphic.getAttribute('role')).toBe('graphics-document');
     expect(graphic.getAttribute('aria-label')).toBe('Line chart');
+    expect(
+      fixture.nativeElement.querySelector('.kui-chart__graphic')?.getAttribute('role'),
+    ).toBeNull();
   });
 
   it('renders one mark per non-gap data point', () => {
@@ -232,8 +245,8 @@ describe('KuiLineChart', () => {
     const chart = chartInstance(fixture);
 
     expect(chart.legendItems()).toEqual([
-      { id: 'a', label: 'A', color: 'var(--kui-chart-series-1)', hidden: false },
-      { id: 'b', label: 'B', color: 'var(--kui-chart-series-2)', hidden: false },
+      { id: 'a', label: 'A', color: 'var(--kui-chart-series-1)', hidden: false, shape: 'circle' },
+      { id: 'b', label: 'B', color: 'var(--kui-chart-series-2)', hidden: false, shape: 'square' },
     ]);
 
     chart.setHoveredLegendId('b');
@@ -243,5 +256,147 @@ describe('KuiLineChart', () => {
     expect(chart.legendItems()[0].hidden).toBe(true);
     // Hidden items stay in legendItems() -- toggleLegendItem is how a consumer brings one back.
     expect(chart.legendItems()).toHaveLength(2);
+  });
+  it('draws the marks of different series in different shapes, and a single series as circles', () => {
+    const fixture = createFixture();
+    const circle = marks(fixture)[0].getAttribute('d');
+
+    fixture.componentInstance.series.set([
+      { id: 'a', name: 'A', data: [1, 2, 3] },
+      { id: 'b', name: 'B', data: [4, 5, 6] },
+    ]);
+    fixture.detectChanges();
+    const paths = marks(fixture).map((mark) => mark.getAttribute('d'));
+
+    expect(new Set(paths).size).toBe(2);
+    expect(paths).toContain(circle);
+  });
+
+  it('keeps the shape of a series when another series is hidden', () => {
+    const fixture = createFixture();
+    fixture.componentInstance.series.set([
+      { id: 'a', name: 'A', data: [1, 2, 3] },
+      { id: 'b', name: 'B', data: [4, 5, 6] },
+    ]);
+    fixture.detectChanges();
+    const before = marks(fixture)
+      .filter((mark) => mark.getAttribute('aria-label')?.startsWith('B'))
+      .map((mark) => mark.getAttribute('d'));
+
+    (fixture.nativeElement.querySelectorAll('.kui-chart__legend-item')[0] as HTMLElement).click();
+    fixture.detectChanges();
+    const after = marks(fixture).map((mark) => mark.getAttribute('d'));
+
+    expect(after).toEqual(before);
+  });
+
+  it('marks a hidden series in the legend with more than its pressed state', () => {
+    const fixture = createFixture();
+    fixture.componentInstance.series.set([
+      { id: 'a', name: 'A', data: [1, 2, 3] },
+      { id: 'b', name: 'B', data: [4, 5, 6] },
+    ]);
+    fixture.detectChanges();
+    const item = fixture.nativeElement.querySelector('.kui-chart__legend-item') as HTMLElement;
+
+    item.click();
+    fixture.detectChanges();
+
+    expect(item.classList.contains('kui-chart__legend-item--hidden')).toBe(true);
+    expect(item.getAttribute('aria-pressed')).toBe('false');
+    expect(item.querySelector('svg.kui-chart__legend-swatch')).not.toBeNull();
+  });
+
+  it('names the legend group and hides the axes from assistive technology', () => {
+    const fixture = createFixture();
+    fixture.componentInstance.series.set([
+      { id: 'a', name: 'A', data: [1, 2, 3] },
+      { id: 'b', name: 'B', data: [4, 5, 6] },
+    ]);
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('.kui-chart__legend')?.getAttribute('aria-label'),
+    ).toBe('Legend');
+    const axes = Array.from(fixture.nativeElement.querySelectorAll('g[kuiChartAxis]'));
+
+    expect(axes.length).toBeGreaterThan(0);
+    for (const axis of axes) {
+      expect((axis as Element).getAttribute('aria-hidden')).toBe('true');
+    }
+  });
+
+  it('draws the axis titles from axes.xTitle and axes.yTitle', () => {
+    const fixture = createFixture();
+    fixture.componentInstance.axes.set({ xTitle: 'Weekday', yTitle: 'Sessions' });
+    fixture.detectChanges();
+    const titles = Array.from(
+      fixture.nativeElement.querySelectorAll('text.kui-chart__axis-title'),
+    ).map((title) => (title as Element).textContent?.trim());
+
+    expect(titles).toEqual(expect.arrayContaining(['Weekday', 'Sessions']));
+  });
+
+  it('draws only the mark that holds the tab stop beyond the mark limit, and moves it with the keyboard', () => {
+    const fixture = createFixture();
+    const count = KUI_CHART_MARK_LIMIT + 20;
+    fixture.componentInstance.categories.set(Array.from({ length: count }, (_, i) => `D${i}`));
+    fixture.componentInstance.series.set([
+      { id: 's', name: 'S', data: Array.from({ length: count }, (_, i) => i) },
+    ]);
+    fixture.detectChanges();
+
+    expect(marks(fixture)).toHaveLength(1);
+    expect(marks(fixture)[0].getAttribute('tabindex')).toBe('0');
+    expect(marks(fixture)[0].getAttribute('aria-label')).toBe('S · D0: 0');
+
+    const group = fixture.nativeElement.querySelector('g.kui-chart__marks');
+    group?.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }));
+    fixture.detectChanges();
+
+    expect(marks(fixture)).toHaveLength(1);
+    expect(marks(fixture)[0].getAttribute('aria-label')).toBe(`S · D${count - 1}: ${count - 1}`);
+  });
+
+  it('reads the table of a dense chart in full, whatever is drawn', () => {
+    const fixture = createFixture();
+    const count = KUI_CHART_MARK_LIMIT + 20;
+    fixture.componentInstance.categories.set(Array.from({ length: count }, (_, i) => `D${i}`));
+    fixture.componentInstance.series.set([
+      { id: 's', name: 'S', data: Array.from({ length: count }, (_, i) => i) },
+    ]);
+    fixture.detectChanges();
+    (fixture.nativeElement.querySelector('.kui-chart__toolbar button') as HTMLElement).click();
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelectorAll('tbody tr')).toHaveLength(count);
+  });
+
+  it('fills the area with the hatch of the series when patterns is on', () => {
+    const fixture = createFixture();
+    fixture.componentInstance.area.set(true);
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector('path.kui-chart__area') as SVGElement;
+
+    expect(area.getAttribute('fill')).toContain('-area-');
+
+    fixture.componentInstance.patterns.set(true);
+    fixture.detectChanges();
+
+    expect(area.getAttribute('fill')).toContain('-pattern-');
+  });
+
+  it('gives every series its own dash for forced colours', () => {
+    const fixture = createFixture();
+    fixture.componentInstance.series.set([
+      { id: 'a', name: 'A', data: [1, 2, 3] },
+      { id: 'b', name: 'B', data: [4, 5, 6] },
+    ]);
+    fixture.detectChanges();
+    const dashes = Array.from(fixture.nativeElement.querySelectorAll('path.kui-chart__line')).map(
+      (line) => (line as SVGElement).style.getPropertyValue('--_kui-chart-dash'),
+    );
+
+    expect(new Set(dashes).size).toBe(2);
   });
 });

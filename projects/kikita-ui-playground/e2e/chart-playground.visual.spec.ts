@@ -46,6 +46,8 @@ test('server-renders the Chart catalogue and hydrates without console errors', a
     'Tooltip and value formatting',
     'Legend',
     'Alternative table',
+    'Dense data, narrow containers, titles and patterns',
+    'Stress test',
   ]) {
     await expect(getGroup(page, heading)).toBeVisible();
   }
@@ -63,7 +65,7 @@ test('renders the minimal line chart with defaults and captures it @visual', asy
     'aria-label',
     'Sessions · Mon: 120',
   );
-  await expect(chart.locator('svg')).toHaveAttribute('viewBox', '0 0 480 280');
+  expect((await chart.boundingBox())?.height).toBeCloseTo(280, 0);
   await expect(example.getByRole('button', { name: /Sessions/ })).toHaveCount(0);
   await expect(example.getByRole('button', { name: 'Table', exact: true })).toBeVisible();
   await expect(example).toHaveScreenshot('chart-minimal-desktop.png', { animations: 'disabled' });
@@ -110,7 +112,7 @@ test('renders line and area variants and toggles series through the legend @visu
   await expect(chart.locator('.kui-chart__line.kui-chart__series--dimmed')).toHaveCount(2);
   await page.mouse.move(2, 2);
   await expect(chart.locator('.kui-chart__series--dimmed')).toHaveCount(0);
-  await chart.locator(markSelector).nth(1).hover();
+  await chart.locator(markSelector).nth(1).hover({ force: true });
   await expect(three.getByRole('button', { name: 'Sign-ups', exact: true })).toHaveClass(
     /kui-chart__legend-item--active/,
   );
@@ -223,9 +225,9 @@ test('renders scatter and bubble charts @visual', async ({ page }) => {
   const scatter = getChart(getGroup(example, 'Scatter, two series'), 'Age and income by plan');
   await expect(scatter).toHaveAttribute('aria-roledescription', 'scatter chart');
   await expect(scatter.locator(markSelector)).toHaveCount(10);
-  await expect(
-    scatter.locator('circle[aria-hidden="true"]:not(.kui-chart__grid-line)'),
-  ).toHaveCount(10);
+  await expect(scatter.locator('path.kui-chart__mark--decoration[aria-hidden="true"]')).toHaveCount(
+    10,
+  );
 
   const single = getChart(
     getGroup(example, 'Scatter, single series'),
@@ -239,10 +241,10 @@ test('renders scatter and bubble charts @visual', async ({ page }) => {
     'Age and income by plan with bubble sizes',
   );
   await expect(bubble.locator(markSelector)).toHaveCount(10);
-  const radii = await bubble
-    .locator('circle[aria-hidden="true"]')
-    .evaluateAll((circles) => circles.map((circle) => circle.getAttribute('r')));
-  expect(new Set(radii).size).toBeGreaterThan(3);
+  const outlines = await bubble
+    .locator('path.kui-chart__mark--decoration')
+    .evaluateAll((paths) => paths.map((path) => path.getAttribute('d')));
+  expect(new Set(outlines).size).toBeGreaterThan(3);
 
   await expect(example).toHaveScreenshot('chart-scatter-bubble-desktop.png', {
     animations: 'disabled',
@@ -308,7 +310,7 @@ test('shows axis and grid-line configurations @visual', async ({ page }) => {
     getGroup(example, 'Both axes hidden'),
     'Sessions per weekday for axes configuration',
   );
-  await expect(noAxes.locator('.kui-chart__axis-text')).toHaveCount(0);
+  await expect(noAxes.locator('.kui-chart__axis-text:not(.kui-chart__axis-probe)')).toHaveCount(0);
 
   const noGrid = getChart(
     getGroup(example, 'No grid lines'),
@@ -326,7 +328,7 @@ test('shows axis and grid-line configurations @visual', async ({ page }) => {
 
 test('applies nominal sizes to every chart type @visual', async ({ page }) => {
   const example = getGroup(page, 'Sizes');
-  const dimensions = { sm: '0 0 320 200', md: '0 0 480 280', lg: '0 0 640 360' } as const;
+  const heights = { sm: 200, md: 280, lg: 360 } as const;
   const donutDimensions = { sm: '0 0 200 200', md: '0 0 280 280', lg: '0 0 360 360' } as const;
 
   for (const [type, label] of [
@@ -340,10 +342,11 @@ test('applies nominal sizes to every chart type @visual', async ({ page }) => {
         getGroup(example, `${label}, size ${size}`),
         `${label} chart, size ${size}`,
       );
-      await expect(chart.locator('svg')).toHaveAttribute(
-        'viewBox',
-        type === 'donut' ? donutDimensions[size] : dimensions[size],
-      );
+      if (type === 'donut') {
+        await expect(chart).toHaveAttribute('viewBox', donutDimensions[size]);
+      } else {
+        expect((await chart.boundingBox())?.height).toBeCloseTo(heights[size], 0);
+      }
     }
   }
 
@@ -361,6 +364,17 @@ test('shows loading skeletons and empty compositions for every type @visual', as
   await expect(emptyRow.getByRole('button', { name: 'Table' })).toHaveCount(0);
 
   await expect(example).toHaveScreenshot('chart-states-desktop.png', { animations: 'disabled' });
+});
+
+test('shows dense data, axis titles, narrow containers and hatch patterns @visual', async ({
+  page,
+}) => {
+  const example = getGroup(page, 'Dense data, narrow containers, titles and patterns');
+
+  await expect(example.locator('path.kui-chart__bar').first()).toBeAttached();
+  await expect(example.locator('pattern')).not.toHaveCount(0);
+  await expect(example.locator('text.kui-chart__axis-title')).toHaveText(['Sessions', 'Weekday']);
+  await expect(example).toHaveScreenshot('chart-dense-desktop.png', { animations: 'disabled' });
 });
 
 test('formats values and tooltips with consumer formatters @visual', async ({ page }) => {
@@ -417,10 +431,11 @@ test('shows a shared tooltip on pointer hover and keyboard focus', async ({ page
   const marks = chart.locator(markSelector);
   const tooltip = page.getByRole('tooltip');
 
-  await marks.nth(1).hover();
+  // The plot resolves the pointer, so a mark never receives it itself.
+  await marks.nth(1).hover({ force: true });
   await expect(tooltip).toHaveText('Sessions · Tue: 180');
   await expect(tooltip).toHaveCount(1);
-  await marks.nth(2).hover();
+  await marks.nth(2).hover({ force: true });
   await expect(tooltip).toHaveText('Sessions · Wed: 150');
   await expect(tooltip).toHaveCount(1);
 
@@ -479,11 +494,12 @@ test('moves the roving tab stop with arrow, Home, and End keys and re-enters the
   await expect(marks.nth(5)).toHaveAttribute('tabindex', '0');
   await page.keyboard.press('Home');
   await expect(marks.nth(0)).toHaveAttribute('tabindex', '0');
+  // One series: there is no other series to move to, so Up and Down keep the position.
   await page.keyboard.press('ArrowUp');
+  await expect(marks.nth(0)).toHaveAttribute('tabindex', '0');
+  await page.keyboard.press('ArrowRight');
   await expect(marks.nth(1)).toHaveAttribute('tabindex', '0');
 
-  // DOM focus stays on the first mark (see the fixme below), so move it to the Table button
-  // directly before re-entering with Shift+Tab.
   const table = example.getByRole('button', { name: 'Table', exact: true });
   await table.focus();
   await page.keyboard.press('Shift+Tab');
@@ -491,9 +507,7 @@ test('moves the roving tab stop with arrow, Home, and End keys and re-enters the
   await expect(page.getByRole('tooltip')).toHaveText('Sessions · Tue: 180');
 });
 
-// Known library gap (record only, fix belongs to Plan 24): arrow keys update the roving tab stop
-// but never move DOM focus, because the keydown handlers call focus() on an ElementRef.
-test.fixme('moves DOM focus to the adjacent mark on ArrowRight', async ({ page }) => {
+test('moves DOM focus to the adjacent mark on ArrowRight', async ({ page }) => {
   const marks = getChart(getGroup(page, 'Minimal chart'), 'Sessions per weekday').locator(
     markSelector,
   );
@@ -573,7 +587,7 @@ test('switches every chart type to its exact-value alternative table and back @v
 
   const bubble = getGroup(example, 'Bubble table');
   await bubble.getByRole('button', { name: 'Table', exact: true }).click();
-  await expect(bubble.getByRole('columnheader')).toHaveText(['Series', 'X', 'Y', 'R']);
+  await expect(bubble.getByRole('columnheader')).toHaveText(['Series', 'X', 'Y', 'Radius']);
 
   const donut = getGroup(example, 'Donut table');
   await donut.getByRole('button', { name: 'Table', exact: true }).click();
@@ -685,7 +699,10 @@ async function readValueTicks(chart: Locator): Promise<string[]> {
 }
 
 function getGroup(container: Page | Locator, accessibleName: string): Locator {
-  return container.getByRole('group', { name: accessibleName, exact: true });
+  // A chart's own legend is a group named "Legend" too, so leave it out.
+  return container.locator(
+    `[role="group"][aria-label="${accessibleName}"]:not(.kui-chart__legend)`,
+  );
 }
 
 function getChart(container: Page | Locator, accessibleName: string): Locator {

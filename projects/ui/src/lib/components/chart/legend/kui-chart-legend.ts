@@ -1,12 +1,14 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, contentChild, input, TemplateRef, ViewEncapsulation } from '@angular/core';
 
+import { injectKuiMessages } from '../../../i18n/inject-kui-messages';
 import type { KuiChartLegendSource } from '../chart.types';
+import { KuiChartSwatch } from '../core/kui-chart-swatch';
 import { KuiChartLegendItem } from './kui-chart-legend-item';
 
 @Component({
   selector: 'kui-chart-legend',
-  imports: [NgTemplateOutlet],
+  imports: [KuiChartSwatch, NgTemplateOutlet],
   templateUrl: './kui-chart-legend.html',
   host: { class: 'kui-chart-legend' },
   encapsulation: ViewEncapsulation.None,
@@ -36,6 +38,9 @@ export class KuiChartLegend {
    * `kui-*-chart` component (they all implement `KuiChartLegendSource`), passed through a
    * template reference variable. */
   readonly chart = input.required<KuiChartLegendSource>();
+
+  /** The chart messages in force at this point of the tree, for the name of the legend group. */
+  protected readonly t = injectKuiMessages('chart');
 
   protected readonly itemTemplate = contentChild(KuiChartLegendItem, {
     read: TemplateRef,

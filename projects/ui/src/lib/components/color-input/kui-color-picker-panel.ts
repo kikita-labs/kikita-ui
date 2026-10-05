@@ -35,6 +35,9 @@ export interface KuiColorPickerPanelOptions {
 
   /** Hides the tooltip. */
   readonly hideTooltip: () => void;
+
+  /** Pointer left a tooltip trigger; the tooltip closes after a short delay. */
+  readonly leaveTooltip: () => void;
 }
 
 /**
@@ -279,7 +282,7 @@ export class KuiColorPickerPanel {
       this.unlisten.push(
         this.renderer.listen(btn, 'click', () => this.commitText(preset)),
         this.renderer.listen(btn, 'mouseenter', () => this.options.showTooltip(btn, presetLabel)),
-        this.renderer.listen(btn, 'mouseleave', () => this.options.hideTooltip()),
+        this.renderer.listen(btn, 'mouseleave', () => this.options.leaveTooltip()),
         this.renderer.listen(btn, 'focusin', () =>
           this.options.showTooltipOnFocus(btn, presetLabel),
         ),
@@ -309,7 +312,7 @@ export class KuiColorPickerPanel {
       this.renderer.listen(btn, 'mouseenter', () =>
         this.options.showTooltip(btn, this.t.copyValue),
       ),
-      this.renderer.listen(btn, 'mouseleave', () => this.options.hideTooltip()),
+      this.renderer.listen(btn, 'mouseleave', () => this.options.leaveTooltip()),
       this.renderer.listen(btn, 'focusin', () =>
         this.options.showTooltipOnFocus(btn, this.t.copyValue),
       ),

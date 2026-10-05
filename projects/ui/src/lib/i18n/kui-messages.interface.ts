@@ -157,6 +157,18 @@ export interface KuiChartMessages {
   /** Header of the value column in the data table. Default `Value`. */
   readonly columnValue: string;
 
+  /** Header of the horizontal-axis column of a scatter chart's data table. Default `X`. */
+  readonly columnX: string;
+
+  /** Header of the vertical-axis column of a scatter chart's data table. Default `Y`. */
+  readonly columnY: string;
+
+  /** Header of the radius column of a bubble chart's data table. Default `Radius`. */
+  readonly columnRadius: string;
+
+  /** Accessible name of the chart's inline legend. Default `Legend`. */
+  readonly legendLabel: string;
+
   /** Accessible name of a line chart. Default `Line chart`. */
   readonly lineLabel: string;
 
@@ -186,6 +198,12 @@ export interface KuiChartMessages {
 
   /** Tooltip and name of a mark without a category. Default `{series}: {value}`. */
   readonly point: KuiMessageFn<{ series: string; value: string }>;
+
+  /** Tooltip and name of a scatter point. Default `{series}: ({x}, {y})`. */
+  readonly scatterPoint: KuiMessageFn<{ series: string; x: string; y: string }>;
+
+  /** Tooltip and name of a bubble. Default `{series}: ({x}, {y}), radius {radius}`. */
+  readonly bubblePoint: KuiMessageFn<{ series: string; x: string; y: string; radius: string }>;
 
   /** Tooltip and name of a donut slice. Default `{label}: {value} ({percent}%)`. */
   readonly slice: KuiMessageFn<{ label: string; value: string; percent: number }>;

@@ -1,0 +1,13 @@
+@if (pattern() !== undefined) {
+  <svg:defs kuiChartPatterns [patterns]="definitions()"></svg:defs>
+  <svg:rect
+    class="kui-chart__legend-swatch-pattern"
+    x="-6"
+    y="-6"
+    width="12"
+    height="12"
+    [attr.fill]="paint()"
+  />
+} @else {
+  <svg:path [attr.d]="path()" />
+}

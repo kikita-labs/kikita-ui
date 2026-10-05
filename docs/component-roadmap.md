@@ -23,10 +23,10 @@ Phase numbers preserve historical context, not a new execution queue. Detailed
 contracts belong in the matching component documents. Historical implementation
 narratives remain in Git history before the documentation reorganization.
 
-Chart source now uses nominal SVG sizing, shape-specific loading skeletons, and
-donut angle recomputation when slices are hidden. Earlier reports of observer
-sizing, spinner loading, or frozen donut angles do not describe current source.
-See [Chart](chart.md) for current behavior and remaining limits.
+Chart source measures its container (nominal width only for server rendering), uses
+shape-specific loading skeletons, recomputes donut angles when slices are hidden,
+and tells series apart by shape, pattern and dash. See [Chart](chart.md) for
+current behavior and remaining limits.
 
 ## Known Tech Debt
 
@@ -56,13 +56,9 @@ fixing or closing them; record new evidence in state coverage.
   The report is kept as history; it no longer describes the current checkout. The legacy suite
   and its 24 baselines were retired with the legacy Playground on 2026-10-01 (Plan 10.2 Phase B).
 
-- `KuiTooltip`'s hover/focus display mode is not fully WCAG 1.4.13 (Content on Hover or
-  Focus) compliant: Escape does not dismiss the tooltip in hover/focus mode (only the touch-tap
-  branch handles Escape, via `startTapDismissal`), and the tooltip surface is not hoverable
-  (moving the pointer from the anchor onto the tooltip itself dismisses it instead of keeping it
-  open). Found 2026-09-17 while integrating the chart component's tooltip (see the Chart known gaps); affects every existing `[kuiTooltip]`
-  consumer in the kit, not only Chart. Deferred as its own fix -- needs its own test pass across
-  hover/focus/touch modes before changing shared directive behavior.
+- ~~`KuiTooltip`'s hover/focus display mode is not fully WCAG 1.4.13~~ Done 2026-10-05 (Plan 24): the
+  shared tooltip surface is hoverable, `Escape` dismisses it without moving focus, and it stays until
+  hover or focus ends, for every `[kuiTooltip]` consumer and for the Chart.
 
 - ~~`kui-dropdown` injects `NgZone`...~~ Done 2026-07-10: removed `NgZone` from `kui-dropdown`,
   `kui-menu`, `kui-popover`, and the shared `wireFloatingPanelDismissal`/`kui-floating-panel.util`
@@ -150,8 +146,8 @@ These remain explicit scope limits, not automatic release blockers:
 - Menu submenus, checkbox/radio items, and context-menu helper.
 - Tree custom icon template slot and virtualization.
 - Calendar multiple-date selection; single and range selection are separate primitives.
-- Chart long-label/dense-layout handling, scatter non-color distinguishability,
-  configurable donut center/geometry, and visual/AT evidence; see [known gaps](chart.md#known-gaps).
+- Configurable donut center/geometry, and a real screen-reader and Windows forced-colours pass for
+  Chart; see [known gaps](chart.md#known-gaps).
 - Right-to-left layout and direction-aware keyboard behavior: unsupported in v2. No primitive reads
   the document direction, so arrow-key direction in Tabs, Slider, Segmented, Tree and Splitter follows
   left-to-right order. The browser suite only checks that an RTL document does not overflow.

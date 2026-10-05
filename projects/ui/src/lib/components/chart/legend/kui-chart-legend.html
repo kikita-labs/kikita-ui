@@ -1,4 +1,4 @@
-<div class="kui-chart__legend" role="group">
+<div class="kui-chart__legend" role="group" [attr.aria-label]="t().legendLabel">
   @for (item of chart().legendItems(); track item.id) {
     @if (itemTemplate(); as template) {
       <ng-container
@@ -18,8 +18,15 @@
         (click)="chart().toggleLegendItem(item.id)"
         (pointerenter)="chart().setHoveredLegendId(item.id)"
         (pointerleave)="chart().setHoveredLegendId(null)"
+        (focus)="!item.hidden && chart().setHoveredLegendId(item.id)"
+        (blur)="chart().setHoveredLegendId(null)"
       >
-        <span class="kui-chart__legend-swatch" [style.background]="item.color"></span>
+        <svg
+          kuiChartSwatch
+          [color]="item.color"
+          [shape]="item.shape ?? 'circle'"
+          [pattern]="item.pattern"
+        ></svg>
         {{ item.label }}
       </button>
     }

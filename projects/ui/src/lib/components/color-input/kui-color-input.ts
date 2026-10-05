@@ -1,5 +1,5 @@
 import { Overlay } from '@angular/cdk/overlay';
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import type { AfterViewInit, ComponentRef, DoCheck, OnDestroy } from '@angular/core';
 import {
   afterNextRender,
@@ -35,8 +35,7 @@ import { injectKuiGlyph } from '../icon/inject-kui-glyph';
 import { KUI_GLYPH_CHEVRON_DOWN } from '../icon/kui-chrome-glyphs';
 import { createKuiGlyphElement } from '../icon/kui-glyph-dom.util';
 import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
-import type { KuiTooltipOverlayHandle } from '../tooltip/kui-tooltip-overlay.util';
-import { createKuiTooltipOverlay } from '../tooltip/kui-tooltip-overlay.util';
+import { KuiTooltipPresenter } from '../tooltip/kui-tooltip-presenter';
 import { type KuiParsedColor, parseColor } from './kui-color-input-color.util';
 import { KuiColorPickerPanel } from './kui-color-picker-panel';
 
@@ -93,7 +92,6 @@ export class KuiColorInput implements AfterViewInit, DoCheck, OnDestroy {
 
   private readonly el = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
-  private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly injector = inject(Injector);
   private readonly platformId = inject(PLATFORM_ID);
@@ -146,8 +144,16 @@ export class KuiColorInput implements AfterViewInit, DoCheck, OnDestroy {
   private lastValid = parseColor(DEFAULT_KUI_THEME.seeds.color.primary!)!;
   private lastState = '';
   private swatchTooltipText = '';
-  private tooltipOverlay: KuiTooltipOverlayHandle | null = null;
   private tooltipAnchor: HTMLElement | null = null;
+  private readonly tooltipPresenter = new KuiTooltipPresenter({
+    overlay: inject(Overlay),
+    document: inject(DOCUMENT),
+    placement: () => 'top',
+    onHide: () => {
+      this.tooltipAnchor?.removeAttribute('aria-describedby');
+      this.tooltipAnchor = null;
+    },
+  });
   private readonly unlisten: (() => void)[] = [];
 
   constructor() {
@@ -262,7 +268,7 @@ export class KuiColorInput implements AfterViewInit, DoCheck, OnDestroy {
       this.renderer.listen(this.swatchBtn, 'mouseenter', () =>
         this.showTooltip(this.swatchBtn, this.swatchTooltipText),
       ),
-      this.renderer.listen(this.swatchBtn, 'mouseleave', () => this.hideTooltip()),
+      this.renderer.listen(this.swatchBtn, 'mouseleave', () => this.leaveTooltip()),
       this.renderer.listen(this.swatchBtn, 'focusin', () =>
         this.showTooltipOnFocus(this.swatchBtn, this.swatchTooltipText),
       ),
@@ -270,7 +276,7 @@ export class KuiColorInput implements AfterViewInit, DoCheck, OnDestroy {
       this.renderer.listen(this.chevronBtn, 'mouseenter', () =>
         this.showTooltip(this.chevronBtn, this.t().openPicker),
       ),
-      this.renderer.listen(this.chevronBtn, 'mouseleave', () => this.hideTooltip()),
+      this.renderer.listen(this.chevronBtn, 'mouseleave', () => this.leaveTooltip()),
       this.renderer.listen(this.chevronBtn, 'focusin', () =>
         this.showTooltipOnFocus(this.chevronBtn, this.t().openPicker),
       ),
@@ -314,8 +320,8 @@ export class KuiColorInput implements AfterViewInit, DoCheck, OnDestroy {
       value ? `${this.effectiveSwatchLabel()}: ${this.lastValid.hex}` : this.effectiveSwatchLabel(),
     );
     if (this.tooltipAnchor === this.swatchBtn) {
-      this.updateTooltipText(this.swatchTooltipText);
-      this.tooltipOverlay?.updatePosition();
+      this.tooltipPresenter.updateText(this.swatchTooltipText);
+      this.tooltipPresenter.updatePosition();
     }
     this.chevronBtn.setAttribute('aria-label', this.t().openPicker);
     this.chevronBtn.setAttribute('aria-expanded', this.open() ? 'true' : 'false');
@@ -350,6 +356,7 @@ export class KuiColorInput implements AfterViewInit, DoCheck, OnDestroy {
       showTooltip: (anchor, text) => this.showTooltip(anchor, text),
       showTooltipOnFocus: (anchor, text) => this.showTooltipOnFocus(anchor, text),
       hideTooltip: () => this.hideTooltip(),
+      leaveTooltip: () => this.leaveTooltip(),
     });
 
     // The field must not adopt this dropdown: the directive owns its open state, and a field that
@@ -457,47 +464,33 @@ export class KuiColorInput implements AfterViewInit, DoCheck, OnDestroy {
     const value = text.trim();
     if (!value || !anchor.ownerDocument.defaultView || anchor.matches(':disabled')) return;
 
-    if (this.tooltipOverlay && this.tooltipAnchor === anchor) {
-      this.updateTooltipText(value);
-      this.tooltipOverlay.updatePosition();
+    if (this.tooltipPresenter.isOpen && this.tooltipAnchor === anchor) {
+      this.tooltipPresenter.updateText(value);
+      this.tooltipPresenter.updatePosition();
       return;
     }
 
-    this.hideTooltip();
+    // Another anchor gets its own tooltip. This is not a new intentional trigger on its own, so an
+    // Escape that closed the previous one is kept.
+    this.tooltipPresenter.hide();
     const tooltipId = this.nextId('kui-color-input-tooltip', 1);
-    this.tooltipOverlay = createKuiTooltipOverlay({
-      anchor,
-      id: tooltipId,
-      overlay: this.overlay,
-      placement: 'top',
-      text: value,
-    });
+    this.tooltipPresenter.show(anchor, value, tooltipId);
+    if (!this.tooltipPresenter.isOpen) return;
+
     this.renderer.setAttribute(anchor, 'aria-describedby', tooltipId);
     this.tooltipAnchor = anchor;
   }
 
-  private updateTooltipText(text: string): void {
-    this.tooltipOverlay?.updateText(text);
+  /** The pointer left a trigger: the tooltip may be on its way to the tooltip itself, so it waits. */
+  private leaveTooltip(): void {
+    this.tooltipPresenter.resetDismissed();
+    this.tooltipPresenter.scheduleClose();
   }
 
+  /** Focus left a trigger, the picker closed or the field is destroyed: close at once. */
   private hideTooltip(): void {
-    const tooltipOverlay = this.tooltipOverlay;
-    if (!tooltipOverlay) return;
-
-    const anchor = this.tooltipAnchor;
-    this.tooltipOverlay = null;
-    this.tooltipAnchor = null;
-    anchor?.removeAttribute('aria-describedby');
-    this.renderer.addClass(tooltipOverlay.tooltipEl, 'is-hiding');
-    let removed = false;
-    const remove = () => {
-      if (!removed) {
-        removed = true;
-        tooltipOverlay.overlayRef.dispose();
-      }
-    };
-    tooltipOverlay.tooltipEl.addEventListener('animationend', remove, { once: true });
-    setTimeout(remove, 200);
+    this.tooltipPresenter.resetDismissed();
+    this.tooltipPresenter.hide();
   }
 
   private setBooleanAttr(el: HTMLElement, name: string, active: boolean): void {

@@ -37,6 +37,13 @@
     height: auto;
   }
 
+  /* The plot is drawn at one unit per CSS pixel, so its height is its real height. */
+  .kui-chart__svg--plot {
+    height: var(--kui-chart-height);
+    max-width: 100%;
+    overflow: hidden;
+  }
+
   .kui-chart__grid-line {
     stroke: var(--kui-chart-grid-color);
     stroke-width: 1;
@@ -47,10 +54,26 @@
     stroke-width: 1;
   }
 
+  /* The axis text keeps its pixel size because the chart draws at one unit per pixel. Its default,
+     13px, is above the 12px that Chartability asks for on screen. */
   .kui-chart__axis-text {
     fill: var(--kui-chart-axis-label-color);
-    font-size: var(--kui-chart-axis-text-font-size, var(--kui-text-xs-size));
+    font-size: var(--kui-chart-axis-text-font-size, var(--kui-text-sm-size));
     font-family: var(--kui-font-sans);
+  }
+
+  .kui-chart__axis-title {
+    fill: var(--kui-chart-axis-title-color, var(--kui-chart-axis-label-color));
+    font-size: var(--kui-chart-axis-text-font-size, var(--kui-text-sm-size));
+    font-family: var(--kui-font-sans);
+    font-weight: var(--kui-font-weight-medium);
+    text-anchor: middle;
+  }
+
+  /* Never drawn: the chart reads the real axis font and mark radius from it after the first render. */
+  .kui-chart__axis-probe {
+    visibility: hidden;
+    pointer-events: none;
   }
 
   .kui-chart__axis-text--y {
@@ -89,8 +112,10 @@
     transition: opacity var(--kui-duration-quick) var(--kui-ease);
   }
 
+  /* A mark is a focus target and a name. The pointer is resolved on the plot (`.kui-chart__plot-hit`),
+     so a mark a few pixels wide is not the only thing a pointer can aim at. */
   .kui-chart__mark {
-    cursor: pointer;
+    pointer-events: none;
     outline: none;
     stroke: var(--kui-chart-mark-stroke, var(--kui-color-surface));
     stroke-width: 2;
@@ -119,8 +144,20 @@
      small points/bubbles would otherwise be hard to hover/tap precisely. */
   .kui-chart__mark-hit {
     fill: transparent;
-    cursor: pointer;
+    pointer-events: none;
     outline: none;
+  }
+
+  /* The group of marks takes the focus of a click on the plot (a click on a mark moves focus to the mark
+     itself); it is not a control, so the browser's own focus outline must not frame the chart. */
+  .kui-chart__marks {
+    outline: none;
+  }
+
+  /* The whole plot is the pointer target of line, bar and scatter charts. */
+  .kui-chart__plot-hit {
+    fill: transparent;
+    cursor: default;
   }
 
   .kui-chart__mark-hit:focus-visible {
@@ -177,16 +214,14 @@
   }
 
   .kui-chart__bar {
-    cursor: pointer;
+    pointer-events: none;
     outline: none;
     /* Animates stacked bars' recompute-on-hide (a hidden series' segment collapses and the rest of
        the stack shifts down to fill it -- see `computeStackedDomain`'s JSDoc) instead of bars
        silently jumping to their new size/position. */
     transition:
-      x var(--kui-duration-normal) var(--kui-ease),
-      y var(--kui-duration-normal) var(--kui-ease),
-      width var(--kui-duration-normal) var(--kui-ease),
-      height var(--kui-duration-normal) var(--kui-ease),
+      d var(--kui-duration-normal) var(--kui-ease),
+      opacity var(--kui-duration-quick) var(--kui-ease),
       filter var(--kui-duration-quick) var(--kui-ease);
   }
 
@@ -203,16 +238,11 @@
     stroke-width: 2;
   }
 
-  /* Cosmetic axis-side corner square-off, drawn behind `.kui-chart__bar` -- see the template's
-     doc. Never a hit target; animates in lockstep with the real bar (same properties/timing) so
-     it doesn't lag behind during a stacked hide/show recompute. */
-  .kui-chart__bar-axis-patch {
+  /* Never drawn: the chart reads the resolved rounding of a bar from it after the first render. */
+  .kui-chart__bar-probe {
+    rx: var(--kui-chart-bar-radius, var(--kui-radius-xs));
+    visibility: hidden;
     pointer-events: none;
-    transition:
-      x var(--kui-duration-normal) var(--kui-ease),
-      y var(--kui-duration-normal) var(--kui-ease),
-      width var(--kui-duration-normal) var(--kui-ease),
-      height var(--kui-duration-normal) var(--kui-ease);
   }
 
   .kui-chart__loading-wave,
@@ -264,8 +294,21 @@
     box-sizing: border-box;
   }
 
-  .kui-chart__loading-bars-bar {
-    width: 10%;
+  /* Bars share the width, so the skeleton shrinks with its container instead of overflowing it. The
+     skeleton's own square shape would take the width from the height and refuse to shrink. */
+  .kui-chart__loading-bars > .kui-chart__loading-bars-bar[data-kui-shape] {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    aspect-ratio: auto;
+  }
+
+  /* The grid and the axes live in a layer that sits exactly over the area the bars occupy (the
+     container's content box), so a grid line at 25% is at 25% of the bars' own height and the axes
+     meet at the corner the bars stand on. */
+  .kui-chart__loading-bars-plot {
+    position: absolute;
+    inset: var(--kui-chart-loading-bars-padding, var(--kui-space-4));
+    pointer-events: none;
   }
 
   .kui-chart__loading-bars-grid-line {
@@ -276,25 +319,22 @@
     background: var(--kui-chart-grid-color);
   }
 
-  /* Matches the flex bars' own edges (`align-items: flex-end` aligns to the content box, which
-     sits inset by the container's own padding from the padding box that `position: absolute`
-     positions against) -- `inset: 0` alone would sit a full padding short of them. */
   .kui-chart__loading-bars-axis-line {
     position: absolute;
     background: var(--kui-chart-grid-color);
   }
 
   .kui-chart__loading-bars-axis-line--x {
-    left: var(--kui-space-4);
-    right: var(--kui-space-4);
-    bottom: var(--kui-space-4);
+    left: 0;
+    right: 0;
+    bottom: 0;
     height: 1px;
   }
 
   .kui-chart__loading-bars-axis-line--y {
-    left: var(--kui-space-4);
-    top: var(--kui-space-4);
-    bottom: var(--kui-space-4);
+    left: 0;
+    top: 0;
+    bottom: 0;
     width: 1px;
   }
 
@@ -312,7 +352,6 @@
     .kui-chart__series--dimmed,
     .kui-chart__slice,
     .kui-chart__bar,
-    .kui-chart__bar-axis-patch,
     .kui-chart__mark,
     .kui-chart__loading-ring {
       transition: none;
@@ -371,15 +410,25 @@
     background: none;
     border: none;
     border-radius: var(--kui-chart-legend-item-radius, var(--kui-radius-sm));
-    padding: 2px var(--kui-chart-legend-item-padding-inline, var(--kui-space-1));
+    min-block-size: 24px;
+    padding: var(--kui-space-0-5) var(--kui-chart-legend-item-padding-inline, var(--kui-space-1));
     font-size: var(--kui-chart-legend-item-font-size, var(--kui-text-sm-size));
     color: var(--kui-chart-legend-text, var(--_kui-chart-legend-text));
     cursor: pointer;
     transition: background var(--kui-duration-quick) var(--kui-ease);
   }
 
+  /* A hidden series reads as switched off without colour: the label is struck through and the swatch
+     is only an outline. The text stays at the secondary colour so the button remains readable. */
   .kui-chart__legend-item--hidden {
     color: var(--kui-chart-legend-text-hidden, var(--_kui-chart-legend-text-hidden));
+    text-decoration: line-through;
+  }
+
+  .kui-chart__legend-item--hidden .kui-chart__legend-swatch {
+    fill: transparent;
+    stroke: var(--_kui-chart-swatch);
+    stroke-width: 1.5;
   }
 
   /* Cross-highlight: hovering a mark/slice highlights its legend entry too, matching the design's
@@ -392,12 +441,133 @@
 
   .kui-chart__legend-swatch {
     display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: var(--kui-chart-legend-swatch-radius, var(--kui-radius-full));
+    flex: none;
+    width: var(--kui-chart-legend-swatch-size, 12px);
+    height: var(--kui-chart-legend-swatch-size, 12px);
+    fill: var(--_kui-chart-swatch);
+    stroke: none;
+    overflow: visible;
   }
 
   .kui-chart__table {
     width: 100%;
+  }
+
+  /* A hatch pattern is a tinted ground with the hatch in the full series colour. The tint sits on an
+     opaque ground, so a shape drawn twice in the same place (a bar over its axis-side patch) looks
+     like one shape instead of a brighter band where the two overlap. */
+  .kui-chart__pattern-ground {
+    fill: var(--kui-chart-pattern-ground-color, var(--kui-color-surface));
+  }
+
+  .kui-chart__pattern-bg {
+    fill: var(--_kui-chart-pattern-color);
+    fill-opacity: 0.28;
+  }
+
+  .kui-chart__pattern-mark {
+    fill: none;
+    stroke: var(--_kui-chart-pattern-color);
+    stroke-width: 1.5;
+  }
+
+  .kui-chart__pattern-mark--filled {
+    fill: var(--_kui-chart-pattern-color);
+    stroke: none;
+  }
+
+  .kui-chart__legend-swatch-pattern {
+    stroke: var(--_kui-chart-swatch);
+    stroke-width: 1;
+  }
+
+  .kui-chart__legend-item--hidden .kui-chart__legend-swatch-pattern {
+    fill: transparent;
+  }
+
+  /*
+   * Forced colours (Windows High Contrast): the browser replaces fill and stroke with system colours
+   * and would turn every series into the same colour. The chart takes over (`forced-color-adjust:
+   * none`) and draws with system colours only; series then differ by texture (hatch patterns on
+   * areas, bars and slices), by dash (lines) and by shape (marks), which the chart provides anyway.
+   * Declarations that override inline series colours are `!important` on purpose.
+   */
+  @media (forced-colors: active) {
+    .kui-chart__svg,
+    .kui-chart__legend-swatch {
+      forced-color-adjust: none;
+    }
+
+    .kui-chart__axis-text,
+    .kui-chart__axis-title {
+      fill: CanvasText;
+    }
+
+    .kui-chart__grid-line {
+      stroke: GrayText;
+    }
+
+    .kui-chart__axis-line {
+      stroke: CanvasText;
+    }
+
+    .kui-chart__line {
+      stroke: CanvasText !important;
+      stroke-dasharray: var(--_kui-chart-dash, none);
+    }
+
+    .kui-chart__area,
+    .kui-chart__bar,
+    .kui-chart__slice {
+      fill: var(--_kui-chart-pattern, Canvas) !important;
+    }
+
+    .kui-chart__bar {
+      stroke: CanvasText;
+      stroke-width: 1;
+    }
+
+    .kui-chart__slice {
+      stroke: CanvasText;
+    }
+
+    .kui-chart__mark {
+      fill: CanvasText !important;
+      stroke: Canvas;
+    }
+
+    .kui-chart__mark:focus-visible,
+    .kui-chart__mark-hit:focus-visible,
+    .kui-chart__bar:focus-visible,
+    .kui-chart__slice-hit:focus-visible + .kui-chart__slice {
+      stroke: Highlight;
+    }
+
+    .kui-chart__pattern-ground,
+    .kui-chart__pattern-bg {
+      fill: Canvas;
+      fill-opacity: 1;
+    }
+
+    .kui-chart__pattern-mark {
+      stroke: CanvasText;
+    }
+
+    .kui-chart__pattern-mark--filled {
+      fill: CanvasText;
+    }
+
+    .kui-chart__legend-swatch {
+      fill: CanvasText;
+    }
+
+    .kui-chart__legend-swatch-pattern {
+      stroke: CanvasText;
+    }
+
+    .kui-chart__legend-item--hidden .kui-chart__legend-swatch {
+      fill: transparent;
+      stroke: CanvasText;
+    }
   }
 }

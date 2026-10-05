@@ -20,9 +20,11 @@ import type { KuiChartCartesianSeries, KuiChartPoint } from '@kikita-labs/ui';
 
 import {
   ChartAxesExamples,
+  ChartDenseExamples,
   ChartExample,
   ChartSizeExamples,
   ChartStateExamples,
+  ChartStressExamples,
 } from './components';
 import {
   CHART_ANNUAL_REVENUE,
@@ -52,9 +54,11 @@ const PLAN_KEYS = ['free', 'pro', 'business', 'enterprise', 'team'] as const;
   selector: 'app-chart',
   imports: [
     ChartAxesExamples,
+    ChartDenseExamples,
     ChartExample,
     ChartSizeExamples,
     ChartStateExamples,
+    ChartStressExamples,
     KuiBarChart,
     KuiButton,
     KuiChartLegend,
@@ -154,18 +158,18 @@ export class Chart {
       currencyFormat,
       thousandsFormat: (value: number): string => `${value / 1000}k`,
       cartesianTooltip: (point: KuiChartPoint): string =>
-        this.transloco.translate('chart.tooltip.cartesian', {
+        this.translate('chart.tooltip.cartesian', {
           series: point.seriesName,
           category: point.categoryLabel ?? '',
           value: currencyFormat(point.value),
         }),
       scatterTooltip: (point: KuiChartPoint): string =>
-        this.transloco.translate('chart.tooltip.scatter', {
+        this.translate('chart.tooltip.scatter', {
           series: point.seriesName,
           y: (point.y ?? 0).toLocaleString('en-US'),
         }),
       donutTooltip: (point: KuiChartPoint): string =>
-        this.transloco.translate('chart.tooltip.donut', {
+        this.translate('chart.tooltip.donut', {
           label: point.seriesName,
           value: point.value,
         }),
@@ -177,9 +181,23 @@ export class Chart {
   }
 
   private label(key: string): string {
+    return this.translate(key);
+  }
+
+  /**
+   * Translates `key` once the lazily loaded `chart` scope has it, and returns an empty string before
+   * that instead of asking Transloco, which would log a missing-translation warning for every key
+   * while the scope is still loading. The `data` computed runs again when the scope arrives.
+   */
+  private translate(key: string, params?: Record<string, unknown>): string {
     this.language();
     this.translationLoad();
 
-    return this.transloco.translate(key);
+    const loaded = this.transloco.getTranslation(this.transloco.getActiveLang()) as Record<
+      string,
+      unknown
+    >;
+
+    return key in loaded ? this.transloco.translate(key, params) : '';
   }
 }

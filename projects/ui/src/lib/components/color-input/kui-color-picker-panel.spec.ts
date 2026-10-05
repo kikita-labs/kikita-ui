@@ -40,6 +40,7 @@ function setup() {
     showTooltip: (_anchor, text) => tooltips.push(`hover:${text}`),
     showTooltipOnFocus: (_anchor, text) => tooltips.push(`focus:${text}`),
     hideTooltip: () => tooltips.push('hide'),
+    leaveTooltip: () => tooltips.push('hide'),
   });
 
   return { panel, color, commits, tooltips, picker };

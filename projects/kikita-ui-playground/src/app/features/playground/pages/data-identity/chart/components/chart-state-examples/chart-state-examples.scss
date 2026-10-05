@@ -11,9 +11,4 @@
     gap: var(--kui-space-4);
     min-inline-size: 0;
   }
-
-  /* The bar loading skeleton overflows containers narrower than about 452px (see the inventory). */
-  .chart-state-examples__wide {
-    grid-column: 1 / -1;
-  }
 }

@@ -150,6 +150,10 @@
       "columnSeries": "Series",
       "columnLabel": "Label",
       "columnValue": "Value",
+      "columnX": "X",
+      "columnY": "Y",
+      "columnRadius": "Radius",
+      "legendLabel": "Legend",
       "lineLabel": "Line chart",
       "barLabel": "Bar chart",
       "donutLabel": "Donut chart",
@@ -160,6 +164,8 @@
       "scatterRoleDescription": "scatter chart",
       "pointWithCategory": "{series} · {category}: {value}",
       "point": "{series}: {value}",
+      "scatterPoint": "{series}: ({x}, {y})",
+      "bubblePoint": "{series}: ({x}, {y}), radius {radius}",
       "slice": "{label}: {value} ({percent}%)"
     },
     "colorInput": {

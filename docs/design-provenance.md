@@ -9,8 +9,9 @@ Source CSS and tests provide the reproducible implementation baseline.
 
 These records do not retroactively approve every implementation detail. In
 particular, the line, scatter, and donut loading placeholders have no recorded
-approved loading design, and chart marker-shape and center-content designs remain
-unresolved. Preserve these gaps when changing the affected visuals.
+approved loading design, and chart center-content design remains unresolved. The chart
+marker shapes and hatch patterns are engineering decisions (see the Chart row), not
+approved designs. Preserve these gaps when changing the affected visuals.
 
 Historical exports were local authoring inputs, not distributed package assets.
 An unavailable export is not review evidence. Existing nonvisual maintenance can
@@ -40,16 +41,16 @@ nonvisual work; do not weaken the design gate or invent a replacement.
 
 ## Preserved Component Decisions
 
-| Surface      | Durable requirement / limitation                                                                                                                                             |
-| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Link         | Real anchors navigate; action buttons retain native button semantics; typography variant and interactive tone have separate owners. See [Link](link.md).                     |
-| Alert        | Title is optional for message-only notices; close emits an event and the consumer owns removal. See [Alert](alert.md).                                                       |
-| Pagination   | Compose existing button/icon-button/select controls; current page has aria-current; the consumer owns slicing. See [Pagination](pagination.md).                              |
-| Time Picker  | Cell selection stays open for choosing other fields; completion/dismissal closes the panel; column centering must not scroll the page. See [Time Picker](time-picker.md).    |
-| Media Viewer | Photos only; fullscreen dialog preset; consumer owns triggers and selection; pan uses a fixed offset budget per zoom step. See [Media Viewer](media-viewer.md).              |
-| Carousel     | Native scrolling and snap; explicit playback control; breakpoint-specific items-per-view remains outside the API. See [Carousel](carousel.md).                               |
-| Splitter     | Adjacent panes resize together; hydrate before inserting internal gutters; no persistence or custom-thumb contract. See [Splitter](splitter.md).                             |
-| Chart        | Nominal SVG sizing; positive/negative stacks separated; hidden donut slices excluded from totals; one tooltip overlay; exact-value alternative table. See [Chart](chart.md). |
+| Surface      | Durable requirement / limitation                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Link         | Real anchors navigate; action buttons retain native button semantics; typography variant and interactive tone have separate owners. See [Link](link.md).                                                                                                                                                                                                                                                                           |
+| Alert        | Title is optional for message-only notices; close emits an event and the consumer owns removal. See [Alert](alert.md).                                                                                                                                                                                                                                                                                                             |
+| Pagination   | Compose existing button/icon-button/select controls; current page has aria-current; the consumer owns slicing. See [Pagination](pagination.md).                                                                                                                                                                                                                                                                                    |
+| Time Picker  | Cell selection stays open for choosing other fields; completion/dismissal closes the panel; column centering must not scroll the page. See [Time Picker](time-picker.md).                                                                                                                                                                                                                                                          |
+| Media Viewer | Photos only; fullscreen dialog preset; consumer owns triggers and selection; pan uses a fixed offset budget per zoom step. See [Media Viewer](media-viewer.md).                                                                                                                                                                                                                                                                    |
+| Carousel     | Native scrolling and snap; explicit playback control; breakpoint-specific items-per-view remains outside the API. See [Carousel](carousel.md).                                                                                                                                                                                                                                                                                     |
+| Splitter     | Adjacent panes resize together; hydrate before inserting internal gutters; no persistence or custom-thumb contract. See [Splitter](splitter.md).                                                                                                                                                                                                                                                                                   |
+| Chart        | Measured layout; positive/negative stacks separated; hidden donut slices excluded from totals; one hoverable, dismissible tooltip overlay; exact-value alternative table; eight marker shapes (circle, square, diamond, two triangles, cross, plus, star) and eight hatch patterns chosen so series differ without colour (2026-10-05, Plan 24; awaiting designer confirmation for Figma and `tokens.css`). See [Chart](chart.md). |
 
 This table preserves requirements already recorded in source documentation; it
 does not replace a missing detailed visual specification or certify a new review.

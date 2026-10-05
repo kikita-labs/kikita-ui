@@ -1,0 +1,21 @@
+@layer app.components {
+  :host {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .chart-stress-examples__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-3);
+  }
+
+  .chart-stress-examples__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+}

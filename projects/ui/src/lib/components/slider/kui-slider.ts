@@ -19,8 +19,7 @@ import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
 import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
 import { KUI_FIELD } from '../field/kui-field-host.token';
 import { KuiTooltip } from '../tooltip/kui-tooltip';
-import type { KuiTooltipOverlayHandle } from '../tooltip/kui-tooltip-overlay.util';
-import { createKuiTooltipOverlay } from '../tooltip/kui-tooltip-overlay.util';
+import { KuiTooltipPresenter } from '../tooltip/kui-tooltip-presenter';
 
 const KUI_SLIDER_SIZES = ['sm', 'md', 'lg'] as const;
 
@@ -109,7 +108,12 @@ export class KuiSlider implements AfterViewInit, DoCheck, OnDestroy {
   private fillEl!: HTMLElement;
   private thumbEl!: HTMLElement;
   private labelsEl: HTMLElement | null = null;
-  private tooltipOverlay: KuiTooltipOverlayHandle | null = null;
+  /** The value read-out above the thumb: hoverable, and Escape closes it (WCAG 1.4.13). */
+  private readonly tooltipPresenter = new KuiTooltipPresenter({
+    overlay: this.overlay,
+    document: this.doc,
+    placement: () => 'top',
+  });
   private tooltipVisible = false;
   private hovered = false;
   private keyboardFocused = false;
@@ -191,7 +195,13 @@ export class KuiSlider implements AfterViewInit, DoCheck, OnDestroy {
 
   protected onMouseLeave(): void {
     this.hovered = false;
-    if (!this.keyboardFocused) this.hideValueTooltip();
+    if (this.keyboardFocused) return;
+
+    // The pointer may be heading for the read-out itself, so it closes after a short delay.
+    this.tooltipVisible = false;
+    this.stopScrollTracking();
+    this.tooltipPresenter.resetDismissed();
+    this.tooltipPresenter.scheduleClose();
   }
 
   /** Keyboard focus shows the value too, so arrow-key users see what they set. */
@@ -210,6 +220,7 @@ export class KuiSlider implements AfterViewInit, DoCheck, OnDestroy {
 
   protected onBlur(): void {
     this.keyboardFocused = false;
+    this.tooltipPresenter.resetDismissed();
     if (!this.hovered) this.hideValueTooltip();
   }
 
@@ -231,7 +242,7 @@ export class KuiSlider implements AfterViewInit, DoCheck, OnDestroy {
   @HostListener('mousemove')
   protected onMouseMove(): void {
     if (this.tooltipVisible) {
-      this.tooltipOverlay?.updatePosition();
+      this.tooltipPresenter.updatePosition();
     }
   }
 
@@ -246,50 +257,33 @@ export class KuiSlider implements AfterViewInit, DoCheck, OnDestroy {
     this.renderer.setStyle(this.thumbEl, 'left', pct);
 
     if (this.tooltipVisible) {
-      const hadTooltip = Boolean(this.tooltipOverlay);
+      const hadTooltip = this.tooltipPresenter.isOpen;
       this.ensureTooltip();
-      this.tooltipOverlay?.updateText(String(Math.round(val)));
+      this.tooltipPresenter.updateText(String(Math.round(val)));
       if (hadTooltip) {
-        this.tooltipOverlay?.updatePosition();
+        this.tooltipPresenter.updatePosition();
       }
     }
   }
 
   private ensureTooltip(): void {
-    if (this.tooltipOverlay) {
-      this.tooltipOverlay.updatePosition();
+    if (this.tooltipPresenter.isOpen) {
+      this.tooltipPresenter.updatePosition();
       return;
     }
     const val = Math.round(Number(this.el.nativeElement.value) || 0);
-    this.tooltipOverlay = createKuiTooltipOverlay({
-      anchor: this.thumbEl,
-      overlay: this.overlay,
-      placement: 'top',
-      text: String(val),
-    });
+    this.tooltipPresenter.show(this.thumbEl, String(val));
   }
 
   private destroyTooltip(): void {
-    if (!this.tooltipOverlay) return;
-    const { overlayRef, tooltipEl } = this.tooltipOverlay;
-    this.tooltipOverlay = null;
-    this.renderer.addClass(tooltipEl, 'is-hiding');
-    let removed = false;
-    const remove = () => {
-      if (!removed) {
-        removed = true;
-        overlayRef.dispose();
-      }
-    };
-    tooltipEl.addEventListener('animationend', remove, { once: true });
-    setTimeout(remove, 200);
+    this.tooltipPresenter.hide();
   }
 
   private startScrollTracking(): void {
     if (this.scrollUnlisten) return;
     const handler = (): void => {
       if (this.tooltipVisible) {
-        this.tooltipOverlay?.updatePosition();
+        this.tooltipPresenter.updatePosition();
       }
     };
     this.doc.addEventListener('scroll', handler, { capture: true, passive: true });
