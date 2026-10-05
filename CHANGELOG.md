@@ -121,6 +121,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 ### Fixed
 
 - `kui-icon` no longer resolves a name from the prototype of a registry object (`name="constructor"` returned a function).
+- `ng add --theme` scaffolds the current default `warning` and `info` seeds (`oklch(0.56 0.15 65)` and `oklch(0.53 0.14 215)`); it wrote the previous lighter seeds, so a new application did not match the default theme. A test now compares the scaffolded seeds with `DEFAULT_KUI_THEME`.
 
 - Select: an `input[kuiSelect]` bound with `[formField]` showed `aria-invalid="true"` before the field was touched; it now follows the touched-gated state like every other control.
 - Toast: a `persistent` signal that turns `true` now keeps the time left, so turning it `false` again resumes that time instead of restarting the full duration, as documented. Pointer leave no longer starts the timer of a toast that is persistent through a signal, `ref.update({ duration: undefined })` falls back to the configured default duration instead of a fixed 5000 ms, and destroying the region clears its pending close timers and completes the `closed$` and `action$` streams.
