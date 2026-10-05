@@ -612,6 +612,11 @@ not been run and stays pending.
 
 ## Known gaps
 
+- A bar is a `<path>` and its size change (hiding a series on a stacked chart) is a CSS transition of `d`.
+  Chromium animates it; Safari and Firefox are expected to jump to the new size instead, because they do not
+  animate the `d` property (from browser compatibility data, not tested here). Nothing else depends on it.
+  A `requestAnimationFrame` tween like the donut's would make it smooth everywhere; not done, because the
+  effect is decorative.
 - The chart tooltip follows the pointer and is not hoverable, so it does not meet the "hoverable" part of
   WCAG 1.4.13 (it is dismissible and persistent). It was left this way on purpose: a tooltip that is
   hoverable and follows the cursor catches the cursor and freezes. Anchoring it to the mark would fix
