@@ -121,6 +121,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 ### Fixed
 
 - `kui-icon` no longer resolves a name from the prototype of a registry object (`name="constructor"` returned a function).
+- `kuiAutoFocus` (and `kui-otp-input` `autoFocus`) now focuses its target in Firefox when the click that mounts it also disables the control that held focus. Firefox keeps focus on a disabled button, so the directive took it for a control the user was working in and stayed put; Chromium blurs the button.
 - `ng add --theme` scaffolds the current default `warning` and `info` seeds (`oklch(0.56 0.15 65)` and `oklch(0.53 0.14 215)`); it wrote the previous lighter seeds, so a new application did not match the default theme. A test now compares the scaffolded seeds with `DEFAULT_KUI_THEME`.
 
 - Select: an `input[kuiSelect]` bound with `[formField]` showed `aria-invalid="true"` before the field was touched; it now follows the touched-gated state like every other control.

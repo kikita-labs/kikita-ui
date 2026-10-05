@@ -149,6 +149,20 @@ describe('KuiAutoFocus', () => {
     other.remove();
   });
 
+  it('does not yield to a focused control that has just been disabled', async () => {
+    const trigger = document.createElement('button');
+    document.body.appendChild(trigger);
+    trigger.focus();
+    // Firefox keeps focus on a control that a click disabled; Chromium blurs it.
+    trigger.disabled = true;
+    expect(document.activeElement).toBe(trigger);
+
+    const fixture = await render(AttributeHost);
+
+    expect(document.activeElement).toBe(byId(fixture, 'target'));
+    trigger.remove();
+  });
+
   it('focuses inside a dialog even though focus already sits in that dialog', async () => {
     const fixture = TestBed.createComponent(DialogHost);
     fixture.detectChanges();

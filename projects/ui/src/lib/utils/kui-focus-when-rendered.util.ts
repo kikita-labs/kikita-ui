@@ -112,6 +112,10 @@ function isFocusTaken(target: HTMLElement): boolean {
   const active = target.ownerDocument.activeElement;
   if (!active || active === target || active === target.ownerDocument.body) return false;
 
+  // A control that the same click just disabled still holds focus in Firefox, while Chromium blurs
+  // it. Disabled controls cannot be worked in, so they never take focus from the target.
+  if (active.matches(':disabled')) return false;
+
   const scope = target.closest(FOCUS_SCOPE_SELECTOR);
 
   return !scope?.contains(active);
