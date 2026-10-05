@@ -65,6 +65,10 @@ Review dropdown, select, tooltip, popover, dialog, toast, and any future overlay
 - Overlay placement changes do not reorder the accessible reading flow in a confusing way.
 - The overlay does not cover the trigger or active control in a way that prevents continued keyboard use.
 
+### Focus Return In Safari
+
+Safari on macOS does not focus a button when it is clicked with the mouse, so the trigger of a modal surface is not the active element when the surface opens, and there is nothing to return focus to when it closes. Focus returns to the trigger when the surface was opened with the keyboard. Native `<dialog>`, Angular CDK, Angular Material and Radix behave the same way (WebKit bug 236322), and Kikita UI does not work around it. Test focus return in Safari by opening the surface with the keyboard; a mouse-opened surface is expected to leave focus on the page.
+
 ## Forms And Field Checks
 
 - Form-associated controls are demonstrated inside `kui-field` unless the primitive is intentionally standalone.

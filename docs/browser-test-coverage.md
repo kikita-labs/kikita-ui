@@ -198,8 +198,14 @@ in the plan listed.
 10. **No manual accessibility evidence**: no real keyboard-only or screen-reader session is recorded for
     any primitive. Scheduled at final v2 integration (`PLAN.md`); the assistive technology, browser and
     OS must be named. See [Accessibility Review Guide](accessibility.md).
-11. **Chromium only**: Firefox and WebKit are not run. Accepted until release; the final v2 checklist
-    adds WebKit and Firefox runs at release time.
+11. **Chromium only**: the committed projects run Chromium. A one-off run of the `behavior` tests in
+    Firefox and WebKit on 2026-10-05 (927 passed, 103 failed before triage) found a real Firefox defect in
+    `kuiAutoFocus` (fixed), tests that use Chromium-only clipboard permissions or DevTools touch input
+    (now skipped outside Chromium with a reason), and WebKit differences that are not defects: Safari does
+    not focus a clicked button, so tests that expect focus to return to a mouse-clicked trigger fail there
+    (see Focus Return In Safari in [Accessibility Review Guide](accessibility.md)). Remaining WebKit and
+    Firefox failures (Carousel, Media Viewer, OTP typing over a filled cell) are untriaged. Adding the two
+    browsers as committed projects needs a decision on which of those tests to skip per browser.
 12. **Hydration readiness** is inferred from behavior because the Playground exposes no marker.
     Owner: Plan 12 decides whether to add one (`ssr.md`, Phase 3). This caused real CI flakes: a key
     pressed before hydration finishes is captured by Angular event replay and delivered out of order
