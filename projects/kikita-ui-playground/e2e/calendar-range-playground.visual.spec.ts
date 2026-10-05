@@ -465,11 +465,9 @@ test('updates page labels and verifies the Russian calendar month and week', asy
   ).toBeVisible();
 });
 
-test.fixme('keeps a roving tab stop in the displayed month after navigating away from today', async ({
+test('keeps a roving tab stop in the displayed month after navigating away from today', async ({
   page,
 }) => {
-  // Library defect: kui-calendar-range never re-anchors its focus date (unlike kui-calendar), so
-  // after navigating to a month that does not contain the current day no cell is tabbable.
   const example = group(page, sections[0].name);
 
   await expectBrowserLocaleWeek(example);
@@ -478,9 +476,7 @@ test.fixme('keeps a roving tab stop in the displayed month after navigating away
   await expect(example.getByRole('grid').locator('button[tabindex="0"]')).toHaveCount(1);
 });
 
-test.fixme('moves DOM focus to the next day when an arrow key is pressed', async ({ page }) => {
-  // Library defect: kui-calendar-range queries its tab stop in a microtask, before the re-render
-  // moves it, so focus stays on the previous cell. kui-calendar waits for the next render.
+test('moves DOM focus to the next day when an arrow key is pressed', async ({ page }) => {
   const example = group(page, sections[0].name);
   const grid = example.getByRole('grid');
   const today = grid.locator('.kui-calendar-day').filter({ hasText: /^14$/ });
