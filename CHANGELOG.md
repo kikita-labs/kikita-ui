@@ -8,6 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) on
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-10-06
+
 ### Added
 
 - Chart: `patterns` input on `kui-bar-chart`, `kui-donut-chart` and `kui-line-chart` (with `area`) fills series with eight hatch patterns; line and scatter marks use a marker shape per series; the legend swatch shows the same shape or pattern. In forced colours every chart draws with system colours, dashed lines, patterns and shapes. `KuiChartLegendEntry` gains `shape` and `pattern`.
@@ -1336,7 +1338,8 @@ booleanAttribute })`.
 
 Not tracked in this file. See `git log` for history up to `efd5a45`.
 
-[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v1.8.0...HEAD
+[Unreleased]: https://github.com/kikita-labs/kikita-ui/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.8.0...v2.0.0
 [1.8.0]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.4...v1.8.0
 [1.7.4]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.3...v1.7.4
 [1.7.3]: https://github.com/kikita-labs/kikita-ui/compare/v1.7.2...v1.7.3
