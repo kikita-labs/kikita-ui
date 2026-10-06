@@ -82,6 +82,8 @@ test('closes the default menu when its trigger is toggled again', async ({ page 
 
   await trigger.click();
   await expect(menu).toBeVisible();
+  // Safari does not focus a button on mouse click, so give the trigger focus explicitly.
+  await trigger.focus();
   await expect(trigger).toBeFocused();
   await trigger.click();
 

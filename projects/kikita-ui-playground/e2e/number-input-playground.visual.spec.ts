@@ -272,7 +272,9 @@ test('repeats generated-button stepping after the hold delay and stops on releas
     .locator('.kui-number-input')
     .getByRole('button', { name: 'Increase value' });
 
-  await page.clock.install();
+  // A paused clock keeps slow browsers from running the hold delay in real time between checks.
+  await page.clock.install({ time: 0 });
+  await page.clock.pauseAt(1000);
   await increase.hover();
   await page.mouse.down();
   await expect(input).toHaveValue('1');
@@ -286,6 +288,7 @@ test('repeats generated-button stepping after the hold delay and stops on releas
   await page.mouse.up();
   await page.clock.runFor(160);
   await expect(input).toHaveValue('4');
+  await page.clock.resume();
 });
 
 test('captures real stepper hover and keyboard focus states @visual', async ({ page }) => {

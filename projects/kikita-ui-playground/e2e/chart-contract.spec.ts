@@ -89,10 +89,19 @@ test.describe('pointer', () => {
     const chart = page.locator(
       '[role="graphics-document"][aria-label="Monthly and annual revenue by plan, vertical grouped bars"]',
     );
-    const bar = chart.locator('path.kui-chart__bar').first();
-    const box = await bar.boundingBox();
+    // The first bar is a zero value with no height; aim at the first bar that has a body, because
+    // the pointer position on a zero-height edge differs by a sub-pixel between engines.
+    const bars = chart.locator('path.kui-chart__bar');
+    let box = null;
+    for (const bar of await bars.all()) {
+      const candidate = await bar.boundingBox();
+      if (candidate && candidate.height > 4 && candidate.width > 4) {
+        box = candidate;
+        break;
+      }
+    }
 
-    if (!box) throw new Error('The bar has no box.');
+    if (!box) throw new Error('No bar has a body.');
 
     await page.mouse.move(box.x + box.width / 2, box.y - 30);
     await expect(page.getByRole('tooltip')).toHaveCount(0);

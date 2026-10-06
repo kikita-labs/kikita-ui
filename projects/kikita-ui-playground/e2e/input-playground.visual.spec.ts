@@ -217,7 +217,9 @@ test('loads the Input scope and switches its accessible names at runtime', async
     exact: true,
   });
   await email.click();
-  await email.press('Tab');
+  // Nothing focusable follows the field, so Tab would hand focus to the browser UI in Firefox
+  // without a blur event; clicking the heading blurs the field in every engine.
+  await page.getByRole('heading', { level: 1, name: translations.title, exact: true }).click();
   await expect(validation.getByRole('alert')).toHaveText(translations.errors.required);
   await expect(email).toHaveAttribute('aria-invalid', 'true');
 });
@@ -370,7 +372,9 @@ test.describe('auto focus', () => {
   }) => {
     const opener = autoFocusGroup(page).getByRole('button', { name: 'Open dialog', exact: true });
 
-    await opener.click();
+    // Opened with the keyboard: Safari does not focus a button on mouse click, so there is no focus to return.
+    await opener.focus();
+    await page.keyboard.press('Enter');
 
     const dialog = page.getByRole('dialog');
     await expect(dialog.getByRole('textbox', { name: 'Focused field in dialog' })).toBeFocused();

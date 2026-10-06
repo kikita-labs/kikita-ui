@@ -657,6 +657,8 @@ test('renders the standalone panel inline with its own chrome and keeps Done ine
   const panel = inline.locator('kui-time-picker-panel');
 
   await expect(panel).toBeVisible();
+  // Firefox centres the selected cells only once the panel is in view.
+  await panel.scrollIntoViewIfNeeded();
   await expect(panel).not.toHaveAttribute('data-kui-flat', /.*/);
   await expect(cell(inline, 'Hours', '14')).toHaveAttribute('aria-selected', 'true');
   await expect(cell(inline, 'Minutes', '30')).toHaveAttribute('aria-selected', 'true');

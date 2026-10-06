@@ -235,7 +235,12 @@ test('captures native semantic hosts and composition @visual', async ({ page }) 
 
 test('activates the native card link with Enter and follows its article target', async ({
   page,
+  browserName,
 }) => {
+  test.skip(
+    browserName === 'webkit',
+    'Safari skips links when Tab is pressed unless the user enables it, so keyboard focus never reaches the link.',
+  );
   const examples = page.getByRole('group', {
     name: 'Card semantic host and composition examples',
     exact: true,

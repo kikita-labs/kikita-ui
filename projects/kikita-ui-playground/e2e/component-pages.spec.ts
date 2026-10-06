@@ -58,9 +58,14 @@ const componentPages = [
   { path: '/components/typography', title: 'Typography' },
 ] as const;
 
+// Both tests below walk every component page, which Firefox and WebKit load several times slower.
+const slowEngineFactor = 5;
+
 test('server renders each component page and hydrates its selected navigation item', async ({
   page,
+  browserName,
 }) => {
+  if (browserName !== 'chromium') test.setTimeout(30_000 * slowEngineFactor);
   const consoleErrors: string[] = [];
   page.on('console', (message) => {
     if (message.type() === 'error') consoleErrors.push(message.text());
@@ -95,8 +100,11 @@ test('server renders each component page and hydrates its selected navigation it
   expect(consoleErrors).toEqual([]);
 });
 
-test('component page catalogues fit mobile, tablet, and desktop viewports', async ({ page }) => {
-  test.setTimeout(120_000);
+test('component page catalogues fit mobile, tablet, and desktop viewports', async ({
+  page,
+  browserName,
+}) => {
+  test.setTimeout(browserName === 'chromium' ? 120_000 : 120_000 * slowEngineFactor);
 
   for (const viewport of [
     { width: 320, height: 640 },

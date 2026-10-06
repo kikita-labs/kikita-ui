@@ -77,7 +77,11 @@ test('checkbox and radio show checked state with a different background', async 
   );
 });
 
-test('switch shows state in the track and the thumb', async ({ page }) => {
+test('switch shows state in the track and the thumb', async ({ page, browserName }) => {
+  test.skip(
+    browserName === 'webkit',
+    'Safari has no forced-colors mode, so the thumb keeps its colour.',
+  );
   await open(page, '/components/switch');
 
   const on = page.locator('input.kui-switch:checked');

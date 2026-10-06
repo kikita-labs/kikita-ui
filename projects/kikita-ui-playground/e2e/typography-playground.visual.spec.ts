@@ -122,11 +122,12 @@ test.describe('catalogue', () => {
 
       const type = await readType(text);
 
-      expect([type.fontSize, type.lineHeight, type.fontWeight], groupName).toEqual([
-        size,
-        lineHeight,
-        weight,
-      ]);
+      expect([type.fontSize, type.fontWeight], groupName).toEqual([size, weight]);
+      // WebKit serialises a computed fraction with float noise, such as 41.400002px for 41.4px.
+      expect(Number.parseFloat(type.lineHeight), groupName).toBeCloseTo(
+        Number.parseFloat(lineHeight),
+        1,
+      );
       expect(type.textTransform, groupName).toBe(variant === 'overline' ? 'uppercase' : 'none');
       expect(type.fontFamily.includes('mono'), groupName).toBe(variant === 'code');
     }

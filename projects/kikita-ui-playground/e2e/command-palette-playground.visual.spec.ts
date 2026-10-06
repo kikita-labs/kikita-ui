@@ -101,7 +101,9 @@ test('captures loading and empty overlay states @visual', async ({ page }) => {
 test('selects a command with the keyboard and restores focus to its trigger', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default command palette example', exact: true });
   const trigger = example.getByRole('button', { name: 'Open command palette', exact: true });
-  await trigger.click();
+  // Opened with the keyboard: Safari does not focus a button on mouse click, so there is no focus to return.
+  await trigger.focus();
+  await page.keyboard.press('Enter');
 
   const dialog = page.getByRole('dialog', { name: 'Command palette', exact: true });
   const search = dialog.getByRole('combobox');
@@ -136,7 +138,9 @@ test('keeps focus inside the dialog and cycles through its Tab boundary', async 
 test('dismisses from the backdrop and restores focus to its trigger', async ({ page }) => {
   const example = page.getByRole('group', { name: 'Default command palette example', exact: true });
   const trigger = example.getByRole('button', { name: 'Open command palette', exact: true });
-  await trigger.click();
+  // Opened with the keyboard: Safari does not focus a button on mouse click, so there is no focus to return.
+  await trigger.focus();
+  await page.keyboard.press('Enter');
 
   const dialog = page.getByRole('dialog', { name: 'Command palette', exact: true });
   await dialog.getByRole('combobox').click();
@@ -153,7 +157,9 @@ test('clears the query, moves active selection with both arrows, and restores fo
 }) => {
   const example = page.getByRole('group', { name: 'Default command palette example', exact: true });
   const trigger = example.getByRole('button', { name: 'Open command palette', exact: true });
-  await trigger.click();
+  // Opened with the keyboard: Safari does not focus a button on mouse click, so there is no focus to return.
+  await trigger.focus();
+  await page.keyboard.press('Enter');
 
   const dialog = page.getByRole('dialog', { name: 'Command palette', exact: true });
   const search = dialog.getByRole('combobox');
@@ -195,7 +201,9 @@ test('updates localized page, group, dialog, command, and selected status after 
   await expect(page.getByRole('heading', { level: 1, name: russian.title })).toBeVisible();
   const example = page.getByRole('group', { name: russian.accessibility.default, exact: true });
   const trigger = example.getByRole('button', { name: russian.actions.openDefault, exact: true });
-  await trigger.click();
+  // Opened with the keyboard: Safari does not focus a button on mouse click, so there is no focus to return.
+  await trigger.focus();
+  await page.keyboard.press('Enter');
 
   const dialog = page.getByRole('dialog', { name: russian.accessibility.dialogLabel, exact: true });
   const search = dialog.getByRole('combobox', {

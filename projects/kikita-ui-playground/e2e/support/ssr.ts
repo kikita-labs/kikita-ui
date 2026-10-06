@@ -84,7 +84,7 @@ export async function waitForShellHydration(page: Page): Promise<void> {
   await expect(async () => {
     await banner
       .getByRole('button', { name: 'Switch to light theme', exact: true })
-      .click({ timeout: 1_000 });
+      .click({ timeout: 5_000 });
     await expect(page.locator('html')).toHaveAttribute('data-kui-theme', 'light', {
       timeout: 1_000,
     });

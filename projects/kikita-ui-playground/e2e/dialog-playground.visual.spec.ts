@@ -219,7 +219,9 @@ test('closes through the built-in close button and restores opener focus', async
   const group = page.getByRole('group', { name: 'Dialog size examples', exact: true });
   const trigger = group.getByRole('button', { name: 'Open default', exact: true });
 
-  await trigger.click();
+  // Opened with the keyboard: Safari does not focus a button on mouse click, so there is no focus to return.
+  await trigger.focus();
+  await page.keyboard.press('Enter');
   const dialog = page.getByRole('dialog', { name: 'Profile details', exact: true });
   await dialog.getByRole('button', { name: 'Close', exact: true }).click();
 
@@ -270,7 +272,9 @@ test('keeps Tab and Shift+Tab focus inside the dialog and restores the trigger o
     .getByRole('button', { name: 'Open default', exact: true });
   const dialog = page.getByRole('dialog');
 
-  await trigger.click();
+  // Opened with the keyboard: Safari does not focus a button on mouse click, so there is no focus to return.
+  await trigger.focus();
+  await page.keyboard.press('Enter');
   await expect(dialog).toBeVisible();
 
   for (const key of ['Tab', 'Shift+Tab']) {

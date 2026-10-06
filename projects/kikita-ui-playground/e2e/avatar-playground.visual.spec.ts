@@ -299,6 +299,7 @@ test.describe('touch input', () => {
 
   test('keeps the Avatar action target at least 44 by 44 CSS pixels on mobile', async ({
     page,
+    browserName,
   }) => {
     await page.setViewportSize(mobileViewport);
     await collapseMobileSidebar(page);
@@ -314,7 +315,10 @@ test.describe('touch input', () => {
     });
 
     await expect(page.getByRole('heading', { level: 1, name: 'Avatar' })).toBeVisible();
-    await expect.poll(() => page.evaluate(() => navigator.maxTouchPoints)).toBeGreaterThan(0);
+    // Only Chromium reports touch points for an emulated touch context.
+    if (browserName === 'chromium') {
+      await expect.poll(() => page.evaluate(() => navigator.maxTouchPoints)).toBeGreaterThan(0);
+    }
     await button.scrollIntoViewIfNeeded();
 
     const targetSize = await button.evaluate((element) => {

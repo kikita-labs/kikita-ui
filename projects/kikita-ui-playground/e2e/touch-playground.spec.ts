@@ -40,7 +40,14 @@ test.describe('Dialog touch input', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'Dialog' })).toBeVisible();
   });
 
-  test('closes when the backdrop is tapped and focus returns to the trigger', async ({ page }) => {
+  test('closes when the backdrop is tapped and focus returns to the trigger', async ({
+    page,
+    browserName,
+  }) => {
+    test.skip(
+      browserName === 'webkit',
+      'Safari does not focus a button on tap, so there is no focus to return.',
+    );
     const trigger = page
       .getByRole('group', { name: 'Dialog size examples', exact: true })
       .getByRole('button', { name: 'Open default', exact: true });

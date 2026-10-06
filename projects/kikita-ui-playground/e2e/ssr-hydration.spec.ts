@@ -403,7 +403,9 @@ test('shows server-rendered Dialog markup before client JavaScript, then hydrate
   await expect(openDefault).toHaveAttribute('data-server-node', '');
   expect(await readDuplicateIds(page)).toEqual([]);
 
-  await openDefault.click();
+  // Opened with the keyboard: Safari does not focus a button on mouse click, so there is no focus to return.
+  await openDefault.focus();
+  await page.keyboard.press('Enter');
   const dialog = page.getByRole('dialog', { name: 'Profile details', exact: true });
   await expect(dialog).toBeVisible();
 
