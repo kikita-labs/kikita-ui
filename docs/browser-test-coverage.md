@@ -198,14 +198,16 @@ in the plan listed.
 10. **No manual accessibility evidence**: no real keyboard-only or screen-reader session is recorded for
     any primitive. Scheduled at final v2 integration (`PLAN.md`); the assistive technology, browser and
     OS must be named. See [Accessibility Review Guide](accessibility.md).
-11. **Chromium only**: the committed projects run Chromium. A one-off run of the `behavior` tests in
-    Firefox and WebKit on 2026-10-05 (927 passed, 103 failed before triage) found a real Firefox defect in
-    `kuiAutoFocus` (fixed), tests that use Chromium-only clipboard permissions or DevTools touch input
-    (now skipped outside Chromium with a reason), and WebKit differences that are not defects: Safari does
-    not focus a clicked button, so tests that expect focus to return to a mouse-clicked trigger fail there
-    (see Focus Return In Safari in [Accessibility Review Guide](accessibility.md)). Remaining WebKit and
-    Firefox failures (Carousel, Media Viewer, OTP typing over a filled cell) are untriaged. Adding the two
-    browsers as committed projects needs a decision on which of those tests to skip per browser.
+11. **Firefox and WebKit run on demand, not in CI**: `pnpm test:cross` runs every test not tagged
+    `@visual` in Firefox and WebKit through `playwright.cross.config.ts`. A run on 2026-10-06 found three
+    library defects, all fixed: `kuiAutoFocus` in Firefox, Carousel autoplay not pausing on a focused page
+    dot, and OTP typing over a filled cell in Safari. Everything else was a Chromium-only assumption in a
+    test. Tests that need Chromium-only clipboard permissions or DevTools touch input, Tab to a link, tap
+    focus or forced colours are skipped in the other engines with a reason. Safari does not focus a clicked
+    button, so focus-return tests open from a focused control (see Focus Return In Safari in
+    [Accessibility Review Guide](accessibility.md)). The run takes about 18 minutes and a lot of memory with
+    four workers, so it is not part of the default gate; run it before a release. Visual snapshots stay
+    Chromium-only.
 12. **Hydration readiness** is inferred from behavior because the Playground exposes no marker.
     Owner: Plan 12 decides whether to add one (`ssr.md`, Phase 3). This caused real CI flakes: a key
     pressed before hydration finishes is captured by Angular event replay and delivered out of order

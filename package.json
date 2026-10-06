@@ -17,6 +17,7 @@
     "test:kikita-ui-playground": "ng test kikita-ui-playground",
     "test:browser": "pnpm run build:playground && playwright test --project=behavior",
     "test:ssr": "pnpm run build:playground && playwright test --project=behavior ssr-hydration.spec.ts",
+    "test:cross": "pnpm run build:playground && playwright test -c playwright.cross.config.ts --workers=4",
     "test:visual": "node scripts/visual-docker.mjs playground",
     "test:visual:update": "node scripts/visual-docker.mjs playground --update",
     "lint": "ng lint",

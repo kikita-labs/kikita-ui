@@ -42,6 +42,8 @@ pnpm.cmd test:visual
 title does not carry `@visual`, including the SSR, hydration, accessibility and responsive checks).
 `test:ssr` runs only the SSR hydration spec against a fresh build. The `visual` project runs through
 Docker (`test:visual`, see `docs/visual-regression.md`) because its baselines are Linux captures.
+`test:cross` runs the same non-visual tests in Firefox and WebKit. It is slow and memory-heavy, so run
+it before a release, not on every change; see `docs/browser-test-coverage.md`.
 
 ## Architecture And Bundle Audits
 
