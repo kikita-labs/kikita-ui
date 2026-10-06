@@ -25,7 +25,7 @@ const NEUTRAL_LIGHTNESS = {
 } as const;
 
 /** Every colour scale, in the order its seed variable is written. */
-export const SCALE_NAMES: readonly KuiColorScaleName[] = [
+const SCALE_NAMES: readonly KuiColorScaleName[] = [
   'primary',
   'neutral',
   'success',

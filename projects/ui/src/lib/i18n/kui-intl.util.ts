@@ -115,7 +115,7 @@ export function getKuiWeekInfo(tag: string): KuiWeekInfo {
 }
 
 /** Removes the invisible bidirectional marks that some locales put around separators. */
-export function stripKuiBidiMarks(text: string): string {
+function stripKuiBidiMarks(text: string): string {
   return text.replace(BIDI_MARKS, '');
 }
 

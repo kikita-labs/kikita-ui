@@ -18,14 +18,6 @@ export function isSameDay(a: Date | null, b: Date | null): boolean {
   );
 }
 
-export function isBeforeDay(a: Date, b: Date): boolean {
-  return startOfDay(a).getTime() < startOfDay(b).getTime();
-}
-
-export function isAfterDay(a: Date, b: Date): boolean {
-  return startOfDay(a).getTime() > startOfDay(b).getTime();
-}
-
 export function addDays(date: Date, amount: number): Date {
   const result = new Date(date);
   result.setDate(result.getDate() + amount);
@@ -42,10 +34,6 @@ export function addYears(date: Date, amount: number): Date {
   const result = new Date(date);
   result.setFullYear(result.getFullYear() + amount);
   return result;
-}
-
-export function daysInMonth(year: number, month: number): number {
-  return new Date(year, month + 1, 0).getDate();
 }
 
 /** Index (0-based) of `date` within a week that starts on `firstDayOfWeek` (0 = Sunday). */

@@ -11,7 +11,7 @@ export interface KuiChartTickBox {
 export type KuiChartTickAnchor = 'start' | 'middle' | 'end';
 
 /** Smallest empty space between two tick labels, in pixels. */
-export const KUI_CHART_TICK_GAP = 8;
+const KUI_CHART_TICK_GAP = 8;
 
 function extent(box: KuiChartTickBox, anchor: KuiChartTickAnchor): readonly [number, number] {
   if (anchor === 'start') return [box.position, box.position + box.width];

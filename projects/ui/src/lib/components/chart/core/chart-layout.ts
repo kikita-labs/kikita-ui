@@ -22,20 +22,20 @@ export interface KuiChartFont {
 }
 
 /** Used until the browser has told the real axis font: the default of `--kui-text-sm-size`. */
-export const KUI_CHART_DEFAULT_FONT: KuiChartFont = {
+const KUI_CHART_DEFAULT_FONT: KuiChartFont = {
   size: 13,
   family: 'sans-serif',
   weight: '400',
 };
 
 /** Used until the browser has told the real mark radius: the default of `--kui-chart-point-radius`. */
-export const KUI_CHART_DEFAULT_MARK_RADIUS = 4;
+const KUI_CHART_DEFAULT_MARK_RADIUS = 4;
 
 /** Used until the browser has told the real bar radius: the default of `--kui-radius-xs`. */
-export const KUI_CHART_DEFAULT_BAR_RADIUS = 4;
+const KUI_CHART_DEFAULT_BAR_RADIUS = 4;
 
 /** Average advance of a glyph in `em`, used where the browser cannot measure (the server). */
-export const KUI_CHART_ESTIMATED_GLYPH_EM = 0.6;
+const KUI_CHART_ESTIMATED_GLYPH_EM = 0.6;
 
 /** Options of {@link KuiChartLayout}. */
 export interface KuiChartLayoutOptions {

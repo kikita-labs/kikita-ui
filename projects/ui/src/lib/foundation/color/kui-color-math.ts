@@ -16,7 +16,7 @@ export type KuiRgb8 = readonly [number, number, number];
 const MAX_ITERATIONS = 50;
 
 /** Converts OKLCH to linear sRGB without clipping; channels outside 0..1 are out of gamut. */
-export function oklchToLinearSrgb(color: KuiOklch): readonly [number, number, number] {
+function oklchToLinearSrgb(color: KuiOklch): readonly [number, number, number] {
   const a = color.chroma * Math.cos((color.hue * Math.PI) / 180);
   const b = color.chroma * Math.sin((color.hue * Math.PI) / 180);
   const l = (color.lightness + 0.3963377774 * a + 0.2158037573 * b) ** 3;
@@ -100,7 +100,7 @@ export function normalizeHue(hue: number): number {
 }
 
 /** The linear-light value of an sRGB channel given as 0..1. */
-export function srgbToLinear(value: number): number {
+function srgbToLinear(value: number): number {
   return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
 }
 
