@@ -79,6 +79,8 @@
     role="tablist"
     [attr.aria-label]="t().dots"
     (keydown)="onDotsKeydown($event)"
+    (focusin)="hoverPaused.set(true)"
+    (focusout)="hoverPaused.set(false)"
   >
     @for (dot of dots(); track dot.index) {
       <button

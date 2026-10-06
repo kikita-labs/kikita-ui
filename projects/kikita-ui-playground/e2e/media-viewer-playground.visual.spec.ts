@@ -111,7 +111,9 @@ test('opens from the default trigger with every default and reports the index', 
   const container = group(page, groups.default);
   const trigger = container.getByRole('button', { name: 'Open viewer', exact: true });
 
-  await trigger.click();
+  // Opened with the keyboard: Safari does not focus a button on mouse click, so there is no focus to return.
+  await trigger.focus();
+  await page.keyboard.press('Enter');
   const dialog = viewer(page, { photo: 1, total: 6 });
   await expect(dialog).toHaveAttribute('aria-modal', 'true');
   await expect(dialog.getByText('1 / 6', { exact: true })).toBeVisible();
@@ -197,13 +199,16 @@ test('closes with Escape or the Close button and returns focus to the tile', asy
     exact: true,
   });
 
-  await tile.click();
+  // Opened with the keyboard: Safari does not focus a button on mouse click, so there is no focus to return.
+  await tile.focus();
+  await page.keyboard.press('Enter');
   const dialog = viewer(page, { photo: 3, total: 6 });
   await page.keyboard.press('Escape');
   await expect(dialog).toHaveCount(0);
   await expect(tile).toBeFocused();
 
-  await tile.click();
+  await tile.focus();
+  await page.keyboard.press('Enter');
   await viewer(page, { photo: 3, total: 6 })
     .getByRole('button', { name: 'Close photo viewer', exact: true })
     .click();

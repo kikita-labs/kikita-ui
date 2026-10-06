@@ -19,6 +19,7 @@
     (keydown)="onCellKeydown($index, $event)"
     (paste)="onCellPaste($event)"
     (focus)="onCellFocus($event)"
+    (mouseup)="$event.preventDefault()"
   />
 }
 @if (loading()) {

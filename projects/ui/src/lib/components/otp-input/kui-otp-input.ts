@@ -267,6 +267,11 @@ export class KuiOtpInput implements FormValueControl<string> {
     return this.t().digit({ index: i + 1, total: this.length() });
   }
 
+  /**
+   * Selects the cell content so typing replaces it. The cell template also cancels `mouseup`: Safari
+   * otherwise collapses this selection when the button is released, and `maxlength` would then drop
+   * the typed character.
+   */
   protected onCellFocus(event: FocusEvent): void {
     (event.target as HTMLInputElement).select();
   }

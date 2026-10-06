@@ -322,6 +322,21 @@ describe('KuiCarousel', () => {
     expect(toggle.getAttribute('aria-label')).toBe('Resume autoplay');
   });
 
+  it('pauses autoplay while focus is on a page dot, which sits outside the slide region', () => {
+    vi.useFakeTimers();
+    const fixture = createFixture(AutoplayHost);
+    const dots = fixture.nativeElement.querySelector('[role="tablist"]') as HTMLElement;
+    const running = vi.getTimerCount();
+
+    dots.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+    fixture.detectChanges();
+    expect(vi.getTimerCount()).toBe(running - 1);
+
+    dots.dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
+    fixture.detectChanges();
+    expect(vi.getTimerCount()).toBe(running);
+  });
+
   it('links every page dot to its slide id and labels each slide after the first render', async () => {
     const fixture = createFixture(BasicHost);
     await fixture.whenStable();
