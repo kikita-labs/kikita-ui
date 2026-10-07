@@ -1,33 +1,13 @@
 import type { KuiOklchColor } from '../kui-theme-color.interface';
+import type { KuiThemeContrast } from '../kui-theme-contrast.type';
 import type { KuiThemeMode } from '../kui-theme-mode.type';
 import type { KuiCssVariableMap } from '../kui-theme-tokens.interface';
 import { formatOklch } from '../palette/kui-theme-color-format';
 import type { KuiAccentName, KuiParsedSeeds } from '../palette/kui-theme-palette';
 import { ACCENT_NAMES } from '../palette/kui-theme-palette';
 import { createAccentVariables, WHITE_TEXT } from './kui-theme-accent-roles';
+import { createNeutralRoleVariables } from './kui-theme-neutral-roles';
 
-/** Neutral step read by each neutral role: [light, dark]. */
-const NEUTRAL_ROLE_STEPS = {
-  surface: [1, 3],
-  'surface-elevated': [1, 4],
-  bg: [2, 2],
-  'surface-sunken': [3, 1],
-  'skeleton-highlight': [3, 6],
-  'border-subtle': [4, 4],
-  'skeleton-bg': [4, 4],
-  border: [5, 5],
-  'scrollbar-thumb': [6, 7],
-  'border-strong': [7, 7],
-  'text-disabled': [8, 8],
-  'scrollbar-thumb-hover': [9, 9],
-  'scrollbar-thumb-active': [10, 10],
-  'border-control': [10, 10],
-  'border-control-hover': [11, 11],
-  'text-secondary': [11, 11],
-  'text-placeholder': [11, 11],
-  text: [12, 12],
-  'neutral-fill': [11, 7],
-} as const satisfies Record<string, readonly [number, number]>;
 /** Categorical palettes: avatar tints and chart series are deliberately independent of the seeds. */
 const CATEGORICAL_VARIABLES = {
   light: {
@@ -94,8 +74,8 @@ export function createSemanticVariables(
   seeds: KuiParsedSeeds,
   ramps: Record<KuiAccentName, readonly KuiOklchColor[]>,
   neutral: Record<KuiThemeMode, readonly KuiOklchColor[]>,
+  contrast: KuiThemeContrast,
 ): KuiCssVariableMap {
-  const modeIndex = mode === 'light' ? 0 : 1;
   const variables: Record<`--kui-${string}`, string> = {
     '--kui-color-on-scrim': WHITE_TEXT,
     '--kui-color-scrim': 'oklch(0 0 0 / 0.5)',
@@ -125,9 +105,7 @@ export function createSemanticVariables(
     variables[`--kui-neutral-${index + 1}`] = formatOklch(color);
   });
 
-  for (const [role, steps] of Object.entries(NEUTRAL_ROLE_STEPS)) {
-    variables[`--kui-color-${role}`] = `var(--kui-neutral-${steps[modeIndex]})`;
-  }
+  Object.assign(variables, createNeutralRoleVariables(mode, contrast));
 
   for (const name of ACCENT_NAMES) {
     Object.assign(variables, createAccentVariables(mode, name, ramps[name], neutral[mode]));

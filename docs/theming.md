@@ -106,6 +106,40 @@ scrollbars follow `seeds.neutral`. Contrast is part of the contract: for any see
 the library draws reaches 4.5:1 (text) or 3:1 (non-text); the generator picks white or near-black text for
 each solid fill and corrects a seed that neither reaches 4.5:1 on.
 
+## Contrast Profiles
+
+WCAG 1.4.11 asks for 3:1 on the boundary of a control only where that boundary is what identifies it
+(a text input, a checkbox). `--kui-color-border-control` is that boundary for Input, Select, Textarea,
+Checkbox, Radio, Switch, Segmented, Chip and the outline Button and Icon Button, and it meets 3:1 in the
+default `strict` profile.
+
+On top of that, a contrast profile re-points neutral roles. There are two:
+
+- `strict` (default): control borders reach 3:1 on every surface. The contrast contract tests run against it.
+- `soft`: control borders read quieter (neutral 6, hover 8 instead of 10 and 11). They fall below
+  3:1, so choose it knowingly. Text, focus rings and fills do not change.
+
+```ts
+provideKuiTheme({ ...DEFAULT_KUI_THEME, contrast: 'soft' });
+```
+
+The option sets the default. Other profiles are emitted as the variables they change, so you can switch at
+runtime without a new theme:
+
+```ts
+document.documentElement.setAttribute('data-kui-contrast', 'strict');
+```
+
+A profile with a media query also applies on its own while `data-kui-contrast` is absent. `strict` is
+selected by `@media (prefers-contrast: more)`, so with `contrast: 'soft'` as the default, a visitor who asked
+the operating system for more contrast still gets 3:1 borders. An explicit attribute always wins over the
+system setting. The rules live in the `kui.tokens` layer like the rest of the theme.
+
+All profiles are one record, `KUI_CONTRAST_PROFILES`, in `semantic/kui-theme-contrast-profiles.ts`. A new
+profile is a name in `KuiThemeContrast` plus an entry that lists the roles it re-points (and, optionally, a
+media query); the generator, the CSS output and the tests read the record, so nothing else changes. Keep
+profiles to border and surface roles: body text stays at 4.5:1 in every profile.
+
 ## Shared Behaviour Tokens
 
 A few tokens change one behaviour for the whole library. Set them on `:root` or on any subtree; a

@@ -120,6 +120,7 @@ Safari on macOS does not focus a button when it is clicked with the mouse, so th
 - Essential motion has a non-motion cue.
 - Focus, selected, invalid, disabled, and loading states remain distinguishable without relying on color alone.
 - Text and icon contrast meet WCAG AA where practical for the component size.
+- Control borders follow WCAG 1.4.11: a boundary that alone identifies a control (input, checkbox) reaches 3:1 in the default `strict` contrast profile; the opt-in `soft` profile drops control borders below 3:1 and is documented as such. `@media (prefers-contrast: more)` selects `strict` while no `data-kui-contrast` attribute is set. See [Contrast Profiles](theming.md#contrast-profiles).
 - Forced-colors or high-contrast mode preserves visible boundaries, focus, and state indicators.
 - The library ships these rules in `forced-colors.css` using system colours; `e2e/forced-colors.spec.ts` (Chromium forced-colors emulation) checks the checked, selected, filled and focus states. WebKit emulation does not apply the forced palette, so it is not evidence. New state-bearing components add their rule there and a case to the spec.
 - Icons are drawn as inline SVG with `currentColor`, so they take the system text colour in forced-colors mode. Do not draw an icon with a CSS `mask-image` and `background: currentColor`: Chromium paints the background in the forced palette and the icon disappears (Firefox keeps it). `e2e/icon-structural.spec.ts` checks that the structural icons keep a visible paint. See [Structural Icons](structural-icons.md#accessibility).

@@ -581,8 +581,8 @@
       "limitBytes": 30992
     },
     "provideKikitaUi": {
-      "baselineBytes": 36496,
-      "limitBytes": 37600,
+      "baselineBytes": 37657,
+      "limitBytes": 38800,
       "targetBytes": 14336
     },
     "provideKuiIcons": {

@@ -985,4 +985,15 @@
     --kui-chart-donut-thickness: 28px;
     --kui-chart-tooltip-radius: var(--kui-radius-md);
   }
+
+  :root[data-kui-contrast='soft'],
+  [data-kui-theme='light'][data-kui-contrast='soft'] {
+    --kui-color-border-control: var(--kui-neutral-6);
+    --kui-color-border-control-hover: var(--kui-neutral-8);
+  }
+
+  [data-kui-theme='dark'][data-kui-contrast='soft'] {
+    --kui-color-border-control: var(--kui-neutral-6);
+    --kui-color-border-control-hover: var(--kui-neutral-8);
+  }
 }

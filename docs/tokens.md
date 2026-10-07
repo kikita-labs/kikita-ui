@@ -156,9 +156,9 @@ Neutral and shared roles:
 --kui-color-focus
 ```
 
-`--kui-color-border-control` is the boundary of an interactive control at rest (at least 3:1 on every
-surface); `--kui-color-border-control-hover` is its hover colour; `--kui-color-border` and
-`--kui-color-border-strong` stay for dividers and cards.
+`--kui-color-border-control` is the boundary of an interactive control that the border alone identifies, such
+as an input or a checkbox (at least 3:1 on every surface in the `strict` contrast profile, quieter in `soft`);
+`--kui-color-border-control-hover` is its hover colour. `--kui-color-border` and `--kui-color-border-strong` stay for dividers and cards. See [Contrast Profiles](theming.md#contrast-profiles).
 `--kui-color-text-placeholder` reaches 4.5:1 on every surface; `--kui-color-text-disabled` is only for
 disabled controls. `--kui-color-on-scrim` is white in both modes for text over overlays.
 `--kui-color-state-hover` and `--kui-color-state-active` are translucent layers of the text colour (8% and

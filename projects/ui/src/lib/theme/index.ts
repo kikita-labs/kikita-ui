@@ -2,6 +2,7 @@ export * from './create-kui-theme';
 export * from './default-kui-theme.const';
 export * from './kui-theme.token';
 export * from './kui-theme-color.interface';
+export * from './kui-theme-contrast.type';
 export * from './kui-theme-mode.type';
 export * from './kui-theme-options.interface';
 export * from './kui-theme-seeds.interface';

@@ -81,6 +81,17 @@ var(--kui-color-surface)`: an alias on `:root` is resolved there and descendants
   still expose real component states and catch obvious responsive/theming
   defects.
 
+## Border Roles
+
+Pick the border role by what identifies the component, not by how it should look:
+
+- The border is the only thing that shows the component (input, select, textarea, checkbox, radio):
+  `--kui-color-border-control` (3:1 in `strict`).
+- Dividers and cards: `--kui-color-border`, `--kui-color-border-strong`.
+
+A new contrast mode is an entry in `KUI_CONTRAST_PROFILES` (see `docs/theming.md#contrast-profiles`), never a
+branch inside a component. Components read roles only and do not know the profile.
+
 ## Text Overflow And Truncation
 
 - Do not add `overflow: hidden` as a mechanical fix for text that does not fit.

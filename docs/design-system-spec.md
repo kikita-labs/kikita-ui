@@ -173,7 +173,7 @@ Rules:
 Baseline requirements:
 
 - Prefer native HTML semantics before ARIA.
-- Meet WCAG AA contrast for text and controls.
+- Meet WCAG AA contrast for text and controls. Control borders reach 3:1 in the default `strict` contrast profile; the opt-in `soft` profile trades that for quieter borders (see [Theming](theming.md#contrast-profiles)).
 - Provide visible focus states for keyboard users.
 - Support disabled, hover, active, focus, loading, error, and success states where relevant.
 - Use Angular CDK or Angular Aria for complex accessibility behavior.

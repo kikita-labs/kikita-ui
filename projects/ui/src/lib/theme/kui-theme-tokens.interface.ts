@@ -1,3 +1,5 @@
+import type { KuiThemeContrast } from './kui-theme-contrast.type';
+
 /** Supported generated color scale names. */
 export type KuiColorScaleName = 'primary' | 'neutral' | 'success' | 'warning' | 'danger' | 'info';
 
@@ -29,4 +31,25 @@ export interface KuiGeneratedTheme {
 
   /** Component and base scale CSS variables shared by light and dark themes. */
   readonly component: KuiCssVariableMap;
+
+  /** Every contrast profile other than the default one, as the variables it changes. */
+  readonly contrast: readonly KuiGeneratedContrast[];
+}
+
+/**
+ * The variables one contrast profile changes relative to the theme's default profile. They are
+ * emitted as `[data-kui-contrast]` rules and, when `media` is set, as a media query rule.
+ */
+export interface KuiGeneratedContrast {
+  /** Profile name, the value of the `data-kui-contrast` attribute. */
+  readonly name: KuiThemeContrast;
+
+  /** Media query condition under which the profile applies without the attribute, if any. */
+  readonly media?: string;
+
+  /** Variables that differ from the default profile in light mode. */
+  readonly light: KuiCssVariableMap;
+
+  /** Variables that differ from the default profile in dark mode. */
+  readonly dark: KuiCssVariableMap;
 }

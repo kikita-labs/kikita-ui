@@ -74,13 +74,13 @@ function hash(text: string): string {
 }
 
 const EXPECTED: Record<string, { readonly theme: string; readonly styleSheet: string }> = {
-  default: { theme: '9a0e099d', styleSheet: '08b64c52' },
-  roundedCompact: { theme: 'c1ad6c78', styleSheet: '76acbd5e' },
-  squareComfortable: { theme: 'f7dbf303', styleSheet: 'c206b232' },
-  warmBrand: { theme: 'ac92ef83', styleSheet: '9a62ea06' },
-  coolBrand: { theme: 'd7a5df49', styleSheet: '68a2abb9' },
-  achromaticNeutral: { theme: '2fb316b9', styleSheet: '9e6216cd' },
-  midLightnessSeeds: { theme: '87689c54', styleSheet: '8a07ea36' },
+  default: { theme: 'ea807252', styleSheet: 'cee469c6' },
+  roundedCompact: { theme: 'c8d9c9ff', styleSheet: '9e6acd72' },
+  squareComfortable: { theme: '49f6ae00', styleSheet: '72b651a6' },
+  warmBrand: { theme: '6b170280', styleSheet: '0bfb7a7a' },
+  coolBrand: { theme: '8651a796', styleSheet: 'ca67c0a9' },
+  achromaticNeutral: { theme: '69c32d46', styleSheet: 'ccffa5fd' },
+  midLightnessSeeds: { theme: '8912ec73', styleSheet: 'edb1f62a' },
 };
 
 describe('createKuiTheme golden output', () => {

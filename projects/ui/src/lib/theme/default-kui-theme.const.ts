@@ -1,4 +1,8 @@
+import type { KuiThemeContrast } from './kui-theme-contrast.type';
 import type { KuiThemeOptions } from './kui-theme-options.interface';
+
+/** Contrast mode a theme uses when `KuiThemeOptions.contrast` is not set. */
+export const DEFAULT_KUI_THEME_CONTRAST: KuiThemeContrast = 'strict';
 
 /** Default experimental Kikita UI theme seeds. */
 export const DEFAULT_KUI_THEME: KuiThemeOptions = {
