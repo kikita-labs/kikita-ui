@@ -9,7 +9,6 @@ import {
   Injector,
   PLATFORM_ID,
   Renderer2,
-  signal,
 } from '@angular/core';
 import type { ActivatedRouteSnapshot } from '@angular/router';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
@@ -22,11 +21,12 @@ import {
   createKuiThemeStyleSheet,
   DEFAULT_KUI_THEME,
   type KuiThemeColorSeeds,
+  type KuiThemeContrast,
   type KuiThemeMode,
 } from '@kikita-labs/ui';
 
 import { ComponentSidebar, PlaygroundHeader } from '@features/playground-shell/components';
-import { DEFAULT_PLAYGROUND_SEED_COLORS } from '@features/playground-shell/constants';
+import { PlaygroundPreferences } from '@features/playground-shell/services';
 
 @Component({
   selector: 'app-playground-shell',
@@ -42,9 +42,11 @@ export class PlaygroundShell {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly preferences = inject(PlaygroundPreferences);
 
-  protected readonly themeMode = signal<KuiThemeMode>('dark');
-  protected readonly seedColors = signal<KuiThemeColorSeeds>(DEFAULT_PLAYGROUND_SEED_COLORS);
+  protected readonly themeMode = this.preferences.themeMode;
+  protected readonly seedColors = this.preferences.seedColors;
+  protected readonly contrast = this.preferences.contrast;
 
   protected readonly selectedComponentId = toSignal(
     this.router.events.pipe(
@@ -68,7 +70,13 @@ export class PlaygroundShell {
   );
 
   constructor() {
-    this.renderer.setAttribute(this.document.documentElement, 'data-kui-theme', this.themeMode());
+    // The attributes follow the preferences, which are restored from storage after the first render.
+    effect(() => {
+      const root = this.document.documentElement;
+
+      this.renderer.setAttribute(root, 'data-kui-theme', this.themeMode());
+      this.renderer.setAttribute(root, 'data-kui-contrast', this.contrast());
+    });
 
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
@@ -91,12 +99,16 @@ export class PlaygroundShell {
   /** Applies a theme mode chosen from the app header. */
   protected setThemeMode(mode: KuiThemeMode): void {
     this.themeMode.set(mode);
-    this.renderer.setAttribute(this.document.documentElement, 'data-kui-theme', mode);
   }
 
   /** Applies validated seed values from the app header. */
   protected setSeedColors(colors: KuiThemeColorSeeds): void {
     this.seedColors.set(colors);
+  }
+
+  /** Applies the contrast mode chosen from the app header. */
+  protected setContrast(contrast: KuiThemeContrast): void {
+    this.contrast.set(contrast);
   }
 
   private getSelectedComponentId(): string | null {

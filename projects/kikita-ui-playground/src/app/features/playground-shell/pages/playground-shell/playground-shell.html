@@ -2,8 +2,10 @@
   <app-playground-header
     [themeMode]="themeMode()"
     [seedColors]="seedColors()"
+    [contrast]="contrast()"
     (themeModeChange)="setThemeMode($event)"
     (seedColorsChange)="setSeedColors($event)"
+    (contrastChange)="setContrast($event)"
   />
 
   <div class="playground-shell__body">

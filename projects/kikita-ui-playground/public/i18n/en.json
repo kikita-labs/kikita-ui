@@ -12,6 +12,11 @@
       "open": "Open theme colors",
       "openColorPicker": "Open seed color picker",
       "reset": "Reset to defaults",
+      "contrast": {
+        "label": "Contrast",
+        "strict": "Strict",
+        "soft": "Soft"
+      },
       "invalidColor": "Enter a valid #RGB, #RRGGBB, or OKLCH color.",
       "colors": {
         "primary": "Primary",

@@ -7,9 +7,9 @@ elsewhere" — see `../architecture/folder-structure.md` for the boundary betwee
 
 ## Registry
 
-| Name         | Kind | Path | Doc | Summary |
-| ------------ | ---- | ---- | --- | ------- |
-| _(none yet)_ |      |      |     |         |
+| Name           | Kind    | Path                       | Doc | Summary                                                                                                                                                  |
+| -------------- | ------- | -------------------------- | --- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| StorageAdapter | service | `core/platform/storage.ts` |     | SSR-safe `localStorage` access (`read`, `write`, `remove`); no-op on the server and when the browser blocks storage. Used by the playground preferences. |
 
 Kind is one of: `service`, `guard`, `interceptor`, `token`.
 

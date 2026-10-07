@@ -12,6 +12,11 @@
       "open": "Открыть цвета темы",
       "openColorPicker": "Открыть палитру начального цвета",
       "reset": "Сбросить",
+      "contrast": {
+        "label": "Контраст",
+        "strict": "Строгий",
+        "soft": "Мягкий"
+      },
       "invalidColor": "Введите цвет в формате #RGB, #RRGGBB или OKLCH.",
       "colors": {
         "primary": "Основной",

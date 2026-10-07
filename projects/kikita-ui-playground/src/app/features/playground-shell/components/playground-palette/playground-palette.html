@@ -44,6 +44,25 @@
       }
     </div>
 
+    <div class="seed-popover__contrast">
+      <span kuiText variant="body-sm" tone="muted" id="seed-contrast-label">
+        {{ 'playground.palette.contrast.label' | transloco }}
+      </span>
+      <kui-segmented
+        size="sm"
+        aria-labelledby="seed-contrast-label"
+        [value]="contrast()"
+        (valueChange)="setContrast($event)"
+      >
+        <button kuiSegment type="button" value="strict">
+          {{ 'playground.palette.contrast.strict' | transloco }}
+        </button>
+        <button kuiSegment type="button" value="soft">
+          {{ 'playground.palette.contrast.soft' | transloco }}
+        </button>
+      </kui-segmented>
+    </div>
+
     @if (invalidSeed()) {
       <p class="seed-popover__error" role="status" aria-live="polite" kuiText>
         {{ 'playground.palette.invalidColor' | transloco }}

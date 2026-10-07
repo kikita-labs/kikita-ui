@@ -10,6 +10,14 @@
     gap: var(--kui-space-3);
   }
 
+  .seed-popover__contrast {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--kui-space-3);
+    margin-block-start: var(--kui-space-4);
+  }
+
   .seed-popover__label {
     display: inline-flex;
     margin-block-end: var(--kui-space-1);

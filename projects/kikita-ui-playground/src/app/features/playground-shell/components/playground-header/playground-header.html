@@ -17,7 +17,9 @@
     <div class="playground-header__controls">
       <app-playground-palette
         [seedColors]="seedColors()"
+        [contrast]="contrast()"
         (seedColorsChange)="seedColorsChange.emit($event)"
+        (contrastChange)="contrastChange.emit($event)"
       />
 
       <button

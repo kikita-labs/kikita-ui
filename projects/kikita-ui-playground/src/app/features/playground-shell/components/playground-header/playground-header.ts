@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, inject, input, output, Renderer2, signal } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 
 import {
   KuiIcon,
@@ -7,11 +6,13 @@ import {
   KuiSeparator,
   KuiText,
   type KuiThemeColorSeeds,
+  type KuiThemeContrast,
   type KuiThemeMode,
 } from '@kikita-labs/ui';
 
 import { PlaygroundPalette } from '@features/playground-shell/components/playground-palette';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { PlaygroundPreferences } from '@features/playground-shell/services';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-playground-header',
@@ -22,30 +23,19 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 export class PlaygroundHeader {
   readonly themeMode = input<KuiThemeMode>('dark');
   readonly seedColors = input.required<KuiThemeColorSeeds>();
+  readonly contrast = input.required<KuiThemeContrast>();
 
   readonly themeModeChange = output<KuiThemeMode>();
   readonly seedColorsChange = output<KuiThemeColorSeeds>();
+  readonly contrastChange = output<KuiThemeContrast>();
 
-  private readonly document = inject(DOCUMENT);
-  private readonly renderer = inject(Renderer2);
-  private readonly transloco = inject(TranslocoService);
+  private readonly preferences = inject(PlaygroundPreferences);
 
-  protected readonly language = signal<'en' | 'ru'>(
-    this.transloco.getActiveLang() === 'ru' ? 'ru' : 'en',
-  );
-
-  /** Changes the runtime locale and the document's language for assistive technology. */
-  protected setLanguage(language: string): void {
-    if (language !== 'en' && language !== 'ru') return;
-
-    this.language.set(language);
-    this.transloco.setActiveLang(language);
-    this.renderer.setAttribute(this.document.documentElement, 'lang', language);
-  }
+  protected readonly language = this.preferences.language;
 
   /** Switches between the two supported playground locales. */
   protected toggleLanguage(): void {
-    this.setLanguage(this.language() === 'en' ? 'ru' : 'en');
+    this.preferences.setLanguage(this.language() === 'en' ? 'ru' : 'en');
   }
 
   /** Emits the next supported Kikita UI color mode. */

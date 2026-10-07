@@ -1,8 +1,7 @@
 import { Component, inject, input, output, signal } from '@angular/core';
 
 import {
-  createKuiTheme,
-  DEFAULT_KUI_THEME,
+  DEFAULT_KUI_THEME_CONTRAST,
   KuiButton,
   KuiColorInput,
   KuiField,
@@ -12,11 +11,19 @@ import {
   KuiPopover,
   KuiPopoverFor,
   kuiProvideFieldOptions,
+  KuiSegment,
+  KuiSegmented,
   KuiText,
   type KuiThemeColorSeeds,
+  type KuiThemeContrast,
 } from '@kikita-labs/ui';
 
-import { DEFAULT_PLAYGROUND_SEED_COLORS } from '@features/playground-shell/constants';
+import {
+  DEFAULT_PLAYGROUND_SEED_COLORS,
+  PLAYGROUND_SEED_NAMES,
+  type PlaygroundSeedName,
+} from '@features/playground-shell/constants';
+import { isValidSeedColors } from '@features/playground-shell/helpers';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 @Component({
@@ -30,6 +37,8 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
     KuiLabel,
     KuiPopover,
     KuiPopoverFor,
+    KuiSegment,
+    KuiSegmented,
     KuiText,
     TranslocoPipe,
   ],
@@ -39,42 +48,42 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 })
 export class PlaygroundPalette {
   readonly seedColors = input.required<KuiThemeColorSeeds>();
+  readonly contrast = input.required<KuiThemeContrast>();
 
   readonly seedColorsChange = output<KuiThemeColorSeeds>();
+  readonly contrastChange = output<KuiThemeContrast>();
 
   private readonly transloco = inject(TranslocoService);
 
   protected readonly invalidSeed = signal<string | null>(null);
-  protected readonly seedNames = [
-    'primary',
-    'neutral',
-    'success',
-    'warning',
-    'danger',
-    'info',
-  ] as const;
+  protected readonly seedNames = PLAYGROUND_SEED_NAMES;
 
   /** Validates a seed with the library theme generator before emitting it to the shell. */
-  protected updateSeed(color: keyof typeof DEFAULT_PLAYGROUND_SEED_COLORS, event: Event): void {
+  protected updateSeed(color: PlaygroundSeedName, event: Event): void {
     const input = event.target;
     if (!(input instanceof HTMLInputElement)) return;
 
     const nextColors = { ...this.seedColors(), [color]: input.value.trim() };
 
-    try {
-      createKuiTheme({ seeds: { ...DEFAULT_KUI_THEME.seeds, color: nextColors } });
+    if (isValidSeedColors(nextColors)) {
       this.seedColorsChange.emit(nextColors);
       this.invalidSeed.set(null);
       input.setCustomValidity('');
-    } catch {
+    } else {
       this.invalidSeed.set(color);
       input.setCustomValidity(this.transloco.translate('playground.palette.invalidColor'));
     }
   }
 
-  /** Restores the initial playground palette. */
+  /** Emits the contrast mode picked in the segmented control. */
+  protected setContrast(value: string): void {
+    if (value === 'strict' || value === 'soft') this.contrastChange.emit(value);
+  }
+
+  /** Restores the initial playground palette and contrast mode. */
   protected resetSeeds(): void {
     this.seedColorsChange.emit(DEFAULT_PLAYGROUND_SEED_COLORS);
+    this.contrastChange.emit(DEFAULT_KUI_THEME_CONTRAST);
     this.invalidSeed.set(null);
   }
 }
