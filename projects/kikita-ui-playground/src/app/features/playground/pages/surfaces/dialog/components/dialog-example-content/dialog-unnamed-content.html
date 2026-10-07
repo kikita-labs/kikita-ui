@@ -1,0 +1,15 @@
+<div class="kui-dialog-body">
+  <p>{{ ctx.data.body }}</p>
+  @for (line of ctx.data.bodyLines; track $index) {
+    <p>{{ line }}</p>
+  }
+</div>
+
+<div class="kui-dialog-footer">
+  <button kuiButton shape="outline" type="button" (click)="ctx.close('cancelled')">
+    {{ ctx.data.cancelLabel }}
+  </button>
+  <button kuiButton type="button" (click)="ctx.close('saved')">
+    {{ ctx.data.confirmLabel }}
+  </button>
+</div>

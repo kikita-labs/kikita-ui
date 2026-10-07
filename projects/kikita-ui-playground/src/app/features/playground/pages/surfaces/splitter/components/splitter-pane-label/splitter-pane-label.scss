@@ -1,0 +1,10 @@
+@layer app.components {
+  :host {
+    display: grid;
+    place-items: center;
+    min-block-size: 100%;
+    padding: var(--kui-space-2);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

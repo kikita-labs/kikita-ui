@@ -1,0 +1,19 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .chart-dense-examples__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  /* A container narrower than the chart's nominal width, to show how the plot follows it. */
+  .chart-dense-examples__narrow {
+    inline-size: min(100%, 14rem);
+  }
+}

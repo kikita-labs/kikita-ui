@@ -1,0 +1,35 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .alert-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .alert-playground h1 {
+    margin: 0;
+  }
+
+  .alert-playground__banners {
+    display: grid;
+    min-inline-size: 0;
+  }
+
+  .alert-playground__options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  @media (width < 48rem) {
+    .alert-playground {
+      padding: var(--kui-space-6);
+    }
+  }
+}

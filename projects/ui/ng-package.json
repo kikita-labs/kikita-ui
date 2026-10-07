@@ -8,6 +8,11 @@
       "output": "styles"
     },
     {
+      "glob": "**/*.css",
+      "input": "src/lib",
+      "output": "lib"
+    },
+    {
       "glob": "**/*",
       "input": "schematics",
       "output": "schematics"

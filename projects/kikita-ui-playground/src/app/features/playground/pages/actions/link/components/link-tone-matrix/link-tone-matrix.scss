@@ -1,0 +1,36 @@
+@layer app.components {
+  .link-tone-matrix__examples,
+  .link-tone-matrix__tone {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .link-tone-matrix__examples {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .link-tone-matrix__tone h3 {
+    margin: 0;
+  }
+
+  .link-tone-matrix__underlines {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kui-space-3) var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .link-tone-matrix__examples {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width < 48rem) {
+    .link-tone-matrix__examples {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

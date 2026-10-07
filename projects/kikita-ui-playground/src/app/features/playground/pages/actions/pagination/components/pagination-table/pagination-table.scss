@@ -1,0 +1,25 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .pagination-table {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .pagination-table__region {
+    min-inline-size: 0;
+    overflow: auto;
+  }
+
+  .pagination-table__region caption {
+    text-align: start;
+  }
+
+  .pagination-table__status {
+    color: var(--kui-color-text-secondary);
+  }
+}

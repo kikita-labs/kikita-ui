@@ -1,10 +1,9 @@
 pnpm.cmd format:check
 pnpm.cmd lint
+pnpm.cmd typecheck:e2e
 pnpm.cmd audit:static
+pnpm.cmd audit:architecture
 pnpm.cmd skills:check
 pnpm.cmd test:scripts
 pnpm.cmd test
-pnpm.cmd build
-pnpm.cmd build:playground
-pnpm.cmd test:ssr
-pnpm.cmd test:browser
+pnpm.cmd test:kikita-ui-playground

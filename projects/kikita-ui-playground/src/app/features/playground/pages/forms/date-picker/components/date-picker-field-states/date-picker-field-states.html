@@ -1,0 +1,48 @@
+<section role="group" [attr.aria-label]="'datePicker.accessibility.fieldStates' | transloco">
+  <app-playground-example-card [heading]="'datePicker.examples.fieldStates' | transloco">
+    <div class="date-picker-field-states__grid">
+      <kui-field
+        [label]="'datePicker.fields.limitedDate' | transloco"
+        [hint]="'datePicker.hints.limitedDate' | transloco"
+      >
+        <input
+          kuiDatePicker
+          [(value)]="limitedValue"
+          [(viewDate)]="limitedViewDate"
+          [minDate]="minimumDate"
+          [maxDate]="maximumDate"
+          [clearable]="false"
+        />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
+          <kui-calendar flat [locale]="calendarLocale()" class="date-picker-calendar" />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field [label]="'datePicker.fields.disabledDate' | transloco">
+        <input kuiDatePicker [(value)]="disabledValue" [(viewDate)]="disabledViewDate" disabled />
+      </kui-field>
+
+      <kui-field [label]="'datePicker.fields.readonlyDate' | transloco">
+        <input kuiDatePicker [(value)]="readonlyValue" [(viewDate)]="readonlyViewDate" readonly />
+      </kui-field>
+
+      <kui-field [label]="'datePicker.fields.localClearFalse' | transloco">
+        <input
+          kuiDatePicker
+          [(value)]="localClearFalseValue"
+          [(viewDate)]="localClearFalseViewDate"
+          [placeholder]="'datePicker.placeholders.custom' | transloco"
+          [clearable]="false"
+        />
+      </kui-field>
+
+      <kui-field [label]="'datePicker.fields.inheritedClear' | transloco">
+        <input
+          kuiDatePicker
+          [(value)]="inheritedClearValue"
+          [(viewDate)]="inheritedClearViewDate"
+        />
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+</section>

@@ -5,11 +5,7 @@ Navigation trail showing the current page's position in a hierarchy. `[kuiBreadc
 ## Import
 
 ```ts
-import {
-  KuiBreadcrumbsDirective,
-  KuiBreadcrumbItemDirective,
-  KuiBreadcrumbSeparatorComponent,
-} from '@kikita-labs/ui';
+import { KuiBreadcrumbs, KuiBreadcrumbItem, KuiBreadcrumbSeparator } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -77,6 +73,37 @@ The library does not enforce a single collapse strategy; pick the one that fits 
 
 - `current`: `boolean` (default: `false`). Only meaningful on `<span>`; sets `aria-current="page"`.
 
+## Provider Defaults
+
+Set `defaults.breadcrumbs` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    breadcrumbs: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    breadcrumbs: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option          | Values                 | Description                                                                                                         |
+| --------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `size`          | `'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`.                                                   |
+| `separatorIcon` | `KuiIconGlyph`         | Icon between crumbs. Takes precedence over `defaults.icons.separator`. See [Structural Icons](structural-icons.md). |
+
+Each option resolves as `local input > defaults.breadcrumbs.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Wrap the trail in `<nav aria-label="Breadcrumb">` (or a localized label).
@@ -84,6 +111,12 @@ The library does not enforce a single collapse strategy; pick the one that fits 
 - Link crumbs are native `<a>`, focusable with a visible `:focus-visible` ring.
 - The current crumb is a `<span aria-current="page">`, not a link, and is not in tab order.
 - `[kuiBreadcrumbSeparator]` renders a decorative chevron `<li aria-hidden="true">`, never read by assistive technology.
+
+Breadcrumb links intentionally do not compose `[kuiLink]`. Breadcrumbs owns its
+navigation-specific spacing, responsive size scale, color tokens, separator
+relationship, and current-page treatment; applying generic Link styling would
+create competing visual contracts. Keep navigable crumbs as native anchors with
+`[kuiBreadcrumbItem]`.
 
 ## Explicitly Not Included
 
@@ -102,3 +135,47 @@ The library does not enforce a single collapse strategy; pick the one that fits 
 ## Style Import
 
 Import `@kikita-labs/ui/styles` (which includes `breadcrumbs.css`) once in your application styles.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                    | Default                        | Controls                   |
+| ---------------------------------------- | ------------------------------ | -------------------------- |
+| `--kui-breadcrumb-link-focus-ring-color` | `--kui-color-focus`            | Link focus ring color      |
+| `--kui-breadcrumb-sep-color`             | `--kui-color-text-secondary`   | Sep color                  |
+| `--kui-breadcrumb-ellipsis-color`        | `--kui-color-text-secondary`   | Ellipsis color             |
+| `--kui-breadcrumb-ellipsis-bg-hover`     | `--kui-color-surface-elevated` | Ellipsis background, hover |
+| `--kui-breadcrumb-ellipsis-color-hover`  | `--kui-color-text`             | Ellipsis color, hover      |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                      | Default              | Controls                          |
+| ------------------------------------------ | -------------------- | --------------------------------- |
+| `--kui-breadcrumb-font-size`               | `--kui-text-sm-size` | Font size                         |
+| `--kui-breadcrumb-link-radius`             | `--kui-radius-sm`    | Link corner radius                |
+| `--kui-breadcrumb-link-gap`                | `--kui-space-1`      | Link gap                          |
+| `--kui-breadcrumb-plain-gap`               | `--kui-space-1`      | Plain gap                         |
+| `--kui-breadcrumb-current-gap`             | `--kui-space-1`      | Current gap                       |
+| `--kui-breadcrumb-ellipsis-padding-inline` | `--kui-space-1`      | Ellipsis padding, inline          |
+| `--kui-breadcrumb-ellipsis-radius`         | `--kui-radius-sm`    | Ellipsis corner radius            |
+| `--kui-breadcrumb-font-size-sm`            | `--kui-text-xs-size` | Font size, sm                     |
+| `--kui-breadcrumb-font-size-lg`            | `--kui-text-md-size` | Font size, lg                     |
+| `--kui-breadcrumb-ellipsis-height`         | `22px`               | Ellipsis button height            |
+| `--kui-breadcrumb-ellipsis-height-sm`      | `18px`               | Ellipsis button height, sm        |
+| `--kui-breadcrumb-ellipsis-height-lg`      | `26px`               | Ellipsis button height, lg        |
+| `--kui-breadcrumb-icon-size-sm`            | `12px`               | Separator and icon size, sm       |
+| `--kui-breadcrumb-icon-size-lg`            | `16px`               | Separator and icon size, lg       |
+| `--kui-breadcrumb-truncate-max-width`      | `140px`              | Maximum width of a truncated item |
+
+<!-- geometry-tokens:end -->

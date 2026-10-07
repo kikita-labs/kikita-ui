@@ -1,0 +1,11 @@
+@layer app.components {
+  :host {
+    display: grid;
+    place-items: center;
+    padding: var(--kui-space-12) var(--kui-space-4);
+  }
+
+  p {
+    margin: 0;
+  }
+}

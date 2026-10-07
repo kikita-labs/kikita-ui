@@ -8,7 +8,7 @@ navigation.
 ## Import
 
 ```ts
-import { KuiTreeComponent } from '@kikita-labs/ui';
+import { KuiTree } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -62,18 +62,18 @@ result is cached for the node's lifetime in this tree instance.
 
 ## Inputs
 
-| Input          | Type                                                     | Default     | Notes                                                                                                          |
-| -------------- | -------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------- |
-| `mode`         | `'display' \| 'checkable'`                               | `'display'` | Click behavior and whether checkboxes render.                                                                  |
-| `size`         | `KuiSize`                                                | `'md'`      | Row height/text size; only `sm`/`md`/`lg` have dedicated styling.                                              |
-| `data`         | `readonly KuiTreeNode[]`                                 | `[]`        | Root nodes.                                                                                                    |
-| `ariaLabel`    | `string`                                                 | `'Tree'`    | Accessible name for the `role="tree"` container.                                                               |
-| `mobile`       | `boolean`                                                | `false`     | Enlarges the toggle tap target to 44x44px.                                                                     |
-| `value`        | `string \| null`                                         | `null`      | Controlled selected node id (`display` mode). Two-way (`valueChange`).                                         |
-| `selected`     | `string \| null`                                         | `null`      | **Deprecated**, use `value` instead. Kept in sync with `value`; planned for removal in the next major version. |
-| `checkedIds`   | `string[]`                                               | `[]`        | Controlled checked node ids (`checkable` mode). Two-way (`checkedIdsChange`).                                  |
-| `expandedIds`  | `string[]`                                               | `[]`        | Controlled expanded node ids. Two-way (`expandedIdsChange`).                                                   |
-| `loadChildren` | `(node: KuiTreeNode) => Promise<readonly KuiTreeNode[]>` | —           | Called once per `lazy` node the first time it's expanded.                                                      |
+| Input          | Type                                                     | Default              | Notes                                                                                                          |
+| -------------- | -------------------------------------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `mode`         | `'display' \| 'checkable'`                               | `'display'`          | Click behavior and whether checkboxes render.                                                                  |
+| `size`         | `KuiSize`                                                | `'md'`               | Row height/text size; only `sm`/`md`/`lg` have dedicated styling.                                              |
+| `data`         | `readonly KuiTreeNode[]`                                 | `[]`                 | Root nodes.                                                                                                    |
+| `ariaLabel`    | `string`                                                 | `tree.label` message | Accessible name for the `role="tree"` container.                                                               |
+| `mobile`       | `boolean`                                                | `false`              | Enlarges the toggle tap target to 44x44px.                                                                     |
+| `value`        | `string \| null`                                         | `null`               | Controlled selected node id (`display` mode). Two-way (`valueChange`).                                         |
+| `selected`     | `string \| null`                                         | `null`               | **Deprecated**, use `value` instead. Kept in sync with `value`; planned for removal in the next major version. |
+| `checkedIds`   | `string[]`                                               | `[]`                 | Controlled checked node ids (`checkable` mode). Two-way (`checkedIdsChange`).                                  |
+| `expandedIds`  | `string[]`                                               | `[]`                 | Controlled expanded node ids. Two-way (`expandedIdsChange`).                                                   |
+| `loadChildren` | `(node: KuiTreeNode) => Promise<readonly KuiTreeNode[]>` | —                    | Called once per `lazy` node the first time it's expanded.                                                      |
 
 ### `KuiTreeNode`
 
@@ -103,6 +103,38 @@ Disabled nodes stay reachable by arrow/Home/End/type-ahead navigation; only
 `Enter`, `Space`, and click are gated on `!disabled`, so keyboard users are
 never trapped on a disabled row.
 
+## Provider Defaults
+
+Set `defaults.tree` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    tree: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    tree: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option           | Values                         | Description                                                                                                                 |
+| ---------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `size`           | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`.                                                           |
+| `mode`           | `'display' \| 'checkable'`     | Default mode.                                                                                                               |
+| `disclosureIcon` | `KuiIconGlyph`                 | Icon of the expand control. Takes precedence over `defaults.icons.disclosure`. See [Structural Icons](structural-icons.md). |
+
+Each option resolves as `local input > defaults.tree.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 `role="tree"` on the root, `role="treeitem"` on every node, `role="group"` on
@@ -126,7 +158,43 @@ Import the Kikita UI style entrypoint once:
 @import '@kikita-labs/ui/styles';
 ```
 
-Tree styles live in `projects/ui/src/styles/tree.css` and are included through
+Tree styles live in `projects/ui/src/lib/components/tree/kui-tree.css` and are included through
 `@kikita-labs/ui/styles`. Tree rows reuse the existing `.kui-field-action`
 (toggle button) and `.kui-checkbox` (checkable mode) styling — no new tokens
 are introduced for either.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                             | Default                         | Controls             |
+| --------------------------------- | ------------------------------- | -------------------- |
+| `--kui-tree-row-color`            | `--kui-color-text`              | Row color            |
+| `--kui-tree-row-focus-ring-color` | `--kui-color-focus`             | Row focus ring color |
+| `--kui-tree-spinner-track-color`  | `--kui-color-surface-sunken`    | Spinner track color  |
+| `--kui-tree-spinner-color`        | `--kui-color-primary-indicator` | Spinner color        |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                           | Default                       | Controls               |
+| ------------------------------- | ----------------------------- | ---------------------- |
+| `--kui-tree-row-gap`            | `--kui-space-2`               | Row gap                |
+| `--kui-tree-row-padding-inline` | `--kui-space-2`               | Row padding, inline    |
+| `--kui-tree-label-font-size`    | `--kui-text-sm-size`          | Label font size        |
+| `--kui-tree-label-font-size-sm` | `--kui-text-xs-size`          | Label font size, sm    |
+| `--kui-tree-label-font-size-lg` | `--kui-text-base-size`        | Label font size, lg    |
+| `--kui-tree-toggle-size`        | `20px` (`16px` sm, `24px` lg) | Toggle and spacer size |
+| `--kui-tree-icon-size`          | `16px` (`14px` sm, `18px` lg) | Node icon size         |
+| `--kui-tree-spinner-size`       | `14px`                        | Loading spinner size   |
+
+<!-- geometry-tokens:end -->

@@ -1,0 +1,36 @@
+@use './styles/layers';
+
+@layer app.base {
+  html,
+  body {
+    block-size: 100%;
+    margin: 0;
+    font-family: var(--kui-font-sans);
+    overflow: hidden;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--kui-color-bg);
+    color: var(--kui-color-text);
+  }
+
+  :root {
+    --app-shell-max-width: 1440px;
+    --app-header-height: 56px;
+    --app-mobile-header-height: 54px;
+    --app-sidebar-width: 250px;
+  }
+}
+
+@layer app.components {
+  .kui-popover:has(.seed-popover__grid) {
+    --kui-popover-min-width: min(340px, calc(100vw - var(--kui-space-8)));
+    --kui-popover-max-width: min(340px, calc(100vw - var(--kui-space-8)));
+  }
+}

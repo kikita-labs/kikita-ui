@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import type { Observable } from 'rxjs';
 
 /**
- * Handle returned by {@link KuiDrawerService.open}.
+ * Handle returned by {@link KuiDrawer.open}.
  * Use {@link afterClosed} to react to the drawer result.
  */
 export class KuiDrawerRef<TResult = void> {

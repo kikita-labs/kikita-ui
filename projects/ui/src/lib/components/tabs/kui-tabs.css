@@ -1,0 +1,411 @@
+@layer kui.components {
+  .kui-tabs {
+    /* The indicator bar and the transparent border it overlays share one thickness; both overlap the
+       list border by exactly that border's width. */
+    --_kui-tab-indicator-size: var(--kui-tab-indicator-size, var(--kui-border-width-heavy));
+    --_kui-tab-overlap: calc(-1 * var(--kui-border-width-hairline));
+    display: flex;
+    flex-direction: column;
+    gap: var(--kui-tabs-panel-gap, var(--kui-space-4));
+    /* allow shrinking in flex/grid parents so the scroll inside can activate */
+    min-width: 0;
+  }
+
+  /* Wraps the scroll area and positions the fade+arrow overlay buttons. */
+  .kui-tabs__scroll-wrap {
+    position: relative;
+    min-width: 0;
+  }
+
+  /* Scroll container: handles horizontal overflow without clipping the outline.
+     padding-bottom gives the focus outline room inside the scroll clip boundary;
+     margin-bottom compensates so the gap to the panel stays visually correct.
+     min-width: 0 is required so the flex/grid parent allows this to shrink. */
+  .kui-tabs__scroll {
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: var(--kui-space-1-5);
+    margin-bottom: calc(-1 * var(--kui-space-1-5));
+    min-width: 0;
+  }
+
+  .kui-tabs__scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Scroll arrow buttons: only shown when overflow exists on that side. */
+  .kui-tabs__scroll-btn {
+    position: absolute;
+    top: 0;
+    bottom: var(--kui-space-1-5);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    padding-inline: var(--kui-space-1-5);
+    border: none;
+    color: var(--kui-tabs-scroll-btn-color, var(--kui-color-text-secondary));
+    cursor: pointer;
+    transition: color var(--kui-duration-fast) var(--kui-ease);
+  }
+
+  .kui-tabs__scroll-btn:hover {
+    color: var(--kui-tabs-scroll-btn-color-hover, var(--kui-color-text));
+  }
+
+  .kui-tabs__scroll-btn--left {
+    left: 0;
+    background: linear-gradient(
+      to right,
+      var(--kui-tabs-scroll-fade-color, var(--kui-color-bg, Canvas)) 50%,
+      transparent
+    );
+    padding-inline-end: var(--kui-space-4);
+  }
+
+  .kui-tabs__scroll-btn--right {
+    right: 0;
+    background: linear-gradient(
+      to left,
+      var(--kui-tabs-scroll-fade-color, var(--kui-color-bg, Canvas)) 50%,
+      transparent
+    );
+    padding-inline-start: var(--kui-space-4);
+  }
+
+  .kui-tabs__list {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: var(--kui-tabs-gap, var(--kui-space-0-5));
+    border-bottom: var(--kui-border-width-hairline) solid
+      var(--kui-tabs-border, var(--kui-color-border));
+    min-width: max-content;
+  }
+
+  .kui-tabs__list::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: var(--_kui-tab-overlap);
+    left: 0;
+    height: var(--kui-border-width-hairline);
+    background: var(--kui-tabs-border, var(--kui-color-border));
+    pointer-events: none;
+  }
+
+  .kui-tab-indicator {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    bottom: var(--_kui-tab-overlap);
+    height: var(--_kui-tab-indicator-size);
+    width: 0;
+    background: var(--kui-tab-indicator, var(--kui-color-primary-indicator));
+    border-radius: calc(var(--_kui-tab-indicator-size) / 2) calc(var(--_kui-tab-indicator-size) / 2)
+      0 0;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform var(--kui-duration-normal) var(--kui-ease),
+      width var(--kui-duration-normal) var(--kui-ease),
+      opacity var(--kui-duration-fast) var(--kui-ease);
+  }
+
+  .kui-tab {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kui-tab-gap, var(--kui-space-1));
+    min-block-size: var(
+      --kui-tab-height,
+      var(--_kui-tab-height, var(--kui-btn-height, var(--kui-control-height-md)))
+    );
+    padding-inline: var(--kui-tab-px, var(--_kui-tab-px, var(--kui-btn-px)));
+    border: none;
+    border-bottom: var(--_kui-tab-indicator-size) solid transparent;
+    border-radius: var(--kui-tab-radius, var(--kui-radius-sm))
+      var(--kui-tab-radius, var(--kui-radius-sm)) 0 0;
+    background: transparent;
+    color: var(--kui-tab-fg, var(--kui-color-text-secondary));
+    font: inherit;
+    font-size: var(--kui-tab-font-size, var(--kui-btn-font-size, var(--kui-text-sm-size)));
+    font-weight: var(--kui-tab-font-weight, var(--kui-font-weight-medium));
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    outline: none;
+    flex-shrink: 0;
+    transition:
+      color var(--kui-duration-fast) var(--kui-ease),
+      border-color var(--kui-duration-fast) var(--kui-ease),
+      background-color var(--kui-duration-fast) var(--kui-ease);
+    margin-bottom: var(--_kui-tab-overlap);
+  }
+
+  .kui-tab:hover:not([data-kui-selected]) {
+    color: var(--kui-tab-fg-hover, var(--kui-color-text));
+    background-color: var(--kui-tab-bg-hover, var(--kui-color-state-hover));
+  }
+
+  .kui-tab[data-kui-selected] {
+    color: var(--kui-tab-fg-active, var(--kui-color-text));
+    font-weight: var(--kui-tab-font-weight-active, var(--kui-font-weight-semibold));
+  }
+
+  .kui-tab:focus-visible {
+    outline: var(--kui-focus-ring-width) solid
+      var(--kui-tab-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset);
+    border-radius: var(--kui-tab-radius, var(--kui-radius-sm));
+  }
+
+  .kui-tab:focus:not(:focus-visible) {
+    outline: 0;
+  }
+
+  .kui-tab:disabled,
+  .kui-tab[aria-disabled='true'] {
+    opacity: var(--kui-btn-disabled-opacity, var(--kui-opacity-disabled));
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .kui-tab-error-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--kui-tab-error-color, var(--kui-color-danger-indicator));
+    flex-shrink: 0;
+  }
+
+  .kui-tab-error-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .kui-tab-panel {
+    outline: none;
+  }
+
+  .kui-tab-panel:focus-visible {
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-tab-panel-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset);
+  }
+
+  .kui-tab-panel[hidden] {
+    display: none;
+  }
+
+  /* Inverted horizontal orientation: panels above, tab edge/indicator on top. */
+  .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) {
+    flex-direction: column-reverse;
+  }
+
+  .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) .kui-tabs__list {
+    border-top: var(--kui-border-width-hairline) solid
+      var(--kui-tabs-border, var(--kui-color-border));
+    border-bottom: none;
+  }
+
+  .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) .kui-tab {
+    border-top: var(--_kui-tab-indicator-size) solid transparent;
+    border-bottom: none;
+    border-radius: 0 0 var(--kui-tab-radius, var(--kui-radius-sm))
+      var(--kui-tab-radius, var(--kui-radius-sm));
+    margin-top: var(--_kui-tab-overlap);
+    margin-bottom: 0;
+  }
+
+  .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) .kui-tab-indicator {
+    top: var(--_kui-tab-overlap);
+    bottom: auto;
+    border-radius: 0 0 calc(var(--_kui-tab-indicator-size) / 2)
+      calc(var(--_kui-tab-indicator-size) / 2);
+  }
+
+  .kui-tabs[data-kui-inverted]:not([data-kui-orientation='vertical']) .kui-tabs__list::after {
+    top: var(--_kui-tab-overlap);
+    bottom: auto;
+  }
+
+  /* Pill variant */
+  .kui-tabs[data-kui-variant='pill'] .kui-tabs__list {
+    border-bottom: none;
+    gap: var(--kui-tabs-pill-gap, var(--kui-space-1));
+  }
+
+  .kui-tabs[data-kui-variant='pill'] .kui-tabs__list::after {
+    display: none;
+  }
+
+  .kui-tabs[data-kui-variant='pill'] .kui-tab {
+    border-bottom: none;
+    border-radius: var(--kui-tab-pill-radius, var(--kui-radius-md));
+    margin-bottom: 0;
+  }
+
+  .kui-tabs[data-kui-variant='pill'] .kui-tab:hover:not([data-kui-selected]) {
+    background-color: var(--kui-tab-pill-bg-hover, var(--kui-color-state-hover));
+    color: var(--kui-tab-fg-hover, var(--kui-color-text));
+  }
+
+  .kui-tabs[data-kui-variant='pill'] .kui-tab[data-kui-selected] {
+    background-color: var(--kui-tab-pill-bg-active, var(--kui-color-primary-soft-bg));
+    color: var(--kui-tab-pill-fg-active, var(--kui-color-primary-soft-text));
+    border-bottom-color: transparent;
+  }
+
+  .kui-tabs[data-kui-size='xs'] {
+    --_kui-tab-height: var(--kui-control-height-xs);
+    --_kui-tab-px: var(--kui-space-2);
+  }
+
+  .kui-tabs[data-kui-size='sm'] {
+    --_kui-tab-height: var(--kui-control-height-sm);
+    --_kui-tab-px: var(--kui-space-3);
+  }
+
+  .kui-tabs[data-kui-size='lg'] {
+    --_kui-tab-height: var(--kui-control-height-lg);
+    --_kui-tab-px: var(--kui-space-5);
+  }
+
+  @media (max-width: 479px) {
+    .kui-tabs__scroll {
+      scroll-snap-type: x mandatory;
+    }
+
+    .kui-tab {
+      scroll-snap-align: start;
+    }
+  }
+
+  /* Vertical orientation */
+  .kui-tabs[data-kui-orientation='vertical'] {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--kui-tabs-vertical-gap, var(--kui-space-6));
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'] .kui-tabs__scroll-wrap {
+    flex-shrink: 0;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'] .kui-tabs__scroll {
+    overflow: visible;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'] .kui-tabs__scroll-btn {
+    display: none;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'] .kui-tabs__list {
+    flex-direction: column;
+    min-width: var(--kui-tabs-vertical-list-width, 180px);
+    border-bottom: none;
+    border-right: var(--kui-border-width-hairline) solid
+      var(--kui-tabs-border, var(--kui-color-border));
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'] .kui-tab {
+    justify-content: flex-start;
+    width: 100%;
+    border-bottom: none;
+    border-right: var(--_kui-tab-indicator-size) solid transparent;
+    border-radius: var(--kui-tab-radius, var(--kui-radius-sm)) 0 0
+      var(--kui-tab-radius, var(--kui-radius-sm));
+    margin-bottom: 0;
+    margin-right: var(--_kui-tab-overlap);
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'] .kui-tab[data-kui-selected] {
+    border-bottom-color: transparent;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'] .kui-tab-indicator {
+    left: auto;
+    right: var(--_kui-tab-overlap);
+    bottom: auto;
+    top: 0;
+    width: var(--_kui-tab-indicator-size);
+    height: 0;
+    border-radius: calc(var(--_kui-tab-indicator-size) / 2) 0 0
+      calc(var(--_kui-tab-indicator-size) / 2);
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'] .kui-tabs__list::after {
+    top: 0;
+    right: var(--_kui-tab-overlap);
+    bottom: 0;
+    left: auto;
+    width: var(--kui-border-width-hairline);
+    height: auto;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'] .kui-tab-panel {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] {
+    flex-direction: row-reverse;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] .kui-tabs__list {
+    border-right: none;
+    border-left: var(--kui-border-width-hairline) solid
+      var(--kui-tabs-border, var(--kui-color-border));
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] .kui-tab {
+    border-right: none;
+    border-left: var(--_kui-tab-indicator-size) solid transparent;
+    border-radius: 0 var(--kui-tab-radius, var(--kui-radius-sm))
+      var(--kui-tab-radius, var(--kui-radius-sm)) 0;
+    margin-right: 0;
+    margin-left: var(--_kui-tab-overlap);
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] .kui-tab-indicator {
+    left: var(--_kui-tab-overlap);
+    right: auto;
+    border-radius: 0 calc(var(--_kui-tab-indicator-size) / 2)
+      calc(var(--_kui-tab-indicator-size) / 2) 0;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted] .kui-tabs__list::after {
+    right: auto;
+    left: var(--_kui-tab-overlap);
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-variant='pill'] .kui-tabs__list {
+    border-right: none;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-variant='pill'] .kui-tab {
+    border-right: none;
+    border-radius: var(--kui-tab-pill-radius, var(--kui-radius-md));
+    margin-right: 0;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted][data-kui-variant='pill']
+    .kui-tabs__list {
+    border-left: none;
+  }
+
+  .kui-tabs[data-kui-orientation='vertical'][data-kui-inverted][data-kui-variant='pill'] .kui-tab {
+    border-left: none;
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,14 @@
+@layer app.components {
+  .popover-form-examples {
+    display: grid;
+    justify-items: start;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .popover-form-examples__form {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+}

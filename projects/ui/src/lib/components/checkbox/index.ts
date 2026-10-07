@@ -1,1 +1,2 @@
-export * from './kui-checkbox.directive';
+export * from './kui-checkbox';
+export * from './kui-checkbox-options.interface';

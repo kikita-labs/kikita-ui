@@ -1,0 +1,48 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .tree-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .tree-playground h1 {
+    margin: 0;
+  }
+
+  .tree-playground__catalogue {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .tree-playground__catalogue > section {
+    min-inline-size: 0;
+  }
+
+  .tree-playground__wide-example {
+    grid-column: 1 / -1;
+  }
+
+  .tree-playground__status {
+    display: block;
+    margin-block-start: var(--kui-space-3);
+  }
+
+  @media (width < 64rem) {
+    .tree-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .tree-playground__catalogue {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

@@ -1,0 +1,18 @@
+import type { KuiSize } from '../../types';
+import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
+import type { KuiAccordionMode } from './kui-accordion';
+import type { KuiAccordionAppearance } from './kui-accordion';
+
+/** Defaults for `kui-accordion`, set under the `accordion` key of the component defaults. */
+export interface KuiAccordionOptions {
+  /** Component size. Takes precedence over the global `defaults.size`. */
+  readonly size?: KuiSize;
+
+  /** Default mode. */
+  readonly mode?: KuiAccordionMode;
+
+  /** Default appearance. */
+  readonly appearance?: KuiAccordionAppearance;
+  /** Icon of the expand control. Takes precedence over `defaults.icons.disclosure`. */
+  readonly disclosureIcon?: KuiIconGlyph;
+}

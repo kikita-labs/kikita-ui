@@ -1,0 +1,5 @@
+<section role="group" [attr.aria-label]="'fileUpload.accessibility.states' | transloco">
+  <app-playground-example-card [heading]="'fileUpload.groups.states' | transloco">
+    <kui-file-upload variant="compact" [(files)]="files" (retry)="onRetry($event)" />
+  </app-playground-example-card>
+</section>

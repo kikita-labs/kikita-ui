@@ -1,0 +1,39 @@
+<main class="playground-workspace link-playground" aria-labelledby="link-playground-title">
+  <h1 id="link-playground-title" kuiText variant="heading-lg">
+    {{ 'link.title' | transloco }}
+  </h1>
+
+  <app-playground-example-card [heading]="'link.examples.default' | transloco">
+    <div role="group" [attr.aria-label]="'link.accessibility.default' | transloco">
+      <a kuiLink href="/components/link#link-playground-title">
+        {{ 'link.labels.default' | transloco }}
+      </a>
+    </div>
+  </app-playground-example-card>
+
+  <div class="link-playground__cards">
+    <app-link-tone-matrix />
+
+    <app-link-typography />
+
+    <app-link-hosts />
+
+    <app-link-icons />
+
+    <app-link-external />
+
+    <app-link-disabled />
+
+    <app-playground-example-card [heading]="'link.examples.inline' | transloco">
+      <div role="group" [attr.aria-label]="'link.accessibility.inline' | transloco">
+        <p kuiText>
+          {{ 'link.labels.inlineBefore' | transloco }}
+          <a kuiLink underline="always" href="/components/link#link-playground-title">
+            {{ 'link.labels.inlineLink' | transloco }}
+          </a>
+          {{ 'link.labels.inlineAfter' | transloco }}
+        </p>
+      </div>
+    </app-playground-example-card>
+  </div>
+</main>

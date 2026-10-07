@@ -1,0 +1,148 @@
+<main class="playground-workspace switch-playground" aria-labelledby="switch-playground-title">
+  <h1 id="switch-playground-title" kuiText variant="heading-lg">
+    {{ 'switch.title' | transloco }}
+  </h1>
+
+  <app-playground-example-card [heading]="'switch.examples.default' | transloco">
+    <div
+      role="group"
+      [attr.aria-label]="'switch.accessibility.default' | transloco"
+      class="switch-playground__examples"
+    >
+      <label class="switch-playground__control" for="switch-default">
+        <input id="switch-default" kuiSwitch type="checkbox" />
+        <span kuiText>{{ 'switch.labels.default' | transloco }}</span>
+      </label>
+    </div>
+  </app-playground-example-card>
+
+  <div class="switch-playground__cards">
+    <app-playground-example-card [heading]="'switch.examples.sizes' | transloco">
+      <div
+        role="group"
+        [attr.aria-label]="'switch.accessibility.sizes' | transloco"
+        class="switch-playground__sizes"
+      >
+        @for (size of sizeValues; track size) {
+          <div
+            role="group"
+            [attr.aria-label]="'switch.sizes.' + size | transloco"
+            class="switch-playground__size-row"
+          >
+            <span class="switch-playground__size-name" kuiText>
+              {{ 'switch.sizes.' + size | transloco }}
+            </span>
+            <label class="switch-playground__control">
+              <input
+                kuiSwitch
+                type="checkbox"
+                [id]="'switch-size-' + size + '-off'"
+                [size]="size"
+              />
+              <span kuiText>{{ 'switch.labels.off' | transloco }}</span>
+            </label>
+            <label class="switch-playground__control">
+              <input
+                kuiSwitch
+                type="checkbox"
+                [id]="'switch-size-' + size + '-on'"
+                [size]="size"
+                checked
+              />
+              <span kuiText>{{ 'switch.labels.on' | transloco }}</span>
+            </label>
+          </div>
+        }
+      </div>
+    </app-playground-example-card>
+
+    <app-playground-example-card [heading]="'switch.examples.states' | transloco">
+      <div
+        role="group"
+        [attr.aria-label]="'switch.accessibility.states' | transloco"
+        class="switch-playground__states"
+      >
+        <div
+          role="group"
+          [attr.aria-label]="'switch.groups.invalid' | transloco"
+          class="switch-playground__state-row"
+        >
+          <label class="switch-playground__control">
+            <input kuiSwitch type="checkbox" id="switch-invalid-off" invalid />
+            <span kuiText>{{ 'switch.labels.off' | transloco }}</span>
+          </label>
+          <label class="switch-playground__control">
+            <input kuiSwitch type="checkbox" id="switch-invalid-on" invalid checked />
+            <span kuiText>{{ 'switch.labels.on' | transloco }}</span>
+          </label>
+        </div>
+
+        <div
+          role="group"
+          [attr.aria-label]="'switch.groups.disabled' | transloco"
+          class="switch-playground__state-row"
+        >
+          <label class="switch-playground__control">
+            <input kuiSwitch type="checkbox" id="switch-disabled-off" disabled />
+            <span kuiText>{{ 'switch.labels.off' | transloco }}</span>
+          </label>
+          <label class="switch-playground__control">
+            <input kuiSwitch type="checkbox" id="switch-disabled-on" disabled checked />
+            <span kuiText>{{ 'switch.labels.on' | transloco }}</span>
+          </label>
+        </div>
+      </div>
+    </app-playground-example-card>
+  </div>
+
+  <div class="switch-playground__cards">
+    <app-playground-example-card [heading]="'switch.examples.interactions' | transloco">
+      <div
+        role="group"
+        [attr.aria-label]="'switch.accessibility.interactions' | transloco"
+        class="switch-playground__examples"
+      >
+        <label class="switch-playground__control">
+          <input kuiSwitch type="checkbox" id="switch-pointer-sample" size="md" />
+          <span kuiText>{{ 'switch.labels.pointerSample' | transloco }}</span>
+        </label>
+        <label class="switch-playground__control">
+          <input kuiSwitch type="checkbox" id="switch-keyboard-sample" size="md" />
+          <span kuiText>{{ 'switch.labels.keyboardSample' | transloco }}</span>
+        </label>
+      </div>
+    </app-playground-example-card>
+
+    <app-playground-example-card [heading]="'switch.examples.field' | transloco">
+      <div
+        role="group"
+        [attr.aria-label]="'switch.accessibility.field' | transloco"
+        class="switch-playground__field-examples"
+      >
+        <kui-field
+          [label]="'switch.labels.inheritedSize' | transloco"
+          [hint]="'switch.hints.field' | transloco"
+          size="sm"
+        >
+          <input kuiSwitch type="checkbox" />
+        </kui-field>
+
+        <kui-field
+          [label]="'switch.labels.localSize' | transloco"
+          [hint]="'switch.hints.field' | transloco"
+          size="sm"
+        >
+          <input kuiSwitch type="checkbox" size="lg" />
+        </kui-field>
+
+        <kui-field
+          [label]="'switch.labels.accountAlerts' | transloco"
+          [hint]="'switch.hints.accountAlerts' | transloco"
+          size="sm"
+        >
+          <input kuiSwitch type="checkbox" [formField]="switchForm.accountAlerts" />
+        </kui-field>
+      </div>
+    </app-playground-example-card>
+  </div>
+</main>

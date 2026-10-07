@@ -1,0 +1,30 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .link-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .link-playground h1,
+  .link-playground p {
+    margin: 0;
+  }
+
+  .link-playground__cards {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  @media (width < 48rem) {
+    .link-playground {
+      padding: var(--kui-space-6);
+    }
+  }
+}

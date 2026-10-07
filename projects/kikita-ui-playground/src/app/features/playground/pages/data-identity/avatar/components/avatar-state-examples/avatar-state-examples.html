@@ -1,0 +1,51 @@
+<section
+  id="avatar-presence-examples"
+  role="group"
+  [attr.aria-label]="'avatar.accessibility.presence' | transloco"
+>
+  <app-playground-example-card [heading]="'avatar.examples.presence' | transloco">
+    <div class="avatar-state-examples__grid">
+      @for (status of statuses; track status.value) {
+        <div class="avatar-state-examples__item">
+          <span kuiText variant="body-sm">{{ 'avatar.status.' + status.label | transloco }}</span>
+          <kui-avatar
+            size="lg"
+            [name]="'avatar.people.presence' | transloco"
+            [status]="status.value"
+          />
+        </div>
+      }
+    </div>
+  </app-playground-example-card>
+</section>
+
+<section
+  id="avatar-loading-examples"
+  role="group"
+  [attr.aria-label]="'avatar.accessibility.loading' | transloco"
+>
+  <app-playground-example-card [heading]="'avatar.examples.loading' | transloco">
+    <div class="avatar-state-examples__grid">
+      <div class="avatar-state-examples__item">
+        <span kuiText variant="body-sm">{{ 'avatar.loading.circle' | transloco }}</span>
+        <kui-avatar
+          src="/assets/avatar-example.svg"
+          [name]="'avatar.people.loading' | transloco"
+          status="online"
+          loading
+        />
+      </div>
+
+      <div class="avatar-state-examples__item">
+        <span kuiText variant="body-sm">{{ 'avatar.loading.square' | transloco }}</span>
+        <kui-avatar
+          src="/assets/avatar-example.svg"
+          [name]="'avatar.people.loading' | transloco"
+          shape="square"
+          status="online"
+          loading
+        />
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>

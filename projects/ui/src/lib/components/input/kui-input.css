@@ -1,0 +1,258 @@
+﻿@layer kui.components {
+  .kui-input {
+    appearance: none;
+    box-sizing: border-box;
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: var(--kui-input-height, var(--kui-control-height-md));
+    border: var(--kui-input-border-width, 1px) solid
+      var(--kui-input-border, var(--kui-color-border-control, ButtonBorder));
+    border-radius: var(--kui-input-radius, var(--kui-radius-md));
+    background-color: var(--kui-input-bg, var(--kui-color-surface, Field));
+    color: var(--kui-input-color, var(--kui-input-text, var(--kui-color-text, FieldText)));
+    font: inherit;
+    font-size: var(--kui-input-font-size, var(--kui-text-sm-size));
+    line-height: var(--kui-line-height-control);
+    margin: 0;
+    padding-block: 0;
+    padding-inline: var(--kui-input-padding-inline, var(--kui-input-px, var(--kui-space-4)));
+    transition:
+      background-color var(--kui-duration-base) var(--kui-ease),
+      border-color var(--kui-duration-base) var(--kui-ease),
+      box-shadow var(--kui-duration-base) var(--kui-ease),
+      color var(--kui-duration-base) var(--kui-ease);
+  }
+
+  input.kui-input {
+    block-size: var(--kui-input-height, var(--kui-control-height-md));
+    min-block-size: 0;
+  }
+
+  textarea.kui-input {
+    min-block-size: calc(var(--kui-input-height, var(--kui-control-height-md)) * 2);
+    padding-block: var(--kui-textarea-padding-block, var(--kui-space-3));
+    resize: vertical;
+  }
+
+  .kui-input::placeholder {
+    color: var(
+      --kui-input-placeholder-color,
+      var(--kui-input-placeholder, var(--kui-color-text-placeholder, GrayText))
+    );
+  }
+
+  .kui-input:hover {
+    border-color: var(
+      --kui-input-border-hover,
+      var(--kui-color-border-control-hover, ButtonBorder)
+    );
+  }
+
+  .kui-input:focus {
+    border-color: var(--kui-input-border-focus, var(--kui-color-focus, Highlight));
+    /* One 2px frame: the border takes the focus colour and the outline sits flush against it. */
+    outline: var(--kui-input-border-width-focus) solid
+      var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline-offset: 0;
+    box-shadow: var(--kui-input-focus-ring, none);
+  }
+
+  /*
+   * Chrome and Safari draw their own clear cross in search fields, Firefox does not, and the glyph
+   * differs per engine. The library hides it so a search field looks the same everywhere; add a
+   * field action (`kuiFieldAffix` button) when the field needs a clear control.
+   */
+  .kui-input[type='search']::-webkit-search-cancel-button,
+  .kui-input[type='search']::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+  }
+
+  /*
+   * The native up and down arrows of a number field differ per engine and clash with the field
+   * chrome. Use `kuiNumberInput` when a field needs step buttons; the keyboard arrows still step.
+   */
+  .kui-input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  .kui-input[type='number']::-webkit-inner-spin-button,
+  .kui-input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .kui-input[data-kui-size='xs'] {
+    min-block-size: var(--kui-input-height-xs, var(--kui-control-height-xs));
+    font-size: var(--kui-input-font-size-xs, var(--kui-text-xs-size));
+  }
+
+  input.kui-input[data-kui-size='xs'] {
+    block-size: var(--kui-input-height-xs, var(--kui-control-height-xs));
+  }
+
+  .kui-input[data-kui-size='sm'] {
+    min-block-size: var(--kui-input-height-sm, var(--kui-control-height-sm));
+  }
+
+  input.kui-input[data-kui-size='sm'] {
+    block-size: var(--kui-input-height-sm, var(--kui-control-height-sm));
+  }
+
+  .kui-input[data-kui-size='lg'] {
+    min-block-size: var(--kui-input-height-lg, var(--kui-control-height-lg));
+    font-size: var(--kui-input-font-size-lg, var(--kui-text-base-size));
+  }
+
+  input.kui-input[data-kui-size='lg'] {
+    block-size: var(--kui-input-height-lg, var(--kui-control-height-lg));
+  }
+
+  .kui-input[data-kui-invalid],
+  .kui-field[data-kui-invalid] .kui-input {
+    border-color: var(--kui-input-border-error, var(--kui-color-danger-indicator));
+  }
+
+  .kui-input:disabled {
+    background-color: var(--kui-input-bg-disabled, var(--kui-color-surface-sunken));
+    cursor: not-allowed;
+    opacity: var(--kui-opacity-disabled);
+  }
+
+  .kui-input[readonly]:not(:disabled) {
+    cursor: default;
+    caret-color: transparent;
+  }
+
+  .kui-input-group {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: var(--kui-input-height, var(--kui-control-height-md));
+    overflow-x: hidden;
+    gap: var(--kui-field-affix-gap, var(--kui-space-2));
+    padding-block: 0;
+    padding-inline: var(--kui-input-padding-inline, var(--kui-input-px, var(--kui-space-4)));
+    border: var(--kui-input-border-width, 1px) solid
+      var(--kui-input-border, var(--kui-color-border-control, ButtonBorder));
+    border-radius: var(--kui-input-radius, var(--kui-radius-md));
+    background-color: var(--kui-input-bg, var(--kui-color-surface, Field));
+    color: var(--kui-input-color, var(--kui-input-text, var(--kui-color-text, FieldText)));
+    /*
+     * The visible border is 40px tall but the native control inside is only its own text-line
+     * height, vertically centered -- without this, hovering that padding gap (or a non-interactive
+     * decorative icon, which has pointer-events: none and lets the hover fall through to here)
+     * shows the default arrow cursor instead of hinting that a click focuses the text control.
+     * `.kui-field-action` sets its own `cursor: pointer` and wins the cascade for the interactive
+     * case.
+     */
+    cursor: text;
+    transition:
+      background-color var(--kui-duration-base) var(--kui-ease),
+      border-color var(--kui-duration-base) var(--kui-ease),
+      box-shadow var(--kui-duration-base) var(--kui-ease),
+      color var(--kui-duration-base) var(--kui-ease);
+  }
+
+  .kui-input-group:hover {
+    border-color: var(
+      --kui-input-border-hover,
+      var(--kui-color-border-control-hover, ButtonBorder)
+    );
+  }
+
+  .kui-input-group:focus-within {
+    border-color: var(--kui-input-border-focus, var(--kui-color-focus, Highlight));
+    /* One 2px frame: the border takes the focus colour and the outline sits flush against it. */
+    outline: var(--kui-input-border-width-focus) solid
+      var(--kui-input-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline-offset: 0;
+    box-shadow: var(--kui-input-focus-ring, none);
+  }
+
+  .kui-input-group[data-kui-invalid],
+  .kui-field[data-kui-invalid] .kui-input-group {
+    border-color: var(--kui-input-border-error, var(--kui-color-danger-indicator));
+  }
+
+  .kui-input-group[data-kui-disabled] {
+    background-color: var(--kui-input-bg-disabled, var(--kui-color-surface-sunken));
+    cursor: not-allowed;
+    opacity: var(--kui-opacity-disabled);
+  }
+
+  .kui-input-group[data-kui-readonly] {
+    background-color: var(--kui-input-bg-disabled, var(--kui-color-surface-sunken));
+  }
+
+  .kui-input-group > .kui-input {
+    flex: 1 1 48px;
+    min-inline-size: 48px;
+    block-size: auto;
+    min-block-size: 0;
+    padding-inline: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    line-height: var(--kui-line-height-control);
+  }
+
+  .kui-input-group > .kui-input:hover,
+  .kui-input-group > .kui-input:focus,
+  .kui-input-group > .kui-input[data-kui-invalid],
+  .kui-field[data-kui-invalid] .kui-input-group > .kui-input {
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  /* The group draws the focus frame, so the control inside it draws none of its own. */
+  .kui-input-group > .kui-input:focus {
+    outline: 0;
+  }
+
+  .kui-input-group[data-kui-size='xs'] {
+    min-block-size: var(--kui-input-height-xs, var(--kui-control-height-xs));
+    font-size: var(--kui-input-font-size-xs, var(--kui-text-xs-size));
+  }
+
+  .kui-input-group[data-kui-size='sm'] {
+    min-block-size: var(--kui-input-height-sm, var(--kui-control-height-sm));
+  }
+
+  .kui-input-group[data-kui-size='lg'] {
+    min-block-size: var(--kui-input-height-lg, var(--kui-control-height-lg));
+    font-size: var(--kui-input-font-size-lg, var(--kui-text-base-size));
+  }
+
+  .kui-field[data-kui-size='xs'] .kui-input:not([data-kui-size]) {
+    min-block-size: var(--kui-input-height-xs, var(--kui-control-height-xs));
+    font-size: var(--kui-input-font-size-xs, var(--kui-text-xs-size));
+  }
+
+  .kui-field[data-kui-size='xs'] input.kui-input:not([data-kui-size]) {
+    block-size: var(--kui-input-height-xs, var(--kui-control-height-xs));
+  }
+
+  .kui-field[data-kui-size='sm'] .kui-input:not([data-kui-size]) {
+    min-block-size: var(--kui-input-height-sm, var(--kui-control-height-sm));
+  }
+
+  .kui-field[data-kui-size='sm'] input.kui-input:not([data-kui-size]) {
+    block-size: var(--kui-input-height-sm, var(--kui-control-height-sm));
+  }
+
+  .kui-field[data-kui-size='lg'] .kui-input:not([data-kui-size]) {
+    min-block-size: var(--kui-input-height-lg, var(--kui-control-height-lg));
+    font-size: var(--kui-input-font-size-lg, var(--kui-text-base-size));
+  }
+
+  .kui-field[data-kui-size='lg'] input.kui-input:not([data-kui-size]) {
+    block-size: var(--kui-input-height-lg, var(--kui-control-height-lg));
+  }
+}

@@ -1,0 +1,14 @@
+<div class="media-viewer-tile">
+  <button
+    type="button"
+    class="media-viewer-tile__cover"
+    [attr.aria-label]="label()"
+    (click)="opened.emit()"
+  >
+    <img class="media-viewer-tile__image" [src]="src()" alt="" />
+  </button>
+
+  <div class="media-viewer-tile__extra">
+    <ng-content />
+  </div>
+</div>

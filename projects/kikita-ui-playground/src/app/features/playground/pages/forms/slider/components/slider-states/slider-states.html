@@ -1,0 +1,39 @@
+<app-playground-example-card [heading]="'slider.examples.states' | transloco">
+  <div
+    class="slider-states__grid"
+    role="group"
+    [attr.aria-label]="'slider.accessibility.states' | transloco"
+  >
+    <kui-field [label]="'slider.labels.disabled' | transloco">
+      <div class="slider-states__control-row">
+        <input type="range" kuiSlider min="0" max="100" value="45" disabled />
+      </div>
+    </kui-field>
+
+    <kui-field
+      [label]="'slider.labels.fieldInvalid' | transloco"
+      [error]="'slider.errors.fieldInvalid' | transloco"
+    >
+      <div class="slider-states__control-row">
+        <input type="range" kuiSlider min="0" max="100" value="45" />
+      </div>
+    </kui-field>
+
+    <div class="slider-states__explicit-invalid">
+      <label kuiText variant="body-sm" for="slider-explicit-invalid">
+        {{ 'slider.labels.explicitInvalid' | transloco }}
+      </label>
+      <div class="slider-states__control-row">
+        <input
+          id="slider-explicit-invalid"
+          type="range"
+          kuiSlider
+          min="0"
+          max="100"
+          value="45"
+          invalid
+        />
+      </div>
+    </div>
+  </div>
+</app-playground-example-card>

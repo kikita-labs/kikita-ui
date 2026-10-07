@@ -1,0 +1,39 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .drawer-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .drawer-playground h1 {
+    margin: 0;
+  }
+
+  .drawer-playground__catalogue {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .drawer-playground__catalogue > section {
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .drawer-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .drawer-playground__catalogue {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

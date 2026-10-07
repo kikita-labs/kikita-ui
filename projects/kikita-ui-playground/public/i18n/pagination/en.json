@@ -1,0 +1,72 @@
+{
+  "title": "Pagination",
+  "navigation": "{{label}} pagination",
+  "examples": {
+    "default": "Default",
+    "variants": "Variants",
+    "sizes": "Sizes",
+    "window": "Page window",
+    "boundaries": "Range boundaries",
+    "rowsPerPage": "Rows per page and summary",
+    "disabled": "Disabled",
+    "table": "With a table"
+  },
+  "accessibility": {
+    "default": "Default pagination example",
+    "variants": "Pagination variants",
+    "sizes": "Pagination sizes",
+    "window": "Pagination page window",
+    "boundaries": "Pagination range boundaries",
+    "rowsPerPage": "Rows per page examples",
+    "disabled": "Disabled pagination examples",
+    "table": "Pagination with a table"
+  },
+  "labels": {
+    "compact": "Compact",
+    "simple": "Simple",
+    "full": "Full",
+    "extraSmall": "Extra small",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "siblingsNone": "Siblings 0",
+    "siblingsDefault": "Siblings 1 (default)",
+    "siblingsTwo": "Siblings 2",
+    "boundariesNone": "Boundaries 0",
+    "boundariesDefault": "Boundaries 1 (default)",
+    "boundariesTwo": "Boundaries 2",
+    "atFirstPage": "On the first page",
+    "atLastPage": "On the last page",
+    "singlePage": "Only one page",
+    "rowsPerPage": "Rows per page",
+    "summaryFallback": "Without total items",
+    "compactDisabled": "Compact, disabled",
+    "simpleDisabled": "Simple, disabled",
+    "fullDisabled": "Full, disabled"
+  },
+  "rowsPerPageStatus": "Page {{page}}, {{size}} per page. Page changes: {{pageChanges}}. Size changes: {{sizeChanges}}.",
+  "table": {
+    "region": "Paginated orders table",
+    "caption": "Orders",
+    "navigation": "Orders pagination",
+    "orderLabel": "Order {{number}}",
+    "status": "Page {{page}} of {{pages}}, {{total}} orders",
+    "columns": {
+      "order": "Order",
+      "customer": "Customer",
+      "status": "Status"
+    },
+    "customers": {
+      "priya": "Priya Rao",
+      "tomas": "Tomas Chen",
+      "noor": "Noor Hassan",
+      "liam": "Liam Foster",
+      "ava": "Ava Khan"
+    },
+    "statuses": {
+      "paid": "Paid",
+      "pending": "Pending",
+      "shipped": "Shipped"
+    }
+  }
+}

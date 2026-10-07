@@ -7,9 +7,9 @@
 ```ts
 import {
   KuiButtonAppearance,
-  KuiButtonDirective,
+  KuiButton,
   KuiButtonShape,
-  kuiProvideButtonOptions,
+  provideKuiDefaults,
 } from '@kikita-labs/ui';
 ```
 
@@ -65,11 +65,12 @@ Project `kui-icon` directly when the icon needs `source` or `src` instead of a r
 
 ## Provider Defaults
 
-Use `kuiProvideButtonOptions` when an application section needs repeated button defaults:
+Use `provideKuiDefaults` when an application section needs repeated button defaults, or the
+`defaults` option of `provideKikitaUi` for the whole application:
 
 ```ts
 providers: [
-  kuiProvideButtonOptions({
+  provideKuiDefaults({
     button: { shape: 'ghost', appearance: 'primary', size: 'sm' },
     iconButton: { shape: 'outline', size: 'sm' },
   }),
@@ -81,12 +82,22 @@ a different default control size. Button-specific options win over root defaults
 always win over providers:
 
 ```text
-local input > KUI_BUTTON_OPTIONS.button/iconButton > provideKikitaUi defaults > component default
+local input > defaults.button / defaults.iconButton > defaults.size > component default
 ```
 
-`kuiButton` and `kuiIconButton` share one provider because they are both button primitives, but
-their defaults are configured through separate `button` and `iconButton` branches so one does not
+`kuiButton` and `kuiIconButton` are both button primitives, but their defaults are configured
+through separate `button` and `iconButton` keys so one does not
 accidentally restyle the other.
+
+### Configurable options
+
+`defaults.button`:
+
+| Option       | Values                                                    | Description                                                                            |
+| ------------ | --------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `shape`      | `'solid' \| 'soft' \| 'outline' \| 'ghost'`               | Default surface shape.                                                                 |
+| `appearance` | `'primary' \| 'danger' \| 'success' \| 'warning' \| null` | Default semantic color intent. Use `null` for each shape's neutral/default appearance. |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg'`                            | Default button size. Takes precedence over the global `defaults.size`.                 |
 
 ## Migration from 0.1.4
 
@@ -120,3 +131,38 @@ Import the Kikita UI style entrypoint once:
 ```scss
 @import '@kikita-labs/ui/styles';
 ```
+
+## Color Tokens
+
+Each appearance reads its own component tokens, so an override set on any ancestor restyles the
+buttons below it:
+
+| Appearance         | Fill / hover / active                                                          | Label                 |
+| ------------------ | ------------------------------------------------------------------------------ | --------------------- |
+| default, `primary` | `--kui-btn-solid-bg`, `--kui-btn-solid-bg-hov`, `--kui-btn-solid-bg-act`       | `--kui-btn-solid-fg`  |
+| `danger`           | `--kui-btn-danger-bg`, `--kui-btn-danger-bg-hov`, `--kui-btn-danger-bg-act`    | `--kui-btn-danger-fg` |
+| `success`          | `--kui-btn-success-bg`, `--kui-btn-success-bg-hov`, `--kui-btn-success-bg-act` | `--kui-btn-solid-fg`  |
+| `warning`          | `--kui-btn-warning-bg`, `--kui-btn-warning-bg-hov`, `--kui-btn-warning-bg-act` | `--kui-btn-solid-fg`  |
+
+The soft, outline and ghost shapes read `--kui-btn-soft-*`, `--kui-btn-outline-*` and
+`--kui-btn-ghost-*` for the default appearance, and the matching `--kui-color-<status>-soft-*`
+semantic tokens for status appearances. See [tokens.md](tokens.md#removed-in-20) for the
+removed `--kui-btn-bg`, `--kui-btn-color` and related aliases.
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                         | Default                   | Controls           |
+| ----------------------------- | ------------------------- | ------------------ |
+| `--kui-btn-height-xs`         | `--kui-control-height-xs` | Height, xs         |
+| `--kui-btn-padding-inline-xs` | `--kui-space-2`           | Padding, inline xs |
+| `--kui-btn-height-sm`         | `--kui-control-height-sm` | Height, sm         |
+| `--kui-btn-padding-inline-sm` | `--kui-space-3`           | Padding, inline sm |
+| `--kui-btn-height-lg`         | `--kui-control-height-lg` | Height, lg         |
+| `--kui-btn-padding-inline-lg` | `--kui-space-5`           | Padding, inline lg |
+
+<!-- geometry-tokens:end -->

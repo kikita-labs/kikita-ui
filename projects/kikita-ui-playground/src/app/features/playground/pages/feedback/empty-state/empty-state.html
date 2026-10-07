@@ -1,0 +1,90 @@
+<main
+  class="playground-workspace empty-state-playground"
+  aria-labelledby="empty-state-playground-title"
+>
+  <h1 id="empty-state-playground-title" kuiText variant="heading-lg">
+    {{ 'emptyState.title' | transloco }}
+  </h1>
+
+  <app-playground-example-card [heading]="'emptyState.examples.default' | transloco">
+    <div
+      class="empty-state-playground__default"
+      role="group"
+      [attr.aria-label]="'emptyState.accessibility.default' | transloco"
+    >
+      <kui-empty-state [description]="'emptyState.samples.default.description' | transloco" />
+    </div>
+  </app-playground-example-card>
+
+  <app-playground-example-card
+    id="empty-state-contexts"
+    [heading]="'emptyState.examples.contexts' | transloco"
+  >
+    <div
+      class="empty-state-playground__contexts"
+      role="group"
+      [attr.aria-label]="'emptyState.accessibility.contexts' | transloco"
+    >
+      @for (context of contexts; track context.value) {
+        <section
+          class="empty-state-playground__context"
+          role="group"
+          [attr.aria-label]="context.label | transloco"
+        >
+          <h3 kuiText variant="heading-sm">{{ context.label | transloco }}</h3>
+          <kui-empty-state
+            [context]="context.value"
+            size="md"
+            [heading]="context.heading | transloco"
+            [description]="context.description | transloco"
+          >
+            <svg kuiEmptyStateIcon viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M21 8v13H3V8" />
+              <path d="M1 3h22v5H1z" />
+              <path d="M10 12h4" />
+            </svg>
+          </kui-empty-state>
+        </section>
+      }
+    </div>
+  </app-playground-example-card>
+
+  <app-playground-example-card [heading]="'emptyState.examples.sizesAndSlots' | transloco">
+    <div
+      class="empty-state-playground__sizes"
+      role="group"
+      [attr.aria-label]="'emptyState.accessibility.sizesAndSlots' | transloco"
+    >
+      @for (size of sizes; track size.value) {
+        <section
+          class="empty-state-playground__size"
+          role="group"
+          [attr.aria-label]="size.label | transloco"
+        >
+          <h3 kuiText variant="heading-sm">{{ size.label | transloco }}</h3>
+          <kui-empty-state
+            context="no-data"
+            [size]="size.value"
+            [heading]="'emptyState.samples.sizes.heading' | transloco"
+            [description]="'emptyState.samples.sizes.description' | transloco"
+          >
+            <svg kuiEmptyStateIcon viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M21 8v13H3V8" />
+              <path d="M1 3h22v5H1z" />
+              <path d="M10 12h4" />
+            </svg>
+            <div kuiEmptyStateActions>
+              <a kuiButton href="/components/empty-state#empty-state-live-filter">
+                {{ 'emptyState.actions.viewProjects' | transloco }}
+              </a>
+            </div>
+          </kui-empty-state>
+        </section>
+      }
+    </div>
+  </app-playground-example-card>
+
+  <app-empty-state-content-compositions />
+
+  <app-empty-state-live-filter />
+</main>

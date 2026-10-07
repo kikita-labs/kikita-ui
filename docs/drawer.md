@@ -9,7 +9,7 @@ Use Drawer for secondary workflows that keep page context visible: filters, deta
 ```ts
 import {
   KUI_DRAWER_CONTEXT,
-  KuiButtonDirective,
+  KuiButton,
   KuiDrawerContext,
   KuiDrawerHost,
   kuiDrawer,
@@ -53,7 +53,7 @@ type EditResult = 'saved' | 'cancelled';
       <button kuiButton type="button" (click)="drawerContext.close('saved')">Save</button>
     </div>
   `,
-  imports: [KuiButtonDirective],
+  imports: [KuiButton],
 })
 export class EditDrawer implements KuiDrawerHost<EditResult, EditData> {
   public readonly drawerContext =
@@ -108,6 +108,41 @@ manual markup), the container detects it and skips rendering its own button rath
 two. New drawer components should not render `.kui-drawer-close` themselves — let the container
 handle it via `closable`.
 
+## Provider Defaults
+
+Set `defaults.drawer` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    drawer: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    drawer: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option                 | Values                                     | Description                                                                                                          |
+| ---------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| `closable`             | `boolean`                                  | Shows the close button in the header.                                                                                |
+| `side`                 | `'right' \| 'left' \| 'bottom' \| 'top'`   | Edge the drawer slides in from.                                                                                      |
+| `size`                 | `'sm' \| 'md' \| 'lg' \| 'full' \| 'auto'` | Drawer size preset.                                                                                                  |
+| `closeOnBackdropClick` | `boolean`                                  | Closes the drawer on a backdrop click.                                                                               |
+| `closeOnEscape`        | `boolean`                                  | Closes the drawer on Escape.                                                                                         |
+| `closeIcon`            | `KuiIconGlyph`                             | Icon of the close button. Takes precedence over `defaults.icons.close`. See [Structural Icons](structural-icons.md). |
+
+Each option resolves as `local input > defaults.drawer.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - Drawer renders `role="dialog"` and `aria-modal="true"`.
@@ -138,4 +173,40 @@ Drawer styles consume public Kikita CSS variables:
 - `--kui-drawer-close-offset-x` (default `var(--kui-drawer-header-padding-x)`)
 - `--kui-drawer-close-offset-y` (default `var(--kui-drawer-header-padding-y)`)
 
-See `projects/ui/src/styles/drawer.css` for the full token list.
+See `projects/ui/src/lib/components/drawer/kui-drawer.css` for the full token list.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                            | Default                      | Controls                |
+| -------------------------------- | ---------------------------- | ----------------------- |
+| `--kui-drawer-color`             | `--kui-color-text`           | Color                   |
+| `--kui-drawer-title-color`       | `--kui-color-text`           | Title color             |
+| `--kui-drawer-subtitle-color`    | `--kui-color-text-secondary` | Subtitle color          |
+| `--kui-drawer-close-color`       | `--kui-color-text-secondary` | Close color             |
+| `--kui-drawer-close-bg-hover`    | `--kui-color-state-hover`    | Close background, hover |
+| `--kui-drawer-close-color-hover` | `--kui-color-text`           | Close color, hover      |
+| `--kui-drawer-body-color`        | `--kui-color-text-secondary` | Body color              |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                             | Default              | Controls            |
+| --------------------------------- | -------------------- | ------------------- |
+| `--kui-drawer-header-gap`         | `--kui-space-3`      | Header gap          |
+| `--kui-drawer-subtitle-font-size` | `--kui-text-sm-size` | Subtitle font size  |
+| `--kui-drawer-close-radius`       | `--kui-radius-sm`    | Close corner radius |
+| `--kui-drawer-body-font-size`     | `--kui-text-sm-size` | Body font size      |
+| `--kui-drawer-footer-gap`         | `--kui-space-2`      | Footer gap          |
+
+<!-- geometry-tokens:end -->

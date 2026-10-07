@@ -1,0 +1,31 @@
+<app-playground-example-card [heading]="'numberInput.examples.sizes' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'numberInput.accessibility.sizes' | transloco"
+    class="number-input-sizes__grid"
+  >
+    <kui-field [label]="'numberInput.fields.extraSmall' | transloco">
+      <input type="number" kuiNumberInput [size]="'xs'" value="4" />
+    </kui-field>
+
+    <kui-field [label]="'numberInput.fields.small' | transloco">
+      <input type="number" kuiNumberInput [size]="'sm'" value="4" />
+    </kui-field>
+
+    <kui-field [label]="'numberInput.fields.medium' | transloco">
+      <input type="number" kuiNumberInput [size]="'md'" value="4" />
+    </kui-field>
+
+    <kui-field [label]="'numberInput.fields.large' | transloco">
+      <input type="number" kuiNumberInput [size]="'lg'" value="4" />
+    </kui-field>
+
+    <kui-field [label]="'numberInput.fields.fieldInherited' | transloco" size="lg">
+      <input type="number" kuiNumberInput value="4" />
+    </kui-field>
+
+    <kui-field [label]="'numberInput.fields.localSizeOverride' | transloco" size="lg">
+      <input type="number" kuiNumberInput [size]="'sm'" value="4" />
+    </kui-field>
+  </div>
+</app-playground-example-card>

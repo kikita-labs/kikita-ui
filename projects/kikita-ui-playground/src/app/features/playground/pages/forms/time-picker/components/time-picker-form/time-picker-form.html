@@ -1,0 +1,18 @@
+<section role="group" [attr.aria-label]="'timePicker.accessibility.signalForms' | transloco">
+  <app-playground-example-card [heading]="'timePicker.examples.signalForms' | transloco">
+    <kui-field
+      [label]="'timePicker.fields.requiredTime' | transloco"
+      [hint]="'timePicker.hints.requiredTime' | transloco"
+    >
+      <input kuiTimePicker [formField]="deliveryForm.deliveryTime" />
+      @let deliveryTime = deliveryForm.deliveryTime();
+      @if (deliveryTime.touched() && deliveryTime.invalid()) {
+        <p kuiError>{{ 'timePicker.errors.required' | transloco }}</p>
+      }
+
+      <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+        <kui-time-picker-panel />
+      </kui-dropdown>
+    </kui-field>
+  </app-playground-example-card>
+</section>

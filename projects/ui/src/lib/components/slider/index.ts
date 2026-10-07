@@ -1,2 +1,3 @@
-export type { KuiSliderColor, KuiSliderSize } from './kui-slider.directive';
-export { KuiSliderDirective } from './kui-slider.directive';
+export type { KuiSliderColor, KuiSliderSize } from './kui-slider';
+export { KuiSlider } from './kui-slider';
+export * from './kui-slider-options.interface';

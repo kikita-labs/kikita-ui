@@ -1,0 +1,95 @@
+{
+  "title": "Drawer",
+  "examples": {
+    "placement": "Placement and default",
+    "sizes": "Sizes",
+    "content": "Content and context",
+    "dismissal": "Closing behavior"
+  },
+  "accessibility": {
+    "placement": "Drawer placement examples",
+    "sizes": "Drawer size examples",
+    "horizontalSizes": "Horizontal drawer sizes",
+    "verticalSizes": "Vertical drawer sizes",
+    "content": "Drawer content examples",
+    "dismissal": "Drawer dismissal examples"
+  },
+  "actions": {
+    "openDefault": "Open default",
+    "openLeft": "Open left",
+    "openTop": "Open top",
+    "openBottom": "Open bottom",
+    "openRightSm": "Open right sm",
+    "openRightMd": "Open right md",
+    "openRightLg": "Open right lg",
+    "openRightFull": "Open right full",
+    "openRightAuto": "Open right auto",
+    "openBottomSm": "Open bottom sm",
+    "openBottomMd": "Open bottom md",
+    "openBottomLg": "Open bottom lg",
+    "openBottomFull": "Open bottom full",
+    "openBottomAuto": "Open bottom auto",
+    "openLongTitle": "Open long title",
+    "openUntitled": "Open untitled",
+    "openLongBody": "Open long body",
+    "openNoClose": "Open without close button",
+    "openNoEscape": "Open with Escape disabled",
+    "openNoBackdrop": "Open with backdrop dismissal disabled",
+    "openLocked": "Open locked drawer",
+    "cancel": "Cancel",
+    "save": "Save",
+    "continue": "Continue"
+  },
+  "labels": {
+    "defaultTitle": "Profile details",
+    "defaultSubtitle": "Record TCK-1042",
+    "defaultBody": "This drawer uses the default right placement and medium size.",
+    "placementTitle": "Placement example",
+    "placementBody": "The drawer enters from the configured edge.",
+    "horizontalSizes": "Left and right",
+    "verticalSizes": "Top and bottom",
+    "sizeTitle": "Size preset",
+    "sizeBody": "This panel reports its resolved placement and size.",
+    "longTitle": "Review account changes before returning to the workspace",
+    "longTitleBody": "The title wraps while the container reserves space for its close button.",
+    "untitledBody": "This drawer has no visible title, so its accessible name uses the library fallback.",
+    "longBodyTitle": "Activity history",
+    "longBodyIntro": "The body scrolls independently while its header and footer stay in place.",
+    "longBodyParagraph": "This fixed paragraph is repeated to create a deterministic body that exceeds the available panel height.",
+    "noCloseTitle": "Close button hidden",
+    "noCloseBody": "The close button is hidden while Escape and backdrop dismissal remain enabled.",
+    "noEscapeTitle": "Escape dismissal disabled",
+    "noBackdropTitle": "Backdrop dismissal disabled",
+    "dismissalBody": "The other dismissal methods remain available for this drawer.",
+    "lockedTitle": "Required action",
+    "lockedBody": "The close button, Escape, and backdrop dismissal are disabled. Continue to close this drawer.",
+    "reference": "Reference",
+    "placementAndSize": "Placement and size",
+    "closeButton": "Close button"
+  },
+  "values": {
+    "sides": {
+      "right": "Right",
+      "left": "Left",
+      "bottom": "Bottom",
+      "top": "Top"
+    },
+    "sizes": {
+      "sm": "Small",
+      "md": "Medium",
+      "lg": "Large",
+      "full": "Full",
+      "auto": "Auto"
+    },
+    "closeButton": {
+      "shown": "Shown",
+      "hidden": "Hidden"
+    }
+  },
+  "status": {
+    "saved": "Drawer result: saved",
+    "cancelled": "Drawer result: cancelled",
+    "continued": "Drawer result: continued",
+    "dismissed": "Drawer dismissed"
+  }
+}

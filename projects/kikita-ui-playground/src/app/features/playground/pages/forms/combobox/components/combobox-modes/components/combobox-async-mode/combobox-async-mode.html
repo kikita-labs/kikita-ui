@@ -1,0 +1,24 @@
+<kui-field
+  [label]="'combobox.fields.reviewer' | transloco"
+  [hint]="'combobox.hints.async' | transloco"
+>
+  <input
+    kuiCombobox
+    mode="async"
+    [(value)]="reviewer"
+    [(query)]="query"
+    [kuiLabelFn]="personLabel"
+    [placeholder]="'combobox.placeholders.reviewer' | transloco"
+    (search)="query.set($event)"
+  />
+
+  <kui-dropdown>
+    @for (person of remoteResults(); track person.id) {
+      <button kuiOption type="button" [value]="person" [disabled]="person.disabled">
+        {{ person.name }}
+      </button>
+    } @empty {
+      <div class="kui-combobox-empty">{{ 'combobox.states.noMatches' | transloco }}</div>
+    }
+  </kui-dropdown>
+</kui-field>

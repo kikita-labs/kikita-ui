@@ -1,0 +1,57 @@
+{
+  "title": "Slider",
+  "examples": {
+    "default": "Default",
+    "variants": "Sizes and colors",
+    "endpoints": "Range endpoints",
+    "states": "Disabled and invalid",
+    "signalForms": "Signal Forms",
+    "tooltips": "Tooltips"
+  },
+  "accessibility": {
+    "default": "Default Slider example",
+    "variants": "Slider size and color variations",
+    "endpoints": "Slider range endpoints",
+    "states": "Slider disabled and invalid states",
+    "signalForms": "Slider Signal Forms example",
+    "tooltips": "Slider tooltip examples"
+  },
+  "labels": {
+    "default": "Default volume",
+    "minimum": "At minimum",
+    "withEndpointLabels": "Endpoint labels",
+    "maximum": "At maximum",
+    "zeroMaximum": "Zero maximum",
+    "rangeStart": "0",
+    "rangeEnd": "100",
+    "disabled": "Disabled slider",
+    "fieldInvalid": "Invalid Field slider",
+    "explicitInvalid": "Standalone invalid slider",
+    "volume": "Volume",
+    "valueTooltip": "Value tooltip",
+    "staticTooltip": "Static tooltip"
+  },
+  "variants": {
+    "smPrimary": "Small primary",
+    "smSuccess": "Small success",
+    "smDanger": "Small danger",
+    "smNeutral": "Small neutral",
+    "mdPrimary": "Medium primary",
+    "mdSuccess": "Medium success",
+    "mdDanger": "Medium danger",
+    "mdNeutral": "Medium neutral",
+    "lgPrimary": "Large primary",
+    "lgSuccess": "Large success",
+    "lgDanger": "Large danger",
+    "lgNeutral": "Large neutral"
+  },
+  "hints": {
+    "keyboard": "Use arrow keys, Home, and End."
+  },
+  "errors": {
+    "fieldInvalid": "The value needs review."
+  },
+  "tooltips": {
+    "static": "Playback speed"
+  }
+}

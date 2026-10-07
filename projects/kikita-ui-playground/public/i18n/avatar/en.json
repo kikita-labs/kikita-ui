@@ -1,0 +1,93 @@
+{
+  "title": "Avatar",
+  "examples": {
+    "content": "Default and content",
+    "variants": "Shape and size",
+    "palette": "Fallback palette",
+    "presence": "Presence status",
+    "loading": "Loading",
+    "groups": "Avatar groups",
+    "interactive": "Native button interaction"
+  },
+  "accessibility": {
+    "content": "Avatar default and content examples",
+    "variants": "Avatar shape and size examples",
+    "palette": "Avatar fallback palette examples",
+    "presence": "Avatar presence status examples",
+    "loading": "Avatar loading examples",
+    "groups": "Avatar group examples",
+    "interactive": "Avatar inside a native button"
+  },
+  "content": {
+    "minimumDefault": "Minimum default",
+    "generatedInitials": "Generated initials",
+    "explicitInitials": "Explicit initials, limited to two",
+    "explicitValue": "Luna",
+    "localImage": "Local image with alt text",
+    "imageAlt": "Illustrated profile avatar"
+  },
+  "people": {
+    "generated": "Taylor Morgan",
+    "explicit": "Luna Ivanova",
+    "image": "Alex Rivera",
+    "matrix": "Morgan Lee",
+    "palette": "Jamie Chen",
+    "presence": "Avery Jordan",
+    "loading": "Sam Taylor",
+    "groupFirst": "Avery Jordan",
+    "groupSecond": "Riley Kim",
+    "groupSecondInitials": "RK",
+    "groupThird": "Morgan Lee",
+    "groupFourth": "Jamie Chen",
+    "groupFifth": "Taylor Morgan",
+    "groupFifthInitials": "TM",
+    "groupImage": "Illustrated avatar for Morgan Lee"
+  },
+  "sizes": {
+    "extraSmall": "Extra small",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "extraLarge": "Extra large",
+    "twoExtraLarge": "2× large"
+  },
+  "shapes": {
+    "circle": "Circle",
+    "square": "Square"
+  },
+  "palette": {
+    "automatic": "Name-derived slot",
+    "slot": "Palette slot {{slot}}"
+  },
+  "status": {
+    "online": "Online",
+    "away": "Away",
+    "busy": "Busy",
+    "offline": "Offline"
+  },
+  "loading": {
+    "circle": "Circle skeleton",
+    "square": "Square skeleton"
+  },
+  "groups": {
+    "sizeXs": "Extra small group",
+    "sizeSm": "Small group",
+    "sizeMd": "Medium group",
+    "sizeLg": "Large group",
+    "sizeXl": "Extra large group",
+    "size2xl": "2× large group",
+    "defaultLimit": "Default limit (4)",
+    "customLimit": "Custom limit (2), square and small",
+    "noOverflow": "No overflow",
+    "defaultLabel": "Project team",
+    "customLabel": "Visible project team members",
+    "completeLabel": "Team members without overflow"
+  },
+  "actions": {
+    "openProfile": "Open profile for Alex Rivera"
+  },
+  "interaction": {
+    "hint": "Use Tab to focus; activate to record the action.",
+    "activationCount": "Profile action activation count: {{count}}"
+  }
+}

@@ -1,0 +1,19 @@
+<app-playground-example-card [heading]="'otpInput.examples.validation' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'otpInput.accessibility.validation' | transloco"
+    class="otp-input-validation__content"
+  >
+    <kui-field
+      [label]="'otpInput.fields.signInCode' | transloco"
+      [hint]="'otpInput.hints.signInCode' | transloco"
+    >
+      <kui-otp-input
+        [formField]="validationForm.code"
+        [ariaLabel]="'otpInput.fields.signInCode' | transloco"
+      />
+    </kui-field>
+
+    <app-otp-input-readout [value]="validationForm.code().value()" />
+  </div>
+</app-playground-example-card>

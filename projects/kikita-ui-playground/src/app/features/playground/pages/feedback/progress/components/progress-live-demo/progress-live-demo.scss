@@ -1,0 +1,26 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .progress-live-demo {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .progress-live-demo__control {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .progress-live-demo__control input {
+    grid-column: 1 / -1;
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+}

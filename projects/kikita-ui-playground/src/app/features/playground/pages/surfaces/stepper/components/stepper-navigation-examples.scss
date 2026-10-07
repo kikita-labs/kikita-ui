@@ -1,0 +1,17 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .stepper-example {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .stepper-example__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-2);
+  }
+}

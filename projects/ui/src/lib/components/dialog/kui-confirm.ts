@@ -2,9 +2,9 @@ import { inject } from '@angular/core';
 
 import { map, type Observable } from 'rxjs';
 
-import { KuiConfirmComponent } from './kui-confirm.component';
 import type { KuiConfirmConfig } from './kui-confirm.types';
-import { KuiDialogService } from './kui-dialog.service';
+import { KuiConfirmDialog } from './kui-confirm-dialog';
+import { KuiDialog } from './kui-dialog';
 
 /**
  * Returns a function that opens a pre-built confirmation dialog.
@@ -21,10 +21,10 @@ import { KuiDialogService } from './kui-dialog.service';
  * ```
  */
 export function kuiConfirm(): (config: KuiConfirmConfig) => Observable<boolean> {
-  const service = inject(KuiDialogService);
+  const service = inject(KuiDialog);
   return (config: KuiConfirmConfig): Observable<boolean> =>
     service
-      .open(KuiConfirmComponent, {
+      .open(KuiConfirmDialog, {
         data: config,
         size: 'sm',
         appearance: config.appearance ?? 'default',

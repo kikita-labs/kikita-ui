@@ -1,0 +1,40 @@
+{
+  "title": "Calendar Range",
+  "examples": {
+    "default": "Default",
+    "selection": "Range selection",
+    "compact": "Compact size",
+    "flat": "Flat composition",
+    "compactFlat": "Compact flat composition",
+    "footerEmpty": "Footer, empty",
+    "footerOpen": "Footer, open range",
+    "footerCommitted": "Footer, committed range",
+    "constraints": "Date limits and disabled date",
+    "predicate": "Disabled dates predicate",
+    "navigation": "Linked pair with hidden navigation",
+    "locales": "Locales"
+  },
+  "selection": {
+    "empty": "No range selected",
+    "open": "Start {{start}}, end open",
+    "committed": "Selected {{start}} to {{end}}"
+  },
+  "locales": {
+    "english": "English (United States)",
+    "russian": "Russian"
+  },
+  "accessibility": {
+    "default": "Default calendar range example",
+    "selection": "Calendar range selection example",
+    "compact": "Compact calendar range example",
+    "flat": "Flat calendar range example",
+    "compactFlat": "Compact flat calendar range example",
+    "footerEmpty": "Calendar range footer without a value example",
+    "footerOpen": "Calendar range footer with an open range example",
+    "footerCommitted": "Calendar range footer with a committed range example",
+    "constraints": "Calendar range date limits and disabled date example",
+    "predicate": "Calendar range disabled dates predicate example",
+    "navigation": "Calendar range linked pair example",
+    "locales": "Calendar range locale examples"
+  }
+}

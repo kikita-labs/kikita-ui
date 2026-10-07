@@ -1,0 +1,68 @@
+{
+  "title": "Tabs",
+  "examples": {
+    "default": "Default",
+    "horizontal": "Horizontal combinations",
+    "vertical": "Vertical combinations",
+    "keyboard": "Keyboard navigation",
+    "error": "Error label",
+    "router": "Router-style navigation",
+    "overflow": "Horizontal overflow"
+  },
+  "labels": {
+    "general": "General",
+    "security": "Security",
+    "overview": "Overview",
+    "activity": "Activity",
+    "settings": "Settings",
+    "profile": "Profile",
+    "payment": "Payment",
+    "overviewLong": "Workspace overview",
+    "activityLong": "Recent activity",
+    "settingsLong": "Workspace settings",
+    "membersLong": "Team members",
+    "integrationsLong": "Connected integrations",
+    "billingLong": "Billing and invoices",
+    "securityLong": "Security controls",
+    "auditLong": "Audit history"
+  },
+  "panels": {
+    "general": "General preferences are selected.",
+    "security": "Security preferences are selected.",
+    "matrix": "Panel.",
+    "overview": "Overview panel.",
+    "activity": "Activity panel.",
+    "settings": "Settings panel.",
+    "profile": "Profile panel.",
+    "payment": "Payment panel.",
+    "members": "Team members panel.",
+    "integrations": "Integrations panel.",
+    "billing": "Billing panel.",
+    "audit": "Audit panel."
+  },
+  "values": {
+    "horizontal": "Horizontal",
+    "vertical": "Vertical",
+    "line": "line",
+    "pill": "pill",
+    "normal": "normal",
+    "inverted": "inverted"
+  },
+  "accessibility": {
+    "default": "Minimal horizontal default",
+    "matrixExample": "{{orientation}} {{variant}} tabs, {{size}} size, {{edge}} edge",
+    "keyboard": "Keyboard navigation example",
+    "error": "Tab with a toggled payment error",
+    "router": "Router-style tabs without local panels",
+    "overflow": "Scrollable tabs with many items"
+  },
+  "error": {
+    "accessibleLabel": "payment needs attention"
+  },
+  "actions": {
+    "toggleError": "Toggle payment tab error"
+  },
+  "notes": {
+    "router": "The consumer renders route content outside this tab list."
+  }
+}

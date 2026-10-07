@@ -1,0 +1,23 @@
+<app-playground-example-card [heading]="'colorInput.examples.values' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'colorInput.accessibility.valuesGroup' | transloco"
+    class="color-input-values__examples"
+  >
+    <kui-field [label]="'colorInput.fields.hexLabel' | transloco">
+      <input
+        kuiColorInput
+        value="#5b4fe0"
+        [swatchLabel]="'colorInput.actions.swatch' | transloco"
+      />
+    </kui-field>
+
+    <kui-field [label]="'colorInput.fields.oklchLabel' | transloco">
+      <input
+        kuiColorInput
+        value="oklch(0.52 0.25 285)"
+        [swatchLabel]="'colorInput.actions.swatch' | transloco"
+      />
+    </kui-field>
+  </div>
+</app-playground-example-card>

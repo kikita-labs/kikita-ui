@@ -1,0 +1,9 @@
+@layer app.components {
+  .link-icons__examples {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+}

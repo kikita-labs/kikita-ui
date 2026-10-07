@@ -1,0 +1,27 @@
+<app-playground-example-card [heading]="'link.examples.external' | transloco">
+  <div
+    class="link-external__examples"
+    role="group"
+    [attr.aria-label]="'link.accessibility.external' | transloco"
+  >
+    <a kuiLink href="/components/link#link-playground-title" target="_blank">
+      {{ 'link.labels.externalAuto' | transloco }}
+    </a>
+
+    <a kuiLink href="/components/link#link-playground-title" [external]="true">
+      {{ 'link.labels.externalExplicit' | transloco }}
+    </a>
+
+    <a kuiLink href="/components/link#link-playground-title" target="_blank" iconEnd="arrow-right">
+      {{ 'link.labels.externalIcon' | transloco }}
+    </a>
+
+    <a kuiLink href="/components/link#link-playground-title" target="_blank" rel="author">
+      {{ 'link.labels.externalRel' | transloco }}
+    </a>
+
+    <a kuiLink href="/components/link#link-playground-title" target="_blank" [external]="false">
+      {{ 'link.labels.externalOptOut' | transloco }}
+    </a>
+  </div>
+</app-playground-example-card>

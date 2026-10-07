@@ -1,0 +1,195 @@
+﻿@layer kui.components {
+  .kui-icon-button {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--kui-btn-height, var(--kui-control-height-md));
+    block-size: var(--kui-btn-height, var(--kui-control-height-md));
+    border: var(--kui-border-width-hairline) solid transparent;
+    border-radius: var(--kui-btn-radius, var(--kui-radius-md));
+    background-color: transparent;
+    color: var(--kui-btn-ghost-fg, var(--kui-color-text-secondary));
+    cursor: pointer;
+    font: inherit;
+    line-height: 0;
+    padding: 0;
+    position: relative;
+    text-decoration: none;
+    transition:
+      background-color var(--kui-duration-base) var(--kui-ease),
+      border-color var(--kui-duration-base) var(--kui-ease),
+      color var(--kui-duration-base) var(--kui-ease),
+      transform var(--kui-duration-fast) var(--kui-ease);
+    user-select: none;
+    vertical-align: middle;
+  }
+
+  .kui-icon-button__content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    transition: opacity var(--kui-duration-base) var(--kui-ease);
+  }
+
+  .kui-icon-button__loader {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    pointer-events: none;
+    translate: -50% -50%;
+    --kui-loader-track: color-mix(in oklch, currentColor 25%, transparent);
+    --kui-loader-fill: currentColor;
+  }
+
+  .kui-icon-button[data-kui-loading] .kui-icon-button__content {
+    opacity: 0;
+  }
+
+  .kui-icon-button:hover {
+    background-color: var(
+      --_kui-btn-soft-bg,
+      var(--kui-btn-ghost-bg-hov, var(--kui-color-state-hover))
+    );
+  }
+
+  .kui-icon-button:active {
+    background-color: var(
+      --_kui-btn-soft-bg-active,
+      var(--kui-btn-ghost-bg-act, var(--kui-color-surface-elevated))
+    );
+    transform: scale(0.97);
+  }
+
+  .kui-icon-button:focus-visible {
+    outline: var(--kui-btn-focus-ring-w, var(--kui-focus-ring-width)) solid
+      var(--kui-btn-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline-offset: var(--kui-btn-focus-ring-off, var(--kui-focus-ring-offset));
+  }
+
+  .kui-icon-button:focus:not(:focus-visible) {
+    outline: 0;
+  }
+
+  .kui-icon-button[data-kui-size='xs'] {
+    inline-size: var(--kui-icon-button-size-xs, var(--kui-control-height-xs));
+    block-size: var(--kui-icon-button-size-xs, var(--kui-control-height-xs));
+  }
+
+  .kui-icon-button[data-kui-size='sm'] {
+    inline-size: var(--kui-icon-button-size-sm, var(--kui-control-height-sm));
+    block-size: var(--kui-icon-button-size-sm, var(--kui-control-height-sm));
+  }
+
+  .kui-icon-button[data-kui-size='lg'] {
+    inline-size: var(--kui-icon-button-size-lg, var(--kui-control-height-lg));
+    block-size: var(--kui-icon-button-size-lg, var(--kui-control-height-lg));
+  }
+
+  .kui-icon-button[data-kui-shape='solid'] {
+    background-color: var(--_kui-btn-fill, var(--kui-btn-solid-bg, var(--kui-color-primary-fill)));
+    color: var(--_kui-btn-fg, var(--kui-btn-solid-fg, var(--kui-color-primary-on-fill, Canvas)));
+  }
+
+  .kui-icon-button[data-kui-shape='solid']:hover {
+    background-color: var(
+      --_kui-btn-fill-hover,
+      var(--kui-btn-solid-bg-hov, var(--kui-color-primary-fill-hover))
+    );
+  }
+
+  .kui-icon-button[data-kui-shape='solid']:active {
+    background-color: var(
+      --_kui-btn-fill-active,
+      var(--kui-btn-solid-bg-act, var(--kui-color-primary-fill-active))
+    );
+  }
+
+  .kui-icon-button[data-kui-shape='soft'] {
+    background-color: var(
+      --_kui-btn-soft-bg,
+      var(--kui-btn-soft-bg, var(--kui-color-primary-soft-bg))
+    );
+    color: var(--_kui-btn-soft-fg, var(--kui-btn-soft-fg, var(--kui-color-primary-soft-text)));
+  }
+
+  .kui-icon-button[data-kui-shape='soft']:hover {
+    background-color: var(
+      --_kui-btn-soft-bg-hover,
+      var(--kui-btn-soft-bg-hov, var(--kui-color-primary-soft-bg-hover))
+    );
+  }
+
+  .kui-icon-button[data-kui-shape='soft']:active {
+    background-color: var(
+      --_kui-btn-soft-bg-active,
+      var(--kui-btn-soft-bg-act, var(--kui-color-primary-soft-bg-active))
+    );
+  }
+
+  .kui-icon-button[data-kui-shape='outline'] {
+    border-color: var(
+      --_kui-btn-outline-border,
+      var(--kui-btn-outline-border, var(--kui-color-border-control))
+    );
+    background-color: transparent;
+    color: var(--_kui-btn-outline-fg, var(--kui-btn-outline-fg, var(--kui-color-text)));
+  }
+
+  .kui-icon-button[data-kui-shape='outline']:hover {
+    background-color: var(
+      --_kui-btn-soft-bg,
+      var(--kui-btn-outline-bg-hov, var(--kui-color-surface-elevated))
+    );
+  }
+
+  .kui-icon-button[data-kui-shape='outline']:active {
+    background-color: var(
+      --_kui-btn-soft-bg-active,
+      var(--kui-btn-outline-bg-act, var(--kui-color-state-active))
+    );
+  }
+
+  .kui-icon-button[data-kui-shape='ghost'] {
+    color: var(--_kui-btn-ghost-fg, var(--kui-btn-ghost-fg, var(--kui-color-text-secondary)));
+  }
+
+  .kui-icon-button[data-kui-shape='ghost']:hover {
+    background-color: var(
+      --_kui-btn-soft-bg,
+      var(--kui-btn-ghost-bg-hov, var(--kui-color-state-hover))
+    );
+  }
+
+  .kui-icon-button[data-kui-shape='ghost']:active {
+    background-color: var(
+      --_kui-btn-soft-bg-active,
+      var(--kui-btn-ghost-bg-act, var(--kui-color-surface-elevated))
+    );
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-button,
+    .kui-icon-button {
+      transition: none;
+    }
+
+    .kui-button:active,
+    .kui-icon-button:active {
+      transform: none;
+    }
+  }
+
+  .kui-icon-button:is(:disabled, [disabled], [aria-disabled='true']) {
+    cursor: not-allowed;
+    opacity: var(--kui-btn-disabled-opacity, var(--kui-opacity-disabled));
+    pointer-events: none;
+  }
+
+  /* A busy button is not unavailable: it keeps full colour so the spinner reads clearly. */
+  .kui-icon-button[data-kui-loading]:is(:disabled, [disabled], [aria-disabled='true']) {
+    cursor: progress;
+    opacity: 1;
+  }
+}

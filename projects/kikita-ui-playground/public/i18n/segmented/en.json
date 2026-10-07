@@ -1,0 +1,37 @@
+{
+  "title": "Segmented",
+  "examples": {
+    "default": "Selection and touch",
+    "sizes": "Control sizes",
+    "disabled": "Disabled states",
+    "validation": "Signal Forms validation"
+  },
+  "accessibility": {
+    "defaultGroup": "Page view",
+    "sizeGroup": "Segmented size",
+    "oneDisabledGroup": "Page view with one disabled option",
+    "groupDisabled": "Disabled page view",
+    "validationGroup": "Preferred view"
+  },
+  "options": {
+    "list": "List",
+    "grid": "Grid",
+    "calendar": "Calendar"
+  },
+  "sizes": {
+    "xs": "XS",
+    "sm": "SM",
+    "md": "MD",
+    "lg": "LG"
+  },
+  "states": {
+    "oneDisabled": "One segment disabled",
+    "groupDisabled": "Whole group disabled"
+  },
+  "forms": {
+    "label": "Preferred view",
+    "invalidMessage": "Choose List."
+  },
+  "value": "Selected value: {{value}}",
+  "touchCount": "Touch events: {{count}}"
+}

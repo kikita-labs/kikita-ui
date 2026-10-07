@@ -1,0 +1,31 @@
+<main class="playground-workspace dialog-playground" aria-labelledby="dialog-playground-title">
+  <h1 id="dialog-playground-title" kuiText variant="heading-lg">
+    {{ 'dialog.title' | transloco }}
+  </h1>
+
+  <div class="dialog-playground__catalogue">
+    <section role="group" [attr.aria-label]="'dialog.accessibility.sizes' | transloco">
+      <app-playground-example-card [heading]="'dialog.examples.sizes' | transloco">
+        <app-dialog-size-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'dialog.accessibility.appearances' | transloco">
+      <app-playground-example-card [heading]="'dialog.examples.appearances' | transloco">
+        <app-dialog-appearance-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'dialog.accessibility.content' | transloco">
+      <app-playground-example-card [heading]="'dialog.examples.content' | transloco">
+        <app-dialog-behavior-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'dialog.accessibility.confirm' | transloco">
+      <app-playground-example-card [heading]="'dialog.examples.confirm' | transloco">
+        <app-dialog-confirm-examples />
+      </app-playground-example-card>
+    </section>
+  </div>
+</main>

@@ -1,0 +1,350 @@
+import { Overlay } from '@angular/cdk/overlay';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import type { AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
+import {
+  booleanAttribute,
+  computed,
+  Directive,
+  effect,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  PLATFORM_ID,
+  Renderer2,
+} from '@angular/core';
+
+import { KuiDefaults } from '../../providers/kui-defaults';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
+import { createKuiFieldWiring } from '../../utils/kui-field-control-wiring.util';
+import { KUI_FIELD } from '../field/kui-field-host.token';
+import { KuiTooltip } from '../tooltip/kui-tooltip';
+import { KuiTooltipPresenter } from '../tooltip/kui-tooltip-presenter';
+
+const KUI_SLIDER_SIZES = ['sm', 'md', 'lg'] as const;
+
+function readRangeBound(value: string, fallback: number): number {
+  if (!value.trim()) return fallback;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+/** Semantic color used by `kuiSlider`. */
+export type KuiSliderColor = 'primary' | 'success' | 'danger' | 'neutral';
+
+/** Size token used by `kuiSlider`. */
+export type KuiSliderSize = 'sm' | 'md' | 'lg';
+
+/** Enhances a native range input with Kikita UI Slider visuals and state synchronization. */
+@Directive({
+  selector: 'input[type=range][kuiSlider]',
+  host: {
+    '[attr.id]': 'hostId()',
+    '[attr.aria-describedby]': 'describedBy()',
+    '[attr.aria-invalid]': 'effectiveInvalid() ? "true" : null',
+    '[disabled]': 'disabled()',
+    '(input)': 'updateFill()',
+    '(mouseenter)': 'onMouseEnter()',
+    '(mouseleave)': 'onMouseLeave()',
+    '(focus)': 'onFocus()',
+    '(blur)': 'onBlur()',
+    '(keydown)': 'onKeyDown()',
+  },
+})
+export class KuiSlider implements AfterViewInit, DoCheck, OnDestroy {
+  private readonly el = inject(ElementRef<HTMLInputElement>);
+  private readonly renderer = inject(Renderer2);
+  private readonly overlay = inject(Overlay);
+  private readonly doc = inject(DOCUMENT);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly field = inject(KUI_FIELD, { optional: true, host: true });
+  // If user adds [kuiTooltip]="'static text'", we defer to it; empty = value mode.
+  private readonly kuiTooltip = inject(KuiTooltip, { optional: true, self: true });
+
+  /** Semantic color applied to the generated slider fill and thumb. Defaults to `defaults.slider.color`, then `'primary'`. */
+  readonly color = input<KuiSliderColor | undefined>();
+
+  /** Visual size of the generated slider control. Defaults to `defaults.slider.size`, then the global `defaults.size` when supported, then `'md'`. */
+  readonly size = input<KuiSliderSize | undefined>();
+
+  /** Optional label rendered below the minimum side of the slider. */
+  readonly minLabel = input<string>('');
+
+  /** Optional label rendered below the maximum side of the slider. */
+  readonly maxLabel = input<string>('');
+
+  /** Applies native disabled semantics and mirrors the state onto the generated slider container. */
+  readonly disabled = input(false, { transform: booleanAttribute });
+
+  /** Marks the slider as invalid outside a `kui-field` error state. */
+  readonly invalidInput = input(false, { alias: 'invalid', transform: booleanAttribute });
+
+  /** Explicit id override. If omitted inside `kui-field`, the field id is used. */
+  readonly id = input<string | undefined>();
+
+  private readonly wiring = createKuiFieldWiring({
+    field: this.field,
+    id: this.id,
+    invalid: this.invalidInput,
+  });
+
+  /** @internal */
+  protected readonly hostId = this.wiring.hostId;
+
+  /** @internal */
+  protected readonly effectiveInvalid = this.wiring.invalid;
+
+  /** @internal */
+  protected readonly describedBy = this.wiring.describedBy;
+  protected readonly effectiveColor = computed(
+    () => this.color() ?? this.sliderDefaults()?.color ?? 'primary',
+  );
+
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.sliderDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
+
+  private containerEl!: HTMLElement;
+  private fillEl!: HTMLElement;
+  private thumbEl!: HTMLElement;
+  private labelsEl: HTMLElement | null = null;
+  /** The value read-out above the thumb: hoverable, and Escape closes it (WCAG 1.4.13). */
+  private readonly tooltipPresenter = new KuiTooltipPresenter({
+    overlay: this.overlay,
+    document: this.doc,
+    placement: () => 'top',
+  });
+  private tooltipVisible = false;
+  private hovered = false;
+  private keyboardFocused = false;
+  private lastNativeState = '';
+  private scrollUnlisten: (() => void) | null = null;
+  private readonly sliderDefaults = inject(KuiDefaults).get('slider');
+  private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiSliderSize>(KUI_SLIDER_SIZES);
+
+  constructor() {
+    effect(() => {
+      const color = this.effectiveColor();
+      const size = this.effectiveSize();
+      const invalid = this.effectiveInvalid();
+      const disabled = this.disabled();
+      if (!this.containerEl) return;
+      this.syncContainerState(color, size, invalid);
+      this.syncDisabled(disabled);
+    });
+
+    effect(() => {
+      const min = this.minLabel();
+      const max = this.maxLabel();
+      if (!this.containerEl) return;
+      this.syncLabels(min, max);
+    });
+  }
+
+  private syncLabels(min: string, max: string): void {
+    if ((min || max) && !this.labelsEl) {
+      this.labelsEl = this.renderer.createElement('div');
+      this.renderer.addClass(this.labelsEl, 'kui-slider-labels');
+      const spanMin: HTMLElement = this.renderer.createElement('span');
+      const spanMax: HTMLElement = this.renderer.createElement('span');
+      spanMin.textContent = min;
+      spanMax.textContent = max;
+      this.renderer.appendChild(this.labelsEl, spanMin);
+      this.renderer.appendChild(this.labelsEl, spanMax);
+      this.renderer.appendChild(this.containerEl, this.labelsEl);
+    } else if (!min && !max && this.labelsEl) {
+      this.renderer.removeChild(this.containerEl, this.labelsEl);
+      this.labelsEl = null;
+    } else if (this.labelsEl) {
+      const spans = this.labelsEl.querySelectorAll('span');
+      if (spans[0]) spans[0].textContent = min;
+      if (spans[1]) spans[1].textContent = max;
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
+    this.buildDOM();
+    this.syncLabels(this.minLabel(), this.maxLabel());
+    this.updateFill();
+  }
+
+  ngDoCheck(): void {
+    if (!this.containerEl) return;
+    const native = this.el.nativeElement;
+    const state = `${native.min}|${native.max}|${native.value}|${native.disabled}`;
+    if (state === this.lastNativeState) return;
+    this.lastNativeState = state;
+    this.updateFill();
+    if (native.disabled) {
+      this.renderer.setAttribute(this.containerEl, 'data-kui-disabled', 'true');
+    } else {
+      this.renderer.removeAttribute(this.containerEl, 'data-kui-disabled');
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.stopScrollTracking();
+    this.destroyTooltip();
+  }
+
+  protected onMouseEnter(): void {
+    this.hovered = true;
+    this.showValueTooltip();
+  }
+
+  protected onMouseLeave(): void {
+    this.hovered = false;
+    if (this.keyboardFocused) return;
+
+    // The pointer may be heading for the read-out itself, so it closes after a short delay.
+    this.tooltipVisible = false;
+    this.stopScrollTracking();
+    this.tooltipPresenter.resetDismissed();
+    this.tooltipPresenter.scheduleClose();
+  }
+
+  /** Keyboard focus shows the value too, so arrow-key users see what they set. */
+  protected onFocus(): void {
+    if (!this.isBrowser || !this.el.nativeElement.matches(':focus-visible')) return;
+    this.keyboardFocused = true;
+    this.showValueTooltip();
+  }
+
+  /** Adjusting with the keyboard shows the value even when focus arrived by pointer or script. */
+  protected onKeyDown(): void {
+    if (this.keyboardFocused) return;
+    this.keyboardFocused = true;
+    this.showValueTooltip();
+  }
+
+  protected onBlur(): void {
+    this.keyboardFocused = false;
+    this.tooltipPresenter.resetDismissed();
+    if (!this.hovered) this.hideValueTooltip();
+  }
+
+  private showValueTooltip(): void {
+    // If kuiTooltip has static text, let it handle display and skip value tooltip.
+    if (!this.isBrowser) return;
+    if (this.kuiTooltip?.kuiTooltip()) return;
+    this.tooltipVisible = true;
+    this.startScrollTracking();
+    this.ensureTooltip();
+  }
+
+  private hideValueTooltip(): void {
+    this.tooltipVisible = false;
+    this.stopScrollTracking();
+    this.destroyTooltip();
+  }
+
+  @HostListener('mousemove')
+  protected onMouseMove(): void {
+    if (this.tooltipVisible) {
+      this.tooltipPresenter.updatePosition();
+    }
+  }
+
+  protected updateFill(): void {
+    if (!this.fillEl) return;
+    const native = this.el.nativeElement;
+    const min = readRangeBound(native.min, 0);
+    const max = readRangeBound(native.max, 100);
+    const val = Number(native.value);
+    const pct = max === min ? '0%' : `${((val - min) / (max - min)) * 100}%`;
+    this.renderer.setStyle(this.fillEl, 'width', pct);
+    this.renderer.setStyle(this.thumbEl, 'left', pct);
+
+    if (this.tooltipVisible) {
+      const hadTooltip = this.tooltipPresenter.isOpen;
+      this.ensureTooltip();
+      this.tooltipPresenter.updateText(String(Math.round(val)));
+      if (hadTooltip) {
+        this.tooltipPresenter.updatePosition();
+      }
+    }
+  }
+
+  private ensureTooltip(): void {
+    if (this.tooltipPresenter.isOpen) {
+      this.tooltipPresenter.updatePosition();
+      return;
+    }
+    const val = Math.round(Number(this.el.nativeElement.value) || 0);
+    this.tooltipPresenter.show(this.thumbEl, String(val));
+  }
+
+  private destroyTooltip(): void {
+    this.tooltipPresenter.hide();
+  }
+
+  private startScrollTracking(): void {
+    if (this.scrollUnlisten) return;
+    const handler = (): void => {
+      if (this.tooltipVisible) {
+        this.tooltipPresenter.updatePosition();
+      }
+    };
+    this.doc.addEventListener('scroll', handler, { capture: true, passive: true });
+    this.scrollUnlisten = () => {
+      this.doc.removeEventListener('scroll', handler, { capture: true });
+      this.scrollUnlisten = null;
+    };
+  }
+
+  private stopScrollTracking(): void {
+    this.scrollUnlisten?.();
+  }
+
+  private buildDOM(): void {
+    const native = this.el.nativeElement;
+    const parent = native.parentNode!;
+
+    this.containerEl = this.renderer.createElement('div');
+    this.renderer.addClass(this.containerEl, 'kui-slider');
+
+    const trackEl: HTMLElement = this.renderer.createElement('div');
+    this.renderer.addClass(trackEl, 'kui-slider-track');
+
+    this.fillEl = this.renderer.createElement('div');
+    this.renderer.addClass(this.fillEl, 'kui-slider-fill');
+
+    this.thumbEl = this.renderer.createElement('div');
+    this.renderer.addClass(this.thumbEl, 'kui-slider-thumb');
+
+    this.renderer.addClass(native, 'kui-slider-native');
+
+    this.renderer.appendChild(trackEl, this.fillEl);
+    this.renderer.appendChild(trackEl, this.thumbEl);
+
+    this.renderer.insertBefore(parent, this.containerEl, native);
+    this.renderer.appendChild(this.containerEl, native);
+    this.renderer.appendChild(this.containerEl, trackEl);
+
+    const color = this.effectiveColor();
+    const size = this.effectiveSize();
+    this.syncContainerState(color, size, this.effectiveInvalid());
+    this.syncDisabled(this.disabled());
+    this.lastNativeState = `${native.min}|${native.max}|${native.value}|${native.disabled}`;
+  }
+
+  private syncDisabled(disabled: boolean): void {
+    if (disabled) {
+      this.renderer.setAttribute(this.containerEl, 'data-kui-disabled', 'true');
+    } else {
+      this.renderer.removeAttribute(this.containerEl, 'data-kui-disabled');
+    }
+  }
+
+  private syncContainerState(color: KuiSliderColor, size: KuiSliderSize, invalid: boolean): void {
+    this.renderer.setAttribute(this.containerEl, 'data-kui-color', color);
+    this.renderer.setAttribute(this.containerEl, 'data-kui-size', size);
+
+    if (invalid) {
+      this.renderer.setAttribute(this.containerEl, 'data-kui-invalid', '');
+    } else {
+      this.renderer.removeAttribute(this.containerEl, 'data-kui-invalid');
+    }
+  }
+}

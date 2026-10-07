@@ -39,34 +39,40 @@
         }
       }
     },
-    "playground": {
+    "kikita-ui-playground": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/playground",
-      "sourceRoot": "projects/playground/src",
+      "root": "projects/kikita-ui-playground",
+      "sourceRoot": "projects/kikita-ui-playground/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "browser": "projects/playground/src/main.ts",
-            "server": "projects/playground/src/main.server.ts",
-            "tsConfig": "projects/playground/tsconfig.app.json",
+            "browser": "projects/kikita-ui-playground/src/main.ts",
+            "tsConfig": "projects/kikita-ui-playground/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/playground/public"
+                "input": "projects/kikita-ui-playground/public"
               }
             ],
-            "styles": ["projects/playground/src/styles.scss"],
+            "styles": [
+              "projects/ui/src/styles/kikita-ui.css",
+              "projects/kikita-ui-playground/src/styles.scss"
+            ],
+            "server": "projects/kikita-ui-playground/src/main.server.ts",
             "outputMode": "server",
+            "security": {
+              "allowedHosts": ["localhost", "127.0.0.1"]
+            },
             "ssr": {
-              "entry": "projects/playground/src/server.ts"
+              "entry": "projects/kikita-ui-playground/src/server.ts"
             }
           },
           "configurations": {
@@ -74,13 +80,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "550kB",
-                  "maximumError": "650kB"
+                  "maximumWarning": "700kB",
+                  "maximumError": "750kB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "12kB",
-                  "maximumError": "16kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -97,10 +103,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "playground:build:production"
+              "buildTarget": "kikita-ui-playground:build:production"
             },
             "development": {
-              "buildTarget": "playground:build:development"
+              "buildTarget": "kikita-ui-playground:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -111,7 +117,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/playground/**/*.ts", "projects/playground/**/*.html"]
+            "lintFilePatterns": [
+              "projects/kikita-ui-playground/**/*.ts",
+              "projects/kikita-ui-playground/**/*.html"
+            ]
           }
         }
       }

@@ -1,0 +1,29 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .carousel-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .carousel-playground h1 {
+    margin: 0;
+  }
+
+  .carousel-playground__catalogue {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  @media (width < 48rem) {
+    .carousel-playground {
+      padding: var(--kui-space-6);
+    }
+  }
+}

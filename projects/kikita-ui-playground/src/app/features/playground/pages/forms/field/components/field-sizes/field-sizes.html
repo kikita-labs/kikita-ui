@@ -1,0 +1,11 @@
+<section role="group" [attr.aria-label]="'field.accessibility.sizes' | transloco">
+  <app-playground-example-card [heading]="'field.examples.sizes' | transloco">
+    <div class="field-sizes__examples">
+      @for (size of sizes; track size) {
+        <kui-field [size]="size" [label]="'field.fields.size' | transloco: { size: size }">
+          <input kuiInput type="text" [placeholder]="'field.placeholders.value' | transloco" />
+        </kui-field>
+      }
+    </div>
+  </app-playground-example-card>
+</section>

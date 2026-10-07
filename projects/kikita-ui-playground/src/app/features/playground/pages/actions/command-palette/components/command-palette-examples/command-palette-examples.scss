@@ -1,0 +1,27 @@
+@layer app.components {
+  .command-palette-examples {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .command-palette-examples__default,
+  .command-palette-examples__trigger {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .command-palette-examples__default p {
+    margin: 0;
+  }
+
+  @media (width < 48rem) {
+    .command-palette-examples {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

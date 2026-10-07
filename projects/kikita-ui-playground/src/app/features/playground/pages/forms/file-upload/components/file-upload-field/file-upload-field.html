@@ -1,0 +1,18 @@
+<section role="group" [attr.aria-label]="'fileUpload.accessibility.field' | transloco">
+  <app-playground-example-card [heading]="'fileUpload.groups.field' | transloco">
+    <kui-field
+      [label]="'fileUpload.fields.verification' | transloco"
+      [hint]="'fileUpload.hints.document' | transloco"
+      [error]="files().length === 0 ? ('fileUpload.errors.required' | transloco) : undefined"
+      required
+    >
+      <kui-file-upload
+        variant="compact"
+        [acceptLabel]="'fileUpload.hints.pdfLimit' | transloco"
+        [accept]="['application/pdf']"
+        [maxSize]="10 * 1024 * 1024"
+        [(files)]="files"
+      />
+    </kui-field>
+  </app-playground-example-card>
+</section>

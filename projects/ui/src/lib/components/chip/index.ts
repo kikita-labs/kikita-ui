@@ -1,4 +1,5 @@
-export { KuiChipDirective } from './kui-chip.directive';
+export { KuiChip } from './kui-chip';
 export type { KuiChipAppearance } from './kui-chip-appearance.type';
-export { KuiChipRemoveDirective } from './kui-chip-remove.directive';
+export * from './kui-chip-options.interface';
+export { KuiChipRemove } from './kui-chip-remove';
 export type { KuiChipSize } from './kui-chip-size.type';

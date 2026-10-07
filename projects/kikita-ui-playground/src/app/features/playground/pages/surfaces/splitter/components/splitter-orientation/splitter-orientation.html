@@ -1,0 +1,33 @@
+<app-playground-example-card [heading]="'splitter.examples.orientation' | transloco">
+  <div
+    class="splitter-orientation__content"
+    role="group"
+    [attr.aria-label]="'splitter.accessibility.orientation' | transloco"
+  >
+    <app-splitter-example [heading]="'splitter.variants.horizontal' | transloco">
+      <kui-splitter orientation="horizontal">
+        <kui-splitter-pane>
+          <app-splitter-pane-label>{{ 'splitter.panes.left' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.right' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+    </app-splitter-example>
+
+    <app-splitter-example [heading]="'splitter.variants.vertical' | transloco" size="lg">
+      <kui-splitter orientation="vertical">
+        <kui-splitter-pane>
+          <app-splitter-pane-label>{{ 'splitter.panes.top' | transloco }}</app-splitter-pane-label>
+        </kui-splitter-pane>
+        <kui-splitter-pane>
+          <app-splitter-pane-label>
+            {{ 'splitter.panes.bottom' | transloco }}
+          </app-splitter-pane-label>
+        </kui-splitter-pane>
+      </kui-splitter>
+    </app-splitter-example>
+  </div>
+</app-playground-example-card>

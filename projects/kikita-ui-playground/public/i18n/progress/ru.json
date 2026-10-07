@@ -1,0 +1,62 @@
+{
+  "title": "Индикатор выполнения",
+  "examples": {
+    "default": "По умолчанию",
+    "linearMatrix": "Линейный · цвет × размер",
+    "circularMatrix": "Круговой · цвет × размер",
+    "values": "Границы значений",
+    "indeterminate": "Неопределённое значение",
+    "composition": "Композиция",
+    "live": "Значение задаёт потребитель"
+  },
+  "accessibility": {
+    "defaultGroup": "Пример индикатора по умолчанию",
+    "defaultProgress": "Загрузка",
+    "linearMatrix": "Варианты линейного индикатора",
+    "circularMatrix": "Варианты кругового индикатора",
+    "sizeRow": "Варианты размера {{size}}",
+    "matrixProgress": "Индикатор {{color}} размера {{size}}",
+    "values": "Значения индикатора",
+    "valueCase": "Введено {{input}}, отображается {{reported}} процентов",
+    "valueProgress": "Выполнено {{value}} процентов",
+    "invalidValue": "Некорректное числовое значение",
+    "invalidProgress": "Некорректное значение, неопределённый прогресс",
+    "indeterminateExamples": "Формы неопределённого индикатора",
+    "compositions": "Композиции индикатора выполнения",
+    "indeterminateLinear": "Пример линейного неопределённого индикатора",
+    "indeterminateCircular": "Пример кругового неопределённого индикатора",
+    "loading": "Загрузка",
+    "externalLabel": "Линейный индикатор с внешней подписью",
+    "externalProgress": "Загрузка отчёта, 68 процентов",
+    "circularLabel": "Круговой индикатор с подписью в центре",
+    "circularProgress": "Заполнение профиля, 72 процента",
+    "liveGroup": "Индикатор с управлением потребителя",
+    "liveProgress": "Текущий прогресс, {{value}} процентов"
+  },
+  "labels": {
+    "sizes": {
+      "xs": "xs",
+      "sm": "sm",
+      "md": "md",
+      "lg": "lg",
+      "xl": "xl"
+    },
+    "colors": {
+      "primary": "Основной",
+      "success": "Успех",
+      "warning": "Предупреждение",
+      "danger": "Ошибка",
+      "neutral": "Нейтральный"
+    },
+    "linearXlFallback": "та же толщина, что у md",
+    "circularXsFallback": "использует геометрию md",
+    "valueCase": "Введено {{input}} → отображается {{reported}}%",
+    "invalidValue": "Некорректное числовое значение",
+    "linear": "Линейный",
+    "circular": "Круговой",
+    "percent": "{{value}}%",
+    "upload": "Загрузка отчёта",
+    "profile": "Заполнение профиля",
+    "range": "Значение прогресса"
+  }
+}

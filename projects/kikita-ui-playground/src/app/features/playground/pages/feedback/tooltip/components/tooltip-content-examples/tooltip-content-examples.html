@@ -1,0 +1,22 @@
+<div class="tooltip-content-examples">
+  <button kuiButton type="button" [kuiTooltip]="''">
+    {{ 'tooltip.content.empty' | transloco }}
+  </button>
+
+  <button kuiButton type="button" [kuiTooltip]="'   '">
+    {{ 'tooltip.content.whitespace' | transloco }}
+  </button>
+
+  <button kuiButton type="button" [kuiTooltip]="'tooltip.messages.long' | transloco">
+    {{ 'tooltip.content.long' | transloco }}
+  </button>
+
+  <button
+    kuiIconButton
+    type="button"
+    [attr.aria-label]="'tooltip.accessibility.infoTrigger' | transloco"
+    [kuiTooltip]="'tooltip.messages.info' | transloco"
+  >
+    <kui-icon [source]="infoIcon" />
+  </button>
+</div>

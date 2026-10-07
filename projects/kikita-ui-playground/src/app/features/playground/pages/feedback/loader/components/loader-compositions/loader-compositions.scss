@@ -1,0 +1,36 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .loader-compositions__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .loader-compositions__example {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+    padding: var(--kui-space-3);
+  }
+
+  .loader-compositions__example h3 {
+    margin: 0;
+  }
+
+  .loader-compositions__example kui-field {
+    inline-size: 100%;
+  }
+
+  @media (width < 48rem) {
+    .loader-compositions__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

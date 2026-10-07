@@ -1,0 +1,83 @@
+# i18n JSON Architecture
+
+## Root catalogues
+
+- Keep application-shell translations in `public/i18n/<language>.json`.
+- Use BCP 47 language tags for filenames and configured language identifiers. This application
+  currently supports `en` and `ru`.
+- Keep `app.config.ts` (`availableLangs`, `defaultLang`, and `fallbackLang`) and
+  `transloco.config.ts` (`langs` and `rootTranslationsPath`) synchronized with the catalogue
+  directory.
+- Use UTF-8 JSON with readable native-language values. Translation catalogues are the sole
+  exception to the repository English-only rule.
+- Keep JSON values as text. Do not put HTML, selector names, CSS classes, or application logic
+  into a catalogue.
+
+## Key design
+
+- Group keys by stable product area and meaning, for example `playground.navigation.title` or
+  `button.loading.label`.
+- Name keys by intent, never by the source-language sentence. A wording change must not require
+  renaming the key.
+- Keep every language catalogue structurally identical. A key added, moved, or removed in one
+  root catalogue changes every root catalogue in the same commit.
+- Use interpolation parameters only for dynamic values. Give them semantic names such as
+  `{{count}}` or `{{componentName}}`; never concatenate translated fragments in TypeScript.
+
+## Feature scopes
+
+- Keep the root catalogue small: shell, navigation, global actions, and shared status messages.
+- When a lazy route owns a meaningful translation surface, create a Transloco scope instead of
+  growing the root catalogue indefinitely.
+- Store an HTTP-loaded scope at `public/i18n/<scope>/<language>.json` and provide it on the
+  lazy route with `provideTranslocoScope('<scope>')`. Transloco loads the scope when that route
+  becomes active and exposes it below the scope namespace.
+- Transloco's default lookup alias camel-cases a kebab-case scope. For example,
+  `provideTranslocoScope('number-input')` loads from `public/i18n/number-input/<language>.json`,
+  while template keys that include the namespace use `numberInput.title`, not
+  `number-input.title`. Keep the on-disk scope path kebab-case and use the resolved alias in
+  dotted template keys.
+- A `TranslocoService` call does not inherit the pipe's route scope automatically. For a scoped
+  `selectTranslate`, pass the scope explicitly and use keys relative to that scope, for example
+  `selectTranslate('errors.required', {}, { scope: 'number-input' })`. This also makes the service
+  load the scoped catalogue before emitting its translation.
+- Use an inline scope loader only when translations belong to a separately built library and
+  must ship next to that library. Do not use inline loaders for ordinary playground routes.
+
+## Loading, fallback, and SSR
+
+- Keep `TranslocoHttpLoader` as the single root loader. Request the catalogue path Transloco
+  supplies: a root catalogue uses `<language>`, while a lazy scope uses `<scope>/<language>`
+  (for example, `calendar/en`). Use the same relative URL on both platforms: Angular's server
+  HTTP interceptor resolves it against the incoming request, and the identical URL is the HTTP
+  transfer cache key, so the browser reuses the server-loaded catalogue instead of downloading it
+  again during hydration. An absolute server URL misses that cache, briefly blanks translated
+  text after hydration, and shifts layout under browser interactions and captures.
+- Keep English as the default and fallback language until a product decision changes both.
+- Enable `reRenderOnLangChange` because this playground changes language at runtime.
+- Add a server-rendered assertion for initial text and a browser assertion for language changes
+  whenever the loader or locale configuration changes.
+
+## Validation
+
+- Run `pnpm.cmd audit:static` after changing a catalogue. It parses root and scoped catalogues,
+  verifies that scopes contain each supported language, and compares their nested key paths.
+- For a growing catalogue set, add `@jsverse/transloco-validator` to lint-staged for changed
+  `public/i18n/**/*.json` files. It validates JSON structure and duplicate keys.
+- Test one root translation, one scoped translation when scopes exist, fallback behavior, and the
+  runtime language switch in the browser.
+
+## Sources
+
+- [Transloco installation and HTTP loader](https://jsverse.gitbook.io/transloco/getting-started/installation)
+- [Transloco scope configuration](https://jsverse.gitbook.io/transloco/advanced-features/lazy-load/scope-configuration)
+- [Transloco inline loaders](https://jsverse.gitbook.io/transloco/advanced-features/lazy-load/inline-loaders)
+- [Transloco validator](https://jsverse.gitbook.io/transloco/developer-tools/validator)
+
+## Review Checklist
+
+- [ ] Root catalogues use the configured language identifiers and have matching key paths.
+- [ ] New lazy-route copy uses a scope when it would otherwise make the root catalogue broad.
+- [ ] Dotted template keys use the Transloco scope alias; direct service calls specify the scope.
+- [ ] JSON contains only text values and semantic interpolation parameters.
+- [ ] SSR, fallback, and runtime language-switch behavior are verified after loader changes.

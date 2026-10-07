@@ -4,7 +4,7 @@ export type KuiDrawerSide = 'right' | 'left' | 'bottom' | 'top';
 /** Drawer size preset. Width for left/right drawers, height for top/bottom drawers. */
 export type KuiDrawerSize = 'sm' | 'md' | 'lg' | 'full' | 'auto';
 
-/** Options passed to {@link KuiDrawerService.open} or {@link kuiDrawer}. */
+/** Options passed to {@link KuiDrawer.open} or {@link kuiDrawer}. */
 export interface KuiDrawerConfig<TData = unknown> {
   /** Arbitrary data injected into the drawer component via {@link KUI_DRAWER_CONTEXT}. */
   data?: TData;

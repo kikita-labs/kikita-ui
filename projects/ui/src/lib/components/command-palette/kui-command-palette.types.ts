@@ -1,6 +1,9 @@
 /** A selectable command palette item. */
 export interface KuiCommandItem {
-  /** Stable command id used for tracking and selection events. */
+  /**
+   * Stable, non-empty command key without whitespace, unique across all palette groups.
+   * Used for tracking and DOM relationships; selected emits the complete item.
+   */
   readonly id: string;
   /** Primary visible command label. */
   readonly label: string;

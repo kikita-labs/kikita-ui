@@ -1,0 +1,19 @@
+<app-playground-example-card [heading]="'select.examples.validation' | transloco">
+  <div role="group" [attr.aria-label]="'select.accessibility.validation' | transloco">
+    <kui-field
+      [label]="'select.fields.requiredRole' | transloco"
+      [hint]="'select.hints.validation' | transloco"
+    >
+      <input
+        kuiSelect
+        [formField]="validationForm.role"
+        [placeholder]="'select.placeholders.role' | transloco"
+      />
+      <kui-dropdown>
+        <div kuiOption value="designer">{{ 'select.options.designer' | transloco }}</div>
+        <div kuiOption value="engineer">{{ 'select.options.engineer' | transloco }}</div>
+        <div kuiOption value="researcher">{{ 'select.options.researcher' | transloco }}</div>
+      </kui-dropdown>
+    </kui-field>
+  </div>
+</app-playground-example-card>

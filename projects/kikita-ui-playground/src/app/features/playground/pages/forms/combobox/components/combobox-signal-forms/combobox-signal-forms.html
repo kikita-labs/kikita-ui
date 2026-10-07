@@ -1,0 +1,16 @@
+<app-playground-example-card [heading]="'combobox.examples.signalForms' | transloco">
+  <div role="group" [attr.aria-label]="'combobox.accessibility.signalForms' | transloco">
+    <kui-field [label]="'combobox.fields.requiredAssignee' | transloco">
+      <input
+        kuiCombobox
+        [formField]="assigneeForm.assignee"
+        [placeholder]="'combobox.placeholders.assignee' | transloco"
+      />
+      <kui-dropdown>
+        <button kuiOption type="button" [value]="'combobox.options.available' | transloco">
+          {{ 'combobox.options.available' | transloco }}
+        </button>
+      </kui-dropdown>
+    </kui-field>
+  </div>
+</app-playground-example-card>

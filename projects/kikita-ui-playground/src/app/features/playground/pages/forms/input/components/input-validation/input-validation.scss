@@ -1,0 +1,6 @@
+@layer app.components {
+  .input-validation__content {
+    max-inline-size: calc(var(--kui-space-16) * 8);
+    min-inline-size: 0;
+  }
+}

@@ -1,0 +1,16 @@
+<div class="icon-structural-sample">
+  <span kuiChip removable [removeLabel]="'icon.labels.removeChip' | transloco">
+    {{ 'icon.labels.chipLabel' | transloco }}
+  </span>
+  <kui-alert
+    appearance="danger"
+    [message]="'icon.labels.alertMessage' | transloco"
+    [closeLabel]="'icon.labels.closeAlert' | transloco"
+  />
+  <kui-pagination
+    variant="compact"
+    [totalPages]="9"
+    [ariaLabel]="paginationLabel() | transloco"
+    [(currentPage)]="page"
+  />
+</div>

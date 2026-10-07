@@ -1,0 +1,90 @@
+<section role="group" [attr.aria-label]="'typography.accessibility.wrapping' | transloco">
+  <app-playground-example-card [heading]="'typography.examples.wrapping' | transloco">
+    <div class="typography-layout__narrow">
+      <p kuiText>{{ 'typography.wrapping.paragraph' | transloco }}</p>
+
+      <span kuiText variant="caption" tone="muted">
+        {{ 'typography.wrapping.ownedLabel' | transloco }}
+      </span>
+
+      <code kuiText variant="code" class="typography-layout__truncate">
+        {{ 'typography.wrapping.longToken' | transloco }}
+      </code>
+    </div>
+  </app-playground-example-card>
+</section>
+
+<section role="group" [attr.aria-label]="'typography.accessibility.compositions' | transloco">
+  <app-playground-example-card [heading]="'typography.examples.compositions' | transloco">
+    <div class="typography-layout__compositions">
+      <section
+        class="typography-layout__block"
+        [attr.aria-label]="'typography.accessibility.settings' | transloco"
+      >
+        <p kuiText variant="overline" tone="muted">
+          {{ 'typography.compositions.settingsLabel' | transloco }}
+        </p>
+
+        <h3 kuiText variant="heading-md">
+          {{ 'typography.compositions.settingsTitle' | transloco }}
+        </h3>
+
+        <p kuiText tone="muted">{{ 'typography.compositions.settingsBody' | transloco }}</p>
+      </section>
+
+      <section
+        class="typography-layout__block"
+        [attr.aria-label]="'typography.accessibility.dialogCopy' | transloco"
+      >
+        <p kuiText variant="overline" tone="muted">
+          {{ 'typography.compositions.dialogLabel' | transloco }}
+        </p>
+
+        <h3 kuiText variant="heading-sm">
+          {{ 'typography.compositions.dialogTitle' | transloco }}
+        </h3>
+
+        <p kuiText>{{ 'typography.compositions.dialogBody' | transloco }}</p>
+
+        <small kuiText variant="caption" tone="muted">
+          {{ 'typography.compositions.dialogMeta' | transloco }}
+          <code kuiText variant="code">proj_8f2a91</code>
+        </small>
+      </section>
+
+      <section
+        class="typography-layout__block"
+        [attr.aria-label]="'typography.accessibility.invoices' | transloco"
+      >
+        <h3 kuiText variant="title">{{ 'typography.compositions.invoicesTitle' | transloco }}</h3>
+
+        <ul class="typography-layout__list">
+          <li>
+            <span kuiText variant="body-sm">INV-0231</span>
+            <span kuiText variant="caption" tone="muted">
+              {{ 'typography.compositions.invoiceOne' | transloco }}
+            </span>
+          </li>
+
+          <li>
+            <span kuiText variant="body-sm">INV-0230</span>
+            <span kuiText variant="caption" tone="muted">
+              {{ 'typography.compositions.invoiceTwo' | transloco }}
+            </span>
+          </li>
+        </ul>
+      </section>
+
+      <section
+        class="typography-layout__block"
+        [attr.aria-label]="'typography.accessibility.statuses' | transloco"
+      >
+        @for (status of statuses; track status) {
+          <p kuiText variant="body-sm" [tone]="status">
+            {{ 'typography.status.' + status | transloco }}
+          </p>
+        }
+      </section>
+    </div>
+  </app-playground-example-card>
+</section>

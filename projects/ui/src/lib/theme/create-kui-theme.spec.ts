@@ -13,31 +13,36 @@ describe('createKuiTheme', () => {
     expect(theme.palettes.primary).toHaveLength(12);
     expect(theme.palettes.primary[5]).toBe('oklch(0.52 0.25 285)');
     expect(theme.paletteVariables['--kui-primary-6']).toBe('oklch(0.52 0.25 285)');
-    expect(theme.light['--kui-color-bg']).toBe('oklch(0.97 0.01 80)');
-    expect(theme.light['--kui-color-surface-sunken']).toBe('oklch(0.95 0.01 80)');
+    expect(theme.light['--kui-color-bg']).toBe('var(--kui-neutral-2)');
+    expect(theme.light['--kui-neutral-2']).toBe('oklch(0.97 0.01 80)');
+    expect(theme.light['--kui-color-surface-sunken']).toBe('var(--kui-neutral-3)');
+    expect(theme.light['--kui-neutral-3']).toBe('oklch(0.95 0.01 80)');
     expect(theme.light['--kui-color-primary-fill']).toBe('var(--kui-primary-6)');
-    expect(theme.dark['--kui-color-surface']).toBe('oklch(0.14 0.01 80)');
-    expect(theme.dark['--kui-color-surface-elevated']).toBe('oklch(0.18 0.01 80)');
-    expect(theme.dark['--kui-color-surface-sunken']).toBe('oklch(0.08 0.01 80)');
-    expect(theme.dark['--kui-color-primary-fill']).toBe('var(--kui-primary-5)');
-    expect(theme.dark['--kui-color-primary-fill-active']).toBe('var(--kui-primary-6)');
+    expect(theme.dark['--kui-color-surface']).toBe('var(--kui-neutral-3)');
+    expect(theme.dark['--kui-neutral-3']).toBe('oklch(0.14 0.01 80)');
+    expect(theme.dark['--kui-color-surface-elevated']).toBe('var(--kui-neutral-4)');
+    expect(theme.dark['--kui-neutral-4']).toBe('oklch(0.18 0.01 80)');
+    expect(theme.dark['--kui-color-surface-sunken']).toBe('var(--kui-neutral-1)');
+    expect(theme.dark['--kui-neutral-1']).toBe('oklch(0.08 0.01 80)');
+    expect(theme.dark['--kui-color-primary-fill']).toBe('var(--kui-primary-6)');
+    expect(theme.dark['--kui-color-primary-fill-active']).toBe(
+      'color-mix(in oklab, var(--kui-color-primary-fill) 92%, var(--kui-color-primary-fill-away))',
+    );
     expect(theme.dark['--kui-color-primary-soft-bg-active']).toBe('var(--kui-primary-9)');
     expect(theme.dark['--kui-color-success-soft-bg']).toBe('var(--kui-success-11)');
     expect(theme.dark['--kui-color-info-soft-bg']).toBe('var(--kui-info-11)');
-    expect(theme.light['--kui-color-danger-fill-hover']).toBe('var(--kui-danger-7)');
-    expect(theme.dark['--kui-color-danger-fill-active']).toBe('var(--kui-danger-6)');
-    expect(theme.component['--kui-btn-solid-bg']).toBe('var(--kui-color-primary-fill)');
-    expect(theme.component['--kui-btn-danger-bg-hov']).toBe('var(--kui-color-danger-fill-hover)');
-    expect(theme.component['--kui-btn-ghost-bg-hov']).toBe('var(--kui-color-surface-sunken)');
-    expect(theme.component['--kui-btn-height']).toBe('var(--kui-control-height-md)');
-    expect(theme.component['--kui-input-height']).toBe('var(--kui-control-height-md)');
+    expect(theme.light['--kui-color-danger-fill-hover']).toBe(
+      'color-mix(in oklab, var(--kui-color-danger-fill) 82%, var(--kui-color-danger-fill-away))',
+    );
+    expect(theme.dark['--kui-color-danger-fill-active']).toBe(
+      'color-mix(in oklab, var(--kui-color-danger-fill) 92%, var(--kui-color-danger-fill-away))',
+    );
+    expect(theme.component['--kui-btn-gap']).toBe('6px');
     expect(theme.component['--kui-font-weight-semibold']).toBe('600');
     expect(theme.component['--kui-type-heading-md-size']).toBe('var(--kui-text-xl-size)');
     expect(theme.component['--kui-type-body-line-height']).toBe('1.5');
     expect(theme.component['--kui-type-code-weight']).toBe('var(--kui-font-weight-regular)');
-    expect(theme.component['--kui-btn-bg']).toBe('var(--kui-btn-solid-bg)');
     expect(theme.component['--kui-seg-padding']).toBe('2px');
-    expect(theme.component['--kui-badge-info-bg']).toBe('var(--kui-color-info-soft-bg)');
     expect(theme.component['--kui-card-shadow-elevated']).toBe('0 10px 28px oklch(0 0 0 / 0.18)');
     expect(theme.component['--kui-card-shadow-sunken']).toBe('none');
     expect(theme.component['--kui-avatar-size-2xl']).toBe('64px');
@@ -45,15 +50,79 @@ describe('createKuiTheme', () => {
     expect(theme.dark['--kui-avatar-p1-bg']).toBe('oklch(0.28 0.16 285)');
   });
 
-  it('keeps deprecated select chrome tokens during the 1.x compatibility window', () => {
+  it('emits semantic hover and active tokens for every Button appearance state', () => {
     const theme = createKuiTheme(DEFAULT_KUI_THEME);
 
-    expect(theme.component['--kui-select-bg']).toBe('var(--kui-color-surface)');
-    expect(theme.component['--kui-select-border']).toBe('var(--kui-color-border)');
-    expect(theme.component['--kui-select-border-hover']).toBe('var(--kui-color-border-strong)');
-    expect(theme.component['--kui-select-border-focus']).toBe('var(--kui-color-primary-fill)');
-    expect(theme.component['--kui-select-border-error']).toBe('var(--kui-color-danger-fill)');
-    expect(theme.component['--kui-select-radius']).toBe('var(--kui-radius-md)');
+    expect(theme.light['--kui-color-danger-soft-bg-hover']).toBe('var(--kui-danger-2)');
+    expect(theme.light['--kui-color-danger-soft-bg-active']).toBe('var(--kui-danger-3)');
+    expect(theme.dark['--kui-color-danger-soft-bg-hover']).toBe('var(--kui-danger-10)');
+    expect(theme.dark['--kui-color-danger-soft-bg-active']).toBe('var(--kui-danger-9)');
+
+    for (const accent of ['success', 'warning', 'info']) {
+      expect(theme.light[`--kui-color-${accent}-fill-hover`]).toContain('color-mix(in oklab');
+      expect(theme.light[`--kui-color-${accent}-fill-active`]).toContain('color-mix(in oklab');
+      expect(theme.dark[`--kui-color-${accent}-fill-hover`]).toContain('color-mix(in oklab');
+      expect(theme.dark[`--kui-color-${accent}-fill-active`]).toContain('color-mix(in oklab');
+    }
+  });
+
+  it('leaves role-to-token mappings to component CSS instead of emitting alias tokens', () => {
+    const theme = createKuiTheme(DEFAULT_KUI_THEME);
+    // Semantic type roles, the density-dependent padding and deprecated compatibility names are
+    // the only generated component tokens that may be aliases.
+    const allowedAliases =
+      /^--kui-(type-|btn-px$|skeleton-gap$|chart-tooltip-radius$|select-(dropdown-bg|option-selected-bg|option-selected-fg)$)/;
+
+    const unexpected = Object.entries(theme.component)
+      .filter(([name, value]) => value.includes('var(') && !allowedAliases.test(name))
+      .map(([name]) => name);
+
+    expect(unexpected).toEqual([]);
+    expect(theme.component['--kui-btn-solid-bg']).toBeUndefined();
+    expect(theme.component['--kui-card-bg']).toBeUndefined();
+    expect(theme.component['--kui-input-height']).toBeUndefined();
+  });
+
+  it('resolves every variable reference without cycles in both modes', () => {
+    const theme = createKuiTheme(DEFAULT_KUI_THEME);
+
+    for (const mode of ['light', 'dark'] as const) {
+      const variables: Readonly<Record<string, string | undefined>> = createKuiThemeVariableMap(
+        theme,
+        mode,
+      );
+      // A reference with a fallback is an optional component hook and may point at a token that
+      // only consumers define; a reference without one must resolve.
+      const references = (name: string): { target: string; required: boolean }[] =>
+        [...(variables[name] ?? '').matchAll(/var\(\s*(--[\w-]+)\s*(\)|,)/g)].map((match) => ({
+          target: match[1],
+          required: match[2] === ')',
+        }));
+      const visiting = new Set<string>();
+      const resolved = new Set<string>();
+
+      const visit = (name: string): void => {
+        if (resolved.has(name)) {
+          return;
+        }
+
+        expect(visiting.has(name), `${mode}: ${name} is part of a cycle`).toBe(false);
+        visiting.add(name);
+
+        for (const { target, required } of references(name)) {
+          if (variables[target] === undefined) {
+            expect(required, `${mode}: ${name} needs ${target}, which is not defined`).toBe(false);
+          } else {
+            visit(target);
+          }
+        }
+
+        visiting.delete(name);
+        resolved.add(name);
+      };
+
+      Object.keys(variables).forEach(visit);
+    }
   });
 
   it('emits a mode-specific flat CSS variable map', () => {
@@ -62,13 +131,13 @@ describe('createKuiTheme', () => {
     const lightVariables = createKuiThemeVariableMap(theme, 'light');
     const darkVariables = createKuiThemeVariableMap(theme, 'dark');
 
-    expect(lightVariables['--kui-color-bg']).toBe('oklch(0.97 0.01 80)');
-    expect(darkVariables['--kui-color-bg']).toBe('oklch(0.10 0.01 80)');
+    expect(lightVariables['--kui-color-bg']).toBe('var(--kui-neutral-2)');
+    expect(lightVariables['--kui-neutral-2']).toBe('oklch(0.97 0.01 80)');
+    expect(darkVariables['--kui-color-bg']).toBe('var(--kui-neutral-2)');
+    expect(darkVariables['--kui-neutral-2']).toBe('oklch(0.1 0.01 80)');
     expect(lightVariables['--kui-avatar-p1-bg']).toBe('oklch(0.87 0.08 285)');
     expect(darkVariables['--kui-avatar-p1-bg']).toBe('oklch(0.28 0.16 285)');
-    expect(lightVariables['--kui-input-focus-ring']).toBe(
-      '0 0 0 3px var(--kui-color-primary-focus-ring)',
-    );
+    expect(lightVariables['--kui-btn-gap']).toBe('6px');
   });
 
   it('serializes light and dark theme selectors into one stylesheet', () => {
@@ -78,8 +147,9 @@ describe('createKuiTheme', () => {
 
     expect(stylesheet).toContain(':root, [data-kui-theme="light"]');
     expect(stylesheet).toContain('[data-kui-theme="dark"]');
-    expect(stylesheet).toContain('--kui-seed-info: oklch(0.58 0.16 215);');
-    expect(stylesheet).toContain('--kui-btn-height: var(--kui-control-height-md);');
+    expect(stylesheet).toContain('--kui-seed-info: oklch(0.53 0.14 215);');
+    expect(stylesheet).toContain('--kui-btn-gap: 6px;');
+    expect(stylesheet).not.toContain('--kui-btn-solid-bg:');
   });
 
   it('accepts hex seed colors for custom themes', () => {
@@ -100,8 +170,7 @@ describe('createKuiTheme', () => {
     expect(theme.palettes.primary).toHaveLength(12);
     expect(theme.palettes.primary[5]).toMatch(/^oklch\(/);
     expect(theme.component['--kui-radius-md']).toBe('10px');
-    expect(theme.component['--kui-btn-height']).toBe('var(--kui-control-height-md)');
     expect(theme.component['--kui-btn-px']).toBe('var(--kui-btn-px-compact)');
-    expect(theme.seeds['--kui-seed-info']).toBe('oklch(0.58 0.16 215)');
+    expect(theme.seeds['--kui-seed-info']).toBe('oklch(0.53 0.14 215)');
   });
 });

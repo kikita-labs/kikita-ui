@@ -1,0 +1,31 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .stepper-example,
+  .stepper-size-list {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .stepper-size-row {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    align-items: center;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .stepper-size-row h3 {
+    margin: 0;
+  }
+
+  @media (width < 48rem) {
+    .stepper-size-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--kui-space-2);
+    }
+  }
+}

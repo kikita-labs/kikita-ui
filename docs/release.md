@@ -40,8 +40,10 @@ Run before publishing:
 
 ```bash
 pnpm audit:static
+pnpm audit:architecture
 pnpm format:check
 pnpm build
+pnpm audit:bundle
 pnpm build:playground
 pnpm test
 npm pack ./dist/ui --pack-destination .local-notes
@@ -51,9 +53,12 @@ The local tarball should contain:
 
 - `fesm2022/kikita-labs-ui.mjs`
 - `types/kikita-labs-ui.d.ts`
-- `styles/kikita-ui.css`
+- `styles/kikita-ui.css` and the stylesheets it imports (`styles/*.css`, `lib/components/*/kui-*.css`)
 - `schematics/collection.json`
 - `schematics/ng-add/index.cjs`
+- `schematics/migration.json`
+- `schematics/ng-update/index.cjs`
+- `schematics/ng-update/renames.json`
 - `package.json`
 - `README.md`
 
@@ -64,6 +69,20 @@ Before publishing a package with install changes, verify that `ng add` still:
 - adds `provideKikitaUi()` once;
 - scaffolds default theme seeds with `--theme`;
 - respects `--skip-provider` and `--skip-styles`.
+
+Before publishing a major release that renames exports, verify that `ng update` migrates a consumer:
+
+1. In a temporary Angular 22 app outside this workspace, install the previous published version
+   (for example `@kikita-labs/ui@1.8.0`) and write a sample that imports at least twenty renamed
+   names, including an aliased import, a namespace import, a type-only import and a re-export.
+2. Install the packed tarball over it (`npm install <path>/kikita-labs-ui-<version>.tgz`).
+3. Run `ng update @kikita-labs/ui --migrate-only --from=<previous> --to=<new> --allow-dirty`.
+4. Confirm that the sample imports the new names, that no old name remains, and that
+   `ng build` with strict templates passes.
+
+`projects/ui/schematics/migration.json` selects migrations by `version`; keep it at the first
+prerelease of the major (`2.0.0-0`) so prerelease targets run it too. The rename data is
+`schematics/ng-update/renames.json`; it is the same table as the migration guide.
 
 The latest fresh-consumer verification used a local tarball installed into a
 temporary Angular 22 app outside this workspace, then ran `ng add --theme`,
@@ -85,18 +104,50 @@ session; an agent cannot do it.
 
 With this in place, the release flow is:
 
-1. Complete the current release line and its fixes on `release/<n>.x`.
-2. Merge `release/<n>.x` into `main`.
-3. On `main`, move the matching `[Unreleased]` entries into a dated release
-   heading, update the comparison link, and bump `projects/ui/package.json` to
-   the same `X.Y.Z` version.
-4. Run the full release gate after the release metadata change.
-5. Merge the finalized `main` into the maintained release branches, including
-   `release/<n+1>.x`, so the current and next release lines stay synchronized.
-6. Push `main`, create the `vX.Y.Z` tag on that `main` commit, and push the tag.
+`main` is protected by a repository ruleset: no direct pushes, no force pushes, no deletion,
+merge commits only, and a pull request whose CI checks (`.github/workflows/ci.yml`) are green.
+Nobody, including maintainers, bypasses it. Tags matching `v*` can only be created by repository
+admins.
 
-The workflow builds, tests, and publishes from that tag. Do not tag a release
-branch directly, even though the workflow trigger accepts any `v*` tag.
+The rulesets are stored in `.github/rulesets/`. A repository admin applies them once (and again
+after the CI job names change, because the required checks are matched by job name):
+
+```bash
+gh api -X POST repos/kikita-labs/kikita-ui/rulesets --input .github/rulesets/protect-main.json
+gh api -X POST repos/kikita-labs/kikita-ui/rulesets --input .github/rulesets/protect-release-tags.json
+```
+
+To change an existing ruleset, use `gh api -X PUT repos/kikita-labs/kikita-ui/rulesets/<id>` with
+the same file (`gh api repos/kikita-labs/kikita-ui/rulesets` lists the ids).
+
+1. Complete the current release line and its fixes on `release/<n>.x`.
+2. On `release/<n>.x`, move the matching `[Unreleased]` entries into a dated release
+   heading, update the comparison link, and bump `projects/ui/package.json` to
+   the same `X.Y.Z` version. Run the full release gate after this metadata change.
+3. Open a pull request from `release/<n>.x` into `main`. Wait for CI to pass and merge it with a
+   merge commit (squash and rebase are disabled, so the release branches can merge `main` back
+   without conflicts).
+   With the GitHub CLI (this is also how an agent performs the release):
+
+   ```bash
+   gh pr create --base main --head release/<n>.x --title "Release X.Y.Z" --body "Release X.Y.Z"
+   gh pr checks --watch
+   gh pr merge --merge
+   ```
+
+4. Create the `vX.Y.Z` tag on the resulting `main` commit and push it:
+
+   ```bash
+   git checkout main && git pull
+   git tag -a vX.Y.Z -m "vX.Y.Z" && git push origin vX.Y.Z
+   ```
+
+5. Merge the updated `main` into the maintained release branches, including
+   `release/<n+1>.x`, so the current and next release lines stay synchronized.
+   Release branches are not protected, so this is a direct push.
+
+The workflow builds, tests, and publishes from that tag. It refuses to publish when the tagged
+commit is not reachable from `main`. Do not tag a release branch directly.
 
 Watch the workflow with:
 

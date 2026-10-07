@@ -1,0 +1,23 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .icon-source-examples__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--kui-space-16)), 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .icon-source-examples__item {
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+    padding-block: var(--kui-space-2);
+    text-align: center;
+  }
+}

@@ -1,0 +1,30 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .splitter-example {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .splitter-example h3 {
+    margin: 0;
+  }
+
+  .splitter-example__frame {
+    min-inline-size: 0;
+    max-inline-size: calc(var(--kui-space-16) * 10);
+    block-size: calc(var(--kui-space-16) * 2);
+  }
+
+  .splitter-example__frame[data-size='lg'] {
+    block-size: calc(var(--kui-space-16) * 3);
+  }
+
+  .splitter-example__frame[data-size='xl'] {
+    block-size: calc(var(--kui-space-16) * 4);
+  }
+}

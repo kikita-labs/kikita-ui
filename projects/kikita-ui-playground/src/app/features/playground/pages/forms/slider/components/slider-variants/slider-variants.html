@@ -1,0 +1,23 @@
+<app-playground-example-card [heading]="'slider.examples.variants' | transloco">
+  <div
+    class="slider-variants__grid"
+    role="group"
+    [attr.aria-label]="'slider.accessibility.variants' | transloco"
+  >
+    @for (variant of variants; track variant.label) {
+      <kui-field [label]="variant.label | transloco">
+        <div class="slider-variants__control-row">
+          <input
+            type="range"
+            kuiSlider
+            min="0"
+            max="100"
+            value="60"
+            [size]="variant.size"
+            [color]="variant.color"
+          />
+        </div>
+      </kui-field>
+    }
+  </div>
+</app-playground-example-card>

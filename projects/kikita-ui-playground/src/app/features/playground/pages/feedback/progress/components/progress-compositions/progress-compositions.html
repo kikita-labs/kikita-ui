@@ -1,0 +1,43 @@
+<app-playground-example-card [heading]="'progress.examples.composition' | transloco">
+  <div
+    class="progress-compositions"
+    role="group"
+    [attr.aria-label]="'progress.accessibility.compositions' | transloco"
+  >
+    <div
+      class="progress-compositions__linear"
+      role="group"
+      [attr.aria-label]="'progress.accessibility.externalLabel' | transloco"
+    >
+      <div class="progress-compositions__caption">
+        <span kuiText variant="body-sm">{{ 'progress.labels.upload' | transloco }}</span>
+        <span kuiText variant="body-sm">
+          {{ 'progress.labels.percent' | transloco: { value: 68 } }}
+        </span>
+      </div>
+      <kui-progress
+        size="sm"
+        color="primary"
+        [value]="68"
+        [attr.aria-label]="'progress.accessibility.externalProgress' | transloco"
+      />
+    </div>
+
+    <div
+      class="progress-compositions__circular"
+      role="group"
+      [attr.aria-label]="'progress.accessibility.circularLabel' | transloco"
+    >
+      <span kuiText variant="body-sm">{{ 'progress.labels.profile' | transloco }}</span>
+      <kui-progress
+        type="circular"
+        size="lg"
+        color="success"
+        [value]="72"
+        [attr.aria-label]="'progress.accessibility.circularProgress' | transloco"
+      >
+        <span>{{ 'progress.labels.percent' | transloco: { value: 72 } }}</span>
+      </kui-progress>
+    </div>
+  </div>
+</app-playground-example-card>

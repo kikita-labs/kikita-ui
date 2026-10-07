@@ -1,0 +1,79 @@
+{
+  "title": "Popover",
+  "examples": {
+    "default": "Default click",
+    "arrowOffset": "Arrow and offset",
+    "positions": "Placement and alignment",
+    "content": "Projected content",
+    "form": "Focus-trapped form",
+    "hover": "Hover trigger"
+  },
+  "accessibility": {
+    "default": "Default click popover examples",
+    "arrowOffset": "Popover arrow and offset examples",
+    "positions": "Popover placement and alignment examples",
+    "content": "Popover projected content examples",
+    "form": "Focus-trapped form popover examples",
+    "hover": "Popover hover trigger examples",
+    "positionPanel": "Popover position preview",
+    "arrowOffPanel": "Popover without arrow",
+    "arrowOnPanel": "Popover with arrow",
+    "offsetPanel": "Popover with custom offset",
+    "infoPanel": "Plan information",
+    "confirmationPanel": "Delete sample view confirmation",
+    "formPanel": "Reminder form",
+    "hoverPanel": "Hover details"
+  },
+  "triggers": {
+    "default": "Open default popover",
+    "arrowOff": "Arrow off",
+    "arrowOn": "Arrow on",
+    "offset": "Custom 24 px offset",
+    "info": "Plan information",
+    "confirmation": "Delete sample view",
+    "form": "Open reminder form",
+    "hover": "Hover for details"
+  },
+  "positions": {
+    "topStart": "Top / start",
+    "topCenter": "Top / center",
+    "topEnd": "Top / end",
+    "bottomStart": "Bottom / start",
+    "bottomCenter": "Bottom / center",
+    "bottomEnd": "Bottom / end",
+    "leftStart": "Left / start",
+    "leftCenter": "Left / center",
+    "leftEnd": "Left / end",
+    "rightStart": "Right / start",
+    "rightCenter": "Right / center",
+    "rightEnd": "Right / end"
+  },
+  "content": {
+    "default": "A compact panel opened by its native button trigger.",
+    "arrowOff": "The panel keeps its default gap without a caret.",
+    "arrowOn": "The caret points back to the button.",
+    "offset": "This panel uses a larger 24 pixel anchor gap.",
+    "position": "This panel follows the selected side and alignment.",
+    "infoTitle": "Plan details",
+    "infoDescription": "Your plan renews automatically on the date shown in billing settings.",
+    "confirmationTitle": "Delete this sample view?",
+    "confirmationDescription": "This removes the sample view from this page.",
+    "sampleView": "Sample view: Quarterly review",
+    "sampleViewDeleted": "Sample view deleted."
+  },
+  "form": {
+    "label": "Reminder name",
+    "hint": "This field is bound with Angular Signal Forms.",
+    "placeholder": "Quarterly planning",
+    "saved": "Reminder \"{{ name }}\" saved."
+  },
+  "hover": {
+    "content": "Move the pointer to this panel before the close delay expires.",
+    "delayLabel": "180 ms close delay"
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "confirm": "Delete",
+    "save": "Save reminder"
+  }
+}

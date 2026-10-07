@@ -1,0 +1,54 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .badge-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .badge-playground h1,
+  .badge-playground h3 {
+    margin: 0;
+  }
+
+  .badge-playground__matrix,
+  .badge-playground__appearance {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .badge-playground__matrix {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .badge-playground__sizes,
+  .badge-playground__content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .badge-playground__matrix {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width < 48rem) {
+    .badge-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .badge-playground__matrix {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

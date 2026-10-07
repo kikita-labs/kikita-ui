@@ -1,0 +1,29 @@
+<section role="group" [attr.aria-label]="'typography.accessibility.matrix' | transloco">
+  <app-playground-example-card [heading]="'typography.examples.matrix' | transloco">
+    <div class="typography-matrix">
+      @for (tone of tones; track tone) {
+        <div class="typography-matrix__line">
+          <span kuiText variant="caption" tone="muted">{{ tone }}</span>
+
+          <div
+            class="typography-matrix__row"
+            role="group"
+            [attr.aria-label]="'typography.tones.' + tone + 'Row' | transloco"
+          >
+            @for (role of roles; track role.key) {
+              @if (role.variant === 'code') {
+                <code kuiText [variant]="role.variant" [tone]="tone">
+                  {{ 'typography.samples.' + role.key | transloco }}
+                </code>
+              } @else {
+                <p kuiText [variant]="role.variant" [tone]="tone">
+                  {{ 'typography.samples.' + role.key | transloco }}
+                </p>
+              }
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </app-playground-example-card>
+</section>

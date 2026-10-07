@@ -1,0 +1,61 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  /* The page scrolls inside the shell workspace and has no focusable content of its own, so the page
+     root is the keyboard tab stop (axe scrollable-region-focusable). */
+  .icon-playground:focus-visible {
+    outline: 2px solid var(--kui-color-focus);
+    outline-offset: -2px;
+  }
+
+  .icon-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .icon-playground h1 {
+    margin: 0;
+  }
+
+  .icon-playground__catalogue {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .icon-playground__catalogue > section {
+    min-inline-size: 0;
+  }
+
+  .icon-playground__wide-example {
+    grid-column: 1 / -1;
+  }
+
+  .icon-playground__default-example {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .icon-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .icon-playground__catalogue {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .icon-playground__wide-example {
+      grid-column: auto;
+    }
+  }
+}

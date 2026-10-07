@@ -1,0 +1,102 @@
+<section role="group" [attr.aria-label]="'group.accessibility.default' | transloco">
+  <app-playground-example-card [heading]="'group.examples.default' | transloco">
+    <div
+      kuiGroup
+      role="group"
+      [attr.aria-label]="'group.accessibility.defaultControls' | transloco"
+    >
+      <button kuiButton type="button">{{ 'group.actions.first' | transloco }}</button>
+      <button kuiButton type="button">{{ 'group.actions.second' | transloco }}</button>
+    </div>
+  </app-playground-example-card>
+</section>
+
+<section role="group" [attr.aria-label]="'group.accessibility.layouts' | transloco">
+  <app-playground-example-card [heading]="'group.examples.layouts' | transloco">
+    <div class="group-layouts__examples">
+      <div class="group-layouts__case">
+        <p kuiText variant="body-sm">{{ 'group.labels.horizontalRounded' | transloco }}</p>
+        <div
+          kuiGroup
+          collapsed
+          role="group"
+          [attr.aria-label]="'group.accessibility.horizontalRounded' | transloco"
+        >
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.first' | transloco }}
+          </button>
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.second' | transloco }}
+          </button>
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.third' | transloco }}
+          </button>
+        </div>
+      </div>
+
+      <div class="group-layouts__case">
+        <p kuiText variant="body-sm">{{ 'group.labels.horizontalSquare' | transloco }}</p>
+        <div
+          kuiGroup
+          collapsed
+          [rounded]="false"
+          role="group"
+          [attr.aria-label]="'group.accessibility.horizontalSquare' | transloco"
+        >
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.first' | transloco }}
+          </button>
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.second' | transloco }}
+          </button>
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.third' | transloco }}
+          </button>
+        </div>
+      </div>
+
+      <div class="group-layouts__case">
+        <p kuiText variant="body-sm">{{ 'group.labels.verticalRounded' | transloco }}</p>
+        <div
+          kuiGroup
+          orientation="vertical"
+          collapsed
+          role="group"
+          [attr.aria-label]="'group.accessibility.verticalRounded' | transloco"
+        >
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.first' | transloco }}
+          </button>
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.second' | transloco }}
+          </button>
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.third' | transloco }}
+          </button>
+        </div>
+      </div>
+
+      <div class="group-layouts__case">
+        <p kuiText variant="body-sm">{{ 'group.labels.verticalSquare' | transloco }}</p>
+        <div
+          kuiGroup
+          orientation="vertical"
+          collapsed
+          [rounded]="false"
+          role="group"
+          [attr.aria-label]="'group.accessibility.verticalSquare' | transloco"
+        >
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.first' | transloco }}
+          </button>
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.second' | transloco }}
+          </button>
+          <button kuiButton shape="outline" type="button">
+            {{ 'group.actions.third' | transloco }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>

@@ -1,0 +1,38 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .skeleton-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .skeleton-playground h1 {
+    margin: 0;
+  }
+
+  .skeleton-playground__default-card {
+    inline-size: min(100%, 24rem);
+  }
+
+  .skeleton-playground__default {
+    display: flex;
+    align-items: center;
+    min-block-size: var(--kui-space-8);
+  }
+
+  .skeleton-playground__default-placeholder {
+    inline-size: var(--kui-space-16);
+    block-size: var(--kui-space-8);
+  }
+
+  @media (width < 48rem) {
+    .skeleton-playground {
+      padding: var(--kui-space-6);
+    }
+  }
+}

@@ -6,13 +6,12 @@
 
 ```ts
 import {
-  KuiButtonDirective,
-  KuiIconButtonDirective,
-  KuiIconComponent,
-  KUI_TOOLTIP_OPTIONS,
-  KuiTooltipDirective,
+  KuiButton,
+  KuiIconButton,
+  KuiIcon,
+  KuiTooltip,
   KuiTooltipTriggerType,
-  kuiProvideTooltipOptions,
+  provideKuiDefaults,
   provideKikitaUi,
 } from '@kikita-labs/ui';
 ```
@@ -45,16 +44,17 @@ Configure the default at application or component scope. The local `triggerType`
 
 ```ts
 // app.config.ts
-providers: [provideKikitaUi({ tooltip: { triggerType: KuiTooltipTriggerType.Auto } })];
+providers: [
+  provideKikitaUi({ defaults: { tooltip: { triggerType: KuiTooltipTriggerType.Auto } } }),
+];
 
 // A component or route subtree
-providers: [kuiProvideTooltipOptions({ triggerType: KuiTooltipTriggerType.Hover })];
+providers: [provideKuiDefaults({ tooltip: { triggerType: KuiTooltipTriggerType.Hover } })];
 ```
 
 Use `providers` when the default should apply to the component's subtree and projected content.
-Use `viewProviders` when it should apply only to the component's own view. The helper merges with
-the nearest parent tooltip options; a direct `KUI_TOOLTIP_OPTIONS` provider replaces the complete
-options object at that injector level.
+Use `viewProviders` when it should apply only to the component's own view. A nested level merges with
+the parent per property, so it can change `triggerType` without resetting other tooltip defaults.
 
 ## API
 
@@ -78,15 +78,47 @@ options object at that injector level.
 - `prefers-reduced-motion` disables both animations.
 - SSR-safe: tooltip DOM is created only in a browser context.
 
-`KUI_TOOLTIP_OPTIONS` defaults to `{ triggerType: KuiTooltipTriggerType.Auto }`. Override it globally with
-`provideKikitaUi({ tooltip: { triggerType: ... } })`, or in a component provider with
-`kuiProvideTooltipOptions(...)`. A local `triggerType` input is the narrowest override.
+`defaults.tooltip.triggerType` falls back to `KuiTooltipTriggerType.Auto`. Override it globally with
+`provideKikitaUi({ defaults: { tooltip: { triggerType: ... } } })`, or in a component provider with
+`provideKuiDefaults({ tooltip: { triggerType: ... } })`. A local `triggerType` input is the narrowest override.
 
 ## Migration
 
 The default now opens the existing tooltip surface on touch taps. Set `triggerType="hover"` to
 preserve the previous touch-disabled behavior, or `triggerType="none"` to disable the tooltip on
 all input devices.
+
+## Provider Defaults
+
+Set `defaults.tooltip` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    tooltip: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    tooltip: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                                   | Description                                                                          |
+| ------------- | ---------------------------------------- | ------------------------------------------------------------------------------------ |
+| `triggerType` | `KuiTooltipTrigger`                      | Default interaction mode for tooltip triggers. Defaults to adaptive `auto` behavior. |
+| `placement`   | `'top' \| 'bottom' \| 'left' \| 'right'` | Preferred side of the trigger.                                                       |
+| `offset`      | `number`                                 | Gap in px between the trigger and the tooltip.                                       |
+
+Each option resolves as `local input > defaults.tooltip.<option> > built-in default`. See [DI defaults](di-defaults.md).
 
 ## Accessibility
 
@@ -103,3 +135,16 @@ all input devices.
 - `--kui-tooltip-bg`
 - `--kui-tooltip-fg`
 - `--kui-tooltip-shadow`
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                     | Default              | Controls  |
+| ------------------------- | -------------------- | --------- |
+| `--kui-tooltip-font-size` | `--kui-text-sm-size` | Font size |
+
+<!-- geometry-tokens:end -->

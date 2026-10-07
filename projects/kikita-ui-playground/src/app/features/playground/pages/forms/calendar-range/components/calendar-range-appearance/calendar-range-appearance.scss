@@ -1,0 +1,7 @@
+@layer app.components {
+  .calendar-range-appearance__calendar {
+    display: block;
+
+    --kui-calendar-width: min(100%, 296px);
+  }
+}

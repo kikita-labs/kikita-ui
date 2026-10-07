@@ -1,0 +1,60 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .empty-state-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .empty-state-playground h1,
+  .empty-state-playground h3 {
+    margin: 0;
+  }
+
+  .empty-state-playground__contexts,
+  .empty-state-playground__sizes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .empty-state-playground__context,
+  .empty-state-playground__size {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .empty-state-playground__context,
+  .empty-state-playground__size,
+  .empty-state-playground__composition {
+    padding: var(--kui-space-3);
+  }
+
+  .empty-state-playground__sizes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (width < 64rem) {
+    .empty-state-playground__sizes {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (width < 48rem) {
+    .empty-state-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .empty-state-playground__contexts {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

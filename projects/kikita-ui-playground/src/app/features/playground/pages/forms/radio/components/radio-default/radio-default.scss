@@ -1,0 +1,26 @@
+@layer app.components {
+  .radio-default__fieldset {
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .radio-default__fieldset legend {
+    margin-block-end: var(--kui-space-3);
+    padding: 0;
+  }
+
+  .radio-default__options {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+}

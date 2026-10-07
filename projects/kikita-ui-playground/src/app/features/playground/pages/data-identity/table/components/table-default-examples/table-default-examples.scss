@@ -1,0 +1,26 @@
+@layer app.components {
+  :host,
+  section {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .table-default-examples__region {
+    min-inline-size: 0;
+    overflow: auto;
+  }
+
+  .table-default-examples__empty {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .table-default-examples__empty h3 {
+    margin: 0;
+  }
+
+  .table-default-examples__region caption {
+    text-align: start;
+  }
+}

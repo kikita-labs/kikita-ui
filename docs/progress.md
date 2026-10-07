@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiProgressComponent } from '@kikita-labs/ui';
+import { KuiProgress } from '@kikita-labs/ui';
 ```
 
 ## Linear
@@ -14,7 +14,8 @@ import { KuiProgressComponent } from '@kikita-labs/ui';
 <kui-progress value="60" aria-label="Upload progress" />
 ```
 
-Set `value` to a number from `0` to `100`. Values are clamped visually.
+Set `value` to a number from `0` to `100`. Static numeric attributes are coerced; invalid values
+are treated as indeterminate. Values are clamped visually.
 
 ## Indeterminate
 
@@ -43,6 +44,37 @@ Projected content is rendered in the center of circular progress.
 | `color` | `'primary' \| 'success' \| 'warning' \| 'danger' \| 'neutral'` | `'primary'` | Semantic color.                        |
 | `size`  | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                         | `'md'`      | Linear thickness or circular diameter. |
 
+## Provider Defaults
+
+Set `defaults.progress` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    progress: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    progress: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option  | Values                                                         | Description                                                       |
+| ------- | -------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `size`  | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                         | Component size. Takes precedence over the global `defaults.size`. |
+| `color` | `'primary' \| 'success' \| 'warning' \| 'danger' \| 'neutral'` | Default colour role.                                              |
+
+Each option resolves as `local input > defaults.progress.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 The host uses `role="progressbar"`, `aria-valuemin="0"`, and
@@ -58,5 +90,31 @@ Import the Kikita UI style entrypoint once:
 @import '@kikita-labs/ui/styles';
 ```
 
-Progress styles live in `projects/ui/src/styles/progress.css` and are included
+Progress styles live in `projects/ui/src/lib/components/progress/kui-progress.css` and are included
 through `@kikita-labs/ui/styles`.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                 | Default            | Controls             |
+| ------------------------------------- | ------------------ | -------------------- |
+| `--kui-progress-circular-label-color` | `--kui-color-text` | Circular label color |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the size default in the Default column.
+
+| Token                   | Default                                        | Controls               |
+| ----------------------- | ---------------------------------------------- | ---------------------- |
+| `--kui-progress-height` | `6px` (xs `2px`, sm `4px`, md `6px`, lg `8px`) | Linear track thickness |
+
+<!-- geometry-tokens:end -->

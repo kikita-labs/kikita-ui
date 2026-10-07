@@ -1,0 +1,87 @@
+<main
+  tabindex="0"
+  class="playground-workspace separator-playground"
+  aria-labelledby="separator-playground-title"
+>
+  <h1 id="separator-playground-title" kuiText variant="heading-lg">
+    {{ 'separator.title' | transloco }}
+  </h1>
+
+  <div class="separator-playground__catalogue">
+    <section role="group" [attr.aria-label]="'separator.accessibility.default' | transloco">
+      <app-playground-example-card [heading]="'separator.examples.default' | transloco">
+        <div class="separator-playground__default">
+          <p kuiText>{{ 'separator.content.first' | transloco }}</p>
+
+          <hr kuiSeparator />
+
+          <p kuiText>{{ 'separator.content.second' | transloco }}</p>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'separator.accessibility.appearance' | transloco">
+      <app-playground-example-card [heading]="'separator.examples.appearance' | transloco">
+        <div class="separator-playground__variants">
+          @for (appearance of appearances; track appearance.value) {
+            <div class="separator-playground__appearance-example">
+              <span kuiText>{{ 'separator.appearance.' + appearance.key | transloco }}</span>
+
+              <div class="separator-playground__content-pair">
+                <p kuiText>{{ 'separator.content.first' | transloco }}</p>
+
+                <hr kuiSeparator [appearance]="appearance.value" />
+
+                <p kuiText>{{ 'separator.content.second' | transloco }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'separator.accessibility.spacing' | transloco">
+      <app-playground-example-card [heading]="'separator.examples.spacing' | transloco">
+        <div class="separator-playground__variants">
+          @for (spacing of spacings; track spacing.value) {
+            <div class="separator-playground__spacing-example">
+              <span kuiText>{{ 'separator.spacing.' + spacing.key | transloco }}</span>
+
+              <div class="separator-playground__content-pair">
+                <p kuiText>{{ 'separator.content.first' | transloco }}</p>
+
+                <hr kuiSeparator [spacing]="spacing.value" />
+
+                <p kuiText>{{ 'separator.content.second' | transloco }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="separator-playground__vertical-group"
+      role="group"
+      [attr.aria-label]="'separator.accessibility.vertical' | transloco"
+    >
+      <app-playground-example-card [heading]="'separator.examples.vertical' | transloco">
+        <div class="separator-playground__vertical-variants">
+          @for (spacing of spacings; track spacing.value) {
+            <div class="separator-playground__vertical-example">
+              <span kuiText>{{ 'separator.spacing.' + spacing.key | transloco }}</span>
+
+              <div class="separator-playground__inline-content">
+                <span kuiText>{{ 'separator.content.left' | transloco }}</span>
+
+                <hr kuiSeparator orientation="vertical" [spacing]="spacing.value" />
+
+                <span kuiText>{{ 'separator.content.right' | transloco }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </app-playground-example-card>
+    </section>
+  </div>
+</main>

@@ -23,16 +23,23 @@ release line.
 
 To publish the current release line:
 
-1. Merge the completed `release/<n>.x` work into `main`.
-2. On `main`, finalize the package version and move the matching changelog
+`main` is protected: never push to it directly. Changes reach `main` only through a pull
+request with green CI, merged with a merge commit.
+
+Agents perform the pull request and merge with the GitHub CLI; the commands are in
+`docs/release.md`. Agents do not change repository rulesets or settings: a repository admin
+applies `.github/rulesets/*.json`.
+
+1. On `release/<n>.x`, finalize the package version and move the matching changelog
    entries out of `[Unreleased]`.
-3. Run the release gate after the release metadata change.
-4. Merge the finalized `main` into the maintained release branches so the
+2. Run the release gate after the release metadata change.
+3. Open a pull request from `release/<n>.x` into `main` and merge it once CI is green.
+4. Create and push the release tag from the resulting `main` commit.
+5. Merge the updated `main` into the maintained release branches so the
    current and next release lines contain the release fixes and metadata.
-5. Push `main`, then create and push the release tag from the `main` commit.
 
 Never tag a release branch directly. The publish workflow is triggered by a
-`vX.Y.Z` tag, but the release process requires that tag to point to `main`.
+`vX.Y.Z` tag and refuses to publish a commit that is not reachable from `main`.
 
 ## Release Gate
 

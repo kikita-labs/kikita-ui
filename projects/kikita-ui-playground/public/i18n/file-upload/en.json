@@ -1,0 +1,57 @@
+{
+  "title": "File Upload",
+  "groups": {
+    "default": "Default dropzone",
+    "variants": "Variants and selection modes",
+    "validation": "Pick files and validation",
+    "wildcard": "Wildcard MIME validation",
+    "single": "Single file replacement",
+    "states": "File list states",
+    "sizes": "Sizes",
+    "disabled": "Disabled pickers",
+    "field": "Inside Field"
+  },
+  "accessibility": {
+    "default": "Default file upload",
+    "variants": "File Upload variants and selection modes",
+    "validation": "File selection and validation",
+    "wildcard": "Wildcard MIME validation",
+    "single": "Single file replacement",
+    "states": "File list states",
+    "sizes": "File Upload sizes",
+    "disabled": "Disabled File Upload pickers",
+    "field": "File Upload inside a field"
+  },
+  "labels": {
+    "dropzoneMultiple": "Dropzone · multiple",
+    "dropzoneSingle": "Dropzone · single",
+    "compactMultiple": "Compact · multiple",
+    "compactSingle": "Compact · single",
+    "sizeSm": "Small (sm)",
+    "sizeMd": "Medium (md)",
+    "sizeLg": "Large (lg)",
+    "disabledDropzone": "Disabled dropzone with an existing file",
+    "disabledCompact": "Disabled compact picker with an existing file"
+  },
+  "hints": {
+    "anyFormats": "PNG, JPG, or PDF",
+    "single": "One file at a time",
+    "anyFile": "Attach any file",
+    "validation": "PNG only · up to 1 KiB · maximum 2 files",
+    "imageWildcard": "Image files (image/*)",
+    "unavailable": "Temporarily unavailable",
+    "pdfLimit": "PDF up to 10 MB",
+    "document": "PDF document, up to 10 MB."
+  },
+  "actions": {
+    "startUpload": "Start upload",
+    "finishUpload": "Finish upload"
+  },
+  "fields": {
+    "verification": "Verification document"
+  },
+  "errors": {
+    "required": "A file is required to continue.",
+    "network": "Network unavailable"
+  }
+}

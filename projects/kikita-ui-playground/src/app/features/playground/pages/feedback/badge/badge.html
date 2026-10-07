@@ -1,0 +1,56 @@
+<main class="playground-workspace badge-playground" aria-labelledby="badge-playground-title">
+  <h1 id="badge-playground-title" kuiText variant="heading-lg">
+    {{ 'badge.title' | transloco }}
+  </h1>
+
+  <app-playground-example-card [heading]="'badge.examples.default' | transloco">
+    <div
+      class="badge-playground__content"
+      role="group"
+      [attr.aria-label]="'badge.accessibility.default' | transloco"
+    >
+      <span kuiBadge>{{ 'badge.labels.default' | transloco }}</span>
+    </div>
+  </app-playground-example-card>
+
+  <app-playground-example-card [heading]="'badge.examples.appearanceAndSize' | transloco">
+    <div
+      class="badge-playground__matrix"
+      role="group"
+      [attr.aria-label]="'badge.accessibility.appearanceAndSize' | transloco"
+    >
+      @for (appearance of appearances; track appearance.value) {
+        <div
+          class="badge-playground__appearance"
+          role="group"
+          [attr.aria-label]="appearance.group | transloco"
+        >
+          <h3 kuiText variant="heading-sm">{{ appearance.label | transloco }}</h3>
+
+          <div class="badge-playground__sizes">
+            @for (size of sizes; track size.value) {
+              <span kuiBadge [appearance]="appearance.value" [size]="size.value">
+                {{ size.label | transloco }}
+              </span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </app-playground-example-card>
+
+  <app-playground-example-card [heading]="'badge.examples.hostElements' | transloco">
+    <div
+      class="badge-playground__content"
+      role="group"
+      [attr.aria-label]="'badge.accessibility.hostElements' | transloco"
+    >
+      <span kuiBadge>{{ 'badge.labels.neutralHost' | transloco }}</span>
+      <strong kuiBadge appearance="success">{{ 'badge.labels.strongHost' | transloco }}</strong>
+      <code kuiBadge appearance="warning">{{ 'badge.labels.codeHost' | transloco }}</code>
+      <a kuiBadge appearance="info" href="#badge-playground-title">
+        {{ 'badge.labels.linkHost' | transloco }}
+      </a>
+    </div>
+  </app-playground-example-card>
+</main>

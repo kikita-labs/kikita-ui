@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiTextareaDirective } from '@kikita-labs/ui';
+import { KuiTextarea } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -37,3 +37,46 @@ marker and first error message from Angular Signal Forms metadata.
   `provideKikitaUi({ defaults.size })`, then `md`
 - `invalid`: marks the textarea invalid outside a field error state
 - `id`: explicit id override
+
+<!-- geometry-tokens:begin -->
+
+## Provider Defaults
+
+Set `defaults.textarea` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    textarea: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    textarea: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.textarea.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                          | Default         | Controls       |
+| ------------------------------ | --------------- | -------------- |
+| `--kui-textarea-padding-block` | `--kui-space-3` | Padding, block |
+
+<!-- geometry-tokens:end -->

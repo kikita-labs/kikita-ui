@@ -1,6 +1,6 @@
 {
   "name": "@kikita-labs/ui",
-  "version": "1.8.0",
+  "version": "2.0.0",
   "description": "Angular 22+ UI library and design system.",
   "license": "MIT",
   "repository": {
@@ -8,6 +8,7 @@
     "url": "git+https://github.com/kikita-labs/kikita-ui.git",
     "directory": "projects/ui"
   },
+  "homepage": "https://kikita-labs.github.io/kikita-ui-docs/",
   "bugs": {
     "url": "https://github.com/kikita-labs/kikita-ui/issues"
   },
@@ -19,20 +20,35 @@
     "component-library",
     "design-system",
     "signals",
-    "signal-forms"
+    "signal-forms",
+    "accessibility",
+    "a11y",
+    "theming",
+    "design-tokens",
+    "css-variables",
+    "ssr"
   ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
     "access": "public"
   },
   "schematics": "./schematics/collection.json",
+  "ng-update": {
+    "migrations": "./schematics/migration.json"
+  },
   "peerDependencies": {
     "@angular/cdk": "^22.0.0",
     "@angular/common": "^22.0.0",
     "@angular/core": "^22.0.0",
     "@angular/forms": "^22.0.0",
     "@angular/platform-browser": "^22.0.0",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "typescript": ">=6.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@angular-devkit/schematics": "^22.0.0",

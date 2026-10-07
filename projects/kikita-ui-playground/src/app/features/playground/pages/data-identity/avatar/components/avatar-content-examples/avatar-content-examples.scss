@@ -1,0 +1,31 @@
+@layer app.components {
+  :host,
+  section {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .avatar-content-examples__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .avatar-content-examples__item {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .avatar-content-examples__item > span {
+    min-inline-size: 0;
+  }
+
+  @media (width < 40rem) {
+    .avatar-content-examples__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

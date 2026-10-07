@@ -1,0 +1,38 @@
+@layer app.components {
+  :host,
+  section {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .avatar-variant-examples__matrix,
+  .avatar-variant-examples__palette {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--kui-space-3) var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .avatar-variant-examples__item {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .avatar-variant-examples__item > span {
+    min-inline-size: 0;
+  }
+
+  @media (width < 40rem) {
+    .avatar-variant-examples__matrix,
+    .avatar-variant-examples__palette {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .avatar-variant-examples__matrix .avatar-variant-examples__item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}

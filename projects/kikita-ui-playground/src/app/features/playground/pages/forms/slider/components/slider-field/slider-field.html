@@ -1,0 +1,12 @@
+<app-playground-example-card [heading]="'slider.examples.signalForms' | transloco">
+  <div role="group" [attr.aria-label]="'slider.accessibility.signalForms' | transloco">
+    <kui-field
+      [label]="'slider.labels.volume' | transloco"
+      [hint]="'slider.hints.keyboard' | transloco"
+    >
+      <div class="slider-field__control-row">
+        <input type="range" kuiSlider [formField]="volumeForm.volume" />
+      </div>
+    </kui-field>
+  </div>
+</app-playground-example-card>

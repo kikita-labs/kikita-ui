@@ -55,7 +55,8 @@ test-results/
 !.env.example
 .codex/
 .claude/
-.local-notes/
+.local-notes/*
+!.local-notes/.gitkeep
 *.dc.html
 
 # System files

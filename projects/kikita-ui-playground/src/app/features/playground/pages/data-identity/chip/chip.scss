@@ -1,0 +1,68 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .chip-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .chip-playground h1,
+  .chip-playground h3 {
+    margin: 0;
+  }
+
+  .chip-playground__catalogue {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .chip-playground__catalogue > section {
+    min-inline-size: 0;
+  }
+
+  .chip-playground__wide-example {
+    grid-column: 1 / -1;
+  }
+
+  .chip-playground__stack {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .chip-playground__chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .chip-playground__status {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .chip-playground__long-chip {
+    max-inline-size: min(100%, 16rem);
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .chip-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .chip-playground__catalogue {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

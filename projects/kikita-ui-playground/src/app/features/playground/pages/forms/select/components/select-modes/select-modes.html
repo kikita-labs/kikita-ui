@@ -1,0 +1,91 @@
+<app-playground-example-card [heading]="'select.examples.valuesAndModes' | transloco">
+  <div
+    class="select-modes__grid"
+    role="group"
+    [attr.aria-label]="'select.accessibility.modes' | transloco"
+  >
+    <kui-field [label]="'select.fields.objectValue' | transloco">
+      <input
+        kuiSelect
+        [(value)]="selectedPerson"
+        [kuiLabelFn]="personLabel"
+        [placeholder]="'select.placeholders.person' | transloco"
+      />
+      <kui-dropdown>
+        @for (person of people; track person.id) {
+          <div kuiOption [value]="person">{{ person.name }} · {{ teamLabel(person.team) }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
+
+    <kui-field [label]="'select.fields.defaultChipLimit' | transloco">
+      <input kuiSelect multiple [(value)]="defaultChipRoles" [kuiLabelFn]="roleLabel" />
+      <kui-dropdown>
+        @for (role of roles; track role.value) {
+          <div kuiOption [value]="role.value">{{ role.label | transloco }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
+
+    <kui-field
+      [label]="'select.fields.multipleChips' | transloco"
+      [hint]="'select.hints.multipleChips' | transloco"
+    >
+      <input
+        kuiSelect
+        multiple
+        [(value)]="chipRoles"
+        [kuiLabelFn]="roleLabel"
+        [maxVisibleChips]="2"
+        [clearable]="true"
+      />
+      <kui-dropdown>
+        @for (role of roles; track role.value) {
+          <div kuiOption [value]="role.value">{{ role.label | transloco }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
+
+    <kui-field [label]="'select.fields.multipleText' | transloco">
+      <input
+        kuiSelect
+        multiple
+        multipleDisplay="text"
+        [(value)]="textRoles"
+        [kuiLabelFn]="roleLabel"
+        [multipleTextFn]="formatRoles"
+      />
+      <kui-dropdown>
+        @for (role of roles; track role.value) {
+          <div kuiOption [value]="role.value">{{ role.label | transloco }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
+
+    <kui-field [label]="'select.fields.customValues' | transloco">
+      <input
+        kuiSelect
+        multiple
+        [(value)]="customRoles"
+        [kuiLabelFn]="roleLabel"
+        [maxVisibleChips]="2"
+      />
+      <ng-template kuiSelectValue let-label="label" let-remove="remove">
+        <span
+          kuiChip
+          size="sm"
+          removable
+          [removeLabel]="'select.actions.remove' | transloco: { value: label }"
+          (removed)="remove()"
+        >
+          <span class="kui-chip-label">{{ label }}</span>
+        </span>
+      </ng-template>
+      <kui-dropdown>
+        @for (role of roles; track role.value) {
+          <div kuiOption [value]="role.value">{{ role.label | transloco }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
+  </div>
+</app-playground-example-card>

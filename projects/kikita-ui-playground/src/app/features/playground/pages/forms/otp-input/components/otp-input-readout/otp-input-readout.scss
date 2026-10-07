@@ -1,0 +1,10 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .otp-input-readout {
+    margin: 0;
+  }
+}

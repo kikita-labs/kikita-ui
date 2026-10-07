@@ -4,7 +4,7 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 
 ## 1. Design Input
 
-- Matching Claude Design spec exists in `.local-notes/claude-design/design system/`.
+- Matching approved design record is accessible from the checkout, following `docs/design-provenance.md`.
 - Component states, variants, sizes, density behavior, light/dark treatment, motion, and mobile behavior are clear from the spec.
 - No visual decisions are invented when the spec is missing or ambiguous.
 - Token names and component API names follow the existing `kui` naming style.
@@ -14,13 +14,20 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 - Native semantics are used when possible, for example `button[kuiButton]`, `input[kuiInput]`, `table[kuiTable]`, `input[type=range][kuiSlider]`.
 - A component is used only when native/directive semantics are not enough.
 - Public selectors use the `kui` prefix.
+- The class is the PascalCase of its selector with no `Component`, `Directive` or `Service` suffix, and its file is named after it (`kui-name.ts`, `kui-name.html`, `kui-name.spec.ts`); `pnpm audit:static` checks both.
 - Public APIs use signals, signal inputs, models, and queries.
 - Marker directives stay boolean-like. Visual variants use an explicit
   `appearance` input, not a marker directive value.
 - Public classes, directives, components, providers, services, types, and tokens have JSDoc.
-- DI defaults follow `docs/di-defaults.md`; local inputs stay strongest, option interfaces are
-  `readonly`, and new provider defaults have focused precedence tests.
+- Library-owned text (accessible names, visible words, placeholders, hints, announcements) is a message in `KuiMessages` with a JSDoc English default, an entry in `KUI_ENGLISH_MESSAGES`, a reader in the component and an entry in the Playground catalogues; an explicit label input stays `undefined` when omitted and resolves through the message. Dates, numbers and units go through `KuiI18n`, never through string concatenation (`pnpm audit:static` fails on literal text and uncovered messages). See `docs/i18n.md`.
+- Every preference input (size, shape, variant, orientation, display flags) is configurable through
+  `defaults.<key>` per `docs/di-defaults.md`: the options interface lives next to the component
+  (`kui-<name>-options.interface.ts`, `readonly` members), the key is added to `KuiComponentDefaults`,
+  the input is `undefined` when omitted and resolves through `inject(KuiDefaults).get('<key>')`, and a
+  spec covers the no-defaults control, a configured value, a local-input-wins case and a runtime change.
+  Data, instance state, forms state, accessible names and message text are never defaults.
 - Public API is exported from the local `index.ts`, `projects/ui/src/lib/components/index.ts`, and `projects/ui/src/public-api.ts` when applicable.
+- The new component folder is classified in `scripts/architecture-layers.json` (`primitives` or `composites`); `pnpm audit:architecture` fails on an unclassified module or on an import from a higher layer.
 - New services use Angular 22 `@Service` unless official Angular docs or a specific DI pattern require otherwise.
 - New components do not add `ChangeDetectionStrategy.OnPush`; Angular 22 default change detection is assumed.
 
@@ -32,11 +39,13 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 - Docs and playground do not hand-roll field-level label/hint/error wiring around input-like controls.
 - Native input-like primitives support Signal Forms first.
 - Custom controls implement the correct Angular Signal Forms control contract when native binding is not enough.
+- A custom control spells every contract member exactly (`readonly`, `required`, `disabled`, `invalid`, `touched`, `errors`, `touch`, ...) and implements `focus(options?)` when its host is not itself focusable. Every contract member is optional, so TypeScript accepts a near miss; `pnpm audit:static` fails on an input, model or output that differs from a contract member only by case.
+- A control that has a role supporting `aria-required` binds it from the field's `ariaRequired` through `createKuiFieldWiring`; exceptions are documented in `docs/field.md`.
 - Required and error behavior is covered by tests where the primitive participates in forms.
 
 ## 4. Styling And Tokens
 
-- Runtime styles live in `projects/ui/src/styles/<primitive>.css`.
+- Runtime styles live in `projects/ui/src/lib/components/<primitive>/kui-<primitive>.css`.
 - The primitive style file is imported from `projects/ui/src/styles/kikita-ui.css`.
 - Styles use `@layer kui.components` or the correct Kikita-owned layer.
 - Styles consume `--kui-*` CSS variables for design values.
@@ -73,7 +82,9 @@ Use this checklist before marking any public Kikita UI primitive as done. Do not
 
 ## 6. Playground
 
-- Playground route exists under `projects/playground/src/app/pages/<primitive>/`.
+- Playground page and inventory exist under
+  `projects/kikita-ui-playground/src/app/features/playground/pages/<catalog-group>/<primitive>/`, the
+  route is in `PlaygroundRoute`, and the page has rows in `docs/state-coverage.md`.
 - Page demonstrates real component states, not fake one-off styling.
 - Page demonstrates sizes and variants.
 - Page demonstrates light and dark behavior.
@@ -136,11 +147,22 @@ Run these before marking the primitive done:
 ```bash
 pnpm lint
 pnpm audit:static
+pnpm audit:architecture
 pnpm format:check
 pnpm test
 pnpm build
+pnpm audit:bundle
 pnpm build:playground
 ```
+
+`audit:architecture` fails on a new module cycle or a new import from a lower layer to a higher one;
+`audit:bundle` fails when a primitive's single-export bundle cost exceeds its limit in
+`scripts/bundle-budgets.json`. Add a budget entry (`pnpm audit:bundle --write-baseline`) for every new
+public export. See `.agents/testing-and-quality.md`.
+
+For a visual or browser-behavior change also run the matching suites: `pnpm test:browser` (the
+Playground `behavior` project, which includes the SSR, accessibility and responsive checks) and
+`pnpm test:visual`. The screenshot command runs in Docker. CI runs both on every pull request.
 
 If a command cannot run because of the local sandbox or environment, record the exact reason and rerun outside the sandbox when possible.
 

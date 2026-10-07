@@ -1,0 +1,23 @@
+<section role="group" [attr.aria-label]="'calendarRange.accessibility.navigation' | transloco">
+  <app-playground-example-card [heading]="'calendarRange.examples.navigation' | transloco">
+    <div class="calendar-range-navigation__pair">
+      <kui-calendar-range
+        class="calendar-range-navigation__calendar"
+        locale="en-US"
+        [showNextNav]="false"
+        [(value)]="pairValue"
+        [viewDate]="leadingViewDate()"
+        (viewDateChange)="setLeading($event)"
+      />
+
+      <kui-calendar-range
+        class="calendar-range-navigation__calendar"
+        locale="en-US"
+        [showPrevNav]="false"
+        [(value)]="pairValue"
+        [viewDate]="trailingViewDate()"
+        (viewDateChange)="setTrailing($event)"
+      />
+    </div>
+  </app-playground-example-card>
+</section>

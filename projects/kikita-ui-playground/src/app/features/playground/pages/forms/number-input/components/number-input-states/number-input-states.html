@@ -1,0 +1,39 @@
+<app-playground-example-card [heading]="'numberInput.examples.states' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'numberInput.accessibility.states' | transloco"
+    class="number-input-states__grid"
+  >
+    <kui-field [label]="'numberInput.fields.bounded' | transloco">
+      <input type="number" kuiNumberInput min="0" max="10" value="4" />
+    </kui-field>
+
+    <kui-field [label]="'numberInput.fields.atMinimum' | transloco">
+      <input type="number" kuiNumberInput min="0" max="10" value="0" />
+    </kui-field>
+
+    <kui-field [label]="'numberInput.fields.atMaximum' | transloco">
+      <input type="number" kuiNumberInput min="0" max="10" value="10" />
+    </kui-field>
+
+    <kui-field [label]="'numberInput.fields.stepFive' | transloco">
+      <input type="number" kuiNumberInput min="0" max="20" step="5" value="10" />
+    </kui-field>
+
+    <kui-field [label]="'numberInput.fields.disabled' | transloco">
+      <input type="number" kuiNumberInput value="4" disabled />
+    </kui-field>
+
+    <kui-field [label]="'numberInput.fields.readOnly' | transloco">
+      <input type="number" kuiNumberInput value="4" readonly />
+    </kui-field>
+
+    <kui-field
+      [label]="'numberInput.fields.invalid' | transloco"
+      [hint]="'numberInput.hints.invalid' | transloco"
+      [error]="'numberInput.errors.explicit' | transloco"
+    >
+      <input type="number" kuiNumberInput value="4" />
+    </kui-field>
+  </div>
+</app-playground-example-card>

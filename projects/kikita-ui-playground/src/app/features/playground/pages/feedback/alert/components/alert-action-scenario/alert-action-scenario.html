@@ -1,0 +1,43 @@
+<app-playground-example-card [heading]="'alert.examples.actions' | transloco">
+  <div
+    class="alert-action-scenario"
+    role="group"
+    [attr.aria-label]="'alert.accessibility.actions' | transloco"
+  >
+    <div class="alert-action-scenario__item">
+      <kui-alert
+        appearance="warning"
+        [title]="'alert.samples.actions.renew.title' | transloco"
+        [message]="'alert.samples.actions.renew.message' | transloco"
+        [actionLabel]="'alert.samples.actions.renew.action' | transloco"
+        (action)="renew()"
+      />
+      <p kuiText>{{ 'alert.status.renewClicks' | transloco: { count: renewClicks() } }}</p>
+    </div>
+
+    <div class="alert-action-scenario__item">
+      <kui-alert
+        appearance="danger"
+        [title]="'alert.samples.actions.projected.title' | transloco"
+        [message]="'alert.samples.actions.projected.message' | transloco"
+        [actionLabel]="'alert.samples.actions.renew.action' | transloco"
+        (action)="renew()"
+      >
+        <div kuiAlertActions>
+          <button kuiButton shape="ghost" size="xs" type="button" (click)="choose('retry')">
+            {{ 'alert.samples.actions.projected.retry' | transloco }}
+          </button>
+          <button kuiButton shape="ghost" size="xs" type="button" (click)="choose('discard')">
+            {{ 'alert.samples.actions.projected.discard' | transloco }}
+          </button>
+        </div>
+      </kui-alert>
+      <p kuiText>
+        {{
+          'alert.status.lastAction'
+            | transloco: { action: 'alert.status.' + lastAction() | transloco }
+        }}
+      </p>
+    </div>
+  </div>
+</app-playground-example-card>

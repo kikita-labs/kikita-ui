@@ -1,0 +1,20 @@
+<app-drawer-example-actions>
+  <button kuiButton type="button" (click)="openDefaultDrawer()">
+    {{ 'drawer.actions.openDefault' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openLeftDrawer()">
+    {{ 'drawer.actions.openLeft' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openTopDrawer()">
+    {{ 'drawer.actions.openTop' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openBottomDrawer()">
+    {{ 'drawer.actions.openBottom' | transloco }}
+  </button>
+</app-drawer-example-actions>
+
+@if (result(); as message) {
+  <p kuiText variant="body-sm" class="drawer-example-result" role="status">
+    {{ 'drawer.status.' + message | transloco }}
+  </p>
+}

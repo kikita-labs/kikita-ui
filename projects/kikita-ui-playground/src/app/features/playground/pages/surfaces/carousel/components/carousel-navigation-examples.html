@@ -1,0 +1,104 @@
+<app-playground-example-card [heading]="'carousel.examples.navigation' | transloco">
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.dotsOnly' | transloco"
+  >
+    <p class="carousel-example__label" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.labels.dotsOnly' | transloco }}
+    </p>
+
+    <kui-carousel [ariaLabel]="'carousel.regions.dotsOnly' | transloco" [showArrows]="false">
+      @for (slide of threeSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+  </section>
+
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.arrowsOnly' | transloco"
+  >
+    <p class="carousel-example__label" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.labels.arrowsOnly' | transloco }}
+    </p>
+
+    <kui-carousel [ariaLabel]="'carousel.regions.arrowsOnly' | transloco" [showDots]="false">
+      @for (slide of threeSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+  </section>
+
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.swipeOnly' | transloco"
+  >
+    <p class="carousel-example__label" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.labels.swipeOnly' | transloco }}
+    </p>
+
+    <kui-carousel
+      [ariaLabel]="'carousel.regions.swipeOnly' | transloco"
+      [showArrows]="false"
+      [showDots]="false"
+      [(index)]="swipeIndex"
+    >
+      @for (slide of threeSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+
+    <p class="carousel-example__readout" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.readout' | transloco: { index: swipeIndex() } }}
+    </p>
+  </section>
+</app-playground-example-card>
+
+<app-playground-example-card [heading]="'carousel.examples.draggable' | transloco">
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.draggable' | transloco"
+  >
+    <p class="carousel-example__label" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.labels.draggable' | transloco }}
+    </p>
+
+    <kui-carousel [ariaLabel]="'carousel.regions.draggable' | transloco" [(index)]="draggableIndex">
+      @for (slide of threeSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+
+    <p class="carousel-example__readout" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.readout' | transloco: { index: draggableIndex() } }}
+    </p>
+  </section>
+
+  <section
+    class="carousel-example"
+    role="group"
+    [attr.aria-label]="'carousel.groups.locked' | transloco"
+  >
+    <p class="carousel-example__label" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.labels.locked' | transloco }}
+    </p>
+
+    <kui-carousel
+      [ariaLabel]="'carousel.regions.locked' | transloco"
+      [draggable]="false"
+      [(index)]="lockedIndex"
+    >
+      @for (slide of threeSlides; track slide) {
+        <div kuiCarouselSlide><app-carousel-slide-label [number]="slide" /></div>
+      }
+    </kui-carousel>
+
+    <p class="carousel-example__readout" kuiText variant="body-sm" tone="muted">
+      {{ 'carousel.readout' | transloco: { index: lockedIndex() } }}
+    </p>
+  </section>
+</app-playground-example-card>

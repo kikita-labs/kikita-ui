@@ -1,0 +1,13 @@
+@layer app.components {
+  .otp-input-verification__content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--kui-space-4);
+    justify-items: start;
+    min-inline-size: 0;
+  }
+
+  .otp-input-verification__status {
+    margin: 0;
+  }
+}

@@ -1,0 +1,34 @@
+<app-playground-example-card [heading]="'alert.examples.liveRegions' | transloco">
+  <div
+    class="alert-live-regions"
+    role="group"
+    [attr.aria-label]="'alert.accessibility.liveRegions' | transloco"
+  >
+    <div class="alert-live-regions__triggers">
+      <button #savedTrigger kuiButton type="button" (click)="savedVisible.set(true)">
+        {{ 'alert.actions.showSaved' | transloco }}
+      </button>
+      <button #failedTrigger kuiButton type="button" (click)="failedVisible.set(true)">
+        {{ 'alert.actions.showFailed' | transloco }}
+      </button>
+    </div>
+
+    @if (savedVisible()) {
+      <kui-alert
+        appearance="success"
+        [title]="'alert.samples.live.saved.title' | transloco"
+        [message]="'alert.samples.live.saved.message' | transloco"
+        (closed)="closeSaved()"
+      />
+    }
+
+    @if (failedVisible()) {
+      <kui-alert
+        appearance="danger"
+        [title]="'alert.samples.live.failed.title' | transloco"
+        [message]="'alert.samples.live.failed.message' | transloco"
+        (closed)="closeFailed()"
+      />
+    }
+  </div>
+</app-playground-example-card>

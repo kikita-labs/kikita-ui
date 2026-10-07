@@ -1,0 +1,29 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .otp-input-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .otp-input-playground h1 {
+    margin: 0;
+  }
+
+  .otp-input-playground__cards {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  @media (width < 48rem) {
+    .otp-input-playground {
+      padding: var(--kui-space-6);
+    }
+  }
+}

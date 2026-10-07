@@ -1,0 +1,48 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .accordion-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .accordion-playground h1 {
+    margin: 0;
+  }
+
+  .accordion-playground__catalogue {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .accordion-playground__catalogue > section,
+  .accordion-playground__wide {
+    min-inline-size: 0;
+  }
+
+  .accordion-playground__wide {
+    grid-column: 1 / -1;
+  }
+
+  @media (width < 64rem) {
+    .accordion-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .accordion-playground__catalogue {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .accordion-playground__wide {
+      grid-column: auto;
+    }
+  }
+}

@@ -1,6 +1,8 @@
 import { EmptyTree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
+import { DEFAULT_KUI_THEME } from '../theme/default-kui-theme.const';
+
 const collectionPath = 'projects/ui/schematics/collection.json';
 
 describe('ng-add schematic', () => {
@@ -102,6 +104,20 @@ export const appConfig: ApplicationConfig = {
     expect(appConfig).toContain('provideKikitaUi({');
     expect(appConfig).toContain("primary: 'oklch(0.52 0.25 285)'");
     expect(appConfig).toContain("density: 'regular'");
+  });
+
+  it('scaffolds the same colour seeds as the default theme', async () => {
+    const runner = new SchematicTestRunner('@kikita-labs/ui', collectionPath);
+    const tree = createWorkspaceTree({
+      styles: ['src/styles.css'],
+    });
+
+    const result = await runner.runSchematic('ng-add', { theme: true }, tree);
+    const appConfig = result.readContent('/src/app/app.config.ts');
+
+    for (const [role, seed] of Object.entries(DEFAULT_KUI_THEME.seeds?.color ?? {})) {
+      expect(appConfig).toContain(`${role}: '${seed}'`);
+    }
   });
 });
 

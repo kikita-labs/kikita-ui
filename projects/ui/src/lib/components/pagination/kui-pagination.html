@@ -1,0 +1,106 @@
+@if (showSummary()) {
+  <div class="kui-pagination__summary" aria-live="polite">{{ summaryText() }}</div>
+}
+
+<nav class="kui-pagination__nav" [attr.aria-label]="ariaLabel() ?? t().label">
+  @if (showEnds()) {
+    <button
+      kuiIconButton
+      shape="ghost"
+      [size]="effectiveSize()"
+      [attr.aria-label]="t().first"
+      [disabled]="firstDisabled()"
+      (click)="goFirst()"
+    >
+      <svg width="16" height="16" [kuiGlyph]="firstGlyph()" [kuiGlyphStroke]="1.5"></svg>
+    </button>
+  }
+
+  <button
+    kuiIconButton
+    shape="ghost"
+    [size]="effectiveSize()"
+    [attr.aria-label]="t().previous"
+    [disabled]="prevDisabled()"
+    (click)="goPrev()"
+  >
+    <svg width="16" height="16" [kuiGlyph]="previousGlyph()" [kuiGlyphStroke]="1.5"></svg>
+  </button>
+
+  @if (showNumbers()) {
+    @for (item of pages(); track item.key) {
+      @if (item.ellipsis) {
+        <span
+          aria-hidden="true"
+          class="kui-pagination__ellipsis"
+          [attr.data-kui-size]="effectiveSize()"
+          >&hellip;</span
+        >
+      } @else {
+        <button
+          kuiButton
+          class="kui-pagination__page"
+          [shape]="item.shape"
+          [appearance]="item.appearance"
+          [size]="effectiveSize()"
+          [attr.aria-label]="item.ariaLabel"
+          [attr.aria-current]="item.ariaCurrent"
+          [disabled]="disabled()"
+          (click)="setPage(item.page)"
+        >
+          {{ item.label }}
+        </button>
+      }
+    }
+  }
+
+  @if (showSimple()) {
+    <span class="kui-pagination__simple-label">{{
+      t().simplePage({ page: clampedCurrentPage(), total: totalPages() })
+    }}</span>
+  }
+
+  <button
+    kuiIconButton
+    shape="ghost"
+    [size]="effectiveSize()"
+    [attr.aria-label]="t().next"
+    [disabled]="nextDisabled()"
+    (click)="goNext()"
+  >
+    <svg width="16" height="16" [kuiGlyph]="nextGlyph()" [kuiGlyphStroke]="1.5"></svg>
+  </button>
+
+  @if (showEnds()) {
+    <button
+      kuiIconButton
+      shape="ghost"
+      [size]="effectiveSize()"
+      [attr.aria-label]="t().last"
+      [disabled]="lastDisabled()"
+      (click)="goLast()"
+    >
+      <svg width="16" height="16" [kuiGlyph]="lastGlyph()" [kuiGlyphStroke]="1.5"></svg>
+    </button>
+  }
+
+  @if (showPageSize()) {
+    <span class="kui-pagination__page-size">
+      <span class="kui-pagination__page-size-label" aria-hidden="true">{{ t().rowsPerPage }}</span>
+      <kui-field class="kui-pagination__page-size-field" [size]="effectiveSize()" hideErrors>
+        <input
+          kuiSelect
+          [value]="pageSize()"
+          (valueChange)="onPageSizeChange($event)"
+          [disabled]="disabled()"
+          [attr.aria-label]="t().rowsPerPage"
+        />
+        <kui-dropdown>
+          @for (option of effectivePageSizeOptions(); track option) {
+            <div kuiOption [value]="option">{{ option }}</div>
+          }
+        </kui-dropdown>
+      </kui-field>
+    </span>
+  }
+</nav>

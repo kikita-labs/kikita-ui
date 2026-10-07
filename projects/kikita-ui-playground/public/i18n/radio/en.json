@@ -1,0 +1,50 @@
+{
+  "title": "Radio",
+  "examples": {
+    "default": "Default selection",
+    "sizes": "Sizes",
+    "states": "States"
+  },
+  "groups": {
+    "plan": "Billing plan",
+    "selection": "Selection",
+    "disabled": "Disabled options",
+    "explicitSizes": "Explicit sizes",
+    "fieldSize": "Field size precedence",
+    "standaloneInvalid": "Standalone invalid options",
+    "payment": "Payment method",
+    "signalPayment": "Signal Forms payment"
+  },
+  "hints": {
+    "plan": "Choose one plan.",
+    "payment": "Choose one payment method."
+  },
+  "errors": {
+    "paymentRequired": "Select a payment method to continue.",
+    "signalPaymentRequired": "Choose a payment option to continue."
+  },
+  "labels": {
+    "starter": "Starter",
+    "pro": "Professional",
+    "enterprise": "Enterprise",
+    "selected": "Selected",
+    "unselected": "Unselected",
+    "disabled": "Disabled",
+    "disabledChecked": "Disabled and selected",
+    "card": "Card",
+    "transfer": "Bank transfer",
+    "inheritedSize": "Inherited from Field (lg)",
+    "localOverride": "Local size override (sm)"
+  },
+  "sizes": {
+    "xs": "Extra small",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large"
+  },
+  "accessibility": {
+    "default": "Default radio example",
+    "sizes": "Radio sizes",
+    "states": "Radio states"
+  }
+}

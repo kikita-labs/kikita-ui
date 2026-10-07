@@ -1,0 +1,272 @@
+@layer kui.components {
+  .kui-alert {
+    --_kui-alert-radius: var(--kui-radius-md);
+    --_kui-alert-padding-y: var(--kui-space-3);
+    --_kui-alert-padding-x: var(--kui-space-4);
+    --_kui-alert-gap: var(--kui-space-3);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--kui-alert-gap, var(--_kui-alert-gap));
+    padding: var(--kui-alert-padding-y, var(--_kui-alert-padding-y))
+      var(--kui-alert-padding-x, var(--_kui-alert-padding-x));
+    border-radius: var(--kui-alert-radius, var(--_kui-alert-radius));
+    background: var(--kui-alert-bg, var(--_kui-alert-bg));
+    border: var(--kui-border-width-hairline) solid var(--kui-alert-border, var(--_kui-alert-border));
+    color: var(--kui-alert-fg, var(--_kui-alert-fg, var(--kui-color-text)));
+  }
+
+  .kui-alert[data-kui-size='sm'] {
+    --_kui-alert-padding-y: var(--kui-space-2);
+    --_kui-alert-padding-x: var(--kui-space-3);
+    --_kui-alert-gap: var(--kui-space-2);
+  }
+
+  .kui-alert[data-kui-banner] {
+    --_kui-alert-radius: var(--kui-radius-none);
+    --_kui-alert-padding-x: var(--kui-space-6);
+    /* Banner is a full-width system bar, not a boxed card -- a thin seam under it, not a border
+       box around it. Consumers stacking several banners get a shared 1px line between each. */
+    border: none;
+    border-bottom: var(--kui-border-width-hairline) solid
+      var(--kui-alert-border, var(--_kui-alert-border));
+  }
+
+  /*
+   * Only title, or only message, with no action: the body is one line, so center the icon/close
+   * row on it instead of the multi-line flex-start alignment. Without this, the close button's own
+   * height (taller than one line of text) sets the card's height and the content sticks to the
+   * top, leaving visibly more empty space below it than above.
+   */
+  .kui-alert[data-kui-single-line],
+  .kui-alert[data-kui-banner] {
+    align-items: center;
+  }
+
+  .kui-alert[data-kui-single-line] .kui-alert__icon,
+  .kui-alert[data-kui-single-line] .kui-alert__close,
+  .kui-alert[data-kui-banner] .kui-alert__icon,
+  .kui-alert[data-kui-banner] .kui-alert__close {
+    margin-top: 0;
+  }
+
+  /* ── Appearance x shape: background / border / icon colour ───────────────── */
+
+  .kui-alert[data-kui-appearance='neutral'][data-kui-shape='soft'] {
+    --_kui-alert-bg: var(--kui-color-surface-sunken);
+    --_kui-alert-border: var(--kui-color-border);
+  }
+
+  .kui-alert[data-kui-appearance='neutral'][data-kui-shape='outline'] {
+    --_kui-alert-bg: transparent;
+    --_kui-alert-border: var(--kui-color-border-strong);
+  }
+
+  .kui-alert[data-kui-appearance='neutral'][data-kui-shape='solid'] {
+    --_kui-alert-bg: var(--kui-color-neutral-fill);
+    --_kui-alert-border: transparent;
+    --_kui-alert-fg: var(--kui-color-neutral-on-fill);
+  }
+
+  .kui-alert[data-kui-appearance='info'][data-kui-shape='soft'] {
+    --_kui-alert-bg: var(--kui-color-info-soft-bg);
+    --_kui-alert-border: var(--kui-color-info-soft-border);
+    --_kui-alert-icon-color: var(--kui-color-info-text);
+  }
+
+  .kui-alert[data-kui-appearance='info'][data-kui-shape='outline'] {
+    --_kui-alert-bg: transparent;
+    --_kui-alert-border: var(--kui-color-info-indicator);
+    --_kui-alert-icon-color: var(--kui-color-info-text);
+  }
+
+  .kui-alert[data-kui-appearance='info'][data-kui-shape='solid'] {
+    --_kui-alert-bg: var(--kui-color-info-fill);
+    --_kui-alert-border: transparent;
+    --_kui-alert-fg: var(--kui-color-info-on-fill);
+  }
+
+  .kui-alert[data-kui-appearance='success'][data-kui-shape='soft'] {
+    --_kui-alert-bg: var(--kui-color-success-soft-bg);
+    --_kui-alert-border: var(--kui-color-success-soft-border);
+    --_kui-alert-icon-color: var(--kui-color-success-text);
+  }
+
+  .kui-alert[data-kui-appearance='success'][data-kui-shape='outline'] {
+    --_kui-alert-bg: transparent;
+    --_kui-alert-border: var(--kui-color-success-indicator);
+    --_kui-alert-icon-color: var(--kui-color-success-text);
+  }
+
+  .kui-alert[data-kui-appearance='success'][data-kui-shape='solid'] {
+    --_kui-alert-bg: var(--kui-color-success-fill);
+    --_kui-alert-border: transparent;
+    --_kui-alert-fg: var(--kui-color-success-on-fill);
+  }
+
+  .kui-alert[data-kui-appearance='warning'][data-kui-shape='soft'] {
+    --_kui-alert-bg: var(--kui-color-warning-soft-bg);
+    --_kui-alert-border: var(--kui-color-warning-soft-border);
+    --_kui-alert-icon-color: var(--kui-color-warning-text);
+  }
+
+  .kui-alert[data-kui-appearance='warning'][data-kui-shape='outline'] {
+    --_kui-alert-bg: transparent;
+    --_kui-alert-border: var(--kui-color-warning-indicator);
+    --_kui-alert-icon-color: var(--kui-color-warning-text);
+  }
+
+  .kui-alert[data-kui-appearance='warning'][data-kui-shape='solid'] {
+    --_kui-alert-bg: var(--kui-color-warning-fill);
+    --_kui-alert-border: transparent;
+    --_kui-alert-fg: var(--kui-color-warning-on-fill);
+  }
+
+  .kui-alert[data-kui-appearance='danger'][data-kui-shape='soft'] {
+    --_kui-alert-bg: var(--kui-color-danger-soft-bg);
+    --_kui-alert-border: var(--kui-color-danger-soft-border);
+    --_kui-alert-icon-color: var(--kui-color-danger-text);
+  }
+
+  .kui-alert[data-kui-appearance='danger'][data-kui-shape='outline'] {
+    --_kui-alert-bg: transparent;
+    --_kui-alert-border: var(--kui-color-danger-indicator);
+    --_kui-alert-icon-color: var(--kui-color-danger-text);
+  }
+
+  .kui-alert[data-kui-appearance='danger'][data-kui-shape='solid'] {
+    --_kui-alert-bg: var(--kui-color-danger-fill);
+    --_kui-alert-border: transparent;
+    --_kui-alert-fg: var(--kui-color-danger-on-fill);
+  }
+
+  /* Action button reads in the appearance's own soft-text tone instead of the generic ghost
+     color, on every shape except solid (overridden separately below for on-fill contrast).
+     Custom properties inherit down the DOM tree, so setting them on .kui-alert__actions also
+     covers every kuiButton a consumer projects inside it. */
+  .kui-alert[data-kui-appearance='info'] .kui-alert__action,
+  .kui-alert[data-kui-appearance='info'] .kui-alert__actions {
+    --kui-btn-ghost-fg: var(--kui-color-info-soft-text);
+  }
+
+  .kui-alert[data-kui-appearance='success'] .kui-alert__action,
+  .kui-alert[data-kui-appearance='success'] .kui-alert__actions {
+    --kui-btn-ghost-fg: var(--kui-color-success-soft-text);
+  }
+
+  .kui-alert[data-kui-appearance='warning'] .kui-alert__action,
+  .kui-alert[data-kui-appearance='warning'] .kui-alert__actions {
+    --kui-btn-ghost-fg: var(--kui-color-warning-soft-text);
+  }
+
+  .kui-alert[data-kui-appearance='danger'] .kui-alert__action,
+  .kui-alert[data-kui-appearance='danger'] .kui-alert__actions {
+    --kui-btn-ghost-fg: var(--kui-color-danger-soft-text);
+  }
+
+  /* ── Slots ─────────────────────────────────────────────────────────────── */
+
+  /* Icon color is set as an inline style on the icon <span> in the component template, not here. */
+  .kui-alert__icon {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    width: var(--kui-alert-icon-size, var(--_kui-alert-icon-size, 1.125rem));
+    height: var(--kui-alert-icon-size, var(--_kui-alert-icon-size, 1.125rem));
+    margin-top: 1px;
+  }
+
+  .kui-alert__icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .kui-alert[data-kui-size='sm'] .kui-alert__icon {
+    --_kui-alert-icon-size: 1rem;
+    margin-top: 0;
+  }
+
+  .kui-alert__body {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--kui-space-0-5);
+  }
+
+  .kui-alert__title {
+    font-size: var(--kui-alert-title-font-size, var(--kui-text-sm-size));
+    font-weight: var(--kui-font-weight-semibold);
+    line-height: var(--kui-type-title-line-height);
+  }
+
+  .kui-alert__message {
+    font-size: var(--kui-alert-message-font-size, var(--kui-text-sm-size));
+    line-height: var(--kui-type-body-line-height);
+    color: var(
+      --kui-alert-message-fg,
+      var(--_kui-alert-message-fg, var(--kui-color-text-secondary))
+    );
+  }
+
+  /* Solid shape: message reads at full on-fill contrast, same as the title -- a dimmed
+     secondary tone is not guaranteed 4.5:1 on a saturated fill. */
+  .kui-alert[data-kui-shape='solid'] .kui-alert__message {
+    --_kui-alert-message-fg: var(--_kui-alert-fg);
+  }
+
+  .kui-alert__action {
+    align-self: flex-start;
+    padding-inline: 0;
+    min-height: auto;
+    margin-top: var(--kui-space-1);
+  }
+
+  /* Projected [kuiAlertActions]: a row of one or more custom controls, e.g. two ghost buttons. */
+  .kui-alert__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-alert-actions-gap, var(--kui-space-3));
+    margin-top: var(--kui-space-1);
+  }
+
+  .kui-alert__close {
+    flex: 0 0 auto;
+    margin-top: -2px;
+  }
+
+  .kui-alert[data-kui-size='sm'] .kui-alert__close {
+    margin-top: 0;
+  }
+
+  /*
+   * The kit-wide ghost hover/active tokens (--kui-btn-ghost-bg-hov/-act) default to
+   * --kui-color-surface-sunken -- identical to this alert's own soft-shape background, and low
+   * contrast against outline's transparent background in dark theme. Scope hover/active to the
+   * alert's own text color instead so the action/close buttons stay visibly interactive on every
+   * shape.
+   */
+  .kui-alert__action,
+  .kui-alert__actions,
+  .kui-alert__close {
+    --kui-btn-ghost-bg-hov: color-mix(
+      in oklch,
+      var(--kui-alert-fg, var(--_kui-alert-fg, var(--kui-color-text))) 12%,
+      transparent
+    );
+    --kui-btn-ghost-bg-act: color-mix(
+      in oklch,
+      var(--kui-alert-fg, var(--_kui-alert-fg, var(--kui-color-text))) 20%,
+      transparent
+    );
+  }
+
+  /* Solid shape: keep the ghost action/close legible on a saturated fill background. */
+  .kui-alert[data-kui-shape='solid'] .kui-alert__action,
+  .kui-alert[data-kui-shape='solid'] .kui-alert__actions,
+  .kui-alert[data-kui-shape='solid'] .kui-alert__close {
+    --kui-btn-ghost-fg: var(--_kui-alert-fg);
+    --kui-btn-ghost-bg-hov: color-mix(in oklch, var(--_kui-alert-fg) 22%, transparent);
+    --kui-btn-ghost-bg-act: color-mix(in oklch, var(--_kui-alert-fg) 32%, transparent);
+  }
+}

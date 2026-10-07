@@ -6,7 +6,7 @@ controls to a native `input[type=number]` element.
 ## Import
 
 ```ts
-import { KuiNumberInputDirective } from '@kikita-labs/ui';
+import { KuiNumberInput } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -24,21 +24,21 @@ import { KuiNumberInputDirective } from '@kikita-labs/ui';
 </kui-field>
 ```
 
-Variant B, with minus/plus controls on the sides, is the default and recommended
-for most use cases. Variant A uses stacked arrows on the right and is more compact.
+`split`, with minus/plus controls on the sides, is the default and recommended
+for most use cases. `stacked` uses stacked arrows on the right and is more compact.
 
 ```html
-<input type="number" kuiNumberInput variant="a" min="0" max="99" [(ngModel)]="qty" />
+<input type="number" kuiNumberInput variant="stacked" min="0" max="99" [(ngModel)]="qty" />
 ```
 
 ## Inputs
 
-| Input     | Type                   | Default | Notes                                                                  |
-| --------- | ---------------------- | ------- | ---------------------------------------------------------------------- |
-| `size`    | `'sm' \| 'md' \| 'lg'` | `'md'`  | Control height from `--kui-control-height-*`. Buttons scale to match.  |
-| `variant` | `'a' \| 'b'`           | `'b'`   | B uses side controls; A uses stacked controls on the right.            |
-| `invalid` | `boolean`              | `false` | Applies error border. Also inherited from parent `kui-field` error.    |
-| `id`      | `string`               | none    | Id override. Falls back to `kui-field` control id when inside a field. |
+| Input     | Type                   | Default   | Notes                                                                     |
+| --------- | ---------------------- | --------- | ------------------------------------------------------------------------- |
+| `size`    | `'sm' \| 'md' \| 'lg'` | `'md'`    | Control height from `--kui-control-height-*`. Buttons scale to match.     |
+| `variant` | `'stacked' \| 'split'` | `'split'` | `split` uses side controls; `stacked` uses stacked controls on the right. |
+| `invalid` | `boolean`              | `false`   | Applies error border. Also inherited from parent `kui-field` error.       |
+| `id`      | `string`               | none      | Id override. Falls back to `kui-field` control id when inside a field.    |
 
 Standard HTML attributes (`min`, `max`, `step`, `disabled`, `readonly`, `value`)
 are placed directly on the native input and work without extra directive inputs.
@@ -71,6 +71,37 @@ Use Angular Signal Forms `min(...)` and `max(...)` validators for range constrai
 native `min`/`max` attributes to an element that has `[formField]`; Angular binds those native
 properties from the schema metadata.
 
+## Provider Defaults
+
+Set `defaults.numberInput` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    numberInput: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    numberInput: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option    | Values                         | Description                                                       |
+| --------- | ------------------------------ | ----------------------------------------------------------------- |
+| `size`    | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+| `variant` | `'stacked' \| 'split'`         | Default variant.                                                  |
+
+Each option resolves as `local input > defaults.numberInput.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - The native `input[type=number]` keeps its built-in keyboard and screen-reader semantics.
@@ -86,7 +117,7 @@ Import the Kikita UI style entrypoint once:
 @import '@kikita-labs/ui/styles';
 ```
 
-Number-input styles live in `projects/ui/src/styles/number-input.css` and are
+Number-input styles live in `projects/ui/src/lib/components/number-input/kui-number-input.css` and are
 included through `@kikita-labs/ui/styles`.
 
 ## CSS Custom Properties
@@ -104,3 +135,37 @@ number-specific tokens below are only for the increment/decrement control chrome
 | `--kui-number-input-btn-bg`       | `transparent`                  | Button background in default state                |
 | `--kui-number-input-btn-bg-hover` | `--kui-color-surface-elevated` | Button background on hover                        |
 | `--kui-number-input-btn-text`     | `--kui-color-text-secondary`   | Button icon color                                 |
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                     | Default                      | Controls                 |
+| ----------------------------------------- | ---------------------------- | ------------------------ |
+| `--kui-number-input-btn-color-hover`      | `--kui-color-text`           | Btn color, hover         |
+| `--kui-number-input-btn-bg-active`        | `--kui-color-border`         | Btn background, active   |
+| `--kui-number-input-btn-color-active`     | `--kui-color-text`           | Btn color, active        |
+| `--kui-number-input-btn-color-disabled`   | `--kui-color-text-disabled`  | Btn color, disabled      |
+| `--kui-number-input-arrow-color-hover`    | `--kui-color-text`           | Arrow color, hover       |
+| `--kui-number-input-arrow-bg-active`      | `--kui-color-border`         | Arrow background, active |
+| `--kui-number-input-arrow-color-active`   | `--kui-color-text`           | Arrow color, active      |
+| `--kui-number-input-arrow-color-disabled` | `--kui-color-text-disabled`  | Arrow color, disabled    |
+| `--kui-number-input-btn-color-readonly`   | `--kui-color-text-secondary` | Btn color, readonly      |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                     | Default         | Controls              |
+| ----------------------------------------- | --------------- | --------------------- |
+| `--kui-number-input-field-padding-inline` | `--kui-space-3` | Field padding, inline |
+
+<!-- geometry-tokens:end -->

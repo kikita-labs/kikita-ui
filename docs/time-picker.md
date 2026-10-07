@@ -1,0 +1,304 @@
+# Time Picker
+
+`input[kuiTimePicker]` converts a native text input into a time-of-day picker trigger. Text is
+parsed/formatted per `format` (`HH:mm[:ss]` for `'24h'`, `hh:mm[:ss]` plus the locale's day period for `'12h'`); `format` follows the locale's hour cycle when it is not set. The separator (`:` or `.`), the day period text and its position come from the locale. Pair it
+with `kui-time-picker-panel` inside a sibling `kui-dropdown` for the scrollable hour/minute/second
+column popover — the same composition `input[kuiDatePicker]` uses with `kui-calendar`.
+
+## Import
+
+```ts
+import { KuiDropdown, KuiField, KuiTimePicker, KuiTimePickerPanel } from '@kikita-labs/ui';
+```
+
+## Usage
+
+```html
+<kui-field label="Meeting time">
+  <input kuiTimePicker [(value)]="time" />
+  <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="280px">
+    <kui-time-picker-panel />
+  </kui-dropdown>
+</kui-field>
+```
+
+The panel needs no `[value]`/`(valueChange)` or `[format]`/`[minuteStep]`/`[secondStep]`/
+`[showSeconds]` binding: when `kui-time-picker-panel` is found as a sibling of
+`input[kuiTimePicker]` inside the same `kui-field`, the directive auto-discovers it and wires
+`value` both ways (a column pick, an arrow-key move, or "Now" updates the input; a valid time
+typed in the input updates the panel), and pushes `format`/`hourStep`/`minuteStep`/`secondStep`/
+`showSeconds`/`minTime`/`maxTime`/`disabledHours`/`disabledMinutes`/`disabledSeconds` into it
+one-way. Every column auto-centers on its selected cell -- both the moment the panel opens and on
+every later selection (click, keyboard, "Now") -- reacting to the ancestor `kui-dropdown`'s own
+`isOpen` signal rather than this component's construction, so it holds regardless of whether a
+given `kui-dropdown` recreates a fresh panel per open or reuses one across opens.
+
+### Inline (standalone)
+
+`kui-time-picker-panel` also works on its own, the same way `kui-calendar` does — its ancestor
+`kui-dropdown` is optional, and it auto-detects whether one is present:
+
+```html
+<kui-time-picker-panel [(value)]="time" [showSeconds]="true" />
+```
+
+With no `kui-dropdown` ancestor, the panel draws its own background/border (`data-kui-flat` is
+only set when one is present, matching `kui-calendar`'s `flat` input — just auto-detected here
+instead of an explicit prop). "Now"/"Done" still work standalone; "Done" simply has nothing to
+close.
+
+## 12-Hour Format, Seconds, Step
+
+```html
+<kui-field label="Slot" hint="15-minute/second slots">
+  <input
+    kuiTimePicker
+    [(value)]="time"
+    format="12h"
+    [showSeconds]="true"
+    [minuteStep]="15"
+    [secondStep]="15"
+  />
+  <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+    <kui-time-picker-panel />
+  </kui-dropdown>
+</kui-field>
+```
+
+`format="12h"` renders a 1–12 hours column plus an AM/PM `kui-segmented` toggle below the columns
+instead of a 0–23 hours column. `showSeconds` adds a third column. `minuteStep`/`secondStep`
+thin the minute/second columns to only every Nth value (e.g. `15` → `00, 15, 30, 45`).
+
+## Clearable
+
+```html
+<input kuiTimePicker [(value)]="time" [clearable]="false" />
+```
+
+`clearable` defaults to `true` and shows a clear button once there's a value. Falls back to
+`defaults.timePicker.clearable`, then `defaults.field.clearable`, when not set locally.
+
+## Disabled / Readonly
+
+```html
+<input kuiTimePicker [(value)]="time" [disabled]="true" />
+<input kuiTimePicker [(value)]="time" [readonly]="true" />
+```
+
+`readonly` shows the value but never opens the popover.
+
+## Typing
+
+Typing digits auto-inserts the locale's separator (`2214` becomes `22:14` as you type, or `22.14` in `da-DK`) and non-digit
+characters that could never be part of a valid value are stripped as you type (the letters of the locale's `AM`/`PM` text or ASCII `am`/`pm`,
+typed one at a time, are kept for `format="12h"`, and the gap is inserted
+automatically, same as the separator). Input length is capped per `format`/`showSeconds`. Each
+hour/minute/second group clamps to its own valid maximum once both its digits are typed (`99:99`
+becomes `23:59`, not left sitting out of range) and snaps to the nearest `hourStep`/`minuteStep`/
+`secondStep`. For `format="12h"`, the `AM`/`PM` suffix is optional -- a fully-typed `hh:mm[:ss]`
+commits immediately, defaulting the period from whatever it was before (not always `AM`), so
+picking a wheel cell or the AM/PM toggle right after typing acts on what was just typed instead of
+silently discarding it. Caret position is not preserved across a rebuild -- typing always lands
+the caret at the end of the field, a known simplification shared with the parser's own
+locale-less mask.
+
+## Invalid Input
+
+Since every group clamps into range as it's typed, a _fully_ typed value is never out of range on
+its own. What still sets `aria-invalid`/`data-kui-invalid` (red border), without discarding the
+last valid value:
+
+- An incomplete group -- e.g. typing only `12:3` and stopping (`3` isn't yet a full 2-digit
+  minute).
+- A value inside `[minTime, maxTime]`'s excluded range, or matching `disabledHours`/
+  `disabledMinutes`/`disabledSeconds` -- typing is not rejected there, only flagged (same
+  convention `kuiDatePicker`'s `minDate`/`maxDate` use).
+
+## Inputs
+
+- `value`: two-way model, `Date | null` — only the hours/minutes/seconds fields are meaningful;
+  the date part is whatever `Date` last produced or received the value (typically "now" from the
+  browser at construction time or from "Now"). Auto-wired into a sibling
+  `kui-time-picker-panel` inside the same `kui-field` (see Usage above).
+- `format`: `'24h' | '12h'` (default: the hour cycle of the locale, `12h` in `en-US`, `24h` in `ru-RU`). Resolves as `format > defaults.timePicker.format > locale`. Also auto-wired (push-only) into the panel.
+- `hourStep`: positive integer (default: `1`). Static numeric values are coerced; invalid or
+  non-positive values use `1`. Not in the Claude Design spec's own API table (only
+  `minuteStep`/`secondStep` are) — added for naming/behavior parity with those two. Also
+  auto-wired (push-only).
+- `minuteStep`: positive integer (default: `1`). Static numeric values are coerced; invalid or
+  non-positive values use `1`. Also auto-wired (push-only).
+- `secondStep`: positive integer (default: `1`, only relevant with `showSeconds`). Static numeric
+  values are coerced; invalid or non-positive values use `1`. Also auto-wired
+  (push-only).
+- `showSeconds`: `boolean` (default: `false`). Also auto-wired (push-only).
+- `minTime` / `maxTime`: `Date | undefined` — earliest/latest selectable time-of-day (inclusive;
+  only the hours/minutes/seconds fields are read), the same convention `kuiDatePicker`'s
+  `minDate`/`maxDate` use. Disables every out-of-range wheel cell; typing/selecting an
+  out-of-range time is not rejected, only marked `aria-invalid` (same as `kuiDatePicker`). Also
+  auto-wired (push-only).
+- `disabledHours`: `(() => readonly number[]) | undefined` — returns the hours to disable. For a
+  rule `minTime`/`maxTime` can't express (e.g. "disable the first 30 minutes of every hour"), see
+  `disabledMinutes`. Disables the matching wheel cells and marks a typed value landing on one
+  `aria-invalid` (same treatment as `minTime`/`maxTime`) -- neither rejects nor auto-corrects the
+  typed text. Also auto-wired (push-only).
+- `disabledMinutes`: `((hour: number) => readonly number[]) | undefined` — returns the minutes to
+  disable for a given hour. Also auto-wired (push-only).
+- `disabledSeconds`: `((hour: number, minute: number) => readonly number[]) | undefined` —
+  returns the seconds to disable for a given hour/minute, used only when `showSeconds` is true.
+  Also auto-wired (push-only).
+- `clearable`: `boolean | undefined` (default resolves to `true`)
+- `disabled` / `readonly`: `boolean` (default: `false`)
+- `placeholder`: `string | undefined` — defaults to the `hourPlaceholder`, `minutePlaceholder` and `secondPlaceholder` messages joined with the locale's separator, plus the day period text for `12h` (`hh:mm AM/PM`)
+- `messages`: `Partial<KuiTimePickerMessages> | undefined`. Text overrides for this instance (button and column names, `Now`, `Done`, the placeholder tokens). See [Internationalization](./i18n.md).
+- `id`: `string | undefined` — falls back to the parent `kui-field`'s control id
+
+Also implements the Angular Signal Forms `FormValueControl<Date | null>` contract
+(`invalid`, `errors`, `touched` inputs; `touch` output), same shape as `kuiDatePicker`.
+
+## Provider Defaults
+
+Set `defaults.timePicker` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    timePicker: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    timePicker: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values           | Description                                                                                                                    |
+| ------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `clearable`   | `boolean`        | When true, field controls with clear affordances show a clear button by default.                                               |
+| `format`      | `'24h' \| '12h'` | Display and parse format.                                                                                                      |
+| `hourStep`    | `number`         | Step of the hour column.                                                                                                       |
+| `minuteStep`  | `number`         | Step of the minute column.                                                                                                     |
+| `secondStep`  | `number`         | Step of the second column, used when seconds are shown.                                                                        |
+| `showSeconds` | `boolean`        | Shows the seconds column.                                                                                                      |
+| `chevronIcon` | `KuiIconGlyph`   | Icon of the options toggle. Takes precedence over `defaults.icons.pickerChevron`. See [Structural Icons](structural-icons.md). |
+| `clearIcon`   | `KuiIconGlyph`   | Icon of the clear button. Takes precedence over `defaults.icons.clear`. See [Structural Icons](structural-icons.md).           |
+
+Each option resolves as `local input > defaults.timePicker.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
+## Accessibility
+
+- `role="combobox"` on the input, `aria-haspopup="dialog"`, `aria-expanded` + `aria-controls`
+  pointing at the popover panel id — the same pattern `kuiDatePicker` uses (a combobox that
+  opens a non-modal dialog, not a listbox).
+- Each unit column is `role="listbox"` with its own `aria-label` ("Hours"/"Minutes"/"Seconds"),
+  focusable (`tabindex="0"`); arrow keys/Home/End work inside it without moving focus to another
+  column. Cells are `role="option"` + `aria-selected`; the selected cell is also visually distinct
+  (fill + bold), not color alone.
+- `:focus-visible` is explicitly styled on the column (a `--kui-color-primary-fill` ring), not
+  left to the browser default.
+- AM/PM uses `kui-segmented` (`role="radiogroup"`) — already keyboard-accessible as part of the
+  kit, not reimplemented here.
+- Disabled uses native `disabled` on the input and the chevron button (excluded from tab order).
+- Invalid sets `aria-invalid` on the input; pair with `kui-field`'s `error` for an announced
+  `role="alert"` message.
+
+### Keyboard
+
+- `ArrowDown` (in the input, panel closed): opens the popover and moves focus into the first
+  column.
+- `Enter` (in the input): opens the popover if closed, closes it if open.
+- `Enter` (in a column): closes the popover, keeping the current selection.
+- `Escape` (anywhere in the field or panel): closes the popover; focus stays in the field, or returns to it when it was inside the panel.
+- `Tab` (in the input): closes the popover, focus moves to the next tabbable element.
+- `ArrowUp` / `ArrowDown` (in a column): cyclic move to the previous/next value, applied
+  immediately.
+- `Home` / `End` (in a column): jump to the first/last value in that column.
+
+Selecting a cell (by click or arrow key) does **not** close the panel — picking hours would
+otherwise close the panel before minutes/seconds could be picked. Close explicitly with
+`Enter`/`Escape`/an outside click, or the panel's own "Done" button. The panel's "Now" button
+sets `value` to the current time without closing.
+
+## Style Import
+
+Import `@kikita-labs/ui/styles` (which includes `time-picker.css`) once in your application
+styles.
+
+## Component Tokens
+
+| Variable                              | Aliases to                    | Purpose                                                                                                                                                            |
+| ------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--kui-timepicker-col-gap`            | `--kui-space-2`               | Gap between hour/minute/second columns.                                                                                                                            |
+| `--kui-timepicker-icon-color`         | `--kui-color-text-secondary`  | Leading clock icon color.                                                                                                                                          |
+| `--kui-timepicker-cell-bg-selected`   | `--kui-color-primary-fill`    | Selected cell background — solid fill, matching `kui-calendar`'s selected day (not a soft tone), so the trigger and panel read as one family with `kuiDatePicker`. |
+| `--kui-timepicker-cell-text-selected` | `--kui-color-primary-on-fill` | Selected cell text color.                                                                                                                                          |
+| `--kui-timepicker-cell-bg-hover`      | `--kui-color-state-hover`     | Hover background for an unselected cell.                                                                                                                           |
+| `--kui-timepicker-affordance-size`    | `20px`                        | Chevron/clear click target — same local override `kuiDatePicker`/`kuiCombobox` apply to the default `24px` `--kui-field-action-size`.                              |
+| `--kui-timepicker-suffix-gap`         | `2px` (fallback)              | Gap between the clear and chevron buttons in the trailing affordance group. Not defined by default; the stylesheet falls back to `2px`.                            |
+
+## Known Gaps
+
+- Range picking (a "from–to" time range) is not implemented.
+- `applyNow` ("Now" button) only clamps into `[minTime, maxTime]`, not around
+  `disabledHours`/`disabledMinutes`/`disabledSeconds` — "Now" can still land on a disabled slot
+  those functions name (marked `aria-invalid` like any other disabled-slot value, just not
+  avoided upfront the way `minTime`/`maxTime` are).
+- `aria-controls` on the trigger does not point at the real `kui-dropdown` panel id while the
+  panel component itself hasn't rendered it yet on first open — the same pre-existing gap
+  `kuiDatePicker` has (the dropdown doesn't expose its id outward before attaching).
+- Digits are Latin in every locale (see [Internationalization](./i18n.md#limits-in-v2)); the leading clock icon is a
+  structural glyph drawn from built-in icon data, not routed through the async `kui-icon` registry,
+  matching the calendar glyph of `kuiDatePicker`. It follows the stroke tokens but has no override
+  slot yet; the clear and chevron icons do (see [Structural Icons](structural-icons.md)).
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                     | Default                          | Controls                       |
+| ----------------------------------------- | -------------------------------- | ------------------------------ |
+| `--kui-timepicker-chevron-color-expanded` | `--kui-color-primary-text`       | Chevron color, expanded        |
+| `--kui-timepicker-panel-bg`               | `--kui-color-surface`            | Panel background               |
+| `--kui-timepicker-panel-border`           | `--kui-color-border`             | Panel border color             |
+| `--kui-timepicker-col-focus-ring-color`   | `--kui-color-focus`              | Col focus ring color           |
+| `--kui-timepicker-opt-color`              | `--kui-color-text`               | Opt color                      |
+| `--kui-timepicker-opt-color-disabled`     | `--kui-color-text-disabled`      | Opt color, disabled            |
+| `--kui-timepicker-opt-bg-selected-hover`  | `--kui-color-primary-fill-hover` | Opt background, selected hover |
+| `--kui-timepicker-footer-border`          | `--kui-color-border`             | Footer border color            |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                             | Default                   | Controls                                                       |
+| ------------------------------------------------- | ------------------------- | -------------------------------------------------------------- |
+| `--kui-timepicker-control-overlay-padding-inline` | `--kui-space-3`           | Control overlay padding, inline                                |
+| `--kui-timepicker-panel-gap`                      | `--kui-space-3`           | Panel gap                                                      |
+| `--kui-timepicker-panel-padding`                  | `--kui-space-3`           | Panel padding                                                  |
+| `--kui-timepicker-panel-radius`                   | `--kui-radius-lg`         | Panel corner radius                                            |
+| `--kui-timepicker-col-radius`                     | `--kui-radius-sm`         | Col corner radius                                              |
+| `--kui-timepicker-opt-size`                       | `--kui-control-height-sm` | Opt size                                                       |
+| `--kui-timepicker-opt-radius`                     | `--kui-radius-sm`         | Opt corner radius                                              |
+| `--kui-timepicker-opt-font-size`                  | `--kui-text-sm-size`      | Opt font size                                                  |
+| `--kui-timepicker-footer-gap`                     | `--kui-space-2`           | Footer gap                                                     |
+| `--kui-timepicker-footer-padding-top`             | `--kui-space-2`           | Footer padding, top                                            |
+| `--kui-timepicker-padding-inline-start`           | `34px`                    | Input start padding that clears the clock icon                 |
+| `--kui-timepicker-padding-inline-end`             | `34px`                    | Input end padding that clears the chevron                      |
+| `--kui-timepicker-padding-inline-end-clearable`   | `56px`                    | Input end padding that clears the clear button and the chevron |
+
+<!-- geometry-tokens:end -->

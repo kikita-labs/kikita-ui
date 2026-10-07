@@ -5,31 +5,34 @@
   "packageManager": "pnpm@11.1.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve playground",
+    "start": "ng serve kikita-ui-playground",
     "build": "ng build ui",
-    "build:playground": "ng build playground",
-    "build:playground:ssr": "ng build playground",
-    "build:all": "ng build ui && ng build playground",
+    "build:playground": "ng build kikita-ui-playground",
+    "build:all": "ng build ui && ng build kikita-ui-playground",
     "publish": "npm run publish:ui",
     "publish:ui": "npm run build && npm publish ./dist/ui --access public --@kikita-labs:registry=https://registry.npmjs.org/",
     "watch": "ng build ui --watch --configuration development",
     "test": "ng test ui",
     "test:scripts": "vitest run scripts",
-    "test:e2e": "playwright test --project=e2e",
-    "test:a11y": "playwright test --project=a11y",
-    "test:responsive": "playwright test --project=responsive",
-    "test:visual": "playwright test --project=visual",
-    "test:visual:update": "playwright test --project=visual --update-snapshots",
-    "test:browser": "playwright test",
-    "test:ssr": "playwright test --config=playwright.ssr.config.ts",
+    "test:kikita-ui-playground": "ng test kikita-ui-playground",
+    "test:browser": "pnpm run build:playground && playwright test --project=behavior",
+    "test:ssr": "pnpm run build:playground && playwright test --project=behavior ssr-hydration.spec.ts",
+    "test:cross": "pnpm run build:playground && playwright test -c playwright.cross.config.ts --workers=4",
+    "test:visual": "node scripts/visual-docker.mjs playground",
+    "test:visual:update": "node scripts/visual-docker.mjs playground --update",
     "lint": "ng lint",
+    "typecheck:e2e": "tsc -p tsconfig.tools.json",
     "audit:static": "node scripts/verify-static-audit.mjs",
+    "audit:architecture": "node scripts/verify-architecture.mjs",
+    "audit:bundle": "node scripts/measure-bundle.mjs",
+    "generate:theme-css": "node scripts/generate-theme-css.mjs",
     "skills:check": "node scripts/sync-agent-skills.mjs --check",
     "skills:sync": "node scripts/sync-agent-skills.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint-staged": "lint-staged",
-    "prepare": "husky"
+    "prepare": "husky",
+    "serve:ssr:kikita-ui-playground": "node dist/kikita-ui-playground/server/server.mjs"
   },
   "dependencies": {
     "@angular/cdk": "22.0.0",
@@ -38,7 +41,11 @@
     "@angular/core": "^22.0.0",
     "@angular/forms": "^22.0.0",
     "@angular/platform-browser": "^22.0.0",
+    "@angular/platform-server": "^22.0.0",
     "@angular/router": "^22.0.0",
+    "@angular/ssr": "^22.0.7",
+    "@jsverse/transloco": "^8.4.0",
+    "express": "^5.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -50,7 +57,9 @@
     "@angular/platform-server": "^22.0.7",
     "@angular/ssr": "^22.0.7",
     "@eslint/js": "^10.0.1",
+    "@kikita-labs/ui-mcp": "^1.1.17",
     "@playwright/test": "^1.61.1",
+    "@types/express": "^5.0.1",
     "@types/node": "^26.1.1",
     "angular-eslint": "22.0.0",
     "axe-core": "^4.12.1",
@@ -61,6 +70,8 @@
     "lint-staged": "^17.0.8",
     "ng-packagr": "^22.0.0",
     "prettier": "^3.8.1",
+    "stylelint": "^17.15.0",
+    "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "8.60.1",
     "vitest": "^4.0.8"
@@ -70,7 +81,15 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{mjs,json,md,scss,css,yaml,yml}": [
+    "*.html": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.scss": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{mjs,json,md,css,yaml,yml}": [
       "prettier --write"
     ]
   }

@@ -1,0 +1,149 @@
+{
+  "title": "Alert",
+  "examples": {
+    "default": "Default",
+    "appearanceAndShape": "Appearance and shape",
+    "sizeAndContent": "Size and content",
+    "banner": "Banner",
+    "options": "Options",
+    "customContent": "Custom content",
+    "actions": "Actions",
+    "liveRegions": "Live regions and dismissal"
+  },
+  "accessibility": {
+    "default": "Default alert example",
+    "appearanceAndShape": "Alert appearance and shape variants",
+    "soft": "Soft alerts",
+    "outline": "Outline alerts",
+    "solid": "Solid alerts",
+    "sizeAndContent": "Alert size and content variants",
+    "small": "Small alerts",
+    "medium": "Medium alerts",
+    "banner": "Banner alerts",
+    "options": "Alert option examples",
+    "customContent": "Custom content alerts",
+    "actions": "Alert action examples",
+    "liveRegions": "Live region and dismissal examples"
+  },
+  "appearances": {
+    "neutral": "Neutral",
+    "info": "Info",
+    "success": "Success",
+    "warning": "Warning",
+    "danger": "Danger"
+  },
+  "shapes": {
+    "soft": "Soft",
+    "outline": "Outline",
+    "solid": "Solid"
+  },
+  "sizes": {
+    "small": "Small",
+    "medium": "Medium"
+  },
+  "samples": {
+    "default": {
+      "message": "Changes are saved automatically."
+    },
+    "matrix": {
+      "message": "Refresh the page to get the latest changes."
+    },
+    "content": {
+      "titleOnly": "Done",
+      "titleAndMessage": {
+        "title": "Export finished",
+        "message": "The file is available in Downloads."
+      },
+      "messageAndAction": {
+        "message": "A new theme is available.",
+        "action": "Apply"
+      }
+    },
+    "banner": {
+      "neutral": "Planned maintenance on Saturday, 02:00 to 04:00 UTC.",
+      "info": "We updated the terms of service.",
+      "success": "Account verified. All features are unlocked.",
+      "warning": "Your plan expires in 5 days.",
+      "danger": "Lost connection to the server. Changes are not saved.",
+      "titleAndMessage": {
+        "title": "Scheduled downtime",
+        "message": "The service will be read-only for 10 minutes."
+      }
+    },
+    "options": {
+      "hiddenIcon": {
+        "title": "Icon hidden",
+        "message": "The info icon is turned off."
+      },
+      "notClosable": {
+        "title": "Not closable",
+        "message": "This alert has no close button."
+      },
+      "neutralIcon": {
+        "title": "Neutral",
+        "message": "Neutral never shows the built-in icon."
+      },
+      "closeLabel": {
+        "title": "Custom close label",
+        "message": "The close button has a translated accessible name.",
+        "label": "Dismiss this notice"
+      }
+    },
+    "custom": {
+      "icon": {
+        "title": "Deploy started",
+        "message": "Follow the build in the deploy log."
+      },
+      "neutralIcon": {
+        "title": "Neutral with icon",
+        "message": "A projected icon always renders."
+      },
+      "title": {
+        "projected": "Plan expiring",
+        "badge": "5 days",
+        "ignored": "Ignored title input",
+        "message": "Renews automatically on the 5th."
+      },
+      "message": {
+        "title": "Upload failed",
+        "before": "Open the",
+        "link": "connection log",
+        "after": "for details."
+      }
+    },
+    "actions": {
+      "renew": {
+        "title": "Session expiring",
+        "message": "Your access token expires in 3 days.",
+        "action": "Renew"
+      },
+      "projected": {
+        "title": "Upload failed",
+        "message": "The file could not be sent.",
+        "retry": "Retry",
+        "discard": "Discard"
+      }
+    },
+    "live": {
+      "saved": {
+        "title": "Saved",
+        "message": "Your changes were saved."
+      },
+      "failed": {
+        "title": "Save failed",
+        "message": "Your changes could not be saved."
+      }
+    }
+  },
+  "actions": {
+    "showSaved": "Show saved notice",
+    "showFailed": "Show failure notice"
+  },
+  "status": {
+    "renewClicks": "Renew clicks: {{count}}",
+    "lastAction": "Last action: {{action}}",
+    "none": "none",
+    "retry": "retry",
+    "discard": "discard"
+  }
+}

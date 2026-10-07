@@ -41,7 +41,12 @@ stable open/transient state is part of the public visual contract.
 
 ## Commands
 
-Run the visual baseline check:
+Baselines are Linux captures (`*-linux.png`) taken in the official Playwright Docker image. CI
+compares against them in the same image. Screenshots differ between operating systems because of
+fonts and anti-aliasing (the theme uses a system font stack), so a baseline taken on a developer
+machine would never match CI. Docker must be running locally.
+
+Run the visual baseline check for the Playground:
 
 ```bash
 pnpm.cmd test:visual
@@ -53,8 +58,39 @@ Update baselines only after reviewing the rendered change and confirming it is i
 pnpm.cmd test:visual:update
 ```
 
-Playwright serves the built playground through `tools/serve-playground-dist.mjs`; run
-`pnpm.cmd build:playground` first when the playground output may be stale.
+Both commands run `scripts/visual-docker.mjs`. It starts the image that matches the installed
+`@playwright/test` version, installs dependencies into named Docker volumes (the host
+`node_modules` and `dist` are not touched), builds the app and runs the `visual` project. The CI
+`visual` job pins the same image tag, and `scripts/visual-docker.spec.mjs` fails when the tag drifts
+from the installed version. After a Playwright upgrade, update the tag in
+`.github/workflows/ci.yml` and regenerate every baseline.
+
+The project runs with one worker. For a review pass after a broad change, running the suite with
+`--workers=4` in the same image finishes in about four minutes instead of fifteen and gives the same
+screenshots, because fonts, locale, timezone and reduced motion are pinned. A handful of tests that
+open overlays or press keys right after load (for example the Time Picker panel and some Select and
+Calendar Range captures) are sensitive to that load and can fail with a timing error or a spurious
+diff. Treat a failure that disappears when the test is rerun alone with one worker as load, not as a
+regression, and update baselines from a serial run of only the tests you reviewed.
+
+Running the `visual` project directly with `playwright test` on Windows or macOS finds no
+baselines and fails. Use the commands above.
+
+Playwright serves the built Playground through its SSR server
+(`dist/kikita-ui-playground/server/server.mjs`). The run fails before any test when that build is
+missing or older than its sources (`tools/assert-playground-build.mjs`), so a stale build cannot
+produce a baseline; the Docker commands build the app inside the container first.
+
+Screenshots are stable because of pinned inputs, not retries: the visual project sets
+`prefers-reduced-motion: reduce`, and every suite pins the `en-US` locale and the `UTC` timezone.
+The behavior project deliberately keeps production motion, so reduced
+motion in a screenshot never hides a broken animation. Dates that a screenshot shows must be frozen
+with `page.clock.setFixedTime`. Default icons load from a CDN, so a baseline that shows icons needs
+either network access or a stubbed request as in the Toast, Field and Icon Button specs; the error
+harness tolerates the failed request but a screenshot would show the missing icon.
+
+Add a scoped screenshot only for a state that is part of the visual contract, and review the actual
+and diff images before accepting a baseline. Plan 11 added no baselines.
 
 ## Review Procedure
 

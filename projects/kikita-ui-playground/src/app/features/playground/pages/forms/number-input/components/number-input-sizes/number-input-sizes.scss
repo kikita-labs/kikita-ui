@@ -1,0 +1,8 @@
+@layer app.components {
+  .number-input-sizes__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+}

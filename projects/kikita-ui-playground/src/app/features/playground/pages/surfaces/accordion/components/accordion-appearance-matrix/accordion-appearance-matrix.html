@@ -1,0 +1,54 @@
+<section
+  class="accordion-appearance-matrix"
+  role="group"
+  [attr.aria-label]="'accordion.accessibility.catalogue' | transloco"
+>
+  <app-playground-example-card [heading]="'accordion.examples.catalogue' | transloco">
+    <div class="accordion-appearance-matrix__appearances">
+      @for (appearance of appearances; track appearance.value) {
+        @let appearanceLabel = 'accordion.appearance.' + appearance.key | transloco;
+
+        <section
+          class="accordion-appearance-matrix__appearance"
+          role="group"
+          [attr.aria-label]="
+            'accordion.accessibility.appearance' | transloco: { appearance: appearanceLabel }
+          "
+        >
+          <h3 kuiText variant="heading-sm">{{ appearanceLabel }}</h3>
+
+          <div class="accordion-appearance-matrix__sizes">
+            @for (size of sizes; track size.value) {
+              @let sizeLabel = 'accordion.size.' + size.key | transloco;
+              @let variantLabel =
+                'accordion.accessibility.variant'
+                  | transloco: { appearance: appearanceLabel, size: sizeLabel };
+              @let headerLabel =
+                'accordion.headers.variant'
+                  | transloco: { appearance: appearanceLabel, size: sizeLabel };
+
+              <section
+                class="accordion-appearance-matrix__variant"
+                role="group"
+                [attr.aria-label]="variantLabel"
+              >
+                <p kuiText variant="caption">{{ sizeLabel }}</p>
+
+                <kui-accordion [appearance]="appearance.value" [size]="size.value">
+                  <kui-accordion-item
+                    [id]="'accordion-catalogue-' + appearance.value + '-' + size.value"
+                    [header]="headerLabel"
+                  >
+                    <p kuiText variant="body-sm">
+                      {{ 'accordion.content.catalogue' | transloco }}
+                    </p>
+                  </kui-accordion-item>
+                </kui-accordion>
+              </section>
+            }
+          </div>
+        </section>
+      }
+    </div>
+  </app-playground-example-card>
+</section>

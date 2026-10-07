@@ -27,4 +27,10 @@ export interface KuiUploadFile {
   readonly progress?: number;
   /** Error message shown in the list. Only meaningful while `status` is `error`. */
   readonly errorMsg?: string;
+  /**
+   * Set by `kui-file-upload` when client-side validation rejected the file (`type` or `size`). The
+   * displayed text then follows the active messages, while `errorMsg` keeps the text of the moment
+   * the file was added. Omit it for errors you set yourself.
+   */
+  readonly errorKind?: 'type' | 'size';
 }

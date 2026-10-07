@@ -1,0 +1,36 @@
+<app-playground-example-card [heading]="'slider.examples.endpoints' | transloco">
+  <div
+    class="slider-endpoints__grid"
+    role="group"
+    [attr.aria-label]="'slider.accessibility.endpoints' | transloco"
+  >
+    <kui-field [label]="'slider.labels.minimum' | transloco">
+      <div class="slider-endpoints__control-row">
+        <input type="range" kuiSlider min="0" max="100" value="0" />
+      </div>
+    </kui-field>
+    <kui-field [label]="'slider.labels.withEndpointLabels' | transloco">
+      <div class="slider-endpoints__control-row">
+        <input
+          type="range"
+          kuiSlider
+          min="0"
+          max="100"
+          value="50"
+          [minLabel]="'slider.labels.rangeStart' | transloco"
+          [maxLabel]="'slider.labels.rangeEnd' | transloco"
+        />
+      </div>
+    </kui-field>
+    <kui-field [label]="'slider.labels.maximum' | transloco">
+      <div class="slider-endpoints__control-row">
+        <input type="range" kuiSlider min="0" max="100" value="100" />
+      </div>
+    </kui-field>
+    <kui-field [label]="'slider.labels.zeroMaximum' | transloco">
+      <div class="slider-endpoints__control-row">
+        <input type="range" kuiSlider min="-100" max="0" value="0" minLabel="-100" maxLabel="0" />
+      </div>
+    </kui-field>
+  </div>
+</app-playground-example-card>

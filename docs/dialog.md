@@ -7,7 +7,7 @@ Modal overlay opened imperatively via `kuiDialog()`. Built on Angular CDK Overla
 ```ts
 import {
   KUI_DIALOG_CONTEXT,
-  KuiButtonDirective,
+  KuiButton,
   KuiDialogContext,
   KuiDialogHost,
   kuiDialog,
@@ -70,22 +70,27 @@ export class MyDialog implements KuiDialogHost<TResult, TData> {
 
 ## KuiDialogConfig
 
-| Option        | Type                  | Default     | Description                                      |
-| ------------- | --------------------- | ----------- | ------------------------------------------------ |
-| `data`        | `TData`               | `undefined` | Passed into the component via `dialogContext`.   |
-| `size`        | `KuiDialogSize`       | `'md'`      | Panel width preset.                              |
-| `appearance`  | `KuiDialogAppearance` | `'default'` | Colors `.kui-dialog-icon` via CSS variable.      |
-| `dismissable` | `boolean`             | `true`      | Allow Escape and backdrop-click to close.        |
-| `closable`    | `boolean`             | `true`      | Render the close button, top-right of the panel. |
+The public `kuiDialog()` factory excludes `data` from its config argument. Pass typed data to
+the opener it returns, for example `openEditUser({ userId: user.id })`. The `data` option in
+`KuiDialogConfig` is used by the low-level dialog service.
+
+| Option        | Type                  | Default     | Description                                                     |
+| ------------- | --------------------- | ----------- | --------------------------------------------------------------- |
+| `data`        | `TData`               | `undefined` | Low-level service option; not accepted by `kuiDialog()` config. |
+| `size`        | `KuiDialogSize`       | `'md'`      | Panel width preset.                                             |
+| `appearance`  | `KuiDialogAppearance` | `'default'` | Colors `.kui-dialog-icon` via CSS variable.                     |
+| `dismissable` | `boolean`             | `true`      | Allow Escape and backdrop-click to close.                       |
+| `closable`    | `boolean`             | `true`      | Render the close button, top-right of the panel.                |
 
 ## KuiDialogSize
 
-| Value  | Width                      |
-| ------ | -------------------------- |
-| `auto` | `auto`, `min-width: 320px` |
-| `sm`   | 400 px                     |
-| `md`   | 560 px                     |
-| `lg`   | 720 px                     |
+| Value        | Width                                                            |
+| ------------ | ---------------------------------------------------------------- |
+| `auto`       | `auto`, `min-width: 320px`                                       |
+| `sm`         | 400 px                                                           |
+| `md`         | 560 px                                                           |
+| `lg`         | 720 px                                                           |
+| `fullscreen` | Fills the viewport; removes the panel border, radius, and shadow |
 
 ## KuiDialogAppearance
 
@@ -143,7 +148,7 @@ automatically from `appearance`. Size is fixed at 20 x 20 px.
 | `--kui-dialog-border`         | `var(--kui-color-border)`           |
 | `--kui-dialog-radius`         | `var(--kui-radius-lg)`              |
 | `--kui-dialog-shadow`         | `var(--kui-shadow-lg)`              |
-| `--kui-dialog-backdrop`       | `oklch(0 0 0 / 0.5)`                |
+| `--kui-dialog-backdrop`       | `var(--kui-color-scrim)`            |
 | `--kui-dialog-padding-x`      | `var(--kui-space-6)`                |
 | `--kui-dialog-padding-y`      | `var(--kui-space-4)`                |
 | `--kui-dialog-title-size`     | `var(--kui-text-lg-size)`           |
@@ -156,6 +161,40 @@ automatically from `appearance`. Size is fixed at 20 x 20 px.
 - Open: `kui-dialog-in` (200 ms) and `kui-bd-in` (200 ms), scale 0.95 to 1 plus opacity.
 - Close: `kui-dialog-out` (150 ms) and `kui-bd-out` (150 ms).
 - `prefers-reduced-motion`: opacity only, no scale.
+
+## Provider Defaults
+
+Set `defaults.dialog` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    dialog: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    dialog: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                                           | Description                                                                                                          |
+| ------------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| `closable`    | `boolean`                                        | Shows the close button in the header.                                                                                |
+| `size`        | `'auto' \| 'sm' \| 'md' \| 'lg' \| 'fullscreen'` | Dialog width preset.                                                                                                 |
+| `appearance`  | `'default' \| 'danger' \| 'warning'`             | Visual intent of the dialog.                                                                                         |
+| `dismissable` | `boolean`                                        | Closes the dialog on Escape and on a backdrop click.                                                                 |
+| `closeIcon`   | `KuiIconGlyph`                                   | Icon of the close button. Takes precedence over `defaults.icons.close`. See [Structural Icons](structural-icons.md). |
+
+Each option resolves as `local input > defaults.dialog.<option> > built-in default`. See [DI defaults](di-defaults.md).
 
 ## Accessibility
 
@@ -220,3 +259,42 @@ must choose. It returns `Observable<boolean>` where `true` means confirmed and
 | `KuiDialogAppearance` | Visual intent union type.               |
 | `KuiConfirmConfig`    | Options passed to `kuiConfirm()`.       |
 | `KuiDialogRef`        | Observable handle for advanced use.     |
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                            | Default                      | Controls                |
+| -------------------------------- | ---------------------------- | ----------------------- |
+| `--kui-dialog-color`             | `--kui-color-text`           | Color                   |
+| `--kui-dialog-header-border`     | `--kui-color-border`         | Header border color     |
+| `--kui-dialog-title-color`       | `--kui-color-text`           | Title color             |
+| `--kui-dialog-close-color`       | `--kui-color-text-secondary` | Close color             |
+| `--kui-dialog-close-bg-hover`    | `--kui-color-state-hover`    | Close background, hover |
+| `--kui-dialog-close-color-hover` | `--kui-color-text`           | Close color, hover      |
+| `--kui-dialog-body-color`        | `--kui-color-text`           | Body color              |
+| `--kui-dialog-footer-border`     | `--kui-color-border`         | Footer border color     |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                         | Default              | Controls                               |
+| ----------------------------- | -------------------- | -------------------------------------- |
+| `--kui-dialog-header-gap`     | `--kui-space-3`      | Header gap                             |
+| `--kui-dialog-close-radius`   | `--kui-radius-sm`    | Close corner radius                    |
+| `--kui-dialog-body-font-size` | `--kui-text-sm-size` | Body font size                         |
+| `--kui-dialog-footer-gap`     | `--kui-space-2`      | Footer gap                             |
+| `--kui-dialog-min-width-auto` | `320px`              | Minimum width of the auto-sized dialog |
+| `--kui-dialog-icon-size`      | `20px`               | Header icon slot size                  |
+| `--kui-dialog-close-size`     | `28px`               | Close button size                      |
+
+<!-- geometry-tokens:end -->

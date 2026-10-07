@@ -1,0 +1,15 @@
+<app-playground-example-card [heading]="'select.examples.fieldDefaults' | transloco">
+  <div role="group" [attr.aria-label]="'select.accessibility.fieldDefaults' | transloco">
+    <kui-field
+      [label]="'select.fields.fieldClearable' | transloco"
+      [hint]="'select.hints.fieldDefaults' | transloco"
+    >
+      <input kuiSelect [(value)]="value" [kuiLabelFn]="roleLabel" />
+      <kui-dropdown>
+        @for (role of roles; track role.value) {
+          <div kuiOption [value]="role.value">{{ role.label | transloco }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
+  </div>
+</app-playground-example-card>

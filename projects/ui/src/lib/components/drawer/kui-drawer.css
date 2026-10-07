@@ -1,0 +1,319 @@
+@layer kui.components {
+  @keyframes kui-drawer-backdrop-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes kui-drawer-backdrop-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes kui-drawer-in-right {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes kui-drawer-out-right {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes kui-drawer-in-left {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes kui-drawer-out-left {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes kui-drawer-in-bottom {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes kui-drawer-out-bottom {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+
+  @keyframes kui-drawer-in-top {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes kui-drawer-out-top {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-100%);
+    }
+  }
+
+  .kui-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: var(--kui-z-drawer-backdrop);
+    background: var(--kui-drawer-backdrop-bg, var(--kui-color-scrim));
+    animation: kui-drawer-backdrop-in var(--kui-drawer-duration-open) var(--kui-ease) both;
+  }
+
+  .kui-drawer-backdrop--closing {
+    animation: kui-drawer-backdrop-out var(--kui-drawer-duration-close) var(--kui-ease-exit) both;
+  }
+
+  .kui-drawer {
+    position: fixed;
+    z-index: var(--kui-z-drawer);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--kui-drawer-bg, var(--kui-color-surface-elevated));
+    color: var(--kui-drawer-color, var(--kui-color-text));
+  }
+
+  .kui-drawer[data-kui-side='right'] {
+    inset-block: 0;
+    inset-inline-end: 0;
+    inline-size: var(--kui-drawer-width, var(--_kui-drawer-width));
+    max-inline-size: 100vw;
+    border-inline-start: var(--kui-drawer-border-width) solid
+      var(--kui-drawer-border, var(--kui-color-border));
+    box-shadow: var(--kui-drawer-shadow-right);
+    animation: kui-drawer-in-right var(--kui-drawer-duration-open) var(--kui-ease) both;
+  }
+
+  .kui-drawer[data-kui-side='right'].kui-drawer--closing {
+    animation: kui-drawer-out-right var(--kui-drawer-duration-close) var(--kui-ease-exit) both;
+  }
+
+  .kui-drawer[data-kui-side='left'] {
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: var(--kui-drawer-width, var(--_kui-drawer-width));
+    max-inline-size: 100vw;
+    border-inline-end: var(--kui-drawer-border-width) solid
+      var(--kui-drawer-border, var(--kui-color-border));
+    box-shadow: var(--kui-drawer-shadow-left);
+    animation: kui-drawer-in-left var(--kui-drawer-duration-open) var(--kui-ease) both;
+  }
+
+  .kui-drawer[data-kui-side='left'].kui-drawer--closing {
+    animation: kui-drawer-out-left var(--kui-drawer-duration-close) var(--kui-ease-exit) both;
+  }
+
+  .kui-drawer[data-kui-side='bottom'] {
+    inset-inline: 0;
+    inset-block-end: 0;
+    block-size: var(--kui-drawer-height, var(--_kui-drawer-height));
+    max-block-size: 100vh;
+    border-block-start: var(--kui-drawer-border-width) solid
+      var(--kui-drawer-border, var(--kui-color-border));
+    border-radius: var(--kui-drawer-radius, var(--kui-radius-lg))
+      var(--kui-drawer-radius, var(--kui-radius-lg)) 0 0;
+    box-shadow: var(--kui-drawer-shadow-bottom);
+    animation: kui-drawer-in-bottom var(--kui-drawer-duration-open) var(--kui-ease) both;
+  }
+
+  .kui-drawer[data-kui-side='bottom'].kui-drawer--closing {
+    animation: kui-drawer-out-bottom var(--kui-drawer-duration-close) var(--kui-ease-exit) both;
+  }
+
+  .kui-drawer[data-kui-side='top'] {
+    inset-inline: 0;
+    inset-block-start: 0;
+    block-size: var(--kui-drawer-height, var(--_kui-drawer-height));
+    max-block-size: 100vh;
+    border-block-end: var(--kui-drawer-border-width) solid
+      var(--kui-drawer-border, var(--kui-color-border));
+    border-radius: 0 0 var(--kui-drawer-radius, var(--kui-radius-lg))
+      var(--kui-drawer-radius, var(--kui-radius-lg));
+    box-shadow: var(--kui-drawer-shadow-top);
+    animation: kui-drawer-in-top var(--kui-drawer-duration-open) var(--kui-ease) both;
+  }
+
+  .kui-drawer[data-kui-side='top'].kui-drawer--closing {
+    animation: kui-drawer-out-top var(--kui-drawer-duration-close) var(--kui-ease-exit) both;
+  }
+
+  .kui-drawer[data-kui-size='sm'] {
+    --_kui-drawer-width: var(--kui-drawer-width-sm);
+    --_kui-drawer-height: var(--kui-drawer-height-sm);
+  }
+
+  .kui-drawer[data-kui-size='md'] {
+    --_kui-drawer-width: var(--kui-drawer-width-md);
+    --_kui-drawer-height: var(--kui-drawer-height-md);
+  }
+
+  .kui-drawer[data-kui-size='lg'] {
+    --_kui-drawer-width: var(--kui-drawer-width-lg);
+    --_kui-drawer-height: var(--kui-drawer-height-lg);
+  }
+
+  .kui-drawer[data-kui-size='full'] {
+    --_kui-drawer-width: 100vw;
+    --_kui-drawer-height: 100vh;
+  }
+
+  .kui-drawer[data-kui-size='auto'] {
+    --_kui-drawer-width: auto;
+    --_kui-drawer-height: auto;
+  }
+
+  .kui-drawer[data-kui-side='right'][data-kui-size='auto'],
+  .kui-drawer[data-kui-side='left'][data-kui-size='auto'] {
+    min-inline-size: var(--kui-drawer-width-sm);
+  }
+
+  .kui-drawer[data-kui-side='top'][data-kui-size='auto'],
+  .kui-drawer[data-kui-side='bottom'][data-kui-size='auto'] {
+    min-block-size: 200px;
+  }
+
+  .kui-drawer-header {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: flex-start;
+    gap: var(--kui-drawer-header-gap, var(--kui-space-3));
+    min-block-size: var(--kui-drawer-header-height);
+    padding: var(--kui-drawer-header-padding-y, var(--kui-space-4))
+      var(--kui-drawer-header-padding-x, var(--kui-space-6));
+    border-block-end: var(--kui-drawer-border-width) solid
+      var(--kui-drawer-border, var(--kui-color-border));
+  }
+
+  .kui-drawer-header-text {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+  }
+
+  .kui-drawer-title {
+    margin: 0;
+    color: var(--kui-drawer-title-color, var(--kui-color-text));
+    font-size: var(--kui-drawer-title-size, var(--kui-text-base-size));
+    font-weight: var(--kui-drawer-title-weight, var(--kui-font-weight-semibold));
+    line-height: var(--kui-type-title-line-height);
+  }
+
+  .kui-drawer-subtitle {
+    margin-block-start: var(--kui-space-1);
+    color: var(--kui-drawer-subtitle-color, var(--kui-color-text-secondary));
+    font-size: var(--kui-drawer-subtitle-font-size, var(--kui-text-sm-size));
+    line-height: var(--kui-type-body-sm-line-height);
+  }
+
+  .kui-drawer-close {
+    position: absolute;
+    inset-block-start: var(
+      --kui-drawer-close-offset-y,
+      var(--kui-drawer-header-padding-y, var(--kui-space-4))
+    );
+    inset-inline-end: var(
+      --kui-drawer-close-offset-x,
+      var(--kui-drawer-header-padding-x, var(--kui-space-6))
+    );
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--kui-drawer-close-size);
+    block-size: var(--kui-drawer-close-size);
+    padding: 0;
+    border: 0;
+    border-radius: var(--kui-drawer-close-radius, var(--kui-radius-sm));
+    background: transparent;
+    color: var(--kui-drawer-close-color, var(--kui-color-text-secondary));
+    cursor: pointer;
+    transition:
+      background-color var(--kui-duration-fast) var(--kui-ease),
+      color var(--kui-duration-fast) var(--kui-ease);
+  }
+
+  .kui-drawer-close:hover,
+  .kui-drawer-close:focus-visible {
+    outline: 0;
+    background: var(--kui-drawer-close-bg-hover, var(--kui-color-state-hover));
+    color: var(--kui-drawer-close-color-hover, var(--kui-color-text));
+  }
+
+  /* Reserve room in the header so long titles don't run under the close button. */
+  .kui-drawer:has(> .kui-drawer-close) .kui-drawer-header {
+    padding-inline-end: calc(
+      var(--kui-drawer-header-padding-x, var(--kui-space-6)) + var(--kui-drawer-close-size) +
+        var(--kui-space-2)
+    );
+  }
+
+  .kui-drawer-body {
+    flex: 1 1 auto;
+    min-block-size: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: var(--kui-drawer-body-padding, var(--kui-space-6));
+    color: var(--kui-drawer-body-color, var(--kui-color-text-secondary));
+    font-size: var(--kui-drawer-body-font-size, var(--kui-text-sm-size));
+    line-height: var(--kui-type-body-lg-line-height);
+  }
+
+  .kui-drawer-footer {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--kui-drawer-footer-gap, var(--kui-space-2));
+    min-block-size: var(--kui-drawer-footer-height);
+    padding: var(--kui-drawer-footer-padding-y, var(--kui-space-4))
+      var(--kui-drawer-footer-padding-x, var(--kui-space-6));
+    border-block-start: var(--kui-drawer-border-width) solid
+      var(--kui-drawer-border, var(--kui-color-border));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-drawer[data-kui-side],
+    .kui-drawer[data-kui-side].kui-drawer--closing,
+    .kui-drawer-backdrop,
+    .kui-drawer-backdrop--closing {
+      animation-duration: 1ms;
+    }
+  }
+}

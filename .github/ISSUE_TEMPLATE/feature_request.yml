@@ -1,0 +1,20 @@
+name: Feature request
+description: Suggest a component, option or improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to build and what is missing?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: The API or behavior you would expect. Visual changes need an approved design, so describe the need rather than the look.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered

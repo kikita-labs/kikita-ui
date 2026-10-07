@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -43,9 +44,145 @@ const textExtensions = new Set([
   '.yaml',
   '.yml',
 ]);
-const routeCoverageExclusions = new Set(['/tokens', '/theme', '/forms']);
+// Members of Angular's `FormUiControl`, `FormValueControl` and `FormCheckboxControl` that Signal Forms
+// binds by exact name. Every one is optional, so TypeScript accepts a near miss such as `readOnly`
+// and Signal Forms then silently never binds it.
+const formControlContractMembers = [
+  'checked',
+  'dirty',
+  'disabled',
+  'disabledReasons',
+  'errors',
+  'hidden',
+  'invalid',
+  'max',
+  'maxLength',
+  'min',
+  'minLength',
+  'name',
+  'pattern',
+  'pending',
+  'readonly',
+  'required',
+  'touch',
+  'touched',
+  'value',
+];
+const routeCoverageExclusions = new Set();
+const playgroundRouteEnumPath =
+  'projects/kikita-ui-playground/src/app/enums/playground-route.enum.ts';
+const playgroundLocaleDirectory = 'projects/kikita-ui-playground/public/i18n';
+const localeCataloguePathPattern =
+  /^projects\/kikita-ui-playground\/public\/i18n\/(?:[^/]+\/)?[a-z]{2,3}(?:-[a-zA-Z0-9]{2,8})*\.json$/u;
+const paletteTokenConsumerRoots = ['projects/ui/src', 'projects/kikita-ui-playground/src'];
+const paletteTokenGeneratorDirectory = 'projects/ui/src/lib/theme/';
+const paletteTokenExtensions = new Set(['.css', '.html', '.scss', '.ts']);
+// Reviewed exceptions: repository-relative path -> reason. Keep this empty unless a consumer
+// genuinely needs a raw palette step; document the owner and follow-up in the reason.
+const paletteTokenExceptions = new Map();
+const palettePattern =
+  /--kui-(?:(?:primary|neutral|success|warning|danger|info)-\d+|seed-[a-z]+)(?![\w-])/u;
+// Style files generated from the theme generator; they define the tokens that every other check
+// protects, so the token checks skip them. A test keeps them in sync with the generator.
+const generatedThemeFiles = new Set(['projects/ui/src/styles/theme-default.css']);
+// Reviewed exceptions: repository-relative path -> reason. Component styles may only write black
+// or white (with or without alpha) as a colour literal: overlays, scrims and shadows.
+// A literal z-index at or above this value is a layer between components, not local stacking inside
+// one component (the 1 to 3 that keep a focus outline or a sticky cell above its neighbours).
+const layerZIndexThreshold = 100;
+const colorLiteralExceptions = new Map();
+// Global scale tokens that are always defined by the default theme. A literal fallback inside
+// `var()` of one of them can never be reached and drifts from the real value, so it is not allowed.
+// Component tokens and system-colour fallbacks are not on this list.
+const globalScaleTokenPattern =
+  /^--kui-(?:space-[\d-]+|radius-\w+|duration-\w+|ease|ease-exit|control-height-\w+|text-\w+-size|border-width-\w+|z-[\w-]+|font-weight-\w+|focus-ring-[\w-]+|opacity-disabled|line-height-control)$/u;
+// Reviewed exceptions for the literal checks: file suffix, selector fragment and property -> reason
+// and owner. A property that is not listed here may not carry a design literal.
+const styleLiteralExceptions = [
+  {
+    file: 'components/table/kui-table.css',
+    selector: '.kui-table__cb:indeterminate::after',
+    property: 'border-radius',
+    reason: 'one-pixel end of a hand-drawn checkbox mark, pseudo-element glyph geometry',
+    owner: 'Plan 16 (Table)',
+  },
+];
+// Chart geometry, opacity and animation values belong to Plan 24; every other check still covers it.
+const chartStyleFile = 'components/chart/kui-chart.css';
+const motionProperties = /^(?:transition|animation)(?:-(?:duration|delay|timing-function))?$/u;
+const motionLiteral =
+  /(?<![\w.-])\d*\.?\d+m?s\b|cubic-bezier\([^)]*\)|\bease-in\b(?!-)|\bease-out\b|\bease\b(?!-)/gu;
+const lengthLiteral = /(?<![\w.-])-?\d*\.?\d+(?:px|rem|em)\b/u;
+const colorLiteralPattern =
+  /#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\([^)]*\)|\boklch\((?!\s*[01]\s+0\s+0\s*(?:\)|\/))[^)]*\)/gu;
+// Style files that are themselves the semantic layer and may read colour roles directly.
+const colorHookExceptions = new Map([
+  [
+    'projects/ui/src/lib/components/typography/kui-typography.css',
+    'tone classes are the semantic text-colour API',
+  ],
+]);
+const colorRolePattern =
+  /^--kui-color-(?:bg|surface(?:-[a-z]+)?|border(?:-[a-z]+)*|text(?:-[a-z]+)?|on-fill|on-scrim|focus|state-(?:hover|active)|neutral-(?:fill|on-fill)|(?:primary|success|warning|danger|info)-[a-z-]+)$/u;
+// Public tokens that a component or a layout deliberately assigns to the elements it contains (parent
+// to child APIs, density and group size maps). Every other component default must be private.
+const parentAssignedTokens = new Set([
+  '--kui-btn-ghost-bg-act',
+  '--kui-btn-ghost-bg-hov',
+  '--kui-btn-ghost-fg',
+  '--kui-btn-height',
+  '--kui-btn-px',
+  '--kui-checkbox-size',
+  '--kui-field-action-size',
+  '--kui-field-grid-rows',
+  '--kui-field-hint-size',
+  '--kui-input-height',
+  '--kui-input-px',
+  '--kui-loader-fill',
+  '--kui-loader-track',
+  '--kui-skeleton-radius',
+  '--kui-skeleton-radius-pill',
+  '--kui-splitter-gutter-size',
+  '--kui-type-caption-weight',
+]);
 const disallowedTopLevelGlobals =
   /(?:=\s*(window|document|navigator|localStorage|sessionStorage)\b|\b(window|document|navigator|localStorage|sessionStorage)\.)/;
+
+/** Initialisers Angular marks as pure itself, so they need no annotation. */
+const pureByDefaultInitialisers = new Set(['InjectionToken']);
+
+// A top-level `const x = new Y(...)` or `const x = f(...)` stays in every bundle that reaches the
+// module unless it is annotated `/* @__PURE__ */`, because bundlers cannot prove the call has no
+// effect. An annotated initialiser puts the comment before the call, so it does not match.
+const maxInlineTemplateLines = 3;
+
+const topLevelInitialiserCall =
+  /^(?:export\s+)?(?:const|let|var)\s+[A-Za-z_$][\w$]*(?:\s*:\s*[^=]+?)?\s*=\s*(new\s+)?([A-Za-z_$][\w$.]*)\s*(?:<[^>(]*>)?\(/u;
+
+// A literal English word in an accessible-name attribute, a placeholder, a rendered text node or a
+// `Renderer2` call is library-owned text that a consumer could not translate. It belongs in
+// `KuiMessages`. Text that is data, not a message, is listed by file and snippet, with the reason.
+const hardcodedTextAllowlist = [
+  // Technical channel letters of the OKLCH picker, not words.
+  { file: 'color-input/kui-color-input.ts', text: ["'L'", "'C'", "'H'"] },
+];
+const literalMessageAttribute =
+  /(?<![\w.\]-])(?:aria-label|aria-roledescription|aria-valuetext|title|placeholder|alt)="([^"{}]*[A-Za-z]{2}[^"{}]*)"/u;
+const boundMessageAttribute =
+  /\[attr\.(?:aria-label|aria-roledescription|aria-valuetext|title|placeholder|alt)\]="'([^']*[A-Za-z]{2}[^']*)'"/u;
+const rendererMessageAttribute =
+  /setAttribute\([^,]+,\s*'(?:aria-label|aria-roledescription|aria-valuetext|title|placeholder|alt)',\s*'([^']*[A-Za-z]{2}[^']*)'/u;
+const rendererTextNode = /createText\(\s*['"`]([^'"`$]*[A-Za-z]{2}[^'"`$]*)['"`]/u;
+const templateTextNode = /<[a-z][^<>]*>\s*([A-Z][A-Za-z' ,.!?&/-]{2,}[A-Za-z.!?])\s*<\//u;
+const interpolatedWord = /\{\{[^}]*['"]([A-Z][a-z]{2,}(?: [A-Za-z]+)*)['"][^}]*\}\}/u;
+const hardcodedTextPatterns = [
+  ['an interpolation', interpolatedWord],
+  ['an accessible or placeholder attribute', literalMessageAttribute],
+  ['a bound attribute', boundMessageAttribute],
+  ['a Renderer2 attribute', rendererMessageAttribute],
+  ['a Renderer2 text node', rendererTextNode],
+  ['a template text node', templateTextNode],
+];
 
 if (isMain()) {
   const failures = runStaticAudit(defaultRoot);
@@ -63,7 +200,12 @@ if (isMain()) {
 
 export function runStaticAudit(root = defaultRoot) {
   const failures = [];
-  runCheck(failures, 'tracked text has no Cyrillic characters', () => checkNoCyrillic(root));
+  runCheck(failures, 'tracked text has no unexpected Cyrillic characters', () =>
+    checkNoCyrillic(root),
+  );
+  runCheck(failures, 'playground locale catalogues parse and share key paths', () =>
+    checkPlaygroundLocaleCatalogues(root),
+  );
   runCheck(failures, 'all public style files are imported by kikita-ui.css', () =>
     checkStyleImports(root),
   );
@@ -83,6 +225,51 @@ export function runStaticAudit(root = defaultRoot) {
   runCheck(failures, 'public exports have nearby JSDoc', () => checkPublicJSDoc(root));
   runCheck(failures, 'library files avoid top-level browser globals', () =>
     checkTopLevelBrowserGlobals(root),
+  );
+  runCheck(failures, 'library modules have no unannotated top-level initialiser calls', () =>
+    checkNoTopLevelInitialiserCalls(root),
+  );
+  runCheck(failures, 'component templates longer than three lines live in an .html file', () =>
+    checkNoLongInlineTemplates(root),
+  );
+  runCheck(failures, 'components keep their defaults in private variables', () =>
+    checkPublicTokenDefinitions(root),
+  );
+  runCheck(failures, 'component colours are read through a component token', () =>
+    checkComponentColorHooks(root),
+  );
+  runCheck(
+    failures,
+    'styles consume semantic tokens instead of raw palette or seed variables',
+    () => checkNoRawPaletteConsumption(root),
+  );
+  runCheck(failures, 'component styles write no colour literal other than black or white', () =>
+    checkNoColorLiterals(root),
+  );
+  runCheck(failures, 'overlay layers read a --kui-z-* token instead of a z-index literal', () =>
+    checkNoLayerZIndexLiterals(root),
+  );
+  runCheck(
+    failures,
+    'component styles read weights, motion, focus, opacity, line height and radius from tokens',
+    () => checkNoStyleLiterals(root),
+  );
+  runCheck(failures, 'Signal Forms controls spell contract members exactly', () =>
+    checkFormControlContractNames(root),
+  );
+  runCheck(failures, 'Angular classes carry no Component, Directive or Service suffix', () =>
+    checkNoRoleSuffixedClasses(root),
+  );
+  runCheck(failures, 'Angular files are named after their class without a construct infix', () =>
+    checkAngularFileNames(root),
+  );
+  runCheck(failures, 'library components read their text from the message map', () =>
+    checkNoHardcodedUserFacingText(root),
+  );
+  runCheck(
+    failures,
+    'every library message is documented, read, and translated in the Playground',
+    () => checkMessageCoverage(root),
   );
   return failures;
 }
@@ -106,6 +293,10 @@ function checkNoCyrillic(root) {
     root,
     trackedRoots.map((entry) => join(root, entry)),
   )) {
+    if (isLocaleCatalogue(root, file) || isIgnoredByGit(root, file)) {
+      continue;
+    }
+
     const text = readFileSync(file, 'utf8');
     const match = /[\u0401\u0410-\u044f\u0451]/u.exec(text);
 
@@ -115,6 +306,92 @@ function checkNoCyrillic(root) {
   }
 
   return failures;
+}
+
+function isLocaleCatalogue(root, file) {
+  return localeCataloguePathPattern.test(toRepoPath(root, file));
+}
+
+function checkPlaygroundLocaleCatalogues(root) {
+  const directory = join(root, playgroundLocaleDirectory);
+
+  if (!existsSync(directory)) {
+    return [];
+  }
+
+  const failures = [];
+  const catalogueDirectories = [
+    directory,
+    ...readdirSync(directory, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => join(directory, entry.name)),
+  ];
+  let rootCatalogueNames = [];
+
+  for (const catalogueDirectory of catalogueDirectories) {
+    const cataloguePath = toRepoPath(root, catalogueDirectory);
+    const catalogues = new Map();
+    const fileNames = readdirSync(catalogueDirectory, { withFileTypes: true })
+      .filter(
+        (entry) =>
+          entry.isFile() && localeCataloguePathPattern.test(`${cataloguePath}/${entry.name}`),
+      )
+      .map((entry) => entry.name)
+      .sort();
+
+    if (catalogueDirectory === directory) {
+      rootCatalogueNames = fileNames;
+    } else if (
+      rootCatalogueNames.length > 0 &&
+      fileNames.join('\n') !== rootCatalogueNames.join('\n')
+    ) {
+      failures.push(
+        `${cataloguePath} does not contain the same language catalogues as ${playgroundLocaleDirectory}`,
+      );
+    }
+
+    for (const fileName of fileNames) {
+      const file = join(catalogueDirectory, fileName);
+
+      try {
+        catalogues.set(fileName, JSON.parse(readFileSync(file, 'utf8')));
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        failures.push(`${cataloguePath}/${fileName} is not valid JSON: ${reason}`);
+      }
+    }
+
+    if (catalogues.size < 2) {
+      continue;
+    }
+
+    const referenceFile = catalogues.has('en.json') ? 'en.json' : [...catalogues.keys()][0];
+    const referenceKeys = flattenTranslationKeys(catalogues.get(referenceFile)).join('\n');
+
+    for (const [fileName, catalogue] of catalogues) {
+      if (fileName === referenceFile) {
+        continue;
+      }
+
+      if (flattenTranslationKeys(catalogue).join('\n') !== referenceKeys) {
+        failures.push(
+          `${cataloguePath}/${fileName} does not have the same key paths as ${cataloguePath}/${referenceFile}`,
+        );
+      }
+    }
+  }
+
+  return failures;
+}
+
+function flattenTranslationKeys(value, prefix = '') {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return [prefix.slice(0, -1)];
+  }
+
+  return Object.entries(value)
+    .flatMap(([key, child]) => flattenTranslationKeys(child, `${prefix}${key}.`))
+    .sort();
 }
 
 function checkStyleImports(root) {
@@ -127,15 +404,21 @@ function checkStyleImports(root) {
 
   const entrypointPath = join(stylesDir, 'kikita-ui.css');
   const entrypoint = readFileSync(entrypointPath, 'utf8');
-  const styleFiles = readdirSync(stylesDir)
+  const libDir = join(root, 'projects/ui/src/lib');
+  // Stylesheets beside a component are imported by the entry.
+  const libStyles = existsSync(libDir)
+    ? collectTextFiles(root, [libDir]).filter((file) => file.endsWith('.css'))
+    : [];
+  const sharedStyles = readdirSync(stylesDir)
     .filter((file) => file.endsWith('.css') && file !== 'kikita-ui.css')
-    .sort();
+    .map((file) => join(stylesDir, file));
 
-  for (const file of styleFiles) {
-    const importLine = `@import './${file}';`;
+  for (const file of [...sharedStyles, ...libStyles].sort()) {
+    const importPath = relative(stylesDir, file).replaceAll('\\', '/');
+    const specifier = importPath.startsWith('..') ? importPath : `./${importPath}`;
 
-    if (!entrypoint.includes(importLine)) {
-      failures.push(`projects/ui/src/styles/${file} is not imported by kikita-ui.css`);
+    if (!entrypoint.includes(`@import '${specifier}';`)) {
+      failures.push(`${toRepoPath(root, file)} is not imported by kikita-ui.css`);
     }
   }
 
@@ -143,18 +426,29 @@ function checkStyleImports(root) {
 }
 
 function checkRouteCoverage(root) {
-  const appPath = join(root, 'projects/playground/src/app/app.ts');
+  const enumPath = join(root, playgroundRouteEnumPath);
   const coveragePath = join(root, 'docs/state-coverage.md');
 
-  if (!existsSync(appPath) || !existsSync(coveragePath)) {
-    return [];
+  if (!existsSync(enumPath)) {
+    return [`${playgroundRouteEnumPath} is missing, so route coverage cannot be checked`];
+  }
+
+  if (!existsSync(coveragePath)) {
+    return ['docs/state-coverage.md is missing, so route coverage cannot be checked'];
   }
 
   const failures = [];
-  const appSource = readFileSync(appPath, 'utf8');
+  const enumSource = readFileSync(enumPath, 'utf8');
   const stateCoverage = readFileSync(coveragePath, 'utf8');
-  const routeMatches = [...appSource.matchAll(/\{\s*path:\s*'([^']+)'/g)];
-  const routes = routeMatches.map((match) => match[1]).filter((route) => route.startsWith('/'));
+  const segments = [...enumSource.matchAll(/^\s+\w+\s*=\s*'([^']*)'/gm)].map((match) => match[1]);
+  const routes = segments
+    .filter((segment) => segment.length > 0 && !segment.startsWith(':'))
+    .filter((segment) => segment !== 'components')
+    .map((segment) => `/components/${segment}`);
+
+  if (routes.length === 0) {
+    return [`${playgroundRouteEnumPath} lists no component routes`];
+  }
 
   for (const route of routes) {
     if (routeCoverageExclusions.has(route)) {
@@ -175,7 +469,9 @@ function checkTrackedLinks(root) {
     join(root, 'AGENTS.md'),
     join(root, '.agents'),
     join(root, 'docs'),
-  ]).filter((file) => file.endsWith('.md'));
+  ])
+    .filter((file) => file.endsWith('.md'))
+    .filter((file) => !isIgnoredByGit(root, file));
   const markdownLinkPattern = /\]\(([^)#][^)]+)\)/g;
   const inlinePathPattern = /`((?:\.agents|docs|projects|scripts)\/[^`]+)`/g;
 
@@ -229,7 +525,11 @@ function checkSkills(root) {
   }
 
   const skills = readdirSync(skillsDir)
-    .filter((entry) => statSync(join(skillsDir, entry)).isDirectory())
+    .filter((entry) => {
+      const skillPath = join(skillsDir, entry, 'SKILL.md');
+
+      return statSync(join(skillsDir, entry)).isDirectory() && !isIgnoredByGit(root, skillPath);
+    })
     .sort();
 
   for (const skill of skills) {
@@ -389,11 +689,48 @@ function checkLibraryInternalPackageImports(root) {
   return failures;
 }
 
+function checkFormControlContractNames(root) {
+  const failures = [];
+  const libDir = join(root, 'projects/ui/src/lib');
+
+  if (!existsSync(libDir)) {
+    return failures;
+  }
+
+  const byLowerCase = new Map(formControlContractMembers.map((name) => [name.toLowerCase(), name]));
+  const implementsPattern = /\bimplements\b[^{]*\bForm(?:Value|Checkbox)Control\b/u;
+  const memberPattern = /^[ \t]+(?:readonly[ \t]+)?(\w+)[ \t]*=[ \t]*(?:input|model|output)\b/gmu;
+  const files = collectTextFiles(root, [libDir]).filter(
+    (file) => file.endsWith('.ts') && !file.endsWith('.spec.ts'),
+  );
+
+  for (const file of files) {
+    const text = readFileSync(file, 'utf8');
+
+    if (!implementsPattern.test(text)) {
+      continue;
+    }
+
+    for (const match of text.matchAll(memberPattern)) {
+      const expected = byLowerCase.get(match[1].toLowerCase());
+
+      if (expected && expected !== match[1]) {
+        failures.push(
+          `${toRepoPath(root, file)} declares ${match[1]}, which Signal Forms binds only as ${expected}`,
+        );
+      }
+    }
+  }
+
+  return failures;
+}
+
 function checkPublicJSDoc(root) {
   const failures = [];
   const publicFiles = collectTextFiles(root, [
     join(root, 'projects/ui/src/lib/components'),
     join(root, 'projects/ui/src/lib/providers'),
+    join(root, 'projects/ui/src/lib/root'),
     join(root, 'projects/ui/src/lib/theme'),
     join(root, 'projects/ui/src/lib/tokens'),
     join(root, 'projects/ui/src/lib/types'),
@@ -413,6 +750,99 @@ function checkPublicJSDoc(root) {
 
       if (!recent.includes('/**')) {
         failures.push(`${toRepoPath(root, file)} export ${match[1]} is missing nearby JSDoc`);
+      }
+    }
+  }
+
+  return failures;
+}
+
+/**
+ * Angular 20+ names a file after its class and drops the construct infix: `kui-button.ts` holds
+ * `KuiButton`, `kui-button.html` is its template and `kui-button.spec.ts` its test. A pipe keeps
+ * its role as a hyphenated word (`kui-mark-pipe.ts`). Files that are not Angular constructs keep
+ * their own role infix (`.interface.ts`, `.type.ts`, `.util.ts`, `.token.ts`).
+ */
+function checkAngularFileNames(root) {
+  const failures = [];
+  const files = collectTextFiles(root, [join(root, 'projects/ui/src')]);
+  const infixPattern = /\.(?:component|directive|service|pipe)(?:\.spec)?\.(?:ts|html|css|scss)$/u;
+  const decoratorPattern = /^@(?:Component|Directive|Service|Injectable|Pipe)\(/gmu;
+  const classPattern = /^(?:export\s+)?(?:default\s+)?(?:abstract\s+)?class\s+([A-Za-z0-9_]+)/gmu;
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (infixPattern.test(file)) {
+      failures.push(
+        `${repoPath} uses a .component, .directive, .service or .pipe infix; name the file after its class (kui-name.ts, kui-name-pipe.ts)`,
+      );
+      continue;
+    }
+
+    // A `.util.ts` module exposes functions and may host a service as an implementation detail.
+    if (
+      !file.endsWith('.ts') ||
+      file.endsWith('.spec.ts') ||
+      file.endsWith('.d.ts') ||
+      file.endsWith('.util.ts')
+    ) {
+      continue;
+    }
+
+    const text = readFileSync(file, 'utf8');
+    const decorators = [...text.matchAll(decoratorPattern)];
+    const classes = [...text.matchAll(classPattern)];
+
+    if (decorators.length !== 1 || classes.length !== 1) {
+      continue;
+    }
+
+    const expected = kebabCase(classes[0][1]);
+    const actual = file.split(/[\\/]/u).at(-1).replace(/\.ts$/u, '');
+
+    if (actual !== expected) {
+      failures.push(
+        `${repoPath} declares ${classes[0][1]}; the file must be named ${expected}.ts after its class`,
+      );
+    }
+  }
+
+  return failures;
+}
+
+function kebabCase(name) {
+  return name
+    .replace(/([a-z0-9])([A-Z])/gu, '$1-$2')
+    .replace(/([A-Z]+)([A-Z][a-z])/gu, '$1-$2')
+    .toLowerCase();
+}
+
+/**
+ * Angular 20+ names a class for what it is, not for the construct that declares it, so `KuiButton`
+ * is the directive and `KuiToast` the service. Pipes keep their `Pipe` suffix and live in `-pipe.ts`.
+ */
+function checkNoRoleSuffixedClasses(root) {
+  const failures = [];
+  const files = collectTextFiles(root, [
+    join(root, 'projects/ui/src'),
+    join(root, 'projects/kikita-ui-playground/src'),
+  ]).filter(
+    (file) => file.endsWith('.ts') && !file.endsWith('.spec.ts') && !file.endsWith('.d.ts'),
+  );
+  const classPattern =
+    /^[ \t]*(?:export\s+)?(?:default\s+)?(?:abstract\s+)?class\s+([A-Za-z0-9_]+)/gm;
+
+  for (const file of files) {
+    const text = readFileSync(file, 'utf8');
+
+    for (const match of text.matchAll(classPattern)) {
+      const name = match[1];
+
+      if (/(?:Component|Directive|Service)$/u.test(name)) {
+        failures.push(
+          `${toRepoPath(root, file)} declares class ${name}; Angular classes carry no Component, Directive or Service suffix`,
+        );
       }
     }
   }
@@ -449,6 +879,696 @@ function checkTopLevelBrowserGlobals(root) {
   return failures;
 }
 
+function checkNoTopLevelInitialiserCalls(root) {
+  const failures = [];
+  const libDir = join(root, 'projects/ui/src/lib');
+
+  if (!existsSync(libDir)) {
+    return failures;
+  }
+
+  const files = collectTextFiles(root, [libDir]).filter(
+    (file) => file.endsWith('.ts') && !file.endsWith('.spec.ts'),
+  );
+
+  for (const file of files) {
+    const lines = readFileSync(file, 'utf8').split(/\r?\n/);
+
+    for (let index = 0; index < lines.length; index += 1) {
+      const match = topLevelInitialiserCall.exec(lines[index]);
+
+      if (match && !pureByDefaultInitialisers.has(match[2])) {
+        failures.push(
+          `${toRepoPath(root, file)}:${index + 1} calls ${match[2]}() at module level; annotate it /* @__PURE__ */ or initialise it lazily`,
+        );
+      }
+    }
+  }
+
+  return failures;
+}
+
+function checkNoLongInlineTemplates(root) {
+  const failures = [];
+  const libDir = join(root, 'projects/ui/src/lib');
+
+  if (!existsSync(libDir)) {
+    return failures;
+  }
+
+  const files = collectTextFiles(root, [libDir]).filter(
+    (file) => file.endsWith('.ts') && !file.endsWith('.spec.ts'),
+  );
+
+  for (const file of files) {
+    const text = readFileSync(file, 'utf8');
+    const pattern = /\btemplate:\s*`([^`]*)`/gu;
+    let match;
+
+    while ((match = pattern.exec(text))) {
+      const lineCount = match[1].split(/\r?\n/u).filter((line) => line.trim() !== '').length;
+
+      if (lineCount > maxInlineTemplateLines) {
+        const line = text.slice(0, match.index).split('\n').length;
+        failures.push(
+          `${toRepoPath(root, file)}:${line} has an inline template of ${lineCount} lines; move it to a .html file (limit ${maxInlineTemplateLines})`,
+        );
+      }
+    }
+  }
+
+  return failures;
+}
+
+function checkNoRawPaletteConsumption(root) {
+  const failures = [];
+  const files = collectTextFiles(
+    root,
+    paletteTokenConsumerRoots.map((entry) => join(root, entry)),
+  ).filter(
+    (file) =>
+      paletteTokenExtensions.has(file.slice(file.lastIndexOf('.'))) &&
+      !/\.spec\.(?:ts|mjs)$/u.test(file),
+  );
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (
+      repoPath.startsWith(paletteTokenGeneratorDirectory) ||
+      generatedThemeFiles.has(repoPath) ||
+      paletteTokenExceptions.has(repoPath)
+    ) {
+      continue;
+    }
+
+    const lines = readFileSync(file, 'utf8').split(/\r?\n/);
+
+    for (let index = 0; index < lines.length; index += 1) {
+      const line = lines[index].trim();
+
+      if (/^(?:\/\/|\/\*|\*)/u.test(line)) {
+        continue;
+      }
+
+      const match = palettePattern.exec(line);
+
+      if (match) {
+        failures.push(
+          `${repoPath}:${index + 1} reads ${match[0]} directly; use a semantic or component token`,
+        );
+      }
+    }
+  }
+
+  return failures;
+}
+
+// The library's message map, read from its interface file: group -> message keys. Each group points
+// to a named interface, so the map is parsed in two steps. Returns null when the file is absent.
+function readLibraryMessageKeys(root) {
+  const file = join(root, 'projects/ui/src/lib/i18n/kui-messages.interface.ts');
+
+  if (!existsSync(file)) {
+    return null;
+  }
+
+  const text = readFileSync(file, 'utf8');
+  const interfaces = new Map();
+
+  for (const match of text.matchAll(/export interface (\w+) \{([\s\S]*?)\n\}/gu)) {
+    const members = [];
+
+    for (const member of match[2].matchAll(/^ {2}readonly (\w+)\??:/gmu)) {
+      members.push({ name: member[1], index: member.index });
+    }
+
+    interfaces.set(match[1], { body: match[2], members });
+  }
+
+  const root_ = interfaces.get('KuiMessages');
+  const groups = new Map();
+
+  for (const member of root_?.body.matchAll(/^ {2}readonly (\w+): (\w+);/gmu) ?? []) {
+    groups.set(member[1], interfaces.get(member[2]));
+  }
+
+  return groups;
+}
+
+function checkMessageCoverage(root) {
+  const groups = readLibraryMessageKeys(root);
+
+  if (groups === null) {
+    return [];
+  }
+
+  const failures = [];
+  const componentText = collectTextFiles(root, [join(root, 'projects/ui/src/lib/components')])
+    .filter((file) => /\.(?:ts|html)$/u.test(file) && !/\.spec\.ts$/u.test(file))
+    .map((file) => readFileSync(file, 'utf8'))
+    .join('\n');
+
+  for (const [group, definition] of groups) {
+    if (!definition) {
+      failures.push(
+        `KuiMessages.${group} does not point at an interface in kui-messages.interface.ts`,
+      );
+      continue;
+    }
+
+    for (const { name, index } of definition.members) {
+      const before = definition.body.slice(0, index).trimEnd();
+
+      if (!before.endsWith('*/')) {
+        failures.push(`KuiMessages.${group}.${name} has no JSDoc with its English default`);
+      }
+
+      if (!new RegExp(`\\b${name}\\b`, 'u').test(componentText)) {
+        failures.push(`KuiMessages.${group}.${name} is not read by any component`);
+      }
+    }
+  }
+
+  for (const language of ['en', 'ru']) {
+    const catalogueFile = join(root, `projects/kikita-ui-playground/public/i18n/${language}.json`);
+
+    if (!existsSync(catalogueFile)) {
+      continue;
+    }
+
+    const catalogue = JSON.parse(readFileSync(catalogueFile, 'utf8')).kui ?? {};
+
+    for (const [group, definition] of groups) {
+      const expected = (definition?.members ?? []).map((member) => member.name).sort();
+      const actual = Object.keys(catalogue[group] ?? {}).sort();
+
+      if (JSON.stringify(expected) !== JSON.stringify(actual)) {
+        failures.push(
+          `${language}.json kui.${group} must hold exactly the library keys: expected [${expected.join(', ')}], found [${actual.join(', ')}]`,
+        );
+      }
+    }
+
+    for (const group of Object.keys(catalogue)) {
+      if (!groups.has(group)) {
+        failures.push(`${language}.json kui.${group} is not a library message group`);
+      }
+    }
+  }
+
+  return failures;
+}
+
+function checkNoHardcodedUserFacingText(root) {
+  const failures = [];
+  const base = join(root, 'projects/ui/src/lib/components');
+  const files = collectTextFiles(root, [base]).filter(
+    (file) => /\.(?:ts|html)$/u.test(file) && !/\.spec\.ts$/u.test(file),
+  );
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+    const relative = repoPath.replace('projects/ui/src/lib/components/', '');
+    const allowed = hardcodedTextAllowlist.find((entry) => entry.file === relative)?.text ?? [];
+    const lines = readFileSync(file, 'utf8').split(/\r?\n/u);
+
+    lines.forEach((line, index) => {
+      if (/^\s*(?:\*|\/\/|\/\*)/u.test(line) || allowed.some((text) => line.includes(text))) {
+        return;
+      }
+
+      for (const [kind, pattern] of hardcodedTextPatterns) {
+        const match = pattern.exec(line);
+
+        if (match) {
+          failures.push(
+            `${repoPath}:${index + 1} writes the literal text "${match[1]}" in ${kind}; read it from KuiMessages`,
+          );
+        }
+      }
+    });
+  }
+
+  return failures;
+}
+
+function checkNoLayerZIndexLiterals(root) {
+  const failures = [];
+  const files = collectTextFiles(root, [join(root, 'projects/ui/src')]).filter((file) =>
+    file.endsWith('.css'),
+  );
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (generatedThemeFiles.has(repoPath)) {
+      continue;
+    }
+
+    const lines = readFileSync(file, 'utf8').split(/\r?\n/u);
+
+    lines.forEach((line, index) => {
+      const match = /^\s*z-index\s*:\s*(-?\d+)\s*;/u.exec(line);
+
+      if (match && Math.abs(Number(match[1])) >= layerZIndexThreshold) {
+        failures.push(
+          `${repoPath}:${index + 1} writes the layer z-index ${match[1]}; read a --kui-z-* token`,
+        );
+      }
+    });
+  }
+
+  return failures;
+}
+
+/** Yields every declaration of a style sheet with its selector, line and keyframes context. */
+function* styleDeclarations(source) {
+  const text = source.replace(/\/\*[\s\S]*?\*\//gu, (comment) => comment.replace(/[^\n]/gu, ' '));
+  const stack = [];
+  let segment = '';
+  let segmentLine = 1;
+  let line = 1;
+  let depth = 0;
+  let quote = '';
+
+  const declaration = () => {
+    const colon = segment.indexOf(':');
+    const top = stack[stack.length - 1];
+
+    if (colon > 0 && top && !top.at) {
+      return {
+        property: segment.slice(0, colon).trim(),
+        value: segment
+          .slice(colon + 1)
+          .trim()
+          .replace(/\s+/gu, ' '),
+        selector: top.selector,
+        keyframes: stack.some((entry) => entry.keyframes),
+        line: segmentLine,
+      };
+    }
+
+    return null;
+  };
+
+  for (const char of text) {
+    if (char === '\n') {
+      line++;
+    }
+
+    if (quote) {
+      segment += char;
+      if (char === quote) quote = '';
+      continue;
+    }
+
+    if (char === '"' || char === "'") {
+      quote = char;
+      segment += char;
+      continue;
+    }
+
+    if (char === '(') depth++;
+    if (char === ')') depth--;
+
+    if (depth === 0 && char === '{') {
+      const selector = segment.trim().replace(/\s+/gu, ' ');
+
+      stack.push({
+        selector,
+        at: selector.startsWith('@'),
+        keyframes: /^@(?:-webkit-)?keyframes/u.test(selector),
+      });
+      segment = '';
+      continue;
+    }
+
+    if (depth === 0 && (char === ';' || char === '}')) {
+      const found = declaration();
+
+      if (found) yield found;
+      segment = '';
+      if (char === '}') stack.pop();
+      continue;
+    }
+
+    if (segment.trim() === '' && char.trim() !== '') {
+      segmentLine = line;
+    }
+    segment += char;
+  }
+}
+
+/** Removes every `var(...)` group, so only literals written outside a token read remain. */
+function withoutVarReads(value) {
+  let out = '';
+  let index = 0;
+
+  while (index < value.length) {
+    const start = value.indexOf('var(', index);
+
+    if (start === -1) {
+      out += value.slice(index);
+      break;
+    }
+
+    out += value.slice(index, start) + 'V';
+    let depth = 0;
+    let end = start + 3;
+
+    for (; end < value.length; end++) {
+      if (value[end] === '(') depth++;
+      if (value[end] === ')' && --depth === 0) break;
+    }
+
+    index = end + 1;
+  }
+
+  return out;
+}
+
+/** Lists `[name, fallback]` of every `var(--name, fallback)` in a value, nested reads included. */
+function varFallbacks(value) {
+  const found = [];
+  let index = 0;
+
+  while ((index = value.indexOf('var(', index)) !== -1) {
+    let depth = 0;
+    let end = index + 3;
+
+    for (; end < value.length; end++) {
+      if (value[end] === '(') depth++;
+      if (value[end] === ')' && --depth === 0) break;
+    }
+
+    const inner = value.slice(index + 4, end);
+    const comma = inner.indexOf(',');
+
+    if (comma !== -1) {
+      found.push([inner.slice(0, comma).trim(), inner.slice(comma + 1).trim()]);
+    }
+
+    index += 4;
+  }
+
+  return found;
+}
+
+function checkNoStyleLiterals(root) {
+  const failures = [];
+  const files = collectTextFiles(root, [join(root, 'projects/ui/src')]).filter((file) =>
+    file.endsWith('.css'),
+  );
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (generatedThemeFiles.has(repoPath)) {
+      continue;
+    }
+
+    const isChart = repoPath.endsWith(chartStyleFile);
+
+    for (const declaration of styleDeclarations(readFileSync(file, 'utf8'))) {
+      const { property, value, selector, keyframes, line } = declaration;
+      const where = `${repoPath}:${line}`;
+      const outside = withoutVarReads(value);
+      const excepted = styleLiteralExceptions.some(
+        (entry) =>
+          repoPath.endsWith(entry.file) &&
+          selector.includes(entry.selector) &&
+          entry.property === property,
+      );
+
+      for (const [name, fallback] of varFallbacks(value)) {
+        if (globalScaleTokenPattern.test(name) && !fallback.startsWith('var(')) {
+          failures.push(
+            `${where} gives ${name} the literal fallback ${fallback}; the default theme always defines it, remove the fallback`,
+          );
+        }
+      }
+
+      if (keyframes || excepted) {
+        continue;
+      }
+
+      if (property === 'font-weight' && /^\d+$/u.test(value)) {
+        failures.push(`${where} writes font-weight ${value}; read a --kui-font-weight-* token`);
+      }
+
+      if (motionProperties.test(property)) {
+        for (const literal of outside.matchAll(motionLiteral)) {
+          // Reduced-motion idioms that stop an animation within a frame.
+          if (/^(?:1|0\.01)ms$/u.test(literal[0])) continue;
+          failures.push(
+            `${where} writes the motion literal ${literal[0]}; read --kui-duration-* and --kui-ease*`,
+          );
+        }
+      }
+
+      if (
+        (property === 'outline' && /^\d/u.test(value) && !/^0(?:\s|$)/u.test(value)) ||
+        (property === 'outline-offset' && lengthLiteral.test(outside))
+      ) {
+        failures.push(
+          `${where} writes a literal focus width or offset (${value}); read --kui-focus-ring-*`,
+        );
+      }
+
+      if (
+        property === 'opacity' &&
+        /^\d*\.\d+$/u.test(value) &&
+        /disabled|readonly/u.test(selector)
+      ) {
+        failures.push(`${where} dims a disabled state with ${value}; read --kui-opacity-disabled`);
+      }
+
+      if (property === 'line-height' && /^\d*\.\d+$/u.test(value) && !isChart) {
+        failures.push(
+          `${where} writes the text line-height ${value}; read a --kui-type-*-line-height role or --kui-line-height-control`,
+        );
+      }
+
+      if (property === 'border-radius' && !isChart && lengthLiteral.test(outside)) {
+        failures.push(`${where} writes a literal radius (${value}); read a --kui-radius-* token`);
+      }
+    }
+  }
+
+  return failures;
+}
+
+function checkNoColorLiterals(root) {
+  const failures = [];
+  const files = collectTextFiles(root, [join(root, 'projects/ui/src')]).filter((file) =>
+    file.endsWith('.css'),
+  );
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (generatedThemeFiles.has(repoPath) || colorLiteralExceptions.has(repoPath)) {
+      continue;
+    }
+
+    const text = readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//gu, (comment) =>
+      comment.replace(/[^\n]/gu, ' '),
+    );
+    const declaration = /([\w-]+)\s*:\s*([^;{}]+);/gu;
+    let match;
+
+    while ((match = declaration.exec(text))) {
+      const valueStart = match.index + match[0].indexOf(match[2]);
+
+      for (const literal of match[2].matchAll(colorLiteralPattern)) {
+        const line = text.slice(0, valueStart + literal.index).split('\n').length;
+
+        failures.push(
+          `${repoPath}:${line} writes the colour literal ${literal[0]}; read a colour role, or use black or white`,
+        );
+      }
+    }
+  }
+
+  failures.push(...checkNoGeneratorColorLiterals(root));
+
+  return failures;
+}
+
+// The generator may write black and white, the categorical avatar and chart palettes, which are
+// independent of the seeds on purpose, and the fixed fallback seed. Any other literal is a colour
+// that ignores the seeds.
+function checkNoGeneratorColorLiterals(root) {
+  const failures = [];
+  const repoPath = 'projects/ui/src/lib/theme/create-kui-theme.ts';
+  const file = join(root, repoPath);
+
+  if (!existsSync(file)) {
+    return failures;
+  }
+
+  const lines = readFileSync(file, 'utf8').split('\n');
+  const allowedLine =
+    /--kui-(?:avatar-p\d+-(?:bg|fg)|chart-series-\d+)'|^const FALLBACK_[A-Z_]*SEED\b/u;
+
+  lines.forEach((line, index) => {
+    if (allowedLine.test(line.trim()) || /^\s*(?:\/\/|\/?\*)/u.test(line)) {
+      return;
+    }
+
+    for (const literal of line.matchAll(colorLiteralPattern)) {
+      // Format strings in the seed parser, not colours.
+      if (literal[0].includes('${') || literal[0] === 'oklch()') {
+        continue;
+      }
+
+      failures.push(
+        `${repoPath}:${index + 1} writes the colour literal ${literal[0]}; derive it from a seed, or use black or white`,
+      );
+    }
+  });
+
+  return failures;
+}
+
+function checkPublicTokenDefinitions(root) {
+  const failures = [];
+  const stylesRoot = join(root, 'projects/ui/src');
+  const files = collectTextFiles(root, [stylesRoot]).filter((file) => file.endsWith('.css'));
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (generatedThemeFiles.has(repoPath)) {
+      continue;
+    }
+
+    const text = readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//gu, (comment) =>
+      comment.replace(/[^\n]/gu, ' '),
+    );
+    const definition = /(?:^|[;{}\s])(--kui-[\w-]+)\s*:/gu;
+    let match;
+
+    while ((match = definition.exec(text))) {
+      const name = match[1];
+
+      if (parentAssignedTokens.has(name)) {
+        continue;
+      }
+
+      const line = text.slice(0, match.index + match[0].indexOf(name)).split('\n').length;
+
+      failures.push(
+        `${repoPath}:${line} defines the public token ${name} on a component; define a private --_${name.slice(2)} default and read var(${name}, var(--_${name.slice(2)}))`,
+      );
+    }
+  }
+
+  return failures;
+}
+
+function checkComponentColorHooks(root) {
+  const failures = [];
+  const stylesRoot = join(root, 'projects/ui/src');
+  const files = collectTextFiles(root, [stylesRoot]).filter((file) => file.endsWith('.css'));
+
+  for (const file of files) {
+    const repoPath = toRepoPath(root, file);
+
+    if (colorHookExceptions.has(repoPath)) {
+      continue;
+    }
+
+    const text = readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//gu, (comment) =>
+      comment.replace(/[^\n]/gu, ' '),
+    );
+    const declaration = /([\w-]+)\s*:\s*([^;{}]+);/gu;
+    let match;
+
+    while ((match = declaration.exec(text))) {
+      if (match[1].startsWith('--')) {
+        continue;
+      }
+
+      const valueStart = match.index + match[0].indexOf(match[2]);
+
+      for (const read of bareColorRoleReads(match[2])) {
+        const line = text.slice(0, valueStart + read.index).split('\n').length;
+
+        failures.push(
+          `${repoPath}:${line} reads ${read.name} without a component token; use var(--kui-<component>-<part>-<property>, var(${read.name}))`,
+        );
+      }
+    }
+  }
+
+  return failures;
+}
+
+// Returns reads of colour roles that are not inside the fallback of a component token.
+function bareColorRoleReads(value, insideHook = false, offset = 0, reads = []) {
+  let index = 0;
+
+  while (index < value.length) {
+    const start = value.indexOf('var(', index);
+
+    if (start === -1) {
+      break;
+    }
+
+    let depth = 0;
+    let end = start + 3;
+
+    for (; end < value.length; end += 1) {
+      if (value[end] === '(') {
+        depth += 1;
+      } else if (value[end] === ')') {
+        depth -= 1;
+
+        if (depth === 0) {
+          break;
+        }
+      }
+    }
+
+    const body = value.slice(start + 4, end);
+    const comma = firstTopLevelComma(body);
+    const name = (comma === -1 ? body : body.slice(0, comma)).trim();
+    const isRole = colorRolePattern.test(name);
+
+    if (isRole && !insideHook) {
+      reads.push({ name, index: offset + start });
+    }
+
+    if (comma !== -1) {
+      const hook = insideHook || (name.startsWith('--kui-') && !isRole);
+
+      bareColorRoleReads(body.slice(comma + 1), hook, offset + start + 4 + comma + 1, reads);
+    }
+
+    index = end + 1;
+  }
+
+  return reads;
+}
+
+function firstTopLevelComma(text) {
+  let depth = 0;
+
+  for (let index = 0; index < text.length; index += 1) {
+    if (text[index] === '(') {
+      depth += 1;
+    } else if (text[index] === ')') {
+      depth -= 1;
+    } else if (text[index] === ',' && depth === 0) {
+      return index;
+    }
+  }
+
+  return -1;
+}
+
 function collectTextFiles(root, entries) {
   const files = [];
 
@@ -483,6 +1603,22 @@ function collectTextFiles(root, entries) {
 
 function isTextFile(file) {
   return textExtensions.has(file.slice(file.lastIndexOf('.')));
+}
+
+function isIgnoredByGit(root, file) {
+  if (!existsSync(join(root, '.git'))) {
+    return false;
+  }
+
+  try {
+    execFileSync('git', ['check-ignore', '--quiet', '--', toRepoPath(root, file)], {
+      cwd: root,
+      stdio: 'ignore',
+    });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function stripLineComment(line) {

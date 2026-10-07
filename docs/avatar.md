@@ -7,7 +7,7 @@ presence status, and grouped avatar stacks.
 ## Import
 
 ```ts
-import { KuiAvatarComponent, KuiAvatarGroupComponent } from '@kikita-labs/ui';
+import { KuiAvatar, KuiAvatarGroup } from '@kikita-labs/ui';
 ```
 
 Import the public stylesheet once:
@@ -72,7 +72,8 @@ readonly members = [
 ```
 
 When the number of items exceeds `max`, the group renders a `+N` overflow avatar with an
-accessible label such as `2 more`.
+accessible label such as `2 more`. Static numeric values are coerced; `max` below `1` and invalid
+values use the default of `4`.
 
 ## Button-Backed Avatar
 
@@ -91,27 +92,88 @@ preserves native keyboard and accessibility behavior.
 
 ### `kui-avatar`
 
-| Input          | Type                                            | Default     | Description                                               |
-| -------------- | ----------------------------------------------- | ----------- | --------------------------------------------------------- |
-| `src`          | `string \| undefined`                           | `undefined` | Image URL. Falls back on load error.                      |
-| `name`         | `string \| undefined`                           | `undefined` | Used for initials, palette hashing, and label.            |
-| `initials`     | `string \| undefined`                           | auto        | Explicit one or two character initials.                   |
-| `alt`          | `string \| undefined`                           | `name`      | Image alt and accessible label override.                  |
-| `size`         | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'`      | Fixed avatar size.                                        |
-| `shape`        | `'circle' \| 'square'`                          | `'circle'`  | Avatar shape.                                             |
-| `status`       | `'online' \| 'away' \| 'busy' \| 'offline'`     | `undefined` | Optional presence indicator.                              |
-| `paletteIndex` | `number \| undefined`                           | auto        | Palette slot from 1 to 7. Clamped when explicit.          |
-| `loading`      | `boolean`                                       | `false`     | Uses `[kuiSkeleton]` internally and hides avatar content. |
+| Input          | Type                                            | Default     | Description                                                                  |
+| -------------- | ----------------------------------------------- | ----------- | ---------------------------------------------------------------------------- |
+| `src`          | `string \| undefined`                           | `undefined` | Image URL. Falls back on load error.                                         |
+| `name`         | `string \| undefined`                           | `undefined` | Used for initials, palette hashing, and label.                               |
+| `initials`     | `string \| undefined`                           | auto        | Explicit one or two character initials.                                      |
+| `alt`          | `string \| undefined`                           | `name`      | Image alt and accessible label override.                                     |
+| `size`         | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'`      | Fixed avatar size.                                                           |
+| `shape`        | `'circle' \| 'square'`                          | `'circle'`  | Avatar shape.                                                                |
+| `status`       | `'online' \| 'away' \| 'busy' \| 'offline'`     | `undefined` | Optional presence indicator.                                                 |
+| `paletteIndex` | `number \| undefined`                           | auto        | Static numeric values are coerced; finite values clamp to palette slots 1–7. |
+| `loading`      | `boolean`                                       | `false`     | Uses `[kuiSkeleton]` internally and hides avatar content.                    |
 
 ### `kui-avatar-group`
 
-| Input     | Type                       | Default          | Description                                 |
-| --------- | -------------------------- | ---------------- | ------------------------------------------- |
-| `avatars` | `readonly KuiAvatarItem[]` | `[]`             | Items rendered by the group.                |
-| `max`     | `number`                   | `4`              | Maximum visible avatars before overflow.    |
-| `size`    | `KuiAvatarSize`            | `'md'`           | Size applied to every avatar in the group.  |
-| `shape`   | `KuiAvatarShape`           | `'circle'`       | Shape applied to every avatar in the group. |
-| `label`   | `string`                   | `'Avatar group'` | Accessible group label.                     |
+| Input     | Type                       | Default          | Description                                                                       |
+| --------- | -------------------------- | ---------------- | --------------------------------------------------------------------------------- |
+| `avatars` | `readonly KuiAvatarItem[]` | `[]`             | Items rendered by the group.                                                      |
+| `max`     | `number`                   | `4`              | Maximum visible avatars before overflow; invalid or less-than-one values use `4`. |
+| `size`    | `KuiAvatarSize`            | `'md'`           | Size applied to every avatar in the group.                                        |
+| `shape`   | `KuiAvatarShape`           | `'circle'`       | Shape applied to every avatar in the group.                                       |
+| `label`   | `string`                   | `'Avatar group'` | Accessible group label.                                                           |
+
+## Provider Defaults
+
+Set `defaults.avatar` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    avatar: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    avatar: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option  | Values                                          | Description                                                       |
+| ------- | ----------------------------------------------- | ----------------------------------------------------------------- |
+| `size`  | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | Component size. Takes precedence over the global `defaults.size`. |
+| `shape` | `'circle' \| 'square'`                          | Default shape.                                                    |
+
+Each option resolves as `local input > defaults.avatar.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
+Set `defaults.avatarGroup` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    avatarGroup: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    avatarGroup: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option  | Values                                          | Description                                                       |
+| ------- | ----------------------------------------------- | ----------------------------------------------------------------- |
+| `size`  | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | Component size. Takes precedence over the global `defaults.size`. |
+| `shape` | `'circle' \| 'square'`                          | Default shape.                                                    |
+| `max`   | `number`                                        | Maximum avatars shown before the overflow counter.                |
+
+Each option resolves as `local input > defaults.avatarGroup.<option> > built-in default`. See [DI defaults](di-defaults.md).
 
 ## Accessibility
 
@@ -140,3 +202,16 @@ Avatar styles consume `--kui-*` variables only. Key component tokens:
 
 Avatar loading uses the shared Skeleton primitive and `--kui-skeleton-*` tokens instead of
 avatar-specific loading colors.
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                        | Default             | Controls             |
+| ---------------------------- | ------------------- | -------------------- |
+| `--kui-avatar-status-radius` | `--kui-radius-full` | Status corner radius |
+
+<!-- geometry-tokens:end -->

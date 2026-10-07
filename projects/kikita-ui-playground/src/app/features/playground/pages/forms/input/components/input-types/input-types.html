@@ -1,0 +1,23 @@
+<app-playground-example-card [heading]="'input.examples.types' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'input.accessibility.typesGroup' | transloco"
+    class="input-types__examples"
+  >
+    <kui-field [label]="'input.types.text' | transloco">
+      <input kuiInput type="text" [value]="'input.values.text' | transloco" />
+    </kui-field>
+
+    <kui-field [label]="'input.types.email' | transloco">
+      <input kuiInput type="email" [value]="'input.values.email' | transloco" />
+    </kui-field>
+
+    <kui-field [label]="'input.types.search' | transloco">
+      <input kuiInput type="search" [placeholder]="'input.placeholders.search' | transloco" />
+    </kui-field>
+
+    <kui-field [label]="'input.types.password' | transloco">
+      <input kuiInput type="password" [value]="'input.values.password' | transloco" />
+    </kui-field>
+  </div>
+</app-playground-example-card>

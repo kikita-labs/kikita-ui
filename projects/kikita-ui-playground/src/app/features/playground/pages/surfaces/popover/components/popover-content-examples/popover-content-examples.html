@@ -1,0 +1,66 @@
+<div class="popover-content-examples">
+  <div class="popover-content-examples__example">
+    <button kuiButton type="button" size="lg" [kuiPopoverFor]="infoPopover">
+      {{ 'popover.triggers.info' | transloco }}
+    </button>
+    <kui-popover
+      #infoPopover
+      placement="bottom"
+      align="start"
+      [arrow]="true"
+      [ariaLabel]="'popover.accessibility.infoPanel' | transloco"
+    >
+      <h2 kuiText variant="heading-sm" class="kui-popover-title">
+        {{ 'popover.content.infoTitle' | transloco }}
+      </h2>
+      <p kuiText class="kui-popover-desc">{{ 'popover.content.infoDescription' | transloco }}</p>
+    </kui-popover>
+  </div>
+
+  <div class="popover-content-examples__example">
+    @if (!sampleViewDeleted()) {
+      <p kuiText variant="body-sm">{{ 'popover.content.sampleView' | transloco }}</p>
+    } @else {
+      <p role="status" kuiText variant="body-sm">
+        {{ 'popover.content.sampleViewDeleted' | transloco }}
+      </p>
+    }
+    <button kuiButton type="button" shape="outline" size="lg" [kuiPopoverFor]="confirmationPopover">
+      {{ 'popover.triggers.confirmation' | transloco }}
+    </button>
+    <kui-popover
+      #confirmationPopover
+      placement="bottom"
+      align="start"
+      [arrow]="true"
+      [ariaLabel]="'popover.accessibility.confirmationPanel' | transloco"
+    >
+      <h2 kuiText variant="heading-sm" class="kui-popover-title">
+        {{ 'popover.content.confirmationTitle' | transloco }}
+      </h2>
+      <p kuiText class="kui-popover-desc">
+        {{ 'popover.content.confirmationDescription' | transloco }}
+      </p>
+      <div class="popover-content-examples__actions">
+        <button
+          kuiButton
+          type="button"
+          shape="outline"
+          size="lg"
+          (click)="confirmationPopover.close()"
+        >
+          {{ 'popover.actions.cancel' | transloco }}
+        </button>
+        <button
+          kuiButton
+          type="button"
+          appearance="primary"
+          size="lg"
+          (click)="confirmSampleDeletion(confirmationPopover)"
+        >
+          {{ 'popover.actions.confirm' | transloco }}
+        </button>
+      </div>
+    </kui-popover>
+  </div>
+</div>

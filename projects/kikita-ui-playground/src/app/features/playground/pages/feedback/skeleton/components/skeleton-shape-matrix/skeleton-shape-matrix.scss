@@ -1,0 +1,96 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .skeleton-matrix {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .skeleton-matrix__row {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .skeleton-matrix__row h3 {
+    margin: 0;
+  }
+
+  .skeleton-matrix__mobile-headings {
+    display: none;
+  }
+
+  .skeleton-matrix__variants {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .skeleton-matrix__variant {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .skeleton-matrix__animation-label {
+    margin: 0;
+  }
+
+  .skeleton-matrix__preview {
+    inline-size: 100%;
+    max-inline-size: var(--kui-space-16);
+  }
+
+  .skeleton-matrix__preview--rect {
+    block-size: var(--kui-space-8);
+  }
+
+  .skeleton-matrix__preview--circle,
+  .skeleton-matrix__preview--square {
+    inline-size: var(--kui-space-8);
+  }
+
+  @media (width < 30rem) {
+    .skeleton-matrix {
+      gap: var(--kui-space-1);
+    }
+
+    .skeleton-matrix__mobile-headings,
+    .skeleton-matrix__row {
+      display: grid;
+      grid-template-columns: minmax(4.5rem, 1.3fr) repeat(3, minmax(0, 1fr));
+      gap: var(--kui-space-2);
+      align-items: center;
+    }
+
+    .skeleton-matrix__mobile-headings {
+      text-align: center;
+    }
+
+    .skeleton-matrix__row {
+      min-block-size: var(--kui-space-8);
+    }
+
+    .skeleton-matrix__variants {
+      grid-column: 2 / -1;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--kui-space-2);
+    }
+
+    .skeleton-matrix__variant {
+      justify-items: center;
+      gap: 0;
+    }
+
+    .skeleton-matrix__animation-label {
+      display: none;
+    }
+  }
+}

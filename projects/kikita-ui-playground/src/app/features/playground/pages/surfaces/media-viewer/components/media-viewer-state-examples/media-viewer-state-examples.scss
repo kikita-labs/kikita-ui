@@ -1,0 +1,7 @@
+@layer app.components {
+  .media-viewer-state-examples__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-2);
+  }
+}

@@ -1,0 +1,40 @@
+@if (ctx.data.title; as title) {
+  <div class="kui-drawer-header">
+    <div class="kui-drawer-header-text">
+      <h2 class="kui-drawer-title">{{ title }}</h2>
+      @if (ctx.data.subtitle; as subtitle) {
+        <div class="kui-drawer-subtitle">{{ subtitle }}</div>
+      }
+    </div>
+  </div>
+}
+
+<div class="kui-drawer-body">
+  <p>{{ ctx.data.body }}</p>
+  <p>{{ ctx.data.referenceLabel }}: {{ ctx.data.reference }}</p>
+  <p>
+    {{ ctx.data.placementLabel }}: {{ 'drawer.values.sides.' + ctx.side | transloco }} /
+    {{ 'drawer.values.sizes.' + ctx.size | transloco }}
+  </p>
+  <p>
+    {{ ctx.data.closeButtonLabel }}:
+    {{
+      (ctx.closable ? 'drawer.values.closeButton.shown' : 'drawer.values.closeButton.hidden')
+        | transloco
+    }}
+  </p>
+  @for (line of ctx.data.bodyLines; track $index) {
+    <p>{{ line }}</p>
+  }
+</div>
+
+<div class="kui-drawer-footer">
+  @if (ctx.data.cancelLabel; as cancelLabel) {
+    <button kuiButton shape="outline" type="button" (click)="ctx.close('cancelled')">
+      {{ cancelLabel }}
+    </button>
+  }
+  <button kuiButton type="button" (click)="ctx.close(ctx.data.actionResult)">
+    {{ ctx.data.actionLabel }}
+  </button>
+</div>

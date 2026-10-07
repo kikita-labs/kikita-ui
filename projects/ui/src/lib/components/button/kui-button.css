@@ -1,0 +1,264 @@
+﻿@layer kui.components {
+  .kui-button {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--kui-btn-gap, 6px);
+    min-block-size: var(--kui-btn-height, var(--kui-control-height-md));
+    border: var(--kui-border-width-hairline) solid transparent;
+    border-radius: var(--kui-btn-radius, var(--kui-radius-md));
+    background-color: var(--_kui-btn-fill, var(--kui-btn-solid-bg, var(--kui-color-primary-fill)));
+    color: var(--_kui-btn-fg, var(--kui-btn-solid-fg, var(--kui-color-primary-on-fill, Canvas)));
+    cursor: pointer;
+    font: inherit;
+    font-size: var(--kui-btn-font-size, var(--kui-text-sm-size));
+    font-weight: var(--kui-btn-font-weight, var(--kui-font-weight-medium));
+    line-height: var(--kui-btn-line-height, 1.4);
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    overflow: hidden;
+    padding-inline: var(--kui-btn-padding-inline, var(--kui-btn-px, 16px));
+    position: relative;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    transition:
+      background-color var(--kui-duration-base) var(--kui-ease),
+      border-color var(--kui-duration-base) var(--kui-ease),
+      color var(--kui-duration-base) var(--kui-ease),
+      transform var(--kui-duration-fast) var(--kui-ease);
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  .kui-button[data-kui-wrap] {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  /* A spinner placed inside a button takes the button text colour, like the built-in loading state. */
+  .kui-button .kui-loader {
+    --kui-loader-track: color-mix(in oklch, currentColor 25%, transparent);
+    --kui-loader-fill: currentColor;
+  }
+
+  .kui-button__loader {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    align-self: center;
+    pointer-events: none;
+    translate: -50% -50%;
+    --kui-loader-track: color-mix(in oklch, currentColor 25%, transparent);
+    --kui-loader-fill: currentColor;
+  }
+
+  .kui-button__content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    gap: inherit;
+    transition: opacity var(--kui-duration-base) var(--kui-ease);
+  }
+
+  .kui-button__label {
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    overflow: hidden;
+    overflow-wrap: inherit;
+    text-overflow: ellipsis;
+    white-space: inherit;
+  }
+
+  .kui-button__label:empty {
+    display: none;
+  }
+
+  .kui-button[data-kui-wrap] .kui-button__content {
+    flex-wrap: wrap;
+  }
+
+  .kui-button[data-kui-loading] .kui-button__content {
+    opacity: 0;
+  }
+
+  .kui-button__icon-start,
+  .kui-button__icon-end {
+    flex-shrink: 0;
+  }
+
+  .kui-button:hover {
+    background-color: var(
+      --_kui-btn-fill-hover,
+      var(--kui-btn-solid-bg-hov, var(--kui-color-primary-fill-hover))
+    );
+  }
+
+  .kui-button:active {
+    background-color: var(
+      --_kui-btn-fill-active,
+      var(--kui-btn-solid-bg-act, var(--kui-color-primary-fill-active))
+    );
+    transform: scale(0.97);
+  }
+
+  .kui-button:focus-visible {
+    outline: var(--kui-btn-focus-ring-w, var(--kui-focus-ring-width)) solid
+      var(--kui-btn-focus-ring-color, var(--kui-color-focus, Highlight));
+    outline-offset: var(--kui-btn-focus-ring-off, var(--kui-focus-ring-offset));
+  }
+
+  .kui-button:focus:not(:focus-visible) {
+    outline: 0;
+  }
+
+  .kui-button[data-kui-size='xs'] {
+    min-block-size: var(--kui-btn-height-xs, var(--kui-control-height-xs));
+    padding-inline: var(--kui-btn-padding-inline-xs, var(--kui-space-2));
+  }
+
+  .kui-button[data-kui-size='sm'] {
+    min-block-size: var(--kui-btn-height-sm, var(--kui-control-height-sm));
+    padding-inline: var(--kui-btn-padding-inline-sm, var(--kui-space-3));
+  }
+
+  .kui-button[data-kui-size='lg'] {
+    min-block-size: var(--kui-btn-height-lg, var(--kui-control-height-lg));
+    padding-inline: var(--kui-btn-padding-inline-lg, var(--kui-space-5));
+  }
+
+  :is(.kui-button, .kui-icon-button)[data-kui-appearance='primary'] {
+    --_kui-btn-fill: var(--kui-btn-solid-bg, var(--kui-color-primary-fill));
+    --_kui-btn-fill-hover: var(--kui-btn-solid-bg-hov, var(--kui-color-primary-fill-hover));
+    --_kui-btn-fill-active: var(--kui-btn-solid-bg-act, var(--kui-color-primary-fill-active));
+    --_kui-btn-soft-bg: var(--kui-btn-soft-bg, var(--kui-color-primary-soft-bg));
+    --_kui-btn-soft-bg-hover: var(--kui-btn-soft-bg-hov, var(--kui-color-primary-soft-bg-hover));
+    --_kui-btn-soft-bg-active: var(--kui-btn-soft-bg-act, var(--kui-color-primary-soft-bg-active));
+    --_kui-btn-soft-fg: var(--kui-btn-soft-fg, var(--kui-color-primary-soft-text));
+    --_kui-btn-outline-border: var(--kui-color-primary-indicator);
+    --_kui-btn-outline-fg: var(--kui-color-primary-text);
+    --_kui-btn-ghost-fg: var(--kui-color-primary-text);
+  }
+
+  :is(.kui-button, .kui-icon-button)[data-kui-appearance='danger'] {
+    --_kui-btn-fill: var(--kui-btn-danger-bg, var(--kui-color-danger-fill));
+    --_kui-btn-fill-hover: var(--kui-btn-danger-bg-hov, var(--kui-color-danger-fill-hover));
+    --_kui-btn-fill-active: var(--kui-btn-danger-bg-act, var(--kui-color-danger-fill-active));
+    --_kui-btn-fg: var(--kui-btn-danger-fg, var(--kui-color-danger-on-fill));
+    --_kui-btn-soft-bg: var(--kui-color-danger-soft-bg);
+    --_kui-btn-soft-bg-hover: var(--kui-color-danger-soft-bg-hover);
+    --_kui-btn-soft-bg-active: var(--kui-color-danger-soft-bg-active);
+    --_kui-btn-soft-fg: var(--kui-color-danger-soft-text);
+    --_kui-btn-outline-border: var(--kui-color-danger-soft-border);
+    --_kui-btn-outline-fg: var(--kui-color-danger-soft-text);
+    --_kui-btn-ghost-fg: var(--kui-color-danger-soft-text);
+  }
+
+  :is(.kui-button, .kui-icon-button)[data-kui-appearance='success'] {
+    --_kui-btn-fill: var(--kui-btn-success-bg, var(--kui-color-success-fill));
+    --_kui-btn-fill-hover: var(--kui-btn-success-bg-hov, var(--kui-color-success-fill-hover));
+    --_kui-btn-fill-active: var(--kui-btn-success-bg-act, var(--kui-color-success-fill-active));
+    --_kui-btn-fg: var(--kui-btn-solid-fg, var(--kui-color-success-on-fill));
+    --_kui-btn-soft-bg: var(--kui-color-success-soft-bg);
+    --_kui-btn-soft-bg-hover: color-mix(in oklch, var(--kui-color-success-soft-bg), white 10%);
+    --_kui-btn-soft-bg-active: color-mix(in oklch, var(--kui-color-success-soft-bg), white 18%);
+    --_kui-btn-soft-fg: var(--kui-color-success-soft-text);
+    --_kui-btn-outline-border: var(--kui-color-success-soft-border);
+    --_kui-btn-outline-fg: var(--kui-color-success-soft-text);
+    --_kui-btn-ghost-fg: var(--kui-color-success-soft-text);
+  }
+
+  :is(.kui-button, .kui-icon-button)[data-kui-appearance='warning'] {
+    --_kui-btn-fill: var(--kui-btn-warning-bg, var(--kui-color-warning-fill));
+    --_kui-btn-fill-hover: var(--kui-btn-warning-bg-hov, var(--kui-color-warning-fill-hover));
+    --_kui-btn-fill-active: var(--kui-btn-warning-bg-act, var(--kui-color-warning-fill-active));
+    --_kui-btn-fg: var(--kui-btn-solid-fg, var(--kui-color-warning-on-fill));
+    --_kui-btn-soft-bg: var(--kui-color-warning-soft-bg);
+    --_kui-btn-soft-bg-hover: color-mix(in oklch, var(--kui-color-warning-soft-bg), white 10%);
+    --_kui-btn-soft-bg-active: color-mix(in oklch, var(--kui-color-warning-soft-bg), white 18%);
+    --_kui-btn-soft-fg: var(--kui-color-warning-soft-text);
+    --_kui-btn-outline-border: var(--kui-color-warning-soft-border);
+    --_kui-btn-outline-fg: var(--kui-color-warning-soft-text);
+    --_kui-btn-ghost-fg: var(--kui-color-warning-soft-text);
+  }
+
+  .kui-button[data-kui-shape='soft'] {
+    background-color: var(
+      --_kui-btn-soft-bg,
+      var(--kui-btn-soft-bg, var(--kui-color-primary-soft-bg))
+    );
+    color: var(--_kui-btn-soft-fg, var(--kui-btn-soft-fg, var(--kui-color-primary-soft-text)));
+  }
+
+  .kui-button[data-kui-shape='soft']:hover {
+    background-color: var(
+      --_kui-btn-soft-bg-hover,
+      var(--kui-btn-soft-bg-hov, var(--kui-color-primary-soft-bg-hover))
+    );
+  }
+
+  .kui-button[data-kui-shape='soft']:active {
+    background-color: var(
+      --_kui-btn-soft-bg-active,
+      var(--kui-btn-soft-bg-act, var(--kui-color-primary-soft-bg-active))
+    );
+  }
+
+  .kui-button[data-kui-shape='outline'] {
+    border-color: var(
+      --_kui-btn-outline-border,
+      var(--kui-btn-outline-border, var(--kui-color-border-control))
+    );
+    background-color: transparent;
+    color: var(--_kui-btn-outline-fg, var(--kui-btn-outline-fg, var(--kui-color-text)));
+  }
+
+  .kui-button[data-kui-shape='outline']:hover {
+    background-color: var(
+      --_kui-btn-soft-bg,
+      var(--kui-btn-outline-bg-hov, var(--kui-color-surface-elevated))
+    );
+  }
+
+  .kui-button[data-kui-shape='outline']:active {
+    background-color: var(
+      --_kui-btn-soft-bg-active,
+      var(--kui-btn-outline-bg-act, var(--kui-color-state-active))
+    );
+  }
+
+  .kui-button[data-kui-shape='ghost'] {
+    background-color: transparent;
+    color: var(--_kui-btn-ghost-fg, var(--kui-btn-ghost-fg, var(--kui-color-text-secondary)));
+  }
+
+  .kui-button[data-kui-shape='ghost']:hover {
+    background-color: var(
+      --_kui-btn-soft-bg,
+      var(--kui-btn-ghost-bg-hov, var(--kui-color-state-hover))
+    );
+  }
+
+  .kui-button[data-kui-shape='ghost']:active {
+    background-color: var(
+      --_kui-btn-soft-bg-active,
+      var(--kui-btn-ghost-bg-act, var(--kui-color-surface-elevated))
+    );
+  }
+
+  .kui-button:is(:disabled, [disabled], [aria-disabled='true']) {
+    cursor: not-allowed;
+    opacity: var(--kui-btn-disabled-opacity, var(--kui-opacity-disabled));
+    pointer-events: none;
+  }
+
+  /* A busy button is not unavailable: it keeps full colour so the spinner reads clearly. */
+  .kui-button[data-kui-loading]:is(:disabled, [disabled], [aria-disabled='true']) {
+    cursor: progress;
+    opacity: 1;
+  }
+}

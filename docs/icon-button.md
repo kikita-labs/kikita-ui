@@ -6,7 +6,7 @@ the same independent `shape` and `appearance` axes as `kuiButton`.
 ## Import
 
 ```ts
-import { KuiIconButtonDirective } from '@kikita-labs/ui';
+import { KuiIconButton } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -55,11 +55,11 @@ Use `loading` to show a spinner in place of the icon while an action is pending:
 
 ## Provider Defaults
 
-Use `kuiProvideButtonOptions` to configure repeated icon-button defaults:
+Use `provideKuiDefaults` to configure repeated icon-button defaults:
 
 ```ts
 providers: [
-  kuiProvideButtonOptions({
+  provideKuiDefaults({
     iconButton: { shape: 'outline', appearance: 'primary', size: 'sm' },
   }),
 ];
@@ -67,6 +67,16 @@ providers: [
 
 Use root `provideKikitaUi({ defaults: { size: 'sm' } })` for broad default sizing across all
 size-enabled primitives. Local inputs always win.
+
+### Configurable options
+
+`defaults.iconButton`:
+
+| Option       | Values                                                    | Description                                                                            |
+| ------------ | --------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `shape`      | `'solid' \| 'soft' \| 'outline' \| 'ghost'`               | Default surface shape.                                                                 |
+| `appearance` | `'primary' \| 'danger' \| 'success' \| 'warning' \| null` | Default semantic color intent. Use `null` for each shape's neutral/default appearance. |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg'`                            | Default button size. Takes precedence over the global `defaults.size`.                 |
 
 ## Migration from 0.1.4
 
@@ -92,3 +102,18 @@ bindings.
 ## Styles
 
 Import `@kikita-labs/ui/styles` once in the consumer application.
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                       | Default                   | Controls |
+| --------------------------- | ------------------------- | -------- |
+| `--kui-icon-button-size-xs` | `--kui-control-height-xs` | Size xs  |
+| `--kui-icon-button-size-sm` | `--kui-control-height-sm` | Size sm  |
+| `--kui-icon-button-size-lg` | `--kui-control-height-lg` | Size lg  |
+
+<!-- geometry-tokens:end -->

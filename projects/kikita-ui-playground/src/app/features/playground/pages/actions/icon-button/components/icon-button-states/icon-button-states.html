@@ -1,0 +1,64 @@
+<app-playground-example-card [heading]="'iconButton.examples.states' | transloco">
+  @let isInteractiveLoading = interactiveLoading();
+
+  <div
+    class="icon-button-states__examples"
+    id="icon-button-states"
+    role="group"
+    [attr.aria-label]="'iconButton.accessibility.states' | transloco"
+  >
+    <button
+      kuiIconButton
+      type="button"
+      icon="settings"
+      shape="solid"
+      appearance="primary"
+      disabled
+      [attr.aria-label]="'iconButton.actions.disabled' | transloco"
+    ></button>
+
+    <button
+      kuiIconButton
+      type="button"
+      icon="check"
+      shape="outline"
+      appearance="primary"
+      loading
+      [attr.aria-label]="'iconButton.actions.loading' | transloco"
+    ></button>
+
+    <a
+      kuiIconButton
+      href="#disabled-icon-button"
+      icon="settings"
+      disabled
+      [attr.aria-label]="'iconButton.actions.disabledLink' | transloco"
+    ></a>
+
+    <button
+      kuiIconButton
+      type="button"
+      icon="check"
+      shape="solid"
+      appearance="success"
+      [loading]="isInteractiveLoading"
+      [attr.aria-label]="'iconButton.actions.interactiveSave' | transloco"
+    ></button>
+
+    <button
+      kuiIconButton
+      type="button"
+      icon="settings"
+      [attr.aria-label]="'iconButton.actions.settings' | transloco"
+    ></button>
+
+    <button kuiButton type="button" shape="ghost" (click)="toggleInteractiveLoading()">
+      {{
+        (isInteractiveLoading
+          ? 'iconButton.actions.resetLoading'
+          : 'iconButton.actions.startLoading'
+        ) | transloco
+      }}
+    </button>
+  </div>
+</app-playground-example-card>

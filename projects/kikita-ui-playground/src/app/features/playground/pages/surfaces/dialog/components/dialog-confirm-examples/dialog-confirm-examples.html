@@ -1,0 +1,18 @@
+<app-dialog-example-actions>
+  <button kuiButton shape="outline" type="button" (click)="openDefault()">
+    {{ 'dialog.actions.openConfirmDefault' | transloco }}
+  </button>
+  <button kuiButton appearance="danger" type="button" (click)="openDanger()">
+    {{ 'dialog.actions.openConfirmDanger' | transloco }}
+  </button>
+  <button kuiButton appearance="warning" type="button" (click)="openWarning()">
+    {{ 'dialog.actions.openConfirmWarning' | transloco }}
+  </button>
+  <button kuiButton shape="outline" type="button" (click)="openWithoutMessage()">
+    {{ 'dialog.actions.openConfirmWithoutMessage' | transloco }}
+  </button>
+</app-dialog-example-actions>
+
+@if (result(); as message) {
+  <p class="dialog-example-result" role="status">{{ message }}</p>
+}

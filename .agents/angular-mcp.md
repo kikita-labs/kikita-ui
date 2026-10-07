@@ -19,9 +19,11 @@ This is tracked upstream as:
 https://github.com/openai/codex/issues/29002
 ```
 
-When this Codex bug appears, do not change repository source code to work around
-it. Use the default Angular CLI MCP configuration and fall back to repository
-docs plus local CLI checks until Codex fixes MCP result handling.
+When this client-side issue appears, do not treat the server as unavailable and
+do not change project source or MCP configuration to work around it. Discover
+and read the server's `instructions://best-practices` MCP resource. Continue using
+working tools such as `list_projects` and `run_target`. Use repository docs and
+local CLI checks only when the corresponding resource or tool is also unavailable.
 
-If Angular MCP tooling is unavailable, record the exact tool error in the final
-response instead of pretending the MCP best-practices gate passed.
+Record the failed call and successful fallback separately. Reading the resource
+satisfies loading the guide; it does not mean the failed tool call succeeded.

@@ -1,0 +1,334 @@
+{
+  "playground": {
+    "title": "Kikita UI",
+    "product": "Playground",
+    "language": "Switch language to Russian",
+    "theme": {
+      "useLight": "Switch to light theme",
+      "useDark": "Switch to dark theme"
+    },
+    "palette": {
+      "title": "Seed tokens",
+      "open": "Open theme colors",
+      "openColorPicker": "Open seed color picker",
+      "reset": "Reset to defaults",
+      "contrast": {
+        "label": "Contrast",
+        "strict": "Strict",
+        "soft": "Soft"
+      },
+      "invalidColor": "Enter a valid #RGB, #RRGGBB, or OKLCH color.",
+      "colors": {
+        "primary": "Primary",
+        "neutral": "Neutral",
+        "success": "Success",
+        "warning": "Warning",
+        "danger": "Danger",
+        "info": "Info"
+      }
+    },
+    "navigation": {
+      "title": "Components",
+      "label": "Component navigation",
+      "searchLabel": "Search components",
+      "searchPlaceholder": "Find component",
+      "noResults": "No components found."
+    },
+    "groups": {
+      "actions": "Actions",
+      "forms": "Forms",
+      "surfaces": "Surfaces",
+      "feedback": "Feedback",
+      "dataIdentity": "Data and identity"
+    },
+    "components": {
+      "accordion": "Accordion",
+      "alert": "Alert",
+      "avatar": "Avatar",
+      "badge": "Badge",
+      "breadcrumbs": "Breadcrumbs",
+      "button": "Button",
+      "calendar": "Calendar",
+      "calendarRange": "Calendar Range",
+      "card": "Card",
+      "carousel": "Carousel",
+      "chart": "Chart",
+      "checkbox": "Checkbox",
+      "chip": "Chip",
+      "colorInput": "Color input",
+      "combobox": "Combobox",
+      "commandPalette": "Command palette",
+      "datePicker": "Date picker",
+      "dialog": "Dialog",
+      "drawer": "Drawer",
+      "dropdown": "Dropdown",
+      "emptyState": "Empty state",
+      "field": "Field",
+      "fileUpload": "File upload",
+      "group": "Group",
+      "icon": "Icon",
+      "iconButton": "Icon button",
+      "input": "Input",
+      "link": "Link",
+      "loader": "Loader",
+      "mediaViewer": "Media viewer",
+      "menu": "Menu",
+      "numberInput": "Number input",
+      "otpInput": "OTP input",
+      "pagination": "Pagination",
+      "popover": "Popover",
+      "progress": "Progress",
+      "radio": "Radio",
+      "scrollbar": "Scrollbar",
+      "segmented": "Segmented",
+      "select": "Select",
+      "separator": "Separator",
+      "skeleton": "Skeleton",
+      "slider": "Slider",
+      "splitter": "Splitter",
+      "stepper": "Stepper",
+      "switch": "Switch",
+      "table": "Table",
+      "tabs": "Tabs",
+      "textarea": "Textarea",
+      "timePicker": "Time picker",
+      "toast": "Toast",
+      "tooltip": "Tooltip",
+      "tree": "Tree",
+      "typography": "Typography"
+    },
+    "workspace": {
+      "selectComponent": "Select a component",
+      "pageComingSoon": "Its playground page will be added in a later phase."
+    }
+  },
+  "kui": {
+    "common": {
+      "clear": "Clear",
+      "close": "Close",
+      "loading": "Loading",
+      "remove": "Remove"
+    },
+    "alert": {
+      "close": "Close notification"
+    },
+    "avatar": {
+      "fallback": "Avatar",
+      "statusOnline": "online",
+      "statusAway": "away",
+      "statusBusy": "busy",
+      "statusOffline": "offline",
+      "withStatus": "{label}, {status}"
+    },
+    "avatarGroup": {
+      "label": "Avatar group",
+      "overflow": "{count} more"
+    },
+    "calendar": {
+      "label": "Calendar",
+      "today": "Today",
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "previousYear": "Previous year",
+      "nextYear": "Next year",
+      "previousDecade": "Previous decade",
+      "nextDecade": "Next decade"
+    },
+    "carousel": {
+      "label": "Slides",
+      "roleDescription": "carousel",
+      "slideRoleDescription": "slide",
+      "previous": "Previous slide",
+      "next": "Next slide",
+      "pause": "Pause autoplay",
+      "resume": "Resume autoplay",
+      "dots": "Choose slide",
+      "goToSlide": "Go to slide {index} of {total}",
+      "slidePosition": "{index} of {total}"
+    },
+    "chart": {
+      "loading": "Loading chart",
+      "noData": "No data",
+      "viewChart": "Chart",
+      "viewTable": "Table",
+      "columnCategory": "Category",
+      "columnSeries": "Series",
+      "columnLabel": "Label",
+      "columnValue": "Value",
+      "columnX": "X",
+      "columnY": "Y",
+      "columnRadius": "Radius",
+      "legendLabel": "Legend",
+      "lineLabel": "Line chart",
+      "barLabel": "Bar chart",
+      "donutLabel": "Donut chart",
+      "scatterLabel": "Scatter chart",
+      "lineRoleDescription": "line chart",
+      "barRoleDescription": "bar chart",
+      "donutRoleDescription": "donut chart",
+      "scatterRoleDescription": "scatter chart",
+      "pointWithCategory": "{series} · {category}: {value}",
+      "point": "{series}: {value}",
+      "scatterPoint": "{series}: ({x}, {y})",
+      "bubblePoint": "{series}: ({x}, {y}), radius {radius}",
+      "slice": "{label}: {value} ({percent}%)"
+    },
+    "colorInput": {
+      "openPicker": "Open color picker",
+      "pickerLabel": "Lightness and chroma",
+      "hue": "Hue",
+      "preset": "{name} seed: {value}",
+      "presetPrimary": "Primary",
+      "presetNeutral": "Neutral",
+      "presetSuccess": "Success",
+      "presetWarning": "Warning",
+      "presetDanger": "Danger",
+      "presetInfo": "Info",
+      "copyValue": "Copy value"
+    },
+    "combobox": {
+      "openOptions": "Open options",
+      "closeOptions": "Close options"
+    },
+    "commandPalette": {
+      "placeholder": "Type a command or search...",
+      "label": "Command palette",
+      "empty": "No commands found",
+      "emptyDescription": "Try a different query.",
+      "clearSearch": "Clear search",
+      "keyUp": "Up",
+      "keyDown": "Down",
+      "keyEnter": "Enter",
+      "keyEscape": "Esc",
+      "hintNavigate": "navigate",
+      "hintRun": "run",
+      "hintClose": "close"
+    },
+    "datePicker": {
+      "openCalendar": "Open calendar",
+      "closeCalendar": "Close calendar",
+      "dayPlaceholder": "dd",
+      "monthPlaceholder": "mm",
+      "yearPlaceholder": "yyyy"
+    },
+    "dialog": {
+      "label": "Dialog",
+      "confirm": "OK",
+      "cancel": "Cancel"
+    },
+    "drawer": {
+      "label": "Drawer"
+    },
+    "fileUpload": {
+      "dropzoneLabel": "Upload file. Drag and drop or click to browse.",
+      "promptBefore": "Drag files here or ",
+      "promptAction": "choose a file",
+      "promptAfter": "",
+      "chooseFile": "Choose file",
+      "attachFile": "Attach file",
+      "invalidType": "Invalid file type",
+      "tooLarge": "Exceeds max size (max {max})",
+      "tooMany": {
+        "$select": "max",
+        "one": "Maximum {max} file",
+        "few": "Maximum {max} files",
+        "many": "Maximum {max} files",
+        "other": "Maximum {max} files"
+      },
+      "uploading": "Uploading {name}",
+      "removeFile": "Remove {name}",
+      "done": "Done",
+      "queued": "Queued",
+      "retry": "Retry"
+    },
+    "link": {
+      "opensInNewTab": "(opens in a new tab)"
+    },
+    "mediaViewer": {
+      "label": "Photo viewer",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "close": "Close photo viewer",
+      "previous": "Previous photo",
+      "next": "Next photo",
+      "goTo": "Go to photo {index} of {total}",
+      "position": "{label}, photo {index} of {total}",
+      "loadErrorTitle": "Could not load this photo",
+      "loadErrorDescription": "Check your connection and try again"
+    },
+    "menu": {
+      "label": "Actions"
+    },
+    "numberInput": {
+      "decrease": "Decrease value",
+      "increase": "Increase value"
+    },
+    "otpInput": {
+      "label": "Verification code",
+      "digit": "Digit {index} of {total}",
+      "verifying": "Verifying code"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "first": "First page",
+      "previous": "Previous page",
+      "next": "Next page",
+      "last": "Last page",
+      "page": {
+        "$select": "current",
+        "true": "Page {page}, current",
+        "false": "Page {page}"
+      },
+      "rowsPerPage": "Rows per page",
+      "summary": "Showing {start}–{end} of {total}",
+      "simplePage": "Page {page} of {total}"
+    },
+    "popover": {
+      "label": "Popover"
+    },
+    "select": {
+      "openOptions": "Open options",
+      "closeOptions": "Close options",
+      "removeItem": "Remove {label}"
+    },
+    "splitter": {
+      "collapsePane": "Collapse pane",
+      "expandPane": "Expand pane"
+    },
+    "stepper": {
+      "backToStep": "Back to step {label}",
+      "goToStep": "Go to step {label}"
+    },
+    "table": {
+      "selectRow": "Select row",
+      "selectAllRows": "Select all rows",
+      "sortAscending": "Sort {label} ascending",
+      "sortDescending": "Sort {label} descending",
+      "clearSort": "Clear {label} sort"
+    },
+    "tabs": {
+      "scrollLeft": "Scroll tabs left",
+      "scrollRight": "Scroll tabs right",
+      "errorIndicator": "has error"
+    },
+    "timePicker": {
+      "openPicker": "Open time picker",
+      "closePicker": "Close time picker",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds",
+      "period": "AM/PM",
+      "now": "Now",
+      "done": "Done",
+      "hourPlaceholder": "hh",
+      "minutePlaceholder": "mm",
+      "secondPlaceholder": "ss"
+    },
+    "toast": {
+      "region": "Notifications"
+    },
+    "tree": {
+      "label": "Tree"
+    }
+  }
+}

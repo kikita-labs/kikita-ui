@@ -1,0 +1,29 @@
+<main
+  tabindex="0"
+  class="playground-workspace typography-playground"
+  aria-labelledby="typography-playground-title"
+>
+  <h1 id="typography-playground-title" kuiText variant="heading-lg">
+    {{ 'typography.title' | transloco }}
+  </h1>
+
+  <div class="typography-playground__catalogue">
+    <section role="group" [attr.aria-label]="'typography.accessibility.default' | transloco">
+      <app-playground-example-card [heading]="'typography.examples.default' | transloco">
+        <p kuiText>{{ 'typography.samples.body' | transloco }}</p>
+      </app-playground-example-card>
+    </section>
+
+    <app-typography-tones />
+
+    <app-typography-roles class="typography-playground__wide" />
+
+    <app-typography-hosts />
+
+    <app-typography-matrix class="typography-playground__wide" />
+
+    <app-typography-layout />
+
+    <app-typography-scopes class="typography-playground__wide" />
+  </div>
+</main>

@@ -1,0 +1,36 @@
+{
+  "title": "Выбор цвета",
+  "examples": {
+    "default": "По умолчанию",
+    "sizes": "Размеры",
+    "values": "Форматы цвета",
+    "states": "Состояния поля"
+  },
+  "fields": {
+    "basicLabel": "Значение цвета",
+    "basicHint": "Введите цвет в формате hex или OKLCH.",
+    "hexLabel": "Hex",
+    "oklchLabel": "OKLCH",
+    "disabledLabel": "Недоступно",
+    "disabledHint": "Это значение нельзя изменить.",
+    "readonlyLabel": "Только чтение",
+    "focusedLabel": "В фокусе",
+    "invalidLabel": "Некорректное значение",
+    "invalidError": "Укажите поддерживаемое значение цвета."
+  },
+  "sizes": {
+    "xs": "Очень маленький",
+    "sm": "Маленький",
+    "md": "Средний",
+    "lg": "Большой"
+  },
+  "actions": {
+    "swatch": "Выбрать цвет"
+  },
+  "accessibility": {
+    "defaultGroup": "Поле выбора цвета по умолчанию",
+    "sizesGroup": "Размеры поля выбора цвета",
+    "valuesGroup": "Форматы значения цвета",
+    "statesGroup": "Состояния поля выбора цвета"
+  }
+}

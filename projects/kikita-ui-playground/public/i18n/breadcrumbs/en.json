@@ -1,0 +1,41 @@
+{
+  "title": "Breadcrumbs",
+  "examples": {
+    "default": "Default",
+    "composition": "Crumb composition",
+    "plainText": "Plain-text grouping crumb",
+    "leadingIcon": "Leading icon",
+    "sizes": "Sizes",
+    "responsive": "Narrow layouts",
+    "truncate": "Truncate a middle crumb",
+    "ellipsis": "Ellipsis slot (consumer menu wiring)",
+    "firstAndLast": "First and last only"
+  },
+  "accessibility": {
+    "navigation": "Breadcrumb",
+    "navigationFor": "Breadcrumb: {{example}}",
+    "default": "Default breadcrumb example",
+    "composition": "Breadcrumb composition examples",
+    "plainText": "Plain-text grouping crumb example",
+    "leadingIcon": "Leading icon example",
+    "sizes": "Breadcrumb size examples",
+    "size": "Breadcrumb {{size}} size example",
+    "responsive": "Breadcrumb narrow layout examples",
+    "truncate": "Truncated middle crumb example",
+    "ellipsis": "Static ellipsis slot example; menu wiring is consumer-owned",
+    "firstAndLast": "First and last crumb example"
+  },
+  "size": {
+    "small": "Small (sm)",
+    "medium": "Medium (md)",
+    "large": "Large (lg)"
+  },
+  "items": {
+    "playground": "Playground",
+    "surfaces": "Surfaces",
+    "catalog": "Catalog",
+    "headphones": "Headphones",
+    "current": "Breadcrumbs",
+    "longSection": "Design system component library"
+  }
+}

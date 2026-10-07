@@ -1,0 +1,15 @@
+<app-playground-example-card [heading]="'numberInput.examples.validation' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'numberInput.accessibility.validation' | transloco"
+    class="number-input-validation__content"
+  >
+    <kui-field
+      [label]="'numberInput.fields.validatedQuantity' | transloco"
+      [hint]="'numberInput.hints.validation' | transloco"
+      [required]="true"
+    >
+      <input type="number" kuiNumberInput [formField]="validationForm.quantity" />
+    </kui-field>
+  </div>
+</app-playground-example-card>

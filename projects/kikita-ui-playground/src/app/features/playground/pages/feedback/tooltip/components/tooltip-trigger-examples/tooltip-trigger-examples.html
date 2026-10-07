@@ -1,0 +1,32 @@
+<div class="tooltip-trigger-examples">
+  <button kuiButton type="button" [kuiTooltip]="'tooltip.messages.auto' | transloco">
+    {{ 'tooltip.mode.auto' | transloco }}
+  </button>
+
+  <button
+    kuiButton
+    type="button"
+    triggerType="hover"
+    [kuiTooltip]="'tooltip.messages.hover' | transloco"
+  >
+    {{ 'tooltip.mode.hover' | transloco }}
+  </button>
+
+  <button
+    kuiButton
+    type="button"
+    triggerType="click"
+    [kuiTooltip]="'tooltip.messages.click' | transloco"
+  >
+    {{ 'tooltip.mode.click' | transloco }}
+  </button>
+
+  <button
+    kuiButton
+    type="button"
+    triggerType="none"
+    [kuiTooltip]="'tooltip.messages.none' | transloco"
+  >
+    {{ 'tooltip.mode.none' | transloco }}
+  </button>
+</div>

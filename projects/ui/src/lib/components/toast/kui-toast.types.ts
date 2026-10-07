@@ -2,6 +2,8 @@ import type { Signal } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
+import type { KuiIconGlyph } from '../icon/kui-icon-glyph.type';
+
 /** Visual intent of a toast notification. */
 export type KuiToastAppearance = 'neutral' | 'success' | 'warning' | 'danger' | 'info';
 
@@ -36,7 +38,7 @@ export interface KuiToastConfig {
   showProgress?: boolean;
 }
 
-/** Global defaults applied by {@link KuiToastService.open} before per-call config is merged. */
+/** Global defaults applied by {@link KuiToast.open} before per-call config is merged. */
 export interface KuiToastOptions {
   /** Default position of the toast region. Defaults to `'bottom-center'`. */
   position?: KuiToastPosition;
@@ -50,9 +52,11 @@ export interface KuiToastOptions {
   closable?: boolean;
   /** Default value for `showIcon`. Defaults to `true`. */
   showIcon?: boolean;
+  /** Icon of the close button. Takes precedence over `defaults.icons.close`. */
+  closeIcon?: KuiIconGlyph;
 }
 
-/** Handle returned by {@link KuiToastService.open}. */
+/** Handle returned by {@link KuiToast.open}. */
 export interface KuiToastRef {
   /** Stable identifier for this toast within the owning toast service. */
   readonly id: number;

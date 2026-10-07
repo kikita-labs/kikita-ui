@@ -1,0 +1,17 @@
+@for (entry of entries(); track entry.id) {
+  <svg:pattern
+    [attr.id]="entry.id"
+    patternUnits="userSpaceOnUse"
+    [attr.width]="tile"
+    [attr.height]="tile"
+    [style.--_kui-chart-pattern-color]="entry.color"
+  >
+    <svg:rect class="kui-chart__pattern-ground" [attr.width]="tile" [attr.height]="tile" />
+    <svg:rect class="kui-chart__pattern-bg" [attr.width]="tile" [attr.height]="tile" />
+    <svg:path
+      class="kui-chart__pattern-mark"
+      [class.kui-chart__pattern-mark--filled]="entry.shape.filled"
+      [attr.d]="entry.shape.d"
+    />
+  </svg:pattern>
+}

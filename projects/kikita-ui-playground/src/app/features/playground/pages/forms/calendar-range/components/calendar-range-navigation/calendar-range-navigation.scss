@@ -1,0 +1,15 @@
+@layer app.components {
+  .calendar-range-navigation__pair {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .calendar-range-navigation__calendar {
+    display: block;
+    min-inline-size: 0;
+
+    --kui-calendar-width: min(100%, 296px);
+  }
+}

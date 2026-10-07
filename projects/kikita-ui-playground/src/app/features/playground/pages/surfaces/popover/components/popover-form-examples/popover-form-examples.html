@@ -1,0 +1,36 @@
+<div class="popover-form-examples">
+  @if (savedReminder(); as reminder) {
+    <p role="status" kuiText variant="body-sm">
+      {{ 'popover.form.saved' | transloco: { name: reminder } }}
+    </p>
+  }
+
+  <button kuiButton type="button" size="lg" [kuiPopoverFor]="reminderPopover">
+    {{ 'popover.triggers.form' | transloco }}
+  </button>
+
+  <kui-popover
+    #reminderPopover
+    placement="bottom"
+    align="start"
+    [arrow]="true"
+    [trapFocus]="true"
+    [ariaLabel]="'popover.accessibility.formPanel' | transloco"
+  >
+    <form class="popover-form-examples__form" [formRoot]="form">
+      <kui-field
+        [label]="'popover.form.label' | transloco"
+        [hint]="'popover.form.hint' | transloco"
+      >
+        <input
+          kuiInput
+          [formField]="form.subject"
+          [placeholder]="'popover.form.placeholder' | transloco"
+        />
+      </kui-field>
+      <button kuiButton type="submit" size="lg" [disabled]="form().submitting()">
+        {{ 'popover.actions.save' | transloco }}
+      </button>
+    </form>
+  </kui-popover>
+</div>

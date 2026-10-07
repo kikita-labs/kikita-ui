@@ -1,0 +1,18 @@
+{
+  "skill": "kikita-create-angular-app",
+  "skillVersion": "2.1.2",
+  "skillCommit": "39b2329eab73f5567a5245152b62627bf24ca968",
+  "createdAt": "2026-09-22",
+  "answers": {
+    "css": "scss",
+    "uiLibrary": "@kikita-labs/ui workspace source",
+    "tests": "Vitest unit tests and Playwright browser checks",
+    "ssr": true,
+    "i18n": "Transloco runtime switching for en and ru",
+    "mandatoryJsdoc": true,
+    "prefix": "app",
+    "gitPolicy": "Commit explicitly requested, reviewable slices; always ask before pushing.",
+    "packageManager": "pnpm",
+    "gitRemote": null
+  }
+}

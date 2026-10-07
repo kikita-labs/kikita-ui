@@ -1,0 +1,62 @@
+{
+  "title": "Progress",
+  "examples": {
+    "default": "Default",
+    "linearMatrix": "Linear · color × size",
+    "circularMatrix": "Circular · color × size",
+    "values": "Value boundaries",
+    "indeterminate": "Indeterminate",
+    "composition": "Composition",
+    "live": "Consumer-controlled value"
+  },
+  "accessibility": {
+    "defaultGroup": "Default progress example",
+    "defaultProgress": "Loading progress",
+    "linearMatrix": "Linear progress variants",
+    "circularMatrix": "Circular progress variants",
+    "sizeRow": "{{size}} size variants",
+    "matrixProgress": "{{color}} {{size}} progress",
+    "values": "Progress values",
+    "valueCase": "Input {{input}}, reports {{reported}} percent",
+    "valueProgress": "{{value}} percent progress",
+    "invalidValue": "Invalid numeric value",
+    "invalidProgress": "Invalid input, indeterminate progress",
+    "indeterminateExamples": "Indeterminate progress shapes",
+    "compositions": "Progress compositions",
+    "indeterminateLinear": "Indeterminate linear example",
+    "indeterminateCircular": "Indeterminate circular example",
+    "loading": "Loading progress",
+    "externalLabel": "External linear label composition",
+    "externalProgress": "Upload report, 68 percent",
+    "circularLabel": "Circular center label composition",
+    "circularProgress": "Profile completion, 72 percent",
+    "liveGroup": "Consumer-controlled progress",
+    "liveProgress": "Current progress, {{value}} percent"
+  },
+  "labels": {
+    "sizes": {
+      "xs": "xs",
+      "sm": "sm",
+      "md": "md",
+      "lg": "lg",
+      "xl": "xl"
+    },
+    "colors": {
+      "primary": "Primary",
+      "success": "Success",
+      "warning": "Warning",
+      "danger": "Danger",
+      "neutral": "Neutral"
+    },
+    "linearXlFallback": "same thickness as md",
+    "circularXsFallback": "uses md geometry",
+    "valueCase": "Input {{input}} → reports {{reported}}%",
+    "invalidValue": "Invalid numeric value",
+    "linear": "Linear",
+    "circular": "Circular",
+    "percent": "{{value}}%",
+    "upload": "Uploading report",
+    "profile": "Profile completion",
+    "range": "Progress value"
+  }
+}

@@ -1,0 +1,43 @@
+<app-playground-example-card [heading]="'stepper.examples.linear' | transloco">
+  <section
+    class="stepper-example"
+    role="group"
+    [attr.aria-label]="'stepper.accessibility.linear' | transloco"
+  >
+    <kui-stepper
+      [(currentIndex)]="linearIndex"
+      [attr.aria-label]="'stepper.accessibility.progress' | transloco"
+    >
+      <kui-step [label]="'stepper.steps.account' | transloco" />
+      <kui-step [label]="'stepper.steps.workspace' | transloco" />
+      <kui-step [label]="'stepper.steps.review' | transloco" />
+    </kui-stepper>
+
+    <div class="stepper-example__actions">
+      <button kuiButton shape="outline" type="button" (click)="previousLinear()">
+        {{ 'stepper.actions.back' | transloco }}
+      </button>
+      <button kuiButton type="button" (click)="nextLinear()">
+        {{ 'stepper.actions.next' | transloco }}
+      </button>
+    </div>
+  </section>
+</app-playground-example-card>
+
+<app-playground-example-card [heading]="'stepper.examples.nonlinear' | transloco">
+  <section
+    class="stepper-example"
+    role="group"
+    [attr.aria-label]="'stepper.accessibility.nonlinear' | transloco"
+  >
+    <kui-stepper
+      [linear]="false"
+      [(currentIndex)]="nonlinearIndex"
+      [attr.aria-label]="'stepper.accessibility.progress' | transloco"
+    >
+      <kui-step [label]="'stepper.steps.account' | transloco" />
+      <kui-step [label]="'stepper.steps.workspace' | transloco" />
+      <kui-step [label]="'stepper.steps.review' | transloco" />
+    </kui-stepper>
+  </section>
+</app-playground-example-card>

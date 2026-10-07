@@ -1,0 +1,31 @@
+<main class="playground-workspace drawer-playground" aria-labelledby="drawer-playground-title">
+  <h1 id="drawer-playground-title" kuiText variant="heading-lg">
+    {{ 'drawer.title' | transloco }}
+  </h1>
+
+  <div class="drawer-playground__catalogue">
+    <section role="group" [attr.aria-label]="'drawer.accessibility.placement' | transloco">
+      <app-playground-example-card [heading]="'drawer.examples.placement' | transloco">
+        <app-drawer-side-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'drawer.accessibility.sizes' | transloco">
+      <app-playground-example-card [heading]="'drawer.examples.sizes' | transloco">
+        <app-drawer-size-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'drawer.accessibility.content' | transloco">
+      <app-playground-example-card [heading]="'drawer.examples.content' | transloco">
+        <app-drawer-content-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'drawer.accessibility.dismissal' | transloco">
+      <app-playground-example-card [heading]="'drawer.examples.dismissal' | transloco">
+        <app-drawer-dismissal-examples />
+      </app-playground-example-card>
+    </section>
+  </div>
+</main>

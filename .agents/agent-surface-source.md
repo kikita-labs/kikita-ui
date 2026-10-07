@@ -17,9 +17,10 @@ Every public primitive or public API change must keep the source docs accurate:
   token;
 - public style docs when CSS custom properties or theme tokens change.
 
-Source docs must describe shipped behavior only. If an API is implemented but
-not released, mark that status clearly and do not ask the docs repo to publish
-it as available.
+Source docs describe implemented contracts. If an API is implemented but not
+released, mark that status clearly and do not ask the docs repo to publish it
+as available. Use the changelog and release artifacts to establish publication;
+neither a source branch nor the package version field alone proves it.
 
 ## Facts Needed By Agents
 

@@ -1,0 +1,44 @@
+<section role="group" [attr.aria-label]="'timePicker.accessibility.fieldStates' | transloco">
+  <app-playground-example-card [heading]="'timePicker.examples.fieldStates' | transloco">
+    <div class="time-picker-grid">
+      <kui-field [label]="'timePicker.fields.inheritedClear' | transloco">
+        <input kuiTimePicker [(value)]="inheritedTime" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field [label]="'timePicker.fields.localClearTrue' | transloco">
+        <input kuiTimePicker [(value)]="localTime" [clearable]="true" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field [label]="'timePicker.fields.disabledTime' | transloco">
+        <input kuiTimePicker [(value)]="disabledTime" disabled />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field [label]="'timePicker.fields.readonlyTime' | transloco">
+        <input kuiTimePicker [(value)]="readonlyTime" readonly />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field [label]="'timePicker.fields.customPlaceholder' | transloco">
+        <input
+          kuiTimePicker
+          [(value)]="placeholderTime"
+          [placeholder]="'timePicker.placeholders.custom' | transloco"
+        />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+</section>

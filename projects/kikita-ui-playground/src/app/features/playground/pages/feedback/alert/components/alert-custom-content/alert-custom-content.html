@@ -1,0 +1,53 @@
+<app-playground-example-card [heading]="'alert.examples.customContent' | transloco">
+  <div
+    class="alert-custom-content"
+    role="group"
+    [attr.aria-label]="'alert.accessibility.customContent' | transloco"
+  >
+    <kui-alert
+      appearance="info"
+      [title]="'alert.samples.custom.icon.title' | transloco"
+      [message]="'alert.samples.custom.icon.message' | transloco"
+    >
+      <svg kuiAlertIcon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 3c3 2 5 5 5 9l-2 4H9l-2-4c0-4 2-7 5-9z" />
+        <circle cx="12" cy="10" r="1.5" />
+        <path d="M9 16l-2 5 5-2 5 2-2-5" />
+      </svg>
+    </kui-alert>
+
+    <kui-alert
+      appearance="neutral"
+      [showIcon]="false"
+      [title]="'alert.samples.custom.neutralIcon.title' | transloco"
+      [message]="'alert.samples.custom.neutralIcon.message' | transloco"
+    >
+      <svg kuiAlertIcon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 3c3 2 5 5 5 9l-2 4H9l-2-4c0-4 2-7 5-9z" />
+        <circle cx="12" cy="10" r="1.5" />
+        <path d="M9 16l-2 5 5-2 5 2-2-5" />
+      </svg>
+    </kui-alert>
+
+    <kui-alert
+      appearance="warning"
+      [title]="'alert.samples.custom.title.ignored' | transloco"
+      [message]="'alert.samples.custom.title.message' | transloco"
+    >
+      <span kuiAlertTitle>
+        {{ 'alert.samples.custom.title.projected' | transloco }}
+        <span kuiBadge appearance="warning" size="xs">
+          {{ 'alert.samples.custom.title.badge' | transloco }}
+        </span>
+      </span>
+    </kui-alert>
+
+    <kui-alert appearance="danger" [title]="'alert.samples.custom.message.title' | transloco">
+      <p kuiAlertMessage>
+        {{ 'alert.samples.custom.message.before' | transloco }}
+        <a href="#alert-playground-title">{{ 'alert.samples.custom.message.link' | transloco }}</a>
+        {{ 'alert.samples.custom.message.after' | transloco }}
+      </p>
+    </kui-alert>
+  </div>
+</app-playground-example-card>

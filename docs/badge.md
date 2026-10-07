@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiBadgeDirective } from '@kikita-labs/ui';
+import { KuiBadge } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -36,3 +36,33 @@ import { KuiBadgeDirective } from '@kikita-labs/ui';
 - `--kui-badge-warning-bg`
 - `--kui-badge-danger-bg`
 - `--kui-badge-info-bg`
+
+## Provider Defaults
+
+Set `defaults.badge` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    badge: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    badge: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.badge.<option> > built-in default`. See [DI defaults](di-defaults.md).

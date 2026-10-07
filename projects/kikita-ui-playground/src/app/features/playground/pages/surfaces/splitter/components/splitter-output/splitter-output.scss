@@ -1,0 +1,23 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .splitter-output__content {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .splitter-output__status {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: var(--kui-space-1) var(--kui-space-3);
+    margin: 0;
+  }
+
+  .splitter-output__status dd {
+    margin: 0;
+  }
+}

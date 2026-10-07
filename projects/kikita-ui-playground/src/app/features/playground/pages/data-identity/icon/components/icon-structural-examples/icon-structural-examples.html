@@ -1,0 +1,21 @@
+<app-playground-example-card [heading]="'icon.examples.structural' | transloco">
+  <div class="icon-structural-examples__grid">
+    <section
+      class="icon-structural-examples__column"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.builtInStructural' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'icon.labels.builtInStructural' | transloco }}</h3>
+      <app-icon-structural-sample paginationLabel="icon.labels.paginationBuiltIn" />
+    </section>
+
+    <section
+      class="icon-structural-examples__column"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.overriddenStructural' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'icon.labels.overriddenStructural' | transloco }}</h3>
+      <app-icon-structural-override />
+    </section>
+  </div>
+</app-playground-example-card>

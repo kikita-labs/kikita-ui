@@ -1,0 +1,24 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .toast-lifecycle__content,
+  .toast-lifecycle__case,
+  .toast-lifecycle__row {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .toast-lifecycle__case h3,
+  .toast-lifecycle__case p {
+    margin: 0;
+  }
+
+  .toast-lifecycle__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}

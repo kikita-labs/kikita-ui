@@ -7,13 +7,7 @@ Dropdown/Listbox for selection.
 ## Import
 
 ```ts
-import {
-  KuiMenuComponent,
-  KuiMenuForDirective,
-  KuiMenuHeaderDirective,
-  KuiMenuItemDirective,
-  KuiSeparatorDirective,
-} from '@kikita-labs/ui';
+import { KuiMenu, KuiMenuFor, KuiMenuHeader, KuiMenuItem, KuiSeparator } from '@kikita-labs/ui';
 ```
 
 Import styles once:
@@ -67,12 +61,12 @@ hints only; they do not bind global keyboard commands.
 
 ### `kui-menu`
 
-| Input       | Type               | Default     | Description                                   |
-| ----------- | ------------------ | ----------- | --------------------------------------------- |
-| `ariaLabel` | `string`           | `'Actions'` | Accessible name for the menu panel.           |
-| `menuAlign` | `'start' \| 'end'` | `'start'`   | Horizontal alignment relative to the trigger. |
-| `offset`    | `number`           | `4`         | Pixel gap between trigger and menu panel.     |
-| `minWidth`  | `string \| null`   | `null`      | Optional overlay minimum width.               |
+| Input       | Type               | Default              | Description                                              |
+| ----------- | ------------------ | -------------------- | -------------------------------------------------------- |
+| `ariaLabel` | `string`           | `menu.label` message | Accessible name for the menu panel.                      |
+| `menuAlign` | `'start' \| 'end'` | `'start'`            | Horizontal alignment relative to the trigger.            |
+| `offset`    | `number`           | `4`                  | Pixel gap between trigger and menu panel.                |
+| `minWidth`  | `string \| null`   | `null`               | Optional minimum inline size for the visible menu panel. |
 
 ### `[kuiMenuFor]`
 
@@ -89,6 +83,39 @@ Wires a native element as the trigger. The directive sets:
 | `appearance` | `'neutral' \| 'destructive'` | `'neutral'` | Visual item appearance.                                           |
 | `disabled`   | `boolean`                    | `false`     | Applies disabled/ARIA-disabled semantics and prevents activation. |
 
+## Provider Defaults
+
+Set `defaults.menu` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    menu: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    menu: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option      | Values                                   | Description                                                                                |
+| ----------- | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `placement` | `'top' \| 'bottom' \| 'left' \| 'right'` | Preferred side of the anchor. The overlay flips to the opposite side when it does not fit. |
+| `offset`    | `number`                                 | Gap in px between the anchor and the overlay panel.                                        |
+| `menuAlign` | `'start' \| 'end'`                       | Alignment along the trigger edge.                                                          |
+| `minWidth`  | `string \| null`                         | Minimum panel width as a CSS length.                                                       |
+
+Each option resolves as `local input > defaults.menu.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - The panel uses `role="menu"`.
@@ -100,6 +127,8 @@ Wires a native element as the trigger. The directive sets:
 - Inside the menu, `ArrowDown`, `ArrowUp`, `Home`, and `End` move focus.
 - `Escape` closes the menu and returns focus to the trigger.
 - `Tab` closes the menu and lets focus continue normally.
+- When `prefers-reduced-motion: reduce` is active, closing completes without waiting for an exit
+  animation.
 
 ## Deferred
 
@@ -108,3 +137,16 @@ Per the Claude Design brief, these are not part of the first Menu primitive:
 - nested submenus
 - checkbox/radio menu items
 - right-click context menu helper
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                | Default              | Controls                |
+| ------------------------------------ | -------------------- | ----------------------- |
+| `--kui-menu-item-shortcut-font-size` | `--kui-text-xs-size` | Item shortcut font size |
+
+<!-- geometry-tokens:end -->

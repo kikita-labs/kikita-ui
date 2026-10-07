@@ -1,0 +1,80 @@
+{
+  "title": "Dialog",
+  "examples": {
+    "sizes": "Sizes",
+    "appearances": "Appearances and icons",
+    "content": "Content and dismissal",
+    "confirm": "Confirm"
+  },
+  "accessibility": {
+    "sizes": "Dialog size examples",
+    "appearances": "Dialog appearance examples",
+    "content": "Dialog content and dismissal examples",
+    "confirm": "Confirmation dialog examples"
+  },
+  "actions": {
+    "openDefault": "Open default",
+    "openAuto": "Open auto",
+    "openSm": "Open sm",
+    "openMd": "Open md",
+    "openLg": "Open lg",
+    "openFullscreen": "Open fullscreen",
+    "openDefaultAppearance": "Open default appearance",
+    "openDangerAppearance": "Open danger appearance",
+    "openWarningAppearance": "Open warning appearance",
+    "openNoClose": "Open without close button",
+    "openLocked": "Open non-dismissable",
+    "openTitleExample": "Open title example",
+    "openLongBody": "Open long body",
+    "openUnnamed": "Open name fallback",
+    "openConfirmDefault": "Open default confirm",
+    "openConfirmDanger": "Open danger confirm",
+    "openConfirmWarning": "Open warning confirm",
+    "openConfirmWithoutMessage": "Open without message",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "delete": "Delete",
+    "reset": "Reset"
+  },
+  "labels": {
+    "defaultTitle": "Profile details",
+    "defaultBody": "This dialog uses the default md size and default appearance.",
+    "sizeBody": "The same content makes each supported width preset easy to compare.",
+    "autoTitle": "Auto size",
+    "smTitle": "Small dialog",
+    "mdTitle": "Medium dialog",
+    "lgTitle": "Large dialog",
+    "fullscreenTitle": "Fullscreen dialog",
+    "fullscreenBody": "Fullscreen fills the viewport. Its content remains owned by the dialog component.",
+    "defaultAppearanceTitle": "Default appearance",
+    "dangerAppearanceTitle": "Danger appearance",
+    "warningAppearanceTitle": "Warning appearance",
+    "appearanceBody": "The appearance sets the optional icon color. The panel keeps its surface styling.",
+    "noCloseTitle": "Close button hidden",
+    "noCloseBody": "The container close button is hidden. Escape and backdrop dismissal still work.",
+    "lockedTitle": "Required action",
+    "lockedBody": "Escape and backdrop dismissal are disabled. Choose an action to close this dialog.",
+    "titleExample": "Compact title",
+    "titleExampleBody": "This concise title stays clear of the close control.",
+    "longBodyTitle": "Scrollable dialog body",
+    "longBodyIntro": "The body scrolls while the dialog header and footer remain visible.",
+    "longBodyParagraph": "This fixed paragraph is repeated to create a deterministic body that exceeds the dialog height and can be scrolled independently.",
+    "unnamedBody": "This dialog has no title. The container uses its generic accessible name fallback.",
+    "confirmTitle": "Continue with this action?",
+    "confirmBody": "The confirmation resolves with a boolean result.",
+    "dangerConfirmTitle": "Delete this record?",
+    "dangerConfirmBody": "This action cannot be undone.",
+    "warningConfirmTitle": "Reset settings?",
+    "warningConfirmBody": "Custom settings will return to their defaults.",
+    "headerOnlyTitle": "Header-only confirmation"
+  },
+  "status": {
+    "saved": "Dialog result: saved",
+    "cancelled": "Dialog result: cancelled",
+    "dismissed": "Dialog result: dismissed",
+    "confirm": {
+      "yes": "Confirmation result: confirmed",
+      "no": "Confirmation result: cancelled"
+    }
+  }
+}

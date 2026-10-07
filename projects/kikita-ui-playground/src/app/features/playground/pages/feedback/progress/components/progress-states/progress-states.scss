@@ -1,0 +1,40 @@
+@layer app.components {
+  :host {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+  }
+
+  .progress-states__values {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, calc(var(--kui-space-16) + var(--kui-space-4))), 1fr)
+    );
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .progress-states__value {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .progress-states__indeterminate {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, calc(var(--kui-space-16) + var(--kui-space-4))), 1fr)
+    );
+    gap: var(--kui-space-6);
+    align-items: center;
+  }
+
+  .progress-states__indeterminate-item {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+}

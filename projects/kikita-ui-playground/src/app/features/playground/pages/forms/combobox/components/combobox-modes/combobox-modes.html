@@ -1,0 +1,17 @@
+<app-playground-example-card [heading]="'combobox.examples.modes' | transloco">
+  <div
+    class="combobox-modes__grid"
+    role="group"
+    [attr.aria-label]="'combobox.accessibility.modes' | transloco"
+  >
+    <section class="combobox-modes__mode">
+      <h3 kuiText variant="heading-sm">{{ 'combobox.modes.free' | transloco }}</h3>
+      <app-combobox-free-mode />
+    </section>
+
+    <section class="combobox-modes__mode">
+      <h3 kuiText variant="heading-sm">{{ 'combobox.modes.async' | transloco }}</h3>
+      <app-combobox-async-mode />
+    </section>
+  </div>
+</app-playground-example-card>

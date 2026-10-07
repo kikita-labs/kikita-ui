@@ -1,0 +1,129 @@
+<ng-content select="[kuiCalendarHeader]">
+  <div class="kui-calendar-header">
+    @if (engine.effectiveShowPrevNav()) {
+      <button
+        kuiButton
+        shape="ghost"
+        size="xs"
+        type="button"
+        [attr.aria-label]="engine.navLabels().prev"
+        (click)="engine.navPrev()"
+      >
+        <svg width="16" height="16" [kuiGlyph]="engine.previousGlyph()" [kuiGlyphStroke]="2"></svg>
+      </button>
+    } @else {
+      <span class="kui-calendar-nav-spacer"></span>
+    }
+    @if (engine.view() !== 'years') {
+      <button
+        kuiButton
+        shape="ghost"
+        class="kui-calendar-title"
+        type="button"
+        (click)="engine.drillUp()"
+      >
+        {{ engine.headerLabel() }}
+      </button>
+    } @else {
+      <span class="kui-calendar-title">{{ engine.headerLabel() }}</span>
+    }
+    @if (engine.effectiveShowNextNav()) {
+      <button
+        kuiButton
+        shape="ghost"
+        size="xs"
+        type="button"
+        [attr.aria-label]="engine.navLabels().next"
+        (click)="engine.navNext()"
+      >
+        <svg width="16" height="16" [kuiGlyph]="engine.nextGlyph()" [kuiGlyphStroke]="2"></svg>
+      </button>
+    } @else {
+      <span class="kui-calendar-nav-spacer"></span>
+    }
+  </div>
+</ng-content>
+
+<div aria-live="polite" class="sr-only">{{ engine.liveAnnounce() }}</div>
+
+@if (engine.view() === 'days') {
+  <div class="kui-calendar-table" role="grid" [attr.aria-label]="engine.t().label">
+    <div class="kui-calendar-weekdays" role="row">
+      @for (name of engine.localeText().weekdaysShort; track name; let i = $index) {
+        <span
+          class="kui-calendar-weekday"
+          role="columnheader"
+          [attr.abbr]="engine.localeText().weekdaysLong[i]"
+          >{{ name }}</span
+        >
+      }
+    </div>
+    <div class="kui-calendar-grid" role="rowgroup" (keydown)="engine.onGridKeyDown($event)">
+      @for (week of engine.dayWeeks(); track week[0].date.getTime()) {
+        <div class="kui-calendar-week" role="row">
+          @for (cell of week; track cell.date.getTime()) {
+            <div class="kui-calendar-cell" role="gridcell" [attr.aria-selected]="cell.ariaSelected">
+              <button
+                class="{{ cell.cls }}"
+                type="button"
+                [tabIndex]="cell.tabIndex"
+                [attr.aria-label]="cell.ariaLabel"
+                [attr.aria-current]="cell.ariaCurrent"
+                [attr.aria-disabled]="cell.ariaDisabled"
+                (click)="!cell.disabled && engine.selectDate(cell.date)"
+                (mouseenter)="engine.onDayHover(cell.date)"
+                (focus)="engine.focusedDate.set(cell.date); engine.onDayHover(cell.date)"
+              >
+                <span class="kui-calendar-day-inner">{{ cell.label }}</span>
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+}
+
+@if (engine.view() === 'months') {
+  <div class="kui-calendar-picker-grid">
+    @for (cell of engine.monthCells(); track cell.label) {
+      <button
+        class="{{ cell.cls }}"
+        type="button"
+        [tabIndex]="cell.active ? 0 : -1"
+        (click)="cell.onClick()"
+        (keydown)="engine.onPickerKeyDown($event)"
+      >
+        {{ cell.label }}
+      </button>
+    }
+  </div>
+}
+
+@if (engine.view() === 'years') {
+  <div class="kui-calendar-picker-grid">
+    @for (cell of engine.yearCells(); track cell.label) {
+      <button
+        class="{{ cell.cls }}"
+        type="button"
+        [tabIndex]="cell.active ? 0 : -1"
+        (click)="cell.onClick()"
+        (keydown)="engine.onPickerKeyDown($event)"
+      >
+        {{ cell.label }}
+      </button>
+    }
+  </div>
+}
+
+<ng-content select="[kuiCalendarFooter]">
+  @if (engine.effectiveShowFooter()) {
+    <hr kuiSeparator />
+    <div class="kui-calendar-footer">
+      <span class="kui-calendar-value">{{ engine.valueLabel() }}</span>
+      <button kuiButton shape="ghost" size="xs" type="button" (click)="engine.goToday()">
+        {{ engine.t().today }}
+      </button>
+    </div>
+  }
+</ng-content>

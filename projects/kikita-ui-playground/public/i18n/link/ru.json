@@ -1,0 +1,69 @@
+{
+  "title": "Ссылка",
+  "examples": {
+    "default": "По умолчанию",
+    "toneUnderline": "Тон и подчёркивание",
+    "typography": "Типографика",
+    "hosts": "Элементы a и button",
+    "icons": "Иконки",
+    "external": "Внешние ссылки",
+    "disabled": "Отключённые",
+    "inline": "Внутри текста"
+  },
+  "accessibility": {
+    "default": "Пример ссылки по умолчанию",
+    "toneUnderline": "Варианты тона и подчёркивания ссылки",
+    "tone": "Ссылки, тон: {{tone}}",
+    "typography": "Варианты типографики ссылки",
+    "variant": "Ссылки, вариант: {{variant}}",
+    "hosts": "Примеры элементов ссылки",
+    "icons": "Примеры ссылок с иконками",
+    "external": "Примеры внешних ссылок",
+    "disabled": "Примеры отключённых ссылок",
+    "inline": "Пример ссылки внутри текста"
+  },
+  "tones": {
+    "default": "Обычный",
+    "muted": "Приглушённый",
+    "primary": "Основной",
+    "success": "Успех",
+    "warning": "Предупреждение",
+    "danger": "Опасность"
+  },
+  "underlines": {
+    "always": "Всегда",
+    "hover": "При наведении",
+    "none": "Нет"
+  },
+  "variants": {
+    "body-lg": "Крупный текст",
+    "body": "Текст",
+    "body-sm": "Мелкий текст",
+    "caption": "Подпись"
+  },
+  "labels": {
+    "default": "Читать документацию",
+    "actionSuffix": "действие",
+    "anchorHost": "Ссылка-якорь",
+    "buttonHost": "Посчитать действие",
+    "activations": "Срабатываний: {{count}}",
+    "iconStart": "Скачать отчёт",
+    "iconEnd": "Все обновления",
+    "iconBoth": "Скачать и продолжить",
+    "iconButtonStart": "Сохранить копию",
+    "iconButtonEnd": "Следующий шаг",
+    "externalAuto": "Автоматически внешняя",
+    "externalExplicit": "Явно внешняя",
+    "externalIcon": "Внешняя с иконкой",
+    "externalRel": "Внешняя со своим rel",
+    "externalOptOut": "Внешняя без обработки",
+    "disabledAnchor": "Отключённая ссылка",
+    "disabledButton": "Отключённое действие",
+    "disabledIcon": "Отключённая загрузка",
+    "disabledExternal": "Отключённая внешняя",
+    "handlerCalls": "Вызовов обработчика: ссылка {{anchor}}, кнопка {{button}}",
+    "inlineBefore": "Прочитайте",
+    "inlineLink": "заметки о выпуске",
+    "inlineAfter": "перед обновлением."
+  }
+}

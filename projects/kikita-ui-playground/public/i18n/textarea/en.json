@@ -1,0 +1,49 @@
+{
+  "title": "Textarea",
+  "examples": {
+    "default": "Default textarea",
+    "sizes": "Textarea sizes",
+    "states": "Native textarea states",
+    "explicitId": "Explicit textarea ID",
+    "validation": "Signal Forms validation"
+  },
+  "fields": {
+    "projectNotes": "Project notes",
+    "interactive": "Interactive",
+    "readonly": "Read-only",
+    "disabled": "Disabled",
+    "invalid": "Invalid",
+    "explicitId": "Explicit ID",
+    "requiredDescription": "Required description"
+  },
+  "hints": {
+    "projectNotes": "Optional internal notes for this project.",
+    "requiredDescription": "Required. Leave it empty, then enter a short description."
+  },
+  "placeholders": {
+    "projectNotes": "Add project notes",
+    "interactive": "Hover or focus",
+    "requiredDescription": "Write a short description"
+  },
+  "sizes": {
+    "xs": "Extra small",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large"
+  },
+  "values": {
+    "readonly": "Release notes are locked.",
+    "disabled": "Generated output is unavailable.",
+    "invalid": "This description needs attention."
+  },
+  "errors": {
+    "required": "Description is required."
+  },
+  "accessibility": {
+    "defaultGroup": "Default textarea example",
+    "sizesGroup": "Textarea sizes",
+    "statesGroup": "Native textarea states",
+    "explicitIdGroup": "Explicit textarea ID",
+    "validationGroup": "Signal Forms validation"
+  }
+}

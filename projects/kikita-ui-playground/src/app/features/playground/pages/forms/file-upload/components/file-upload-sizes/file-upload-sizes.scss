@@ -1,0 +1,19 @@
+@layer app.components {
+  .file-upload-sizes__examples {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .file-upload-sizes__examples p {
+    margin-block: 0 var(--kui-space-2);
+  }
+
+  @media (width < 40rem) {
+    .file-upload-sizes__examples {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

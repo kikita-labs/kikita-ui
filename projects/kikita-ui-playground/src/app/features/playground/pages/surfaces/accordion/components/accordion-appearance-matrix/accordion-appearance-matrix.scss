@@ -1,0 +1,60 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .accordion-appearance-matrix,
+  .accordion-appearance-matrix__appearances,
+  .accordion-appearance-matrix__appearance,
+  .accordion-appearance-matrix__variant {
+    min-inline-size: 0;
+  }
+
+  .accordion-appearance-matrix__appearances {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+  }
+
+  .accordion-appearance-matrix__appearance {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-3);
+  }
+
+  .accordion-appearance-matrix__appearance h3,
+  .accordion-appearance-matrix__variant p {
+    margin: 0;
+  }
+
+  .accordion-appearance-matrix__sizes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-3);
+  }
+
+  .accordion-appearance-matrix__variant {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-2);
+  }
+
+  @media (width < 64rem) {
+    .accordion-appearance-matrix__appearances {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width < 40rem) {
+    .accordion-appearance-matrix__appearances {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (width < 24rem) {
+    .accordion-appearance-matrix__sizes {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

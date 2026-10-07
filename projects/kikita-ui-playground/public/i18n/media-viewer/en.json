@@ -1,0 +1,40 @@
+{
+  "title": "Media viewer",
+  "examples": {
+    "default": "Default",
+    "grid": "Photo grid",
+    "options": "Options",
+    "states": "Photo states",
+    "select": "Selection composition"
+  },
+  "accessibility": {
+    "default": "Default media viewer example",
+    "grid": "Media viewer photo grid",
+    "options": "Media viewer option examples",
+    "states": "Media viewer photo state examples",
+    "select": "Media viewer selection composition"
+  },
+  "actions": {
+    "openDefault": "Open viewer",
+    "openTile": "Open photo {{number}} of {{total}}",
+    "openSingle": "Open single photo",
+    "openPastEnd": "Open past the end",
+    "openCustomLabel": "Open with custom label",
+    "openZoomLimits": "Open with zoom limits",
+    "openLoading": "Open slow photo",
+    "openBroken": "Open broken photo",
+    "openBrokenGallery": "Open gallery with broken photo",
+    "openWithoutIds": "Open without ids",
+    "selectPhoto": "Select photo {{number}}"
+  },
+  "labels": {
+    "photoAlt": "Placeholder photo {{number}}",
+    "slowAlt": "Photo loaded from a file",
+    "brokenAlt": "Photo that fails to load",
+    "customAriaLabel": "Holiday album"
+  },
+  "status": {
+    "lastViewed": "Last viewed: photo {{number}}",
+    "selected": "Selected photos: {{count}}"
+  }
+}

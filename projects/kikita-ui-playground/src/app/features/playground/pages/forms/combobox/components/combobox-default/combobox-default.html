@@ -1,0 +1,19 @@
+<app-playground-example-card [heading]="'combobox.examples.default' | transloco">
+  <div role="group" [attr.aria-label]="'combobox.accessibility.default' | transloco">
+    <kui-field [label]="'combobox.fields.assignee' | transloco">
+      <input kuiCombobox [placeholder]="'combobox.placeholders.assignee' | transloco" />
+
+      <kui-dropdown>
+        <button kuiOption type="button" [value]="'combobox.options.amelia' | transloco">
+          {{ 'combobox.options.amelia' | transloco }}
+        </button>
+        <button kuiOption type="button" [value]="'combobox.options.daniel' | transloco">
+          {{ 'combobox.options.daniel' | transloco }}
+        </button>
+        <button kuiOption type="button" [value]="'combobox.options.ravi' | transloco">
+          {{ 'combobox.options.ravi' | transloco }}
+        </button>
+      </kui-dropdown>
+    </kui-field>
+  </div>
+</app-playground-example-card>

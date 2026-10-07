@@ -1,0 +1,16 @@
+@layer app.components {
+  .input-auto-focus__content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .input-auto-focus__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+}

@@ -1,0 +1,27 @@
+@layer app.components {
+  .combobox-field-states__layout,
+  .combobox-field-states__section {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .combobox-field-states__section h3 {
+    margin: 0;
+  }
+
+  .combobox-field-states__sizes,
+  .combobox-field-states__states {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  @media (width < 48rem) {
+    .combobox-field-states__sizes,
+    .combobox-field-states__states {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

@@ -1,0 +1,16 @@
+@layer app.components {
+  :host,
+  section {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .table-sorting-examples__region {
+    min-inline-size: 0;
+    overflow: auto;
+  }
+
+  .table-sorting-examples__region caption {
+    text-align: start;
+  }
+}

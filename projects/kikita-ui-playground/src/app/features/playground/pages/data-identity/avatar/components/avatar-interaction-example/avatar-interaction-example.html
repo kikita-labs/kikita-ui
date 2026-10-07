@@ -1,0 +1,35 @@
+<section
+  id="avatar-action-example"
+  role="group"
+  [attr.aria-label]="'avatar.accessibility.interactive' | transloco"
+>
+  <app-playground-example-card [heading]="'avatar.examples.interactive' | transloco">
+    <div class="avatar-interaction-example__content">
+      <button
+        type="button"
+        class="avatar-interaction-example__action kui-avatar-action"
+        [attr.aria-label]="'avatar.actions.openProfile' | transloco"
+        (click)="activate()"
+      >
+        <kui-avatar
+          src="/assets/avatar-example.svg"
+          [alt]="'avatar.content.imageAlt' | transloco"
+        />
+      </button>
+
+      <span kuiText variant="body-sm">{{ 'avatar.interaction.hint' | transloco }}</span>
+    </div>
+
+    <output
+      kuiText
+      class="avatar-interaction-example__status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      @let count = activationCount();
+      @if (count > 0) {
+        {{ 'avatar.interaction.activationCount' | transloco: { count: count } }}
+      }
+    </output>
+  </app-playground-example-card>
+</section>

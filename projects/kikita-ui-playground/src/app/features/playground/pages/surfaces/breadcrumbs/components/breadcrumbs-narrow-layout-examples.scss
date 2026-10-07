@@ -1,0 +1,57 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .breadcrumbs-playground__responsive {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .breadcrumbs-playground__responsive > section {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .breadcrumbs-playground__responsive h3 {
+    margin: 0;
+  }
+
+  .breadcrumbs-playground__narrow {
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: calc(var(--kui-space-16) * 4);
+  }
+
+  .breadcrumbs-playground__narrow nav {
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .breadcrumbs-playground__nonwrapping {
+    flex-wrap: nowrap;
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .breadcrumbs-playground__nonwrapping > li:first-child,
+  .breadcrumbs-playground__nonwrapping > li:last-child {
+    flex: 0 0 auto;
+  }
+
+  .breadcrumbs-playground__nonwrapping > li:nth-child(3) {
+    flex: 1 1 0;
+    min-inline-size: 0;
+  }
+
+  @media (width < 40rem) {
+    .breadcrumbs-playground__responsive {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

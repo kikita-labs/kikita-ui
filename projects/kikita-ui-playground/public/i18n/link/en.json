@@ -1,0 +1,69 @@
+{
+  "title": "Link",
+  "examples": {
+    "default": "Default",
+    "toneUnderline": "Tone and underline",
+    "typography": "Typography",
+    "hosts": "Anchor and button hosts",
+    "icons": "Icons",
+    "external": "External links",
+    "disabled": "Disabled",
+    "inline": "Inline in text"
+  },
+  "accessibility": {
+    "default": "Default link example",
+    "toneUnderline": "Link tone and underline variants",
+    "tone": "{{tone}} tone links",
+    "typography": "Link typography variants",
+    "variant": "{{variant}} links",
+    "hosts": "Link host examples",
+    "icons": "Link icon examples",
+    "external": "External link examples",
+    "disabled": "Disabled link examples",
+    "inline": "Inline link example"
+  },
+  "tones": {
+    "default": "Default",
+    "muted": "Muted",
+    "primary": "Primary",
+    "success": "Success",
+    "warning": "Warning",
+    "danger": "Danger"
+  },
+  "underlines": {
+    "always": "Always",
+    "hover": "On hover",
+    "none": "None"
+  },
+  "variants": {
+    "body-lg": "Large body",
+    "body": "Body",
+    "body-sm": "Small body",
+    "caption": "Caption"
+  },
+  "labels": {
+    "default": "Read the documentation",
+    "actionSuffix": "action",
+    "anchorHost": "Anchor link",
+    "buttonHost": "Count action",
+    "activations": "Activated {{count}} times",
+    "iconStart": "Download report",
+    "iconEnd": "All updates",
+    "iconBoth": "Download and continue",
+    "iconButtonStart": "Save copy",
+    "iconButtonEnd": "Next step",
+    "externalAuto": "Automatic external",
+    "externalExplicit": "Explicit external",
+    "externalIcon": "External with icon",
+    "externalRel": "External with custom rel",
+    "externalOptOut": "External opt-out",
+    "disabledAnchor": "Disabled anchor",
+    "disabledButton": "Disabled action",
+    "disabledIcon": "Disabled download",
+    "disabledExternal": "Disabled external",
+    "handlerCalls": "Handler calls: anchor {{anchor}}, button {{button}}",
+    "inlineBefore": "Review the",
+    "inlineLink": "release notes",
+    "inlineAfter": "before you upgrade."
+  }
+}

@@ -1,0 +1,35 @@
+<app-playground-example-card [heading]="'alert.examples.sizeAndContent' | transloco">
+  <div
+    class="alert-size-content"
+    role="group"
+    [attr.aria-label]="'alert.accessibility.sizeAndContent' | transloco"
+  >
+    @for (size of sizes; track size.value) {
+      <section
+        class="alert-size-content__size"
+        role="group"
+        [attr.aria-label]="size.group | transloco"
+      >
+        <h3 kuiText variant="heading-sm">{{ size.label | transloco }}</h3>
+
+        <kui-alert
+          appearance="success"
+          [size]="size.value"
+          [title]="'alert.samples.content.titleOnly' | transloco"
+        />
+        <kui-alert
+          appearance="success"
+          [size]="size.value"
+          [title]="'alert.samples.content.titleAndMessage.title' | transloco"
+          [message]="'alert.samples.content.titleAndMessage.message' | transloco"
+        />
+        <kui-alert
+          appearance="success"
+          [size]="size.value"
+          [message]="'alert.samples.content.messageAndAction.message' | transloco"
+          [actionLabel]="'alert.samples.content.messageAndAction.action' | transloco"
+        />
+      </section>
+    }
+  </div>
+</app-playground-example-card>

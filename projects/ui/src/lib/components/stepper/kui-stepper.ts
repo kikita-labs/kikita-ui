@@ -1,0 +1,114 @@
+import {
+  Component,
+  computed,
+  contentChildren,
+  inject,
+  input,
+  model,
+  ViewEncapsulation,
+} from '@angular/core';
+
+import { KuiDefaults } from '../../providers/kui-defaults';
+import { injectKuiRootSizeDefault } from '../../providers/kui-defaults.util';
+import { optionalBooleanAttribute } from '../../utils/kui-input-transform.util';
+import { KuiStep } from './kui-step';
+import type { KuiStepperContext } from './kui-stepper-context.token';
+import { KUI_STEPPER_CONTEXT } from './kui-stepper-context.token';
+
+/** Layout direction of the step list. */
+export type KuiStepperOrientation = 'horizontal' | 'vertical';
+/** Circle/label size for `kui-stepper`. */
+export type KuiStepperSize = 'sm' | 'md' | 'lg';
+
+const KUI_STEPPER_SIZES = ['sm', 'md', 'lg'] as const;
+
+/**
+ * Progress indicator for a multi-step process. Projects `kui-step` children and
+ * derives each step's visual state (done/current/upcoming/disabled/error) from
+ * `currentIndex` and each step's own `hasError` flag.
+ *
+ * @example
+ * ```html
+ * <kui-stepper [(currentIndex)]="step" aria-label="Progress">
+ *   <kui-step label="Account" />
+ *   <kui-step label="Workspace" />
+ *   <kui-step label="Invite team" />
+ * </kui-stepper>
+ * ```
+ */
+@Component({
+  selector: 'kui-stepper',
+  template: `<ng-content />`,
+  host: {
+    class: 'kui-stepper',
+    role: 'list',
+    '[attr.data-kui-orientation]': "effectiveOrientation() === 'vertical' ? 'vertical' : null",
+    '[attr.data-kui-size]': 'effectiveSize()',
+    '[attr.data-kui-compact]': "effectiveCompact() ? '' : null",
+  },
+  providers: [
+    {
+      provide: KUI_STEPPER_CONTEXT,
+      useFactory: () => inject(KuiStepper),
+    },
+  ],
+  encapsulation: ViewEncapsulation.None,
+})
+/** Coordinates a sequence of Kikita UI steps and exposes stepper context. */
+export class KuiStepper implements KuiStepperContext {
+  /**
+   * Layout direction of the step list. Defaults to `defaults.stepper.orientation`, then
+   * horizontal.
+   */
+  readonly orientation = input<KuiStepperOrientation | undefined>();
+  /**
+   * Circle size and label font scale. Defaults to `defaults.stepper.size`, then the root size,
+   * then md.
+   */
+  readonly size = input<KuiStepperSize | undefined>();
+  /** Index of the currently active step. Supports two-way binding. */
+  readonly currentIndex = model(0);
+  /**
+   * When true, only completed steps can be clicked to go back;
+   * upcoming steps cannot be jumped to. Set to false to allow clicking
+   * upcoming steps to jump forward. Defaults to `defaults.stepper.linear`, then `true`.
+   */
+  readonly linear = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
+  /**
+   * Shows only step circles/dots without labels or descriptions. Defaults to
+   * `defaults.stepper.compact`, then `false`.
+   */
+  readonly compact = input<boolean | undefined, unknown>(undefined, {
+    transform: optionalBooleanAttribute,
+  });
+
+  readonly steps = contentChildren(KuiStep);
+
+  private readonly rootDefaultSize = injectKuiRootSizeDefault<KuiStepperSize>(KUI_STEPPER_SIZES);
+
+  private readonly stepperDefaults = inject(KuiDefaults).get('stepper');
+
+  protected readonly effectiveSize = computed(
+    () => this.size() ?? this.stepperDefaults()?.size ?? this.rootDefaultSize() ?? 'md',
+  );
+  protected readonly effectiveOrientation = computed(
+    () => this.orientation() ?? this.stepperDefaults()?.orientation ?? 'horizontal',
+  );
+  protected readonly effectiveCompact = computed(
+    () => this.compact() ?? this.stepperDefaults()?.compact ?? false,
+  );
+
+  /** @internal */
+  readonly effectiveLinear = computed(
+    () => this.linear() ?? this.stepperDefaults()?.linear ?? true,
+  );
+
+  /** @internal */
+  goTo(index: number): void {
+    if (index < this.currentIndex() || (!this.effectiveLinear() && index > this.currentIndex())) {
+      this.currentIndex.set(index);
+    }
+  }
+}

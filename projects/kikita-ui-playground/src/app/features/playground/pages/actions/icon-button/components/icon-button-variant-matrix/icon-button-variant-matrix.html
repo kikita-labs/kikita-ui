@@ -1,0 +1,54 @@
+@for (size of sizes; track size.value) {
+  @let sizeLabel = size.labelKey | transloco;
+
+  <app-playground-example-card [heading]="sizeLabel">
+    <div
+      class="icon-button-variant-matrix__shape-groups"
+      role="group"
+      [attr.aria-label]="'iconButton.accessibility.sizeMatrix' | transloco: { size: sizeLabel }"
+    >
+      @for (shape of shapes; track shape.value) {
+        @let shapeLabel = shape.labelKey | transloco;
+
+        <section
+          class="icon-button-variant-matrix__shape-group"
+          role="group"
+          [attr.aria-label]="
+            'iconButton.accessibility.shapeMatrix'
+              | transloco: { size: sizeLabel, shape: shapeLabel }
+          "
+        >
+          <h3 kuiText variant="heading-sm">{{ shapeLabel }}</h3>
+
+          <div class="icon-button-variant-matrix__variants">
+            @for (appearance of appearances; track appearance.id) {
+              @let appearanceLabel = appearance.labelKey | transloco;
+
+              <div class="icon-button-variant-matrix__variant">
+                <span kuiText variant="body-sm" aria-hidden="true">{{ appearanceLabel }}</span>
+
+                <button
+                  kuiIconButton
+                  type="button"
+                  icon="settings"
+                  [shape]="shape.value"
+                  [appearance]="appearance.value"
+                  [size]="size.value"
+                  [attr.aria-label]="
+                    'iconButton.accessibility.variant'
+                      | transloco
+                        : {
+                            size: sizeLabel,
+                            shape: shapeLabel,
+                            appearance: appearanceLabel,
+                          }
+                  "
+                ></button>
+              </div>
+            }
+          </div>
+        </section>
+      }
+    </div>
+  </app-playground-example-card>
+}

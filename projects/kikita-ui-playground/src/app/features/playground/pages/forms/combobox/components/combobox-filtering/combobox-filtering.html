@@ -1,0 +1,35 @@
+<app-playground-example-card [heading]="'combobox.examples.filtering' | transloco">
+  <div role="group" [attr.aria-label]="'combobox.accessibility.filtering' | transloco">
+    <kui-field
+      [label]="'combobox.fields.searchPeople' | transloco"
+      [hint]="'combobox.hints.filtering' | transloco"
+    >
+      <input
+        kuiCombobox
+        [(value)]="assignee"
+        [(query)]="query"
+        [kuiLabelFn]="personLabel"
+        [placeholder]="'combobox.placeholders.searchPeople' | transloco"
+        (search)="query.set($event)"
+      />
+
+      <kui-dropdown>
+        @for (person of filteredPeople(); track person.id) {
+          <button kuiOption type="button" [value]="person" [disabled]="person.disabled">
+            <span class="kui-combobox-match-label">
+              @for (segment of person.name | kuiComboboxHighlight: query(); track $index) {
+                @if (segment.match) {
+                  <mark class="kui-combobox-highlight">{{ segment.text }}</mark>
+                } @else {
+                  <span>{{ segment.text }}</span>
+                }
+              }
+            </span>
+          </button>
+        } @empty {
+          <div class="kui-combobox-empty">{{ 'combobox.states.noMatches' | transloco }}</div>
+        }
+      </kui-dropdown>
+    </kui-field>
+  </div>
+</app-playground-example-card>

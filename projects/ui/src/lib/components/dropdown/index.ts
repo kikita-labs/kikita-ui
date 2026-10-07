@@ -1,3 +1,4 @@
-export { KuiDropdownComponent } from './kui-dropdown.component';
-export { KuiDropdownForDirective } from './kui-dropdown-for.directive';
-export { KuiOptionDirective } from './kui-option.directive';
+export { KuiDropdown } from './kui-dropdown';
+export { KuiDropdownFor } from './kui-dropdown-for';
+export * from './kui-dropdown-options.interface';
+export { KuiOption } from './kui-option';

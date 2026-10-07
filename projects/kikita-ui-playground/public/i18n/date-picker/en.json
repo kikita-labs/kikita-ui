@@ -1,0 +1,41 @@
+{
+  "title": "Date Picker",
+  "examples": {
+    "default": "Default",
+    "selected": "Selected date",
+    "compact": "Compact field and calendar",
+    "fieldStates": "Field states and clear action",
+    "signalForms": "Signal Forms",
+    "manualBinding": "Manual calendar binding"
+  },
+  "fields": {
+    "meetingDate": "Meeting date",
+    "preselectedDate": "Preselected date",
+    "compactDate": "Compact appointment date",
+    "limitedDate": "Booking date",
+    "disabledDate": "Disabled date picker",
+    "readonlyDate": "Readonly date picker",
+    "localClearFalse": "Local clear disabled (provider enabled)",
+    "inheritedClear": "Inherited clear setting",
+    "requiredDate": "Required delivery date",
+    "manualDate": "Manually bound date"
+  },
+  "hints": {
+    "limitedDate": "Available from May 8 through May 24, 2026.",
+    "requiredDate": "Choose a delivery date."
+  },
+  "placeholders": {
+    "custom": "Enter a date"
+  },
+  "errors": {
+    "required": "A delivery date is required."
+  },
+  "accessibility": {
+    "default": "Default date picker example",
+    "selected": "Selected date picker example",
+    "compact": "Compact date picker example",
+    "fieldStates": "Date picker disabled, readonly, and clearable examples",
+    "signalForms": "Date picker Signal Forms example",
+    "manualBinding": "Date picker manual calendar binding example"
+  }
+}

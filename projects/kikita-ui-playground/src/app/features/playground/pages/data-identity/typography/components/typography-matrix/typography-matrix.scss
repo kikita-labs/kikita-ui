@@ -1,0 +1,40 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .typography-matrix {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .typography-matrix__line {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 9fr);
+    gap: var(--kui-space-4);
+    align-items: baseline;
+    min-inline-size: 0;
+  }
+
+  .typography-matrix__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-2) var(--kui-space-5);
+    align-items: baseline;
+    min-inline-size: 0;
+  }
+
+  .typography-matrix__row > * {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  @media (width < 48rem) {
+    .typography-matrix__line {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--kui-space-1);
+    }
+  }
+}

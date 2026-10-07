@@ -1,0 +1,47 @@
+{
+  "title": "Loader",
+  "examples": {
+    "default": "Default",
+    "sizes": "Sizes",
+    "compositions": "Compositions",
+    "savingButton": "Saving button",
+    "fieldAffix": "Field status",
+    "consumerStatus": "Consumer-controlled status"
+  },
+  "accessibility": {
+    "default": "Default Loader example",
+    "sizes": "Loader sizes",
+    "extraSmall": "Extra small Loader",
+    "small": "Small Loader",
+    "medium": "Medium Loader",
+    "large": "Large Loader",
+    "compositions": "Loader compositions",
+    "savingButton": "Disabled saving button with Loader",
+    "fieldAffix": "Loader checking an API token",
+    "checkingToken": "Checking API token",
+    "consumerStatus": "Consumer-controlled loading status",
+    "checking": "Checking for updates"
+  },
+  "sizes": {
+    "extraSmall": "Extra small",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large"
+  },
+  "labels": {
+    "saving": "Saving"
+  },
+  "fields": {
+    "apiToken": "API token"
+  },
+  "samples": {
+    "apiToken": "example_api_token_42"
+  },
+  "actions": {
+    "startCheck": "Start check",
+    "completeCheck": "Complete check"
+  },
+  "status": {
+    "checking": "Checking for updates"
+  }
+}

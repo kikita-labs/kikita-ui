@@ -1,0 +1,89 @@
+{
+  "title": "OTP Input",
+  "examples": {
+    "default": "Default OTP Input",
+    "lengths": "OTP Input lengths",
+    "sizes": "OTP Input sizes",
+    "formats": "OTP Input formats",
+    "states": "OTP Input states",
+    "field": "OTP Input inside Field",
+    "entry": "Keyboard and paste entry",
+    "completion": "Completion output",
+    "verification": "Consumer-owned verification",
+    "autofocus": "Autofocus on mount",
+    "validation": "Signal Forms validation"
+  },
+  "accessibility": {
+    "default": "Default OTP Input example",
+    "lengths": "OTP Input lengths",
+    "sizes": "OTP Input sizes",
+    "formats": "OTP Input formats",
+    "states": "OTP Input states",
+    "field": "OTP Input inside Field",
+    "entry": "OTP Input keyboard and paste entry",
+    "completion": "OTP Input completion output",
+    "verification": "OTP Input verification",
+    "autofocus": "OTP Input autofocus",
+    "validation": "OTP Input Signal Forms validation"
+  },
+  "fields": {
+    "verificationCode": "Verification code",
+    "emailCode": "Code from email",
+    "smsCode": "Code from SMS",
+    "signInCode": "Sign-in code"
+  },
+  "hints": {
+    "emailCode": "We sent a 6-digit code to your email",
+    "smsCode": "We sent a 6-digit code to your phone",
+    "signInCode": "Required. Enter all 6 digits."
+  },
+  "errors": {
+    "rejected": "Code is wrong or expired. Request a new one.",
+    "required": "Enter the sign-in code.",
+    "length": "Enter all 6 digits."
+  },
+  "lengths": {
+    "four": "4 cells",
+    "six": "6 cells (default)",
+    "eight": "8 cells"
+  },
+  "sizes": {
+    "extraSmall": "Extra small",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large"
+  },
+  "formats": {
+    "pin": "Masked PIN",
+    "backup": "Backup code (letters and digits)"
+  },
+  "states": {
+    "invalid": "Invalid",
+    "disabled": "Disabled",
+    "readOnly": "Read-only",
+    "loading": "Loading"
+  },
+  "labels": {
+    "entry": "Entry code",
+    "completion": "Completion code",
+    "verification": "Code to verify",
+    "autofocus": "Autofocused code"
+  },
+  "readout": {
+    "value": "Value:",
+    "empty": "empty",
+    "completions": "Completions:",
+    "lastCompleted": "Last completed code:"
+  },
+  "status": {
+    "idle": "Enter 123456 to accept the code.",
+    "verifying": "Verifying the code",
+    "verified": "Code accepted",
+    "rejected": "Code rejected"
+  },
+  "actions": {
+    "clear": "Clear code",
+    "reset": "Reset verification",
+    "mount": "Show autofocused code"
+  }
+}

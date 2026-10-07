@@ -64,11 +64,15 @@ When adding or changing a public primitive, update all relevant files in the sam
 change unless explicitly deferred:
 
 - Full delivery gate: `docs/component-checklist.md`
-- Implementation: `projects/ui/src/lib/components/<primitive>/...`
+- Implementation: `projects/ui/src/lib/components/<primitive>/...`, with files named after their
+  class (`kui-<primitive>.ts`, `kui-<primitive>.html`, `kui-<primitive>.spec.ts`); see
+  `.agents/angular-code-style.md`
+- Layer: classify the new folder in `scripts/architecture-layers.json` (`primitives` or `composites`);
+  `pnpm audit:architecture` fails on an unclassified module. See `.agents/imports-and-boundaries.md`.
 - Local component barrel: `projects/ui/src/lib/components/<primitive>/index.ts`
 - Component barrel: `projects/ui/src/lib/components/index.ts`
 - Public API: `projects/ui/src/public-api.ts` when public outside package internals
-- Runtime styles: `projects/ui/src/styles/<primitive>.css`
+- Runtime styles: `projects/ui/src/lib/components/<primitive>/kui-<primitive>.css` (a stylesheet shared by several primitives stays in `projects/ui/src/styles/`)
 - Public style entrypoint: `projects/ui/src/styles/kikita-ui.css`
 - Component docs: `docs/<primitive>.md`
 - State tracking: `docs/state-coverage.md`
@@ -77,13 +81,23 @@ change unless explicitly deferred:
   roadmap, state coverage, and changelog accurate enough for the docs repo to
   generate Markdown mirrors, `llms.txt`, and MCP data from released package
   behavior
-- Playground route: `projects/playground/src/app/pages/<primitive>/`
-- Playground navigation/routes: `projects/playground/src/app/app.ts` and related
-  route/nav files when a new page is added
+- Matching Kikita UI Playground page and inventory under
+  `projects/kikita-ui-playground/src/app/features/playground/pages/<catalog-group>/<primitive>/`,
+  plus its focused browser checks and reference screenshots whenever a supported public API,
+  default, behavior, or state changes. Reconcile them with the current public contract and source:
+  add newly supported cases, remove cases that are no longer supported, and revise changed
+  behavior. Do not invent unsupported examples. Add the route to `PlaygroundRoute` and the new
+  page's rows to `docs/state-coverage.md`; the static audit fails when a routed page is missing
+  there.
 - Focused tests: colocated `*.spec.ts` files for the primitive and any changed
   integration point
-- Theme tokens: `projects/ui/src/lib/theme/create-kui-theme.ts` and token
-  interfaces/types when new `--kui-*` variables are introduced
+- Theme tokens: a literal component token goes into the matching file under
+  `projects/ui/src/lib/theme/component-tokens/` (foundation, field, content, picker or overlay; the files
+  are consecutive slices of one table, so the order of the generated CSS stays stable), a seed-derived
+  role into `theme/semantic/` or `theme/palette/`, plus the token interfaces/types, when new
+  `--kui-*` variables are introduced. `create-kui-theme.golden.spec.ts` pins the generator output;
+  update its hashes and `theme-default.css` (`pnpm generate:theme-css`) in the same commit as a
+  deliberate theme change.
 - Local progress notes: `.local-notes/PROGRESS.md` for current-session progress
   only; this file is ignored and must not be required for package correctness
 

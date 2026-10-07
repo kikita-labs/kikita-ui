@@ -1,0 +1,40 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .accordion-interactions,
+  .accordion-interactions__modes,
+  .accordion-interactions__mode {
+    min-inline-size: 0;
+  }
+
+  .accordion-interactions__modes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+  }
+
+  .accordion-interactions__mode {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-3);
+  }
+
+  .accordion-interactions__mode h3 {
+    margin: 0;
+  }
+
+  .accordion-interactions__mode output {
+    display: block;
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  @media (width < 40rem) {
+    .accordion-interactions__modes {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

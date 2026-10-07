@@ -1,0 +1,29 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .menu-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .menu-playground h1 {
+    margin: 0;
+  }
+
+  .menu-playground__cards {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  @media (width < 48rem) {
+    .menu-playground {
+      padding: var(--kui-space-6);
+    }
+  }
+}

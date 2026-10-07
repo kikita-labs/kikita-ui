@@ -11,6 +11,10 @@ Record review status in `docs/state-coverage.md` when the result changes public 
 - Assistive-technology review: uses at least one real screen reader or platform accessibility tool to verify names, roles, states, descriptions, announcements, focus order, and interaction feedback.
 - Browser and visual review: checks responsive layout, contrast, forced colors, reduced motion, overlays, and zoom behavior.
 
+The automated axe-core sweep in the Playground's `accessibility.spec.ts` is DOM smoke. Their per-route results, known violations and excluded rules are
+listed in [browser test coverage](browser-test-coverage.md). Keyboard-only and screen-reader results are
+recorded separately and none is recorded yet.
+
 Do not mark a primitive as fully accessibility-audited when only DOM smoke or unit tests have run. DOM smoke can catch broken wiring; it cannot confirm what assistive technology announces or whether the interaction model feels usable.
 
 ## Baseline Setup
@@ -61,6 +65,10 @@ Review dropdown, select, tooltip, popover, dialog, toast, and any future overlay
 - Overlay placement changes do not reorder the accessible reading flow in a confusing way.
 - The overlay does not cover the trigger or active control in a way that prevents continued keyboard use.
 
+### Focus Return In Safari
+
+Safari on macOS does not focus a button when it is clicked with the mouse, so the trigger of a modal surface is not the active element when the surface opens, and there is nothing to return focus to when it closes. Focus returns to the trigger when the surface was opened with the keyboard. Native `<dialog>`, Angular CDK, Angular Material and Radix behave the same way (WebKit bug 236322), and Kikita UI does not work around it. Test focus return in Safari by opening the surface with the keyboard; a mouse-opened surface is expected to leave focus on the page.
+
 ## Forms And Field Checks
 
 - Form-associated controls are demonstrated inside `kui-field` unless the primitive is intentionally standalone.
@@ -68,7 +76,8 @@ Review dropdown, select, tooltip, popover, dialog, toast, and any future overlay
 - Labels, hints, errors, and required markers come from `kui-field` by default.
 - The accessible name comes from the visible label when possible.
 - Hint and error ids are referenced only while the elements exist.
-- Required and invalid states are exposed to AT.
+- Required and invalid states are exposed to AT. `kui-field` sets `aria-required` from its merged required state on every control whose role supports it; a single radio and a slider are the documented exceptions (see `docs/field.md`).
+- Automatic focus (`kuiAutoFocus`, OTP `autoFocus`) is opt-in and limited to places where focus on arrival is expected; see `docs/auto-focus.md`.
 - First error announcement is understandable after blur, submit, or validation state changes.
 - Disabled and readonly states are visually distinct and semantically accurate.
 - Signal Forms examples preserve native semantics and do not require custom ARIA to compensate for broken binding.
@@ -111,7 +120,10 @@ Review dropdown, select, tooltip, popover, dialog, toast, and any future overlay
 - Essential motion has a non-motion cue.
 - Focus, selected, invalid, disabled, and loading states remain distinguishable without relying on color alone.
 - Text and icon contrast meet WCAG AA where practical for the component size.
+- Control borders follow WCAG 1.4.11: a boundary that alone identifies a control (input, checkbox) reaches 3:1 in the default `strict` contrast profile; the opt-in `soft` profile drops control borders below 3:1 and is documented as such. `@media (prefers-contrast: more)` selects `strict` while no `data-kui-contrast` attribute is set. See [Contrast Profiles](theming.md#contrast-profiles).
 - Forced-colors or high-contrast mode preserves visible boundaries, focus, and state indicators.
+- The library ships these rules in `forced-colors.css` using system colours; `e2e/forced-colors.spec.ts` (Chromium forced-colors emulation) checks the checked, selected, filled and focus states. WebKit emulation does not apply the forced palette, so it is not evidence. New state-bearing components add their rule there and a case to the spec.
+- Icons are drawn as inline SVG with `currentColor`, so they take the system text colour in forced-colors mode. Do not draw an icon with a CSS `mask-image` and `background: currentColor`: Chromium paints the background in the forced palette and the icon disappears (Firefox keeps it). `e2e/icon-structural.spec.ts` checks that the structural icons keep a visible paint. See [Structural Icons](structural-icons.md#accessibility).
 - Semi-transparent overlays and shadows are not the only way to communicate depth or modality.
 
 ## Per-Component Review Template

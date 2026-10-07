@@ -1,0 +1,41 @@
+<app-playground-example-card [heading]="'stepper.examples.states' | transloco">
+  <div class="stepper-state-list">
+    <section
+      class="stepper-example"
+      role="group"
+      [attr.aria-label]="'stepper.accessibility.disabled' | transloco"
+    >
+      <kui-stepper
+        [currentIndex]="1"
+        [attr.aria-label]="'stepper.accessibility.progress' | transloco"
+      >
+        <kui-step [label]="'stepper.steps.account' | transloco" />
+        <kui-step [label]="'stepper.steps.workspace' | transloco" />
+        <kui-step [label]="'stepper.steps.review' | transloco" disabled />
+      </kui-stepper>
+    </section>
+
+    <section
+      class="stepper-example"
+      role="group"
+      [attr.aria-label]="'stepper.accessibility.error' | transloco"
+    >
+      <kui-stepper
+        [currentIndex]="1"
+        [attr.aria-label]="'stepper.accessibility.progress' | transloco"
+      >
+        <kui-step [label]="'stepper.steps.account' | transloco" />
+        <kui-step
+          [label]="'stepper.steps.payment' | transloco"
+          [description]="errorEnabled() ? ('stepper.descriptions.cardDeclined' | transloco) : ''"
+          [hasError]="errorEnabled()"
+        />
+        <kui-step [label]="'stepper.steps.confirm' | transloco" />
+      </kui-stepper>
+
+      <button kuiButton shape="outline" type="button" (click)="toggleError()">
+        {{ 'stepper.actions.toggleError' | transloco }}
+      </button>
+    </section>
+  </div>
+</app-playground-example-card>

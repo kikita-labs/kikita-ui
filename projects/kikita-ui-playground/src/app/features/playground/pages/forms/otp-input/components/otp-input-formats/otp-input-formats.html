@@ -1,0 +1,29 @@
+<app-playground-example-card [heading]="'otpInput.examples.formats' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'otpInput.accessibility.formats' | transloco"
+    class="otp-input-formats__items"
+  >
+    <div class="otp-input-formats__item">
+      <p kuiText variant="caption">{{ 'otpInput.formats.pin' | transloco }}</p>
+
+      <kui-otp-input
+        mask
+        [length]="4"
+        value="2580"
+        [ariaLabel]="'otpInput.formats.pin' | transloco"
+      />
+    </div>
+
+    <div class="otp-input-formats__item">
+      <p kuiText variant="caption">{{ 'otpInput.formats.backup' | transloco }}</p>
+
+      <kui-otp-input
+        [integerOnly]="false"
+        [length]="8"
+        value="A7K9Q2ZM"
+        [ariaLabel]="'otpInput.formats.backup' | transloco"
+      />
+    </div>
+  </div>
+</app-playground-example-card>

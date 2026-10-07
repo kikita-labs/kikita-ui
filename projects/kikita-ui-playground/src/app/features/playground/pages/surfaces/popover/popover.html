@@ -1,0 +1,107 @@
+<main class="playground-workspace popover-playground" aria-labelledby="popover-playground-title">
+  <h1 id="popover-playground-title" kuiText variant="heading-lg">
+    {{ 'popover.title' | transloco }}
+  </h1>
+
+  <div class="popover-playground__catalogue">
+    <section role="group" [attr.aria-label]="'popover.accessibility.default' | transloco">
+      <app-playground-example-card [heading]="'popover.examples.default' | transloco">
+        <div class="popover-playground__trigger">
+          <button kuiButton type="button" size="lg" [kuiPopoverFor]="defaultPopover">
+            {{ 'popover.triggers.default' | transloco }}
+          </button>
+          <kui-popover #defaultPopover>
+            <p kuiText class="kui-popover-desc">{{ 'popover.content.default' | transloco }}</p>
+          </kui-popover>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'popover.accessibility.arrowOffset' | transloco">
+      <app-playground-example-card [heading]="'popover.examples.arrowOffset' | transloco">
+        <div class="popover-playground__trigger-matrix">
+          <div class="popover-playground__trigger">
+            <button kuiButton type="button" size="lg" [kuiPopoverFor]="arrowOffPopover">
+              {{ 'popover.triggers.arrowOff' | transloco }}
+            </button>
+            <kui-popover
+              #arrowOffPopover
+              [ariaLabel]="'popover.accessibility.arrowOffPanel' | transloco"
+            >
+              <p kuiText class="kui-popover-desc">{{ 'popover.content.arrowOff' | transloco }}</p>
+            </kui-popover>
+          </div>
+
+          <div class="popover-playground__trigger">
+            <button kuiButton type="button" size="lg" [kuiPopoverFor]="arrowOnPopover">
+              {{ 'popover.triggers.arrowOn' | transloco }}
+            </button>
+            <kui-popover
+              #arrowOnPopover
+              [arrow]="true"
+              [ariaLabel]="'popover.accessibility.arrowOnPanel' | transloco"
+            >
+              <p kuiText class="kui-popover-desc">{{ 'popover.content.arrowOn' | transloco }}</p>
+            </kui-popover>
+          </div>
+
+          <div class="popover-playground__trigger">
+            <button kuiButton type="button" size="lg" [kuiPopoverFor]="offsetPopover">
+              {{ 'popover.triggers.offset' | transloco }}
+            </button>
+            <kui-popover
+              #offsetPopover
+              [offset]="24"
+              [ariaLabel]="'popover.accessibility.offsetPanel' | transloco"
+            >
+              <p kuiText class="kui-popover-desc">{{ 'popover.content.offset' | transloco }}</p>
+            </kui-popover>
+          </div>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="popover-playground__positions"
+      role="group"
+      [attr.aria-label]="'popover.accessibility.positions' | transloco"
+    >
+      <app-playground-example-card [heading]="'popover.examples.positions' | transloco">
+        <app-popover-position-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'popover.accessibility.content' | transloco">
+      <app-playground-example-card [heading]="'popover.examples.content' | transloco">
+        <app-popover-content-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'popover.accessibility.form' | transloco">
+      <app-playground-example-card [heading]="'popover.examples.form' | transloco">
+        <app-popover-form-examples />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'popover.accessibility.hover' | transloco">
+      <app-playground-example-card [heading]="'popover.examples.hover' | transloco">
+        <div class="popover-playground__trigger popover-playground__trigger--hover">
+          <p kuiText variant="body-sm">{{ 'popover.hover.delayLabel' | transloco }}</p>
+          <button kuiButton type="button" size="lg" [kuiPopoverFor]="hoverPopover">
+            {{ 'popover.triggers.hover' | transloco }}
+          </button>
+          <kui-popover
+            #hoverPopover
+            placement="top"
+            triggerType="hover"
+            [arrow]="true"
+            [hoverDelay]="180"
+            [ariaLabel]="'popover.accessibility.hoverPanel' | transloco"
+          >
+            <p kuiText class="kui-popover-desc">{{ 'popover.hover.content' | transloco }}</p>
+          </kui-popover>
+        </div>
+      </app-playground-example-card>
+    </section>
+  </div>
+</main>

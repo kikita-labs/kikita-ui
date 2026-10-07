@@ -1,0 +1,7 @@
+@layer app.components {
+  .textarea-explicit-id__content {
+    display: grid;
+    gap: var(--kui-space-1);
+    min-inline-size: 0;
+  }
+}

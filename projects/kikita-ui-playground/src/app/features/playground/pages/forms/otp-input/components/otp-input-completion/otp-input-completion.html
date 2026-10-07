@@ -1,0 +1,22 @@
+<app-playground-example-card [heading]="'otpInput.examples.completion' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'otpInput.accessibility.completion' | transloco"
+    class="otp-input-completion__content"
+  >
+    <kui-otp-input
+      [(value)]="code"
+      [length]="4"
+      [ariaLabel]="'otpInput.labels.completion' | transloco"
+      (complete)="onComplete($event)"
+    />
+
+    <app-otp-input-readout labelKey="otpInput.readout.completions" [value]="'' + completions()" />
+
+    <app-otp-input-readout labelKey="otpInput.readout.lastCompleted" [value]="lastCompleted()" />
+
+    <button kuiButton shape="ghost" size="sm" type="button" (click)="clear()">
+      {{ 'otpInput.actions.clear' | transloco }}
+    </button>
+  </div>
+</app-playground-example-card>

@@ -1,0 +1,52 @@
+<nav class="component-sidebar" [attr.aria-label]="'playground.navigation.label' | transloco">
+  <kui-field [label]="'playground.navigation.searchLabel' | transloco">
+    <kui-icon kuiFieldAffix name="search" />
+
+    <input
+      kuiInput
+      id="component-search"
+      type="search"
+      autocomplete="off"
+      [placeholder]="'playground.navigation.searchPlaceholder' | transloco"
+      (input)="updateSearch($event)"
+    />
+  </kui-field>
+
+  <div class="component-sidebar__catalog">
+    <kui-accordion mode="multi" size="sm" [(expandedItems)]="expandedCategories">
+      @for (group of visibleGroups(); track group.id) {
+        <kui-accordion-item [id]="group.id" [header]="group.label | transloco">
+          <ul class="component-list">
+            @for (component of group.components; track component.id) {
+              @let selectedComponentId = selectedComponent();
+
+              <li>
+                <a
+                  [routerLink]="['/', componentsRoute, component.id]"
+                  class="component-list__item"
+                  [attr.aria-current]="selectedComponentId === component.id ? 'page' : null"
+                >
+                  <span
+                    kuiText
+                    variant="body-sm"
+                    [tone]="selectedComponentId === component.id ? 'primary' : 'muted'"
+                  >
+                    {{ component.label | transloco }}
+                  </span>
+                </a>
+              </li>
+            } @empty {
+              <li class="component-list__empty" kuiText variant="body-sm" tone="muted">
+                {{ 'playground.navigation.noResults' | transloco }}
+              </li>
+            }
+          </ul>
+        </kui-accordion-item>
+      } @empty {
+        <p class="component-sidebar__empty" kuiText variant="body-sm" tone="muted">
+          {{ 'playground.navigation.noResults' | transloco }}
+        </p>
+      }
+    </kui-accordion>
+  </div>
+</nav>

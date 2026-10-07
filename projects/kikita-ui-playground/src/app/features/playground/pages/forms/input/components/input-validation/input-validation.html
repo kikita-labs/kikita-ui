@@ -1,0 +1,19 @@
+<app-playground-example-card [heading]="'input.examples.validation' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'input.accessibility.validationGroup' | transloco"
+    class="input-validation__content"
+  >
+    <kui-field
+      [label]="'input.fields.requiredEmail' | transloco"
+      [hint]="'input.hints.requiredEmail' | transloco"
+    >
+      <input
+        kuiInput
+        type="email"
+        [formField]="validationForm.email"
+        [placeholder]="'input.placeholders.email' | transloco"
+      />
+    </kui-field>
+  </div>
+</app-playground-example-card>

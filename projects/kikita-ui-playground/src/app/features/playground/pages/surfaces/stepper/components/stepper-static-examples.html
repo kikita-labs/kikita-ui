@@ -1,0 +1,90 @@
+<app-playground-example-card [heading]="'stepper.examples.default' | transloco">
+  <section
+    class="stepper-example"
+    role="group"
+    [attr.aria-label]="'stepper.accessibility.default' | transloco"
+  >
+    <kui-stepper [attr.aria-label]="'stepper.accessibility.progress' | transloco">
+      <kui-step [label]="'stepper.steps.account' | transloco" />
+      <kui-step [label]="'stepper.steps.workspace' | transloco" />
+      <kui-step [label]="'stepper.steps.review' | transloco" />
+    </kui-stepper>
+  </section>
+</app-playground-example-card>
+
+<app-playground-example-card [heading]="'stepper.examples.vertical' | transloco">
+  <section
+    class="stepper-example"
+    role="group"
+    [attr.aria-label]="'stepper.accessibility.vertical' | transloco"
+  >
+    <kui-stepper
+      orientation="vertical"
+      [currentIndex]="1"
+      [attr.aria-label]="'stepper.accessibility.progress' | transloco"
+    >
+      <kui-step
+        [label]="'stepper.steps.accountDetails' | transloco"
+        [description]="'stepper.descriptions.accountDetails' | transloco"
+      />
+      <kui-step
+        [label]="'stepper.steps.workspaceSetup' | transloco"
+        [description]="'stepper.descriptions.workspaceSetup' | transloco"
+      />
+      <kui-step
+        [label]="'stepper.steps.inviteTeam' | transloco"
+        [description]="'stepper.descriptions.inviteTeam' | transloco"
+      />
+    </kui-stepper>
+  </section>
+</app-playground-example-card>
+
+<app-playground-example-card [heading]="'stepper.examples.sizes' | transloco">
+  <div class="stepper-size-list">
+    @for (size of sizes; track size.value) {
+      <section
+        class="stepper-size-row"
+        role="group"
+        [attr.aria-label]="'stepper.accessibility.sizeRow' | transloco: { size: size.value }"
+      >
+        <h3 kuiText variant="heading-sm">{{ 'stepper.sizes.' + size.key | transloco }}</h3>
+        <kui-stepper
+          [size]="size.value"
+          [currentIndex]="1"
+          [attr.aria-label]="'stepper.accessibility.progress' | transloco"
+        >
+          <kui-step [label]="'stepper.steps.account' | transloco" />
+          <kui-step [label]="'stepper.steps.workspace' | transloco" />
+          <kui-step [label]="'stepper.steps.review' | transloco" />
+        </kui-stepper>
+      </section>
+    }
+  </div>
+</app-playground-example-card>
+
+<app-playground-example-card [heading]="'stepper.examples.compact' | transloco">
+  <section
+    class="stepper-example"
+    role="group"
+    [attr.aria-label]="'stepper.accessibility.compact' | transloco"
+  >
+    <kui-stepper
+      compact
+      [currentIndex]="1"
+      [attr.aria-label]="'stepper.accessibility.progress' | transloco"
+    >
+      <kui-step
+        [label]="'stepper.steps.account' | transloco"
+        [attr.aria-label]="'stepper.accessibility.compactAccount' | transloco"
+      />
+      <kui-step
+        [label]="'stepper.steps.workspace' | transloco"
+        [attr.aria-label]="'stepper.accessibility.compactWorkspace' | transloco"
+      />
+      <kui-step
+        [label]="'stepper.steps.review' | transloco"
+        [attr.aria-label]="'stepper.accessibility.compactReview' | transloco"
+      />
+    </kui-stepper>
+  </section>
+</app-playground-example-card>

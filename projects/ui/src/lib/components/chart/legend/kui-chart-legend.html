@@ -1,0 +1,34 @@
+<div class="kui-chart__legend" role="group" [attr.aria-label]="t().legendLabel">
+  @for (item of chart().legendItems(); track item.id) {
+    @if (itemTemplate(); as template) {
+      <ng-container
+        [ngTemplateOutlet]="template"
+        [ngTemplateOutletContext]="{
+          $implicit: item,
+          hovered: chart().hoveredLegendId() === item.id,
+        }"
+      ></ng-container>
+    } @else {
+      <button
+        type="button"
+        class="kui-chart__legend-item"
+        [attr.aria-pressed]="!item.hidden"
+        [class.kui-chart__legend-item--hidden]="item.hidden"
+        [class.kui-chart__legend-item--active]="chart().hoveredLegendId() === item.id"
+        (click)="chart().toggleLegendItem(item.id)"
+        (pointerenter)="chart().setHoveredLegendId(item.id)"
+        (pointerleave)="chart().setHoveredLegendId(null)"
+        (focus)="!item.hidden && chart().setHoveredLegendId(item.id)"
+        (blur)="chart().setHoveredLegendId(null)"
+      >
+        <svg
+          kuiChartSwatch
+          [color]="item.color"
+          [shape]="item.shape ?? 'circle'"
+          [pattern]="item.pattern"
+        ></svg>
+        {{ item.label }}
+      </button>
+    }
+  }
+</div>

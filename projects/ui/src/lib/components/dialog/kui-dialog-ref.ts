@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import type { Observable } from 'rxjs';
 
 /**
- * Handle returned by {@link KuiDialogService.open}.
+ * Handle returned by {@link KuiDialog.open}.
  * Use {@link afterClosed} to react to the dialog result.
  */
 export class KuiDialogRef<TResult = void> {

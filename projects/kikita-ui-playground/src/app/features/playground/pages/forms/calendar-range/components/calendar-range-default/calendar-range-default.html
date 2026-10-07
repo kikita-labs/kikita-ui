@@ -1,0 +1,42 @@
+<section role="group" [attr.aria-label]="'calendarRange.accessibility.default' | transloco">
+  <app-playground-example-card [heading]="'calendarRange.examples.default' | transloco">
+    <kui-calendar-range
+      class="calendar-range-default__calendar"
+      locale="en-US"
+      [(viewDate)]="defaultViewDate"
+    />
+  </app-playground-example-card>
+</section>
+
+<section role="group" [attr.aria-label]="'calendarRange.accessibility.selection' | transloco">
+  <app-playground-example-card [heading]="'calendarRange.examples.selection' | transloco">
+    <kui-calendar-range
+      class="calendar-range-default__calendar"
+      locale="en-US"
+      [(value)]="selectionValue"
+      [(viewDate)]="selectionViewDate"
+    />
+
+    <p class="calendar-range-default__readout" kuiText variant="body-sm" tone="muted">
+      @if (selectionValue(); as range) {
+        @if (range.end; as end) {
+          {{
+            'calendarRange.selection.committed'
+              | transloco
+                : {
+                    start: (range.start | date: 'yyyy-MM-dd'),
+                    end: (end | date: 'yyyy-MM-dd'),
+                  }
+          }}
+        } @else {
+          {{
+            'calendarRange.selection.open'
+              | transloco: { start: (range.start | date: 'yyyy-MM-dd') }
+          }}
+        }
+      } @else {
+        {{ 'calendarRange.selection.empty' | transloco }}
+      }
+    </p>
+  </app-playground-example-card>
+</section>

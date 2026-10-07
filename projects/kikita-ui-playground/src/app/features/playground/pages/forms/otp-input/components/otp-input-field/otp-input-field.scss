@@ -1,0 +1,14 @@
+@layer app.components {
+  .otp-input-field__items {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .otp-input-field__items {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

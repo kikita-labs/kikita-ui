@@ -1,0 +1,22 @@
+<app-playground-example-card [heading]="'otpInput.examples.autofocus' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'otpInput.accessibility.autofocus' | transloco"
+    class="otp-input-autofocus__content"
+  >
+    <button
+      kuiButton
+      shape="ghost"
+      size="sm"
+      type="button"
+      [disabled]="mounted()"
+      (click)="mounted.set(true)"
+    >
+      {{ 'otpInput.actions.mount' | transloco }}
+    </button>
+
+    @if (mounted()) {
+      <kui-otp-input autoFocus [ariaLabel]="'otpInput.labels.autofocus' | transloco" />
+    }
+  </div>
+</app-playground-example-card>

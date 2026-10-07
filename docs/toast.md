@@ -5,7 +5,7 @@ Non-blocking notifications displayed over the interface. Imperatively opened via
 ## Import
 
 ```ts
-import { kuiToast, provideKuiToastOptions } from '@kikita-labs/ui';
+import { kuiToast, provideKikitaUi } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:
@@ -38,6 +38,22 @@ export class MyComponent {
 close button or returned reference. `persistent` also accepts a `Signal<boolean>`; changing the
 signal to `false` starts the configured timer, while changing it to `true` pauses the timer and
 preserves its remaining time.
+
+Lifecycle rules:
+
+- A signal only needs to be readable; the toast never writes to it. A `computed` works.
+- Turning the signal `true` freezes the time left; turning it `false` resumes that time. A toast
+  opened with a `true` signal starts the full duration the first time the signal becomes `false`.
+- `ref.update({ persistent })` or `ref.update({ duration })` restarts the full duration. An update
+  that omits `persistent` keeps the current binding; one that sets it replaces the previous value or
+  signal, and the old signal is detached.
+- An explicit `persistent` value, even `false`, wins over `duration: Infinity`; a non-finite or
+  missing duration then uses the default duration. `ref.update({ duration: undefined })` also uses
+  the default duration the toast was opened with.
+- Hovering the toast pauses the timer; leaving resumes it unless the toast is persistent.
+- Updates after the toast starts closing are ignored. Closing the toast or destroying the region
+  detaches every signal subscription and timer, and completes `closed$` and `action$`.
+- The server renders no toast and starts no timer.
 
 ```ts
 import { signal } from '@angular/core';
@@ -75,10 +91,8 @@ ref.action$.pipe(takeUntilDestroyed()).subscribe(() => this.undoDelete());
 // app.config.ts
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideKuiToastOptions({
-      position: 'top-end',
-      duration: 4000,
-      maxVisible: 5,
+    provideKikitaUi({
+      defaults: { toast: { position: 'top-end', duration: 4000, maxVisible: 5 } },
     }),
   ],
 };
@@ -189,20 +203,90 @@ bottom-start bottom-center bottom-end   <- default
 
 - **Auto-dismiss:** 5 s by default. Hover on the toast pauses the timer; mouseleave resumes with remaining time.
 - **Persistent lifecycle:** `persistent: true`, `persistent: signal(true)`, or `duration: Infinity` keeps a toast open until it is closed or its state changes. Persistent toasts can still be evicted when `maxVisible` is exceeded.
-- **Programmatic control:** `KuiToastRef.close()` closes one toast, `update()` changes it in place, and `KuiToastService.dismissAll()` closes the service's active toasts.
+- **Programmatic control:** `KuiToastRef.close()` closes one toast, `update()` changes it in place, and `KuiToast.dismissAll()` closes the service's active toasts.
 - **Eviction:** when `maxVisible` is reached, the oldest visible toast is dismissed before the new one appears.
 - **No focus steal:** toast does not capture keyboard focus on appear (unlike Dialog).
 - **`aria-live="polite"`** on the region, screen readers announce new toasts without interrupting current speech.
 - **Mobile:** card stretches to `100vw - 32px`; region ignores position side and aligns to the bottom edge.
 - **`prefers-reduced-motion`:** slide animations replaced with opacity-only fade.
-- **SSR:** `KuiToastService.open()` returns a no-op ref on the server; no DOM access occurs.
+- **SSR:** `KuiToast.open()` returns a no-op ref on the server; no DOM access occurs.
 
 ## Architecture
 
-`KuiToastService` lazily creates a single `KuiToastRegionComponent` on the first `open()` call and appends it to `document.body`. The region lives for the lifetime of the app and manages the toast stack as an Angular signal list.
+`KuiToast` lazily creates a single `KuiToastRegion` on the first `open()` call and appends it to `document.body`. The region lives for the lifetime of the app and manages the toast stack as an Angular signal list.
+
+While toasts are visible the region is a manual popover, so it is shown in the browser top layer, where Dialog, Drawer, Menu and the other library overlays live. A toast added while an overlay is open, or an overlay opened while a toast is visible, raises the region above it (`z-index` has no effect between top-layer elements). `--kui-z-toast` only orders the region in a browser without the Popover API.
 
 ```
-KuiToastService        - @Service(), root-provided
-  -> KuiToastRegionComponent  - internal, created via createComponent()
+KuiToast        - @Service(), root-provided
+  -> KuiToastRegion  - internal, created via createComponent()
        -> InternalToastItem[] - signal<>, per-item closing signal for exit animation
 ```
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                           | Default                      | Controls                |
+| ------------------------------- | ---------------------------- | ----------------------- |
+| `--kui-toast-color`             | `--kui-color-text`           | Color                   |
+| `--kui-toast-title-color`       | `--kui-color-text`           | Title color             |
+| `--kui-toast-message-color`     | `--kui-color-text-secondary` | Message color           |
+| `--kui-toast-close-color`       | `--kui-color-text-secondary` | Close color             |
+| `--kui-toast-close-bg-hover`    | `--kui-color-state-hover`    | Close background, hover |
+| `--kui-toast-close-color-hover` | `--kui-color-text`           | Close color, hover      |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Provider Defaults
+
+Set `defaults.toast` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    toast: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    toast: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option         | Values                                                                                          | Description                                                                                                          |
+| -------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `position`     | `'top-start' \| 'top-center' \| 'top-end' \| 'bottom-start' \| 'bottom-center' \| 'bottom-end'` | Where the toast region is placed. Follows runtime changes of the default.                                            |
+| `duration`     | `number`                                                                                        | Auto-dismiss delay in ms.                                                                                            |
+| `maxVisible`   | `number`                                                                                        | Toasts shown at once. Follows runtime changes of the default.                                                        |
+| `showProgress` | `boolean`                                                                                       | Shows the remaining-time bar.                                                                                        |
+| `closable`     | `boolean`                                                                                       | Shows the close button.                                                                                              |
+| `showIcon`     | `boolean`                                                                                       | Shows the status icon.                                                                                               |
+| `closeIcon`    | `KuiIconGlyph`                                                                                  | Icon of the close button. Takes precedence over `defaults.icons.close`. See [Structural Icons](structural-icons.md). |
+
+Each option resolves as `local input > defaults.toast.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                      | Default           | Controls            |
+| -------------------------- | ----------------- | ------------------- |
+| `--kui-toast-close-radius` | `--kui-radius-xs` | Close corner radius |
+| `--kui-toast-accent-width` | `3px`             | Accent border width |
+
+<!-- geometry-tokens:end -->

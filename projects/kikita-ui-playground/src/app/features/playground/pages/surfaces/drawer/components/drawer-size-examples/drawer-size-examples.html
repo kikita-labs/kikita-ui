@@ -1,0 +1,49 @@
+<div class="drawer-size-examples">
+  <section role="group" [attr.aria-label]="'drawer.accessibility.horizontalSizes' | transloco">
+    <h3 kuiText variant="heading-sm">{{ 'drawer.labels.horizontalSizes' | transloco }}</h3>
+    <app-drawer-example-actions>
+      <button kuiButton shape="outline" type="button" (click)="openRightSmDrawer()">
+        {{ 'drawer.actions.openRightSm' | transloco }}
+      </button>
+      <button kuiButton shape="outline" type="button" (click)="openRightMdDrawer()">
+        {{ 'drawer.actions.openRightMd' | transloco }}
+      </button>
+      <button kuiButton shape="outline" type="button" (click)="openRightLgDrawer()">
+        {{ 'drawer.actions.openRightLg' | transloco }}
+      </button>
+      <button kuiButton shape="outline" type="button" (click)="openRightFullDrawer()">
+        {{ 'drawer.actions.openRightFull' | transloco }}
+      </button>
+      <button kuiButton shape="outline" type="button" (click)="openRightAutoDrawer()">
+        {{ 'drawer.actions.openRightAuto' | transloco }}
+      </button>
+    </app-drawer-example-actions>
+  </section>
+
+  <section role="group" [attr.aria-label]="'drawer.accessibility.verticalSizes' | transloco">
+    <h3 kuiText variant="heading-sm">{{ 'drawer.labels.verticalSizes' | transloco }}</h3>
+    <app-drawer-example-actions>
+      <button kuiButton shape="outline" type="button" (click)="openBottomSmDrawer()">
+        {{ 'drawer.actions.openBottomSm' | transloco }}
+      </button>
+      <button kuiButton shape="outline" type="button" (click)="openBottomMdDrawer()">
+        {{ 'drawer.actions.openBottomMd' | transloco }}
+      </button>
+      <button kuiButton shape="outline" type="button" (click)="openBottomLgDrawer()">
+        {{ 'drawer.actions.openBottomLg' | transloco }}
+      </button>
+      <button kuiButton shape="outline" type="button" (click)="openBottomFullDrawer()">
+        {{ 'drawer.actions.openBottomFull' | transloco }}
+      </button>
+      <button kuiButton shape="outline" type="button" (click)="openBottomAutoDrawer()">
+        {{ 'drawer.actions.openBottomAuto' | transloco }}
+      </button>
+    </app-drawer-example-actions>
+  </section>
+</div>
+
+@if (result(); as message) {
+  <p kuiText variant="body-sm" class="drawer-example-result" role="status">
+    {{ 'drawer.status.' + message | transloco }}
+  </p>
+}

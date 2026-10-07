@@ -5,7 +5,7 @@ import { KUI_ICONS } from './kui-icon-registry.token';
 import type { KuiIconRegistry } from './kui-icon-source.type';
 
 /**
- * Registers an icon set for `KuiIconComponent` lookup by name — either a static map of trusted
+ * Registers an icon set for `KuiIcon` lookup by name — either a static map of trusted
  * inline SVG markup, or an async resolver (e.g. backed by a different icon library or a remote
  * source). Later calls take precedence over earlier ones for names they both define, so this can
  * be used at the root to override Kikita UI's default Lucide icons, or in a specific component's

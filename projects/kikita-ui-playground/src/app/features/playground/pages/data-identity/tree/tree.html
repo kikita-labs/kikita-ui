@@ -1,0 +1,83 @@
+<main class="playground-workspace tree-playground" aria-labelledby="tree-playground-title">
+  <h1 id="tree-playground-title" kuiText variant="heading-lg">
+    {{ 'tree.title' | transloco }}
+  </h1>
+
+  <div class="tree-playground__catalogue">
+    <section
+      class="tree-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'tree.accessibility.default' | transloco"
+    >
+      <app-playground-example-card [heading]="'tree.examples.default' | transloco">
+        <kui-tree
+          [ariaLabel]="'tree.accessibility.defaultTree' | transloco"
+          [data]="displayNodes()"
+          [(value)]="value"
+        />
+
+        <output class="tree-playground__status" aria-live="polite" aria-atomic="true">
+          {{ selectedSummary() }}
+        </output>
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="tree-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'tree.accessibility.sizes' | transloco"
+    >
+      <app-playground-example-card [heading]="'tree.examples.sizes' | transloco">
+        <app-tree-size-examples [data]="displayNodes()" />
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'tree.accessibility.checkable' | transloco">
+      <app-playground-example-card [heading]="'tree.examples.checkable' | transloco">
+        <kui-tree
+          mode="checkable"
+          [ariaLabel]="'tree.accessibility.checkableTree' | transloco"
+          [data]="checkableNodes()"
+          [(checkedIds)]="checkedIds"
+          [(expandedIds)]="checkedExpandedIds"
+        />
+
+        <output
+          class="tree-playground__status"
+          role="status"
+          [attr.aria-label]="'tree.accessibility.expansionStatus' | transloco"
+        >
+          {{ checkedGroupExpansionStatus() }}
+        </output>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'tree.accessibility.lazy' | transloco">
+      <app-playground-example-card [heading]="'tree.examples.lazy' | transloco">
+        <kui-tree
+          [ariaLabel]="'tree.accessibility.lazyTree' | transloco"
+          [data]="lazyNodes()"
+          [loadChildren]="loadChildren"
+        />
+
+        <output
+          class="tree-playground__status"
+          role="status"
+          [attr.aria-label]="'tree.accessibility.lazyStatus' | transloco"
+        >
+          {{ lazyStatus() }}
+        </output>
+      </app-playground-example-card>
+    </section>
+
+    <section
+      class="tree-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'tree.accessibility.mobile' | transloco"
+    >
+      <app-playground-example-card [heading]="'tree.examples.mobile' | transloco">
+        <app-tree-size-examples [mobile]="true" [data]="displayNodes()" />
+      </app-playground-example-card>
+    </section>
+  </div>
+</main>

@@ -1,0 +1,37 @@
+<div
+  class="kui-dialog-backdrop"
+  [class.kui-dialog-backdrop--closing]="isClosing()"
+  (pointerdown)="onBackdropPointerDown($event)"
+  (click)="onBackdropClick()"
+  (animationend)="onAnimationEnd($event)"
+>
+  <div
+    #dialogPanel
+    class="kui-dialog"
+    [class.kui-dialog--sm]="_size === 'sm'"
+    [class.kui-dialog--md]="_size === 'md'"
+    [class.kui-dialog--lg]="_size === 'lg'"
+    [class.kui-dialog--auto]="_size === 'auto'"
+    [class.kui-dialog--fullscreen]="_size === 'fullscreen'"
+    [class.kui-dialog--closing]="isClosing()"
+    [attr.data-kui-appearance]="_appearance !== 'default' ? _appearance : null"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="hasTitle() ? null : t().label"
+    cdkTrapFocus
+    [cdkTrapFocusAutoCapture]="true"
+    (click)="$event.stopPropagation()"
+  >
+    <ng-template cdkPortalOutlet />
+    @if (_closable()) {
+      <button
+        type="button"
+        class="kui-dialog-close"
+        [attr.aria-label]="common().close"
+        (click)="close()"
+      >
+        <svg width="16" height="16" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.5"></svg>
+      </button>
+    }
+  </div>
+</div>

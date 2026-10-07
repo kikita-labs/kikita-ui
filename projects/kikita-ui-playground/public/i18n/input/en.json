@@ -1,0 +1,76 @@
+{
+  "title": "Input",
+  "examples": {
+    "default": "Default input",
+    "explicitId": "Explicit input ID",
+    "sizes": "Input sizes",
+    "states": "Native input states",
+    "types": "Native input types",
+    "validation": "Signal Forms validation",
+    "autoFocus": "Auto focus"
+  },
+  "fields": {
+    "projectName": "Project name",
+    "explicitId": "Explicit ID",
+    "interactive": "Interactive",
+    "readonly": "Read-only",
+    "disabled": "Disabled",
+    "invalid": "Invalid",
+    "requiredEmail": "Required email",
+    "localSizeInField": "Local xs inside lg Field",
+    "inheritedSize": "Inherited from Field (lg)"
+  },
+  "hints": {
+    "requiredEmail": "Required. Leave empty, then enter an email address."
+  },
+  "placeholders": {
+    "projectName": "Project name",
+    "interactive": "Hover or focus",
+    "search": "Search projects",
+    "email": "name@example.com"
+  },
+  "sizes": {
+    "xs": "Extra small",
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large"
+  },
+  "types": {
+    "text": "Text",
+    "email": "Email",
+    "search": "Search",
+    "password": "Password"
+  },
+  "values": {
+    "readonly": "kikita.dev",
+    "disabled": "Unavailable",
+    "invalid": "Needs attention",
+    "text": "Kikita UI",
+    "email": "hello@example.com",
+    "password": "kikita-ui"
+  },
+  "errors": {
+    "required": "Email is required."
+  },
+  "accessibility": {
+    "defaultGroup": "Default input example",
+    "explicitIdGroup": "Explicit input ID",
+    "sizesGroup": "Input sizes",
+    "fieldSizeGroup": "Input size inheritance and precedence",
+    "statesGroup": "Input native states",
+    "typesGroup": "Native input types",
+    "validationGroup": "Signal Forms validation",
+    "autoFocusGroup": "Input auto focus"
+  },
+  "autoFocus": {
+    "mount": "Show focused field",
+    "mountedField": "Focused on mount",
+    "request": "Request focus",
+    "requestedField": "Focused on request",
+    "openDialog": "Open dialog",
+    "dialogTitle": "Auto focus dialog",
+    "dialogFirstField": "First field",
+    "dialogFocusedField": "Focused field in dialog",
+    "close": "Close"
+  }
+}

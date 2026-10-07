@@ -1,0 +1,64 @@
+{
+  "title": "Carousel",
+  "slide": "Slide {{number}}",
+  "readout": "Current index: {{index}}",
+  "examples": {
+    "default": "Default",
+    "indexModel": "Index model",
+    "loop": "Loop",
+    "itemsPerView": "Items per view",
+    "navigation": "Navigation visibility",
+    "draggable": "Draggable",
+    "autoplay": "Autoplay"
+  },
+  "labels": {
+    "noLoop": "Without loop",
+    "loop": "With loop",
+    "itemsPerViewTwo": "Two per view",
+    "itemsPerViewThree": "Three per view",
+    "itemsPerViewAll": "Three per view, three slides",
+    "dotsOnly": "Dots only",
+    "arrowsOnly": "Arrows only",
+    "swipeOnly": "Swipe only",
+    "draggable": "Draggable",
+    "locked": "Not draggable",
+    "autoplayLoop": "Autoplay with loop",
+    "autoplayNoLoop": "Autoplay without loop"
+  },
+  "actions": {
+    "goToThird": "Go to slide 3",
+    "reset": "Reset"
+  },
+  "regions": {
+    "default": "Release highlights",
+    "indexModel": "Indexed highlights",
+    "noLoop": "Highlights without loop",
+    "loop": "Highlights with loop",
+    "itemsPerViewTwo": "Two highlights per view",
+    "itemsPerViewThree": "Three highlights per view",
+    "itemsPerViewAll": "All highlights visible",
+    "dotsOnly": "Highlights with dots only",
+    "arrowsOnly": "Highlights with arrows only",
+    "swipeOnly": "Highlights with swipe only",
+    "draggable": "Draggable highlights",
+    "locked": "Non-draggable highlights",
+    "autoplayLoop": "Rotating highlights",
+    "autoplayNoLoop": "Rotating highlights without loop"
+  },
+  "groups": {
+    "default": "Default carousel example",
+    "indexModel": "Index model carousel example",
+    "noLoop": "Carousel without loop example",
+    "loop": "Carousel with loop example",
+    "itemsPerViewTwo": "Two per view carousel example",
+    "itemsPerViewThree": "Three per view carousel example",
+    "itemsPerViewAll": "Three per view with three slides carousel example",
+    "dotsOnly": "Dots only carousel example",
+    "arrowsOnly": "Arrows only carousel example",
+    "swipeOnly": "Swipe only carousel example",
+    "draggable": "Draggable carousel example",
+    "locked": "Non-draggable carousel example",
+    "autoplayLoop": "Autoplay with loop carousel example",
+    "autoplayNoLoop": "Autoplay without loop carousel example"
+  }
+}

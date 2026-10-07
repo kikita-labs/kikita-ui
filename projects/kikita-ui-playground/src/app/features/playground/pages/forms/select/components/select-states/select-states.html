@@ -1,0 +1,49 @@
+<app-playground-example-card [heading]="'select.examples.states' | transloco">
+  <div
+    class="select-states__grid"
+    role="group"
+    [attr.aria-label]="'select.accessibility.states' | transloco"
+  >
+    <kui-field [label]="'select.fields.focusTarget' | transloco">
+      <input
+        kuiSelect
+        [(value)]="focusTargetValue"
+        [placeholder]="'select.placeholders.role' | transloco"
+      />
+      <kui-dropdown>
+        <div kuiOption value="designer">{{ 'select.options.designer' | transloco }}</div>
+      </kui-dropdown>
+    </kui-field>
+
+    <kui-field [label]="'select.fields.disabled' | transloco">
+      <input kuiSelect disabled [(value)]="disabledValue" />
+      <kui-dropdown>
+        <div kuiOption value="designer">{{ 'select.options.designer' | transloco }}</div>
+      </kui-dropdown>
+    </kui-field>
+
+    <kui-field [label]="'select.fields.readonly' | transloco">
+      <input kuiSelect readonly [clearable]="true" [(value)]="readonlyValue" />
+      <kui-dropdown>
+        <div kuiOption value="designer">{{ 'select.options.designer' | transloco }}</div>
+      </kui-dropdown>
+    </kui-field>
+
+    <kui-field [label]="'select.fields.clearable' | transloco">
+      <input kuiSelect [clearable]="true" [(value)]="clearableValue" />
+      <kui-dropdown>
+        <div kuiOption value="engineer">{{ 'select.options.engineer' | transloco }}</div>
+      </kui-dropdown>
+    </kui-field>
+
+    <kui-field
+      [label]="'select.fields.invalid' | transloco"
+      [error]="'select.errors.invalid' | transloco"
+    >
+      <input kuiSelect invalid [(value)]="invalidValue" />
+      <kui-dropdown>
+        <div kuiOption value="engineer">{{ 'select.options.engineer' | transloco }}</div>
+      </kui-dropdown>
+    </kui-field>
+  </div>
+</app-playground-example-card>

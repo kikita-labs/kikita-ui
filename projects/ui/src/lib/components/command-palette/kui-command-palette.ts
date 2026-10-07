@@ -1,0 +1,283 @@
+import { CdkTrapFocus } from '@angular/cdk/a11y';
+import type { OverlayRef } from '@angular/cdk/overlay';
+import { Overlay } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { DOCUMENT } from '@angular/common';
+import type { ElementRef, OnDestroy, TemplateRef } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  computed,
+  effect,
+  inject,
+  Injector,
+  input,
+  isDevMode,
+  model,
+  output,
+  signal,
+  viewChild,
+  ViewContainerRef,
+  ViewEncapsulation,
+} from '@angular/core';
+
+import { injectKuiMessages } from '../../i18n/inject-kui-messages';
+import type { KuiCommandPaletteMessages } from '../../i18n/kui-messages.interface';
+import { focusWhenRendered } from '../../utils/kui-focus-when-rendered.util';
+import { kuiNextId } from '../../utils/kui-id.util';
+import { KuiEmptyState, KuiEmptyStateIcon } from '../empty-state';
+import { injectKuiGlyph } from '../icon/inject-kui-glyph';
+import { KUI_GLYPH_SEARCH, KUI_GLYPH_X } from '../icon/kui-chrome-glyphs';
+import { KuiGlyph } from '../icon/kui-glyph';
+import { KuiSkeleton } from '../skeleton';
+import type { KuiCommandGroup, KuiCommandItem } from './kui-command-palette.types';
+
+interface KuiCommandEntry {
+  readonly group: KuiCommandGroup;
+  readonly item: KuiCommandItem;
+}
+
+interface KuiCommandLabelSegment {
+  readonly text: string;
+  readonly match: boolean;
+}
+
+/** Searchable command palette dialog with grouped commands and keyboard navigation. */
+@Component({
+  selector: 'kui-command-palette',
+  imports: [CdkTrapFocus, KuiEmptyState, KuiEmptyStateIcon, KuiGlyph, KuiSkeleton],
+  templateUrl: './kui-command-palette.html',
+  encapsulation: ViewEncapsulation.None,
+})
+export class KuiCommandPalette implements OnDestroy {
+  protected readonly searchGlyph = KUI_GLYPH_SEARCH;
+
+  protected readonly clearGlyph = injectKuiGlyph({ role: 'clear', fallback: KUI_GLYPH_X });
+
+  /** Controls whether the command palette overlay is open. */
+  readonly open = model(false);
+  /** Command groups rendered in the list. */
+  readonly groups = input<readonly KuiCommandGroup[]>([]);
+  /** Loading state. Renders skeleton rows and sets `aria-busy`. */
+  readonly loading = input(false, { transform: booleanAttribute });
+  /** Search input placeholder. Defaults to the `commandPalette.placeholder` message. */
+  readonly placeholder = input<string | undefined>();
+  /** Accessible label for the modal command palette dialog. Defaults to the `commandPalette.label` message. */
+  readonly label = input<string | undefined>();
+  /** Text shown when no commands match the query. Defaults to the `commandPalette.empty` message. */
+  readonly emptyText = input<string | undefined>();
+  /** Per-instance text overrides; they win over the scoped and root messages. */
+  readonly messages = input<Partial<KuiCommandPaletteMessages> | undefined>();
+
+  protected readonly t = injectKuiMessages('commandPalette', () => this.messages());
+  /** Current search query. */
+  readonly query = model('');
+  /** Emitted when a command is selected. */
+  readonly selected = output<KuiCommandItem>();
+
+  protected readonly paletteId = kuiNextId('kui-command-palette');
+  protected readonly listId = `${this.paletteId}-list`;
+  protected readonly activeIndex = signal(0);
+  protected readonly paletteTpl = viewChild.required<TemplateRef<void>>('paletteTpl');
+  protected readonly inputEl = viewChild<ElementRef<HTMLInputElement>>('inputEl');
+
+  private readonly overlay = inject(Overlay);
+  private readonly vcr = inject(ViewContainerRef);
+  private readonly document = inject(DOCUMENT);
+  private readonly injector = inject(Injector);
+  private overlayRef: OverlayRef | null = null;
+  private previouslyFocused: HTMLElement | null = null;
+
+  private readonly validatedGroups = computed(() => {
+    const groups = this.groups();
+    if (isDevMode()) {
+      const ids = new Set<string>();
+      for (const group of groups) {
+        for (const item of group.items) {
+          if (typeof item.id !== 'string' || !item.id || /\s/.test(item.id)) {
+            throw new Error('KuiCommandItem.id must be a non-empty string without whitespace.');
+          }
+          if (ids.has(item.id)) {
+            throw new Error('KuiCommandItem.id must be unique across all groups in a palette.');
+          }
+          ids.add(item.id);
+        }
+      }
+    }
+    return groups;
+  });
+
+  protected readonly filteredGroups = computed(() => {
+    const query = this.query().trim().toLocaleLowerCase();
+    const groups = this.validatedGroups();
+    if (!query) return groups;
+
+    return groups
+      .map((group) => ({
+        heading: group.heading,
+        items: group.items.filter((item) => this.matchesQuery(item, query)),
+      }))
+      .filter((group) => group.items.length > 0);
+  });
+
+  protected readonly selectableEntries = computed(() =>
+    this.filteredGroups().flatMap((group) =>
+      group.items
+        .filter((item) => !item.disabled)
+        .map((item) => ({
+          group,
+          item,
+        })),
+    ),
+  );
+
+  protected readonly activeItemId = computed(() => {
+    const item = this.selectableEntries()[this.activeIndex()]?.item;
+    return item ? this.optionId(item) : null;
+  });
+
+  constructor() {
+    effect(() => {
+      if (this.open()) this.attachOverlay();
+      else this.detachOverlay(true);
+    });
+
+    effect(() => {
+      this.filteredGroups();
+      this.activeIndex.set(0);
+    });
+  }
+
+  protected optionId(item: KuiCommandItem): string {
+    return `${this.paletteId}-option-${item.id}`;
+  }
+
+  protected isActive(item: KuiCommandItem): boolean {
+    return this.selectableEntries()[this.activeIndex()]?.item === item;
+  }
+
+  protected highlightedLabelSegments(label: string): readonly KuiCommandLabelSegment[] {
+    const query = this.query().trim();
+    return query ? splitLabelByQuery(label, query) : [{ text: label, match: false }];
+  }
+
+  protected handleKeydown(event: KeyboardEvent): void {
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        this.moveActive(1);
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.moveActive(-1);
+        break;
+      case 'Enter':
+        event.preventDefault();
+        this.selectEntry(this.selectableEntries()[this.activeIndex()]);
+        break;
+      case 'Escape':
+        event.preventDefault();
+        this.close();
+        break;
+    }
+  }
+
+  protected selectItem(item: KuiCommandItem): void {
+    if (item.disabled) return;
+    this.selected.emit(item);
+    this.close();
+  }
+
+  protected clearQuery(): void {
+    this.query.set('');
+    this.inputEl()?.nativeElement.focus();
+  }
+
+  ngOnDestroy(): void {
+    this.detachOverlay(false);
+  }
+
+  protected close(): void {
+    this.open.set(false);
+  }
+
+  private selectEntry(entry: KuiCommandEntry | undefined): void {
+    if (entry) this.selectItem(entry.item);
+  }
+
+  private moveActive(delta: number): void {
+    const max = this.selectableEntries().length - 1;
+    if (max < 0) return;
+    const next = clamp(this.activeIndex() + delta, 0, max);
+    this.activeIndex.set(next);
+    // The active item is a CSS class on a roving index, not real DOM focus (focus stays on
+    // the search input the whole time), so there's no native focus()-triggered auto-scroll to
+    // rely on here -- scroll it into view ourselves.
+    const item = this.selectableEntries()[next]?.item;
+    const el = item ? this.document.getElementById(this.optionId(item)) : null;
+    el?.scrollIntoView?.({ block: 'nearest' });
+  }
+
+  private matchesQuery(item: KuiCommandItem, query: string): boolean {
+    const haystack = [item.label, item.description, item.meta, ...(item.keywords ?? [])]
+      .filter(Boolean)
+      .join(' ')
+      .toLocaleLowerCase();
+    return haystack.includes(query);
+  }
+
+  private attachOverlay(): void {
+    if (this.overlayRef) return;
+
+    this.previouslyFocused = this.document.activeElement as HTMLElement | null;
+    this.overlayRef = this.overlay.create({
+      positionStrategy: this.overlay.position().global().centerHorizontally().top('12vh'),
+      scrollStrategy: this.overlay.scrollStrategies.block(),
+      hasBackdrop: false,
+    });
+    this.overlayRef.attach(new TemplatePortal(this.paletteTpl(), this.vcr));
+    focusWhenRendered({
+      injector: this.injector,
+      target: () => this.inputEl()?.nativeElement ?? null,
+    });
+  }
+
+  private detachOverlay(restoreFocus: boolean): void {
+    if (!this.overlayRef) return;
+    this.overlayRef.detach();
+    this.overlayRef.dispose();
+    this.overlayRef = null;
+
+    if (restoreFocus && this.previouslyFocused?.isConnected) {
+      this.previouslyFocused.focus();
+    }
+    this.previouslyFocused = null;
+  }
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+function splitLabelByQuery(label: string, query: string): readonly KuiCommandLabelSegment[] {
+  const normalizedLabel = label.toLocaleLowerCase();
+  const normalizedQuery = query.toLocaleLowerCase();
+  const segments: KuiCommandLabelSegment[] = [];
+  let cursor = 0;
+
+  while (cursor < label.length) {
+    const index = normalizedLabel.indexOf(normalizedQuery, cursor);
+    if (index < 0) {
+      segments.push({ text: label.slice(cursor), match: false });
+      break;
+    }
+    if (index > cursor) {
+      segments.push({ text: label.slice(cursor, index), match: false });
+    }
+    const end = index + normalizedQuery.length;
+    segments.push({ text: label.slice(index, end), match: true });
+    cursor = end;
+  }
+
+  return segments.length ? segments : [{ text: label, match: false }];
+}

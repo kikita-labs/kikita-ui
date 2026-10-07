@@ -1,0 +1,22 @@
+<app-playground-example-card [heading]="'menu.examples.default' | transloco">
+  <div role="group" [attr.aria-label]="'menu.accessibility.defaultGroup' | transloco">
+    <button kuiButton type="button" [kuiMenuFor]="actionsMenu">
+      {{ 'menu.triggers.actions' | transloco }}
+    </button>
+
+    <kui-menu #actionsMenu>
+      <button type="button" kuiMenuItem (click)="recordAction('edit')">
+        <span class="kui-menu-item__label">{{ 'menu.actions.edit' | transloco }}</span>
+      </button>
+      <button type="button" kuiMenuItem (click)="recordAction('copy')">
+        <span class="kui-menu-item__label">{{ 'menu.actions.copy' | transloco }}</span>
+      </button>
+    </kui-menu>
+
+    @if (lastAction() === 'edit') {
+      <p role="status">{{ 'menu.messages.editActivated' | transloco }}</p>
+    } @else if (lastAction() === 'copy') {
+      <p role="status">{{ 'menu.messages.copyActivated' | transloco }}</p>
+    }
+  </div>
+</app-playground-example-card>

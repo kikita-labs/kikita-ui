@@ -1,6 +1,7 @@
 # Kikita UI Ember Design System Spec
 
-This document is derived from the Claude Design exports in `.local-notes/claude-design/design system/`.
+This document records foundations derived from the original Claude Design exports.
+See [design provenance](design-provenance.md) for approval and portable handoff requirements.
 
 The repository remains the source of truth. The HTML exports are reference material only.
 
@@ -36,9 +37,9 @@ Ember starts with six color seeds:
   --kui-seed-primary: oklch(0.52 0.25 285);
   --kui-seed-neutral: oklch(0.5 0.01 80);
   --kui-seed-success: oklch(0.54 0.16 145);
-  --kui-seed-warning: oklch(0.74 0.16 75);
+  --kui-seed-warning: oklch(0.56 0.15 65);
   --kui-seed-danger: oklch(0.54 0.22 25);
-  --kui-seed-info: oklch(0.58 0.16 215);
+  --kui-seed-info: oklch(0.53 0.14 215);
 }
 ```
 
@@ -46,13 +47,9 @@ The library API should accept these through typed theme seeds, not by requiring 
 
 ## Palette Generation
 
-Each chromatic seed generates a 12-step OKLCH ramp.
-
-Default lightness stops:
-
-```ts
-const lightness = [0.97, 0.93, 0.87, 0.78, 0.67, seed.l, 0.42, 0.32, 0.23, 0.16, 0.12, 0.08];
-```
+Each chromatic seed generates a 12-step OKLCH ramp. Steps are placed by tone (CIE L\* of the
+luminance, 97, 92, 85, 74, 62, the seed, 33, 22, 11, 4, 2, 0.5) instead of by OKLCH lightness, so the
+contrast between steps does not depend on the hue; each step's OKLCH lightness is solved for its tone.
 
 Default chroma multipliers:
 
@@ -60,7 +57,9 @@ Default chroma multipliers:
 const chromaScale = [0.08, 0.15, 0.35, 0.6, 0.85, 1, 0.9, 0.75, 0.55, 0.35, 0.22, 0.12];
 ```
 
-Step 6 is the seed value. The neutral ramp keeps chroma intentionally low.
+Step 6 is the seed value. The neutral palette is two twelve-step scales, one per mode, with the chroma
+and hue of the neutral seed on every step; it drives the surface, border, text, skeleton and scrollbar
+roles.
 
 ## Semantic Colors
 
@@ -174,7 +173,7 @@ Rules:
 Baseline requirements:
 
 - Prefer native HTML semantics before ARIA.
-- Meet WCAG AA contrast for text and controls.
+- Meet WCAG AA contrast for text and controls. Control borders reach 3:1 in the default `strict` contrast profile; the opt-in `soft` profile trades that for quieter borders (see [Theming](theming.md#contrast-profiles)).
 - Provide visible focus states for keyboard users.
 - Support disabled, hover, active, focus, loading, error, and success states where relevant.
 - Use Angular CDK or Angular Aria for complex accessibility behavior.
@@ -192,9 +191,9 @@ provideKikitaUi({
         primary: 'oklch(0.52 0.25 285)',
         neutral: 'oklch(0.5 0.01 80)',
         success: 'oklch(0.54 0.16 145)',
-        warning: 'oklch(0.74 0.16 75)',
+        warning: 'oklch(0.56 0.15 65)',
         danger: 'oklch(0.54 0.22 25)',
-        info: 'oklch(0.58 0.16 215)',
+        info: 'oklch(0.53 0.14 215)',
       },
       radius: 8,
       density: 'regular',

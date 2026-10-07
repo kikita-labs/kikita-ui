@@ -1,0 +1,209 @@
+@layer kui.components {
+  @keyframes kui-dialog-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes kui-dialog-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+  @keyframes kui-bd-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes kui-bd-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    @keyframes kui-dialog-in {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes kui-dialog-out {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+  }
+
+  .kui-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: var(--kui-z-dialog);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--kui-dialog-backdrop, var(--kui-color-scrim));
+    animation: kui-bd-in var(--kui-duration-normal) var(--kui-ease) both;
+  }
+
+  .kui-dialog-backdrop--closing {
+    animation: kui-bd-out var(--kui-duration-quick) var(--kui-ease-exit) both;
+  }
+
+  .kui-dialog {
+    position: relative;
+    background: var(--kui-dialog-bg, var(--kui-color-surface-elevated));
+    border: var(--kui-border-width-hairline) solid var(--kui-dialog-border, var(--kui-color-border));
+    border-radius: var(--kui-dialog-radius, var(--kui-radius-lg));
+    box-shadow: var(--kui-dialog-shadow, var(--kui-shadow-lg));
+    display: flex;
+    flex-direction: column;
+    width: var(--kui-dialog-width, var(--_kui-dialog-width, 560px));
+    max-width: calc(100vw - 2 * var(--kui-space-4));
+    max-height: 85vh;
+    color: var(--kui-dialog-color, var(--kui-color-text));
+    animation: kui-dialog-in var(--kui-duration-normal) var(--kui-ease) both;
+  }
+
+  .kui-dialog--closing {
+    animation: kui-dialog-out var(--kui-duration-quick) var(--kui-ease-exit) both;
+  }
+
+  .kui-dialog--sm {
+    --_kui-dialog-width: 400px;
+  }
+  .kui-dialog--md {
+    --_kui-dialog-width: 560px;
+  }
+  .kui-dialog--lg {
+    --_kui-dialog-width: 720px;
+  }
+  .kui-dialog--auto {
+    width: auto;
+    min-width: var(--kui-dialog-min-width-auto);
+  }
+
+  /* Fills the entire viewport for content that owns its own full layout (see KuiDialogSize). */
+  .kui-dialog--fullscreen {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  /* Appearance colors .kui-dialog-icon */
+  .kui-dialog[data-kui-appearance='danger'] {
+    --_kui-dialog-icon-color: var(--kui-color-danger-text);
+  }
+  .kui-dialog[data-kui-appearance='warning'] {
+    --_kui-dialog-icon-color: var(--kui-color-warning-text);
+  }
+
+  /* Icon slot: place inside .kui-dialog-header before the title */
+  .kui-dialog-icon {
+    flex: 0 0 auto;
+    width: var(--kui-dialog-icon-size);
+    height: var(--kui-dialog-icon-size);
+    color: var(--kui-dialog-icon-color, var(--_kui-dialog-icon-color, currentColor));
+  }
+
+  .kui-dialog-header {
+    display: flex;
+    align-items: center;
+    gap: var(--kui-dialog-header-gap, var(--kui-space-3));
+    padding: var(--kui-dialog-padding-y, var(--kui-space-4))
+      var(--kui-dialog-padding-x, var(--kui-space-6));
+    border-bottom: var(--kui-border-width-hairline) solid
+      var(--kui-dialog-header-border, var(--kui-color-border));
+    flex: 0 0 auto;
+  }
+
+  .kui-dialog-title {
+    margin: 0;
+    font-size: var(--kui-dialog-title-size, var(--kui-text-lg-size));
+    font-weight: var(--kui-font-weight-semibold);
+    flex: 1;
+    min-width: 0;
+    color: var(--kui-dialog-title-color, var(--kui-color-text));
+    line-height: var(--kui-type-heading-sm-line-height);
+  }
+
+  .kui-dialog-close {
+    position: absolute;
+    top: var(--kui-dialog-close-offset-y, var(--kui-dialog-padding-y, var(--kui-space-4)));
+    right: var(--kui-dialog-close-offset-x, var(--kui-dialog-padding-x, var(--kui-space-6)));
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--kui-dialog-close-size);
+    height: var(--kui-dialog-close-size);
+    border: none;
+    background: transparent;
+    border-radius: var(--kui-dialog-close-radius, var(--kui-radius-sm));
+    color: var(--kui-dialog-close-color, var(--kui-color-text-secondary));
+    cursor: pointer;
+    transition:
+      background var(--kui-duration-fast) var(--kui-ease),
+      color var(--kui-duration-fast) var(--kui-ease);
+  }
+
+  .kui-dialog-close:hover {
+    background: var(--kui-dialog-close-bg-hover, var(--kui-color-state-hover));
+    color: var(--kui-dialog-close-color-hover, var(--kui-color-text));
+  }
+
+  /* Reserve room in the header so a long title doesn't run under the close button. */
+  .kui-dialog:has(> .kui-dialog-close) > .kui-dialog-header {
+    padding-right: calc(
+      var(--kui-dialog-padding-x, var(--kui-space-6)) + var(--kui-dialog-close-size) +
+        var(--kui-space-2)
+    );
+  }
+
+  .kui-dialog-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: var(--kui-dialog-padding-x, var(--kui-space-6));
+    font-size: var(--kui-dialog-body-font-size, var(--kui-text-sm-size));
+    line-height: var(--kui-type-body-lg-line-height);
+    color: var(--kui-dialog-body-color, var(--kui-color-text));
+  }
+
+  .kui-dialog-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--kui-dialog-footer-gap, var(--kui-space-2));
+    padding: var(--kui-dialog-padding-y, var(--kui-space-4))
+      var(--kui-dialog-padding-x, var(--kui-space-6));
+    border-top: var(--kui-border-width-hairline) solid
+      var(--kui-dialog-footer-border, var(--kui-color-border));
+    flex: 0 0 auto;
+  }
+}

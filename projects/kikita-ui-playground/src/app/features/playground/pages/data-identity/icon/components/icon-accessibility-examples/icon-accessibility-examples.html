@@ -1,0 +1,25 @@
+<app-playground-example-card [heading]="'icon.examples.accessibility' | transloco">
+  <div class="icon-accessibility-examples__items">
+    <div
+      class="icon-accessibility-examples__item"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.decorative' | transloco"
+    >
+      <kui-icon name="kikita-brand" size="2xl" />
+      <span kuiText variant="caption">{{ 'icon.labels.decorative' | transloco }}</span>
+    </div>
+
+    <div
+      class="icon-accessibility-examples__item"
+      role="group"
+      [attr.aria-label]="'icon.accessibility.labeled' | transloco"
+    >
+      <kui-icon
+        name="kikita-brand"
+        size="2xl"
+        [label]="'icon.labels.accessibleBrand' | transloco"
+      />
+      <span kuiText variant="caption">{{ 'icon.labels.labeled' | transloco }}</span>
+    </div>
+  </div>
+</app-playground-example-card>

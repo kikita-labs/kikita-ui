@@ -1,0 +1,39 @@
+@layer app.components {
+  :host,
+  section {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .avatar-group-examples__content {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .avatar-group-examples__list,
+  .avatar-group-examples__matrix {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .avatar-group-examples__item {
+    display: grid;
+    grid-template-columns: minmax(8rem, 1fr) auto;
+    align-items: center;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .avatar-group-examples__item > span {
+    min-inline-size: 0;
+  }
+
+  @media (width < 40rem) {
+    .avatar-group-examples__item {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: start;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .pagination-rows-per-page,
+  .pagination-rows-per-page__example {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .pagination-rows-per-page__status {
+    color: var(--kui-color-text-secondary);
+  }
+}

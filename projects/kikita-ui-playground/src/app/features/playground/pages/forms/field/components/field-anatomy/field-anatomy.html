@@ -1,0 +1,30 @@
+<section role="group" [attr.aria-label]="'field.accessibility.anatomy' | transloco">
+  <app-playground-example-card [heading]="'field.examples.anatomy' | transloco">
+    <div class="field-anatomy__examples">
+      <kui-field
+        [label]="'field.fields.ownerEmail' | transloco"
+        [hint]="'field.hints.workEmail' | transloco"
+      >
+        <input kuiInput type="email" [placeholder]="'field.placeholders.email' | transloco" />
+      </kui-field>
+
+      <kui-field [hint]="'field.hints.noVisibleLabel' | transloco">
+        <input
+          kuiInput
+          type="text"
+          [attr.aria-label]="'field.accessibility.namedControl' | transloco"
+          [placeholder]="'field.placeholders.value' | transloco"
+        />
+      </kui-field>
+
+      <kui-field>
+        <input
+          kuiInput
+          type="text"
+          [attr.aria-label]="'field.accessibility.controlOnly' | transloco"
+          [placeholder]="'field.placeholders.value' | transloco"
+        />
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+</section>

@@ -1,0 +1,44 @@
+<section role="group" [attr.aria-label]="'group.accessibility.fieldCombinations' | transloco">
+  <app-playground-example-card [heading]="'group.examples.fieldCombinations' | transloco">
+    <div class="group-field-combinations__examples">
+      @for (fieldCase of fieldCases; track fieldCase.id) {
+        <div class="group-field-combinations__case">
+          <p kuiText variant="body-sm">
+            {{ 'group.labels.fieldCases.' + fieldCase.id | transloco }}
+          </p>
+          <div
+            kuiGroup
+            collapsed
+            role="group"
+            [attr.aria-label]="'group.accessibility.fieldCases.' + fieldCase.id | transloco"
+          >
+            <button
+              kuiIconButton
+              icon="minus"
+              shape="outline"
+              type="button"
+              [attr.aria-label]="'group.actions.decrease' | transloco"
+            ></button>
+            <kui-field
+              [label]="fieldCase.label ? ('group.fields.promotionCode' | transloco) : undefined"
+              [hint]="fieldCase.hint ? ('group.hints.promotionCode' | transloco) : undefined"
+              [error]="fieldCase.error ? ('group.errors.promotionCode' | transloco) : undefined"
+            >
+              <input
+                kuiInput
+                type="text"
+                [attr.aria-label]="
+                  fieldCase.label ? null : ('group.fields.promotionCodeControl' | transloco)
+                "
+                [placeholder]="'group.placeholders.promotionCode' | transloco"
+              />
+            </kui-field>
+            <button kuiButton shape="outline" type="button">
+              {{ 'group.actions.apply' | transloco }}
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </app-playground-example-card>
+</section>

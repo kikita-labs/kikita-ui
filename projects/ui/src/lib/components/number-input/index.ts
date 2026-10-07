@@ -1,2 +1,3 @@
-export type { KuiNumberInputVariant } from './kui-number-input.directive';
-export { KuiNumberInputDirective } from './kui-number-input.directive';
+export type { KuiNumberInputVariant } from './kui-number-input';
+export { KuiNumberInput } from './kui-number-input';
+export * from './kui-number-input-options.interface';

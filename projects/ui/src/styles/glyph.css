@@ -1,0 +1,25 @@
+/*
+ * Line weight of icons. Both tokens are public; set them on :root or on any subtree.
+ *
+ *   --kui-icon-stroke-width   Stroke width in glyph-grid units (24 by 24). Built-in glyphs default
+ *                             to the weight of their call site, content icons to their own markup.
+ *   --kui-icon-vector-effect  `non-scaling-stroke` keeps the stroke the same number of pixels at any
+ *                             icon size; `none` (default) scales the stroke with the icon.
+ *
+ * `revert-layer` as the fallback lets an SVG keep the weight it carries itself until a token is set.
+ */
+@layer kui.components {
+  svg.kui-glyph {
+    stroke-width: var(--kui-icon-stroke-width, var(--_kui-glyph-stroke, 2));
+  }
+
+  svg.kui-glyph > * {
+    vector-effect: var(--kui-icon-vector-effect, none);
+  }
+
+  .kui-icon svg:not(.kui-glyph),
+  .kui-icon svg:not(.kui-glyph) * {
+    stroke-width: var(--kui-icon-stroke-width, revert-layer);
+    vector-effect: var(--kui-icon-vector-effect, revert-layer);
+  }
+}

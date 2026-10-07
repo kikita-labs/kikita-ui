@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiGroupDirective } from '@kikita-labs/ui';
+import { KuiGroup } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -76,3 +76,36 @@ group's `size` input, which sets `--kui-btn-height`/`--kui-input-height` for chi
 those variables) so `align-items: stretch` has nothing to reconcile. Mixing an explicit `size` on
 one child with a different group size is a consumer choice, not something the group corrects for,
 and produces visible top-alignment instead of vertical centering.
+
+## Provider Defaults
+
+Set `defaults.group` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    group: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    group: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                         | Description                                                       |
+| ------------- | ------------------------------ | ----------------------------------------------------------------- |
+| `size`        | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+| `orientation` | `'horizontal' \| 'vertical'`   | Default orientation.                                              |
+| `collapsed`   | `boolean`                      | Removes the gap between grouped controls.                         |
+| `rounded`     | `boolean`                      | Rounds the outer corners of the group.                            |
+
+Each option resolves as `local input > defaults.group.<option> > built-in default`. See [DI defaults](di-defaults.md).

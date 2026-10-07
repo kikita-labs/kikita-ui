@@ -1,0 +1,79 @@
+@if (grid()) {
+  @for (tick of ticks(); track tick.position) {
+    @if (isBottom()) {
+      <svg:line
+        class="kui-chart__grid-line"
+        [attr.x1]="tick.position"
+        [attr.x2]="tick.position"
+        [attr.y1]="plot().y"
+        [attr.y2]="bottom()"
+      />
+    } @else {
+      <svg:line
+        class="kui-chart__grid-line"
+        [attr.x1]="plot().x"
+        [attr.x2]="right()"
+        [attr.y1]="tick.position"
+        [attr.y2]="tick.position"
+      />
+    }
+  }
+}
+
+@if (isBottom()) {
+  <svg:line
+    class="kui-chart__axis-line"
+    [attr.x1]="plot().x"
+    [attr.x2]="right()"
+    [attr.y1]="bottom()"
+    [attr.y2]="bottom()"
+  />
+  @for (tick of ticks(); track tick.position) {
+    <svg:text
+      class="kui-chart__axis-text kui-chart__axis-text--x"
+      [attr.x]="tick.position"
+      [attr.y]="labelBaseline()"
+      [class.kui-chart__axis-text--edge-start]="tick.anchor === 'start'"
+      [class.kui-chart__axis-text--edge-end]="tick.anchor === 'end'"
+    >
+      {{ tick.label }}
+      @if (tick.label !== tick.full) {
+        <svg:title>{{ tick.full }}</svg:title>
+      }
+    </svg:text>
+  }
+  @if (title()) {
+    <svg:text
+      class="kui-chart__axis-title"
+      [attr.x]="plot().x + plot().width / 2"
+      [attr.y]="bottomTitleY()"
+    >
+      {{ title() }}
+    </svg:text>
+  }
+} @else {
+  <svg:line
+    class="kui-chart__axis-line"
+    [attr.x1]="plot().x"
+    [attr.x2]="plot().x"
+    [attr.y1]="plot().y"
+    [attr.y2]="bottom()"
+  />
+  @for (tick of ticks(); track tick.position) {
+    <svg:text
+      class="kui-chart__axis-text kui-chart__axis-text--y"
+      [attr.x]="plot().x - 6"
+      [attr.y]="tick.position"
+    >
+      {{ tick.label }}
+      @if (tick.label !== tick.full) {
+        <svg:title>{{ tick.full }}</svg:title>
+      }
+    </svg:text>
+  }
+  @if (title()) {
+    <svg:text class="kui-chart__axis-title" [attr.transform]="leftTitleTransform()">
+      {{ title() }}
+    </svg:text>
+  }
+}

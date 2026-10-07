@@ -1,0 +1,40 @@
+{
+  "title": "Badge",
+  "examples": {
+    "default": "Default",
+    "appearanceAndSize": "Appearance and size",
+    "hostElements": "Inline host elements"
+  },
+  "accessibility": {
+    "default": "Default badge example",
+    "appearanceAndSize": "Badge appearance and size variants",
+    "hostElements": "Badge host element examples",
+    "neutral": "Neutral badge sizes",
+    "primary": "Primary badge sizes",
+    "success": "Success badge sizes",
+    "warning": "Warning badge sizes",
+    "danger": "Danger badge sizes",
+    "info": "Info badge sizes"
+  },
+  "appearances": {
+    "neutral": "Neutral",
+    "primary": "Primary",
+    "success": "Success",
+    "warning": "Warning",
+    "danger": "Danger",
+    "info": "Info"
+  },
+  "sizes": {
+    "extraSmall": "Extra small",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large"
+  },
+  "labels": {
+    "default": "Neutral",
+    "neutralHost": "Neutral text",
+    "strongHost": "Ready",
+    "codeHost": "Review",
+    "linkHost": "Open badge link"
+  }
+}

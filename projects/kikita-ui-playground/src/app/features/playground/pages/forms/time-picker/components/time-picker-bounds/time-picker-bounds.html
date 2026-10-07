@@ -1,0 +1,55 @@
+<section role="group" [attr.aria-label]="'timePicker.accessibility.bounds' | transloco">
+  <app-playground-example-card [heading]="'timePicker.examples.bounds' | transloco">
+    <div class="time-picker-grid">
+      <kui-field
+        [label]="'timePicker.fields.businessHours' | transloco"
+        [hint]="'timePicker.hints.businessHours' | transloco"
+      >
+        <input
+          kuiTimePicker
+          [(value)]="businessTime"
+          [minTime]="minimumTime"
+          [maxTime]="maximumTime"
+        />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field
+        [label]="'timePicker.fields.lunchBlocked' | transloco"
+        [hint]="'timePicker.hints.lunchBlocked' | transloco"
+      >
+        <input kuiTimePicker [(value)]="lunchTime" [disabledHours]="blockedHours" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field
+        [label]="'timePicker.fields.quarterBlocked' | transloco"
+        [hint]="'timePicker.hints.quarterBlocked' | transloco"
+      >
+        <input kuiTimePicker [(value)]="quarterTime" [disabledMinutes]="blockedMinutes" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field
+        [label]="'timePicker.fields.secondsBlocked' | transloco"
+        [hint]="'timePicker.hints.secondsBlocked' | transloco"
+      >
+        <input
+          kuiTimePicker
+          [(value)]="secondsTime"
+          [showSeconds]="true"
+          [disabledSeconds]="blockedSeconds"
+        />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+</section>

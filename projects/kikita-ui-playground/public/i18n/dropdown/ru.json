@@ -1,0 +1,66 @@
+{
+  "title": "Dropdown",
+  "examples": {
+    "options": "Пункты и выбор",
+    "widths": "Стратегии ширины панели",
+    "heightAndOffset": "Высота панели и отступ",
+    "controlled": "Управляемое состояние открытия",
+    "edgePlacement": "Положение у края окна",
+    "anchorDismissal": "Закрытие при прокрутке якоря"
+  },
+  "accessibility": {
+    "options": "Пункты Dropdown и поведение выбора",
+    "default": "Пример обычного списка",
+    "keepOpen": "Пример списка, который остается открытым после выбора",
+    "widths": "Стратегии ширины панели Dropdown",
+    "heightAndOffset": "Примеры высоты и отступа панели Dropdown",
+    "controlled": "Пример управляемого состояния Dropdown",
+    "edgePlacement": "Пример расположения Dropdown у края окна",
+    "anchorDismissal": "Пример закрытия Dropdown при прокрутке якоря"
+  },
+  "triggers": {
+    "default": "Пункты",
+    "keepOpen": "Оставаться открытым",
+    "anchorWidth": "Ширина якоря",
+    "contentWidth": "Ширина по содержимому",
+    "autoWidth": "Автоширина",
+    "explicitWidth": "Ширина 16 rem",
+    "preferredHeight": "Предпочтительный предел 120 px",
+    "defaultHeight": "Предел по умолчанию 240 px",
+    "noPreferredHeight": "Без предпочтительного предела",
+    "zeroOffset": "Отступ 0",
+    "twelveOffset": "Отступ 12 px",
+    "controlled": "Управляемый список",
+    "edgePlacement": "У края окна",
+    "scrollAnchor": "Прокрутка якоря"
+  },
+  "actions": {
+    "openFromParent": "Открыть извне",
+    "closeFromParent": "Закрыть извне"
+  },
+  "options": {
+    "rename": "Переименовать",
+    "duplicate": "Дублировать",
+    "archive": "В архив",
+    "delete": "Удалить",
+    "longLabel": "Длинная подпись пункта может расширить панель",
+    "shortLabel": "Короткая подпись",
+    "choice01": "Первый пункт",
+    "choice02": "Второй пункт",
+    "choice03": "Третий пункт",
+    "choice04": "Четвертый пункт",
+    "choice05": "Пятый пункт",
+    "choice06": "Шестой пункт",
+    "choice07": "Седьмой пункт",
+    "choice08": "Восьмой пункт",
+    "choice09": "Девятый пункт",
+    "choice10": "Десятый пункт",
+    "choice11": "Одиннадцатый пункт",
+    "choice12": "Двенадцатый пункт"
+  },
+  "status": {
+    "selected": "Событие выбора: {{value}}",
+    "open": "Состояние модели: открыто",
+    "closed": "Состояние модели: закрыто"
+  }
+}

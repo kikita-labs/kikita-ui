@@ -1,0 +1,126 @@
+@layer kui.components {
+  .kui-breadcrumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--kui-breadcrumbs-gap, var(--kui-space-2));
+    font-size: var(--kui-breadcrumb-font-size, var(--kui-text-sm-size));
+    min-width: 0;
+  }
+
+  .kui-breadcrumbs > li {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .kui-breadcrumb-link {
+    color: var(--kui-breadcrumb-fg, var(--kui-color-text-secondary));
+    text-decoration: none;
+    border-radius: var(--kui-breadcrumb-link-radius, var(--kui-radius-sm));
+    padding: var(--kui-space-0-5) var(--kui-space-1);
+    margin: calc(-1 * var(--kui-space-0-5)) calc(-1 * var(--kui-space-1));
+    transition: color var(--kui-duration-fast) var(--kui-ease);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kui-breadcrumb-link-gap, var(--kui-space-1));
+    max-width: 100%;
+  }
+  .kui-breadcrumb-link:hover {
+    color: var(--kui-breadcrumb-fg-hover, var(--kui-color-text));
+  }
+  .kui-breadcrumb-link:focus-visible {
+    color: var(--kui-breadcrumb-fg-hover, var(--kui-color-text));
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-breadcrumb-link-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset);
+  }
+
+  .kui-breadcrumb-plain {
+    color: var(--kui-breadcrumb-fg, var(--kui-color-text-secondary));
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kui-breadcrumb-plain-gap, var(--kui-space-1));
+  }
+
+  .kui-breadcrumb-current {
+    color: var(--kui-breadcrumb-fg-current, var(--kui-color-text));
+    font-weight: var(--kui-breadcrumb-font-weight-current, var(--kui-font-weight-semibold));
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kui-breadcrumb-current-gap, var(--kui-space-1));
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .kui-breadcrumb-sep {
+    display: flex;
+    align-items: center;
+    color: var(--kui-breadcrumb-sep-color, var(--kui-color-text-secondary));
+    opacity: 0.55;
+    flex-shrink: 0;
+  }
+
+  .kui-breadcrumb-icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+
+  .kui-breadcrumb-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--kui-breadcrumb-ellipsis-height, 22px);
+    padding: 0 var(--kui-breadcrumb-ellipsis-padding-inline, var(--kui-space-1));
+    border-radius: var(--kui-breadcrumb-ellipsis-radius, var(--kui-radius-sm));
+    color: var(--kui-breadcrumb-ellipsis-color, var(--kui-color-text-secondary));
+    background: transparent;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+  }
+  .kui-breadcrumb-ellipsis:hover {
+    background: var(--kui-breadcrumb-ellipsis-bg-hover, var(--kui-color-surface-elevated));
+    color: var(--kui-breadcrumb-ellipsis-color-hover, var(--kui-color-text));
+  }
+
+  .kui-breadcrumb-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: var(--kui-breadcrumb-truncate-max-width, 140px);
+  }
+
+  /* sizes */
+  .kui-breadcrumbs[data-kui-size='sm'] {
+    font-size: var(--kui-breadcrumb-font-size-sm, var(--kui-text-xs-size));
+    gap: var(--kui-breadcrumbs-gap, var(--kui-space-2));
+  }
+  .kui-breadcrumbs[data-kui-size='sm'] .kui-breadcrumb-sep svg,
+  .kui-breadcrumbs[data-kui-size='sm'] .kui-breadcrumb-icon svg {
+    width: var(--kui-breadcrumb-icon-size-sm, 12px);
+    height: var(--kui-breadcrumb-icon-size-sm, 12px);
+  }
+  .kui-breadcrumbs[data-kui-size='sm'] .kui-breadcrumb-ellipsis {
+    height: var(--kui-breadcrumb-ellipsis-height-sm, 18px);
+  }
+  .kui-breadcrumbs[data-kui-size='lg'] {
+    font-size: var(--kui-breadcrumb-font-size-lg, var(--kui-text-md-size));
+    gap: var(--kui-breadcrumbs-gap, var(--kui-space-2));
+  }
+  .kui-breadcrumbs[data-kui-size='lg'] .kui-breadcrumb-sep svg,
+  .kui-breadcrumbs[data-kui-size='lg'] .kui-breadcrumb-icon svg {
+    width: var(--kui-breadcrumb-icon-size-lg, 16px);
+    height: var(--kui-breadcrumb-icon-size-lg, 16px);
+  }
+  .kui-breadcrumbs[data-kui-size='lg'] .kui-breadcrumb-ellipsis {
+    height: var(--kui-breadcrumb-ellipsis-height-lg, 26px);
+  }
+}

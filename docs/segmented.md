@@ -6,7 +6,7 @@ control with an animated sliding thumb.
 ## Import
 
 ```ts
-import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
+import { KuiSegmented, KuiSegment } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -48,6 +48,16 @@ import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
 - `disabled`: `boolean` - disables every segment. Set by `[formField]` or directly.
 - `invalid`, `errors`, `touched`: set by `[formField]`.
 
+`focus(options?)` focuses the selected segment, or the first enabled one when nothing is selected, so
+`field().focusBoundControl()` reaches the control. It does nothing while every segment is disabled.
+`kui-segmented` has no `required` input: a segmented control always shows one active segment, so it
+does not expose a required state.
+
+## Outputs
+
+- `touch`: emitted whenever an enabled segment is selected, including when it was already
+  selected. Focus and blur alone do not emit it.
+
 ## Inputs - `[kuiSegment]`
 
 - `value`: `string` - identifier for this segment
@@ -58,9 +68,40 @@ import { KuiSegmentedComponent, KuiSegmentDirective } from '@kikita-labs/ui';
 | Key                        | Action                      |
 | -------------------------- | --------------------------- |
 | `ArrowLeft` / `ArrowRight` | Move focus between segments |
+| `ArrowUp` / `ArrowDown`    | Move focus between segments |
 | `Home`                     | Focus first segment         |
 | `End`                      | Focus last segment          |
 | `Enter` / `Space`          | Select focused segment      |
+
+## Provider Defaults
+
+Set `defaults.segmented` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    segmented: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    segmented: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.segmented.<option> > built-in default`. See [DI defaults](di-defaults.md).
 
 ## Accessibility
 
@@ -91,3 +132,16 @@ Sliding thumb repositions via `afterEveryRender` using `offsetLeft` / `offsetWid
 - `--kui-seg-font-size`
 - `--kui-seg-font-weight`
 - `--kui-seg-font-weight-active`
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                        | Default             | Controls         |
+| ---------------------------- | ------------------- | ---------------- |
+| `--kui-seg-focus-ring-color` | `--kui-color-focus` | Focus ring color |
+
+<!-- color-tokens:end -->

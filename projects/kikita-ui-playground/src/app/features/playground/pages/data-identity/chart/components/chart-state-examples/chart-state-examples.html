@@ -1,0 +1,69 @@
+@let catalogue = data();
+@let lineLabel = 'chart.types.line' | transloco;
+@let barLabel = 'chart.types.bar' | transloco;
+@let scatterLabel = 'chart.types.scatter' | transloco;
+@let donutLabel = 'chart.types.donut' | transloco;
+
+@for (state of states; track state) {
+  @let stateLabel = 'chart.states.' + state | transloco;
+
+  <div
+    class="chart-state-examples__row"
+    role="group"
+    [attr.aria-label]="'chart.accessibility.stateRow' | transloco: { state: stateLabel }"
+  >
+    <app-chart-example
+      [heading]="'chart.labels.typeState' | transloco: { type: lineLabel, state: stateLabel }"
+    >
+      <kui-line-chart
+        size="sm"
+        [ariaLabel]="
+          'chart.accessibility.stateChart' | transloco: { type: lineLabel, state: stateLabel }
+        "
+        [series]="state === 'empty' ? [] : catalogue.sessions"
+        [categories]="catalogue.weekdays"
+        [loading]="state === 'loading'"
+      />
+    </app-chart-example>
+
+    <app-chart-example
+      [heading]="'chart.labels.typeState' | transloco: { type: scatterLabel, state: stateLabel }"
+    >
+      <kui-scatter-chart
+        size="sm"
+        [ariaLabel]="
+          'chart.accessibility.stateChart' | transloco: { type: scatterLabel, state: stateLabel }
+        "
+        [series]="state === 'empty' ? [] : catalogue.scatter"
+        [loading]="state === 'loading'"
+      />
+    </app-chart-example>
+
+    <app-chart-example
+      [heading]="'chart.labels.typeState' | transloco: { type: donutLabel, state: stateLabel }"
+    >
+      <kui-donut-chart
+        size="sm"
+        [ariaLabel]="
+          'chart.accessibility.stateChart' | transloco: { type: donutLabel, state: stateLabel }
+        "
+        [slices]="state === 'empty' ? [] : catalogue.slices"
+        [loading]="state === 'loading'"
+      />
+    </app-chart-example>
+
+    <app-chart-example
+      [heading]="'chart.labels.typeState' | transloco: { type: barLabel, state: stateLabel }"
+    >
+      <kui-bar-chart
+        size="sm"
+        [ariaLabel]="
+          'chart.accessibility.stateChart' | transloco: { type: barLabel, state: stateLabel }
+        "
+        [series]="state === 'empty' ? [] : catalogue.revenue"
+        [categories]="catalogue.plans"
+        [loading]="state === 'loading'"
+      />
+    </app-chart-example>
+  </div>
+}

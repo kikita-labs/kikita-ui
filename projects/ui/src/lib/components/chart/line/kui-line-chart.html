@@ -1,0 +1,239 @@
+@if (loading()) {
+  <div
+    class="kui-chart__loading-wave"
+    role="status"
+    aria-live="polite"
+    [attr.aria-label]="t().loading"
+  >
+    <svg
+      [attr.viewBox]="'0 0 ' + nominal().width + ' ' + nominal().height"
+      preserveAspectRatio="xMidYMid meet"
+      class="kui-chart__loading-wave-svg"
+    >
+      @for (y of loadingGridLines(); track y) {
+        <line
+          [attr.x1]="loadingPadding.left"
+          [attr.x2]="nominal().width - loadingPadding.right"
+          [attr.y1]="y"
+          [attr.y2]="y"
+          class="kui-chart__grid-line"
+        />
+      }
+      <line
+        [attr.x1]="loadingPadding.left"
+        [attr.x2]="loadingPadding.left"
+        [attr.y1]="loadingPadding.top"
+        [attr.y2]="nominal().height - loadingPadding.bottom"
+        class="kui-chart__axis-line"
+      />
+      <line
+        [attr.x1]="loadingPadding.left"
+        [attr.x2]="nominal().width - loadingPadding.right"
+        [attr.y1]="nominal().height - loadingPadding.bottom"
+        [attr.y2]="nominal().height - loadingPadding.bottom"
+        class="kui-chart__axis-line"
+      />
+      <polyline
+        class="kui-chart__loading-wave-line"
+        [attr.points]="loadingWavePolylinePoints()"
+      ></polyline>
+      @for (point of loadingWavePoints(); track $index) {
+        <circle
+          class="kui-chart__loading-wave-dot"
+          [attr.cx]="point.x"
+          [attr.cy]="point.y"
+          r="5"
+        ></circle>
+      }
+    </svg>
+  </div>
+} @else if (!hasData()) {
+  <div class="kui-chart__empty" [style.height.px]="height()">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 19V5M4 19H20M8 15V11M12 15V7M16 15V12"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+    <span>{{ t().noData }}</span>
+  </div>
+} @else {
+  <div class="kui-chart__graphic">
+    @if (!showTable()) {
+      <svg
+        #svgRef
+        class="kui-chart__svg kui-chart__svg--plot"
+        role="graphics-document"
+        [attr.aria-roledescription]="t().lineRoleDescription"
+        [attr.aria-label]="effectiveAriaLabel()"
+        [attr.viewBox]="'0 0 ' + width() + ' ' + height()"
+        preserveAspectRatio="xMinYMin meet"
+        [style.height.px]="height()"
+      >
+        <text class="kui-chart__axis-text kui-chart__axis-probe" aria-hidden="true" x="0" y="-100">
+          0
+        </text>
+        <defs>
+          @for (path of linePaths(); track path.seriesId) {
+            @if (path.areaD) {
+              <linearGradient
+                [attr.id]="chartId + '-area-' + path.seriesIndex"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop offset="0%" [style.stop-color]="path.seriesColor" stop-opacity="0.35" />
+                <stop offset="100%" [style.stop-color]="path.seriesColor" stop-opacity="0" />
+              </linearGradient>
+            }
+          }
+        </defs>
+        <defs kuiChartPatterns [patterns]="patternDefs()"></defs>
+        @if (showYAxis()) {
+          <g
+            kuiChartAxis
+            orientation="left"
+            [ticks]="yTicks()"
+            [plot]="plot()"
+            [grid]="showYGrid()"
+            [title]="axes().yTitle"
+            [fontSize]="fontSize()"
+          ></g>
+        }
+        @if (showXAxis()) {
+          <g
+            kuiChartAxis
+            orientation="bottom"
+            [ticks]="xTicks()"
+            [plot]="plot()"
+            [grid]="showXGrid()"
+            [title]="axes().xTitle"
+            [fontSize]="fontSize()"
+          ></g>
+        }
+
+        @for (path of linePaths(); track path.seriesId) {
+          @if (path.areaD) {
+            <path
+              aria-hidden="true"
+              [attr.d]="path.areaD"
+              class="kui-chart__area"
+              [attr.fill]="path.areaFill"
+              [style.--_kui-chart-pattern]="path.pattern"
+              [class.kui-chart__series--dimmed]="
+                hoveredSeriesId() && hoveredSeriesId() !== path.seriesId
+              "
+            />
+          }
+          <path
+            aria-hidden="true"
+            [attr.d]="path.d"
+            class="kui-chart__line"
+            [style.stroke]="path.seriesColor"
+            [style.--_kui-chart-dash]="path.dash"
+            [attr.data-kui-series]="path.seriesIndex"
+            [class.kui-chart__series--dimmed]="
+              hoveredSeriesId() && hoveredSeriesId() !== path.seriesId
+            "
+          />
+        }
+
+        <g
+          #marksGroup
+          class="kui-chart__marks"
+          (keydown)="onMarksKeydown($event)"
+          (pointerleave)="onMarksPointerLeave($event)"
+          (focusout)="onMarksFocusOut($event, marksGroup)"
+        >
+          <rect
+            aria-hidden="true"
+            class="kui-chart__plot-hit"
+            [attr.x]="plot().x - hitReach"
+            [attr.y]="plot().y - hitReach"
+            [attr.width]="plot().width + 2 * hitReach"
+            [attr.height]="plot().height + 2 * hitReach"
+            (pointermove)="onPlotPointerMove($event, svgRef, marksGroup)"
+            (pointerdown)="onPlotPointerDown($event, svgRef, marksGroup)"
+          />
+          @for (mark of renderedMarks(); track mark.key) {
+            <g [attr.transform]="'translate(' + mark.x + ' ' + mark.y + ')'">
+              <path
+                #markRef
+                role="graphics-symbol img"
+                [attr.id]="chartId + '-mark-' + $index"
+                [attr.data-kui-mark]="mark.key"
+                [attr.aria-label]="markLabel(mark)"
+                [attr.tabindex]="mark.key === rovingKey() ? 0 : -1"
+                [attr.d]="markerPaths()[mark.shape]"
+                class="kui-chart__mark"
+                [style.fill]="mark.seriesColor"
+                [class.kui-chart__series--dimmed]="
+                  hoveredSeriesId() && hoveredSeriesId() !== mark.seriesId
+                "
+                [class.kui-chart__mark--hovered]="hoveredMarkKey() === mark.key"
+                (focus)="onMarkFocus(mark, markRef)"
+              />
+            </g>
+          }
+        </g>
+      </svg>
+    } @else {
+      <table kuiTable class="kui-chart__table" [attr.aria-label]="effectiveAriaLabel()">
+        <thead>
+          <tr kuiThGroup>
+            <th kuiTh>{{ t().columnCategory }}</th>
+            @for (s of visibleSeries(); track s.seriesId) {
+              <th kuiTh>{{ s.seriesName }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (category of categories(); track $index; let categoryIndex = $index) {
+            <tr kuiRow [value]="category">
+              <td kuiCell>{{ category }}</td>
+              @for (s of visibleSeries(); track s.seriesId) {
+                <td kuiCell>{{ s.slots[categoryIndex]?.y ?? '—' }}</td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <div class="kui-chart__toolbar">
+    @if (legendEnabled()) {
+      <div class="kui-chart__legend" role="group" [attr.aria-label]="t().legendLabel">
+        @for (s of legendSeries(); track s.seriesId) {
+          <button
+            type="button"
+            class="kui-chart__legend-item"
+            [attr.aria-pressed]="!isSeriesHidden(s.seriesId)"
+            [class.kui-chart__legend-item--hidden]="isSeriesHidden(s.seriesId)"
+            [class.kui-chart__legend-item--active]="hoveredSeriesId() === s.seriesId"
+            (click)="toggleSeries(s.seriesId)"
+            (pointerenter)="!isSeriesHidden(s.seriesId) && hoveredSeriesId.set(s.seriesId)"
+            (pointerleave)="hoveredSeriesId.set(null)"
+            (focus)="!isSeriesHidden(s.seriesId) && hoveredSeriesId.set(s.seriesId)"
+            (blur)="hoveredSeriesId.set(null)"
+          >
+            <svg
+              kuiChartSwatch
+              [color]="s.seriesColor"
+              [shape]="s.shape"
+              [pattern]="legendPattern(s.seriesId)"
+            ></svg>
+            {{ s.seriesName }}
+          </button>
+        }
+      </div>
+    }
+    <button kuiButton shape="outline" size="xs" type="button" (click)="showTable.set(!showTable())">
+      {{ showTable() ? t().viewChart : t().viewTable }}
+    </button>
+  </div>
+}

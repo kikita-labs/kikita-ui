@@ -1,0 +1,605 @@
+{
+  "tolerancePercent": 3,
+  "gateExports": [
+    "KuiBadge",
+    "KuiButton",
+    "KuiIcon",
+    "KuiLoader",
+    "KuiTooltip",
+    "KuiDropdown",
+    "KuiInput",
+    "KuiCheckbox",
+    "KuiSelect",
+    "KuiPagination",
+    "KuiColorInput",
+    "KuiDatePicker",
+    "KuiTimePicker",
+    "KuiField",
+    "KuiCalendar",
+    "KuiLineChart",
+    "KuiAlert",
+    "KuiTabs",
+    "kuiDialog",
+    "kuiToast",
+    "provideKikitaUi",
+    "KuiI18n",
+    "KuiNumberInput",
+    "KuiCombobox",
+    "KuiSlider"
+  ],
+  "exports": {
+    "createKuiLucideResolver": {
+      "baselineBytes": 3185,
+      "limitBytes": 3296
+    },
+    "createKuiTheme": {
+      "baselineBytes": 19616,
+      "limitBytes": 20208
+    },
+    "createKuiThemeCssText": {
+      "baselineBytes": 1002,
+      "limitBytes": 1040
+    },
+    "createKuiThemeStyleSheet": {
+      "baselineBytes": 1172,
+      "limitBytes": 1216
+    },
+    "createKuiThemeVariableMap": {
+      "baselineBytes": 881,
+      "limitBytes": 912
+    },
+    "DEFAULT_KUI_THEME": {
+      "baselineBytes": 998,
+      "limitBytes": 1040
+    },
+    "getKuiCalendarLocaleText": {
+      "baselineBytes": 2245,
+      "limitBytes": 2320
+    },
+    "KIKITA_UI_OPTIONS": {
+      "baselineBytes": 826,
+      "limitBytes": 864
+    },
+    "KUI_BRAND_ICONS": {
+      "baselineBytes": 2031,
+      "limitBytes": 2096
+    },
+    "KUI_DIALOG_CONTEXT": {
+      "baselineBytes": 808,
+      "limitBytes": 848
+    },
+    "KUI_DRAWER_CONTEXT": {
+      "baselineBytes": 808,
+      "limitBytes": 848
+    },
+    "KUI_ENGLISH_MESSAGES": {
+      "baselineBytes": 5787,
+      "limitBytes": 5968
+    },
+    "KUI_ICONS": {
+      "baselineBytes": 799,
+      "limitBytes": 832
+    },
+    "KUI_INPUT_GROUP_CONTROL_SELECTOR": {
+      "baselineBytes": 769,
+      "limitBytes": 800
+    },
+    "KUI_INPUT_GROUP_INTERACTIVE_SELECTOR": {
+      "baselineBytes": 769,
+      "limitBytes": 800
+    },
+    "KUI_LOCALE": {
+      "baselineBytes": 1465,
+      "limitBytes": 1520
+    },
+    "KUI_LUCIDE_STATIC_VERSION": {
+      "baselineBytes": 784,
+      "limitBytes": 816
+    },
+    "KUI_THEME": {
+      "baselineBytes": 19672,
+      "limitBytes": 20272
+    },
+    "KuiAccordion": {
+      "baselineBytes": 3354,
+      "limitBytes": 3456
+    },
+    "KuiAccordionIcon": {
+      "baselineBytes": 933,
+      "limitBytes": 976
+    },
+    "KuiAccordionItem": {
+      "baselineBytes": 11504,
+      "limitBytes": 11856
+    },
+    "KuiAlertActions": {
+      "baselineBytes": 956,
+      "limitBytes": 992
+    },
+    "KuiAlert": {
+      "baselineBytes": 34693,
+      "limitBytes": 35744
+    },
+    "KuiAlertIcon": {
+      "baselineBytes": 1110,
+      "limitBytes": 1152
+    },
+    "KuiAlertMessage": {
+      "baselineBytes": 956,
+      "limitBytes": 992
+    },
+    "KuiAlertTitle": {
+      "baselineBytes": 952,
+      "limitBytes": 992
+    },
+    "KuiAutoFocus": {
+      "baselineBytes": 2715,
+      "limitBytes": 2800
+    },
+    "KuiAvatar": {
+      "baselineBytes": 16661,
+      "limitBytes": 17168
+    },
+    "KuiAvatarGroup": {
+      "baselineBytes": 18971,
+      "limitBytes": 19552
+    },
+    "KuiBadge": {
+      "baselineBytes": 2588,
+      "limitBytes": 2672
+    },
+    "KuiBarChart": {
+      "baselineBytes": 70464,
+      "limitBytes": 72592
+    },
+    "KuiBreadcrumbItem": {
+      "baselineBytes": 1329,
+      "limitBytes": 1376
+    },
+    "KuiBreadcrumbs": {
+      "baselineBytes": 2651,
+      "limitBytes": 2736
+    },
+    "KuiBreadcrumbSeparator": {
+      "baselineBytes": 9541,
+      "limitBytes": 9840
+    },
+    "KuiButton": {
+      "baselineBytes": 25169,
+      "limitBytes": 25936,
+      "targetBytes": 12288
+    },
+    "KuiCalendar": {
+      "baselineBytes": 42926,
+      "limitBytes": 44224
+    },
+    "KuiCalendarRange": {
+      "baselineBytes": 43815,
+      "limitBytes": 45136
+    },
+    "KuiCard": {
+      "baselineBytes": 2781,
+      "limitBytes": 2880
+    },
+    "KuiCarousel": {
+      "baselineBytes": 37035,
+      "limitBytes": 38160
+    },
+    "KuiCarouselSlide": {
+      "baselineBytes": 12073,
+      "limitBytes": 12448
+    },
+    "KuiCell": {
+      "baselineBytes": 940,
+      "limitBytes": 976
+    },
+    "KuiChartLegend": {
+      "baselineBytes": 17436,
+      "limitBytes": 17968
+    },
+    "KuiChartLegendItem": {
+      "baselineBytes": 1008,
+      "limitBytes": 1040
+    },
+    "KuiCheckbox": {
+      "baselineBytes": 3473,
+      "limitBytes": 3584,
+      "targetBytes": 30720
+    },
+    "KuiChip": {
+      "baselineBytes": 17700,
+      "limitBytes": 18240
+    },
+    "KuiChipRemove": {
+      "baselineBytes": 18255,
+      "limitBytes": 18816
+    },
+    "KuiColorInput": {
+      "baselineBytes": 48857,
+      "limitBytes": 50336,
+      "targetBytes": 46080
+    },
+    "KuiCombobox": {
+      "baselineBytes": 27117,
+      "limitBytes": 27936,
+      "targetBytes": 46080
+    },
+    "KuiComboboxHighlightPipe": {
+      "baselineBytes": 1270,
+      "limitBytes": 1312
+    },
+    "KuiCommandPalette": {
+      "baselineBytes": 32431,
+      "limitBytes": 33408
+    },
+    "kuiConfirm": {
+      "baselineBytes": 31906,
+      "limitBytes": 32864
+    },
+    "KuiDatePicker": {
+      "baselineBytes": 30973,
+      "limitBytes": 31904,
+      "targetBytes": 56320
+    },
+    "KuiDefaults": {
+      "baselineBytes": 1956,
+      "limitBytes": 2016
+    },
+    "kuiDialog": {
+      "baselineBytes": 23998,
+      "limitBytes": 24720
+    },
+    "KuiDialogRef": {
+      "baselineBytes": 909,
+      "limitBytes": 944
+    },
+    "KuiDonutChart": {
+      "baselineBytes": 57844,
+      "limitBytes": 59584
+    },
+    "kuiDrawer": {
+      "baselineBytes": 23891,
+      "limitBytes": 24608
+    },
+    "KuiDrawerRef": {
+      "baselineBytes": 909,
+      "limitBytes": 944
+    },
+    "KuiDropdown": {
+      "baselineBytes": 9427,
+      "limitBytes": 9712,
+      "targetBytes": 8192
+    },
+    "KuiDropdownFor": {
+      "baselineBytes": 2101,
+      "limitBytes": 2176
+    },
+    "KuiEmptyStateActions": {
+      "baselineBytes": 961,
+      "limitBytes": 992
+    },
+    "KuiEmptyState": {
+      "baselineBytes": 3379,
+      "limitBytes": 3488
+    },
+    "KuiEmptyStateIcon": {
+      "baselineBytes": 976,
+      "limitBytes": 1008
+    },
+    "KuiError": {
+      "baselineBytes": 1400,
+      "limitBytes": 1456
+    },
+    "KuiFieldAction": {
+      "baselineBytes": 959,
+      "limitBytes": 992
+    },
+    "KuiFieldAffix": {
+      "baselineBytes": 23055,
+      "limitBytes": 23760
+    },
+    "KuiFieldAffixIcon": {
+      "baselineBytes": 981,
+      "limitBytes": 1024
+    },
+    "KuiField": {
+      "baselineBytes": 31457,
+      "limitBytes": 32416
+    },
+    "KuiFileUpload": {
+      "baselineBytes": 46807,
+      "limitBytes": 48224
+    },
+    "KuiGroup": {
+      "baselineBytes": 3421,
+      "limitBytes": 3536
+    },
+    "KuiHint": {
+      "baselineBytes": 1386,
+      "limitBytes": 1440
+    },
+    "KuiI18n": {
+      "baselineBytes": 11568,
+      "limitBytes": 11920
+    },
+    "KuiIconButton": {
+      "baselineBytes": 24632,
+      "limitBytes": 25376,
+      "targetBytes": 12288
+    },
+    "KuiIcon": {
+      "baselineBytes": 10075,
+      "limitBytes": 10384,
+      "targetBytes": 8192
+    },
+    "KuiInput": {
+      "baselineBytes": 3440,
+      "limitBytes": 3552,
+      "targetBytes": 30720
+    },
+    "KuiInputGroup": {
+      "baselineBytes": 1141,
+      "limitBytes": 1184
+    },
+    "KuiLabel": {
+      "baselineBytes": 1494,
+      "limitBytes": 1552
+    },
+    "KuiLineChart": {
+      "baselineBytes": 70223,
+      "limitBytes": 72336
+    },
+    "KuiLink": {
+      "baselineBytes": 27498,
+      "limitBytes": 28336
+    },
+    "KuiLoader": {
+      "baselineBytes": 12961,
+      "limitBytes": 13360,
+      "targetBytes": 8192
+    },
+    "kuiMediaViewer": {
+      "baselineBytes": 40940,
+      "limitBytes": 42176
+    },
+    "KuiMenu": {
+      "baselineBytes": 21031,
+      "limitBytes": 21664
+    },
+    "KuiMenuFor": {
+      "baselineBytes": 1790,
+      "limitBytes": 1856
+    },
+    "KuiMenuHeader": {
+      "baselineBytes": 979,
+      "limitBytes": 1024
+    },
+    "KuiMenuItem": {
+      "baselineBytes": 2000,
+      "limitBytes": 2064
+    },
+    "KuiNumberInput": {
+      "baselineBytes": 21060,
+      "limitBytes": 21696,
+      "targetBytes": 46080
+    },
+    "KuiOption": {
+      "baselineBytes": 3023,
+      "limitBytes": 3120
+    },
+    "KuiOtpInput": {
+      "baselineBytes": 22089,
+      "limitBytes": 22752,
+      "targetBytes": 46080
+    },
+    "KuiPagination": {
+      "baselineBytes": 70394,
+      "limitBytes": 72512,
+      "targetBytes": 46080
+    },
+    "KuiPopover": {
+      "baselineBytes": 20091,
+      "limitBytes": 20704
+    },
+    "KuiPopoverFor": {
+      "baselineBytes": 2237,
+      "limitBytes": 2320
+    },
+    "KuiProgress": {
+      "baselineBytes": 4750,
+      "limitBytes": 4896
+    },
+    "kuiProvideButtonOptions": {
+      "baselineBytes": 2083,
+      "limitBytes": 2160
+    },
+    "kuiProvideComboboxOptions": {
+      "baselineBytes": 2054,
+      "limitBytes": 2128
+    },
+    "provideKuiDefaults": {
+      "baselineBytes": 2015,
+      "limitBytes": 2080
+    },
+    "kuiProvideFieldOptions": {
+      "baselineBytes": 2051,
+      "limitBytes": 2128
+    },
+    "provideKuiI18n": {
+      "baselineBytes": 11627,
+      "limitBytes": 11984
+    },
+    "provideKuiLocale": {
+      "baselineBytes": 11664,
+      "limitBytes": 12016
+    },
+    "provideKuiMessages": {
+      "baselineBytes": 11666,
+      "limitBytes": 12016
+    },
+    "kuiProvideSelectOptions": {
+      "baselineBytes": 2052,
+      "limitBytes": 2128
+    },
+    "kuiProvideTooltipOptions": {
+      "baselineBytes": 2053,
+      "limitBytes": 2128
+    },
+    "KuiRadio": {
+      "baselineBytes": 3383,
+      "limitBytes": 3488,
+      "targetBytes": 30720
+    },
+    "KuiRow": {
+      "baselineBytes": 1234,
+      "limitBytes": 1280
+    },
+    "KuiScatterChart": {
+      "baselineBytes": 67137,
+      "limitBytes": 69152
+    },
+    "KuiSegment": {
+      "baselineBytes": 1731,
+      "limitBytes": 1792
+    },
+    "KuiSegmented": {
+      "baselineBytes": 6226,
+      "limitBytes": 6416
+    },
+    "KuiSelectCell": {
+      "baselineBytes": 12865,
+      "limitBytes": 13264
+    },
+    "KuiSelect": {
+      "baselineBytes": 34516,
+      "limitBytes": 35552,
+      "targetBytes": 46080
+    },
+    "KuiSelectTh": {
+      "baselineBytes": 12508,
+      "limitBytes": 12896
+    },
+    "KuiSelectValue": {
+      "baselineBytes": 1187,
+      "limitBytes": 1232
+    },
+    "KuiSeparator": {
+      "baselineBytes": 2843,
+      "limitBytes": 2944
+    },
+    "KuiSkeleton": {
+      "baselineBytes": 2567,
+      "limitBytes": 2656
+    },
+    "KuiSlider": {
+      "baselineBytes": 17218,
+      "limitBytes": 17744,
+      "targetBytes": 46080
+    },
+    "KuiSplitter": {
+      "baselineBytes": 30027,
+      "limitBytes": 30928
+    },
+    "KuiSplitterPane": {
+      "baselineBytes": 3441,
+      "limitBytes": 3552
+    },
+    "KuiStep": {
+      "baselineBytes": 22227,
+      "limitBytes": 22896
+    },
+    "KuiStepper": {
+      "baselineBytes": 23811,
+      "limitBytes": 24528
+    },
+    "KuiSwitch": {
+      "baselineBytes": 3479,
+      "limitBytes": 3584,
+      "targetBytes": 30720
+    },
+    "KuiTab": {
+      "baselineBytes": 13717,
+      "limitBytes": 14144
+    },
+    "KuiTable": {
+      "baselineBytes": 4205,
+      "limitBytes": 4336
+    },
+    "KuiTabPanel": {
+      "baselineBytes": 1370,
+      "limitBytes": 1424
+    },
+    "KuiTabs": {
+      "baselineBytes": 27502,
+      "limitBytes": 28336
+    },
+    "KuiTextarea": {
+      "baselineBytes": 3470,
+      "limitBytes": 3584,
+      "targetBytes": 30720
+    },
+    "KuiText": {
+      "baselineBytes": 3528,
+      "limitBytes": 3648
+    },
+    "KuiTh": {
+      "baselineBytes": 13954,
+      "limitBytes": 14384
+    },
+    "KuiThGroup": {
+      "baselineBytes": 1097,
+      "limitBytes": 1136
+    },
+    "KuiTimePicker": {
+      "baselineBytes": 33403,
+      "limitBytes": 34416,
+      "targetBytes": 56320
+    },
+    "KuiTimePickerPanel": {
+      "baselineBytes": 44805,
+      "limitBytes": 46160
+    },
+    "kuiToast": {
+      "baselineBytes": 29970,
+      "limitBytes": 30880
+    },
+    "KuiToast": {
+      "baselineBytes": 29943,
+      "limitBytes": 30848
+    },
+    "KuiTooltip": {
+      "baselineBytes": 10359,
+      "limitBytes": 10672,
+      "targetBytes": 8192
+    },
+    "KuiTooltipTriggerType": {
+      "baselineBytes": 866,
+      "limitBytes": 896
+    },
+    "KuiTree": {
+      "baselineBytes": 30079,
+      "limitBytes": 30992
+    },
+    "provideKikitaUi": {
+      "baselineBytes": 37657,
+      "limitBytes": 38800,
+      "targetBytes": 14336
+    },
+    "provideKuiIcons": {
+      "baselineBytes": 857,
+      "limitBytes": 896
+    },
+    "provideKuiTheme": {
+      "baselineBytes": 20512,
+      "limitBytes": 21136
+    },
+    "provideKuiToastOptions": {
+      "baselineBytes": 2051,
+      "limitBytes": 2128
+    },
+    "resolveLucideIcon": {
+      "baselineBytes": 3195,
+      "limitBytes": 3296
+    }
+  }
+}

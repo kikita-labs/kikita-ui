@@ -1,0 +1,41 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .icon-size-examples__stack,
+  .icon-size-examples__section {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .icon-size-examples__stack {
+    gap: var(--kui-space-5);
+  }
+
+  .icon-size-examples__section h3 {
+    margin: 0;
+  }
+
+  .icon-size-examples__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--kui-space-16)), 1fr));
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .icon-size-examples__grid--custom {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--kui-space-16)), 1fr));
+  }
+
+  .icon-size-examples__item {
+    display: grid;
+    justify-items: center;
+    align-content: end;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+    padding-block: var(--kui-space-2);
+  }
+}

@@ -47,6 +47,27 @@ Apply the class to the element that actually scrolls. Do not apply it to a child
 - In forced-colors mode, scrollbar colors fall back to the system implementation.
 - Browser and OS scrollbar rendering can differ, especially with overlay scrollbars.
 
+## Custom-track Evaluation
+
+The [article proposal](https://habr.com/ru/articles/1079750/) uses CSS anchor
+positioning, scroll timelines, registered custom properties, and animation ranges
+to move a visual thumb while the content keeps native overflow scrolling. Its
+drag behavior still needs JavaScript. Kikita does not ship that replacement.
+
+An isolated Chromium 149 probe on 2026-09-21 reported support for the proposed
+feature set and moved a 50px thumb from 0px to 150px over a 600px vertical
+scroll range. Keyboard scrolling and RTL overflow also worked. In
+`forced-colors: active`, the probe restored the native scrollbar. This is useful
+feasibility evidence for Chromium only; the installed Playwright Firefox and
+WebKit binaries were unavailable, so they were not tested.
+
+The proposal depends on [`animation-range`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/animation-range),
+which MDN currently classifies as limited availability rather than Baseline.
+Do not hide a native scrollbar or add a public custom-scrollbar API until a
+concrete design need, supported-browser matrix, drag and pointer-cancellation
+behavior, zoom, nested scrolling, RTL, forced-colors, SSR, and fallback have
+all been reviewed. Native token styling remains the current supported contract.
+
 ## Tokens
 
 ```css

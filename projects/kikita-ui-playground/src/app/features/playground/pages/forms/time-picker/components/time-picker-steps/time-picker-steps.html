@@ -1,0 +1,26 @@
+<section role="group" [attr.aria-label]="'timePicker.accessibility.steps' | transloco">
+  <app-playground-example-card [heading]="'timePicker.examples.steps' | transloco">
+    <div class="time-picker-grid">
+      <kui-field [label]="'timePicker.fields.slots' | transloco">
+        <input
+          kuiTimePicker
+          [(value)]="slotTime"
+          format="12h"
+          [showSeconds]="true"
+          [minuteStep]="15"
+          [secondStep]="15"
+        />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field [label]="'timePicker.fields.hourSlots' | transloco">
+        <input kuiTimePicker [(value)]="hourSlotTime" [hourStep]="3" [minuteStep]="15" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+</section>

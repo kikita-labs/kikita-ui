@@ -1,0 +1,246 @@
+@layer kui.components {
+  /* Host */
+
+  kui-slider {
+    display: block;
+  }
+
+  /* Size defaults are private; --kui-slider-thumb-size and --kui-slider-track-size override one
+     slider or every slider below them. The thumb radius sets the track inset and the block padding,
+     so the thumb never overflows the container, and a pressed thumb grows by 4px. */
+  .kui-slider {
+    --_kui-slider-thumb-size: 18px;
+    --_kui-slider-track-size: 4px;
+    --_kui-slider-thumb: var(--kui-slider-thumb-size, var(--_kui-slider-thumb-size));
+    position: relative;
+    display: block;
+    user-select: none;
+    padding: calc(var(--_kui-slider-thumb) / 2) 0;
+    flex: 1;
+  }
+
+  .kui-slider[data-kui-size='sm'] {
+    --_kui-slider-thumb-size: 14px;
+    --_kui-slider-track-size: 2px;
+  }
+  .kui-slider[data-kui-size='md'] {
+    --_kui-slider-thumb-size: 18px;
+    --_kui-slider-track-size: 4px;
+  }
+  .kui-slider[data-kui-size='lg'] {
+    --_kui-slider-thumb-size: 22px;
+    --_kui-slider-track-size: 6px;
+  }
+
+  /* Native input: full container overlay */
+  /*   Lives as direct child of .kui-slider (not inside track) so it covers   */
+  /*   the full height including padding, making thumb fully clickable.        */
+
+  .kui-slider-native {
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    margin: 0;
+    z-index: 1;
+  }
+
+  .kui-slider-native:disabled {
+    cursor: not-allowed;
+  }
+
+  .kui-slider-native::-webkit-slider-runnable-track,
+  .kui-slider-native::-webkit-slider-thumb {
+    cursor: pointer;
+  }
+
+  .kui-slider-native::-moz-range-track,
+  .kui-slider-native::-moz-range-thumb {
+    cursor: pointer;
+  }
+
+  .kui-slider-native:disabled::-webkit-slider-runnable-track,
+  .kui-slider-native:disabled::-webkit-slider-thumb,
+  .kui-slider-native:disabled::-moz-range-track,
+  .kui-slider-native:disabled::-moz-range-thumb {
+    cursor: not-allowed;
+  }
+
+  /* Track */
+
+  .kui-slider-track {
+    position: relative;
+    height: var(--kui-slider-track-size, var(--_kui-slider-track-size));
+    background: var(--kui-slider-track-bg, var(--kui-color-border));
+    border-radius: var(--kui-slider-track-radius, var(--kui-radius-full));
+
+    /* Horizontal margin = thumb radius so thumb never overflows container */
+    margin: 0 calc(var(--_kui-slider-thumb) / 2);
+  }
+
+  /* Fill */
+
+  .kui-slider-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: var(--kui-slider-fill-bg, var(--kui-color-primary-indicator));
+  }
+
+  .kui-slider[data-kui-color='primary'] .kui-slider-fill {
+    background: var(--kui-slider-fill-bg-primary, var(--kui-color-primary-indicator));
+  }
+  .kui-slider[data-kui-color='success'] .kui-slider-fill {
+    background: var(--kui-slider-fill-bg-success, var(--kui-color-success-indicator));
+  }
+  .kui-slider[data-kui-color='danger'] .kui-slider-fill {
+    background: var(--kui-slider-fill-bg-danger, var(--kui-color-danger-indicator));
+  }
+  .kui-slider[data-kui-color='neutral'] .kui-slider-fill {
+    background: var(--kui-slider-fill-bg-neutral, var(--kui-color-text-secondary));
+  }
+
+  .kui-slider[data-kui-invalid] .kui-slider-fill {
+    background: var(--kui-slider-fill-bg-invalid, var(--kui-color-danger-indicator));
+  }
+
+  /* Thumb */
+
+  .kui-slider-thumb {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: none;
+    background: var(--kui-slider-thumb-bg, var(--kui-color-primary-indicator));
+    box-shadow: var(--kui-slider-thumb-shadow);
+    transition:
+      width var(--kui-duration-fast) var(--kui-ease),
+      height var(--kui-duration-fast) var(--kui-ease),
+      box-shadow var(--kui-duration-fast) var(--kui-ease);
+    width: var(--_kui-slider-thumb);
+    height: var(--_kui-slider-thumb);
+  }
+
+  .kui-slider[data-kui-color='primary'] .kui-slider-thumb {
+    background: var(--kui-slider-thumb-bg-primary, var(--kui-color-primary-indicator));
+  }
+  .kui-slider[data-kui-color='success'] .kui-slider-thumb {
+    background: var(--kui-slider-thumb-bg-success, var(--kui-color-success-indicator));
+  }
+  .kui-slider[data-kui-color='danger'] .kui-slider-thumb {
+    background: var(--kui-slider-thumb-bg-danger, var(--kui-color-danger-indicator));
+  }
+  .kui-slider[data-kui-color='neutral'] .kui-slider-thumb {
+    background: var(--kui-slider-thumb-bg-neutral, var(--kui-color-text-secondary));
+  }
+
+  .kui-slider[data-kui-invalid] .kui-slider-thumb {
+    background: var(--kui-slider-thumb-bg-invalid, var(--kui-color-danger-indicator));
+  }
+
+  /* States: native is sibling of track, so we target track children */
+
+  .kui-slider-native:hover ~ .kui-slider-track .kui-slider-thumb {
+    box-shadow: var(
+      --kui-slider-thumb-shadow-hover,
+      0 0 0 5px color-mix(in oklab, var(--kui-color-primary-indicator) 22%, transparent),
+      0 1px 3px oklch(0 0 0 / 0.3)
+    );
+  }
+
+  .kui-slider-native:focus-visible ~ .kui-slider-track .kui-slider-thumb {
+    outline: var(--kui-focus-ring-width-sm) solid
+      var(--kui-slider-thumb-focus-ring-color, var(--kui-color-focus));
+    outline-offset: var(--kui-focus-ring-offset);
+    box-shadow: var(--kui-slider-thumb-shadow-focus, 0 1px 2px oklch(0 0 0 / 0.3));
+  }
+
+  .kui-slider-native:active ~ .kui-slider-track .kui-slider-thumb {
+    width: var(--kui-slider-thumb-size-active, calc(var(--_kui-slider-thumb) + 4px));
+    height: var(--kui-slider-thumb-size-active, calc(var(--_kui-slider-thumb) + 4px));
+    box-shadow: var(
+      --kui-slider-thumb-shadow-active,
+      0 2px 8px oklch(0 0 0 / 0.5),
+      0 0 0 4px color-mix(in oklab, var(--kui-color-primary-indicator) 15%, transparent)
+    );
+  }
+
+  /* Disabled */
+
+  .kui-slider[data-kui-disabled] {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .kui-slider[data-kui-disabled] .kui-slider-track {
+    background: var(--kui-slider-track-bg-disabled, var(--kui-color-surface-elevated));
+  }
+
+  .kui-slider[data-kui-disabled] .kui-slider-fill {
+    background: var(--kui-slider-fill-bg-disabled, var(--kui-color-text-disabled)) !important;
+  }
+
+  .kui-slider[data-kui-disabled] .kui-slider-thumb {
+    background: var(--kui-slider-thumb-bg-disabled, var(--kui-color-text-disabled)) !important;
+    box-shadow: none !important;
+  }
+
+  /* Tooltip */
+
+  .kui-slider-tooltip {
+    position: absolute;
+    bottom: calc(100% + var(--kui-space-1-5));
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .kui-slider-tooltip-text {
+    background: var(--kui-slider-tooltip-bg, var(--kui-color-text));
+    color: var(--kui-slider-tooltip-color, var(--kui-color-bg));
+    font-size: var(--kui-slider-tooltip-text-font-size, var(--kui-text-xs-size));
+    font-weight: var(--kui-font-weight-semibold);
+    padding: 3px var(--kui-space-2);
+    border-radius: var(--kui-radius-xs);
+    line-height: var(--kui-type-body-sm-line-height);
+  }
+
+  .kui-slider-tooltip-arrow {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid var(--kui-slider-tooltip-arrow-color, var(--kui-color-text));
+  }
+
+  /* Labels */
+
+  .kui-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--kui-space-1);
+    font-size: var(--kui-slider-labels-font-size, var(--kui-text-xs-size));
+    color: var(--kui-slider-labels-color, var(--kui-color-text-secondary));
+  }
+
+  /* Reduced motion */
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-slider-thumb {
+      transition: none;
+    }
+  }
+}

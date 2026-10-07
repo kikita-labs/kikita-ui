@@ -1,0 +1,92 @@
+<main class="playground-workspace chip-playground" aria-labelledby="chip-playground-title">
+  <h1 id="chip-playground-title" kuiText variant="heading-lg">
+    {{ 'chip.title' | transloco }}
+  </h1>
+
+  <div class="chip-playground__catalogue">
+    <section
+      id="chip-default-target"
+      class="chip-playground__wide-example"
+      role="group"
+      [attr.aria-label]="'chip.accessibility.default' | transloco"
+    >
+      <app-playground-example-card [heading]="'chip.examples.default' | transloco">
+        <span kuiChip>{{ 'chip.labels.default' | transloco }}</span>
+      </app-playground-example-card>
+    </section>
+
+    <section class="chip-playground__wide-example">
+      <app-chip-appearance-matrix />
+    </section>
+
+    <app-chip-removal-examples />
+
+    <section role="group" [attr.aria-label]="'chip.accessibility.states' | transloco">
+      <app-playground-example-card [heading]="'chip.examples.states' | transloco">
+        <div class="chip-playground__chip-row">
+          <span kuiChip disabled>{{ 'chip.labels.disabled' | transloco }}</span>
+          <button kuiChip type="button" disabled>
+            {{ 'chip.labels.disabledButton' | transloco }}
+          </button>
+          <span
+            kuiChip
+            disabled
+            removable
+            [removeLabel]="'chip.accessibility.removeDisabled' | transloco"
+          >
+            {{ 'chip.labels.disabledRemovable' | transloco }}
+          </span>
+          <span kuiChip invalid>{{ 'chip.labels.invalidStyle' | transloco }}</span>
+          <span kuiChip disabled invalid>{{ 'chip.labels.disabledInvalid' | transloco }}</span>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'chip.accessibility.composition' | transloco">
+      <app-playground-example-card [heading]="'chip.examples.composition' | transloco">
+        <div class="chip-playground__stack">
+          <div class="chip-playground__chip-row">
+            <span kuiChip>
+              <span class="kui-chip-icon" aria-hidden="true">#</span>
+              <span class="kui-chip-label">{{ 'chip.labels.iconComposition' | transloco }}</span>
+            </span>
+            <span kuiChip>
+              <kui-avatar
+                class="kui-chip-avatar"
+                size="xs"
+                [name]="'chip.labels.avatarName' | transloco"
+                aria-hidden="true"
+              />
+              <span class="kui-chip-label">{{ 'chip.labels.avatarComposition' | transloco }}</span>
+            </span>
+          </div>
+
+          <span kuiChip class="chip-playground__long-chip">
+            <span class="kui-chip-label">{{ 'chip.labels.longLabel' | transloco }}</span>
+          </span>
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'chip.accessibility.interactiveHosts' | transloco">
+      <app-playground-example-card [heading]="'chip.examples.interactiveHosts' | transloco">
+        <div class="chip-playground__stack">
+          <div class="chip-playground__chip-row">
+            <button kuiChip type="button" (click)="activateAction()">
+              {{ 'chip.labels.action' | transloco }}
+            </button>
+            <a kuiChip href="/components/chip#chip-default-target">
+              {{ 'chip.labels.link' | transloco }}
+            </a>
+          </div>
+
+          <output class="chip-playground__status" aria-live="polite" aria-atomic="true">
+            @if (activationCount() > 0) {
+              {{ 'chip.status.activatedCount' | transloco: { count: activationCount() } }}
+            }
+          </output>
+        </div>
+      </app-playground-example-card>
+    </section>
+  </div>
+</main>

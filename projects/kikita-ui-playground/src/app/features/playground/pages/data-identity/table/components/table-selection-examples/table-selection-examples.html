@@ -1,0 +1,94 @@
+<section role="group" [attr.aria-label]="'table.accessibility.selection' | transloco">
+  <app-playground-example-card [heading]="'table.examples.selection' | transloco">
+    <div class="table-selection-examples__stack">
+      <div class="table-selection-examples__main-example">
+        <p class="table-selection-examples__scroll-hint">
+          {{ 'table.hints.horizontalScroll' | transloco }}
+        </p>
+        <div
+          class="table-selection-examples__region"
+          role="region"
+          tabindex="0"
+          [attr.aria-label]="'table.regions.selection' | transloco"
+        >
+          <table kuiTable [data]="members" (selectionChange)="onSelectionChange($event)">
+            <caption>{{ 'table.captions.selection' | transloco }}</caption>
+            <thead>
+              <tr kuiThGroup>
+                <th kuiSelectTh [ariaLabel]="'table.selection.selectAll' | transloco"></th>
+                <th kuiTh>{{ 'table.columns.name' | transloco }}</th>
+                <th kuiTh>{{ 'table.columns.role' | transloco }}</th>
+                <th kuiTh>{{ 'table.columns.status' | transloco }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (member of members; track member.id) {
+                @let memberName = member.nameKey | transloco;
+                <tr kuiRow [value]="member">
+                  <td
+                    kuiSelectCell
+                    [ariaLabel]="'table.selection.selectMember' | transloco: { name: memberName }"
+                  ></td>
+                  <td kuiCell>{{ memberName }}</td>
+                  <td kuiCell>{{ member.roleKey | transloco }}</td>
+                  <td kuiCell>{{ member.statusKey | transloco }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      @let selectedCount = selected().length | number;
+      @let totalCount = members.length | number;
+      <output class="table-selection-examples__status" aria-live="polite" aria-atomic="true">
+        {{ 'table.selection.summary' | transloco: { selected: selectedCount, total: totalCount } }}
+      </output>
+
+      <div
+        class="table-selection-examples__default-labels"
+        role="group"
+        [attr.aria-label]="'table.accessibility.defaultSelectionLabels' | transloco"
+      >
+        <h3 kuiText variant="heading-sm">
+          {{ 'table.examples.defaultSelectionLabels' | transloco }}
+        </h3>
+        <div
+          class="table-selection-examples__region"
+          role="region"
+          tabindex="0"
+          [attr.aria-label]="'table.regions.defaultSelectionLabels' | transloco"
+        >
+          <table
+            kuiTable
+            [data]="defaultLabelMembers"
+            (selectionChange)="onDefaultLabelSelectionChange($event)"
+          >
+            <caption>{{ 'table.captions.defaultSelectionLabels' | transloco }}</caption>
+            <thead>
+              <tr kuiThGroup>
+                <th kuiSelectTh></th>
+                <th kuiTh>{{ 'table.columns.name' | transloco }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (member of defaultLabelMembers; track member.id) {
+                <tr kuiRow [value]="member">
+                  <td kuiSelectCell></td>
+                  <td kuiCell>{{ member.nameKey | transloco }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        @let defaultLabelSelectedCount = defaultLabelSelected().length | number;
+        <p class="table-selection-examples__default-label-status" aria-live="polite">
+          {{
+            'table.selection.defaultLabelSummary'
+              | transloco: { selected: defaultLabelSelectedCount }
+          }}
+        </p>
+      </div>
+    </div>
+  </app-playground-example-card>
+</section>

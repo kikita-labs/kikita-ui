@@ -1,0 +1,167 @@
+<input
+  #fileInput
+  class="kui-file-upload-sr-input"
+  type="file"
+  tabindex="-1"
+  aria-hidden="true"
+  [attr.multiple]="effectiveMode() === 'multiple' ? '' : null"
+  [attr.accept]="acceptAttr()"
+  [disabled]="disabled()"
+  (change)="onInputChange($event)"
+/>
+
+@if (effectiveVariant() === 'dropzone') {
+  <div
+    class="kui-file-upload-dropzone"
+    role="button"
+    [tabIndex]="disabled() ? -1 : 0"
+    [attr.aria-label]="dropzoneAriaLabel()"
+    [attr.aria-disabled]="disabled() ? 'true' : null"
+    [attr.data-kui-drag]="dragState()"
+    [attr.data-kui-disabled]="disabled() ? '' : null"
+    [attr.data-kui-has-files]="hasFiles() ? '' : null"
+    (click)="onZoneClick()"
+    (keydown)="onZoneKeydown($event)"
+    (dragenter)="onDragEnter($event)"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+  >
+    <span class="kui-file-upload-dropzone-icon" aria-hidden="true">
+      <svg width="32" height="32" [kuiGlyph]="cloudUploadGlyph" [kuiGlyphStroke]="1.5"></svg>
+    </span>
+
+    @if (dragState() === 'invalid') {
+      <div class="kui-file-upload-dropzone-text">{{ t().invalidType }}</div>
+    } @else {
+      <div class="kui-file-upload-dropzone-text">
+        {{ t().promptBefore }}<strong>{{ t().promptAction }}</strong
+        >{{ t().promptAfter }}
+      </div>
+      @if (!hasFiles()) {
+        <!--
+          Looks like a small outline button but is presentational: the dropzone is the one control
+          (role="button"), so a real button here would be an interactive control nested in another.
+          A click on it reaches the dropzone handler.
+        -->
+        <span class="kui-button" aria-hidden="true" data-kui-shape="outline" data-kui-size="sm">
+          {{ t().chooseFile }}
+        </span>
+      }
+    }
+
+    @if (acceptLabel(); as hint) {
+      <div class="kui-file-upload-dropzone-hint">{{ hint }}</div>
+    }
+  </div>
+} @else {
+  <div class="kui-file-upload-compact-trigger">
+    <button
+      kuiButton
+      shape="outline"
+      size="sm"
+      type="button"
+      [disabled]="disabled()"
+      (click)="onTriggerClick($event)"
+    >
+      <svg width="14" height="14" [kuiGlyph]="plusGlyph" [kuiGlyphStroke]="1.5"></svg>
+      {{ t().attachFile }}
+    </button>
+    @if (acceptLabel(); as hint) {
+      <span class="kui-file-upload-compact-hint">{{ hint }}</span>
+    }
+  </div>
+}
+
+@if (formError(); as message) {
+  <div class="kui-file-upload-form-error" aria-live="polite">
+    <svg width="14" height="14" [kuiGlyph]="alertGlyph" [kuiGlyphStroke]="1.5"></svg>
+    <span>{{ message }}</span>
+  </div>
+}
+
+@if (hasFiles()) {
+  <div class="kui-file-upload-list" aria-live="polite">
+    @for (entry of files(); track entry.id) {
+      <div
+        class="kui-file-upload-item"
+        [attr.data-kui-status]="entry.status"
+        tabindex="0"
+        (keydown)="onItemKeydown($event, entry)"
+      >
+        <div class="kui-file-upload-item-preview" [attr.data-kui-kind]="kind(entry)?.cat ?? null">
+          @if (isImage(entry)) {
+            <img [src]="previewUrl(entry)" alt="" />
+          } @else if (kind(entry); as fileKind) {
+            <span>{{ fileKind.label }}</span>
+          } @else {
+            <svg width="16" height="16" [kuiGlyph]="fileGlyph" [kuiGlyphStroke]="1.5"></svg>
+          }
+        </div>
+
+        <div class="kui-file-upload-item-info">
+          <div class="kui-file-upload-item-name">{{ entry.name }}</div>
+
+          @if (entry.status === 'uploading') {
+            <div class="kui-file-upload-item-meta">
+              <span class="kui-file-upload-item-size">{{ sizeLabel(entry) }}</span>
+              <span class="kui-file-upload-item-progress-track">
+                <kui-progress
+                  type="linear"
+                  [value]="progressPct(entry)"
+                  [attr.aria-label]="t().uploading({ name: entry.name })"
+                />
+              </span>
+              <span class="kui-file-upload-item-pct">{{ percentLabel(entry) }}</span>
+            </div>
+          } @else if (entry.status === 'success') {
+            <div class="kui-file-upload-item-meta">
+              <span class="kui-file-upload-item-size">{{ sizeLabel(entry) }}</span>
+              <span class="kui-file-upload-item-success">
+                <svg width="12" height="12" [kuiGlyph]="checkGlyph()" [kuiGlyphStroke]="2"></svg>
+                {{ t().done }}
+              </span>
+            </div>
+          } @else if (entry.status === 'error') {
+            <div class="kui-file-upload-item-error">
+              <svg
+                width="12"
+                height="12"
+                style="flex-shrink: 0"
+                [kuiGlyph]="alertGlyph"
+                [kuiGlyphStroke]="1.5"
+              ></svg>
+              <span>{{ errorText(entry) }}</span>
+              <button
+                class="kui-file-upload-item-retry"
+                kuiLink
+                variant="caption"
+                underline="always"
+                type="button"
+                (click)="onRetryClick(entry, $event)"
+              >
+                {{ t().retry }}
+              </button>
+            </div>
+          } @else {
+            <div class="kui-file-upload-item-meta">
+              <span class="kui-file-upload-item-size">{{ sizeLabel(entry) }}</span>
+              <span>{{ t().queued }}</span>
+            </div>
+          }
+        </div>
+
+        <div class="kui-file-upload-item-actions">
+          <button
+            kuiFieldAction
+            type="button"
+            [attr.aria-label]="t().removeFile({ name: entry.name })"
+            (click)="removeFile(entry)"
+          >
+            <svg width="14" height="14" [kuiGlyph]="removeGlyph()" [kuiGlyphStroke]="1.5"></svg>
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+}

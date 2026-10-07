@@ -1,0 +1,167 @@
+<section role="group" [attr.aria-label]="'radio.accessibility.states' | transloco">
+  <app-playground-example-card [heading]="'radio.examples.states' | transloco">
+    <div class="radio-states__examples">
+      <fieldset class="radio-states__fieldset">
+        <legend kuiText variant="body">{{ 'radio.groups.selection' | transloco }}</legend>
+
+        <div class="radio-states__options">
+          <label class="radio-option">
+            <input
+              kuiRadio
+              type="radio"
+              name="radio-selection-state"
+              id="radio-selection-checked"
+              value="selected"
+              checked
+            />
+            <span kuiText>{{ 'radio.labels.selected' | transloco }}</span>
+          </label>
+
+          <label class="radio-option">
+            <input
+              kuiRadio
+              type="radio"
+              name="radio-selection-state"
+              id="radio-selection-unselected"
+              value="unselected"
+            />
+            <span kuiText>{{ 'radio.labels.unselected' | transloco }}</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="radio-states__fieldset">
+        <legend kuiText variant="body">{{ 'radio.groups.disabled' | transloco }}</legend>
+
+        <div class="radio-states__options">
+          <label class="radio-option">
+            <input
+              kuiRadio
+              type="radio"
+              name="radio-disabled-state"
+              id="radio-disabled-unchecked"
+              value="unavailable"
+              disabled
+            />
+            <span kuiText>{{ 'radio.labels.disabled' | transloco }}</span>
+          </label>
+
+          <label class="radio-option">
+            <input
+              kuiRadio
+              type="radio"
+              name="radio-disabled-checked-state"
+              id="radio-disabled-checked"
+              value="current"
+              checked
+              disabled
+            />
+            <span kuiText>{{ 'radio.labels.disabledChecked' | transloco }}</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="radio-states__signal-frame">
+        <kui-field [hint]="'radio.hints.payment' | transloco">
+          <fieldset class="radio-states__fieldset">
+            <legend kuiText variant="body">
+              {{ 'radio.groups.signalPayment' | transloco }}
+            </legend>
+
+            <div class="radio-states__options">
+              <label class="radio-option">
+                <input
+                  kuiRadio
+                  type="radio"
+                  id="radio-signal-payment-card"
+                  value="card"
+                  [formField]="paymentForm.paymentMethod"
+                />
+                <span kuiText>{{ 'radio.labels.card' | transloco }}</span>
+              </label>
+
+              <label class="radio-option">
+                <input
+                  kuiRadio
+                  type="radio"
+                  id="radio-signal-payment-transfer"
+                  value="transfer"
+                  [formField]="paymentForm.paymentMethod"
+                />
+                <span kuiText>{{ 'radio.labels.transfer' | transloco }}</span>
+              </label>
+            </div>
+          </fieldset>
+        </kui-field>
+      </div>
+
+      <fieldset class="radio-states__fieldset">
+        <legend kuiText variant="body">
+          {{ 'radio.groups.standaloneInvalid' | transloco }}
+        </legend>
+
+        <div class="radio-states__options">
+          <label class="radio-option">
+            <input
+              kuiRadio
+              type="radio"
+              name="radio-standalone-invalid"
+              id="radio-invalid-card"
+              value="card"
+              invalid
+            />
+            <span kuiText>{{ 'radio.labels.card' | transloco }}</span>
+          </label>
+
+          <label class="radio-option">
+            <input
+              kuiRadio
+              type="radio"
+              name="radio-standalone-invalid"
+              id="radio-invalid-transfer"
+              value="transfer"
+              invalid
+            />
+            <span kuiText>{{ 'radio.labels.transfer' | transloco }}</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <kui-field
+        class="radio-states__invalid-field"
+        [hint]="'radio.hints.payment' | transloco"
+        [error]="'radio.errors.paymentRequired' | transloco"
+      >
+        <fieldset class="radio-states__fieldset">
+          <legend kuiText variant="body">{{ 'radio.groups.payment' | transloco }}</legend>
+
+          <div class="radio-states__options">
+            <label class="radio-option">
+              <input
+                kuiRadio
+                type="radio"
+                name="radio-field-invalid"
+                id="radio-field-invalid-card"
+                value="card"
+                required
+              />
+              <span kuiText>{{ 'radio.labels.card' | transloco }}</span>
+            </label>
+
+            <label class="radio-option">
+              <input
+                kuiRadio
+                type="radio"
+                name="radio-field-invalid"
+                id="radio-field-invalid-transfer"
+                value="transfer"
+                required
+              />
+              <span kuiText>{{ 'radio.labels.transfer' | transloco }}</span>
+            </label>
+          </div>
+        </fieldset>
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+</section>

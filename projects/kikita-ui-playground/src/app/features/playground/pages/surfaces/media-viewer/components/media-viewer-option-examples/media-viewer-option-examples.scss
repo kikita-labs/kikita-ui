@@ -1,0 +1,11 @@
+@layer app.components {
+  .media-viewer-option-examples__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-2);
+  }
+
+  .media-viewer-option-examples__status {
+    margin: var(--kui-space-3) 0 0;
+  }
+}

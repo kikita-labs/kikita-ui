@@ -1,0 +1,29 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .number-input-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .number-input-playground h1 {
+    margin: 0;
+  }
+
+  .number-input-playground__cards {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  @media (width < 48rem) {
+    .number-input-playground {
+      padding: var(--kui-space-6);
+    }
+  }
+}

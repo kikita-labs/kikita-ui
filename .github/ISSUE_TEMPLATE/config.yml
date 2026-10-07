@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://kikita-labs.github.io/kikita-ui-docs/
+    about: Check the component pages, examples and migration guide first.
+  - name: Report a security vulnerability
+    url: https://github.com/kikita-labs/kikita-ui/security/advisories/new
+    about: Report vulnerabilities privately, not as a public issue.

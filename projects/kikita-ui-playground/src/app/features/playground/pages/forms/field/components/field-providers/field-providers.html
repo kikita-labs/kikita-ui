@@ -1,0 +1,21 @@
+<section role="group" [attr.aria-label]="'field.accessibility.providers' | transloco">
+  <app-playground-example-card [heading]="'field.examples.providers' | transloco">
+    <div class="field-providers__examples">
+      <kui-field
+        [label]="'field.fields.providerDefault' | transloco"
+        [error]="'field.errors.providerHidden' | transloco"
+      >
+        <input kuiInput type="text" [placeholder]="'field.placeholders.value' | transloco" />
+      </kui-field>
+
+      <kui-field
+        size="lg"
+        [label]="'field.fields.providerOverride' | transloco"
+        [error]="'field.errors.providerVisible' | transloco"
+        [hideErrors]="false"
+      >
+        <input kuiInput type="text" [placeholder]="'field.placeholders.value' | transloco" />
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+</section>

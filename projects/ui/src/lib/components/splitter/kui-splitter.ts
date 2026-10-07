@@ -1,0 +1,370 @@
+import type { ComponentRef } from '@angular/core';
+import {
+  afterNextRender,
+  booleanAttribute,
+  Component,
+  computed,
+  contentChildren,
+  DestroyRef,
+  effect,
+  ElementRef,
+  inject,
+  Injector,
+  input,
+  output,
+  Renderer2,
+  signal,
+  ViewContainerRef,
+  ViewEncapsulation,
+} from '@angular/core';
+
+import { KuiDefaults } from '../../providers/kui-defaults';
+import type { KuiSplitterCollapseTarget, KuiSplitterContext } from './kui-splitter-context.token';
+import { KUI_SPLITTER_CONTEXT } from './kui-splitter-context.token';
+import { KuiSplitterGutter } from './kui-splitter-gutter';
+import type { KuiSplitterOrientation } from './kui-splitter-orientation.type';
+import { KuiSplitterPane } from './kui-splitter-pane';
+
+const DEFAULT_GUTTER_PX = 8;
+const ARROW_STEP = 2;
+const ARROW_STEP_LARGE = 10;
+
+/**
+ * Resizable layout with two or more projected panes and generated adjacent gutters.
+ * Pointer and keyboard resizing follow the ARIA Window Splitter pattern. Pane
+ * percentages account for gutter width within this splitter's immediate container.
+ * Gutters are inserted only afterNextRender: earlier insertion changes the server
+ * DOM shape before hydration and causes NG0500. Pane sizing runs on both platforms.
+ * Custom projected thumbs are unsupported. See docs/splitter.md.
+ *
+ * @example
+ * ```html
+ * <kui-splitter orientation="horizontal" (sizesChange)="onResize($event)">
+ *   <kui-splitter-pane size="30" [minSize]="15" [collapsible]="true">
+ *     <app-file-tree />
+ *   </kui-splitter-pane>
+ *   <kui-splitter-pane size="70" [minSize]="30">
+ *     <app-editor />
+ *   </kui-splitter-pane>
+ * </kui-splitter>
+ * ```
+ */
+@Component({
+  selector: 'kui-splitter',
+  template: `<ng-content />`,
+  host: {
+    class: 'kui-splitter',
+    '[attr.data-kui-orientation]': 'effectiveOrientation()',
+    '[attr.data-kui-disabled]': 'disabled() ? "" : null',
+  },
+  providers: [
+    {
+      provide: KUI_SPLITTER_CONTEXT,
+      useFactory: () => inject(KuiSplitter),
+    },
+  ],
+  encapsulation: ViewEncapsulation.None,
+})
+/** Multi-pane resizable layout. See the class-level example above. */
+export class KuiSplitter implements KuiSplitterContext {
+  /** Panel layout direction. Defaults to `defaults.splitter.orientation`, then `horizontal`. */
+  readonly orientation = input<KuiSplitterOrientation | undefined>();
+
+  private readonly splitterDefaults = inject(KuiDefaults).get('splitter');
+
+  /** @internal Orientation after the local input and defaults, read by the gutters through the context. */
+  readonly effectiveOrientation = computed(
+    () => this.orientation() ?? this.splitterDefaults()?.orientation ?? 'horizontal',
+  );
+
+  /** Disables every gutter: removed from tab order and ignores drag. Defaults to `false`. */
+  readonly disabled = input(false, { transform: booleanAttribute });
+
+  /** Emits the full sizes array (percentages) on every drag or keyboard resize. */
+  readonly sizesChange = output<readonly number[]>();
+
+  readonly panes = contentChildren(KuiSplitterPane);
+
+  private readonly viewContainerRef = inject(ViewContainerRef);
+  private readonly renderer = inject(Renderer2);
+  private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  /**
+   * `inject(ViewContainerRef)` in a component constructor anchors on the component's own position
+   * in its *parent's* view, not inside its own element injector -- creating the gutter through it
+   * without an explicit injector would build the gutter's injector chain from the splitter's
+   * parent, never seeing `KUI_SPLITTER_CONTEXT` from this component's own `providers`. Passing this
+   * (this component's own local injector) to `createComponent` fixes that.
+   */
+  private readonly injector = inject(Injector);
+  private readonly destroyRef = inject(DestroyRef);
+
+  readonly sizes = signal<readonly number[]>([]);
+  readonly draggingIndex = signal<number | null>(null);
+
+  private gutterRefs: ComponentRef<KuiSplitterGutter>[] = [];
+  private lastSizesPaneCount = -1;
+  private lastGutterPaneCount = -1;
+  private canManageGutters = false;
+  private readonly collapsedSet = signal<ReadonlySet<number>>(new Set());
+  private readonly prevSizeBeforeCollapse = new Map<number, number>();
+  private dragStartSizes: readonly number[] = [];
+  private dragStartClientPos = 0;
+  private dragAvailablePx = 0;
+
+  constructor() {
+    // Runs on both server and client so panes have correct flex-basis before hydration -- see the
+    // class-level doc comment for why gutter creation itself is deferred separately below.
+    effect(() => {
+      const panes = this.panes();
+      if (panes.length === this.lastSizesPaneCount) return;
+      this.lastSizesPaneCount = panes.length;
+      this.sizes.set(this.computeInitialSizes(panes));
+    });
+
+    afterNextRender(() => {
+      this.canManageGutters = true;
+      this.syncGutters(this.panes());
+    });
+
+    effect(() => {
+      const panes = this.panes();
+      if (!this.canManageGutters || panes.length === this.lastGutterPaneCount) return;
+      this.syncGutters(panes);
+    });
+
+    effect(() => {
+      const sizes = this.sizes();
+      const panes = this.panes();
+      const gutterCount = Math.max(0, panes.length - 1);
+
+      panes.forEach((pane, i) => {
+        const size = sizes[i] ?? 0;
+        const basis = `calc((100% - ${gutterCount} * var(--kui-splitter-gutter-size)) * ${size / 100})`;
+        const el = pane.elementRef.nativeElement;
+        this.renderer.setStyle(el, 'flex-basis', basis);
+        this.renderer.setStyle(el, 'flex-grow', '0');
+        this.renderer.setStyle(el, 'flex-shrink', '0');
+      });
+    });
+
+    this.destroyRef.onDestroy(() => this.destroyGutters());
+  }
+
+  private syncGutters(panes: readonly KuiSplitterPane[]): void {
+    this.lastGutterPaneCount = panes.length;
+    this.rebuildGutters(panes);
+  }
+
+  sizeOf(paneIndex: number): number {
+    return this.sizes()[paneIndex] ?? 0;
+  }
+
+  minSizeOf(paneIndex: number): number {
+    return this.panes()[paneIndex]?.effectiveMinSize() ?? 0;
+  }
+
+  collapseTargetFor(gutterIndex: number): KuiSplitterCollapseTarget {
+    const panes = this.panes();
+    if (panes.length < 2) return null;
+    if (gutterIndex === 0 && panes[0]?.collapsible()) return 'before';
+    if (gutterIndex === panes.length - 2 && panes[panes.length - 1]?.collapsible()) return 'after';
+    return null;
+  }
+
+  isPaneCollapsed(paneIndex: number): boolean {
+    return this.collapsedSet().has(paneIndex);
+  }
+
+  toggleCollapse(paneIndex: number): void {
+    const panes = this.panes();
+    const pane = panes[paneIndex];
+    const isFirst = paneIndex === 0;
+    const isLast = paneIndex === panes.length - 1;
+    if (!pane?.collapsible() || panes.length < 2 || (!isFirst && !isLast)) return;
+
+    const gutterIndex = isFirst ? 0 : panes.length - 2;
+    const collapsing = !this.collapsedSet().has(paneIndex);
+
+    if (collapsing) {
+      this.prevSizeBeforeCollapse.set(paneIndex, this.sizeOf(paneIndex));
+      if (isFirst) {
+        this.resizeAdjacentPair(gutterIndex, this.minSizeOf(0) - this.sizeOf(0));
+      } else {
+        const rightIndex = gutterIndex + 1;
+        this.resizeAdjacentPair(gutterIndex, this.sizeOf(rightIndex) - this.minSizeOf(rightIndex));
+      }
+    } else {
+      const prev = this.prevSizeBeforeCollapse.get(paneIndex) ?? this.minSizeOf(paneIndex);
+      this.prevSizeBeforeCollapse.delete(paneIndex);
+      if (isFirst) {
+        this.resizeAdjacentPair(gutterIndex, prev - this.sizeOf(0));
+      } else {
+        const rightIndex = gutterIndex + 1;
+        this.resizeAdjacentPair(gutterIndex, this.sizeOf(rightIndex) - prev);
+      }
+    }
+
+    this.collapsedSet.update((set) => {
+      const next = new Set(set);
+      if (collapsing) next.add(paneIndex);
+      else next.delete(paneIndex);
+      return next;
+    });
+  }
+
+  onGutterPointerDown(gutterIndex: number, event: PointerEvent): void {
+    if (this.disabled()) return;
+
+    this.dragStartSizes = [...this.sizes()];
+    this.dragStartClientPos =
+      this.effectiveOrientation() === 'horizontal' ? event.clientX : event.clientY;
+    this.dragAvailablePx = this.measureAvailablePx();
+    this.draggingIndex.set(gutterIndex);
+  }
+
+  onGutterPointerMove(gutterIndex: number, event: PointerEvent): void {
+    if (this.draggingIndex() !== gutterIndex || this.dragAvailablePx <= 0) return;
+
+    const pos = this.effectiveOrientation() === 'horizontal' ? event.clientX : event.clientY;
+    const deltaPx = pos - this.dragStartClientPos;
+    const deltaPercent = (deltaPx / this.dragAvailablePx) * 100;
+    this.applyDeltaFromDragStart(gutterIndex, deltaPercent);
+  }
+
+  onGutterPointerUp(gutterIndex: number): void {
+    if (this.draggingIndex() !== gutterIndex) return;
+    this.draggingIndex.set(null);
+  }
+
+  onGutterKeyDown(gutterIndex: number, event: KeyboardEvent): void {
+    if (this.disabled()) return;
+
+    const vertical = this.effectiveOrientation() === 'vertical';
+    const decreaseKey = vertical ? 'ArrowUp' : 'ArrowLeft';
+    const increaseKey = vertical ? 'ArrowDown' : 'ArrowRight';
+    const step = event.shiftKey ? ARROW_STEP_LARGE : ARROW_STEP;
+    const rightIndex = gutterIndex + 1;
+
+    switch (event.key) {
+      case decreaseKey:
+        event.preventDefault();
+        this.resizeAdjacentPair(gutterIndex, -step);
+        break;
+      case increaseKey:
+        event.preventDefault();
+        this.resizeAdjacentPair(gutterIndex, step);
+        break;
+      case 'Home':
+        event.preventDefault();
+        this.resizeAdjacentPair(
+          gutterIndex,
+          this.minSizeOf(gutterIndex) - this.sizeOf(gutterIndex),
+        );
+        break;
+      case 'End':
+        event.preventDefault();
+        this.resizeAdjacentPair(gutterIndex, this.sizeOf(rightIndex) - this.minSizeOf(rightIndex));
+        break;
+      case 'Enter': {
+        event.preventDefault();
+        const target = this.collapseTargetFor(gutterIndex);
+        if (target === 'before') this.toggleCollapse(gutterIndex);
+        else if (target === 'after') this.toggleCollapse(rightIndex);
+        break;
+      }
+      case 'Escape':
+        if (this.draggingIndex() === gutterIndex) {
+          event.preventDefault();
+          this.sizes.set([...this.dragStartSizes]);
+          this.draggingIndex.set(null);
+        }
+        break;
+    }
+  }
+
+  private applyDeltaFromDragStart(gutterIndex: number, deltaPercent: number): void {
+    const start = this.dragStartSizes;
+    const left = gutterIndex;
+    const right = gutterIndex + 1;
+    if (start[left] === undefined || start[right] === undefined) return;
+
+    const leftMin = this.minSizeOf(left);
+    const rightMin = this.minSizeOf(right);
+    const delta = Math.min(Math.max(deltaPercent, leftMin - start[left]), start[right] - rightMin);
+
+    const sizes = [...this.sizes()];
+    sizes[left] = start[left] + delta;
+    sizes[right] = start[right] - delta;
+    this.sizes.set(sizes);
+    this.sizesChange.emit(sizes);
+  }
+
+  private resizeAdjacentPair(gutterIndex: number, requestedDelta: number): void {
+    const current = this.sizes();
+    const left = gutterIndex;
+    const right = gutterIndex + 1;
+    if (current[left] === undefined || current[right] === undefined) return;
+
+    const leftMin = this.minSizeOf(left);
+    const rightMin = this.minSizeOf(right);
+    const delta = Math.min(
+      Math.max(requestedDelta, leftMin - current[left]),
+      current[right] - rightMin,
+    );
+    if (delta === 0) return;
+
+    const sizes = [...current];
+    sizes[left] += delta;
+    sizes[right] -= delta;
+    this.sizes.set(sizes);
+    this.sizesChange.emit(sizes);
+  }
+
+  private computeInitialSizes(panes: readonly KuiSplitterPane[]): number[] {
+    const explicit = panes.map((p) => p.size());
+    const explicitSum = explicit.reduce((sum: number, v) => sum + (v ?? 0), 0);
+    const autoCount = explicit.filter((v) => v === undefined).length;
+    const remaining = Math.max(0, 100 - explicitSum);
+    const autoShare = autoCount > 0 ? remaining / autoCount : 0;
+    return explicit.map((v) => v ?? autoShare);
+  }
+
+  private measureAvailablePx(): number {
+    const hostEl = this.hostRef.nativeElement;
+    const total =
+      this.effectiveOrientation() === 'horizontal' ? hostEl.clientWidth : hostEl.clientHeight;
+    const gutterCount = Math.max(0, this.panes().length - 1);
+    const gutterPx = this.resolveGutterSizePx(hostEl);
+    return total - gutterCount * gutterPx;
+  }
+
+  private resolveGutterSizePx(hostEl: HTMLElement): number {
+    const raw = getComputedStyle(hostEl).getPropertyValue('--kui-splitter-gutter-size');
+    const parsed = parseFloat(raw);
+    return Number.isFinite(parsed) ? parsed : DEFAULT_GUTTER_PX;
+  }
+
+  private rebuildGutters(panes: readonly KuiSplitterPane[]): void {
+    this.destroyGutters();
+
+    const hostEl = this.hostRef.nativeElement;
+    for (let i = 0; i < panes.length - 1; i++) {
+      const ref = this.viewContainerRef.createComponent(KuiSplitterGutter, {
+        injector: this.injector,
+      });
+      ref.setInput('index', i);
+      ref.changeDetectorRef.detectChanges();
+      this.renderer.insertBefore(
+        hostEl,
+        ref.location.nativeElement,
+        panes[i + 1].elementRef.nativeElement,
+      );
+      this.gutterRefs.push(ref);
+    }
+  }
+
+  private destroyGutters(): void {
+    this.gutterRefs.forEach((ref) => ref.destroy());
+    this.gutterRefs = [];
+  }
+}

@@ -1,0 +1,41 @@
+﻿@layer kui.components {
+  .kui-loader {
+    box-sizing: border-box;
+    display: inline-block;
+    flex-shrink: 0;
+    inline-size: var(--kui-loader-size, var(--_kui-loader-size, 20px));
+    block-size: var(--kui-loader-size, var(--_kui-loader-size, 20px));
+    border: var(--kui-loader-border-width, var(--_kui-loader-border-width, 2px)) solid
+      var(--kui-loader-track, var(--kui-color-surface-sunken));
+    border-block-start-color: var(--kui-loader-fill, var(--kui-color-primary-indicator));
+    border-radius: 50%;
+    animation: kui-loader-spin var(--kui-loader-duration, 800ms) linear infinite;
+    vertical-align: middle;
+  }
+
+  .kui-loader[data-kui-size='xs'] {
+    --_kui-loader-size: 14px;
+    --_kui-loader-border-width: 2px;
+  }
+
+  .kui-loader[data-kui-size='sm'] {
+    --_kui-loader-size: 16px;
+  }
+
+  .kui-loader[data-kui-size='lg'] {
+    --_kui-loader-size: 28px;
+    --_kui-loader-border-width: 3px;
+  }
+
+  @keyframes kui-loader-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-loader {
+      animation-duration: var(--kui-loader-duration-reduced);
+    }
+  }
+}

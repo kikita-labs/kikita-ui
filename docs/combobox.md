@@ -10,12 +10,12 @@ not part of Combobox; it belongs to a future input-chip or multi-select primitiv
 
 ```ts
 import {
-  KuiComboboxDirective,
+  KuiCombobox,
   KuiComboboxHighlightPipe,
-  KuiDropdownComponent,
-  KuiFieldComponent,
-  KuiOptionDirective,
-  kuiProvideComboboxOptions,
+  KuiDropdown,
+  KuiField,
+  KuiOption,
+  provideKuiDefaults,
 } from '@kikita-labs/ui';
 ```
 
@@ -70,7 +70,8 @@ filteredPeople = computed(() => {
 ```
 
 Inside `kui-field`, Combobox inherits field id, label association, `aria-describedby`,
-invalid state, and field size.
+invalid state, and field size. With Angular Signal Forms, the field gates the required error and
+`aria-invalid` state until the control is touched; selecting a valid option clears that state.
 
 ## API Search
 
@@ -160,25 +161,71 @@ clears the selected value until the user selects a projected `kuiOption`.
 
 ## Provider Defaults
 
-Use `kuiProvideComboboxOptions` for app-wide combobox defaults:
+Use `provideKuiDefaults` (or `provideKikitaUi({ defaults })`) for combobox defaults:
 
 ```ts
 providers: [
-  kuiProvideComboboxOptions({
-    clearable: true,
+  provideKuiDefaults({
+    combobox: { clearable: true },
   }),
 ];
 ```
 
 ```text
-clearable: local input > KUI_COMBOBOX_OPTIONS > KUI_FIELD_OPTIONS > true
+clearable: local input > defaults.combobox > defaults.field > true
 ```
 
 Combobox inherits shared clearable semantics from `KuiFieldControlOptions`. See
 `docs/di-defaults.md` before adding or changing provider defaults.
+
+### Configurable options
+
+`defaults.combobox`:
+
+| Option        | Values         | Description                                                                                                                    |
+| ------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `clearable`   | `boolean`      | When true, field controls with clear affordances show a clear button by default.                                               |
+| `chevronIcon` | `KuiIconGlyph` | Icon of the options toggle. Takes precedence over `defaults.icons.pickerChevron`. See [Structural Icons](structural-icons.md). |
+| `clearIcon`   | `KuiIconGlyph` | Icon of the clear button. Takes precedence over `defaults.icons.clear`. See [Structural Icons](structural-icons.md).           |
 
 ## Tokens
 
 Combobox uses `--kui-combobox-*` variables for suffix affordances, loader, and highlight treatment.
 Field geometry, border, radius, focus ring, invalid state, label, hint, and error rendering come from
 `kui-field` and `kui-input` tokens.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                   | Default                         | Controls                |
+| --------------------------------------- | ------------------------------- | ----------------------- |
+| `--kui-combobox-chevron-color-expanded` | `--kui-color-primary-text`      | Chevron color, expanded |
+| `--kui-combobox-loader-color`           | `--kui-color-primary-indicator` | Loader color            |
+| `--kui-combobox-empty-color`            | `--kui-color-text-secondary`    | Empty color             |
+| `--kui-combobox-loader-track-color`     | `--kui-color-border`            | Loader track color      |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                         | Default              | Controls                                                       |
+| --------------------------------------------- | -------------------- | -------------------------------------------------------------- |
+| `--kui-combobox-loader-radius`                | `--kui-radius-full`  | Loader corner radius                                           |
+| `--kui-combobox-match-label-font-size`        | `--kui-text-sm-size` | Match label font size                                          |
+| `--kui-combobox-empty-padding-block`          | `--kui-space-4`      | Empty padding, block                                           |
+| `--kui-combobox-empty-padding-inline`         | `--kui-space-3`      | Empty padding, inline                                          |
+| `--kui-combobox-empty-font-size`              | `--kui-text-sm-size` | Empty font size                                                |
+| `--kui-combobox-loading-row-gap`              | `--kui-space-2`      | Loading row gap                                                |
+| `--kui-combobox-padding-inline-end`           | `34px`               | Input end padding that clears the chevron                      |
+| `--kui-combobox-padding-inline-end-clearable` | `56px`               | Input end padding that clears the clear button and the chevron |
+
+<!-- geometry-tokens:end -->

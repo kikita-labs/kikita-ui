@@ -1,0 +1,32 @@
+@for (char of cells(); track $index) {
+  <input
+    kuiInput
+    #cellEl
+    [id]="cellId($index)"
+    [type]="effectiveMask() ? 'password' : 'text'"
+    [attr.inputmode]="effectiveIntegerOnly() ? 'numeric' : 'text'"
+    [attr.autocomplete]="$index === 0 ? 'one-time-code' : 'off'"
+    [attr.maxlength]="1"
+    [attr.aria-label]="cellLabel($index)"
+    [required]="$index === 0 && isRequired()"
+    class="kui-otp-input__cell"
+    [size]="effectiveSize()"
+    [invalid]="effectiveInvalid()"
+    [disabled]="disabled() || loading()"
+    [readOnly]="readonly()"
+    [value]="char"
+    (input)="onCellInput($index, $event)"
+    (keydown)="onCellKeydown($index, $event)"
+    (paste)="onCellPaste($event)"
+    (focus)="onCellFocus($event)"
+    (mouseup)="$event.preventDefault()"
+  />
+}
+@if (loading()) {
+  <span
+    kuiLoader
+    [size]="effectiveSize()"
+    class="kui-otp-input__loader"
+    [label]="t().verifying"
+  ></span>
+}

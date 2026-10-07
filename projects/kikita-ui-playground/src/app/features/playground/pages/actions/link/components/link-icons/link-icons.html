@@ -1,0 +1,32 @@
+<app-playground-example-card [heading]="'link.examples.icons' | transloco">
+  <div
+    class="link-icons__examples"
+    role="group"
+    [attr.aria-label]="'link.accessibility.icons' | transloco"
+  >
+    <a kuiLink href="/components/link#link-playground-title" iconStart="download">
+      {{ 'link.labels.iconStart' | transloco }}
+    </a>
+
+    <a kuiLink href="/components/link#link-playground-title" iconEnd="arrow-right">
+      {{ 'link.labels.iconEnd' | transloco }}
+    </a>
+
+    <a
+      kuiLink
+      href="/components/link#link-playground-title"
+      iconStart="download"
+      iconEnd="arrow-right"
+    >
+      {{ 'link.labels.iconBoth' | transloco }}
+    </a>
+
+    <button kuiLink type="button" iconStart="download">
+      {{ 'link.labels.iconButtonStart' | transloco }}
+    </button>
+
+    <button kuiLink type="button" iconEnd="arrow-right">
+      {{ 'link.labels.iconButtonEnd' | transloco }}
+    </button>
+  </div>
+</app-playground-example-card>

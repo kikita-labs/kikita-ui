@@ -1,0 +1,58 @@
+{
+  "title": "Menu",
+  "examples": {
+    "default": "Default",
+    "placement": "Placement",
+    "spacing": "Alignment and spacing",
+    "content": "Content and states"
+  },
+  "placements": {
+    "bottomStart": "Bottom start",
+    "bottomEnd": "Bottom end",
+    "topStart": "Top start",
+    "topEnd": "Top end",
+    "leftStart": "Left start",
+    "leftEnd": "Left end",
+    "rightStart": "Right start",
+    "rightEnd": "Right end"
+  },
+  "alignment": {
+    "start": "Start",
+    "end": "End"
+  },
+  "spacing": {
+    "zeroOffset": "Zero offset",
+    "wideOffset": "12 px offset",
+    "minWidth": "220 px minimum"
+  },
+  "triggers": {
+    "actions": "Actions",
+    "rowActions": "Row actions"
+  },
+  "actions": {
+    "edit": "Edit",
+    "copy": "Copy",
+    "openItem": "Open item",
+    "rename": "Rename",
+    "copyLink": "Copy link",
+    "projectDetails": "Project details",
+    "archive": "Archive",
+    "delete": "Delete",
+    "disabledLink": "Unavailable link"
+  },
+  "content": {
+    "project": "Project"
+  },
+  "messages": {
+    "editActivated": "Edit action activated",
+    "copyActivated": "Copy action activated"
+  },
+  "accessibility": {
+    "defaultGroup": "Default action menu example",
+    "placements": "Menu placement examples",
+    "placementMenu": "Placement actions",
+    "positionedMenu": "Positioned actions",
+    "spacing": "Menu alignment and spacing examples",
+    "content": "Menu content and states example"
+  }
+}

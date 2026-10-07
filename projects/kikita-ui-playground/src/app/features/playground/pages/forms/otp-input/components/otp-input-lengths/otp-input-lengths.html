@@ -1,0 +1,15 @@
+<app-playground-example-card [heading]="'otpInput.examples.lengths' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'otpInput.accessibility.lengths' | transloco"
+    class="otp-input-lengths__items"
+  >
+    @for (length of lengths; track length.value) {
+      <div class="otp-input-lengths__item">
+        <p kuiText variant="caption">{{ length.label | transloco }}</p>
+
+        <kui-otp-input [length]="length.value" [ariaLabel]="length.label | transloco" />
+      </div>
+    }
+  </div>
+</app-playground-example-card>

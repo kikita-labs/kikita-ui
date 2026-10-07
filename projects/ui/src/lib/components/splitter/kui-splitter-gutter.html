@@ -1,0 +1,42 @@
+<div
+  #separator
+  class="kui-splitter-gutter__separator"
+  role="separator"
+  [attr.aria-orientation]="ariaOrientation()"
+  [attr.aria-valuenow]="ariaValueNow()"
+  [attr.aria-valuemin]="ariaValueMin()"
+  [attr.aria-valuemax]="ariaValueMax()"
+  [attr.aria-controls]="beforePaneId()"
+  [attr.aria-disabled]="disabled() ? 'true' : null"
+  [attr.tabindex]="disabled() ? -1 : 0"
+  (pointerdown)="onPointerDown($event)"
+  (pointermove)="onPointerMove($event)"
+  (pointerup)="onPointerUp()"
+  (lostpointercapture)="onPointerUp()"
+  (contextmenu)="$event.preventDefault()"
+  (keydown)="onKeyDown($event)"
+>
+  <div aria-hidden="true" class="kui-splitter-gutter__line"></div>
+  @if (collapseTarget() === null) {
+    <div aria-hidden="true" class="kui-splitter-gutter__thumb"></div>
+  }
+</div>
+@if (collapseTarget() !== null) {
+  <!-- A sibling of the separator, not a child: a focusable separator must not contain a control. -->
+  <button
+    type="button"
+    class="kui-splitter-gutter__thumb-btn"
+    tabindex="-1"
+    [attr.aria-label]="collapseLabel()"
+    (click)="onCollapseClick()"
+  >
+    <svg
+      width="10"
+      height="10"
+      style="transform-origin: center"
+      [kuiGlyph]="chevronGlyph"
+      [kuiGlyphStroke]="2.5"
+      [style.transform]="chevronTransform()"
+    ></svg>
+  </button>
+}

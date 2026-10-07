@@ -10,7 +10,7 @@ Chip is different from Badge:
 ## Import
 
 ```ts
-import { KuiChipDirective, KuiChipRemoveDirective } from '@kikita-labs/ui';
+import { KuiChip, KuiChipRemove } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:
@@ -53,8 +53,8 @@ of its own: project whatever content you want as the button's children, for exam
 </span>
 ```
 
-`kuiIconButton` is its own directive; import `KuiIconButtonDirective` alongside
-`KuiChipDirective`/`KuiChipRemoveDirective` to use this pattern. See [Icon
+`kuiIconButton` is its own directive; import `KuiIconButton` alongside
+`KuiChip`/`KuiChipRemove` to use this pattern. See [Icon
 Button](icon-button.md).
 
 Do not combine `removable` and a projected `button[kuiChipRemove]` on the same chip —
@@ -76,6 +76,37 @@ pick one.
 | Output    | Type   | Notes                                                                               |
 | --------- | ------ | ----------------------------------------------------------------------------------- |
 | `removed` | `void` | Emitted when the `removable` button or a nested `button[kuiChipRemove]` is clicked. |
+
+## Provider Defaults
+
+Set `defaults.chip` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    chip: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    chip: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option       | Values                         | Description                                                                                                            |
+| ------------ | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`.                                                      |
+| `removeIcon` | `KuiIconGlyph`                 | Icon of the remove button. Takes precedence over `defaults.icons.remove`. See [Structural Icons](structural-icons.md). |
+
+Each option resolves as `local input > defaults.chip.<option> > built-in default`. See [DI defaults](di-defaults.md).
 
 ## Accessibility
 
@@ -107,3 +138,40 @@ Core tokens:
 - `--kui-chip-remove-color`
 - `--kui-chip-remove-color-hover`
 - `--kui-chip-disabled-opacity`
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                | Default                             | Controls                  |
+| ------------------------------------ | ----------------------------------- | ------------------------- |
+| `--kui-chip-bg-primary-hover`        | `--kui-color-primary-soft-bg-hover` | Background, primary hover |
+| `--kui-chip-border-active`           | `--kui-color-border-control-hover`  | Border color, active      |
+| `--kui-chip-border-focus`            | `--kui-color-focus`                 | Border color, focus       |
+| `--kui-chip-border-invalid`          | `--kui-color-danger-indicator`      | Border color, invalid     |
+| `--kui-chip-counter-color`           | `--kui-color-text-secondary`        | Counter color             |
+| `--kui-chip-focus-ring-color`        | `--kui-color-focus`                 | Focus ring color          |
+| `--kui-chip-remove-focus-ring-color` | `--kui-color-focus`                 | Remove focus ring color   |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                     | Default             | Controls                      |
+| ----------------------------------------- | ------------------- | ----------------------------- |
+| `--kui-chip-padding-inline-end-removable` | `--kui-space-1`     | Padding, inline end removable |
+| `--kui-chip-padding-inline-xs`            | `--kui-space-1`     | Padding, inline xs            |
+| `--kui-chip-padding-inline-sm`            | `--kui-space-2`     | Padding, inline sm            |
+| `--kui-chip-padding-inline-lg`            | `--kui-space-3`     | Padding, inline lg            |
+| `--kui-chip-avatar-radius`                | `--kui-radius-full` | Avatar corner radius          |
+| `--kui-chip-counter-padding-inline-sm`    | `--kui-space-2`     | Counter padding, inline sm    |
+
+<!-- geometry-tokens:end -->

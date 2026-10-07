@@ -1,0 +1,30 @@
+# Progress Log
+
+Keep this short and current. Update it when a work session ends or a milestone lands —
+not after every commit.
+
+## Status
+
+| Date       | Area                          | Status | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ---------- | ----------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-22 | Project scaffolding           | Done   | Angular SSR shell, Transloco root catalogues, Vitest, and Playwright verification are wired.                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| 2026-09-23 | Playground shell              | Done   | Docs-matched KUI header/palette/sidebar, independent shell scroll regions, direct component routes, and 320px/tablet layout checks are implemented. Component-specific demos remain future work.                                                                                                                                                                                                                                                                                                                                                            |
+| 2026-09-23 | Component page foundation     | Done   | Agreed the component-page authoring contract and built the reusable Playground example card with Kikita UI primitives.                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| 2026-09-23 | Button page pilot             | Done   | Added the lazy Button route, scoped EN/RU catalogues, the full variant matrix, state/composition examples, shell-owned scrolling, SSR/browser checks, and visual baselines.                                                                                                                                                                                                                                                                                                                                                                                 |
+| 2026-09-24 | Existing component-page audit | Done   | Audited Button, Icon Button, Menu, Command Palette, Calendar, Checkbox, Color Input, and Combobox; added actual focus/interaction evidence. Checkbox focus now appears on direct and sidebar navigation.                                                                                                                                                                                                                                                                                                                                                    |
+| 2026-09-29 | Remaining component pages     | Done   | All 43 catalogued routes have distinct page-only commits. Final pushed gate at `9b5b4c2`: library unit 678/678, Playground unit 5/5, Playground browser 498/498, legacy SSR 11/11, legacy browser 51/51; format, lint (0 errors), static audit, script tests 7/7, skills check, and builds passed. Follow-ups fixed deterministic Button icons (`70ce961`), Tree lazy-load timing (`5f241d9`), Select theme readiness (`7c63201`), and Dialog entrance timing before screenshots (`9b5b4c2`). See [component-page-rollout.md](./component-page-rollout.md). |
+
+Status values: `Done`, `In progress`, `Queued`, `Blocked`.
+
+## Current Risks / Open Questions
+
+- `KUI_LOCALE` defaults to `navigator.language`, which Node 21+ also defines, so the server renders date components in the host locale (`ru-RU` here) and the client re-renders after hydration. Library fix or an app-level `provideKuiLocale` needs an owner decision.
+- The client re-downloads Transloco scopes already present in transfer state, so translated text is briefly empty after hydration on every page. `KuiDropdown` copies the trigger text into `aria-label` once on open and never refreshes it.
+- Several specs route Lucide icons locally because `kui-icon` fetches them from a CDN at runtime; other page captures may share that race.
+- `@angular-eslint/template/label-has-associated-control` warns on the Field projected-label example; `kui-field` associates the label at runtime.
+
+## Review Checklist
+
+- [x] Table reflects current reality, not a stale snapshot.
+- [x] Entries are dated (absolute dates, not "yesterday"/"last week").
+- [x] Risks section pruned when resolved, not left growing forever.

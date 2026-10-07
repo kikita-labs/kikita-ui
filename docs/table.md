@@ -8,13 +8,13 @@ a shared DI context while preserving table semantics.
 
 ```ts
 import {
-  KuiCellDirective,
-  KuiRowDirective,
-  KuiSelectCellComponent,
-  KuiSelectThComponent,
-  KuiTableDirective,
-  KuiThDirective,
-  KuiThGroupDirective,
+  KuiCell,
+  KuiRow,
+  KuiSelectCell,
+  KuiSelectTh,
+  KuiTable,
+  KuiTh,
+  KuiThGroup,
 } from '@kikita-labs/ui';
 ```
 
@@ -63,9 +63,9 @@ The `<th>` owns `aria-sort`; the button owns the keyboard and click interaction.
 
 ## Inputs: `tr[kuiRow]`
 
-| Input   | Type | Description                   |
-| ------- | ---- | ----------------------------- |
-| `value` | `T`  | The data object for this row. |
+| Input   | Type             | Description                                                                              |
+| ------- | ---------------- | ---------------------------------------------------------------------------------------- |
+| `value` | `T \| undefined` | Data object used for selected state. Omit it for a presentational row without selection. |
 
 ## Sort
 
@@ -86,7 +86,7 @@ values are tracked internally; `isSelected(value)` returns `boolean`.
 
 The selection column appears only when `(selectionChange)` is observed.
 
-Use `ariaLabel` on selection cells when the row has a human-readable name:
+The selection checkboxes are named by the `table.selectRow` and `table.selectAllRows` messages (`Select row`, `Select all rows`) and the sort buttons by `sortAscending`, `sortDescending` and `clearSort`. Use `ariaLabel` on selection cells when the row has a human-readable name:
 
 ```html
 <th kuiSelectTh ariaLabel="Select all users"></th>
@@ -97,6 +97,36 @@ Use `ariaLabel` on selection cells when the row has a human-readable name:
 
 Add `sticky` to `th[kuiTh]` to pin the header column. Add `sticky` to `td[kuiCell]`
 on matching body cells.
+
+## Provider Defaults
+
+Set `defaults.table` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    table: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    table: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option | Values                         | Description                                                       |
+| ------ | ------------------------------ | ----------------------------------------------------------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`. |
+
+Each option resolves as `local input > defaults.table.<option> > built-in default`. See [DI defaults](di-defaults.md).
 
 ## Accessibility
 
@@ -124,3 +154,39 @@ on matching body cells.
 - `--kui-table-row-selected-accent`
 - `--kui-table-sort-active-color`
 - `--kui-table-bg`
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                           | Default                         | Controls                           |
+| ----------------------------------------------- | ------------------------------- | ---------------------------------- |
+| `--kui-table-color`                             | `--kui-color-text`              | Color                              |
+| `--kui-table-sort-color-hover`                  | `--kui-color-text`              | Sort color, hover                  |
+| `--kui-table-checkbox-border`                   | `--kui-color-border-control`    | Checkbox border color              |
+| `--kui-table-checkbox-border-hover`             | `--kui-color-primary-indicator` | Checkbox border color, hover       |
+| `--kui-table-checkbox-bg-checked`               | `--kui-color-primary-fill`      | Checkbox background, checked       |
+| `--kui-table-checkbox-border-checked`           | `--kui-color-primary-indicator` | Checkbox border color, checked     |
+| `--kui-table-checkbox-mark-color`               | `--kui-color-primary-on-fill`   | Checkbox mark color                |
+| `--kui-table-checkbox-mark-color-indeterminate` | `--kui-color-primary-on-fill`   | Checkbox mark color, indeterminate |
+| `--kui-table-sort-focus-ring-color`             | `--kui-color-focus`             | Sort focus ring color              |
+| `--kui-table-checkbox-focus-ring-color`         | `--kui-color-focus`             | Checkbox focus ring color          |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                | Default               | Controls                     |
+| ------------------------------------ | --------------------- | ---------------------------- |
+| `--kui-table-th-sort-button-radius`  | `--kui-radius-xs`     | Th sort button corner radius |
+| `--kui-table-th-sort-icon-font-size` | `--kui-text-2xs-size` | Th sort icon font size       |
+
+<!-- geometry-tokens:end -->

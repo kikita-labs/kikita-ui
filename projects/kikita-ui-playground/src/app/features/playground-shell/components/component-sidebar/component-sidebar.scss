@@ -1,0 +1,81 @@
+@layer app.components {
+  .component-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kui-space-4);
+    min-block-size: 0;
+    block-size: 100%;
+    padding: var(--kui-space-5) var(--kui-space-3);
+    overflow: hidden;
+    border-inline-end: 1px solid var(--kui-color-border);
+    background: var(--kui-color-surface);
+  }
+
+  .component-sidebar__catalog {
+    min-block-size: 0;
+    overflow: auto;
+    scrollbar-color: var(--kui-color-border-strong) transparent;
+  }
+
+  .component-list {
+    display: grid;
+    gap: var(--kui-space-1);
+    margin: 0;
+    padding: 0 0 var(--kui-space-2);
+    list-style: none;
+  }
+
+  .component-list__item {
+    display: flex;
+    align-items: center;
+    inline-size: 100%;
+    min-block-size: var(--kui-space-8);
+    gap: var(--kui-space-2);
+    padding-inline: var(--kui-space-3);
+    border: 0;
+    border-radius: var(--kui-radius-sm);
+    background: transparent;
+    color: var(--kui-color-text-secondary);
+    font: inherit;
+    text-align: start;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .component-list__item:hover,
+  .component-list__item:focus-visible {
+    background: var(--kui-color-surface-elevated);
+    color: var(--kui-color-text);
+    outline: 0;
+  }
+
+  .component-list__item:hover .kui-text-muted,
+  .component-list__item:focus-visible .kui-text-muted {
+    color: var(--kui-color-text);
+  }
+
+  .component-list__item:focus-visible {
+    outline: var(--kui-focus-ring-width) solid var(--kui-color-focus);
+    outline-offset: 2px;
+  }
+
+  .component-list__item[aria-current='page'] {
+    background: var(--kui-color-primary-soft-bg);
+    color: var(--kui-color-primary-soft-text);
+    font-weight: 600;
+  }
+
+  .component-list__empty,
+  .component-sidebar__empty {
+    margin: 0;
+    padding: var(--kui-space-2) var(--kui-space-3);
+  }
+
+  @media (width < 48rem) {
+    .component-sidebar {
+      border-inline-end: 0;
+      border-block-end: 1px solid var(--kui-color-border);
+      padding: var(--kui-space-4);
+    }
+  }
+}

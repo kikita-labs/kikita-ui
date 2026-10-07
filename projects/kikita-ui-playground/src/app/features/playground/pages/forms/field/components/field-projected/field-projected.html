@@ -1,0 +1,10 @@
+<section role="group" [attr.aria-label]="'field.accessibility.projected' | transloco">
+  <app-playground-example-card [heading]="'field.examples.projected' | transloco">
+    <kui-field required>
+      <label kuiLabel>{{ 'field.fields.domain' | transloco }}</label>
+      <input kuiInput type="text" [placeholder]="'field.placeholders.domain' | transloco" />
+      <p kuiHint>{{ 'field.hints.domain' | transloco }}</p>
+      <p kuiError>{{ 'field.errors.domain' | transloco }}</p>
+    </kui-field>
+  </app-playground-example-card>
+</section>

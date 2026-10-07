@@ -1,0 +1,24 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .slider-states__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .slider-states__explicit-invalid label {
+    display: inline-flex;
+    margin-block-end: var(--kui-space-1);
+  }
+
+  .slider-states__control-row {
+    display: grid;
+    align-items: center;
+    min-block-size: var(--kui-control-height-lg, 44px);
+  }
+}

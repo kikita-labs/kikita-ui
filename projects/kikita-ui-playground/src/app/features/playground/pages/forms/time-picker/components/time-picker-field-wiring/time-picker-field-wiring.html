@@ -1,0 +1,26 @@
+<section role="group" [attr.aria-label]="'timePicker.accessibility.fieldWiring' | transloco">
+  <app-playground-example-card [heading]="'timePicker.examples.fieldWiring' | transloco">
+    <div class="time-picker-grid">
+      <kui-field
+        [label]="'timePicker.fields.deliveryTime' | transloco"
+        [hint]="'timePicker.hints.deliveryTime' | transloco"
+        [required]="true"
+      >
+        <input kuiTimePicker [(value)]="deliveryTime" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field
+        [label]="'timePicker.fields.typedTime' | transloco"
+        [hint]="'timePicker.hints.typedTime' | transloco"
+      >
+        <input kuiTimePicker [(value)]="typedTime" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+</section>

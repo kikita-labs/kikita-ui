@@ -1,91 +1,64 @@
 # Component Roadmap
 
-## Phase 1
+This register tracks current source scope and unresolved work. Presence in the
+repository does not establish publication or a passing quality gate. See
+[component docs](README.md), [release history](../CHANGELOG.md), and
+[state coverage](state-coverage.md) for contracts and evidence.
 
-- Theme foundation
-- Typography (done as CSS role/tone utility classes plus `kuiText` directive)
-- Icon abstraction (done as `kui-icon`; default Lucide resolver, registry/resolver overrides, named
-  size presets, and numeric/CSS custom sizes)
-- Button
-- IconButton
-- Field (affixes, field actions, input-group focus delegation, and rich messages covered from Claude spec 33)
-- Input
-- Group
-- Playground component board
+## Implemented Source Scope
 
-## Phase 2
+| Historical delivery phase | Scope documented in this repository                                                                                                                               |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1                         | Theme, typography, icons, buttons, field, input, group, playground                                                                                                |
+| 2                         | Signal Forms spike; textarea, checkbox, switch, radio, badge, avatar, loader, skeleton, empty state, tooltip, card, tabs, segmented, table                        |
+| 3                         | Select, dropdown, popover, dialog, confirm, toast, accordion, progress, slider, number input, menu, separator, drawer, chip, combobox, command palette, scrollbar |
+| 4                         | Color input (server-native markup with browser-only picker enhancement), stepper, breadcrumbs                                                                     |
+| 5                         | Calendar, calendar range, single-date picker (four-digit year parsing and inclusive local-day bounds)                                                             |
+| 6                         | Tree                                                                                                                                                              |
+| 7                         | Controlled file upload                                                                                                                                            |
+| 8                         | Alert, OTP input, pagination, time picker, link, media viewer, carousel, splitter                                                                                 |
+| 9                         | Line, bar, scatter/bubble, and donut charts; shared legend and tooltip infrastructure                                                                             |
 
-- Signal Forms integration spike (native `kuiInput` + Angular `[formField]` proven)
-- Textarea (done as `textarea[kuiTextarea]`)
-- Checkbox (done as `input[type=checkbox][kuiCheckbox]`)
-- Switch (done as `input[type=checkbox][kuiSwitch]`)
-- Radio (done as `input[type=radio][kuiRadio]`)
-- Badge (done as `[kuiBadge]`)
-- Avatar (done as `kui-avatar` + `kui-avatar-group`)
-- Loader (done as `[kuiLoader]`)
-- Skeleton (done as `[kuiSkeleton]`)
-- Empty State (done as `kui-empty-state` + projected icon/actions markers)
-- Tooltip (done as `[kuiTooltip]`; adaptive touch tap trigger, configurable through DI and local `triggerType`)
-- Card (done as `[kuiCard]`)
-- Tabs (done as `kui-tabs`)
-- Segmented (done as `kui-segmented`)
-- Table primitives (done as `table[kuiTable]`; deeper static accessibility review completed, browser/AT review pending)
+Phase numbers preserve historical context, not a new execution queue. Detailed
+contracts belong in the matching component documents. Historical implementation
+narratives remain in Git history before the documentation reorganization.
 
-## Phase 3
-
-- Select (done as `input[kuiSelect]` with `kui-dropdown` and `kuiOption`; multiple mode renders field-internal chips with collapsed `+N` overflow and supports `ng-template[kuiSelectValue]`)
-- Dropdown (done as `kui-dropdown` + `[kuiDropdownFor]` + `[kuiOption]`; controlled `open` model;
-  field auto-wiring via `contentChild`; pointer and keyboard option selection)
-- Popover (done as `kui-popover` + `[kuiPopoverFor]`)
-- Dialog (done as `kui-dialog` + dialog service)
-- Confirm (done as `kuiConfirm()` on top of Dialog)
-- Toast (done as toast provider/service + viewport; reactive persistence, ref updates, and service dismissal)
-- Accordion (done as `kui-accordion`)
-- Progress (done as `kui-progress`)
-- Slider (done as `input[type=range][kuiSlider]`; `kui-field` id/ARIA/invalid wiring covered)
-- Number input (done as `input[type=number][kuiNumberInput]`)
-- Menu (done as `kui-menu` + `[kuiMenuFor]` + `button/a[kuiMenuItem]` + `hr[kuiSeparator]`; submenu, checkbox/radio items, and context-menu helper deferred per Claude brief)
-- Separator (done as `hr[kuiSeparator]`; Menu uses the generic separator directly)
-- Drawer (done as `kuiDrawer()` typed CDK overlay with side and size presets)
-- Chip (done as `[kuiChip]` with a `removable` default remove button, plus `button[kuiChipRemove]`
-  as the escape hatch for a fully custom remove control; Select multiselect uses
-  `button[kuiChipRemove]` for selected values)
-- Combobox (done as `input[kuiCombobox]` with projected `kui-dropdown`/`kuiOption`, search output, highlight pipe, free mode, and provider defaults)
-- Command Palette (done as `kui-command-palette`; supports grouped commands, filtering with label highlights, loading skeleton rows, empty state, keyboard navigation, and CDK overlay focus trapping)
-- Scrollbar (done as `.kui-scroll` CSS utility plus internal scroll-container styling for dropdown, dialog, drawer, and command palette)
-
-## Phase 4
-
-- Color Input (done as `input[kuiColorInput]` for the kikita-ui-docs theme playground seed editor; supports hex and OKLCH text entry, swatch preview, chevron trigger, Kikita popover picker, 2D lightness/chroma surface, hue slider, L/C/H inputs, seed presets, copy action, `kui-field` composition, sizes, disabled, readonly, invalid state, and last-valid-color behavior while invalid)
-- Stepper (done as `kui-stepper` + `kui-step`; horizontal/vertical orientation, sm/md/lg sizes, compact dots-only mode, done/current/upcoming/disabled/error states derived from `currentIndex`, clickable done-step back navigation, optional non-linear forward jumps)
-- Breadcrumbs (done as `ol[kuiBreadcrumbs]` + `a|span[kuiBreadcrumbItem]` + `li[kuiBreadcrumbSeparator]`; sm/md/lg sizes, link/plain-text/current crumb variants, leading icon slot, CSS-only truncate/ellipsis/first-last responsive building blocks with overflow-menu wiring left to the consumer)
-
-## Phase 5
-
-- Calendar (done as `kui-calendar`; single/range mode, month/year/decade navigation, keyboard support, `minDate`/`maxDate`/`disabledDates`, `flat` variant, `viewDate`/`showPrevNav`/`showNextNav` for linked-pair layouts, `KUI_LOCALE`-driven month/weekday names via `Intl`; `mode="multiple"` deferred, no concrete use case yet)
-- Date Picker (done as `input[kuiDatePicker]` + `kui-calendar` + `kui-dropdown`; `dd.MM.yyyy` text mask, `minDate`/`maxDate`, `clearable`, Signal Forms control contract; `mode="range"` and a mobile bottom-sheet popover variant are not implemented -- single-date only for now)
-
-## Phase 6
-
-- Tree (done as `kui-tree` + recursive internal `kui-tree-node`; `display` and `checkable` modes,
-  indeterminate checkbox cascading, lazy-loaded children via `loadChildren`, roving-tabindex
-  keyboard navigation with type-ahead; per-node `icon` is limited to the built-in `folder`/`file`
-  glyphs -- a custom icon `TemplateRef` slot and virtualization are not implemented)
-
-## Phase 7
-
-- File Upload (done as `kui-file-upload`; `dropzone` and `compact` variants, `single`/`multiple`
-  mode, client-side `accept`/`maxSize`/`maxCount` validation, drag-and-drop, image thumbnail
-  previews, and a file list with pending/uploading/success/error rows. It is a controlled
-  component -- no upload transport is built in; the consumer drives `status`/`progress` on the
-  two-way `files` model and responds to `(retry)`. Built ahead of the original "wait for a real
-  consumer" gate because a real consumer need now exists.)
-
-## Later
-
-Do not build Charts until a real consumer needs it.
+Chart source measures its container (nominal width only for server rendering), uses
+shape-specific loading skeletons, recomputes donut angles when slices are hidden,
+and tells series apart by shape, pattern and dash. See [Chart](chart.md) for
+current behavior and remaining limits.
 
 ## Known Tech Debt
+
+Command Palette retains consumer-owned required IDs. Development builds diagnose
+invalid and duplicate IDs across groups; the identity contract and focus-reset
+behavior are documented in [Command Palette](command-palette.md).
+
+Scrollbar custom-track research is not a shipped replacement. A Chromium-only
+prototype supports the article's CSS feature combination and falls back in
+forced-colors, but `animation-range` is not Baseline and Firefox/WebKit still
+need verification. Keep native scrollbar styling until a concrete approved
+design need and the complete browser/accessibility matrix justify a separate
+opt-in primitive; see [Scrollbar](scrollbar.md).
+
+Inherited reports below are retained as investigation items. Dates describe the
+original reports, not fresh validation of the current checkout. Reproduce before
+fixing or closing them; record new evidence in state coverage.
+
+- Committed visual-regression baselines for `/button`, `/field`, `/select`, `/dialog`, `/table`,
+  and `/calendar` (the legacy library visual suite) were stale on `release/2.x` as of 2026-09-17 --
+  `pnpm.cmd test:browser` fails all 24 desktop/mobile x light/dark combinations with page-height
+  diffs (confirmed unrelated to the Chart work in this phase: reproduces identically with the
+  Chart playground nav entry reverted). Needs its own investigation (likely accumulated layout
+  drift from unrelated changes) and a baseline re-record, not a quick patch.
+  **Not reproduced 2026-09-29:** at `d640ed9` all 24 of these combinations passed against a fresh
+  build, before and after the Plan 11 harness change (see the evidence row in state coverage).
+  The report is kept as history; it no longer describes the current checkout. The legacy suite
+  and its 24 baselines were retired with the legacy Playground on 2026-10-01 (Plan 10.2 Phase B).
+
+- ~~`KuiTooltip`'s hover/focus display mode is not fully WCAG 1.4.13~~ Done 2026-10-05 (Plan 24): the
+  shared tooltip surface is hoverable, `Escape` dismisses it without moving focus, and it stays until
+  hover or focus ends, for every `[kuiTooltip]` consumer and for the Chart.
 
 - ~~`kui-dropdown` injects `NgZone`...~~ Done 2026-07-10: removed `NgZone` from `kui-dropdown`,
   `kui-menu`, `kui-popover`, and the shared `wireFloatingPanelDismissal`/`kui-floating-panel.util`
@@ -100,14 +73,43 @@ Do not build Charts until a real consumer needs it.
   intentional public extension points, and confirmed config/data `readonly` usage should protect
   library-owned immutable data without restricting consumer-owned mutable models.
 
-- DI defaults audit before `1.0.0`: root `provideKikitaUi({ defaults.size })` now drives public
-  size-enabled primitives when local size inputs are omitted. Components with narrower size unions
-  apply only supported root values. `kui-icon` is excluded because its `size` is a raw CSS/icon
-  size, not a Kikita control-size preset. `kuiProvideButtonOptions` is the only new
-  component-specific default provider because button shape/appearance defaults are a repeated
-  design-system decision. Field-control clearability is shared through `KuiFieldControlOptions`.
-  Do not add provider defaults for every component input; evaluate future candidates from real
-  consumer repetition first.
+- DI defaults (v2, Plan 17): every primitive with a preference shared across instances has a key
+  in `KuiComponentDefaults`, set through `provideKikitaUi({ defaults })` or `provideKuiDefaults`.
+  Levels merge per component key and per property, every property accepts a plain value or a
+  `Signal`, and `KuiDefaults` reads and changes them at runtime. Data, instance state, forms state,
+  accessible names and library message text are not defaults. `kui-icon`, `kui-command-palette`
+  and `kui-media-viewer` have no key: icon size is a raw CSS size, and the other two only expose
+  message text or data. See [DI defaults](di-defaults.md). Every read of a key follows runtime
+  changes, except options read when an overlay opens or a tooltip shows (verified in Plan 18, 2026-10-03).
+- Internationalization (v2, Plan 21): the library's own text lives in one typed map, `KuiMessages` (29
+  groups, 153 messages, English pack `KUI_ENGLISH_MESSAGES`), overridden for the app
+  (`provideKikitaUi({ messages })`), a subtree (`provideKuiMessages`) or an instance (the `messages`
+  input of the ten larger components, or the existing label inputs), and switchable at runtime by
+  passing a `Signal`. The formatting locale (`KuiI18n.locale`) is independent: calendar names, week
+  start and weekend, date and time layouts, numbers, units and plural rules all come from `Intl` with
+  the Gregorian calendar and Latin digits. See [Internationalization](i18n.md). Deferred by decision:
+  right-to-left layouts, native numerals and non-Gregorian calendars (v2 limits); language packs
+  other than English ship with applications or community packages, the Playground carries a Russian
+  reference pack in its catalogues.
+- Structural icons (v2, Plan 20): the glyphs components draw for themselves are icon data replaceable per
+  role (`defaults.icons`) or per component slot, drawn through an allowlist renderer that is
+  synchronous, SSR-safe and forced-colors-safe; `--kui-icon-stroke-width` and
+  `--kui-icon-vector-effect` control the line of structural and stroke-based `kui-icon` icons. The
+  default Lucide set is read at a pinned version and converted to the same data. Glyphs without a role
+  (calendar, clock, search, zoom, play, pause, copy, file, folder, upload) follow the stroke tokens but
+  have no override slot yet. See [Structural Icons](structural-icons.md).
+
+- Field wiring and focus (v2, Plan 19): the host id, invalid state, `aria-describedby` and
+  `aria-required` of the native controls now come from one internal helper
+  (`createKuiFieldWiring`, `utils/kui-field-control-wiring.util.ts`) instead of nine copies;
+  `kui-field` exposes its merged required state as `aria-required` on every control whose role supports
+  it (single Radio and Slider are documented exceptions, see [Field](field.md)). `kuiAutoFocus`
+  ([Auto Focus](auto-focus.md)) replaces the private focus code of OTP Input and the Command Palette.
+  `kui-otp-input` and `kui-segmented` implement `focus()` so Signal Forms `focusBoundControl()` reaches
+  them, and a static-audit rule keeps every Signal Forms control spelling the contract members exactly.
+  Remaining decorator uses outside the signal-first rule are tracked for Plan 22: eleven
+  `@HostListener` (Chip remove, Input Group, Menu For, Popover For, Slider) and one `@ViewChild`
+  (Segmented thumb).
 
 - ESLint is enabled for the library and playground. The gate fails on hard errors and reports
   warnings for current architecture/accessibility debt that needs focused follow-up before those
@@ -120,56 +122,49 @@ Do not build Charts until a real consumer needs it.
   `@angular/common`, `@angular/compiler`, `@angular/core`, and `@angular/platform-browser` at
   `22.0.7`, while the lockfile has `22.0.1` for those packages.
 
-## Install DX
+- Browser test gaps found while building the shared harness (Plan 11, 2026-09-29/30). Full list with
+  owners is in [browser test coverage](browser-test-coverage.md#known-gaps-and-owners). Decisions of
+  2026-09-30, recorded in the local v2 plan:
+  - The ten primitives without a replacement Playground page (Alert, Calendar Range, Carousel, Link,
+    Media Viewer, OTP Input, Pagination, Splitter, Time Picker, Typography) now have pages (Plan 10.2,
+    2026-09-30). The legacy Playground was retired on 2026-10-01 (Plan 10.2 Phase B; see
+    [browser test coverage](browser-test-coverage.md#legacy-playground-retirement-plan-102-phase-b)).
+  - Automated axe violations (Calendar, Calendar Range, Splitter, Menu, File Upload and many library
+    demo pages; exact rule ids are asserted per route) and the Time Picker Escape-focus defect belong
+    to a separate accessibility follow-up after Plan 10.2.
+  - `kui-field` `required` exposure to assistive technology is added to Plan 19B and done (2026-10-03).
+  - Default Lucide icons depending on the jsDelivr CDN is added to Plan 20 and done (2026-10-03): pinned version, allowlist conversion, documented network need; the CDN stays the zero-setup default for content icons by name.
+  - Re-enabling the axe `color-contrast` rule is added to Plan 14 and done (2026-10-02).
+  - Hydration-readiness marker and orphan-dialog behavior are added to Plan 12. Both are decided: no marker, and a dialog outlives its opener (`docs/ssr-lifecycle-register.md`). The server locale now follows the request `Accept-Language` and is transferred to the browser.
 
-Angular schematic support is implemented and verified against a fresh Angular
-consumer app:
+## Deferred Feature Scope
 
-- `ng add @kikita-labs/ui`
-- add `node_modules/@kikita-labs/ui/styles/kikita-ui.css` to the consumer app
-- add `provideKikitaUi()` to `app.config.ts`
-- optionally scaffold default Ember theme seeds with `--theme`
-- verified with a local tarball in a fresh Angular 22 app outside this workspace
+These remain explicit scope limits, not automatic release blockers:
 
-Initial install documentation lives in `docs/install.md`.
+- Date Picker range mode and mobile bottom-sheet presentation.
+- File Upload Signal Forms integration; upload transport remains consumer-owned.
+- Menu submenus, checkbox/radio items, and context-menu helper.
+- Tree custom icon template slot and virtualization.
+- Calendar multiple-date selection; single and range selection are separate primitives.
+- Configurable donut center/geometry, and a real screen-reader and Windows forced-colours pass for
+  Chart; see [known gaps](chart.md#known-gaps).
+- Right-to-left layout and direction-aware keyboard behavior: unsupported in v2. No primitive reads
+  the document direction, so arrow-key direction in Tabs, Slider, Segmented, Tree and Splitter follows
+  left-to-right order. The browser suite only checks that an RTL document does not overflow.
 
-Docs pages exist for implemented primitives through Scrollbar. A full static component audit has been run across implemented primitives for docs presence, JSDoc coverage, public style entrypoint coverage, Cyrillic leakage, overlay/CDK usage, and obvious SSR DOM access. Initial browser snapshot review has been run for Table, Select, Dialog, Popover, Dropdown, Toast, Accordion, Progress, Slider, Number Input, Combobox, and Scrollbar. Committed visual regression baselines now cover representative stable routes; assistive-technology review recording is still pending.
+Move an item into active delivery when a concrete consumer requirement warrants
+it, and update the component contract and state coverage together.
 
-## Post-1.0 Feature Scope
+## Consumer Verification
 
-These gaps are intentionally deferred from `1.0.0` because the current public APIs and docs do not
-promise them:
+The initial installation and browser reviews are historical reports, not fresh
+certification of this checkout. Follow [installation](install.md) and the
+[release gate](release.md) to verify the exact built package in a fresh consumer.
 
-- Date Picker range mode and mobile bottom-sheet popover. Ship `1.0.0` as single-date only.
-- File Upload Signal Forms control contract. Ship `1.0.0` as a controlled component with two-way
-  `files`; add forms integration when a consumer workflow requires it.
-- Menu submenu, checkbox/radio items, and context-menu helper. Ship `1.0.0` with basic menu
-  actions, grouping, separators, disabled/destructive states, and trigger positioning.
-- Tree custom icon template slot and virtualization. Ship `1.0.0` with built-in file/folder/no-icon
-  states and lazy loading, without virtual scrolling guarantees.
-- Calendar multiple selection mode. Ship `1.0.0` with single/range modes only.
-
-If one of these becomes a real consumer blocker before release, move that item back into a
-pre-1.0 fix list and update `docs/state-coverage.md` with the changed decision.
-
-## Consumer Migration Gate
-
-Keep this as the final gate of the current plan. Do not integrate Kikita UI into
-an existing Taiga UI surface until the package install flow, browser review, and
-accessibility review are stable.
-
-Before migrating `discord-bot` screens, Kikita UI should reach a coherent MVP:
-
-- Phase 1 is published privately.
-- Signal Forms direction is proven.
-- Textarea, Checkbox, Switch, and Radio exist.
-- Badge, Loader, and Card exist.
-- Playground covers tokens, theme, states, forms, density, light/dark, and mobile checks.
-- Public docs and JSDoc exist for exported primitives.
-- Install DX is verified against a fresh Angular app.
-- Browser and assistive-technology review is complete for overlay and table primitives.
-
-Current primitive state coverage is tracked in `docs/state-coverage.md`.
-
-After that, migrate one isolated low-risk screen first. Avoid mixed Taiga/Kikita
-surfaces unless the screen is explicitly a migration sandbox.
+The original Taiga UI migration pilot remains a separate consumer project.
+Before migrating a screen, verify package installation, Signal Forms integration,
+public docs, keyboard/overlay/table behavior, responsive layouts, and relevant
+assistive-technology evidence for the version being installed. Start with one
+isolated low-risk screen; avoid mixed surfaces outside an explicit migration
+sandbox. This history does not make that consumer migration a v2 package release
+requirement.

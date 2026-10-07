@@ -1,0 +1,55 @@
+import type { TableMember } from '../interfaces';
+
+/** Stable rows shared by the Table examples. */
+export const TABLE_MEMBERS: TableMember[] = [
+  {
+    id: 'member-priya',
+    email: 'priya.rao@example.test',
+    nameKey: 'table.members.priya',
+    roleKey: 'table.roles.support',
+    departmentKey: 'table.departments.operations',
+    statusKey: 'table.statuses.suspended',
+    statusRank: 2,
+    score: 90,
+  },
+  {
+    id: 'member-tomas',
+    email: 'tomas.chen@example.test',
+    nameKey: 'table.members.tomas',
+    roleKey: 'table.roles.engineer',
+    departmentKey: 'table.departments.platform',
+    statusKey: 'table.statuses.invited',
+    statusRank: 1,
+    score: 82,
+  },
+  {
+    id: 'member-noor',
+    email: 'noor.hassan@example.test',
+    nameKey: 'table.members.noor',
+    roleKey: 'table.roles.productManager',
+    departmentKey: 'table.departments.product',
+    statusKey: 'table.statuses.active',
+    statusRank: 0,
+    score: 73,
+  },
+  {
+    id: 'member-liam',
+    email: 'liam.foster@example.test',
+    nameKey: 'table.members.liam',
+    roleKey: 'table.roles.designer',
+    departmentKey: 'table.departments.product',
+    statusKey: 'table.statuses.invited',
+    statusRank: 1,
+    score: 64,
+  },
+  {
+    id: 'member-ava',
+    email: 'ava.khan@example.test',
+    nameKey: 'table.members.ava',
+    roleKey: 'table.roles.engineer',
+    departmentKey: 'table.departments.platform',
+    statusKey: 'table.statuses.active',
+    statusRank: 0,
+    score: 98,
+  },
+];

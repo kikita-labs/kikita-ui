@@ -1,0 +1,26 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  section {
+    min-inline-size: 0;
+  }
+
+  .typography-hosts__list {
+    display: grid;
+    gap: var(--kui-space-3);
+    justify-items: start;
+    min-inline-size: 0;
+  }
+
+  .typography-hosts__list > * {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .typography-hosts__inherit {
+    display: grid;
+    gap: var(--kui-space-1);
+  }
+}

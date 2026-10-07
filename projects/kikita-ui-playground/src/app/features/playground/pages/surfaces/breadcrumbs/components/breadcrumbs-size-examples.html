@@ -1,0 +1,41 @@
+<section role="group" [attr.aria-label]="'breadcrumbs.accessibility.sizes' | transloco">
+  <app-playground-example-card [heading]="'breadcrumbs.examples.sizes' | transloco">
+    <div class="breadcrumbs-playground__sizes">
+      @for (size of sizes; track size.value) {
+        <section
+          role="group"
+          [attr.aria-label]="'breadcrumbs.accessibility.size' | transloco: { size: size.value }"
+        >
+          <h3 kuiText variant="heading-sm">
+            {{ 'breadcrumbs.size.' + size.key | transloco }}
+          </h3>
+
+          <nav
+            [attr.aria-label]="
+              'breadcrumbs.accessibility.navigationFor'
+                | transloco: { example: ('breadcrumbs.size.' + size.key | transloco) }
+            "
+          >
+            <ol kuiBreadcrumbs [size]="size.value">
+              <li>
+                <a kuiBreadcrumbItem href="/">
+                  {{ 'breadcrumbs.items.playground' | transloco }}
+                </a>
+              </li>
+              <li kuiBreadcrumbSeparator></li>
+              <li>
+                <span kuiBreadcrumbItem>{{ 'breadcrumbs.items.surfaces' | transloco }}</span>
+              </li>
+              <li kuiBreadcrumbSeparator></li>
+              <li>
+                <span kuiBreadcrumbItem current>
+                  {{ 'breadcrumbs.items.current' | transloco }}
+                </span>
+              </li>
+            </ol>
+          </nav>
+        </section>
+      }
+    </div>
+  </app-playground-example-card>
+</section>

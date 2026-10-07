@@ -1,0 +1,16 @@
+<div class="media-viewer-grid-example__grid">
+  @for (index of tileIndexes; track index) {
+    <app-media-viewer-tile
+      [src]="src(index)"
+      [label]="'mediaViewer.actions.openTile' | transloco: { number: index + 1, total }"
+      (opened)="openAt(index)"
+    />
+  }
+</div>
+
+@let last = lastViewed();
+@if (last !== null) {
+  <p class="media-viewer-grid-example__status" role="status">
+    {{ 'mediaViewer.status.lastViewed' | transloco: { number: last + 1 } }}
+  </p>
+}

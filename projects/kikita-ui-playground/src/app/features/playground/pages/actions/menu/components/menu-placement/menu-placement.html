@@ -1,0 +1,119 @@
+<app-playground-example-card [heading]="'menu.examples.placement' | transloco">
+  <div
+    class="menu-placement__examples"
+    role="group"
+    [attr.aria-label]="'menu.accessibility.placements' | transloco"
+  >
+    <div class="menu-placement__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="bottomStartMenu">
+        {{ 'menu.placements.bottomStart' | transloco }}
+      </button>
+      <kui-menu
+        #bottomStartMenu
+        placement="bottom"
+        menuAlign="start"
+        [ariaLabel]="'menu.accessibility.placementMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-placement__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="bottomEndMenu">
+        {{ 'menu.placements.bottomEnd' | transloco }}
+      </button>
+      <kui-menu
+        #bottomEndMenu
+        placement="bottom"
+        menuAlign="end"
+        [ariaLabel]="'menu.accessibility.placementMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-placement__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="topStartMenu">
+        {{ 'menu.placements.topStart' | transloco }}
+      </button>
+      <kui-menu
+        #topStartMenu
+        placement="top"
+        menuAlign="start"
+        [ariaLabel]="'menu.accessibility.placementMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-placement__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="topEndMenu">
+        {{ 'menu.placements.topEnd' | transloco }}
+      </button>
+      <kui-menu
+        #topEndMenu
+        placement="top"
+        menuAlign="end"
+        [ariaLabel]="'menu.accessibility.placementMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-placement__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="leftStartMenu">
+        {{ 'menu.placements.leftStart' | transloco }}
+      </button>
+      <kui-menu
+        #leftStartMenu
+        placement="left"
+        menuAlign="start"
+        [ariaLabel]="'menu.accessibility.placementMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-placement__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="leftEndMenu">
+        {{ 'menu.placements.leftEnd' | transloco }}
+      </button>
+      <kui-menu
+        #leftEndMenu
+        placement="left"
+        menuAlign="end"
+        [ariaLabel]="'menu.accessibility.placementMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-placement__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="rightStartMenu">
+        {{ 'menu.placements.rightStart' | transloco }}
+      </button>
+      <kui-menu
+        #rightStartMenu
+        placement="right"
+        menuAlign="start"
+        [ariaLabel]="'menu.accessibility.placementMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+
+    <div class="menu-placement__case">
+      <button kuiButton type="button" shape="outline" [kuiMenuFor]="rightEndMenu">
+        {{ 'menu.placements.rightEnd' | transloco }}
+      </button>
+      <kui-menu
+        #rightEndMenu
+        placement="right"
+        menuAlign="end"
+        [ariaLabel]="'menu.accessibility.placementMenu' | transloco"
+      >
+        <button type="button" kuiMenuItem>{{ 'menu.actions.openItem' | transloco }}</button>
+      </kui-menu>
+    </div>
+  </div>
+</app-playground-example-card>

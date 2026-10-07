@@ -7,7 +7,7 @@ is part of the component surface.
 ## Import
 
 ```ts
-import { KuiSeparatorDirective } from '@kikita-labs/ui';
+import { KuiSeparator } from '@kikita-labs/ui';
 ```
 
 Import styles once:
@@ -77,6 +77,38 @@ block size.
 | `appearance`  | `'subtle' \| 'default' \| 'strong'`      | `'default'`    | Visual divider emphasis.       |
 | `orientation` | `'horizontal' \| 'vertical'`             | `'horizontal'` | Divider direction.             |
 | `spacing`     | `'none' \| 'xs' \| 'sm' \| 'md' \| 'lg'` | `'sm'`         | Outer spacing around the line. |
+
+## Provider Defaults
+
+Set `defaults.separator` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    separator: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    separator: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                                   | Description                           |
+| ------------- | ---------------------------------------- | ------------------------------------- |
+| `appearance`  | `'subtle' \| 'default' \| 'strong'`      | Default appearance.                   |
+| `orientation` | `'horizontal' \| 'vertical'`             | Default orientation.                  |
+| `spacing`     | `'none' \| 'xs' \| 'sm' \| 'md' \| 'lg'` | Default spacing around the separator. |
+
+Each option resolves as `local input > defaults.separator.<option> > built-in default`. See [DI defaults](di-defaults.md).
 
 ## Accessibility
 

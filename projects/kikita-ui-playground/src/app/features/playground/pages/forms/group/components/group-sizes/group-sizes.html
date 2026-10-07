@@ -1,0 +1,87 @@
+<section role="group" [attr.aria-label]="'group.accessibility.sizes' | transloco">
+  <app-playground-example-card [heading]="'group.examples.sizes' | transloco">
+    <div class="group-sizes__examples">
+      <div class="group-sizes__case">
+        <p kuiText variant="body-sm">{{ 'group.labels.extraSmall' | transloco }}</p>
+        <div
+          kuiGroup
+          size="xs"
+          collapsed
+          role="group"
+          [attr.aria-label]="'group.accessibility.sizeXs' | transloco"
+        >
+          <input kuiInput type="search" [attr.aria-label]="'group.fields.search' | transloco" />
+          <button
+            kuiIconButton
+            icon="search"
+            shape="outline"
+            type="button"
+            [attr.aria-label]="'group.actions.search' | transloco"
+          ></button>
+        </div>
+      </div>
+
+      <div class="group-sizes__case">
+        <p kuiText variant="body-sm">{{ 'group.labels.small' | transloco }}</p>
+        <div
+          kuiGroup
+          size="sm"
+          collapsed
+          role="group"
+          [attr.aria-label]="'group.accessibility.sizeSm' | transloco"
+        >
+          <input kuiInput type="search" [attr.aria-label]="'group.fields.search' | transloco" />
+          <button
+            kuiIconButton
+            icon="search"
+            shape="outline"
+            type="button"
+            [attr.aria-label]="'group.actions.search' | transloco"
+          ></button>
+        </div>
+      </div>
+
+      <div class="group-sizes__case">
+        <p kuiText variant="body-sm">{{ 'group.labels.medium' | transloco }}</p>
+        <div
+          kuiGroup
+          size="md"
+          collapsed
+          role="group"
+          [attr.aria-label]="'group.accessibility.sizeMd' | transloco"
+        >
+          <input kuiInput type="search" [attr.aria-label]="'group.fields.search' | transloco" />
+          <button
+            kuiIconButton
+            icon="search"
+            shape="outline"
+            type="button"
+            [attr.aria-label]="'group.actions.search' | transloco"
+          ></button>
+        </div>
+      </div>
+
+      <div class="group-sizes__case">
+        <p kuiText variant="body-sm">{{ 'group.labels.large' | transloco }}</p>
+        <div
+          kuiGroup
+          size="lg"
+          collapsed
+          role="group"
+          [attr.aria-label]="'group.accessibility.sizeLg' | transloco"
+        >
+          <input kuiInput type="search" [attr.aria-label]="'group.fields.search' | transloco" />
+          <button
+            kuiIconButton
+            icon="search"
+            shape="outline"
+            type="button"
+            [attr.aria-label]="'group.actions.search' | transloco"
+          ></button>
+        </div>
+      </div>
+
+      <app-group-size-scoped-default />
+    </div>
+  </app-playground-example-card>
+</section>

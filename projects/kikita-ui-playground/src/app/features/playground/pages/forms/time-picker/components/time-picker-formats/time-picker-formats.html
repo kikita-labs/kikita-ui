@@ -1,0 +1,33 @@
+<section role="group" [attr.aria-label]="'timePicker.accessibility.formats' | transloco">
+  <app-playground-example-card [heading]="'timePicker.examples.formats' | transloco">
+    <div class="time-picker-grid">
+      <kui-field [label]="'timePicker.fields.format24' | transloco">
+        <input kuiTimePicker [(value)]="time24" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field [label]="'timePicker.fields.format24Seconds' | transloco">
+        <input kuiTimePicker [(value)]="time24Seconds" [showSeconds]="true" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field [label]="'timePicker.fields.format12' | transloco">
+        <input kuiTimePicker [(value)]="time12" format="12h" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+
+      <kui-field [label]="'timePicker.fields.format12Seconds' | transloco">
+        <input kuiTimePicker [(value)]="time12Seconds" format="12h" [showSeconds]="true" />
+        <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="300px">
+          <kui-time-picker-panel />
+        </kui-dropdown>
+      </kui-field>
+    </div>
+  </app-playground-example-card>
+</section>

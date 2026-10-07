@@ -5,7 +5,7 @@
 ## Import
 
 ```ts
-import { KuiTabsComponent, KuiTabDirective, KuiTabPanelDirective } from '@kikita-labs/ui';
+import { KuiTabs, KuiTab, KuiTabPanel } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -91,6 +91,40 @@ Use `controlsPanels="false"` when `kui-tabs` is used as navigation and the route
 | `Home`                     | Focus first tab         |
 | `End`                      | Focus last tab          |
 
+## Provider Defaults
+
+Set `defaults.tabs` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    tabs: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    tabs: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option         | Values                         | Description                                                                                                                 |
+| -------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `size`         | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`.                                                           |
+| `variant`      | `'line' \| 'pill'`             | Default variant.                                                                                                            |
+| `orientation`  | `'horizontal' \| 'vertical'`   | Default orientation.                                                                                                        |
+| `previousIcon` | `KuiIconGlyph`                 | Icon of the previous control. Takes precedence over `defaults.icons.previous`. See [Structural Icons](structural-icons.md). |
+| `nextIcon`     | `KuiIconGlyph`                 | Icon of the next control. Takes precedence over `defaults.icons.next`. See [Structural Icons](structural-icons.md).         |
+
+Each option resolves as `local input > defaults.tabs.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
 ## Accessibility
 
 - `role="tablist"` on the list container
@@ -117,6 +151,7 @@ At narrow widths, the tablist scrolls horizontally and exposes accessible scroll
 - `--kui-tab-bg-hover`
 - `--kui-tab-fg-active`
 - `--kui-tab-indicator`
+- `--kui-tab-indicator-size`
 - `--kui-tab-font-size`
 - `--kui-tab-font-weight`
 - `--kui-tab-font-weight-active`
@@ -125,3 +160,20 @@ At narrow widths, the tablist scrolls horizontally and exposes accessible scroll
 - `--kui-tab-pill-bg-hover`
 - `--kui-tab-pill-bg-active`
 - `--kui-tab-pill-fg-active`
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                               | Default                      | Controls                  |
+| ----------------------------------- | ---------------------------- | ------------------------- |
+| `--kui-tabs-scroll-btn-color`       | `--kui-color-text-secondary` | S scroll btn color        |
+| `--kui-tabs-scroll-btn-color-hover` | `--kui-color-text`           | S scroll btn color, hover |
+| `--kui-tabs-scroll-fade-color`      | `--kui-color-bg`             | S scroll fade color       |
+| `--kui-tab-focus-ring-color`        | `--kui-color-focus`          | focus ring color          |
+| `--kui-tab-panel-focus-ring-color`  | `--kui-color-focus`          | panel focus outline color |
+
+<!-- color-tokens:end -->

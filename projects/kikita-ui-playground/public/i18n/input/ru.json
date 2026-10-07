@@ -1,0 +1,76 @@
+{
+  "title": "Поле ввода",
+  "examples": {
+    "default": "Поле ввода по умолчанию",
+    "explicitId": "Явный идентификатор поля",
+    "sizes": "Размеры поля ввода",
+    "states": "Состояния обычного поля ввода",
+    "types": "Типы полей ввода",
+    "validation": "Проверка Signal Forms",
+    "autoFocus": "Автофокус"
+  },
+  "fields": {
+    "projectName": "Название проекта",
+    "explicitId": "Явный идентификатор",
+    "interactive": "Интерактивное поле",
+    "readonly": "Только чтение",
+    "disabled": "Недоступно",
+    "invalid": "Некорректное значение",
+    "requiredEmail": "Обязательный адрес эл. почты",
+    "localSizeInField": "Локальный xs внутри поля lg",
+    "inheritedSize": "Размер, унаследованный от поля (lg)"
+  },
+  "hints": {
+    "requiredEmail": "Обязательное поле. Оставьте его пустым, затем введите адрес эл. почты."
+  },
+  "placeholders": {
+    "projectName": "Название проекта",
+    "interactive": "Наведите указатель или переведите фокус",
+    "search": "Поиск проектов",
+    "email": "name@example.com"
+  },
+  "sizes": {
+    "xs": "Очень маленький",
+    "sm": "Маленький",
+    "md": "Средний",
+    "lg": "Большой"
+  },
+  "types": {
+    "text": "Текст",
+    "email": "Эл. почта",
+    "search": "Поиск",
+    "password": "Пароль"
+  },
+  "values": {
+    "readonly": "kikita.dev",
+    "disabled": "Недоступно",
+    "invalid": "Требуется проверка",
+    "text": "Kikita UI",
+    "email": "hello@example.com",
+    "password": "kikita-ui"
+  },
+  "errors": {
+    "required": "Укажите адрес эл. почты."
+  },
+  "accessibility": {
+    "defaultGroup": "Поле ввода по умолчанию",
+    "explicitIdGroup": "Поле с явным идентификатором",
+    "sizesGroup": "Размеры поля ввода",
+    "fieldSizeGroup": "Наследование и приоритет размера поля ввода",
+    "statesGroup": "Состояния обычного поля ввода",
+    "typesGroup": "Типы полей ввода",
+    "validationGroup": "Проверка Signal Forms",
+    "autoFocusGroup": "Автофокус поля ввода"
+  },
+  "autoFocus": {
+    "mount": "Показать поле с фокусом",
+    "mountedField": "Фокус при появлении",
+    "request": "Запросить фокус",
+    "requestedField": "Фокус по запросу",
+    "openDialog": "Открыть диалог",
+    "dialogTitle": "Диалог с автофокусом",
+    "dialogFirstField": "Первое поле",
+    "dialogFocusedField": "Поле с фокусом в диалоге",
+    "close": "Закрыть"
+  }
+}

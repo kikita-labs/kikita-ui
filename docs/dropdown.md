@@ -13,7 +13,7 @@ selection follows the same `closeOnSelect` rule as pointer selection.
 ## Import
 
 ```ts
-import { KuiDropdownComponent, KuiDropdownForDirective, KuiOptionDirective } from '@kikita-labs/ui';
+import { KuiDropdown, KuiDropdownFor, KuiOption } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -72,16 +72,16 @@ readonly resultsOpen = signal(false);
 The existing `open()`, `close()`, and `toggle()` methods remain available for
 imperative integrations.
 
-## `KuiDropdownComponent` API
+## `KuiDropdown` API
 
-| Input           | Type                                      | Default     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `maxHeight`     | `string \| null`                          | `'240px'`   | Preferred max height of panel. Always additionally clamped to the viewport (see below); `null` only removes the _preferred_ cap, not the viewport clamp.                                                                                                                                                                                                                                                                                    |
-| `offset`        | `number`                                  | `4`         | Gap between anchor and panel edge in px.                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `closeOnSelect` | `boolean`                                 | `true`      | Closes the panel after an enabled option is selected with a pointer or Enter/Space.                                                                                                                                                                                                                                                                                                                                                         |
-| `panelRole`     | `'listbox' \| 'dialog' \| 'grid' \| null` | `'listbox'` | ARIA role on the panel. Set to `'dialog'` for non-listbox content, e.g. `kui-calendar`.                                                                                                                                                                                                                                                                                                                                                     |
-| `panelWidth`    | `'anchor' \| 'content' \| 'auto'`         | `'anchor'`  | `'anchor'` matches the trigger's width exactly (listboxes). `'content'` grows with the panel's own content but never _below_ the trigger's width, so it isn't clipped by a narrower trigger, e.g. `kui-calendar` in a date picker. `'auto'` ignores the trigger's width entirely and sizes purely to content, for panels that are their own small fixed-size widget regardless of how wide the trigger is, e.g. `kui-color-input`'s picker. |
-| `width`         | `string \| null`                          | `null`      | Explicit panel width (any CSS width, e.g. `'320px'`). Overrides `panelWidth` entirely for a panel that's deliberately wider or narrower than its trigger, with no per-component workaround needed.                                                                                                                                                                                                                                          |
+| Input           | Type                                      | Default                                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| --------------- | ----------------------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `maxHeight`     | `string \| null`                          | `'240px'` (`--kui-dropdown-max-height`) | Preferred max height of panel. Always additionally clamped to the viewport (see below); `null` only removes the _preferred_ cap, not the viewport clamp.                                                                                                                                                                                                                                                                                    |
+| `offset`        | `number`                                  | `4`                                     | Gap between anchor and panel edge in px.                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `closeOnSelect` | `boolean`                                 | `true`                                  | Closes the panel after an enabled option is selected with a pointer or Enter/Space.                                                                                                                                                                                                                                                                                                                                                         |
+| `panelRole`     | `'listbox' \| 'dialog' \| 'grid' \| null` | `'listbox'`                             | ARIA role on the panel. Set to `'dialog'` for non-listbox content, e.g. `kui-calendar`.                                                                                                                                                                                                                                                                                                                                                     |
+| `panelWidth`    | `'anchor' \| 'content' \| 'auto'`         | `'anchor'`                              | `'anchor'` matches the trigger's width exactly (listboxes). `'content'` grows with the panel's own content but never _below_ the trigger's width, so it isn't clipped by a narrower trigger, e.g. `kui-calendar` in a date picker. `'auto'` ignores the trigger's width entirely and sizes purely to content, for panels that are their own small fixed-size widget regardless of how wide the trigger is, e.g. `kui-color-input`'s picker. |
+| `width`         | `string \| null`                          | `null`                                  | Explicit panel width (any CSS width, e.g. `'320px'`). Overrides `panelWidth` entirely for a panel that's deliberately wider or narrower than its trigger, with no per-component workaround needed.                                                                                                                                                                                                                                          |
 
 ### Option Text And Panel Width
 
@@ -121,7 +121,7 @@ The panel also closes itself if the anchor (trigger) scrolls out of the viewport
 | `getPanel()`    | Return the rendered panel element, if attached.              |
 | `getPanelId()`  | Return the stable panel id for ARIA wiring.                  |
 
-## `KuiOptionDirective` API
+## `KuiOption` API
 
 | Input       | Type      | Description                         |
 | ----------- | --------- | ----------------------------------- |
@@ -136,6 +136,39 @@ The panel also closes itself if the anchor (trigger) scrolls out of the viewport
 state classes, and Enter/Space selection. Selection state comes from
 the owning Select, Combobox, Menu, or Field integration. That coordination token
 is internal and is not part of the public dropdown API.
+
+## Provider Defaults
+
+Set `defaults.dropdown` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    dropdown: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    dropdown: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option          | Values                            | Description                                                   |
+| --------------- | --------------------------------- | ------------------------------------------------------------- |
+| `maxHeight`     | `string \| null`                  | Maximum panel height as a CSS length, or `null` for no limit. |
+| `offset`        | `number`                          | Gap in px between the anchor and the panel edge.              |
+| `closeOnSelect` | `boolean`                         | Closes the panel when a selectable option is clicked.         |
+| `panelWidth`    | `'anchor' \| 'content' \| 'auto'` | Panel width relative to the anchor.                           |
+
+Each option resolves as `local input > defaults.dropdown.<option> > built-in default`. See [DI defaults](di-defaults.md).
 
 ## Accessibility
 
@@ -172,3 +205,18 @@ is internal and is not part of the public dropdown API.
   panel with no visible trigger is confusing and easy to lose track of.
 - Uses a document capture click listener for outside click.
 - Detaches the overlay after the `kui-dropdown-out` animation finishes.
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                       | Default              | Controls                                                                       |
+| --------------------------- | -------------------- | ------------------------------------------------------------------------------ |
+| `--kui-dropdown-font-size`  | `--kui-text-sm-size` | Font size                                                                      |
+| `--kui-dropdown-padding`    | `--kui-space-1`      | Padding                                                                        |
+| `--kui-dropdown-max-height` | `240px`              | Panel max height (the `maxHeight` input and `defaults.dropdown.maxHeight` win) |
+
+<!-- geometry-tokens:end -->

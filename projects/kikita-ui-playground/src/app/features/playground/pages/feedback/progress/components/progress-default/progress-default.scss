@@ -1,0 +1,16 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .progress-default {
+    display: flex;
+    align-items: center;
+    min-block-size: var(--kui-space-8);
+  }
+
+  .progress-default kui-progress {
+    flex: 1;
+  }
+}

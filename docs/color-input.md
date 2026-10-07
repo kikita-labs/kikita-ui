@@ -10,7 +10,7 @@ edit Ember seed colors as hex or OKLCH values and feed those strings into
 ## Import
 
 ```ts
-import { KuiColorInputDirective } from '@kikita-labs/ui';
+import { KuiColorInput } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -39,12 +39,12 @@ Hex values also enable the browser-native color picker from the swatch button:
 
 ## Inputs
 
-| Input         | Type                           | Default               | Notes                                                                  |
-| ------------- | ------------------------------ | --------------------- | ---------------------------------------------------------------------- |
-| `size`        | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'`                | Control height from Kikita size tokens.                                |
-| `invalid`     | `boolean`                      | `false`               | Applies error border. Also inherited from parent `kui-field` error.    |
-| `id`          | `string`                       | none                  | Id override. Falls back to `kui-field` control id when inside a field. |
-| `swatchLabel` | `string`                       | `'Open color picker'` | Accessible label prefix for the swatch button.                         |
+| Input         | Type                           | Default                         | Notes                                                                  |
+| ------------- | ------------------------------ | ------------------------------- | ---------------------------------------------------------------------- |
+| `size`        | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'`                          | Control height from Kikita size tokens.                                |
+| `invalid`     | `boolean`                      | `false`                         | Applies error border. Also inherited from parent `kui-field` error.    |
+| `id`          | `string`                       | none                            | Id override. Falls back to `kui-field` control id when inside a field. |
+| `swatchLabel` | `string`                       | `colorInput.openPicker` message | Accessible label prefix for the swatch button.                         |
 
 Standard native input attributes (`value`, `disabled`, `readonly`, `placeholder`,
 `autocomplete`, `[formField]`, `[(ngModel)]`, and reactive forms bindings) stay
@@ -73,6 +73,9 @@ Empty input is treated as neutral, not invalid. Unsupported non-empty strings se
 - Disabled and readonly inputs disable the swatch button.
 - Invalid text keeps the last valid swatch color and still allows the picker to
   open.
+- During server rendering the directive leaves the native input in its template
+  position. It adds the picker controls in the browser after the view is created
+  so Angular can hydrate the server markup before the directive wraps the input.
 
 ## Signal Forms
 
@@ -86,6 +89,37 @@ Use `[formField]` on the same native input:
 
 `kui-field` keeps the label, required marker, hint, error, and
 `aria-describedby` wiring.
+
+## Provider Defaults
+
+Set `defaults.colorInput` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    colorInput: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    colorInput: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                         | Description                                                                                                                    |
+| ------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| `size`        | `'xs' \| 'sm' \| 'md' \| 'lg'` | Component size. Takes precedence over the global `defaults.size`.                                                              |
+| `chevronIcon` | `KuiIconGlyph`                 | Icon of the options toggle. Takes precedence over `defaults.icons.pickerChevron`. See [Structural Icons](structural-icons.md). |
+
+Each option resolves as `local input > defaults.colorInput.<option> > built-in default`. See [DI defaults](di-defaults.md).
 
 ## Accessibility
 
@@ -107,7 +141,7 @@ Import the Kikita UI style entrypoint once:
 @import '@kikita-labs/ui/styles';
 ```
 
-Color-input styles live in `projects/ui/src/styles/color-input.css` and are
+Color-input styles live in `projects/ui/src/lib/components/color-input/kui-color-input.css` and are
 included through `@kikita-labs/ui/styles`.
 
 ## CSS Custom Properties
@@ -128,3 +162,54 @@ included through `@kikita-labs/ui/styles`.
 | `--kui-color-input-preview-swatch-size` | `48px`                       | Picker preview swatch     |
 | `--kui-color-input-thumb-size`          | `16px`                       | 2D thumb diameter         |
 | `--kui-color-input-hue-track-height`    | `12px`                       | Hue slider track height   |
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                                       | Default                      | Controls                   |
+| ------------------------------------------- | ---------------------------- | -------------------------- |
+| `--kui-color-input-trigger-color-expanded`  | `--kui-color-primary-fill`   | Trigger color, expanded    |
+| `--kui-color-input-popover-color`           | `--kui-color-text`           | Popover color              |
+| `--kui-color-input-picker-focus-ring-color` | `--kui-color-focus`          | Picker focus ring color    |
+| `--kui-color-input-hue-thumb-bg`            | `--kui-color-on-scrim`       | Hue thumb background       |
+| `--kui-color-input-hue-thumb-ring-color`    | `--kui-color-surface`        | Hue thumb ring color       |
+| `--kui-color-input-thumb-shadow`            | ring and 1px 3px black 45%   | Color field thumb shadow   |
+| `--kui-color-input-hue-thumb-shadow`        | 1px 3px black 45% and ring   | Hue thumb shadow           |
+| `--kui-color-input-num-label-color`         | `--kui-color-text-secondary` | Num label color            |
+| `--kui-color-input-field-color`             | `--kui-color-text`           | Field color                |
+| `--kui-color-input-field-border-focus`      | `--kui-color-primary-fill`   | Field border color, focus  |
+| `--kui-color-input-field-focus-ring-color`  | `--kui-color-focus`          | Field focus ring color     |
+| `--kui-color-input-preset-border`           | `--kui-color-border`         | Preset border color        |
+| `--kui-color-input-preset-focus-ring-color` | `--kui-color-focus`          | Preset focus ring color    |
+| `--kui-color-input-hue-focus-ring-color`    | `--kui-color-focus`          | Hue thumb focus ring color |
+| `--kui-color-input-checker-bg`              | `--kui-color-surface`        | Checker background         |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                                   | Default              | Controls                 |
+| --------------------------------------- | -------------------- | ------------------------ |
+| `--kui-color-input-popover-padding`     | `--kui-space-3`      | Popover padding          |
+| `--kui-color-input-thumb-radius`        | `--kui-radius-full`  | Thumb corner radius      |
+| `--kui-color-input-hue-track-radius`    | `--kui-radius-full`  | Hue track corner radius  |
+| `--kui-color-input-hue-thumb-radius`    | `--kui-radius-full`  | Hue thumb corner radius  |
+| `--kui-color-input-nums-gap`            | `--kui-space-2`      | Nums gap                 |
+| `--kui-color-input-num-label-font-size` | `--kui-text-xs-size` | Num label font size      |
+| `--kui-color-input-field-font-size`     | `--kui-text-xs-size` | Field font size          |
+| `--kui-color-input-field-radius`        | `--kui-radius-sm`    | Field corner radius      |
+| `--kui-color-input-preview-row-gap`     | `--kui-space-3`      | Preview row gap          |
+| `--kui-color-input-swatch-radius-lg`    | `--kui-radius-md`    | Swatch corner radius, lg |
+| `--kui-color-input-presets-gap`         | `--kui-space-2`      | Presets gap              |
+| `--kui-color-input-preset-radius`       | `--kui-radius-sm`    | Preset corner radius     |
+
+<!-- geometry-tokens:end -->

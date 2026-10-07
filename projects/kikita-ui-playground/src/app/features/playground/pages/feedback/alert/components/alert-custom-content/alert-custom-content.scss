@@ -1,0 +1,12 @@
+@layer app.components {
+  :host {
+    display: block;
+  }
+
+  .alert-custom-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+}

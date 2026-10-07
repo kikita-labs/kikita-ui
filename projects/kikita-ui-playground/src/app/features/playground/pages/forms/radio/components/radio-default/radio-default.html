@@ -1,0 +1,38 @@
+<section role="group" [attr.aria-label]="'radio.accessibility.default' | transloco">
+  <app-playground-example-card [heading]="'radio.examples.default' | transloco">
+    <kui-field [hint]="'radio.hints.plan' | transloco">
+      <fieldset class="radio-default__fieldset">
+        <legend kuiText variant="body">{{ 'radio.groups.plan' | transloco }}</legend>
+
+        <div class="radio-default__options">
+          <label class="radio-option">
+            <input kuiRadio type="radio" name="playground-plan" value="starter" checked />
+            <span kuiText>{{ 'radio.labels.starter' | transloco }}</span>
+          </label>
+
+          <label class="radio-option">
+            <input
+              kuiRadio
+              type="radio"
+              name="playground-plan"
+              id="playground-plan-pro"
+              value="pro"
+            />
+            <span kuiText>{{ 'radio.labels.pro' | transloco }}</span>
+          </label>
+
+          <label class="radio-option">
+            <input
+              kuiRadio
+              type="radio"
+              name="playground-plan"
+              id="playground-plan-enterprise"
+              value="enterprise"
+            />
+            <span kuiText>{{ 'radio.labels.enterprise' | transloco }}</span>
+          </label>
+        </div>
+      </fieldset>
+    </kui-field>
+  </app-playground-example-card>
+</section>

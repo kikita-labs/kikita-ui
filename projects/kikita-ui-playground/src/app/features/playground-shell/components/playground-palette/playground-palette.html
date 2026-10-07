@@ -1,0 +1,84 @@
+<button
+  kuiIconButton
+  type="button"
+  shape="outline"
+  size="sm"
+  [kuiPopoverFor]="seedPopover"
+  [attr.aria-label]="'playground.palette.open' | transloco"
+>
+  <kui-icon name="palette" size="15px" aria-hidden="true" />
+</button>
+
+<kui-popover
+  #seedPopover
+  placement="bottom"
+  align="end"
+  [arrow]="true"
+  [offset]="10"
+  [ariaLabel]="'playground.palette.title' | transloco"
+>
+  <section class="seed-popover">
+    <h2 kuiText variant="heading-sm" class="kui-popover-title">
+      {{ 'playground.palette.title' | transloco }}
+    </h2>
+
+    <div class="seed-popover__grid">
+      @for (seed of seedNames; track seed) {
+        <kui-field>
+          <label kuiLabel class="seed-popover__label" [attr.for]="'seed-' + seed">
+            {{ 'playground.palette.colors.' + seed | transloco }}
+          </label>
+          <input
+            kuiColorInput
+            class="seed-popover__input"
+            [id]="'seed-' + seed"
+            type="text"
+            size="sm"
+            autocomplete="off"
+            spellcheck="false"
+            [value]="seedColors()[seed]"
+            [swatchLabel]="'playground.palette.openColorPicker' | transloco"
+            (input)="updateSeed(seed, $event)"
+          />
+        </kui-field>
+      }
+    </div>
+
+    <div class="seed-popover__contrast">
+      <span kuiText variant="body-sm" tone="muted" id="seed-contrast-label">
+        {{ 'playground.palette.contrast.label' | transloco }}
+      </span>
+      <kui-segmented
+        size="sm"
+        aria-labelledby="seed-contrast-label"
+        [value]="contrast()"
+        (valueChange)="setContrast($event)"
+      >
+        <button kuiSegment type="button" value="strict">
+          {{ 'playground.palette.contrast.strict' | transloco }}
+        </button>
+        <button kuiSegment type="button" value="soft">
+          {{ 'playground.palette.contrast.soft' | transloco }}
+        </button>
+      </kui-segmented>
+    </div>
+
+    @if (invalidSeed()) {
+      <p class="seed-popover__error" role="status" aria-live="polite" kuiText>
+        {{ 'playground.palette.invalidColor' | transloco }}
+      </p>
+    }
+
+    <button
+      kuiButton
+      type="button"
+      shape="ghost"
+      size="xs"
+      class="seed-popover__reset"
+      (click)="resetSeeds()"
+    >
+      <kui-icon name="rotate-ccw" size="15px" aria-hidden="true" />
+      {{ 'playground.palette.reset' | transloco }}
+    </button>
+  </section>
+</kui-popover>

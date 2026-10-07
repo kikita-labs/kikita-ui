@@ -1,0 +1,17 @@
+<section role="group" [attr.aria-label]="'datePicker.accessibility.manualBinding' | transloco">
+  <app-playground-example-card [heading]="'datePicker.examples.manualBinding' | transloco">
+    <kui-field [label]="'datePicker.fields.manualDate' | transloco">
+      <input kuiDatePicker [(value)]="selectedDate" [(viewDate)]="viewDate" />
+      <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
+        <kui-calendar
+          flat
+          showFooter
+          [locale]="calendarLocale()"
+          class="date-picker-calendar"
+          [(value)]="selectedDate"
+          [(viewDate)]="viewDate"
+        />
+      </kui-dropdown>
+    </kui-field>
+  </app-playground-example-card>
+</section>

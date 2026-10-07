@@ -17,14 +17,18 @@ surface; the sibling `kikita-ui-docs` repository is the external consumer proof.
 
 ```text
 projects/ui/src/lib/
-  components/<primitive>/
+  components/<primitive>/        code, tests and kui-<primitive>.css
   providers/
   theme/
   tokens/
   types/
   utils/
-projects/ui/src/styles/
-projects/playground/src/app/pages/<primitive>/
+projects/ui/src/styles/            shared layers and the single entrypoint kikita-ui.css
+projects/kikita-ui-playground/
+  AGENTS.md
+  .agents/
+  public/i18n/
+  src/app/
 docs/
 .agents/
 ```
@@ -32,6 +36,10 @@ docs/
 Rules:
 
 - Public library code lives under `projects/ui/src/lib`.
+- `projects/kikita-ui-playground` is the playground application and the only browser
+  verification surface for the library. Its
+  application-specific agent rules live in its local `AGENTS.md` and `.agents/` tree;
+  read them in addition to this repository-level documentation when changing it.
 - Runtime component CSS lives under `projects/ui/src/styles` and is imported by
   `projects/ui/src/styles/kikita-ui.css`.
 - Public docs and release facts live in `docs/` and `CHANGELOG.md`.
@@ -73,3 +81,11 @@ models, callbacks, mutable form values, or objects intended for user editing.
 Record architecture changes that alter source layout, dependency direction,
 public API shape, SSR strategy, theming contract, generated artifacts, or agent
 surface generation under `.agents/decisions/`.
+
+Current decisions:
+
+- [ADR 0002](decisions/0002-public-naming.md): class and file names without construct suffixes, `provideX`
+  providers and the `ng update` migration for renamed exports.
+- [ADR 0001](decisions/0001-library-layers-and-bundle-budgets.md): library layers, decoupled form
+  controls, per-export bundle budgets and where component CSS lives. It is being implemented in
+  slices; `pnpm audit:architecture` and `pnpm audit:bundle` enforce what has landed.

@@ -1,0 +1,58 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .icon-stroke-examples__stack {
+    display: grid;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  .icon-stroke-examples__section {
+    display: grid;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .icon-stroke-examples__section h3 {
+    margin: 0;
+  }
+
+  .icon-stroke-examples__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--kui-space-16)), 1fr));
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .icon-stroke-examples__grid--chrome {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--kui-space-16) * 3)), 1fr));
+  }
+
+  .icon-stroke-examples__item {
+    display: grid;
+    justify-items: center;
+    align-content: end;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+    padding-block: var(--kui-space-2);
+  }
+
+  .icon-stroke-examples__chrome {
+    display: grid;
+    justify-items: start;
+    align-content: start;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .icon-stroke-examples__chrome[data-stroke='thin'] {
+    --kui-icon-stroke-width: 1;
+  }
+
+  .icon-stroke-examples__chrome[data-stroke='thick'] {
+    --kui-icon-stroke-width: 3;
+  }
+}

@@ -1,0 +1,17 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .icon-structural-sample {
+    display: grid;
+    justify-items: start;
+    gap: var(--kui-space-3);
+    min-inline-size: 0;
+  }
+
+  .icon-structural-sample > kui-alert {
+    justify-self: stretch;
+  }
+}

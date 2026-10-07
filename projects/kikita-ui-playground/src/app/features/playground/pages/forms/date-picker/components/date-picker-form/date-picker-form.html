@@ -1,0 +1,22 @@
+<section role="group" [attr.aria-label]="'datePicker.accessibility.signalForms' | transloco">
+  <app-playground-example-card [heading]="'datePicker.examples.signalForms' | transloco">
+    <kui-field
+      [label]="'datePicker.fields.requiredDate' | transloco"
+      [hint]="'datePicker.hints.requiredDate' | transloco"
+    >
+      <input kuiDatePicker [formField]="deliveryForm.deliveryDate" [(viewDate)]="viewDate" />
+      @let deliveryDate = deliveryForm.deliveryDate();
+      @if (deliveryDate.touched() && deliveryDate.invalid()) {
+        <p kuiError>{{ 'datePicker.errors.required' | transloco }}</p>
+      }
+      <kui-dropdown panelRole="dialog" panelWidth="auto" maxHeight="420px">
+        <kui-calendar
+          flat
+          [locale]="calendarLocale()"
+          [(viewDate)]="viewDate"
+          class="date-picker-calendar"
+        />
+      </kui-dropdown>
+    </kui-field>
+  </app-playground-example-card>
+</section>

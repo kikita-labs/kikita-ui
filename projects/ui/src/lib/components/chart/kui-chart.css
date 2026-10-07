@@ -1,0 +1,573 @@
+@layer kui.components {
+  /* `kui-chart-legend` renders outside the `.kui-chart` host on purpose (that's the whole point --
+     independent positioning), so these custom properties must be readable there too, not only
+     scoped to `.kui-chart` itself. */
+  .kui-chart,
+  .kui-chart-legend {
+    --_kui-chart-focus-ring: var(--kui-color-focus);
+    --_kui-chart-legend-text: var(--kui-color-text-secondary);
+    --_kui-chart-legend-text-hidden: var(--kui-color-text-secondary);
+    --_kui-chart-slice-sep: var(--kui-color-surface);
+  }
+
+  .kui-chart {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kui-chart-gap, var(--kui-space-3));
+    width: 100%;
+  }
+
+  .kui-chart__graphic {
+    position: relative;
+    width: 100%;
+  }
+
+  /*
+   * Pure CSS responsive scaling -- no ResizeObserver/JS width measurement. The `viewBox` is a
+   * fixed nominal size (see each component's `SIZE_DIMENSIONS` doc); the browser scales it to the
+   * container's actual width via `width:100%;height:auto` + `preserveAspectRatio="xMidYMid meet"`
+   * on the element itself, matching the Claude Design spec `02ec9aaf/40 Charts.dc.html`'s
+   * `.kui-chart` rule. An earlier version measured the real container width on the client and
+   * re-rendered once that landed, which caused a visible "narrow, then snaps to full width"
+   * flicker on first paint -- see each component's `SIZE_DIMENSIONS` doc for the full story.
+   */
+  .kui-chart__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* The plot is drawn at one unit per CSS pixel, so its height is its real height. */
+  .kui-chart__svg--plot {
+    height: var(--kui-chart-height);
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .kui-chart__grid-line {
+    stroke: var(--kui-chart-grid-color);
+    stroke-width: 1;
+  }
+
+  .kui-chart__axis-line {
+    stroke: var(--kui-chart-grid-color);
+    stroke-width: 1;
+  }
+
+  /* The axis text keeps its pixel size because the chart draws at one unit per pixel. Its default,
+     13px, is above the 12px that Chartability asks for on screen. */
+  .kui-chart__axis-text {
+    fill: var(--kui-chart-axis-label-color);
+    font-size: var(--kui-chart-axis-text-font-size, var(--kui-text-sm-size));
+    font-family: var(--kui-font-sans);
+  }
+
+  .kui-chart__axis-title {
+    fill: var(--kui-chart-axis-title-color, var(--kui-chart-axis-label-color));
+    font-size: var(--kui-chart-axis-text-font-size, var(--kui-text-sm-size));
+    font-family: var(--kui-font-sans);
+    font-weight: var(--kui-font-weight-medium);
+    text-anchor: middle;
+  }
+
+  /* Never drawn: the chart reads the real axis font and mark radius from it after the first render. */
+  .kui-chart__axis-probe {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .kui-chart__axis-text--y {
+    text-anchor: end;
+    dominant-baseline: middle;
+  }
+
+  .kui-chart__axis-text--x {
+    text-anchor: middle;
+  }
+
+  /* The first/last tick's label would otherwise center on a point right at the plot area's edge
+     and clip against the viewBox boundary -- anchor it inward instead, the same convention d3-axis
+     uses for its edge ticks. Found by browser-checking the "Dense series" demo (120 category
+     ticks, heavily thinned) before calling this fix done: the last visible tick read "Day 1"
+     instead of "Day 120" because everything past the anchor point was clipped. */
+  .kui-chart__axis-text--edge-start {
+    text-anchor: start;
+  }
+
+  .kui-chart__axis-text--edge-end {
+    text-anchor: end;
+  }
+
+  .kui-chart__line {
+    fill: none;
+    stroke-width: var(--kui-chart-stroke-width, 2px);
+  }
+
+  .kui-chart__area {
+    stroke: none;
+  }
+
+  .kui-chart__series--dimmed {
+    opacity: 0.25;
+    transition: opacity var(--kui-duration-quick) var(--kui-ease);
+  }
+
+  /* A mark is a focus target and a name. The pointer is resolved on the plot (`.kui-chart__plot-hit`),
+     so a mark a few pixels wide is not the only thing a pointer can aim at. */
+  .kui-chart__mark {
+    pointer-events: none;
+    outline: none;
+    stroke: var(--kui-chart-mark-stroke, var(--kui-color-surface));
+    stroke-width: 2;
+    /* `fill-box`/`center` -- scales around the circle's own center regardless of where its
+       `cx`/`cy` sit in the SVG's coordinate space, instead of the default `view-box` origin
+       (which would scale it away from its drawn position). */
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform var(--kui-duration-quick) var(--kui-ease);
+  }
+
+  /* Hover grow, matching common chart libraries (Chart.js/Highcharts) -- a uniform scale around
+     the mark's own center only ever grows the area under an already-hovered cursor, so unlike
+     `kui-donut-chart`'s pop-out `translate()` (see its doc on the flicker bug that caused), this
+     can't push the cursor outside the shape and can't loop. */
+  .kui-chart__mark--hovered {
+    transform: scale(1.4);
+  }
+
+  .kui-chart__mark:focus-visible {
+    stroke: var(--kui-chart-focus-ring, var(--_kui-chart-focus-ring));
+    stroke-width: 2;
+  }
+
+  /* kui-scatter-chart: an invisible, larger hit-target circle layered under the visible dot --
+     small points/bubbles would otherwise be hard to hover/tap precisely. */
+  .kui-chart__mark-hit {
+    fill: transparent;
+    pointer-events: none;
+    outline: none;
+  }
+
+  /* The group of marks takes the focus of a click on the plot (a click on a mark moves focus to the mark
+     itself); it is not a control, so the browser's own focus outline must not frame the chart. */
+  .kui-chart__marks {
+    outline: none;
+  }
+
+  /* The whole plot is the pointer target of line, bar and scatter charts. */
+  .kui-chart__plot-hit {
+    fill: transparent;
+    cursor: default;
+  }
+
+  .kui-chart__mark-hit:focus-visible {
+    stroke: var(--kui-chart-focus-ring, var(--_kui-chart-focus-ring));
+    stroke-width: 2;
+  }
+
+  .kui-chart__mark--decoration {
+    pointer-events: none;
+  }
+
+  /* Real hit target for a slice -- pointer/focus events land here, never on the transformed
+     cosmetic `.kui-chart__slice` twin (see `kui-donut-chart.html`'s doc on the
+     hover-flicker bug this split fixes). Invisible: `fill: transparent` still paints (so it still
+     receives pointer events under the default `pointer-events: visiblePainted`), just with zero
+     opacity. */
+  .kui-chart__slice-hit {
+    cursor: pointer;
+    outline: none;
+    fill: transparent;
+  }
+
+  .kui-chart__slice {
+    pointer-events: none;
+    stroke: var(--kui-chart-slice-sep, var(--_kui-chart-slice-sep));
+    stroke-width: 2;
+    /*
+     * Only the hover pop-out (`[style.transform]`, a `translate()`) lives on this element's own
+     * `transform` -- safe to CSS-transition, since it only ever changes on hover (rare,
+     * user-triggered). The hide/show re-partition's rotation lives on the WRAPPING `<g>` instead
+     * (`kui-donut-chart.html`), rewritten every animation frame by
+     * `KuiDonutChart`'s `requestAnimationFrame`-driven tween (see its `displayedShareById`
+     * doc) -- deliberately with no CSS transition of its own, since a per-frame-written property
+     * fighting its own CSS transition would just add stutter, not smoothness. An earlier version
+     * put the pop-out transform on the SAME attribute as the rotation and removed this transition
+     * entirely to avoid that conflict -- which also silently killed the pop-out's own animation
+     * (found from the maintainer noticing hover no longer animated at all). Splitting them onto two
+     * elements is what lets each transition independently, correctly.
+     */
+    transition: transform var(--kui-duration-quick) var(--kui-ease);
+  }
+
+  /* No neighbor to separate from when only one slice renders -- see
+     `KuiDonutChart.isSingleVisibleSlice`'s doc. */
+  .kui-chart__slice--no-separator {
+    stroke: none;
+  }
+
+  /* The hit path (first sibling) carries real keyboard focus; the ring paints on its visible
+     cosmetic twin (second sibling) so it traces the actual colored shape, not an invisible one. */
+  .kui-chart__slice-hit:focus-visible + .kui-chart__slice {
+    stroke: var(--kui-chart-focus-ring, var(--_kui-chart-focus-ring));
+    stroke-width: 3;
+  }
+
+  .kui-chart__bar {
+    pointer-events: none;
+    outline: none;
+    /* Animates stacked bars' recompute-on-hide (a hidden series' segment collapses and the rest of
+       the stack shifts down to fill it -- see `computeStackedDomain`'s JSDoc) instead of bars
+       silently jumping to their new size/position. */
+    transition:
+      d var(--kui-duration-normal) var(--kui-ease),
+      opacity var(--kui-duration-quick) var(--kui-ease),
+      filter var(--kui-duration-quick) var(--kui-ease);
+  }
+
+  /* Hover highlight for a single bar -- `filter: brightness()`, not a `transform: scale()` like
+     `.kui-chart__mark`'s: a bar's own edges already sit flush against the axis/grid/its stack
+     neighbors, so growing it would either overlap an adjacent segment or visibly detach from the
+     axis, neither of which a point-like mark has to worry about. */
+  .kui-chart__bar--hovered {
+    filter: brightness(1.15);
+  }
+
+  .kui-chart__bar:focus-visible {
+    stroke: var(--kui-chart-focus-ring, var(--_kui-chart-focus-ring));
+    stroke-width: 2;
+  }
+
+  /* Never drawn: the chart reads the resolved rounding of a bar from it after the first render. */
+  .kui-chart__bar-probe {
+    rx: var(--kui-chart-bar-radius, var(--kui-radius-xs));
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .kui-chart__loading-wave,
+  .kui-chart__loading-scatter {
+    display: block;
+  }
+
+  /*
+   * Same responsive-scaling technique as `.kui-chart__svg` (`width:100%;height:auto`, no forced
+   * pixel height) -- an earlier version used `height:100%` against an explicit pixel-height
+   * container, which stretched the box to whatever the real rendered width happened to be while
+   * holding height fixed, distorting the aspect ratio away from the `viewBox`'s (found by
+   * inspecting the rendered box in devtools: a `viewBox="0 0 480 280"` element was laid out at
+   * 640x280, visibly wider than its own intended proportions, and inconsistent with how the same
+   * chart looks once real data replaces the loading state).
+   */
+  .kui-chart__loading-wave-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    animation: kui-skeleton-pulse var(--kui-skeleton-duration, 1600ms) ease-in-out infinite;
+  }
+
+  .kui-chart__loading-wave-line {
+    fill: none;
+    stroke: var(--kui-color-skeleton-highlight);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .kui-chart__loading-wave-dot {
+    fill: var(--kui-color-skeleton-highlight);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-chart__loading-wave-svg {
+      animation: none;
+    }
+  }
+
+  .kui-chart__loading-bars {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: var(--kui-chart-loading-bars-gap, var(--kui-space-3));
+    padding: var(--kui-chart-loading-bars-padding, var(--kui-space-4));
+    box-sizing: border-box;
+  }
+
+  /* Bars share the width, so the skeleton shrinks with its container instead of overflowing it. The
+     skeleton's own square shape would take the width from the height and refuse to shrink. */
+  .kui-chart__loading-bars > .kui-chart__loading-bars-bar[data-kui-shape] {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    aspect-ratio: auto;
+  }
+
+  /* The grid and the axes live in a layer that sits exactly over the area the bars occupy (the
+     container's content box), so a grid line at 25% is at 25% of the bars' own height and the axes
+     meet at the corner the bars stand on. */
+  .kui-chart__loading-bars-plot {
+    position: absolute;
+    inset: var(--kui-chart-loading-bars-padding, var(--kui-space-4));
+    pointer-events: none;
+  }
+
+  .kui-chart__loading-bars-grid-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--kui-chart-grid-color);
+  }
+
+  .kui-chart__loading-bars-axis-line {
+    position: absolute;
+    background: var(--kui-chart-grid-color);
+  }
+
+  .kui-chart__loading-bars-axis-line--x {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+  }
+
+  .kui-chart__loading-bars-axis-line--y {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+
+  .kui-chart__loading-ring {
+    animation: kui-skeleton-pulse var(--kui-skeleton-duration, 1600ms) ease-in-out infinite;
+  }
+
+  .kui-chart__loading-ring-wedge {
+    fill: var(--kui-color-skeleton-highlight);
+    stroke: var(--kui-chart-slice-sep, var(--_kui-chart-slice-sep));
+    stroke-width: 2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kui-chart__series--dimmed,
+    .kui-chart__slice,
+    .kui-chart__bar,
+    .kui-chart__mark,
+    .kui-chart__loading-ring {
+      transition: none;
+      animation: none;
+    }
+  }
+
+  .kui-chart__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /*
+   * Shared across every chart type (line/bar/donut/scatter) -- from Claude Design spec
+   * `02ec9aaf/40 Charts.dc.html`'s "Empty" composition, not the kit's kui-empty-state (that
+   * component's anatomy doesn't match this spec; see docs/chart.md).
+   */
+  .kui-chart__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--kui-chart-empty-gap, var(--kui-space-3));
+    border: 1px dashed var(--kui-chart-empty-border, var(--kui-color-border));
+    border-radius: var(--kui-chart-empty-radius, var(--kui-radius-md));
+    color: var(--kui-chart-empty-color, var(--kui-color-text-secondary));
+  }
+
+  .kui-chart__empty svg {
+    opacity: 0.5;
+  }
+
+  .kui-chart__empty span {
+    font-size: var(--kui-chart-empty-text-font-size, var(--kui-text-sm-size));
+  }
+
+  .kui-chart__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--kui-chart-toolbar-gap, var(--kui-space-3));
+    flex-wrap: wrap;
+  }
+
+  .kui-chart__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-chart-legend-gap, var(--kui-space-3));
+  }
+
+  .kui-chart__legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kui-chart-legend-item-gap, var(--kui-space-2));
+    background: none;
+    border: none;
+    border-radius: var(--kui-chart-legend-item-radius, var(--kui-radius-sm));
+    min-block-size: 24px;
+    padding: var(--kui-space-0-5) var(--kui-chart-legend-item-padding-inline, var(--kui-space-1));
+    font-size: var(--kui-chart-legend-item-font-size, var(--kui-text-sm-size));
+    color: var(--kui-chart-legend-text, var(--_kui-chart-legend-text));
+    cursor: pointer;
+    transition: background var(--kui-duration-quick) var(--kui-ease);
+  }
+
+  /* A hidden series reads as switched off without colour: the label is struck through and the swatch
+     is only an outline. The text stays at the secondary colour so the button remains readable. */
+  .kui-chart__legend-item--hidden {
+    color: var(--kui-chart-legend-text-hidden, var(--_kui-chart-legend-text-hidden));
+    text-decoration: line-through;
+  }
+
+  .kui-chart__legend-item--hidden .kui-chart__legend-swatch {
+    fill: transparent;
+    stroke: var(--_kui-chart-swatch);
+    stroke-width: 1.5;
+  }
+
+  /* Cross-highlight: hovering a mark/slice highlights its legend entry too, matching the design's
+     donut hover section -- not just slice/mark -> legend, but legend -> slice/mark (already wired
+     via the legend item's own `pointerenter`). */
+  .kui-chart__legend-item--active {
+    background: var(--kui-chart-legend-item-bg-active, var(--kui-color-surface-sunken));
+    color: var(--kui-chart-legend-item-color-active, var(--kui-color-text));
+  }
+
+  .kui-chart__legend-swatch {
+    display: inline-block;
+    flex: none;
+    width: var(--kui-chart-legend-swatch-size, 12px);
+    height: var(--kui-chart-legend-swatch-size, 12px);
+    fill: var(--_kui-chart-swatch);
+    stroke: none;
+    overflow: visible;
+  }
+
+  .kui-chart__table {
+    width: 100%;
+  }
+
+  /* A hatch pattern is a tinted ground with the hatch in the full series colour. The tint sits on an
+     opaque ground, so a shape drawn twice in the same place (a bar over its axis-side patch) looks
+     like one shape instead of a brighter band where the two overlap. */
+  .kui-chart__pattern-ground {
+    fill: var(--kui-chart-pattern-ground-color, var(--kui-color-surface));
+  }
+
+  .kui-chart__pattern-bg {
+    fill: var(--_kui-chart-pattern-color);
+    fill-opacity: 0.28;
+  }
+
+  .kui-chart__pattern-mark {
+    fill: none;
+    stroke: var(--_kui-chart-pattern-color);
+    stroke-width: 1.5;
+  }
+
+  .kui-chart__pattern-mark--filled {
+    fill: var(--_kui-chart-pattern-color);
+    stroke: none;
+  }
+
+  .kui-chart__legend-swatch-pattern {
+    stroke: var(--_kui-chart-swatch);
+    stroke-width: 1;
+  }
+
+  .kui-chart__legend-item--hidden .kui-chart__legend-swatch-pattern {
+    fill: transparent;
+  }
+
+  /*
+   * Forced colours (Windows High Contrast): the browser replaces fill and stroke with system colours
+   * and would turn every series into the same colour. The chart takes over (`forced-color-adjust:
+   * none`) and draws with system colours only; series then differ by texture (hatch patterns on
+   * areas, bars and slices), by dash (lines) and by shape (marks), which the chart provides anyway.
+   * Declarations that override inline series colours are `!important` on purpose.
+   */
+  @media (forced-colors: active) {
+    .kui-chart__svg,
+    .kui-chart__legend-swatch {
+      forced-color-adjust: none;
+    }
+
+    .kui-chart__axis-text,
+    .kui-chart__axis-title {
+      fill: CanvasText;
+    }
+
+    .kui-chart__grid-line {
+      stroke: GrayText;
+    }
+
+    .kui-chart__axis-line {
+      stroke: CanvasText;
+    }
+
+    .kui-chart__line {
+      stroke: CanvasText !important;
+      stroke-dasharray: var(--_kui-chart-dash, none);
+    }
+
+    .kui-chart__area,
+    .kui-chart__bar,
+    .kui-chart__slice {
+      fill: var(--_kui-chart-pattern, Canvas) !important;
+    }
+
+    .kui-chart__bar {
+      stroke: CanvasText;
+      stroke-width: 1;
+    }
+
+    .kui-chart__slice {
+      stroke: CanvasText;
+    }
+
+    .kui-chart__mark {
+      fill: CanvasText !important;
+      stroke: Canvas;
+    }
+
+    .kui-chart__mark:focus-visible,
+    .kui-chart__mark-hit:focus-visible,
+    .kui-chart__bar:focus-visible,
+    .kui-chart__slice-hit:focus-visible + .kui-chart__slice {
+      stroke: Highlight;
+    }
+
+    .kui-chart__pattern-ground,
+    .kui-chart__pattern-bg {
+      fill: Canvas;
+      fill-opacity: 1;
+    }
+
+    .kui-chart__pattern-mark {
+      stroke: CanvasText;
+    }
+
+    .kui-chart__pattern-mark--filled {
+      fill: CanvasText;
+    }
+
+    .kui-chart__legend-swatch {
+      fill: CanvasText;
+    }
+
+    .kui-chart__legend-swatch-pattern {
+      stroke: CanvasText;
+    }
+
+    .kui-chart__legend-item--hidden .kui-chart__legend-swatch {
+      fill: transparent;
+      stroke: CanvasText;
+    }
+  }
+}

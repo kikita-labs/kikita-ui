@@ -1,0 +1,30 @@
+@layer app.components {
+  :host {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  .chip-removal-examples__stack {
+    display: grid;
+    gap: var(--kui-space-4);
+    min-inline-size: 0;
+  }
+
+  .chip-removal-examples__chip-row,
+  .chip-removal-examples__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .chip-removal-examples__actions {
+    justify-content: space-between;
+  }
+
+  .chip-removal-examples__status {
+    display: block;
+    min-inline-size: 0;
+  }
+}

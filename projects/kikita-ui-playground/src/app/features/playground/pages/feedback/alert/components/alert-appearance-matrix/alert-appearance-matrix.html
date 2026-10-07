@@ -1,0 +1,28 @@
+<app-playground-example-card [heading]="'alert.examples.appearanceAndShape' | transloco">
+  <div
+    class="alert-appearance-matrix"
+    role="group"
+    [attr.aria-label]="'alert.accessibility.appearanceAndShape' | transloco"
+  >
+    @for (shape of shapes; track shape.value) {
+      <section
+        class="alert-appearance-matrix__shape"
+        role="group"
+        [attr.aria-label]="shape.group | transloco"
+      >
+        <h3 kuiText variant="heading-sm">{{ shape.label | transloco }}</h3>
+
+        <div class="alert-appearance-matrix__alerts">
+          @for (appearance of appearances; track appearance.value) {
+            <kui-alert
+              [appearance]="appearance.value"
+              [shape]="shape.value"
+              [title]="appearance.label | transloco"
+              [message]="'alert.samples.matrix.message' | transloco"
+            />
+          }
+        </div>
+      </section>
+    }
+  </div>
+</app-playground-example-card>

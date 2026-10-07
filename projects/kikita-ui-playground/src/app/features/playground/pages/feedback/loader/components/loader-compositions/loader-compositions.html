@@ -1,0 +1,36 @@
+<app-playground-example-card [heading]="'loader.examples.compositions' | transloco">
+  <div
+    class="loader-compositions__grid"
+    role="group"
+    [attr.aria-label]="'loader.accessibility.compositions' | transloco"
+  >
+    <section
+      class="loader-compositions__example"
+      role="group"
+      [attr.aria-label]="'loader.accessibility.savingButton' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'loader.examples.savingButton' | transloco }}</h3>
+      <button kuiButton type="button" disabled>
+        <span kuiLoader size="sm" [label]="'loader.labels.saving' | transloco"></span>
+        {{ 'loader.labels.saving' | transloco }}
+      </button>
+    </section>
+
+    <section
+      class="loader-compositions__example"
+      role="group"
+      [attr.aria-label]="'loader.accessibility.fieldAffix' | transloco"
+    >
+      <h3 kuiText variant="heading-sm">{{ 'loader.examples.fieldAffix' | transloco }}</h3>
+      <kui-field [label]="'loader.fields.apiToken' | transloco">
+        <input kuiInput type="text" readonly [value]="'loader.samples.apiToken' | transloco" />
+        <span
+          kuiLoader
+          kuiFieldAffix
+          size="sm"
+          [label]="'loader.accessibility.checkingToken' | transloco"
+        ></span>
+      </kui-field>
+    </section>
+  </div>
+</app-playground-example-card>

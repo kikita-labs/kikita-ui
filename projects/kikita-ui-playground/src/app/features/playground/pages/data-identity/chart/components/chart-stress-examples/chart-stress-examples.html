@@ -1,0 +1,48 @@
+<div
+  class="chart-stress-examples__controls"
+  role="group"
+  [attr.aria-label]="'chart.stress.controls' | transloco"
+>
+  @for (size of sizes; track size) {
+    <button
+      kuiButton
+      size="sm"
+      type="button"
+      shape="outline"
+      [attr.aria-pressed]="count() === size"
+      [attr.data-stress-size]="size"
+      (click)="count.set(size)"
+    >
+      {{ 'chart.stress.draw' | transloco: { count: size } }}
+    </button>
+  }
+  <button
+    kuiButton
+    size="sm"
+    type="button"
+    shape="ghost"
+    data-stress-clear
+    (click)="count.set(null)"
+  >
+    {{ 'chart.stress.clear' | transloco }}
+  </button>
+</div>
+
+@if (count() !== null) {
+  <div class="chart-stress-examples__grid" data-stress-charts>
+    <app-chart-example [heading]="'chart.labels.stressLine' | transloco: { count: count() }">
+      <kui-line-chart
+        [ariaLabel]="'chart.charts.stressLine' | transloco"
+        [series]="line()"
+        [categories]="categories()"
+      />
+    </app-chart-example>
+
+    <app-chart-example [heading]="'chart.labels.stressScatter' | transloco: { count: count() }">
+      <kui-scatter-chart
+        [ariaLabel]="'chart.charts.stressScatter' | transloco"
+        [series]="scatter()"
+      />
+    </app-chart-example>
+  </div>
+}

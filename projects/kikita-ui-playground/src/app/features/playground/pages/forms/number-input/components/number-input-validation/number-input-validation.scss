@@ -1,0 +1,6 @@
+@layer app.components {
+  .number-input-validation__content {
+    max-inline-size: 100%;
+    min-inline-size: 0;
+  }
+}

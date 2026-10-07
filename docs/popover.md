@@ -5,7 +5,7 @@ Floating content panel anchored to a trigger element. Unlike Tooltip (text only,
 ## Import
 
 ```ts
-import { KuiButtonDirective, KuiPopoverComponent, KuiPopoverForDirective } from '@kikita-labs/ui';
+import { KuiButton, KuiPopover, KuiPopoverFor } from '@kikita-labs/ui';
 ```
 
 Import runtime styles once:
@@ -50,21 +50,21 @@ import '@kikita-labs/ui/styles';
 </kui-popover>
 ```
 
-## KuiPopoverComponent inputs
+## KuiPopover inputs
 
-| Input         | Type                    | Default     | Description                                                                                             |
-| ------------- | ----------------------- | ----------- | ------------------------------------------------------------------------------------------------------- |
-| `placement`   | `KuiPopoverPlacement`   | `'bottom'`  | Preferred side. Auto-flips to fit in viewport.                                                          |
-| `align`       | `KuiPopoverAlign`       | `'center'`  | Alignment along the anchor edge.                                                                        |
-| `arrow`       | `boolean`               | `false`     | Show the arrow caret pointing to the anchor.                                                            |
-| `triggerType` | `KuiPopoverTriggerType` | `'click'`   | `click`: toggle on click, close on outside click/ESC. `hover`: open on mouseenter, close on mouseleave. |
-| `ariaLabel`   | `string`                | `'Popover'` | Accessible name for the `role="dialog"` panel. Prefer content-specific text.                            |
-| `hoverDelay`  | `number`                | `100`       | Delay (ms) before closing on mouseleave; lets the mouse travel to the panel.                            |
-| `offset`      | `number`                | `8`         | Gap in px between anchor and panel. Arrow adds 6 px automatically.                                      |
-| `trapFocus`   | `boolean`               | `false`     | Trap focus inside the panel and auto-focus the first focusable element on open.                         |
-| `open`        | `boolean` (model)       | `false`     | Current open state exposed for trigger integrations. Do not use as a standalone controlled API.         |
+| Input         | Type                    | Default                 | Description                                                                                             |
+| ------------- | ----------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------- |
+| `placement`   | `KuiPopoverPlacement`   | `'bottom'`              | Preferred side. Auto-flips to fit in viewport.                                                          |
+| `align`       | `KuiPopoverAlign`       | `'center'`              | Alignment along the anchor edge.                                                                        |
+| `arrow`       | `boolean`               | `false`                 | Show the arrow caret pointing to the anchor.                                                            |
+| `triggerType` | `KuiPopoverTriggerType` | `'click'`               | `click`: toggle on click, close on outside click/ESC. `hover`: open on mouseenter, close on mouseleave. |
+| `ariaLabel`   | `string`                | `popover.label` message | Accessible name for the `role="dialog"` panel. Prefer content-specific text.                            |
+| `hoverDelay`  | `number`                | `100`                   | Delay (ms) before closing on mouseleave; lets the mouse travel to the panel.                            |
+| `offset`      | `number`                | `8`                     | Gap in px between anchor and panel. Arrow adds 6 px automatically.                                      |
+| `trapFocus`   | `boolean`               | `false`                 | Trap focus inside the panel and auto-focus the first focusable element on open.                         |
+| `open`        | `boolean` (model)       | `false`                 | Current open state exposed for trigger integrations. Do not use as a standalone controlled API.         |
 
-## KuiPopoverForDirective
+## KuiPopoverFor
 
 Add `[kuiPopoverFor]="ref"` to any element to make it a trigger. Sets `aria-expanded` and `aria-haspopup="dialog"` automatically.
 
@@ -101,18 +101,18 @@ All other layout (buttons, forms, images) is developer-provided via `<ng-content
 
 ## CSS custom properties
 
-| Token                      | Default                        | Description                                   |
-| -------------------------- | ------------------------------ | --------------------------------------------- |
-| `--kui-popover-bg`         | `--kui-color-surface-elevated` | Panel background                              |
-| `--kui-popover-border`     | `--kui-color-border`           | Border colour                                 |
-| `--kui-popover-radius`     | `--kui-radius-lg`              | Corner radius                                 |
-| `--kui-popover-shadow`     | `--kui-shadow-lg`              | Drop shadow                                   |
-| `--kui-popover-padding-x`  | `--kui-space-4`                | Horizontal padding                            |
-| `--kui-popover-padding-y`  | `--kui-space-4`                | Vertical padding                              |
-| `--kui-popover-min-width`  | `160px`                        | Minimum panel width                           |
-| `--kui-popover-max-width`  | `320px`                        | Maximum panel width                           |
-| `--kui-popover-arrow-size` | `10px`                         | Arrow caret size                              |
-| `--kui-z-popover`          | `400`                          | z-index (between Dropdown 300 and Dialog 500) |
+| Token                      | Default                        | Description                                 |
+| -------------------------- | ------------------------------ | ------------------------------------------- |
+| `--kui-popover-bg`         | `--kui-color-surface-elevated` | Panel background                            |
+| `--kui-popover-border`     | `--kui-color-border`           | Border colour                               |
+| `--kui-popover-radius`     | `--kui-radius-lg`              | Corner radius                               |
+| `--kui-popover-shadow`     | `--kui-shadow-lg`              | Drop shadow                                 |
+| `--kui-popover-padding-x`  | `--kui-space-4`                | Horizontal padding                          |
+| `--kui-popover-padding-y`  | `--kui-space-4`                | Vertical padding                            |
+| `--kui-popover-min-width`  | `160px`                        | Minimum panel width                         |
+| `--kui-popover-max-width`  | `320px`                        | Maximum panel width                         |
+| `--kui-popover-arrow-size` | `10px`                         | Arrow caret size                            |
+| `--kui-z-popover`          | `400`                          | z-index in browsers without the Popover API |
 
 ## Behaviour
 
@@ -126,4 +126,68 @@ All other layout (buttons, forms, images) is developer-provided via `<ng-content
 
 ## Architecture
 
-`KuiPopoverComponent` lazily creates a CDK overlay on `openFor()` and disposes it after the exit animation completes. The `[kuiPopoverFor]` directive wires click/hover events on the trigger element and passes `element.nativeElement` to `openFor()`. Position changes from CDK update `data-side`/`data-align` attributes driving animation and arrow direction.
+`KuiPopover` lazily creates a CDK overlay on `openFor()` and disposes it after the exit animation completes. The `[kuiPopoverFor]` directive wires click/hover events on the trigger element and passes `element.nativeElement` to `openFor()`. Position changes from CDK update `data-side`/`data-align` attributes driving animation and arrow direction.
+
+<!-- color-tokens:begin -->
+
+## Color Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the semantic role in the Default column.
+
+| Token                       | Default                      | Controls    |
+| --------------------------- | ---------------------------- | ----------- |
+| `--kui-popover-color`       | `--kui-color-text`           | Color       |
+| `--kui-popover-title-color` | `--kui-color-text`           | Title color |
+| `--kui-popover-desc-color`  | `--kui-color-text-secondary` | Desc color  |
+
+<!-- color-tokens:end -->
+
+<!-- geometry-tokens:begin -->
+
+## Provider Defaults
+
+Set `defaults.popover` once for the application or for a subtree:
+
+```ts
+// app.config.ts
+provideKikitaUi({
+  defaults: {
+    popover: {
+      /* options below */
+    },
+  },
+});
+
+// a component, route or environment injector
+providers: [
+  provideKuiDefaults({
+    popover: {
+      /* options below */
+    },
+  }),
+];
+```
+
+| Option        | Values                                   | Description                                                                                |
+| ------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `placement`   | `'top' \| 'bottom' \| 'left' \| 'right'` | Preferred side of the anchor. The overlay flips to the opposite side when it does not fit. |
+| `offset`      | `number`                                 | Gap in px between the anchor and the overlay panel.                                        |
+| `align`       | `'start' \| 'center' \| 'end'`           | Alignment along the anchor edge.                                                           |
+| `arrow`       | `boolean`                                | Shows the arrow caret pointing to the anchor.                                              |
+| `triggerType` | `'click' \| 'hover'`                     | Whether the popover opens on `click` or on `hover`.                                        |
+| `hoverDelay`  | `number`                                 | Delay in ms before a hover popover closes after the pointer leaves.                        |
+
+Each option resolves as `local input > defaults.popover.<option> > built-in default`. See [DI defaults](di-defaults.md).
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                           | Default              | Controls        |
+| ------------------------------- | -------------------- | --------------- |
+| `--kui-popover-title-font-size` | `--kui-text-sm-size` | Title font size |
+| `--kui-popover-desc-font-size`  | `--kui-text-sm-size` | Desc font size  |
+
+<!-- geometry-tokens:end -->

@@ -1,7 +1,8 @@
 # Documentation Maintenance
 
 Documentation is part of the package contract. Agents must keep it synchronized
-with shipped implementation, tests, and public typings.
+with implementation, tests, and public typings. Distinguish current source from
+published package behavior; a release branch is not proof of publication.
 
 ## Where Documentation Lives
 
@@ -16,6 +17,41 @@ with shipped implementation, tests, and public typings.
   browser review evidence.
 - `docs/release.md`: package release and publish process.
 - `CHANGELOG.md`: release-visible changes.
+- `docs/README.md`: source documentation navigation.
+- `docs/documentation-decisions.md`: documentation ownership decisions and rationale.
+
+## Canonical Ownership and Evidence
+
+| Subject                   | Canonical owner                                                |
+| ------------------------- | -------------------------------------------------------------- |
+| Task sequencing           | `.agents/workflow.md`                                          |
+| Git authorization         | `.agents/git-policy.md`                                        |
+| Branch lifecycle          | `.agents/release-and-publishing.md`                            |
+| Release commands          | `docs/release.md`                                              |
+| Library boundaries        | `.agents/architecture.md`, `.agents/imports-and-boundaries.md` |
+| Angular conventions       | `.agents/angular-code-style.md`                                |
+| Design provenance and CSS | `.agents/style-and-design.md`                                  |
+| Quality commands          | `.agents/testing-and-quality.md`                               |
+| Public delivery surfaces  | `docs/component-checklist.md`                                  |
+| Documentation contracts   | This file and `.agents/agent-surface-source.md`                |
+| Current debt              | `docs/component-roadmap.md`                                    |
+| Verification evidence     | `docs/state-coverage.md`                                       |
+
+Routers and skills should link to these owners instead of duplicating command
+lists. Resolve paths from the repository root, including for installed skills.
+
+Verify statements against source before changing their status. Existing
+functionality does not establish that an improvement request is complete.
+Use release evidence to distinguish published contracts from Unreleased changes.
+
+A playground scenario is not a passing test. Record command or manual procedure,
+result, date, revision, and artifact where available. Label inherited reports
+with missing provenance explicitly. Preserve unresolved debt when summarizing
+history; old release targets do not automatically become new release blockers.
+
+Ignored notes may hold working plans; mandatory instructions and durable evidence
+need tracked counterparts. Missing approved visual specifications remain a
+design blocker, not permission to invent visuals.
 
 ## Component Docs Contract
 
@@ -60,6 +96,7 @@ implicitly deprecated or silently remove it.
 When adding a new doc, also update the relevant index/router file:
 
 - `AGENTS.md` for new mandatory agent instructions;
+- `docs/README.md` for source documentation navigation;
 - `.agents/documentation.md` for new documentation categories;
 - `docs/component-roadmap.md` and `docs/state-coverage.md` for primitive status;
 - the matching skill when a workflow changes.

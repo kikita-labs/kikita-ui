@@ -5,12 +5,7 @@
 ## Import
 
 ```ts
-import {
-  KuiFieldComponent,
-  KuiInputDirective,
-  KuiInputGroupDirective,
-  kuiProvideFieldOptions,
-} from '@kikita-labs/ui';
+import { KuiField, KuiInput, KuiInputGroup, provideKuiDefaults } from '@kikita-labs/ui';
 ```
 
 ## Usage
@@ -48,6 +43,21 @@ with `message` values, the first message is rendered automatically unless `hideE
 `hideErrors` hides rendered error messages, including explicit `error` input and projected
 `kuiError` content, but keeps invalid state. An explicit `required` input on `kui-field`
 overrides the inferred state.
+
+## Required State For Assistive Technology
+
+The required marker is visual only (`aria-hidden`). The field also exposes the merged required state,
+from the explicit `required` input or the Signal Forms `required(...)` validator, to assistive
+technology as `aria-required="true"` on the projected control. Signal Forms already writes the native
+`required` attribute on native controls; `kui-field` never writes the native attribute, and the two
+describe one state, so nothing is announced twice.
+
+Every control that has a role supporting `aria-required` receives it: Input, Textarea, Checkbox, Switch,
+Number Input, Color Input, Select, Combobox, Date Picker and Time Picker. Two controls are exceptions:
+a single Radio does not support it, because the requirement belongs to the radio group the application
+builds, and Slider does not, because its role does not support the state. `kui-otp-input` marks only its
+first cell, the one the label points at. `kui-segmented` always has one active segment and exposes no
+required state.
 
 ```html
 <kui-field label="Project" hint="Minimum 3 characters" hideErrors>
@@ -133,11 +143,11 @@ auto-detection can't see through — prefer `kuiFieldAffix` for new code:
 </kui-field>
 ```
 
-These are directives, not bare CSS classes — import `KuiFieldAffixDirective`,
-`KuiFieldAffixIconDirective`, and `KuiFieldActionDirective` from `@kikita-labs/ui`.
+These are directives, not bare CSS classes — import `KuiFieldAffix`,
+`KuiFieldAffixIcon`, and `KuiFieldAction` from `@kikita-labs/ui`.
 
 For field chrome none of this covers (spinners built from a bare `<span>` with no `kuiLoader`,
-other custom markup), build `.kui-input-group` by hand and import `KuiInputGroupDirective`. The
+other custom markup), build `.kui-input-group` by hand and import `KuiInputGroup`. The
 directive delegates clicks on non-interactive field chrome — prefix text, suffix text, decorative
 icons, empty group space — to the first enabled native control inside the group. Interactive
 descendants such as clear buttons, chevrons, visibility toggles, links, and the control itself
@@ -179,15 +189,15 @@ Error messages are still part of `aria-describedby` when projected with `kuiErro
 - `hint`: shorthand hint text
 - `error`: explicit error text override
 - `hideErrors`: hides rendered error messages while keeping invalid state
-- `required`: explicit required marker override
+- `required`: explicit required marker override; also drives `aria-required` on the control (see below)
 - `size`: `xs | sm | md | lg`
 
 ## Provider Defaults
 
-Use `kuiProvideFieldOptions` for app-wide field defaults:
+Use `provideKuiDefaults` (or `provideKikitaUi({ defaults })`) for field defaults:
 
 ```ts
-providers: [kuiProvideFieldOptions({ size: 'sm', hideErrors: true })];
+providers: [provideKuiDefaults({ field: { size: 'sm', hideErrors: true } })];
 ```
 
 Use root `provideKikitaUi({ defaults: { size: 'sm' } })` when the whole application should prefer
@@ -197,14 +207,27 @@ unless a field-specific provider or local `size` input overrides it.
 Local inputs always win over provider defaults:
 
 ```text
-local input > KUI_FIELD_OPTIONS > provideKikitaUi defaults > component default
+local input > defaults.field > defaults.size > component default
+
+Controls inside the field (`kuiInput`, `kuiTextarea`, `kuiCheckbox`, `kuiRadio`, `kuiSwitch`,
+`kuiColorInput`, `kuiNumberInput`) take an explicit `size` of this field first, then their own
+`defaults.<control>.size`, then `defaults.field.size`.
 ```
 
-`KUI_FIELD_OPTIONS` is intentionally static configuration. Do not pass writable signals to it.
-Runtime density/size switching should be implemented as a dedicated runtime API rather than by
-mutating provider option objects.
+Every property of `defaults.field` accepts a plain value or a `Signal`, and `KuiDefaults.set('field', ...)`
+changes it at runtime. See [DI defaults](di-defaults.md#reactive-values).
 
 See `docs/di-defaults.md` before adding or changing field-control provider defaults.
+
+### Configurable options
+
+`defaults.field`:
+
+| Option       | Values                         | Description                                                                      |
+| ------------ | ------------------------------ | -------------------------------------------------------------------------------- |
+| `clearable`  | `boolean`                      | When true, field controls with clear affordances show a clear button by default. |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg'` | Default `kui-field` size when no local `size` input is provided.                 |
+| `hideErrors` | `boolean`                      | Hides automatically rendered Angular Signal Forms error messages by default.     |
 
 ## CSS Classes
 
@@ -218,3 +241,19 @@ See `docs/di-defaults.md` before adding or changing field-control provider defau
 - `.kui-field-message-icon` / `.kui-field__message-icon`: icon inside a rich message
 - `.kui-field-message--hint` / `.kui-field__message--hint`: hint-colored rich message
 - `.kui-field-message--error` / `.kui-field__message--error`: error-colored rich message
+
+<!-- geometry-tokens:begin -->
+
+## Geometry Tokens
+
+Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
+is not set, the part uses the scale token in the Default column.
+
+| Token                         | Default              | Controls              |
+| ----------------------------- | -------------------- | --------------------- |
+| `--kui-field-label-gap`       | `--kui-space-1`      | Label gap             |
+| `--kui-field-label-row-gap`   | `--kui-space-1`      | Label row gap         |
+| `--kui-field-affix-font-size` | `--kui-text-sm-size` | Affix font size       |
+| `--kui-field-spinner-radius`  | `--kui-radius-full`  | Spinner corner radius |
+
+<!-- geometry-tokens:end -->

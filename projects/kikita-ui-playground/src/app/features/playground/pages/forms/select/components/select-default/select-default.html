@@ -1,0 +1,18 @@
+<app-playground-example-card [heading]="'select.examples.default' | transloco">
+  <section role="group" [attr.aria-label]="'select.accessibility.default' | transloco">
+    <kui-field
+      [label]="'select.fields.role' | transloco"
+      [hint]="'select.hints.chooseRole' | transloco"
+    >
+      <input kuiSelect [(value)]="value" [placeholder]="'select.placeholders.role' | transloco" />
+      <kui-dropdown>
+        <div kuiOption value="designer">{{ 'select.options.designer' | transloco }}</div>
+        <div kuiOption value="engineer">{{ 'select.options.engineer' | transloco }}</div>
+        <div kuiOption value="manager">{{ 'select.options.manager' | transloco }}</div>
+      </kui-dropdown>
+    </kui-field>
+    <output class="select-default__value" aria-live="polite" aria-atomic="true">
+      {{ 'select.status.selected' | transloco: { value: selectedLabel() } }}
+    </output>
+  </section>
+</app-playground-example-card>

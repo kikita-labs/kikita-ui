@@ -1,0 +1,35 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .group-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+  }
+
+  .group-playground h1 {
+    margin: 0;
+  }
+
+  .group-playground__cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: var(--kui-space-5);
+    min-inline-size: 0;
+  }
+
+  @media (width < 64rem) {
+    .group-playground {
+      padding: var(--kui-space-6);
+    }
+
+    .group-playground__cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

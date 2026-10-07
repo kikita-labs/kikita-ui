@@ -1,0 +1,47 @@
+<ng-content select="[kuiAlertIcon]" />
+@if (!hasProjectedIcon() && showIconResolved()) {
+  <span
+    class="kui-alert__icon"
+    style="color: var(--kui-alert-icon-color, var(--_kui-alert-icon-color, currentColor))"
+  >
+    <svg [kuiGlyph]="statusGlyph()" [kuiGlyphStroke]="1.5"></svg>
+  </span>
+}
+
+<div class="kui-alert__body">
+  <ng-content select="[kuiAlertTitle]" />
+  @if (!hasProjectedTitle() && title()) {
+    <div class="kui-alert__title">{{ title() }}</div>
+  }
+  <ng-content select="[kuiAlertMessage]" />
+  @if (!hasProjectedMessage() && message()) {
+    <div class="kui-alert__message">{{ message() }}</div>
+  }
+  <ng-content select="[kuiAlertActions]" />
+  @if (!hasProjectedActions() && actionLabel(); as label) {
+    <button
+      kuiButton
+      shape="ghost"
+      size="xs"
+      type="button"
+      class="kui-alert__action"
+      (click)="action.emit()"
+    >
+      {{ label }}
+    </button>
+  }
+</div>
+
+@if (effectiveClosable()) {
+  <button
+    kuiIconButton
+    shape="ghost"
+    size="xs"
+    type="button"
+    class="kui-alert__close"
+    [attr.aria-label]="closeLabel() ?? messages().close"
+    (click)="closed.emit()"
+  >
+    <svg width="16" height="16" [kuiGlyph]="closeGlyph()" [kuiGlyphStroke]="1.5"></svg>
+  </button>
+}

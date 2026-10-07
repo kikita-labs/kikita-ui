@@ -1,0 +1,29 @@
+<app-playground-example-card [heading]="'slider.examples.tooltips' | transloco">
+  <div
+    class="slider-tooltips__grid"
+    role="group"
+    [attr.aria-label]="'slider.accessibility.tooltips' | transloco"
+  >
+    <kui-field [label]="'slider.labels.valueTooltip' | transloco">
+      <div class="slider-tooltips__control-row">
+        <input type="range" kuiSlider min="0" max="100" value="40" />
+      </div>
+    </kui-field>
+    <div>
+      <label kuiText variant="body-sm" for="slider-static-tooltip">
+        {{ 'slider.labels.staticTooltip' | transloco }}
+      </label>
+      <div class="slider-tooltips__control-row">
+        <input
+          id="slider-static-tooltip"
+          type="range"
+          kuiSlider
+          [kuiTooltip]="'slider.tooltips.static' | transloco"
+          min="0"
+          max="100"
+          value="60"
+        />
+      </div>
+    </div>
+  </div>
+</app-playground-example-card>

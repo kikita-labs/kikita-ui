@@ -1,0 +1,35 @@
+<app-playground-example-card [heading]="'otpInput.examples.verification' | transloco">
+  <div
+    role="group"
+    [attr.aria-label]="'otpInput.accessibility.verification' | transloco"
+    class="otp-input-verification__content"
+  >
+    <kui-otp-input
+      [(value)]="code"
+      [loading]="verifying()"
+      [ariaLabel]="'otpInput.labels.verification' | transloco"
+      (complete)="onComplete($event)"
+    />
+
+    <p kuiText variant="body-sm" role="status" class="otp-input-verification__status">
+      @switch (status()) {
+        @case ('verifying') {
+          {{ 'otpInput.status.verifying' | transloco }}
+        }
+        @case ('verified') {
+          {{ 'otpInput.status.verified' | transloco }}
+        }
+        @case ('rejected') {
+          {{ 'otpInput.status.rejected' | transloco }}
+        }
+        @default {
+          {{ 'otpInput.status.idle' | transloco }}
+        }
+      }
+    </p>
+
+    <button kuiButton shape="ghost" size="sm" type="button" (click)="reset()">
+      {{ 'otpInput.actions.reset' | transloco }}
+    </button>
+  </div>
+</app-playground-example-card>

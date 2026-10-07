@@ -1,0 +1,48 @@
+<app-playground-example-card [heading]="'select.examples.sizes' | transloco">
+  <div
+    class="select-sizes__grid"
+    role="group"
+    [attr.aria-label]="'select.accessibility.sizes' | transloco"
+  >
+    <kui-field [size]="'xs'" [label]="'select.sizes.xs' | transloco">
+      <input
+        kuiSelect
+        [(value)]="values.xs"
+        [placeholder]="'select.placeholders.role' | transloco"
+      />
+      <kui-dropdown>
+        <div kuiOption value="engineer">{{ 'select.options.engineer' | transloco }}</div>
+      </kui-dropdown>
+    </kui-field>
+    <kui-field [size]="'sm'" [label]="'select.sizes.sm' | transloco">
+      <input
+        kuiSelect
+        [(value)]="values.sm"
+        [placeholder]="'select.placeholders.role' | transloco"
+      />
+      <kui-dropdown>
+        <div kuiOption value="engineer">{{ 'select.options.engineer' | transloco }}</div>
+      </kui-dropdown>
+    </kui-field>
+    <kui-field [size]="'md'" [label]="'select.sizes.md' | transloco">
+      <input
+        kuiSelect
+        [(value)]="values.md"
+        [placeholder]="'select.placeholders.role' | transloco"
+      />
+      <kui-dropdown>
+        <div kuiOption value="engineer">{{ 'select.options.engineer' | transloco }}</div>
+      </kui-dropdown>
+    </kui-field>
+    <kui-field [size]="'lg'" [label]="'select.sizes.lg' | transloco">
+      <input
+        kuiSelect
+        [(value)]="values.lg"
+        [placeholder]="'select.placeholders.role' | transloco"
+      />
+      <kui-dropdown>
+        <div kuiOption value="engineer">{{ 'select.options.engineer' | transloco }}</div>
+      </kui-dropdown>
+    </kui-field>
+  </div>
+</app-playground-example-card>

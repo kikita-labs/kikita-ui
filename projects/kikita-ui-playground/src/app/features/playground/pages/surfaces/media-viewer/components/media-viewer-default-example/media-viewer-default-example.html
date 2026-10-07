@@ -1,0 +1,10 @@
+<button kuiButton shape="outline" type="button" (click)="open()">
+  {{ 'mediaViewer.actions.openDefault' | transloco }}
+</button>
+
+@let last = lastViewed();
+@if (last !== null) {
+  <p class="media-viewer-default-example__status" role="status">
+    {{ 'mediaViewer.status.lastViewed' | transloco: { number: last + 1 } }}
+  </p>
+}

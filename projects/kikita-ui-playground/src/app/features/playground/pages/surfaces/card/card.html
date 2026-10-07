@@ -1,0 +1,197 @@
+<main class="playground-workspace card-playground" aria-labelledby="card-playground-title">
+  <h1 id="card-playground-title" kuiText variant="heading-lg">
+    {{ 'card.title' | transloco }}
+  </h1>
+
+  <div class="card-playground__catalogue">
+    <section
+      id="card-default-example"
+      role="group"
+      [attr.aria-label]="'card.accessibility.default' | transloco"
+    >
+      <app-playground-example-card [heading]="'card.examples.default' | transloco">
+        <article
+          kuiCard
+          id="card-default-target"
+          class="card-playground__default-card"
+          aria-labelledby="card-default-heading"
+        >
+          <h3 id="card-default-heading" kuiText variant="heading-sm">
+            {{ 'card.content.defaultHeading' | transloco }}
+          </h3>
+
+          <p kuiText>{{ 'card.content.defaultBody' | transloco }}</p>
+        </article>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'card.accessibility.staticMatrix' | transloco">
+      <app-playground-example-card [heading]="'card.examples.staticMatrix' | transloco">
+        <div class="card-playground__matrix">
+          @for (appearance of appearances; track appearance.value) {
+            <div
+              role="group"
+              class="card-playground__matrix-row"
+              [attr.aria-label]="'card.appearance.' + appearance.key | transloco"
+            >
+              @for (size of sizes; track size.value) {
+                <article
+                  kuiCard
+                  class="card-playground__matrix-card"
+                  [appearance]="appearance.value"
+                  [size]="size.value"
+                  [interactive]="false"
+                  [attr.aria-labelledby]="
+                    'card-static-' +
+                    appearance.value +
+                    '-' +
+                    size.value +
+                    '-appearance card-static-' +
+                    appearance.value +
+                    '-' +
+                    size.value +
+                    '-size'
+                  "
+                >
+                  <h3
+                    kuiText
+                    variant="heading-sm"
+                    [id]="'card-static-' + appearance.value + '-' + size.value + '-appearance'"
+                  >
+                    {{ 'card.appearance.' + appearance.key | transloco }}
+                  </h3>
+
+                  <p
+                    kuiText
+                    variant="body-sm"
+                    [id]="'card-static-' + appearance.value + '-' + size.value + '-size'"
+                  >
+                    {{ 'card.size.' + size.key | transloco }}
+                  </p>
+                </article>
+              }
+            </div>
+          }
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'card.accessibility.interactiveMatrix' | transloco">
+      <app-playground-example-card [heading]="'card.examples.interactiveMatrix' | transloco">
+        <div class="card-playground__matrix">
+          @for (appearance of appearances; track appearance.value) {
+            <div
+              role="group"
+              class="card-playground__matrix-row"
+              [attr.aria-label]="'card.appearance.' + appearance.key | transloco"
+            >
+              @for (size of sizes; track size.value) {
+                <button
+                  kuiCard
+                  interactive
+                  type="button"
+                  class="card-playground__interactive-card"
+                  [appearance]="appearance.value"
+                  [size]="size.value"
+                  (click)="activateCard()"
+                >
+                  <span kuiText variant="heading-sm">
+                    {{ 'card.appearance.' + appearance.key | transloco }}
+                  </span>
+
+                  <span kuiText variant="body-sm">{{ 'card.size.' + size.key | transloco }}</span>
+
+                  <span kuiText variant="body-sm">
+                    {{ 'card.content.buttonAction' | transloco }}
+                  </span>
+                </button>
+              }
+            </div>
+          }
+        </div>
+      </app-playground-example-card>
+    </section>
+
+    <section role="group" [attr.aria-label]="'card.accessibility.semanticHosts' | transloco">
+      <app-playground-example-card [heading]="'card.examples.semanticHosts' | transloco">
+        <div class="card-playground__hosts">
+          <article
+            kuiCard
+            appearance="surface"
+            size="sm"
+            class="card-playground__host-card"
+            aria-labelledby="card-article-host-title"
+          >
+            <h3 id="card-article-host-title" kuiText variant="heading-sm">
+              {{ 'card.host.article' | transloco }}
+            </h3>
+
+            <p kuiText>{{ 'card.content.articleBody' | transloco }}</p>
+          </article>
+
+          <section
+            kuiCard
+            appearance="elevated"
+            size="sm"
+            class="card-playground__host-card"
+            aria-labelledby="card-section-host-title"
+          >
+            <h3 id="card-section-host-title" kuiText variant="heading-sm">
+              {{ 'card.host.section' | transloco }}
+            </h3>
+
+            <p kuiText>{{ 'card.content.sectionBody' | transloco }}</p>
+          </section>
+
+          <aside
+            kuiCard
+            appearance="sunken"
+            size="sm"
+            class="card-playground__host-card"
+            aria-labelledby="card-aside-host-title"
+          >
+            <h3 id="card-aside-host-title" kuiText variant="heading-sm">
+              {{ 'card.host.aside' | transloco }}
+            </h3>
+
+            <p kuiText>{{ 'card.content.asideBody' | transloco }}</p>
+          </aside>
+
+          <a
+            kuiCard
+            appearance="elevated"
+            size="sm"
+            interactive
+            [href]="defaultCardTargetHref"
+            class="card-playground__interactive-host"
+          >
+            <span kuiText variant="heading-sm">{{ 'card.host.link' | transloco }}</span>
+
+            <span kuiText variant="body-sm">{{ 'card.content.linkAction' | transloco }}</span>
+          </a>
+
+          <button
+            kuiCard
+            appearance="surface"
+            size="sm"
+            interactive
+            type="button"
+            class="card-playground__interactive-host"
+            (click)="activateCard()"
+          >
+            <span kuiText variant="heading-sm">{{ 'card.host.button' | transloco }}</span>
+
+            <span kuiText variant="body-sm">{{ 'card.content.buttonAction' | transloco }}</span>
+          </button>
+        </div>
+      </app-playground-example-card>
+    </section>
+  </div>
+
+  <output kuiText class="card-playground__activation-status" aria-live="polite" aria-atomic="true">
+    @let count = activationCount();
+    @if (count > 0) {
+      {{ 'card.content.activationCount' | transloco: { count: count } }}
+    }
+  </output>
+</main>

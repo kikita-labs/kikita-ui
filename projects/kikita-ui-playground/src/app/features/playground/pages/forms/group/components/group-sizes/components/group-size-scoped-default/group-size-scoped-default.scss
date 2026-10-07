@@ -1,0 +1,17 @@
+@layer app.components {
+  :host {
+    display: grid;
+    min-inline-size: 0;
+  }
+
+  .group-size-scoped-default {
+    display: grid;
+    align-content: start;
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .group-size-scoped-default p {
+    margin: 0;
+  }
+}

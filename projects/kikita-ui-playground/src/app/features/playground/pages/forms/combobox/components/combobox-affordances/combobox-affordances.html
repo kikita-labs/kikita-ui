@@ -1,0 +1,59 @@
+<app-playground-example-card [heading]="'combobox.examples.affordances' | transloco">
+  <div
+    class="combobox-affordances__grid"
+    role="group"
+    [attr.aria-label]="'combobox.accessibility.affordances' | transloco"
+  >
+    <section class="combobox-affordances__example">
+      <h3 kuiText variant="heading-sm">{{ 'combobox.states.loading' | transloco }}</h3>
+
+      <kui-field [label]="'combobox.fields.reviewer' | transloco">
+        <input
+          kuiCombobox
+          [loading]="true"
+          [placeholder]="'combobox.placeholders.reviewer' | transloco"
+        />
+
+        <kui-dropdown>
+          <div class="kui-combobox-loading-row">
+            <span class="kui-combobox-loader" aria-hidden="true"></span>
+            {{ 'combobox.states.loadingPeople' | transloco }}
+          </div>
+        </kui-dropdown>
+      </kui-field>
+    </section>
+
+    <section class="combobox-affordances__example">
+      <h3 kuiText variant="heading-sm">{{ 'combobox.examples.clearable' | transloco }}</h3>
+
+      <div class="combobox-affordances__fields">
+        <kui-field [label]="'combobox.fields.clearable' | transloco">
+          <input
+            kuiCombobox
+            [(value)]="selectedReviewer"
+            [placeholder]="'combobox.placeholders.reviewer' | transloco"
+          />
+          <kui-dropdown>
+            <button kuiOption type="button" value="Daniel Kowalski">
+              {{ 'combobox.options.daniel' | transloco }}
+            </button>
+          </kui-dropdown>
+        </kui-field>
+
+        <kui-field [label]="'combobox.fields.notClearable' | transloco">
+          <input
+            kuiCombobox
+            [clearable]="false"
+            [(value)]="notClearable"
+            [placeholder]="'combobox.placeholders.reviewer' | transloco"
+          />
+          <kui-dropdown>
+            <button kuiOption type="button" value="Amelia Novak">
+              {{ 'combobox.options.amelia' | transloco }}
+            </button>
+          </kui-dropdown>
+        </kui-field>
+      </div>
+    </section>
+  </div>
+</app-playground-example-card>

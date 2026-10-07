@@ -1,0 +1,27 @@
+@layer app.components {
+  :host {
+    display: contents;
+  }
+
+  .carousel-example {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--kui-space-2);
+    min-inline-size: 0;
+  }
+
+  .carousel-example + .carousel-example {
+    margin-block-start: var(--kui-space-4);
+  }
+
+  .carousel-example__label,
+  .carousel-example__readout {
+    margin: 0;
+  }
+
+  .carousel-example__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kui-space-2);
+  }
+}

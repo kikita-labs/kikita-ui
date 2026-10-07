@@ -1,0 +1,30 @@
+{
+  "title": "Checkbox",
+  "examples": {
+    "default": "Default",
+    "sizes": "Sizes",
+    "states": "States"
+  },
+  "accessibility": {
+    "default": "Default checkbox example",
+    "sizes": "Checkbox sizes",
+    "states": "Checkbox states"
+  },
+  "labels": {
+    "default": "Receive product updates",
+    "extraSmall": "Extra small",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "checked": "Checked",
+    "disabled": "Disabled",
+    "disabledChecked": "Disabled and checked",
+    "invalid": "Required preference",
+    "standaloneInvalid": "Standalone invalid",
+    "indeterminate": "Indeterminate",
+    "focused": "Focused"
+  },
+  "errors": {
+    "required": "Select this preference to continue."
+  }
+}
