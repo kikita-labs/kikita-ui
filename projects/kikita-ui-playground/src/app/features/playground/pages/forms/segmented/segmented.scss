@@ -1,5 +1,19 @@
 @layer app.components {
+  :host {
+    display: contents;
+  }
+
   .segmented-playground {
+    display: grid;
+    gap: var(--kui-space-6);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--kui-space-8);
+
+    h1 {
+      margin: 0;
+    }
+
     &__example-group {
       inline-size: fit-content;
       max-inline-size: 100%;
@@ -29,6 +43,10 @@
       display: block;
       margin-block-start: var(--kui-space-2);
       color: var(--kui-color-text-secondary);
+    }
+
+    @media (width < 64rem) {
+      padding: var(--kui-space-6);
     }
 
     @media (min-width: 48rem) {
