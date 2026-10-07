@@ -8,6 +8,7 @@
     "url": "git+https://github.com/kikita-labs/kikita-ui.git",
     "directory": "projects/ui"
   },
+  "homepage": "https://kikita-labs.github.io/kikita-ui-docs/",
   "bugs": {
     "url": "https://github.com/kikita-labs/kikita-ui/issues"
   },
@@ -19,7 +20,13 @@
     "component-library",
     "design-system",
     "signals",
-    "signal-forms"
+    "signal-forms",
+    "accessibility",
+    "a11y",
+    "theming",
+    "design-tokens",
+    "css-variables",
+    "ssr"
   ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org",

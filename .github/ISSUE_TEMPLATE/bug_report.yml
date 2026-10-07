@@ -1,0 +1,44 @@
+name: Bug report
+description: Something does not work as documented
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened
+      description: Describe the problem, what you expected and what you saw instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: A StackBlitz or repository link, or the smallest template and component that shows the problem.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: '@kikita-labs/ui version'
+      placeholder: 2.0.0
+    validations:
+      required: true
+  - type: input
+    id: angular
+    attributes:
+      label: Angular version
+      placeholder: '22.0.0'
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and OS
+      placeholder: Firefox 150 on Windows 11
+  - type: checkboxes
+    id: context
+    attributes:
+      label: Context
+      options:
+        - label: The problem also happens with server-side rendering
+        - label: The problem involves assistive technology (screen reader, keyboard only)

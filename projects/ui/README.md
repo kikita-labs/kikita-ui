@@ -1,7 +1,23 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/kikita-labs/kikita-ui/main/docs/assets/logo-dark.svg" />
+    <img src="https://raw.githubusercontent.com/kikita-labs/kikita-ui/main/docs/assets/logo-light.svg" alt="Kikita UI" width="64" height="64" />
+  </picture>
+</p>
+
 # Kikita UI
 
 Angular 22+ UI library and design system package for accessible, themeable
 product interfaces.
+
+## Features
+
+- Accessible components built on native HTML semantics, with Angular CDK and Angular Aria
+  for complex behavior.
+- Signals and Signal Forms first.
+- Theming through CSS variables and generated design tokens.
+- Provider-based defaults, structural icons and runtime i18n.
+- SSR and hydration support.
 
 ## Links
 
@@ -29,6 +45,13 @@ ng add @kikita-labs/ui
 The schematic adds `@kikita-labs/ui/styles` to the selected application and
 registers `provideKikitaUi()` in `app.config.ts`.
 
+## Requirements
+
+- Angular 22+ (`core`, `common`, `forms`, `platform-browser`) and Angular CDK 22+
+- RxJS 7.8+
+
+Tested in Chromium, Firefox and WebKit (the Chrome, Edge, Firefox and Safari engines).
+
 ## Styles
 
 Import the runtime CSS variable/component style entrypoint once in the app:
@@ -47,18 +70,39 @@ export const appConfig = {
 };
 ```
 
-## Build
+## Usage
 
-```bash
-pnpm build
+```ts
+import { Component } from '@angular/core';
+import { KuiButton } from '@kikita-labs/ui';
+
+@Component({
+  selector: 'app-save',
+  imports: [KuiButton],
+  template: `<button kuiButton appearance="success" iconStart="check">Save</button>`,
+})
+export class Save {}
 ```
 
-## Publish
+Every component has examples and an API table in the
+[documentation](https://kikita-labs.github.io/kikita-ui-docs/).
 
-Build and publish the Angular Package Format output:
+## Upgrading from 1.x
+
+Run the migration schematic:
 
 ```bash
-npm run publish:ui
+ng update @kikita-labs/ui
 ```
 
-Current `publishConfig.registry` targets the public npm registry.
+The [migration guide](https://github.com/kikita-labs/kikita-ui/blob/main/docs/migration-v2.md)
+lists the renamed exports.
+
+## Support
+
+Questions and ideas: [GitHub Discussions](https://github.com/kikita-labs/kikita-ui/discussions).
+Bugs: [issues](https://github.com/kikita-labs/kikita-ui/issues).
+
+## License
+
+[MIT](https://github.com/kikita-labs/kikita-ui/blob/main/LICENSE)
