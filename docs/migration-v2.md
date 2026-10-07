@@ -2,7 +2,7 @@
 
 This guide covers every breaking change of 2.0.0: renamed exports, tokens, provider defaults, locale and
 messages, icons, component behaviour and the Chart. The complete list, including additions and fixes, is
-the 2.0.0 (currently `[Unreleased]`) section of [CHANGELOG.md](../CHANGELOG.md). The colour tokens that
+the 2.0.0 section of [CHANGELOG.md](../CHANGELOG.md). The colour tokens that
 changed have their own table in [Theming](theming.md#migrating-to-the-colour-roles) and the default
 mechanism is described in [DI Defaults](di-defaults.md).
 
@@ -36,6 +36,10 @@ TypeScript parser, only identifiers:
 It never changes strings, comments or templates, it skips `node_modules`, `dist` and `.angular`, and a
 second run changes nothing. When the new name is already declared or imported in the same file, that
 symbol is left alone and the migration prints a warning with the file and the name; rename it by hand.
+
+Renaming an import changes its alphabetical position, so a lint rule that sorts imports
+(`simple-import-sort`, `import/order`) reports errors after the migration. Run your linter with its fixer
+once afterwards (for example `eslint --fix`).
 
 It cannot see names used through a dynamic import (`const { KuiButtonDirective } = await
 import('@kikita-labs/ui')`) or a property of a lazily loaded module. Search for the old names with:
@@ -225,6 +229,14 @@ All text the library owns is a typed message with an English default; see [Inter
   touched. A multiple Select keeps its panel open when an option is chosen with Enter or Space.
 - **Required state:** `kui-field` exposes its required state as `aria-required` on the controls that support
   it. Snapshot tests of the rendered markup change.
+- **Calendar:** `kui-calendar` selects a single date. The `mode` input, the `KuiCalendarMode` and
+  `KuiCalendarValue` types and the `Date | KuiDateRange` union value are gone. Replace
+  `<kui-calendar mode="range">` with `<kui-calendar-range>`, whose `value` is `KuiDateRange | null`; the
+  migration does not touch templates.
+- **Number Input:** the `variant` input of `kuiNumberInput` takes `'stacked'` or `'split'` instead of `'a'`
+  and `'b'`: `'a'` (stacked arrows on the right) is now `'stacked'`, `'b'` (side buttons, the default) is
+  `'split'`. Update `variant="a"` and `variant="b"` in templates and the `KuiNumberInputVariant` type in
+  code; the modifier class `.kui-number-input--a` is now `.kui-number-input--stacked`.
 - **Calendar and Calendar Range:** the markup is a full ARIA grid: day buttons sit in `role="gridcell"`
   elements inside `role="row"` weeks, and `aria-selected` is on the gridcell. CSS that targets
   `.kui-calendar-grid > .kui-calendar-day` must target `.kui-calendar-day` or the new
@@ -348,11 +360,13 @@ The tokens of 2.0 keep their names, with these exceptions. The colour tokens hav
 1. `ng update @kikita-labs/ui`, then `git grep -nE "Kui[A-Za-z]+(Component|Directive)\b|KuiToastService|kuiProvideLocale"`
    returns nothing.
 2. Replace every `KUI_*_OPTIONS` token and `kuiProvide*Options` call with `provideKuiDefaults`.
-3. Rename `readOnly` to `readonly` on `kui-otp-input`.
+3. Rename `readOnly` to `readonly` on `kui-otp-input`, replace `<kui-calendar mode="range">` with
+   `<kui-calendar-range>`, and change `variant="a"`/`variant="b"` on `kuiNumberInput` to `stacked`/`split`.
 4. Search your styles for removed tokens (see [Removed In 2.0](tokens.md#removed-in-20)) and for selectors
    that depend on the old Calendar or Splitter markup.
 5. If you render on the server, check that your cache sends `Vary: Accept-Language`.
-6. Rebuild, run your unit and browser tests, and review screenshot diffs before accepting new baselines:
+6. Run your linter with its fixer so the imports the migration renamed are sorted again, then rebuild,
+   run your unit and browser tests, and review screenshot diffs before accepting new baselines:
    disabled opacity, focus outlines, warning and info colours, line heights and tooltip timing changed on
    purpose.
 
