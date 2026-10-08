@@ -247,17 +247,17 @@ The legacy Select chrome tokens (`--kui-select-bg`, `--kui-select-border`,
 Set any of these on the component or an ancestor to restyle one part. Each token is optional: when it
 is not set, the part uses the semantic role in the Default column.
 
-| Token                                    | Default                             | Controls                                |
-| ---------------------------------------- | ----------------------------------- | --------------------------------------- |
-| `--kui-listbox-option-color`             | `--kui-color-text`                  | Stbox option color                      |
-| `--kui-listbox-option-focus-ring-color`  | `--kui-color-focus`                 | Stbox option focus ring color           |
-| `--kui-listbox-option-bg-selected`       | `--kui-color-primary-soft-bg`       | Stbox option background, selected       |
-| `--kui-listbox-option-color-selected`    | `--kui-color-primary-soft-text`     | Stbox option color, selected            |
-| `--kui-listbox-option-bg-selected-hover` | `--kui-color-primary-soft-bg-hover` | Stbox option background, selected hover |
-| `--kui-listbox-group-label-color`        | `--kui-color-text-secondary`        | Stbox group label color                 |
-| `--kui-listbox-separator-bg`             | `--kui-color-border`                | Stbox separator background              |
-| `--kui-listbox-empty-color`              | `--kui-color-text-secondary`        | Stbox empty color                       |
-| `--kui-select-chevron-color-expanded`    | `--kui-color-primary-text`          | Lect chevron color, expanded            |
+| Token                                    | Default                             | Controls                                  |
+| ---------------------------------------- | ----------------------------------- | ----------------------------------------- |
+| `--kui-listbox-option-color`             | `--kui-color-text`                  | Listbox option color                      |
+| `--kui-listbox-option-focus-ring-color`  | `--kui-color-focus`                 | Listbox option focus ring color           |
+| `--kui-listbox-option-bg-selected`       | `--kui-color-primary-soft-bg`       | Listbox option background, selected       |
+| `--kui-listbox-option-color-selected`    | `--kui-color-primary-soft-text`     | Listbox option color, selected            |
+| `--kui-listbox-option-bg-selected-hover` | `--kui-color-primary-soft-bg-hover` | Listbox option background, selected hover |
+| `--kui-listbox-group-label-color`        | `--kui-color-text-secondary`        | Listbox group label color                 |
+| `--kui-listbox-separator-bg`             | `--kui-color-border`                | Listbox separator background              |
+| `--kui-listbox-empty-color`              | `--kui-color-text-secondary`        | Listbox empty color                       |
+| `--kui-select-chevron-color-expanded`    | `--kui-color-primary-text`          | Select chevron color, expanded            |
 
 <!-- color-tokens:end -->
 
